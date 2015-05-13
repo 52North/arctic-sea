@@ -28,57 +28,27 @@
  */
 package org.n52.iceland.ds;
 
-import java.util.Set;
+import java.util.Collection;
 
+import org.n52.iceland.cache.WritableContentCache;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OwsOperation;
 
 /**
- * Interface for all SOS operation DAOs.
+ * Interface for implementations of cache feeder Handlers. Used to feed the
+ * CapabilitiesCache with data from the data source.
  * 
  * @since 4.0.0
  */
-public interface OperationDAO extends DatasourceDaoIdentifier {
+public interface CacheFeederHandler extends DatasourceDaoIdentifier {
+    void updateCache(WritableContentCache capabilitiesCache) throws OwsExceptionReport;
 
     /**
-     * Get the operation and service key this DAO supports
+     * Reload all cache data for a list of offerings, for instance after a DeleteSensor event
      * 
-     * @return The supported SOS operation name
-     */
-    OperationDAOKeyType getOperationDAOKeyType();
-
-    /**
-     * TODO check if necessary in feature
-     * 
-     * Get the SOS operation name this DAO supports
-     * 
-     * @return The supported SOS operation name
-     */
-    String getOperationName();
-
-    /**
-     * Get the OperationsMetadata of the supported SOS operation for the
-     * capabilities
-     * 
-     * @param service
-     *            OGC service identfier
-     * @param version
-     *            SOS version
-     * @return OperationsMetadata for the operation
-     * 
+     * @param capabilitiesCache The cache to update
+     * @param offerings A list of offerings to update
      * @throws OwsExceptionReport
-     *             If an error occurs.
      */
-    OwsOperation getOperationsMetadata(String service, String version) throws OwsExceptionReport;
-
-    // /**
-    // * @return the operation specific extension information (&larr; should be
-    // available from cache or from code)
-    // *
-    // * @throws OwsExceptionReport
-    // */
-    // // SosCapabilitiesExtension getExtension() throws OwsExceptionReport;
-
-    Set<String> getConformanceClasses();
-    
+    void updateCacheOfferings(WritableContentCache capabilitiesCache, Collection<String> offerings)
+            throws OwsExceptionReport;
 }
