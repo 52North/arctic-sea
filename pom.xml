@@ -533,7 +533,7 @@
                                     <allowedPluginRepositories></allowedPluginRepositories>
                                 </requireNoRepositories>
                                 <requireJavaVersion>
-                                    <version>1.8</version>
+                                    <version>[1.7,)</version>
                                 </requireJavaVersion>
                                 <requirePluginVersions>
                                     <!-- org.sonatype.oss:oss-parent uses LATEST -->
