@@ -207,10 +207,13 @@ public class Configurator implements Cleanupable {
 
     private ProfileHandler profileHandler;
 
+    @Deprecated
     private AdminServiceOperator adminServiceOperator;
 
+    @Deprecated
     private Producer<OwsServiceIdentification> serviceIdentificationFactory;
 
+    @Deprecated
     private Producer<OwsServiceProvider> serviceProviderFactory;
 
     private Set<String> providedJdbcDrivers = Sets.newHashSet();
@@ -253,7 +256,7 @@ public class Configurator implements Cleanupable {
      * Get the {@link ConnectionProviderIdentificator} and
      * {@link DatasourceDaoIdentifier} values from {@link Datasource}
      * implementation
-     * 
+     *
      * @param dataConnectionProviderProperties
      *            Datasource properties
      */
@@ -326,6 +329,7 @@ public class Configurator implements Cleanupable {
      *         <p/>
      * @throws OwsExceptionReport
      */
+    @Deprecated
     public OwsServiceIdentification getServiceIdentification() throws OwsExceptionReport {
         return get(serviceIdentificationFactory);
     }
@@ -335,10 +339,12 @@ public class Configurator implements Cleanupable {
      *         <p/>
      * @throws OwsExceptionReport
      */
+    @Deprecated
     public OwsServiceIdentification getServiceIdentification(Locale lanugage) throws OwsExceptionReport {
         return get(serviceIdentificationFactory, lanugage);
     }
 
+    @Deprecated
     public ServiceIdentificationFactory getServiceIdentificationFactory() throws OwsExceptionReport {
         return (ServiceIdentificationFactory) serviceIdentificationFactory;
     }
@@ -348,6 +354,7 @@ public class Configurator implements Cleanupable {
      *         <p/>
      * @throws OwsExceptionReport
      */
+    @Deprecated
     public OwsServiceProvider getServiceProvider() throws OwsExceptionReport {
         return get(serviceProviderFactory);
     }
@@ -436,8 +443,8 @@ public class Configurator implements Cleanupable {
      */
     private void checkForProvidedJdbc() {
         if (!dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC)
-                || (dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC) && dataConnectionProviderProperties
-                        .getProperty(HibernateDatasourceConstants.PROVIDED_JDBC).equals("true"))) {
+                || (dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC) &&
+                    dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.PROVIDED_JDBC).equals("true"))) {
             addProvidedJdbcDriver(dataConnectionProviderProperties
                     .getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
         }

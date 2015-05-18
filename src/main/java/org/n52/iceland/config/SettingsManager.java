@@ -26,6 +26,9 @@ import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
@@ -40,8 +43,6 @@ import org.n52.iceland.service.Configurator;
 import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Comparables;
 import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
