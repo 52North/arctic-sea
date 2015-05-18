@@ -57,8 +57,6 @@ import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.service.admin.operator.AdminServiceOperator;
 import org.n52.iceland.service.admin.request.operator.AdminRequestOperatorRepository;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.service.profile.DefaultProfileHandler;
-import org.n52.iceland.service.profile.ProfileHandler;
 import org.n52.iceland.util.Cleanupable;
 import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
 import org.n52.iceland.util.Producer;
@@ -205,8 +203,6 @@ public class Configurator implements Cleanupable {
 
     private ContentCacheController contentCacheController;
 
-    private ProfileHandler profileHandler;
-
     @Deprecated
     private AdminServiceOperator adminServiceOperator;
 
@@ -318,7 +314,6 @@ public class Configurator implements Cleanupable {
         adminServiceOperator = loadAndConfigure(AdminServiceOperator.class, false);
         AdminRequestOperatorRepository.getInstance();
         contentCacheController = loadAndConfigure(ContentCacheController.class, false);
-        profileHandler = loadAndConfigure(ProfileHandler.class, false, new DefaultProfileHandler());
 
         ServiceEventBus.fire(new ConfiguratorInitializedEvent());
         LOGGER.info("\n******\n Configurator initialization finished\n******\n");
@@ -414,10 +409,6 @@ public class Configurator implements Cleanupable {
 
     public Set<String> getProvidedJdbcDriver() {
         return this.providedJdbcDrivers;
-    }
-
-    public ProfileHandler getProfileHandler() {
-        return profileHandler;
     }
 
     protected void initializeConnectionProviders() throws ConfigurationException {
