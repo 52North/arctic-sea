@@ -30,11 +30,8 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.config.annotation.Instantiatable;
-import org.n52.iceland.config.annotation.Instantiate;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.util.Cleanupable;
-import org.reflections.Reflections;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,19 +57,19 @@ public class ServiceContextListener implements ServletContextListener {
         } else {
             LOG.error("Configurator already instantiated.");
         }
-        initInstantiable();
+//        initInstantiable();
     }
 
-    private void initInstantiable() {
-        Reflections reflections = new Reflections("org.n52");
-        Set<Class<?>> annotated = 
-                  reflections.getTypesAnnotatedWith(Instantiate.class);
-        for (Class<?> clazz : annotated) {
-            if (clazz.getAnnotatedSuperclass() instanceof Instantiatable) {
-                ((Instantiatable)clazz.getAnnotatedSuperclass()).createInstance();
-            }
-        }
-    }
+//    private void initInstantiable() {
+//        Reflections reflections = new Reflections("org.n52");
+//        Set<Class<?>> annotated = 
+//                  reflections.getTypesAnnotatedWith(Instantiate.class);
+//        for (Class<?> clazz : annotated) {
+//            if (clazz.getAnnotatedSuperclass() instanceof Instantiatable) {
+//                ((Instantiatable)clazz.getAnnotatedSuperclass()).createInstance();
+//            }
+//        }
+//    }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
