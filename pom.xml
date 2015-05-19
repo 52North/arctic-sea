@@ -521,7 +521,7 @@
                         <configuration>
                             <rules>
                                 <dependencyConvergence/>
-                                <reactorModuleConvergence />
+                                <!-- <reactorModuleConvergence /> -->
                                 <requireNoRepositories>
                                     <banRepositories>true</banRepositories>
                                     <banPluginRepositories>false</banPluginRepositories>

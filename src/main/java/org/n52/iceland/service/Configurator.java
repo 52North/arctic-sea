@@ -24,6 +24,9 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCacheController;
@@ -54,16 +57,10 @@ import org.n52.iceland.ogc.ows.ServiceProviderFactory;
 import org.n52.iceland.ogc.sos.CapabilitiesExtensionRepository;
 import org.n52.iceland.ogc.swes.OfferingExtensionRepository;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.service.admin.operator.AdminServiceOperator;
-import org.n52.iceland.service.admin.request.operator.AdminRequestOperatorRepository;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.service.profile.DefaultProfileHandler;
-import org.n52.iceland.service.profile.ProfileHandler;
 import org.n52.iceland.util.Cleanupable;
 import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
 import org.n52.iceland.util.Producer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -205,11 +202,6 @@ public class Configurator implements Cleanupable {
 
     private ContentCacheController contentCacheController;
 
-    private ProfileHandler profileHandler;
-
-    @Deprecated
-    private AdminServiceOperator adminServiceOperator;
-
     @Deprecated
     private Producer<OwsServiceIdentification> serviceIdentificationFactory;
 
@@ -315,10 +307,7 @@ public class Configurator implements Cleanupable {
         CapabilitiesExtensionRepository.getInstance();
         OwsExtendedCapabilitiesRepository.getInstance();
         OfferingExtensionRepository.getInstance();
-        adminServiceOperator = loadAndConfigure(AdminServiceOperator.class, false);
-        AdminRequestOperatorRepository.getInstance();
         contentCacheController = loadAndConfigure(ContentCacheController.class, false);
-        profileHandler = loadAndConfigure(ProfileHandler.class, false, new DefaultProfileHandler());
 
         ServiceEventBus.fire(new ConfiguratorInitializedEvent());
         LOGGER.info("\n******\n Configurator initialization finished\n******\n");
@@ -401,23 +390,12 @@ public class Configurator implements Cleanupable {
         return featureQueryHandler;
     }
 
-    /**
-     * @return the implemented SOS administration request operator
-     */
-    public AdminServiceOperator getAdminServiceOperator() {
-        return adminServiceOperator;
-    }
-
     public void addProvidedJdbcDriver(String providedJdbcDriver) {
         this.providedJdbcDrivers.add(providedJdbcDriver);
     }
 
     public Set<String> getProvidedJdbcDriver() {
         return this.providedJdbcDrivers;
-    }
-
-    public ProfileHandler getProfileHandler() {
-        return profileHandler;
     }
 
     protected void initializeConnectionProviders() throws ConfigurationException {
