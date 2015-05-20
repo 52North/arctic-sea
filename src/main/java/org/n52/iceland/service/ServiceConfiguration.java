@@ -17,10 +17,10 @@
 package org.n52.iceland.service;
 
 import static org.n52.iceland.service.MiscSettings.CHARACTER_ENCODING;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_FEATURE_PREFIX;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_OBSERVABLEPROPERTY_PREFIX;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_OFFERING_PREFIX;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_PROCEDURE_PREFIX;
+//import static org.n52.iceland.service.MiscSettings.DEFAULT_FEATURE_PREFIX;
+//import static org.n52.iceland.service.MiscSettings.DEFAULT_OBSERVABLEPROPERTY_PREFIX;
+//import static org.n52.iceland.service.MiscSettings.DEFAULT_OFFERING_PREFIX;
+//import static org.n52.iceland.service.MiscSettings.DEFAULT_PROCEDURE_PREFIX;
 import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
 import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V1;
 import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V2;
@@ -29,7 +29,7 @@ import static org.n52.iceland.service.ServiceSettings.ENCODE_FULL_CHILDREN_IN_DE
 import static org.n52.iceland.service.ServiceSettings.SENSOR_DIRECTORY;
 import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
 import static org.n52.iceland.service.ServiceSettings.STRICT_SPATIAL_FILTERING_PROFILE;
-import static org.n52.iceland.service.ServiceSettings.USE_DEFAULT_PREFIXES;
+//import static org.n52.iceland.service.ServiceSettings.USE_DEFAULT_PREFIXES;
 import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 
 import java.net.URI;
@@ -61,13 +61,13 @@ public class ServiceConfiguration {
 
     private String defaultOfferingPrefix;
 
-    private String defaultProcedurePrefix;
-
-    private String defaultObservablePropertyPrefix;
-
-    private String defaultFeaturePrefix;
-
-    private boolean useDefaultPrefixes;
+//    private String defaultProcedurePrefix;
+//
+//    private String defaultObservablePropertyPrefix;
+//
+//    private String defaultFeaturePrefix;
+//
+//    private boolean useDefaultPrefixes;
 
     private boolean encodeFullChildrenInDescribeSensor;
 
@@ -203,46 +203,46 @@ public class ServiceConfiguration {
         return defaultOfferingPrefix;
     }
 
-    @Setting(DEFAULT_OFFERING_PREFIX)
-    public void setDefaultOfferingPrefix(final String prefix) {
-        defaultOfferingPrefix = prefix;
-    }
-
-    public String getDefaultProcedurePrefix() {
-        return defaultProcedurePrefix;
-    }
-
-    @Setting(DEFAULT_OBSERVABLEPROPERTY_PREFIX)
-    public void setDefaultObservablePropertyPrefix(final String prefix) {
-        defaultObservablePropertyPrefix = prefix;
-    }
-
-    public String getDefaultObservablePropertyPrefix() {
-        return defaultObservablePropertyPrefix;
-    }
-
-    @Setting(DEFAULT_PROCEDURE_PREFIX)
-    public void setDefaultProcedurePrefix(final String prefix) {
-        defaultProcedurePrefix = prefix;
-    }
-
-    public String getDefaultFeaturePrefix() {
-        return defaultFeaturePrefix;
-    }
-
-    @Setting(DEFAULT_FEATURE_PREFIX)
-    public void setDefaultFeaturePrefix(final String prefix) {
-        defaultFeaturePrefix = prefix;
-    }
-
-    public boolean isUseDefaultPrefixes() {
-        return useDefaultPrefixes;
-    }
-
-    @Setting(USE_DEFAULT_PREFIXES)
-    public void setUseDefaultPrefixes(final boolean prefix) {
-        useDefaultPrefixes = prefix;
-    }
+//    @Setting(DEFAULT_OFFERING_PREFIX)
+//    public void setDefaultOfferingPrefix(final String prefix) {
+//        defaultOfferingPrefix = prefix;
+//    }
+//
+//    public String getDefaultProcedurePrefix() {
+//        return defaultProcedurePrefix;
+//    }
+//
+//    @Setting(DEFAULT_OBSERVABLEPROPERTY_PREFIX)
+//    public void setDefaultObservablePropertyPrefix(final String prefix) {
+//        defaultObservablePropertyPrefix = prefix;
+//    }
+//
+//    public String getDefaultObservablePropertyPrefix() {
+//        return defaultObservablePropertyPrefix;
+//    }
+//
+//    @Setting(DEFAULT_PROCEDURE_PREFIX)
+//    public void setDefaultProcedurePrefix(final String prefix) {
+//        defaultProcedurePrefix = prefix;
+//    }
+//
+//    public String getDefaultFeaturePrefix() {
+//        return defaultFeaturePrefix;
+//    }
+//
+//    @Setting(DEFAULT_FEATURE_PREFIX)
+//    public void setDefaultFeaturePrefix(final String prefix) {
+//        defaultFeaturePrefix = prefix;
+//    }
+//
+//    public boolean isUseDefaultPrefixes() {
+//        return useDefaultPrefixes;
+//    }
+//
+//    @Setting(USE_DEFAULT_PREFIXES)
+//    public void setUseDefaultPrefixes(final boolean prefix) {
+//        useDefaultPrefixes = prefix;
+//    }
 
     public boolean isEncodeFullChildrenInDescribeSensor() {
         return encodeFullChildrenInDescribeSensor;

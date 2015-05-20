@@ -37,10 +37,9 @@ public class ServiceSettings implements SettingDefinitionProvider {
 
     public static final String SERVICE_URL = "service.sosUrl";
 
-    // public static final String SUPPORTS_QUALITY = "service.supportsQuality";
     public static final String SENSOR_DIRECTORY = "service.sensorDirectory";
 
-    public static final String USE_DEFAULT_PREFIXES = "service.useDefaultPrefixes";
+//    public static final String USE_DEFAULT_PREFIXES = "service.useDefaultPrefixes";
 
     public static final String ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR = "service.encodeFullChildrenInDescribeSensor";
 
@@ -67,27 +66,6 @@ public class ServiceSettings implements SettingDefinitionProvider {
                             + " The path to a specific binding (like <code>/soap</code>) will appended to this URL."
                             + " For detailed information, please read the <a href=\"https://wiki.52north.org/bin/view/SensorWeb/SensorObservationServiceIVDocumentation\">documentation</a>");
 
-//    public static final IntegerSettingDefinition MAX_GET_OBSERVATION_RESULTS_DEFINITION =
-//            new IntegerSettingDefinition()
-//                    .setGroup(GROUP)
-//                    .setOrder(ORDER_4)
-//                    .setKey(MAX_GET_OBSERVATION_RESULTS)
-//                    .setDefaultValue(0)
-//                    .setTitle("Maximum number of observations")
-//                    .setDescription(
-//                            "Maximum number of observation in GetObservation responses. "
-//                                    + "Set to <code>0</code> (zero) for unlimited number of observations.");
-
-    // TODO quality is not yet supported
-    // public static final BooleanSettingDefinition SUPPORTS_QUALITY_DEFINITION
-    // = new BooleanSettingDefinition()
-    // .setGroup(GROUP)
-    // .setOrder(5)
-    // .setKey(SUPPORTS_QUALITY)
-    // .setDefaultValue(true)
-    // .setTitle("Supports quality")
-    // .setDescription("Support quality information in observations.");
-
     public static final StringSettingDefinition SENSOR_DIRECTORY_DEFINITION =
             new StringSettingDefinition()
                     .setGroup(GROUP)
@@ -101,10 +79,10 @@ public class ServiceSettings implements SettingDefinitionProvider {
                                     + "It can be either an absolute path (like <code>/home/user/sosconfig/sensors</code>) "
                                     + "or a path relative to the web application classes directory (e.g. <code>WEB-INF/classes/sensors</code>).");
 
-    public static final BooleanSettingDefinition USE_DEFAULT_PREFIXES_DEFINITION = new BooleanSettingDefinition()
-            .setGroup(GROUP).setOrder(ORDER_11).setKey(USE_DEFAULT_PREFIXES).setDefaultValue(false).setOptional(true)
-            .setTitle("Use default prefixes for offering, procedure, features")
-            .setDescription("Use default prefixes for offering, procedure, features.");
+//    public static final BooleanSettingDefinition USE_DEFAULT_PREFIXES_DEFINITION = new BooleanSettingDefinition()
+//            .setGroup(GROUP).setOrder(ORDER_11).setKey(USE_DEFAULT_PREFIXES).setDefaultValue(false).setOptional(true)
+//            .setTitle("Use default prefixes for offering, procedure, features")
+//            .setDescription("Use default prefixes for offering, procedure, features.");
 
     public static final BooleanSettingDefinition ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR_DEFINITION =
             new BooleanSettingDefinition()
@@ -158,9 +136,8 @@ public class ServiceSettings implements SettingDefinitionProvider {
 
     private static final Set<SettingDefinition<?, ?>> DEFINITIONS = Sets.<SettingDefinition<?, ?>> newHashSet(
             SERVICE_URL_DEFINITION,
-//            MAX_GET_OBSERVATION_RESULTS_DEFINITION,
-            // SUPPORTS_QUALITY_DEFINITION,
-            SENSOR_DIRECTORY_DEFINITION, USE_DEFAULT_PREFIXES_DEFINITION,
+            SENSOR_DIRECTORY_DEFINITION, 
+//            USE_DEFAULT_PREFIXES_DEFINITION,
             ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR_DEFINITION, DEREGISTER_JDBC_DRIVER_DEFINITION,
             ADD_OUTPUTS_TO_SENSOR_ML_DEFINITION, STRICT_SPATIAL_FILTERING_PROFILE_DEFINITION,
             VALIDATE_RESPONSE_DEFINITION);
