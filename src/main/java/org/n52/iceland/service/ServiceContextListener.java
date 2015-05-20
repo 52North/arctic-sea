@@ -29,11 +29,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import org.reflections.Reflections;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.util.Cleanupable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -62,7 +64,7 @@ public class ServiceContextListener implements ServletContextListener {
 
 //    private void initInstantiable() {
 //        Reflections reflections = new Reflections("org.n52");
-//        Set<Class<?>> annotated = 
+//        Set<Class<?>> annotated =
 //                  reflections.getTypesAnnotatedWith(Instantiate.class);
 //        for (Class<?> clazz : annotated) {
 //            if (clazz.getAnnotatedSuperclass() instanceof Instantiatable) {
@@ -139,7 +141,7 @@ public class ServiceContextListener implements ServletContextListener {
             LOG.error("Error while Configurator clean up", ex);
         }
     }
-    
+
 //    protected void cleanupGeometryHandler() {
 //        try {
 //            if (GeometryHandler.getInstance() != null) {
@@ -149,7 +151,7 @@ public class ServiceContextListener implements ServletContextListener {
 //            LOG.error("Error while GeometryHandler clean up", ex);
 //        }
 //    }
-    
+
     protected void instantiateConfigurator(ServletContext context) {
         DatabaseSettingsHandler dbsh = DatabaseSettingsHandler.getInstance(context);
         if (dbsh.exists()) {
@@ -173,7 +175,7 @@ public class ServiceContextListener implements ServletContextListener {
             throw new RuntimeException(message, ce);
         }
     }
-    
+
 //    /**
 //     * Instantiate the {@link GeometryHandler} to avoid exceptions during the
 //     * shutdown process.

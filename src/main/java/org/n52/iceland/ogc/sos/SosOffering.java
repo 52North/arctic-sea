@@ -27,13 +27,14 @@ import org.n52.iceland.ogc.gml.AbstractFeature;
 import org.n52.iceland.ogc.gml.CodeType;
 import org.n52.iceland.ogc.swe.simpleType.SweAbstractSimpleType;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 /**
  * class represents an offering in the SOS database
- * 
+ *
  * @since 4.0.0
  */
 public class SosOffering extends AbstractFeature implements Comparable<SosOffering> {
@@ -50,7 +51,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     /**
      * constructor
-     * 
+     *
      * @param identifier
      *            offering identifier
      * @param name
@@ -64,10 +65,10 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
             this.setName(new CodeType(name));
         }
     }
-    
+
     /**
      * constructor
-     * 
+     *
      * @param identifier
      *            offering identifier
      * @param name
@@ -90,7 +91,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     /**
      * constructor with procedure identifier
-     * 
+     *
      * @param procedureIdentifier
      *            Procedure identifier
      */
@@ -101,7 +102,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     /**
      * Get offering name
-     * 
+     *
      * @return Returns the name.
      */
     public String getOfferingName() {
@@ -110,7 +111,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     /**
      * Set if offering is from parent procedure or not
-     * 
+     *
      * @param parentOfferingFlag
      *            Offering is from parent procedure or not
      */
@@ -119,7 +120,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
     }
 
     /**
-     * 
+     *
      * @return offering is from parent procedure or not
      */
     public boolean isParentOffering() {
@@ -128,16 +129,16 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     @Override
     public int compareTo(SosOffering o) {
-        return checkNotNull(o) == this ? 0 
-                : getIdentifier() == o.getIdentifier() ? 0 
+        return checkNotNull(o) == this ? 0
+                : getIdentifier() == o.getIdentifier() ? 0
                         : getIdentifier() == null ? -1
-                                : o.getIdentifier() == null ? 1 
+                                : o.getIdentifier() == null ? 1
                                         : getIdentifier().compareTo(o.getIdentifier());
     }
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("identifier", getIdentifier())
                 .add("name", getName())
                 .add("description", getDescription())
@@ -148,7 +149,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
     public boolean equals(Object o) {
         if (o instanceof SosOffering) {
             SosOffering other = (SosOffering) o;
-            return Objects.equal(getIdentifier(), other.getIdentifier()) 
+            return Objects.equal(getIdentifier(), other.getIdentifier())
                     && Objects.equal(getName(), other.getName())
                     && Objects.equal(isParentOffering(), other.isParentOffering());
         }
@@ -163,10 +164,10 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
     /**
      * Creates a set of {@literal SosOffering}s from a map containing
      * identifiers as keys and names as values.
-     * 
+     *
      * @param map
      *            the map (may be {@literal null})
-     * 
+     *
      * @return the set (never {@literal null})
      */
     public static Set<SosOffering> fromMap(Map<String, String> map) {
@@ -183,10 +184,10 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
     /**
      * Creates a set of {@literal SosOffering}s from a map containing
      * identifiers as keys and names as values.
-     * 
+     *
      * @param map
      *            the map (may be {@literal null})
-     * 
+     *
      * @return the set (never {@literal null})
      */
     public static Set<SosOffering> fromSet(Set<SweAbstractSimpleType<?>> set) {
@@ -203,14 +204,14 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
         }
         return offeringSet;
     }
-    
+
     /**
      * Creates a set of {@literal SosOffering}s from a map containing
      * identifiers as keys and names as values.
-     * 
+     *
      * @param map
      *            the map (may be {@literal null})
-     * 
+     *
      * @return the set (never {@literal null})
      */
     public static SosOffering from(SweAbstractSimpleType<?> type) {

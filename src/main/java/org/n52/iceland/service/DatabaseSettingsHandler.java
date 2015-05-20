@@ -22,7 +22,7 @@ import org.n52.iceland.util.AbstractServletContextPropertyFileHandler;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class DatabaseSettingsHandler extends AbstractServletContextPropertyFileHandler {
 

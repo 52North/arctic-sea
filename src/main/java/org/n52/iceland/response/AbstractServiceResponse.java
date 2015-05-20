@@ -24,15 +24,15 @@ import org.n52.iceland.util.http.MediaType;
 
 /**
  * abstract super class for all service request classes
- * 
+ *
  * @since 4.0.0
  */
 public abstract class AbstractServiceResponse extends AbstractServiceCommunicationObject implements HasSwesExtension<AbstractServiceResponse> {
 
     private MediaType contentType;
-    
+
 private SwesExtensions extensions;
-    
+
     @Override
     public SwesExtensions getExtensions() {
         return extensions;
@@ -43,7 +43,7 @@ private SwesExtensions extensions;
         this.extensions = extensions;
         return this;
     }
-    
+
     @Override
     public AbstractServiceResponse addExtensions(final SwesExtensions extensions) {
         if (getExtensions() == null) {
@@ -67,7 +67,7 @@ private SwesExtensions extensions;
     public boolean isSetExtensions() {
         return extensions != null && !extensions.isEmpty();
     }
-    
+
     public AbstractServiceResponse setContentType(MediaType contentType) {
         this.contentType = contentType;
         return this;
