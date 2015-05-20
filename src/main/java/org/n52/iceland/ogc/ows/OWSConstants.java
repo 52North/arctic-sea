@@ -200,4 +200,58 @@ public interface OWSConstants {
         ENCODE_OWS_EXCEPTION_ONLY
     }
     
+    /**
+     * Interface to identify if the implemented class supportes
+     * {@link Extensions}
+     * 
+     * @author Carsten Hollmann <c.hollmann@52north.org>
+     * @since 4.1.0
+     * 
+     * @param <T>
+     */
+    interface HasExtension<T> {
+        /**
+         * Get the {@link Extension}s
+         * 
+         * @return {@link Extensions} with {@link Extension}s
+         */
+        public Extensions getExtensions();
+
+        /**
+         * Set the {@link Extensions} object
+         * 
+         * @param extensions
+         *            the {@link Extensions} object to set
+         * @return this
+         */
+        public T setExtensions(final Extensions extensions);
+        
+        /**
+         * Add a {@link Extensions} to this object
+         * 
+         * @param extension
+         *            the {@link Extensions} to add
+         * @return this
+         */
+        public T addExtensions(final Extensions extension);
+
+        /**
+         * Add a {@link Extension} to this object
+         * 
+         * @param extension
+         *            the {@link Extension} to add
+         * @return this
+         */
+        @SuppressWarnings("rawtypes")
+        public T addExtension(final Extension extension);
+
+        /**
+         * Check if {@link Extension}s are set
+         * 
+         * @return <code>true</code>, if {@link Extensions} is not null or
+         *         empty
+         */
+        public boolean isSetExtensions();
+    }
+    
 }

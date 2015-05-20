@@ -14,18 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.ogc.ows;
 
-/**
- * Constant class for the Java Topology Suite (JTS), e.g. WKT names
- * 
- * @since 4.0.0
- * 
- */
-public interface JTSConstants {
-    String WKT_POINT = "POINT";
+public interface Value<T, S> {
+    
+    /**
+     * Get value
+     * 
+     * @return value
+     */
+    public abstract T getValue();
 
-    String WKT_LINESTRING = "LINESTRING";
+    public abstract String getStringValue();
 
-    String WKT_POLYGON = "POLYGON";
+    public abstract boolean isSetValue();
+    /**
+     * Set value
+     * 
+     * @param value
+     *            value to set
+     */
+    public abstract S setValue(T value);
+
 }

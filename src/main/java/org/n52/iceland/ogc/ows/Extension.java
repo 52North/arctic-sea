@@ -14,29 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.swes;
+package org.n52.iceland.ogc.ows;
 
-public interface SwesExtension<T> {
+public interface Extension<T> {
     
     String getNamespace();
     
-    SwesExtension<T> setNamespace(String namespace);
+    Extension<T> setNamespace(String namespace);
     
     boolean isSetNamespace();
     
     String getIdentifier();
     
-    SwesExtension<T> setIdentifier(String identifier);
+    Extension<T> setIdentifier(String identifier);
     
     boolean isSetIdentifier();
 
     String getDefinition();
 
-    SwesExtension<T> setDefinition(String definition);
+    Extension<T> setDefinition(String definition);
     
     boolean isSetDefinition();
 
     T getValue();
 
-    SwesExtension<T> setValue(T value);
+    Extension<T> setValue(T value);
 }

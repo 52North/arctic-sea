@@ -21,12 +21,12 @@ import java.util.List;
 
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
+import org.n52.iceland.ogc.ows.Extension;
+import org.n52.iceland.ogc.ows.Extensions;
 import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.swe.simpleType.SweText;
-import org.n52.iceland.ogc.swes.SwesConstants.HasSwesExtension;
-import org.n52.iceland.ogc.swes.SwesExtension;
-import org.n52.iceland.ogc.swes.SwesExtensions;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
@@ -40,12 +40,12 @@ import org.n52.iceland.util.StringHelper;
  * 
  */
 @SuppressWarnings("rawtypes")
-public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> extends AbstractServiceCommunicationObject implements HasSwesExtension<AbstractServiceRequest> {
+public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> extends AbstractServiceCommunicationObject implements HasExtension<AbstractServiceRequest> {
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
 
     private RequestContext requestContext;
     
-    private SwesExtensions extensions;
+    private Extensions extensions;
 
     public List<ServiceOperatorKey> getServiceOperatorKeyType() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
@@ -80,32 +80,32 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
     public abstract T getResponse() throws OwsExceptionReport;
     
     @Override
-    public SwesExtensions getExtensions() {
+    public Extensions getExtensions() {
         return extensions;
     }
 
     @Override
-    public AbstractServiceRequest setExtensions(final SwesExtensions extensions) {
+    public AbstractServiceRequest setExtensions(final Extensions extensions) {
         this.extensions = extensions;
         return this;
     }
     
     @Override
-    public AbstractServiceRequest addExtensions(final SwesExtensions extensions) {
+    public AbstractServiceRequest addExtensions(final Extensions extensions) {
         if (getExtensions() == null) {
             setExtensions(extensions);
         } else {
-            getExtensions().addSwesExtension(extensions.getExtensions());
+            getExtensions().addExtension(extensions.getExtensions());
         }
         return this;
     }
 
     @Override
-    public AbstractServiceRequest addExtension(final SwesExtension extension) {
+    public AbstractServiceRequest addExtension(final Extension extension) {
         if (getExtensions() == null) {
-            setExtensions(new SwesExtensions());
+            setExtensions(new Extensions());
         }
-        getExtensions().addSwesExtension(extension);
+        getExtensions().addExtension(extension);
         return this;
     }
 
@@ -126,8 +126,6 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
                 Object value = getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
                 if (value instanceof SweText) {
                     return ((SweText) value).getValue();
-                } else if (value instanceof Integer) {
-                    return (String) getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
                 }
             }
         }

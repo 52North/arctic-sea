@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.response;
 
-import org.n52.iceland.ogc.swes.SwesConstants.HasSwesExtension;
-import org.n52.iceland.ogc.swes.SwesExtension;
-import org.n52.iceland.ogc.swes.SwesExtensions;
+import org.n52.iceland.ogc.ows.Extension;
+import org.n52.iceland.ogc.ows.Extensions;
+import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.util.http.MediaType;
 
@@ -27,39 +27,40 @@ import org.n52.iceland.util.http.MediaType;
  * 
  * @since 4.0.0
  */
-public abstract class AbstractServiceResponse extends AbstractServiceCommunicationObject implements HasSwesExtension<AbstractServiceResponse> {
+public abstract class AbstractServiceResponse extends AbstractServiceCommunicationObject implements HasExtension<AbstractServiceResponse> {
 
     private MediaType contentType;
     
-private SwesExtensions extensions;
+    private Extensions extensions;
     
     @Override
-    public SwesExtensions getExtensions() {
+    public Extensions getExtensions() {
         return extensions;
     }
 
     @Override
-    public AbstractServiceResponse setExtensions(final SwesExtensions extensions) {
+    public AbstractServiceResponse setExtensions(final Extensions extensions) {
         this.extensions = extensions;
         return this;
     }
     
     @Override
-    public AbstractServiceResponse addExtensions(final SwesExtensions extensions) {
+    public AbstractServiceResponse addExtensions(final Extensions extensions) {
         if (getExtensions() == null) {
             setExtensions(extensions);
         } else {
-            getExtensions().addSwesExtension(extensions.getExtensions());
+            getExtensions().addExtension(extensions.getExtensions());
         }
         return this;
     }
 
+    @SuppressWarnings("rawtypes")
     @Override
-    public AbstractServiceResponse addExtension(final SwesExtension extension) {
+    public AbstractServiceResponse addExtension(final Extension extension) {
         if (getExtensions() == null) {
-            setExtensions(new SwesExtensions());
+            setExtensions(new Extensions());
         }
-        getExtensions().addSwesExtension(extension);
+        getExtensions().addExtension(extension);
         return this;
     }
 

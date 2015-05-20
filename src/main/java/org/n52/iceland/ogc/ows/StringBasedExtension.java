@@ -16,15 +16,13 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import org.n52.iceland.ogc.swes.SwesExtension;
-
 /**
  * <!--@deprecated use {@link org.n52.sos.ogc.swes.SwesExtension&lt;java.lang.String&gt;}-->
  * 
  * FIXME should this one replaced by SwesExtension<String> or should {@link SwesExtension} provide a direct and easy way to get the string represenation of this extension Object?
  *
  */
-public interface StringBasedExtension extends SwesExtension<String> {
+public interface StringBasedExtension extends Extension<String> {
 
     /**
      * Get this extension as a String.

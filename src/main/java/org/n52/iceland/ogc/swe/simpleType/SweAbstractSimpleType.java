@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.swe.simpleType;
 
 import java.util.Collection;
 
+import org.n52.iceland.ogc.ows.Value;
 import org.n52.iceland.ogc.swe.SweAbstractDataComponent;
 
 import com.google.common.base.Objects;
@@ -30,7 +31,7 @@ import com.google.common.base.Objects;
  * @author Carsten Hollmann
  * @since 4.0.0
  */
-public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent {
+public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent implements Value<T, SweAbstractSimpleType<T>> {
 
 	// TODO quality needs to be a collection 
     private Collection<SweQuality> quality;
@@ -63,25 +64,6 @@ public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent 
     public boolean isSetQuality() {
         return quality != null && !quality.isEmpty();
     }
-
-    /**
-     * Get value
-     * 
-     * @return value
-     */
-    public abstract T getValue();
-
-    public abstract String getStringValue();
-
-    public abstract boolean isSetValue();
-
-    /**
-     * Set value
-     * 
-     * @param value
-     *            value to set
-     */
-    public abstract SweAbstractSimpleType<T> setValue(T value);
 
     @Override
     public int hashCode() {
