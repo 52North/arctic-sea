@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.ServletException;
@@ -31,6 +32,8 @@ import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
+import org.n52.iceland.event.events.IncomingRequestEvent;
+import org.n52.iceland.event.events.OutgoingResponseEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.util.http.HTTPHeaders;
 import org.n52.iceland.util.http.HTTPMethods;
@@ -39,6 +42,8 @@ import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Stopwatch;
 
 /**
  * The servlet of the Service which receives the incoming HttpPost and HttpGet
@@ -67,7 +72,9 @@ public class Service extends ConfiguratedHttpServlet {
         LOGGER.info("SOS endpoint initalized successfully!");
     }
 
-    protected HttpServletRequest logRequest(HttpServletRequest request, long count) {
+    private long logRequest(HttpServletRequest request) {
+        long count = counter.incrementAndGet();
+        ServiceEventBus.fire(new IncomingRequestEvent(request, count));
         if (LOGGER.isDebugEnabled()) {
             Enumeration<?> headerNames = request.getHeaderNames();
             StringBuilder headers = new StringBuilder();
@@ -79,80 +86,76 @@ public class Service extends ConfiguratedHttpServlet {
                     request.getRequestURI(), request.getProtocol(), request.getRemoteAddr(), request.getRemoteHost(),
                     headers);
         }
-        return request;
+        return count;
     }
 
-    private void logResponse(HttpServletResponse response, long count, long start) {
-        long duration = System.currentTimeMillis() - start;
-        LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {}ms)", count, response.isCommitted(), duration);
+    private void logResponse(HttpServletRequest request, HttpServletResponse response, long count, Stopwatch stopwatch) {
+        long elapsed = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
+        ServiceEventBus.fire(new OutgoingResponseEvent(request, response, count, elapsed));
+        LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)", count, response.isCommitted(), elapsed);
     }
 
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doDeleteOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doGetOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doPostOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
     @Override
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doPutOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
     @Override
     protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         Binding binding = null;
         try {
 
@@ -169,7 +172,7 @@ public class Service extends ConfiguratedHttpServlet {
                 onHttpException(request, response, exception);
             }
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
