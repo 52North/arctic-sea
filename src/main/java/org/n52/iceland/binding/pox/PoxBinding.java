@@ -72,7 +72,7 @@ public class PoxBinding extends SimpleBinding {
 
     protected AbstractServiceRequest<?> parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
-        XmlObject doc = XmlHelper.parseXmlSosRequest(request);
+        XmlObject doc = XmlHelper.parseXmlRequest(request);
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("XML-REQUEST: {}", doc.xmlText());
         }

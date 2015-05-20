@@ -84,7 +84,7 @@ public final class XmlHelper {
      * @throws OwsExceptionReport
      *             If an error occurs
      */
-    public static XmlObject parseXmlSosRequest(final HttpServletRequest request) throws OwsExceptionReport {
+    public static XmlObject parseXmlRequest(final HttpServletRequest request) throws OwsExceptionReport {
         XmlObject doc;
         try {
             if (request.getParameterMap().isEmpty()) {
@@ -752,9 +752,7 @@ public final class XmlHelper {
 
                     final String[] toks = xsiType.split(":");
                     String localName;
-                    String prefix;
                     if (toks.length > 1) {
-                        prefix = toks[0];
                         localName = toks[1];
                     } else {
                         localName = toks[0];
