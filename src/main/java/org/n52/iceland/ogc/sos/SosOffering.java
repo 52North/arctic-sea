@@ -27,6 +27,7 @@ import org.n52.iceland.ogc.gml.AbstractFeature;
 import org.n52.iceland.ogc.gml.CodeType;
 import org.n52.iceland.ogc.swe.simpleType.SweAbstractSimpleType;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -137,7 +138,7 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("identifier", getIdentifier())
                 .add("name", getName())
                 .add("description", getDescription())
