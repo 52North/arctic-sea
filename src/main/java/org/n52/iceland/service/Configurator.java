@@ -26,21 +26,16 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.binding.BindingRepository;
-import org.n52.iceland.cache.ContentCache;
-import org.n52.iceland.cache.ContentCacheController;
 import org.n52.iceland.coding.CodingRepository;
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.convert.ConverterRepository;
 import org.n52.iceland.convert.RequestResponseModifierRepository;
-import org.n52.iceland.ds.CacheFeederHandlerRepository;
 import org.n52.iceland.ds.ConnectionProvider;
 import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DataConnectionProvider;
 import org.n52.iceland.ds.Datasource;
 import org.n52.iceland.ds.DatasourceDaoIdentifier;
-import org.n52.iceland.ds.FeatureQueryHandler;
 import org.n52.iceland.ds.HibernateDatasourceConstants;
 import org.n52.iceland.ds.IFeatureConnectionProvider;
 import org.n52.iceland.ds.OperationHandlerRepository;
@@ -61,6 +56,12 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.Cleanupable;
 import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
 import org.n52.iceland.util.Producer;
+//import org.n52.sos.cache.ContentCacheController;
+//import org.n52.sos.ds.CacheFeederHandlerRepository;
+
+//import org.n52.sos.cache.ContentCache;
+
+//import org.n52.sos.ds.FeatureQueryHandler;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -194,13 +195,13 @@ public class Configurator implements Cleanupable {
 
     private Properties featureConnectionProviderProperties;
 
-    private FeatureQueryHandler featureQueryHandler;
+//    private FeatureQueryHandler featureQueryHandler;
 
     private ConnectionProvider dataConnectionProvider;
 
     private ConnectionProvider featureConnectionProvider;
 
-    private ContentCacheController contentCacheController;
+//    private ContentCacheController contentCacheController;
 
     @Deprecated
     private Producer<OwsServiceIdentification> serviceIdentificationFactory;
@@ -292,14 +293,14 @@ public class Configurator implements Cleanupable {
         ServiceConfiguration.getInstance();
 
         initializeConnectionProviders();
-        CacheFeederHandlerRepository.createInstance(getDatasourceDaoIdentificator());
+//        CacheFeederHandlerRepository.createInstance(getDatasourceDaoIdentificator());
 
         serviceIdentificationFactory = new ServiceIdentificationFactory();
         serviceProviderFactory = new ServiceProviderFactory();
         OperationHandlerRepository.createInstance(getDatasourceDaoIdentificator());
         ServiceOperatorRepository.getInstance();
         CodingRepository.getInstance();
-        featureQueryHandler = loadAndConfigure(FeatureQueryHandler.class, false, getDatasourceDaoIdentificator());
+//        featureQueryHandler = loadAndConfigure(FeatureQueryHandler.class, false, getDatasourceDaoIdentificator());
         ConverterRepository.getInstance();
         RequestResponseModifierRepository.getInstance();
         RequestOperatorRepository.getInstance();
@@ -307,7 +308,7 @@ public class Configurator implements Cleanupable {
         CapabilitiesExtensionRepository.getInstance();
         OwsExtendedCapabilitiesRepository.getInstance();
         OfferingExtensionRepository.getInstance();
-        contentCacheController = loadAndConfigure(ContentCacheController.class, false);
+//        contentCacheController = loadAndConfigure(ContentCacheController.class, false);
 
         ServiceEventBus.fire(new ConfiguratorInitializedEvent());
         LOGGER.info("\n******\n Configurator initialization finished\n******\n");
@@ -355,19 +356,19 @@ public class Configurator implements Cleanupable {
         return basepath;
     }
 
-    /**
-     * @return the current contentCacheController
-     */
-    public ContentCache getCache() {
-        return getCacheController().getCache();
-    }
-
-    /**
-     * @return the current contentCacheController
-     */
-    public ContentCacheController getCacheController() {
-        return contentCacheController;
-    }
+//    /**
+//     * @return the current contentCacheController
+//     */
+//    public ContentCache getCache() {
+//        return getCacheController().getCache();
+//    }
+//
+//    /**
+//     * @return the current contentCacheController
+//     */
+//    public ContentCacheController getCacheController() {
+//        return contentCacheController;
+//    }
 
     /**
      * @return the implemented data connection provider
@@ -383,12 +384,12 @@ public class Configurator implements Cleanupable {
         return featureConnectionProvider;
     }
 
-    /**
-     * @return the implemented feature query handler
-     */
-    public FeatureQueryHandler getFeatureQueryHandler() {
-        return featureQueryHandler;
-    }
+//    /**
+//     * @return the implemented feature query handler
+//     */
+//    public FeatureQueryHandler getFeatureQueryHandler() {
+//        return featureQueryHandler;
+//    }
 
     public void addProvidedJdbcDriver(String providedJdbcDriver) {
         this.providedJdbcDrivers.add(providedJdbcDriver);
@@ -435,7 +436,7 @@ public class Configurator implements Cleanupable {
     public synchronized void cleanup() {
         cleanup(dataConnectionProvider);
         cleanup(featureConnectionProvider);
-        cleanup(contentCacheController);
+//        cleanup(contentCacheController);
         instance = null;
     }
 

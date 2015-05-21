@@ -221,6 +221,31 @@ public abstract class AbstractGML implements Serializable{
     	}
     	return this;
     }
+    
+    public boolean isSetOriginalIdentifier() {
+        return getOriginalIdentifierCodeWithAuthority() != null && getOriginalIdentifierCodeWithAuthority().isSetValue(); 
+    }
+    
+    /**
+     * Get the original string identifier of this abstract feature
+     *
+     * @return Original identifier of this abstract feature
+     */
+    public String getOriginalIdentifier() {
+        if (isSetIdentifier()) {
+            return getOriginalIdentifierCodeWithAuthority().getValue();
+        }
+        return null;
+    }
+
+    /**
+     * Get {@link CodeWithAuthority} original identifier of this abstract feature
+     *
+     * @return Returns the original identifier of this abstract feature .
+     */
+    public CodeWithAuthority getOriginalIdentifierCodeWithAuthority() {
+        return originalIdentifier;
+    }
 
     /**
      * Get feature names

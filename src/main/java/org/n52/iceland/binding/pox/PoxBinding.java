@@ -28,6 +28,8 @@ import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.decode.Decoder;
+import org.n52.iceland.decode.DecoderKey;
+import org.n52.iceland.decode.XmlNamespaceDecoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
@@ -35,7 +37,6 @@ import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.CodingHelper;
 import org.n52.iceland.util.XmlHelper;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
@@ -77,7 +78,7 @@ public class PoxBinding extends SimpleBinding {
             LOGGER.debug("XML-REQUEST: {}", doc.xmlText());
         }
         Decoder<AbstractServiceRequest<?>, XmlObject> decoder =
-                getDecoder(CodingHelper.getDecoderKey(doc));
+                getDecoder(getDecoderKey(doc));
         return decoder.decode(doc).setRequestContext(getRequestContext(request));
     }
 
@@ -108,5 +109,9 @@ public class PoxBinding extends SimpleBinding {
     @Override
     protected MediaType getDefaultContentType() {
         return MediaTypes.APPLICATION_XML;
+    }
+    
+    private DecoderKey getDecoderKey(XmlObject doc) {
+        return new XmlNamespaceDecoderKey(XmlHelper.getNamespace(doc), doc.getClass());
     }
 }

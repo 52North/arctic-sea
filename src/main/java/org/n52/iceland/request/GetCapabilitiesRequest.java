@@ -22,7 +22,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
 import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
@@ -47,14 +46,6 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     private final List<String> acceptFormats = new LinkedList<String>();
 
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
-
-    /**
-     * Extensions list
-     * 
-     * FIXME change to a model object to remove dependency to XmlBeans in API
-     * package
-     */
-    private List<XmlObject> extensionArray = new LinkedList<XmlObject>();
 
     private String capabilitiesId;
 
@@ -173,16 +164,6 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
         this.updateSequence = updateSequence;
     }
 
-    /**
-     * Set extensions
-     * 
-     * @param extensionArray
-     *            extensions
-     */
-    public void setExtensionArray(List<XmlObject> extensionArray) {
-        this.extensionArray = extensionArray;
-    }
-
     public String getCapabilitiesId() {
         return this.capabilitiesId;
     }
@@ -193,15 +174,6 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     public boolean isCapabilitiesIdSet() {
         return getCapabilitiesId() != null && !getCapabilitiesId().isEmpty();
-    }
-
-    /**
-     * Get extensions
-     * 
-     * @return extensions
-     */
-    public List<XmlObject> getExtensionArray() {
-        return extensionArray;
     }
 
     public boolean isSetAcceptFormats() {
