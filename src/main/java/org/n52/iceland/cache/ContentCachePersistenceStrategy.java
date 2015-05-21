@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.cache;
 
-import org.n52.iceland.util.Cleanupable;
-
 import com.google.common.base.Optional;
 
 /**
@@ -25,7 +23,7 @@ import com.google.common.base.Optional;
  *
  * @author Christian Autermann
  */
-public interface ContentCachePersistenceStrategy extends Cleanupable {
+public interface ContentCachePersistenceStrategy {
     /**
      * Read the persisted content cache if it present.
      *
@@ -57,6 +55,5 @@ public interface ContentCachePersistenceStrategy extends Cleanupable {
     /**
      * Delete any persistent cache instances created by this strategy.
      */
-    @Override
-    public void cleanup();
+    public void remove();
 }

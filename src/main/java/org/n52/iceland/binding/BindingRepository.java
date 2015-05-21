@@ -20,12 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.http.MediaType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,23 +39,24 @@ import org.slf4j.LoggerFactory;
  */
 public class BindingRepository extends AbstractConfiguringServiceLoaderRepository<Binding> {
     private static final Logger LOG = LoggerFactory.getLogger(BindingRepository.class);
+    private static BindingRepository instance;
 
-    private static class Holder {
-    	static BindingRepository INSTANCE = new BindingRepository();
-    }
-
+    @Deprecated
     public static BindingRepository getInstance() {
-        return Holder.INSTANCE;
+        return BindingRepository.instance;
     }
 
     /**
      * Bindings by URL path.
      */
-    private final Map<String, Activatable<Binding>> byPath = new HashMap<String, Activatable<Binding>>(0);
+    private final Map<String, Activatable<Binding>> byPath = new HashMap<>();
     /**
      * Bindings by Content-Type.
      */
-    private final Map<MediaType, Activatable<Binding>> byMediaType = new HashMap<MediaType, Activatable<Binding>>(0);
+    private final Map<MediaType, Activatable<Binding>> byMediaType = new HashMap<>();
+
+    @Inject
+    private SettingsManager settingsManager;
 
     /**
      * reads the requestListeners from the configFile and returns a
@@ -64,22 +68,21 @@ public class BindingRepository extends AbstractConfiguringServiceLoaderRepositor
     private BindingRepository() throws ConfigurationException {
         super(Binding.class, false);
         load(false);
+        BindingRepository.instance = this;
     }
 
     @Override
     protected void processConfiguredImplementations(final Set<Binding> bindings) throws ConfigurationException {
         this.byPath.clear();
         this.byMediaType.clear();
-        final SettingsManager sm = SettingsManager.getInstance();
         try {
             for (final Binding binding : bindings) {
-                boolean isActive = sm.isActive(new BindingKey(binding.getUrlPattern()));
+                boolean isActive = this.settingsManager.isActive(new BindingKey(binding.getUrlPattern()));
                 Activatable<Binding> activatable = Activatable.from(binding, isActive);
                 this.byPath.put(binding.getUrlPattern(), activatable);
                 if (binding.getSupportedEncodings() != null) {
                     for (MediaType mediaType :binding.getSupportedEncodings()) {
-                        Activatable<Binding> previous
-                                = this.byMediaType.put(mediaType, activatable);
+                        Activatable<Binding> previous = this.byMediaType.put(mediaType, activatable);
                         if (previous != null) {
                             LOG.warn("{} is overwriting {} for MediaType {}",
                                      binding, previous.getInternal(), mediaType);

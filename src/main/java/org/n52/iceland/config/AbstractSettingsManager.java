@@ -29,6 +29,11 @@ import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.coding.CodingRepository;
@@ -46,35 +51,34 @@ import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionRepository;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.service.Configurator;
 import org.n52.iceland.service.ServiceSettings;
 import org.n52.iceland.util.HashSetMultiMap;
-import org.n52.iceland.util.SetMultiMap;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.iceland.util.collections.SetMultiMap;
 
 /**
  * Abstract {@code SettingsManaeger} implementation that handles the loading of
  * {@link SettingDefinition}s and the configuration of objects.
  * <p/>
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
 public abstract class AbstractSettingsManager extends SettingsManager {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsManager.class);
-
     private final SettingDefinitionProviderRepository settingDefinitionRepository;
-
-    private final SetMultiMap<String, ConfigurableObject> configurableObjects =
-            new HashSetMultiMap<String, ConfigurableObject>();
-
+    private final SetMultiMap<String, ConfigurableObject> configurableObjects = new HashSetMultiMap<>();
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
+    @Inject private RequestOperatorRepository requestOperatorRepository;
+    @Inject private CodingRepository codingRepository;
+    @Inject private BindingRepository bindingRepository;
+    @Inject private OfferingExtensionRepository offeringExtensionRepository;
+    @Inject private OwsExtendedCapabilitiesRepository owsExtendedCapabilitiesRepository;
+
 
     /**
      * Constructs a new instance.
      * <p/>
-     * 
+     *
      * @throws ConfigurationException
      *             if loading of {@link SettingDefinitionProvider} fails
      */
@@ -99,7 +103,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
      */
     public Set<String> getKeys() {
         Set<SettingDefinition<?, ?>> settings = getSettingDefinitions();
-        HashSet<String> keys = new HashSet<String>(settings.size());
+        HashSet<String> keys = new HashSet<>(settings.size());
         for (SettingDefinition<?, ?> setting : settings) {
             keys.add(setting.getKey());
         }
@@ -148,7 +152,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
      * Applies the a new setting to all {@code ConfiguredObject}s. If an error
      * occurs the the old value is reapplied.
      * <p/>
-     * 
+     *
      * @param setting
      *            the definition
      * @param oldValue
@@ -161,7 +165,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
      */
     private void applySetting(SettingDefinition<?, ?> setting, SettingValue<?> oldValue, SettingValue<?> newValue)
             throws ConfigurationException {
-        LinkedList<ConfigurableObject> changed = new LinkedList<ConfigurableObject>();
+        LinkedList<ConfigurableObject> changed = new LinkedList<>();
         ConfigurationException e = null;
         configurableObjectsLock.readLock().lock();
         try {
@@ -204,8 +208,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     @Override
     public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() throws ConnectionProviderException {
         Set<SettingValue<?>> values = getSettingValues();
-        Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition =
-                new HashMap<SettingDefinition<?, ?>, SettingValue<?>>(values.size());
+        Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition = new HashMap<>(values.size());
         for (SettingValue<?> value : values) {
             final SettingDefinition<?, ?> definition = getSettingDefinitionRepository().getDefinition(value.getKey());
             if (definition == null) {
@@ -214,7 +217,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
                 settingsByDefinition.put(definition, value);
             }
         }
-        HashSet<SettingDefinition<?, ?>> nullValues = new HashSet<SettingDefinition<?, ?>>(getSettingDefinitions());
+        HashSet<SettingDefinition<?, ?>> nullValues = new HashSet<>(getSettingDefinitions());
         nullValues.removeAll(settingsByDefinition.keySet());
         for (SettingDefinition<?, ?> s : nullValues) {
             settingsByDefinition.put(s, null);
@@ -275,10 +278,8 @@ public abstract class AbstractSettingsManager extends SettingsManager {
         }
         try {
             co.configure(getNotNullSettingValue(co));
-        } catch (ConnectionProviderException cpe) {
+        } catch (ConnectionProviderException | RuntimeException cpe) {
             throw new ConfigurationException("Exception configuring " + co.getKey(), cpe);
-        } catch (RuntimeException re) {
-            throw new ConfigurationException("Exception configuring " + co.getKey(), re);
         }
 
     }
@@ -318,69 +319,57 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     public void setActive(RequestOperatorKey rokt, boolean active) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", rokt, active);
         setOperationStatus(rokt, active);
-        if (Configurator.getInstance() != null) {
-            RequestOperatorRepository.getInstance().setActive(rokt, active);
-        }
+        this.requestOperatorRepository.setActive(rokt, active);
     }
 
     @Override
     public void setActive(ResponseFormatKey rfkt, boolean active) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", rfkt, active);
         setResponseFormatStatus(rfkt, active);
-        if (Configurator.getInstance() != null) {
-            CodingRepository.getInstance().setActive(rfkt, active);
-        }
+        this.codingRepository.setActive(rfkt, active);
     }
 
     @Override
     public void setActive(ProcedureDescriptionFormatKey pdfkt, boolean active) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", pdfkt, active);
         setProcedureDescriptionFormatStatus(pdfkt, active);
-        if (Configurator.getInstance() != null) {
-            CodingRepository.getInstance().setActive(pdfkt, active);
-        }
+        this.codingRepository.setActive(pdfkt, active);
     }
 
     @Override
     public void setActive(BindingKey bk, boolean active) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", bk, active);
         setBindingStatus(bk, active);
-        if (Configurator.getInstance() != null) {
-            BindingRepository.getInstance().setActive(bk, active);
-        }
+        this.bindingRepository.setActive(bk, active);
     }
-    
+
     @Override
     public void setActive(OfferingExtensionKey oek, boolean active) throws ConnectionProviderException {
         setActive(oek, active, true);
     }
-    
+
     @Override
     public void setActive(OfferingExtensionKey oek, boolean active, boolean updateRepository) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", oek, active);
         setOfferingExtensionStatus(oek, active);
-        if (updateRepository && OfferingExtensionRepository.getInstance() != null) {
-            OfferingExtensionRepository.getInstance().setActive(oek, active);
-        }
+        this.offeringExtensionRepository.setActive(oek, active);
     }
 
     @Override
     public void setActive(OwsExtendedCapabilitiesKey oeck, boolean active) throws ConnectionProviderException {
         setActive(oeck, active, true);
     }
-    
+
     @Override
     public void setActive(OwsExtendedCapabilitiesKey oeck, boolean active, boolean updateRepository) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", oeck, active);
         setOwsExtendedCapabilitiesStatus(oeck, active);
-        if (updateRepository && OwsExtendedCapabilitiesRepository.getInstance() != null) {
-            OwsExtendedCapabilitiesRepository.getInstance().setActive(oeck, active);
-        }
+        this.owsExtendedCapabilitiesRepository.setActive(oeck, active);
     }
-    
+
     /**
      * @return all saved setting values
-     * 
+     *
      * @throws ConnectionProviderException
      */
     protected abstract Set<SettingValue<?>> getSettingValues() throws ConnectionProviderException;
@@ -389,12 +378,12 @@ public abstract class AbstractSettingsManager extends SettingsManager {
      * Returns the value of the specified setting or {@code null} if it does not
      * exist.
      * <p/>
-     * 
+     *
      * @param key
      *            the key
      *            <p/>
      * @return the value
-     * 
+     *
      * @throws ConnectionProviderException
      */
     protected abstract SettingValue<?> getSettingValue(String key) throws ConnectionProviderException;
@@ -402,10 +391,10 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     /**
      * Deletes the setting with the specified key.
      * <p/>
-     * 
+     *
      * @param key
      *            the key
-     * 
+     *
      * @throws ConnectionProviderException
      */
     protected abstract void deleteSettingValue(String key) throws ConnectionProviderException;
@@ -413,10 +402,10 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     /**
      * Saves the setting value.
      * <p/>
-     * 
+     *
      * @param setting
      *            the value
-     * 
+     *
      * @throws ConnectionProviderException
      */
     protected abstract void saveSettingValue(SettingValue<?> setting) throws ConnectionProviderException;
@@ -424,7 +413,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     /**
      * Sets the status of an operation.
      * <p/>
-     * 
+     *
      * @param requestOperatorKeyType
      *            the key identifying the operation
      * @param active
@@ -439,12 +428,12 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     /**
      * Sets the status of a response format for the specified service and
      * version.
-     * 
+     *
      * @param rfkt
      *            the service/version/responseFormat combination
      * @param active
      *            the status
-     * 
+     *
      * @throws ConnectionProviderException
      * @see #setActive(ResponseFormatKey, boolean)
      */
@@ -454,12 +443,12 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     /**
      * Sets the status of a response format for the specified service and
      * version.
-     * 
+     *
      * @param pdfkt
      *            the service/version/responseFormat combination
      * @param active
      *            the status
-     * 
+     *
      * @throws ConnectionProviderException
      * @see #setActive(ProcedureDescriptionFormatKey, boolean)
      */
@@ -468,19 +457,19 @@ public abstract class AbstractSettingsManager extends SettingsManager {
 
     /**
      * Sets the status of a binding.
-     * 
+     *
      * @param bk
      *            the binding
      * @param active
      *            the status
-     * 
+     *
      * @throws ConnectionProviderException
      * @see #setActive(org.n52.iceland.binding.BindingKey, boolean)
      */
     protected abstract void setBindingStatus(BindingKey bk, boolean active) throws ConnectionProviderException;
-    
+
     protected abstract void setOfferingExtensionStatus(OfferingExtensionKey oek, boolean active) throws ConnectionProviderException;
-    
+
     protected abstract void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesKey oeck, boolean active) throws ConnectionProviderException;
 
     private class ConfigurableObject {
@@ -493,7 +482,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
         /**
          * Constructs a new {@code ConfigurableObject}
          * <p/>
-         * 
+         *
          * @param method
          *            the method of the target
          * @param target
@@ -503,7 +492,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
          */
         ConfigurableObject(Method method, Object target, String key) {
             this.method = method;
-            this.target = new WeakReference<Object>(target);
+            this.target = new WeakReference<>(target);
             this.key = key;
         }
 
@@ -531,7 +520,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
         /**
          * Configures this object with the specified value.
          * <p/>
-         * 
+         *
          * @param val
          *            the value
          *            <p/>
@@ -546,7 +535,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
          * Configures this object with the specified value. Exceptions are
          * wrapped in a {@code ConfigurationException}.
          * <p/>
-         * 
+         *
          * @param val
          *            the value
          *            <p/>
@@ -560,9 +549,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
                     LOG.debug("Setting value '{}' for {}", val, this);
                     getMethod().invoke(getTarget().get(), val);
                 }
-            } catch (IllegalAccessException ex) {
-                logAndThrowError(val, ex);
-            } catch (IllegalArgumentException ex) {
+            } catch (IllegalAccessException | IllegalArgumentException ex) {
                 logAndThrowError(val, ex);
             } catch (InvocationTargetException ex) {
                 logAndThrowError(val, ex.getTargetException());
@@ -608,10 +595,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
             if (getTarget() != other.getTarget() && (getTarget() == null || !getTarget().equals(other.getTarget()))) {
                 return false;
             }
-            if ((getKey() == null) ? (other.getKey() != null) : !getKey().equals(other.getKey())) {
-                return false;
-            }
-            return true;
+            return !((getKey() == null) ? (other.getKey() != null) : !getKey().equals(other.getKey()));
         }
     }
 }

@@ -19,12 +19,13 @@ package org.n52.iceland.i18n;
 import java.util.Map;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.ds.I18NDAO;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 
 import com.google.common.collect.Maps;
 
@@ -38,8 +39,9 @@ import com.google.common.collect.Maps;
 @SuppressWarnings("rawtypes")
 public class I18NDAORepository extends AbstractConfiguringServiceLoaderRepository<I18NDAO> {
     private static final Logger LOG = LoggerFactory.getLogger(I18NDAORepository.class);
+    @Deprecated
+    private static I18NDAORepository instance;
     private final Map<Class<? extends AbstractI18NMetadata>, I18NDAO<?>> daos = Maps.newHashMap();
-
 
     /**
      * private constructor
@@ -47,6 +49,7 @@ public class I18NDAORepository extends AbstractConfiguringServiceLoaderRepositor
     private I18NDAORepository() {
         super(I18NDAO.class, false);
         load(false);
+        I18NDAORepository.instance = this;
     }
 
     /**
@@ -80,22 +83,9 @@ public class I18NDAORepository extends AbstractConfiguringServiceLoaderRepositor
      *
      * @return Returns a singleton instance of the I18NDAORepository.
      */
+    @Deprecated
     public static I18NDAORepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    /**
-     * Lazy holder for this repository
-     *
-     * @author Carsten Hollmann <c.hollmann@52north.org>
-     * @since 4.1.0
-     *
-     */
-    private static class LazyHolder {
-        private static final I18NDAORepository INSTANCE = new I18NDAORepository();
-
-        private LazyHolder() {
-        }
+        return I18NDAORepository.instance;
     }
 
 }

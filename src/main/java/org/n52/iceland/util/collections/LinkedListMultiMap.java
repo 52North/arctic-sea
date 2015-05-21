@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.collections;
 
-import java.util.Collections;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation based on synchonized {@link LinkedList}s and a synchronized
- * {@link HashMap}.
+ * Implementation based on {@link LinkedList}s and a {@link HashMap}.
  * 
  * @param <K>
  *            the key type
@@ -35,28 +34,28 @@ import java.util.Map;
  * @since 4.0.0
  * 
  */
-public class SynchronizedListMultiMap<K, V> extends AbstractSynchronizedMultiMap<K, V, List<V>> implements
-        ListMultiMap<K, V> {
-    private static final long serialVersionUID = 5212730580728827254L;
+public class LinkedListMultiMap<K, V> extends AbstractMultiHashMap<K, V, List<V>> implements ListMultiMap<K, V>,
+        Serializable {
+    private static final long serialVersionUID = 5709659568351160402L;
 
-    public SynchronizedListMultiMap(Map<? extends K, ? extends List<V>> m) {
+    public LinkedListMultiMap(Map<? extends K, ? extends List<V>> m) {
         super(m);
     }
 
-    public SynchronizedListMultiMap(int initialCapacity) {
+    public LinkedListMultiMap(int initialCapacity) {
         super(initialCapacity);
     }
 
-    public SynchronizedListMultiMap(int initialCapacity, float loadFactor) {
+    public LinkedListMultiMap(int initialCapacity, float loadFactor) {
         super(initialCapacity, loadFactor);
     }
 
-    public SynchronizedListMultiMap() {
+    public LinkedListMultiMap() {
         super();
     }
 
     @Override
     protected List<V> newCollection() {
-        return Collections.synchronizedList(new LinkedList<V>());
+        return new LinkedList<V>();
     }
 }

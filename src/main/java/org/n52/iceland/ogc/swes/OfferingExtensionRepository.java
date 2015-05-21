@@ -21,77 +21,72 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.CollectionHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
  * Repository for {@link OfferingExtensionProvider} implementations
- * 
+ *
  * @since 4.1.0
- * 
+ *
  */
 public class OfferingExtensionRepository extends AbstractConfiguringServiceLoaderRepository<OfferingExtensionProvider> {
-
+    @Deprecated
+    private static OfferingExtensionRepository instance;
     private static final Logger LOGGER = LoggerFactory.getLogger(OfferingExtensionRepository.class);
-
-    /**
-     * Lazy holder class for the {@link OfferingExtensionRepository}
-     * 
-     * @author Carsten Hollmann <c.hollmann@52north.org>
-     * @since 4.1.0
-     * 
-     */
-    private static class LazyHolder {
-        private static final OfferingExtensionRepository INSTANCE = new OfferingExtensionRepository();
-
-        private LazyHolder() {
-        };
-    }
 
     private final Map<OfferingExtensionKey, Activatable<OfferingExtensionProvider>> offeringExtensionProviders =
             new HashMap<OfferingExtensionKey, Activatable<OfferingExtensionProvider>>(0);
 
+
+    @Inject
+    private SettingsManager settingsManager;
+
     /**
      * For singleton use
-     * 
+     *
      * @return The single instance
      */
+    @Deprecated
     public static OfferingExtensionRepository getInstance() {
-        return LazyHolder.INSTANCE;
+        return OfferingExtensionRepository.instance;
     }
 
     /**
      * Load implemented {@link OfferingExtensionProvider}
-     * 
+     *
      * @throws ConfigurationException
      *             If no {@link OfferingExtensionProvider} is implemented
      */
     private OfferingExtensionRepository() throws ConfigurationException {
         super(OfferingExtensionProvider.class, false);
         load(false);
+        OfferingExtensionRepository.instance = this;
     }
 
     @Override
     protected void processConfiguredImplementations(final Set<OfferingExtensionProvider> offeringExtensionProviders)
             throws ConfigurationException {
         this.offeringExtensionProviders.clear();
-        SettingsManager sm = SettingsManager.getInstance();
         for (final OfferingExtensionProvider oep : offeringExtensionProviders) {
             for (OfferingExtensionKey key : oep.getOfferingExtensionKeyTypes()) {
                 try {
                     LOGGER.info("Registered OfferingExtensionProvider for {}", key);
-                    this.offeringExtensionProviders.put(key, Activatable.from(oep, sm.isActive(key)));
+                    this.offeringExtensionProviders.put(key, Activatable.from(oep, this.settingsManager.isActive(key)));
                 } catch (final ConnectionProviderException cpe) {
                     throw new ConfigurationException("Error while checking RequestOperator", cpe);
                 }
@@ -101,7 +96,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
 
     /**
      * Get map of all, active and inactive, {@link OfferingExtensionProvider}s
-     * 
+     *
      * @return the map with all {@link OfferingExtensionProvider}s
      */
     public Map<OfferingExtensionKey, OfferingExtensionProvider> getAllOfferingExtensionProviders() {
@@ -110,7 +105,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
 
     /**
      * Get map of all active {@link OfferingExtensionProvider}s
-     * 
+     *
      * @return the map with all active {@link OfferingExtensionProvider}s
      */
     public Map<OfferingExtensionKey, OfferingExtensionProvider> getOfferingExtensionProviders() {
@@ -120,7 +115,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
     /**
      * Get the loaded {@link OfferingExtensionProvider} implementation for the
      * specific service and version
-     * 
+     *
      * @param serviceCommunicationObject
      *            The {@link AbstractServiceCommunicationObject} with service
      *            and version
@@ -143,7 +138,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
     /**
      * Get the loaded {@link OfferingExtensionProvider} implementation for the
      * specific {@link OfferingExtensionKey}
-     * 
+     *
      * @param key
      *            The related {@link OfferingExtensionKey}
      * @return loaded {@link OfferingExtensionProvider} implementation
@@ -155,7 +150,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
     /**
      * Check if a {@link OfferingExtensionProvider} implementation is loaded for
      * the specific {@link OfferingExtensionKey}
-     * 
+     *
      * @param key
      *            The related {@link OfferingExtensionKey} to check for
      * @return <code>true</code>, if a {@link OfferingExtensionProvider}
@@ -167,14 +162,14 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
 
     /**
      * Check if a provider is available for the requested service and version
-     * 
+     *
      * @param serviceCommunicationObject
      *            request object with service and version
      * @return <code>true</code>, if a {@link OfferingExtensionProvider} is
      *         available
      */
     public boolean hasOfferingExtensionProviderFor(AbstractServiceCommunicationObject serviceCommunicationObject) {
-        boolean hasProvider = false;
+        boolean hasProvider;
         for (String name : getDomains()) {
             hasProvider =
                     hasOfferingExtensionProviderFor(new OfferingExtensionKey(serviceCommunicationObject.getService(),
@@ -189,7 +184,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
     /**
      * Change the status of the {@link OfferingExtensionProvider} which relates
      * to the requested {@link OfferingExtensionKey}
-     * 
+     *
      * @param oekt
      *            the {@link OfferingExtensionKey} to change the status for
      * @param active
@@ -203,7 +198,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
 
     /**
      * Get map with {@link ServiceOperatorKey} and linked domain values
-     * 
+     *
      * @return the map with {@link ServiceOperatorKey} and linked domain values
      */
     public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
@@ -216,7 +211,7 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
 
     /**
      * Get all domain values from {@link OfferingExtensionKey}
-     * 
+     *
      * @return the domain values
      */
     private Set<String> getDomains() {

@@ -21,45 +21,47 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderRepository<RequestOperator> {
     private static final Logger LOG = LoggerFactory.getLogger(RequestOperatorRepository.class);
 
-    private static class LazyHolder {
-    	private static final RequestOperatorRepository INSTANCE = new RequestOperatorRepository();
-    	
-    	private LazyHolder() {};
-    }
+    @Deprecated
+    private static RequestOperatorRepository instance;
 
-    private final Map<RequestOperatorKey, Activatable<RequestOperator>> requestOperators =
-            new HashMap<RequestOperatorKey, Activatable<RequestOperator>>(0);
+    private final Map<RequestOperatorKey, Activatable<RequestOperator>> requestOperators = new HashMap<>();
 
-    public static RequestOperatorRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
+    @Inject
+    private SettingsManager settingsManager;
+
+    @Inject
+    private OperationHandlerRepository operationHandlerRepository;
 
     /**
      * private constructor for singleton
-     * 
+     *
      * @throws ConfigurationException
      */
     private RequestOperatorRepository() throws ConfigurationException {
         super(RequestOperator.class, false);
         load(false);
+        RequestOperatorRepository.instance = this;
     }
 
     @Override
@@ -69,9 +71,8 @@ public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderR
         for (final RequestOperator op : requestOperators) {
             try {
                 LOG.info("Registered IRequestOperator for {}", op.getRequestOperatorKeyType());
-                final boolean active = SettingsManager.getInstance().isActive(op.getRequestOperatorKeyType());
-                this.requestOperators
-                        .put(op.getRequestOperatorKeyType(), new Activatable<RequestOperator>(op, active));
+                final boolean active = this.settingsManager.isActive(op.getRequestOperatorKeyType());
+                this.requestOperators.put(op.getRequestOperatorKeyType(), new Activatable<>(op, active));
             } catch (final ConnectionProviderException cpe) {
                 throw new ConfigurationException("Error while checking RequestOperator", cpe);
             }
@@ -80,7 +81,7 @@ public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderR
 
     @Override
     public void update() throws ConfigurationException {
-        OperationHandlerRepository.getInstance().update();
+        this.operationHandlerRepository.update();
         super.update();
     }
 
@@ -105,5 +106,10 @@ public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderR
 
     public Set<RequestOperatorKey> getAllRequestOperatorKeys() {
         return Collections.unmodifiableSet(requestOperators.keySet());
+    }
+
+    @Deprecated
+    public static RequestOperatorRepository getInstance() {
+        return RequestOperatorRepository.instance;
     }
 }

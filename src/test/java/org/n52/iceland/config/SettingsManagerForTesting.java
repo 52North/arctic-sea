@@ -23,11 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.config.AbstractSettingValueFactory;
-import org.n52.iceland.config.AbstractSettingsManager;
-import org.n52.iceland.config.AdministratorUser;
-import org.n52.iceland.config.SettingValue;
-import org.n52.iceland.config.SettingValueFactory;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
 import org.n52.iceland.encode.ResponseFormatKey;
@@ -148,9 +143,8 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
     }
 
     @Override
-    public void cleanup() {
+    public void destroy() {
         // TODO Auto-generated method stub
-
     }
 
     @Override

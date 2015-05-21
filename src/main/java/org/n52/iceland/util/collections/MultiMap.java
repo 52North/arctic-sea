@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.collections;
 
 import java.io.Serializable;
 import java.util.Collection;

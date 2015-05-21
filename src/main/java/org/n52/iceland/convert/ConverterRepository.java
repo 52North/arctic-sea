@@ -21,35 +21,31 @@ import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 
 import com.google.common.collect.Sets;
 
 /**
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 @SuppressWarnings("rawtypes")
 public class ConverterRepository extends AbstractConfiguringServiceLoaderRepository<Converter> {
+    private static ConverterRepository instance;
 
-	private static class LazyHolder {
-		private static final ConverterRepository INSTANCE = new ConverterRepository();
-		
-		private LazyHolder() {};
-	}
-
-
+    @Deprecated
     public static ConverterRepository getInstance() {
-        return LazyHolder.INSTANCE;
+        return ConverterRepository.instance;
     }
 
-    private final Map<ConverterKeyType, Converter<?, ?>> converter = new HashMap<ConverterKeyType, Converter<?, ?>>(0);
+    private final Map<ConverterKeyType, Converter<?, ?>> converter = new HashMap<>(0);
 
     private ConverterRepository() {
         super(Converter.class, false);
         load(false);
+        ConverterRepository.instance = this;
     }
 
     @Override
@@ -75,7 +71,7 @@ public class ConverterRepository extends AbstractConfiguringServiceLoaderReposit
     /**
      * Get all namespaces for which a converter is available to convert from
      * requested format to default format
-     * 
+     *
      * @param toNamespace
      *            Requested format
      * @return Swt with all possible formats
@@ -93,7 +89,7 @@ public class ConverterRepository extends AbstractConfiguringServiceLoaderReposit
     /**
      * Checks if a converter is available to convert the stored object from the
      * default format to the requested format
-     * 
+     *
      * @param fromNamespace
      *            Default format
      * @param toNamespace

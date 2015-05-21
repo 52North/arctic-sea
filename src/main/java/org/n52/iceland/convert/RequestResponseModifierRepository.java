@@ -25,27 +25,27 @@ import java.util.Set;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 
 @SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository extends
 		AbstractConfiguringServiceLoaderRepository<RequestResponseModifier> {
 
+    @Deprecated
 	private static RequestResponseModifierRepository instance;
 
-	private final Map<RequestResponseModifierKeyType, List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>> requestResponseModifier = new HashMap<RequestResponseModifierKeyType, List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>>(
-			0);
+	private final Map<RequestResponseModifierKeyType, List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>> requestResponseModifier = new HashMap<>();
 
+
+    @Deprecated
 	public static RequestResponseModifierRepository getInstance() {
-		if (instance == null) {
-			instance = new RequestResponseModifierRepository();
-		}
-		return instance;
+		return RequestResponseModifierRepository.instance;
 	}
 
 	public RequestResponseModifierRepository() {
 		super(RequestResponseModifier.class, false);
 		load(false);
+        RequestResponseModifierRepository.instance = this;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -60,7 +60,7 @@ public class RequestResponseModifierRepository extends
 				List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> list = this.requestResponseModifier
 						.get(modifierKeyType);
 				if (list == null) {
-					list = new ArrayList<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>();
+					list = new ArrayList<>();
 					this.requestResponseModifier.put(modifierKeyType, list);
 				}
 				list.add(aModifier);
@@ -68,20 +68,15 @@ public class RequestResponseModifierRepository extends
 		}
 	}
 
-	public List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(
-			AbstractServiceRequest request) {
-		return getRequestResponseModifier(new RequestResponseModifierKeyType(
-				request.getService(), request.getVersion(), request));
+	public List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(AbstractServiceRequest request) {
+		return getRequestResponseModifier(new RequestResponseModifierKeyType(request.getService(), request.getVersion(), request));
 	}
 
-	public List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(
-			AbstractServiceRequest request, AbstractServiceResponse response) {
-		return getRequestResponseModifier(new RequestResponseModifierKeyType(
-				response.getService(), response.getVersion(), request, response));
+	public List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
+		return getRequestResponseModifier(new RequestResponseModifierKeyType(response.getService(), response.getVersion(), request, response));
 	}
 
-	public <T, F> List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(
-			RequestResponseModifierKeyType key) {
+	public <T, F> List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(RequestResponseModifierKeyType key) {
 		return requestResponseModifier.get(key);
 	}
 
@@ -90,8 +85,7 @@ public class RequestResponseModifierRepository extends
 				request.getService(), request.getVersion(), request));
 	}
 
-	public boolean hasRequestResponseModifier(AbstractServiceRequest request,
-			AbstractServiceResponse response) {
+	public boolean hasRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
 		return hasRequestResponseModifier(new RequestResponseModifierKeyType(
 				request.getService(), request.getVersion(), request, response))
 				&& hasRequestResponseModifier(new RequestResponseModifierKeyType(

@@ -19,7 +19,7 @@ package org.n52.iceland.ds;
 import java.util.Properties;
 
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.Cleanupable;
+import org.n52.iceland.util.lifecycle.Destroyable;
 
 /**
  * Interface for a connection provider that handles the connection to the
@@ -28,7 +28,7 @@ import org.n52.iceland.util.Cleanupable;
  * 
  * @since 4.0.0
  */
-public interface ConnectionProvider extends Cleanupable, ConnectionProviderIdentificator {
+public interface ConnectionProvider extends Destroyable, ConnectionProviderIdentificator {
 
     /**
      * Get a data source connection

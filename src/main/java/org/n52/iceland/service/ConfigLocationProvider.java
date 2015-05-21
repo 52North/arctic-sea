@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.service;
+
+import javax.inject.Provider;
+
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
- * 
+ * TODO JavaDoc
+ * @author Christian Autermann
  */
-public interface Cleanupable {
-    void cleanup();
-}
+public interface ConfigLocationProvider extends Provider<String> {}

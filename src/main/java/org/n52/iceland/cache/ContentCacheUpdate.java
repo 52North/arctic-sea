@@ -17,7 +17,7 @@
 package org.n52.iceland.cache;
 
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
-import org.n52.iceland.util.Action;
+import org.n52.iceland.util.action.Action;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>

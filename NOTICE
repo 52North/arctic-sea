@@ -23,6 +23,7 @@ This project includes:
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Javassist under MPL 1.1 or LGPL 2.1 or Apache License 2.0
+  javax.inject under The Apache Software License, Version 2.0
   Joda-Time under Apache 2
   JTS Topology Suite under Lesser General Public License (LGPL)
   JUnit under Eclipse Public License 1.0

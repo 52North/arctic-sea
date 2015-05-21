@@ -24,8 +24,15 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
@@ -37,8 +44,6 @@ import org.n52.iceland.util.http.HTTPMethods;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The servlet of the Service which receives the incoming HttpPost and HttpGet
@@ -47,25 +52,18 @@ import org.slf4j.LoggerFactory;
  *
  * @since 4.0.0
  */
-public class Service extends ConfiguratedHttpServlet {
+@Controller
+@RequestMapping("/service")
+public class Service extends HttpServlet {
     private static final long serialVersionUID = -2103692310137045855L;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
 
     public static final String BINDING_DELETE_METHOD = "doDeleteOperation";
-
     public static final String BINDING_PUT_METHOD = "doPutOperation";
-
     public static final String BINDING_POST_METHOD = "doPostOperation";
-
     public static final String BINDING_GET_METHOD = "doGetOperation";
 
     private static final AtomicLong counter = new AtomicLong(0);
-
-    @Override
-    public void init() throws ServletException {
-        LOGGER.info("SOS endpoint initalized successfully!");
-    }
 
     protected HttpServletRequest logRequest(HttpServletRequest request, long count) {
         if (LOGGER.isDebugEnabled()) {
@@ -88,8 +86,14 @@ public class Service extends ConfiguratedHttpServlet {
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    @Deprecated
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        delete(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         long start = System.currentTimeMillis();
         long currentCount = counter.incrementAndGet();
         logRequest(request, currentCount);
@@ -102,9 +106,16 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        get(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public void get(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         long start = System.currentTimeMillis();
         long currentCount = counter.incrementAndGet();
         logRequest(request, currentCount);
@@ -117,9 +128,16 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        post(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public void post(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         long start = System.currentTimeMillis();
         long currentCount = counter.incrementAndGet();
         logRequest(request, currentCount);
@@ -132,9 +150,16 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        put(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void put(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         long start = System.currentTimeMillis();
         long currentCount = counter.incrementAndGet();
         logRequest(request, currentCount);
@@ -147,24 +172,26 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        options(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    private void options(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws IOException, ServletException {
         long start = System.currentTimeMillis();
         long currentCount = counter.incrementAndGet();
         logRequest(request, currentCount);
         Binding binding = null;
         try {
-
             binding = getBinding(request);
             binding.doOptionsOperation(request, response);
         } catch (HTTPException exception) {
-            if (exception.getStatus() == HTTPStatus.METHOD_NOT_ALLOWED) {
-                if (binding != null) {
-                    doDefaultOptions(binding, request, response);
-                } else {
-                    super.doOptions(request, response);
-                }
+            if (exception.getStatus() == HTTPStatus.METHOD_NOT_ALLOWED && binding != null) {
+                doDefaultOptions(binding, request, response);
             } else {
                 onHttpException(request, response, exception);
             }
@@ -272,7 +299,7 @@ public class Service extends ConfiguratedHttpServlet {
 
     private Set<String> getDeclaredBindingMethods(Class<?> c) {
         if (c.equals(Binding.class)) {
-            return new HashSet<String>();
+            return new HashSet<>();
         } else {
             Set<String> parent = getDeclaredBindingMethods(c.getSuperclass());
             for (Method m : c.getDeclaredMethods()) {

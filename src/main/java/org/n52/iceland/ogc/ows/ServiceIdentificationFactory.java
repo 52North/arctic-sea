@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
@@ -44,30 +46,28 @@ import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
 import org.n52.iceland.util.XmlHelper;
+import org.n52.iceland.util.lifecycle.Constructable;
 
 import com.google.common.collect.Sets;
 
 @Configurable
-public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServiceIdentification> {
+public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServiceIdentification> implements Constructable {
 
     private File file;
-
     private String[] keywords;
-
     private MultilingualString title;
-
     private MultilingualString abstrakt;
-
     private String serviceType;
-
     private String serviceTypeCodeSpace;
-
     private String fees;
-
     private String[] constraints;
 
-    public ServiceIdentificationFactory() throws ConfigurationException {
-        SettingsManager.getInstance().configure(this);
+    @Inject
+    private SettingsManager settingsManager;
+
+    @Override
+    public void init() {
+        this.settingsManager.configure(this);
     }
 
     @Setting(FILE)

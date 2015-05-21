@@ -14,32 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.action;
 
-import java.text.DecimalFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * @param <A>
  * @author Christian Autermann <c.autermann@52north.org>
+ * @author Shane StClair <shane@axiomalaska.com>
  * @since 4.0.0
  * 
  */
-public abstract class RunnableAction implements Action, Runnable {
-    private Long startTimeMillis;
-    private final DecimalFormat stopwatchFormat = new DecimalFormat("#.###");
+public abstract class CompositeSerialAction<A extends Action> extends CompositeAction<A> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CompositeSerialAction.class);
 
-    public void startStopwatch() {
-        startTimeMillis = System.currentTimeMillis();
+    public CompositeSerialAction(A... actions) {
+        super(actions);
     }
 
-    public String getStopwatchResult() {
-        if (startTimeMillis == null) {
-            return "stopwatch not initialized";
-        }
-        return stopwatchFormat.format((System.currentTimeMillis() - startTimeMillis) / 1000.0) + " s";
-    }
-    
     @Override
-    public void run() {
-        execute();
+    public void execute() {
+        if (getActions() != null) {
+            for (A action : getActions()) {
+                pre(action);
+                LOGGER.debug("Running {}.", action);                
+                action.execute();
+                post(action);
+            }
+        }
     }
 }

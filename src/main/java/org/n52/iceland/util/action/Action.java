@@ -14,22 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
-
-import java.io.Serializable;
-import java.util.List;
+package org.n52.iceland.util.action;
 
 /**
- * Interface for {@link List} based {@link MultiMap}s.
- * 
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
+ * This is an &Auml;ction, that can be executed.
  * 
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  * 
+ * @see <a href=
+ *      "http://www.sfgate.com/politics/article/THE-CALIFORNIA-TRANSITION-Incoming-governor-s-2581330.php"
+ *      >[...]Incoming governor's mantra: 'Action'[...]</a>
  */
-public interface ListMultiMap<K, V> extends MultiMap<K, V, List<V>>, Serializable {
+public interface Action {
+    void execute();
 }

@@ -14,50 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.collections;
 
-import org.n52.iceland.util.collections.AbstractMultiHashMap;
-import org.n52.iceland.util.collections.SetMultiMap;
-
-import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 /**
- * 
- * Implementation based on {@link HashSet}s and a {@link HashMap}.
+ * Implementation based on synchonized {@link LinkedList}s and a synchronized
+ * {@link HashMap}.
  * 
  * @param <K>
+ *            the key type
  * @param <V>
+ *            the value type
  * 
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  * 
  */
-public class HashSetMultiMap<K, V> extends AbstractMultiHashMap<K, V, Set<V>> implements SetMultiMap<K, V>,
-        Serializable {
-    private static final long serialVersionUID = 7628009915817528370L;
+public class SynchronizedListMultiMap<K, V> extends AbstractSynchronizedMultiMap<K, V, List<V>> implements
+        ListMultiMap<K, V> {
+    private static final long serialVersionUID = 5212730580728827254L;
 
-    public HashSetMultiMap(Map<? extends K, ? extends Set<V>> m) {
+    public SynchronizedListMultiMap(Map<? extends K, ? extends List<V>> m) {
         super(m);
     }
 
-    public HashSetMultiMap(int initialCapacity) {
+    public SynchronizedListMultiMap(int initialCapacity) {
         super(initialCapacity);
     }
 
-    public HashSetMultiMap(int initialCapacity, float loadFactor) {
+    public SynchronizedListMultiMap(int initialCapacity, float loadFactor) {
         super(initialCapacity, loadFactor);
     }
 
-    public HashSetMultiMap() {
+    public SynchronizedListMultiMap() {
         super();
     }
 
     @Override
-    protected Set<V> newCollection() {
-        return new HashSet<V>();
+    protected List<V> newCollection() {
+        return Collections.synchronizedList(new LinkedList<V>());
     }
 }

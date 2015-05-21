@@ -16,24 +16,24 @@
  */
 package org.n52.iceland.service;
 
-import static org.n52.iceland.util.ConfiguringSingletonServiceLoader.loadAndConfigure;
+import static org.n52.iceland.util.repository.ConfiguringSingletonServiceLoader.loadAndConfigure;
 
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCacheController;
-import org.n52.iceland.coding.CodingRepository;
-import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.convert.ConverterRepository;
-import org.n52.iceland.convert.RequestResponseModifierRepository;
 import org.n52.iceland.ds.CacheFeederHandlerRepository;
 import org.n52.iceland.ds.ConnectionProvider;
 import org.n52.iceland.ds.ConnectionProviderIdentificator;
@@ -49,18 +49,14 @@ import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesRepository;
 import org.n52.iceland.ogc.ows.OwsServiceIdentification;
 import org.n52.iceland.ogc.ows.OwsServiceProvider;
 import org.n52.iceland.ogc.ows.ServiceIdentificationFactory;
 import org.n52.iceland.ogc.ows.ServiceProviderFactory;
-import org.n52.iceland.ogc.sos.CapabilitiesExtensionRepository;
-import org.n52.iceland.ogc.swes.OfferingExtensionRepository;
-import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.util.Cleanupable;
-import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
+import org.n52.iceland.util.repository.ConfiguringSingletonServiceLoader;
 import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.lifecycle.Constructable;
+import org.n52.iceland.util.lifecycle.Destroyable;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -71,168 +67,47 @@ import com.google.common.collect.Sets;
  *
  * @since 4.0.0
  */
-public class Configurator implements Cleanupable {
+public class Configurator implements Constructable, Destroyable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Configurator.class);
 
     /**
      * instance attribute, due to the singleton pattern.
      */
     private static Configurator instance = null;
-
-    private static final Lock INIT_LOCK = new ReentrantLock();
-
-    /**
-     * @return Returns the instance of the Configurator. <tt>null</tt> will be
-     *         returned if the parameterized
-     *         {@link #createInstance(Properties, String)} method was not
-     *         invoked before. Usually this will be done in the SOS.
-     *         <p/>
-     * @see Configurator#createInstance(Properties, String)
-     */
-    public static Configurator getInstance() {
-        INIT_LOCK.lock();
-        try {
-            return instance;
-        } finally {
-            INIT_LOCK.unlock();
-        }
-    }
-
-    /**
-     * @param connectionProviderConfig
-     * @param basepath
-     * @return Returns an instance of the SosConfigurator. This method is used
-     *         to implement the singelton pattern
-     *
-     * @throws ConfigurationException
-     *             if the initialization failed
-     */
-    public static Configurator createInstance(final Properties connectionProviderConfig, final String basepath)
-            throws ConfigurationException {
-        if (instance == null) {
-            boolean initialize = false;
-            INIT_LOCK.lock();
-            try {
-                if (instance == null) {
-                    try {
-                        instance = new Configurator(connectionProviderConfig, basepath);
-                        initialize = true;
-                    } catch (final RuntimeException t) {
-                        cleanUpAndThrow(t);
-                    } catch (final ConfigurationException t) {
-                        cleanUpAndThrow(t);
-                    }
-                }
-            } finally {
-                INIT_LOCK.unlock();
-            }
-            if (initialize) {
-                try {
-                    instance.initialize();
-                } catch (final RuntimeException t) {
-                    cleanUpAndThrow(t);
-                } catch (final ConfigurationException t) {
-                    cleanUpAndThrow(t);
-                }
-            }
-        }
-        return instance;
-    }
-
-    private static void cleanUpAndThrow(final ConfigurationException t) throws ConfigurationException {
-        if (instance != null) {
-            instance.cleanup();
-            instance = null;
-        }
-        throw t;
-    }
-
-    private static void cleanUpAndThrow(final RuntimeException t) {
-        if (instance != null) {
-            instance.cleanup();
-            instance = null;
-        }
-        throw t;
-    }
-
-    private static void cleanup(final Cleanupable c) {
-        if (c != null) {
-            c.cleanup();
-        }
-    }
-
-    protected static <T> T get(final Producer<T> factory) throws OwsExceptionReport {
-        try {
-            return factory.get();
-        } catch (final Exception e) {
-            if (e.getCause() != null && e.getCause() instanceof OwsExceptionReport) {
-                throw (OwsExceptionReport) e.getCause();
-            } else {
-                throw new NoApplicableCodeException().withMessage("Could not request object from %s", factory).causedBy(e);
-            }
-        }
-    }
-
-    protected static <T> T get(final Producer<T> factory, Locale language) throws OwsExceptionReport {
-        try {
-            return factory.get(language);
-        } catch (final Exception e) {
-            if (e.getCause() != null && e.getCause() instanceof OwsExceptionReport) {
-                throw (OwsExceptionReport) e.getCause();
-            } else {
-                throw new NoApplicableCodeException().withMessage("Could not request object from %s", factory);
-            }
-        }
-    }
+    @Inject
+    private ServletContext servletContext;
 
     /**
      * base path for configuration files.
      */
-    private final String basepath;
-
-    private final Properties dataConnectionProviderProperties;
-
+    @Deprecated
+    private String basepath;
+    private Properties dataConnectionProviderProperties;
     private Properties featureConnectionProviderProperties;
-
     private FeatureQueryHandler featureQueryHandler;
-
     private ConnectionProvider dataConnectionProvider;
-
     private ConnectionProvider featureConnectionProvider;
-
     private ContentCacheController contentCacheController;
-
     @Deprecated
-    private Producer<OwsServiceIdentification> serviceIdentificationFactory;
-
+    @Inject
+    private ServiceIdentificationFactory serviceIdentificationFactory;
     @Deprecated
-    private Producer<OwsServiceProvider> serviceProviderFactory;
-
+    @Inject
+    private ServiceProviderFactory serviceProviderFactory;
     private Set<String> providedJdbcDrivers = Sets.newHashSet();
-
     private String connectionProviderIdentificator;
-
     private String datasourceDaoIdentificator;
 
-    /**
-     * private constructor due to the singelton pattern.
-     *
-     * @param connectionProviderConfig
-     *            Connection provider configuration properties
-     * @param basepath
-     *            base path for this service
-     * @throws ConfigurationException
-     *             If an error occurs during initialisation
-     */
-    private Configurator(final Properties connectionProviderConfig, final String basepath)
-            throws ConfigurationException {
-        if (basepath == null) {
-            logAndThrowConfigurationException("No basepath available!");
-        }
-        if (connectionProviderConfig == null) {
-            logAndThrowConfigurationException("No connection provider configuration available!");
-        }
-        this.basepath = basepath;
+
+    public Configurator() {
+        // ugly hack for singleton access
+        Configurator.instance = this;
+    }
+
+    @Override
+    public void init() throws ConfigurationException {
+        Properties connectionProviderConfig = DatabaseSettingsHandler.getInstance(this.servletContext).getAll();
+        this.basepath = this.servletContext.getRealPath("/");
         dataConnectionProviderProperties = connectionProviderConfig;
         getIdentificators(dataConnectionProviderProperties);
         if (Strings.isNullOrEmpty(connectionProviderIdentificator)) {
@@ -242,6 +117,7 @@ public class Configurator implements Cleanupable {
             logAndThrowConfigurationException("No datasource DAO identificator available!");
         }
         LOGGER.info("Configurator initialized: [basepath={}]", this.basepath, dataConnectionProviderProperties);
+        this.initialize();
     }
 
     /**
@@ -252,7 +128,7 @@ public class Configurator implements Cleanupable {
      * @param dataConnectionProviderProperties
      *            Datasource properties
      */
-    private void getIdentificators(Properties dataConnectionProviderProperties2) {
+    private void getIdentificators(Properties dataConnectionProviderProperties) {
         String className = dataConnectionProviderProperties.getProperty(Datasource.class.getCanonicalName());
         if (className == null) {
             LOGGER.error("Can not find datasource class in datasource.properties!");
@@ -288,7 +164,6 @@ public class Configurator implements Cleanupable {
     private void initialize() throws ConfigurationException {
         LOGGER.info("\n******\n Configurator initialization started\n******\n");
 
-        SettingsManager.getInstance();
         ServiceConfiguration.getInstance();
 
         initializeConnectionProviders();
@@ -297,16 +172,7 @@ public class Configurator implements Cleanupable {
         serviceIdentificationFactory = new ServiceIdentificationFactory();
         serviceProviderFactory = new ServiceProviderFactory();
         OperationHandlerRepository.createInstance(getDatasourceDaoIdentificator());
-        ServiceOperatorRepository.getInstance();
-        CodingRepository.getInstance();
         featureQueryHandler = loadAndConfigure(FeatureQueryHandler.class, false, getDatasourceDaoIdentificator());
-        ConverterRepository.getInstance();
-        RequestResponseModifierRepository.getInstance();
-        RequestOperatorRepository.getInstance();
-        BindingRepository.getInstance();
-        CapabilitiesExtensionRepository.getInstance();
-        OwsExtendedCapabilitiesRepository.getInstance();
-        OfferingExtensionRepository.getInstance();
         contentCacheController = loadAndConfigure(ContentCacheController.class, false);
 
         ServiceEventBus.fire(new ConfiguratorInitializedEvent());
@@ -351,6 +217,7 @@ public class Configurator implements Cleanupable {
     /**
      * @return the base path for configuration files
      */
+    @Deprecated
     public String getBasePath() {
         return basepath;
     }
@@ -358,6 +225,7 @@ public class Configurator implements Cleanupable {
     /**
      * @return the current contentCacheController
      */
+    @Deprecated
     public ContentCache getCache() {
         return getCacheController().getCache();
     }
@@ -365,6 +233,7 @@ public class Configurator implements Cleanupable {
     /**
      * @return the current contentCacheController
      */
+    @Deprecated
     public ContentCacheController getCacheController() {
         return contentCacheController;
     }
@@ -372,6 +241,7 @@ public class Configurator implements Cleanupable {
     /**
      * @return the implemented data connection provider
      */
+    @Deprecated
     public ConnectionProvider getDataConnectionProvider() {
         return dataConnectionProvider;
     }
@@ -379,6 +249,7 @@ public class Configurator implements Cleanupable {
     /**
      * @return the implemented feature connection provider
      */
+    @Deprecated
     public ConnectionProvider getFeatureConnectionProvider() {
         return featureConnectionProvider;
     }
@@ -386,6 +257,7 @@ public class Configurator implements Cleanupable {
     /**
      * @return the implemented feature query handler
      */
+    @Deprecated
     public FeatureQueryHandler getFeatureQueryHandler() {
         return featureQueryHandler;
     }
@@ -408,9 +280,9 @@ public class Configurator implements Cleanupable {
                         IFeatureConnectionProvider.class, false, getConnectionProviderIdentificator());
         dataConnectionProvider.initialize(dataConnectionProviderProperties);
         if (featureConnectionProvider != null) {
-            featureConnectionProvider
-                    .initialize(featureConnectionProviderProperties != null ? featureConnectionProviderProperties
-                            : dataConnectionProviderProperties);
+            featureConnectionProvider.initialize(featureConnectionProviderProperties != null
+                                                 ? featureConnectionProviderProperties
+                                                 : dataConnectionProviderProperties);
         } else {
             featureConnectionProvider = dataConnectionProvider;
         }
@@ -423,8 +295,7 @@ public class Configurator implements Cleanupable {
         if (!dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC)
                 || (dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC) &&
                     dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.PROVIDED_JDBC).equals("true"))) {
-            addProvidedJdbcDriver(dataConnectionProviderProperties
-                    .getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
+            addProvidedJdbcDriver(dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
         }
     }
 
@@ -432,16 +303,40 @@ public class Configurator implements Cleanupable {
      * Eventually cleanup everything created by the constructor
      */
     @Override
-    public synchronized void cleanup() {
+    public synchronized void destroy() {
         cleanup(dataConnectionProvider);
         cleanup(featureConnectionProvider);
-        cleanup(contentCacheController);
+        cleanupDrivers(getProvidedJdbcDriver());
         instance = null;
+    }
+
+
+    protected void cleanupDrivers(Set<String> providedJdbcDriver) {
+        if (ServiceConfiguration.getInstance().isDeregisterJdbcDriver()) {
+            LOGGER.debug("Deregistering JDBC driver is enabled!");
+            Enumeration<Driver> drivers = DriverManager.getDrivers();
+            while (drivers.hasMoreElements()) {
+                Driver driver = drivers.nextElement();
+                if (!providedJdbcDriver.contains(driver.getClass().getName())) {
+                    try {
+                        DriverManager.deregisterDriver(driver);
+                        LOGGER.info("Deregistering JDBC driver: {}", driver);
+                    } catch (SQLException e) {
+                        LOGGER.error("Error deregistering driver " + driver, e);
+                    }
+                } else {
+                    LOGGER.debug("JDBC driver {} is marked to do not deregister", driver);
+                }
+            }
+        } else {
+            LOGGER.debug("Deregistering of JDBC driver(s) is disabled!");
+        }
     }
 
     /**
      * @return the connectionProviderIdentificator
      */
+    @Deprecated
     public String getConnectionProviderIdentificator() {
         return connectionProviderIdentificator;
     }
@@ -449,7 +344,71 @@ public class Configurator implements Cleanupable {
     /**
      * @return the datasourceDaoIdentificator
      */
+    @Deprecated
     public String getDatasourceDaoIdentificator() {
         return datasourceDaoIdentificator;
+    }
+
+    /**
+     * @return Returns the instance of the Configurator. <tt>null</tt> will be
+     *         returned if the parameterized
+     *         {@link #createInstance(Properties, String)} method was not
+     *         invoked before. Usually this will be done in the SOS.
+     *         <p/>
+     * @see Configurator#createInstance(Properties, String)
+     */
+    @Deprecated
+    public static Configurator getInstance() {
+        return instance;
+    }
+
+    /**
+     * @param connectionProviderConfig
+     * @param basepath
+     * @return Returns an instance of the SosConfigurator. This method is used
+     *         to implement the singelton pattern
+     *
+     * @throws ConfigurationException
+     *             if the initialization failed
+     */
+    @Deprecated
+    public static Configurator createInstance(
+            final Properties connectionProviderConfig,
+                                              final String basepath)
+            throws ConfigurationException {
+        return instance;
+    }
+
+    private static void cleanup(final Destroyable c) {
+        if (c != null) {
+            c.destroy();
+        }
+    }
+
+    protected static <T> T get(final Producer<T> factory)
+            throws OwsExceptionReport {
+        try {
+            return factory.get();
+        } catch (final Exception e) {
+            if (e.getCause() != null && e.getCause() instanceof OwsExceptionReport) {
+                throw (OwsExceptionReport) e.getCause();
+            } else {
+                throw new NoApplicableCodeException().withMessage("Could not request object from %s", factory).causedBy(e);
+            }
+        }
+    }
+
+    protected static <T> T get(final Producer<T> factory,
+                               Locale language)
+            throws OwsExceptionReport {
+        try {
+            return factory.get(language);
+        } catch (final Exception e) {
+            if (e.getCause() != null && e.getCause() instanceof OwsExceptionReport) {
+                throw (OwsExceptionReport) e.getCause();
+            } else {
+                throw new NoApplicableCodeException().withMessage("Could not request object from %s", factory);
+            }
+        }
     }
 }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.repository;
 
 import java.util.Iterator;
 import java.util.Locale;
@@ -24,6 +24,8 @@ import java.util.ServiceLoader;
 import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DatasourceDaoIdentifier;
 import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.util.Producer;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

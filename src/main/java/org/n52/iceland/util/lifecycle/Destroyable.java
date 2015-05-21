@@ -14,18 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.lifecycle;
+
+import javax.annotation.PreDestroy;
 
 /**
- * This is an &Auml;ction, that can be executed.
- * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
- * 
- * @see <a href=
- *      "http://www.sfgate.com/politics/article/THE-CALIFORNIA-TRANSITION-Incoming-governor-s-2581330.php"
- *      >[...]Incoming governor's mantra: 'Action'[...]</a>
+ * @since 5.0.0
  */
-public interface Action {
-    void execute();
+public interface Destroyable {
+    @PreDestroy
+    void destroy();
 }

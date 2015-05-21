@@ -21,16 +21,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.CollectionHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -38,70 +41,60 @@ import com.google.common.collect.Sets;
 /**
  * Repository for {@link OwsExtendedCapabilities}. Loads all implemented
  * {@link OwsExtendedCapabilitiesProvider} and adds to this repository.
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
-public class OwsExtendedCapabilitiesRepository extends
-        AbstractConfiguringServiceLoaderRepository<OwsExtendedCapabilitiesProvider> {
-
+public class OwsExtendedCapabilitiesRepository
+    extends AbstractConfiguringServiceLoaderRepository<OwsExtendedCapabilitiesProvider> {
+    @Deprecated
+    private static OwsExtendedCapabilitiesRepository instance;
     private static final Logger LOGGER = LoggerFactory.getLogger(OwsExtendedCapabilitiesRepository.class);
 
-    /**
-     * Lazy holder class for the {@link OwsExtendedCapabilitiesRepository}
-     * 
-     * @author Carsten Hollmann <c.hollmann@52north.org>
-     * @since 4.1.0
-     * 
-     */
-    private static class LazyHolder {
-        private static final OwsExtendedCapabilitiesRepository INSTANCE = new OwsExtendedCapabilitiesRepository();
+    private final Map<OwsExtendedCapabilitiesKey, Activatable<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProvider = new HashMap<>();
 
-        private LazyHolder() {
-        };
-    }
-
-    private final Map<OwsExtendedCapabilitiesKey, Activatable<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProvider =
-            new HashMap<OwsExtendedCapabilitiesKey, Activatable<OwsExtendedCapabilitiesProvider>>(0);
+    @Inject
+    private SettingsManager settingsManager;
 
     /**
      * For singleton use
-     * 
+     *
      * @return The single instance
      */
+    @Deprecated
     public static OwsExtendedCapabilitiesRepository getInstance() {
-        return LazyHolder.INSTANCE;
+        return OwsExtendedCapabilitiesRepository.instance;
     }
 
     /**
      * Load implemented {@link OwsExtendedCapabilities}
-     * 
+     *
      * @throws ConfigurationException
      *             If no Capabilities extension providerr is implemented
      */
     private OwsExtendedCapabilitiesRepository() throws ConfigurationException {
         super(OwsExtendedCapabilitiesProvider.class, false);
         load(false);
+        OwsExtendedCapabilitiesRepository.instance = this;
     }
 
     @Override
     protected void processConfiguredImplementations(
             final Set<OwsExtendedCapabilitiesProvider> extendedCapabilitiesProviders) throws ConfigurationException {
         this.extendedCapabilitiesProvider.clear();
-        final SettingsManager sm = SettingsManager.getInstance();
         Set<ServiceOperatorKey> activeSokts = Sets.newHashSet();
         for (final OwsExtendedCapabilitiesProvider ecp : extendedCapabilitiesProviders) {
             for (OwsExtendedCapabilitiesKey key : ecp.getExtendedCapabilitiesKeyType()) {
                 try {
                     LOGGER.info("Registered OwsExtendedCapabilitiesProvider for {}", key);
-                    if (sm.isActive(key)) {
+                    if (this.settingsManager.isActive(key)) {
                         if (activeSokts.contains(key.getServiceOperatorKey())) {
-                            sm.setActive(key, false, false);
+                            this.settingsManager.setActive(key, false, false);
                         } else {
                             activeSokts.add(key.getServiceOperatorKey());
                         }
                     }
-                    this.extendedCapabilitiesProvider.put(key, Activatable.from(ecp, sm.isActive(key)));
+                    this.extendedCapabilitiesProvider.put(key, Activatable.from(ecp, this.settingsManager.isActive(key)));
                 } catch (final ConnectionProviderException ex) {
                     throw new ConfigurationException("Could not check status of Binding", ex);
                 }
@@ -112,7 +105,7 @@ public class OwsExtendedCapabilitiesRepository extends
     /**
      * Get map of all, active and inactive,
      * {@link OwsExtendedCapabilitiesProvider}s
-     * 
+     *
      * @return the map with all {@link OwsExtendedCapabilitiesProvider}s
      */
     public Map<OwsExtendedCapabilitiesKey, OwsExtendedCapabilitiesProvider> getAllExtendedCapabilitiesProviders() {
@@ -121,7 +114,7 @@ public class OwsExtendedCapabilitiesRepository extends
 
     /**
      * Get map of all active {@link OwsExtendedCapabilitiesProvider}s
-     * 
+     *
      * @return the map with all active {@link OwsExtendedCapabilitiesProvider}s
      */
     public Map<OwsExtendedCapabilitiesKey, OwsExtendedCapabilitiesProvider> getExtendedCapabilitiesProviders() {
@@ -131,7 +124,7 @@ public class OwsExtendedCapabilitiesRepository extends
     /**
      * Get the loaded {@link OwsExtendedCapabilitiesProvider} implementation for
      * the specific service and version
-     * 
+     *
      * @param serviceCommunicationObject
      *            The {@link AbstractServiceCommunicationObject} with service
      *            and version
@@ -153,7 +146,7 @@ public class OwsExtendedCapabilitiesRepository extends
     /**
      * Get the loaded {@link OwsExtendedCapabilitiesProvider} implementation for
      * the specific {@link OwsExtendedCapabilitiesKey}
-     * 
+     *
      * @param key
      *            The related {@link OwsExtendedCapabilitiesKey}
      * @return loaded {@link OwsExtendedCapabilitiesProvider} implementation
@@ -167,7 +160,7 @@ public class OwsExtendedCapabilitiesRepository extends
     /**
      * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
      * loaded for the specific {@link AbstractServiceCommunicationObject}
-     * 
+     *
      * @param serviceCommunicationObject
      *            The {@link AbstractServiceCommunicationObject} with service
      *            and version
@@ -191,7 +184,7 @@ public class OwsExtendedCapabilitiesRepository extends
     /**
      * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
      * loaded for the specific {@link OwsExtendedCapabilitiesKey}
-     * 
+     *
      * @param key
      *            The related {@link OwsExtendedCapabilitiesKey} to check for
      * @return <code>true</code>, if a {@link OwsExtendedCapabilitiesProvider}
@@ -205,7 +198,7 @@ public class OwsExtendedCapabilitiesRepository extends
     /**
      * Change the status of the {@link OwsExtendedCapabilitiesProvider} which
      * relates to the requested {@link OwsExtendedCapabilitiesKey}
-     * 
+     *
      * @param oeckt
      *            the {@link OwsExtendedCapabilitiesKey} to change the status
      *            for
@@ -227,7 +220,7 @@ public class OwsExtendedCapabilitiesRepository extends
 
     /**
      * Get map with {@link ServiceOperatorKey} and linked domain values
-     * 
+     *
      * @return the map with {@link ServiceOperatorKey} and linked domain values
      */
     public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
@@ -240,7 +233,7 @@ public class OwsExtendedCapabilitiesRepository extends
 
     /**
      * Get all domain values from {@link OwsExtendedCapabilitiesKey}
-     * 
+     *
      * @return the domain values
      */
     private Set<String> getDomains() {

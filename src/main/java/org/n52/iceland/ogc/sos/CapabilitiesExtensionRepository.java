@@ -20,33 +20,34 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.CollectionHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
  * Repository for {@link CapabilitiesExtension} implementations
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
 public class CapabilitiesExtensionRepository extends
         AbstractConfiguringServiceLoaderRepository<CapabilitiesExtensionProvider> {
     private static final Logger LOG = LoggerFactory.getLogger(CapabilitiesExtensionRepository.class);
-
-    private static class LazyHolder {
-		private static final CapabilitiesExtensionRepository INSTANCE = new CapabilitiesExtensionRepository();
-		
-		private LazyHolder() {};
-	}
+    @Deprecated
+    private static CapabilitiesExtensionRepository instance;
+    @Inject
+    private RequestOperatorRepository requestOperatorRepository;
 
 
     /**
@@ -54,13 +55,14 @@ public class CapabilitiesExtensionRepository extends
      */
     private final Map<CapabilitiesExtensionKey, List<CapabilitiesExtensionProvider>> providers = Maps.newHashMap();
 
+    @Deprecated
     public static CapabilitiesExtensionRepository getInstance() {
-        return LazyHolder.INSTANCE;
+        return CapabilitiesExtensionRepository.instance;
     }
 
     /**
      * Load implemented Capabilities extension provider
-     * 
+     *
      * @throws ConfigurationException
      *             If no Capabilities extension provider is implemented
      */
@@ -72,7 +74,7 @@ public class CapabilitiesExtensionRepository extends
     /**
      * Load the implemented Capabilities extension provider and add them to a
      * map with operation name as key
-     * 
+     *
      * @param implementations
      *            the loaded implementations
      */
@@ -100,14 +102,14 @@ public class CapabilitiesExtensionRepository extends
     /**
      * Get the implemented {@link CapabilitiesExtensionProvider} for service and
      * version
-     * 
+     *
      * @param service
      *            Specific service
      * @param version
      *            Specific version
-     * 
+     *
      * @return the implemented Capabilities extension provider
-     * 
+     *
      * @throws OwsExceptionReport
      */
     public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(final String service, final String version)
@@ -117,10 +119,10 @@ public class CapabilitiesExtensionRepository extends
 
     /**
      * Get all valid {@link CapabilitiesExtensionProvider}
-     * 
+     *
      * @param list
      *            Loaded CapabilitiesExtensionProvider
-     * 
+     *
      * @return Valid CapabilitiesExtensionProvider
      */
     private List<CapabilitiesExtensionProvider> getAllValidCapabilitiesExtensionProvider(
@@ -142,7 +144,7 @@ public class CapabilitiesExtensionRepository extends
 
     /**
      * Add a loaded {@link CapabilitiesExtensionProvider} to the local map
-     * 
+     *
      * @param provider
      *            Loaded CapabilitiesExtensionProvider
      */
@@ -158,15 +160,17 @@ public class CapabilitiesExtensionRepository extends
     /**
      * Check if the related operation for the loaded
      * {@link CapabilitiesExtensionProvider} is active
-     * 
+     *
      * @param cep
      *            CapabilitiesExtensionProvider to check
-     * 
+     *
      * @return <code>true</code>, if related operation is active
      */
     private boolean checkIfRelatedOperationIsActivated(final CapabilitiesExtensionProvider cep) {
         final CapabilitiesExtensionKey cek = cep.getCapabilitiesExtensionKey();
         final RequestOperatorKey rok = new RequestOperatorKey(cek.getService(), cek.getVersion(), cep.getRelatedOperation());
-        return RequestOperatorRepository.getInstance().getActiveRequestOperatorKeys().contains(rok);
+        return requestOperatorRepository.getActiveRequestOperatorKeys().contains(rok);
     }
+
+
 }

@@ -14,23 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.service;
 
-import java.io.Serializable;
-import java.util.Map;
-import java.util.Set;
+import java.io.File;
 
-/**
- * Interface for {@link Set} based {@link MultiMap}s.
- * 
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
- * 
- * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
- * 
- */
-public interface SetMultiMap<K, V> extends MultiMap<K, V, Set<V>>, Map<K, Set<V>>, Serializable {
+import javax.inject.Inject;
+import javax.servlet.ServletContext;
+
+
+
+public class ServletConfigLocationProvider implements ConfigLocationProvider {
+
+    private String path;
+
+    @Override
+    public String get() {
+        return this.path;
+    }
+
+    @Inject
+    public void setServletContext(ServletContext servletContext) {
+        this.path = new File(servletContext.getRealPath("/")).getAbsolutePath();
+    }
+
 }

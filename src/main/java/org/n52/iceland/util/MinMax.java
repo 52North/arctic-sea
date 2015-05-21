@@ -21,12 +21,11 @@ package org.n52.iceland.util;
  *            the type
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
- * 
+ *
  */
 public class MinMax<T> {
 
     private T minimum;
-
     private T maximum;
 
     public MinMax(T minimum, T maximum) {
@@ -39,7 +38,7 @@ public class MinMax<T> {
 
     /**
      * Get the value of minimum
-     * 
+     *
      * @return the value of minimum
      */
     public T getMinimum() {
@@ -48,7 +47,7 @@ public class MinMax<T> {
 
     /**
      * Set the value of minimum
-     * 
+     *
      * @param minimum
      *            new value of minimum
      *            <p/>
@@ -61,7 +60,7 @@ public class MinMax<T> {
 
     /**
      * Get the value of maximum
-     * 
+     *
      * @return the value of maximum
      */
     public T getMaximum() {
@@ -70,7 +69,7 @@ public class MinMax<T> {
 
     /**
      * Set the value of maximum
-     * 
+     *
      * @param maximum
      *            new value of maximum
      *            <p/>

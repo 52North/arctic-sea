@@ -24,7 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Comparables;

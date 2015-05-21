@@ -24,7 +24,6 @@ import java.util.NoSuchElementException;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.Set;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,9 +39,10 @@ import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.service.Configurator;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Comparables;
-import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
+import org.n52.iceland.util.repository.ConfiguringSingletonServiceLoader;
+import org.n52.iceland.util.lifecycle.Destroyable;
 
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
@@ -67,13 +67,15 @@ import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
-public abstract class SettingsManager implements CapabilitiesExtensionManager{
+public abstract class SettingsManager implements Destroyable, CapabilitiesExtensionManager{
 
     private static final Logger LOG = LoggerFactory.getLogger(SettingsManager.class);
 
-    private static final ReentrantLock creationLock = new ReentrantLock();
-
     private static SettingsManager instance;
+
+    public SettingsManager() {
+        SettingsManager.instance = this;
+    }
 
     /**
      * Gets the singleton instance of the SettingsManager.
@@ -84,19 +86,11 @@ public abstract class SettingsManager implements CapabilitiesExtensionManager{
      * @throws ConfigurationException
      *             if no implementation can be found
      */
+    @Deprecated
     public static SettingsManager getInstance() throws ConfigurationException {
-        if (instance == null) {
-            creationLock.lock();
-            try {
-                if (instance == null) {
-                    instance = createInstance();
-                }
-            } finally {
-                creationLock.unlock();
-            }
-        }
-        return instance;
+        return SettingsManager.instance;
     }
+
 
     /**
      * Creates a new {@code SettingsManager} with the {@link ServiceLoader}
@@ -108,6 +102,7 @@ public abstract class SettingsManager implements CapabilitiesExtensionManager{
      * @throws ConfigurationException
      *             if no implementation can be found
      */
+    @Deprecated
     private static SettingsManager createInstance() throws ConfigurationException {
         List<SettingsManager> settingsManagers = new LinkedList<SettingsManager>();
         Iterator<SettingsManager> it = ServiceLoader.load(SettingsManager.class).iterator();
@@ -311,12 +306,6 @@ public abstract class SettingsManager implements CapabilitiesExtensionManager{
      * @throws ConnectionProviderException
      */
     public abstract void deleteAll() throws ConnectionProviderException;
-
-    /**
-     * Clean up this SettingsManager. All subsequent calls to this class are
-     * undefined.
-     */
-    public abstract void cleanup();
 
     /**
      * Returns if a operation is active and should be offered by this SOS.

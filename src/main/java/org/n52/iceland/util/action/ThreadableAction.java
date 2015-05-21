@@ -14,16 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.action;
 
 import java.util.concurrent.CountDownLatch;
 
 /**
  * Makes a RunnableAction optionally threadable (if CountDownLatch is set, it is counted down after execution)
- * 
+ *
  * @author Shane StClair <shane@axiomalaska.com>
  * @since 4.0.0
- * 
+ *
  */
 public abstract class ThreadableAction extends RunnableAction {
     private CountDownLatch parentCountDownLatch;

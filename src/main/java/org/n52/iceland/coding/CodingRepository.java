@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.coding;
 
-import static org.n52.iceland.util.MultiMaps.newSetMultiMap;
+import static org.n52.iceland.util.collections.MultiMaps.newSetMultiMap;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +26,11 @@ import java.util.Map;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.Set;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.decode.Decoder;
@@ -46,10 +51,8 @@ import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.CompositeSimilar;
 import org.n52.iceland.util.ProxySimilarityComparator;
-import org.n52.iceland.util.SetMultiMap;
+import org.n52.iceland.util.collections.SetMultiMap;
 import org.n52.iceland.w3c.SchemaLocation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
@@ -58,53 +61,33 @@ import com.google.common.collect.Sets;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class CodingRepository {
     private static final Logger LOG = LoggerFactory.getLogger(CodingRepository.class);
-
-    private static class LazyHolder {
-		private static final CodingRepository INSTANCE = new CodingRepository();
-		
-		private LazyHolder() {};
-	}
-
-
+    @Deprecated
+    private static CodingRepository instance;
     @SuppressWarnings("rawtypes")
     private final ServiceLoader<Decoder> serviceLoaderDecoder;
-
     @SuppressWarnings("rawtypes")
     private final ServiceLoader<Encoder> serviceLoaderEncoder;
-
     private final Set<Decoder<?, ?>> decoders;
-
     private final Set<Encoder<?, ?>> encoders;
-
     private final SetMultiMap<DecoderKey, Decoder<?, ?>> decoderByKey = newSetMultiMap();
-
     private final SetMultiMap<EncoderKey, Encoder<?, ?>> encoderByKey = newSetMultiMap();
-
     private SetMultiMap<SupportedTypeKey, Activatable<String>> typeMap = newSetMultiMap(SupportedTypeKey.class);
-
     private final Set<ObservationEncoder<?, ?>> observationEncoders = Sets.newHashSet();
-
     private final Map<String, Map<String, Set<String>>> responseFormats = Maps.newHashMap();
-
     private final Map<ResponseFormatKey, Boolean> responseFormatStatus = Maps.newHashMap();
-
     private final Map<String, Set<SchemaLocation>> schemaLocations = Maps.newHashMap();
-
     private final Map<String, Map<String, Set<String>>> procedureDescriptionFormats = Maps.newHashMap();
-
     private final Map<ProcedureDescriptionFormatKey, Boolean> procedureDescriptionFormatsStatus = Maps.newHashMap();
 
-    /**
-     * @return Returns a singleton instance of the CodingRepository.
-     */
-    public static CodingRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
+    @Inject
+    private ServiceOperatorRepository serviceOperatorRepository;
+    @Inject
+    private SettingsManager settingsManager;
 
     /**
      * private constructor for singleton
@@ -155,7 +138,7 @@ public class CodingRepository {
         }
     }
 
-    public void updateDecoders() {
+    public  void updateDecoders() {
         LOG.debug("Reloading Decoder implementations");
         decoders.clear();
         decoders.addAll(loadDecoders());
@@ -180,7 +163,7 @@ public class CodingRepository {
         responseFormatStatus.clear();
         responseFormats.clear();
         final Set<ServiceOperatorKey> serviceOperatorKeyTypes =
-                ServiceOperatorRepository.getInstance().getServiceOperatorKeyTypes();
+                this.serviceOperatorRepository.getServiceOperatorKeyTypes();
         for (final Encoder<?, ?> e : getEncoders()) {
             if (e instanceof ObservationEncoder) {
                 final ObservationEncoder<?, ?> oe = (ObservationEncoder<?, ?>) e;
@@ -196,11 +179,12 @@ public class CodingRepository {
         }
     }
 
+
     private void generateProcedureDescriptionFormatMaps() {
         procedureDescriptionFormatsStatus.clear();
         procedureDescriptionFormats.clear();
         final Set<ServiceOperatorKey> serviceOperatorKeyTypes =
-                ServiceOperatorRepository.getInstance().getServiceOperatorKeyTypes();
+                this.serviceOperatorRepository.getServiceOperatorKeyTypes();
         for (final Encoder<?, ?> e : getEncoders()) {
             if (e instanceof ProcedureEncoder) {
                 final ProcedureEncoder<?, ?> oe = (ProcedureEncoder<?, ?>) e;
@@ -232,7 +216,7 @@ public class CodingRepository {
 
     protected void addResponseFormat(final ResponseFormatKey rfkt) {
         try {
-            responseFormatStatus.put(rfkt, SettingsManager.getInstance().isActive(rfkt));
+            responseFormatStatus.put(rfkt, this.settingsManager.isActive(rfkt));
         } catch (final ConnectionProviderException ex) {
             throw new ConfigurationException(ex);
         }
@@ -251,7 +235,7 @@ public class CodingRepository {
 
     protected void addProcedureDescriptionFormat(final ProcedureDescriptionFormatKey pdfkt) {
         try {
-            procedureDescriptionFormatsStatus.put(pdfkt, SettingsManager.getInstance().isActive(pdfkt));
+            procedureDescriptionFormatsStatus.put(pdfkt, this.settingsManager.isActive(pdfkt));
         } catch (final ConnectionProviderException ex) {
             throw new ConfigurationException(ex);
         }
@@ -271,9 +255,8 @@ public class CodingRepository {
     private List<Decoder<?, ?>> loadDecoders() {
         final List<Decoder<?, ?>> loadedDecoders = new LinkedList<Decoder<?, ?>>();
         try {
-            final SettingsManager sm = SettingsManager.getInstance();
             for (final Decoder<?, ?> decoder : serviceLoaderDecoder) {
-                sm.configure(decoder);
+                this.settingsManager.configure(decoder);
                 loadedDecoders.add(decoder);
             }
         } catch (final ServiceConfigurationError sce) {
@@ -287,9 +270,8 @@ public class CodingRepository {
     private List<Encoder<?, ?>> loadEncoders() {
         final List<Encoder<?, ?>> loadedEncoders = new LinkedList<Encoder<?, ?>>();
         try {
-            final SettingsManager sm = SettingsManager.getInstance();
             for (final Encoder<?, ?> encoder : serviceLoaderEncoder) {
-                sm.configure(encoder);
+                this.settingsManager.configure(encoder);
                 loadedEncoders.add(encoder);
             }
         } catch (final ServiceConfigurationError sce) {
@@ -332,7 +314,7 @@ public class CodingRepository {
     }
 
     private void generateTypeMap() {
-        final List<Map<SupportedTypeKey, Set<String>>> list = new LinkedList<Map<SupportedTypeKey, Set<String>>>();
+        final List<Map<SupportedTypeKey, Set<String>>> list = new LinkedList<>();
         for (final Decoder<?, ?> decoder : getDecoders()) {
             list.add(decoder.getSupportedTypes());
         }
@@ -388,7 +370,7 @@ public class CodingRepository {
         }
     }
 
-    public boolean hasEncoder(final EncoderKey key, final EncoderKey... keys) {
+    public  boolean hasEncoder(final EncoderKey key, final EncoderKey... keys) {
         return getEncoder(key, keys) != null;
     }
 
@@ -401,7 +383,7 @@ public class CodingRepository {
         }
     }
 
-    public Set<SchemaLocation> getSchemaLocation(final String namespace) {
+    public  Set<SchemaLocation> getSchemaLocation(final String namespace) {
         if (schemaLocations.containsKey(namespace)) {
             return schemaLocations.get(namespace);
         }
@@ -424,7 +406,7 @@ public class CodingRepository {
         return processEncoderMatches(findEncodersForCompositeKey(key), key);
     }
 
-    private Set<Encoder<?, ?>> findEncodersForSingleKey(final EncoderKey key) {
+    private  Set<Encoder<?, ?>> findEncodersForSingleKey(final EncoderKey key) {
         if (!encoderByKey.containsKey(key)) {
             for (final Encoder<?, ?> encoder : getEncoders()) {
                 for (final EncoderKey ek : encoder.getEncoderKeyType()) {
@@ -460,7 +442,7 @@ public class CodingRepository {
                 }
             }
             LOG.debug("Found {} Encoders for CompositeKey: {}", encoderByKey.get(ck).size(),
-                    Joiner.on(", ").join(encoderByKey.get(ck)));
+                                                                Joiner.on(", ").join(encoderByKey.get(ck)));
         }
         return encoderByKey.get(ck);
     }
@@ -475,14 +457,14 @@ public class CodingRepository {
                 }
             }
             LOG.debug("Found {} Decoders for CompositeKey: {}", decoderByKey.get(ck).size(),
-                    Joiner.on(", ").join(decoderByKey.get(ck)));
+                                                                Joiner.on(", ").join(decoderByKey.get(ck)));
         }
         return decoderByKey.get(ck);
     }
 
     public Map<ServiceOperatorKey, Set<String>> getSupportedResponseFormats() {
         final Map<ServiceOperatorKey, Set<String>> map = Maps.newHashMap();
-        for (final ServiceOperatorKey sokt : ServiceOperatorRepository.getInstance().getServiceOperatorKeyTypes()) {
+        for (final ServiceOperatorKey sokt : this.serviceOperatorRepository.getServiceOperatorKeyTypes()) {
             map.put(sokt, getSupportedResponseFormats(sokt));
         }
         return map;
@@ -507,7 +489,7 @@ public class CodingRepository {
         for (final String a : rfs) {
             final ResponseFormatKey rfkt = new ResponseFormatKey(sokt, a);
             final Boolean status = responseFormatStatus.get(rfkt);
-            if (status != null && status.booleanValue()) {
+            if (status != null && status) {
                 result.add(a);
             }
         }
@@ -528,7 +510,7 @@ public class CodingRepository {
 
     public Map<ServiceOperatorKey, Set<String>> getAllSupportedResponseFormats() {
         final Map<ServiceOperatorKey, Set<String>> map = Maps.newHashMap();
-        for (final ServiceOperatorKey sokt : ServiceOperatorRepository.getInstance().getServiceOperatorKeyTypes()) {
+        for (final ServiceOperatorKey sokt : this.serviceOperatorRepository.getServiceOperatorKeyTypes()) {
             map.put(sokt, getAllSupportedResponseFormats(sokt));
         }
         return map;
@@ -540,7 +522,7 @@ public class CodingRepository {
 
     public Map<ServiceOperatorKey, Set<String>> getSupportedProcedureDescriptionFormats() {
         final Map<ServiceOperatorKey, Set<String>> map = Maps.newHashMap();
-        for (final ServiceOperatorKey sokt : ServiceOperatorRepository.getInstance().getServiceOperatorKeyTypes()) {
+        for (final ServiceOperatorKey sokt : this.serviceOperatorRepository.getServiceOperatorKeyTypes()) {
             map.put(sokt, getSupportedProcedureDescriptionFormats(sokt));
         }
         return map;
@@ -574,7 +556,7 @@ public class CodingRepository {
 
     public Map<ServiceOperatorKey, Set<String>> getAllProcedureDescriptionFormats() {
         final Map<ServiceOperatorKey, Set<String>> map = Maps.newHashMap();
-        for (final ServiceOperatorKey sokt : ServiceOperatorRepository.getInstance().getServiceOperatorKeyTypes()) {
+        for (final ServiceOperatorKey sokt : this.serviceOperatorRepository.getServiceOperatorKeyTypes()) {
             map.put(sokt, getAllSupportedProcedureDescriptionFormats(sokt));
         }
         return map;
@@ -607,28 +589,36 @@ public class CodingRepository {
             procedureDescriptionFormatsStatus.put(pdfk, active);
         }
     }
-    
+
     public String getNamespaceFor(String prefix) {
         Map<String, String> prefixNamspaceMap = getPrefixNamspaceMap();
         for (String namespace : prefixNamspaceMap.keySet()) {
             if (prefix.equals(prefixNamspaceMap.get(prefix))) {
-                return namespace; 
+                return namespace;
             }
         }
         return null;
     }
-    
+
     public String getPrefixFor(String namespace) {
         return getPrefixNamspaceMap().get(namespace);
-        
+
     }
-    
+
     private Map<String, String> getPrefixNamspaceMap() {
         Map<String, String> prefixMap = Maps.newHashMap();
-        for (final Encoder<?, ?> encoder : CodingRepository.getInstance().getEncoders()) {
+        for (final Encoder<?, ?> encoder : getEncoders()) {
             encoder.addNamespacePrefixToMap(prefixMap);
         }
         return prefixMap;
+    }
+
+    /**
+     * @return Returns a singleton instance of the CodingRepository.
+     */
+    @Deprecated
+public static CodingRepository getInstance() {
+        return CodingRepository.instance;
     }
 
     private class DecoderComparator extends ProxySimilarityComparator<Decoder<?, ?>, DecoderKey> {

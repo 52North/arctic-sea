@@ -23,9 +23,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractServiceLoaderRepository;
-import org.n52.iceland.util.MultiMaps;
-import org.n52.iceland.util.SetMultiMap;
+import org.n52.iceland.util.repository.AbstractServiceLoaderRepository;
+import org.n52.iceland.util.collections.MultiMaps;
+import org.n52.iceland.util.collections.SetMultiMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,24 +35,22 @@ import com.google.common.base.Joiner;
 /**
  * Repository for {@code SettingDefinitionProvider} implementations.
  * <p/>
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
 public class SettingDefinitionProviderRepository extends AbstractServiceLoaderRepository<SettingDefinitionProvider> {
     private static final Logger LOG = LoggerFactory.getLogger(SettingDefinitionProviderRepository.class);
-
     private Map<String, SettingDefinition<?, ?>> definitionsByKey = Collections.emptyMap();
 
     private Set<SettingDefinition<?, ?>> settingDefinitions = Collections.emptySet();
 
-    private SetMultiMap<SettingDefinition<?, ?>, SettingDefinitionProvider> providersByDefinition = MultiMaps
-            .newSetMultiMap();
+    private SetMultiMap<SettingDefinition<?, ?>, SettingDefinitionProvider> providersByDefinition = MultiMaps.newSetMultiMap();
 
     /**
      * Constructs a new repository.
      * <p/>
-     * 
+     *
      * @throws ConfigurationException
      *             if there is a problem while loading implementations
      */
@@ -70,7 +69,7 @@ public class SettingDefinitionProviderRepository extends AbstractServiceLoaderRe
     /**
      * Returns all providers that declared a specific setting.
      * <p/>
-     * 
+     *
      * @param setting
      *            the setting
      *            <p/>
@@ -88,7 +87,7 @@ public class SettingDefinitionProviderRepository extends AbstractServiceLoaderRe
     /**
      * Gets the definition for the specified key.
      * <p/>
-     * 
+     *
      * @param key
      *            the key
      *            <p/>

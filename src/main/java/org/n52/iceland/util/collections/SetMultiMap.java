@@ -14,38 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.collections;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import com.google.common.base.Joiner;
+import java.io.Serializable;
+import java.util.Map;
+import java.util.Set;
 
 /**
- * @param <A>
+ * Interface for {@link Set} based {@link MultiMap}s.
+ * 
+ * @param <K>
+ *            the key type
+ * @param <V>
+ *            the value type
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  * 
  */
-public abstract class CompositeAction<A extends Action> extends RunnableAction {
-
-    private List<A> actions;
-
-    public CompositeAction(A... actions) {
-        this.actions = Arrays.asList(actions);
-    }
-
-    public List<A> getActions() {
-        return Collections.unmodifiableList(actions);
-    }
-
-    protected abstract void pre(A action);
-
-    protected abstract void post(A action);
-
-    @Override
-    public String toString() {
-        return String.format("%s[actions=[%s]]", getClass().getSimpleName(), Joiner.on(", ").join(getActions()));
-    }
+public interface SetMultiMap<K, V> extends MultiMap<K, V, Set<V>>, Map<K, Set<V>>, Serializable {
 }

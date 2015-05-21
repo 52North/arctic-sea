@@ -14,35 +14,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.action;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import com.google.common.base.Joiner;
 
 /**
+ * @param <A>
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  * 
  */
-public final class MultiMaps {
-    public static <K, V> SetMultiMap<K, V> newSetMultiMap() {
-        return new HashSetMultiMap<K, V>();
+public abstract class CompositeAction<A extends Action> extends RunnableAction {
+
+    private List<A> actions;
+
+    public CompositeAction(A... actions) {
+        this.actions = Arrays.asList(actions);
     }
 
-    public static <K extends Enum<K>, V> SetMultiMap<K, V> newSetMultiMap(Class<K> keyType) {
-        return new EnumSetMultiMap<K, V>(keyType);
+    public List<A> getActions() {
+        return Collections.unmodifiableList(actions);
     }
 
-    public static <K, V> SetMultiMap<K, V> newSynchronizedSetMultiMap() {
-        return new SynchronizedSetMultiMap<K, V>();
-    }
+    protected abstract void pre(A action);
 
-    public static <K, V> ListMultiMap<K, V> newListMultiMap() {
-        return new LinkedListMultiMap<K, V>();
-    }
+    protected abstract void post(A action);
 
-    public static <K, V> ListMultiMap<K, V> newSynchronizedListMultiMap() {
-        return new SynchronizedListMultiMap<K, V>();
-    }
-
-    private MultiMaps() {
+    @Override
+    public String toString() {
+        return String.format("%s[actions=[%s]]", getClass().getSimpleName(), Joiner.on(", ").join(getActions()));
     }
 }

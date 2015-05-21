@@ -14,17 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.collections;
 
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 /**
- * Implementation based on synchronized {@link HashSet}s and a synchronized
- * {@link HashMap}.
+ * {@linkplain SetMultiMap} implementation backed with a {@link EnumMap}.
  * 
  * @param <K>
  *            the key type
@@ -35,28 +33,31 @@ import java.util.Set;
  * @since 4.0.0
  * 
  */
-public class SynchronizedSetMultiMap<K, V> extends AbstractSynchronizedMultiMap<K, V, Set<V>> implements
+public class EnumSetMultiMap<K extends Enum<K>, V> extends AbstractDelegatingMultiMap<K, V, Set<V>> implements
         SetMultiMap<K, V> {
-    private static final long serialVersionUID = 741828638081663856L;
+    private static final long serialVersionUID = 1343214593123842785L;
 
-    public SynchronizedSetMultiMap(Map<? extends K, ? extends Set<V>> m) {
-        super(m);
+    private final Map<K, Set<V>> delegate;
+
+    public EnumSetMultiMap(Class<K> keyType) {
+        this.delegate = new EnumMap<K, Set<V>>(keyType);
     }
 
-    public SynchronizedSetMultiMap(int initialCapacity) {
-        super(initialCapacity);
+    public EnumSetMultiMap(EnumMap<K, ? extends Set<V>> m) {
+        this.delegate = new EnumMap<K, Set<V>>(m);
     }
 
-    public SynchronizedSetMultiMap(int initialCapacity, float loadFactor) {
-        super(initialCapacity, loadFactor);
+    public EnumSetMultiMap(Map<K, ? extends Set<V>> m) {
+        this.delegate = new EnumMap<K, Set<V>>(m);
     }
 
-    public SynchronizedSetMultiMap() {
-        super();
+    @Override
+    protected Map<K, Set<V>> getDelegate() {
+        return this.delegate;
     }
 
     @Override
     protected Set<V> newCollection() {
-        return Collections.synchronizedSet(new HashSet<V>());
+        return new HashSet<V>();
     }
 }

@@ -31,8 +31,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.GroupedAndNamedThreadFactory;
-import org.n52.iceland.util.MultiMaps;
-import org.n52.iceland.util.SetMultiMap;
+import org.n52.iceland.util.collections.MultiMaps;
+import org.n52.iceland.util.collections.SetMultiMap;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

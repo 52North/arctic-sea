@@ -20,30 +20,27 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.MultiMaps;
-import org.n52.iceland.util.SetMultiMap;
+import org.n52.iceland.util.collections.MultiMaps;
+import org.n52.iceland.util.collections.SetMultiMap;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderRepository<ServiceOperator> {
-	private static class LazyHolder {
-		private static final ServiceOperatorRepository INSTANCE = new ServiceOperatorRepository();
-		
-		private LazyHolder() {};
-	}
-
-
+    @Deprecated
+    private static ServiceOperatorRepository instance;
     /**
      * Implemented ServiceOperator
      */
@@ -55,28 +52,33 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
     /** supported services */
     private final Set<String> supportedServices = Sets.newHashSet();
 
+    @Inject
+    private RequestOperatorRepository requestOperatorRepository;
+
     /**
      * Load implemented request listener
-     * 
+     *
      * @throws ConfigurationException
      *             If no request listener is implemented
      */
     private ServiceOperatorRepository() throws ConfigurationException {
         super(ServiceOperator.class, false);
         load(false);
+        ServiceOperatorRepository.instance = this;
     }
 
+    @Deprecated
     public static ServiceOperatorRepository getInstance() {
-        return LazyHolder.INSTANCE;
+        return ServiceOperatorRepository.instance;
     }
 
     /**
      * Load the implemented request listener and add them to a map with
      * operation name as key
-     * 
+     *
      * @param implementations
      *            the loaded implementations
-     * 
+     *
      * @throws ConfigurationException
      *             If no request listener is implemented
      */
@@ -96,13 +98,13 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
 
     /**
      * Update/reload the implemented request listener
-     * 
+     *
      * @throws ConfigurationException
      *             If no request listener is implemented
      */
     @Override
     public void update() throws ConfigurationException {
-        RequestOperatorRepository.getInstance().update();
+        this.requestOperatorRepository.update();
         super.update();
     }
 
@@ -127,8 +129,8 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      * @param version
      *            the version
      * @return the implemented request listener
-     * 
-     * 
+     *
+     *
      * @throws OwsExceptionReport
      */
     public ServiceOperator getServiceOperator(final String service, final String version) throws OwsExceptionReport {
@@ -143,7 +145,7 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      * @param service
      *            the service
      * @return the supportedVersions
-     * 
+     *
      */
     public Set<String> getSupportedVersions(final String service) {
         if (isServiceSupported(service)) {
@@ -158,7 +160,7 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      * @param version
      *            the version
      * @return the supportedVersions
-     * 
+     *
      */
     public boolean isVersionSupported(final String service, final String version) {
         return isServiceSupported(service) && supportedVersions.get(service).contains(version);

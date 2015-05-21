@@ -17,14 +17,14 @@
 package org.n52.iceland.cache;
 
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
-import org.n52.iceland.util.Cleanupable;
+import org.n52.iceland.util.lifecycle.Destroyable;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
  * @since 4.0.0
  */
-public interface ContentCacheController extends Cleanupable {
+public interface ContentCacheController extends Destroyable {
     /**
      * @return the content cache
      */
