@@ -65,6 +65,7 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 public class CodingRepository {
+
     private static final Logger LOG = LoggerFactory.getLogger(CodingRepository.class);
     @Deprecated
     private static CodingRepository instance;
@@ -83,6 +84,9 @@ public class CodingRepository {
     private final Map<String, Set<SchemaLocation>> schemaLocations = Maps.newHashMap();
     private final Map<String, Map<String, Set<String>>> procedureDescriptionFormats = Maps.newHashMap();
     private final Map<ProcedureDescriptionFormatKey, Boolean> procedureDescriptionFormatsStatus = Maps.newHashMap();
+
+
+
 
     @Inject
     private ServiceOperatorRepository serviceOperatorRepository;
@@ -203,8 +207,8 @@ public class CodingRepository {
     private void generateSchemaLocationMap() {
         schemaLocations.clear();
         for (final Encoder<?, ?> encoder : encoders) {
-            if (CollectionHelper.isNotEmpty(encoder.getEncoderKeyType())) {
-                for (final EncoderKey key : encoder.getEncoderKeyType()) {
+            if (CollectionHelper.isNotEmpty(encoder.getKeys())) {
+                for (final EncoderKey key : encoder.getKeys()) {
                     if (key instanceof XmlEncoderKey && CollectionHelper.isNotEmpty(encoder.getSchemaLocations())) {
                         schemaLocations.put(((XmlEncoderKey) key).getNamespace(), encoder.getSchemaLocations());
                     }
@@ -339,7 +343,7 @@ public class CodingRepository {
     private void initEncoderMap() {
         encoderByKey.clear();
         for (final Encoder<?, ?> encoder : getEncoders()) {
-            for (final EncoderKey key : encoder.getEncoderKeyType()) {
+            for (final EncoderKey key : encoder.getKeys()) {
                 encoderByKey.add(key, encoder);
             }
             if (encoder instanceof ObservationEncoder) {
@@ -351,7 +355,7 @@ public class CodingRepository {
     private void initDecoderMap() {
         decoderByKey.clear();
         for (final Decoder<?, ?> decoder : getDecoders()) {
-            for (final DecoderKey key : decoder.getDecoderKeyTypes()) {
+            for (final DecoderKey key : decoder.getKeys()) {
                 decoderByKey.add(key, decoder);
             }
         }
@@ -409,7 +413,7 @@ public class CodingRepository {
     private  Set<Encoder<?, ?>> findEncodersForSingleKey(final EncoderKey key) {
         if (!encoderByKey.containsKey(key)) {
             for (final Encoder<?, ?> encoder : getEncoders()) {
-                for (final EncoderKey ek : encoder.getEncoderKeyType()) {
+                for (final EncoderKey ek : encoder.getKeys()) {
                     if (ek.getSimilarity(key) >= 0) {
                         encoderByKey.add(key, encoder);
                     }
@@ -422,7 +426,7 @@ public class CodingRepository {
     private Set<Decoder<?, ?>> findDecodersForSingleKey(final DecoderKey key) {
         if (!decoderByKey.containsKey(key)) {
             for (final Decoder<?, ?> decoder : getDecoders()) {
-                for (final DecoderKey dk : decoder.getDecoderKeyTypes()) {
+                for (final DecoderKey dk : decoder.getKeys()) {
                     if (dk.getSimilarity(key) >= 0) {
                         decoderByKey.add(key, decoder);
                     }
@@ -437,7 +441,7 @@ public class CodingRepository {
             // first request; search for matching encoders and save result for
             // later quries
             for (final Encoder<?, ?> encoder : encoders) {
-                if (ck.matches(encoder.getEncoderKeyType())) {
+                if (ck.matches(encoder.getKeys())) {
                     encoderByKey.add(ck, encoder);
                 }
             }
@@ -452,7 +456,7 @@ public class CodingRepository {
             // first request; search for matching decoders and save result for
             // later queries
             for (final Decoder<?, ?> decoder : decoders) {
-                if (ck.matches(decoder.getDecoderKeyTypes())) {
+                if (ck.matches(decoder.getKeys())) {
                     decoderByKey.add(ck, decoder);
                 }
             }
@@ -628,7 +632,7 @@ public static CodingRepository getInstance() {
 
         @Override
         protected Collection<DecoderKey> getSimilars(final Decoder<?, ?> t) {
-            return t.getDecoderKeyTypes();
+            return t.getKeys();
         }
     }
 
@@ -639,7 +643,7 @@ public static CodingRepository getInstance() {
 
         @Override
         protected Collection<EncoderKey> getSimilars(final Encoder<?, ?> t) {
-            return t.getEncoderKeyType();
+            return t.getKeys();
         }
     }
 

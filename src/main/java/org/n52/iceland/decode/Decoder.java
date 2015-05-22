@@ -19,6 +19,7 @@ package org.n52.iceland.decode;
 import java.util.Map;
 import java.util.Set;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.concrete.UnsupportedDecoderInputException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.service.ConformanceClass;
@@ -26,29 +27,24 @@ import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
 
 /**
  * Generic interface for decoders.
- * 
+ *
  * @param <T>
  *            the result of the decoding process, the "Target"
  * @param <S>
  *            the input which is decoded, the "Source"
- * 
+ *
  * @since 4.0.0
  */
-public interface Decoder<T, S> extends ConformanceClass {
-    /**
-     * @return List encodings this implementation (identified by
-     *         {@link DecoderKey}) is able to decode
-     */
-    Set<DecoderKey> getDecoderKeyTypes();
+public interface Decoder<T, S> extends ConformanceClass, Component<DecoderKey> {
 
     /**
      * Decode a object to another representation.
-     * 
+     *
      * @param objectToDecode
      *            the object to encode
-     * 
+     *
      * @return the encoded object
-     * 
+     *
      * @throws OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedDecoderInputException
@@ -65,7 +61,7 @@ public interface Decoder<T, S> extends ConformanceClass {
      * .SupportedTypeKey.ObservationType &rarr;
      * {@linkplain org.n52.sos.ogc.om.OmConstants}
      * .OBS_TYPE_CATEGORY_OBSERVATION}).
-     * 
+     *
      * @return the supported key types
      */
     Map<SupportedTypeKey, Set<String>> getSupportedTypes();

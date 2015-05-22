@@ -19,6 +19,7 @@ package org.n52.iceland.encode;
 import java.util.Map;
 import java.util.Set;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.concrete.UnsupportedEncoderInputException;
 import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
@@ -29,29 +30,24 @@ import org.n52.iceland.w3c.SchemaLocation;
 
 /**
  * Generic interface for Encoders.
- * 
+ *
  * @param <T>
  *            the resulting type, the "Target"
  * @param <S>
  *            the input type, the "Source"
- * 
+ *
  * @since 4.0.0
  */
-public interface Encoder<T, S> extends ConformanceClass {
-    /**
-     * @return List of supported encodings of this implementation (identified by
-     *         {@link EncoderKey})
-     */
-    Set<EncoderKey> getEncoderKeyType();
+public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
 
     /**
      * Encodes the specified object.
-     * 
+     *
      * @param objectToEncode
      *            the object to encode
-     * 
+     *
      * @return the encoded object
-     * 
+     *
      * @throws OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
@@ -63,14 +59,14 @@ public interface Encoder<T, S> extends ConformanceClass {
     /**
      * Encodes the specified object with the specified {@linkplain HelperValues}
      * .
-     * 
+     *
      * @param objectToEncode
      *            the object to encode
      * @param additionalValues
      *            the helper values
-     * 
+     *
      * @return the encoded object
-     * 
+     *
      * @throws OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
@@ -82,7 +78,7 @@ public interface Encoder<T, S> extends ConformanceClass {
 
     /**
      * Get the {@linkplain SupportedTypeKey}
-     * 
+     *
      * @return the supported key types
      */
     Map<SupportedTypeKey, Set<String>> getSupportedTypes();
@@ -90,7 +86,7 @@ public interface Encoder<T, S> extends ConformanceClass {
     /**
      * Add the namespace prefix of this {@linkplain Encoder} instance to the
      * given {@linkplain Map}.
-     * 
+     *
      * @param nameSpacePrefixMap
      */
     void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap);
