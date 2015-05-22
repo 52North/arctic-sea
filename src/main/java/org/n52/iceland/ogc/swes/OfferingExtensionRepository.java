@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.swes;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -31,11 +32,14 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.CollectionHelper;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -44,15 +48,13 @@ import com.google.common.collect.Sets;
  * @since 4.1.0
  *
  */
-public class OfferingExtensionRepository extends AbstractConfiguringServiceLoaderRepository<OfferingExtensionProvider> {
+public class OfferingExtensionRepository extends AbstractUniqueKeyComponentRepository<OfferingExtensionKey, OfferingExtensionProvider, OfferingExtensionProviderFactory> {
     @Deprecated
     private static OfferingExtensionRepository instance;
     private static final Logger LOGGER = LoggerFactory.getLogger(OfferingExtensionRepository.class);
 
-    private final Map<OfferingExtensionKey, Activatable<OfferingExtensionProvider>> offeringExtensionProviders =
-            new HashMap<OfferingExtensionKey, Activatable<OfferingExtensionProvider>>(0);
-
-
+    private final Map<OfferingExtensionKey, Activatable<Producer<OfferingExtensionProvider>>> offeringExtensionProviders =
+            new HashMap<>(0);
     @Inject
     private SettingsManager settingsManager;
 
@@ -72,24 +74,26 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
      * @throws ConfigurationException
      *             If no {@link OfferingExtensionProvider} is implemented
      */
-    private OfferingExtensionRepository() throws ConfigurationException {
-        super(OfferingExtensionProvider.class, false);
-        load(false);
+    public OfferingExtensionRepository() throws ConfigurationException {
+        super(OfferingExtensionProvider.class, OfferingExtensionProviderFactory.class);
         OfferingExtensionRepository.instance = this;
     }
 
     @Override
-    protected void processConfiguredImplementations(final Set<OfferingExtensionProvider> offeringExtensionProviders)
-            throws ConfigurationException {
+    protected void processImplementations(Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> implementations) {
         this.offeringExtensionProviders.clear();
-        for (final OfferingExtensionProvider oep : offeringExtensionProviders) {
-            for (OfferingExtensionKey key : oep.getOfferingExtensionKeyTypes()) {
-                try {
-                    LOGGER.info("Registered OfferingExtensionProvider for {}", key);
-                    this.offeringExtensionProviders.put(key, Activatable.from(oep, this.settingsManager.isActive(key)));
-                } catch (final ConnectionProviderException cpe) {
-                    throw new ConfigurationException("Error while checking RequestOperator", cpe);
-                }
+
+        for (Entry<OfferingExtensionKey, Producer<OfferingExtensionProvider>> entry
+             : implementations.entrySet()) {
+            OfferingExtensionKey key = entry.getKey();
+            Producer<OfferingExtensionProvider> value = entry.getValue();
+
+            LOGGER.info("Registered OfferingExtensionProvider for {}", key);
+            try {
+                boolean isActive = this.settingsManager.isActive(key);
+                this.offeringExtensionProviders.put(key, Activatable.from(value, isActive));
+            } catch (final ConnectionProviderException cpe) {
+                throw new ConfigurationException("Error while checking RequestOperator", cpe);
             }
         }
     }
@@ -100,7 +104,14 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
      * @return the map with all {@link OfferingExtensionProvider}s
      */
     public Map<OfferingExtensionKey, OfferingExtensionProvider> getAllOfferingExtensionProviders() {
-        return Activatable.unfiltered(offeringExtensionProviders);
+        Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> unfiltered = Activatable.unfiltered(offeringExtensionProviders);
+        Map<OfferingExtensionKey, OfferingExtensionProvider> result = Maps.newHashMapWithExpectedSize(unfiltered.size());
+        for (Entry<OfferingExtensionKey, Producer<OfferingExtensionProvider>> entry: unfiltered.entrySet()) {
+            OfferingExtensionKey key = entry.getKey();
+            Producer<OfferingExtensionProvider> value = entry.getValue();
+            result.put(key, value.get());
+        }
+        return result;
     }
 
     /**
@@ -109,7 +120,14 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
      * @return the map with all active {@link OfferingExtensionProvider}s
      */
     public Map<OfferingExtensionKey, OfferingExtensionProvider> getOfferingExtensionProviders() {
-        return Activatable.filter(offeringExtensionProviders);
+        Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> unfiltered = Activatable.filter(offeringExtensionProviders);
+        Map<OfferingExtensionKey, OfferingExtensionProvider> result = Maps.newHashMapWithExpectedSize(unfiltered.size());
+        for (Entry<OfferingExtensionKey, Producer<OfferingExtensionProvider>> entry: unfiltered.entrySet()) {
+            OfferingExtensionKey key = entry.getKey();
+            Producer<OfferingExtensionProvider> value = entry.getValue();
+            result.put(key, value.get());
+        }
+        return result;
     }
 
     /**

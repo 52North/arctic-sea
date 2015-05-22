@@ -41,7 +41,7 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.XmlHelper;
-import org.n52.iceland.util.lifecycle.Constructable;
+import org.n52.iceland.lifecycle.Constructable;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>

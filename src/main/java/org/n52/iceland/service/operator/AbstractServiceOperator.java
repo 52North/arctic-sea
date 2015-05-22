@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.service.operator;
 
+import java.util.Collections;
+import java.util.Set;
+
 import org.n52.iceland.exception.ows.OperationNotSupportedException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
@@ -25,7 +28,7 @@ import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class AbstractServiceOperator implements ServiceOperator {
@@ -36,15 +39,15 @@ public class AbstractServiceOperator implements ServiceOperator {
     }
 
     @Override
+    @Deprecated
     public ServiceOperatorKey getServiceOperatorKey() {
         return key;
     }
 
     @Override
     public AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport {
-        RequestOperator ro =
-                RequestOperatorRepository.getInstance().getRequestOperator(getServiceOperatorKey(),
-                        request.getOperationName());
+        RequestOperator ro = getRequestOperatorRepository()
+                .getRequestOperator(this.key, request.getOperationName());
         if (ro != null) {
             AbstractServiceResponse response = ro.receiveRequest(request);
             if (response != null) {
@@ -52,5 +55,14 @@ public class AbstractServiceOperator implements ServiceOperator {
             }
         }
         throw new OperationNotSupportedException(request.getOperationName());
+    }
+
+    public RequestOperatorRepository getRequestOperatorRepository() {
+        return RequestOperatorRepository.getInstance();
+    }
+
+    @Override
+    public Set<ServiceOperatorKey> getKeys() {
+        return Collections.singleton(key);
     }
 }

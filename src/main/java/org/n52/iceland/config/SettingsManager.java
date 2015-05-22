@@ -16,17 +16,9 @@
  */
 package org.n52.iceland.config;
 
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.config.annotation.Configurable;
@@ -35,14 +27,11 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
 import org.n52.iceland.encode.ResponseFormatKey;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesKey;
+import org.n52.iceland.lifecycle.Destroyable;
+import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.service.Configurator;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
-import org.n52.iceland.util.Comparables;
-import org.n52.iceland.util.repository.ConfiguringSingletonServiceLoader;
-import org.n52.iceland.util.lifecycle.Destroyable;
 
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
@@ -62,14 +51,11 @@ import org.n52.iceland.util.lifecycle.Destroyable;
  * @see SettingDefinitionProvider
  * @see SettingValue
  * @see Configurable
- * @see ConfiguringSingletonServiceLoader
- * @see AbstractConfiguringServiceLoaderRepository
+ * @see AbstractConfiguringComponentRepository
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
 public abstract class SettingsManager implements Destroyable, CapabilitiesExtensionManager{
-
-    private static final Logger LOG = LoggerFactory.getLogger(SettingsManager.class);
 
     private static SettingsManager instance;
 
@@ -104,20 +90,7 @@ public abstract class SettingsManager implements Destroyable, CapabilitiesExtens
      */
     @Deprecated
     private static SettingsManager createInstance() throws ConfigurationException {
-        List<SettingsManager> settingsManagers = new LinkedList<SettingsManager>();
-        Iterator<SettingsManager> it = ServiceLoader.load(SettingsManager.class).iterator();
-        while(it.hasNext()) {
-            try {
-                settingsManagers.add(it.next());
-            } catch (ServiceConfigurationError e) {
-                LOG.error("Could not instantiate SettingsManager", e);
-            }
-        }
-        try {
-            return Comparables.inheritance().min(settingsManagers);
-        } catch (NoSuchElementException e) {
-            throw new ConfigurationException("No SettingsManager implementation loaded", e);
-        }
+        return getInstance();
     }
 
 
@@ -458,7 +431,7 @@ public abstract class SettingsManager implements Destroyable, CapabilitiesExtens
      *
      * @throws ConnectionProviderException
      */
-    public abstract boolean isActive(OwsExtendedCapabilitiesKey oeck) throws ConnectionProviderException;
+    public abstract boolean isActive(OwsExtendedCapabilitiesProviderKey oeck) throws ConnectionProviderException;
 
     /**
      * Sets the status of a extended capabilities.
@@ -470,7 +443,7 @@ public abstract class SettingsManager implements Destroyable, CapabilitiesExtens
      *
      * @throws ConnectionProviderException
      */
-    public abstract void setActive(OwsExtendedCapabilitiesKey oeck, boolean active) throws ConnectionProviderException;
+    public abstract void setActive(OwsExtendedCapabilitiesProviderKey oeck, boolean active) throws ConnectionProviderException;
 
     /**
      * Sets the status of a extended capabilities.
@@ -484,6 +457,6 @@ public abstract class SettingsManager implements Destroyable, CapabilitiesExtens
      *
      * @throws ConnectionProviderException
      */
-    public abstract void setActive(OwsExtendedCapabilitiesKey oeck, boolean active, boolean updateRepository)  throws ConnectionProviderException;
+    public abstract void setActive(OwsExtendedCapabilitiesProviderKey oeck, boolean active, boolean updateRepository)  throws ConnectionProviderException;
 
 }

@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.util;
 
-import java.util.Locale;
-
 /**
  * Generic Factory interface.
  *
@@ -30,23 +28,6 @@ import java.util.Locale;
  */
 public interface Producer<T> {
 
-    /**
-     * Get default Producer result
-     *
-     * @return Default producer result
-     */
     T get();
-    
-    
-    T get(String identification);
 
-    /**
-     * Get language specific Producer result
-     *
-     * @param language
-     *                 The resulting language
-     *
-     * @return Result in the specified language
-     */
-    T get(Locale language);
 }

@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util.repository;
+package org.n52.iceland.component;
 
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DatasourceDaoIdentifier;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.Producer;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.iceland.util.IdentifiedProducer;
+import org.n52.iceland.util.LocalizedProducer;
 
 /**
  * Producer that loads a single instance of <code>T</code> with a
@@ -39,18 +40,13 @@ import org.slf4j.LoggerFactory;
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
-public class SingletonServiceLoader<T> implements Producer<T> {
+public class SingletonServiceLoader<T> implements LocalizedProducer<T>, IdentifiedProducer<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SingletonServiceLoader.class);
-
     private final Class<? extends T> clazz;
-
     private final boolean failIfNotFound;
-
     private final ServiceLoader<? extends T> serviceLoader;
-
     private T implementation;
-
     private T defaultImplementation;
 
     public SingletonServiceLoader(Class<? extends T> c, boolean failIfNotFound) {

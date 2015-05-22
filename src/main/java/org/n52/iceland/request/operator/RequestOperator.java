@@ -21,18 +21,19 @@ import org.n52.iceland.ogc.ows.OwsOperation;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.ConformanceClass;
+import org.n52.iceland.component.Component;
 
 /**
  * Interface for SOS request operator implementations TODO add javadoc for each
  * method
- * 
+ *
  * @since 4.0.0
  */
-public interface RequestOperator extends ConformanceClass {
+public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey>{
     AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
-
-    RequestOperatorKey getRequestOperatorKeyType();
 
     OwsOperation getOperationMetadata(String service, String version) throws OwsExceptionReport;
 
+    @Deprecated
+    RequestOperatorKey getRequestOperatorKeyType();
 }

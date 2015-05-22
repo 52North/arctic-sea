@@ -19,9 +19,9 @@ package org.n52.iceland.ogc.sos;
 
 /**
  * {@link CapabilitiesExtension} key class to identify CapabilitiesExtensions.
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
 public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensionKey> {
     private String service;
@@ -32,26 +32,25 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
      * Default constructor
      */
     public CapabilitiesExtensionKey() {
-        super();
+        this(null, null);
     }
 
     /**
      * Constructor
-     * 
+     *
      * @param service
      *            Related service
      * @param version
      *            Related version
      */
     public CapabilitiesExtensionKey(String service, String version) {
-        super();
         this.service = service;
         this.version = version;
     }
 
     /**
      * Get the key service
-     * 
+     *
      * @return Key servcice
      */
     public String getService() {
@@ -60,7 +59,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /**
      * Set the key service
-     * 
+     *
      * @param service
      *            service to set
      */
@@ -70,7 +69,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /**
      * Get the key version
-     * 
+     *
      * @return Key version
      */
     public String getVersion() {
@@ -79,7 +78,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /**
      * Set the key version
-     * 
+     *
      * @param version
      *            version to set
      */
@@ -100,7 +99,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -114,7 +113,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override

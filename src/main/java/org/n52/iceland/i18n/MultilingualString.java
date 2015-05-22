@@ -37,6 +37,10 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
     private static final long serialVersionUID = -1120455418520277338L;
     private final Map<Locale, LocalizedString> localizations = Maps.newHashMap();
 
+    public MultilingualString addLocalization(String lang, String value) {
+        return addLocalization(new LocalizedString(new Locale(lang), value));
+    }
+
     public MultilingualString addLocalization(Locale lang, String value) {
         return addLocalization(new LocalizedString(lang, value));
     }
@@ -115,8 +119,16 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
         return false;
     }
 
-    private Map<Locale, LocalizedString> getLocalizations() {
+    public Map<Locale, LocalizedString> getLocalizations() {
         return Collections.unmodifiableMap(this.localizations);
+    }
+
+    public MultilingualString setLocalizations(Map<String, String> localizations) {
+        this.localizations.clear();
+        for (Entry<String, String> localization : localizations.entrySet()) {
+            addLocalization(localization.getKey(), localization.getValue());
+        }
+        return this;
     }
 
     public MultilingualString only(Locale... locale) {

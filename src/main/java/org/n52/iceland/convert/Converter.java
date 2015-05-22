@@ -16,17 +16,15 @@
  */
 package org.n52.iceland.convert;
 
-import java.util.List;
+import org.n52.iceland.component.Component;
 
 /**
  * @since 4.0.0
- * 
+ *
  * @param <T>
  * @param <S>
  */
-public interface Converter<T, S> {
-
-    List<ConverterKeyType> getConverterKeyTypes();
+public interface Converter<T, S> extends Component<ConverterKeyType> {
 
     T convert(S objectToConvert) throws ConverterException;
 

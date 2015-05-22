@@ -18,6 +18,7 @@ package org.n52.iceland.service.operator;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -25,10 +26,11 @@ import javax.inject.Inject;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.CollectionHelper;
+import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -38,13 +40,13 @@ import com.google.common.collect.Sets;
  *
  * @since 4.0.0
  */
-public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderRepository<ServiceOperator> {
+public class ServiceOperatorRepository extends AbstractUniqueKeyComponentRepository<ServiceOperatorKey, ServiceOperator, ServiceOperatorFactory> {
     @Deprecated
     private static ServiceOperatorRepository instance;
     /**
      * Implemented ServiceOperator
      */
-    private final Map<ServiceOperatorKey, ServiceOperator> serviceOperators = Maps.newHashMap();
+    private final Map<ServiceOperatorKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
 
     /** supported SOS versions */
     private final SetMultiMap<String, String> supportedVersions = MultiMaps.newSetMultiMap();
@@ -62,8 +64,7 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      *             If no request listener is implemented
      */
     private ServiceOperatorRepository() throws ConfigurationException {
-        super(ServiceOperator.class, false);
-        load(false);
+        super(ServiceOperator.class, ServiceOperatorFactory.class);
         ServiceOperatorRepository.instance = this;
     }
 
@@ -83,18 +84,21 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      *             If no request listener is implemented
      */
     @Override
-    protected void processConfiguredImplementations(final Set<ServiceOperator> implementations)
+    protected void processImplementations(final Map<ServiceOperatorKey, Producer<ServiceOperator>> implementations)
             throws ConfigurationException {
-        serviceOperators.clear();
-        supportedServices.clear();
-        supportedVersions.clear();
-        for (final ServiceOperator so : implementations) {
-            serviceOperators.put(so.getServiceOperatorKey(), so);
-            supportedVersions.add(so.getServiceOperatorKey().getService(), so.getServiceOperatorKey()
-                    .getVersion());
-            supportedServices.add(so.getServiceOperatorKey().getService());
+        this.serviceOperators.clear();
+        this.supportedServices.clear();
+        this.supportedVersions.clear();
+
+        for (Entry<ServiceOperatorKey, Producer<ServiceOperator>> entry: implementations.entrySet()) {
+            ServiceOperatorKey key = entry.getKey();
+            Producer<ServiceOperator> producer = entry.getValue();
+            this.serviceOperators.put(key, producer);
+            this.supportedServices.add(key.getService());
+            this.supportedVersions.add(key.getService(), key.getVersion());
         }
     }
+
 
     /**
      * Update/reload the implemented request listener
@@ -103,7 +107,7 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      *             If no request listener is implemented
      */
     @Override
-    public void update() throws ConfigurationException {
+    public void update() {
         this.requestOperatorRepository.update();
         super.update();
     }
@@ -112,15 +116,22 @@ public class ServiceOperatorRepository extends AbstractConfiguringServiceLoaderR
      * @return the implemented request listener
      */
     public Map<ServiceOperatorKey, ServiceOperator> getServiceOperators() {
-        return Collections.unmodifiableMap(serviceOperators);
+        Map<ServiceOperatorKey, ServiceOperator> result = Maps.newHashMap();
+        for (Entry<ServiceOperatorKey, Producer<ServiceOperator>> entrySet : this.serviceOperators.entrySet()) {
+            ServiceOperatorKey key = entrySet.getKey();
+            Producer<ServiceOperator> value = entrySet.getValue();
+            result.put(key, value.get());
+        }
+        return result;
     }
 
     public Set<ServiceOperatorKey> getServiceOperatorKeyTypes() {
         return getServiceOperators().keySet();
     }
 
-    public ServiceOperator getServiceOperator(final ServiceOperatorKey sok) {
-        return serviceOperators.get(sok);
+    public ServiceOperator getServiceOperator(ServiceOperatorKey sok) {
+        Producer<ServiceOperator> producer = serviceOperators.get(sok);
+        return producer == null ? null : producer.get();
     }
 
     /**

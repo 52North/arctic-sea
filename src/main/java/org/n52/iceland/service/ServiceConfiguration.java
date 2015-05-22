@@ -82,6 +82,7 @@ public class ServiceConfiguration {
     /**
      * @return Returns a singleton instance of the ServiceConfiguration.
      */
+    @Deprecated
     public static synchronized ServiceConfiguration getInstance() {
         if (instance == null) {
             instance = new ServiceConfiguration();
@@ -131,7 +132,7 @@ public class ServiceConfiguration {
      * tuple separator for result element.
      */
     private String tupleSeparator;
-    
+
     /**
      * decimal separator for result element.
      */
@@ -176,12 +177,12 @@ public class ServiceConfiguration {
         Validation.notNullOrEmpty("Tuple separator", separator);
         tupleSeparator = separator;
     }
-    
+
 
     public String getDecimalSeparator() {
         return decimalSeparator;
     }
-    
+
     @Setting(MiscSettings.DECIMAL_SEPARATOR)
     public void setDecimalSeparator(final String separator) throws ConfigurationException {
         Validation.notNullOrEmpty("Decimal separator", separator);

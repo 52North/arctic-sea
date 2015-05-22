@@ -19,7 +19,7 @@ package org.n52.iceland.ds;
 import java.util.Properties;
 
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.lifecycle.Destroyable;
+import org.n52.iceland.lifecycle.Destroyable;
 
 /**
  * Interface for a connection provider that handles the connection to the

@@ -19,6 +19,7 @@ package org.n52.iceland.config.settings;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.n52.iceland.config.SettingDefinition;
 import org.n52.iceland.config.SettingType;
@@ -28,18 +29,18 @@ import com.google.common.base.Preconditions;
 
 /**
  * {@link SettingDefinition} resulting in a drop down menu offering different
- * options.By default the options are sorted by their display name (it's set 
+ * options.By default the options are sorted by their display name (it's set
  * to value if not provided).
- * 
+ *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * 
+ *
  * @since 4.2.0
  *
  */
 public class ChoiceSettingDefinition extends AbstractSettingDefinition<ChoiceSettingDefinition, String> {
-	
+
     private final Map<String, String> options = new HashMap<>();
 
     public ChoiceSettingDefinition() {
@@ -53,6 +54,14 @@ public class ChoiceSettingDefinition extends AbstractSettingDefinition<ChoiceSet
 
     public boolean hasOption(String value) {
         return this.options.containsKey(value);
+    }
+
+    public ChoiceSettingDefinition setOptions(Map<String, String> options) {
+        this.options.clear();
+        for (Entry<String, String> entry : options.entrySet()) {
+            addOption(entry.getKey(), entry.getValue());
+        }
+        return this;
     }
 
     public ChoiceSettingDefinition addOption(String option) {

@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ds;
+package org.n52.iceland.i18n;
 
 import java.util.Collection;
 import java.util.Locale;
 
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.component.Component;
 
 /**
  * Interface for the I18N DAOs
@@ -30,14 +31,28 @@ import org.n52.iceland.ogc.ows.OwsExceptionReport;
  * @since 4.2.0
  *
  */
-public interface I18NDAO<T extends AbstractI18NMetadata> {
-    Class<T> getType();
+public interface I18NDAO<T extends AbstractI18NMetadata> extends
+        Component<I18NDAOKey> {
     boolean isSupported();
-    T getMetadata(String id) throws OwsExceptionReport;
-    T getMetadata(String id, Locale locale) throws OwsExceptionReport;
-    Collection<T> getMetadata() throws OwsExceptionReport;
-    Collection<T> getMetadata(Collection<String> id) throws OwsExceptionReport;
-    Collection<T> getMetadata(Collection<String> id, Locale locale) throws OwsExceptionReport;
-    void saveMetadata(T i18n) throws OwsExceptionReport;
-    Collection<Locale> getAvailableLocales() throws OwsExceptionReport;
+
+    T getMetadata(String id)
+            throws OwsExceptionReport;
+
+    T getMetadata(String id, Locale locale)
+            throws OwsExceptionReport;
+
+    Collection<T> getMetadata()
+            throws OwsExceptionReport;
+
+    Collection<T> getMetadata(Collection<String> id)
+            throws OwsExceptionReport;
+
+    Collection<T> getMetadata(Collection<String> id, Locale locale)
+            throws OwsExceptionReport;
+
+    void saveMetadata(T i18n)
+            throws OwsExceptionReport;
+
+    Collection<Locale> getAvailableLocales()
+            throws OwsExceptionReport;
 }

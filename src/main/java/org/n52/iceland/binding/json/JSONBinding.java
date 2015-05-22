@@ -38,10 +38,16 @@ import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.util.JSONUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.binding.BindingKey;
+import org.n52.iceland.binding.MediaTypeBindingKey;
+import org.n52.iceland.binding.PathBindingKey;
+
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
@@ -58,14 +64,14 @@ public class JSONBinding extends SimpleBinding {
     private static final String VERSION = "version";
     private static final String REQUEST = "request";
 
-    @Override
-    public String getUrlPattern() {
-        return URL_PATTERN;
-    }
+    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
+            .add(new PathBindingKey(URL_PATTERN))
+            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_JSON))
+            .build();
 
     @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_JSON);
+    public Set<BindingKey> getKeys() {
+        return Collections.unmodifiableSet(KEYS);
     }
 
     @Override
@@ -131,4 +137,16 @@ public class JSONBinding extends SimpleBinding {
                     "Error while reading request! Message: %s", ioe.getMessage());
         }
     }
+
+    @Override
+    public String getUrlPattern() {
+        return URL_PATTERN;
+    }
+
+    @Override
+    public Set<MediaType> getSupportedEncodings() {
+        return Collections.singleton(MediaTypes.APPLICATION_JSON);
+    }
+
+
 }

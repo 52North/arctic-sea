@@ -17,15 +17,12 @@
 package org.n52.iceland.i18n;
 
 import java.util.Map;
-import java.util.Set;
+import java.util.Map.Entry;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.iceland.ds.I18NDAO;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Maps;
 
@@ -37,18 +34,16 @@ import com.google.common.collect.Maps;
  *
  */
 @SuppressWarnings("rawtypes")
-public class I18NDAORepository extends AbstractConfiguringServiceLoaderRepository<I18NDAO> {
-    private static final Logger LOG = LoggerFactory.getLogger(I18NDAORepository.class);
+public class I18NDAORepository extends AbstractUniqueKeyComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> {
     @Deprecated
     private static I18NDAORepository instance;
-    private final Map<Class<? extends AbstractI18NMetadata>, I18NDAO<?>> daos = Maps.newHashMap();
+    private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
 
     /**
      * private constructor
      */
     private I18NDAORepository() {
-        super(I18NDAO.class, false);
-        load(false);
+        super(I18NDAO.class, I18NDAOFactory.class);
         I18NDAORepository.instance = this;
     }
 
@@ -61,20 +56,20 @@ public class I18NDAORepository extends AbstractConfiguringServiceLoaderRepositor
      */
     @SuppressWarnings("unchecked")
     public <T extends AbstractI18NMetadata> I18NDAO<T> getDAO(Class<T> c) {
+        Producer<I18NDAO<?>> producer = daos.get(new I18NDAOKey(c));
         // TODO check for subtypes
-        return (I18NDAO<T>) daos.get(c);
+        I18NDAO<?> dao = producer == null ? null : producer.get();
+        return (I18NDAO<T>) dao;
     }
 
     @Override
-    protected  void processConfiguredImplementations(Set<I18NDAO> implementations) throws ConfigurationException {
+    protected  void processImplementations(Map<I18NDAOKey, Producer<I18NDAO<?>>> implementations) throws ConfigurationException {
         this.daos.clear();
-        for (I18NDAO<?> dao : implementations) {
-            if (dao.isSupported()){
-                I18NDAO<?> prev = daos.put(dao.getType(), dao);
-                if (prev != null) {
-                    LOG.warn("Duplicate implementation of I18N DAO for %s: %s, %s", dao.getType(), dao, prev);
-                }
-            }
+        this.daos.putAll(implementations);
+        for (Entry<I18NDAOKey, Producer<I18NDAO<?>>> entry: implementations.entrySet()) {
+            I18NDAOKey key = entry.getKey();
+            Producer<I18NDAO<?>> value = entry.getValue();
+            this.daos.put(key, value);
         }
     }
 

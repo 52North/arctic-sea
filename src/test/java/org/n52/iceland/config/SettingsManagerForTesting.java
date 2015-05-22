@@ -31,7 +31,7 @@ import org.n52.iceland.exception.NoSuchOfferingException;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.ogc.gml.time.TimeInstant;
 import org.n52.iceland.ogc.ows.OfferingExtension;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesKey;
+import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.ows.StaticCapabilities;
 import org.n52.iceland.ogc.ows.StringBasedCapabilitiesExtension;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
@@ -95,7 +95,7 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
     }
 
     @Override
-    protected void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesKey oeck, boolean active)
+    protected void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey oeck, boolean active)
             throws ConnectionProviderException {
         // TODO Auto-generated method stub
 
@@ -172,7 +172,7 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
     }
 
     @Override
-    public boolean isActive(OwsExtendedCapabilitiesKey oeck) throws ConnectionProviderException {
+    public boolean isActive(OwsExtendedCapabilitiesProviderKey oeck) throws ConnectionProviderException {
         // TODO Auto-generated method stub
         return false;
     }

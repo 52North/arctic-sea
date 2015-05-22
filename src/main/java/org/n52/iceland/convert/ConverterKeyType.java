@@ -18,13 +18,12 @@ package org.n52.iceland.convert;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class ConverterKeyType implements Comparable<ConverterKeyType> {
 
-    private String fromNamespace;
-
-    private String toNamespace;
+    private final String fromNamespace;
+    private final String toNamespace;
 
     public ConverterKeyType(String fromNamespace, String toNamespace) {
         this.fromNamespace = fromNamespace;

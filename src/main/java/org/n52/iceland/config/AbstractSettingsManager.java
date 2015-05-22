@@ -21,6 +21,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -33,6 +35,8 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
 
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.BindingRepository;
@@ -45,15 +49,16 @@ import org.n52.iceland.encode.ResponseFormatKey;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.SettingsChangeEvent;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesKey;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesRepository;
+import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
+import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderRepository;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionRepository;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.service.ServiceSettings;
-import org.n52.iceland.util.HashSetMultiMap;
+import org.n52.iceland.util.collections.HashSetMultiMap;
 import org.n52.iceland.util.collections.SetMultiMap;
+import org.n52.iceland.lifecycle.Constructable;
 
 /**
  * Abstract {@code SettingsManaeger} implementation that handles the loading of
@@ -63,39 +68,50 @@ import org.n52.iceland.util.collections.SetMultiMap;
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
-public abstract class AbstractSettingsManager extends SettingsManager {
+public abstract class AbstractSettingsManager extends SettingsManager implements Constructable{
     private static final Logger LOG = LoggerFactory.getLogger(AbstractSettingsManager.class);
-    private final SettingDefinitionProviderRepository settingDefinitionRepository;
     private final SetMultiMap<String, ConfigurableObject> configurableObjects = new HashSetMultiMap<>();
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
-    @Inject private RequestOperatorRepository requestOperatorRepository;
-    @Inject private CodingRepository codingRepository;
-    @Inject private BindingRepository bindingRepository;
-    @Inject private OfferingExtensionRepository offeringExtensionRepository;
-    @Inject private OwsExtendedCapabilitiesRepository owsExtendedCapabilitiesRepository;
+    @Inject
+    private RequestOperatorRepository requestOperatorRepository;
+    @Inject
+    private CodingRepository codingRepository;
+    @Inject
+    private BindingRepository bindingRepository;
+    @Inject
+    private OfferingExtensionRepository offeringExtensionRepository;
+    @Inject
+    private OwsExtendedCapabilitiesProviderRepository owsExtendedCapabilitiesRepository;
+    @Inject
+    private ApplicationContext applicationContext;
+    private Set<SettingDefinition<?,?>> definitions;
+    private Map<String, SettingDefinition<?,?>> definitionByKey;
 
-
-    /**
-     * Constructs a new instance.
-     * <p/>
-     *
-     * @throws ConfigurationException
-     *             if loading of {@link SettingDefinitionProvider} fails
-     */
-    protected AbstractSettingsManager() throws ConfigurationException {
-        settingDefinitionRepository = new SettingDefinitionProviderRepository();
+    @Override
+    public void init() {
+        Collection<SettingDefinition> loaded = loadSettingDefinitions();
+        this.definitions = new HashSet<>(loaded.size());
+        this.definitionByKey = new HashMap<>(loaded.size());
+        for (SettingDefinition<?,?> definition : this.definitions) {
+            this.definitions.add(definition);
+            if (this.definitionByKey.put(definition.getKey(), definition) != null) {
+                LOG.warn("Duplicate setting definition for key {}", definition.getKey());
+            }
+        }
     }
 
-    /**
-     * @return the repository holding the setting definitions
-     */
-    protected SettingDefinitionProviderRepository getSettingDefinitionRepository() {
-        return settingDefinitionRepository;
+    private Collection<SettingDefinition> loadSettingDefinitions() {
+        return this.applicationContext.getBeansOfType(SettingDefinition.class).values();
     }
 
     @Override
     public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
-        return getSettingDefinitionRepository().getSettingDefinitions();
+        return Collections.unmodifiableSet(this.definitions);
+    }
+
+    @Override
+    public SettingDefinition<?, ?> getDefinitionByKey(String key) {
+        return this.definitionByKey.get(key);
     }
 
     /**
@@ -210,7 +226,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
         Set<SettingValue<?>> values = getSettingValues();
         Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition = new HashMap<>(values.size());
         for (SettingValue<?> value : values) {
-            final SettingDefinition<?, ?> definition = getSettingDefinitionRepository().getDefinition(value.getKey());
+            final SettingDefinition<?, ?> definition = getDefinitionByKey(value.getKey());
             if (definition == null) {
                 LOG.warn("No definition for '{}' found.", value.getKey());
             } else {
@@ -235,6 +251,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
         return !getAdminUsers().isEmpty();
     }
 
+
     @Override
     public void configure(Object object) throws ConfigurationException {
         LOG.debug("Configuring {}", object);
@@ -252,7 +269,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
                 if (key == null || key.isEmpty()) {
                     throw new ConfigurationException(String.format("Invalid value for @Setting: '%s'", key));
                 }
-                if (getSettingDefinitionRepository().getDefinition(key) == null) {
+                if (getDefinitionByKey(key) == null) {
                     throw new ConfigurationException(String.format("No SettingDefinition found for key %s", key));
                 }
                 if (method.getParameterTypes().length != 1) {
@@ -282,11 +299,6 @@ public abstract class AbstractSettingsManager extends SettingsManager {
             throw new ConfigurationException("Exception configuring " + co.getKey(), cpe);
         }
 
-    }
-
-    @Override
-    public SettingDefinition<?, ?> getDefinitionByKey(String key) {
-        return getSettingDefinitionRepository().getDefinition(key);
     }
 
     @SuppressWarnings("unchecked")
@@ -356,12 +368,12 @@ public abstract class AbstractSettingsManager extends SettingsManager {
     }
 
     @Override
-    public void setActive(OwsExtendedCapabilitiesKey oeck, boolean active) throws ConnectionProviderException {
+    public void setActive(OwsExtendedCapabilitiesProviderKey oeck, boolean active) throws ConnectionProviderException {
         setActive(oeck, active, true);
     }
 
     @Override
-    public void setActive(OwsExtendedCapabilitiesKey oeck, boolean active, boolean updateRepository) throws ConnectionProviderException {
+    public void setActive(OwsExtendedCapabilitiesProviderKey oeck, boolean active, boolean updateRepository) throws ConnectionProviderException {
         LOG.debug("Setting status of {} to {}", oeck, active);
         setOwsExtendedCapabilitiesStatus(oeck, active);
         this.owsExtendedCapabilitiesRepository.setActive(oeck, active);
@@ -470,7 +482,7 @@ public abstract class AbstractSettingsManager extends SettingsManager {
 
     protected abstract void setOfferingExtensionStatus(OfferingExtensionKey oek, boolean active) throws ConnectionProviderException;
 
-    protected abstract void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesKey oeck, boolean active) throws ConnectionProviderException;
+    protected abstract void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey oeck, boolean active) throws ConnectionProviderException;
 
     private class ConfigurableObject {
         private final Method method;

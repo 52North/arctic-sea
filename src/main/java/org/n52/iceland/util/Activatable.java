@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
  * @param <T>
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
- * 
+ *
  */
 public class Activatable<T> {
     private T object;
@@ -103,7 +103,7 @@ public class Activatable<T> {
         if (set == null) {
             return Sets.newHashSet();
         }
-        Set<E> filtered = new HashSet<E>(set.size());
+        Set<E> filtered = new HashSet<>(set.size());
         for (Activatable<E> a : set) {
             if (a.isActive()) {
                 filtered.add(a.get());
@@ -116,7 +116,7 @@ public class Activatable<T> {
         if (set == null) {
             return Sets.newHashSet();
         }
-        Set<E> unfiltered = new HashSet<E>(set.size());
+        Set<E> unfiltered = new HashSet<>(set.size());
         for (Activatable<E> a : set) {
             unfiltered.add(a.getInternal());
         }
@@ -127,7 +127,7 @@ public class Activatable<T> {
         if (map == null) {
             return Maps.newHashMap();
         }
-        Map<K, V> filtered = new HashMap<K, V>(map.size());
+        Map<K, V> filtered = new HashMap<>(map.size());
         for (K k : map.keySet()) {
             if (map.get(k) != null) {
                 filtered.put(k, map.get(k).getInternal());
@@ -137,7 +137,7 @@ public class Activatable<T> {
     }
 
     public static <E> Set<Activatable<E>> from(Set<E> set) {
-        Set<Activatable<E>> a = new HashSet<Activatable<E>>(set.size());
+        Set<Activatable<E>> a = new HashSet<>(set.size());
         for (E t : set) {
             a.add(from(t));
         }
@@ -149,6 +149,6 @@ public class Activatable<T> {
     }
 
     public static <T> Activatable<T> from(T t, boolean active) {
-        return new Activatable<T>(t, active);
+        return new Activatable<>(t, active);
     }
 }

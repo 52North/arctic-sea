@@ -27,7 +27,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
-public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
+public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> {
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
     private final LoadingCache<Locale, T> cache = CacheBuilder.newBuilder()
@@ -50,10 +50,8 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
     }
 
     @Override
-    public T get()
-            throws ConfigurationException {
-        Locale l = null;
-        return get(l);
+    public T get() throws ConfigurationException {
+        return get((Locale) null);
     }
 
     @Override
@@ -77,11 +75,6 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
                 }
             }
         }
-    }
-    
-    @Override
-    public T get(String identification) {
-        return get();
     }
 
     protected abstract T create(Locale language)

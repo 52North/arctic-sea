@@ -19,28 +19,22 @@ package org.n52.iceland.ds;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsOperation;
 import org.n52.iceland.service.ConformanceClass;
+import org.n52.iceland.component.Component;
 
 /**
  * Interface for all operation Handlers.
- * 
+ *
  * In 52N SOS version 4.x called OperationDAO
- * 
+ *
  * @since 1.0.0
  */
-public interface OperationHandler extends DatasourceDaoIdentifier, ConformanceClass{
-
-    /**
-     * Get the operation and service key this Handler supports
-     * 
-     * @return The supported operation name
-     */
-    OperationHandlerKeyType getOperationHandlerKeyType();
+public interface OperationHandler extends DatasourceDaoIdentifier, ConformanceClass, Component<OperationHandlerKey> {
 
     /**
      * TODO check if necessary in feature
-     * 
+     *
      * Get the operation name this Handler supports
-     * 
+     *
      * @return The supported operation name
      */
     String getOperationName();
@@ -48,13 +42,13 @@ public interface OperationHandler extends DatasourceDaoIdentifier, ConformanceCl
     /**
      * Get the OperationsMetadata of the supported SOS operation for the
      * capabilities
-     * 
+     *
      * @param service
      *            OGC service identifier
      * @param version
      *            Service version
      * @return OperationsMetadata for the operation
-     * 
+     *
      * @throws OwsExceptionReport
      *             If an error occurs.
      */
@@ -67,5 +61,5 @@ public interface OperationHandler extends DatasourceDaoIdentifier, ConformanceCl
     // * @throws OwsExceptionReport
     // */
     // // SosCapabilitiesExtension getExtension() throws OwsExceptionReport;
-    
+
 }

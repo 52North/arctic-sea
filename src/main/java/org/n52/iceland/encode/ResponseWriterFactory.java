@@ -16,34 +16,16 @@
  */
 package org.n52.iceland.encode;
 
+import org.n52.iceland.component.ComponentFactory;
+
 /**
  * Response writer factory which is loaded by the
  * {@link ResponseWriterRepository} and creates for each request an new
  * {@link ResponseWriter} implementation.
- * 
+ *
  * @author Carsten Hollmann <c.hollmann@52north.org>
  * @since 4.1.0
- *
- * @param <T>
- *            The type this factory supports
- * @param <S>
- *            The {@link ResponseWriter} this factory supports
  */
-public interface ResponseWriterFactory<T, S extends ResponseWriter<T>> {
-
-	/**
-	 * Get the type this {@link ResponseWriterFactory} supports
-	 * 
-	 * @return the supported type
-	 */
-	Class<T> getType();
-
-	/**
-	 * Get the {@link ResponseWriter} this {@link ResponseWriterFactory}
-	 * supports
-	 * 
-	 * @return the response writer
-	 */
-	S getResponseWriter();
+public interface ResponseWriterFactory extends ComponentFactory<ResponseWriterKey, ResponseWriter<?>> {
 
 }

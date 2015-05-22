@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.util.collections;
 
-import org.n52.iceland.util.HashSetMultiMap;
-
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>

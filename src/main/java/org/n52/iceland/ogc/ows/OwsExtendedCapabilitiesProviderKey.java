@@ -26,7 +26,7 @@ import org.n52.iceland.service.operator.ServiceOperatorKey;
  * @since 4.1.0
  *
  */
-public class OwsExtendedCapabilitiesKey extends AbstractComparableServiceVersionDomainKey<OwsExtendedCapabilitiesKey>  {
+public class OwsExtendedCapabilitiesProviderKey extends AbstractComparableServiceVersionDomainKey<OwsExtendedCapabilitiesProviderKey>  {
 
     /**
      * constructor
@@ -36,7 +36,7 @@ public class OwsExtendedCapabilitiesKey extends AbstractComparableServiceVersion
      * @param domain
      *            the domain to set
      */
-    public OwsExtendedCapabilitiesKey(ServiceOperatorKey sok, String domain) {
+    public OwsExtendedCapabilitiesProviderKey(ServiceOperatorKey sok, String domain) {
         super(sok, domain);
     }
 
@@ -50,7 +50,7 @@ public class OwsExtendedCapabilitiesKey extends AbstractComparableServiceVersion
      * @param domain
      *            the domain to set
      */
-    public OwsExtendedCapabilitiesKey(String service, String version, String domain) {
+    public OwsExtendedCapabilitiesProviderKey(String service, String version, String domain) {
         super(service, version, domain);
     }
 }

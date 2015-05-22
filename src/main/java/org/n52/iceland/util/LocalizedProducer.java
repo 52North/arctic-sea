@@ -14,15 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util.lifecycle;
+package org.n52.iceland.util;
 
-import javax.annotation.PreDestroy;
+import java.util.Locale;
 
 /**
+ * Generic Factory interface.
+ *
+ * @param <T>
+ *            the type to produce
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 5.0.0
+ * @since 4.0.0
+ *
  */
-public interface Destroyable {
-    @PreDestroy
-    void destroy();
+public interface LocalizedProducer<T> extends Producer<T> {
+
+    /**
+     * Get language specific Producer result
+     *
+     * @param language
+     *                 The resulting language
+     *
+     * @return Result in the specified language
+     */
+    T get(Locale language);
 }

@@ -14,28 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.component;
 
 import java.util.Iterator;
 import java.util.ServiceConfigurationError;
 import java.util.ServiceLoader;
 
-import org.n52.iceland.ds.DatasourceDaoIdentifier;
-import org.n52.iceland.exception.ows.concrete.NoImplementationFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.ds.DatasourceDaoIdentifier;
+import org.n52.iceland.exception.ows.concrete.NoImplementationFoundException;
+
+@Deprecated
 public class ServiceLoaderHelper {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ServiceLoaderHelper.class);
-    
+
     /**
      * Return an implementation of a class, loaded by the ServiceLoader
-     * 
+     *
      * @param clazz The class to load
      * @return An implementation of the class
      * @throws NoImplementationFoundException
+     * @deprecated use injection
      */
+    @Deprecated
     public static <T> T loadImplementation(Class<T> clazz) throws NoImplementationFoundException {
         T impl = null;
         ServiceLoader<T> sl = ServiceLoader.load(clazz);
@@ -47,15 +51,17 @@ public class ServiceLoaderHelper {
         }
         return impl;
     }
-    
+
     /**
      * Return an implementation of a class, loaded by the ServiceLoader
-     * 
+     *
      * @param clazz The class to load
      * @param datasourceIdentificator The identificator for the loaded class
      * @return An implementation of the class
      * @throws NoImplementationFoundException
+     * @deprecated use injection
      */
+    @Deprecated
     public static <T> T loadImplementation(Class<T> clazz, String datasourceIdentificator) throws NoImplementationFoundException {
         T impl = null;
         ServiceLoader<T> sl = ServiceLoader.load(clazz);

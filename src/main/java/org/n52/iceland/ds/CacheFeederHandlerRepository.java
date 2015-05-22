@@ -16,33 +16,33 @@
  */
 package org.n52.iceland.ds;
 
+import org.n52.iceland.component.ServiceLoaderHelper;
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.exception.ows.concrete.NoImplementationFoundException;
-import org.n52.iceland.util.ServiceLoaderHelper;
 
 /**
  * @author Shane StClair <shane@axiomalaska.com>
- * 
+ *
  * @since 4.0.2
  */
 public class CacheFeederHandlerRepository {
 	private static class LazyHolder {
 		private static final CacheFeederHandlerRepository INSTANCE = new CacheFeederHandlerRepository();
-		
+
 		private LazyHolder() {};
 	}
 
 	private static String datasourceDaoIdentficator;
-	
-	
+
+
     /**
      * @return Returns a singleton instance of the {@link CacheFeederHandlerRepository}.
      */
     public static CacheFeederHandlerRepository getInstance() {
         return LazyHolder.INSTANCE;
     }
-    
+
     /**
      * @return Returns a singleton instance of the {@link CacheFeederHandlerRepository}.
      */
@@ -50,7 +50,7 @@ public class CacheFeederHandlerRepository {
         setDatasourceDaoIdentficator(datasourceDaoIdentficator);
         return getInstance();
     }
-    
+
     private static void setDatasourceDaoIdentficator(String datasourceDaoIdentficator) {
         CacheFeederHandlerRepository.datasourceDaoIdentficator = datasourceDaoIdentficator;
     }
@@ -60,10 +60,10 @@ public class CacheFeederHandlerRepository {
 
     /**
      * Load implemented {@link CacheFeederHandler}
-     * 
+     *
      * @throws ConfigurationException
      *             If no {@link CacheFeederHandler} implementation is found
-     * @throws ConfigurationException 
+     * @throws ConfigurationException
      */
     private CacheFeederHandlerRepository() throws ConfigurationException {
         try {

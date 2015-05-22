@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.ows;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -31,11 +32,13 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.CollectionHelper;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -45,13 +48,13 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  *
  */
-public class OwsExtendedCapabilitiesRepository
-    extends AbstractConfiguringServiceLoaderRepository<OwsExtendedCapabilitiesProvider> {
+public class OwsExtendedCapabilitiesProviderRepository
+        extends AbstractUniqueKeyComponentRepository<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider, OwsExtendedCapabilitiesProviderFactory> {
     @Deprecated
-    private static OwsExtendedCapabilitiesRepository instance;
-    private static final Logger LOGGER = LoggerFactory.getLogger(OwsExtendedCapabilitiesRepository.class);
+    private static OwsExtendedCapabilitiesProviderRepository instance;
+    private static final Logger LOGGER = LoggerFactory.getLogger(OwsExtendedCapabilitiesProviderRepository.class);
 
-    private final Map<OwsExtendedCapabilitiesKey, Activatable<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProvider = new HashMap<>();
+    private final Map<OwsExtendedCapabilitiesProviderKey, Activatable<Producer<OwsExtendedCapabilitiesProvider>>> extendedCapabilitiesProvider = new HashMap<>();
 
     @Inject
     private SettingsManager settingsManager;
@@ -62,45 +65,42 @@ public class OwsExtendedCapabilitiesRepository
      * @return The single instance
      */
     @Deprecated
-    public static OwsExtendedCapabilitiesRepository getInstance() {
-        return OwsExtendedCapabilitiesRepository.instance;
+    public static OwsExtendedCapabilitiesProviderRepository getInstance() {
+        return OwsExtendedCapabilitiesProviderRepository.instance;
     }
 
     /**
-     * Load implemented {@link OwsExtendedCapabilities}
-     *
-     * @throws ConfigurationException
-     *             If no Capabilities extension providerr is implemented
+     * Load implemented {@link OwsExtendedCapabilities}.
      */
-    private OwsExtendedCapabilitiesRepository() throws ConfigurationException {
-        super(OwsExtendedCapabilitiesProvider.class, false);
-        load(false);
-        OwsExtendedCapabilitiesRepository.instance = this;
+    public OwsExtendedCapabilitiesProviderRepository() {
+        super(OwsExtendedCapabilitiesProvider.class, OwsExtendedCapabilitiesProviderFactory.class);
+        OwsExtendedCapabilitiesProviderRepository.instance = this;
     }
 
     @Override
-    protected void processConfiguredImplementations(
-            final Set<OwsExtendedCapabilitiesProvider> extendedCapabilitiesProviders) throws ConfigurationException {
+    protected void processImplementations(Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProviders) {
         this.extendedCapabilitiesProvider.clear();
         Set<ServiceOperatorKey> activeSokts = Sets.newHashSet();
-        for (final OwsExtendedCapabilitiesProvider ecp : extendedCapabilitiesProviders) {
-            for (OwsExtendedCapabilitiesKey key : ecp.getExtendedCapabilitiesKeyType()) {
-                try {
-                    LOGGER.info("Registered OwsExtendedCapabilitiesProvider for {}", key);
-                    if (this.settingsManager.isActive(key)) {
-                        if (activeSokts.contains(key.getServiceOperatorKey())) {
-                            this.settingsManager.setActive(key, false, false);
-                        } else {
-                            activeSokts.add(key.getServiceOperatorKey());
-                        }
+        for (Entry<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> entry: extendedCapabilitiesProviders.entrySet()) {
+            try {
+                OwsExtendedCapabilitiesProviderKey key = entry.getKey();
+                Producer<OwsExtendedCapabilitiesProvider> value = entry.getValue();
+                LOGGER.info("Registered OwsExtendedCapabilitiesProvider for {}", key);
+                boolean isActive = this.settingsManager.isActive(key);
+                if (isActive) {
+                    if (activeSokts.contains(key.getServiceOperatorKey())) {
+                        this.settingsManager.setActive(key, false, false);
+                    } else {
+                        activeSokts.add(key.getServiceOperatorKey());
                     }
-                    this.extendedCapabilitiesProvider.put(key, Activatable.from(ecp, this.settingsManager.isActive(key)));
-                } catch (final ConnectionProviderException ex) {
-                    throw new ConfigurationException("Could not check status of Binding", ex);
                 }
+                this.extendedCapabilitiesProvider.put(key, Activatable.from(value, isActive));
+            } catch (final ConnectionProviderException ex) {
+                throw new ConfigurationException("Could not check status of OwsExtendedCapabilitiesProvider", ex);
             }
         }
     }
+
 
     /**
      * Get map of all, active and inactive,
@@ -108,8 +108,8 @@ public class OwsExtendedCapabilitiesRepository
      *
      * @return the map with all {@link OwsExtendedCapabilitiesProvider}s
      */
-    public Map<OwsExtendedCapabilitiesKey, OwsExtendedCapabilitiesProvider> getAllExtendedCapabilitiesProviders() {
-        return Activatable.unfiltered(extendedCapabilitiesProvider);
+    public Map<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider> getAllExtendedCapabilitiesProviders() {
+        return produce(Activatable.unfiltered(extendedCapabilitiesProvider));
     }
 
     /**
@@ -117,8 +117,8 @@ public class OwsExtendedCapabilitiesRepository
      *
      * @return the map with all active {@link OwsExtendedCapabilitiesProvider}s
      */
-    public Map<OwsExtendedCapabilitiesKey, OwsExtendedCapabilitiesProvider> getExtendedCapabilitiesProviders() {
-        return Activatable.filter(extendedCapabilitiesProvider);
+    public Map<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider> getExtendedCapabilitiesProviders() {
+        return produce(Activatable.filter(extendedCapabilitiesProvider));
     }
 
     /**
@@ -134,7 +134,7 @@ public class OwsExtendedCapabilitiesRepository
             AbstractServiceCommunicationObject serviceCommunicationObject) {
         for (String name : getDomains()) {
             OwsExtendedCapabilitiesProvider provider =
-                    getExtendedCapabilitiesProvider(new OwsExtendedCapabilitiesKey(
+                    getExtendedCapabilitiesProvider(new OwsExtendedCapabilitiesProviderKey(
                             serviceCommunicationObject.getService(), serviceCommunicationObject.getVersion(), name));
             if (provider != null) {
                 return provider;
@@ -145,13 +145,13 @@ public class OwsExtendedCapabilitiesRepository
 
     /**
      * Get the loaded {@link OwsExtendedCapabilitiesProvider} implementation for
-     * the specific {@link OwsExtendedCapabilitiesKey}
+     * the specific {@link OwsExtendedCapabilitiesProviderKey}
      *
      * @param key
-     *            The related {@link OwsExtendedCapabilitiesKey}
+     *            The related {@link OwsExtendedCapabilitiesProviderKey}
      * @return loaded {@link OwsExtendedCapabilitiesProvider} implementation
      */
-    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(OwsExtendedCapabilitiesKey key) {
+    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(OwsExtendedCapabilitiesProviderKey key) {
         return getExtendedCapabilitiesProviders().get(key);
 //      final Activatable<OwsExtendedCapabilitiesProvider> provider = extendedCapabilitiesProvider.get(key);
 //      return provider == null ? null : provider.get();
@@ -169,10 +169,9 @@ public class OwsExtendedCapabilitiesRepository
      *         {@link AbstractServiceCommunicationObject}
      */
     public boolean hasExtendedCapabilitiesProvider(AbstractServiceCommunicationObject serviceCommunicationObject) {
-        boolean hasProvider = false;
+        boolean hasProvider;
         for (String name : getDomains()) {
-            hasProvider =
-                    hasExtendedCapabilitiesProvider(new OwsExtendedCapabilitiesKey(
+            hasProvider = hasExtendedCapabilitiesProvider(new OwsExtendedCapabilitiesProviderKey(
                             serviceCommunicationObject.getService(), serviceCommunicationObject.getVersion(), name));
             if (hasProvider) {
                 return hasProvider;
@@ -183,32 +182,32 @@ public class OwsExtendedCapabilitiesRepository
 
     /**
      * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
-     * loaded for the specific {@link OwsExtendedCapabilitiesKey}
+     * loaded for the specific {@link OwsExtendedCapabilitiesProviderKey}
      *
      * @param key
-     *            The related {@link OwsExtendedCapabilitiesKey} to check for
+     *            The related {@link OwsExtendedCapabilitiesProviderKey} to check for
      * @return <code>true</code>, if a {@link OwsExtendedCapabilitiesProvider}
      *         implementation is loaded for the specific
-     *         {@link OwsExtendedCapabilitiesKey}
+     *         {@link OwsExtendedCapabilitiesProviderKey}
      */
-    public boolean hasExtendedCapabilitiesProvider(final OwsExtendedCapabilitiesKey oeckt) {
-        return getExtendedCapabilitiesProviders().containsKey(oeckt);
+    public boolean hasExtendedCapabilitiesProvider(OwsExtendedCapabilitiesProviderKey key) {
+        return getExtendedCapabilitiesProviders().containsKey(key);
     }
 
     /**
      * Change the status of the {@link OwsExtendedCapabilitiesProvider} which
-     * relates to the requested {@link OwsExtendedCapabilitiesKey}
+     * relates to the requested {@link OwsExtendedCapabilitiesProviderKey}
      *
      * @param oeckt
-     *            the {@link OwsExtendedCapabilitiesKey} to change the status
+     *            the {@link OwsExtendedCapabilitiesProviderKey} to change the status
      *            for
      * @param active
      *            the new status
      */
-    public void setActive(final OwsExtendedCapabilitiesKey oeckt, final boolean active) {
+    public void setActive(OwsExtendedCapabilitiesProviderKey oeckt, boolean active) {
         if (getAllExtendedCapabilitiesProviders().containsKey(oeckt)) {
             if (active) {
-                for (OwsExtendedCapabilitiesKey key : getAllExtendedCapabilitiesProviders().keySet()) {
+                for (OwsExtendedCapabilitiesProviderKey key : getAllExtendedCapabilitiesProviders().keySet()) {
                     if (key.getService().equals(oeckt.getService()) && key.getVersion().equals(oeckt.getVersion())) {
                         extendedCapabilitiesProvider.get(key).setActive(false);
                     }
@@ -225,20 +224,20 @@ public class OwsExtendedCapabilitiesRepository
      */
     public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
         Map<ServiceOperatorKey, Collection<String>> domains = Maps.newHashMap();
-        for (OwsExtendedCapabilitiesKey key : getAllExtendedCapabilitiesProviders().keySet()) {
+        for (OwsExtendedCapabilitiesProviderKey key : getAllExtendedCapabilitiesProviders().keySet()) {
             CollectionHelper.addToCollectionMap(key.getServiceOperatorKey(), key.getDomain(), domains);
         }
         return domains;
     }
 
     /**
-     * Get all domain values from {@link OwsExtendedCapabilitiesKey}
+     * Get all domain values from {@link OwsExtendedCapabilitiesProviderKey}
      *
      * @return the domain values
      */
     private Set<String> getDomains() {
         Set<String> domains = Sets.newHashSet();
-        for (OwsExtendedCapabilitiesKey key : getExtendedCapabilitiesProviders().keySet()) {
+        for (OwsExtendedCapabilitiesProviderKey key : getExtendedCapabilitiesProviders().keySet()) {
             domains.add(key.getDomain());
         }
         return domains;

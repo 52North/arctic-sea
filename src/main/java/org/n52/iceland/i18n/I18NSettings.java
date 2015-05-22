@@ -43,7 +43,7 @@ public class I18NSettings implements SettingDefinitionProvider {
 
     public static final SettingDefinitionGroup GROUP
             = new SettingDefinitionGroup().setTitle("I18N")
-            .setOrder(ORDER_10).setShwoInDefaultSettings(false);
+            .setOrder(ORDER_10).setShowInDefaultSettings(false);
 
     public static final StringSettingDefinition I18N_DEFAULT_LANGUAGE_DEFINITION
             = new StringSettingDefinition()

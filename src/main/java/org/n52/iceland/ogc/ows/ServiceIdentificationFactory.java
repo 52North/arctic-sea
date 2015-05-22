@@ -46,7 +46,7 @@ import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
 import org.n52.iceland.util.XmlHelper;
-import org.n52.iceland.util.lifecycle.Constructable;
+import org.n52.iceland.lifecycle.Constructable;
 
 import com.google.common.collect.Sets;
 

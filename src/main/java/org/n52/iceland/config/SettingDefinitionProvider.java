@@ -30,7 +30,7 @@ import org.n52.iceland.config.annotation.Configurable;
  * classes loaded by the service, that are annotated with the
  * <code>&#064;Configurable</code> annotation.
  * <p/>
- * 
+ *
  * @see Configurable
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0

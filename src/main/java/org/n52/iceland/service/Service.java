@@ -18,8 +18,8 @@ package org.n52.iceland.service;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -228,7 +228,7 @@ public class Service extends HttpServlet {
             }
         }
 
-        for (String prefix : repo.getBindings().keySet()) {
+        for (String prefix : repo.getAllBindingsByPath().keySet()) {
             if (requestURI.startsWith(prefix)) {
                 return repo.getBinding(prefix);
             }
@@ -299,7 +299,7 @@ public class Service extends HttpServlet {
 
     private Set<String> getDeclaredBindingMethods(Class<?> c) {
         if (c.equals(Binding.class)) {
-            return new HashSet<>();
+            return Collections.emptySet();
         } else {
             Set<String> parent = getDeclaredBindingMethods(c.getSuperclass());
             for (Method m : c.getDeclaredMethods()) {

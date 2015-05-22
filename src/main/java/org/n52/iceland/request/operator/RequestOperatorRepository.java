@@ -17,8 +17,8 @@
 package org.n52.iceland.request.operator;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -31,21 +31,24 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.Activatable;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+
+import com.google.common.collect.Maps;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
  * @since 4.0.0
  */
-public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderRepository<RequestOperator> {
+public class RequestOperatorRepository extends AbstractUniqueKeyComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory> {
     private static final Logger LOG = LoggerFactory.getLogger(RequestOperatorRepository.class);
 
     @Deprecated
     private static RequestOperatorRepository instance;
 
-    private final Map<RequestOperatorKey, Activatable<RequestOperator>> requestOperators = new HashMap<>();
+    private final Map<RequestOperatorKey, Activatable<Producer<RequestOperator>>> requestOperators = Maps.newHashMap();
 
     @Inject
     private SettingsManager settingsManager;
@@ -58,21 +61,20 @@ public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderR
      *
      * @throws ConfigurationException
      */
-    private RequestOperatorRepository() throws ConfigurationException {
-        super(RequestOperator.class, false);
-        load(false);
+    private RequestOperatorRepository() {
+        super(RequestOperator.class, RequestOperatorFactory.class);
         RequestOperatorRepository.instance = this;
     }
 
     @Override
-    protected void processConfiguredImplementations(final Set<RequestOperator> requestOperators)
-            throws ConfigurationException {
+    protected void processImplementations(Map<RequestOperatorKey, Producer<RequestOperator>> implementations) {
         this.requestOperators.clear();
-        for (final RequestOperator op : requestOperators) {
+        for (Entry<RequestOperatorKey, Producer<RequestOperator>> entry
+             : implementations.entrySet()) {
             try {
-                LOG.info("Registered IRequestOperator for {}", op.getRequestOperatorKeyType());
-                final boolean active = this.settingsManager.isActive(op.getRequestOperatorKeyType());
-                this.requestOperators.put(op.getRequestOperatorKeyType(), new Activatable<>(op, active));
+                RequestOperatorKey key = entry.getKey();
+                boolean active = this.settingsManager.isActive(key);
+                this.requestOperators.put(key, new Activatable<>(entry.getValue(), active));
             } catch (final ConnectionProviderException cpe) {
                 throw new ConfigurationException("Error while checking RequestOperator", cpe);
             }
@@ -86,8 +88,8 @@ public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderR
     }
 
     public RequestOperator getRequestOperator(final RequestOperatorKey key) {
-        final Activatable<RequestOperator> a = requestOperators.get(key);
-        return a == null ? null : a.get();
+        final Activatable<Producer<RequestOperator>> a = requestOperators.get(key);
+        return a == null ? null : a.get().get();
     }
 
     public RequestOperator getRequestOperator(final ServiceOperatorKey sok, final String operationName) {
@@ -106,6 +108,11 @@ public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderR
 
     public Set<RequestOperatorKey> getAllRequestOperatorKeys() {
         return Collections.unmodifiableSet(requestOperators.keySet());
+    }
+
+    public boolean isActive(RequestOperatorKey rok) {
+        Activatable<Producer<RequestOperator>> ro = this.requestOperators.get(rok);
+        return ro != null && ro.isActive();
     }
 
     @Deprecated

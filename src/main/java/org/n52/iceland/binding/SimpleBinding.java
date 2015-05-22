@@ -59,9 +59,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public abstract class SimpleBinding extends Binding {
@@ -264,9 +264,7 @@ public abstract class SimpleBinding extends Binding {
                 response.setStatus(oer.getStatus().getCode());
             }
             HTTPUtils.writeObject(request, response, contentType, encoded);
-        } catch (IOException e) {
-            throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
-        } catch (OwsExceptionReport e) {
+        } catch (IOException | OwsExceptionReport e) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
     }

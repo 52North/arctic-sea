@@ -16,20 +16,18 @@
  */
 package org.n52.iceland.convert;
 
-import java.util.Set;
 
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.iceland.component.Component;
 
-public interface RequestResponseModifier<T extends AbstractServiceRequest<?>,S extends AbstractServiceResponse> {
-    
-    Set<RequestResponseModifierKeyType> getRequestResponseModifierKeyTypes();
-    
-    T modifyRequest(T request) throws OwsExceptionReport;
+public interface RequestResponseModifier extends Component<RequestResponseModifierKeyType> {
 
-    S modifyResponse(T request, S response) throws OwsExceptionReport;
-    
+    AbstractServiceRequest<?> modifyRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
+
+    AbstractServiceResponse modifyResponse(AbstractServiceRequest<?> request, AbstractServiceResponse response) throws OwsExceptionReport;
+
     RequestResponseModifierFacilitator getFacilitator();
-    
+
 }

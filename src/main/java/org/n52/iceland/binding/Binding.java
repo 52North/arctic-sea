@@ -17,6 +17,7 @@
 package org.n52.iceland.binding;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,31 +28,32 @@ import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.service.ConformanceClass;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
+import org.n52.iceland.component.Component;
 
 /**
  * Abstract Super class for binding implementations<br />
- * 
+ *
  * Context:<br />
  * The <code>Binding.check*()</code> methods are called during GetCapabilities
  * processing when collecting the operations metadata.
- * 
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 4.0.0
  */
-public abstract class Binding implements ConformanceClass {
+public abstract class Binding implements ConformanceClass, Component<BindingKey> {
     /**
      * HTTP DELETE request handling method
-     * 
+     *
      * @param request
      *            HTTP DELETE request
-     * 
+     *
      * @param response
      *            HTTP DELETE response
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      *             if the encoding of an exception failed
      * @throws IOException
@@ -64,14 +66,14 @@ public abstract class Binding implements ConformanceClass {
 
     /**
      * HTTP GET request handling method
-     * 
+     *
      * @param request
      *            HTTP GET request
-     * 
+     *
      * @param response
      *            HTTP GET response
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      *             if the encoding of an exception failed
      * @throws IOException
@@ -84,14 +86,14 @@ public abstract class Binding implements ConformanceClass {
 
     /**
      * HTTP DELETE request handling method
-     * 
+     *
      * @param request
      *            HTTP DELETE request
-     * 
+     *
      * @param response
      *            HTTP DELETE response
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      *             if the encoding of an exception failed
      * @throws IOException
@@ -104,14 +106,14 @@ public abstract class Binding implements ConformanceClass {
 
     /**
      * HTTP POST request handling method
-     * 
+     *
      * @param request
      *            HTTP POST request
-     * 
+     *
      * @param response
      *            HTTP POST response
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      *             if the encoding of an exception failed
      * @throws IOException
@@ -124,14 +126,14 @@ public abstract class Binding implements ConformanceClass {
 
     /**
      * HTTP PUT request handling method
-     * 
+     *
      * @param request
      *            HTTP PUT request
-     * 
+     *
      * @param response
      *            HTTP PUT response
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      *             if the encoding of an exception failed
      * @throws IOException
@@ -147,7 +149,7 @@ public abstract class Binding implements ConformanceClass {
      * The URL pattern MUST start with "/sos", MUST NOT contain any additional
      * "/", and MUST be unique over all bindings present in the SOS at runtime.<br />
      * For example, a kvp binding could have the pattern "/sos/kvp".
-     * 
+     *
      * @return URL pattern
      */
     public abstract String getUrlPattern();
@@ -155,14 +157,14 @@ public abstract class Binding implements ConformanceClass {
     /**
      * Check, if the operation is supported by the decoder by the HTTP-Delete
      * method.
-     * 
+     *
      * @param decoderKey
      *            identifier of the decoder
-     * 
+     *
      * @return true, if the decoder <code>decoderKey</code> supports HTTP-Delete
      *         for * operation <code>operationName</code>
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      */
     public boolean checkOperationHttpDeleteSupported(OperationKey decoderKey) throws HTTPException {
@@ -172,14 +174,14 @@ public abstract class Binding implements ConformanceClass {
     /**
      * Check, if the operation is supported by the decoder by the HTTP-Get
      * method.
-     * 
+     *
      * @param decoderKey
      *            identifier of the decoder
-     * 
+     *
      * @return true, if the decoder <code>decoderKey</code> supports HTTP-Get
      *         for operation <code>operationName</code>
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      */
     public boolean checkOperationHttpGetSupported(OperationKey decoderKey) throws HTTPException {
@@ -189,14 +191,14 @@ public abstract class Binding implements ConformanceClass {
     /**
      * Check, if the operation is supported by the decoder by the HTTP-Post
      * method.
-     * 
+     *
      * @param decoderKey
      *            identifier of the decoder
-     * 
+     *
      * @return true, if the decoder <code>decoderKey</code> supports HTTP-Post
      *         for operation <code>operationName</code>
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      */
     public boolean checkOperationHttpPostSupported(OperationKey decoderKey) throws HTTPException {
@@ -206,14 +208,14 @@ public abstract class Binding implements ConformanceClass {
     /**
      * Check, if the operation is supported by the decoder by the HTTP-Options
      * method.
-     * 
+     *
      * @param decoderKey
      *            identifier of the decoder
-     * 
+     *
      * @return true, if the decoder <code>decoderKey</code> supports HTTP-Post
      *         for operation <code>operationName</code>
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      */
     public boolean checkOperationHttpOptionsSupported(OperationKey decoderKey) throws HTTPException {
@@ -223,14 +225,14 @@ public abstract class Binding implements ConformanceClass {
     /**
      * Check, if the operation is supported by the decoder by the HTTP-Put
      * method.
-     * 
+     *
      * @param decoderKey
      *            identifier of the decoder
-     * 
+     *
      * @return true, if the decoder <code>decoderKey</code> supports HTTP-Put
      *         for operation <code>operationName</code>
-     * 
-     * 
+     *
+     *
      * @throws HTTPException
      */
     public boolean checkOperationHttpPutSupported(OperationKey decoderKey) throws HTTPException {
@@ -241,6 +243,6 @@ public abstract class Binding implements ConformanceClass {
      * @return the message encoding used as a constraint for the DCP
      */
     public Set<MediaType> getSupportedEncodings() {
-        return null;
+        return Collections.emptySet();
     }
 }

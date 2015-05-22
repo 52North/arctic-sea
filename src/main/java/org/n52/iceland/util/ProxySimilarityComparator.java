@@ -22,21 +22,21 @@ import java.util.Comparator;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @param <T>
  *            the type to compare
  * @param <K>
  *            the similarity type of {@code T}
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public abstract class ProxySimilarityComparator<T, K extends Similar<K>> implements Comparator<T> {
     private final SimilarityComparator<K> comp;
 
     public ProxySimilarityComparator(K ref) {
-        this.comp = new SimilarityComparator<K>(ref);
+        this.comp = new SimilarityComparator<>(ref);
     }
 
     @Override

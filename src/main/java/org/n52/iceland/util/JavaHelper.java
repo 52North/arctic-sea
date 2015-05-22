@@ -138,7 +138,7 @@ public final class JavaHelper {
         } else if (object instanceof Double) {
             return (Double) object;
         }
-        return new Double(Double.NaN);
+        return Double.NaN;
     }
 
     /**
@@ -180,7 +180,7 @@ public final class JavaHelper {
     public static <T> Set<Class<? extends T>> getSubclasses(Class<T> clazz) {
         return reflections.getSubTypesOf(clazz);
     }
-    
+
     public static Set<Integer> getIntegerSetFromString(String s) {
         HashSet<Integer> set = Sets.newHashSet();
         if (StringHelper.isNotEmpty(s)) {

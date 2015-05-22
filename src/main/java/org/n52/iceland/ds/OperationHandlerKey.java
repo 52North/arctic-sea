@@ -22,17 +22,17 @@ package org.n52.iceland.ds;
  * @since 1.0.0
  * 
  */
-public class OperationHandlerKeyType implements Comparable<OperationHandlerKeyType> {
+public class OperationHandlerKey implements Comparable<OperationHandlerKey> {
 
     private String operationName;
 
     private String service;
 
-    public OperationHandlerKeyType() {
+    public OperationHandlerKey() {
         super();
     }
 
-    public OperationHandlerKeyType(String service, String operationName) {
+    public OperationHandlerKey(String service, String operationName) {
         super();
         this.service = service;
         this.operationName = operationName;
@@ -55,8 +55,8 @@ public class OperationHandlerKeyType implements Comparable<OperationHandlerKeyTy
     }
 
     @Override
-    public int compareTo(OperationHandlerKeyType o) {
-        if (o instanceof OperationHandlerKeyType) {
+    public int compareTo(OperationHandlerKey o) {
+        if (o instanceof OperationHandlerKey) {
             if (service.equals(o.service) && operationName.equals(o.operationName)) {
                 return 0;
             }
@@ -72,8 +72,8 @@ public class OperationHandlerKeyType implements Comparable<OperationHandlerKeyTy
      */
     @Override
     public boolean equals(Object paramObject) {
-        if (service != null && operationName != null && paramObject instanceof OperationHandlerKeyType) {
-            OperationHandlerKeyType toCheck = (OperationHandlerKeyType) paramObject;
+        if (service != null && operationName != null && paramObject instanceof OperationHandlerKey) {
+            OperationHandlerKey toCheck = (OperationHandlerKey) paramObject;
             return (service.equals(toCheck.service) && operationName.equals(toCheck.operationName));
         }
         return false;

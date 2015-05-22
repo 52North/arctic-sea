@@ -100,7 +100,7 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
      *            Display in default settings
      * @return this
      */
-    public SettingDefinitionGroup setShwoInDefaultSettings(boolean showInDefaultSetting) {
+    public SettingDefinitionGroup setShowInDefaultSettings(boolean showInDefaultSetting) {
         this.showInDefaultSetting = showInDefaultSetting;
         return this;
     }

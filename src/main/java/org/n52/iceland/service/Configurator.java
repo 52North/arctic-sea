@@ -16,12 +16,8 @@
  */
 package org.n52.iceland.service;
 
-import static org.n52.iceland.util.repository.ConfiguringSingletonServiceLoader.loadAndConfigure;
+import static org.n52.iceland.component.ConfiguringSingletonServiceLoader.loadAndConfigure;
 
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
@@ -53,10 +49,11 @@ import org.n52.iceland.ogc.ows.OwsServiceIdentification;
 import org.n52.iceland.ogc.ows.OwsServiceProvider;
 import org.n52.iceland.ogc.ows.ServiceIdentificationFactory;
 import org.n52.iceland.ogc.ows.ServiceProviderFactory;
-import org.n52.iceland.util.repository.ConfiguringSingletonServiceLoader;
+import org.n52.iceland.util.LocalizedProducer;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.util.lifecycle.Constructable;
-import org.n52.iceland.util.lifecycle.Destroyable;
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.lifecycle.Destroyable;
+import org.n52.iceland.component.ConfiguringSingletonServiceLoader;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -138,13 +135,7 @@ public class Configurator implements Constructable, Destroyable {
             Datasource datasource = (Datasource) Class.forName(className).newInstance();
             connectionProviderIdentificator = datasource.getConnectionProviderIdentifier();
             datasourceDaoIdentificator = datasource.getDatasourceDaoIdentifier();
-        } catch (ClassNotFoundException ex) {
-            LOGGER.error("Can not instantiate Datasource!", ex);
-            throw new ConfigurationException(ex);
-        } catch (InstantiationException ex) {
-            LOGGER.error("Can not instantiate Datasource!", ex);
-            throw new ConfigurationException(ex);
-        } catch (IllegalAccessException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
             LOGGER.error("Can not instantiate Datasource!", ex);
             throw new ConfigurationException(ex);
         }
@@ -201,7 +192,7 @@ public class Configurator implements Constructable, Destroyable {
 
     @Deprecated
     public ServiceIdentificationFactory getServiceIdentificationFactory() throws OwsExceptionReport {
-        return (ServiceIdentificationFactory) serviceIdentificationFactory;
+        return serviceIdentificationFactory;
     }
 
     /**
@@ -306,32 +297,10 @@ public class Configurator implements Constructable, Destroyable {
     public synchronized void destroy() {
         cleanup(dataConnectionProvider);
         cleanup(featureConnectionProvider);
-        cleanupDrivers(getProvidedJdbcDriver());
         instance = null;
     }
 
 
-    protected void cleanupDrivers(Set<String> providedJdbcDriver) {
-        if (ServiceConfiguration.getInstance().isDeregisterJdbcDriver()) {
-            LOGGER.debug("Deregistering JDBC driver is enabled!");
-            Enumeration<Driver> drivers = DriverManager.getDrivers();
-            while (drivers.hasMoreElements()) {
-                Driver driver = drivers.nextElement();
-                if (!providedJdbcDriver.contains(driver.getClass().getName())) {
-                    try {
-                        DriverManager.deregisterDriver(driver);
-                        LOGGER.info("Deregistering JDBC driver: {}", driver);
-                    } catch (SQLException e) {
-                        LOGGER.error("Error deregistering driver " + driver, e);
-                    }
-                } else {
-                    LOGGER.debug("JDBC driver {} is marked to do not deregister", driver);
-                }
-            }
-        } else {
-            LOGGER.debug("Deregistering of JDBC driver(s) is disabled!");
-        }
-    }
 
     /**
      * @return the connectionProviderIdentificator
@@ -372,42 +341,43 @@ public class Configurator implements Constructable, Destroyable {
      *             if the initialization failed
      */
     @Deprecated
-    public static Configurator createInstance(
-            final Properties connectionProviderConfig,
-                                              final String basepath)
-            throws ConfigurationException {
-        return instance;
+    public static Configurator createInstance( Properties connectionProviderConfig, String basepath) {
+        return getInstance();
     }
 
-    private static void cleanup(final Destroyable c) {
+    private static void cleanup(Destroyable c) {
         if (c != null) {
             c.destroy();
         }
     }
 
-    protected static <T> T get(final Producer<T> factory)
-            throws OwsExceptionReport {
+    protected static <T> T get(Producer<T> factory) throws OwsExceptionReport {
         try {
             return factory.get();
-        } catch (final Exception e) {
-            if (e.getCause() != null && e.getCause() instanceof OwsExceptionReport) {
+        } catch (Exception e) {
+            if (e instanceof OwsExceptionReport) {
+                throw (OwsExceptionReport) e;
+            } else if (e.getCause() instanceof OwsExceptionReport) {
                 throw (OwsExceptionReport) e.getCause();
             } else {
-                throw new NoApplicableCodeException().withMessage("Could not request object from %s", factory).causedBy(e);
+                throw new NoApplicableCodeException()
+                        .causedBy(e).withMessage("Could not request object from %s", factory);
             }
         }
     }
 
-    protected static <T> T get(final Producer<T> factory,
-                               Locale language)
+    protected static <T> T get(LocalizedProducer<T> factory, Locale language)
             throws OwsExceptionReport {
         try {
             return factory.get(language);
-        } catch (final Exception e) {
-            if (e.getCause() != null && e.getCause() instanceof OwsExceptionReport) {
+        } catch (Exception e) {
+            if (e instanceof OwsExceptionReport) {
+                throw (OwsExceptionReport) e;
+            } else if (e.getCause() instanceof OwsExceptionReport) {
                 throw (OwsExceptionReport) e.getCause();
             } else {
-                throw new NoApplicableCodeException().withMessage("Could not request object from %s", factory);
+                throw new NoApplicableCodeException()
+                        .causedBy(e).withMessage("Could not request object from %s", factory);
             }
         }
     }

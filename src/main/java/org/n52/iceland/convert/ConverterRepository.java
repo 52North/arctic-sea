@@ -16,12 +16,13 @@
  */
 package org.n52.iceland.convert;
 
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.repository.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Sets;
 
@@ -32,30 +33,26 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 @SuppressWarnings("rawtypes")
-public class ConverterRepository extends AbstractConfiguringServiceLoaderRepository<Converter> {
+public class ConverterRepository extends AbstractUniqueKeyComponentRepository<ConverterKeyType, Converter<?,?>, ConverterFactory> {
     private static ConverterRepository instance;
+
 
     @Deprecated
     public static ConverterRepository getInstance() {
         return ConverterRepository.instance;
     }
 
-    private final Map<ConverterKeyType, Converter<?, ?>> converter = new HashMap<>(0);
+    private final Map<ConverterKeyType, Producer<Converter<?,?>>> converter = new HashMap<>(0);
 
-    private ConverterRepository() {
-        super(Converter.class, false);
-        load(false);
+    public ConverterRepository() {
+        super(Converter.class, ConverterFactory.class);
         ConverterRepository.instance = this;
     }
 
     @Override
-    protected void processConfiguredImplementations(final Set<Converter> converter) throws ConfigurationException {
+    protected void processImplementations(Map<ConverterKeyType, Producer<Converter<?,?>>> implementations) {
         this.converter.clear();
-        for (final Converter<?, ?> aConverter : converter) {
-            for (final ConverterKeyType converterKeyType : aConverter.getConverterKeyTypes()) {
-                this.converter.put(converterKeyType, aConverter);
-            }
-        }
+        this.converter.putAll(implementations);
         // TODO check for encoder/decoder used by converter
     }
 
@@ -65,7 +62,11 @@ public class ConverterRepository extends AbstractConfiguringServiceLoaderReposit
 
     @SuppressWarnings("unchecked")
     public <T, F> Converter<T, F> getConverter(final ConverterKeyType key) {
-        return (Converter<T, F>) converter.get(key);
+        Producer<Converter<?,?>> producer = converter.get(key);
+        if (producer == null) {
+            return null;
+        }
+        return (Converter<T, F>) producer.get();
     }
 
     /**
@@ -97,6 +98,10 @@ public class ConverterRepository extends AbstractConfiguringServiceLoaderReposit
      * @return If a converter is available
      */
     public boolean hasConverter(final String fromNamespace, final String toNamespace) {
-        return getConverter(new ConverterKeyType(fromNamespace, toNamespace)) != null;
+        return hasConverter(new ConverterKeyType(fromNamespace, toNamespace));
+    }
+
+    public boolean hasConverter(ConverterKeyType key) {
+        return this.converter.containsKey(key);
     }
 }

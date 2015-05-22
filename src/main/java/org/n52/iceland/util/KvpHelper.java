@@ -35,16 +35,16 @@ import com.google.common.base.Strings;
 
 /**
  * Utility class for Key-Value-Pair (KVP) requests
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
 public final class KvpHelper {
     private KvpHelper() {
     }
 
     public static Map<String, String> getKvpParameterValueMap(HttpServletRequest req) {
-        Map<String, String> kvp = new HashMap<String, String>();
+        Map<String, String> kvp = new HashMap<>();
         Enumeration<?> parameterNames = req.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             // all key names to lower case
@@ -129,7 +129,7 @@ public final class KvpHelper {
 
     /**
      * Perform a sanity check on the request parameter without considering version.
-     * 
+     *
      * @param value
      * @throws InvalidParameterValueException
      */
