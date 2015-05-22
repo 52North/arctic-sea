@@ -35,7 +35,6 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 
 import org.n52.iceland.binding.BindingKey;
@@ -222,6 +221,18 @@ public abstract class AbstractSettingsManager extends SettingsManager implements
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public <T> SettingValue<T> getSetting(String key)
+            throws ConnectionProviderException {
+        SettingDefinition<?, ?> def = getDefinitionByKey(key);
+        if (def == null) {
+            return null;
+        }
+        return (SettingValue<T>) getSetting(def);
+    }
+
+
+    @Override
     public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() throws ConnectionProviderException {
         Set<SettingValue<?>> values = getSettingValues();
         Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition = new HashMap<>(values.size());
@@ -317,8 +328,8 @@ public abstract class AbstractSettingsManager extends SettingsManager implements
             } else if (def.hasDefaultValue()) {
                 LOG.debug("Using default value '{}' for required setting {}", def.getDefaultValue(), co.getKey());
                 saveSettingValue(val.setValue(def.getDefaultValue()));
-            } else if (def.equals(ServiceSettings.SERVICE_URL_DEFINITION)) {
-                saveSettingValue(val.setValue(URI.create("http://localhost:8080/52n-sos-webapp/sos")));
+            } else if (def.getKey().equals(ServiceSettings.SERVICE_URL)) {
+                saveSettingValue(val.setValue(URI.create("http://localhost:8080/iceland/service")));
             } else {
                 throw new ConfigurationException(String.format(
                         "No value found for required Setting '%s' with no default value.", co.getKey()));

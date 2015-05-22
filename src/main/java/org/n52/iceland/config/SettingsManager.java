@@ -145,6 +145,21 @@ public abstract class SettingsManager implements Destroyable, CapabilitiesExtens
     public abstract <T> SettingValue<T> getSetting(SettingDefinition<?, T> key) throws ConnectionProviderException;
 
     /**
+     * Gets the value of the setting defined by {@code key}.
+     * <p/>
+     *
+     * @param <T>
+     *            the type of the setting and value
+     * @param key
+     *            the id of the setting
+     *            <p/>
+     * @return the value of the setting
+     *         <p/>
+     * @throws ConnectionProviderException
+     */
+    public abstract <T> SettingValue<T> getSetting(String key) throws ConnectionProviderException;
+
+    /**
      * Gets all values for all definitions. If there is no value for a
      * definition {@code null} is added to the map.
      * <p/>

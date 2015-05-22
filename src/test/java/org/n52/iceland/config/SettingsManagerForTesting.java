@@ -177,6 +177,13 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
         return false;
     }
 
+    @Override
+    public <T> SettingValue<T> getSetting(String key)
+            throws ConnectionProviderException {
+        /* TODO implement org.n52.iceland.config.SettingsManagerForTesting.getSetting() */
+        throw new UnsupportedOperationException("org.n52.iceland.config.SettingsManagerForTesting.getSetting() not yet implemented");
+    }
+
     private static class SettingFactoryForTesting extends AbstractSettingValueFactory {
 
         @Override

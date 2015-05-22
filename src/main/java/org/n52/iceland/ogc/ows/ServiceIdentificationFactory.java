@@ -40,13 +40,13 @@ import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
 import org.n52.iceland.util.XmlHelper;
-import org.n52.iceland.lifecycle.Constructable;
 
 import com.google.common.collect.Sets;
 
@@ -61,6 +61,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     private String serviceTypeCodeSpace;
     private String fees;
     private String[] constraints;
+    private Locale defaultLocale = Locale.ENGLISH;
 
     @Inject
     private SettingsManager settingsManager;
@@ -68,6 +69,11 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     @Override
     public void init() {
         this.settingsManager.configure(this);
+    }
+
+    @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
+    public void setDefaultLanguage(String lang) {
+        this.defaultLocale = LocaleHelper.fromString(lang);
     }
 
     @Setting(FILE)
@@ -92,8 +98,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         if (title instanceof MultilingualString) {
             this.title = (MultilingualString) title;
         } else if (title instanceof String) {
-            Locale locale = LocaleHelper.fromString(I18NSettings.I18N_DEFAULT_LANGUAGE_DEFINITION.getDefaultValue());
-            this.title = new MultilingualString().addLocalization(locale, (String)title);
+            this.title = new MultilingualString().addLocalization(this.defaultLocale, (String) title);
         } else {
             throw new ConfigurationException(
                     String.format("%s is not supported as title!", title.getClass().getName()));
@@ -107,8 +112,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         if (description instanceof MultilingualString) {
             this.abstrakt = (MultilingualString) description;
         } else if (description instanceof String) {
-            Locale locale = LocaleHelper.fromString(I18NSettings.I18N_DEFAULT_LANGUAGE_DEFINITION.getDefaultValue());
-            this.abstrakt = new MultilingualString().addLocalization(locale, (String)description);
+            this.abstrakt = new MultilingualString().addLocalization(this.defaultLocale, (String) description);
         } else {
             throw new ConfigurationException(
                     String.format("%s is not supported as abstract!", description.getClass().getName()));
