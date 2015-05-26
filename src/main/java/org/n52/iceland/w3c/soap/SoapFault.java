@@ -21,7 +21,9 @@ import java.util.Locale;
 import javax.xml.namespace.QName;
 
 /**
- * @since 4.0.0
+ * SOAP Fault representation
+ * 
+ * @since 1.0.0
  * 
  */
 public class SoapFault {

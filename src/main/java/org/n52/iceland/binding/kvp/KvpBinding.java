@@ -52,7 +52,7 @@ import org.slf4j.LoggerFactory;
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class KvpBinding extends SimpleBinding {
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);

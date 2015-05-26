@@ -19,7 +19,6 @@ package org.n52.iceland.w3c.soap;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.soap.MessageFactory;
@@ -30,8 +29,6 @@ import javax.xml.soap.SOAPMessage;
 
 import org.n52.iceland.ogc.ows.ExceptionCode;
 import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.service.SoapHeader;
-//import org.n52.sos.ogc.sos.SosSoapConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
@@ -39,7 +36,7 @@ import org.w3c.dom.NodeList;
 /**
  * Utility class for SOAP requests.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SoapHelper {
 
@@ -154,8 +151,4 @@ public class SoapHelper {
     private SoapHelper() {
     }
 
-    public static byte[] headerToXML(Map<String, SoapHeader> soapHeader) {
-        // TODO Auto-generated method stub
-        return null;
-    }
 }

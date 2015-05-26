@@ -21,7 +21,7 @@ package org.n52.iceland.binding;
  * identification of a Binding changes from servlet path to e.g. Content-Type.
  * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class BindingKey {
     private final String servletPath;

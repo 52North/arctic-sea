@@ -23,7 +23,7 @@ import org.n52.iceland.util.Constants;
 /**
  * Constants class for W3C
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface W3CConstants {

@@ -62,7 +62,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class SimpleBinding extends Binding {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);

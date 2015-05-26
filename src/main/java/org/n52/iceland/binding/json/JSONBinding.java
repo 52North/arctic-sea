@@ -23,6 +23,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
@@ -44,10 +45,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 
 /**
- * TODO JavaDoc
+ * {@link Binding} implementation for JSON encoded requests
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class JSONBinding extends SimpleBinding {
     private static final String URL_PATTERN = "/json";

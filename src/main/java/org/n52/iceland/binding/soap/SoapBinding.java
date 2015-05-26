@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.soap.SOAPConstants;
 
 import org.n52.iceland.binding.AbstractXmlBinding;
+import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.encode.Encoder;
@@ -59,7 +60,9 @@ import org.n52.iceland.w3c.wsa.WsaToHeader;
 import com.google.common.collect.Lists;
 
 /**
- * @since 4.0.0
+ * {@link Binding} implementation for SOAP encoded requests
+ * 
+ * @since 1.0.0
  * 
  */
 public class SoapBinding extends AbstractXmlBinding {

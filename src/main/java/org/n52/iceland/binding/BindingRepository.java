@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class BindingRepository extends AbstractConfiguringServiceLoaderRepository<Binding> {
     private static final Logger LOG = LoggerFactory.getLogger(BindingRepository.class);

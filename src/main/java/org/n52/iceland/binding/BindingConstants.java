@@ -18,7 +18,7 @@ package org.n52.iceland.binding;
 
 /**
  * Constants for Binding. Contains endpoint definitions.
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface BindingConstants {

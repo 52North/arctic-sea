@@ -39,7 +39,7 @@ import org.n52.iceland.util.http.MediaType;
  *         J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class Binding implements ConformanceClass {
     /**

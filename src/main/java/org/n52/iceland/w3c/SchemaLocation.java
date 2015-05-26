@@ -23,8 +23,8 @@ import com.google.common.base.Objects;
 /**
  * Class represents a XML schema location with namespace and schema fileURL.
  * 
- * @author CarstenHollmann
- * @since 4.0.0
+ * @author Carsten Hollmann
+ * @since 1.0.0
  */
 public class SchemaLocation implements Comparable<SchemaLocation> {
     private final String namespace;

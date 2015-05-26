@@ -23,7 +23,9 @@ import org.n52.iceland.request.Request;
 import org.n52.iceland.service.SoapHeader;
 
 /**
- * @since 4.0.0
+ * Representation of a SOAP request
+ * 
+ * @since 1.0.0
  * 
  */
 public class SoapRequest implements Request {

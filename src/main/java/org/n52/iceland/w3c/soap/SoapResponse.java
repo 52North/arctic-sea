@@ -23,7 +23,9 @@ import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.SoapHeader;
 
 /**
- * @since 4.0.0
+ * Representation of a SOAP response
+ * 
+ * @since 1.0.0
  * 
  */
 public class SoapResponse {
@@ -106,11 +108,11 @@ public class SoapResponse {
     public void setSoapBodyContent(AbstractServiceResponse bodyContent) {
         this.bodyContent = bodyContent;
     }
-    
+
     public void setBodyContent(AbstractServiceResponse response) {
         this.bodyContent = response;
     }
-    
+
     public AbstractServiceResponse getBodyContent() {
         return bodyContent;
     }
@@ -142,7 +144,7 @@ public class SoapResponse {
     public boolean isSetBodyContent() {
         return getBodyContent() != null;
     }
-    
+
     public boolean isSetSoapFault() {
         return getSoapFault() != null;
     }

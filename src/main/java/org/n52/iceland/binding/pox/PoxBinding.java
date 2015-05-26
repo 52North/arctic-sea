@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.binding.AbstractXmlBinding;
+import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.exception.HTTPException;
@@ -39,7 +40,8 @@ import org.n52.iceland.util.http.MediaTypes;
 import com.google.common.collect.Sets;
 
 /**
- * @since 4.0.0
+ * {@link Binding} implementation for POX (XML) encoded requests
+ * @since 1.0.0
  *
  */
 public class PoxBinding extends AbstractXmlBinding {
