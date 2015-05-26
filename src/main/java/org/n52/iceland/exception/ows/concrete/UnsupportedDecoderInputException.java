@@ -19,7 +19,7 @@ package org.n52.iceland.exception.ows.concrete;
 import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.iceland.decode.Decoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.w3c.dom.Node;
 

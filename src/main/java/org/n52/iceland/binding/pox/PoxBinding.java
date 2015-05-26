@@ -23,13 +23,9 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.xmlbeans.XmlObject;
+import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.BindingConstants;
-import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.decode.Decoder;
-import org.n52.iceland.decode.DecoderKey;
-import org.n52.iceland.decode.XmlNamespaceDecoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
@@ -37,11 +33,8 @@ import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.XmlHelper;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -49,9 +42,8 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  *
  */
-public class PoxBinding extends SimpleBinding {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(PoxBinding.class);
+public class PoxBinding extends AbstractXmlBinding {
+
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
 
@@ -73,13 +65,7 @@ public class PoxBinding extends SimpleBinding {
 
     protected AbstractServiceRequest<?> parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
-        XmlObject doc = XmlHelper.parseXmlRequest(request);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("XML-REQUEST: {}", doc.xmlText());
-        }
-        Decoder<AbstractServiceRequest<?>, XmlObject> decoder =
-                getDecoder(getDecoderKey(doc));
-        return decoder.decode(doc).setRequestContext(getRequestContext(request));
+        return ((AbstractServiceRequest<?>)decode(request)).setRequestContext(getRequestContext(request));
     }
 
     @Override
@@ -109,9 +95,5 @@ public class PoxBinding extends SimpleBinding {
     @Override
     protected MediaType getDefaultContentType() {
         return MediaTypes.APPLICATION_XML;
-    }
-    
-    private DecoderKey getDecoderKey(XmlObject doc) {
-        return new XmlNamespaceDecoderKey(XmlHelper.getNamespace(doc), doc.getClass());
     }
 }

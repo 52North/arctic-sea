@@ -25,8 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.decode.Decoder;
-import org.n52.iceland.decode.OperationDecoderKey;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;

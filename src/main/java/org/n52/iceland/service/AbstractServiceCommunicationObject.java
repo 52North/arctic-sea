@@ -17,12 +17,13 @@
 package org.n52.iceland.service;
 
 import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.request.Request;
 
 /**
  * @since 4.0.0
  * 
  */
-public abstract class AbstractServiceCommunicationObject {
+public abstract class AbstractServiceCommunicationObject implements Request {
 
     /** service parameter */
     private String service;

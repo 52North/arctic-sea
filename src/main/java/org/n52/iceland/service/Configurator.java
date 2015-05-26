@@ -36,8 +36,8 @@ import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DataConnectionProvider;
 import org.n52.iceland.ds.Datasource;
 import org.n52.iceland.ds.DatasourceDaoIdentifier;
+import org.n52.iceland.ds.FeatureConnectionProvider;
 import org.n52.iceland.ds.HibernateDatasourceConstants;
-import org.n52.iceland.ds.IFeatureConnectionProvider;
 import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
@@ -62,6 +62,7 @@ import org.n52.iceland.util.Producer;
 //import org.n52.sos.cache.ContentCache;
 
 //import org.n52.sos.ds.FeatureQueryHandler;
+
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -356,19 +357,21 @@ public class Configurator implements Cleanupable {
         return basepath;
     }
 
-//    /**
-//     * @return the current contentCacheController
-//     */
-//    public ContentCache getCache() {
-//        return getCacheController().getCache();
-//    }
-//
-//    /**
-//     * @return the current contentCacheController
-//     */
-//    public ContentCacheController getCacheController() {
-//        return contentCacheController;
-//    }
+    /**
+     * @return the current contentCacheController
+     */
+    @Deprecated
+    public Object getCache() {
+        return null;
+    }
+
+    /**
+     * @return the current contentCacheController
+     */
+    @Deprecated
+    public Object getCacheController() {
+        return null;
+    }
 
     /**
      * @return the implemented data connection provider
@@ -384,12 +387,13 @@ public class Configurator implements Cleanupable {
         return featureConnectionProvider;
     }
 
-//    /**
-//     * @return the implemented feature query handler
-//     */
-//    public FeatureQueryHandler getFeatureQueryHandler() {
-//        return featureQueryHandler;
-//    }
+    /**
+     * @return the implemented feature query handler
+     */
+    @Deprecated
+    public Object getFeatureQueryHandler() {
+        return null;
+    }
 
     public void addProvidedJdbcDriver(String providedJdbcDriver) {
         this.providedJdbcDrivers.add(providedJdbcDriver);
@@ -406,7 +410,7 @@ public class Configurator implements Cleanupable {
                         true, getConnectionProviderIdentificator());
         featureConnectionProvider =
                 ConfiguringSingletonServiceLoader.<ConnectionProvider> loadAndConfigure(
-                        IFeatureConnectionProvider.class, false, getConnectionProviderIdentificator());
+                        FeatureConnectionProvider.class, false, getConnectionProviderIdentificator());
         dataConnectionProvider.initialize(dataConnectionProviderProperties);
         if (featureConnectionProvider != null) {
             featureConnectionProvider

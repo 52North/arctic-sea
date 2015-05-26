@@ -14,23 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.decode;
+package org.n52.iceland.coding.encode;
 
-import org.apache.xmlbeans.XmlObject;
+import java.util.Set;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
- * 
  * @since 4.0.0
+ * 
+ * @param <S>
+ * @param <T>
  */
-public class XmlNamespaceDecoderKey extends NamespaceDecoderKey {
+public interface ProcedureEncoder<S, T> extends Encoder<S, T> {
 
-    public XmlNamespaceDecoderKey(String namespace, Class<?> type) {
-        super(namespace, type);
-    }
+    /**
+     * Get the supported procedure description formats for this
+     * {@linkplain ProcedureEncoder} and the specified service and version.
+     * 
+     * @param service
+     *            the service
+     * @param version
+     *            the version
+     * 
+     * @return the procedure description formats
+     */
+    Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
 
-    @Override
-    public int getSimilarity(DecoderKey key) {
-        return getSimilarity(key, XmlObject.class);
-    }
 }

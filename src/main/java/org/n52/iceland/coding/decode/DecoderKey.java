@@ -14,31 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.decode;
+package org.n52.iceland.coding.decode;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
-
-import org.apache.xmlbeans.XmlObject;
-import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
+import org.n52.iceland.coding.CodingKey;
 
 /**
- * TODO JavaDoc
- * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
  * @since 4.0.0
  */
-public abstract class AbstractXmlDecoder<S> implements Decoder<S, XmlObject> {
-
-    @Override
-    public Map<SupportedTypeKey, Set<String>> getSupportedTypes() {
-        return Collections.emptyMap();
-    }
-
-    @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        return Collections.emptySet();
-    }
+public interface DecoderKey extends CodingKey<DecoderKey> {
 }

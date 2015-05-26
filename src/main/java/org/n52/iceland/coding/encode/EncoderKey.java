@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.decode;
+package org.n52.iceland.coding.encode;
 
 import org.n52.iceland.coding.CodingKey;
 
@@ -23,5 +23,5 @@ import org.n52.iceland.coding.CodingKey;
  * 
  * @since 4.0.0
  */
-public interface DecoderKey extends CodingKey<DecoderKey> {
+public interface EncoderKey extends CodingKey<EncoderKey> {
 }

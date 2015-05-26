@@ -14,25 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.exception.ows.concrete;
+package org.n52.iceland.coding.decode;
 
-import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
 
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.apache.xmlbeans.XmlObject;
+import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
 
 /**
+ * TODO JavaDoc
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
  * 
  * @since 4.0.0
  */
-public class NoEncoderForKeyException extends NoApplicableCodeException {
-    private static final long serialVersionUID = -5532147003138146625L;
+public abstract class AbstractXmlDecoder<S> implements Decoder<S, XmlObject> {
 
-    public NoEncoderForKeyException(final EncoderKey key) {
-        withMessage("Could not find encoder for key '%s'.", key.toString());
-        setStatus(INTERNAL_SERVER_ERROR);
+    @Override
+    public Map<SupportedTypeKey, Set<String>> getSupportedTypes() {
+        return Collections.emptyMap();
+    }
+
+    @Override
+    public Set<String> getConformanceClasses(String service, String version) {
+        return Collections.emptySet();
     }
 }

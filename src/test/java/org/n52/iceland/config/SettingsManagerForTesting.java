@@ -23,14 +23,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
+import org.n52.iceland.coding.encode.ProcedureDescriptionFormatKey;
+import org.n52.iceland.coding.encode.ResponseFormatKey;
 import org.n52.iceland.config.AbstractSettingValueFactory;
 import org.n52.iceland.config.AbstractSettingsManager;
 import org.n52.iceland.config.AdministratorUser;
 import org.n52.iceland.config.SettingValue;
 import org.n52.iceland.config.SettingValueFactory;
 import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
-import org.n52.iceland.encode.ResponseFormatKey;
 import org.n52.iceland.exception.NoSuchExtensionException;
 import org.n52.iceland.exception.NoSuchOfferingException;
 import org.n52.iceland.i18n.MultilingualString;

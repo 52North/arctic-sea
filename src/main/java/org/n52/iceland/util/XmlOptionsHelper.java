@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.iceland.coding.CodingRepository;
-import org.n52.iceland.encode.Encoder;
+import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.ogc.OGCConstants;
 import org.n52.iceland.w3c.W3CConstants;
 

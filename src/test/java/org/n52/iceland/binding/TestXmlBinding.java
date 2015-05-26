@@ -14,14 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.encode;
+package org.n52.iceland.binding;
 
-import org.n52.iceland.coding.CodingKey;
+import java.util.Collections;
+import java.util.Set;
 
-/**
- * @author Christian Autermann <c.autermann@52north.org>
- * 
- * @since 4.0.0
- */
-public interface EncoderKey extends CodingKey<EncoderKey> {
+import org.n52.iceland.util.http.MediaType;
+import org.n52.iceland.util.http.MediaTypes;
+
+public class TestXmlBinding extends AbstractXmlBinding {
+
+    @Override
+    public Set<String> getConformanceClasses(String service, String version) {
+        return Collections.emptySet();
+    }
+
+    @Override
+    protected MediaType getDefaultContentType() {
+        return MediaTypes.APPLICATION_XML;
+    }
+
+    @Override
+    public String getUrlPattern() {
+        return "/sos/test";
+    }
+
 }

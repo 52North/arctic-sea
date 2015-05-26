@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.encode;
+package org.n52.iceland.coding.decode;
 
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.util.http.MediaType;
@@ -22,33 +22,25 @@ import org.n52.iceland.util.http.MediaType;
 import com.google.common.base.Objects;
 
 /**
- * TODO JavaDoc
- * 
- * @author Christian Autermann <c.autermann@52north.org>
- * 
  * @since 4.0.0
+ * 
  */
-public class OperationEncoderKey extends OperationKey implements EncoderKey {
+public class OperationDecoderKey extends OperationKey implements DecoderKey {
     private final MediaType contentType;
 
-    public OperationEncoderKey(String service, String version, String operation, MediaType contentType) {
+    public OperationDecoderKey(String service, String version, String operation, MediaType contentType) {
         super(service, version, operation);
         this.contentType = contentType;
     }
 
-    public OperationEncoderKey(String service, String version, Enum<?> operation, MediaType contentType) {
+    public OperationDecoderKey(String service, String version, Enum<?> operation, MediaType contentType) {
         super(service, version, operation);
         this.contentType = contentType;
     }
 
-    public OperationEncoderKey(OperationKey key, MediaType contentType) {
+    public OperationDecoderKey(OperationKey key, MediaType contentType) {
         super(key);
         this.contentType = contentType;
-    }
-
-    @Override
-    public int getSimilarity(EncoderKey key) {
-        return equals(key) ? 0 : -1;
     }
 
     public MediaType getContentType() {
@@ -56,24 +48,29 @@ public class OperationEncoderKey extends OperationKey implements EncoderKey {
     }
 
     @Override
+    public String toString() {
+        return String.format("%s[service=%s, version=%s, operation=%s, contentType=%s]", getClass().getSimpleName(),
+                getService(), getVersion(), getOperation(), getContentType());
+    }
+
+    @Override
+    public int getSimilarity(DecoderKey key) {
+        return equals(key) ? 0 : -1;
+    }
+
+    @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), this.contentType);
+        return Objects.hashCode(super.hashCode(), getContentType());
     }
 
     @Override
     public boolean equals(Object obj) {
-        super.equals(obj);
         if (obj != null && getClass() == obj.getClass()) {
-            final OperationEncoderKey other = (OperationEncoderKey) obj;
-            return super.equals(obj) && getContentType() != null
-                    && getContentType().isCompatible(other.getContentType());
+            final OperationDecoderKey o = (OperationDecoderKey) obj;
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
+                    && Objects.equal(getOperation(), o.getOperation()) && getContentType() != null
+                    && getContentType().isCompatible(o.getContentType());
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s[service=%s, version=%s, operation=%s, contentType=%s]", getClass().getSimpleName(),
-                getService(), getVersion(), getOperation(), getContentType());
     }
 }

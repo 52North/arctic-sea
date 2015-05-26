@@ -28,13 +28,12 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.binding.BindingKey;
+import org.n52.iceland.coding.encode.ProcedureDescriptionFormatKey;
+import org.n52.iceland.coding.encode.ResponseFormatKey;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
-import org.n52.iceland.encode.ResponseFormatKey;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;

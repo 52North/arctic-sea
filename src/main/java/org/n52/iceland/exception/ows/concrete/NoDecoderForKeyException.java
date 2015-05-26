@@ -18,7 +18,7 @@ package org.n52.iceland.exception.ows.concrete;
 
 import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 
-import org.n52.iceland.decode.DecoderKey;
+import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**

@@ -14,29 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.encode;
+package org.n52.iceland.w3c.wsa;
 
-import java.util.Set;
+public class WsaActionHeader extends WsaHeader {
 
-/**
- * @since 4.0.0
- * 
- * @param <S>
- * @param <T>
- */
-public interface ProcedureEncoder<S, T> extends Encoder<S, T> {
+    public WsaActionHeader(String value) {
+        super(value);
+    }
 
-    /**
-     * Get the supported procedure description formats for this
-     * {@linkplain ProcedureEncoder} and the specified service and version.
-     * 
-     * @param service
-     *            the service
-     * @param version
-     *            the version
-     * 
-     * @return the procedure description formats
-     */
-    Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
 
 }

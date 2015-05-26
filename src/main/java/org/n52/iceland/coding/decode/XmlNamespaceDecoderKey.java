@@ -14,61 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.decode;
+package org.n52.iceland.coding.decode;
 
+import org.apache.xmlbeans.XmlObject;
 import org.n52.iceland.util.ClassHelper;
 
 import com.google.common.base.Objects;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * {@link NamespaceDecoderKey} implementation for XML namespace and {@link Class}.
  * 
- * @since 4.0.0
+ * @author Christian Autermann <c.autermann@52north.org>
+ * @author Carsten Hollmann <c.hollmann@52north.org>
+ * 
+ * @since 1.0.0
  */
-public abstract class NamespaceDecoderKey implements DecoderKey {
-    private final String namespace;
+public class XmlNamespaceDecoderKey extends NamespaceDecoderKey<Class<?>> {
+    
+    private Class<?> type;
 
-    private final Class<?> type;
-
-    public NamespaceDecoderKey(String namespace, Class<?> type) {
-        this.namespace = namespace;
-        this.type = type;
+    public XmlNamespaceDecoderKey(String namespace, Class<?> type) {
+        super(namespace, type);
     }
 
-    public String getNamespace() {
-        return namespace;
+    @Override
+    public int getSimilarity(DecoderKey key) {
+        return getSimilarity(key, XmlObject.class);
     }
-
+    
+    @Override
     public Class<?> getType() {
         return type;
     }
 
     @Override
-    public String toString() {
-        return String.format("%s[namespace=%s, type=%s]", getClass().getSimpleName(), getNamespace(), getType()
-                .getSimpleName());
+    protected void setType(Class<?> type) {
+        this.type = type;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj != null && getClass() == obj.getClass()) {
-            final NamespaceDecoderKey o = (NamespaceDecoderKey) obj;
-            return Objects.equal(getType(), o.getType()) && Objects.equal(getNamespace(), o.getNamespace());
-        }
-        return false;
+    protected String getTypeName() {
+        return getType().getSimpleName();
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hashCode(3, 79, getNamespace(), getType());
-    }
-
     protected int getSimilarity(DecoderKey key, Class<?> type) {
         if (key != null && key.getClass() == getClass()) {
-            NamespaceDecoderKey xmlKey = (NamespaceDecoderKey) key;
-            if (Objects.equal(getNamespace(), xmlKey.getNamespace())) {
+            NamespaceDecoderKey<?> xmlKey = (NamespaceDecoderKey<?>) key;
+            if (Objects.equal(getNamespace(), xmlKey.getNamespace()) && xmlKey.getType() instanceof Class<?>) {
                 return ClassHelper.getSimiliarity(getType() != null ? getType() : type,
-                        xmlKey.getType() != null ? xmlKey.getType() : type);
+                        xmlKey.getType() != null ? (Class<?>)xmlKey.getType() : type);
             } else {
                 return -1;
             }
