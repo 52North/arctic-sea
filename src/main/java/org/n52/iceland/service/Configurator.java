@@ -37,7 +37,6 @@ import org.n52.iceland.ds.DataConnectionProvider;
 import org.n52.iceland.ds.Datasource;
 import org.n52.iceland.ds.DatasourceDaoIdentifier;
 import org.n52.iceland.ds.FeatureConnectionProvider;
-import org.n52.iceland.ds.HibernateDatasourceConstants;
 import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
@@ -63,6 +62,8 @@ import org.n52.iceland.util.Producer;
 
 //import org.n52.sos.ds.FeatureQueryHandler;
 
+
+//import org.n52.sos.ds.HibernateDatasourceConstants;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -425,12 +426,12 @@ public class Configurator implements Cleanupable {
      * Check method if JDBC driver is provided.
      */
     private void checkForProvidedJdbc() {
-        if (!dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC)
-                || (dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC) &&
-                    dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.PROVIDED_JDBC).equals("true"))) {
-            addProvidedJdbcDriver(dataConnectionProviderProperties
-                    .getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
-        }
+//        if (!dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC)
+//                || (dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC) &&
+//                    dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.PROVIDED_JDBC).equals("true"))) {
+//            addProvidedJdbcDriver(dataConnectionProviderProperties
+//                    .getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
+//        }
     }
 
     /**
