@@ -51,23 +51,6 @@ public class SweField extends SweAbstractDataComponent {
         this.element = element;
     }
 
-//    /**
-//     * @return the name
-//     */
-//    public String getName() {
-//        return name;
-//    }
-//
-//    /**
-//     * @param name
-//     *            the name to set
-//     * @return This SweField
-//     */
-//    public SweField setName(final String name) {
-//        this.name = name;
-//        return this;
-//    }
-
     /**
      * @return the element
      */
