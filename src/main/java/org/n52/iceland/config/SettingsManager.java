@@ -66,7 +66,7 @@ import org.n52.iceland.util.ConfiguringSingletonServiceLoader;
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
-public abstract class SettingsManager implements CapabilitiesExtensionManager{
+public abstract class SettingsManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(SettingsManager.class);
 

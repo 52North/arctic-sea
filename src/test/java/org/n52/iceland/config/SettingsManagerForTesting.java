@@ -18,27 +18,15 @@ package org.n52.iceland.config;
 
 import java.io.File;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.coding.encode.ProcedureDescriptionFormatKey;
 import org.n52.iceland.coding.encode.ResponseFormatKey;
-import org.n52.iceland.config.AbstractSettingValueFactory;
-import org.n52.iceland.config.AbstractSettingsManager;
-import org.n52.iceland.config.AdministratorUser;
-import org.n52.iceland.config.SettingValue;
-import org.n52.iceland.config.SettingValueFactory;
 import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.exception.NoSuchExtensionException;
-import org.n52.iceland.exception.NoSuchOfferingException;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.ogc.gml.time.TimeInstant;
-import org.n52.iceland.ogc.ows.OfferingExtension;
 import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesKey;
-import org.n52.iceland.ogc.ows.StaticCapabilities;
-import org.n52.iceland.ogc.ows.StringBasedCapabilitiesExtension;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 
@@ -222,7 +210,7 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
 
         @Override
         protected SettingValue<MultilingualString> newMultiLingualStringSettingValue() {
-            return new MultilingualStringValueForTestin();
+            return new MultilingualStringValueForTesting();
         }
 
         @Override
@@ -243,121 +231,5 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
         // TODO Auto-generated method stub
         return false;
     }
-
-	@Override
-	public Map<String, List<OfferingExtension>> getOfferingExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, List<OfferingExtension>> getActiveOfferingExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveOfferingExtension(String offering, String identifier,
-			String value) throws NoSuchOfferingException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void disableOfferingExtension(String offering, String identifier,
-			boolean disabled) throws NoSuchExtensionException,
-			NoSuchOfferingException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteOfferingExtension(String offering, String identifier)
-			throws NoSuchOfferingException, NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Map<String, StringBasedCapabilitiesExtension> getActiveCapabilitiesExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, StringBasedCapabilitiesExtension> getAllCapabilitiesExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveCapabilitiesExtension(String identifier, String value) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void disableCapabilitiesExtension(String identifier, boolean disabled)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteCapabiltiesExtension(String identfier)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setActiveStaticCapabilities(String identifier)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getActiveStaticCapabilities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getActiveStaticCapabilitiesDocument() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isStaticCapabilitiesActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Map<String, StaticCapabilities> getStaticCapabilities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StaticCapabilities getStaticCapabilities(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveStaticCapabilities(String identifier, String document) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteStaticCapabilities(String identifier)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
 
 }
