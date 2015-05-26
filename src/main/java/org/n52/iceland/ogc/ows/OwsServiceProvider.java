@@ -16,15 +16,16 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import org.apache.xmlbeans.XmlObject;
 import org.n52.iceland.util.StringHelper;
+
+import com.google.common.base.Strings;
 
 /**
  * @since 4.0.0
  * 
  */
 public class OwsServiceProvider {
-    private XmlObject serviceProvider;
+    private String serviceProvider;
 
     private String name;
 
@@ -180,11 +181,15 @@ public class OwsServiceProvider {
         this.administrativeArea = administrativeArea;
     }
 
-    public XmlObject getServiceProvider() {
+    public String getServiceProvider() {
         return serviceProvider;
     }
 
-    public void setServiceProvider(XmlObject serviceProvider) {
+    public void setServiceProvider(String serviceProvider) {
         this.serviceProvider = serviceProvider;
+    }
+
+    public boolean isSetServiceProvider() {
+        return !Strings.isNullOrEmpty(getServiceProvider());
     }
 }

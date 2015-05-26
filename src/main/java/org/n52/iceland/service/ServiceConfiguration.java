@@ -41,7 +41,7 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.util.Validation;
-import org.n52.iceland.util.XmlOptionsHelper;
+//import org.n52.sos.util.XmlOptionsHelper;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -185,7 +185,7 @@ public class ServiceConfiguration {
     public void setCharacterEncoding(final String encoding) throws ConfigurationException {
         Validation.notNullOrEmpty("Character Encoding", encoding);
         characterEncoding = encoding;
-        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
+//        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
     }
 
     public String getCharacterEncoding() {

@@ -21,7 +21,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.ogc.om.OmConstants;
-import org.n52.iceland.util.XmlHelper;
 import org.n52.iceland.util.http.MediaTypes;
 import org.n52.iceland.w3c.SchemaLocation;
 
@@ -36,8 +35,6 @@ import com.google.common.collect.ImmutableSet;
 public interface Sos2Constants extends SosConstants{
 
     String NS_SOS_20 = "http://www.opengis.net/sos/2.0";
-    
-    String XPATH_PREFIX_SOS_20 = XmlHelper.getXPathPrefix(SosConstants.NS_SOS_PREFIX, NS_SOS_20);
 
     String SCHEMA_LOCATION_URL_SOS = "http://schemas.opengis.net/sos/2.0/sos.xsd";
 

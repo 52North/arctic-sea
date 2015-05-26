@@ -18,7 +18,6 @@ package org.n52.iceland.ogc.swes;
 
 import javax.xml.namespace.QName;
 
-import org.n52.iceland.util.XmlHelper;
 import org.n52.iceland.w3c.SchemaLocation;
 
 /**
@@ -33,8 +32,6 @@ public interface SwesConstants {
 
     String NS_SWES_PREFIX = "swes";
     
-    String XPATH_PREFIXES_SWES = XmlHelper.getXPathPrefix(NS_SWES_PREFIX, NS_SWES_20);
-
     String SCHEMA_LOCATION_URL_SWES_20 = "http://schemas.opengis.net/swes/2.0/swes.xsd";
 
     String SCHEMA_LOCATION_URL_SWES_20_DESCRIBE_SENSOR = "http://schemas.opengis.net/swes/2.0/swesDescribeSensor.xsd";

@@ -18,10 +18,8 @@ package org.n52.iceland.exception.ows.concrete;
 
 import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 
-import org.apache.xmlbeans.XmlObject;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.w3c.dom.Node;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -37,16 +35,13 @@ public class UnsupportedDecoderInputException extends NoApplicableCodeException 
         if (o == null) {
             withMessage("Decoder %s can not decode 'null'", decoder.getClass().getSimpleName());
         } else {
-            String name;
-            if (o instanceof XmlObject) {
-                final Node n = ((XmlObject) o).getDomNode();
-                name = n.getPrefix() != null ? n.getPrefix() + ":" + n.getLocalName() : n.getLocalName();
-            } else {
-                name = o.getClass().getName();
-            }
-            withMessage("%s can not be decoded by %s because it is not yet implemented!", name, decoder.getClass()
-                    .getName());
+            withMessage("%s can not be decoded by %s because it is not yet implemented!", getObjectName(o), decoder.getClass().getName());
         }
         setStatus(INTERNAL_SERVER_ERROR);
     }
+    
+    protected String getObjectName(Object o) {
+        return o.getClass().getName();
+    }
+
 }
