@@ -51,7 +51,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 
 /**
- * Abstract binding class for XML requests
+ * Abstract binding class for XML encoded requests
  * 
  * @author Carsten Hollmann <c.hollmann@52north.org>
  * @since 1.0.0
