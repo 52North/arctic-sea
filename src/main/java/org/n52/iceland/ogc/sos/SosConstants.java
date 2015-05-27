@@ -145,7 +145,7 @@ public interface SosConstants extends OWSConstants {
     }
 
     enum Filter {
-        ValueReference, TimePeriod, TimeInstant;
+        TimePeriod, TimeInstant;
     }
 
     /**
