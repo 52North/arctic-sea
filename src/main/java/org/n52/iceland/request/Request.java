@@ -19,7 +19,7 @@ package org.n52.iceland.request;
 /**
  * Simple interface to identify requests.
  * 
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */

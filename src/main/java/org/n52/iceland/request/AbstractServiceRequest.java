@@ -34,7 +34,7 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * abstract super class for all service request classes
+ * Abstract super class for all service request classes
  * 
  * @since 1.0.0
  * 

@@ -30,7 +30,7 @@ import org.n52.iceland.response.AbstractServiceResponse;
  *            the response type
  * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class ResponseEvent<I extends AbstractServiceRequest<?>, O extends AbstractServiceResponse>
         implements ServiceEvent {

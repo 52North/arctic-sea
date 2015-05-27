@@ -23,7 +23,7 @@ import org.n52.iceland.event.ServiceEvent;
  * test data insertion.
  * 
  * @author Shane StClair <shane@axiomalaska.com>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ConfiguratorInitializedEvent implements ServiceEvent {
     //no properties currently necessary

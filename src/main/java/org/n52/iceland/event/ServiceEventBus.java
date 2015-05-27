@@ -37,9 +37,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
+ * The {@link ServiceEventListener} are registered to the
+ * {@link ServiceEventBus} which delegates the fired {@link ServiceEvent} to the
+ * {@link ServiceEventListener}.
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ServiceEventBus {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceEventBus.class);
@@ -50,10 +54,21 @@ public class ServiceEventBus {
 
     private static final String THREAD_GROUP_NAME = "SosEventBus-Worker";
 
+    /**
+     * Get the instance of the {@link ServiceEventBus}
+     * 
+     * @return Instance of the {@link ServiceEventBus}
+     */
     public static ServiceEventBus getInstance() {
         return LazyHolder.INSTANCE;
     }
 
+    /**
+     * Fire a new {@link ServiceEvent}
+     * 
+     * @param event
+     *            {@link ServiceEvent} to fire
+     */
     public static void fire(final ServiceEvent event) {
         getInstance().submit(event);
     }
@@ -85,7 +100,8 @@ public class ServiceEventBus {
     private final Executor executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, new GroupedAndNamedThreadFactory(
             THREAD_GROUP_NAME));
 
-    private final SetMultiMap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = MultiMaps.newSetMultiMap();
+    private final SetMultiMap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = MultiMaps
+            .newSetMultiMap();
 
     private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<HandlerExecution>();
 
@@ -127,6 +143,14 @@ public class ServiceEventBus {
         return new HashSet<ServiceEventListener>(result);
     }
 
+    /**
+     * Submit the fired {@link ServiceEvent} to the registered
+     * {@link ServiceEventListener} and initiate the handling of the
+     * {@link ServiceEvent}
+     * 
+     * @param event
+     *            Submitted {@link ServiceEvent}
+     */
     public void submit(final ServiceEvent event) {
         boolean submittedEvent = false;
         if (!checkEvent(event)) {
@@ -155,6 +179,13 @@ public class ServiceEventBus {
         }
     }
 
+    /**
+     * Register a new {@link ServiceEventListener} to the
+     * {@link ServiceEventBus}.
+     * 
+     * @param listener
+     *            {@link ServiceEventListener} to register
+     */
     public void register(final ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
@@ -170,6 +201,13 @@ public class ServiceEventBus {
         }
     }
 
+    /**
+     * Unregister a new {@link ServiceEventListener} to the
+     * {@link ServiceEventBus}.
+     * 
+     * @param listener
+     *            {@link ServiceEventListener} to unregister
+     */
     public void unregister(final ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
@@ -193,13 +231,15 @@ public class ServiceEventBus {
     private static class LazyHolder {
         private static final ServiceEventBus INSTANCE = new ServiceEventBus();
 
-        private LazyHolder() {}
+        private LazyHolder() {
+        }
     }
 
     private class ClassCache {
         private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-        private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps.newSetMultiMap();
+        private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps
+                .newSetMultiMap();
 
         public Set<Class<? extends ServiceEvent>> getClasses(final Class<? extends ServiceEvent> eventClass) {
             lock.readLock().lock();

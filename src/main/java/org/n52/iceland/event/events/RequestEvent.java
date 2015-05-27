@@ -22,7 +22,7 @@ import org.n52.iceland.request.AbstractServiceRequest;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class RequestEvent implements ServiceEvent {
 

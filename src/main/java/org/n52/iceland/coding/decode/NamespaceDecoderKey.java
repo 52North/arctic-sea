@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
  * Abstract {@link DecoderKey} class for namespace decoder
  * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * 
  * @since 1.0.0
  */

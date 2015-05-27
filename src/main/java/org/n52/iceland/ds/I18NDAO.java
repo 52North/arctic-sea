@@ -25,7 +25,7 @@ import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 /**
  * Interface for the I18N DAOs
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.2.0
  *

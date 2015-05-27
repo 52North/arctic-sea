@@ -29,7 +29,7 @@ import org.n52.iceland.util.StringHelper;
  * @since 4.0.0
  */
 /**
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since
  * 
  */
