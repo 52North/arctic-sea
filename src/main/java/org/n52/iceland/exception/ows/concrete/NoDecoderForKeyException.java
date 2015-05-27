@@ -26,7 +26,7 @@ import org.n52.iceland.exception.ows.NoApplicableCodeException;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class NoDecoderForKeyException extends NoApplicableCodeException {
     private static final long serialVersionUID = 2130152587752891589L;

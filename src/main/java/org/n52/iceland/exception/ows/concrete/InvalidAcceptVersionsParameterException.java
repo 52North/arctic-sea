@@ -26,7 +26,7 @@ import com.google.common.base.Joiner;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class InvalidAcceptVersionsParameterException extends VersionNegotiationFailedException {
     private static final long serialVersionUID = -4208117985311582007L;

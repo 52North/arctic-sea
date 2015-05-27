@@ -28,7 +28,7 @@ import com.google.common.base.Joiner;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class NotYetSupportedException extends NoApplicableCodeException {
     private static final long serialVersionUID = 8214490617892996058L;

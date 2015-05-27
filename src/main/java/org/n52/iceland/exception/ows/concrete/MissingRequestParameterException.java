@@ -22,7 +22,7 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class MissingRequestParameterException extends MissingParameterValueException {
     private static final long serialVersionUID = -8897872076017250022L;

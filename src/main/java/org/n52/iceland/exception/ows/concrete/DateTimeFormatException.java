@@ -26,7 +26,7 @@ import org.n52.iceland.ogc.gml.time.Time;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class DateTimeFormatException extends DateTimeException {
     private static final long serialVersionUID = 4594521785170898431L;
@@ -36,7 +36,7 @@ public class DateTimeFormatException extends DateTimeException {
     }
 
     public DateTimeFormatException(final Time value, final Throwable cause) {
-        withMessage("Error formatting ITime %s", value);
+        withMessage("Error formatting Time %s", value);
         if (cause != null) {
             causedBy(cause);
         }

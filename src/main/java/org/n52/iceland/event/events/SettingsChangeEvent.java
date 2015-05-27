@@ -21,6 +21,10 @@ import org.n52.iceland.config.SettingValue;
 import org.n52.iceland.event.ServiceEvent;
 
 /**
+ * This event is fired if the {@link SettingValue} of a
+ * {@link SettingDefinition} has been changed or a {@link SettingDefinition} was
+ * deleted.
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
  * @since 1.0.0

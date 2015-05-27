@@ -21,7 +21,7 @@ import org.n52.iceland.exception.ows.OptionNotSupportedException;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ParameterNotSupportedException extends OptionNotSupportedException {
     private static final long serialVersionUID = -4888724617519223794L;

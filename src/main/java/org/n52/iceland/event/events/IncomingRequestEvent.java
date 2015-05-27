@@ -22,6 +22,7 @@ import org.n52.iceland.event.ServiceEvent;
 
 /**
  * Event is thrown if a new {@link HttpServletRequest} arrives.
+ * 
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
