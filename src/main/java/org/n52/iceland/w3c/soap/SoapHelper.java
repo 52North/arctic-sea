@@ -29,8 +29,6 @@ import javax.xml.soap.SOAPMessage;
 
 import org.n52.iceland.ogc.ows.ExceptionCode;
 import org.n52.iceland.ogc.ows.OWSConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.w3c.dom.NodeList;
 
 /**
@@ -39,8 +37,6 @@ import org.w3c.dom.NodeList;
  * @since 1.0.0
  */
 public class SoapHelper {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(SoapHelper.class);
 
     /**
      * Checks the HTTP-Header for action or SOAPAction elements.
@@ -123,30 +119,6 @@ public class SoapHelper {
             return OWSConstants.SOAP_REASON_UNKNOWN;
         }
     }
-
-//    public static String checkActionURIWithBodyContent(String soapAction, String operationName)
-//            throws OwsExceptionReport {
-//        if (soapAction != null && !soapAction.isEmpty()) {
-//            if (operationName.equals(Operations.GetCapabilities.name())
-//                    && soapAction.equals(SosSoapConstants.REQ_ACTION_GET_CAPABILITIES)) {
-//                LOGGER.debug("ActionURI and SOAPBody content are valid!");
-//                return SosSoapConstants.RESP_ACTION_GET_CAPABILITIES;
-//            } else if (operationName.equals(Operations.DescribeSensor.name())
-//                    && soapAction.equals(SosSoapConstants.REQ_ACTION_DESCRIBE_SENSOR)) {
-//                LOGGER.debug("ActionURI and SOAPBody content are valid!");
-//                return SosSoapConstants.RESP_ACTION_DESCRIBE_SENSOR;
-//            } else if (operationName.equals(Operations.GetObservation.name())
-//                    && soapAction.equals(SosSoapConstants.REQ_ACTION_GET_OBSERVATION)) {
-//                LOGGER.debug("ActionURI and SOAPBody content are valid!");
-//                return SosSoapConstants.RESP_ACTION_GET_OBSERVATION;
-//            } else {
-//                throw new NoApplicableCodeException().withMessage(
-//                        "Error while actionURI (%s) is not compatible with the SOAPBody content (%s request)!",
-//                        soapAction, operationName);
-//            }
-//        }
-//        return null;
-//    }
 
     private SoapHelper() {
     }
