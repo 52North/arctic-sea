@@ -20,7 +20,9 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OwsCapabilities;
 
 /**
- * @since 4.0.0
+ * Implementation of {@link AbstractServiceResponse} for OWS GetCapabilities operation
+ * 
+ * @since 1.0.0
  * 
  */
 public class GetCapabilitiesResponse extends AbstractServiceResponse {

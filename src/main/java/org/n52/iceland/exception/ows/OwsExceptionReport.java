@@ -24,14 +24,16 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.util.http.HTTPStatus;
 
 /**
- * Implementation of the ows service exception. The exception codes are defined
- * according the ows common spec. version 1.1.0
+ * Implementation of the OWS service exception. The exception codes are defined
+ * according the <a
+ * href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
+ * Service Common Specification 1.1.0</a>
  * 
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class OwsExceptionReport extends Exception {
 

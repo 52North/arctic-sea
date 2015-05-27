@@ -19,9 +19,11 @@ package org.n52.iceland.exception.ows;
 import org.n52.iceland.exception.CodedException;
 
 /**
+ * Implementation of {@link CodedException} for OWS Exceptions
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class CodedOwsException extends CodedException {
 

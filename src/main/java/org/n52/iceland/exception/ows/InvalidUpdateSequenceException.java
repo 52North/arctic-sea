@@ -19,11 +19,18 @@ package org.n52.iceland.exception.ows;
 import static org.n52.iceland.util.http.HTTPStatus.BAD_REQUEST;
 
 /**
+ * Implementation of {@link CodedOwsException} to be used if </br> <i>Value of
+ * (optional) updateSequence parameter in GetCapabilities operation request is
+ * greater than current value of service metadata updateSequence number.</i>
+ * 
+ * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
+ *      Web Service Common Specification 1.1.0</a>, Table 25 — Standard exception codes and
+ *      meanings
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class InvalidUpdateSequenceException extends CodedOwsException {
     private static final long serialVersionUID = -2764825556277141124L;

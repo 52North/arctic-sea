@@ -32,9 +32,9 @@ import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * SOS GetCapabilities request
+ * Implemnentation of {@link AbstractServiceRequest} for OWS GetCapabilities
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabilitiesResponse> {
     private String updateSequence;

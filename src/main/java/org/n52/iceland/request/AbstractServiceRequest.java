@@ -36,7 +36,7 @@ import org.n52.iceland.util.StringHelper;
 /**
  * abstract super class for all service request classes
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 @SuppressWarnings("rawtypes")

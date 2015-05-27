@@ -36,7 +36,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ServiceResponse implements CommunicationObjectWithSoapHeader {
     private static final Logger LOGGER = LoggerFactory.getLogger(ServiceResponse.class);

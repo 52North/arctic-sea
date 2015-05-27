@@ -25,7 +25,7 @@ import org.n52.iceland.util.http.MediaType;
 /**
  * abstract super class for all service request classes
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractServiceResponse extends AbstractServiceCommunicationObject implements HasExtension<AbstractServiceResponse> {
 

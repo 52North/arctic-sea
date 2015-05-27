@@ -25,9 +25,12 @@ import java.util.List;
 import org.n52.iceland.exception.CodedException;
 
 /**
+ * Composite {@link OwsExceptionReport} which can contain several
+ * {@link OwsExceptionReport}s which were thrown
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class CompositeOwsException extends OwsExceptionReport {
     private static final long serialVersionUID = -4876354677532448922L;
