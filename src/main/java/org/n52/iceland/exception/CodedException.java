@@ -19,8 +19,8 @@ package org.n52.iceland.exception;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.ExceptionCode;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>

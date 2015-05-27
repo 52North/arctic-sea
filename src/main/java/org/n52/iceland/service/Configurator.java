@@ -42,7 +42,7 @@ import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 //import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesRepository;
 import org.n52.iceland.ogc.ows.OwsServiceIdentification;
 import org.n52.iceland.ogc.ows.OwsServiceProvider;
@@ -64,6 +64,7 @@ import org.n52.iceland.util.Producer;
 
 
 //import org.n52.sos.ds.HibernateDatasourceConstants;
+
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;

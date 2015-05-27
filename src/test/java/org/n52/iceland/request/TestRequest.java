@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.request;
 
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.response.TestResponse;
 
 public class TestRequest extends AbstractServiceRequest<TestResponse> {

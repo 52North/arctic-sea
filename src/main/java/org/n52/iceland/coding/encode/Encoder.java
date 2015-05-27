@@ -19,9 +19,9 @@ package org.n52.iceland.coding.encode;
 import java.util.Map;
 import java.util.Set;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.UnsupportedEncoderInputException;
 import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.service.ConformanceClass;
 import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
 import org.n52.iceland.util.http.MediaType;

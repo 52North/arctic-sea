@@ -17,7 +17,7 @@
 package org.n52.iceland.service.operator;
 
 import org.n52.iceland.exception.ows.OperationNotSupportedException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 import org.n52.iceland.request.operator.RequestOperatorRepository;

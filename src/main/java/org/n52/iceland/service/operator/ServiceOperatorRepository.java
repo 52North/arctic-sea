@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
 import org.n52.iceland.util.CollectionHelper;

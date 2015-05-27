@@ -18,7 +18,7 @@ package org.n52.iceland.w3c.soap;
 
 import java.util.List;
 
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.SoapHeader;
 

@@ -19,8 +19,8 @@ package org.n52.iceland.ds;
 import java.util.Collection;
 import java.util.Locale;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 
 /**
  * Interface for the I18N DAOs

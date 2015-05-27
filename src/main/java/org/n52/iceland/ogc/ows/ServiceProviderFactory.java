@@ -32,10 +32,12 @@ import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.STATE;
 import java.io.File;
 import java.net.URI;
 import java.util.Locale;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;

@@ -24,7 +24,7 @@ import java.util.Scanner;
 import java.util.Set;
 
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;

@@ -18,6 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Set;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.GetCapabilitiesRequest;
 
 /**

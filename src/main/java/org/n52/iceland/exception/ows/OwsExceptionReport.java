@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.ows;
+package org.n52.iceland.exception.ows;
 
 import java.util.Iterator;
 import java.util.List;
 
 import org.n52.iceland.exception.CodedException;
+import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.util.http.HTTPStatus;
 
 /**
