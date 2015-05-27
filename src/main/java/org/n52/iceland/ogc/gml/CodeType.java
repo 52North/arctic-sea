@@ -24,7 +24,7 @@ import com.google.common.base.Objects;
 /**
  * Class represents a GML conform CodeType element
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class CodeType {
