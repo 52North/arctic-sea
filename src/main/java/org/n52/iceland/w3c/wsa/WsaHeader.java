@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.w3c.wsa;
 
-import org.n52.iceland.service.SoapHeader;
 import org.n52.iceland.util.StringHelper;
+import org.n52.iceland.w3c.soap.SoapHeader;
 
 /**
  * @since 4.0.0

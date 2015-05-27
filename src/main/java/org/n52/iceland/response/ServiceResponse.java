@@ -26,9 +26,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
-import org.n52.iceland.service.SoapHeader;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
+import org.n52.iceland.w3c.soap.SoapHeader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

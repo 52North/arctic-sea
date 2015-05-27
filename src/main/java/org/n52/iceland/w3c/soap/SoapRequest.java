@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.Request;
-import org.n52.iceland.service.SoapHeader;
 
 /**
  * Representation of a SOAP request

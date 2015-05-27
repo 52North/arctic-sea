@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.service.SoapHeader;
 
 /**
  * Representation of a SOAP response
