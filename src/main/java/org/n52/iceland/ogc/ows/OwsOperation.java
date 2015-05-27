@@ -32,7 +32,7 @@ import org.n52.iceland.util.MinMax;
 /**
  * Class represents a OperationMetadata. Used in SosCapabilities.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class OwsOperation implements Comparable<OwsOperation> {
 

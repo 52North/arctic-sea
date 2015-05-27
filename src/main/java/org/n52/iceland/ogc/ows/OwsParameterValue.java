@@ -17,7 +17,7 @@
 package org.n52.iceland.ogc.ows;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface OwsParameterValue {

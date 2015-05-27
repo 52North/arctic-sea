@@ -21,9 +21,9 @@ import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
- * Interface for the request listeners.
+ * Interface for the request listeners of a service, e.g. SOS 2.0 or SOS 1.0.0.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface ServiceOperator {
 
@@ -35,13 +35,21 @@ public interface ServiceOperator {
      * @param request
      *            the operation request
      * 
-     * @return Returns the response of the request (e.g. CapabilitiesResponse
+     * @return Returns the response of the request (e.g. CapabilitiesResponse)
      * 
      * 
      * @throws OwsExceptionReport
+     *             If an error occurred or the requested operation is not
+     *             supported
      */
     AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
 
+    /**
+     * Get the {@link ServiceOperatorKey} of this implemented
+     * {@link ServiceOperator}
+     * 
+     * @return The {@link ServiceOperatorKey} for this service.
+     */
     ServiceOperatorKey getServiceOperatorKey();
 
 }

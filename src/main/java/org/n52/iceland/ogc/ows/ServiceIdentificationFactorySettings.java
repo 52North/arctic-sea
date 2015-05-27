@@ -35,7 +35,7 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ServiceIdentificationFactorySettings implements SettingDefinitionProvider {
     public static final String SERVICE_TYPE = "serviceIdentification.serviceType";

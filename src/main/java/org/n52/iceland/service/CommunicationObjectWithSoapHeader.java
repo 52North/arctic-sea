@@ -25,7 +25,7 @@ import org.n52.iceland.w3c.soap.SoapHeader;
  * 
  * @author Matthes Rieke
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface CommunicationObjectWithSoapHeader {

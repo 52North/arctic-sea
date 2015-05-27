@@ -24,9 +24,12 @@ import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
+ * Abstract class of {@link ServiceOperator} which implements the defined
+ * methods for concrete implementations.
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class AbstractServiceOperator implements ServiceOperator {
     private final ServiceOperatorKey key;

@@ -30,7 +30,7 @@ import org.n52.iceland.util.CollectionHelper;
 import com.google.common.collect.Lists;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public class OwsOperationsMetadata {
