@@ -133,11 +133,8 @@ public class JSONUtils {
 
     public static JsonNode loadPath(final String path) throws IOException {
         final JsonNode ret;
-        final FileInputStream in = new FileInputStream(path);
-        try {
+        try (final FileInputStream in = new FileInputStream(path)){
             ret = getReader().readTree(in);
-        } finally {
-            in.close();
         }
         return ret;
     }
@@ -145,11 +142,8 @@ public class JSONUtils {
     public static JsonNode loadFile(final File file) throws IOException {
         final JsonNode ret;
 
-        final FileInputStream in = new FileInputStream(file);
-        try {
+        try ( final FileInputStream in = new FileInputStream(file)){
             ret = getReader().readTree(in);
-        } finally {
-            in.close();
         }
 
         return ret;
