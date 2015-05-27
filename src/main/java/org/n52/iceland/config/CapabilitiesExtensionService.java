@@ -25,22 +25,37 @@ import org.n52.iceland.ogc.ows.OfferingExtension;
 import org.n52.iceland.ogc.ows.StaticCapabilities;
 import org.n52.iceland.ogc.ows.StringBasedCapabilitiesExtension;
 
-public interface CapabilitiesExtensionManager {
+public interface CapabilitiesExtensionService {
 
     Map<String, List<OfferingExtension>> getOfferingExtensions();
-    Map<String, List<OfferingExtension>> getActiveOfferingExtensions();
-    void saveOfferingExtension(String offering, String identifier, String value) throws NoSuchOfferingException;
-    void disableOfferingExtension(String offering, String identifier, boolean disabled) throws NoSuchExtensionException,
-                                                                                               NoSuchOfferingException;
 
-    void deleteOfferingExtension(String offering, String identifier) throws NoSuchOfferingException,
-                                                                            NoSuchExtensionException;
+    Map<String, List<OfferingExtension>> getActiveOfferingExtensions();
+
+    void saveOfferingExtension(String offering, String identifier, String value)
+            throws NoSuchOfferingException;
+
+    void disableOfferingExtension(String offering, String identifier,
+                                  boolean disabled)
+            throws NoSuchExtensionException, NoSuchOfferingException;
+
+    void deleteOfferingExtension(String offering, String identifier)
+            throws NoSuchOfferingException,
+                   NoSuchExtensionException;
+
     Map<String, StringBasedCapabilitiesExtension> getActiveCapabilitiesExtensions();
+
     Map<String, StringBasedCapabilitiesExtension> getAllCapabilitiesExtensions();
+
     void saveCapabilitiesExtension(String identifier, String value);
-    void disableCapabilitiesExtension(String identifier, boolean disabled) throws NoSuchExtensionException;
-    void deleteCapabiltiesExtension(String identfier) throws NoSuchExtensionException;
-    void setActiveStaticCapabilities(String identifier) throws NoSuchExtensionException;
+
+    void disableCapabilitiesExtension(String identifier, boolean disabled)
+            throws NoSuchExtensionException;
+
+    void deleteCapabiltiesExtension(String identfier)
+            throws NoSuchExtensionException;
+
+    void setActiveStaticCapabilities(String identifier)
+            throws NoSuchExtensionException;
 
     /**
      * @return the identifier
@@ -51,9 +66,15 @@ public interface CapabilitiesExtensionManager {
      * @return the document
      */
     String getActiveStaticCapabilitiesDocument();
+
     boolean isStaticCapabilitiesActive();
+
     Map<String, StaticCapabilities> getStaticCapabilities();
+
     StaticCapabilities getStaticCapabilities(String id);
+
     void saveStaticCapabilities(String identifier, String document);
-    void deleteStaticCapabilities(String identifier) throws NoSuchExtensionException;
+
+    void deleteStaticCapabilities(String identifier)
+            throws NoSuchExtensionException;
 }

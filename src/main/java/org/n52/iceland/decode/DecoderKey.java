@@ -16,12 +16,12 @@
  */
 package org.n52.iceland.decode;
 
-import org.n52.iceland.coding.CodingKey;
+import org.n52.iceland.util.Similar;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
-public interface DecoderKey extends CodingKey<DecoderKey> {
+public interface DecoderKey extends Similar<DecoderKey> {
 }

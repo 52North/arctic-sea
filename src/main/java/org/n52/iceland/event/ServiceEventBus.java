@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class ServiceEventBus {
@@ -55,11 +55,11 @@ public class ServiceEventBus {
         return LazyHolder.INSTANCE;
     }
 
-    public static void fire(final ServiceEvent event) {
+    public static void fire(ServiceEvent event) {
         getInstance().submit(event);
     }
 
-    private static boolean checkEvent(final ServiceEvent event) {
+    private static boolean checkEvent(ServiceEvent event) {
         if (event == null) {
             LOG.warn("Submitted event is null!");
             return false;
@@ -67,7 +67,7 @@ public class ServiceEventBus {
         return true;
     }
 
-    private static boolean checkListener(final ServiceEventListener listener) {
+    private static boolean checkListener(ServiceEventListener listener) {
         if (listener == null) {
             LOG.warn("Tried to unregister SosEventListener null");
             return false;
@@ -83,12 +83,12 @@ public class ServiceEventBus {
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-    private final Executor executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, new GroupedAndNamedThreadFactory(
-            THREAD_GROUP_NAME));
+    private final Executor executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE,
+                                                                   new GroupedAndNamedThreadFactory(THREAD_GROUP_NAME));
 
     private final SetMultiMap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = MultiMaps.newSetMultiMap();
 
-    private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<HandlerExecution>();
+    private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<>();
 
     private ServiceEventBus() {
         loadListenerImplementations();
@@ -107,7 +107,7 @@ public class ServiceEventBus {
     }
 
     private Set<ServiceEventListener> getListenersForEvent(final ServiceEvent event) {
-        final LinkedList<ServiceEventListener> result = new LinkedList<ServiceEventListener>();
+        final LinkedList<ServiceEventListener> result = new LinkedList<>();
         lock.readLock().lock();
         try {
             for (final Class<? extends ServiceEvent> eventType : classCache.getClasses(event.getClass())) {
@@ -202,10 +202,10 @@ public class ServiceEventBus {
 
         private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps.newSetMultiMap();
 
-        public Set<Class<? extends ServiceEvent>> getClasses(final Class<? extends ServiceEvent> eventClass) {
+        public Set<Class<? extends ServiceEvent>> getClasses(Class<? extends ServiceEvent> eventClass) {
             lock.readLock().lock();
             try {
-                final Set<Class<? extends ServiceEvent>> r = cache.get(eventClass);
+                Set<Class<? extends ServiceEvent>> r = cache.get(eventClass);
                 if (r != null) {
                     return r;
                 }
@@ -226,7 +226,7 @@ public class ServiceEventBus {
             }
         }
 
-        private Set<Class<? extends ServiceEvent>> flatten(final Class<? extends ServiceEvent> eventClass) {
+        private Set<Class<? extends ServiceEvent>> flatten(Class<? extends ServiceEvent> eventClass) {
             return ClassHelper.flattenPartialHierachy(ServiceEvent.class, eventClass);
         }
     }
@@ -236,7 +236,7 @@ public class ServiceEventBus {
 
         private final ServiceEventListener listener;
 
-        HandlerExecution(final ServiceEvent event, final ServiceEventListener listener) {
+        HandlerExecution(ServiceEvent event, ServiceEventListener listener) {
             this.event = event;
             this.listener = listener;
         }

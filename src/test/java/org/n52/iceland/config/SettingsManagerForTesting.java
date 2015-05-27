@@ -18,24 +18,11 @@ package org.n52.iceland.config;
 
 import java.io.File;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
-import org.n52.iceland.encode.ResponseFormatKey;
-import org.n52.iceland.exception.NoSuchExtensionException;
-import org.n52.iceland.exception.NoSuchOfferingException;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.ogc.gml.time.TimeInstant;
-import org.n52.iceland.ogc.ows.OfferingExtension;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.ows.StaticCapabilities;
-import org.n52.iceland.ogc.ows.StringBasedCapabilitiesExtension;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
-import org.n52.iceland.request.operator.RequestOperatorKey;
 
 /**
  * @since 4.0.0
@@ -64,39 +51,6 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
 
     @Override
     protected void saveSettingValue(SettingValue<?> setting) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void setOperationStatus(RequestOperatorKey requestOperatorKeyType, boolean active)
-            throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void setResponseFormatStatus(ResponseFormatKey rfkt, boolean active) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void setBindingStatus(BindingKey bk, boolean active) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void setOfferingExtensionStatus(OfferingExtensionKey oek, boolean active)
-            throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey oeck, boolean active)
-            throws ConnectionProviderException {
         // TODO Auto-generated method stub
 
     }
@@ -140,41 +94,6 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
     public void deleteAll() throws ConnectionProviderException {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public void destroy() {
-        // TODO Auto-generated method stub
-    }
-
-    @Override
-    public boolean isActive(RequestOperatorKey rokt) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isActive(ResponseFormatKey rfkt) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isActive(BindingKey bk) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isActive(OfferingExtensionKey oek) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean isActive(OwsExtendedCapabilitiesProviderKey oeck) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override
@@ -231,134 +150,5 @@ public class SettingsManagerForTesting extends AbstractSettingsManager {
             return new ChoiceSettingValueForTesting();
         }
     }
-
-    @Override
-    protected void setProcedureDescriptionFormatStatus(ProcedureDescriptionFormatKey pdfkt, boolean active)
-            throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public boolean isActive(ProcedureDescriptionFormatKey pdfkt) throws ConnectionProviderException {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-	@Override
-	public Map<String, List<OfferingExtension>> getOfferingExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, List<OfferingExtension>> getActiveOfferingExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveOfferingExtension(String offering, String identifier,
-			String value) throws NoSuchOfferingException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void disableOfferingExtension(String offering, String identifier,
-			boolean disabled) throws NoSuchExtensionException,
-			NoSuchOfferingException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteOfferingExtension(String offering, String identifier)
-			throws NoSuchOfferingException, NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public Map<String, StringBasedCapabilitiesExtension> getActiveCapabilitiesExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, StringBasedCapabilitiesExtension> getAllCapabilitiesExtensions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveCapabilitiesExtension(String identifier, String value) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void disableCapabilitiesExtension(String identifier, boolean disabled)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteCapabiltiesExtension(String identfier)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setActiveStaticCapabilities(String identifier)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public String getActiveStaticCapabilities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public String getActiveStaticCapabilitiesDocument() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isStaticCapabilitiesActive() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Map<String, StaticCapabilities> getStaticCapabilities() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StaticCapabilities getStaticCapabilities(String id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveStaticCapabilities(String identifier, String document) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void deleteStaticCapabilities(String identifier)
-			throws NoSuchExtensionException {
-		// TODO Auto-generated method stub
-
-	}
 
 }

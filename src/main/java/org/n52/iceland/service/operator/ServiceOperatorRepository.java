@@ -125,7 +125,12 @@ public class ServiceOperatorRepository extends AbstractUniqueKeyComponentReposit
         return result;
     }
 
+    @Deprecated
     public Set<ServiceOperatorKey> getServiceOperatorKeyTypes() {
+        return getServiceOperatorKeys();
+    }
+    
+    public Set<ServiceOperatorKey> getServiceOperatorKeys() {
         return getServiceOperators().keySet();
     }
 

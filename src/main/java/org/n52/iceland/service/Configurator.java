@@ -64,6 +64,7 @@ import com.google.common.collect.Sets;
  *
  * @since 4.0.0
  */
+@Deprecated
 public class Configurator implements Constructable, Destroyable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Configurator.class);
 

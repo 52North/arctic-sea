@@ -41,7 +41,8 @@ public abstract class ProxySimilarityComparator<T, K extends Similar<K>> impleme
 
     @Override
     public int compare(T o1, T o2) {
-        int compResult = comp.compare(Collections.min(getSimilars(o1), comp), Collections.min(getSimilars(o2), comp));
+        int compResult = comp.compare(Collections.min(getSimilars(o1), comp),
+                                      Collections.min(getSimilars(o2), comp));
         // check inheritance hierarchy if key matches are equal and classes are not
         if (compResult == 0 && !o1.getClass().equals(o2.getClass())) {
             if (o1.getClass().isAssignableFrom(o2.getClass())) {

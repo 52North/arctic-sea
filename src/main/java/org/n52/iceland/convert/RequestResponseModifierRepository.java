@@ -18,10 +18,11 @@ package org.n52.iceland.convert;
 
 import java.util.List;
 
+import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.util.Producers;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -66,7 +67,7 @@ public class RequestResponseModifierRepository extends
         if (producers == null) {
             return null;
         } else {
-            return produce(producers);
+            return Producers.produce(producers);
         }
 	}
 

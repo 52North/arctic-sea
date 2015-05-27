@@ -16,12 +16,12 @@
  */
 package org.n52.iceland.encode;
 
-import org.n52.iceland.coding.CodingKey;
+import org.n52.iceland.util.Similar;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
-public interface EncoderKey extends CodingKey<EncoderKey> {
+public interface EncoderKey extends Similar<EncoderKey> {
 }

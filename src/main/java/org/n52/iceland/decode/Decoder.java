@@ -23,7 +23,7 @@ import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.concrete.UnsupportedDecoderInputException;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
+import org.n52.iceland.service.ServiceConstants.SupportedType;
 
 /**
  * Generic interface for decoders.
@@ -54,7 +54,7 @@ public interface Decoder<T, S> extends ConformanceClass, Component<DecoderKey> {
     T decode(S objectToDecode) throws OwsExceptionReport, UnsupportedDecoderInputException;
 
     /**
-     * Get the {@linkplain SupportedTypeKey} in the case of having only generic
+     * Get the {@link SupportedType} in the case of having only generic
      * java types, e.g. {@linkplain org.n52.sos.ogc.om.OmConstants}. In this
      * case, the returned list provides a mapping from Type &rarr; SubType (e.g.
      * {@linkplain org.n52.sos.service.ServiceConstants}
@@ -64,5 +64,5 @@ public interface Decoder<T, S> extends ConformanceClass, Component<DecoderKey> {
      *
      * @return the supported key types
      */
-    Map<SupportedTypeKey, Set<String>> getSupportedTypes();
+    Set<SupportedType> getSupportedTypes();
 }

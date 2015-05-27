@@ -31,7 +31,7 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.Activatable;
+import org.n52.iceland.util.activation.Activatable;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
@@ -73,7 +73,7 @@ public class RequestOperatorRepository extends AbstractUniqueKeyComponentReposit
              : implementations.entrySet()) {
             try {
                 RequestOperatorKey key = entry.getKey();
-                boolean active = this.settingsManager.isActive(key);
+                boolean active = this.settingsManager.isRequestOperatorActive(key);
                 this.requestOperators.put(key, new Activatable<>(entry.getValue(), active));
             } catch (final ConnectionProviderException cpe) {
                 throw new ConfigurationException("Error while checking RequestOperator", cpe);

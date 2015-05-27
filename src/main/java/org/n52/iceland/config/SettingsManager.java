@@ -16,22 +16,40 @@
  */
 package org.n52.iceland.config;
 
+import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.net.URI;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.Set;
+import java.util.concurrent.locks.ReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.n52.iceland.binding.BindingKey;
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
+
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
-import org.n52.iceland.encode.ResponseFormatKey;
+import org.n52.iceland.event.ServiceEventBus;
+import org.n52.iceland.event.events.SettingsChangeEvent;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.lifecycle.Destroyable;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
-import org.n52.iceland.request.operator.RequestOperatorKey;
-import org.n52.iceland.service.Configurator;
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.service.ServiceSettings;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
@@ -41,437 +59,593 @@ import org.n52.iceland.service.Configurator;
  * interface. Classes can subscribe to specific settings using the
  * {@code Configurable} and {@code Setting} annotations. To be recognized by the
  * SettingsManager {@link #configure(java.lang.Object)} has to be called for
- * every object that wants to recieve settings. This is automatically done for
- * all classes loaded by the {@link Configurator}. All other classes have to
+ * every object that wants to receive settings. All other classes have to
  * call {@code configure(java.lang.Object)} manually.
- * <p/>
+ *
  *
  * @see AdministratorUser
  * @see SettingDefinition
  * @see SettingDefinitionProvider
  * @see SettingValue
  * @see Configurable
- * @see AbstractConfiguringComponentRepository
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
-public abstract class SettingsManager implements Destroyable, CapabilitiesExtensionManager{
+public class SettingsManager implements AdminUserService, Constructable {
 
+    private static final Logger LOG = LoggerFactory
+            .getLogger(SettingsManager.class);
+    private final SetMultimap<String, ConfigurableObject> configurableObjects = HashMultimap.create();
+    private final ReadWriteLock configurableObjectsLock
+            = new ReentrantReadWriteLock();
+
+    private ApplicationContext applicationContext;
+    private Set<SettingDefinition<?, ?>> definitions;
+    private Map<String, SettingDefinition<?, ?>> definitionByKey;
+
+    private SettingsManagerDao settingsManagerDao;
+    private AdminUserDao adminUserDao;
+    private SettingValueFactory settingValueFactory;
+
+    @Deprecated
     private static SettingsManager instance;
 
-    public SettingsManager() {
-        SettingsManager.instance = this;
+
+    @Inject
+    public void setSettingValueFactory(SettingValueFactory settingValueFactory) {
+        this.settingValueFactory = settingValueFactory;
     }
 
-    /**
-     * Gets the singleton instance of the SettingsManager.
-     * <p/>
-     *
-     * @return the settings manager
-     *         <p/>
-     * @throws ConfigurationException
-     *             if no implementation can be found
-     */
+    @Inject
+    public void setDao(SettingsManagerDao dao) {
+        this.settingsManagerDao = dao;
+    }
+
+    @Inject
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void init() {
+        SettingsManager.instance = this;
+        loadSettingsDefinition();
+    }
+
+    private void loadSettingsDefinition() {
+        addSettingDefintions(loadSettingDefinitions());
+    }
+
+    private void addSettingDefintions(Collection<SettingDefinition> definitions) {
+        this.definitions = new HashSet<>(definitions.size());
+        this.definitionByKey = new HashMap<>(definitions.size());
+        for (SettingDefinition<?, ?> definition : this.definitions) {
+            this.definitions.add(definition);
+            if (this.definitionByKey.put(definition.getKey(), definition) != null) {
+                LOG.warn("Duplicate setting definition for key {}", definition.getKey());
+            }
+        }
+    }
+
+    protected Collection<SettingDefinition> loadSettingDefinitions() {
+        return this.applicationContext.getBeansOfType(SettingDefinition.class).values();
+    }
+
     @Deprecated
-    public static SettingsManager getInstance() throws ConfigurationException {
+    public static SettingsManager getInstance()
+            throws ConfigurationException {
         return SettingsManager.instance;
     }
 
-
-    /**
-     * Creates a new {@code SettingsManager} with the {@link ServiceLoader}
-     * interface.
-     * <p/>
-     *
-     * @return the implementation
-     *         <p/>
-     * @throws ConfigurationException
-     *             if no implementation can be found
-     */
     @Deprecated
-    private static SettingsManager createInstance() throws ConfigurationException {
+    private static SettingsManager createInstance()
+            throws ConfigurationException {
         return getInstance();
     }
-
 
     /**
      * Configure {@code o} with the required settings. All changes to a setting
      * required by the object will be applied.
-     * <p/>
      *
-     * @param o
-     *            the object to configure
-     *            <p/>
+     * @param object
+     *          the object to configure
+     *
      * @throws ConfigurationException
-     *             if there is a problem configuring the object
+     *                                if there is a problem configuring the object
      * @see Configurable
      * @see Setting
      */
-    public abstract void configure(Object o) throws ConfigurationException;
+    public void configure(Object object)
+            throws ConfigurationException {
+        LOG.debug("Configuring {}", object);
+        Class<?> clazz = object.getClass();
+        Configurable configurable = clazz.getAnnotation(Configurable.class);
+
+        if (configurable == null) {
+            return;
+        }
+
+        for (Method method : clazz.getMethods()) {
+            Setting s = method.getAnnotation(Setting.class);
+
+            if (s != null) {
+                String key = s.value();
+                if (key == null || key.isEmpty()) {
+                    throw new ConfigurationException(String.format("Invalid value for @Setting: '%s'", key));
+                } else if (getDefinitionByKey(key) == null) {
+                    throw new ConfigurationException(String.format("No SettingDefinition found for key %s", key));
+                } else if (method.getParameterTypes().length != 1) {
+                    throw new ConfigurationException(String.format(
+                            "Method %s annotated with @Setting in %s has a invalid method signature", method, clazz));
+                } else if (!Modifier.isPublic(method.getModifiers())) {
+                    throw new ConfigurationException(String.format(
+                            "Non-public method %s annotated with @Setting in %s", method, clazz));
+                } else {
+                    configure(new ConfigurableObject(method, object, key));
+                }
+            }
+        }
+    }
 
     /**
      * Get the definition that is defined with the specified key.
-     * <p/>
      *
      * @param key
      *            the key
-     *            <p/>
+     *
      * @return the definition or {@code null} if there is no definition for the
      *         key
      */
-    public abstract SettingDefinition<?, ?> getDefinitionByKey(String key);
+    public SettingDefinition<?, ?> getDefinitionByKey(String key) {
+        return this.definitionByKey.get(key);
+    }
 
     /**
      * Gets all {@code SettingDefinition}s known by this class.
-     * <p/>
      *
      * @return the definitions
      */
-    public abstract Set<SettingDefinition<?, ?>> getSettingDefinitions();
+    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
+        return Collections.unmodifiableSet(this.definitions);
+    }
 
     /**
      * Gets the value of the setting defined by {@code key}.
-     * <p/>
      *
      * @param <T>
      *            the type of the setting and value
      * @param key
      *            the definition of the setting
-     *            <p/>
+     *
      * @return the value of the setting
-     *         <p/>
+     *
      * @throws ConnectionProviderException
      */
-    public abstract <T> SettingValue<T> getSetting(SettingDefinition<?, T> key) throws ConnectionProviderException;
+    @SuppressWarnings("unchecked")
+    public <T> SettingValue<T> getSetting(SettingDefinition<?, T> key)
+            throws ConnectionProviderException {
+        return (SettingValue<T>) this.settingsManagerDao.getSettingValue(key.getKey());
+    }
 
     /**
      * Gets the value of the setting defined by {@code key}.
-     * <p/>
      *
      * @param <T>
      *            the type of the setting and value
      * @param key
      *            the id of the setting
-     *            <p/>
+     *
      * @return the value of the setting
-     *         <p/>
+     *
      * @throws ConnectionProviderException
      */
-    public abstract <T> SettingValue<T> getSetting(String key) throws ConnectionProviderException;
+    @SuppressWarnings("unchecked")
+    public <T> SettingValue<T> getSetting(String key)
+            throws ConnectionProviderException {
+        SettingDefinition<?, ?> def = getDefinitionByKey(key);
+        if (def == null) {
+            return null;
+        }
+        return (SettingValue<T>) getSetting(def);
+    }
 
     /**
      * Gets all values for all definitions. If there is no value for a
      * definition {@code null} is added to the map.
-     * <p/>
      *
      * @return all values by definition
-     *         <p/>
+     *
      * @throws ConnectionProviderException
      */
-    public abstract Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() throws ConnectionProviderException;
+    public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings()
+            throws ConnectionProviderException {
+        Set<SettingValue<?>> values = this.settingsManagerDao.getSettingValues();
+        Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition
+                = new HashMap<>(values.size());
+        for (SettingValue<?> value : values) {
+            final SettingDefinition<?, ?> definition = getDefinitionByKey(value
+                    .getKey());
+            if (definition == null) {
+                LOG.warn("No definition for '{}' found.", value.getKey());
+            } else {
+                settingsByDefinition.put(definition, value);
+            }
+        }
+        HashSet<SettingDefinition<?, ?>> nullValues
+                = new HashSet<>(getSettingDefinitions());
+        nullValues.removeAll(settingsByDefinition.keySet());
+        for (SettingDefinition<?, ?> s : nullValues) {
+            settingsByDefinition.put(s, null);
+        }
+        return settingsByDefinition;
+    }
 
     /**
      * Deletes the setting defined by {@code setting}.
+     *
+     * @param setting
+     *                the definition
+     *
+     * @throws ConfigurationException
+     *                                     if there is a problem deleting the setting
+     * @throws ConnectionProviderException
+     */
+    public void deleteSetting(SettingDefinition<?, ?> setting)
+            throws ConfigurationException,
+                   ConnectionProviderException {
+        SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting.getKey());
+        if (oldValue != null) {
+            applySetting(setting, oldValue, null);
+            this.settingsManagerDao.deleteSettingValue(setting.getKey());
+            ServiceEventBus
+                    .fire(new SettingsChangeEvent(setting, oldValue, null));
+        }
+    }
+
+     /**
+     * @return the keys for all definitions
+     */
+    public Set<String> getKeys() {
+        Set<SettingDefinition<?, ?>> settings = getSettingDefinitions();
+        HashSet<String> keys = new HashSet<>(settings.size());
+        for (SettingDefinition<?, ?> setting : settings) {
+            keys.add(setting.getKey());
+        }
+        return keys;
+    }
+
+
+    /**
+     * Applies the a new setting to all {@code ConfiguredObject}s. If an error
+     * occurs the the old value is reapplied.
      * <p/>
      *
      * @param setting
-     *            the definition
-     *            <p/>
+     *                 the definition
+     * @param oldValue
+     *                 the old value (or {@code null} if there is none)
+     * @param newValue
+     *                 the new value (or {@code null} if there is none)
+     * <p/>
      * @throws ConfigurationException
-     *             if there is a problem deleting the setting
-     * @throws ConnectionProviderException
+     *                                if there is a error configurin(g the objects
      */
-    public abstract void deleteSetting(SettingDefinition<?, ?> setting) throws ConfigurationException,
-            ConnectionProviderException;
+    private void applySetting(SettingDefinition<?, ?> setting,
+                              SettingValue<?> oldValue,
+                              SettingValue<?> newValue)
+            throws ConfigurationException {
+        LinkedList<ConfigurableObject> changed = new LinkedList<>();
+        ConfigurationException e = null;
+        configurableObjectsLock.readLock().lock();
+        try {
+            Set<ConfigurableObject> cos = configurableObjects.get(setting.getKey());
+            if (cos != null) {
+                for (ConfigurableObject co : cos) {
+                    try {
+                        co.configure(newValue.getValue());
+                    } catch (ConfigurationException ce) {
+                        e = ce;
+                        break;
+                    } finally {
+                        changed.add(co);
+                    }
+                }
+                if (e != null) {
+                    LOG.debug("Reverting setting...");
+                    for (ConfigurableObject co : changed) {
+                        try {
+                            co.configure(oldValue.getValue());
+                        } catch (ConfigurationException ce) {
+                            /* there is nothing we can do... */
+                            LOG.error("Error reverting setting!", ce);
+                        }
+                    }
+                    throw e;
+                }
+            }
+        } finally {
+            configurableObjectsLock.readLock().unlock();
+        }
+    }
+
+    private void configure(ConfigurableObject co)
+            throws ConfigurationException {
+        LOG.debug("Configuring {}", co);
+        this.configurableObjectsLock.writeLock().lock();
+        try {
+            this.configurableObjects.put(co.getKey(), co);
+        } finally {
+            this.configurableObjectsLock.writeLock().unlock();
+        }
+        try {
+            co.configure(getNotNullSettingValue(co));
+        } catch (ConnectionProviderException | RuntimeException cpe) {
+            throw new ConfigurationException("Exception configuring " + co.getKey(), cpe);
+        }
+    }
+
+
+
+    @SuppressWarnings("unchecked")
+    private SettingValue<Object> getNotNullSettingValue(ConfigurableObject co)
+            throws ConnectionProviderException,
+                   ConfigurationException {
+        SettingValue<Object> val = (SettingValue<Object>) this.settingsManagerDao.getSettingValue(co.getKey());
+        if (val == null) {
+            SettingDefinition<?, ?> def = getDefinitionByKey(co.getKey());
+            if (def == null) {
+                throw new ConfigurationException(String
+                        .format("No SettingDefinition found for key %s", co
+                                .getKey()));
+            }
+            val = (SettingValue<Object>) getSettingFactory()
+                    .newSettingValue(def, null);
+            if (def.isOptional()) {
+                LOG.debug("No value found for optional setting {}", co.getKey());
+                this.settingsManagerDao.saveSettingValue(val);
+            } else if (def.hasDefaultValue()) {
+                LOG
+                        .debug("Using default value '{}' for required setting {}", def
+                               .getDefaultValue(), co.getKey());
+                this.settingsManagerDao.saveSettingValue(val.setValue(def.getDefaultValue()));
+            } else if (def.getKey().equals(ServiceSettings.SERVICE_URL)) {
+                this.settingsManagerDao.saveSettingValue(val.setValue(URI
+                        .create("http://localhost:8080/iceland/service")));
+            } else {
+                throw new ConfigurationException(String.format(
+                        "No value found for required Setting '%s' with no default value.", co
+                        .getKey()));
+            }
+        }
+        return val;
+    }
 
     /**
      * Changes a setting. The change is propagated to all Objects that are
      * configured. If the change fails for one of these objects, the setting is
      * reverted to the old value of the setting for all objects.
-     * <p/>
      *
-     * @param value
-     *            the new value of the setting
-     *            <p/>
+     * @param newValue
+     *              the new value of the setting
+     *
      * @throws ConfigurationException
-     *             if there is a problem changing the setting.
+     *                                     if there is a problem changing the setting.
      * @throws ConnectionProviderException
      */
-    public abstract void changeSetting(SettingValue<?> value) throws ConfigurationException,
-            ConnectionProviderException;
+    public void changeSetting(SettingValue<?> newValue)
+            throws ConfigurationException, ConnectionProviderException {
+        if (newValue == null) {
+            throw new NullPointerException("newValue can not be null");
+        }
+        if (newValue.getKey() == null) {
+            throw new NullPointerException("newValue.key can not be null");
+        }
+        SettingDefinition<?, ?> def = getDefinitionByKey(newValue.getKey());
+
+        if (def == null) {
+            throw new IllegalArgumentException("newValue.key is invalid");
+        }
+
+        if (def.getType() != newValue.getType()) {
+            throw new IllegalArgumentException(String
+                    .format("Invalid type for definition (%s vs. %s)", def
+                            .getType(),
+                            newValue.getType()));
+        }
+
+        SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(newValue.getKey());
+        if (oldValue == null || !oldValue.equals(newValue)) {
+            applySetting(def, oldValue, newValue);
+            this.settingsManagerDao.saveSettingValue(newValue);
+            ServiceEventBus
+                    .fire(new SettingsChangeEvent(def, oldValue, newValue));
+        }
+    }
 
     /**
      * @return the {@link SettingValueFactory} to produce values
      */
-    public abstract SettingValueFactory getSettingFactory();
-
-    /**
-     * Gets all registered administrator users.
-     *
-     * @return the users
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract Set<AdministratorUser> getAdminUsers() throws ConnectionProviderException;
-
-    /**
-     * Gets the administrator user with the specified user name.
-     *
-     * @param username
-     *            the username
-     *
-     * @return the administrator user or {@code null} if no user with the
-     *         specified name exists
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract AdministratorUser getAdminUser(String username) throws ConnectionProviderException;
-
-    /**
-     * Checks if a administrator user exists.
-     *
-     * @return {@code true} if there is a admin user, otherwise {@code false}.
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean hasAdminUser() throws ConnectionProviderException;
-
-    /**
-     * Creates a new {@code AdministratorUser}. This method will fail if the
-     * username is already used by another user.
-     * <p/>
-     *
-     * @param username
-     *            the proposed username
-     * @param password
-     *            the proposed (hashed) password
-     *            <p/>
-     * @return the created user
-     *         <p/>
-     * @throws ConnectionProviderException
-     */
-    public abstract AdministratorUser createAdminUser(String username, String password)
-            throws ConnectionProviderException;
-
-    /**
-     * Saves a user previously returned by
-     * {@link #getAdminUser(java.lang.String)} or {@link #getAdminUsers()}.
-     * <p/>
-     *
-     * @param user
-     *            the user to change
-     *            <p/>
-     * @throws ConnectionProviderException
-     */
-    public abstract void saveAdminUser(AdministratorUser user) throws ConnectionProviderException;
-
-    /**
-     * Deletes the user with the specified username.
-     * <p/>
-     *
-     * @param username
-     *            the username
-     *            <p/>
-     * @throws ConnectionProviderException
-     */
-    public abstract void deleteAdminUser(String username) throws ConnectionProviderException;
-
-    /**
-     * Deletes the user previously returned by
-     * {@link #getAdminUser(java.lang.String)} or {@link #getAdminUsers()}.
-     * <p/>
-     *
-     * @param user
-     *            <p/>
-     * @throws ConnectionProviderException
-     */
-    public abstract void deleteAdminUser(AdministratorUser user) throws ConnectionProviderException;
+    public SettingValueFactory getSettingFactory() {
+        return this.settingValueFactory;
+    }
 
     /**
      * Deletes all settings and users.
-     * <p/>
      *
      * @throws ConnectionProviderException
      */
-    public abstract void deleteAll() throws ConnectionProviderException;
+    @Override
+    public void deleteAll()
+            throws ConnectionProviderException {
+        this.settingsManagerDao.deleteAll();
+        this.adminUserDao.deleteAll();
+    }
 
-    /**
-     * Returns if a operation is active and should be offered by this SOS.
-     * <p/>
-     *
-     * @param rokt
-     *            the key identifying the operation
-     *            <p/>
-     * @return {@code true} if the operation is active in this SOS
-     *         <p/>
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean isActive(RequestOperatorKey rokt) throws ConnectionProviderException;
 
-    /**
-     * Checks if the response format is active for the specified service and
-     * version.
-     *
-     * @param rfkt
-     *            the service/version/responseFormat combination
-     *
-     * @return if the format is active
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean isActive(ResponseFormatKey rfkt) throws ConnectionProviderException;
+        @Override
+    public void deleteAdminUser(AdministratorUser user)
+            throws ConnectionProviderException {
+        deleteAdminUser(user.getUsername());
+    }
 
-    /**
-     * Checks if the procedure description format is active for the specified
-     * service and version.
-     *
-     * @param pdfkt
-     *            the service/version/procedure description combination
-     *
-     * @return if the format is active
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean isActive(ProcedureDescriptionFormatKey pdfkt) throws ConnectionProviderException;
+    @Override
+    public boolean hasAdminUser()
+            throws ConnectionProviderException {
+        return !getAdminUsers().isEmpty();
+    }
 
-    /**
-     * Sets the status of an operation.
-     * <p/>
-     *
-     * @param rokt
-     *            the key identifying the operation
-     * @param active
-     *            whether the operation is active or not
-     *            <p/>
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(RequestOperatorKey rokt, boolean active) throws ConnectionProviderException;
+    @Override
+    public AdministratorUser createAdminUser(String username, String password)
+            throws ConnectionProviderException {
+        return this.adminUserDao.createAdminUser(username, password);
+    }
 
-    /**
-     * Sets the status of a response format for the specified service and
-     * version.
-     *
-     * @param rfkt
-     *            the service/version/responseFormat combination
-     * @param active
-     *            the status
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(ResponseFormatKey rfkt, boolean active) throws ConnectionProviderException;
+    @Override
+    public void deleteAdminUser(String username)
+            throws ConnectionProviderException {
+        this.adminUserDao.deleteAdminUser(username);
+    }
 
-    /**
-     * Sets the status of a procedure description format for the specified
-     * service and version.
-     *
-     * @param pdfkt
-     *            the service/version/procedure description combination
-     * @param active
-     *            the status
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(ProcedureDescriptionFormatKey pdfkt, boolean active)
-            throws ConnectionProviderException;
+    @Override
+    public AdministratorUser getAdminUser(String username)
+            throws ConnectionProviderException {
+        return this.adminUserDao.getAdminUser(username);
+    }
 
-    /**
-     * Sets the status of a binding.
-     *
-     * @param bk
-     *            the binding
-     * @param active
-     *            the status
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(BindingKey bk, boolean active) throws ConnectionProviderException;
+    @Override
+    public Set<AdministratorUser> getAdminUsers()
+            throws ConnectionProviderException {
+        return this.adminUserDao.getAdminUsers();
+    }
 
-    /**
-     * Checks if the binding is active.
-     *
-     * @param bk
-     *            the binding
-     *
-     * @return if the binding is active
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean isActive(BindingKey bk) throws ConnectionProviderException;
+    @Override
+    public void saveAdminUser(AdministratorUser user)
+            throws ConnectionProviderException {
+        this.adminUserDao.saveAdminUser(user);
+    }
 
-    /**
-     * Checks if the offering extension is active.
-     *
-     * @param oek
-     *            the offering extension key
-     *
-     * @return if the offering extension is active
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean isActive(OfferingExtensionKey oek) throws ConnectionProviderException;
 
-    /**
-     * Sets the status of a offering extension.
-     *
-     * @param oek
-     *            the offering extension
-     * @param active
-     *            the status
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(OfferingExtensionKey oek, boolean active) throws ConnectionProviderException;
+    private class ConfigurableObject {
+        private final Method method;
+        private final WeakReference<Object> target;
+        private final String key;
 
-    /**
-     * Sets the status of a offering extension.
-     *
-     * @param oek
-     *            the offering extension
-     * @param active
-     *            the status
-     *  @param updateRepository
-     *            indicator if the repository should be updated
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(OfferingExtensionKey oek, boolean active, boolean updateRepository) throws ConnectionProviderException;
+        /**
+         * Constructs a new {@code ConfigurableObject}.
+         *
+         * @param method
+         *               the method of the target
+         * @param target
+         *               the target object
+         * @param key
+         *               the settings key
+         */
+        ConfigurableObject(Method method, Object target, String key) {
+            this.method = method;
+            this.target = new WeakReference<>(target);
+            this.key = key;
+        }
 
-    /**
-     * Checks if the extended capabilities is active.
-     *
-     * @param oeck
-     *            the extended capabilities key
-     *
-     * @return if the extended capabilities is active
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract boolean isActive(OwsExtendedCapabilitiesProviderKey oeck) throws ConnectionProviderException;
+        /**
+         * @return the method
+         */
+        public Method getMethod() {
+            return method;
+        }
 
-    /**
-     * Sets the status of a extended capabilities.
-     *
-     * @param oeck
-     *            the extended capabilities
-     * @param active
-     *            the status
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(OwsExtendedCapabilitiesProviderKey oeck, boolean active) throws ConnectionProviderException;
+        /**
+         * @return the target object
+         */
+        public WeakReference<Object> getTarget() {
+            return target;
+        }
 
-    /**
-     * Sets the status of a extended capabilities.
-     *
-     * @param oeck
-     *            the extended capabilities
-     * @param active
-     *            the status
-     *  @param updateRepository
-     *            indicator if the repository should be updated
-     *
-     * @throws ConnectionProviderException
-     */
-    public abstract void setActive(OwsExtendedCapabilitiesProviderKey oeck, boolean active, boolean updateRepository)  throws ConnectionProviderException;
+        /**
+         * @return the settings key
+         */
+        public String getKey() {
+            return key;
+        }
+
+        /**
+         * Configures this object with the specified value.
+         *
+         * @param val
+         *            the value
+         * @throws ConfigurationException
+         *                                if an error occurs
+         */
+        public void configure(SettingValue<?> val)
+                throws ConfigurationException {
+            configure(val.getValue());
+        }
+
+        /**
+         * Configures this object with the specified value. Exceptions are
+         * wrapped in a {@code ConfigurationException}.
+         *
+         * @param val
+         *            the value
+         * @throws ConfigurationException
+         *                                if an error occurs
+         */
+        public void configure(Object val)
+                throws ConfigurationException {
+            try {
+                if (getTarget().get() != null) {
+                    LOG.debug("Setting value '{}' for {}", val, this);
+                    getMethod().invoke(getTarget().get(), val);
+                }
+            } catch (IllegalAccessException | IllegalArgumentException ex) {
+                logAndThrowError(val, ex);
+            } catch (InvocationTargetException ex) {
+                logAndThrowError(val, ex.getTargetException());
+            }
+        }
+
+        private void logAndThrowError(Object val, Throwable t)
+                throws ConfigurationException {
+            String message = String
+                    .format("Error while setting value '%s' (%s) for property '%s' with method '%s'", val,
+                            val == null ? null : val.getClass(), getKey(), getMethod());
+            LOG.error(message);
+            throw new ConfigurationException(message, t);
+        }
+
+        @Override
+        public String toString() {
+            return String
+                    .format("ConfigurableObject[key=%s, method=%s, target=%s]", getKey(), getMethod(),
+                            getTarget().get());
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getMethod(), getTarget(), getKey());
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final ConfigurableObject other = (ConfigurableObject) obj;
+            if (getMethod() != other.getMethod() && (getMethod() == null ||
+                                                     !getMethod().equals(other
+                                                             .getMethod()))) {
+                return false;
+            }
+            if (getTarget() != other.getTarget() && (getTarget() == null ||
+                                                     !getTarget().equals(other
+                                                             .getTarget()))) {
+                return false;
+            }
+            return !((getKey() == null) ? (other.getKey() != null) : !getKey()
+                    .equals(other.getKey()));
+        }
+    }
 
 }

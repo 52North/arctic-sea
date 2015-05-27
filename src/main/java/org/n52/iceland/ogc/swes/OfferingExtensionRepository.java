@@ -32,7 +32,7 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.Activatable;
+import org.n52.iceland.util.activation.Activatable;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.component.AbstractComponentRepository;
@@ -90,7 +90,7 @@ public class OfferingExtensionRepository extends AbstractUniqueKeyComponentRepos
 
             LOGGER.info("Registered OfferingExtensionProvider for {}", key);
             try {
-                boolean isActive = this.settingsManager.isActive(key);
+                boolean isActive = this.settingsManager.isOfferingExtensionActive(key);
                 this.offeringExtensionProviders.put(key, Activatable.from(value, isActive));
             } catch (final ConnectionProviderException cpe) {
                 throw new ConfigurationException("Error while checking RequestOperator", cpe);

@@ -18,8 +18,8 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Set;
 
-import org.n52.iceland.request.GetCapabilitiesRequest;
 import org.n52.iceland.component.Component;
+import org.n52.iceland.request.GetCapabilitiesRequest;
 
 /**
  * @author Carsten Hollmann <c.hollmann@52north.org>

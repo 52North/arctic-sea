@@ -17,10 +17,8 @@
 package org.n52.iceland.component;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.ServiceLoader;
 import java.util.Set;
@@ -37,10 +35,10 @@ import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.Producers;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
@@ -117,7 +115,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
             }
         }
         for (C component : findComponents()) {
-            Producer<C> provider = new InstanceProvider(component);
+            Producer<C> provider = Producers.forInstance(component);
             for (K key : component.getKeys()) {
                 providers.put(key, provider);
             }
@@ -133,20 +131,14 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         return this.loader.findComponentFactories();
     }
 
-    protected Map<K, C> produce(Map<K, Producer<C>> b) {
-        Map<K, C> result = new HashMap<>(b.size());
-        for (Entry<K, Producer<C>> e : b.entrySet()) {
-            result.put(e.getKey(), e.getValue().get());
-        }
-        return result;
+    @Deprecated
+    protected Map<K, C> produce(Map<K, Producer<C>> map) {
+        return Producers.produce(map);
     }
 
-    protected List<C> produce(List<Producer<C>> producers) {
-        List<C> result = Lists.newArrayListWithExpectedSize(producers.size());
-        for (Producer<C> producer : producers) {
-            result.add(producer.get());
-        }
-        return result;
+    @Deprecated
+    protected List<C> produce(List<Producer<C>> list) {
+        return Producers.produce(list);
     }
 
     protected abstract void processImplementations(SetMultimap<K, Producer<C>> implementations);
@@ -352,25 +344,4 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         }
 
     }
-
-    private class InstanceProvider implements Producer<C> {
-        private final C component;
-
-        InstanceProvider(C c) {
-            this.component = c;
-        }
-
-        @Override
-        public C get() {
-            return this.component;
-        }
-
-        @Override
-        public String toString() {
-            return MoreObjects.toStringHelper(this)
-                    .add("component", this.component)
-                    .toString();
-        }
-    }
-
 }

@@ -24,7 +24,7 @@ import org.n52.iceland.exception.ows.concrete.UnsupportedEncoderInputException;
 import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
+import org.n52.iceland.service.ServiceConstants.SupportedType;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.w3c.SchemaLocation;
 
@@ -77,11 +77,11 @@ public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
             UnsupportedEncoderInputException;
 
     /**
-     * Get the {@linkplain SupportedTypeKey}
+     * Get the {@link SupportedType}
      *
      * @return the supported key types
      */
-    Map<SupportedTypeKey, Set<String>> getSupportedTypes();
+    Set<SupportedType> getSupportedTypes();
 
     /**
      * Add the namespace prefix of this {@linkplain Encoder} instance to the

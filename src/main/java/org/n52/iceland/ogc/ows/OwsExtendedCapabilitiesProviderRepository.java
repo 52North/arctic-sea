@@ -27,18 +27,17 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.Activatable;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+import org.n52.iceland.util.activation.Activatable;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -86,7 +85,7 @@ public class OwsExtendedCapabilitiesProviderRepository
                 OwsExtendedCapabilitiesProviderKey key = entry.getKey();
                 Producer<OwsExtendedCapabilitiesProvider> value = entry.getValue();
                 LOGGER.info("Registered OwsExtendedCapabilitiesProvider for {}", key);
-                boolean isActive = this.settingsManager.isActive(key);
+                boolean isActive = this.settingsManager.isOwsExtendedCapabilitiesProviderActive(key);
                 if (isActive) {
                     if (activeSokts.contains(key.getServiceOperatorKey())) {
                         this.settingsManager.setActive(key, false, false);

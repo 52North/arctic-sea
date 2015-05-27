@@ -55,8 +55,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newBooleanSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Boolean> newBooleanSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<Boolean> newBooleanSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newBooleanSettingValue().setValue(parseBoolean(stringValue)).setKey(setting.getKey());
     }
 
@@ -65,8 +64,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newIntegerSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Integer> newIntegerSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<Integer> newIntegerSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newIntegerSettingValue().setValue(parseInteger(stringValue)).setKey(setting.getKey());
     }
 
@@ -75,8 +73,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newNumericSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Double> newNumericSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<Double> newNumericSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newNumericSettingValue().setValue(parseDouble(stringValue)).setKey(setting.getKey());
     }
 
@@ -85,8 +82,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newStringSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<String> newStringSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<String> newStringSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newStringSettingValue().setValue(parseString(stringValue)).setKey(setting.getKey());
     }
 
@@ -95,8 +91,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newFileSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<File> newFileSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<File> newFileSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newFileSettingValue().setValue(parseFile(stringValue)).setKey(setting.getKey());
     }
 
@@ -105,8 +100,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newUriSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<URI> newUriSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<URI> newUriSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newUriSettingValue().setValue(parseUri(stringValue)).setKey(setting.getKey());
     }
 
@@ -115,8 +109,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newTimeInstantSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<TimeInstant> newTimeInstantSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<TimeInstant> newTimeInstantSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newTimeInstantSettingValue().setValue(parseTimeInstant(stringValue)).setKey(setting.getKey());
     }
 
@@ -139,7 +132,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         if (!def.hasOption(stringValue)) {
             throw new ConfigurationException("Invalid choice value");
         }
-       return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
+        return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
     }
 
 
@@ -306,7 +299,8 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
             }
         }
     }
-     private MultilingualString parseMultilingualString(String stringValue) {
+
+    private MultilingualString parseMultilingualString(String stringValue) {
         MultilingualString ms = new MultilingualString();
         if (!nullOrEmpty(stringValue)) {
             JsonNode json = JSONUtils.loadString(stringValue);
@@ -367,7 +361,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * @param stringValue
-     *            <p/>
+     *
      * @return <code>stringValue == null || stringValue.trim().isEmpty()</code>
      */
     protected boolean nullOrEmpty(String stringValue) {

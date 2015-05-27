@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.Activatable;
+import org.n52.iceland.util.activation.Activatable;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.component.AbstractComponentRepository;
@@ -72,7 +72,7 @@ public class BindingRepository extends AbstractUniqueKeyComponentRepository<Bind
             try {
                 BindingKey key = entry.getKey();
                 Producer<Binding> binding = entry.getValue();
-                boolean isActive = this.settingsManager.isActive(key);
+                boolean isActive = this.settingsManager.isBindingActive(key);
                 Activatable<Producer<Binding>> activatable = Activatable.from(binding, isActive);
                 this.bindings.put(key, activatable);
                 if (key instanceof MediaTypeBindingKey) {
