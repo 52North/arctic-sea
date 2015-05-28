@@ -27,11 +27,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
- * SosConstants holds all important and often used constants of this SOS (e.g.
+ * SosConstants holds all important and often used constants of OGC SOS (e.g.
  * name of the getCapabilities operation) that are global between all supported
  * versions
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface SosConstants extends OWSConstants {
 

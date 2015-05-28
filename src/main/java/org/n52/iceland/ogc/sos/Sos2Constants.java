@@ -28,9 +28,9 @@ import com.google.common.collect.ImmutableSet;
 
 /**
  * SosConstants holds all important and often used constants (e.g. name of the
- * getCapabilities operation) that are specific to SOS 2.0
+ * getCapabilities operation) that are specific to OGC SOS 2.0
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface Sos2Constants extends SosConstants{
 
@@ -230,7 +230,7 @@ public interface Sos2Constants extends SosConstants{
     String SERVICEVERSION = "2.0.0";
 
     /**
-     * the names of the SOS 2.0 operations that are not supported by all
+     * the names of the OGC SOS 2.0 operations that are not supported by all
      * versions
      */
     enum Operations {
@@ -238,7 +238,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with names of SOS 2.0 Capabilities sections not supported by all
+     * enum with names of OGC SOS 2.0 Capabilities sections not supported by all
      * versions
      */
     enum CapabilitiesSections {
@@ -253,7 +253,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with parameter names for SOS 2.0 insertObservation request not
+     * enum with parameter names for OGC SOS 2.0 insertObservation request not
      * supported by all versions
      */
     enum InsertObservationParams {
@@ -261,7 +261,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with parameter names for SOS 2.0 getObservation request not
+     * enum with parameter names for OGC SOS 2.0 getObservation request not
      * supported by all versions
      */
     enum DescribeSensorParams {
@@ -269,7 +269,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with parameter names for SOS 2.0 getFeatureOfInterest request not
+     * enum with parameter names for OGC SOS 2.0 getFeatureOfInterest request not
      * supported by all versions
      */
     enum GetFeatureOfInterestParams {

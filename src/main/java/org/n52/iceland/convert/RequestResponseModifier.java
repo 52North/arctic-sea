@@ -22,14 +22,26 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 
-public interface RequestResponseModifier<T extends AbstractServiceRequest<?>,S extends AbstractServiceResponse> {
-    
+/**
+ * Interface for {@link AbstractServiceRequest} and
+ * {@link AbstractServiceResponse} modifier
+ * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ * @param <T>
+ *            The {@link AbstractServiceRequest} to modify
+ * @param <S>
+ *            The {@link AbstractServiceResponse} to modify
+ */
+public interface RequestResponseModifier<T extends AbstractServiceRequest<?>, S extends AbstractServiceResponse> {
+
     Set<RequestResponseModifierKeyType> getRequestResponseModifierKeyTypes();
-    
+
     T modifyRequest(T request) throws OwsExceptionReport;
 
     S modifyResponse(T request, S response) throws OwsExceptionReport;
-    
+
     RequestResponseModifierFacilitator getFacilitator();
-    
+
 }

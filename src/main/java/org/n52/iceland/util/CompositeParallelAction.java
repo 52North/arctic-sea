@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * @param <A>
- * @author Shane StClair <shane@axiomalaska.com>
+ * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 4.0.0
  * 
  */

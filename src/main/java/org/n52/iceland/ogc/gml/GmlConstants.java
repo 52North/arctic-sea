@@ -22,9 +22,9 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.w3c.SchemaLocation;
 
 /**
- * Interface for GML constants
+ * Interface for OGC GML constants
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface GmlConstants extends Constants {

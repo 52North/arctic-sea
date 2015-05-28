@@ -23,16 +23,44 @@ import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.ConformanceClass;
 
 /**
- * Interface for SOS request operator implementations TODO add javadoc for each
- * method
+ * Interface for service request operator implementations
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface RequestOperator extends ConformanceClass {
+    /**
+     * Receives and processes the incoming {@link AbstractServiceRequest} and
+     * returns a {@link AbstractServiceResponse}
+     * 
+     * @param request
+     *            The incoming {@link AbstractServiceRequest}
+     * @return {@link AbstractServiceResponse} of the
+     *         {@link AbstractServiceRequest}
+     * @throws OwsExceptionReport
+     *             If an error occurs during the processing of the
+     *             {@link AbstractServiceRequest}
+     */
     AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
 
+    /**
+     * Get the {@link RequestOperatorKey} of this {@link RequestOperator}
+     * 
+     * @return
+     */
     RequestOperatorKey getRequestOperatorKeyType();
 
+    /**
+     * Get {@link OwsOperation} metadata for service and version
+     * 
+     * @param service
+     *            The service to get metadata for
+     * @param version
+     *            The service version to get metadata for
+     * @return {@link OwsOperation} metadata for service and version
+     * @throws OwsExceptionReport
+     *             If an error occurs during the generation of
+     *             {@link OwsOperation}
+     */
     OwsOperation getOperationMetadata(String service, String version) throws OwsExceptionReport;
 
 }

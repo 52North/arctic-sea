@@ -16,8 +16,21 @@
  */
 package org.n52.iceland.w3c.wsa;
 
+/**
+ * Class represents a W3C WS-Addressing relatesTo header
+ * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
 public class WsaRelatesToHeader extends WsaHeader {
 
+    /**
+     * Constructor
+     * 
+     * @param value
+     *            Value to set
+     */
     public WsaRelatesToHeader(String value) {
         super(value);
     }

@@ -25,7 +25,7 @@ import org.n52.iceland.util.Constants;
  * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod
  * during encoding to reduce duplicate code.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public class TimePosition {

@@ -29,7 +29,7 @@ import com.google.common.collect.Sets;
 /**
  * Abstract class for time objects
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public abstract class Time implements Comparable<Time>, Serializable {

@@ -21,7 +21,9 @@ import javax.xml.namespace.QName;
 import org.n52.iceland.w3c.SchemaLocation;
 
 /**
- * @since 4.0.0
+ * Constants for OGC SWES 2.0
+ * 
+ * @since 1.0.0
  * 
  */
 public interface SwesConstants {
@@ -31,7 +33,7 @@ public interface SwesConstants {
     String NS_SWES_20 = "http://www.opengis.net/swes/2.0";
 
     String NS_SWES_PREFIX = "swes";
-    
+
     String SCHEMA_LOCATION_URL_SWES_20 = "http://schemas.opengis.net/swes/2.0/swes.xsd";
 
     String SCHEMA_LOCATION_URL_SWES_20_DESCRIBE_SENSOR = "http://schemas.opengis.net/swes/2.0/swesDescribeSensor.xsd";
@@ -59,7 +61,7 @@ public interface SwesConstants {
 
     // element names
     String EN_EXTENSION = "extension";
-    
+
     String EN_ABSTRACT_OFFERING = "AbstractOffering";
 
     String EN_DELETE_SENSOR_RESPONSE = "DeleteSensorResponse";

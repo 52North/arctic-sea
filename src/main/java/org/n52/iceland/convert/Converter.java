@@ -19,15 +19,33 @@ package org.n52.iceland.convert;
 import java.util.List;
 
 /**
- * @since 4.0.0
+ * Interface to convert an object into another object, e.g. SensorML 1.0.1 to
+ * SensorML 2.0
+ * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  * 
  * @param <T>
+ *            Target object
  * @param <S>
+ *            Source object
  */
 public interface Converter<T, S> {
 
+    /**
+     * @return
+     */
     List<ConverterKeyType> getConverterKeyTypes();
 
+    /**
+     * Convert object to target
+     * 
+     * @param objectToConvert
+     *            Object to convert
+     * @return The converted object
+     * @throws ConverterException
+     *             If an error occurs during the conversion
+     */
     T convert(S objectToConvert) throws ConverterException;
 
 }

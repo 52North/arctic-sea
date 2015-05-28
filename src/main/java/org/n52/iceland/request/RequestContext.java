@@ -38,9 +38,9 @@ import com.google.common.net.InetAddresses;
  * Holds information about a user's request that can be evaluated during request
  * processing (e.g. security info)
  * 
- * @author Shane StClair <shane@axiomalaska.com>
+ * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class RequestContext {
     private static final Logger LOG = LoggerFactory.getLogger(RequestContext.class);

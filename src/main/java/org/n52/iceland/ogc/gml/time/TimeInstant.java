@@ -27,7 +27,7 @@ import org.n52.iceland.util.Constants;
 /**
  * Class represents a GML conform timeInstant element
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class TimeInstant extends Time {
     /**

@@ -20,7 +20,7 @@ package org.n52.iceland.ds;
 /**
  * Interface for data connection provider
  * 
- * @author Carsten Hollmann <c.hollmann@62north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a> <c.hollmann@62north.org>
  * @since 4.0.0
  * 
  */

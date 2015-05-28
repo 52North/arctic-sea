@@ -19,13 +19,18 @@ package org.n52.iceland.w3c.soap;
 /**
  * Tagging interface for SoapHeader implementations.
  * 
- * @author matthes rieke
+ * @author <a href="mailto:m.rieke@52north.org">Matthes Rieke</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface SoapHeader {
-    
+
+    /**
+     * Get the namespace of this header
+     * 
+     * @return The namespace
+     */
     public String getNamespace();
 
 }

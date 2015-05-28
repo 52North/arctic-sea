@@ -25,7 +25,7 @@ import org.n52.iceland.w3c.SchemaLocation;
  * Constants interface for <a
  * href="http://www.opengeospatial.org/standards/filter">OGC Filter Encoding</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface FilterConstants {
     String NS_FES_2 = "http://www.opengis.net/fes/2.0";

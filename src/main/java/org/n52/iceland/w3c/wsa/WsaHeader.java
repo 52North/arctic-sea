@@ -20,13 +20,22 @@ import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.w3c.soap.SoapHeader;
 
 /**
- * @since 4.0.0
+ * Class represents a W3C WS-Addressing header
  * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
  */
 public abstract class WsaHeader implements SoapHeader {
-    
+
     private String value;
-    
+
+    /**
+     * Constructor
+     * 
+     * @param value
+     *            Value to set
+     */
     public WsaHeader(String value) {
         this.value = value;
     }
@@ -45,14 +54,17 @@ public abstract class WsaHeader implements SoapHeader {
     public void setValue(String value) {
         this.value = value;
     }
-    
+
+    /**
+     * @return
+     */
     public boolean isSetValue() {
         return StringHelper.isNotEmpty(getValue());
     }
-    
+
     @Override
     public String getNamespace() {
         return WsaConstants.NS_WSA;
     }
-    
+
 }

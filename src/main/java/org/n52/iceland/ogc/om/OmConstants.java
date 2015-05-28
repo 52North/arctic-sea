@@ -27,9 +27,9 @@ import org.n52.iceland.w3c.SchemaLocation;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * Class contains element names and namespaces used to encode the O&M responses.
+ * Interface contains element names and namespaces used to encode the OGC O&M responses.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface OmConstants {
     String PARAMETER_NOT_SET = "PARAMETER_NOT_SET";
