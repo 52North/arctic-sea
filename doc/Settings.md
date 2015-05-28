@@ -1,4 +1,6 @@
-This section decribes how to add new [SettingDefinition](../blob/develop/src/main/java/org/n52/iceland/config/SettingDefinition.java) and how to inject the [SettingDefinition](../blob/develop/src/main/java/org/n52/iceland/config/SettingDefinition.java) to a class.
+# Setings
+
+This section decribes how to add new [SettingDefinition](../src/main/java/org/n52/iceland/config/SettingDefinition.java) and how to inject the [SettingDefinition](../blob/develop/src/main/java/org/n52/iceland/config/SettingDefinition.java) to a class.
 
 The currently supported [SettingDefinition](../blob/develop/src/main/java/org/n52/iceland/config/SettingDefinition.java) types are described in the following sections.
 ### BooleanSettingDefinition
@@ -19,3 +21,5 @@ The [StringSettingDefinition](../blob/develop/src/main/java/org/n52/iceland/conf
 The [TimeInstantSettingDefinition](../blob/develop/src/main/java/org/n52/iceland/config/settings/TimeInstantSettingDefinition.java) for [TimeInstant](../blob/develop/src/main/java/org/n52/iceland/ogc/gml/time/TimeInstant.java) values.
 ### UriSettingDefinition
 The [UriSettingDefinition](../blob/develop/src/main/java/org/n52/iceland/config/settings/UriSettingDefinition.java)  for URIs.
+
+Back to [Home](Home.md)
