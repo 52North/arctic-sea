@@ -1,12 +1,31 @@
-# Iceland [![Build Status](https://travis-ci.org/52North/iceland.svg)](https://travis-ci.org/52North/iceland)
+# 52°North Iceland [![Build Status](https://travis-ci.org/52North/iceland.svg)](https://travis-ci.org/52North/iceland)
 
 52°North Iceland is a basic Java framework for OGC Web Services.
 
-The 52°North Iceland was previously developed in the the 52°North SOS 4.x and was then extracted into an own project to be used in other projects.
+The 52°North Iceland was previously developed in the the [52°North SOS 4.x](https://github.com/52North/SOS) and was then extracted into an own project to be used in other projects.
 
 ## Documentation
 
 Here you can find the [Documentation](doc/Home.md).
+
+## Branches
+
+This project follows the [Gitflow branching model](http://nvie.com/posts/a-successful-git-branching-model/). "[master](../../tree/master)" reflects the latest stable release.
+Ongoing development is done in branch [develop](../../tree/develop) and dedicated feature branches (feature-\* or feature/\*).
+
+## Code Compilation
+
+This project is managed with Maven3. Simply run `mvn clean install`
+
+## Maven dependency
+
+```xml
+<dependency>
+	<groupId>org.n52.iceland</groupId>
+	<artifactId>iceland</artifactId>
+	<version>1.0.0</version>
+</dependency>
+```
 
 ## Contributing
 
