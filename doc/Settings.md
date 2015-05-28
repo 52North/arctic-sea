@@ -1,6 +1,6 @@
-# Setings
+# Settings
 
-This section decribes how to add new [SettingDefinition](../src/main/java/org/n52/iceland/config/SettingDefinition.java) and how to inject the [SettingDefinition](../src/main/java/org/n52/iceland/config/SettingDefinition.java) to a class.
+This section describes how to add new [SettingDefinition](../src/main/java/org/n52/iceland/config/SettingDefinition.java) and how to inject the [SettingDefinition](../src/main/java/org/n52/iceland/config/SettingDefinition.java) to a class.
 
 The currently supported [SettingDefinition](../src/main/java/org/n52/iceland/config/SettingDefinition.java) types are described in the following sections.
 ### BooleanSettingDefinition
