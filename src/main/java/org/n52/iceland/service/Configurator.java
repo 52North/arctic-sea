@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCacheController;
-import org.n52.iceland.ds.CacheFeederHandlerRepository;
 import org.n52.iceland.ds.ConnectionProvider;
 import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DataConnectionProvider;
@@ -159,11 +158,9 @@ public class Configurator implements Constructable, Destroyable {
         ServiceConfiguration.getInstance();
 
         initializeConnectionProviders();
-        CacheFeederHandlerRepository.createInstance(getDatasourceDaoIdentificator());
 
         serviceIdentificationFactory = new ServiceIdentificationFactory();
         serviceProviderFactory = new ServiceProviderFactory();
-        OperationHandlerRepository.createInstance(getDatasourceDaoIdentificator());
         featureQueryHandler = loadAndConfigure(FeatureQueryHandler.class, false, getDatasourceDaoIdentificator());
         contentCacheController = loadAndConfigure(ContentCacheController.class, false);
 

@@ -18,6 +18,8 @@ package org.n52.iceland.config;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.config.ActivationService.AbstractActivationListener;
 import org.n52.iceland.config.ActivationService.AbstractActivationSource;
 import org.n52.iceland.ds.ConnectionProviderException;
@@ -32,11 +34,11 @@ import org.n52.iceland.util.activation.DefaultActivationInitializer;
 public class SosActivationService
         extends ActivationService {
 
-    private SosActivationDao sosPersistingActivationManagerDao;
+    private SosActivationDao sosActivationDao;
 
-    public void setSosPersistingActivationManagerDao(
-            SosActivationDao dao) {
-        this.sosPersistingActivationManagerDao = dao;
+    @Inject
+    public void setSosActivationDao(SosActivationDao dao) {
+        this.sosActivationDao = dao;
     }
 
     /**
@@ -52,39 +54,39 @@ public class SosActivationService
      */
     public boolean isResponseFormatActive(ResponseFormatKey key)
             throws ConnectionProviderException {
-        return sosPersistingActivationManagerDao.isResponseFormatActive(key);
+        return sosActivationDao.isResponseFormatActive(key);
     }
 
-    public ActivationListener<ResponseFormatKey> getResponseFormatActivationListener() {
+    public ActivationListener<ResponseFormatKey> getResponseFormatListener() {
         return new AbstractActivationListener<ResponseFormatKey>() {
             @Override
             protected void setStatus(ResponseFormatKey key, boolean active)
                     throws ConnectionProviderException {
-                sosPersistingActivationManagerDao
+                sosActivationDao
                         .setResponseFormatStatus(key, active);
             }
         };
     }
 
-    public ActivationSource<ResponseFormatKey> getResponseFormatActivationSource() {
+    public ActivationSource<ResponseFormatKey> getResponseFormatSource() {
         return new AbstractActivationSource<ResponseFormatKey>() {
             @Override
             protected boolean check(ResponseFormatKey key)
                     throws ConnectionProviderException {
-                return sosPersistingActivationManagerDao
+                return sosActivationDao
                         .isResponseFormatActive(key);
             }
 
             @Override
             protected Set<ResponseFormatKey> get()
                     throws ConnectionProviderException {
-                return sosPersistingActivationManagerDao.getResponseFormatKeys();
+                return sosActivationDao.getResponseFormatKeys();
             }
         };
     }
 
-    public ActivationInitializer<ResponseFormatKey> getResponseFormatActivationInitializer() {
-        return new DefaultActivationInitializer<>(getResponseFormatActivationSource());
+    public ActivationInitializer<ResponseFormatKey> getResponseFormatInitializer() {
+        return new DefaultActivationInitializer<>(getResponseFormatSource());
     }
 
     /**
@@ -101,7 +103,7 @@ public class SosActivationService
     public boolean isProcedureDescriptionFormatActive(
             ProcedureDescriptionFormatKey key)
             throws ConnectionProviderException {
-        return sosPersistingActivationManagerDao
+        return sosActivationDao
                 .isProcedureDescriptionFormatActive(key);
     }
 
@@ -111,7 +113,7 @@ public class SosActivationService
             protected void setStatus(ProcedureDescriptionFormatKey key,
                                      boolean active)
                     throws ConnectionProviderException {
-                sosPersistingActivationManagerDao
+                sosActivationDao
                         .setProcedureDescriptionFormatStatus(key, active);
             }
         };
@@ -122,14 +124,14 @@ public class SosActivationService
             @Override
             protected boolean check(ProcedureDescriptionFormatKey key)
                     throws ConnectionProviderException {
-                return sosPersistingActivationManagerDao
+                return sosActivationDao
                         .isProcedureDescriptionFormatActive(key);
             }
 
             @Override
             protected Set<ProcedureDescriptionFormatKey> get()
                     throws ConnectionProviderException {
-                return sosPersistingActivationManagerDao
+                return sosActivationDao
                         .getProcedureDescriptionFormatKeys();
             }
         };
@@ -151,7 +153,7 @@ public class SosActivationService
      */
     public boolean isOfferingExtensionActive(OfferingExtensionKey key)
             throws ConnectionProviderException {
-        return sosPersistingActivationManagerDao.isOfferingExtensionActive(key);
+        return sosActivationDao.isOfferingExtensionActive(key);
     }
 
     public ActivationListener<OfferingExtensionKey> getOfferingExtensionListener() {
@@ -159,7 +161,7 @@ public class SosActivationService
             @Override
             protected void setStatus(OfferingExtensionKey key, boolean active)
                     throws ConnectionProviderException {
-                sosPersistingActivationManagerDao
+                sosActivationDao
                         .setOfferingExtensionStatus(key, active);
             }
         };
@@ -170,14 +172,14 @@ public class SosActivationService
             @Override
             protected boolean check(OfferingExtensionKey key)
                     throws ConnectionProviderException {
-                return sosPersistingActivationManagerDao
+                return sosActivationDao
                         .isOfferingExtensionActive(key);
             }
 
             @Override
             protected Set<OfferingExtensionKey> get()
                     throws ConnectionProviderException {
-                return sosPersistingActivationManagerDao
+                return sosActivationDao
                         .getOfferingExtensionKeys();
             }
         };

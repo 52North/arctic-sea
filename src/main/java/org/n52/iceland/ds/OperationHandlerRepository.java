@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.n52.iceland.util.Producer;
 import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+import org.n52.iceland.util.Producer;
 
 import com.google.common.collect.Maps;
 
@@ -99,19 +99,5 @@ public class OperationHandlerRepository extends AbstractUniqueKeyComponentReposi
     @Deprecated
     public static OperationHandlerRepository getInstance() {
         return OperationHandlerRepository.instance;
-    }
-
-    /**
-     * @return Returns a singleton instance of the {@link OperationHandlerRepository}.
-     */
-    @Deprecated
-    public static OperationHandlerRepository createInstance(String datasourceDaoIdentficator) {
-        setDatasourceDaoIdentficator(datasourceDaoIdentficator);
-        return getInstance();
-    }
-
-    @Deprecated
-    private static void setDatasourceDaoIdentficator(String datasourceDaoIdentficator) {
-        OperationHandlerRepository.datasourceDaoIdentficator = datasourceDaoIdentficator;
     }
 }

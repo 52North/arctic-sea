@@ -37,7 +37,6 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
@@ -45,7 +44,6 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.SettingsChangeEvent;
 import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.ServiceSettings;
 
 import com.google.common.collect.HashMultimap;
@@ -71,25 +69,21 @@ import com.google.common.collect.SetMultimap;
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
-public class SettingsManager implements AdminUserService, Constructable {
-
-    private static final Logger LOG = LoggerFactory
-            .getLogger(SettingsManager.class);
+public class SettingsManager implements AdminUserService {
+    @Deprecated
+    private static SettingsManager instance;
+    private static final Logger LOG = LoggerFactory .getLogger(SettingsManager.class);
     private final SetMultimap<String, ConfigurableObject> configurableObjects = HashMultimap.create();
-    private final ReadWriteLock configurableObjectsLock
-            = new ReentrantReadWriteLock();
-
-    private ApplicationContext applicationContext;
+    private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
     private Set<SettingDefinition<?, ?>> definitions;
     private Map<String, SettingDefinition<?, ?>> definitionByKey;
-
     private SettingsManagerDao settingsManagerDao;
     private AdminUserDao adminUserDao;
     private SettingValueFactory settingValueFactory;
 
-    @Deprecated
-    private static SettingsManager instance;
-
+    public SettingsManager() {
+        SettingsManager.instance = this;
+    }
 
     @Inject
     public void setSettingValueFactory(SettingValueFactory settingValueFactory) {
@@ -102,24 +96,15 @@ public class SettingsManager implements AdminUserService, Constructable {
     }
 
     @Inject
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
+    public void setAdminUserDao(AdminUserDao adminUserDao) {
+        this.adminUserDao = adminUserDao;
     }
 
-    @Override
-    public void init() {
-        SettingsManager.instance = this;
-        loadSettingsDefinition();
-    }
-
-    private void loadSettingsDefinition() {
-        addSettingDefintions(loadSettingDefinitions());
-    }
-
-    private void addSettingDefintions(Collection<SettingDefinition> definitions) {
+    @Inject
+    public void setSettingDefinitions(Collection<SettingDefinition> definitions) {
         this.definitions = new HashSet<>(definitions.size());
         this.definitionByKey = new HashMap<>(definitions.size());
-        for (SettingDefinition<?, ?> definition : this.definitions) {
+        for (SettingDefinition<?, ?> definition : definitions) {
             this.definitions.add(definition);
             if (this.definitionByKey.put(definition.getKey(), definition) != null) {
                 LOG.warn("Duplicate setting definition for key {}", definition.getKey());
@@ -127,20 +112,13 @@ public class SettingsManager implements AdminUserService, Constructable {
         }
     }
 
-    protected Collection<SettingDefinition> loadSettingDefinitions() {
-        return this.applicationContext.getBeansOfType(SettingDefinition.class).values();
-    }
-
-    @Deprecated
-    public static SettingsManager getInstance()
-            throws ConfigurationException {
-        return SettingsManager.instance;
-    }
-
-    @Deprecated
-    private static SettingsManager createInstance()
-            throws ConfigurationException {
-        return getInstance();
+    /**
+     * Gets all {@code SettingDefinition}s known by this class.
+     *
+     * @return the definitions
+     */
+    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
+        return Collections.unmodifiableSet(this.definitions);
     }
 
     /**
@@ -155,8 +133,7 @@ public class SettingsManager implements AdminUserService, Constructable {
      * @see Configurable
      * @see Setting
      */
-    public void configure(Object object)
-            throws ConfigurationException {
+    public void configure(Object object) throws ConfigurationException {
         LOG.debug("Configuring {}", object);
         Class<?> clazz = object.getClass();
         Configurable configurable = clazz.getAnnotation(Configurable.class);
@@ -201,15 +178,6 @@ public class SettingsManager implements AdminUserService, Constructable {
     }
 
     /**
-     * Gets all {@code SettingDefinition}s known by this class.
-     *
-     * @return the definitions
-     */
-    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
-        return Collections.unmodifiableSet(this.definitions);
-    }
-
-    /**
      * Gets the value of the setting defined by {@code key}.
      *
      * @param <T>
@@ -222,8 +190,7 @@ public class SettingsManager implements AdminUserService, Constructable {
      * @throws ConnectionProviderException
      */
     @SuppressWarnings("unchecked")
-    public <T> SettingValue<T> getSetting(SettingDefinition<?, T> key)
-            throws ConnectionProviderException {
+    public <T> SettingValue<T> getSetting(SettingDefinition<?, T> key) throws ConnectionProviderException {
         return (SettingValue<T>) this.settingsManagerDao.getSettingValue(key.getKey());
     }
 
@@ -240,8 +207,7 @@ public class SettingsManager implements AdminUserService, Constructable {
      * @throws ConnectionProviderException
      */
     @SuppressWarnings("unchecked")
-    public <T> SettingValue<T> getSetting(String key)
-            throws ConnectionProviderException {
+    public <T> SettingValue<T> getSetting(String key) throws ConnectionProviderException {
         SettingDefinition<?, ?> def = getDefinitionByKey(key);
         if (def == null) {
             return null;
@@ -257,7 +223,7 @@ public class SettingsManager implements AdminUserService, Constructable {
      *
      * @throws ConnectionProviderException
      */
-    public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings()
+    public  Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings()
             throws ConnectionProviderException {
         Set<SettingValue<?>> values = this.settingsManagerDao.getSettingValues();
         Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition
@@ -290,9 +256,8 @@ public class SettingsManager implements AdminUserService, Constructable {
      *                                     if there is a problem deleting the setting
      * @throws ConnectionProviderException
      */
-    public void deleteSetting(SettingDefinition<?, ?> setting)
-            throws ConfigurationException,
-                   ConnectionProviderException {
+    public  void deleteSetting(SettingDefinition<?, ?> setting)
+            throws ConfigurationException, ConnectionProviderException {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting.getKey());
         if (oldValue != null) {
             applySetting(setting, oldValue, null);
@@ -302,7 +267,7 @@ public class SettingsManager implements AdminUserService, Constructable {
         }
     }
 
-     /**
+    /**
      * @return the keys for all definitions
      */
     public Set<String> getKeys() {
@@ -313,7 +278,6 @@ public class SettingsManager implements AdminUserService, Constructable {
         }
         return keys;
     }
-
 
     /**
      * Applies the a new setting to all {@code ConfiguredObject}s. If an error
@@ -330,9 +294,7 @@ public class SettingsManager implements AdminUserService, Constructable {
      * @throws ConfigurationException
      *                                if there is a error configurin(g the objects
      */
-    private void applySetting(SettingDefinition<?, ?> setting,
-                              SettingValue<?> oldValue,
-                              SettingValue<?> newValue)
+    private void applySetting(SettingDefinition<?, ?> setting, SettingValue<?> oldValue, SettingValue<?> newValue)
             throws ConfigurationException {
         LinkedList<ConfigurableObject> changed = new LinkedList<>();
         ConfigurationException e = null;
@@ -368,8 +330,7 @@ public class SettingsManager implements AdminUserService, Constructable {
         }
     }
 
-    private void configure(ConfigurableObject co)
-            throws ConfigurationException {
+    private void configure(ConfigurableObject co) throws ConfigurationException {
         LOG.debug("Configuring {}", co);
         this.configurableObjectsLock.writeLock().lock();
         try {
@@ -384,12 +345,9 @@ public class SettingsManager implements AdminUserService, Constructable {
         }
     }
 
-
-
     @SuppressWarnings("unchecked")
     private SettingValue<Object> getNotNullSettingValue(ConfigurableObject co)
-            throws ConnectionProviderException,
-                   ConfigurationException {
+            throws ConnectionProviderException, ConfigurationException {
         SettingValue<Object> val = (SettingValue<Object>) this.settingsManagerDao.getSettingValue(co.getKey());
         if (val == null) {
             SettingDefinition<?, ?> def = getDefinitionByKey(co.getKey());
@@ -406,7 +364,7 @@ public class SettingsManager implements AdminUserService, Constructable {
             } else if (def.hasDefaultValue()) {
                 LOG
                         .debug("Using default value '{}' for required setting {}", def
-                               .getDefaultValue(), co.getKey());
+                                .getDefaultValue(), co.getKey());
                 this.settingsManagerDao.saveSettingValue(val.setValue(def.getDefaultValue()));
             } else if (def.getKey().equals(ServiceSettings.SERVICE_URL)) {
                 this.settingsManagerDao.saveSettingValue(val.setValue(URI
@@ -414,7 +372,7 @@ public class SettingsManager implements AdminUserService, Constructable {
             } else {
                 throw new ConfigurationException(String.format(
                         "No value found for required Setting '%s' with no default value.", co
-                        .getKey()));
+                                .getKey()));
             }
         }
         return val;
@@ -450,7 +408,7 @@ public class SettingsManager implements AdminUserService, Constructable {
             throw new IllegalArgumentException(String
                     .format("Invalid type for definition (%s vs. %s)", def
                             .getType(),
-                            newValue.getType()));
+                                                                       newValue.getType()));
         }
 
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(newValue.getKey());
@@ -461,6 +419,8 @@ public class SettingsManager implements AdminUserService, Constructable {
                     .fire(new SettingsChangeEvent(def, oldValue, newValue));
         }
     }
+
+
 
     /**
      * @return the {@link SettingValueFactory} to produce values
@@ -481,10 +441,8 @@ public class SettingsManager implements AdminUserService, Constructable {
         this.adminUserDao.deleteAll();
     }
 
-
-        @Override
-    public void deleteAdminUser(AdministratorUser user)
-            throws ConnectionProviderException {
+    @Override
+    public void deleteAdminUser(AdministratorUser user) throws ConnectionProviderException {
         deleteAdminUser(user.getUsername());
     }
 
@@ -494,23 +452,24 @@ public class SettingsManager implements AdminUserService, Constructable {
         return !getAdminUsers().isEmpty();
     }
 
-    @Override
-    public AdministratorUser createAdminUser(String username, String password)
-            throws ConnectionProviderException {
-        return this.adminUserDao.createAdminUser(username, password);
-    }
 
-    @Override
-    public void deleteAdminUser(String username)
-            throws ConnectionProviderException {
-        this.adminUserDao.deleteAdminUser(username);
-    }
+        @Override
+        public AdministratorUser createAdminUser(String username, String password)
+                throws ConnectionProviderException {
+            return this.adminUserDao.createAdminUser(username, password);
+        }
 
-    @Override
-    public AdministratorUser getAdminUser(String username)
+        @Override
+        public void deleteAdminUser(String username)
             throws ConnectionProviderException {
-        return this.adminUserDao.getAdminUser(username);
-    }
+            this.adminUserDao.deleteAdminUser(username);
+        }
+
+        @Override
+        public AdministratorUser getAdminUser(String username)
+            throws ConnectionProviderException {
+            return this.adminUserDao.getAdminUser(username);
+        }
 
     @Override
     public Set<AdministratorUser> getAdminUsers()
@@ -522,6 +481,18 @@ public class SettingsManager implements AdminUserService, Constructable {
     public void saveAdminUser(AdministratorUser user)
             throws ConnectionProviderException {
         this.adminUserDao.saveAdminUser(user);
+    }
+
+    @Deprecated
+    public static SettingsManager getInstance()
+            throws ConfigurationException {
+        return SettingsManager.instance;
+    }
+
+    @Deprecated
+    private static SettingsManager createInstance()
+            throws ConfigurationException {
+        return getInstance();
     }
 
 
