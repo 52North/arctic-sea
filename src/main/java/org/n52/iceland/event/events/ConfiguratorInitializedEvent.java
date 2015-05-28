@@ -16,15 +16,18 @@
  */
 package org.n52.iceland.event.events;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import org.n52.iceland.event.ServiceEvent;
 
 /**
  * Event fired when Configurator is initialized. Useful for custom post-init functionality like
  * test data insertion.
- * 
+ *
  * @author Shane StClair <shane@axiomalaska.com>
  * @since 4.0.0
  */
+@Deprecated
 public class ConfiguratorInitializedEvent implements ServiceEvent {
     //no properties currently necessary
 }

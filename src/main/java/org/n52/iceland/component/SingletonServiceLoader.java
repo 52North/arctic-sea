@@ -40,6 +40,7 @@ import org.n52.iceland.util.LocalizedProducer;
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
+@Deprecated
 public class SingletonServiceLoader<T> implements LocalizedProducer<T>, IdentifiedProducer<T> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SingletonServiceLoader.class);

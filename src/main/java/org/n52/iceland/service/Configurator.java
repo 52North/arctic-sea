@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.service;
 
-import static org.n52.iceland.component.ConfiguringSingletonServiceLoader.loadAndConfigure;
 
 import java.util.Locale;
 import java.util.Properties;
@@ -38,11 +37,12 @@ import org.n52.iceland.ds.DatasourceDaoIdentifier;
 import org.n52.iceland.ds.FeatureQueryHandler;
 import org.n52.iceland.ds.HibernateDatasourceConstants;
 import org.n52.iceland.ds.IFeatureConnectionProvider;
-import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsServiceIdentification;
 import org.n52.iceland.ogc.ows.OwsServiceProvider;
@@ -50,9 +50,6 @@ import org.n52.iceland.ogc.ows.ServiceIdentificationFactory;
 import org.n52.iceland.ogc.ows.ServiceProviderFactory;
 import org.n52.iceland.util.LocalizedProducer;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
-import org.n52.iceland.component.ConfiguringSingletonServiceLoader;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -81,9 +78,14 @@ public class Configurator implements Constructable, Destroyable {
     private String basepath;
     private Properties dataConnectionProviderProperties;
     private Properties featureConnectionProviderProperties;
+    @Inject
     private FeatureQueryHandler featureQueryHandler;
+
     private ConnectionProvider dataConnectionProvider;
+
     private ConnectionProvider featureConnectionProvider;
+    @Inject
+    @Deprecated
     private ContentCacheController contentCacheController;
     @Deprecated
     @Inject
@@ -99,6 +101,16 @@ public class Configurator implements Constructable, Destroyable {
     public Configurator() {
         // ugly hack for singleton access
         Configurator.instance = this;
+    }
+
+    @Inject
+    public void setFeatureConnectionProvider(IFeatureConnectionProvider featureConnectionProvider) {
+        this.featureConnectionProvider = featureConnectionProvider;
+    }
+
+    @Inject
+    public void setDataConnectionProvider(DataConnectionProvider dataConnectionProvider) {
+        this.dataConnectionProvider = dataConnectionProvider;
     }
 
     @Override
@@ -154,16 +166,7 @@ public class Configurator implements Constructable, Destroyable {
      */
     private void initialize() throws ConfigurationException {
         LOGGER.info("\n******\n Configurator initialization started\n******\n");
-
-        ServiceConfiguration.getInstance();
-
         initializeConnectionProviders();
-
-        serviceIdentificationFactory = new ServiceIdentificationFactory();
-        serviceProviderFactory = new ServiceProviderFactory();
-        featureQueryHandler = loadAndConfigure(FeatureQueryHandler.class, false, getDatasourceDaoIdentificator());
-        contentCacheController = loadAndConfigure(ContentCacheController.class, false);
-
         ServiceEventBus.fire(new ConfiguratorInitializedEvent());
         LOGGER.info("\n******\n Configurator initialization finished\n******\n");
     }
@@ -261,12 +264,6 @@ public class Configurator implements Constructable, Destroyable {
 
     protected void initializeConnectionProviders() throws ConfigurationException {
         checkForProvidedJdbc();
-        dataConnectionProvider =
-                ConfiguringSingletonServiceLoader.<ConnectionProvider> loadAndConfigure(DataConnectionProvider.class,
-                        true, getConnectionProviderIdentificator());
-        featureConnectionProvider =
-                ConfiguringSingletonServiceLoader.<ConnectionProvider> loadAndConfigure(
-                        IFeatureConnectionProvider.class, false, getConnectionProviderIdentificator());
         dataConnectionProvider.initialize(dataConnectionProviderProperties);
         if (featureConnectionProvider != null) {
             featureConnectionProvider.initialize(featureConnectionProviderProperties != null
