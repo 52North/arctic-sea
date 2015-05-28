@@ -4,6 +4,9 @@
 
 The 52°North Iceland was previously developed in the the 52°North SOS 4.x and was then extracted into an own project to be used in other projects.
 
+## Documentation
+
+Here you can find the [Documentation](doc/Home.md).
 
 ## Contributing
 
