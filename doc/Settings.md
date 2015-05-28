@@ -22,4 +22,4 @@ The [TimeInstantSettingDefinition](../src/main/java/org/n52/iceland/config/setti
 ### UriSettingDefinition
 The [UriSettingDefinition](../src/main/java/org/n52/iceland/config/settings/UriSettingDefinition.java)  for URIs.
 
-Back to [Home](Home.md)
+Back to [Index](Index.md)
