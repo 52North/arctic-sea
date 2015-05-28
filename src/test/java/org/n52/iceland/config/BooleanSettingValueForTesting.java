@@ -16,12 +16,9 @@
  */
 package org.n52.iceland.config;
 
-import org.n52.iceland.config.SettingType;
-import org.n52.iceland.config.SettingValue;
-
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class BooleanSettingValueForTesting implements SettingValue<Boolean> {
 

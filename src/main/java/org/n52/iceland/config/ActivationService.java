@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.iceland.config;
 
 import java.util.Set;
@@ -10,8 +26,10 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
+import org.n52.iceland.util.activation.ActivationInitializer;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationSource;
+import org.n52.iceland.util.activation.DefaultActivationInitializer;
 
 /**
  * TODO JavaDoc
@@ -76,7 +94,7 @@ public class ActivationService {
         return persistingActivationManagerDao.isRequestOperatorActive(key);
     }
 
-    public ActivationListener<RequestOperatorKey> getRequestOperatorActivationListener() {
+    public ActivationListener<RequestOperatorKey> getRequestOperatorListener() {
         return new AbstractActivationListener<RequestOperatorKey>() {
             @Override
             protected void setStatus(RequestOperatorKey key, boolean active)
@@ -86,7 +104,7 @@ public class ActivationService {
         };
     }
 
-    public ActivationSource<RequestOperatorKey> getRequestOperatorActivationSource() {
+    public ActivationSource<RequestOperatorKey> getRequestOperatorSource() {
         return new AbstractActivationSource<RequestOperatorKey>() {
             @Override
             protected boolean check(RequestOperatorKey key)
@@ -102,7 +120,11 @@ public class ActivationService {
         };
     }
 
-    public ActivationListener<BindingKey> getBindingActivationListener() {
+    public ActivationInitializer<RequestOperatorKey> getRequestOperatorInitializer() {
+        return new DefaultActivationInitializer<>(getRequestOperatorSource());
+    }
+
+    public ActivationListener<BindingKey> getBindingListener() {
         return new AbstractActivationListener<BindingKey>() {
             @Override
             protected void setStatus(BindingKey key, boolean active)
@@ -112,7 +134,7 @@ public class ActivationService {
         };
     }
 
-    public ActivationSource<BindingKey> getBindingActivationSource() {
+    public ActivationSource<BindingKey> getBindingSource() {
         return new AbstractActivationSource<BindingKey>() {
             @Override
             protected boolean check(BindingKey key)
@@ -128,7 +150,11 @@ public class ActivationService {
         };
     }
 
-    public ActivationListener<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesActivationListener() {
+    public ActivationInitializer<BindingKey> getBindingInitializer() {
+        return new DefaultActivationInitializer<>(getBindingSource());
+    }
+
+    public ActivationListener<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesListener() {
         return new AbstractActivationListener<OwsExtendedCapabilitiesProviderKey>() {
             @Override
             protected void setStatus(OwsExtendedCapabilitiesProviderKey key,
@@ -141,7 +167,7 @@ public class ActivationService {
 
     }
 
-    public ActivationSource<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesActivationSource() {
+    public ActivationSource<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesSource() {
         return new AbstractActivationSource<OwsExtendedCapabilitiesProviderKey>() {
             @Override
             protected boolean check(OwsExtendedCapabilitiesProviderKey key)
@@ -156,6 +182,9 @@ public class ActivationService {
                         .getOwsExtendedCapabilitiesProviderKeys();
             }
         };
+    }
+    public ActivationInitializer<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesInitializer() {
+        return new DefaultActivationInitializer<>(getOwsExtendedCapabiltiesSource());
     }
 
     protected static abstract class AbstractActivationSource<K> implements

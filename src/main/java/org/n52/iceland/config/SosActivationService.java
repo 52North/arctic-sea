@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.iceland.config;
 
 import java.util.Set;
@@ -8,8 +24,10 @@ import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
 import org.n52.iceland.encode.ResponseFormatKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.util.activation.ActivationInitializer;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationSource;
+import org.n52.iceland.util.activation.DefaultActivationInitializer;
 
 public class SosActivationService
         extends ActivationService {
@@ -65,6 +83,10 @@ public class SosActivationService
         };
     }
 
+    public ActivationInitializer<ResponseFormatKey> getResponseFormatActivationInitializer() {
+        return new DefaultActivationInitializer<>(getResponseFormatActivationSource());
+    }
+
     /**
      * Checks if the procedure description format is active for the specified
      * service and version.
@@ -113,6 +135,10 @@ public class SosActivationService
         };
     }
 
+    public ActivationInitializer<ProcedureDescriptionFormatKey> getProcedureDescriptionFormatInitializer() {
+        return new DefaultActivationInitializer<>(getProcedureDescriptionFormatSource());
+    }
+
     /**
      * Checks if the offering extension is active.
      *
@@ -128,7 +154,7 @@ public class SosActivationService
         return sosPersistingActivationManagerDao.isOfferingExtensionActive(key);
     }
 
-    public ActivationListener<OfferingExtensionKey> getOfferingExtensionActivationListener() {
+    public ActivationListener<OfferingExtensionKey> getOfferingExtensionListener() {
         return new AbstractActivationListener<OfferingExtensionKey>() {
             @Override
             protected void setStatus(OfferingExtensionKey key, boolean active)
@@ -139,7 +165,7 @@ public class SosActivationService
         };
     }
 
-    public ActivationSource<OfferingExtensionKey> getOfferingExtensionActivationSource() {
+    public ActivationSource<OfferingExtensionKey> getOfferingExtensionSource() {
         return new AbstractActivationSource<OfferingExtensionKey>() {
             @Override
             protected boolean check(OfferingExtensionKey key)
@@ -157,4 +183,8 @@ public class SosActivationService
         };
     }
 
+
+    public ActivationInitializer<OfferingExtensionKey> getOfferingExtensionInitializer() {
+        return new DefaultActivationInitializer<>(getOfferingExtensionSource());
+    }
 }

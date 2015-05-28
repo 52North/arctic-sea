@@ -97,8 +97,8 @@ public class SettingsManager implements AdminUserService, Constructable {
     }
 
     @Inject
-    public void setDao(SettingsManagerDao dao) {
-        this.settingsManagerDao = dao;
+    public void setSettingsManagerDao(SettingsManagerDao settingsManagerDao) {
+        this.settingsManagerDao = settingsManagerDao;
     }
 
     @Inject

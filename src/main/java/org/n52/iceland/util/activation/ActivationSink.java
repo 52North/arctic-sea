@@ -17,13 +17,16 @@
 package org.n52.iceland.util.activation;
 
 /**
- *
- * @param <K>
+ * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public interface ActivationManager<K>
-        extends ActivationListenable<K>,
-                ActivationProvider<K>, 
-                ActivationSink<K> {
+public interface ActivationSink<K> {
+
+    void activate(K key);
+
+    void deactivate(K key);
+
+    void setActive(K key, boolean active);
+
 }

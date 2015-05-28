@@ -17,6 +17,7 @@
 package org.n52.iceland.ogc.swes;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,19 +28,20 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.activation.Activatable;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+import org.n52.iceland.util.activation.Activatable;
+import org.n52.iceland.util.activation.ActivationListener;
+import org.n52.iceland.util.activation.ActivationListeners;
+import org.n52.iceland.util.activation.ActivationManager;
+import org.n52.iceland.util.activation.ActivationSource;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -48,7 +50,9 @@ import com.google.common.collect.Sets;
  * @since 4.1.0
  *
  */
-public class OfferingExtensionRepository extends AbstractUniqueKeyComponentRepository<OfferingExtensionKey, OfferingExtensionProvider, OfferingExtensionProviderFactory> {
+public class OfferingExtensionRepository extends AbstractUniqueKeyComponentRepository<OfferingExtensionKey, OfferingExtensionProvider, OfferingExtensionProviderFactory>
+        implements ActivationManager<OfferingExtensionKey>,
+                   ActivationSource<OfferingExtensionKey>{
     @Deprecated
     private static OfferingExtensionRepository instance;
     private static final Logger LOGGER = LoggerFactory.getLogger(OfferingExtensionRepository.class);
@@ -57,6 +61,38 @@ public class OfferingExtensionRepository extends AbstractUniqueKeyComponentRepos
             new HashMap<>(0);
     @Inject
     private SettingsManager settingsManager;
+
+    private final ActivationListeners<OfferingExtensionKey> activation = new ActivationListeners<>(true);
+
+    @Override
+    public void registerListener(ActivationListener<OfferingExtensionKey> listener) {
+        this.activation.registerListener(listener);
+    }
+
+    @Override
+    public void deregisterListener(ActivationListener<OfferingExtensionKey> listener) {
+        this.activation.deregisterListener(listener);
+    }
+
+    @Override
+    public boolean isActive(OfferingExtensionKey key) {
+        return this.activation.isActive(key);
+    }
+
+    @Override
+    public void activate(OfferingExtensionKey key) {
+        this.activation.activate(key);
+    }
+
+    @Override
+    public void deactivate(OfferingExtensionKey key) {
+        this.activation.deactivate(key);
+    }
+
+    @Override
+    public Set<OfferingExtensionKey> getKeys() {
+        return Collections.unmodifiableSet(this.offeringExtensionProviders.keySet());
+    }
 
     /**
      * For singleton use
@@ -82,20 +118,7 @@ public class OfferingExtensionRepository extends AbstractUniqueKeyComponentRepos
     @Override
     protected void processImplementations(Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> implementations) {
         this.offeringExtensionProviders.clear();
-
-        for (Entry<OfferingExtensionKey, Producer<OfferingExtensionProvider>> entry
-             : implementations.entrySet()) {
-            OfferingExtensionKey key = entry.getKey();
-            Producer<OfferingExtensionProvider> value = entry.getValue();
-
-            LOGGER.info("Registered OfferingExtensionProvider for {}", key);
-            try {
-                boolean isActive = this.settingsManager.isOfferingExtensionActive(key);
-                this.offeringExtensionProviders.put(key, Activatable.from(value, isActive));
-            } catch (final ConnectionProviderException cpe) {
-                throw new ConfigurationException("Error while checking RequestOperator", cpe);
-            }
-        }
+        this.offeringExtensionProviders.putAll(offeringExtensionProviders);
     }
 
     /**

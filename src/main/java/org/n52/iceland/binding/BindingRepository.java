@@ -16,50 +16,92 @@
  */
 package org.n52.iceland.binding;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import javax.inject.Inject;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.activation.Activatable;
-import org.n52.iceland.util.Producer;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.Producers;
+import org.n52.iceland.util.activation.Activatables;
+import org.n52.iceland.util.activation.ActivationListener;
+import org.n52.iceland.util.activation.ActivationListeners;
+import org.n52.iceland.util.activation.ActivationManager;
+import org.n52.iceland.util.activation.ActivationSource;
+import org.n52.iceland.util.http.MediaType;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.SetMultimap;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
  * @since 4.0.0
  */
-public class BindingRepository extends AbstractUniqueKeyComponentRepository<BindingKey, Binding, BindingFactory> {
+public class BindingRepository extends AbstractUniqueKeyComponentRepository<BindingKey, Binding, BindingFactory>
+        implements ActivationManager<BindingKey>,
+                   ActivationSource<BindingKey> {
     private static final Logger LOG = LoggerFactory.getLogger(BindingRepository.class);
+    @Deprecated
     private static BindingRepository instance;
+
+    private final ActivationListeners<BindingKey> activation = new ActivationListeners<>(true);
+
+    @Override
+    public void registerListener(ActivationListener<BindingKey> listener) {
+        this.activation.registerListener(listener);
+    }
+
+    @Override
+    public void deregisterListener(ActivationListener<BindingKey> listener) {
+        this.activation.deregisterListener(listener);
+    }
+
+    @Override
+    public boolean isActive(BindingKey key) {
+        return this.activation.isActive(key);
+    }
+
+    @Override
+    public void activate(BindingKey key) {
+        this.activation.activate(key);
+    }
+
+    @Override
+    public void deactivate(BindingKey key) {
+        this.activation.deactivate(key);
+    }
+
+    @Override
+    public Set<BindingKey> getKeys() {
+        return Collections.unmodifiableSet(this.bindings.keySet());
+    }
+
+    @Override
+    public void setActive(BindingKey bk, boolean active) {
+        this.activation.setActive(bk, active);
+    }
 
     @Deprecated
     public static BindingRepository getInstance() {
         return BindingRepository.instance;
     }
 
-    private final Map<PathBindingKey, Activatable<Producer<Binding>>> byPath = Maps.newHashMap();
-    private final Map<MediaTypeBindingKey, Activatable<Producer<Binding>>> byMediaType = Maps.newHashMap();
-    private final Map<BindingKey, Activatable<Producer<Binding>>> bindings = Maps.newHashMap();
-
-    @Inject
-    private SettingsManager settingsManager;
+    private final Map<PathBindingKey, Producer<Binding>> byPath = Maps.newHashMap();
+    private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
+    private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
 
     public BindingRepository() {
         super(Binding.class, BindingFactory.class);
+    }
+
+    @Override
+    public void init() {
+        super.init();
         BindingRepository.instance = this;
     }
 
@@ -69,19 +111,13 @@ public class BindingRepository extends AbstractUniqueKeyComponentRepository<Bind
         this.byMediaType.clear();
         this.byPath.clear();
         for (Entry<BindingKey, Producer<Binding>> entry : bindings.entrySet()) {
-            try {
-                BindingKey key = entry.getKey();
-                Producer<Binding> binding = entry.getValue();
-                boolean isActive = this.settingsManager.isBindingActive(key);
-                Activatable<Producer<Binding>> activatable = Activatable.from(binding, isActive);
-                this.bindings.put(key, activatable);
-                if (key instanceof MediaTypeBindingKey) {
-                    byMediaType.put((MediaTypeBindingKey) key, activatable);
-                } else if (key instanceof PathBindingKey) {
-                    byPath.put((PathBindingKey) key, activatable);
-                }
-            } catch (ConnectionProviderException ex) {
-                throw new ConfigurationException("Could not check status of Binding", ex);
+            BindingKey key = entry.getKey();
+            Producer<Binding> binding = entry.getValue();
+            this.bindings.put(key, binding);
+            if (key instanceof MediaTypeBindingKey) {
+                byMediaType.put((MediaTypeBindingKey) key, binding);
+            } else if (key instanceof PathBindingKey) {
+                byPath.put((PathBindingKey) key, binding);
             }
         }
         if (this.bindings.isEmpty()) {
@@ -102,68 +138,78 @@ public class BindingRepository extends AbstractUniqueKeyComponentRepository<Bind
     }
 
     public Binding getBinding(BindingKey key) {
-        Activatable<Producer<Binding>> binding = this.bindings.get(key);
-        return binding == null ? null : binding.get().get();
+        Producer<Binding> binding = this.bindings.get(key);
+        return binding == null ? null : binding.get();
     }
 
     public boolean isBindingSupported(String urlPattern) {
-        return isBindingSupported(new PathBindingKey(urlPattern));
+        return isActive(new PathBindingKey(urlPattern));
     }
 
     public boolean isBindingSupported(MediaType mediaType) {
-        return isBindingSupported(new MediaTypeBindingKey(mediaType));
+        return isActive(new MediaTypeBindingKey(mediaType));
     }
 
     public boolean isBindingSupported(BindingKey key) {
-        return this.bindings.containsKey(key) &&
-               this.bindings.get(key).isActive();
+        return isActive(key);
+    }
+
+    public boolean isActive(String urlPattern) {
+        return isActive(new PathBindingKey(urlPattern));
+    }
+
+    public boolean isActive(MediaType mediaType) {
+        return isActive(new MediaTypeBindingKey(mediaType));
     }
 
     public Map<BindingKey, Binding> getBindings() {
-        return produce(Activatable.filter(this.bindings));
+        Map<BindingKey, Producer<Binding>> actives
+                = Activatables.activatedMap(this.bindings,
+                                            this.activation);
+        return Producers.produce(actives);
     }
 
     public Map<String, Binding> getBindingsByPath() {
-        return getByPath(Activatable.filter(this.bindings));
+        Map<String, Binding> map = new HashMap<>(this.byPath.size());
+        for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
+            PathBindingKey key = entry.getKey();
+            Producer<Binding> producer = entry.getValue();
+            if (isActive(key)) {
+                map.put(key.getPath(), producer.get());
+            }
+        }
+        return map;
     }
 
     public Map<MediaType, Binding> getBindingsByMediaType() {
-        return getByMediaType(Activatable.filter(this.bindings));
+        Map<MediaType, Binding> map = new HashMap<>(this.byPath.size());
+        for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
+            MediaTypeBindingKey key = entry.getKey();
+            Producer<Binding> producer = entry.getValue();
+            if (isActive(key)) {
+                map.put(key.getMediaType(), producer.get());
+            }
+        }
+        return map;
     }
 
     public Map<String, Binding> getAllBindingsByPath() {
-        return getByPath(Activatable.unfiltered(this.bindings));
+        Map<String, Binding> map = new HashMap<>(this.byPath.size());
+        for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
+            PathBindingKey key = entry.getKey();
+            Producer<Binding> producer = entry.getValue();
+            map.put(key.getPath(), producer.get());
+        }
+        return map;
     }
 
     public Map<MediaType, Binding> getAllBindingsByMediaType() {
-        return getByMediaType(Activatable.unfiltered(this.bindings));
-    }
-
-    private Map<MediaType, Binding> getByMediaType(Map<BindingKey, Producer<Binding>> b) {
-        Map<MediaType, Binding> result = new HashMap<>(b.size()/2);
-        for (BindingKey key : b.keySet()) {
-            if (key instanceof MediaTypeBindingKey) {
-                MediaTypeBindingKey mediaTypeBindingKey = (MediaTypeBindingKey) key;
-                result.put(mediaTypeBindingKey.getMediaType(), b.get(key).get());
-            }
+        Map<MediaType, Binding> map = new HashMap<>(this.byPath.size());
+        for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
+            MediaTypeBindingKey key = entry.getKey();
+            Producer<Binding> producer = entry.getValue();
+            map.put(key.getMediaType(), producer.get());
         }
-        return result;
-    }
-
-    private Map<String, Binding> getByPath(Map<BindingKey, Producer<Binding>> b) {
-        Map<String, Binding> result = new HashMap<>(b.size()/2);
-        for (BindingKey key : b.keySet()) {
-            if (key instanceof PathBindingKey) {
-                PathBindingKey pathBindingKey = (PathBindingKey) key;
-                result.put(pathBindingKey.getPath(), b.get(key).get());
-            }
-        }
-        return result;
-    }
-
-    public void setActive(final BindingKey bk, final boolean active) {
-        if (this.bindings.containsKey(bk)) {
-            this.bindings.get(bk).setActive(active);
-        }
+        return map;
     }
 }

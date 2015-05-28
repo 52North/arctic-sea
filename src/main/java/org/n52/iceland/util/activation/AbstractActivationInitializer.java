@@ -17,13 +17,22 @@
 package org.n52.iceland.util.activation;
 
 /**
- *
- * @param <K>
- *
+ * TODO JavaDoc
  * @author Christian Autermann
  */
-public interface ActivationManager<K>
-        extends ActivationListenable<K>,
-                ActivationProvider<K>, 
-                ActivationSink<K> {
+public abstract class AbstractActivationInitializer<K> implements ActivationInitializer<K> {
+
+    public abstract ActivationSource<K> getSource();
+
+    @Override
+    public void initialize(ActivationSink<K> sink) {
+        for (K key : getSource().getKeys()) {
+            if (getSource().isActive(key)) {
+                sink.activate(key);
+            } else {
+                sink.deactivate(key);
+            }
+        }
+    }
+
 }

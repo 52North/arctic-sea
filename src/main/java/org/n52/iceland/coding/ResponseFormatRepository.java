@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.iceland.coding;
 
 import java.util.Collections;
@@ -7,14 +23,15 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.ds.ConnectionProviderException;
 import org.n52.iceland.encode.Encoder;
 import org.n52.iceland.encode.ObservationEncoder;
 import org.n52.iceland.encode.ResponseFormatKey;
-import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
+import org.n52.iceland.util.activation.ActivationListener;
+import org.n52.iceland.util.activation.ActivationListeners;
+import org.n52.iceland.util.activation.ActivationManager;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -24,20 +41,24 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann
  */
-public class ResponseFormatRepository implements Constructable {
+public class ResponseFormatRepository implements ActivationManager<ResponseFormatKey>, Constructable {
     @Deprecated
     private static ResponseFormatRepository instance;
     private final Map<String, Map<String, Set<String>>> responseFormats = Maps.newHashMap();
-    private final Map<ResponseFormatKey, Boolean> responseFormatStatus = Maps.newHashMap();
+    private final ActivationListeners<ResponseFormatKey> activation = new ActivationListeners<>(true);
 
-    @Inject
     private ServiceOperatorRepository serviceOperatorRepository;
+    private EncoderRepository encoderRepository;
 
     @Inject
-    private SettingsManager settingsManager;
+    public void setEncoderRepository(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
+    }
 
     @Inject
-    private CodingRepository codingRepository;
+    public void setServiceOperatorRepository(ServiceOperatorRepository serviceOperatorRepository) {
+        this.serviceOperatorRepository = serviceOperatorRepository;
+    }
 
     @Override
     public void init() {
@@ -46,12 +67,11 @@ public class ResponseFormatRepository implements Constructable {
     }
 
     private void generateResponseFormatMaps() {
-        this.responseFormatStatus.clear();
         this.responseFormats.clear();
         Set<ServiceOperatorKey> serviceOperatorKeyTypes
                 = getServiceOperatorKeys();
 
-        for (Encoder<?, ?> encoder : this.codingRepository.getEncoders()) {
+        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             if (encoder instanceof ObservationEncoder) {
                 ObservationEncoder<?, ?> observationEncoder = (ObservationEncoder<?, ?>) encoder;
                 for (ServiceOperatorKey key : serviceOperatorKeyTypes) {
@@ -67,11 +87,6 @@ public class ResponseFormatRepository implements Constructable {
     }
 
     protected void addResponseFormat(ResponseFormatKey key) {
-        try {
-            this.responseFormatStatus.put(key, this.settingsManager.isResponseFormatActive(key));
-        } catch (ConnectionProviderException ex) {
-            throw new ConfigurationException(ex);
-        }
         Map<String, Set<String>> byService = this.responseFormats.get(key.getService());
         if (byService == null) {
             this.responseFormats.put(key.getService(), byService = Maps.newHashMap());
@@ -102,8 +117,7 @@ public class ResponseFormatRepository implements Constructable {
         Set<String> result = Sets.newHashSet();
         for (String responseFormat : responseFormats) {
             ResponseFormatKey rfkt = new ResponseFormatKey(sokt, responseFormat);
-            Boolean status = responseFormatStatus.get(rfkt);
-            if (status != null && status) {
+            if (isActive(rfkt)) {
                 result.add(responseFormat);
             }
         }
@@ -150,11 +164,33 @@ public class ResponseFormatRepository implements Constructable {
     }
 
     public void setActive(ResponseFormatKey rfkt, boolean active) {
-        if (responseFormatStatus.containsKey(rfkt)) {
-            responseFormatStatus.put(rfkt, active);
-        }
+        this.activation.setActive(rfkt, active);
     }
 
+    @Override
+    public void activate(ResponseFormatKey key) {
+        this.activation.activate(key);
+    }
+
+    @Override
+    public void deactivate(ResponseFormatKey key) {
+        this.activation.deactivate(key);
+    }
+
+    @Override
+    public void registerListener(ActivationListener<ResponseFormatKey> listener) {
+        this.activation.registerListener(listener);
+    }
+
+    @Override
+    public void deregisterListener(ActivationListener<ResponseFormatKey> listener) {
+        this.activation.deregisterListener(listener);
+    }
+
+    @Override
+    public boolean isActive(ResponseFormatKey key) {
+        return this.activation.isActive(key);
+    }
 
     @Deprecated
     public static ResponseFormatRepository getInstance() {
