@@ -6,7 +6,7 @@ The 52°North Iceland was previously developed in the the [52°North SOS 4.x](ht
 
 ## Documentation
 
-Here you can find the [Documentation](doc/Home.md).
+Here you can find the [Documentation](doc/Index.md).
 
 ## Branches
 
