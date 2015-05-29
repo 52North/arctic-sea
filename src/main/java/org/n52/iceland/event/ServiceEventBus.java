@@ -121,14 +121,14 @@ public class ServiceEventBus implements Constructable {
         return new HashSet<>(result);
     }
 
-    public void submit(final ServiceEvent event) {
+    public void submit(ServiceEvent event) {
         boolean submittedEvent = false;
         if (!checkEvent(event)) {
             return;
         }
         lock.readLock().lock();
         try {
-            for (final ServiceEventListener listener : getListenersForEvent(event)) {
+            for (ServiceEventListener listener : getListenersForEvent(event)) {
                 submittedEvent = true;
                 LOG.debug("Queueing Event {} for Listener {}", event, listener);
                 queue.offer(new HandlerExecution(event, listener));
@@ -155,7 +155,7 @@ public class ServiceEventBus implements Constructable {
         }
         lock.writeLock().lock();
         try {
-            for (final Class<? extends ServiceEvent> eventType : listener.getTypes()) {
+            for (Class<? extends ServiceEvent> eventType : listener.getTypes()) {
                 LOG.debug("Subscibing Listener {} to EventType {}", listener, eventType);
                 listeners.add(eventType, listener);
             }
@@ -170,8 +170,8 @@ public class ServiceEventBus implements Constructable {
         }
         lock.writeLock().lock();
         try {
-            for (final Class<? extends ServiceEvent> eventType : listener.getTypes()) {
-                final Set<ServiceEventListener> listenersForKey = listeners.get(eventType);
+            for (Class<? extends ServiceEvent> eventType : listener.getTypes()) {
+                Set<ServiceEventListener> listenersForKey = listeners.get(eventType);
                 if (listenersForKey.contains(listener)) {
                     LOG.debug("Unsubscibing Listener {} from EventType {}", listener, eventType);
                     listenersForKey.remove(listener);
