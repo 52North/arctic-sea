@@ -48,10 +48,13 @@ public class SupportedTypeRepository implements Constructable {
     private static SupportedTypeRepository instance;
     private final Set<Activatable<SupportedType>> supportedTypes = Sets.newHashSet();
     private final SetMultimap<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> typeMap = HashMultimap.create();
-    private LoadingCache<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> cache;
+    private final LoadingCache<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> cache;
 
     @Inject
-    private CodingRepository codingRepository;
+    private EncoderRepository encoderRepository;
+
+    @Inject
+    private DecoderRepository decoderRepository;
 
     public SupportedTypeRepository() {
         this.cache = CacheBuilder.newBuilder().build(new CacheLoaderImpl());
@@ -63,14 +66,14 @@ public class SupportedTypeRepository implements Constructable {
         this.supportedTypes.clear();
         List<Set<SupportedType>> list = new LinkedList<>();
 
-        for (Decoder<?, ?> decoder : this.codingRepository.getDecoders()) {
+        for (Decoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
             Set<SupportedType> set = decoder.getSupportedTypes();
             if (set != null) {
                 this.supportedTypes.addAll(Activatable.from(set));
             }
         }
 
-        for (Encoder<?, ?> encoder : this.codingRepository.getEncoders()) {
+        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             Set<SupportedType> set = encoder.getSupportedTypes();
             if (set != null) {
                 this.supportedTypes.addAll(Activatable.from(set));
