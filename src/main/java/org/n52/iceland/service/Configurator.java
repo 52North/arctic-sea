@@ -26,6 +26,7 @@ import javax.servlet.ServletContext;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCacheController;
@@ -34,9 +35,9 @@ import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DataConnectionProvider;
 import org.n52.iceland.ds.Datasource;
 import org.n52.iceland.ds.DatasourceDaoIdentifier;
+import org.n52.iceland.ds.FeatureConnectionProvider;
 import org.n52.iceland.ds.FeatureQueryHandler;
 import org.n52.iceland.ds.HibernateDatasourceConstants;
-import org.n52.iceland.ds.IFeatureConnectionProvider;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
 import org.n52.iceland.exception.ConfigurationException;
@@ -103,8 +104,8 @@ public class Configurator implements Constructable, Destroyable {
         Configurator.instance = this;
     }
 
-    @Inject
-    public void setFeatureConnectionProvider(IFeatureConnectionProvider featureConnectionProvider) {
+    @Autowired(required = false)
+    public void setFeatureConnectionProvider(FeatureConnectionProvider featureConnectionProvider) {
         this.featureConnectionProvider = featureConnectionProvider;
     }
 

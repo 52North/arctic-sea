@@ -24,6 +24,6 @@ package org.n52.iceland.ds;
  * @since 4.0.0
  * 
  */
-public interface IFeatureConnectionProvider extends ConnectionProvider {
+public interface FeatureConnectionProvider extends ConnectionProvider {
 
 }
