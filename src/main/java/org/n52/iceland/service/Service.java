@@ -69,6 +69,9 @@ public class Service extends HttpServlet {
     @Inject
     private BindingRepository bindingRepository;
 
+    @Inject
+    private ServiceEventBus serviceEventBus;
+
     protected HttpServletRequest logRequest(HttpServletRequest request, long count) {
         if (LOGGER.isDebugEnabled()) {
             Enumeration<?> headerNames = request.getHeaderNames();
@@ -259,7 +262,7 @@ public class Service extends HttpServlet {
 
     protected void onHttpException(HttpServletRequest request, HttpServletResponse response, HTTPException exception)
             throws IOException {
-        ServiceEventBus.fire(new ExceptionEvent(exception));
+        this.serviceEventBus.submit(new ExceptionEvent(exception));
         response.sendError(exception.getStatus().getCode(), exception.getMessage());
     }
 
