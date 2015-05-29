@@ -19,6 +19,10 @@ This project is managed with Maven3. Simply run `mvn clean install`
 
 ## Maven dependency
 
+52°North Iceland is provided via Maven Central.
+
+To integrate 52°North Iceland into your Maven project, you can use this dependency definition:
+
 ```xml
 <dependency>
 	<groupId>org.n52.iceland</groupId>
@@ -26,6 +30,10 @@ This project is managed with Maven3. Simply run `mvn clean install`
 	<version>1.0.0</version>
 </dependency>
 ```
+
+## Requirements
+
+Java 7
 
 ## Contributing
 
