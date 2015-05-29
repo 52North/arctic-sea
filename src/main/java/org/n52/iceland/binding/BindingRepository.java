@@ -23,14 +23,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.convert.Converter;
-import org.n52.iceland.convert.ConverterFactory;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.Producers;
@@ -62,9 +59,9 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
     private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<Binding> components;
-    @Inject
+    @Autowired(required = false)
     private Collection<BindingFactory> componentFactories;
 
     @Override

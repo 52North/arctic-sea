@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
@@ -42,10 +42,10 @@ public class OperationHandlerRepository extends AbstractComponentRepository<Oper
     private static String datasourceDaoIdentficator;
     private final Map<OperationHandlerKey, Producer<OperationHandler>> operationHandlers = new HashMap<>();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<OperationHandler> components;
 
-    @Inject
+    @Autowired(required = false)
     private Collection<OperationHandlerFactory> componentFactories;
 
     @Override

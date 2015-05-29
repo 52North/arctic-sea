@@ -20,16 +20,14 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.SetMultimap;
 
 
 /**
@@ -45,9 +43,9 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
     private static I18NDAORepository instance;
     private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<I18NDAO<?>> components;
-    @Inject
+    @Autowired(required = false)
     private Collection<I18NDAOFactory> componentFactories;
 
     @Override

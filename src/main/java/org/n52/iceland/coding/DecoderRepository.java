@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.decode.Decoder;
 import org.n52.iceland.decode.DecoderFactory;
@@ -35,9 +35,9 @@ import org.n52.iceland.lifecycle.Constructable;
 public class DecoderRepository
         extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory> implements Constructable {
 
-    @Inject
+    @Autowired(required = false)
     private Collection<Decoder<?, ?>> decoders;
-    @Inject
+    @Autowired(required = false)
     private Collection<DecoderFactory> decoderFactories;
 
     @Override

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
@@ -39,9 +39,9 @@ import com.google.common.collect.Sets;
 public class ConverterRepository extends AbstractComponentRepository<ConverterKeyType, Converter<?, ?>, ConverterFactory> implements Constructable {
     private static ConverterRepository instance;
 
-    @Inject
+    @Autowired(required = false)
     private Collection<Converter<?, ?>> components;
-    @Inject
+    @Autowired(required = false)
     private Collection<ConverterFactory> componentFactories;
 
 

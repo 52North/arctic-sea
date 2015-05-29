@@ -23,7 +23,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
@@ -48,10 +48,10 @@ public class ResponseWriterRepository extends AbstractComponentRepository<Respon
 
     private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper.synchronizedMap();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<ResponseWriter<?>> components;
 
-    @Inject
+    @Autowired(required = false)
     private Collection<ResponseWriterFactory> componentFactories;
 
     @Override

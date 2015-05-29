@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
@@ -57,10 +57,10 @@ public class OwsExtendedCapabilitiesProviderRepository
 
     private final Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProvider = new HashMap<>();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<OwsExtendedCapabilitiesProvider> components;
 
-    @Inject
+    @Autowired(required = false)
     private Collection<OwsExtendedCapabilitiesProviderFactory> componentFactories;
 
     private final ActivationListeners<OwsExtendedCapabilitiesProviderKey> activations = new ActivationListeners<>(true);

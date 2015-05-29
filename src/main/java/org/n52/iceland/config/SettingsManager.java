@@ -67,8 +67,6 @@ import com.google.common.collect.SetMultimap;
  * @since 4.0.0
  */
 public class SettingsManager implements AdminUserService {
-    @Deprecated
-    private static SettingsManager instance;
     private static final Logger LOG = LoggerFactory .getLogger(SettingsManager.class);
     private final SetMultimap<String, ConfigurableObject> configurableObjects = HashMultimap.create();
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
@@ -77,9 +75,11 @@ public class SettingsManager implements AdminUserService {
     private SettingsManagerDao settingsManagerDao;
     private AdminUserDao adminUserDao;
     private SettingValueFactory settingValueFactory;
+    private ServiceEventBus serviceEventBus;
 
-    public SettingsManager() {
-        SettingsManager.instance = this;
+    @Inject
+    public void setServiceEventBus(ServiceEventBus serviceEventBus) {
+        this.serviceEventBus = serviceEventBus;
     }
 
     @Inject
@@ -259,8 +259,7 @@ public class SettingsManager implements AdminUserService {
         if (oldValue != null) {
             applySetting(setting, oldValue, null);
             this.settingsManagerDao.deleteSettingValue(setting.getKey());
-            ServiceEventBus
-                    .fire(new SettingsChangeEvent(setting, oldValue, null));
+            this.serviceEventBus.submit(new SettingsChangeEvent(setting, oldValue, null));
         }
     }
 
@@ -404,16 +403,14 @@ public class SettingsManager implements AdminUserService {
         if (def.getType() != newValue.getType()) {
             throw new IllegalArgumentException(String
                     .format("Invalid type for definition (%s vs. %s)", def
-                            .getType(),
-                                                                       newValue.getType()));
+                            .getType(), newValue.getType()));
         }
 
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(newValue.getKey());
         if (oldValue == null || !oldValue.equals(newValue)) {
             applySetting(def, oldValue, newValue);
             this.settingsManagerDao.saveSettingValue(newValue);
-            ServiceEventBus
-                    .fire(new SettingsChangeEvent(def, oldValue, newValue));
+            this.serviceEventBus.submit(new SettingsChangeEvent(def, oldValue, newValue));
         }
     }
 
@@ -449,24 +446,23 @@ public class SettingsManager implements AdminUserService {
         return !getAdminUsers().isEmpty();
     }
 
-
-        @Override
-        public AdministratorUser createAdminUser(String username, String password)
-                throws ConnectionProviderException {
-            return this.adminUserDao.createAdminUser(username, password);
-        }
-
-        @Override
-        public void deleteAdminUser(String username)
+    @Override
+    public AdministratorUser createAdminUser(String username, String password)
             throws ConnectionProviderException {
-            this.adminUserDao.deleteAdminUser(username);
-        }
+        return this.adminUserDao.createAdminUser(username, password);
+    }
 
-        @Override
-        public AdministratorUser getAdminUser(String username)
-            throws ConnectionProviderException {
-            return this.adminUserDao.getAdminUser(username);
-        }
+    @Override
+    public void deleteAdminUser(String username)
+        throws ConnectionProviderException {
+        this.adminUserDao.deleteAdminUser(username);
+    }
+
+    @Override
+    public AdministratorUser getAdminUser(String username)
+        throws ConnectionProviderException {
+        return this.adminUserDao.getAdminUser(username);
+    }
 
     @Override
     public Set<AdministratorUser> getAdminUsers()
@@ -479,19 +475,6 @@ public class SettingsManager implements AdminUserService {
             throws ConnectionProviderException {
         this.adminUserDao.saveAdminUser(user);
     }
-
-    @Deprecated
-    public static SettingsManager getInstance()
-            throws ConfigurationException {
-        return SettingsManager.instance;
-    }
-
-    @Deprecated
-    private static SettingsManager createInstance()
-            throws ConfigurationException {
-        return getInstance();
-    }
-
 
     private class ConfigurableObject {
         private final Method method;

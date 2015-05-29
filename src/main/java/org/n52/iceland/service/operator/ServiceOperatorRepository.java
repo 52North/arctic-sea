@@ -24,13 +24,15 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
-import org.n52.iceland.lifecycle.Constructable;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -54,9 +56,9 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
     /** supported services */
     private final Set<String> supportedServices = Sets.newHashSet();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<ServiceOperator> components;
-    @Inject
+    @Autowired(required = false)
     private Collection<ServiceOperatorFactory> componentFactories;
 
     @Override

@@ -35,11 +35,14 @@ import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 import java.net.URI;
 import java.util.Locale;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.I18NSettings;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Validation;
 import org.n52.iceland.util.XmlOptionsHelper;
 
@@ -51,7 +54,8 @@ import org.n52.iceland.util.XmlOptionsHelper;
  * @since 4.0.0
  */
 @Configurable
-public class ServiceConfiguration {
+public class ServiceConfiguration implements Constructable {
+    @Deprecated
     private static ServiceConfiguration instance;
 
     /**
@@ -79,22 +83,24 @@ public class ServiceConfiguration {
 
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
 
+    private SettingsManager settingsManager;
+
+    @Inject
+    public void setSettingsManager(SettingsManager settingsManager) {
+        this.settingsManager = settingsManager;
+    }
+
     /**
      * @return Returns a singleton instance of the ServiceConfiguration.
      */
     @Deprecated
     public static synchronized ServiceConfiguration getInstance() {
-        if (instance == null) {
-            instance = new ServiceConfiguration();
-            SettingsManager.getInstance().configure(instance);
-        }
-        return instance;
+        return ServiceConfiguration.instance;
     }
 
-    /**
-     * private constructor for singleton
-     */
-    private ServiceConfiguration() {
+    @Override
+    public void init() {
+        this.settingsManager.configure(this);
     }
 
     /**

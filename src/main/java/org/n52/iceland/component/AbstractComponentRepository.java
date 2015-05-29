@@ -47,19 +47,23 @@ import com.google.common.collect.SetMultimap;
  */
 public abstract class AbstractComponentRepository<K, C extends Component<K>, F extends ComponentFactory<K, C>> {
     private static final Logger LOG = LoggerFactory.getLogger(AbstractComponentRepository.class);
-    
+
     protected SetMultimap<K, Producer<C>> getProviders(Collection<C> components, Collection<F> factories) {
         SetMultimap<K, Producer<C>> providers = HashMultimap.create();
-        for (F factory : factories) {
-            for (K key : factory.getKeys()) {
-                Producer<C> provider = new FactoryProvider(factory, key);
-                providers.put(key, provider);
+        if (factories != null && !factories.isEmpty()) {
+            for (F factory : factories) {
+                for (K key : factory.getKeys()) {
+                    Producer<C> provider = new FactoryProvider(factory, key);
+                    providers.put(key, provider);
+                }
             }
         }
-        for (C component : components) {
-            Producer<C> provider = Producers.forInstance(component);
-            for (K key : component.getKeys()) {
-                providers.put(key, provider);
+        if (components != null && !components.isEmpty()) {
+            for (C component : components) {
+                Producer<C> provider = Producers.forInstance(component);
+                for (K key : component.getKeys()) {
+                    providers.put(key, provider);
+                }
             }
         }
         return providers;

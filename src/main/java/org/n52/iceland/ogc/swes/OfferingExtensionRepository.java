@@ -22,10 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
@@ -55,13 +52,12 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
                    Constructable {
     @Deprecated
     private static OfferingExtensionRepository instance;
-    private static final Logger LOGGER = LoggerFactory.getLogger(OfferingExtensionRepository.class);
     private final Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> offeringExtensionProviders = new HashMap<>(0);
     private final ActivationListeners<OfferingExtensionKey> activation = new ActivationListeners<>(true);
 
-    @Inject
+    @Autowired(required = false)
     private Collection<OfferingExtensionProvider> components;
-    @Inject
+    @Autowired(required = false)
     private Collection<OfferingExtensionProviderFactory> componentFactories;
 
     @Override

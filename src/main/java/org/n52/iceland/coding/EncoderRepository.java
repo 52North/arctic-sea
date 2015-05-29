@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.encode.Encoder;
 import org.n52.iceland.encode.EncoderFactory;
@@ -35,9 +35,9 @@ import org.n52.iceland.lifecycle.Constructable;
 public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
         implements Constructable {
 
-    @Inject
+    @Autowired(required = false)
     private Collection<Encoder<?, ?>> encoders;
-    @Inject
+    @Autowired(required = false)
     private Collection<EncoderFactory> encoderFactories;
 
     @Override

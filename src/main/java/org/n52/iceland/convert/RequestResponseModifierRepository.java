@@ -19,7 +19,7 @@ package org.n52.iceland.convert;
 import java.util.Collection;
 import java.util.List;
 
-import javax.inject.Inject;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
@@ -42,10 +42,10 @@ public class RequestResponseModifierRepository extends
 	private final ListMultimap<RequestResponseModifierKeyType, Producer<RequestResponseModifier>> requestResponseModifier
             = LinkedListMultimap.create();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<RequestResponseModifier> components;
 
-    @Inject
+    @Autowired(required = false)
     private Collection<RequestResponseModifierFactory> componentFactories;
 
     @Override

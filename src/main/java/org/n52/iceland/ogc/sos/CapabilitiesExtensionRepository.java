@@ -20,12 +20,12 @@ import static org.n52.iceland.util.Producers.produce;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
@@ -57,9 +57,9 @@ public class CapabilitiesExtensionRepository extends
     private final ListMultimap<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> providers
             = LinkedListMultimap.create();
 
-    @Inject
+    @Autowired(required = false)
     private Collection<CapabilitiesExtensionProvider> components;
-    @Inject
+    @Autowired(required = false)
     private Collection<CapabilitiesExtensionProviderFactory> componentFactories;
 
     @Override
