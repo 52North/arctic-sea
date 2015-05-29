@@ -16,22 +16,33 @@
  */
 package org.n52.iceland.coding;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 import org.n52.iceland.encode.Encoder;
 import org.n52.iceland.encode.EncoderFactory;
 import org.n52.iceland.encode.EncoderKey;
+import org.n52.iceland.lifecycle.Constructable;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory> {
+public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
+        implements Constructable {
 
-    public EncoderRepository() {
-        super(Encoder.class, EncoderFactory.class);
+    @Inject
+    private Collection<Encoder<?, ?>> encoders;
+    @Inject
+    private Collection<EncoderFactory> encoderFactories;
+
+    @Override
+    public void init() {
+        setProducers(getProviders(encoders, encoderFactories));
     }
 
     public Set<Encoder<?, ?>> getEncoders() {

@@ -66,16 +66,6 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public void updateDecoders() {
-        this.decoderRepository.update();
-    }
-
-    @Deprecated
-    public void updateEncoders() {
-        this.encoderRepository.update();
-    }
-
-    @Deprecated
     public Set<Decoder<?, ?>> getDecoders() {
         return this.decoderRepository.getDecoders();
     }

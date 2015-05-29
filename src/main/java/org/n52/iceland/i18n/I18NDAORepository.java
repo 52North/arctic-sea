@@ -16,15 +16,21 @@
  */
 package org.n52.iceland.i18n;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.inject.Inject;
+
+import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
+
 
 /**
  * I18N DAO repository
@@ -34,17 +40,28 @@ import com.google.common.collect.Maps;
  *
  */
 @SuppressWarnings("rawtypes")
-public class I18NDAORepository extends AbstractUniqueKeyComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> {
+public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> implements Constructable {
     @Deprecated
     private static I18NDAORepository instance;
     private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
 
-    /**
-     * private constructor
-     */
-    private I18NDAORepository() {
-        super(I18NDAO.class, I18NDAOFactory.class);
+    @Inject
+    private Collection<I18NDAO<?>> components;
+    @Inject
+    private Collection<I18NDAOFactory> componentFactories;
+
+    @Override
+    public void init() {
         I18NDAORepository.instance = this;
+        Map<I18NDAOKey, Producer<I18NDAO<?>>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
+        this.daos.clear();
+        this.daos.putAll(implementations);
+        for (Entry<I18NDAOKey, Producer<I18NDAO<?>>> entry: implementations.entrySet()) {
+            I18NDAOKey key = entry.getKey();
+            Producer<I18NDAO<?>> value = entry.getValue();
+            this.daos.put(key, value);
+        }
     }
 
     /**
@@ -60,17 +77,6 @@ public class I18NDAORepository extends AbstractUniqueKeyComponentRepository<I18N
         // TODO check for subtypes
         I18NDAO<?> dao = producer == null ? null : producer.get();
         return (I18NDAO<T>) dao;
-    }
-
-    @Override
-    protected  void processImplementations(Map<I18NDAOKey, Producer<I18NDAO<?>>> implementations) throws ConfigurationException {
-        this.daos.clear();
-        this.daos.putAll(implementations);
-        for (Entry<I18NDAOKey, Producer<I18NDAO<?>>> entry: implementations.entrySet()) {
-            I18NDAOKey key = entry.getKey();
-            Producer<I18NDAO<?>> value = entry.getValue();
-            this.daos.put(key, value);
-        }
     }
 
     /**

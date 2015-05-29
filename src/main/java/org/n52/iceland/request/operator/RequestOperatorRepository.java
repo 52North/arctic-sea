@@ -16,16 +16,17 @@
  */
 package org.n52.iceland.request.operator;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
-import org.n52.iceland.config.SettingsManager;
+import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.ds.OperationHandlerRepository;
 import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.activation.Activatables;
@@ -41,9 +42,10 @@ import com.google.common.collect.Maps;
  *
  * @since 4.0.0
  */
-public class RequestOperatorRepository extends AbstractUniqueKeyComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
+public class RequestOperatorRepository extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
         implements ActivationManager<RequestOperatorKey>,
-                   ActivationSource<RequestOperatorKey>{
+                   ActivationSource<RequestOperatorKey>,
+                   Constructable {
     @Deprecated
     private static RequestOperatorRepository instance;
 
@@ -52,28 +54,17 @@ public class RequestOperatorRepository extends AbstractUniqueKeyComponentReposit
     private final ActivationListeners<RequestOperatorKey> activation = new ActivationListeners<>(true);
 
     @Inject
-    private OperationHandlerRepository operationHandlerRepository;
-
-    /**
-     * private constructor for singleton
-     *
-     * @throws ConfigurationException
-     */
-    private RequestOperatorRepository() {
-        super(RequestOperator.class, RequestOperatorFactory.class);
-        RequestOperatorRepository.instance = this;
-    }
+    private Collection<RequestOperator> components;
+    @Inject
+    private Collection<RequestOperatorFactory> componentFactories;
 
     @Override
-    protected void processImplementations(Map<RequestOperatorKey, Producer<RequestOperator>> implementations) {
+    public void init() {
+        RequestOperatorRepository.instance = this;
+        Map<RequestOperatorKey, Producer<RequestOperator>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
         this.requestOperators.clear();
         this.requestOperators.putAll(implementations);
-    }
-
-    @Override
-    public void update() throws ConfigurationException {
-        this.operationHandlerRepository.update();
-        super.update();
     }
 
     public RequestOperator getRequestOperator(RequestOperatorKey key) {

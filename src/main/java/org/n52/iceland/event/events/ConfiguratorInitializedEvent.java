@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.event.events;
 
-import org.springframework.format.annotation.DateTimeFormat;
-
 import org.n52.iceland.event.ServiceEvent;
 
 /**

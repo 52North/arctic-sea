@@ -37,6 +37,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
@@ -55,16 +56,17 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
             .getLogger(AbstractCodingRepository.class);
 
     private final Set<Producer<C>> components = Sets.newHashSet();
-    private final SetMultimap<K, Producer<C>> componentsByKey = HashMultimap
-            .create();
+    private final SetMultimap<K, Producer<C>> componentsByKey = HashMultimap.create();
 
-    public AbstractCodingRepository(Class<?> componentClass,
-                                    Class<?> factoryClass) {
-        super(componentClass, factoryClass);
+    public Set<Producer<C>> getComponentProviders() {
+        return Collections.unmodifiableSet(this.components);
     }
 
-    @Override
-    protected void processImplementations(SetMultimap<K, Producer<C>> implementations) {
+    public SetMultimap<K, Producer<C>> getComponentProvidersByKey() {
+        return Multimaps.unmodifiableSetMultimap(componentsByKey);
+    }
+
+    protected void setProducers(SetMultimap<K, Producer<C>> implementations) {
         this.componentsByKey.clear();
         this.componentsByKey.putAll(implementations);
         this.components.clear();

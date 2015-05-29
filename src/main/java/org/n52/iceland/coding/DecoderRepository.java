@@ -16,12 +16,16 @@
  */
 package org.n52.iceland.coding;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+
+import javax.inject.Inject;
 
 import org.n52.iceland.decode.Decoder;
 import org.n52.iceland.decode.DecoderFactory;
 import org.n52.iceland.decode.DecoderKey;
+import org.n52.iceland.lifecycle.Constructable;
 
 /**
  * TODO JavaDoc
@@ -29,10 +33,16 @@ import org.n52.iceland.decode.DecoderKey;
  * @author Christian Autermann
  */
 public class DecoderRepository
-        extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory> {
+        extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory> implements Constructable {
 
-    public DecoderRepository() {
-        super(Decoder.class, DecoderFactory.class);
+    @Inject
+    private Collection<Decoder<?, ?>> decoders;
+    @Inject
+    private Collection<DecoderFactory> decoderFactories;
+
+    @Override
+    public void init() {
+        setProducers(getProviders(decoders, decoderFactories));
     }
 
     public Set<Decoder<?, ?>> getDecoders() {

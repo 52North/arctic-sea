@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.cache;
 
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.lifecycle.Destroyable;
+import org.n52.iceland.ogc.ows.OwsExceptionReport;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>

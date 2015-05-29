@@ -17,18 +17,20 @@
 package org.n52.iceland.encode;
 
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.function.Function;
 
+import javax.inject.Inject;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Comparables;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Sets;
 
@@ -40,30 +42,29 @@ import com.google.common.collect.Sets;
  *
  * @since 4.0.0
  */
-public class ResponseWriterRepository extends AbstractUniqueKeyComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory> {
+public class ResponseWriterRepository extends AbstractComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory> implements Constructable {
 
     private static ResponseWriterRepository instance;
 
     private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper.synchronizedMap();
 
+    @Inject
+    private Collection<ResponseWriter<?>> components;
 
-    public ResponseWriterRepository() {
-        super(ResponseWriter.class, ResponseWriterFactory.class);
-        ResponseWriterRepository.instance = this;
-    }
-
-    public static ResponseWriterRepository getInstance() {
-        return ResponseWriterRepository.instance;
-    }
+    @Inject
+    private Collection<ResponseWriterFactory> componentFactories;
 
     @Override
-    protected void processImplementations(Map<ResponseWriterKey, Producer<ResponseWriter<?>>> implementations) {
+    public void init() {
+        ResponseWriterRepository.instance = this;
+        Map<ResponseWriterKey, Producer<ResponseWriter<?>>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
         this.writersByClass.clear();
         this.writersByClass.putAll(implementations);
     }
 
     @SuppressWarnings("unchecked")
-	public <T> ResponseWriter<T> getWriter(final Class<? extends T> clazz) {
+    public <T> ResponseWriter<T> getWriter(final Class<? extends T> clazz) {
         ResponseWriterKey key = new ResponseWriterKey(clazz);
         if (!writersByClass.containsKey(key)) {
             Set<Class<?>> compatible = Sets.newHashSet();
@@ -77,12 +78,17 @@ public class ResponseWriterRepository extends AbstractUniqueKeyComponentReposito
         return (ResponseWriter<T>) writersByClass.get(key).get();
     }
 
-    private ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
+	private  ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
         if (compatible.isEmpty()) {
             return null;
         }
         Comparator<Class<?>> comparator = new ClassSimilarityComparator(clazz);
         return new ResponseWriterKey(Collections.min(compatible, comparator));
+    }
+
+    @Deprecated
+    public static ResponseWriterRepository getInstance() {
+        return ResponseWriterRepository.instance;
     }
 
     private class ClassSimilarityComparator implements Comparator<Class<?>> {

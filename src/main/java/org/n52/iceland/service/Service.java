@@ -23,6 +23,7 @@ import java.util.Enumeration;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -64,6 +65,9 @@ public class Service extends HttpServlet {
     public static final String BINDING_GET_METHOD = "doGetOperation";
 
     private static final AtomicLong counter = new AtomicLong(0);
+
+    @Inject
+    private BindingRepository bindingRepository;
 
     protected HttpServletRequest logRequest(HttpServletRequest request, long count) {
         if (LOGGER.isDebugEnabled()) {
@@ -216,11 +220,10 @@ public class Service extends HttpServlet {
      */
     private Binding getBinding(HttpServletRequest request) throws HTTPException {
         final String requestURI = request.getPathInfo();
-        final BindingRepository repo = BindingRepository.getInstance();
         if (requestURI == null || requestURI.isEmpty() || requestURI.equals("/")) {
             MediaType contentType = getContentType(request);
             // strip of the parameters to get rid of things like encoding
-            Binding binding = repo.getBinding(contentType.withoutParameters());
+            Binding binding = this.bindingRepository.getBinding(contentType.withoutParameters());
             if (binding == null) {
                 throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
             } else {
@@ -228,9 +231,9 @@ public class Service extends HttpServlet {
             }
         }
 
-        for (String prefix : repo.getAllBindingsByPath().keySet()) {
+        for (String prefix : this.bindingRepository.getAllBindingsByPath().keySet()) {
             if (requestURI.startsWith(prefix)) {
-                return repo.getBinding(prefix);
+                return this.bindingRepository.getBinding(prefix);
             }
         }
         throw new HTTPException(HTTPStatus.NOT_FOUND);

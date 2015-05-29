@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.service.operator;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -23,14 +24,13 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
-import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -40,7 +40,7 @@ import com.google.common.collect.Sets;
  *
  * @since 4.0.0
  */
-public class ServiceOperatorRepository extends AbstractUniqueKeyComponentRepository<ServiceOperatorKey, ServiceOperator, ServiceOperatorFactory> {
+public class ServiceOperatorRepository extends AbstractComponentRepository<ServiceOperatorKey, ServiceOperator, ServiceOperatorFactory> implements Constructable{
     @Deprecated
     private static ServiceOperatorRepository instance;
     /**
@@ -55,37 +55,16 @@ public class ServiceOperatorRepository extends AbstractUniqueKeyComponentReposit
     private final Set<String> supportedServices = Sets.newHashSet();
 
     @Inject
-    private RequestOperatorRepository requestOperatorRepository;
+    private Collection<ServiceOperator> components;
+    @Inject
+    private Collection<ServiceOperatorFactory> componentFactories;
 
-    /**
-     * Load implemented request listener
-     *
-     * @throws ConfigurationException
-     *             If no request listener is implemented
-     */
-    private ServiceOperatorRepository() throws ConfigurationException {
-        super(ServiceOperator.class, ServiceOperatorFactory.class);
-        ServiceOperatorRepository.instance = this;
-    }
-
-    @Deprecated
-    public static ServiceOperatorRepository getInstance() {
-        return ServiceOperatorRepository.instance;
-    }
-
-    /**
-     * Load the implemented request listener and add them to a map with
-     * operation name as key
-     *
-     * @param implementations
-     *            the loaded implementations
-     *
-     * @throws ConfigurationException
-     *             If no request listener is implemented
-     */
     @Override
-    protected void processImplementations(final Map<ServiceOperatorKey, Producer<ServiceOperator>> implementations)
-            throws ConfigurationException {
+    public void init() {
+        ServiceOperatorRepository.instance = this;
+        Map<ServiceOperatorKey, Producer<ServiceOperator>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
+
         this.serviceOperators.clear();
         this.supportedServices.clear();
         this.supportedVersions.clear();
@@ -97,19 +76,6 @@ public class ServiceOperatorRepository extends AbstractUniqueKeyComponentReposit
             this.supportedServices.add(key.getService());
             this.supportedVersions.add(key.getService(), key.getVersion());
         }
-    }
-
-
-    /**
-     * Update/reload the implemented request listener
-     *
-     * @throws ConfigurationException
-     *             If no request listener is implemented
-     */
-    @Override
-    public void update() {
-        this.requestOperatorRepository.update();
-        super.update();
     }
 
     /**
@@ -129,7 +95,7 @@ public class ServiceOperatorRepository extends AbstractUniqueKeyComponentReposit
     public Set<ServiceOperatorKey> getServiceOperatorKeyTypes() {
         return getServiceOperatorKeys();
     }
-    
+
     public Set<ServiceOperatorKey> getServiceOperatorKeys() {
         return getServiceOperators().keySet();
     }
@@ -191,6 +157,11 @@ public class ServiceOperatorRepository extends AbstractUniqueKeyComponentReposit
 
     public boolean isServiceSupported(final String service) {
         return supportedServices.contains(service);
+    }
+
+    @Deprecated
+    public static ServiceOperatorRepository getInstance() {
+        return ServiceOperatorRepository.instance;
     }
 
 }

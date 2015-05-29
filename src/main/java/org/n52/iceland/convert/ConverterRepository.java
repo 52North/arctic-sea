@@ -16,13 +16,16 @@
  */
 package org.n52.iceland.convert;
 
-
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
 
 import com.google.common.collect.Sets;
 
@@ -33,27 +36,25 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 @SuppressWarnings("rawtypes")
-public class ConverterRepository extends AbstractUniqueKeyComponentRepository<ConverterKeyType, Converter<?,?>, ConverterFactory> {
+public class ConverterRepository extends AbstractComponentRepository<ConverterKeyType, Converter<?, ?>, ConverterFactory> implements Constructable {
     private static ConverterRepository instance;
 
+    @Inject
+    private Collection<Converter<?, ?>> components;
+    @Inject
+    private Collection<ConverterFactory> componentFactories;
 
-    @Deprecated
-    public static ConverterRepository getInstance() {
-        return ConverterRepository.instance;
-    }
 
-    private final Map<ConverterKeyType, Producer<Converter<?,?>>> converter = new HashMap<>(0);
-
-    public ConverterRepository() {
-        super(Converter.class, ConverterFactory.class);
-        ConverterRepository.instance = this;
-    }
+    private final Map<ConverterKeyType, Producer<Converter<?, ?>>> converter
+            = new HashMap<>(0);
 
     @Override
-    protected void processImplementations(Map<ConverterKeyType, Producer<Converter<?,?>>> implementations) {
+    public void init() {
+        // TODO check for encoder/decoder used by converter
+        Map<ConverterKeyType, Producer<Converter<?, ?>>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
         this.converter.clear();
         this.converter.putAll(implementations);
-        // TODO check for encoder/decoder used by converter
     }
 
     public <T, F> Converter<T, F> getConverter(final String fromNamespace, final String toNamespace) {
@@ -62,7 +63,7 @@ public class ConverterRepository extends AbstractUniqueKeyComponentRepository<Co
 
     @SuppressWarnings("unchecked")
     public <T, F> Converter<T, F> getConverter(final ConverterKeyType key) {
-        Producer<Converter<?,?>> producer = converter.get(key);
+        Producer<Converter<?, ?>> producer = converter.get(key);
         if (producer == null) {
             return null;
         }
@@ -74,7 +75,8 @@ public class ConverterRepository extends AbstractUniqueKeyComponentRepository<Co
      * requested format to default format
      *
      * @param toNamespace
-     *            Requested format
+     *                    Requested format
+     *
      * @return Swt with all possible formats
      */
     public Set<String> getFromNamespaceConverterTo(final String toNamespace) {
@@ -92,9 +94,10 @@ public class ConverterRepository extends AbstractUniqueKeyComponentRepository<Co
      * default format to the requested format
      *
      * @param fromNamespace
-     *            Default format
+     *                      Default format
      * @param toNamespace
-     *            Requested fromat
+     *                      Requested fromat
+     *
      * @return If a converter is available
      */
     public boolean hasConverter(final String fromNamespace, final String toNamespace) {
@@ -103,5 +106,10 @@ public class ConverterRepository extends AbstractUniqueKeyComponentRepository<Co
 
     public boolean hasConverter(ConverterKeyType key) {
         return this.converter.containsKey(key);
+    }
+
+    @Deprecated
+    public static ConverterRepository getInstance() {
+        return ConverterRepository.instance;
     }
 }

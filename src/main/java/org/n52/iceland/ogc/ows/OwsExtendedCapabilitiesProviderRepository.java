@@ -24,8 +24,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
-import org.n52.iceland.config.SettingsManager;
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.util.CollectionHelper;
@@ -48,25 +48,30 @@ import com.google.common.collect.Sets;
  *
  */
 public class OwsExtendedCapabilitiesProviderRepository
-        extends AbstractUniqueKeyComponentRepository<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider, OwsExtendedCapabilitiesProviderFactory>
+        extends AbstractComponentRepository<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider, OwsExtendedCapabilitiesProviderFactory>
         implements ActivationManager<OwsExtendedCapabilitiesProviderKey>,
-                   ActivationSource<OwsExtendedCapabilitiesProviderKey> {
+                   ActivationSource<OwsExtendedCapabilitiesProviderKey>,
+                   Constructable {
     @Deprecated
     private static OwsExtendedCapabilitiesProviderRepository instance;
 
     private final Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProvider = new HashMap<>();
 
     @Inject
-    private SettingsManager settingsManager;
+    private Collection<OwsExtendedCapabilitiesProvider> components;
 
-    private ActivationListeners<OwsExtendedCapabilitiesProviderKey> activations;
+    @Inject
+    private Collection<OwsExtendedCapabilitiesProviderFactory> componentFactories;
 
-    /**
-     * Load implemented {@link OwsExtendedCapabilities}.
-     */
-    public OwsExtendedCapabilitiesProviderRepository() {
-        super(OwsExtendedCapabilitiesProvider.class, OwsExtendedCapabilitiesProviderFactory.class);
+    private final ActivationListeners<OwsExtendedCapabilitiesProviderKey> activations = new ActivationListeners<>(true);
+
+    @Override
+    public void init() {
         OwsExtendedCapabilitiesProviderRepository.instance = this;
+        Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> implemtations
+                = getUniqueProviders(this.components, this.componentFactories);
+        this.extendedCapabilitiesProvider.clear();
+        this.extendedCapabilitiesProvider.putAll(implemtations);
     }
 
     @Override
@@ -97,12 +102,6 @@ public class OwsExtendedCapabilitiesProviderRepository
     @Override
     public void deactivate(OwsExtendedCapabilitiesProviderKey key) {
         this.activations.deactivate(key);
-    }
-
-    @Override
-    protected void processImplementations(Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> providers) {
-        this.extendedCapabilitiesProvider.clear();
-        this.extendedCapabilitiesProvider.putAll(providers);
     }
 
     /**

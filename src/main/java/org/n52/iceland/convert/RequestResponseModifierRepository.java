@@ -16,9 +16,13 @@
  */
 package org.n52.iceland.convert;
 
+import java.util.Collection;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.util.Producer;
@@ -30,7 +34,7 @@ import com.google.common.collect.SetMultimap;
 
 @SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository extends
-		      AbstractComponentRepository<RequestResponseModifierKeyType, RequestResponseModifier, RequestResponseModifierFactory> {
+		      AbstractComponentRepository<RequestResponseModifierKeyType, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
 
     @Deprecated
 	private static RequestResponseModifierRepository instance;
@@ -38,13 +42,17 @@ public class RequestResponseModifierRepository extends
 	private final ListMultimap<RequestResponseModifierKeyType, Producer<RequestResponseModifier>> requestResponseModifier
             = LinkedListMultimap.create();
 
-    public RequestResponseModifierRepository() {
-        super(RequestResponseModifier.class, RequestResponseModifierFactory.class);
-        RequestResponseModifierRepository.instance = this;
-    }
+    @Inject
+    private Collection<RequestResponseModifier> components;
+
+    @Inject
+    private Collection<RequestResponseModifierFactory> componentFactories;
 
     @Override
-    protected void processImplementations(SetMultimap<RequestResponseModifierKeyType, Producer<RequestResponseModifier>> implementations) {
+    public void init() {
+        RequestResponseModifierRepository.instance = this;
+        SetMultimap<RequestResponseModifierKeyType, Producer<RequestResponseModifier>> implementations
+                = getProviders(this.components, this.componentFactories);
         this.requestResponseModifier.clear();
         for (RequestResponseModifierKeyType key : implementations.keySet()) {
             requestResponseModifier.putAll(key, implementations.get(key));

@@ -16,16 +16,22 @@
  */
 package org.n52.iceland.binding;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.component.AbstractUniqueKeyComponentRepository;
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.convert.Converter;
+import org.n52.iceland.convert.ConverterFactory;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.Producers;
 import org.n52.iceland.util.activation.Activatables;
@@ -42,14 +48,24 @@ import com.google.common.collect.Maps;
  *
  * @since 4.0.0
  */
-public class BindingRepository extends AbstractUniqueKeyComponentRepository<BindingKey, Binding, BindingFactory>
+public class BindingRepository extends AbstractComponentRepository<BindingKey, Binding, BindingFactory>
         implements ActivationManager<BindingKey>,
-                   ActivationSource<BindingKey> {
+                   ActivationSource<BindingKey>,
+                   Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(BindingRepository.class);
     @Deprecated
     private static BindingRepository instance;
 
     private final ActivationListeners<BindingKey> activation = new ActivationListeners<>(true);
+
+    private final Map<PathBindingKey, Producer<Binding>> byPath = Maps.newHashMap();
+    private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
+    private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
+
+    @Inject
+    private Collection<Binding> components;
+    @Inject
+    private Collection<BindingFactory> componentFactories;
 
     @Override
     public void registerListener(ActivationListener<BindingKey> listener) {
@@ -86,31 +102,15 @@ public class BindingRepository extends AbstractUniqueKeyComponentRepository<Bind
         this.activation.setActive(bk, active);
     }
 
-    @Deprecated
-    public static BindingRepository getInstance() {
-        return BindingRepository.instance;
-    }
-
-    private final Map<PathBindingKey, Producer<Binding>> byPath = Maps.newHashMap();
-    private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
-    private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
-
-    public BindingRepository() {
-        super(Binding.class, BindingFactory.class);
-    }
-
     @Override
     public void init() {
-        super.init();
         BindingRepository.instance = this;
-    }
-
-    @Override
-    protected void processImplementations(Map<BindingKey, Producer<Binding>> bindings) {
+        Map<BindingKey, Producer<Binding>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
         this.bindings.clear();
         this.byMediaType.clear();
         this.byPath.clear();
-        for (Entry<BindingKey, Producer<Binding>> entry : bindings.entrySet()) {
+        for (Entry<BindingKey, Producer<Binding>> entry : implementations.entrySet()) {
             BindingKey key = entry.getKey();
             Producer<Binding> binding = entry.getValue();
             this.bindings.put(key, binding);
@@ -211,5 +211,10 @@ public class BindingRepository extends AbstractUniqueKeyComponentRepository<Bind
             map.put(key.getMediaType(), producer.get());
         }
         return map;
+    }
+
+    @Deprecated
+    public static BindingRepository getInstance() {
+        return BindingRepository.instance;
     }
 }

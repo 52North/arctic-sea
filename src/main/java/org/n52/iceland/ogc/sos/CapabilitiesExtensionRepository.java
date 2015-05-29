@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.ogc.sos;
 
+import static org.n52.iceland.util.Producers.produce;
+
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,6 +31,7 @@ import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -41,7 +45,7 @@ import com.google.common.collect.SetMultimap;
  *
  */
 public class CapabilitiesExtensionRepository extends
-        AbstractComponentRepository<CapabilitiesExtensionKey, CapabilitiesExtensionProvider, CapabilitiesExtensionProviderFactory> {
+        AbstractComponentRepository<CapabilitiesExtensionKey, CapabilitiesExtensionProvider, CapabilitiesExtensionProviderFactory> implements Constructable{
     @Deprecated
     private static CapabilitiesExtensionRepository instance;
     @Inject
@@ -53,12 +57,19 @@ public class CapabilitiesExtensionRepository extends
     private final ListMultimap<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> providers
             = LinkedListMultimap.create();
 
+    @Inject
+    private Collection<CapabilitiesExtensionProvider> components;
+    @Inject
+    private Collection<CapabilitiesExtensionProviderFactory> componentFactories;
+
     @Override
-    protected void processImplementations(
-            SetMultimap<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> implementations) {
+    public void init() {
+        CapabilitiesExtensionRepository.instance = this;
+
+        SetMultimap<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> implementations
+                = getProviders(this.components, this.componentFactories);
         this.providers.clear();
-        for (Entry<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> entry
-             : implementations.entries()) {
+        for (Entry<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> entry: implementations.entries()) {
             CapabilitiesExtensionKey key = entry.getKey();
             Producer<CapabilitiesExtensionProvider> value = entry.getValue();
             CapabilitiesExtensionProvider provider = value.get();
@@ -70,38 +81,7 @@ public class CapabilitiesExtensionRepository extends
         }
     }
 
-    @Deprecated
-    public static CapabilitiesExtensionRepository getInstance() {
-        return CapabilitiesExtensionRepository.instance;
-    }
-
-    /**
-     * Load implemented Capabilities extension provider
-     *
-     * @throws ConfigurationException
-     *                                If no Capabilities extension provider is implemented
-     */
-    private CapabilitiesExtensionRepository()
-            throws ConfigurationException {
-        super(CapabilitiesExtensionProvider.class, CapabilitiesExtensionProviderFactory.class);
-    }
-
-    /**
-     * Load the implemented Capabilities extension provider and add them to a
-     * map with operation name as key
-     *
-     * @param implementations
-     *                        the loaded implementations
-     */
-    protected void processImplementations(
-            Map<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> implementations) {
-        providers.clear();
-
-    }
-
-    public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(
-            CapabilitiesExtensionKey key)
-            throws OwsExceptionReport {
+    public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(CapabilitiesExtensionKey key) throws OwsExceptionReport {
         return getAllValidCapabilitiesExtensionProvider(key, providers.get(key));
     }
 
@@ -157,9 +137,15 @@ public class CapabilitiesExtensionRepository extends
     private boolean checkIfRelatedOperationIsActivated(
             CapabilitiesExtensionKey key, String relatedOperation) {
         RequestOperatorKey rok = new RequestOperatorKey(key.getService(),
-                                                        key.getVersion(),
-                                                        relatedOperation);
+                key.getVersion(),
+                relatedOperation);
         return this.requestOperatorRepository.isActive(rok);
+    }
+
+    @Deprecated
+    public static CapabilitiesExtensionRepository getInstance(
+    ) {
+        return CapabilitiesExtensionRepository.instance;
     }
 
 }
