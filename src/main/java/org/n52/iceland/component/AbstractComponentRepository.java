@@ -16,7 +16,10 @@
  */
 package org.n52.iceland.component;
 
+
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -65,13 +68,18 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     private CompositeLoaderStrategy loader;
     private ApplicationContext applicationContext;
 
+    @Inject
+    private Collection<C> components;
+
+    @Inject
+    private Collection<F> factories;
+
     protected AbstractComponentRepository(Class<?> componentClass,
                                           Class<?> factoryClass) {
         this.componentClass = componentClass;
         this.factoryClass = factoryClass;
     }
 
-    @Inject
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
@@ -80,7 +88,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     @SuppressWarnings("unchecked")
     public void init() {
         this.loader = new CompositeLoaderStrategy(
-                this.factoryClass, this.componentClass, this.applicationContext,
+                this.factoryClass, this.componentClass,
                 createSpringLoader(), createServiceLoader());
 
         LOG.debug("Loading Implementations for {}", componentClass);
@@ -96,8 +104,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
     private SpringComponentLoaderStrategy createSpringLoader() {
         return new SpringComponentLoaderStrategy(this.factoryClass,
-                                                 this.componentClass,
-                                                 this.applicationContext);
+                                                 this.componentClass);
     }
 
     public void update() {
@@ -148,18 +155,15 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         CompositeLoaderStrategy(Class<?> factoryClass,
                                 Class<?> componentClass,
-                                ApplicationContext applicationContext,
                                 ComponentLoaderStrategy... strategies) {
             this(factoryClass, componentClass,
-                 applicationContext,
                  Arrays.asList(strategies));
         }
 
         CompositeLoaderStrategy(Class<?> factoryClass,
                                 Class<?> componentClass,
-                                ApplicationContext applicationContext,
                                 Iterable<ComponentLoaderStrategy> strategies) {
-            super(factoryClass, componentClass, applicationContext);
+            super(factoryClass, componentClass);
             this.strategies = strategies;
         }
 
@@ -191,31 +195,20 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     private class SpringComponentLoaderStrategy extends ComponentLoaderStrategy {
 
         SpringComponentLoaderStrategy(Class<?> factoryClass,
-                                      Class<?> componentClass,
-                                      ApplicationContext ctx) {
-            super(factoryClass, componentClass, ctx);
+                                      Class<?> componentClass) {
+            super(factoryClass, componentClass);
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Set<C> findComponents() {
-            Map<String, ?> beans = getApplicationContext().getBeansOfType(getComponentClass());
-            Set<C> set = Sets.newHashSetWithExpectedSize(beans.size());
-            for (Object bean : beans.values()) {
-                set.add((C) bean);
-            }
-            return set;
+            return new HashSet<>(AbstractComponentRepository.this.components);
         }
 
         @Override
         @SuppressWarnings("unchecked")
         public Set<F> findComponentFactories() {
-            Map<String, ?> beans = getApplicationContext().getBeansOfType(getFactoryClass());
-            Set<F> set = Sets.newHashSetWithExpectedSize(beans.size());
-            for (Object bean : beans.values()) {
-                set.add((F) bean);
-            }
-            return set;
+            return new HashSet<>(AbstractComponentRepository.this.factories);
         }
 
     }
@@ -267,7 +260,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         ConfiguringComponentLoaderStrategy(Class<?> factoryClass,
                                            Class<?> componentClass,
                                            ApplicationContext ctx) {
-            super(factoryClass, componentClass, ctx);
+            super(factoryClass, componentClass);
             this.settingsManager = ctx.getBean(SettingsManager.class);
             this.autowireCapableBeanFactory = ctx.getAutowireCapableBeanFactory();
         }
@@ -293,14 +286,11 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         private final Class<?> factoryClass;
         private final Class<?> componentClass;
-        private final ApplicationContext applicationContext;
 
         ComponentLoaderStrategy(Class<?> factoryClass,
-                                Class<?> componentClass,
-                                ApplicationContext ctx) {
+                                Class<?> componentClass) {
             this.factoryClass = Objects.requireNonNull(factoryClass);
             this.componentClass = Objects.requireNonNull(componentClass);
-            this.applicationContext = Objects.requireNonNull(ctx);
         }
 
         protected Class<?> getComponentClass() {
@@ -309,10 +299,6 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         protected Class<?> getFactoryClass() {
             return this.factoryClass;
-        }
-
-        public ApplicationContext getApplicationContext() {
-            return applicationContext;
         }
 
         public abstract Set<C> findComponents();

@@ -28,7 +28,6 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -52,13 +51,11 @@ import com.google.common.collect.SetMultimap;
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
  * classes to change, delete, and declare settings and to create, modify and
- * delete administrator users. {@code SettingDefinition} are loaded from
- * {@link SettingDefinitionProvider} by the Java {@link ServiceLoader}
- * interface. Classes can subscribe to specific settings using the
- * {@code Configurable} and {@code Setting} annotations. To be recognized by the
- * SettingsManager {@link #configure(java.lang.Object)} has to be called for
- * every object that wants to receive settings. All other classes have to
- * call {@code configure(java.lang.Object)} manually.
+ * delete administrator users. Classes can subscribe to specific settings using
+ * the {@code Configurable} and {@code Setting} annotations. To be recognized by
+ * the SettingsManager {@link #configure(java.lang.Object)} has to be called for
+ * every object that wants to receive settings. All other classes have to call
+ * {@code configure(java.lang.Object)} manually.
  *
  *
  * @see AdministratorUser

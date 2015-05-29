@@ -16,12 +16,10 @@
  */
 package org.n52.iceland.event;
 
+import java.util.Collection;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
@@ -29,55 +27,33 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
  * @since 4.0.0
  */
-public class ServiceEventBus {
+public class ServiceEventBus implements Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceEventBus.class);
+
+    @Deprecated
+    private static ServiceEventBus instance;
 
     private static final boolean ASYNCHRONOUS_EXECUTION = false;
 
     private static final int THREAD_POOL_SIZE = 3;
 
     private static final String THREAD_GROUP_NAME = "SosEventBus-Worker";
-
-    public static ServiceEventBus getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    public static void fire(ServiceEvent event) {
-        getInstance().submit(event);
-    }
-
-    private static boolean checkEvent(ServiceEvent event) {
-        if (event == null) {
-            LOG.warn("Submitted event is null!");
-            return false;
-        }
-        return true;
-    }
-
-    private static boolean checkListener(ServiceEventListener listener) {
-        if (listener == null) {
-            LOG.warn("Tried to unregister SosEventListener null");
-            return false;
-        }
-        if (listener.getTypes() == null || listener.getTypes().isEmpty()) {
-            LOG.warn("Listener {} has no EventTypes", listener);
-            return false;
-        }
-        return true;
-    }
 
     private final ClassCache classCache = new ClassCache();
 
@@ -90,19 +66,36 @@ public class ServiceEventBus {
 
     private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<>();
 
-    private ServiceEventBus() {
-        loadListenerImplementations();
+
+    @Override
+    public void init() {
+        ServiceEventBus.instance = this;
     }
 
-    private void loadListenerImplementations() {
-        final ServiceLoader<ServiceEventListener> serviceLoader = ServiceLoader.load(ServiceEventListener.class);
-        final Iterator<ServiceEventListener> iter = serviceLoader.iterator();
-        while (iter.hasNext()) {
-            try {
-                register(iter.next());
-            } catch (final ServiceConfigurationError e) {
-                LOG.error("Could not load Listener implementation", e);
-            }
+    private boolean checkEvent(ServiceEvent event) {
+        if (event == null) {
+            LOG.warn("Submitted event is null!");
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkListener(ServiceEventListener listener) {
+        if (listener == null) {
+            LOG.warn("Tried to unregister SosEventListener null");
+            return false;
+        }
+        if (listener.getTypes() == null || listener.getTypes().isEmpty()) {
+            LOG.warn("Listener {} has no EventTypes", listener);
+            return false;
+        }
+        return true;
+    }
+
+    @Inject
+    public void setServiceEventListener(Collection<ServiceEventListener> listeners) {
+        for (ServiceEventListener listener : listeners) {
+            register(listener);
         }
     }
 
@@ -115,7 +108,7 @@ public class ServiceEventBus {
 
                 if (listenersForClass != null) {
                     LOG.trace("Adding {} Listeners for event {} (eventType={})", listenersForClass.size(), event,
-                            eventType);
+                                                                                                           eventType);
                     result.addAll(listenersForClass);
                 } else {
                     LOG.trace("Adding 0 Listeners for event {} (eventType={})", event, eventType);
@@ -125,7 +118,7 @@ public class ServiceEventBus {
         } finally {
             lock.readLock().unlock();
         }
-        return new HashSet<ServiceEventListener>(result);
+        return new HashSet<>(result);
     }
 
     public void submit(final ServiceEvent event) {
@@ -156,7 +149,7 @@ public class ServiceEventBus {
         }
     }
 
-    public void register(final ServiceEventListener listener) {
+    public void register(ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
         }
@@ -171,7 +164,7 @@ public class ServiceEventBus {
         }
     }
 
-    public void unregister(final ServiceEventListener listener) {
+    public void unregister(ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
         }
@@ -191,10 +184,14 @@ public class ServiceEventBus {
         }
     }
 
-    private static class LazyHolder {
-        private static final ServiceEventBus INSTANCE = new ServiceEventBus();
+    @Deprecated
+    public static ServiceEventBus getInstance() {
+        return ServiceEventBus.instance;
+    }
 
-        private LazyHolder() {}
+    @Deprecated
+    public static void fire(ServiceEvent event) {
+        getInstance().submit(event);
     }
 
     private class ClassCache {
