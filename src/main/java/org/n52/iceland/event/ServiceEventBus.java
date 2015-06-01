@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.event;
 
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -26,8 +25,6 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-
-import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,13 +87,6 @@ public class ServiceEventBus implements Constructable {
             return false;
         }
         return true;
-    }
-
-    @Inject
-    public void setServiceEventListener(Collection<ServiceEventListener> listeners) {
-        for (ServiceEventListener listener : listeners) {
-            register(listener);
-        }
     }
 
     private Set<ServiceEventListener> getListenersForEvent(final ServiceEvent event) {
