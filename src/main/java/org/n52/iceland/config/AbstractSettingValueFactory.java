@@ -129,7 +129,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     private SettingValue<String> newChoiceSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         ChoiceSettingDefinition def = (ChoiceSettingDefinition) setting;
-        if (!def.hasOption(stringValue)) {
+        if (stringValue != null && !def.hasOption(stringValue)) {
             throw new ConfigurationException("Invalid choice value");
         }
         return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
@@ -179,10 +179,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         if (nullOrEmpty(stringValue)) {
             return Boolean.FALSE;
         }
-        stringValue = stringValue.trim().toLowerCase();
-        if (VALID_FALSE_VALUES.contains(stringValue)) {
+        String trimmedLowerCase = stringValue.trim().toLowerCase();
+        if (VALID_FALSE_VALUES.contains(trimmedLowerCase)) {
             return Boolean.FALSE;
-        } else if (VALID_TRUE_VALUES.contains(stringValue)) {
+        } else if (VALID_TRUE_VALUES.contains(trimmedLowerCase)) {
             return Boolean.TRUE;
         } else {
             throw new IllegalArgumentException(String.format("'%s' is not a valid boolean value", stringValue));
