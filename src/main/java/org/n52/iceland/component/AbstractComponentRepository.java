@@ -52,6 +52,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         SetMultimap<K, Producer<C>> providers = HashMultimap.create();
         if (factories != null && !factories.isEmpty()) {
             for (F factory : factories) {
+                LOG.info("Creating provider for component factory {}", factory);
                 for (K key : factory.getKeys()) {
                     Producer<C> provider = new FactoryProvider(factory, key);
                     providers.put(key, provider);
@@ -60,6 +61,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         }
         if (components != null && !components.isEmpty()) {
             for (C component : components) {
+                LOG.info("Creating provider for component {}", component);
                 Producer<C> provider = Producers.forInstance(component);
                 for (K key : component.getKeys()) {
                     providers.put(key, provider);
