@@ -33,7 +33,7 @@ To integrate 52°North Iceland into your Maven project, you can use this depende
 
 ## Requirements
 
-Java 7
+Java 8
 
 ## Contributing
 
