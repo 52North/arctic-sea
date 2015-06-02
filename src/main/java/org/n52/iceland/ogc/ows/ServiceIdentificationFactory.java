@@ -33,14 +33,12 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
-import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LazyThreadSafeProducer;
@@ -51,7 +49,7 @@ import org.n52.iceland.util.XmlHelper;
 import com.google.common.collect.Sets;
 
 @Configurable
-public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServiceIdentification> implements Constructable {
+public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServiceIdentification> {
 
     private File file;
     private String[] keywords;
@@ -64,12 +62,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     private Locale defaultLocale = Locale.ENGLISH;
 
     @Inject
-    private SettingsManager settingsManager;
-
-    @Override
-    public void init() {
-        this.settingsManager.configure(this);
-    }
+    private ServiceOperatorRepository serviceOperatorRepository;
 
     @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
     public void setDefaultLanguage(String lang) {
@@ -98,7 +91,8 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         if (title instanceof MultilingualString) {
             this.title = (MultilingualString) title;
         } else if (title instanceof String) {
-            this.title = new MultilingualString().addLocalization(this.defaultLocale, (String) title);
+            this.title = new MultilingualString()
+                    .addLocalization(this.defaultLocale, (String) title);
         } else {
             throw new ConfigurationException(
                     String.format("%s is not supported as title!", title.getClass().getName()));
@@ -112,7 +106,8 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         if (description instanceof MultilingualString) {
             this.abstrakt = (MultilingualString) description;
         } else if (description instanceof String) {
-            this.abstrakt = new MultilingualString().addLocalization(this.defaultLocale, (String) description);
+            this.abstrakt = new MultilingualString()
+                    .addLocalization(this.defaultLocale, (String) description);
         } else {
             throw new ConfigurationException(
                     String.format("%s is not supported as abstract!", description.getClass().getName()));
@@ -134,7 +129,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     }
 
     @Setting(FEES)
-    public void setFees(String fees) throws ConfigurationException {
+    public void setFees(String fees) {
         // Validation.notNullOrEmpty("Service Identification Fees", fees);
         this.fees = fees;
         setRecreate();
@@ -173,7 +168,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         serviceIdentification.setFees(this.fees);
         serviceIdentification.setServiceType(this.serviceType);
         serviceIdentification.setServiceTypeCodeSpace(this.serviceTypeCodeSpace);
-        Set<String> supportedVersions = ServiceOperatorRepository.getInstance().getSupportedVersions(SosConstants.SOS);
+        Set<String> supportedVersions = this.serviceOperatorRepository.getSupportedVersions(SosConstants.SOS);
         serviceIdentification.setVersions(supportedVersions);
         if (this.keywords != null) {
             serviceIdentification.setKeywords(Arrays.asList(this.keywords));

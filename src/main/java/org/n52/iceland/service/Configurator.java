@@ -31,10 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCacheController;
 import org.n52.iceland.ds.ConnectionProvider;
-import org.n52.iceland.ds.ConnectionProviderIdentificator;
 import org.n52.iceland.ds.DataConnectionProvider;
-import org.n52.iceland.ds.Datasource;
-import org.n52.iceland.ds.DatasourceDaoIdentifier;
 import org.n52.iceland.ds.FeatureConnectionProvider;
 import org.n52.iceland.ds.FeatureQueryHandler;
 import org.n52.iceland.ds.HibernateDatasourceConstants;
@@ -43,7 +40,6 @@ import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsServiceIdentification;
 import org.n52.iceland.ogc.ows.OwsServiceProvider;
@@ -52,7 +48,6 @@ import org.n52.iceland.ogc.ows.ServiceProviderFactory;
 import org.n52.iceland.util.LocalizedProducer;
 import org.n52.iceland.util.Producer;
 
-import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 /**
@@ -62,7 +57,7 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 @Deprecated
-public class Configurator implements Constructable, Destroyable {
+public class Configurator implements Constructable {
     private static final Logger LOGGER = LoggerFactory.getLogger(Configurator.class);
 
     /**
@@ -78,12 +73,13 @@ public class Configurator implements Constructable, Destroyable {
     @Deprecated
     private String basepath;
     private Properties dataConnectionProviderProperties;
-    private Properties featureConnectionProviderProperties;
     @Inject
+    @Deprecated
     private FeatureQueryHandler featureQueryHandler;
+    @Deprecated
 
     private ConnectionProvider dataConnectionProvider;
-
+    @Deprecated
     private ConnectionProvider featureConnectionProvider;
     @Inject
     @Deprecated
@@ -95,9 +91,10 @@ public class Configurator implements Constructable, Destroyable {
     @Inject
     private ServiceProviderFactory serviceProviderFactory;
     private Set<String> providedJdbcDrivers = Sets.newHashSet();
+    @Deprecated
     private String connectionProviderIdentificator;
+    @Deprecated
     private String datasourceDaoIdentificator;
-
 
     public Configurator() {
         // ugly hack for singleton access
@@ -116,60 +113,12 @@ public class Configurator implements Constructable, Destroyable {
 
     @Override
     public void init() throws ConfigurationException {
-        Properties connectionProviderConfig = DatabaseSettingsHandler.getInstance(this.servletContext).getAll();
         this.basepath = this.servletContext.getRealPath("/");
-        dataConnectionProviderProperties = connectionProviderConfig;
-        getIdentificators(dataConnectionProviderProperties);
-        if (Strings.isNullOrEmpty(connectionProviderIdentificator)) {
-            logAndThrowConfigurationException("No connection provider identificator available!");
+        checkForProvidedJdbc();
+        if (featureConnectionProvider == null) {
+            featureConnectionProvider = dataConnectionProvider;
         }
-        if (Strings.isNullOrEmpty(datasourceDaoIdentificator)) {
-            logAndThrowConfigurationException("No datasource DAO identificator available!");
-        }
-        LOGGER.info("Configurator initialized: [basepath={}]", this.basepath, dataConnectionProviderProperties);
-        this.initialize();
-    }
-
-    /**
-     * Get the {@link ConnectionProviderIdentificator} and
-     * {@link DatasourceDaoIdentifier} values from {@link Datasource}
-     * implementation
-     *
-     * @param dataConnectionProviderProperties
-     *            Datasource properties
-     */
-    private void getIdentificators(Properties dataConnectionProviderProperties) {
-        String className = dataConnectionProviderProperties.getProperty(Datasource.class.getCanonicalName());
-        if (className == null) {
-            LOGGER.error("Can not find datasource class in datasource.properties!");
-            throw new ConfigurationException("Missing Datasource Property!");
-        }
-        try {
-            Datasource datasource = (Datasource) Class.forName(className).newInstance();
-            connectionProviderIdentificator = datasource.getConnectionProviderIdentifier();
-            datasourceDaoIdentificator = datasource.getDatasourceDaoIdentifier();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-            LOGGER.error("Can not instantiate Datasource!", ex);
-            throw new ConfigurationException(ex);
-        }
-
-    }
-
-    private void logAndThrowConfigurationException(String message) {
-        LOGGER.info(message);
-        throw new ConfigurationException(message);
-    }
-
-    /**
-     * Initialize this class. Since this initialization is not done in the
-     * constructor, dependent classes can use the SosConfigurator already when
-     * called from here.
-     */
-    private void initialize() throws ConfigurationException {
-        LOGGER.info("\n******\n Configurator initialization started\n******\n");
-        initializeConnectionProviders();
         ServiceEventBus.fire(new ConfiguratorInitializedEvent());
-        LOGGER.info("\n******\n Configurator initialization finished\n******\n");
     }
 
     /**
@@ -263,40 +212,18 @@ public class Configurator implements Constructable, Destroyable {
         return this.providedJdbcDrivers;
     }
 
-    protected void initializeConnectionProviders() throws ConfigurationException {
-        checkForProvidedJdbc();
-        dataConnectionProvider.initialize(dataConnectionProviderProperties);
-        if (featureConnectionProvider != null) {
-            featureConnectionProvider.initialize(featureConnectionProviderProperties != null
-                                                 ? featureConnectionProviderProperties
-                                                 : dataConnectionProviderProperties);
-        } else {
-            featureConnectionProvider = dataConnectionProvider;
-        }
-    }
-
     /**
      * Check method if JDBC driver is provided.
      */
     private void checkForProvidedJdbc() {
-        if (!dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC)
-                || (dataConnectionProviderProperties.containsKey(HibernateDatasourceConstants.PROVIDED_JDBC) &&
-                    dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.PROVIDED_JDBC).equals("true"))) {
-            addProvidedJdbcDriver(dataConnectionProviderProperties.getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
+        String key = HibernateDatasourceConstants.PROVIDED_JDBC;
+        if (!dataConnectionProviderProperties.containsKey(key)
+                || (dataConnectionProviderProperties.containsKey(key) &&
+                    dataConnectionProviderProperties.getProperty(key).equals("true"))) {
+            addProvidedJdbcDriver(dataConnectionProviderProperties
+                    .getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
         }
     }
-
-    /**
-     * Eventually cleanup everything created by the constructor
-     */
-    @Override
-    public synchronized void destroy() {
-        cleanup(dataConnectionProvider);
-        cleanup(featureConnectionProvider);
-        instance = null;
-    }
-
-
 
     /**
      * @return the connectionProviderIdentificator
@@ -341,13 +268,7 @@ public class Configurator implements Constructable, Destroyable {
         return getInstance();
     }
 
-    private static void cleanup(Destroyable c) {
-        if (c != null) {
-            c.destroy();
-        }
-    }
-
-    protected static <T> T get(Producer<T> factory) throws OwsExceptionReport {
+    private static <T> T get(Producer<T> factory) throws OwsExceptionReport {
         try {
             return factory.get();
         } catch (Exception e) {
@@ -362,7 +283,7 @@ public class Configurator implements Constructable, Destroyable {
         }
     }
 
-    protected static <T> T get(LocalizedProducer<T> factory, Locale language)
+    private static <T> T get(LocalizedProducer<T> factory, Locale language)
             throws OwsExceptionReport {
         try {
             return factory.get(language);

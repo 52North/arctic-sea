@@ -37,33 +37,57 @@ public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> 
                     return create(key);
                 }
             });
+
     private T nullLocale = null;
 
     protected void setRecreate() {
-        lock.writeLock().lock();
+        this.lock.writeLock().lock();
         try {
-            this.nullLocale = create(null);
+            this.nullLocale = null;
         } finally {
-            lock.writeLock().unlock();
+            this.lock.writeLock().unlock();
         }
         this.cache.invalidateAll();
     }
 
     @Override
     public T get() throws ConfigurationException {
-        return get((Locale) null);
+        this.lock.readLock().lock();
+        try {
+            if (this.nullLocale != null) {
+                return this.nullLocale;
+            }
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
+        // default value is null, create it
+        this.lock.writeLock().lock();
+        try {
+            // check if someone was faster
+            if (this.nullLocale == null) {
+                // create it
+                this.nullLocale = create(null);
+            }
+            // downgrade to read lock
+            this.lock.readLock().lock();
+        } finally {
+            this.lock.writeLock().unlock();
+        }
+
+        try {
+            return this.nullLocale;
+        } finally {
+            this.lock.readLock().unlock();
+        }
+
     }
 
     @Override
     public T get(Locale language)
             throws ConfigurationException {
         if (language == null) {
-            this.lock.readLock().lock();
-            try {
-                return this.nullLocale;
-            } finally {
-                this.lock.readLock().unlock();
-            }
+            return get();
         } else {
             try {
                 return this.cache.getUnchecked(language);

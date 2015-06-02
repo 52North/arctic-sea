@@ -20,26 +20,29 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.function.Consumer;
 
 import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Function;
+
 /**
  * @param <A>
  * @author Shane StClair <shane@axiomalaska.com>
  * @since 4.0.0
- * 
+ *
  */
 public abstract class CompositeParallelAction<A extends ThreadableAction> extends CompositeAction<A> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeParallelAction.class);
-    
+
     private final ThreadFactory threadFactory;
-    
+
     private final ExecutorService executor;
-    
-    private CountDownLatch countDownLatch;    
+
+    private CountDownLatch countDownLatch;
 
     private String threadGroupName;
 
@@ -55,16 +58,15 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
         if (getActions() != null) {
             LOGGER.debug("Executing parallel actions");
             countDownLatch = new CountDownLatch(getActions().size());
-            
+
             //preprocess and submit actions
             for (A action : getActions()){
                 action.setParentCountDownLatch(countDownLatch);
                 pre(action);
-                executor.submit(action);   
+                executor.submit(action);
             }
+            long latchSize = this.countDownLatch.getCount();
 
-            long latchSize = countDownLatch.getCount();
-            
             //execute actions in parallel
             executor.shutdown(); // <-- will finish all submitted tasks
             // wait for all threads to finish
@@ -77,9 +79,7 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
             LOGGER.debug("Waiting for {} threads to finish", countDownLatch.getCount());
 
             //postprocess actions
-            for (A action : getActions()){
-                post(action);
-            }
+            getActions().forEach((action) -> { post(action); });
         }
     }
 }

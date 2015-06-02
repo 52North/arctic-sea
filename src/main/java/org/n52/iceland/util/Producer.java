@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.util;
 
+
 /**
  * Generic Factory interface.
  *
@@ -26,8 +27,10 @@ package org.n52.iceland.util;
  * @since 4.0.0
  *
  */
-public interface Producer<T> {
+@FunctionalInterface
+public interface Producer<T> extends java.util.function.Supplier<T>,
+                                     com.google.common.base.Supplier<T> {
 
+    @Override
     T get();
-
 }

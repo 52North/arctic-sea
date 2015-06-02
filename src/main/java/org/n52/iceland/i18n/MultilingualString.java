@@ -54,25 +54,39 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
         return Optional.fromNullable(getLocalizations().get(lang));
     }
 
+    @Deprecated
     public Optional<LocalizedString> getLocalizationOrDefault(Locale lang) {
-        Optional<LocalizedString> localization = getLocalization(lang);
-        if (localization.isPresent()) {
-            return localization;
-        }
-        return getDefaultLocalization();
+        Locale defaultLanguage
+                = ServiceConfiguration.getInstance().getDefaultLanguage();
+        return getLocalizationOrDefault(lang, defaultLanguage);
     }
 
+    public Optional<LocalizedString> getLocalizationOrDefault(Locale lang, Locale defaultLocale) {
+        return getLocalization(lang).or(getLocalization(defaultLocale));
+    }
+
+    @Deprecated
     public Optional<LocalizedString> getDefaultLocalization() {
-        return getLocalization(getDefaultLocale());
+        Locale defaultLanguage
+                = ServiceConfiguration.getInstance().getDefaultLanguage();
+        return getLocalization(defaultLanguage);
     }
 
-     public MultilingualString filter(Locale locale) {
-        if (locale == null) {
-            return isShowAllLocales() ? this : only(getDefaultLocale());
-        } else {
-            return hasLocale(locale) ? only(locale) : only(getDefaultLocale());
-        }
+    public MultilingualString filter(Locale locale) {
+        boolean showAllLanguageValues
+                = ServiceConfiguration.getInstance().isShowAllLanguageValues();
+        Locale defaultLanguage
+                = ServiceConfiguration.getInstance().getDefaultLanguage();
+        return filter(locale, defaultLanguage, showAllLanguageValues);
     }
+
+     public MultilingualString filter(Locale locale, Locale defaultLocale, boolean showAll) {
+         if (locale == null) {
+            return showAll ? this : only(defaultLocale);
+        } else {
+            return hasLocale(locale) ? only(locale) : only(defaultLocale);
+        }
+     }
 
     public Set<Locale> getLocales() {
         return Collections.unmodifiableSet(getLocalizations().keySet());
@@ -144,13 +158,5 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
             }
         }
         return mls;
-    }
-
-    protected boolean isShowAllLocales() {
-        return ServiceConfiguration.getInstance().isShowAllLanguageValues();
-    }
-
-    protected Locale getDefaultLocale() {
-        return ServiceConfiguration.getInstance().getDefaultLanguage();
     }
 }

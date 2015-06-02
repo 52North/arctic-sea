@@ -18,14 +18,15 @@ package org.n52.iceland.util.action;
 
 /**
  * This is an &Auml;ction, that can be executed.
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
- * 
+ *
  * @see <a href=
  *      "http://www.sfgate.com/politics/article/THE-CALIFORNIA-TRANSITION-Incoming-governor-s-2581330.php"
  *      >[...]Incoming governor's mantra: 'Action'[...]</a>
  */
+@FunctionalInterface
 public interface Action {
     void execute();
 }

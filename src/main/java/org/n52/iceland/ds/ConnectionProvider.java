@@ -16,23 +16,18 @@
  */
 package org.n52.iceland.ds;
 
-import java.util.Properties;
-
-import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.lifecycle.Destroyable;
-
 /**
  * Interface for a connection provider that handles the connection to the
  * underlying data source (e.g. database, web service). Implementation can
  * contain a ConnectionPool.
- * 
+ *
  * @since 4.0.0
  */
-public interface ConnectionProvider extends Destroyable, ConnectionProviderIdentificator {
+public interface ConnectionProvider extends ConnectionProviderIdentificator {
 
     /**
      * Get a data source connection
-     * 
+     *
      * @return Connection to the data source
      * @throws ConnectionProviderException
      */
@@ -40,21 +35,10 @@ public interface ConnectionProvider extends Destroyable, ConnectionProviderIdent
 
     /**
      * Return the connection to the provider
-     * 
+     *
      * @param connection
      *            Connection
      */
     void returnConnection(Object connection);
-
-    /**
-     * Initializes the connection provider.
-     * 
-     * @param properties
-     *            the properties
-     * 
-     * @throws ConfigurationException
-     *             if the initialization failed
-     */
-    void initialize(Properties properties) throws ConfigurationException;
 
 }

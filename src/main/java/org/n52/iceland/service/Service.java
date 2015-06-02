@@ -54,7 +54,7 @@ import org.n52.iceland.util.http.MediaTypes;
  * @since 4.0.0
  */
 @Controller
-@RequestMapping("/service")
+@RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")
 public class Service extends HttpServlet {
     private static final long serialVersionUID = -2103692310137045855L;
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
@@ -228,7 +228,11 @@ public class Service extends HttpServlet {
             // strip of the parameters to get rid of things like encoding
             Binding binding = this.bindingRepository.getBinding(contentType.withoutParameters());
             if (binding == null) {
-                throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
+                if (contentType.equals(MediaTypes.APPLICATION_KVP)) {
+                    throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
+                } else {
+                    throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
+                }
             } else {
                 return binding;
             }
