@@ -35,9 +35,6 @@ import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 import java.net.URI;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
-import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
@@ -83,13 +80,6 @@ public class ServiceConfiguration implements Constructable {
 
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
 
-    private SettingsManager settingsManager;
-
-    @Inject
-    public void setSettingsManager(SettingsManager settingsManager) {
-        this.settingsManager = settingsManager;
-    }
-
     /**
      * @return Returns a singleton instance of the ServiceConfiguration.
      */
@@ -100,7 +90,7 @@ public class ServiceConfiguration implements Constructable {
 
     @Override
     public void init() {
-        this.settingsManager.configure(this);
+        ServiceConfiguration.instance = this;
     }
 
     /**

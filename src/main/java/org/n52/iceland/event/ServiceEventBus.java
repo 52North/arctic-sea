@@ -105,17 +105,15 @@ public class ServiceEventBus implements Constructable {
     }
 
     public void submit(ServiceEvent event) {
-        boolean submittedEvent = false;
         if (!checkEvent(event)) {
             return;
         }
         lock.readLock().lock();
         try {
-            for (ServiceEventListener listener : getListenersForEvent(event)) {
-                submittedEvent = true;
-                LOG.debug("Queueing Event {} for Listener {}", event, listener);
-                queue.offer(new HandlerExecution(event, listener));
-            }
+            getListenersForEvent(event).stream()
+                    .peek(listener -> LOG.debug("Queueing Event {} for Listener {}", event, listener))
+                    .map(listener -> new HandlerExecution(event, listener))
+                    .forEach(queue::offer);
         } finally {
             lock.readLock().unlock();
         }
@@ -127,9 +125,6 @@ public class ServiceEventBus implements Constructable {
                 r.run();
             }
         }
-        if (!submittedEvent) {
-            LOG.debug("No Listeners for SosEvent {}", event);
-        }
     }
 
     public void register(ServiceEventListener listener) {
@@ -138,10 +133,9 @@ public class ServiceEventBus implements Constructable {
         }
         lock.writeLock().lock();
         try {
-            for (Class<? extends ServiceEvent> eventType : listener.getTypes()) {
-                LOG.debug("Subscibing Listener {} to EventType {}", listener, eventType);
-                listeners.put(eventType, listener);
-            }
+            listener.getTypes().stream()
+                    .peek(type -> LOG.debug("Subscibing Listener {} to EventType {}", listener, type))
+                    .forEach(type -> listeners.put(type, listener));
         } finally {
             lock.writeLock().unlock();
         }

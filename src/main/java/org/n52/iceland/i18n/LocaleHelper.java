@@ -28,8 +28,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 public class LocaleHelper {
-    private static final Function<Locale, String> encoder = new Encoder();
-    private static final Function<String, Locale> decoder = new Decoder();
+    private static final Function<Locale, String> encoder = notNull(new Encoder());
+    private static final Function<String, Locale> decoder = notEmpty(new Decoder());
 
     public static String toString(Locale locale) {
         return encoder.apply(locale);
@@ -49,6 +49,14 @@ public class LocaleHelper {
 
     public static Function<String, Locale> fromStringFunction() {
         return decoder;
+    }
+
+    private static <T> Function<String, T> notEmpty(Function<String, T> fun) {
+        return s -> s == null || s.isEmpty() ? null : fun.apply(s);
+    }
+
+    private static <F, T> Function<F, T> notNull(Function<F, T> fun) {
+        return s -> s == null ? null : fun.apply(s);
     }
 
     private static class Decoder implements Function<String, Locale> {
@@ -77,8 +85,7 @@ public class LocaleHelper {
             @Override
             public Locale load(String locale) {
                 if (locale == null || locale.isEmpty()) {
-                    return ServiceConfiguration.getInstance()
-                            .getDefaultLanguage();
+                    return ServiceConfiguration.getInstance().getDefaultLanguage();
                 } else {
                     return parseLocaleString(locale.trim());
                 }

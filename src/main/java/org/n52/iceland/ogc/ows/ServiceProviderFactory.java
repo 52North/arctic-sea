@@ -33,15 +33,11 @@ import java.io.File;
 import java.net.URI;
 import java.util.Locale;
 
-import javax.inject.Inject;
-
-import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.XmlHelper;
-import org.n52.iceland.lifecycle.Constructable;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -49,7 +45,7 @@ import org.n52.iceland.lifecycle.Constructable;
  * @since 4.0.0
  */
 @Configurable
-public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServiceProvider> implements Constructable {
+public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServiceProvider> {
 
     private File file;
     private String name;
@@ -63,14 +59,6 @@ public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServicePro
     private String country;
     private String mailAddress;
     private String administrativeArea;
-
-    @Inject
-    private SettingsManager settingsManager;
-
-    @Override
-    public void init() {
-        this.settingsManager.configure(this);
-    }
 
     @Setting(FILE)
     public void setFile(File file) {

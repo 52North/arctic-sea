@@ -48,7 +48,6 @@ import org.n52.iceland.service.ServiceSettings;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
-import com.sun.org.apache.xalan.internal.xsltc.dom.CollatorFactoryBase;
 
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
@@ -100,7 +99,7 @@ public class SettingsManager implements AdminUserService {
     }
 
     @Inject
-    public void setSettingDefinitions(Collection<SettingDefinition> definitions) {
+    public void setSettingDefinitions(Collection<SettingDefinition<?, ?>> definitions) {
         this.definitions = new HashSet<>(definitions.size());
         this.definitionByKey = new HashMap<>(definitions.size());
         definitions.forEach(definition -> {
@@ -222,7 +221,7 @@ public class SettingsManager implements AdminUserService {
      *
      * @throws ConnectionProviderException
      */
-    public  Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings()
+    public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings()
             throws ConnectionProviderException {
         Set<SettingValue<?>> values = this.settingsManagerDao.getSettingValues();
         Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition
@@ -238,9 +237,7 @@ public class SettingsManager implements AdminUserService {
         HashSet<SettingDefinition<?, ?>> nullValues
                 = new HashSet<>(getSettingDefinitions());
         nullValues.removeAll(settingsByDefinition.keySet());
-        for (SettingDefinition<?, ?> s : nullValues) {
-            settingsByDefinition.put(s, null);
-        }
+        nullValues.forEach(s -> settingsByDefinition.put(s, null));
         return settingsByDefinition;
     }
 
