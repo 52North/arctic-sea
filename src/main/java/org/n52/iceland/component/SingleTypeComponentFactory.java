@@ -27,37 +27,34 @@ import java.util.Set;
  *
  * @author Christian Autermann
  */
-public abstract class SingleTypeComponentFactory<K, C extends Component<K>>
-        implements ComponentFactory<K, C> {
-
-    private final K key;
-
-    public SingleTypeComponentFactory(K key) {
-        this.key = key;
-    }
+public interface SingleTypeComponentFactory<K, C extends Component<K>>
+        extends ComponentFactory<K, C> {
 
     @Override
-    public C create(K key) {
+    default C create(K key) {
         if (has(key)) {
             return create();
+        } else {
+            throw new IllegalArgumentException("Key " + key + " not supported");
         }
-        throw new IllegalArgumentException("Key " + key + " not supported");
     }
 
     @Override
-    public Set<C> createAll() {
+    default Set<C> createAll() {
         return Collections.singleton(create());
     }
 
     @Override
-    public Set<K> getKeys() {
-        return Collections.singleton(this.key);
+    default Set<K> getKeys() {
+        return Collections.singleton(getKey());
     }
 
     @Override
-    public boolean has(K key) {
-        return key != null && key.equals(this.key);
+    default boolean has(K key) {
+        return key != null && key.equals(getKey());
     }
 
-    protected abstract C create();
+    K getKey();
+
+    C create();
 }

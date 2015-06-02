@@ -17,6 +17,7 @@
 package org.n52.iceland.component;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -26,11 +27,18 @@ import java.util.Set;
  * @author Christian Autermann
  */
 public interface ComponentFactory<K, C extends Component<K>> {
-    boolean has(K key);
+
+    default boolean has(K key) {
+        return getKeys().contains(key);
+    }
+
+    default Set<C> createAll() {
+        return getKeys().stream()
+                .map(this::create)
+                .collect(Collectors.toSet());
+    }
 
     Set<K> getKeys();
 
     C create(K key);
-
-    Set<C> createAll();
 }

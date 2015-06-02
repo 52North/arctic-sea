@@ -73,8 +73,7 @@ public class SosActivationService
             @Override
             protected boolean check(ResponseFormatKey key)
                     throws ConnectionProviderException {
-                return sosActivationDao
-                        .isResponseFormatActive(key);
+                return sosActivationDao.isResponseFormatActive(key);
             }
 
             @Override

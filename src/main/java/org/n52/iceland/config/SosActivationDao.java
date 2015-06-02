@@ -40,7 +40,7 @@ public interface SosActivationDao {
      *
      * @throws ConnectionProviderException
      */
-    public abstract boolean isResponseFormatActive(ResponseFormatKey key)
+    boolean isResponseFormatActive(ResponseFormatKey key)
             throws ConnectionProviderException;
 
     /**
@@ -72,8 +72,7 @@ public interface SosActivationDao {
      *
      * @throws ConnectionProviderException
      */
-    public abstract boolean isProcedureDescriptionFormatActive(
-            ProcedureDescriptionFormatKey key)
+    boolean isProcedureDescriptionFormatActive(ProcedureDescriptionFormatKey key)
             throws ConnectionProviderException;
 
     /**
@@ -105,7 +104,7 @@ public interface SosActivationDao {
      *
      * @throws ConnectionProviderException
      */
-    public abstract boolean isOfferingExtensionActive(OfferingExtensionKey key)
+    boolean isOfferingExtensionActive(OfferingExtensionKey key)
             throws ConnectionProviderException;
 
     void setOfferingExtensionStatus(OfferingExtensionKey key, boolean active)

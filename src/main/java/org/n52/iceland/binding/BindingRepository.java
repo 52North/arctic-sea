@@ -59,10 +59,18 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
     private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
 
-    @Autowired(required = false)
     private Collection<Binding> components;
-    @Autowired(required = false)
     private Collection<BindingFactory> componentFactories;
+
+    @Autowired(required = false)
+    public void setComponentFactories(Collection<BindingFactory> componentFactories) {
+        this.componentFactories = componentFactories;
+    }
+
+    @Autowired(required = false)
+    public void setComponents(Collection<Binding> components) {
+        this.components = components;
+    }
 
     @Override
     public void registerListener(ActivationListener<BindingKey> listener) {

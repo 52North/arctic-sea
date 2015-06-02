@@ -38,9 +38,7 @@ public class ClassBasedComponentKey<T> {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.type);
-        return hash;
+        return Objects.hash(this.type);
     }
 
     @Override

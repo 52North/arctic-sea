@@ -20,6 +20,7 @@ package org.n52.iceland.component;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,8 +55,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
             for (F factory : factories) {
                 LOG.info("Creating provider for component factory {}", factory);
                 for (K key : factory.getKeys()) {
-                    Producer<C> provider = new FactoryProvider(factory, key);
-                    providers.put(key, provider);
+                    providers.put(key, new FactoryProvider<>(factory, key));
                 }
             }
         }
@@ -84,7 +84,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         return uniqueKeyImplementations;
     }
 
-    private class FactoryProvider implements Producer<C> {
+    private static class FactoryProvider<K, C extends Component<K>, F extends ComponentFactory<K, C>> implements Producer<C> {
         private final F factory;
         private final K key;
 
@@ -96,6 +96,29 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         @Override
         public C get() {
             return this.factory.create(this.key);
+        }
+
+        public K getKey() {
+            return key;
+        }
+
+        public F getFactory() {
+            return factory;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(this.key, this.factory);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof FactoryProvider) {
+                FactoryProvider<?,?,?> that = (FactoryProvider) obj;
+                return Objects.equals(this.getKey(), that.getKey()) &&
+                       Objects.equals(this.getFactory(), that.getFactory());
+            }
+            return false;
         }
 
         @Override
