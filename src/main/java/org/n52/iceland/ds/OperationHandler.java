@@ -16,10 +16,10 @@
  */
 package org.n52.iceland.ds;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsOperation;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.component.Component;
 
 /**
  * Interface for all operation Handlers.
@@ -28,7 +28,7 @@ import org.n52.iceland.component.Component;
  *
  * @since 1.0.0
  */
-public interface OperationHandler extends DatasourceDaoIdentifier, ConformanceClass, Component<OperationHandlerKey> {
+public interface OperationHandler extends ConformanceClass, Component<OperationHandlerKey> {
 
     /**
      * TODO check if necessary in feature

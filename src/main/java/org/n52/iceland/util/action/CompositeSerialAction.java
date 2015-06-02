@@ -19,12 +19,13 @@ package org.n52.iceland.util.action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
  * @param <A>
  * @author Christian Autermann <c.autermann@52north.org>
  * @author Shane StClair <shane@axiomalaska.com>
  * @since 4.0.0
- * 
+ *
  */
 public abstract class CompositeSerialAction<A extends Action> extends CompositeAction<A> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeSerialAction.class);
@@ -38,7 +39,7 @@ public abstract class CompositeSerialAction<A extends Action> extends CompositeA
         if (getActions() != null) {
             for (A action : getActions()) {
                 pre(action);
-                LOGGER.debug("Running {}.", action);                
+                LOGGER.debug("Running {}.", action);
                 action.execute();
                 post(action);
             }

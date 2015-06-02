@@ -19,10 +19,15 @@ package org.n52.iceland.binding;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.coding.CodingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.iceland.coding.DecoderRepository;
+import org.n52.iceland.coding.EncoderRepository;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.decode.Decoder;
 import org.n52.iceland.decode.DecoderKey;
@@ -54,8 +59,6 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HTTPUtils;
 import org.n52.iceland.util.http.MediaType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
@@ -68,8 +71,59 @@ public abstract class SimpleBinding extends Binding {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);
     public static final String QUALITY = "q";
 
+    private ServiceEventBus eventBus;
+    private ServiceConfiguration serviceConfiguration;
+    private ServiceOperatorRepository serviceOperatorRepository;
+    private EncoderRepository encoderRepository;
+    private DecoderRepository decoderRepository;
+
+    @Inject
+    public void setEventBus(ServiceEventBus eventBus) {
+        this.eventBus = eventBus;
+    }
+
+    public ServiceEventBus getEventBus() {
+        return eventBus;
+    }
+
+    @Inject
+    public void setServiceConfiguration(ServiceConfiguration config) {
+        this.serviceConfiguration = config;
+    }
+
+    public ServiceConfiguration getServiceConfiguration() {
+        return serviceConfiguration;
+    }
+
+    @Inject
+    public void setServiceOperatorRepository(ServiceOperatorRepository repo) {
+        this.serviceOperatorRepository = repo;
+    }
+
+    public ServiceOperatorRepository getServiceOperatorRepository() {
+        return this.serviceOperatorRepository;
+    }
+
+    @Inject
+    public void setEncoderRepository(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
+    }
+
+    public EncoderRepository getEncoderRepository() {
+        return encoderRepository;
+    }
+
+    @Inject
+    public void setDecoderRepository(DecoderRepository decoderRepository) {
+        this.decoderRepository = decoderRepository;
+    }
+
+    public DecoderRepository getDecoderRepository() {
+        return decoderRepository;
+    }
+
     protected boolean isUseHttpResponseCodes() {
-        return ServiceConfiguration.getInstance().isUseHttpStatusCodesInKvpAndPoxBinding();
+        return this.serviceConfiguration.isUseHttpStatusCodesInKvpAndPoxBinding();
     }
 
     protected RequestContext getRequestContext(HttpServletRequest req) {
@@ -84,24 +138,20 @@ public abstract class SimpleBinding extends Binding {
         return getServiceOperatorRepository().isServiceSupported(service);
     }
 
-    protected ServiceOperatorRepository getServiceOperatorRepository() {
-        return ServiceOperatorRepository.getInstance();
-    }
-
     protected <F, T> Decoder<F, T> getDecoder(DecoderKey key) {
-        return CodingRepository.getInstance().getDecoder(key);
+        return this.decoderRepository.getDecoder(key);
     }
 
     protected <F, T> Encoder<F, T> getEncoder(EncoderKey key) {
-        return CodingRepository.getInstance().getEncoder(key);
+        return this.encoderRepository.getEncoder(key);
     }
 
     protected boolean hasDecoder(DecoderKey key) {
-        return CodingRepository.getInstance().hasDecoder(key);
+        return this.decoderRepository.hasDecoder(key);
     }
 
     protected boolean hasEncoder(EncoderKey key) {
-        return CodingRepository.getInstance().hasEncoder(key);
+        return this.encoderRepository.hasEncoder(key);
     }
 
     protected boolean hasDecoder(OperationKey key, MediaType mediaType) {
@@ -245,7 +295,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected Object encodeResponse(AbstractServiceResponse response, MediaType contentType) throws OwsExceptionReport {
         OperationEncoderKey key = new OperationEncoderKey(response.getOperationKey(), contentType);
-        Encoder<Object, AbstractServiceResponse> encoder = CodingRepository.getInstance().getEncoder(key);
+        Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
@@ -255,7 +305,7 @@ public abstract class SimpleBinding extends Binding {
     protected void writeOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
             OwsExceptionReport oer) throws HTTPException {
         try {
-            ServiceEventBus.fire(new ExceptionEvent(oer));
+            this.eventBus.submit(new ExceptionEvent(oer));
             MediaType contentType =
                     chooseResponseContentTypeForExceptionReport(HTTPUtils.getAcceptHeader(request),
                             getDefaultContentType());

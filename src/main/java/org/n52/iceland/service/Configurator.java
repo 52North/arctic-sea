@@ -19,13 +19,10 @@ package org.n52.iceland.service;
 
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.cache.ContentCache;
@@ -34,7 +31,6 @@ import org.n52.iceland.ds.ConnectionProvider;
 import org.n52.iceland.ds.DataConnectionProvider;
 import org.n52.iceland.ds.FeatureConnectionProvider;
 import org.n52.iceland.ds.FeatureQueryHandler;
-import org.n52.iceland.ds.HibernateDatasourceConstants;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ConfiguratorInitializedEvent;
 import org.n52.iceland.exception.ConfigurationException;
@@ -48,7 +44,6 @@ import org.n52.iceland.ogc.ows.ServiceProviderFactory;
 import org.n52.iceland.util.LocalizedProducer;
 import org.n52.iceland.util.Producer;
 
-import com.google.common.collect.Sets;
 
 /**
  * Singleton class reads the configFile and builds the RequestOperator and DAO;
@@ -58,47 +53,26 @@ import com.google.common.collect.Sets;
  */
 @Deprecated
 public class Configurator implements Constructable {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Configurator.class);
-
-    /**
-     * instance attribute, due to the singleton pattern.
-     */
     private static Configurator instance = null;
-    @Inject
     private ServletContext servletContext;
-
-    /**
-     * base path for configuration files.
-     */
-    @Deprecated
     private String basepath;
-    private Properties dataConnectionProviderProperties;
-    @Inject
-    @Deprecated
     private FeatureQueryHandler featureQueryHandler;
-    @Deprecated
-
     private ConnectionProvider dataConnectionProvider;
-    @Deprecated
     private ConnectionProvider featureConnectionProvider;
-    @Inject
-    @Deprecated
     private ContentCacheController contentCacheController;
-    @Deprecated
-    @Inject
     private ServiceIdentificationFactory serviceIdentificationFactory;
-    @Deprecated
-    @Inject
     private ServiceProviderFactory serviceProviderFactory;
-    private Set<String> providedJdbcDrivers = Sets.newHashSet();
-    @Deprecated
     private String connectionProviderIdentificator;
-    @Deprecated
     private String datasourceDaoIdentificator;
+    private ServiceEventBus eventBus;
 
     public Configurator() {
         // ugly hack for singleton access
-        Configurator.instance = this;
+    }
+
+    @Inject
+    public void setEventBus(ServiceEventBus eventBus) {
+        this.eventBus = eventBus;
     }
 
     @Autowired(required = false)
@@ -106,19 +80,71 @@ public class Configurator implements Constructable {
         this.featureConnectionProvider = featureConnectionProvider;
     }
 
+    /**
+     * @return the implemented feature connection provider
+     */
+    public ConnectionProvider getFeatureConnectionProvider() {
+        return featureConnectionProvider;
+    }
+
+    @Inject
+    public void setContentCacheController(ContentCacheController contentCacheController) {
+        this.contentCacheController = contentCacheController;
+    }
+
+    @Inject
+    public void setServiceIdentificationFactory(ServiceIdentificationFactory serviceIdentificationFactory) {
+        this.serviceIdentificationFactory = serviceIdentificationFactory;
+    }
+
+    public ServiceIdentificationFactory getServiceIdentificationFactory() throws OwsExceptionReport {
+        return serviceIdentificationFactory;
+    }
+
+    @Inject
+    public void setServiceProviderFactory(ServiceProviderFactory serviceProviderFactory) {
+        this.serviceProviderFactory = serviceProviderFactory;
+    }
+
+    @Inject
+    public void setFeatureQueryHandler(FeatureQueryHandler featureQueryHandler) {
+        this.featureQueryHandler = featureQueryHandler;
+    }
+
+
+
+    /**
+     * @return the implemented feature query handler
+     */
+    public FeatureQueryHandler getFeatureQueryHandler() {
+        return featureQueryHandler;
+    }
+
     @Inject
     public void setDataConnectionProvider(DataConnectionProvider dataConnectionProvider) {
         this.dataConnectionProvider = dataConnectionProvider;
     }
 
+    /**
+     * @return the implemented data connection provider
+     */
+    public ConnectionProvider getDataConnectionProvider() {
+        return dataConnectionProvider;
+    }
+
+    @Inject
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
     @Override
     public void init() throws ConfigurationException {
+        Configurator.instance = this;
         this.basepath = this.servletContext.getRealPath("/");
-        checkForProvidedJdbc();
         if (featureConnectionProvider == null) {
             featureConnectionProvider = dataConnectionProvider;
         }
-        ServiceEventBus.fire(new ConfiguratorInitializedEvent());
+        this.eventBus.submit(new ConfiguratorInitializedEvent());
     }
 
     /**
@@ -126,7 +152,6 @@ public class Configurator implements Constructable {
      *         <p/>
      * @throws OwsExceptionReport
      */
-    @Deprecated
     public OwsServiceIdentification getServiceIdentification() throws OwsExceptionReport {
         return get(serviceIdentificationFactory);
     }
@@ -136,14 +161,8 @@ public class Configurator implements Constructable {
      *         <p/>
      * @throws OwsExceptionReport
      */
-    @Deprecated
     public OwsServiceIdentification getServiceIdentification(Locale lanugage) throws OwsExceptionReport {
         return get(serviceIdentificationFactory, lanugage);
-    }
-
-    @Deprecated
-    public ServiceIdentificationFactory getServiceIdentificationFactory() throws OwsExceptionReport {
-        return serviceIdentificationFactory;
     }
 
     /**
@@ -151,7 +170,6 @@ public class Configurator implements Constructable {
      *         <p/>
      * @throws OwsExceptionReport
      */
-    @Deprecated
     public OwsServiceProvider getServiceProvider() throws OwsExceptionReport {
         return get(serviceProviderFactory);
     }
@@ -159,7 +177,6 @@ public class Configurator implements Constructable {
     /**
      * @return the base path for configuration files
      */
-    @Deprecated
     public String getBasePath() {
         return basepath;
     }
@@ -167,68 +184,20 @@ public class Configurator implements Constructable {
     /**
      * @return the current contentCacheController
      */
-    @Deprecated
     public ContentCache getCache() {
-        return getCacheController().getCache();
+        return this.contentCacheController.getCache();
     }
 
     /**
      * @return the current contentCacheController
      */
-    @Deprecated
     public ContentCacheController getCacheController() {
         return contentCacheController;
     }
 
     /**
-     * @return the implemented data connection provider
-     */
-    @Deprecated
-    public ConnectionProvider getDataConnectionProvider() {
-        return dataConnectionProvider;
-    }
-
-    /**
-     * @return the implemented feature connection provider
-     */
-    @Deprecated
-    public ConnectionProvider getFeatureConnectionProvider() {
-        return featureConnectionProvider;
-    }
-
-    /**
-     * @return the implemented feature query handler
-     */
-    @Deprecated
-    public FeatureQueryHandler getFeatureQueryHandler() {
-        return featureQueryHandler;
-    }
-
-    public void addProvidedJdbcDriver(String providedJdbcDriver) {
-        this.providedJdbcDrivers.add(providedJdbcDriver);
-    }
-
-    public Set<String> getProvidedJdbcDriver() {
-        return this.providedJdbcDrivers;
-    }
-
-    /**
-     * Check method if JDBC driver is provided.
-     */
-    private void checkForProvidedJdbc() {
-        String key = HibernateDatasourceConstants.PROVIDED_JDBC;
-        if (!dataConnectionProviderProperties.containsKey(key)
-                || (dataConnectionProviderProperties.containsKey(key) &&
-                    dataConnectionProviderProperties.getProperty(key).equals("true"))) {
-            addProvidedJdbcDriver(dataConnectionProviderProperties
-                    .getProperty(HibernateDatasourceConstants.HIBERNATE_DRIVER_CLASS));
-        }
-    }
-
-    /**
      * @return the connectionProviderIdentificator
      */
-    @Deprecated
     public String getConnectionProviderIdentificator() {
         return connectionProviderIdentificator;
     }
@@ -236,7 +205,6 @@ public class Configurator implements Constructable {
     /**
      * @return the datasourceDaoIdentificator
      */
-    @Deprecated
     public String getDatasourceDaoIdentificator() {
         return datasourceDaoIdentificator;
     }
@@ -249,7 +217,6 @@ public class Configurator implements Constructable {
      *         <p/>
      * @see Configurator#createInstance(Properties, String)
      */
-    @Deprecated
     public static Configurator getInstance() {
         return instance;
     }
@@ -263,8 +230,7 @@ public class Configurator implements Constructable {
      * @throws ConfigurationException
      *             if the initialization failed
      */
-    @Deprecated
-    public static Configurator createInstance( Properties connectionProviderConfig, String basepath) {
+    public static Configurator createInstance(Properties connectionProviderConfig, String basepath) {
         return getInstance();
     }
 

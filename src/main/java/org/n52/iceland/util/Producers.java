@@ -20,13 +20,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
@@ -38,24 +36,24 @@ public class Producers {
     private Producers() {
     }
 
+    public static <T> T produce(Producer<T> producer) {
+        return producer == null ? null : producer.get();
+    }
+
     public static <K, T> Map<K, T> produce(Map<K, Producer<T>> map) {
         return Maps.transformValues(map, Producers.<T>producingFunction());
     }
 
     public static <T> Collection<T> produce(Collection<Producer<T>> list) {
-        return Collections2.transform(list, Producers.<T>producingFunction());
+        return list.stream().map(Producers::produce).collect(Collectors.toList());
     }
 
     public static <T> List<T> produce(List<Producer<T>> list) {
-        return Lists.transform(list, Producers.<T>producingFunction());
+        return list.stream().map(Producers::produce).collect(Collectors.toList());
     }
 
     public static <T> Set<T> produce(Set<Producer<T>> set) {
-        Set<T> result = Sets.newHashSetWithExpectedSize(set.size());
-        for (Producer<T> producer : set) {
-            result.add(producer.get());
-        }
-        return result;
+        return set.stream().map(Producers::produce).collect(Collectors.toSet());
     }
 
     public static <T> Producer<T> forInstance(T instance) {
@@ -74,7 +72,7 @@ public class Producers {
 
         @Override
         public T apply(Producer<T> t) {
-            return t.get();
+            return produce(t);
         }
 
         public static ProducingFunction<?> getInstance() {

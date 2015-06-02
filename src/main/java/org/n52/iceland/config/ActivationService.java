@@ -18,6 +18,8 @@ package org.n52.iceland.config;
 
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,8 +44,8 @@ public class ActivationService {
 
     private ActivationDao persistingActivationManagerDao;
 
-    public void setPersistingActivationManagerDao(
-            ActivationDao dao) {
+    @Inject
+    public void setPersistingActivationManagerDao(ActivationDao dao) {
         this.persistingActivationManagerDao = dao;
     }
 
@@ -107,14 +109,12 @@ public class ActivationService {
     public ActivationSource<RequestOperatorKey> getRequestOperatorSource() {
         return new AbstractActivationSource<RequestOperatorKey>() {
             @Override
-            protected boolean check(RequestOperatorKey key)
-                    throws ConnectionProviderException {
+            protected boolean check(RequestOperatorKey key) throws ConnectionProviderException {
                 return isRequestOperatorActive(key);
             }
 
             @Override
-            protected Set<RequestOperatorKey> get()
-                    throws ConnectionProviderException {
+            protected Set<RequestOperatorKey> get() throws ConnectionProviderException {
                 return persistingActivationManagerDao.getRequestOperatorKeys();
             }
         };

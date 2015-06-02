@@ -16,8 +16,7 @@
  */
 package org.n52.iceland.event;
 
-import java.util.HashSet;
-import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -25,6 +24,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +34,9 @@ import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -59,7 +62,7 @@ public class ServiceEventBus implements Constructable {
     private final Executor executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE,
                                                                    new GroupedAndNamedThreadFactory(THREAD_GROUP_NAME));
 
-    private final SetMultiMap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = MultiMaps.newSetMultiMap();
+    private final SetMultimap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = HashMultimap.create();
 
     private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<>();
 
@@ -90,25 +93,15 @@ public class ServiceEventBus implements Constructable {
     }
 
     private Set<ServiceEventListener> getListenersForEvent(final ServiceEvent event) {
-        final LinkedList<ServiceEventListener> result = new LinkedList<>();
         lock.readLock().lock();
         try {
-            for (final Class<? extends ServiceEvent> eventType : classCache.getClasses(event.getClass())) {
-                final Set<ServiceEventListener> listenersForClass = listeners.get(eventType);
 
-                if (listenersForClass != null) {
-                    LOG.trace("Adding {} Listeners for event {} (eventType={})", listenersForClass.size(), event,
-                                                                                                           eventType);
-                    result.addAll(listenersForClass);
-                } else {
-                    LOG.trace("Adding 0 Listeners for event {} (eventType={})", event, eventType);
-                }
-
-            }
+            return classCache.getClasses(event.getClass()).stream()
+                    .map(listeners::get).filter(Objects::nonNull)
+                    .flatMap(Set::stream).collect(Collectors.toSet());
         } finally {
             lock.readLock().unlock();
         }
-        return new HashSet<>(result);
     }
 
     public void submit(ServiceEvent event) {
@@ -147,7 +140,7 @@ public class ServiceEventBus implements Constructable {
         try {
             for (Class<? extends ServiceEvent> eventType : listener.getTypes()) {
                 LOG.debug("Subscibing Listener {} to EventType {}", listener, eventType);
-                listeners.add(eventType, listener);
+                listeners.put(eventType, listener);
             }
         } finally {
             lock.writeLock().unlock();

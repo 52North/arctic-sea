@@ -21,35 +21,39 @@ import org.n52.iceland.exception.ConfigurationException;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
- * 
+ *
  */
 public final class Validation {
 
-    public static void notNull(String name, Object val) throws ConfigurationException {
+    private  Validation() {
+    }
+
+    public static <T> T notNull(String name, T val) throws ConfigurationException {
         if (val == null) {
             throw new ConfigurationException(String.format("%s can not be null!", name));
         }
+        return val;
     }
 
-    public static void greaterZero(String name, int i) throws ConfigurationException {
+    public static int greaterZero(String name, int i) throws ConfigurationException {
         if (i <= 0) {
             throw new ConfigurationException(String.format("%s can not be smaller or equal zero (was %d)!", name, i));
         }
+        return i;
     }
 
-    public static void greaterEqualZero(String name, int i) throws ConfigurationException {
+    public static int greaterEqualZero(String name, int i) throws ConfigurationException {
         if (i < 0) {
             throw new ConfigurationException(String.format("%s can not be smaller than zero (was %d)!", name, i));
         }
+        return i;
     }
 
-    public static void notNullOrEmpty(String name, String val) throws ConfigurationException {
+    public static String notNullOrEmpty(String name, String val) throws ConfigurationException {
         notNull(name, val);
         if (val.isEmpty()) {
             throw new ConfigurationException(String.format("%s can not be empty!", name));
         }
-    }
-
-    private Validation() {
+        return val;
     }
 }

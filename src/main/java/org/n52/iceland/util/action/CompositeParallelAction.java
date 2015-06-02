@@ -16,18 +16,19 @@
  */
 package org.n52.iceland.util.action;
 
+import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.function.BiConsumer;
 import java.util.function.Consumer;
-
-import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
+import org.n52.iceland.util.GroupedAndNamedThreadFactory;
+
 
 /**
  * @param <A>
@@ -39,12 +40,9 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeParallelAction.class);
 
     private final ThreadFactory threadFactory;
-
     private final ExecutorService executor;
-
+    private final String threadGroupName;
     private CountDownLatch countDownLatch;
-
-    private String threadGroupName;
 
     public CompositeParallelAction(int threads, String threadGroupName, A... actions) {
         super(actions);
@@ -79,7 +77,7 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
             LOGGER.debug("Waiting for {} threads to finish", countDownLatch.getCount());
 
             //postprocess actions
-            getActions().forEach((action) -> { post(action); });
+            getActions().forEach(this::post);
         }
     }
 }

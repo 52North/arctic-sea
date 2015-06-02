@@ -23,7 +23,7 @@ package org.n52.iceland.ds;
  *
  * @since 4.0.0
  */
-public interface ConnectionProvider extends ConnectionProviderIdentificator {
+public interface ConnectionProvider {
 
     /**
      * Get a data source connection

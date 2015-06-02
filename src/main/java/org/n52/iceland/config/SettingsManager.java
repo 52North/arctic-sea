@@ -31,6 +31,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
@@ -47,6 +48,7 @@ import org.n52.iceland.service.ServiceSettings;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
+import com.sun.org.apache.xalan.internal.xsltc.dom.CollatorFactoryBase;
 
 /**
  * Class to handle the settings and configuration of the SOS. Allows other
@@ -101,12 +103,12 @@ public class SettingsManager implements AdminUserService {
     public void setSettingDefinitions(Collection<SettingDefinition> definitions) {
         this.definitions = new HashSet<>(definitions.size());
         this.definitionByKey = new HashMap<>(definitions.size());
-        for (SettingDefinition<?, ?> definition : definitions) {
+        definitions.forEach(definition -> {
             this.definitions.add(definition);
             if (this.definitionByKey.put(definition.getKey(), definition) != null) {
                 LOG.warn("Duplicate setting definition for key {}", definition.getKey());
             }
-        }
+        });
     }
 
     /**
@@ -226,8 +228,7 @@ public class SettingsManager implements AdminUserService {
         Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition
                 = new HashMap<>(values.size());
         for (SettingValue<?> value : values) {
-            final SettingDefinition<?, ?> definition = getDefinitionByKey(value
-                    .getKey());
+            final SettingDefinition<?, ?> definition = getDefinitionByKey(value.getKey());
             if (definition == null) {
                 LOG.warn("No definition for '{}' found.", value.getKey());
             } else {
@@ -267,12 +268,9 @@ public class SettingsManager implements AdminUserService {
      * @return the keys for all definitions
      */
     public Set<String> getKeys() {
-        Set<SettingDefinition<?, ?>> settings = getSettingDefinitions();
-        HashSet<String> keys = new HashSet<>(settings.size());
-        for (SettingDefinition<?, ?> setting : settings) {
-            keys.add(setting.getKey());
-        }
-        return keys;
+        return getSettingDefinitions().stream()
+                .map(SettingDefinition::getKey)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -288,7 +286,7 @@ public class SettingsManager implements AdminUserService {
      *                 the new value (or {@code null} if there is none)
      * <p/>
      * @throws ConfigurationException
-     *                                if there is a error configurin(g the objects
+     *                                if there is a error configuring the objects
      */
     private void applySetting(SettingDefinition<?, ?> setting, SettingValue<?> oldValue, SettingValue<?> newValue)
             throws ConfigurationException {
@@ -310,14 +308,14 @@ public class SettingsManager implements AdminUserService {
                 }
                 if (e != null) {
                     LOG.debug("Reverting setting...");
-                    for (ConfigurableObject co : changed) {
+                    changed.stream().forEach(co -> {
                         try {
                             co.configure(oldValue.getValue());
                         } catch (ConfigurationException ce) {
                             /* there is nothing we can do... */
                             LOG.error("Error reverting setting!", ce);
                         }
-                    }
+                    });
                     throw e;
                 }
             }

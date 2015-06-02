@@ -19,15 +19,14 @@ package org.n52.iceland.ds;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.Producers;
 
-import com.google.common.collect.Maps;
 
 /**
  * In 52N SOS version 4.x called OperationDAORepository
@@ -39,43 +38,31 @@ import com.google.common.collect.Maps;
 public class OperationHandlerRepository extends AbstractComponentRepository<OperationHandlerKey, OperationHandler, OperationHandlerFactory> implements Constructable {
     @Deprecated
     private static OperationHandlerRepository instance;
-    private static String datasourceDaoIdentficator;
     private final Map<OperationHandlerKey, Producer<OperationHandler>> operationHandlers = new HashMap<>();
-
-    @Autowired(required = false)
     private Collection<OperationHandler> components;
+    private Collection<OperationHandlerFactory> componentFactories;
 
     @Autowired(required = false)
-    private Collection<OperationHandlerFactory> componentFactories;
+    public void setComponents(Collection<OperationHandler> components) {
+        this.components = components;
+    }
+
+    @Autowired(required = false)
+    public void setComponentFactories(Collection<OperationHandlerFactory> componentFactories) {
+        this.componentFactories = componentFactories;
+    }
 
     @Override
     public void init() {
         OperationHandlerRepository.instance = this;
         Map<OperationHandlerKey, Producer<OperationHandler>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
-        operationHandlers.clear();
-        for (Entry<OperationHandlerKey, Producer<OperationHandler>> entry : implementations.entrySet()) {
-            if (checkDatasourceDaoIdentifications(entry.getValue().get())) {
-                operationHandlers.put(entry.getKey(), entry.getValue());
-            }
-        }
-    }
-
-    protected boolean checkDatasourceDaoIdentifications(DatasourceDaoIdentifier datasourceDaoIdentifier) {
-        String id = datasourceDaoIdentifier.getDatasourceDaoIdentifier();
-        return datasourceDaoIdentficator.equalsIgnoreCase(id) ||
-               DatasourceDaoIdentifier.IDEPENDET_IDENTIFIER.equals(id);
+        this.operationHandlers.clear();
+        this.operationHandlers.putAll(implementations);
     }
 
     public Map<OperationHandlerKey, OperationHandler> getOperationHandlers() {
-        Map<OperationHandlerKey, OperationHandler> handlers = Maps.newHashMapWithExpectedSize(this.operationHandlers.size());
-        for (Entry<OperationHandlerKey, Producer<OperationHandler>> entry : this.operationHandlers.entrySet()) {
-            OperationHandlerKey key = entry.getKey();
-            Producer<OperationHandler> value = entry.getValue();
-            handlers.put(key, value.get());
-
-        }
-        return handlers;
+        return Producers.produce(this.operationHandlers);
     }
 
     public OperationHandler getOperationHandler(String service, String operationName) {
@@ -83,8 +70,7 @@ public class OperationHandlerRepository extends AbstractComponentRepository<Oper
     }
 
     public OperationHandler getOperationHandler(OperationHandlerKey key) {
-        Producer<OperationHandler> handler = operationHandlers.get(key);
-        return handler == null ? null : handler.get();
+        return Producers.produce(operationHandlers.get(key));
     }
 
     @Deprecated

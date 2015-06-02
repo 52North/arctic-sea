@@ -24,15 +24,15 @@ import org.n52.iceland.ogc.ows.OwsExceptionReport;
 /**
  * Interface for implementations of cache feeder Handlers. Used to feed the
  * CapabilitiesCache with data from the data source.
- * 
+ *
  * @since 4.0.0
  */
-public interface CacheFeederHandler extends DatasourceDaoIdentifier {
+public interface CacheFeederHandler {
     void updateCache(WritableContentCache capabilitiesCache) throws OwsExceptionReport;
 
     /**
      * Reload all cache data for a list of offerings, for instance after a DeleteSensor event
-     * 
+     *
      * @param capabilitiesCache The cache to update
      * @param offerings A list of offerings to update
      * @throws OwsExceptionReport
