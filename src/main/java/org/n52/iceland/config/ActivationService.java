@@ -20,18 +20,13 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.util.activation.ActivationInitializer;
-import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationSource;
 import org.n52.iceland.util.activation.DefaultActivationInitializer;
+import org.n52.iceland.util.activation.FunctionalActivationListener;
 
 /**
  * TODO JavaDoc
@@ -39,14 +34,12 @@ import org.n52.iceland.util.activation.DefaultActivationInitializer;
  * @author Christian Autermann
  */
 public class ActivationService {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ActivationService.class);
 
-    private ActivationDao persistingActivationManagerDao;
+    private ActivationDao dao;
 
     @Inject
     public void setPersistingActivationManagerDao(ActivationDao dao) {
-        this.persistingActivationManagerDao = dao;
+        this.dao = dao;
     }
 
     /**
@@ -56,12 +49,9 @@ public class ActivationService {
      *            the binding
      *
      * @return if the binding is active
-     *
-     * @throws ConnectionProviderException
      */
-    public boolean isBindingActive(BindingKey key)
-            throws ConnectionProviderException {
-        return persistingActivationManagerDao.isBindingActive(key);
+    public boolean isBindingActive(BindingKey key) {
+        return this.dao.isBindingActive(key);
     }
 
     /**
@@ -72,13 +62,10 @@ public class ActivationService {
      *
      * @return if the extended capabilities is active
      *
-     * @throws ConnectionProviderException
      */
     public boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsExtendedCapabilitiesProviderKey key)
-            throws ConnectionProviderException {
-        return persistingActivationManagerDao
-                .isOwsExtendedCapabilitiesProviderActive(key);
+            OwsExtendedCapabilitiesProviderKey key) {
+        return this.dao.isOwsExtendedCapabilitiesProviderActive(key);
     }
 
     /**
@@ -89,155 +76,61 @@ public class ActivationService {
      *
      * @return {@code true} if the operation is active in this SOS
      *
-     * @throws ConnectionProviderException
+     * @
      */
-    public boolean isRequestOperatorActive(RequestOperatorKey key)
-            throws ConnectionProviderException {
-        return persistingActivationManagerDao.isRequestOperatorActive(key);
+    public boolean isRequestOperatorActive(RequestOperatorKey key) {
+        return this.dao.isRequestOperatorActive(key);
     }
 
-    public ActivationListener<RequestOperatorKey> getRequestOperatorListener() {
-        return new AbstractActivationListener<RequestOperatorKey>() {
-            @Override
-            protected void setStatus(RequestOperatorKey key, boolean active)
-                    throws ConnectionProviderException {
-                persistingActivationManagerDao.setOperationStatus(key, active);
-            }
-        };
+    public FunctionalActivationListener<RequestOperatorKey> getRequestOperatorListener() {
+        return this.dao::setOperationStatus;
     }
 
     public ActivationSource<RequestOperatorKey> getRequestOperatorSource() {
-        return new AbstractActivationSource<RequestOperatorKey>() {
-            @Override
-            protected boolean check(RequestOperatorKey key) throws ConnectionProviderException {
-                return isRequestOperatorActive(key);
-            }
+        return ActivationSource.create(this::isRequestOperatorActive,
+                                       this::getRequestOperatorKeys);
+    }
 
-            @Override
-            protected Set<RequestOperatorKey> get() throws ConnectionProviderException {
-                return persistingActivationManagerDao.getRequestOperatorKeys();
-            }
-        };
+    public Set<RequestOperatorKey> getRequestOperatorKeys() {
+        return this.dao.getRequestOperatorKeys();
     }
 
     public ActivationInitializer<RequestOperatorKey> getRequestOperatorInitializer() {
         return new DefaultActivationInitializer<>(getRequestOperatorSource());
     }
 
-    public ActivationListener<BindingKey> getBindingListener() {
-        return new AbstractActivationListener<BindingKey>() {
-            @Override
-            protected void setStatus(BindingKey key, boolean active)
-                    throws ConnectionProviderException {
-                persistingActivationManagerDao.setBindingStatus(key, active);
-            }
-        };
+    public FunctionalActivationListener<BindingKey> getBindingListener() {
+        return this.dao::setBindingStatus;
     }
 
     public ActivationSource<BindingKey> getBindingSource() {
-        return new AbstractActivationSource<BindingKey>() {
-            @Override
-            protected boolean check(BindingKey key)
-                    throws ConnectionProviderException {
-                return isBindingActive(key);
-            }
+        return ActivationSource.create(this::isBindingActive,
+                                       this::getBindingKeys);
+    }
 
-            @Override
-            protected Set<BindingKey> get()
-                    throws ConnectionProviderException {
-                return persistingActivationManagerDao.getBindingKeys();
-            }
-        };
+    public Set<BindingKey> getBindingKeys() {
+        return this.dao.getBindingKeys();
     }
 
     public ActivationInitializer<BindingKey> getBindingInitializer() {
         return new DefaultActivationInitializer<>(getBindingSource());
     }
 
-    public ActivationListener<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesListener() {
-        return new AbstractActivationListener<OwsExtendedCapabilitiesProviderKey>() {
-            @Override
-            protected void setStatus(OwsExtendedCapabilitiesProviderKey key,
-                                     boolean active)
-                    throws ConnectionProviderException {
-                persistingActivationManagerDao
-                        .setOwsExtendedCapabilitiesStatus(key, active);
-            }
-        };
-
+    public FunctionalActivationListener<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesListener() {
+        return this.dao::setOwsExtendedCapabilitiesStatus;
     }
 
     public ActivationSource<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesSource() {
-        return new AbstractActivationSource<OwsExtendedCapabilitiesProviderKey>() {
-            @Override
-            protected boolean check(OwsExtendedCapabilitiesProviderKey key)
-                    throws ConnectionProviderException {
-                return isOwsExtendedCapabilitiesProviderActive(key);
-            }
-
-            @Override
-            protected Set<OwsExtendedCapabilitiesProviderKey> get()
-                    throws ConnectionProviderException {
-                return persistingActivationManagerDao
-                        .getOwsExtendedCapabilitiesProviderKeys();
-            }
-        };
+        return ActivationSource.create(this::isOwsExtendedCapabilitiesProviderActive,
+                                       this::getOwsExtendedCapabilitiesProviderKeys);
     }
+
+    public Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys() {
+        return this.dao.getOwsExtendedCapabilitiesProviderKeys();
+    }
+
     public ActivationInitializer<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesInitializer() {
         return new DefaultActivationInitializer<>(getOwsExtendedCapabiltiesSource());
-    }
-
-    protected static abstract class AbstractActivationSource<K> implements
-            ActivationSource<K> {
-        @Override
-        public boolean isActive(K key) {
-            try {
-                return check(key);
-            } catch (ConnectionProviderException ex) {
-                throw new ConfigurationException(ex);
-            }
-        }
-
-        @Override
-        public Set<K> getKeys() {
-            try {
-                return get();
-            } catch (ConnectionProviderException ex) {
-                throw new ConfigurationException(ex);
-            }
-        }
-
-        protected abstract Set<K> get()
-                throws ConnectionProviderException;
-
-        protected abstract boolean check(K key)
-                throws ConnectionProviderException;
-    }
-
-    protected static abstract class AbstractActivationListener<K> implements
-            ActivationListener<K> {
-        @Override
-        public void activated(K key) {
-            set(key, true);
-        }
-
-        @Override
-        public void deactivated(K key) {
-            set(key, false);
-        }
-
-        private void set(K key, boolean status)
-                throws ConfigurationException {
-            try {
-                LOG.debug("Setting status of {} to {}", key, status);
-                setStatus(key, status);
-            } catch (ConnectionProviderException ex) {
-                throw new ConfigurationException(ex);
-            }
-        }
-
-        protected abstract void setStatus(K key, boolean active)
-                throws ConnectionProviderException;
     }
 
 }

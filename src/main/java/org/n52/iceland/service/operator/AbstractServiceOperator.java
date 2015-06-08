@@ -34,6 +34,9 @@ import org.n52.iceland.response.AbstractServiceResponse;
 public class AbstractServiceOperator implements ServiceOperator {
     private final ServiceOperatorKey key;
 
+    private RequestOperatorRepository requestOperatorRepository;
+
+
     public AbstractServiceOperator(String service, String version) {
         this.key = new ServiceOperatorKey(service, version);
     }
@@ -58,7 +61,11 @@ public class AbstractServiceOperator implements ServiceOperator {
     }
 
     public RequestOperatorRepository getRequestOperatorRepository() {
-        return RequestOperatorRepository.getInstance();
+        return this.requestOperatorRepository;
+    }
+
+    public void setRequestOperatorRepository(RequestOperatorRepository requestOperatorRepository) {
+        this.requestOperatorRepository = requestOperatorRepository;
     }
 
     @Override

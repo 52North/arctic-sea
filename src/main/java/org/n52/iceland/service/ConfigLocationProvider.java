@@ -16,11 +16,12 @@
  */
 package org.n52.iceland.service;
 
-import javax.inject.Provider;
-
+import org.n52.iceland.util.Producer;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
-public interface ConfigLocationProvider extends Provider<String> {}
+public interface ConfigLocationProvider extends Producer<String> {
+}

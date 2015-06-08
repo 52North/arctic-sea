@@ -17,9 +17,10 @@
 package org.n52.iceland.ogc.ows;
 
 public interface OfferingExtension extends StringBasedExtension, DisableableExtension {
-	
+
+    @Override
     String getIdentifier();
-    
+
     String getOfferingName();
-    
+
 }

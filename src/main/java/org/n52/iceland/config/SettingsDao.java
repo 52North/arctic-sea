@@ -18,61 +18,40 @@ package org.n52.iceland.config;
 
 import java.util.Set;
 
-import org.n52.iceland.ds.ConnectionProviderException;
-
 /**
  *
  * @author Christian Autermann
  */
-public interface SettingsManagerDao {
+public interface SettingsDao {
     /**
      * @return all saved setting values
-     *
-     * @throws ConnectionProviderException
      */
-    Set<SettingValue<?>> getSettingValues()
-            throws ConnectionProviderException;
+    Set<SettingValue<?>> getSettingValues();
 
     /**
      * Returns the value of the specified setting or {@code null} if it does not
      * exist.
-     * <p/>
      *
-     * @param key
-     *            the key
-     * <p/>
+     * @param key the key
+     *
      * @return the value
-     *
-     * @throws ConnectionProviderException
      */
-    SettingValue<?> getSettingValue(String key)
-            throws ConnectionProviderException;
+    SettingValue<?> getSettingValue(String key);
 
     /**
      * Deletes the setting with the specified key.
-     * <p/>
      *
-     * @param key
-     *            the key
-     *
-     * @throws ConnectionProviderException
+     * @param key the key
      */
-    void deleteSettingValue(String key)
-            throws ConnectionProviderException;
+    void deleteSettingValue(String key);
 
     /**
      * Saves the setting value.
-     * <p/>
      *
-     * @param setting
-     *                the value
-     *
-     * @throws ConnectionProviderException
+     * @param setting the value
      */
-    void saveSettingValue(SettingValue<?> setting)
-            throws ConnectionProviderException;
+    void saveSettingValue(SettingValue<?> setting);
 
-    void deleteAll()
-            throws ConnectionProviderException;
+    void deleteAll();
 
 }

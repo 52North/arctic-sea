@@ -33,12 +33,13 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class ActivationListeners<K> implements ActivationManager<K> {
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    private final Map<K, Boolean> actives = Collections
-            .synchronizedMap(new HashMap<K, Boolean>());
-    private final List<ActivationListener<K>> listeners = new ArrayList<>();
+    private final Map<K, Boolean> actives;
+    private final List<ActivationListener<K>> listeners;
     private final boolean stateForMissingKey;
 
     public ActivationListeners(boolean stateForMissingKey) {
+        this.listeners = new ArrayList<>();
+        this.actives = Collections.synchronizedMap(new HashMap<K, Boolean>());
         this.stateForMissingKey = stateForMissingKey;
     }
 
@@ -56,7 +57,7 @@ public class ActivationListeners<K> implements ActivationManager<K> {
     }
 
     private boolean setState(K key, boolean value) {
-        Boolean old = this.actives.put(key, true);
+        Boolean old = this.actives.put(key, value);
         return old == null ? this.stateForMissingKey != value : old != value;
     }
 
@@ -74,9 +75,7 @@ public class ActivationListeners<K> implements ActivationManager<K> {
         if (setState(key, true)) {
             this.lock.readLock().lock();
             try {
-                for (ActivationListener<K> listener : this.listeners) {
-                    listener.activated(key);
-                }
+                this.listeners.forEach(l -> l.activated(key));
             } finally {
                 this.lock.readLock().unlock();
             }
@@ -88,9 +87,7 @@ public class ActivationListeners<K> implements ActivationManager<K> {
         if (setState(key, false)) {
             this.lock.readLock().lock();
             try {
-                for (ActivationListener<K> listener : this.listeners) {
-                    listener.deactivated(key);
-                }
+                this.listeners.forEach(l -> l.deactivated(key));
             } finally {
                 this.lock.readLock().unlock();
             }

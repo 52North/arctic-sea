@@ -22,15 +22,15 @@ import com.google.common.base.Objects;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class ProcedureDescriptionFormatKey {
-    private ServiceOperatorKey serviceOperatorKeyType;
+    private ServiceOperatorKey serviceOperatorKey;
 
     private String procedureDescriptionFormat;
 
-    public ProcedureDescriptionFormatKey(ServiceOperatorKey serviceOperatorKeyType, String responseFormat) {
-        this.serviceOperatorKeyType = serviceOperatorKeyType;
+    public ProcedureDescriptionFormatKey(ServiceOperatorKey serviceOperatorKey, String responseFormat) {
+        this.serviceOperatorKey = serviceOperatorKey;
         this.procedureDescriptionFormat = responseFormat;
     }
 
@@ -38,12 +38,23 @@ public class ProcedureDescriptionFormatKey {
         this(null, null);
     }
 
+    @Deprecated
     public ServiceOperatorKey getServiceOperatorKeyType() {
-        return serviceOperatorKeyType;
+        return getServiceOperatorKey();
     }
 
+    @Deprecated
     public void setServiceOperatorKeyType(ServiceOperatorKey serviceOperatorKeyType) {
-        this.serviceOperatorKeyType = serviceOperatorKeyType;
+        setServiceOperatorKey(serviceOperatorKeyType);
+    }
+
+
+     public ServiceOperatorKey getServiceOperatorKey() {
+        return serviceOperatorKey;
+    }
+
+    public void setServiceOperatorKey(ServiceOperatorKey serviceOperatorKey) {
+        this.serviceOperatorKey = serviceOperatorKey;
     }
 
     public String getProcedureDescriptionFormat() {
@@ -55,23 +66,23 @@ public class ProcedureDescriptionFormatKey {
     }
 
     public String getService() {
-        return getServiceOperatorKeyType() != null ? getServiceOperatorKeyType().getService() : null;
+        return getServiceOperatorKey() != null ? getServiceOperatorKey().getService() : null;
     }
 
     public String getVersion() {
-        return getServiceOperatorKeyType() != null ? getServiceOperatorKeyType().getVersion() : null;
+        return getServiceOperatorKey() != null ? getServiceOperatorKey().getVersion() : null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getServiceOperatorKeyType(), getProcedureDescriptionFormat());
+        return Objects.hashCode(getServiceOperatorKey(), getProcedureDescriptionFormat());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ProcedureDescriptionFormatKey) {
             ProcedureDescriptionFormatKey o = (ProcedureDescriptionFormatKey) obj;
-            return Objects.equal(getServiceOperatorKeyType(), o.getServiceOperatorKeyType())
+            return Objects.equal(getServiceOperatorKey(), o.getServiceOperatorKey())
                     && Objects.equal(getProcedureDescriptionFormat(), o.getProcedureDescriptionFormat());
         }
         return false;
@@ -80,6 +91,6 @@ public class ProcedureDescriptionFormatKey {
     @Override
     public String toString() {
         return String.format("%s[serviceOperatorKeyType=%s, procedureDescriptionFormat=%s]", getClass()
-                .getSimpleName(), getServiceOperatorKeyType(), getProcedureDescriptionFormat());
+                .getSimpleName(), getServiceOperatorKey(), getProcedureDescriptionFormat());
     }
 }

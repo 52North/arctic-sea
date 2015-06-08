@@ -22,7 +22,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.encode.Encoder;
 import org.n52.iceland.encode.ObservationEncoder;
 import org.n52.iceland.encode.ResponseFormatKey;

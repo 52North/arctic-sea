@@ -16,31 +16,24 @@
  */
 package org.n52.iceland.util.activation;
 
-import java.util.Set;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-
 /**
+ * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public interface ActivationSource<K> extends ActivationProvider<K> {
+@FunctionalInterface
+public interface FunctionalActivationListener<K> extends ActivationListener<K> {
 
-    Set<K> getKeys();
-
-    static <K> ActivationSource<K> create(Predicate<? super K> isActive,
-                                          Supplier<? extends Set<K>> getKeys) {
-        return new ActivationSource<K>() {
-            @Override
-            public Set<K> getKeys() {
-                return getKeys.get();
-            }
-
-            @Override
-            public boolean isActive(K key) {
-                return isActive.test(key);
-            }
-        };
+    @Override
+    default void activated(K key) {
+        setStatus(key, true);
     }
+
+    @Override
+    default void deactivated(K key) {
+        setStatus(key, false);
+    }
+
+    void setStatus(K key, boolean active);
 
 }

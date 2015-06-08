@@ -22,16 +22,16 @@ import com.google.common.base.Objects;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class ResponseFormatKey {
-    private ServiceOperatorKey serviceOperatorKeyType;
+    private ServiceOperatorKey serviceOperatorKey;
 
     private String responseFormat;
 
-    public ResponseFormatKey(ServiceOperatorKey serviceOperatorKeyType, String responseFormat) {
-        this.serviceOperatorKeyType = serviceOperatorKeyType;
+    public ResponseFormatKey(ServiceOperatorKey serviceOperatorKey, String responseFormat) {
+        this.serviceOperatorKey = serviceOperatorKey;
         this.responseFormat = responseFormat;
     }
 
@@ -39,12 +39,22 @@ public class ResponseFormatKey {
         this(null, null);
     }
 
+    @Deprecated
     public ServiceOperatorKey getServiceOperatorKeyType() {
-        return serviceOperatorKeyType;
+        return getServiceOperatorKey();
     }
 
+    @Deprecated
     public void setServiceOperatorKeyType(ServiceOperatorKey serviceOperatorKeyType) {
-        this.serviceOperatorKeyType = serviceOperatorKeyType;
+        setServiceOperatorKey(serviceOperatorKeyType);
+    }
+
+    public ServiceOperatorKey getServiceOperatorKey() {
+        return this.serviceOperatorKey;
+    }
+
+    public void setServiceOperatorKey(ServiceOperatorKey serviceOperatorKey) {
+        this.serviceOperatorKey = serviceOperatorKey;
     }
 
     public String getResponseFormat() {
@@ -56,23 +66,23 @@ public class ResponseFormatKey {
     }
 
     public String getService() {
-        return getServiceOperatorKeyType() != null ? getServiceOperatorKeyType().getService() : null;
+        return getServiceOperatorKey() != null ? getServiceOperatorKey().getService() : null;
     }
 
     public String getVersion() {
-        return getServiceOperatorKeyType() != null ? getServiceOperatorKeyType().getVersion() : null;
+        return getServiceOperatorKey() != null ? getServiceOperatorKey().getVersion() : null;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getServiceOperatorKeyType(), getResponseFormat());
+        return Objects.hashCode(getServiceOperatorKey(), getResponseFormat());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof ResponseFormatKey) {
             ResponseFormatKey o = (ResponseFormatKey) obj;
-            return Objects.equal(getServiceOperatorKeyType(), o.getServiceOperatorKeyType())
+            return Objects.equal(getServiceOperatorKey(), o.getServiceOperatorKey())
                     && Objects.equal(getResponseFormat(), o.getResponseFormat());
         }
         return false;
@@ -81,6 +91,6 @@ public class ResponseFormatKey {
     @Override
     public String toString() {
         return String.format("%s[serviceOperatorKeyType=%s, responseFormat=%s]", getClass().getSimpleName(),
-                getServiceOperatorKeyType(), getResponseFormat());
+                getServiceOperatorKey(), getResponseFormat());
     }
 }

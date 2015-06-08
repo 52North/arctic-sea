@@ -18,25 +18,26 @@ package org.n52.iceland.request.operator;
 
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
     private final ServiceOperatorKey sok;
 
     private final String operationName;
-    
+
     private final boolean defaultActive;
 
     public RequestOperatorKey(ServiceOperatorKey sok, String operationName) {
         this(sok, operationName, true);
     }
-    
+
     public RequestOperatorKey(ServiceOperatorKey sok, String operationName, boolean defaultActive) {
         this.sok = sok;
         this.operationName = operationName;
@@ -46,7 +47,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
     public RequestOperatorKey(String service, String version, String operationName) {
         this(new ServiceOperatorKey(service, version), operationName, true);
     }
-    
+
     public RequestOperatorKey(String service, String version, String operationName, boolean defaultActive) {
         this(new ServiceOperatorKey(service, version), operationName, defaultActive);
     }
@@ -66,7 +67,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
     public String getOperationName() {
         return operationName;
     }
-    
+
     /**
      * @return the defaultActive
      */
@@ -98,7 +99,10 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     @Override
     public String toString() {
-        return String.format("%s[serviceOperatorKeyType=%s, operationName=%s, defaultActive=%b]", getClass().getSimpleName(),
-                getServiceOperatorKey(), getOperationName(), isDefaultActive());
+        return MoreObjects.toStringHelper(this)
+                .add("serviceOperatorKey", getServiceOperatorKey())
+                .add("operationName", getOperationName())
+                .add("defaultActive", isDefaultActive())
+                .toString();
     }
 }

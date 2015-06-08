@@ -175,7 +175,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected Boolean parseBoolean(String stringValue) throws IllegalArgumentException {
+    public Boolean parseBoolean(String stringValue) throws IllegalArgumentException {
         if (nullOrEmpty(stringValue)) {
             return Boolean.FALSE;
         }
@@ -201,7 +201,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected File parseFile(String stringValue) throws IllegalArgumentException {
+    public File parseFile(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : new File(stringValue);
     }
 
@@ -217,7 +217,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected Integer parseInteger(String stringValue) throws IllegalArgumentException {
+    public Integer parseInteger(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : Integer.valueOf(stringValue, 10);
     }
 
@@ -233,7 +233,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected Double parseDouble(String stringValue) throws IllegalArgumentException {
+    public Double parseDouble(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : Double.parseDouble(stringValue);
     }
 
@@ -249,7 +249,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected URI parseUri(String stringValue) throws IllegalArgumentException {
+    public URI parseUri(String stringValue) throws IllegalArgumentException {
         if (nullOrEmpty(stringValue)) {
             return null;
         }
@@ -272,7 +272,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected String parseString(String stringValue) {
+    public String parseString(String stringValue) {
         return nullOrEmpty(stringValue) ? null : stringValue;
     }
 
@@ -288,7 +288,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected TimeInstant parseTimeInstant(String stringValue) {
+    public TimeInstant parseTimeInstant(String stringValue) {
         if (nullOrEmpty(stringValue)) {
             return null;
         } else {
@@ -300,7 +300,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         }
     }
 
-    private MultilingualString parseMultilingualString(String stringValue) {
+    public MultilingualString parseMultilingualString(String stringValue) {
         MultilingualString ms = new MultilingualString();
         if (!nullOrEmpty(stringValue)) {
             JsonNode json = JSONUtils.loadString(stringValue);

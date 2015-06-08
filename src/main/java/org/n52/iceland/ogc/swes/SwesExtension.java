@@ -16,27 +16,36 @@
  */
 package org.n52.iceland.ogc.swes;
 
+import org.n52.iceland.util.StringHelper;
+
 public interface SwesExtension<T> {
-    
+
     String getNamespace();
-    
+
     SwesExtension<T> setNamespace(String namespace);
-    
-    boolean isSetNamespace();
-    
+
+    default boolean isSetNamespace() {
+        return StringHelper.isNotEmpty(getNamespace());
+    }
+
     String getIdentifier();
-    
+
     SwesExtension<T> setIdentifier(String identifier);
-    
-    boolean isSetIdentifier();
+
+    default boolean isSetIdentifier() {
+        return StringHelper.isNotEmpty(getIdentifier());
+    }
 
     String getDefinition();
 
     SwesExtension<T> setDefinition(String definition);
-    
-    boolean isSetDefinition();
+
+    default boolean isSetDefinition() {
+        return StringHelper.isNotEmpty(getDefinition());
+    }
 
     T getValue();
 
     SwesExtension<T> setValue(T value);
+
 }

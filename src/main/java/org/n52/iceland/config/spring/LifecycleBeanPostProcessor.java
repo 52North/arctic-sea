@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.config;
+package org.n52.iceland.config.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
+import org.springframework.core.Ordered;
+import org.springframework.core.PriorityOrdered;
 
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.lifecycle.Destroyable;
@@ -32,32 +31,20 @@ import org.n52.iceland.lifecycle.Destroyable;
  * TODO JavaDoc
  *
  * @author Christian Autermann
- *
  */
-public class IcelandBeanPostProcessor
-        implements BeanPostProcessor, DestructionAwareBeanPostProcessor {
-
+public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProcessor, PriorityOrdered {
     private static final Logger LOG = LoggerFactory
-            .getLogger(IcelandBeanPostProcessor.class);
+            .getLogger(LifecycleBeanPostProcessor.class);
 
-    private SettingsManager settingsManager;
-
-    @Required
-    @Autowired
-    public void setSettingsManager(SettingsManager settingsManager) {
-        this.settingsManager = settingsManager;
-    }
-
+    private int order = Ordered.LOWEST_PRECEDENCE;
 
     @Override
-    public Object postProcessBeforeInitialization(Object bean, String beanName) {
-        try {
-            this.settingsManager.configure(bean);
-        } catch (Throwable t) {
-            throw new BeanInitializationException(
-                    "Couldn't set settings on bean " + beanName, t);
-        }
-        return bean;
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
     }
 
     @Override
@@ -88,4 +75,8 @@ public class IcelandBeanPostProcessor
         }
     }
 
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) {
+        return bean;
+    }
 }
