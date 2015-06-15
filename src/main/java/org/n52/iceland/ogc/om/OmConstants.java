@@ -30,7 +30,9 @@ import com.google.common.collect.ImmutableSet;
 /**
  * Class contains element names and namespaces used to encode the O&M responses.
  *
- * @since 4.0.0
+ * Interface contains element names and namespaces used to encode the OGC O&M responses.
+ *
+ * @since 1.0.0
  */
 public interface OmConstants {
     String PARAMETER_NOT_SET = "PARAMETER_NOT_SET";

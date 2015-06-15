@@ -17,9 +17,11 @@
 package org.n52.iceland.ogc.sos;
 
 /**
+ * Constant interface for OGC SOS 2.0 conformance class definitions
+ * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface ConformanceClasses {
 

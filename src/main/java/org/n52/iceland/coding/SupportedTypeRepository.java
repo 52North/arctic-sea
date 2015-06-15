@@ -22,8 +22,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.decode.Decoder;
-import org.n52.iceland.encode.Encoder;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.ServiceConstants.AbstractSupportedStringType;
 import org.n52.iceland.service.ServiceConstants.FeatureType;

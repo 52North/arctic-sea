@@ -20,16 +20,19 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.n52.iceland.exception.ows.OperationNotSupportedException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
+ * Abstract class of {@link ServiceOperator} which implements the defined
+ * methods for concrete implementations.
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class AbstractServiceOperator implements ServiceOperator {
     private final ServiceOperatorKey key;

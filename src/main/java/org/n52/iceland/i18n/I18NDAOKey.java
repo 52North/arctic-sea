@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.i18n;
 
-import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.iceland.component.ClassBasedComponentKey;
+import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 
 /**
  * TODO JavaDoc

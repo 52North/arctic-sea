@@ -1,0 +1,252 @@
+/*
+ * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.n52.iceland.convert;
+
+import java.util.Objects;
+import java.util.Set;
+
+import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.iceland.service.AbstractServiceCommunicationObject;
+import org.n52.iceland.util.Constants;
+import org.n52.iceland.util.StringHelper;
+
+import com.google.common.collect.Sets;
+
+/**
+ * Key class to identify {@link RequestResponseModifier}
+ *
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
+public class RequestResponseModifierKey implements Comparable<RequestResponseModifierKey> {
+    private String service = Constants.EMPTY_STRING;
+    private String version = Constants.EMPTY_STRING;
+    private AbstractServiceRequest<?> request;
+    private AbstractServiceResponse response;
+
+    /**
+     * Constructor
+     *
+     * @param service
+     *            The service name
+     * @param version
+     *            The service version
+     * @param request
+     *            The {@link AbstractServiceRequest}
+     */
+    public RequestResponseModifierKey(String service, String version, AbstractServiceRequest<?> request) {
+        this(service, version, request, null);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param service
+     *            The service name
+     * @param version
+     *            The service version
+     * @param request
+     *            The {@link AbstractServiceRequest}
+     * @param response
+     *            The {@link AbstractServiceResponse}
+     */
+    public RequestResponseModifierKey(String service, String version, AbstractServiceRequest<?> request,
+            AbstractServiceResponse response) {
+        super();
+        setService(service);
+        setVersion(version);
+        setRequest(request);
+        setResponse(response);
+    }
+
+    /**
+     * @return the service
+     */
+    public String getService() {
+        return this.service;
+    }
+
+    private void setService(String service) {
+        this.service = service;
+    }
+
+    /**
+     * @return the version
+     */
+    public String getVersion() {
+        return this.version;
+    }
+
+    /**
+     * @param version
+     */
+    private void setVersion(String version) {
+        this.version = version;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isSetService() {
+        return StringHelper.isNotEmpty(getService());
+    }
+
+    /**
+     * @return
+     */
+    public boolean isSetVersion() {
+        return StringHelper.isNotEmpty(getVersion());
+    }
+
+    /**
+     * @return the request
+     */
+    public AbstractServiceRequest<?> getRequest() {
+        return request;
+    }
+
+    /**
+     * @param request
+     *            the request to set
+     */
+    private void setRequest(AbstractServiceRequest<?> request) {
+        this.request = request;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isSetRequest() {
+        return getRequest() != null;
+    }
+
+    /**
+     * @return the response
+     */
+    public AbstractServiceResponse getResponse() {
+        return response;
+    }
+
+    /**
+     * @param response
+     *            the response to set
+     */
+    private void setResponse(AbstractServiceResponse response) {
+        this.response = response;
+    }
+
+    /**
+     * @return
+     */
+    public boolean isSetResponse() {
+        return getResponse() != null;
+    }
+
+    /**
+     * @param localParameter
+     * @param parameterToCheck
+     * @return <code>true</code>, if localParameter is null, both parameter are
+     *         null of both parameter are the same
+     */
+    private boolean checkCompareToParameter(String localParameter, String parameterToCheck) {
+        if (localParameter == null || (localParameter == null && parameterToCheck == null)) {
+            return true;
+        }
+        return localParameter != null && parameterToCheck != null && localParameter.equals(parameterToCheck);
+    }
+
+    /**
+     * @param object
+     * @param objectToCheck
+     * @return <code>true</code>, if both
+     *         {@link AbstractServiceCommunicationObject} are null or both
+     *         {@link AbstractServiceCommunicationObject} are the of the same
+     *         class
+     */
+    private boolean checkParameter(AbstractServiceCommunicationObject object,
+            AbstractServiceCommunicationObject objectToCheck) {
+        if (object == null && objectToCheck == null) {
+            return true;
+        }
+        return object != null && objectToCheck != null && object.getClass() == objectToCheck.getClass();
+    }
+
+    /**
+     * @param toCheck
+     * @return <code>true</code>, if this {@link AbstractServiceResponse} and
+     *         the toCheck {@link AbstractServiceResponse} are null or both are
+     *         of the same class
+     */
+    private boolean checkResponseForEquals(AbstractServiceResponse toCheck) {
+        if (toCheck != null && getRequest() != null) {
+            return getResponse().getClass() == toCheck.getClass();
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s[service=%s, service=%s, request=%s, response=%s]", getClass().getSimpleName(),
+                getService(), getVersion(), isSetRequest() ? getRequest().getClass().getSimpleName()
+                        : Constants.EMPTY_STRING, isSetResponse() ? getResponse().getClass().getSimpleName()
+                        : Constants.EMPTY_STRING);
+    }
+
+    @Override
+    public int compareTo(RequestResponseModifierKey o) {
+        if (o instanceof RequestResponseModifierKey) {
+            if (checkCompareToParameter(getService(), o.getService())
+                    && checkCompareToParameter(getVersion(), o.getVersion())
+                    && checkParameter(getRequest(), o.getRequest()) && checkParameter(getResponse(), o.getResponse())) {
+                return 0;
+            }
+            return 1;
+        }
+        return -1;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o != null && o.getClass() == getClass()) {
+            RequestResponseModifierKey other = (RequestResponseModifierKey) o;
+            Set<Boolean> equal = Sets.newHashSet();
+            if (isSetService()) {
+                equal.add(Objects.equals(getService(), other.getService()));
+            }
+            if (isSetVersion()) {
+                equal.add(Objects.equals(getVersion(), other.getVersion()));
+            }
+            equal.add(checkParameter(getRequest(), other.getRequest()));
+            equal.add(checkResponseForEquals(other.getResponse()));
+            if (equal.size() == 1) {
+                return equal.iterator().next();
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashCode = Objects.hash(getService(), getVersion(), getRequest().getClass());
+        if (isSetResponse()) {
+            return Objects.hash(hashCode, getResponse().getClass());
+        }
+        return hashCode;
+    }
+}

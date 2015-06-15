@@ -16,12 +16,6 @@
  */
 package org.n52.iceland.ogc.gml;
 
-/**
- * Class represents a GML conform CodeWithAuthority element
- * 
- * @since 4.0.0
- * 
- */
 import java.io.Serializable;
 
 import org.n52.iceland.util.Constants;
@@ -29,6 +23,12 @@ import org.n52.iceland.util.StringHelper;
 
 import com.google.common.base.Objects;
 
+/**
+ * Class represents a GML conform CodeWithAuthority element
+ * 
+ * @since 1.0.0
+ * 
+ */
 public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Serializable {
 
     private static final long serialVersionUID = 9001214766142377426L;

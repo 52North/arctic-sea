@@ -30,9 +30,9 @@ import java.util.zip.GZIPOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.encode.ResponseProxy;
-import org.n52.iceland.encode.ResponseWriter;
-import org.n52.iceland.encode.ResponseWriterRepository;
+import org.n52.iceland.coding.encode.ResponseProxy;
+import org.n52.iceland.coding.encode.ResponseWriter;
+import org.n52.iceland.coding.encode.ResponseWriterRepository;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;

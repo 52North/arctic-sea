@@ -20,14 +20,15 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+
 import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OWSConstants.ExtendedIndeterminateTime;
 import org.n52.iceland.util.Constants;
 
 /**
  * Class represents a GML conform timeInstant element
- * 
- * @since 4.0.0
+ *
+ * @since 1.0.0
  */
 public class TimeInstant extends Time {
     /**
@@ -60,7 +61,7 @@ public class TimeInstant extends Time {
 
     /**
      * constructor
-     * 
+     *
      * @param dateTime
      *            Time position of this time instant
      */
@@ -70,7 +71,7 @@ public class TimeInstant extends Time {
 
     /**
      * constructor
-     * 
+     *
      * @param indeterminateValue
      *            Indeterminate value
      */
@@ -80,7 +81,7 @@ public class TimeInstant extends Time {
 
     /**
      * constructor
-     * 
+     *
      * @param extendedIndeterminateTime
      *            SOS indeterminate time
      */
@@ -90,7 +91,7 @@ public class TimeInstant extends Time {
 
     /**
      * constructor with date and indeterminateValue.
-     * 
+     *
      * @param dateValue
      *            date of the timeInstante
      * @param indeterminateValue
@@ -105,7 +106,7 @@ public class TimeInstant extends Time {
     /**
      * Constructor using Java Dates, setting unknown indeterminate values if
      * null
-     * 
+     *
      * @param date Value date
      */
     public TimeInstant(Date date) {
@@ -118,7 +119,7 @@ public class TimeInstant extends Time {
 
     /**
      * Get time value
-     * 
+     *
      * @return Returns the value.
      */
     public DateTime getValue() {
@@ -127,7 +128,7 @@ public class TimeInstant extends Time {
 
     /**
      * Get time value, resolving indeterminate value if value is null
-     * 
+     *
      * @return Returns the resolved value.
      */
     public DateTime resolveValue() {
@@ -136,7 +137,7 @@ public class TimeInstant extends Time {
 
     /**
      * Set time value
-     * 
+     *
      * @param value
      *            The value to set.
      */
@@ -146,7 +147,7 @@ public class TimeInstant extends Time {
 
     /**
      * Set requested time length
-     * 
+     *
      * @param requestedTimeLength
      *            the requestedTimeLength to set
      */
@@ -156,7 +157,7 @@ public class TimeInstant extends Time {
 
     /**
      * Get requested time length
-     * 
+     *
      * @return the requestedTimeLength
      */
     public int getRequestedTimeLength() {
@@ -165,7 +166,7 @@ public class TimeInstant extends Time {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#toString()
      */
     @Override
@@ -180,7 +181,7 @@ public class TimeInstant extends Time {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Comparable#compareTo(java.lang.Object)
      */
     @Override
@@ -209,12 +210,12 @@ public class TimeInstant extends Time {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
@@ -229,14 +230,14 @@ public class TimeInstant extends Time {
                 return getSosIndeterminateTime().equals(toCheck.getSosIndeterminateTime());
             } else if (isSetValue() && toCheck.isSetValue() && isSetIndeterminateValue() && toCheck.isSetIndeterminateValue()) {
                 return getValue().isEqual(toCheck.getValue()) && getIndeterminateValue().equals(toCheck.getIndeterminateValue());
-            } 
+            }
         }
         return false;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
@@ -248,7 +249,7 @@ public class TimeInstant extends Time {
 
     /**
      * Check if time value is set
-     * 
+     *
      * @return <tt>true</tt> if set
      */
     public boolean isSetValue() {
@@ -257,7 +258,7 @@ public class TimeInstant extends Time {
 
     /**
      * Get indeterminate value
-     * 
+     *
      * @return Returns the indeterminateValue.
      */
     public TimeIndeterminateValue getIndeterminateValue() {
@@ -266,7 +267,7 @@ public class TimeInstant extends Time {
 
     /**
      * Get the time position of this time instant
-     * 
+     *
      * @return Time position
      */
     public TimePosition getTimePosition() {
@@ -279,7 +280,7 @@ public class TimeInstant extends Time {
 
     /**
      * Set indeterminate value
-     * 
+     *
      * @param indeterminateValue
      *            The indeterminateValue to set.
      * @return this
@@ -291,7 +292,7 @@ public class TimeInstant extends Time {
 
     /**
      * Check if indeterminate value is set
-     * 
+     *
      * @return <tt>true</tt> if set
      */
     public boolean isSetIndeterminateValue() {
@@ -300,7 +301,7 @@ public class TimeInstant extends Time {
 
     /**
      * Check whether this indeterminate value equals expected value
-     * 
+     *
      * @param value
      *            Expected value
      * @return <code>true</code>, if this indeterminate value equals expected
@@ -313,7 +314,7 @@ public class TimeInstant extends Time {
 
     /**
      * Get SOS indeterminate value
-     * 
+     *
      * @return SOS indeterminate value
      */
     public OWSConstants.ExtendedIndeterminateTime getSosIndeterminateTime() {
@@ -322,7 +323,7 @@ public class TimeInstant extends Time {
 
     /**
      * Set SOS indeterminate value
-     * 
+     *
      * @param extendedIndeterminateTime
      * @return This TimeInstant
      */
@@ -333,7 +334,7 @@ public class TimeInstant extends Time {
 
     /**
      * Check if SOS indeterminate value is set
-     * 
+     *
      * @return <tt>true</tt> if set
      */
     public boolean isSetSosIndeterminateTime() {

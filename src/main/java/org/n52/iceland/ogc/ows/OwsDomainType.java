@@ -21,9 +21,9 @@ import org.n52.iceland.util.StringHelper;
 /**
  * Class represents an OWS DomaintType element
  * 
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public class OwsDomainType {

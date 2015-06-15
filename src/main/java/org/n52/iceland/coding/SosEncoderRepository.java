@@ -18,8 +18,8 @@ package org.n52.iceland.coding;
 
 import java.util.Set;
 
-import org.n52.iceland.encode.Encoder;
-import org.n52.iceland.encode.ObservationEncoder;
+import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.ObservationEncoder;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.Producers;
 

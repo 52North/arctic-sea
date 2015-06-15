@@ -26,11 +26,8 @@ import org.n52.iceland.util.StringHelper;
  * feature source (e.g. WFS) should provide information about the application
  * schema.
  * 
- * @since 4.0.0
- */
-/**
- * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  * 
  */
 public abstract class AbstractFeature extends AbstractGML implements Serializable {

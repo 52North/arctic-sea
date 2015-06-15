@@ -16,36 +16,78 @@
  */
 package org.n52.iceland.ogc.swes;
 
-import org.n52.iceland.util.StringHelper;
+import org.n52.iceland.ogc.ows.Extension;
+import org.n52.iceland.ogc.swe.SweConstants;
 
-public interface SwesExtension<T> {
+/**
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
+ *
+ * @since 4.0.0
+ */
+public class SwesExtension<T> implements Extension<T> {
 
-    String getNamespace();
+    private String namespace = SweConstants.NS_SWE_20;
+    private String identifier;
+    private T value;
+    private String definition;
 
-    SwesExtension<T> setNamespace(String namespace);
-
-    default boolean isSetNamespace() {
-        return StringHelper.isNotEmpty(getNamespace());
+    public SwesExtension(T value) {
+        this.value = value;
     }
 
-    String getIdentifier();
-
-    SwesExtension<T> setIdentifier(String identifier);
-
-    default boolean isSetIdentifier() {
-        return StringHelper.isNotEmpty(getIdentifier());
+    public SwesExtension() {
+        this(null);
     }
 
-    String getDefinition();
-
-    SwesExtension<T> setDefinition(String definition);
-
-    default boolean isSetDefinition() {
-        return StringHelper.isNotEmpty(getDefinition());
+    @Override
+    public String getNamespace() {
+        return namespace;
     }
 
-    T getValue();
+    @Override
+    public SwesExtension<T> setNamespace(String namespace) {
+        this.namespace = namespace;
+        return this;
+    }
 
-    SwesExtension<T> setValue(T value);
+    @Override
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    @Override
+    public SwesExtension<T> setIdentifier(String identifier) {
+        this.identifier = identifier;
+        return this;
+    }
+
+
+    @Override
+	public String getDefinition() {
+        return definition;
+    }
+
+    @Override
+	public SwesExtension<T> setDefinition(final String definition) {
+        this.definition = definition;
+        return this;
+    }
+
+    @Override
+	public T getValue() {
+        return value;
+    }
+
+    @Override
+	public SwesExtension<T> setValue(final T value) {
+        this.value = value;
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("SwesExtension [value=%s, definition=%s]", value, definition);
+    }
 
 }

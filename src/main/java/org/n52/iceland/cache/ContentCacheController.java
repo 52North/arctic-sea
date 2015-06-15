@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.cache;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.lifecycle.Destroyable;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -33,30 +33,29 @@ public interface ContentCacheController extends Destroyable {
     /**
      * Update the content cache with the specified update.
      *
-     * @param update
-     *            the update
+     * @param update the update
      *
-     * @throws OwsExceptionReport
-     *             if an error occurs while updating the cache
+     * @throws OwsExceptionReport ian error occurs while updating the cache
      */
-    void update(ContentCacheUpdate update) throws OwsExceptionReport;
+    void update(ContentCacheUpdate update)
+            throws OwsExceptionReport;
 
     /**
-     * Renew the content cache completly.
+     * Renew the content cache completely.
      *
-     * @throws OwsExceptionReport
-     *             if an error occurs while updating the cache
+     * @throws OwsExceptionReport if an error occurs while updating the cache
      */
-    void update() throws OwsExceptionReport;
+    void update()
+            throws OwsExceptionReport;
 
     /**
      * @return Is a cache update currently in progress?
      */
     boolean isUpdateInProgress();
 
-
     /**
      * @return the ContentCachePersistenceStrategy
+     *
      * @since 4.2.0
      */
     ContentCachePersistenceStrategy getContentCachePersistenceStrategy();

@@ -17,7 +17,7 @@
 package org.n52.iceland.ds;
 
 import org.n52.iceland.component.Component;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsOperation;
 import org.n52.iceland.service.ConformanceClass;
 

@@ -23,14 +23,15 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.decode.Decoder;
-import org.n52.iceland.decode.OperationDecoderKey;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.request.AbstractServiceRequest;
@@ -50,15 +51,17 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * TODO JavaDoc
+ * {@link Binding} implementation for JSON encoded requests
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class JSONBinding extends SimpleBinding {
     private static final String URL_PATTERN = "/json";
+    private static final String CONFORMANCE_CLASS
+            = "http://www.opengis.net/spec/SOS/2.0/conf/json";
     private static final Set<String> CONFORMANCE_CLASSES = Collections
-            .singleton("http://www.opengis.net/spec/SOS/2.0/conf/json");
+            .singleton(CONFORMANCE_CLASS);
     private static final Logger LOG = LoggerFactory.getLogger(JSONBinding.class);
     private static final String SERVICE = "service";
     private static final String VERSION = "version";

@@ -21,7 +21,7 @@ import org.n52.iceland.w3c.xlink.SimpleAttrs;
 /**
  * SOS class for OwsMetadata
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public class OwsMetadata extends SimpleAttrs {

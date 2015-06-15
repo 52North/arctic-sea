@@ -17,12 +17,15 @@
 package org.n52.iceland.service;
 
 import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.request.Request;
+
+import com.google.common.base.Strings;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
-public abstract class AbstractServiceCommunicationObject {
+public abstract class AbstractServiceCommunicationObject implements Request {
 
     /** service parameter */
     private String service;
@@ -63,14 +66,29 @@ public abstract class AbstractServiceCommunicationObject {
         return version;
     }
 
+    /**
+     * @return <code>true</code>, if service is not null or empty
+     */
     public boolean isSetService() {
-        return service != null && !service.isEmpty();
+        return !Strings.isNullOrEmpty(getService());
     }
 
+    /**
+     * @return <code>true</code>, if version is not null or empty
+     */
     public boolean isSetVersion() {
-        return version != null && !version.isEmpty();
+        return !Strings.isNullOrEmpty(getVersion());
     }
-    
+
+    /**
+     * Set service and version from another
+     * {@link AbstractServiceCommunicationObject}
+     * 
+     * @param object
+     *            The {@link AbstractServiceCommunicationObject} to get values
+     *            from
+     * @return this.
+     */
     public AbstractServiceCommunicationObject set(AbstractServiceCommunicationObject object) {
         setService(object.getService());
         setVersion(object.getVersion());
@@ -82,6 +100,10 @@ public abstract class AbstractServiceCommunicationObject {
      */
     public abstract String getOperationName();
 
+    /**
+     * @return The {@link OperationKey} of this
+     *         {@link AbstractServiceCommunicationObject}
+     */
     public OperationKey getOperationKey() {
         return new OperationKey(getService(), getVersion(), getOperationName());
     }

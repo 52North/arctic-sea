@@ -24,7 +24,7 @@ import org.n52.iceland.w3c.SchemaLocation;
 import com.google.common.base.Joiner;
 
 /**
- * Constants class for SWE
+ * Constants interface for OGC SWE 1.0.1 and 2.0
  * 
  * @since 4.0.0
  */

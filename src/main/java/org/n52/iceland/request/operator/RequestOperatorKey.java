@@ -24,8 +24,10 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 
 /**
- * @since 4.0.0
+ * Key to identify a {@link RequestOperator}. The {@link RequestOperatorKey}
+ * consists of service, version and operation name.
  *
+ * @since 1.0.0
  */
 public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
     private final ServiceOperatorKey sok;
@@ -34,42 +36,82 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     private final boolean defaultActive;
 
+    /**
+     * Constructor
+     *
+     * @param sok
+     * @param operationName
+     */
     public RequestOperatorKey(ServiceOperatorKey sok, String operationName) {
         this(sok, operationName, true);
     }
 
+    /**
+     * Constructor
+     *
+     * @param sok
+     * @param operationName
+     * @param defaultActive
+     */
     public RequestOperatorKey(ServiceOperatorKey sok, String operationName, boolean defaultActive) {
         this.sok = sok;
         this.operationName = operationName;
         this.defaultActive = defaultActive;
     }
 
+    /**
+     * Constructor
+     *
+     * @param service
+     * @param version
+     * @param operationName
+     */
     public RequestOperatorKey(String service, String version, String operationName) {
         this(new ServiceOperatorKey(service, version), operationName, true);
     }
 
+    /**
+     * Constructor
+     *
+     * @param service
+     * @param version
+     * @param operationName
+     * @param defaultActive
+     */
     public RequestOperatorKey(String service, String version, String operationName, boolean defaultActive) {
         this(new ServiceOperatorKey(service, version), operationName, defaultActive);
     }
 
+    /**
+     * @return the {@link ServiceOperatorKey}
+     */
     public ServiceOperatorKey getServiceOperatorKey() {
         return sok;
     }
 
+    /**
+     * @return The service name
+     */
     public String getService() {
         return sok == null ? null : sok.getService();
     }
 
+    /**
+     * @return The service version
+     */
     public String getVersion() {
         return sok == null ? null : sok.getVersion();
     }
 
+    /**
+     * @return The operation name
+     */
     public String getOperationName() {
         return operationName;
     }
 
     /**
-     * @return the defaultActive
+     * @return <code>true</code>, if this operation should be active by default
      */
     public boolean isDefaultActive() {
         return defaultActive;

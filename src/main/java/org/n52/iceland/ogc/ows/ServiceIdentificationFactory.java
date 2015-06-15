@@ -36,15 +36,16 @@ import javax.inject.Inject;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
+import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
-import org.n52.iceland.util.XmlHelper;
 
 import com.google.common.collect.Sets;
 
@@ -179,7 +180,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     private OwsServiceIdentification createFromFile() throws ConfigurationException {
         try {
             OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
-            serviceIdentification.setServiceIdentification(XmlHelper.loadXmlDocumentFromFile(this.file));
+            serviceIdentification.setServiceIdentification(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
             return serviceIdentification;
         } catch (OwsExceptionReport ex) {
             throw new ConfigurationException(ex);

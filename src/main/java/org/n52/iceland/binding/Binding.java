@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.service.ConformanceClass;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.component.Component;
 
 /**
  * Abstract Super class for binding implementations<br />
@@ -41,7 +41,7 @@ import org.n52.iceland.component.Component;
  *         J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class Binding implements ConformanceClass, Component<BindingKey> {
     /**

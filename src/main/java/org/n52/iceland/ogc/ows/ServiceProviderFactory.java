@@ -36,13 +36,15 @@ import java.util.Locale;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
-import org.n52.iceland.util.XmlHelper;
+import org.n52.iceland.util.StringHelper;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 @Configurable
 public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServiceProvider> {
@@ -137,7 +139,7 @@ public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServicePro
         OwsServiceProvider serviceProvider = new OwsServiceProvider();
         if (this.file != null) {
             try {
-                serviceProvider.setServiceProvider(XmlHelper.loadXmlDocumentFromFile(this.file));
+                serviceProvider.setServiceProvider(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
             } catch (OwsExceptionReport ex) {
                 throw new ConfigurationException(ex);
             }

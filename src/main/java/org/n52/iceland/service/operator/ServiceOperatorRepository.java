@@ -25,8 +25,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.collections.MultiMaps;

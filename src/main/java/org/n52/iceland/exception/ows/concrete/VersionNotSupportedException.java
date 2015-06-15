@@ -22,7 +22,7 @@ import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class VersionNotSupportedException extends InvalidParameterValueException {
     private static final long serialVersionUID = 7013609926378578859L;

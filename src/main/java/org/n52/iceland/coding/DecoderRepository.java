@@ -22,9 +22,9 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.decode.Decoder;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.decode.DecoderFactory;
-import org.n52.iceland.decode.DecoderKey;
 import org.n52.iceland.lifecycle.Constructable;
 
 /**

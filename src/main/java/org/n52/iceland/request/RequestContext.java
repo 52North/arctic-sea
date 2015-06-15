@@ -22,11 +22,12 @@ import java.net.InetAddress;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.util.http.HTTPHeaders;
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.ProxyChain;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
@@ -37,10 +38,10 @@ import com.google.common.net.InetAddresses;
 /**
  * Holds information about a user's request that can be evaluated during request
  * processing (e.g. security info)
- * 
- * @author Shane StClair <shane@axiomalaska.com>
- * 
- * @since 4.0.0
+ *
+ * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
+ *
+ * @since 1.0.0
  */
 public class RequestContext {
     private static final Logger LOG = LoggerFactory.getLogger(RequestContext.class);
@@ -55,7 +56,7 @@ public class RequestContext {
     public Optional<ProxyChain> getForwardedForChain() {
         return proxyChain;
     }
-    
+
     public void setForwaredForChain(ProxyChain chain) {
         this.proxyChain = Optional.fromNullable(chain);
     }

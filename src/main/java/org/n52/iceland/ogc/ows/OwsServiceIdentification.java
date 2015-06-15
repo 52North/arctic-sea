@@ -22,17 +22,18 @@ import java.util.Collections;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.xmlbeans.XmlObject;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.StringHelper;
 
+import com.google.common.base.Strings;
+
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class OwsServiceIdentification {
-    private XmlObject serviceIdentification;
+    private String serviceIdentification;
     private MultilingualString title;
     private MultilingualString abstrakt;
     private String serviceType;
@@ -43,12 +44,16 @@ public class OwsServiceIdentification {
     private final SortedSet<String> profiles = new TreeSet<String>();
     private final SortedSet<String> keywords = new TreeSet<String>();
 
-    public XmlObject getServiceIdentification() {
+    public String getServiceIdentification() {
         return serviceIdentification;
     }
 
-    public void setServiceIdentification(final XmlObject serviceIdentification) {
+    public void setServiceIdentification(final String serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
+    }
+    
+    public boolean isSetServiceIdentification() {
+        return !Strings.isNullOrEmpty(getServiceIdentification());
     }
 
     public SortedSet<String> getVersions() {

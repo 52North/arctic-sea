@@ -24,7 +24,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.xmlbeans.BindingConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,17 +33,17 @@ import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.decode.Decoder;
-import org.n52.iceland.decode.DecoderKey;
-import org.n52.iceland.decode.OperationDecoderKey;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.DecoderKey;
+import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
 import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
 import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
 import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
@@ -59,7 +58,7 @@ import com.google.common.collect.ImmutableSet;
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class KvpBinding extends SimpleBinding {
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);

@@ -17,23 +17,39 @@
 package org.n52.iceland.convert;
 
 /**
- * @since 4.0.0
+ * Key class for {@link Converter}
  *
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  */
 public class ConverterKeyType implements Comparable<ConverterKeyType> {
 
     private final String fromNamespace;
     private final String toNamespace;
 
+    /**
+     * Constructor
+     *
+     * @param fromNamespace
+     *            The source namespace
+     * @param toNamespace
+     *            The target namespace
+     */
     public ConverterKeyType(String fromNamespace, String toNamespace) {
         this.fromNamespace = fromNamespace;
         this.toNamespace = toNamespace;
     }
 
+    /**
+     * @return the source namespace
+     */
     public String getFromNamespace() {
         return fromNamespace;
     }
 
+    /**
+     * @return the target namespace
+     */
     public String getToNamespace() {
         return toNamespace;
     }

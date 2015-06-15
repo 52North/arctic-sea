@@ -19,7 +19,8 @@ package org.n52.iceland.converter;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.n52.iceland.convert.RequestResponseModifierKeyType;
+
+import org.n52.iceland.convert.RequestResponseModifierKey;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.TestRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
@@ -37,24 +38,24 @@ public class RequestResponseModifierKeyTypeTest {
 
     @Test
     public void testHashCode() {
-        assertEquals(new RequestResponseModifierKeyType(service, version, request).hashCode(), new RequestResponseModifierKeyType(service, version, request).hashCode());
-        assertEquals(new RequestResponseModifierKeyType(service, version, request, response).hashCode(), new RequestResponseModifierKeyType(service, version, request, response).hashCode());
+        assertEquals(new RequestResponseModifierKey(service, version, request).hashCode(), new RequestResponseModifierKey(service, version, request).hashCode());
+        assertEquals(new RequestResponseModifierKey(service, version, request, response).hashCode(), new RequestResponseModifierKey(service, version, request, response).hashCode());
 
-        assertEquals(new RequestResponseModifierKeyType(service, version, request).hashCode(), new RequestResponseModifierKeyType(service, version, getModifiedRequest()).hashCode());
-        assertEquals(new RequestResponseModifierKeyType(service, version, request, response).hashCode(), new RequestResponseModifierKeyType(service, version, getModifiedRequest(), getModifiedResponse()).hashCode());
+        assertEquals(new RequestResponseModifierKey(service, version, request).hashCode(), new RequestResponseModifierKey(service, version, getModifiedRequest()).hashCode());
+        assertEquals(new RequestResponseModifierKey(service, version, request, response).hashCode(), new RequestResponseModifierKey(service, version, getModifiedRequest(), getModifiedResponse()).hashCode());
 
     }
 
     @Test
     public void testEquals() {
-        assertEquals(new RequestResponseModifierKeyType(service, version, request), new RequestResponseModifierKeyType(service, version, request));
-        assertEquals(new RequestResponseModifierKeyType(service, version, request, response), new RequestResponseModifierKeyType(service, version, request, response));
+        assertEquals(new RequestResponseModifierKey(service, version, request), new RequestResponseModifierKey(service, version, request));
+        assertEquals(new RequestResponseModifierKey(service, version, request, response), new RequestResponseModifierKey(service, version, request, response));
         // for production
         
         
         
-        assertEquals(new RequestResponseModifierKeyType(service, version, request, response), new RequestResponseModifierKeyType(service, version, request));
-        assertEquals(new RequestResponseModifierKeyType(service, version, request, response), new RequestResponseModifierKeyType(service, version, request, response));
+        assertEquals(new RequestResponseModifierKey(service, version, request, response), new RequestResponseModifierKey(service, version, request));
+        assertEquals(new RequestResponseModifierKey(service, version, request, response), new RequestResponseModifierKey(service, version, request, response));
     }
 
     private AbstractServiceRequest<?> getModifiedRequest() {

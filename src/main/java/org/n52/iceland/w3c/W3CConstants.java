@@ -18,10 +18,12 @@ package org.n52.iceland.w3c;
 
 import javax.xml.namespace.QName;
 
+import org.n52.iceland.util.Constants;
+
 /**
  * Constants class for W3C
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface W3CConstants {
@@ -33,12 +35,20 @@ public interface W3CConstants {
     String AN_TYPE = "type";
 
     String AN_NIL = "nil";
+
     String AN_SHOW = "show";
+
     String AN_ARCROLE = "arcrole";
+
     String AN_ACTUATE = "actuate";
+
     String AN_ROLE = "role";
 
     String AN_SCHEMA_LOCATION = "schemaLocation";
+
+    String AN_XMLNS = "xmlns";
+    
+    String PREFIX_XMLNS = AN_XMLNS + Constants.COLON_STRING;
 
     // namespaces and schema locations
     String NS_XLINK = "http://www.w3.org/1999/xlink";
@@ -70,9 +80,13 @@ public interface W3CConstants {
     QName QN_XLINK_TITLE = new QName(NS_XLINK, AN_TITLE, NS_XLINK_PREFIX);
 
     QName QN_XLINK_TYPE = new QName(NS_XLINK, AN_TYPE, NS_XLINK_PREFIX);
+
     QName QN_XLINK_ROLE = new QName(NS_XLINK, AN_ROLE, NS_XLINK_PREFIX);
+
     QName QN_XLINK_ARCROLE = new QName(NS_XLINK, AN_ARCROLE, NS_XLINK_PREFIX);
+
     QName QN_XLINK_SHOW = new QName(NS_XLINK, AN_SHOW, NS_XLINK_PREFIX);
+
     QName QN_XLINK_ACTUATE = new QName(NS_XLINK, AN_ACTUATE, NS_XLINK_PREFIX);
 
     /**

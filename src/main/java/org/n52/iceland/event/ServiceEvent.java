@@ -17,9 +17,10 @@
 package org.n52.iceland.event;
 
 /**
+ * {@link ServiceEvent} interface. Each event should implement this interface
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface ServiceEvent {
 }

@@ -19,7 +19,7 @@ package org.n52.iceland.ogc.ows;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public abstract class OwsCapabilities {

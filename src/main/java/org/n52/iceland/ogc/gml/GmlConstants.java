@@ -22,9 +22,9 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.w3c.SchemaLocation;
 
 /**
- * Interface for GML constants
+ * Interface for OGC GML constants
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface GmlConstants extends Constants {
@@ -265,7 +265,7 @@ public interface GmlConstants extends Constants {
      * withheld the value is not divulged
      * Not supported: other:text other brief explanation, where text is a string of two or more characters with no included spaces
      * 
-     * @author Carsten Hollmann <c.hollmann@52north.org>
+     * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * 
      * @since 4.3.0
      *

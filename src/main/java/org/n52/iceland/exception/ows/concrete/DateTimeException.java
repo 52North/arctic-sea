@@ -19,7 +19,7 @@ package org.n52.iceland.exception.ows.concrete;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public abstract class DateTimeException extends NoApplicableCodeException {

@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.swes;
 import java.util.Set;
 
 import org.n52.iceland.component.Component;
+import org.n52.iceland.ogc.ows.Extensions;
 
 /**
  * Interface for OfferingExtensionProvider. Implementations of this interface
@@ -37,7 +38,7 @@ public interface OfferingExtensionProvider extends Component<OfferingExtensionKe
      *            the identifier to get extension for
      * @return provided offering extensions
      */
-    SwesExtensions getOfferingExtensions(String identifier);
+   Extensions getOfferingExtensions(String identifier);
 
     /**
      * Check if this provider provide offering extensions for the specific
@@ -56,6 +57,8 @@ public interface OfferingExtensionProvider extends Component<OfferingExtensionKe
      * @return the offering extension keys
      */
     @Deprecated
-    Set<OfferingExtensionKey> getOfferingExtensionKeyTypes();
+    default Set<OfferingExtensionKey> getOfferingExtensionKeyTypes() {
+        return getKeys();
+    }
 
 }

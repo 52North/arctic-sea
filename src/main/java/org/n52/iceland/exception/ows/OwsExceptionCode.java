@@ -20,10 +20,10 @@ import org.n52.iceland.ogc.ows.ExceptionCode;
 import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
- * ExceptionCodes as defined in the OWS Common Implementation Specification
- * 1.1.0.
+ * ExceptionCodes are defined in <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
+ * Service Common Specification 1.1.0</a>.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public enum OwsExceptionCode implements ExceptionCode {
     InvalidParameterValue(OWSConstants.SOAP_REASON_INVALID_PARAMETER_VALUE), InvalidUpdateSequence(

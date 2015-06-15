@@ -24,5 +24,5 @@ import org.n52.iceland.component.ComponentFactory;
  * @author Christian Autermann
  */
 public interface RequestResponseModifierFactory extends
-        ComponentFactory<RequestResponseModifierKeyType, RequestResponseModifier> {
+        ComponentFactory<RequestResponseModifierKey, RequestResponseModifier> {
 }

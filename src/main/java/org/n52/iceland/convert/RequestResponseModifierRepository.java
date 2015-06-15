@@ -34,12 +34,12 @@ import com.google.common.collect.SetMultimap;
 
 @SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository extends
-		      AbstractComponentRepository<RequestResponseModifierKeyType, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
+		      AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
 
     @Deprecated
 	private static RequestResponseModifierRepository instance;
 
-	private final ListMultimap<RequestResponseModifierKeyType, Producer<RequestResponseModifier>> requestResponseModifier
+	private final ListMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> requestResponseModifier
             = LinkedListMultimap.create();
 
     @Autowired(required = false)
@@ -51,25 +51,25 @@ public class RequestResponseModifierRepository extends
     @Override
     public void init() {
         RequestResponseModifierRepository.instance = this;
-        SetMultimap<RequestResponseModifierKeyType, Producer<RequestResponseModifier>> implementations
+        SetMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> implementations
                 = getProviders(this.components, this.componentFactories);
         this.requestResponseModifier.clear();
-        for (RequestResponseModifierKeyType key : implementations.keySet()) {
+        for (RequestResponseModifierKey key : implementations.keySet()) {
             requestResponseModifier.putAll(key, implementations.get(key));
         }
     }
 
     public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request) {
-        RequestResponseModifierKeyType key = new RequestResponseModifierKeyType(request.getService(), request.getVersion(), request);
+        RequestResponseModifierKey key = new RequestResponseModifierKey(request.getService(), request.getVersion(), request);
         return getRequestResponseModifier(key);
     }
 
     public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
-        RequestResponseModifierKeyType key = new RequestResponseModifierKeyType(response.getService(), response.getVersion(), request, response);
+        RequestResponseModifierKey key = new RequestResponseModifierKey(response.getService(), response.getVersion(), request, response);
         return getRequestResponseModifier(key);
 	}
 
-    public List<RequestResponseModifier> getRequestResponseModifier(RequestResponseModifierKeyType key) {
+    public List<RequestResponseModifier> getRequestResponseModifier(RequestResponseModifierKey key) {
         List<Producer<RequestResponseModifier>> producers
                 = this.requestResponseModifier.get(key);
         if (producers == null) {
@@ -80,19 +80,19 @@ public class RequestResponseModifierRepository extends
 	}
 
     public  boolean hasRequestResponseModifier(AbstractServiceRequest request) {
-        return hasRequestResponseModifier(new RequestResponseModifierKeyType(
+        return hasRequestResponseModifier(new RequestResponseModifierKey(
                 request.getService(), request.getVersion(), request));
     }
 
     public boolean hasRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
-        return hasRequestResponseModifier(new RequestResponseModifierKeyType(
+        return hasRequestResponseModifier(new RequestResponseModifierKey(
                 request.getService(), request.getVersion(), request, response))
-               && hasRequestResponseModifier(new RequestResponseModifierKeyType(
+               && hasRequestResponseModifier(new RequestResponseModifierKey(
                        response.getService(), response.getVersion(), request,
 						response));
 	}
 
-	public boolean hasRequestResponseModifier(RequestResponseModifierKeyType key) {
+	public boolean hasRequestResponseModifier(RequestResponseModifierKey key) {
 		return requestResponseModifier.containsKey(key);
 	}
 

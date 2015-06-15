@@ -17,25 +17,47 @@
 package org.n52.iceland.convert;
 
 /**
- * @since 4.0.0
+ * Exception that should be use in the {@link Converter}
+ * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  * 
  */
 public class ConverterException extends Exception {
 
     private static final long serialVersionUID = -8274356164290385880L;
 
+    /**
+     * Constructor
+     */
     public ConverterException() {
         super();
     }
 
+    /**
+     * Constructor
+     * 
+     * @param message
+     */
     public ConverterException(String message) {
         super(message);
     }
 
+    /**
+     * Constructor
+     * 
+     * @param exception
+     */
     public ConverterException(Throwable exception) {
         super(exception);
     }
 
+    /**
+     * Constructor
+     * 
+     * @param message
+     * @param exception
+     */
     public ConverterException(String message, Throwable exception) {
         super(message, exception);
     }

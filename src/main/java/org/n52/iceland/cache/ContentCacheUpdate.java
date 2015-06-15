@@ -16,12 +16,12 @@
  */
 package org.n52.iceland.cache;
 
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.util.action.Action;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public abstract class ContentCacheUpdate implements Action {
@@ -38,10 +38,10 @@ public abstract class ContentCacheUpdate implements Action {
 
     /**
      * Marks this cache update as failed.
-     * 
+     *
      * @param exceptionReport
      *            the cause
-     * 
+     *
      * @return this
      */
     protected ContentCacheUpdate fail(OwsExceptionReport exceptionReport) {
@@ -66,7 +66,7 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * @param cache
      *            the writable cache for this action
-     * 
+     *
      * @return this
      */
     public ContentCacheUpdate setCache(WritableContentCache cache) {
@@ -76,7 +76,7 @@ public abstract class ContentCacheUpdate implements Action {
 
     /**
      * Clear any exceptions.
-     * 
+     *
      * @return this
      */
     public ContentCacheUpdate reset() {

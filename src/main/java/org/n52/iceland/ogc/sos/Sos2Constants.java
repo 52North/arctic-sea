@@ -21,7 +21,6 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.ogc.om.OmConstants;
-import org.n52.iceland.util.XmlHelper;
 import org.n52.iceland.util.http.MediaTypes;
 import org.n52.iceland.w3c.SchemaLocation;
 
@@ -29,15 +28,13 @@ import com.google.common.collect.ImmutableSet;
 
 /**
  * SosConstants holds all important and often used constants (e.g. name of the
- * getCapabilities operation) that are specific to SOS 2.0
+ * getCapabilities operation) that are specific to OGC SOS 2.0
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface Sos2Constants extends SosConstants{
 
     String NS_SOS_20 = "http://www.opengis.net/sos/2.0";
-    
-    String XPATH_PREFIX_SOS_20 = XmlHelper.getXPathPrefix(SosConstants.NS_SOS_PREFIX, NS_SOS_20);
 
     String SCHEMA_LOCATION_URL_SOS = "http://schemas.opengis.net/sos/2.0/sos.xsd";
 
@@ -233,7 +230,7 @@ public interface Sos2Constants extends SosConstants{
     String SERVICEVERSION = "2.0.0";
 
     /**
-     * the names of the SOS 2.0 operations that are not supported by all
+     * the names of the OGC SOS 2.0 operations that are not supported by all
      * versions
      */
     enum Operations {
@@ -241,7 +238,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with names of SOS 2.0 Capabilities sections not supported by all
+     * enum with names of OGC SOS 2.0 Capabilities sections not supported by all
      * versions
      */
     enum CapabilitiesSections {
@@ -256,7 +253,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with parameter names for SOS 2.0 insertObservation request not
+     * enum with parameter names for OGC SOS 2.0 insertObservation request not
      * supported by all versions
      */
     enum InsertObservationParams {
@@ -264,7 +261,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with parameter names for SOS 2.0 getObservation request not
+     * enum with parameter names for OGC SOS 2.0 getObservation request not
      * supported by all versions
      */
     enum DescribeSensorParams {
@@ -272,7 +269,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     /**
-     * enum with parameter names for SOS 2.0 getFeatureOfInterest request not
+     * enum with parameter names for OGC SOS 2.0 getFeatureOfInterest request not
      * supported by all versions
      */
     enum GetFeatureOfInterestParams {

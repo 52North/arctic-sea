@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.GenericThrowableWrapperException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 
 /**
  * Utility class for file handling
@@ -68,9 +68,7 @@ public final class FileIOHelper {
 
     /* TODO refactor this */
     public static List<String> tail(File file, int lines) throws IOException {
-        RandomAccessFile raf = null;
-        try {
-            raf = new RandomAccessFile(file, READ_MODE);
+        try (RandomAccessFile raf = new RandomAccessFile(file, READ_MODE)) {
             final long length = file.length() - 1;
             ArrayList<String> out = new ArrayList<String>(lines);
             StringBuilder sb = new StringBuilder();
@@ -104,10 +102,6 @@ public final class FileIOHelper {
             }
             Collections.reverse(out);
             return out;
-        } finally {
-            if (raf != null) {
-                raf.close();
-            }
         }
     }
 

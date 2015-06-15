@@ -29,16 +29,18 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.coding.DecoderRepository;
 import org.n52.iceland.coding.EncoderRepository;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.decode.Decoder;
-import org.n52.iceland.decode.DecoderKey;
-import org.n52.iceland.decode.OperationDecoderKey;
-import org.n52.iceland.encode.Encoder;
-import org.n52.iceland.encode.EncoderKey;
-import org.n52.iceland.encode.ExceptionEncoderKey;
-import org.n52.iceland.encode.OperationEncoderKey;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.DecoderKey;
+import org.n52.iceland.coding.decode.OperationDecoderKey;
+import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.EncoderKey;
+import org.n52.iceland.coding.encode.ExceptionEncoderKey;
+import org.n52.iceland.coding.encode.OperationEncoderKey;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.CompositeOwsException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceOrVersionException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
@@ -46,8 +48,6 @@ import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
 import org.n52.iceland.exception.ows.concrete.NoEncoderForKeyException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
-import org.n52.iceland.ogc.ows.CompositeOwsException;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.GetCapabilitiesRequest;
 import org.n52.iceland.request.RequestContext;
@@ -65,13 +65,14 @@ import org.n52.iceland.util.http.MediaType;
  *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class SimpleBinding extends Binding {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);
     public static final String QUALITY = "q";
 
     private ServiceEventBus eventBus;
+    @Deprecated
     private ServiceConfiguration serviceConfiguration;
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
@@ -87,10 +88,12 @@ public abstract class SimpleBinding extends Binding {
     }
 
     @Inject
+    @Deprecated
     public void setServiceConfiguration(ServiceConfiguration config) {
         this.serviceConfiguration = config;
     }
 
+    @Deprecated
     public ServiceConfiguration getServiceConfiguration() {
         return serviceConfiguration;
     }
@@ -122,6 +125,7 @@ public abstract class SimpleBinding extends Binding {
         return decoderRepository;
     }
 
+    @Deprecated
     protected boolean isUseHttpResponseCodes() {
         return this.serviceConfiguration.isUseHttpStatusCodesInKvpAndPoxBinding();
     }
@@ -230,24 +234,22 @@ public abstract class SimpleBinding extends Binding {
         throw new HTTPException(HTTPStatus.NOT_ACCEPTABLE);
     }
 
-    protected ServiceOperator getServiceOperator(ServiceOperatorKey sokt) throws OwsExceptionReport {
+    protected ServiceOperator getServiceOperator(ServiceOperatorKey sokt) {
         return getServiceOperatorRepository().getServiceOperator(sokt);
     }
 
     protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        for (ServiceOperatorKey sokt : request.getServiceOperatorKeyType()) {
-            ServiceOperator so = getServiceOperator(sokt);
-            if (so != null) {
-                return so;
+        return request.getServiceOperatorKeyType().stream()
+                .map(this::getServiceOperator)
+                .findFirst()
+                .orElseThrow(() -> {
+            if (request instanceof GetCapabilitiesRequest) {
+                return new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
+            } else {
+                return new InvalidServiceOrVersionException(request.getService(), request.getVersion());
             }
-        }
-        // no operator found
-        if (request instanceof GetCapabilitiesRequest) {
-            throw new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
-        } else {
-            throw new InvalidServiceOrVersionException(request.getService(), request.getVersion());
-        }
+        });
     }
 
     protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {

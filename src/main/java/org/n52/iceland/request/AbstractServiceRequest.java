@@ -19,14 +19,14 @@ package org.n52.iceland.request;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
+import org.n52.iceland.ogc.ows.Extension;
+import org.n52.iceland.ogc.ows.Extensions;
 import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.swe.simpleType.SweText;
-import org.n52.iceland.ogc.swes.SwesConstants.HasSwesExtension;
-import org.n52.iceland.ogc.swes.SwesExtension;
-import org.n52.iceland.ogc.swes.SwesExtensions;
+import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
+import org.n52.iceland.ogc.ows.Value;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
@@ -34,18 +34,20 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * abstract super class for all service request classes
- * 
- * @since 4.0.0
- * 
+ * Abstract super class for all service request classes
+ *
+ * @since 1.0.0
+ *
  */
 @SuppressWarnings("rawtypes")
-public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> extends AbstractServiceCommunicationObject implements HasSwesExtension<AbstractServiceRequest> {
+public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
+        extends AbstractServiceCommunicationObject
+        implements Request, HasExtension<AbstractServiceRequest> {
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
 
     private RequestContext requestContext;
-    
-    private SwesExtensions extensions;
+
+    private Extensions extensions;
 
     public List<ServiceOperatorKey> getServiceOperatorKeyType() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
@@ -63,7 +65,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
             throw new MissingVersionParameterException();
         }
     }
-    
+
     public RequestContext getRequestContext() {
         return requestContext;
     }
@@ -76,36 +78,36 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
     public boolean isSetRequestContext() {
         return requestContext != null;
     }
-    
+
     public abstract T getResponse() throws OwsExceptionReport;
-    
+
     @Override
-    public SwesExtensions getExtensions() {
+    public Extensions getExtensions() {
         return extensions;
     }
 
     @Override
-    public AbstractServiceRequest setExtensions(final SwesExtensions extensions) {
+    public AbstractServiceRequest setExtensions(final Extensions extensions) {
         this.extensions = extensions;
         return this;
     }
-    
+
     @Override
-    public AbstractServiceRequest addExtensions(final SwesExtensions extensions) {
+    public AbstractServiceRequest addExtensions(final Extensions extensions) {
         if (getExtensions() == null) {
             setExtensions(extensions);
         } else {
-            getExtensions().addSwesExtension(extensions.getExtensions());
+            getExtensions().addExtension(extensions.getExtensions());
         }
         return this;
     }
 
     @Override
-    public AbstractServiceRequest addExtension(final SwesExtension extension) {
+    public AbstractServiceRequest addExtension(final Extension extension) {
         if (getExtensions() == null) {
-            setExtensions(new SwesExtensions());
+            setExtensions(new Extensions());
         }
-        getExtensions().addSwesExtension(extension);
+        getExtensions().addExtension(extension);
         return this;
     }
 
@@ -113,21 +115,19 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
     public boolean isSetExtensions() {
         return extensions != null && !extensions.isEmpty();
     }
-    
-    
+
+
     public boolean isSetRequestedLanguage() {
         return StringHelper.isNotEmpty(getRequestedLanguage());
     }
-    
-    
+
+
     public String getRequestedLanguage() {
         if (isSetExtensions()) {
             if (getExtensions().containsExtension(OWSConstants.AdditionalRequestParams.language)) {
                 Object value = getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
-                if (value instanceof SweText) {
-                    return ((SweText) value).getValue();
-                } else if (value instanceof Integer) {
-                    return (String) getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
+                if (value instanceof Value<?, ?>) {
+                    return ((Value<?, ?>) value).getStringValue();
                 }
             }
         }

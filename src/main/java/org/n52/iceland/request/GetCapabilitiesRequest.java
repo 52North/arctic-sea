@@ -22,10 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
 import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 import org.n52.iceland.response.GetCapabilitiesResponse;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
@@ -33,30 +32,17 @@ import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * SOS GetCapabilities request
- * 
- * @since 4.0.0
+ * Implementation of {@link AbstractServiceRequest} for OWS GetCapabilities
+ *
+ * @since 1.0.0
  */
 public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabilitiesResponse> {
-    private String updateSequence;
-
-    private final List<String> acceptVersions = new LinkedList<String>();
-
-    private final List<String> sections = new LinkedList<String>();
-
-    private final List<String> acceptFormats = new LinkedList<String>();
-
+    private final List<String> acceptVersions = new LinkedList<>();
+    private final List<String> sections = new LinkedList<>();
+    private final List<String> acceptFormats = new LinkedList<>();
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
-
-    /**
-     * Extensions list
-     * 
-     * FIXME change to a model object to remove dependency to XmlBeans in API
-     * package
-     */
-    private List<XmlObject> extensionArray = new LinkedList<XmlObject>();
-
     private String capabilitiesId;
+    private String updateSequence;
 
     public GetCapabilitiesRequest(String service) {
         setService(service);
@@ -90,7 +76,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get accept Formats
-     * 
+     *
      * @return accept Formats
      */
     public List<String> getAcceptFormats() {
@@ -99,7 +85,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Set accept Formats
-     * 
+     *
      * @param acceptFormats
      *            accept Formats
      */
@@ -112,7 +98,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get accept versions
-     * 
+     *
      * @return accept versions
      */
     public List<String> getAcceptVersions() {
@@ -134,7 +120,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get sections
-     * 
+     *
      * @return sections
      */
     public List<String> getSections() {
@@ -143,7 +129,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Set sections
-     * 
+     *
      * @param sections
      *            sections
      */
@@ -156,7 +142,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get update sequence
-     * 
+     *
      * @return update sequence
      */
     public String getUpdateSequence() {
@@ -165,22 +151,12 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Set update sequence
-     * 
+     *
      * @param updateSequence
      *            update sequence
      */
     public void setUpdateSequence(String updateSequence) {
         this.updateSequence = updateSequence;
-    }
-
-    /**
-     * Set extensions
-     * 
-     * @param extensionArray
-     *            extensions
-     */
-    public void setExtensionArray(List<XmlObject> extensionArray) {
-        this.extensionArray = extensionArray;
     }
 
     public String getCapabilitiesId() {
@@ -193,15 +169,6 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     public boolean isCapabilitiesIdSet() {
         return getCapabilitiesId() != null && !getCapabilitiesId().isEmpty();
-    }
-
-    /**
-     * Get extensions
-     * 
-     * @return extensions
-     */
-    public List<XmlObject> getExtensionArray() {
-        return extensionArray;
     }
 
     public boolean isSetAcceptFormats() {
@@ -228,7 +195,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     /**
      * Get the response version from request, from set version, from
      * acceptVersions or from supported versions
-     * 
+     *
      * @return the response version
      * @throws OwsExceptionReport
      *             If the requested version is not supported

@@ -230,7 +230,11 @@ public final class CollectionHelper {
      * @return empty or not
      */
     public static <T> boolean isNotEmpty(final Collection<T> collection) {
-        return collection != null && !collection.isEmpty();
+        return !isEmptyOrNull(collection);
+    }
+
+    public static <T> boolean isEmptyOrNull(Collection<T> collection) {
+        return collection == null || collection.isEmpty();
     }
 
     /**

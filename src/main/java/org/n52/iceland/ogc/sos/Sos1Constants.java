@@ -26,9 +26,9 @@ import com.google.common.collect.ImmutableSet;
 
 /**
  * SosConstants holds all important and often used constants (e.g. name of the
- * getCapabilities operation) that are specific to SOS 1.0
+ * getCapabilities operation) that are specific to OGC OGC SOS 1.0.0.0
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface Sos1Constants extends SosConstants {
 
@@ -52,7 +52,7 @@ public interface Sos1Constants extends SosConstants {
     String SERVICEVERSION = "1.0.0";
 
     /**
-     * the names of the SOS 1.0 operations that are not supported by all
+     * the names of the OGC SOS 1.0.0 operations that are not supported by all
      * versions
      */
     enum Operations {
@@ -60,7 +60,7 @@ public interface Sos1Constants extends SosConstants {
     }
 
     /**
-     * enum with names of SOS 1.0 Capabilities sections not supported by all
+     * enum with names of OGC SOS 1.0.0 Capabilities sections not supported by all
      * versions
      */
     enum CapabilitiesSections {
@@ -68,7 +68,7 @@ public interface Sos1Constants extends SosConstants {
     }
 
     /**
-     * enum with parameter names for SOS 1.0 getObservation request not
+     * enum with parameter names for OGC SOS 1.0.0 getObservation request not
      * supported by all versions
      */
     enum GetObservationParams {
@@ -76,7 +76,7 @@ public interface Sos1Constants extends SosConstants {
     }
 
     /**
-     * enum with parameter names for SOS 1.0 insertObservation request not
+     * enum with parameter names for OGC SOS 1.0.0 insertObservation request not
      * supported by all versions
      */
     enum InsertObservationParams {
@@ -84,7 +84,7 @@ public interface Sos1Constants extends SosConstants {
     }
 
     /**
-     * enum with parameter names for SOS 1.0 getObservation request not
+     * enum with parameter names for OGC SOS 1.0.0 getObservation request not
      * supported by all versions
      */
     enum DescribeSensorParams {
@@ -92,7 +92,7 @@ public interface Sos1Constants extends SosConstants {
     }
 
     /**
-     * enum with parameter names for SOS 1.0 getFeatureOfInterest request not
+     * enum with parameter names for OGC SOS 1.0.0 getFeatureOfInterest request not
      * supported by all versions
      */
     enum GetFeatureOfInterestParams {
@@ -114,7 +114,7 @@ public interface Sos1Constants extends SosConstants {
     }
 
     /**
-     * enum with parameter names for SOS 1.0 getObservationById request not
+     * enum with parameter names for OGC SOS 1.0.0 getObservationById request not
      * supported by all versions
      */
     enum GetObservationByIdParams {

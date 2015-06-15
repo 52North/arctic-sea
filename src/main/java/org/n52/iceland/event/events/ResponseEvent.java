@@ -18,11 +18,12 @@ package org.n52.iceland.event.events;
 
 import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.iceland.request.operator.RequestOperator;
 import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
- * Abstract event that can be fired if a successfull request changed the
- * contents of this service.
+ * Abstract event that should be fired if a successful request changed the
+ * contents of this service, e.g in the implemented {@link RequestOperator}
  * 
  * @param <I>
  *            the request type
@@ -30,10 +31,10 @@ import org.n52.iceland.response.AbstractServiceResponse;
  *            the response type
  * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
-public abstract class ResponseEvent<I extends AbstractServiceRequest<?>, O extends AbstractServiceResponse>
-        implements ServiceEvent {
+public abstract class ResponseEvent<I extends AbstractServiceRequest<?>, O extends AbstractServiceResponse> implements
+        ServiceEvent {
     private I request;
 
     private O response;

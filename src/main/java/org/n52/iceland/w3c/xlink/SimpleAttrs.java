@@ -19,18 +19,25 @@ package org.n52.iceland.w3c.xlink;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.w3c.W3CConstants;
 
+/**
+ * Class represents W3C Xlink SimpleAttrs.
+ * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
 public abstract class SimpleAttrs {
-    
+
     private String href;
-    
+
     private String role;
-    
+
     private String arcrole;
-    
+
     private String title;
-    
+
     private W3CConstants.ShowType show;
-    
+
     private W3CConstants.ActuateType actuate;
 
     /**
@@ -48,13 +55,17 @@ public abstract class SimpleAttrs {
     }
 
     /**
-     * @param href the href to set
+     * @param href
+     *            the href to set
      */
     public SimpleAttrs setHref(String href) {
         this.href = href;
         return this;
     }
-    
+
+    /**
+     * @return <code>true</code>, if href is not null or empty
+     */
     public boolean isSetHref() {
         return StringHelper.isNotEmpty(getHref());
     }
@@ -67,13 +78,17 @@ public abstract class SimpleAttrs {
     }
 
     /**
-     * @param role the role to set
+     * @param role
+     *            the role to set
      */
     public SimpleAttrs setRole(String role) {
         this.role = role;
         return this;
     }
-    
+
+    /**
+     * @return <code>true</code>, if role is not null or empty
+     */
     public boolean isSetRole() {
         return StringHelper.isNotEmpty(getRole());
     }
@@ -86,13 +101,17 @@ public abstract class SimpleAttrs {
     }
 
     /**
-     * @param arcrole the arcrole to set
+     * @param arcrole
+     *            the arcrole to set
      */
     public SimpleAttrs setArcrole(String arcrole) {
         this.arcrole = arcrole;
         return this;
     }
-    
+
+    /**
+     * @return <code>true</code>, if arcrole is not null or empty
+     */
     public boolean isSetArcrole() {
         return StringHelper.isNotEmpty(getArcrole());
     }
@@ -105,13 +124,17 @@ public abstract class SimpleAttrs {
     }
 
     /**
-     * @param title the title to set
+     * @param title
+     *            the title to set
      */
     public SimpleAttrs setTitle(String title) {
         this.title = title;
         return this;
     }
-    
+
+    /**
+     * @return <code>true</code>, if title is not null or empty
+     */
     public boolean isSetTitle() {
         return StringHelper.isNotEmpty(getTitle());
     }
@@ -124,13 +147,17 @@ public abstract class SimpleAttrs {
     }
 
     /**
-     * @param show the show to set
+     * @param show
+     *            the show to set
      */
     public SimpleAttrs setShow(W3CConstants.ShowType show) {
         this.show = show;
         return this;
     }
-    
+
+    /**
+     * @return <code>true</code>, if show is not null
+     */
     public boolean isSetShow() {
         return getShow() != null;
     }
@@ -143,13 +170,17 @@ public abstract class SimpleAttrs {
     }
 
     /**
-     * @param actuate the actuate to set
+     * @param actuate
+     *            the actuate to set
      */
     public SimpleAttrs setActuate(W3CConstants.ActuateType actuate) {
         this.actuate = actuate;
         return this;
     }
-    
+
+    /**
+     * @return <code>true</code>, if actuate is not null
+     */
     public boolean isSetActuate() {
         return getActuate() != null;
     }

@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Class represents a GML conform timePeriod element.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class TimePeriod extends Time {
 

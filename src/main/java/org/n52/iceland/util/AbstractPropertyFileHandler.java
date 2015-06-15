@@ -61,28 +61,17 @@ public class AbstractPropertyFileHandler {
             if (f == null) {
                 return new Properties();
             }
-            InputStream is = null;
-            try {
-                is = new FileInputStream(getFile(true));
+            try (InputStream is = new FileInputStream(getFile(true))) {
                 Properties p = new Properties();
                 p.load(is);
                 cache = p;
-            } finally {
-                if (is != null) {
-                    try {
-                        is.close();
-                    } catch (IOException e) {
-                        LOG.error("Error closing input stream", e);
-                    }
-                }
             }
         }
         return cache;
     }
 
     private void save(Properties p) throws IOException {
-        File f = getFile(true);
-        try (OutputStream os = new FileOutputStream(f)) {
+        try (OutputStream os = new FileOutputStream(getFile(true))) {
             p.store(os, null);
             this.cache = p;
         }

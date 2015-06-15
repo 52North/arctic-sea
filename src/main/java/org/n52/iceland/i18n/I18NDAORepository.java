@@ -18,7 +18,6 @@ package org.n52.iceland.i18n;
 
 import java.util.Collection;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,9 +32,8 @@ import com.google.common.collect.Maps;
 /**
  * I18N DAO repository
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.1.0
- *
  */
 @SuppressWarnings("rawtypes")
 public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> implements Constructable {
@@ -51,15 +49,8 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
     @Override
     public void init() {
         I18NDAORepository.instance = this;
-        Map<I18NDAOKey, Producer<I18NDAO<?>>> implementations
-                = getUniqueProviders(this.components, this.componentFactories);
         this.daos.clear();
-        this.daos.putAll(implementations);
-        for (Entry<I18NDAOKey, Producer<I18NDAO<?>>> entry: implementations.entrySet()) {
-            I18NDAOKey key = entry.getKey();
-            Producer<I18NDAO<?>> value = entry.getValue();
-            this.daos.put(key, value);
-        }
+        this.daos.putAll(getUniqueProviders(this.components, this.componentFactories));
     }
 
     /**

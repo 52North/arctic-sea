@@ -21,10 +21,10 @@ import org.n52.iceland.util.Comparables;
 import com.google.common.base.Objects;
 
 /**
- * Class represents a XML schema location with namespace and schema fileURL.
+ * Class represents a XML schema location with namespace and schema file URL.
  * 
- * @author CarstenHollmann
- * @since 4.0.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  */
 public class SchemaLocation implements Comparable<SchemaLocation> {
     private final String namespace;

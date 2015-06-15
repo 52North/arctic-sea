@@ -19,12 +19,13 @@ package org.n52.iceland.ogc.ows;
 import java.util.Set;
 
 import org.n52.iceland.component.Component;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.GetCapabilitiesRequest;
 
 /**
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface OwsExtendedCapabilitiesProvider extends Component<OwsExtendedCapabilitiesProviderKey> {
@@ -51,6 +52,8 @@ public interface OwsExtendedCapabilitiesProvider extends Component<OwsExtendedCa
      * @return
      */
     @Deprecated
-    Set<OwsExtendedCapabilitiesProviderKey> getExtendedCapabilitiesKeyType();
+    default Set<OwsExtendedCapabilitiesProviderKey> getExtendedCapabilitiesKeyType() {
+        return getKeys();
+    }
 
 }

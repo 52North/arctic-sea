@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
@@ -39,12 +40,16 @@ import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
+import org.n52.iceland.event.events.IncomingRequestEvent;
+import org.n52.iceland.event.events.OutgoingResponseEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.util.http.HTTPHeaders;
 import org.n52.iceland.util.http.HTTPMethods;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
+
+import com.google.common.base.Stopwatch;
 
 /**
  * The servlet of the Service which receives the incoming HttpPost and HttpGet
@@ -72,7 +77,9 @@ public class Service extends HttpServlet {
     @Inject
     private ServiceEventBus serviceEventBus;
 
-    protected HttpServletRequest logRequest(HttpServletRequest request, long count) {
+    private long logRequest(HttpServletRequest request) {
+        long count = counter.incrementAndGet();
+        ServiceEventBus.fire(new IncomingRequestEvent(request, count));
         if (LOGGER.isDebugEnabled()) {
             Enumeration<?> headerNames = request.getHeaderNames();
             StringBuilder headers = new StringBuilder();
@@ -84,12 +91,13 @@ public class Service extends HttpServlet {
                     request.getRequestURI(), request.getProtocol(), request.getRemoteAddr(), request.getRemoteHost(),
                     headers);
         }
-        return request;
+        return count;
     }
 
-    private void logResponse(HttpServletResponse response, long count, long start) {
-        long duration = System.currentTimeMillis() - start;
-        LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {}ms)", count, response.isCommitted(), duration);
+    private void logResponse(HttpServletRequest request, HttpServletResponse response, long count, Stopwatch stopwatch) {
+        long elapsed = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
+        ServiceEventBus.fire(new OutgoingResponseEvent(request, response, count, elapsed));
+        LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)", count, response.isCommitted(), elapsed);
     }
 
     @Override
@@ -101,15 +109,14 @@ public class Service extends HttpServlet {
     @RequestMapping(method = RequestMethod.DELETE)
     public void delete(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doDeleteOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
@@ -123,15 +130,14 @@ public class Service extends HttpServlet {
     @RequestMapping(method = RequestMethod.GET)
     public void get(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doGetOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
@@ -145,15 +151,14 @@ public class Service extends HttpServlet {
     @RequestMapping(method = RequestMethod.POST)
     public void post(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doPostOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
@@ -167,15 +172,14 @@ public class Service extends HttpServlet {
     @RequestMapping(method = RequestMethod.PUT)
     public void put(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         try {
             getBinding(request).doPutOperation(request, response);
         } catch (HTTPException exception) {
             onHttpException(request, response, exception);
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 
@@ -189,9 +193,8 @@ public class Service extends HttpServlet {
     private void options(HttpServletRequest request,
                          HttpServletResponse response)
             throws IOException, ServletException {
-        long start = System.currentTimeMillis();
-        long currentCount = counter.incrementAndGet();
-        logRequest(request, currentCount);
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        long currentCount = logRequest(request);
         Binding binding = null;
         try {
             binding = getBinding(request);
@@ -203,7 +206,7 @@ public class Service extends HttpServlet {
                 onHttpException(request, response, exception);
             }
         } finally {
-            logResponse(response, currentCount, start);
+            logResponse(request, response, currentCount, stopwatch);
         }
     }
 

@@ -16,9 +16,12 @@
  */
 package org.n52.iceland.ogc.swes;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,7 +31,6 @@ import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.Producers;
 import org.n52.iceland.util.activation.Activatables;
@@ -100,16 +102,6 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
     }
 
     /**
-     * For singleton use
-     *
-     * @return The single instance
-     */
-    @Deprecated
-    public static OfferingExtensionRepository getInstance() {
-        return OfferingExtensionRepository.instance;
-    }
-
-    /**
      * Get map of all, active and inactive, {@link OfferingExtensionProvider}s
      *
      * @return the map with all {@link OfferingExtensionProvider}s
@@ -136,8 +128,7 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      *            and version
      * @return loaded {@link OfferingExtensionProvider} implementation
      */
-    public Set<OfferingExtensionProvider> getOfferingExtensionProvider(
-            AbstractServiceCommunicationObject message) {
+    public Set<OfferingExtensionProvider> getOfferingExtensionProvider(AbstractServiceCommunicationObject message) {
         Set<OfferingExtensionProvider> providers = Sets.newHashSet();
         for (String name : getDomains()) {
             OfferingExtensionKey key = new OfferingExtensionKey(message.getService(), message.getVersion(), name);
@@ -157,7 +148,8 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      *            The related {@link OfferingExtensionKey}
      * @return loaded {@link OfferingExtensionProvider} implementation
      */
-    public OfferingExtensionProvider getOfferingExtensionProvider(OfferingExtensionKey key) {
+    public OfferingExtensionProvider getOfferingExtensionProvider(
+            OfferingExtensionKey key) {
         return getOfferingExtensionProviders().get(key);
     }
 
@@ -216,10 +208,9 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      */
     public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
         Map<ServiceOperatorKey, Collection<String>> domains = Maps.newHashMap();
-        Set<OfferingExtensionKey> keys = Activatables.activatedKeys(this.offeringExtensionProviders, this.activation);
-        for (OfferingExtensionKey key : keys) {
-            CollectionHelper.addToCollectionMap(key.getServiceOperatorKey(), key.getDomain(), domains);
-        }
+        Activatables.activatedKeys(this.offeringExtensionProviders, this.activation).stream().forEach(key -> {
+            domains.computeIfAbsent(key.getServiceOperatorKey(), sok -> new LinkedList<>()).add(key.getDomain());
+        });
         return domains;
     }
 
@@ -229,11 +220,18 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      * @return the domain values
      */
     private Set<String> getDomains() {
-        Set<OfferingExtensionKey> keys = Activatables.activatedKeys(this.offeringExtensionProviders, this.activation);
-        Set<String> domains = Sets.newHashSet();
-        for (OfferingExtensionKey key : keys) {
-            domains.add(key.getDomain());
-        }
-        return domains;
+        return Activatables.activatedKeys(this.offeringExtensionProviders, this.activation)
+                .stream().map(OfferingExtensionKey::getDomain).collect(toSet());
+    }
+
+    /**
+     * For singleton use
+     *
+     * @return The single instance
+     * @deprecated use injection
+     */
+    @Deprecated
+    public static OfferingExtensionRepository getInstance() {
+        return OfferingExtensionRepository.instance;
     }
 }

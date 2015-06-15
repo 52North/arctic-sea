@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.cache;
 
-import com.google.common.base.Optional;
+import java.util.Optional;
 
 /**
  * TODO JavaDoc

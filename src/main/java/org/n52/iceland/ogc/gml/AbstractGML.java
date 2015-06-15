@@ -27,15 +27,27 @@ import org.n52.iceland.util.StringHelper;
 
 import com.google.common.base.Objects;
 
-public abstract class AbstractGML implements Serializable{
+/**
+ * Class represents an AbstractGML object
+ * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
+public abstract class AbstractGML implements Serializable {
 
     private static final long serialVersionUID = 1923602315280257718L;
 
     /** Feature identifier */
     private CodeWithAuthority identifier;
-    
+
+    /** Feature identifier as human readable name */
     private CodeWithAuthority humanReadableIdentifier;
-    
+
+    /**
+     * Original Feature identifier, set if
+     * {@link AbstractGML#setHumanReadableIdentifierAsIdentifier()} is called
+     */
     private CodeWithAuthority originalIdentifier;
 
     /**
@@ -161,8 +173,7 @@ public abstract class AbstractGML implements Serializable{
     public boolean isSetIdentifier() {
         return getIdentifierCodeWithAuthority() != null && getIdentifierCodeWithAuthority().isSetValue();
     }
-    
-    
+
     /**
      * Get the string human readable identifier of this abstract feature
      *
@@ -173,7 +184,8 @@ public abstract class AbstractGML implements Serializable{
     }
 
     /**
-     * Get {@link CodeWithAuthority} human readable identifier of this abstract feature
+     * Get {@link CodeWithAuthority} human readable identifier of this abstract
+     * feature
      *
      * @return Returns the human readable identifier of this abstract feature .
      */
@@ -182,7 +194,7 @@ public abstract class AbstractGML implements Serializable{
     }
 
     /**
-     * Set human readable  identifier
+     * Set human readable identifier
      *
      * @param identifier
      *            the human readable identifier to set
@@ -206,20 +218,57 @@ public abstract class AbstractGML implements Serializable{
     }
 
     /**
-     * @return <tt>true</tt>, if human readable identifier is set and value is not an empty
-     *         string,<br>
+     * @return <tt>true</tt>, if human readable identifier is set and value is
+     *         not an empty string,<br>
      *         else <tt>false</tt>
      */
     public boolean isSetHumanReadableIdentifier() {
-        return getHumanReadableIdentifierCodeWithAuthority() != null && getHumanReadableIdentifierCodeWithAuthority().isSetValue();
+        return getHumanReadableIdentifierCodeWithAuthority() != null
+                && getHumanReadableIdentifierCodeWithAuthority().isSetValue();
     }
-    
+
+    /**
+     * Set the human readable identifier as identifier and saves the identifier
+     * as original identifier
+     * 
+     * @return this
+     */
     public AbstractGML setHumanReadableIdentifierAsIdentifier() {
-    	if (isSetHumanReadableIdentifier()) {
-    		originalIdentifier = getIdentifierCodeWithAuthority();
-    		setIdentifier(getHumanReadableIdentifierCodeWithAuthority());
-    	}
-    	return this;
+        if (isSetHumanReadableIdentifier()) {
+            originalIdentifier = getIdentifierCodeWithAuthority();
+            setIdentifier(getHumanReadableIdentifierCodeWithAuthority());
+        }
+        return this;
+    }
+
+    /**
+     * @return <code>true</code>, if the original identifier is set
+     */
+    public boolean isSetOriginalIdentifier() {
+        return getOriginalIdentifierCodeWithAuthority() != null
+                && getOriginalIdentifierCodeWithAuthority().isSetValue();
+    }
+
+    /**
+     * Get the original string identifier of this abstract feature
+     *
+     * @return Original identifier of this abstract feature
+     */
+    public String getOriginalIdentifier() {
+        if (isSetIdentifier()) {
+            return getOriginalIdentifierCodeWithAuthority().getValue();
+        }
+        return null;
+    }
+
+    /**
+     * Get {@link CodeWithAuthority} original identifier of this abstract
+     * feature
+     *
+     * @return Returns the original identifier of this abstract feature .
+     */
+    public CodeWithAuthority getOriginalIdentifierCodeWithAuthority() {
+        return originalIdentifier;
     }
 
     /**
@@ -232,7 +281,7 @@ public abstract class AbstractGML implements Serializable{
     }
 
     /**
-     * Add feature names
+     * Add feature names, clears the name list
      *
      * @param name
      *            Feature names to ad
@@ -244,6 +293,13 @@ public abstract class AbstractGML implements Serializable{
         return this;
     }
 
+    /**
+     * Set the name, clears the name list
+     * 
+     * @param name
+     *            Name to set
+     * @return
+     */
     public AbstractGML setName(final CodeType name) {
         this.names.clear();
         this.names.add(name);
@@ -251,7 +307,10 @@ public abstract class AbstractGML implements Serializable{
     }
 
     /**
+     * Adds the name to the name list
+     * 
      * @param name
+     *            Name to add
      * @return this
      */
     public AbstractGML addName(final CodeType name) {
@@ -278,7 +337,7 @@ public abstract class AbstractGML implements Serializable{
      *
      * @param name
      *            Feature name to add
-      * @param codespace
+     * @param codespace
      *            Codespace of the feature name
      * @return this
      */
@@ -375,7 +434,14 @@ public abstract class AbstractGML implements Serializable{
     public boolean isReferenced() {
         return isSetGmlID() && gmlId.startsWith(Constants.NUMBER_SIGN_STRING);
     }
-    
+
+    /**
+     * Copies values of this {@link AbstractGML} to the committed
+     * {@link AbstractGML}
+     * 
+     * @param copyOf
+     *            {@link AbstractGML} to set values
+     */
     public void copyTo(AbstractGML copyOf) {
         copyOf.setDescription(getDescription());
         copyOf.setGmlId(getGmlId());

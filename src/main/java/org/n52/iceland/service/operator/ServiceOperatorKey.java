@@ -21,7 +21,10 @@ import org.n52.iceland.util.Comparables;
 import com.google.common.base.Objects;
 
 /**
- * @since 4.0.0
+ * This class defines a key for {@link ServiceOperator} which contains the
+ * service name and the service version.
+ * 
+ * @since 1.0.0
  * 
  */
 public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
@@ -29,23 +32,51 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     private final String version;
 
+    /**
+     * Constructor
+     * 
+     * @param service
+     *            Service name
+     * @param version
+     *            Service version
+     */
     public ServiceOperatorKey(String service, String version) {
         this.service = service;
         this.version = version;
     }
 
+    /**
+     * Get the service name
+     * 
+     * @return The service name
+     */
     public String getService() {
         return service;
     }
 
+    /**
+     * Check if the service name is not null.
+     * 
+     * @return <code>true</code>, if the service name is not null.
+     */
     public boolean hasService() {
         return getService() != null;
     }
 
+    /**
+     * Get the service version
+     * 
+     * @return The service version
+     */
     public String getVersion() {
         return version;
     }
 
+    /**
+     * Check if the service version is not null.
+     * 
+     * @return <code>true</code>, if the service version is not null.
+     */
     public boolean hasVersion() {
         return getVersion() != null;
     }
@@ -72,6 +103,6 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     @Override
     public String toString() {
-        return String.format("ServiceOperatorKeyType[service=%s, version=%s]", getService(), getVersion());
+        return String.format("ServiceOperatorKey[service=%s, version=%s]", getService(), getVersion());
     }
 }

@@ -22,9 +22,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.encode.Encoder;
-import org.n52.iceland.encode.EncoderKey;
-import org.n52.iceland.encode.XmlEncoderKey;
+import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.EncoderKey;
+import org.n52.iceland.coding.encode.XmlEncoderKey;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.w3c.SchemaLocation;
 

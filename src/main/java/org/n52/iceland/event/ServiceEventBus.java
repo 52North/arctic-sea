@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.stream.Collectors;
@@ -39,33 +40,37 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 /**
+ * The {@link ServiceEventListener} are registered to the
+ * {@link ServiceEventBus} which delegates the fired {@link ServiceEvent} to the
+ * {@link ServiceEventListener}.
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ServiceEventBus implements Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceEventBus.class);
-
     @Deprecated
     private static ServiceEventBus instance;
-
     private static final boolean ASYNCHRONOUS_EXECUTION = false;
-
     private static final int THREAD_POOL_SIZE = 3;
+    private static final String THREAD_GROUP_NAME = "ServiceEventBus-Worker";
 
-    private static final String THREAD_GROUP_NAME = "SosEventBus-Worker";
+    private final ClassCache classCache;
+    private final ReadWriteLock lock;
+    private final ThreadFactory threadFactory;
+    private final Executor executor;
+    private final SetMultimap<Class<? extends ServiceEvent>, ServiceEventListener> listeners;
+    private final Queue<HandlerExecution> queue;
 
-    private final ClassCache classCache = new ClassCache();
-
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
-    private final Executor executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE,
-                                                                   new GroupedAndNamedThreadFactory(THREAD_GROUP_NAME));
-
-    private final SetMultimap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = HashMultimap.create();
-
-    private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<>();
-
+    public ServiceEventBus() {
+        this.classCache = new ClassCache();
+        this.lock = new ReentrantReadWriteLock();
+        this.threadFactory = new GroupedAndNamedThreadFactory(THREAD_GROUP_NAME);
+        this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, threadFactory);
+        this.listeners = HashMultimap.create();
+        this.queue = new ConcurrentLinkedQueue<>();
+    }
 
     @Override
     public void init() {
@@ -104,6 +109,14 @@ public class ServiceEventBus implements Constructable {
         }
     }
 
+    /**
+     * Submit the fired {@link ServiceEvent} to the registered
+     * {@link ServiceEventListener} and initiate the handling of the
+     * {@link ServiceEvent}
+     *
+     * @param event
+     *              Submitted {@link ServiceEvent}
+     */
     public void submit(ServiceEvent event) {
         if (!checkEvent(event)) {
             return;
@@ -127,6 +140,13 @@ public class ServiceEventBus implements Constructable {
         }
     }
 
+    /**
+     * Register a new {@link ServiceEventListener} to the
+     * {@link ServiceEventBus}.
+     *
+     * @param listener
+     *            {@link ServiceEventListener} to register
+     */
     public void register(ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
@@ -141,6 +161,13 @@ public class ServiceEventBus implements Constructable {
         }
     }
 
+    /**
+     * Unregister a new {@link ServiceEventListener} to the
+     * {@link ServiceEventBus}.
+     *
+     * @param listener
+     *            {@link ServiceEventListener} to unregister
+     */
     public void unregister(ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
@@ -174,7 +201,8 @@ public class ServiceEventBus implements Constructable {
     private class ClassCache {
         private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-        private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps.newSetMultiMap();
+        private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps
+                .newSetMultiMap();
 
         public Set<Class<? extends ServiceEvent>> getClasses(Class<? extends ServiceEvent> eventClass) {
             lock.readLock().lock();

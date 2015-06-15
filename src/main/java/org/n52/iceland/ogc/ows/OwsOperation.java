@@ -31,8 +31,8 @@ import org.n52.iceland.util.MinMax;
 
 /**
  * Class represents a OperationMetadata. Used in SosCapabilities.
- * 
- * @since 4.0.0
+ *
+ * @since 1.0.0
  */
 public class OwsOperation implements Comparable<OwsOperation> {
 
@@ -54,7 +54,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Get operation name
-     * 
+     *
      * @return operation name
      */
     public String getOperationName() {
@@ -63,7 +63,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Set operation name
-     * 
+     *
      * @param operationName
      */
     public void setOperationName(String operationName) {
@@ -72,7 +72,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Get DCP for operation
-     * 
+     *
      * @return DCP map
      */
     public SortedMap<String, Set<DCP>> getDcp() {
@@ -81,7 +81,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Set DCP for operation
-     * 
+     *
      * @param dcp
      *            DCP map
      */
@@ -94,7 +94,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Add DCP for operation
-     * 
+     *
      * @param operation
      *            Operation name
      * @param values
@@ -106,7 +106,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Get parameter and value map
-     * 
+     *
      * @return Parameter value map
      */
     public SortedMap<String, List<OwsParameterValue>> getParameterValues() {
@@ -115,7 +115,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Set parameter and value map
-     * 
+     *
      * @param parameterValues
      *            Parameter value map
      */
@@ -130,19 +130,14 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     /**
      * Add values for parameter
-     * 
+     *
      * @param parameterName
      *            parameter name
      * @param value
      *            values to add
      */
     public void addParameterValue(String parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = parameterValues.get(parameterName);
-        if (values == null) {
-            values = new LinkedList<OwsParameterValue>();
-            parameterValues.put(parameterName, values);
-        }
-        values.add(value);
+        parameterValues.computeIfAbsent(parameterName, name -> new LinkedList<>()).add(value);
     }
 
     public <E extends Enum<E>> void addParameterValue(E parameterName, OwsParameterValue value) {
@@ -150,7 +145,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
     }
 
     public <E extends Enum<E>> void overrideParameter(E parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = new LinkedList<OwsParameterValue>();
+        List<OwsParameterValue> values = new LinkedList<>();
         values.add(value);
         parameterValues.put(parameterName.name(), values);
     }

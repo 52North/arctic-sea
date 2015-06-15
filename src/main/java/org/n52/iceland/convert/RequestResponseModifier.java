@@ -17,12 +17,20 @@
 package org.n52.iceland.convert;
 
 
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.component.Component;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.component.Component;
 
-public interface RequestResponseModifier extends Component<RequestResponseModifierKeyType> {
+/**
+ * Interface for {@link AbstractServiceRequest} and
+ * {@link AbstractServiceResponse} modifier
+ *
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
+public interface RequestResponseModifier extends Component<RequestResponseModifierKey> {
 
     AbstractServiceRequest<?> modifyRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
 

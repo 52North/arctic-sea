@@ -24,9 +24,9 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.encode.Encoder;
-import org.n52.iceland.encode.ProcedureDescriptionFormatKey;
-import org.n52.iceland.encode.ProcedureEncoder;
+import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.ProcedureDescriptionFormatKey;
+import org.n52.iceland.coding.encode.ProcedureEncoder;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;

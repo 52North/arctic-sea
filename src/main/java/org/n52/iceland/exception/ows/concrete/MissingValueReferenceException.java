@@ -17,17 +17,17 @@
 package org.n52.iceland.exception.ows.concrete;
 
 import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.n52.iceland.ogc.sos.SosConstants;
+import org.n52.iceland.ogc.filter.FilterConstants;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class MissingValueReferenceException extends MissingParameterValueException {
     private static final long serialVersionUID = 2958391391259123546L;
 
     public MissingValueReferenceException() {
-        super(SosConstants.Filter.ValueReference);
+        super(FilterConstants.Expression.ValueReference);
     }
 }

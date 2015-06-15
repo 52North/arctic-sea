@@ -17,19 +17,10 @@
 package org.n52.iceland.service;
 
 import static org.n52.iceland.service.MiscSettings.CHARACTER_ENCODING;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_FEATURE_PREFIX;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_OBSERVABLEPROPERTY_PREFIX;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_OFFERING_PREFIX;
-import static org.n52.iceland.service.MiscSettings.DEFAULT_PROCEDURE_PREFIX;
 import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
 import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V1;
 import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V2;
-import static org.n52.iceland.service.ServiceSettings.ADD_OUTPUTS_TO_SENSOR_ML;
-import static org.n52.iceland.service.ServiceSettings.ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR;
-import static org.n52.iceland.service.ServiceSettings.SENSOR_DIRECTORY;
 import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
-import static org.n52.iceland.service.ServiceSettings.STRICT_SPATIAL_FILTERING_PROFILE;
-import static org.n52.iceland.service.ServiceSettings.USE_DEFAULT_PREFIXES;
 import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 
 import java.net.URI;
@@ -41,7 +32,7 @@ import org.n52.iceland.exception.ConfigurationException;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Validation;
-import org.n52.iceland.util.XmlOptionsHelper;
+//import org.n52.sos.util.XmlOptionsHelper;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -51,8 +42,8 @@ import org.n52.iceland.util.XmlOptionsHelper;
  * @since 4.0.0
  */
 @Configurable
+@Deprecated
 public class ServiceConfiguration implements Constructable {
-    @Deprecated
     private static ServiceConfiguration instance;
 
     /**
@@ -61,14 +52,6 @@ public class ServiceConfiguration implements Constructable {
     private String characterEncoding;
 
     private String defaultOfferingPrefix;
-
-    private String defaultProcedurePrefix;
-
-    private String defaultObservablePropertyPrefix;
-
-    private String defaultFeaturePrefix;
-
-    private boolean useDefaultPrefixes;
 
     private boolean encodeFullChildrenInDescribeSensor;
 
@@ -189,7 +172,7 @@ public class ServiceConfiguration implements Constructable {
     public void setCharacterEncoding(final String encoding) throws ConfigurationException {
         Validation.notNullOrEmpty("Character Encoding", encoding);
         characterEncoding = encoding;
-        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
+//        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
     }
 
     public String getCharacterEncoding() {
@@ -200,61 +183,24 @@ public class ServiceConfiguration implements Constructable {
         return defaultOfferingPrefix;
     }
 
-    @Setting(DEFAULT_OFFERING_PREFIX)
-    public void setDefaultOfferingPrefix(final String prefix) {
-        defaultOfferingPrefix = prefix;
-    }
-
-    public String getDefaultProcedurePrefix() {
-        return defaultProcedurePrefix;
-    }
-
-    @Setting(DEFAULT_OBSERVABLEPROPERTY_PREFIX)
-    public void setDefaultObservablePropertyPrefix(final String prefix) {
-        defaultObservablePropertyPrefix = prefix;
-    }
-
-    public String getDefaultObservablePropertyPrefix() {
-        return defaultObservablePropertyPrefix;
-    }
-
-    @Setting(DEFAULT_PROCEDURE_PREFIX)
-    public void setDefaultProcedurePrefix(final String prefix) {
-        defaultProcedurePrefix = prefix;
-    }
-
-    public String getDefaultFeaturePrefix() {
-        return defaultFeaturePrefix;
-    }
-
-    @Setting(DEFAULT_FEATURE_PREFIX)
-    public void setDefaultFeaturePrefix(final String prefix) {
-        defaultFeaturePrefix = prefix;
-    }
-
-    public boolean isUseDefaultPrefixes() {
-        return useDefaultPrefixes;
-    }
-
-    @Setting(USE_DEFAULT_PREFIXES)
-    public void setUseDefaultPrefixes(final boolean prefix) {
-        useDefaultPrefixes = prefix;
-    }
-
+    @Deprecated
     public boolean isEncodeFullChildrenInDescribeSensor() {
         return encodeFullChildrenInDescribeSensor;
     }
 
-    @Setting(ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR)
+//    @Setting(ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR)
+    @Deprecated
     public void setEncodeFullChildrenInDescribeSensor(final boolean encodeFullChildrenInDescribeSensor) {
         this.encodeFullChildrenInDescribeSensor = encodeFullChildrenInDescribeSensor;
     }
 
+    @Deprecated
     public boolean isAddOutputsToSensorML() {
         return addOutputsToSensorML;
     }
 
-    @Setting(ADD_OUTPUTS_TO_SENSOR_ML)
+//    @Setting(ADD_OUTPUTS_TO_SENSOR_ML)
+    @Deprecated
     public void setAddOutputsToSensorML(final boolean addOutputsToSensorML) {
         this.addOutputsToSensorML = addOutputsToSensorML;
     }
@@ -263,7 +209,8 @@ public class ServiceConfiguration implements Constructable {
         return strictSpatialFilteringProfile;
     }
 
-    @Setting(STRICT_SPATIAL_FILTERING_PROFILE)
+//    @Setting(STRICT_SPATIAL_FILTERING_PROFILE)
+    @Deprecated
     public void setStrictSpatialFilteringProfile(final boolean strictSpatialFilteringProfile) {
         this.strictSpatialFilteringProfile = strictSpatialFilteringProfile;
     }
@@ -285,11 +232,6 @@ public class ServiceConfiguration implements Constructable {
         return supportsQuality;
     }
 
-    // @Setting(SUPPORTS_QUALITY)
-    // public void setSupportsQuality(final boolean supportsQuality) {
-    // this.supportsQuality = supportsQuality;
-    // }
-
     public boolean isUseHttpStatusCodesInKvpAndPoxBinding() {
         return useHttpStatusCodesInKvpAndPoxBinding;
     }
@@ -304,11 +246,13 @@ public class ServiceConfiguration implements Constructable {
      * @return Returns the sensor description directory
      */
     // HibernateProcedureUtilities
+    @Deprecated
     public String getSensorDir() {
         return sensorDirectory;
     }
 
-    @Setting(SENSOR_DIRECTORY)
+//    @Setting(SENSOR_DIRECTORY)
+    @Deprecated
     public void setSensorDirectory(final String sensorDirectory) {
         this.sensorDirectory = sensorDirectory;
     }
@@ -368,11 +312,13 @@ public class ServiceConfiguration implements Constructable {
         srsNamePrefixSosV2 = prefix;
     }
 
-    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)
+//    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)
+    @Deprecated
     public void setDeregisterJdbcDriver(final boolean deregisterJdbcDriver) {
         this.deregisterJdbcDriver = deregisterJdbcDriver;
     }
 
+    @Deprecated
     public boolean isDeregisterJdbcDriver() {
         return deregisterJdbcDriver;
     }
@@ -439,23 +385,4 @@ public class ServiceConfiguration implements Constructable {
     public boolean isForceStreamingEncoding() {
         return streamingEncoding;
     }
-
-
-    /*
-     * Now, we return the list of returned features and not a complex encoded
-     * relatedFeature => this setting is not needed at all See
-     * AbstractGetFeatureOfInterestDAO:100-195 Don't forget to activate in
-     * MiscSettings the relatedFeature setting
-     *
-     * @Setting(MiscSettings.RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES)
-     * public void setRelatedSamplingFeatureRoleForChildFeatures(final String
-     * relatedSamplingFeatureRoleForChildFeatures) { Validation.notNullOrEmpty(
-     * MiscSettings.RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES,
-     * relatedSamplingFeatureRoleForChildFeatures);
-     * this.relatedSamplingFeatureRoleForChildFeatures =
-     * relatedSamplingFeatureRoleForChildFeatures; }
-     *
-     * public String getRelatedSamplingFeatureRoleForChildFeatures() { return
-     * relatedSamplingFeatureRoleForChildFeatures; }
-     */
 }

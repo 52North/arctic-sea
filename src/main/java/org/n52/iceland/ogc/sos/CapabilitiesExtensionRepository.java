@@ -26,7 +26,7 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.util.Producer;

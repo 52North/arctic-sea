@@ -19,9 +19,10 @@ package org.n52.iceland.util.action;
 import java.util.concurrent.CountDownLatch;
 
 /**
- * Makes a RunnableAction optionally threadable (if CountDownLatch is set, it is counted down after execution)
+ * Makes a RunnableAction optionally threadable (if CountDownLatch is set, it is
+ * counted down after execution).
  *
- * @author Shane StClair <shane@axiomalaska.com>
+ * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 4.0.0
  *
  */

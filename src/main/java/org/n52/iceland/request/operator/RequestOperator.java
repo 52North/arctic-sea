@@ -17,21 +17,46 @@
 package org.n52.iceland.request.operator;
 
 import org.n52.iceland.component.Component;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsOperation;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.ConformanceClass;
 
 /**
- * Interface for SOS request operator implementations TODO add javadoc for each
+ * Interface for SOS request operator implementations
  * method
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey>{
+
+    /**
+     * Receives and processes the incoming {@link AbstractServiceRequest} and
+     * returns a {@link AbstractServiceResponse}
+     *
+     * @param request
+     *            The incoming {@link AbstractServiceRequest}
+     * @return {@link AbstractServiceResponse} of the
+     *         {@link AbstractServiceRequest}
+     * @throws OwsExceptionReport
+     *             If an error occurs during the processing of the
+     *             {@link AbstractServiceRequest}
+     */
     AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
 
+    /**
+     * Get {@link OwsOperation} metadata for service and version
+     *
+     * @param service
+     *            The service to get metadata for
+     * @param version
+     *            The service version to get metadata for
+     * @return {@link OwsOperation} metadata for service and version
+     * @throws OwsExceptionReport
+     *             If an error occurs during the generation of
+     *             {@link OwsOperation}
+     */
     OwsOperation getOperationMetadata(String service, String version) throws OwsExceptionReport;
 
     @Deprecated

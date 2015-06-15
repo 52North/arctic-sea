@@ -19,15 +19,15 @@ package org.n52.iceland.exception;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.ExceptionCode;
-import org.n52.iceland.ogc.ows.OwsExceptionReport;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class CodedException extends OwsExceptionReport {
     private static final long serialVersionUID = 52L;
