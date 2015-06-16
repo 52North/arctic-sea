@@ -19,15 +19,30 @@ package org.n52.iceland.component;
 import java.util.Set;
 
 /**
+ * Generic interface for repositories containing {@link Component}s.
  *
  * @param <K> the component key type
  * @param <C> the component type
+ *
+ * @since 1.0.0
  *
  * @author Christian Autermann
  */
 public interface ComponentRepository<K, C extends Component<K>> {
 
+    /**
+     * Get all {@link Component}s of this repository.
+     *
+     * @return the components
+     */
     Set<C> getAll();
 
+    /**
+     * Gets the {@link Component} associated with {@code key} if it exists.
+     *
+     * @param key the key
+     *
+     * @return the component or {@code null}
+     */
     C get(K key);
 }

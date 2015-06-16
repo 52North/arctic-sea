@@ -14,17 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding;
+package org.n52.iceland.coding.decode;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.n52.iceland.coding.AbstractCodingRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.EncoderFactory;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.DecoderKey;
+import org.n52.iceland.decode.DecoderFactory;
 import org.n52.iceland.lifecycle.Constructable;
 
 /**
@@ -32,44 +34,44 @@ import org.n52.iceland.lifecycle.Constructable;
  *
  * @author Christian Autermann
  */
-public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
-        implements Constructable {
+public class DecoderRepository
+        extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory> implements Constructable {
 
     @Autowired(required = false)
-    private Collection<Encoder<?, ?>> encoders;
+    private Collection<Decoder<?, ?>> decoders;
     @Autowired(required = false)
-    private Collection<EncoderFactory> encoderFactories;
+    private Collection<DecoderFactory> decoderFactories;
 
     @Override
     public void init() {
-        setProducers(getProviders(encoders, encoderFactories));
+        setProducers(getProviders(decoders, decoderFactories));
     }
 
-    public Set<Encoder<?, ?>> getEncoders() {
+    public Set<Decoder<?, ?>> getDecoders() {
         return getComponents();
     }
 
-    public boolean hasEncoder(EncoderKey key, EncoderKey... keys) {
+    public boolean hasDecoder(DecoderKey key, DecoderKey... keys) {
         return hasComponent(key, keys);
     }
 
-    public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
-        return (Encoder<F, T>) getComponent(key, keys);
+    @SuppressWarnings("unchecked")
+    public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
+        return (Decoder<F, T>) getComponent(key, keys);
     }
 
     @Override
-    protected CompositeKey createCompositeKey(List<EncoderKey> keys) {
-        return new CompositeEncoderKey(keys);
+    protected CompositeKey createCompositeKey(List<DecoderKey> keys) {
+        return new CompositeDecoderKey(keys);
     }
 
-    private class CompositeEncoderKey extends CompositeKey
-            implements EncoderKey {
-        CompositeEncoderKey(Iterable<EncoderKey> keys) {
+    private class CompositeDecoderKey extends CompositeKey implements DecoderKey {
+        CompositeDecoderKey(Iterable<DecoderKey> keys) {
             super(keys);
         }
 
         @Override
-        public EncoderKey asKey() {
+        public DecoderKey asKey() {
             return this;
         }
     }

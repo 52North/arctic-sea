@@ -16,29 +16,60 @@
  */
 package org.n52.iceland.component;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
+ * Interface for {@link Component} factories.
  *
  * @param <C> the component type
  * @param <K> the key type
  *
+ * @since 1.0.0
+ *
  * @author Christian Autermann
  */
-public interface ComponentFactory<K, C extends Component<K>> {
+public interface ComponentFactory<K, C extends Component<K>> extends Keyed<K> {
 
+    /**
+     * Checks if this factory supports the supplied {@code key}.
+     *
+     * @param key the key
+     *
+     * @return if this factory supports the key.
+     */
     default boolean has(K key) {
         return getKeys().contains(key);
     }
 
+    /**
+     * Creates all {@link Component}s supported by this factory.
+     *
+     * @return the components
+     */
     default Set<C> createAll() {
         return getKeys().stream()
                 .map(this::create)
-                .collect(Collectors.toSet());
+                .collect(toSet());
     }
 
+    /**
+     * Get all keys that are supported by this factory.
+     *
+     * @return the keys
+     */
+    @Override
     Set<K> getKeys();
 
+    /**
+     * Creates the {@link Component} associated with the supplied {@code key}.
+     * Whether this method will always return the same instance or a fresh
+     * instance for each call is implementation dependent.
+     *
+     * @param key the key
+     *
+     * @return the {@code Component}
+     */
     C create(K key);
 }

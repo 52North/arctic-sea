@@ -42,14 +42,4 @@ public interface ServiceOperator extends Component<ServiceOperatorKey> {
      */
     AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request)
             throws OwsExceptionReport;
-
-    /**
-     * Get the {@link ServiceOperatorKey} of this implemented
-     * {@link ServiceOperator}
-     *
-     * @return The {@link ServiceOperatorKey} for this service.
-     */
-    @Deprecated
-    ServiceOperatorKey getServiceOperatorKey();
-
 }

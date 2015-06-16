@@ -16,8 +16,10 @@
  */
 package org.n52.iceland.component;
 
+import java.util.Set;
+
 /**
- * Base interface for keyed components.
+ * Interface for keyed classes
  *
  * @param <K> the key type
  *
@@ -25,5 +27,13 @@ package org.n52.iceland.component;
  *
  * @author Christian Autermann
  */
-public interface Component<K> extends Keyed<K> {
+public interface Keyed<K> {
+
+    /**
+     * Gets the set of keys.
+     *
+     * @return the keys (never {@code null})
+     */
+    Set<K> getKeys();
+
 }

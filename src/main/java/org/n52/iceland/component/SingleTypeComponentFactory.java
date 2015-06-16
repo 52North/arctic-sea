@@ -20,41 +20,79 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * TODO JavaDoc
+ * Convenience interface for a {@link ComponentFactory} that supports only a
+ * single key.
  *
  * @param <K> the component key
  * @param <C> the component type
+ *
+ * @since 1.0.0
  *
  * @author Christian Autermann
  */
 public interface SingleTypeComponentFactory<K, C extends Component<K>>
         extends ComponentFactory<K, C> {
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws IllegalArgumentException if {@code key} does not equal the
+     *                                  {@linkplain #getKey() key of this factory}.
+     */
     @Override
     default C create(K key) {
-        if (has(key)) {
-            return create();
-        } else {
+        if (!has(key)) {
             throw new IllegalArgumentException("Key " + key + " not supported");
         }
+        return create();
     }
 
+    /**
+     * Creates a singleton set of the {@link Component} supported by this
+     * factory.
+     *
+     * @return the component
+     */
     @Override
     default Set<C> createAll() {
         return Collections.singleton(create());
     }
 
+    /**
+     * Creates a singleton set of the key supported by this factory.
+     *
+     * @return the key
+     */
     @Override
     default Set<K> getKeys() {
         return Collections.singleton(getKey());
     }
 
+    /**
+     * Checks if the {@code key} is the key supported by this factory.
+     *
+     * @param key the key
+     *
+     * @return if the {@code key} is the key supported
+     */
     @Override
     default boolean has(K key) {
         return key != null && key.equals(getKey());
     }
 
+    /**
+     * Gets the single key supported by this factory.
+     *
+     * @return the key
+     */
     K getKey();
 
+    /**
+     * Creates the single {@link Component} supported by this factory. Whether
+     * this method will always return the same instance or a fresh instance for
+     * each call is implementation dependent.
+     *
+     * @return the component
+     */
     C create();
 }

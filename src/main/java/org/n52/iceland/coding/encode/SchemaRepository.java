@@ -14,7 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding;
+package org.n52.iceland.coding.encode;
+
 
 import java.util.Collections;
 import java.util.Map;
@@ -22,9 +23,6 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.XmlEncoderKey;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.w3c.SchemaLocation;
 

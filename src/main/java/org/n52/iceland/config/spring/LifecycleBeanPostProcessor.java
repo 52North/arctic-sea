@@ -18,7 +18,6 @@ package org.n52.iceland.config.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 import org.springframework.core.Ordered;
@@ -28,11 +27,25 @@ import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.lifecycle.Destroyable;
 
 /**
- * TODO JavaDoc
+ * Bean post processor that calls {@link Constructable#init() } and
+ * {@link Destroyable#destroy()} for every bean that implements these
+ * interfaces. In contrast to the {@link javax.annotation.PostConstruct} and
+ * {@link javax.annotation.PreDestroy} annotations, these methods will also be
+ * called if they are declared in a super class of the bean.
+ *
+ * This postprocess will be called at the same stages,
+ * {@link org.springframework.context.annotation.CommonAnnotationBeanPostProcessor}
+ * would be called.
+ *
+ * @see Constructable
+ * @see Destroyable
+ *
+ * @since 1.0.0
  *
  * @author Christian Autermann
  */
-public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProcessor, PriorityOrdered {
+public class LifecycleBeanPostProcessor
+        implements DestructionAwareBeanPostProcessor, PriorityOrdered {
     private static final Logger LOG = LoggerFactory
             .getLogger(LifecycleBeanPostProcessor.class);
 
@@ -63,15 +76,15 @@ public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProce
     }
 
     @Override
-    public void postProcessBeforeDestruction(Object bean, String beanName)
-            throws BeansException {
-
+    public void postProcessBeforeDestruction(Object bean, String beanName) {
         if (bean instanceof Destroyable) {
+
             try {
                 ((Destroyable) bean).destroy();
             } catch (Throwable t) {
                 LOG.error("Couldn't invoke destroy method on " + beanName, t);
             }
+
         }
     }
 

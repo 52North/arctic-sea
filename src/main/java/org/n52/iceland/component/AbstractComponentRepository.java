@@ -16,25 +16,26 @@
  */
 package org.n52.iceland.component;
 
-
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Optional;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.util.Producers;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.HashMultimap;
-import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 
 /**
- *
  * Abstract class to encapsulate the loading of implementations that are
  * registered with the ServiceLoader interface.
  *
@@ -47,86 +48,265 @@ import com.google.common.collect.SetMultimap;
  * @since 4.0.0
  */
 public abstract class AbstractComponentRepository<K, C extends Component<K>, F extends ComponentFactory<K, C>> {
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractComponentRepository.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(AbstractComponentRepository.class);
 
-    protected SetMultimap<K, Producer<C>> getProviders(Collection<C> components, Collection<F> factories) {
-        SetMultimap<K, Producer<C>> providers = HashMultimap.create();
-        if (factories != null && !factories.isEmpty()) {
-            for (F factory : factories) {
-                LOG.info("Creating provider for component factory {}", factory);
-                for (K key : factory.getKeys()) {
-                    providers.put(key, new FactoryProvider<>(factory, key));
-                }
-            }
-        }
-        if (components != null && !components.isEmpty()) {
-            for (C component : components) {
-                LOG.info("Creating provider for component {}", component);
-                Producer<C> provider = Producers.forInstance(component);
-                for (K key : component.getKeys()) {
-                    providers.put(key, provider);
-                }
-            }
-        }
-        return providers;
+    /**
+     * Create a multi valued map with {@code Producer}s for the supplied
+     * {@code components} and {@code factories}.
+     *
+     * @param components the component instances (may be {@code null} or empty)
+     * @param factories  the component factories (may be {@code null} or empty)
+     *
+     * @return the producers
+     */
+    protected SetMultimap<K, Producer<C>> getProviders(Collection<? extends C> components,
+                                                       Collection<? extends F> factories) {
+        return createProviders(factories, components)
+                .collect(HashMultimap::create,
+                         (map, provider) -> map.put(provider.getKey(), provider),
+                         SetMultimap::putAll);
     }
 
-    protected Map<K, Producer<C>> getUniqueProviders(Collection<C> components, Collection<F> factories) {
-        Map<K, Producer<C>> uniqueKeyImplementations = Maps.newHashMap();
-        for (Entry<K, Producer<C>> entry : getProviders(components, factories).entries()) {
-            K key = entry.getKey();
-            Producer<C> value = entry.getValue();
-            Producer<C> old = uniqueKeyImplementations.put(key, value);
-            if (old != null) {
-                LOG.warn("Duplicate component for key {}: {} vs. {}", key, old, value);
-            }
-        }
+    private Stream<KeyedProvider<K, C>> createProviders(Collection<? extends F> factories,
+                                                        Collection<? extends C> components) {
+        return Stream.concat(createProviders(factories, FactoryProvider::new),
+                             createProviders(components, InstanceProvider::new));
+    }
+
+    private <T extends Keyed<? extends K>> Stream<? extends KeyedProvider<K,C>>
+        createProviders(Collection<? extends T> objects, BiFunction<? super K, ? super T, ? extends KeyedProvider<K, C>> creator) {
+        Objects.requireNonNull(creator);
+        Function<T, Stream<KeyedProvider<K, C>>> mapper = (T t) -> {
+            return t.getKeys().stream().map(key -> creator.apply(key, t));
+        };
+        return Optional.ofNullable(objects)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .peek(t -> LOG.info("Creating provider for {}", t))
+                .flatMap(mapper);
+
+    }
+
+    /**
+     * Create a map with {@code Producer}s for the supplied {@code components}
+     * and {@code factories}. Components or factories with the same keys are
+     * discarded.
+     *
+     * @param components the component instances (may be {@code null} or empty)
+     * @param factories  the component factories (may be {@code null} or empty)
+     *
+     * @return the producers
+     */
+    protected Map<K, Producer<C>> getUniqueProviders(Collection<? extends C> components,
+                                                     Collection<? extends F> factories) {
+
+        Map<K, Producer<C>> uniqueKeyImplementations = new HashMap<>();
+        createProviders(factories, components)
+                .forEach(provider -> {
+                    Producer<C> old = uniqueKeyImplementations.put(provider.getKey(), provider);
+                    if (old != null) {
+                        LOG.warn("Duplicate component for key {}: {} vs. {}", provider.getKey(), old, provider);
+                    }
+
+                });
         return uniqueKeyImplementations;
     }
 
-    private static class FactoryProvider<K, C extends Component<K>, F extends ComponentFactory<K, C>> implements Producer<C> {
-        private final F factory;
+    /**
+     * Abstract class that holds associate a key with the provider.
+     * @param <K> the key type
+     * @param <C> the component type
+     */
+    private static abstract class KeyedProvider<K, C extends Component<K>>
+            implements Producer<C> {
         private final K key;
 
-        FactoryProvider(F factory, K key) {
-            this.factory = factory;
+        /**
+         * Creates a new {@code KeyedProvider} for the key.
+         *
+         * @param key the key
+         */
+        KeyedProvider(K key) {
             this.key = key;
         }
 
-        @Override
-        public C get() {
-            return this.factory.create(this.key);
-        }
-
+        /**
+         * Gets the key of this provider.
+         *
+         * @return the key
+         */
         public K getKey() {
-            return key;
-        }
-
-        public F getFactory() {
-            return factory;
+            return this.key;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.key, this.factory);
+            return Objects.hash(this.key);
         }
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof FactoryProvider) {
-                FactoryProvider<?,?,?> that = (FactoryProvider) obj;
-                return Objects.equals(this.getKey(), that.getKey()) &&
-                       Objects.equals(this.getFactory(), that.getFactory());
+            if (obj instanceof KeyedProvider) {
+                KeyedProvider<?, ?> that = (KeyedProvider) obj;
+                return Objects.equals(this.key, that.getKey());
             }
             return false;
         }
 
         @Override
         public String toString() {
+            return toStringBuilder().toString();
+        }
+
+        /**
+         * Creates a {@code ToStringHelper} filled with the attributes of this
+         * class.
+         *
+         * @return the {code ToStringHelper}
+         */
+        protected ToStringHelper toStringBuilder() {
             return MoreObjects.toStringHelper(this)
-                    .add("factory", this.factory)
-                    .add("key", this.key)
+                    .add("key", this.key);
+        }
+    }
+
+    /**
+     * Provider for {@code Component} instances.
+     *
+     * @param <K> the component key type
+     * @param <C> the component type
+     */
+    private static class InstanceProvider<K, C extends Component<K>>
+              extends KeyedProvider<K, C> {
+
+        private final C component;
+
+        /**
+         * Creates a new {@code InstanceProvider}.
+         *
+         * @param key      the key
+         * @param instance the {@code Component}
+         */
+        InstanceProvider(K key, C instance) {
+            super(key);
+            this.component = instance;
+        }
+
+        /**
+         * Gets the {@code Component}.
+         *
+         * @return the {@code Component}
+         */
+        @Override
+        public C get() {
+            return this.component;
+        }
+
+        /**
+         * Gets the {@code Component}.
+         *
+         * @return the {@code Component}
+         */
+        public C getComponent() {
+            return this.component;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), this.component);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof InstanceProvider) {
+                InstanceProvider<?, ?> that = (InstanceProvider) obj;
+                return super.equals(that) &&
+                       Objects.equals(this.component, that.getComponent());
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return toStringBuilder()
                     .toString();
+        }
+
+        @Override
+        protected ToStringHelper toStringBuilder() {
+            return super.toStringBuilder()
+                    .add("component", this.component);
+        }
+    }
+
+    /**
+     * Provider for {@code Component} produced by a {@code ComponentFactory}
+     *
+     * @param <K> the component key type
+     * @param <C> the component type
+     * @param <F> the component factory type
+     */
+    private static class FactoryProvider<K, C extends Component<K>, F extends ComponentFactory<K, C>>
+            extends KeyedProvider<K, C> {
+        private final F factory;
+
+        /**
+         * Creates a new {@code FactoryProvider}.
+         *
+         * @param key     the {@code Component} key
+         * @param factory the {@code ComponentFactory}
+         */
+        FactoryProvider(K key, F factory) {
+            super(key);
+            this.factory = factory;
+
+        }
+
+        /**
+         * Gets or creates the {@code Component}.
+         *
+         * @return the {@code Component}
+         */
+        @Override
+        public C get() {
+            return this.factory.create(getKey());
+        }
+
+        /**
+         * Gets the {@code ComponentFactory} of this {@code FactoryProvider}.
+         *
+         * @return the {@code ComponentFactory}
+         */
+        public F getFactory() {
+            return factory;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(super.hashCode(), this.factory);
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof FactoryProvider) {
+                FactoryProvider<?, ?, ?> that = (FactoryProvider) obj;
+                return super.equals(that) &&
+                       Objects.equals(this.factory, that.getFactory());
+            }
+            return false;
+        }
+
+        @Override
+        public String toString() {
+            return toStringBuilder()
+                    .toString();
+        }
+
+        @Override
+        protected ToStringHelper toStringBuilder() {
+            return super.toStringBuilder()
+                    .add("factory", this.factory);
         }
 
     }

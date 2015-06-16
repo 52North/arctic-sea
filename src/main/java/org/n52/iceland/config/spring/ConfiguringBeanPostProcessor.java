@@ -18,31 +18,55 @@ package org.n52.iceland.config.spring;
 
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import org.n52.iceland.config.SettingsService;
+import org.n52.iceland.config.annotation.Configurable;
 
 /**
- * TODO JavaDoc
+ * Bean post processor, that
+ * {@linkplain SettingsService#configure(java.lang.Object) configures} beans
+ * using a {@link SettingService} bean. Configuration takes place after all
+ * dependencies are injected, but before any initialization methods are called.
+ *
+ * Note that all beans that are required to create the {@code SettingsService}
+ * bean can not be processed.
+ *
+ * @see Configurable
+ * @see Setting
+ *
+ * @since 1.0.0
  *
  * @author Christian Autermann
- *
  */
 public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
 
-    private SettingsService settingsManager;
+    private SettingsService settingsService;
 
-    @Required
+    /**
+     * Sets the {@code SettingsManager} used to configure the beans.
+     *
+     * @param settingsService the settings service
+     */
     @Autowired
-    public void setSettingsManager(SettingsService settingsManager) {
-        this.settingsManager = settingsManager;
+    public void setSettingsManager(SettingsService settingsService) {
+        this.settingsService = settingsService;
     }
 
+    /**
+     * Configures the {@code bean} using the settings service.
+     *
+     * @param bean     the bean instance
+     * @param beanName the bean name
+     *
+     * @return the bean
+     *
+     * @throws BeanInitializationException if the configuration fails
+     */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
         try {
-            this.settingsManager.configure(bean);
+            this.settingsService.configure(bean);
         } catch (Throwable t) {
             throw new BeanInitializationException(
                     "Couldn't set settings on bean " + beanName, t);
@@ -50,6 +74,14 @@ public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
         return bean;
     }
 
+    /**
+     * Noop implementation, will just return {@code bean}.
+     *
+     * @param bean     the bean instance
+     * @param beanName the bean name
+     *
+     * @return {@code bean}
+     */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
         return bean;

@@ -16,14 +16,14 @@
  */
 package org.n52.iceland.coding;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 import javax.inject.Inject;
 
 import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.DecoderRepository;
 import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.EncoderRepository;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.ServiceConstants.AbstractSupportedStringType;
 import org.n52.iceland.service.ServiceConstants.FeatureType;
@@ -50,21 +50,27 @@ public class SupportedTypeRepository implements Constructable {
     private final SetMultimap<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> typeMap = HashMultimap.create();
     private final LoadingCache<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> cache;
 
-    @Inject
     private EncoderRepository encoderRepository;
-
-    @Inject
     private DecoderRepository decoderRepository;
 
     public SupportedTypeRepository() {
         this.cache = CacheBuilder.newBuilder().build(new CacheLoaderImpl());
     }
 
+    @Inject
+    public void setEncoderRepository(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
+    }
+
+    @Inject
+    public void setDecoderRepository(DecoderRepository decoderRepository) {
+        this.decoderRepository = decoderRepository;
+    }
+
     @Override
     public void init() {
         SupportedTypeRepository.instance = this;
         this.supportedTypes.clear();
-        List<Set<SupportedType>> list = new LinkedList<>();
 
         for (Decoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
             Set<SupportedType> set = decoder.getSupportedTypes();

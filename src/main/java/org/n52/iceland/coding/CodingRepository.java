@@ -16,6 +16,10 @@
  */
 package org.n52.iceland.coding;
 
+import org.n52.iceland.coding.encode.SchemaRepository;
+import org.n52.iceland.coding.encode.EncoderRepository;
+import org.n52.iceland.coding.decode.DecoderRepository;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
