@@ -52,7 +52,6 @@ public class ServiceEventBus implements Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceEventBus.class);
     @Deprecated
     private static ServiceEventBus instance;
-    private static final boolean ASYNCHRONOUS_EXECUTION = false;
     private static final int THREAD_POOL_SIZE = 3;
     private static final String THREAD_GROUP_NAME = "ServiceEventBus-Worker";
 
@@ -62,6 +61,7 @@ public class ServiceEventBus implements Constructable {
     private final Executor executor;
     private final SetMultimap<Class<? extends ServiceEvent>, ServiceEventListener> listeners;
     private final Queue<HandlerExecution> queue;
+    private boolean async = false;
 
     public ServiceEventBus() {
         this.classCache = new ClassCache();
@@ -70,6 +70,10 @@ public class ServiceEventBus implements Constructable {
         this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, threadFactory);
         this.listeners = HashMultimap.create();
         this.queue = new ConcurrentLinkedQueue<>();
+    }
+
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 
     @Override
@@ -132,7 +136,7 @@ public class ServiceEventBus implements Constructable {
         }
         HandlerExecution r;
         while ((r = queue.poll()) != null) {
-            if (ASYNCHRONOUS_EXECUTION) {
+            if (async) {
                 executor.execute(r);
             } else {
                 r.run();
