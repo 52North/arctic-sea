@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -68,16 +69,16 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
                          SetMultimap::putAll);
     }
 
-    private Stream<KeyedProvider<K, C>> createProviders(Collection<? extends F> factories,
+    private Stream<KeyedProducer<K, C>> createProviders(Collection<? extends F> factories,
                                                         Collection<? extends C> components) {
-        return Stream.concat(createProviders(factories, FactoryProvider::new),
-                             createProviders(components, InstanceProvider::new));
+        return Stream.concat(createProviders(factories, FactoryProducer::new),
+                             createProviders(components, InstanceProducer::new));
     }
 
-    private <T extends Keyed<? extends K>> Stream<? extends KeyedProvider<K,C>>
-        createProviders(Collection<? extends T> objects, BiFunction<? super K, ? super T, ? extends KeyedProvider<K, C>> creator) {
+    private <T extends Keyed<? extends K>> Stream<? extends KeyedProducer<K,C>>
+        createProviders(Collection<? extends T> objects, BiFunction<? super K, ? super T, ? extends KeyedProducer<K, C>> creator) {
         Objects.requireNonNull(creator);
-        Function<T, Stream<KeyedProvider<K, C>>> mapper = (T t) -> {
+        Function<T, Stream<KeyedProducer<K, C>>> mapper = (T t) -> {
             return t.getKeys().stream().map(key -> creator.apply(key, t));
         };
         return Optional.ofNullable(objects)
@@ -104,7 +105,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         Map<K, Producer<C>> uniqueKeyImplementations = new HashMap<>();
         createProviders(factories, components)
                 .forEach(provider -> {
-                    Producer<C> old = uniqueKeyImplementations.put(provider.getKey(), provider);
+                    Supplier<C> old = uniqueKeyImplementations.put(provider.getKey(), provider);
                     if (old != null) {
                         LOG.warn("Duplicate component for key {}: {} vs. {}", provider.getKey(), old, provider);
                     }
@@ -114,20 +115,20 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     }
 
     /**
-     * Abstract class that holds associate a key with the provider.
+     * Abstract class that holds associate a key with the producer.
      * @param <K> the key type
      * @param <C> the component type
      */
-    private static abstract class KeyedProvider<K, C extends Component<K>>
+    private static abstract class KeyedProducer<K, C extends Component<K>>
             implements Producer<C> {
         private final K key;
 
         /**
-         * Creates a new {@code KeyedProvider} for the key.
+         * Creates a new {@code KeyedSupplier} for the key.
          *
          * @param key the key
          */
-        KeyedProvider(K key) {
+        KeyedProducer(K key) {
             this.key = key;
         }
 
@@ -147,8 +148,8 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof KeyedProvider) {
-                KeyedProvider<?, ?> that = (KeyedProvider) obj;
+            if (obj instanceof KeyedProducer) {
+                KeyedProducer<?, ?> that = (KeyedProducer) obj;
                 return Objects.equals(this.key, that.getKey());
             }
             return false;
@@ -177,18 +178,18 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      * @param <K> the component key type
      * @param <C> the component type
      */
-    private static class InstanceProvider<K, C extends Component<K>>
-              extends KeyedProvider<K, C> {
+    private static class InstanceProducer<K, C extends Component<K>>
+              extends KeyedProducer<K, C> {
 
         private final C component;
 
         /**
-         * Creates a new {@code InstanceProvider}.
+         * Creates a new {@code InstanceProducer}.
          *
          * @param key      the key
          * @param instance the {@code Component}
          */
-        InstanceProvider(K key, C instance) {
+        InstanceProducer(K key, C instance) {
             super(key);
             this.component = instance;
         }
@@ -219,8 +220,8 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof InstanceProvider) {
-                InstanceProvider<?, ?> that = (InstanceProvider) obj;
+            if (obj instanceof InstanceProducer) {
+                InstanceProducer<?, ?> that = (InstanceProducer) obj;
                 return super.equals(that) &&
                        Objects.equals(this.component, that.getComponent());
             }
@@ -247,17 +248,17 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      * @param <C> the component type
      * @param <F> the component factory type
      */
-    private static class FactoryProvider<K, C extends Component<K>, F extends ComponentFactory<K, C>>
-            extends KeyedProvider<K, C> {
+    private static class FactoryProducer<K, C extends Component<K>, F extends ComponentFactory<K, C>>
+            extends KeyedProducer<K, C> {
         private final F factory;
 
         /**
-         * Creates a new {@code FactoryProvider}.
+         * Creates a new {@code FactoryProducer}.
          *
          * @param key     the {@code Component} key
          * @param factory the {@code ComponentFactory}
          */
-        FactoryProvider(K key, F factory) {
+        FactoryProducer(K key, F factory) {
             super(key);
             this.factory = factory;
 
@@ -289,8 +290,8 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
         @Override
         public boolean equals(Object obj) {
-            if (obj instanceof FactoryProvider) {
-                FactoryProvider<?, ?, ?> that = (FactoryProvider) obj;
+            if (obj instanceof FactoryProducer) {
+                FactoryProducer<?, ?, ?> that = (FactoryProducer) obj;
                 return super.equals(that) &&
                        Objects.equals(this.factory, that.getFactory());
             }

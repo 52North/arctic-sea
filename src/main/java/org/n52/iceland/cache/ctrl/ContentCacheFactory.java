@@ -16,8 +16,9 @@
  */
 package org.n52.iceland.cache.ctrl;
 
+import java.util.function.Supplier;
+
 import org.n52.iceland.cache.WritableContentCache;
-import org.n52.iceland.util.Producer;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -25,5 +26,5 @@ import org.n52.iceland.util.Producer;
  * @since 1.0.0
  */
 public interface ContentCacheFactory
-        extends Producer<WritableContentCache> {
+        extends Supplier<WritableContentCache> {
 }

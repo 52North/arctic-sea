@@ -16,10 +16,16 @@
  */
 package org.n52.iceland.lifecycle;
 
+import javax.annotation.PreDestroy;
+
 /**
+ * @see PreDestroy
+ * @since 1.0.0
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 5.0.0
  */
 public interface Destroyable {
+    /**
+     * Destroys this object.
+     */
     void destroy();
 }

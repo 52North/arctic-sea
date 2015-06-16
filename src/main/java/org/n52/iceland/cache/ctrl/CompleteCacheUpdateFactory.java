@@ -16,13 +16,14 @@
  */
 package org.n52.iceland.cache.ctrl;
 
+import java.util.function.Supplier;
+
 import org.n52.iceland.cache.ContentCacheUpdate;
-import org.n52.iceland.util.Producer;
 
 /**
  *
  * @author Christian Autermann
  */
 public interface CompleteCacheUpdateFactory
-        extends Producer<ContentCacheUpdate> {
+        extends Supplier<ContentCacheUpdate> {
 }

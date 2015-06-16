@@ -16,16 +16,17 @@
  */
 package org.n52.iceland.convert;
 
+import java.util.Comparator;
 import java.util.Objects;
-import java.util.Set;
+import java.util.Optional;
+import java.util.function.BiFunction;
 
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
-import com.google.common.collect.Sets;
+import com.google.common.collect.ComparisonChain;
 
 /**
  * Key class to identify {@link RequestResponseModifier}
@@ -35,10 +36,10 @@ import com.google.common.collect.Sets;
  *
  */
 public class RequestResponseModifierKey implements Comparable<RequestResponseModifierKey> {
-    private String service = Constants.EMPTY_STRING;
-    private String version = Constants.EMPTY_STRING;
-    private AbstractServiceRequest<?> request;
-    private AbstractServiceResponse response;
+    private final String service;
+    private final String version;
+    private Optional<Class<? extends AbstractServiceRequest>> request;
+    private Optional<Class<? extends AbstractServiceResponse>> response;
 
     /**
      * Constructor
@@ -68,11 +69,56 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
      */
     public RequestResponseModifierKey(String service, String version, AbstractServiceRequest<?> request,
             AbstractServiceResponse response) {
-        super();
-        setService(service);
-        setVersion(version);
-        setRequest(request);
-        setResponse(response);
+        this(service, version, getClass(request), getClass(response));
+    }
+
+    /**
+     * Constructor
+     *
+     * @param service
+     *            The service name
+     * @param version
+     *            The service version
+     * @param request
+     *            The {@link AbstractServiceRequest}
+     */
+    public RequestResponseModifierKey(String service, String version, Class<? extends AbstractServiceRequest<?>> request) {
+        this(service, version, request, null);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param service
+     *            The service name
+     * @param version
+     *            The service version
+     * @param request
+     *            The {@link AbstractServiceRequest}
+     * @param response
+     *            The {@link AbstractServiceResponse}
+     */
+    public RequestResponseModifierKey(String service, String version, Class<? extends AbstractServiceRequest<?>> request, Class<? extends AbstractServiceResponse> response) {
+        this(service, version, Optional.ofNullable(request), Optional.ofNullable(response));
+    }
+
+     /**
+     * Constructor
+     *
+     * @param service
+     *            The service name
+     * @param version
+     *            The service version
+     * @param request
+     *            The {@link AbstractServiceRequest}
+     * @param response
+     *            The {@link AbstractServiceResponse}
+     */
+    public RequestResponseModifierKey(String service, String version, Optional<Class<? extends AbstractServiceRequest>> request, Optional<Class<? extends AbstractServiceResponse>> response) {
+        this.service = Optional.ofNullable(service).orElse(Constants.EMPTY_STRING);
+        this.version = Optional.ofNullable(version).orElse(Constants.EMPTY_STRING);
+        this.request = Objects.requireNonNull(request);
+        this.response = Objects.requireNonNull(response);
     }
 
     /**
@@ -82,22 +128,11 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
         return this.service;
     }
 
-    private void setService(String service) {
-        this.service = service;
-    }
-
     /**
      * @return the version
      */
     public String getVersion() {
         return this.version;
-    }
-
-    /**
-     * @param version
-     */
-    private void setVersion(String version) {
-        this.version = version;
     }
 
     /**
@@ -117,87 +152,29 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
     /**
      * @return the request
      */
-    public AbstractServiceRequest<?> getRequest() {
-        return request;
-    }
-
-    /**
-     * @param request
-     *            the request to set
-     */
-    private void setRequest(AbstractServiceRequest<?> request) {
-        this.request = request;
+    public Class<? extends AbstractServiceRequest> getRequest() {
+        return this.request.orElse(null);
     }
 
     /**
      * @return
      */
     public boolean isSetRequest() {
-        return getRequest() != null;
+        return this.request.isPresent();
     }
 
     /**
      * @return the response
      */
-    public AbstractServiceResponse getResponse() {
-        return response;
-    }
-
-    /**
-     * @param response
-     *            the response to set
-     */
-    private void setResponse(AbstractServiceResponse response) {
-        this.response = response;
+    public Class<? extends AbstractServiceResponse> getResponse() {
+        return this.response.orElse(null);
     }
 
     /**
      * @return
      */
     public boolean isSetResponse() {
-        return getResponse() != null;
-    }
-
-    /**
-     * @param localParameter
-     * @param parameterToCheck
-     * @return <code>true</code>, if localParameter is null, both parameter are
-     *         null of both parameter are the same
-     */
-    private boolean checkCompareToParameter(String localParameter, String parameterToCheck) {
-        if (localParameter == null || (localParameter == null && parameterToCheck == null)) {
-            return true;
-        }
-        return localParameter != null && parameterToCheck != null && localParameter.equals(parameterToCheck);
-    }
-
-    /**
-     * @param object
-     * @param objectToCheck
-     * @return <code>true</code>, if both
-     *         {@link AbstractServiceCommunicationObject} are null or both
-     *         {@link AbstractServiceCommunicationObject} are the of the same
-     *         class
-     */
-    private boolean checkParameter(AbstractServiceCommunicationObject object,
-            AbstractServiceCommunicationObject objectToCheck) {
-        if (object == null && objectToCheck == null) {
-            return true;
-        }
-        return object != null && objectToCheck != null && object.getClass() == objectToCheck.getClass();
-    }
-
-    /**
-     * @param toCheck
-     * @return <code>true</code>, if this {@link AbstractServiceResponse} and
-     *         the toCheck {@link AbstractServiceResponse} are null or both are
-     *         of the same class
-     */
-    private boolean checkResponseForEquals(AbstractServiceResponse toCheck) {
-        if (toCheck != null && getRequest() != null) {
-            return getResponse().getClass() == toCheck.getClass();
-        }
-        return true;
+        return this.response.isPresent();
     }
 
     @Override
@@ -210,33 +187,27 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
 
     @Override
     public int compareTo(RequestResponseModifierKey o) {
-        if (o instanceof RequestResponseModifierKey) {
-            if (checkCompareToParameter(getService(), o.getService())
-                    && checkCompareToParameter(getVersion(), o.getVersion())
-                    && checkParameter(getRequest(), o.getRequest()) && checkParameter(getResponse(), o.getResponse())) {
-                return 0;
-            }
-            return 1;
-        }
-        return -1;
+        Comparator<String> stringComparator = nullCapabableComparator(String::compareTo);
+        Comparator<Class<?>> classComparator = nullCapabableComparator((a,b) -> {
+            return a == b ? 0 : a.getName().compareTo(b.getName());
+        });
+        return ComparisonChain.start()
+                .compare(getService(), o.getService(), stringComparator)
+                .compare(getVersion(), o.getVersion(), stringComparator)
+                .compare(getRequest(), o.getRequest(), classComparator)
+                .compare(getResponse(), o.getResponse(), classComparator)
+                .result();
     }
+
 
     @Override
     public boolean equals(Object o) {
         if (o != null && o.getClass() == getClass()) {
             RequestResponseModifierKey other = (RequestResponseModifierKey) o;
-            Set<Boolean> equal = Sets.newHashSet();
-            if (isSetService()) {
-                equal.add(Objects.equals(getService(), other.getService()));
-            }
-            if (isSetVersion()) {
-                equal.add(Objects.equals(getVersion(), other.getVersion()));
-            }
-            equal.add(checkParameter(getRequest(), other.getRequest()));
-            equal.add(checkResponseForEquals(other.getResponse()));
-            if (equal.size() == 1) {
-                return equal.iterator().next();
-            }
+            return Objects.equals(getService(), other.getService()) &&
+                   Objects.equals(getVersion(), other.getVersion()) &&
+                   Objects.equals(getRequest(), other.getRequest()) &&
+                   Objects.equals(getResponse(), other.getResponse());
         }
         return false;
     }
@@ -249,4 +220,23 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
         }
         return hashCode;
     }
+
+
+    @SuppressWarnings("unchecked")
+    private static <T> Optional<Class<? extends T>> getClass(T t) {
+        return Optional.ofNullable(t).map(x -> {
+            return (Class<? extends T>) x.getClass();
+        });
+    }
+
+    private static <T> Comparator<T> nullCapabableComparator(BiFunction<T, T, Integer> delegate) {
+        return (a,b) -> {
+            if (a == null) {
+                return b == null ? 0 : -1;
+            } else {
+                return b == null ? 1 : delegate.apply(a, b);
+            }
+        };
+    }
+
 }

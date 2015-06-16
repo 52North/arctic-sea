@@ -79,7 +79,8 @@ public class Service extends HttpServlet {
 
     private long logRequest(HttpServletRequest request) {
         long count = counter.incrementAndGet();
-        ServiceEventBus.fire(new IncomingRequestEvent(request, count));
+        this.serviceEventBus.submit(new IncomingRequestEvent(request, count));
+
         if (LOGGER.isDebugEnabled()) {
             Enumeration<?> headerNames = request.getHeaderNames();
             StringBuilder headers = new StringBuilder();
@@ -96,7 +97,7 @@ public class Service extends HttpServlet {
 
     private void logResponse(HttpServletRequest request, HttpServletResponse response, long count, Stopwatch stopwatch) {
         long elapsed = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
-        ServiceEventBus.fire(new OutgoingResponseEvent(request, response, count, elapsed));
+        this.serviceEventBus.submit(new OutgoingResponseEvent(request, response, count, elapsed));
         LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)", count, response.isCommitted(), elapsed);
     }
 

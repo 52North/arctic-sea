@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -63,7 +64,7 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
 
     @SuppressWarnings("unchecked")
     public <T, F> Converter<T, F> getConverter(final ConverterKeyType key) {
-        Producer<Converter<?, ?>> producer = converter.get(key);
+        Supplier<Converter<?, ?>> producer = converter.get(key);
         if (producer == null) {
             return null;
         }
