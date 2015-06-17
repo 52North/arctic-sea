@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.coding;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;

@@ -21,6 +21,9 @@ import javax.xml.namespace.QName;
 import org.n52.iceland.ogc.OGCConstants;
 import org.n52.iceland.w3c.SchemaLocation;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.EnumBiMap;
+
 /**
  * Constants interface for <a
  * href="http://www.opengeospatial.org/standards/filter">OGC Filter Encoding</a>
@@ -55,7 +58,6 @@ public interface FilterConstants {
     QName QN_LITERAL = new QName(NS_FES_2, EN_LITERAL, NS_FES_2_PREFIX);
     QName QN_PROPERTY_IS_EQUAL_TO = new QName(NS_FES_2, EN_PROPERTY_IS_EQUAL_TO, NS_FES_2_PREFIX);
 
-
     /**
      * Enumeration for conformance class constraint names
      */
@@ -77,32 +79,55 @@ public interface FilterConstants {
         ImplementsSchemaElementFunc
     }
 
+    class TimeOperatorMapping {
+        private static final BiMap<TimeOperator, TimeOperator2> bimap
+                = EnumBiMap.create(TimeOperator.class, TimeOperator2.class);
+
+        static {
+            bimap.put(TimeOperator.TM_Before, TimeOperator2.Before);
+            bimap.put(TimeOperator.TM_After, TimeOperator2.After);
+            bimap.put(TimeOperator.TM_Begins, TimeOperator2.Begins);
+            bimap.put(TimeOperator.TM_Ends, TimeOperator2.Ends);
+            bimap.put(TimeOperator.TM_EndedBy, TimeOperator2.EndedBy);
+            bimap.put(TimeOperator.TM_BegunBy, TimeOperator2.BegunBy);
+            bimap.put(TimeOperator.TM_During, TimeOperator2.During);
+            bimap.put(TimeOperator.TM_Equals, TimeOperator2.TEquals);
+            bimap.put(TimeOperator.TM_Contains, TimeOperator2.TContains);
+            bimap.put(TimeOperator.TM_Overlaps, TimeOperator2.TOverlaps);
+            bimap.put(TimeOperator.TM_Meets, TimeOperator2.Meets);
+            bimap.put(TimeOperator.TM_MetBy, TimeOperator2.MetBy);
+            bimap.put(TimeOperator.TM_OverlappedBy, TimeOperator2.OverlappedBy);
+        }
+
+        public static TimeOperator get(TimeOperator2 to) {
+            return bimap.inverse().get(to);
+        }
+
+        public static TimeOperator2 get(TimeOperator to) {
+            return bimap.get(to);
+        }
+    }
+
     /**
      * Enumeration for temporal operators
      */
     enum TimeOperator {
-        TM_Before(TimeOperator2.Before),
-        TM_After(TimeOperator2.After),
-        TM_Begins(TimeOperator2.Begins),
-        TM_Ends(TimeOperator2.Ends),
-        TM_EndedBy(TimeOperator2.EndedBy),
-        TM_BegunBy(TimeOperator2.BegunBy),
-        TM_During(TimeOperator2.During),
-        TM_Equals(TimeOperator2.TEquals),
-        TM_Contains(TimeOperator2.TContains),
-        TM_Overlaps(TimeOperator2.TOverlaps),
-        TM_Meets(TimeOperator2.Meets),
-        TM_MetBy(TimeOperator2.MetBy),
-        TM_OverlappedBy(TimeOperator2.OverlappedBy);
-
-        private final TimeOperator2 equivalent;
-
-        private TimeOperator(TimeOperator2 equivalent) {
-            this.equivalent = equivalent;
-        }
+        TM_Before,
+        TM_After,
+        TM_Begins,
+        TM_Ends,
+        TM_EndedBy,
+        TM_BegunBy,
+        TM_During,
+        TM_Equals,
+        TM_Contains,
+        TM_Overlaps,
+        TM_Meets,
+        TM_MetBy,
+        TM_OverlappedBy;
 
         public TimeOperator2 getEquivalent() {
-            return equivalent;
+            return TimeOperatorMapping.get(this);
         }
 
 
@@ -124,28 +149,22 @@ public interface FilterConstants {
      * Enumeration for FES 2.0 temporal operators
      */
     enum TimeOperator2 {
-        Before(TimeOperator.TM_Before),
-        After(TimeOperator.TM_After),
-        Begins(TimeOperator.TM_Begins),
-        Ends(TimeOperator.TM_Ends),
-        EndedBy(TimeOperator.TM_EndedBy),
-        BegunBy(TimeOperator.TM_BegunBy),
-        During(TimeOperator.TM_During),
-        TEquals(TimeOperator.TM_Equals),
-        TContains(TimeOperator.TM_Contains),
-        TOverlaps(TimeOperator.TM_Overlaps),
-        Meets(TimeOperator.TM_Meets),
-        MetBy(TimeOperator.TM_MetBy),
-        OverlappedBy(TimeOperator.TM_OverlappedBy);
-
-        private final TimeOperator equivalent;
-
-        private TimeOperator2(TimeOperator equivalent) {
-            this.equivalent = equivalent;
-        }
+        Before,
+        After,
+        Begins,
+        Ends,
+        EndedBy,
+        BegunBy,
+        During,
+        TEquals,
+        TContains,
+        TOverlaps,
+        Meets,
+        MetBy,
+        OverlappedBy;
 
         public TimeOperator getEquivalent() {
-            return equivalent;
+            return TimeOperatorMapping.get(this);
         }
 
         public static TimeOperator2 from(String s) {
