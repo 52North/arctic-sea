@@ -592,8 +592,10 @@
             <build>
                 <plugins>
                     <plugin>
+
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>cobertura-maven-plugin</artifactId>
+                        <!-- https://github.com/cobertura/cobertura/issues/248
                         <executions>
                             <execution>
                                 <goals>
@@ -602,6 +604,7 @@
                                 </goals>
                             </execution>
                         </executions>
+                        -->
                     </plugin>
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
