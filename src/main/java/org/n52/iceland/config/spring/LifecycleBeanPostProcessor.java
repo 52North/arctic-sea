@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
+import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
@@ -34,8 +35,7 @@ import org.n52.iceland.lifecycle.Destroyable;
  * called if they are declared in a super class of the bean.
  *
  * This postprocess will be called at the same stages,
- * {@link org.springframework.context.annotation.CommonAnnotationBeanPostProcessor}
- * would be called.
+ * {@link CommonAnnotationBeanPostProcessor} would be called.
  *
  * @see Constructable
  * @see Destroyable

@@ -29,7 +29,7 @@ import com.google.common.base.Objects;
 
 /**
  * Class represents an AbstractGML object
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -46,14 +46,14 @@ public abstract class AbstractGML implements Serializable {
 
     /**
      * Original Feature identifier, set if
-     * {@link AbstractGML#setHumanReadableIdentifierAsIdentifier()} is called
+     * {@link AbstractGML#setHumanReadableIdentifierAsIdentifier()} is called.
      */
     private CodeWithAuthority originalIdentifier;
 
     /**
      * List of feature names
      */
-    private List<CodeType> names = new LinkedList<CodeType>();
+    private List<CodeType> names = new LinkedList<>();
 
     /**
      * Feature description
@@ -65,27 +65,16 @@ public abstract class AbstractGML implements Serializable {
      */
     private String gmlId;
 
-    /**
-     * constructor
-     */
     public AbstractGML() {
+        this(null, null);
     }
 
-    /**
-     * constructor
-     */
     public AbstractGML(String identifier) {
-        setIdentifier(new CodeWithAuthority(identifier));
+        this(new CodeWithAuthority(identifier), null);
     }
 
-    /**
-     * constructor
-     *
-     * @param identifier
-     *            identifier
-     */
     public AbstractGML(CodeWithAuthority identifier) {
-        setIdentifier(identifier);
+        this(identifier, null);
     }
 
     /**
@@ -97,8 +86,8 @@ public abstract class AbstractGML implements Serializable {
      *            GML id
      */
     public AbstractGML(CodeWithAuthority identifier, String gmlId) {
-        setIdentifier(identifier);
-        setGmlId(gmlId);
+        this.identifier = identifier;
+        this.gmlId = gmlId;
     }
 
     @Override
@@ -166,9 +155,8 @@ public abstract class AbstractGML implements Serializable {
     }
 
     /**
-     * @return <tt>true</tt>, if identifier is set and value is not an empty
-     *         string,<br>
-     *         else <tt>false</tt>
+     * @return {@code true}, if identifier is set and value is not an empty
+     *         string, else {@code false}
      */
     public boolean isSetIdentifier() {
         return getIdentifierCodeWithAuthority() != null && getIdentifierCodeWithAuthority().isSetValue();
@@ -196,7 +184,7 @@ public abstract class AbstractGML implements Serializable {
     /**
      * Set human readable identifier
      *
-     * @param identifier
+     * @param humanReadableIdentifier
      *            the human readable identifier to set
      * @return this
      */
@@ -208,7 +196,7 @@ public abstract class AbstractGML implements Serializable {
     /**
      * Set human readable identifier
      *
-     * @param identifier
+     * @param humanReadableIdentifier
      *            the human readable identifier to set
      * @return this
      */
@@ -230,7 +218,7 @@ public abstract class AbstractGML implements Serializable {
     /**
      * Set the human readable identifier as identifier and saves the identifier
      * as original identifier
-     * 
+     *
      * @return this
      */
     public AbstractGML setHumanReadableIdentifierAsIdentifier() {
@@ -285,7 +273,7 @@ public abstract class AbstractGML implements Serializable {
      *
      * @param name
      *            Feature names to ad
-     * @return this
+     * @return {@code this}
      */
     public AbstractGML setName(final List<CodeType> name) {
         this.names.clear();
@@ -295,12 +283,12 @@ public abstract class AbstractGML implements Serializable {
 
     /**
      * Set the name, clears the name list
-     * 
+     *
      * @param name
      *            Name to set
-     * @return
+     * @return {@code this}
      */
-    public AbstractGML setName(final CodeType name) {
+    public AbstractGML setName(CodeType name) {
         this.names.clear();
         this.names.add(name);
         return this;
@@ -308,10 +296,10 @@ public abstract class AbstractGML implements Serializable {
 
     /**
      * Adds the name to the name list
-     * 
+     *
      * @param name
      *            Name to add
-     * @return this
+     * @return {@code this}
      */
     public AbstractGML addName(final CodeType name) {
         if (name != null && name.isSetValue()) {
@@ -325,7 +313,7 @@ public abstract class AbstractGML implements Serializable {
      *
      * @param name
      *            Feature name to add
-     * @return this
+     * @return {@code this}
      */
     public AbstractGML addName(final String name) {
         addName(new CodeType(name));
@@ -339,7 +327,7 @@ public abstract class AbstractGML implements Serializable {
      *            Feature name to add
      * @param codespace
      *            Codespace of the feature name
-     * @return this
+     * @return {@code this}
      */
     public AbstractGML addName(final String name, final String codespace) {
         addName(new CodeType(name, codespace));
@@ -438,7 +426,7 @@ public abstract class AbstractGML implements Serializable {
     /**
      * Copies values of this {@link AbstractGML} to the committed
      * {@link AbstractGML}
-     * 
+     *
      * @param copyOf
      *            {@link AbstractGML} to set values
      */

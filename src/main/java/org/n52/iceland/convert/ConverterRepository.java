@@ -37,33 +37,43 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 @SuppressWarnings("rawtypes")
-public class ConverterRepository extends AbstractComponentRepository<ConverterKeyType, Converter<?, ?>, ConverterFactory> implements Constructable {
+public class ConverterRepository extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory> implements Constructable {
+    @Deprecated
     private static ConverterRepository instance;
 
-    @Autowired(required = false)
     private Collection<Converter<?, ?>> components;
-    @Autowired(required = false)
     private Collection<ConverterFactory> componentFactories;
 
-
-    private final Map<ConverterKeyType, Producer<Converter<?, ?>>> converter
+    private final Map<ConverterKey, Producer<Converter<?, ?>>> converter
             = new HashMap<>(0);
+
+    @Autowired(required = false)
+    public void setComponentFactories(Collection<ConverterFactory> componentFactories) {
+        this.componentFactories = componentFactories;
+    }
+
+    @Autowired(required = false)
+    public void setComponents(Collection<Converter<?, ?>> components) {
+        this.components = components;
+    }
 
     @Override
     public void init() {
+        ConverterRepository.instance = this;
         // TODO check for encoder/decoder used by converter
-        Map<ConverterKeyType, Producer<Converter<?, ?>>> implementations
+        Map<ConverterKey, Producer<Converter<?, ?>>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.converter.clear();
         this.converter.putAll(implementations);
     }
 
+
     public <T, F> Converter<T, F> getConverter(final String fromNamespace, final String toNamespace) {
-        return getConverter(new ConverterKeyType(fromNamespace, toNamespace));
+        return getConverter(new ConverterKey(fromNamespace, toNamespace));
     }
 
     @SuppressWarnings("unchecked")
-    public <T, F> Converter<T, F> getConverter(final ConverterKeyType key) {
+    public <T, F> Converter<T, F> getConverter(final ConverterKey key) {
         Supplier<Converter<?, ?>> producer = converter.get(key);
         if (producer == null) {
             return null;
@@ -82,7 +92,7 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
      */
     public Set<String> getFromNamespaceConverterTo(final String toNamespace) {
         final Set<String> fromNamespaces = Sets.newHashSet();
-        for (final ConverterKeyType converterKey : converter.keySet()) {
+        for (final ConverterKey converterKey : converter.keySet()) {
             if (toNamespace.equals(converterKey.getToNamespace())) {
                 fromNamespaces.add(converterKey.getFromNamespace());
             }
@@ -102,10 +112,10 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
      * @return If a converter is available
      */
     public boolean hasConverter(final String fromNamespace, final String toNamespace) {
-        return hasConverter(new ConverterKeyType(fromNamespace, toNamespace));
+        return hasConverter(new ConverterKey(fromNamespace, toNamespace));
     }
 
-    public boolean hasConverter(ConverterKeyType key) {
+    public boolean hasConverter(ConverterKey key) {
         return this.converter.containsKey(key);
     }
 

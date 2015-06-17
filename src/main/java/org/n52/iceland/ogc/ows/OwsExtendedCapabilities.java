@@ -18,7 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 /**
  * Interface for OWS ExtendeCapabilities. Implementations of this interface are
- * loaded by the {@link OwsExtendedCapabilitiesRepository}.
+ * loaded by the {@link OwsExtendedCapabilitiesProviderRepository}.
  *
  * @since 1.0.0
  */

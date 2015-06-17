@@ -31,8 +31,7 @@ public interface ActivationDao {
     /**
      * Returns if a operation is active and should be offered by this SOS.
      *
-     * @param key
-     *            the key identifying the operation
+     * @param key the key identifying the operation
      *
      * @return {@code true} if the operation is active in this SOS
      */
@@ -41,12 +40,8 @@ public interface ActivationDao {
     /**
      * Sets the status of an operation.
      *
-     * @param key
-     *               the key identifying the operation
-     * @param active
-     *               whether the operation is active or not
-     *
-     * @see #setActive(RequestOperatorKey, boolean)
+     * @param key    the key identifying the operation
+     * @param active whether the operation is active or not
      */
     void setOperationStatus(RequestOperatorKey key, boolean active);
 
@@ -55,8 +50,7 @@ public interface ActivationDao {
     /**
      * Checks if the binding is active.
      *
-     * @param key
-     *            the binding
+     * @param key the binding
      *
      * @return if the binding is active
      */
@@ -65,12 +59,8 @@ public interface ActivationDao {
     /**
      * Sets the status of a binding.
      *
-     * @param key
-     *               the binding
-     * @param active
-     *               the status
-     *
-     * @see #setActive(org.n52.iceland.binding.BindingKey, boolean)
+     * @param key    the binding
+     * @param active the status
      */
     void setBindingStatus(BindingKey key, boolean active);
 
@@ -79,8 +69,7 @@ public interface ActivationDao {
     /**
      * Checks if the extended capabilities is active.
      *
-     * @param key
-     *            the extended capabilities key
+     * @param key the extended capabilities key
      *
      * @return if the extended capabilities is active
      */

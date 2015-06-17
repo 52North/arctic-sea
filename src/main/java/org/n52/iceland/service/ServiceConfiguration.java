@@ -50,17 +50,10 @@ public class ServiceConfiguration implements Constructable {
      * character encoding for responses.
      */
     private String characterEncoding;
-
-    private String defaultOfferingPrefix;
-
     private boolean encodeFullChildrenInDescribeSensor;
-
     private boolean addOutputsToSensorML;
-
     private boolean strictSpatialFilteringProfile;
-
     private boolean validateResponse;
-
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
 
     /**
@@ -179,8 +172,9 @@ public class ServiceConfiguration implements Constructable {
         return characterEncoding;
     }
 
+    @Deprecated
     public String getDefaultOfferingPrefix() {
-        return defaultOfferingPrefix;
+        return null;
     }
 
     @Deprecated
@@ -379,9 +373,6 @@ public class ServiceConfiguration implements Constructable {
         this.streamingEncoding  = streamingEncoding;
     }
 
-    /**
-     * @return
-     */
     public boolean isForceStreamingEncoding() {
         return streamingEncoding;
     }

@@ -16,20 +16,15 @@
  */
 package org.n52.iceland.ogc.ows;
 
-/**
- * <!--@deprecated use {@link org.n52.sos.ogc.swes.SwesExtension&lt;java.lang.String&gt;}-->
- * 
- * FIXME should this one replaced by SwesExtension<String> or should {@link SwesExtension} provide a direct and easy way to get the string represenation of this extension Object?
- *
- */
+//<!--@deprecated use {@link org.n52.sos.ogc.swes.SwesExtension&lt;java.lang.String&gt;}-->
+//FIXME should this one replaced by SwesExtension<String> or should {@link SwesExtension} provide a direct and easy way to get the string represenation of this extension Object?
+//<!--@deprecated use {@link Encoder.encode(Object).toString()}-->
 public interface StringBasedExtension extends Extension<String> {
 
     /**
      * Get this extension as a String.
      *
      * @return the extension as a xml text
-     * 
-     * <!--@deprecated use {@link Encoder.encode(Object).toString()}-->
      */
 	public String getExtension();
 }

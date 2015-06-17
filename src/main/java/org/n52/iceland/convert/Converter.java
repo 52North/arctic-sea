@@ -32,7 +32,7 @@ import org.n52.iceland.component.Component;
  * @param <S>
  *            Source object
  */
-public interface Converter<T, S> extends Component<ConverterKeyType> {
+public interface Converter<T, S> extends Component<ConverterKey> {
 
     /**
      * Convert object to target

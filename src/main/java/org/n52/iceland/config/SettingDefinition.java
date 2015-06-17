@@ -22,11 +22,9 @@ import java.util.Optional;
  *
  * Interface for setting definitions that can be used within the Service.
  * Defined settings will be presented in the administrator and installer view.
- * <p/>
  *
- * @see SettingDefinitionProvider
  * @see SettingDefinitionGroup
- * @see SettingsManager
+ * @see SettingsService
  * @see org.n52.iceland.config.settings.FileSettingDefinition
  * @see org.n52.iceland.config.settings.BooleanSettingDefinition
  * @see org.n52.iceland.config.settings.IntegerSettingDefinition
@@ -37,7 +35,6 @@ import java.util.Optional;
  *            The type of the implementing class
  * @param <T>
  *            The type of the value
- *            <p/>
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */

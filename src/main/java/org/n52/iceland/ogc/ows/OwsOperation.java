@@ -18,11 +18,11 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -36,6 +36,11 @@ import org.n52.iceland.util.MinMax;
  */
 public class OwsOperation implements Comparable<OwsOperation> {
 
+    private static final Comparator<OwsOperation> COMPARATOR
+            = Comparator.nullsFirst(Comparator.comparing(OwsOperation::getOperationName,
+                                                         Comparator.nullsFirst(String::compareTo)));
+
+
     /**
      * Name of the operation which metadata are represented.
      */
@@ -44,13 +49,12 @@ public class OwsOperation implements Comparable<OwsOperation> {
     /**
      * Supported DCPs
      */
-    private SortedMap<String, Set<DCP>> dcp = new TreeMap<String, Set<DCP>>();
+    private final SortedMap<String, Set<DCP>> dcp = new TreeMap<>();
 
     /**
      * Map with names and allowed values for the parameter.
      */
-    private SortedMap<String, List<OwsParameterValue>> parameterValues =
-            new TreeMap<String, List<OwsParameterValue>>();
+    private final SortedMap<String, List<OwsParameterValue>> parameterValues = new TreeMap<>();
 
     /**
      * Get operation name
@@ -87,9 +91,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
      */
     public void setDcp(Map<String, ? extends Collection<DCP>> dcp) {
         this.dcp.clear();
-        for (Entry<String, ? extends Collection<DCP>> e : dcp.entrySet()) {
-            addDcp(e.getKey(), e.getValue());
-        }
+        dcp.forEach(this::addDcp);
     }
 
     /**
@@ -101,7 +103,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
      *            DCP values
      */
     public void addDcp(String operation, Collection<DCP> values) {
-        this.dcp.put(operation, new HashSet<DCP>(values));
+        this.dcp.put(operation, new HashSet<>(values));
     }
 
     /**
@@ -121,12 +123,21 @@ public class OwsOperation implements Comparable<OwsOperation> {
      */
     public void setParameterValues(Map<String, List<OwsParameterValue>> parameterValues) {
         this.parameterValues.clear();
-        for (String parameterName : parameterValues.keySet()) {
-            for (OwsParameterValue value : parameterValues.get(parameterName)) {
-                addParameterValue(parameterName, value);
-            }
-        }
+        parameterValues.forEach(this::addParameterValue);
     }
+
+     /**
+     * Add values for parameter
+     *
+     * @param parameterName
+     *            parameter name
+     * @param value
+     *            values to add
+     */
+    public void addParameterValue(String parameterName, Collection<? extends OwsParameterValue> value) {
+        parameterValues.computeIfAbsent(parameterName, name -> new LinkedList<>()).addAll(value);
+    }
+
 
     /**
      * Add values for parameter
@@ -204,12 +215,16 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     @Override
     public int compareTo(OwsOperation o) {
-        return getOperationName().compareTo(o.getOperationName());
+        return compare(this, o);
     }
 
     @Override
     public String toString() {
         return String.format("OwsOperation[operationName=%s", getOperationName());
+    }
+
+    public static int compare(OwsOperation o1, OwsOperation o2) {
+        return COMPARATOR.compare(o1, o2);
     }
 
 }

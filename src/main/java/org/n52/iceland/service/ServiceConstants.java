@@ -16,11 +16,7 @@
  */
 package org.n52.iceland.service;
 
-import java.util.Collections;
 import java.util.Objects;
-import java.util.Set;
-
-import org.n52.iceland.component.Component;
 
 import com.google.common.base.MoreObjects;
 

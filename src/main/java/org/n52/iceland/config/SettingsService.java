@@ -40,7 +40,6 @@ public interface SettingsService {
      *
      * @throws ConfigurationException
      *                                if there is a problem changing the setting.
-     * @
      */
     void changeSetting(SettingValue<?> newValue)
             throws ConfigurationException;
@@ -62,8 +61,6 @@ public interface SettingsService {
 
     /**
      * Deletes all settings and users.
-     *
-     * @
      */
     void deleteAll();
 
@@ -75,7 +72,6 @@ public interface SettingsService {
      *
      * @throws ConfigurationException
      *                                if there is a problem deleting the setting
-     * @
      */
     void deleteSetting(SettingDefinition<?, ?> setting)
             throws ConfigurationException;
@@ -105,8 +101,6 @@ public interface SettingsService {
      *            the definition of the setting
      *
      * @return the value of the setting
-     *
-     * @
      */
     @SuppressWarnings(value = "unchecked")
     <T> SettingValue<T> getSetting(SettingDefinition<?, T> key);
@@ -120,8 +114,6 @@ public interface SettingsService {
      *            the id of the setting
      *
      * @return the value of the setting
-     *
-     * @
      */
     @SuppressWarnings(value = "unchecked")
     <T> SettingValue<T> getSetting(String key);
@@ -143,8 +135,6 @@ public interface SettingsService {
      * definition {@code null} is added to the map.
      *
      * @return all values by definition
-     *
-     * @
      */
     Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings();
 

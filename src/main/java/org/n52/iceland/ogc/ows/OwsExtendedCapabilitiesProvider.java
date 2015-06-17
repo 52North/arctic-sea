@@ -42,15 +42,8 @@ public interface OwsExtendedCapabilitiesProvider extends Component<OwsExtendedCa
      */
     OwsExtendedCapabilities getOwsExtendedCapabilities(GetCapabilitiesRequest request) throws OwsExceptionReport;
 
-    /**
-     * @param request
-     * @return
-     */
     boolean hasExtendedCapabilitiesFor(GetCapabilitiesRequest request);
 
-    /**
-     * @return
-     */
     @Deprecated
     default Set<OwsExtendedCapabilitiesProviderKey> getExtendedCapabilitiesKeyType() {
         return getKeys();

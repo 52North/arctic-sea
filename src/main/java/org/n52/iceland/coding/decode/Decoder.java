@@ -55,13 +55,7 @@ public interface Decoder<T, S> extends ConformanceClass, Component<DecoderKey> {
             throws OwsExceptionReport, UnsupportedDecoderInputException;
 
     /**
-     * Get the {@link SupportedType} in the case of having only generic
-     * java types, e.g. {@linkplain org.n52.sos.ogc.om.OmConstants}. In this
-     * case, the returned list provides a mapping from Type &rarr; SubType (e.g.
-     * {@linkplain org.n52.sos.service.ServiceConstants}
-     * .SupportedTypeKey.ObservationType &rarr;
-     * {@linkplain org.n52.sos.ogc.om.OmConstants}
-     * .OBS_TYPE_CATEGORY_OBSERVATION}).
+     * Gets the supported types of this decoder.
      *
      * @return the supported key types
      */

@@ -75,8 +75,6 @@ public class ActivationService {
      *            the key identifying the operation
      *
      * @return {@code true} if the operation is active in this SOS
-     *
-     * @
      */
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
         return this.dao.isRequestOperatorActive(key);

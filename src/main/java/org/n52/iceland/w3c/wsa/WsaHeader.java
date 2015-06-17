@@ -21,7 +21,7 @@ import org.n52.iceland.w3c.soap.SoapHeader;
 
 /**
  * Class represents a W3C WS-Addressing header
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -32,7 +32,7 @@ public abstract class WsaHeader implements SoapHeader {
 
     /**
      * Constructor
-     * 
+     *
      * @param value
      *            Value to set
      */
@@ -56,7 +56,7 @@ public abstract class WsaHeader implements SoapHeader {
     }
 
     /**
-     * @return
+     * @return if the value is set
      */
     public boolean isSetValue() {
         return StringHelper.isNotEmpty(getValue());

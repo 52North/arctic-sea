@@ -172,6 +172,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
      *
      * @param settings
      *            the settings to connect
+     * @return an array of DDL statements
      */
     String[] createSchema(Map<String, Object> settings);
 
@@ -183,6 +184,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
      *
      * @param settings
      *            the settings to connect
+     * @return an array of DDL statements
      */
     String[] dropSchema(Map<String, Object> settings);
 
@@ -196,7 +198,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
      *
      * @param settings
      *            the settings to connect
-     * @return
+     * @return an array of DDL statements
      */
     String[] updateSchema(Map<String, Object> settings);
 
@@ -256,7 +258,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
     boolean isPostCreateSchema();
 
     void executePostCreateSchema(Map<String, Object> databaseSettings);
-    
+
     void checkPostCreation(Properties properties);
-    
+
 }

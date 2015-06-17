@@ -16,6 +16,10 @@
  */
 package org.n52.iceland.ogc.sos;
 
+import java.util.Objects;
+
+import com.google.common.collect.ComparisonChain;
+
 
 /**
  * {@link CapabilitiesExtension} key class to identify CapabilitiesExtensions.
@@ -88,13 +92,10 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     @Override
     public int compareTo(CapabilitiesExtensionKey o) {
-        if (o instanceof CapabilitiesExtensionKey) {
-            if (service.equals(o.service) && version.equals(o.version)) {
-                return 0;
-            }
-            return 1;
-        }
-        return -1;
+        return ComparisonChain.start()
+                .compare(getService(), o.getService())
+                .compare(getVersion(), o.getVersion())
+                .result();
     }
 
     /*
@@ -106,7 +107,8 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
     public boolean equals(Object paramObject) {
         if (service != null && version != null && paramObject instanceof CapabilitiesExtensionKey) {
             CapabilitiesExtensionKey toCheck = (CapabilitiesExtensionKey) paramObject;
-            return (service.equals(toCheck.service) && version.equals(toCheck.version));
+            return Objects.equals(getService(), toCheck.getService()) &&
+                   Objects.equals(getVersion(), toCheck.getVersion());
         }
         return false;
     }
@@ -118,11 +120,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int hash = 7;
-        hash = prime * hash + ((this.service != null) ? this.service.hashCode() : 0);
-        hash = prime * hash + ((this.version != null) ? this.version.hashCode() : 0);
-        return hash;
+        return Objects.hash(getService(), getVersion());
     }
 
     @Override

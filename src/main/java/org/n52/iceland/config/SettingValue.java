@@ -17,13 +17,11 @@
 package org.n52.iceland.config;
 
 /**
- * Holder for generic settings. Implementations are {@link SettingsManager}
+ * Holder for generic settings. Implementations are {@link SettingsService}
  * specific.
- * <p/>
- * 
- * @param <T>
- *            the value type
- *            <p/>
+ *
+ * @param <T> the value type
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
@@ -40,18 +38,16 @@ public interface SettingValue<T> {
     T getValue();
 
     /**
-     * @param key
-     *            the key of this setting
-     *            <p/>
-     * @return <code>this</code>
+     * @param key the key of this setting
+     *
+     * @return {@code this}
      */
     SettingValue<T> setKey(String key);
 
     /**
-     * @param value
-     *            the value of this setting
-     *            <p/>
-     * @return <code>this</code>
+     * @param value the value of this setting
+     *
+     * @return {@code this}
      */
     SettingValue<T> setValue(T value);
 

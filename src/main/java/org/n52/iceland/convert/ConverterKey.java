@@ -16,13 +16,19 @@
  */
 package org.n52.iceland.convert;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 /**
  * Key class for {@link Converter}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public class ConverterKeyType implements Comparable<ConverterKeyType> {
+public class ConverterKey implements Comparable<ConverterKey> {
+    private static final Comparator<ConverterKey> COMPARATOR
+            = Comparator.nullsFirst(Comparator.comparing(ConverterKey::getFromNamespace, Comparator.nullsFirst(String::compareTo))
+                            .thenComparing(Comparator.comparing(ConverterKey::getToNamespace, Comparator.nullsFirst(String::compareTo))));
 
     private final String fromNamespace;
     private final String toNamespace;
@@ -35,7 +41,7 @@ public class ConverterKeyType implements Comparable<ConverterKeyType> {
      * @param toNamespace
      *            The target namespace
      */
-    public ConverterKeyType(String fromNamespace, String toNamespace) {
+    public ConverterKey(String fromNamespace, String toNamespace) {
         this.fromNamespace = fromNamespace;
         this.toNamespace = toNamespace;
     }
@@ -55,46 +61,32 @@ public class ConverterKeyType implements Comparable<ConverterKeyType> {
     }
 
     @Override
-    public int compareTo(ConverterKeyType o) {
-        if (o instanceof ConverterKeyType) {
-            if (checkParameter(fromNamespace, o.getFromNamespace())
-                    && checkParameter(toNamespace, o.getFromNamespace())) {
-                return 0;
-            }
-            return 1;
-        }
-        return -1;
+    public int compareTo(ConverterKey o) {
+        return compare(this, o);
     }
 
     @Override
     public boolean equals(Object paramObject) {
-        if (paramObject instanceof ConverterKeyType) {
-            ConverterKeyType toCheck = (ConverterKeyType) paramObject;
-            return (checkParameter(fromNamespace, toCheck.fromNamespace) && checkParameter(toNamespace,
-                    toCheck.toNamespace));
+        if (paramObject instanceof ConverterKey) {
+            ConverterKey toCheck = (ConverterKey) paramObject;
+            return Objects.equals(getFromNamespace(), toCheck.getFromNamespace()) &&
+                   Objects.equals(getToNamespace(), toCheck.getToNamespace());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int hash = 7;
-        hash = prime * hash + (this.fromNamespace != null ? this.fromNamespace.hashCode() : 0);
-        hash = prime * hash + (this.toNamespace != null ? this.toNamespace.hashCode() : 0);
-        return hash;
-    }
-
-    private boolean checkParameter(String localParameter, String parameterToCheck) {
-        if (localParameter == null && parameterToCheck == null) {
-            return true;
-        }
-        return localParameter != null && parameterToCheck != null && localParameter.equals(parameterToCheck);
+        return Objects.hash(getFromNamespace(), getToNamespace());
     }
 
     @Override
     public String toString() {
         return String.format("%s[from=%s, to=%s]", getClass().getSimpleName(), fromNamespace, toNamespace);
+    }
+
+    public static int compare(ConverterKey o1, ConverterKey o2) {
+        return COMPARATOR.compare(o1, o2);
     }
 
 }

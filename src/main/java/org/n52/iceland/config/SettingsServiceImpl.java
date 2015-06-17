@@ -60,7 +60,6 @@ import com.google.common.collect.SetMultimap;
  *
  * @see AdministratorUser
  * @see SettingDefinition
- * @see SettingDefinitionProvider
  * @see SettingValue
  * @see Configurable
  * @author Christian Autermann <c.autermann@52north.org>
@@ -189,8 +188,6 @@ public class SettingsServiceImpl implements SettingsService {
      *            the definition of the setting
      *
      * @return the value of the setting
-     *
-     * @
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -208,8 +205,6 @@ public class SettingsServiceImpl implements SettingsService {
      *            the id of the setting
      *
      * @return the value of the setting
-     *
-     * @
      */
     @SuppressWarnings("unchecked")
     @Override
@@ -226,8 +221,6 @@ public class SettingsServiceImpl implements SettingsService {
      * definition {@code null} is added to the map.
      *
      * @return all values by definition
-     *
-     * @
      */
     @Override
     public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() {
@@ -257,7 +250,6 @@ public class SettingsServiceImpl implements SettingsService {
      *
      * @throws ConfigurationException
      *                                if there is a problem deleting the setting
-     * @
      */
     @Override
     public void deleteSetting(SettingDefinition<?, ?> setting)
@@ -285,7 +277,6 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Applies the a new setting to all {@code ConfiguredObject}s. If an error
      * occurs the the old value is reapplied.
-     * <p/>
      *
      * @param setting
      *                 the definition
@@ -293,7 +284,6 @@ public class SettingsServiceImpl implements SettingsService {
      *                 the old value (or {@code null} if there is none)
      * @param newValue
      *                 the new value (or {@code null} if there is none)
-     * <p/>
      * @throws ConfigurationException
      *                                if there is a error configuring the objects
      */
@@ -396,7 +386,6 @@ public class SettingsServiceImpl implements SettingsService {
      *
      * @throws ConfigurationException
      *                                if there is a problem changing the setting.
-     * @
      */
     @Override
     public void changeSetting(SettingValue<?> newValue)
@@ -439,8 +428,6 @@ public class SettingsServiceImpl implements SettingsService {
 
     /**
      * Deletes all settings and users.
-     *
-     * @
      */
     @Override
     public void deleteAll() {

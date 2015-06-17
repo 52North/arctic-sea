@@ -20,12 +20,12 @@ package org.n52.iceland.exception.ows;
  * Implementation of {@link CodedOwsException} to be used if </br> <i>No other
  * exceptionCode specified by this service and server applies to this
  * exception.</i>
- * 
+ *
  * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
- *      Web Service Common Specification 1.1.0</a>, Table 25 — Standard exception codes and
- *      meanings
+ *      Web Service Common Specification 1.1.0, Table 25 — Standard exception codes and
+ *      meanings</a>
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class NoApplicableCodeException extends CodedOwsException {

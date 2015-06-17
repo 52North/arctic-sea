@@ -22,11 +22,12 @@ import org.springframework.beans.factory.config.BeanPostProcessor;
 
 import org.n52.iceland.config.SettingsService;
 import org.n52.iceland.config.annotation.Configurable;
+import org.n52.iceland.config.annotation.Setting;
 
 /**
  * Bean post processor, that
  * {@linkplain SettingsService#configure(java.lang.Object) configures} beans
- * using a {@link SettingService} bean. Configuration takes place after all
+ * using a {@link SettingsService} bean. Configuration takes place after all
  * dependencies are injected, but before any initialization methods are called.
  *
  * Note that all beans that are required to create the {@code SettingsService}

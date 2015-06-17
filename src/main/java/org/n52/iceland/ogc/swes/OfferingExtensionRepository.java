@@ -198,7 +198,7 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      */
     @Override
     public void setActive(final OfferingExtensionKey oekt, final boolean active) {
-        this.activation.isActive(oekt);
+        this.activation.setActive(oekt, active);
     }
 
     /**

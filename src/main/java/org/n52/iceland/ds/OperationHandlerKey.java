@@ -16,11 +16,15 @@
  */
 package org.n52.iceland.ds;
 
+import java.util.Objects;
+
+import com.google.common.collect.ComparisonChain;
+
 /**
  * In 52N SOS version 4.x called OperationDAOKeyType
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class OperationHandlerKey implements Comparable<OperationHandlerKey> {
 
@@ -56,41 +60,25 @@ public class OperationHandlerKey implements Comparable<OperationHandlerKey> {
 
     @Override
     public int compareTo(OperationHandlerKey o) {
-        if (o instanceof OperationHandlerKey) {
-            if (service.equals(o.service) && operationName.equals(o.operationName)) {
-                return 0;
-            }
-            return 1;
-        }
-        return -1;
+        return ComparisonChain.start()
+                .compare(getService(), o.getService())
+                .compare(getOperationName(), o.getOperationName())
+                .result();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object paramObject) {
         if (service != null && operationName != null && paramObject instanceof OperationHandlerKey) {
             OperationHandlerKey toCheck = (OperationHandlerKey) paramObject;
-            return (service.equals(toCheck.service) && operationName.equals(toCheck.operationName));
+            return Objects.equals(getService(), toCheck.getService()) &&
+                   Objects.equals(getOperationName(), toCheck.getOperationName());
         }
         return false;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int hash = 7;
-        hash = prime * hash + ((this.service != null) ? this.service.hashCode() : 0);
-        hash = prime * hash + ((this.operationName != null) ? this.operationName.hashCode() : 0);
-        return hash;
+        return Objects.hash(getService(), getOperationName());
     }
 
 }
