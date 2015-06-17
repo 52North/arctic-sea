@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
@@ -51,7 +51,7 @@ public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> 
     }
 
     @Override
-    public T get() throws ConfigurationException {
+    public T get() throws ConfigurationError {
         this.lock.readLock().lock();
         try {
             if (this.nullLocale != null) {
@@ -85,15 +85,15 @@ public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> 
 
     @Override
     public T get(Locale language)
-            throws ConfigurationException {
+            throws ConfigurationError {
         if (language == null) {
             return get();
         } else {
             try {
                 return this.cache.getUnchecked(language);
             } catch (UncheckedExecutionException ex) {
-                if (ex.getCause() instanceof ConfigurationException) {
-                    throw (ConfigurationException) ex.getCause();
+                if (ex.getCause() instanceof ConfigurationError) {
+                    throw (ConfigurationError) ex.getCause();
                 } else {
                     throw ex;
                 }
@@ -102,6 +102,6 @@ public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> 
     }
 
     protected abstract T create(Locale language)
-            throws ConfigurationException;
+            throws ConfigurationError;
 
 }

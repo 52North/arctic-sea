@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.cache.ContentCacheController;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.util.Validation;
@@ -68,7 +68,7 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
     }
 
     @Setting(ScheduledContentCacheControllerSettings.CAPABILITIES_CACHE_UPDATE_INTERVAL)
-    public void setUpdateInterval(int interval) throws ConfigurationException {
+    public void setUpdateInterval(int interval) throws ConfigurationError {
         Validation.greaterEqualZero("Cache update interval", interval);
         if (this.updateInterval != interval) {
             this.updateInterval = interval;

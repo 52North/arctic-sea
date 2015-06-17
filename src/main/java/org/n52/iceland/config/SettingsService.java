@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 
 /**
  * TODO JavaDoc
@@ -38,11 +38,11 @@ public interface SettingsService {
      * @param newValue
      *                 the new value of the setting
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a problem changing the setting.
      */
     void changeSetting(SettingValue<?> newValue)
-            throws ConfigurationException;
+            throws ConfigurationError;
 
     /**
      * Configure {@code o} with the required settings. All changes to a setting
@@ -51,13 +51,13 @@ public interface SettingsService {
      * @param object
      *               the object to configure
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a problem configuring the object
      * @see Configurable
      * @see Setting
      */
     void configure(Object object)
-            throws ConfigurationException;
+            throws ConfigurationError;
 
     /**
      * Deletes all settings and users.
@@ -70,11 +70,11 @@ public interface SettingsService {
      * @param setting
      *                the definition
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a problem deleting the setting
      */
     void deleteSetting(SettingDefinition<?, ?> setting)
-            throws ConfigurationException;
+            throws ConfigurationError;
 
     /**
      * Get the definition that is defined with the specified key.

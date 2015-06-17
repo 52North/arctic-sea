@@ -31,7 +31,7 @@ import org.n52.iceland.config.settings.NumericSettingDefinition;
 import org.n52.iceland.config.settings.StringSettingDefinition;
 import org.n52.iceland.config.settings.TimeInstantSettingDefinition;
 import org.n52.iceland.config.settings.UriSettingDefinition;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.concrete.DateTimeParseException;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
@@ -130,7 +130,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     private SettingValue<String> newChoiceSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         ChoiceSettingDefinition def = (ChoiceSettingDefinition) setting;
         if (stringValue != null && !def.hasOption(stringValue)) {
-            throw new ConfigurationException("Invalid choice value");
+            throw new ConfigurationError("Invalid choice value");
         }
         return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
     }

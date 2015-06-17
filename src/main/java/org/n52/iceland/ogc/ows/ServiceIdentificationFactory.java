@@ -35,7 +35,7 @@ import javax.inject.Inject;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
@@ -87,7 +87,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     }
 
     @Setting(TITLE)
-    public void setTitle(Object title) throws ConfigurationException {
+    public void setTitle(Object title) throws ConfigurationError {
         Validation.notNull("Service Identification Title", title);
         if (title instanceof MultilingualString) {
             this.title = (MultilingualString) title;
@@ -95,14 +95,14 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
             this.title = new MultilingualString()
                     .addLocalization(this.defaultLocale, (String) title);
         } else {
-            throw new ConfigurationException(
+            throw new ConfigurationError(
                     String.format("%s is not supported as title!", title.getClass().getName()));
         }
         setRecreate();
     }
 
     @Setting(ABSTRACT)
-    public void setAbstract(Object description) throws ConfigurationException {
+    public void setAbstract(Object description) throws ConfigurationError {
         Validation.notNull("Service Identification Abstract", description);
         if (description instanceof MultilingualString) {
             this.abstrakt = (MultilingualString) description;
@@ -110,21 +110,21 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
             this.abstrakt = new MultilingualString()
                     .addLocalization(this.defaultLocale, (String) description);
         } else {
-            throw new ConfigurationException(
+            throw new ConfigurationError(
                     String.format("%s is not supported as abstract!", description.getClass().getName()));
         }
         setRecreate();
     }
 
     @Setting(SERVICE_TYPE)
-    public void setServiceType(String serviceType) throws ConfigurationException {
+    public void setServiceType(String serviceType) throws ConfigurationError {
         Validation.notNullOrEmpty("Service Identification Service Type", serviceType);
         this.serviceType = serviceType;
         setRecreate();
     }
 
     @Setting(SERVICE_TYPE_CODE_SPACE)
-    public void setServiceTypeCodeSpace(String serviceTypeCodeSpace) throws ConfigurationException {
+    public void setServiceTypeCodeSpace(String serviceTypeCodeSpace) throws ConfigurationError {
         this.serviceTypeCodeSpace = serviceTypeCodeSpace;
         setRecreate();
     }
@@ -147,7 +147,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     }
 
     @Override
-    protected OwsServiceIdentification create(Locale language) throws ConfigurationException {
+    protected OwsServiceIdentification create(Locale language) throws ConfigurationError {
         if (this.file != null) {
             return createFromFile();
         } else {
@@ -177,13 +177,13 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         return serviceIdentification;
     }
 
-    private OwsServiceIdentification createFromFile() throws ConfigurationException {
+    private OwsServiceIdentification createFromFile() throws ConfigurationError {
         try {
             OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
             serviceIdentification.setServiceIdentification(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
             return serviceIdentification;
         } catch (OwsExceptionReport ex) {
-            throw new ConfigurationException(ex);
+            throw new ConfigurationError(ex);
         }
     }
 

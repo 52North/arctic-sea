@@ -42,7 +42,7 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.SettingsChangeEvent;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.service.ServiceSettings;
 
 import com.google.common.collect.HashMultimap;
@@ -125,14 +125,14 @@ public class SettingsServiceImpl implements SettingsService {
      * @param object
      *               the object to configure
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a problem configuring the object
      * @see Configurable
      * @see Setting
      */
     @Override
     public void configure(Object object)
-            throws ConfigurationException {
+            throws ConfigurationError {
         LOG.debug("Configuring {}", object);
         Class<?> clazz = object.getClass();
         Configurable configurable = clazz.getAnnotation(Configurable.class);
@@ -147,16 +147,16 @@ public class SettingsServiceImpl implements SettingsService {
             if (s != null) {
                 String key = s.value();
                 if (key == null || key.isEmpty()) {
-                    throw new ConfigurationException(String
+                    throw new ConfigurationError(String
                             .format("Invalid value for @Setting: '%s'", key));
                 } else if (getDefinitionByKey(key) == null) {
-                    throw new ConfigurationException(String
+                    throw new ConfigurationError(String
                             .format("No SettingDefinition found for key %s", key));
                 } else if (method.getParameterTypes().length != 1) {
-                    throw new ConfigurationException(String.format(
+                    throw new ConfigurationError(String.format(
                             "Method %s annotated with @Setting in %s has a invalid method signature", method, clazz));
                 } else if (!Modifier.isPublic(method.getModifiers())) {
-                    throw new ConfigurationException(String.format(
+                    throw new ConfigurationError(String.format(
                             "Non-public method %s annotated with @Setting in %s", method, clazz));
                 } else {
                     configure(new ConfigurableObject(method, object, key));
@@ -248,12 +248,12 @@ public class SettingsServiceImpl implements SettingsService {
      * @param setting
      *                the definition
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a problem deleting the setting
      */
     @Override
     public void deleteSetting(SettingDefinition<?, ?> setting)
-            throws ConfigurationException {
+            throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao
                 .getSettingValue(setting.getKey());
         if (oldValue != null) {
@@ -284,14 +284,14 @@ public class SettingsServiceImpl implements SettingsService {
      *                 the old value (or {@code null} if there is none)
      * @param newValue
      *                 the new value (or {@code null} if there is none)
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a error configuring the objects
      */
     private void applySetting(SettingDefinition<?, ?> setting,
                               SettingValue<?> oldValue, SettingValue<?> newValue)
-            throws ConfigurationException {
+            throws ConfigurationError {
         LinkedList<ConfigurableObject> changed = new LinkedList<>();
-        ConfigurationException e = null;
+        ConfigurationError e = null;
         configurableObjectsLock.readLock().lock();
         try {
             Set<ConfigurableObject> cos = configurableObjects.get(setting
@@ -300,7 +300,7 @@ public class SettingsServiceImpl implements SettingsService {
                 for (ConfigurableObject co : cos) {
                     try {
                         co.configure(newValue.getValue());
-                    } catch (ConfigurationException ce) {
+                    } catch (ConfigurationError ce) {
                         e = ce;
                         break;
                     } finally {
@@ -312,7 +312,7 @@ public class SettingsServiceImpl implements SettingsService {
                     changed.stream().forEach(co -> {
                         try {
                             co.configure(oldValue.getValue());
-                        } catch (ConfigurationException ce) {
+                        } catch (ConfigurationError ce) {
                             /* there is nothing we can do... */
                             LOG.error("Error reverting setting!", ce);
                         }
@@ -336,7 +336,7 @@ public class SettingsServiceImpl implements SettingsService {
         try {
             co.configure(getNotNullSettingValue(co));
         } catch (RuntimeException cpe) {
-            throw new ConfigurationException("Exception configuring " + co
+            throw new ConfigurationError("Exception configuring " + co
                                              .getKey(), cpe);
         }
     }
@@ -349,7 +349,7 @@ public class SettingsServiceImpl implements SettingsService {
         if (val == null) {
             SettingDefinition<?, ?> def = getDefinitionByKey(co.getKey());
             if (def == null) {
-                throw new ConfigurationException(String
+                throw new ConfigurationError(String
                         .format("No SettingDefinition found for key %s", co
                                 .getKey()));
             }
@@ -368,7 +368,7 @@ public class SettingsServiceImpl implements SettingsService {
                 this.settingsManagerDao.saveSettingValue(val.setValue(URI
                         .create("http://localhost:8080/iceland/service")));
             } else {
-                throw new ConfigurationException(String.format(
+                throw new ConfigurationError(String.format(
                         "No value found for required Setting '%s' with no default value.", co
                         .getKey()));
             }
@@ -384,12 +384,12 @@ public class SettingsServiceImpl implements SettingsService {
      * @param newValue
      *                 the new value of the setting
      *
-     * @throws ConfigurationException
+     * @throws ConfigurationError
      *                                if there is a problem changing the setting.
      */
     @Override
     public void changeSetting(SettingValue<?> newValue)
-            throws ConfigurationException {
+            throws ConfigurationError {
         if (newValue == null) {
             throw new NullPointerException("newValue can not be null");
         }
@@ -482,11 +482,11 @@ public class SettingsServiceImpl implements SettingsService {
          * @param val
          *            the value
          *
-         * @throws ConfigurationException
+         * @throws ConfigurationError
          *                                if an error occurs
          */
         public void configure(SettingValue<?> val)
-                throws ConfigurationException {
+                throws ConfigurationError {
             configure(val.getValue());
         }
 
@@ -497,11 +497,11 @@ public class SettingsServiceImpl implements SettingsService {
          * @param val
          *            the value
          *
-         * @throws ConfigurationException
+         * @throws ConfigurationError
          *                                if an error occurs
          */
         public void configure(Object val)
-                throws ConfigurationException {
+                throws ConfigurationError {
             try {
                 if (getTarget().get() != null) {
                     LOG.debug("Setting value '{}' for {}", val, this);
@@ -515,12 +515,12 @@ public class SettingsServiceImpl implements SettingsService {
         }
 
         private void logAndThrowError(Object val, Throwable t)
-                throws ConfigurationException {
+                throws ConfigurationError {
             String message = String
                     .format("Error while setting value '%s' (%s) for property '%s' with method '%s'", val,
                             val == null ? null : val.getClass(), getKey(), getMethod());
             LOG.error(message);
-            throw new ConfigurationException(message, t);
+            throw new ConfigurationError(message, t);
         }
 
         @Override

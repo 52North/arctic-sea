@@ -27,7 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 
 /**
@@ -55,7 +55,7 @@ public class AsyncCachePersistenceStrategy
     @Setting(AsyncCachePersistenceStrategySettings.CACHE_PERSISTENCE_DELAY)
     public void setDelay(int delay) {
         if (delay <= 1) {
-            throw new ConfigurationException("The write delay has be greater than 1 second.");
+            throw new ConfigurationError("The write delay has be greater than 1 second.");
         }
         this.writeDelay = delay;
     }

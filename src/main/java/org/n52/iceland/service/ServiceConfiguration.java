@@ -28,7 +28,7 @@ import java.util.Locale;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Validation;
@@ -135,7 +135,7 @@ public class ServiceConfiguration implements Constructable {
     }
 
     @Setting(MiscSettings.TOKEN_SEPARATOR)
-    public void setTokenSeparator(final String separator) throws ConfigurationException {
+    public void setTokenSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Token separator", separator);
         tokenSeparator = separator;
     }
@@ -145,7 +145,7 @@ public class ServiceConfiguration implements Constructable {
     }
 
     @Setting(MiscSettings.TUPLE_SEPARATOR)
-    public void setTupleSeparator(final String separator) throws ConfigurationException {
+    public void setTupleSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Tuple separator", separator);
         tupleSeparator = separator;
     }
@@ -156,13 +156,13 @@ public class ServiceConfiguration implements Constructable {
     }
 
     @Setting(MiscSettings.DECIMAL_SEPARATOR)
-    public void setDecimalSeparator(final String separator) throws ConfigurationException {
+    public void setDecimalSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Decimal separator", separator);
         decimalSeparator = separator;
     }
 
     @Setting(CHARACTER_ENCODING)
-    public void setCharacterEncoding(final String encoding) throws ConfigurationException {
+    public void setCharacterEncoding(final String encoding) throws ConfigurationError {
         Validation.notNullOrEmpty("Character Encoding", encoding);
         characterEncoding = encoding;
 //        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
@@ -261,7 +261,7 @@ public class ServiceConfiguration implements Constructable {
     }
 
     @Setting(SERVICE_URL)
-    public void setServiceURL(final URI serviceURL) throws ConfigurationException {
+    public void setServiceURL(final URI serviceURL) throws ConfigurationError {
         Validation.notNull("Service URL", serviceURL);
         String url = serviceURL.toString();
         if (url.contains("?")) {

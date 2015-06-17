@@ -35,7 +35,7 @@ import java.util.Locale;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
@@ -69,7 +69,7 @@ public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServicePro
     }
 
     @Setting(NAME)
-    public void setName(String name) throws ConfigurationException {
+    public void setName(String name) throws ConfigurationError {
         this.name = name;
         setRecreate();
     }
@@ -135,13 +135,13 @@ public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServicePro
     }
 
     @Override
-    protected OwsServiceProvider create(Locale language) throws ConfigurationException {
+    protected OwsServiceProvider create(Locale language) throws ConfigurationError {
         OwsServiceProvider serviceProvider = new OwsServiceProvider();
         if (this.file != null) {
             try {
                 serviceProvider.setServiceProvider(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
             } catch (OwsExceptionReport ex) {
-                throw new ConfigurationException(ex);
+                throw new ConfigurationError(ex);
             }
         } else {
             serviceProvider.setAdministrativeArea(this.administrativeArea);

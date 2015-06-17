@@ -29,7 +29,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.service.ConfigLocationProvider;
@@ -124,7 +124,7 @@ public class JsonConfiguration implements Constructable, Destroyable, Producer<O
                 JSONUtils.print(fos, this.configuration);
             }
         } catch(IOException e) {
-            throw new ConfigurationException("Could not persist configuration", e);
+            throw new ConfigurationError("Could not persist configuration", e);
         } finally {
             readLock().unlock();
         }
@@ -135,22 +135,22 @@ public class JsonConfiguration implements Constructable, Destroyable, Producer<O
             return Optional.empty();
         }
         if (!file.isFile()) {
-            throw new ConfigurationException(file.getAbsolutePath() +
+            throw new ConfigurationError(file.getAbsolutePath() +
                                              " is not a file");
         }
         if (!file.canRead()) {
-            throw new ConfigurationException(file.getAbsolutePath() +
+            throw new ConfigurationError(file.getAbsolutePath() +
                                              " is not a readable file");
         }
         try {
             JsonNode node = JSONUtils.loadFile(file);
             if (!node.isObject()) {
-                throw new ConfigurationException(file.getAbsolutePath() +
+                throw new ConfigurationError(file.getAbsolutePath() +
                                                  " does not contain a JSON object");
             }
             return Optional.of((ObjectNode) node);
         } catch (IOException ex) {
-            throw new ConfigurationException("Could not read " + file
+            throw new ConfigurationError("Could not read " + file
                     .getAbsolutePath(), ex);
         }
     }

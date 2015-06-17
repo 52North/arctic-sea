@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.util;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -28,31 +28,31 @@ public final class Validation {
     private  Validation() {
     }
 
-    public static <T> T notNull(String name, T val) throws ConfigurationException {
+    public static <T> T notNull(String name, T val) throws ConfigurationError {
         if (val == null) {
-            throw new ConfigurationException(String.format("%s can not be null!", name));
+            throw new ConfigurationError(String.format("%s can not be null!", name));
         }
         return val;
     }
 
-    public static int greaterZero(String name, int i) throws ConfigurationException {
+    public static int greaterZero(String name, int i) throws ConfigurationError {
         if (i <= 0) {
-            throw new ConfigurationException(String.format("%s can not be smaller or equal zero (was %d)!", name, i));
+            throw new ConfigurationError(String.format("%s can not be smaller or equal zero (was %d)!", name, i));
         }
         return i;
     }
 
-    public static int greaterEqualZero(String name, int i) throws ConfigurationException {
+    public static int greaterEqualZero(String name, int i) throws ConfigurationError {
         if (i < 0) {
-            throw new ConfigurationException(String.format("%s can not be smaller than zero (was %d)!", name, i));
+            throw new ConfigurationError(String.format("%s can not be smaller than zero (was %d)!", name, i));
         }
         return i;
     }
 
-    public static String notNullOrEmpty(String name, String val) throws ConfigurationException {
+    public static String notNullOrEmpty(String name, String val) throws ConfigurationError {
         notNull(name, val);
         if (val.isEmpty()) {
-            throw new ConfigurationException(String.format("%s can not be empty!", name));
+            throw new ConfigurationError(String.format("%s can not be empty!", name));
         }
         return val;
     }

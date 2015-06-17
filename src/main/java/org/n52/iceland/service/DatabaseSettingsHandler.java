@@ -23,7 +23,7 @@ import java.util.Properties;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
 
@@ -65,12 +65,12 @@ public class DatabaseSettingsHandler implements Constructable {
     }
 
     public String get(String m)
-            throws ConfigurationException {
+            throws ConfigurationError {
         return this.handler.get(m);
     }
 
     public Properties getAll()
-            throws ConfigurationException {
+            throws ConfigurationError {
         return this.handler.getAll();
     }
 
@@ -84,12 +84,12 @@ public class DatabaseSettingsHandler implements Constructable {
     }
 
     public void save(String m, String value)
-            throws ConfigurationException {
+            throws ConfigurationError {
         this.handler.save(m, value);
     }
 
     public void saveAll(Properties properties)
-            throws ConfigurationException {
+            throws ConfigurationError {
         this.handler.saveAll(properties);
     }
 
