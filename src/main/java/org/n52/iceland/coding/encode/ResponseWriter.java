@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import org.n52.iceland.component.Component;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.util.http.MediaType;
+import org.n52.iceland.util.http.MediaTypes;
 
 /**
  * TODO JavaDoc
@@ -48,7 +49,14 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
      */
     void setContentType(MediaType contentType);
 
-    MediaType getEncodedContentType(ResponseFormat responseFormat);
+     /**
+     * Check if contentType is set
+     * @return <code>true</code>, if contentType is set
+     */
+    default boolean isSetContentType() {
+        return getContentType() != null;
+    }
+
 
     /**
      * Write object t to {@link OutputStream} out
@@ -72,4 +80,23 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
      * @return <code>true</code>, if GZip is supported
      */
     boolean supportsGZip(T t);
+
+    default MediaType getEncodedContentType(ResponseFormat responseFormat) {
+        MediaType defaultContentType = getContentType();
+
+		if (responseFormat.isSetResponseFormat()) {
+			try {
+                String rf = responseFormat.getResponseFormat();
+				MediaType mt = MediaType.parse(rf).withoutParameters();
+                if (MediaTypes.COMPATIBLE_TYPES.containsEntry(mt, defaultContentType)) {
+                    return defaultContentType;
+                }
+                return mt;
+			} catch (IllegalArgumentException iae) {
+                // ignore
+			}
+
+		}
+		return defaultContentType;
+	}
 }

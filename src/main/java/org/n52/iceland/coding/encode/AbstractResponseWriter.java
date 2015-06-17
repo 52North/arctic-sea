@@ -16,18 +16,7 @@
  */
 package org.n52.iceland.coding.encode;
 
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.encode.ResponseWriter;
-import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
 
 /**
  * Abstract {@link ResponseWriter} class for response streaming
@@ -39,69 +28,16 @@ import org.n52.iceland.util.http.MediaTypes;
  *            generic for the element to write
  */
 public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AbstractResponseWriter.class);
 
-    private EncoderRepository encoderRepository;
     private MediaType contentType;
-
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    public EncoderRepository getEncoderRepository() {
-        return encoderRepository;
-    }
 
     @Override
     public MediaType getContentType() {
-        return contentType;
+        return this.contentType;
     }
 
     @Override
     public void setContentType(MediaType contentType) {
         this.contentType = contentType;
     }
-
-    /**
-     * Check if contentType is set
-     * @return <code>true</code>, if contentType is set
-     */
-    protected boolean isSetContentType() {
-        return getContentType() != null;
-    }
-
-    /**
-     * Getter for encoder, encapsulates the instance call
-     *
-     * @param key
-     *            Encoder key
-     * @return Matching encoder
-     */
-    protected <D, S> Encoder<D, S> getEncoder(EncoderKey key) {
-        return this.encoderRepository.getEncoder(key);
-    }
-
-	@Override
-	public MediaType getEncodedContentType(ResponseFormat responseFormat) {
-		if (responseFormat.isSetResponseFormat()) {
-			MediaType contentTypeFromResponseFormat = null;
-			try {
-				contentTypeFromResponseFormat = MediaType.parse(
-						responseFormat.getResponseFormat())
-						.withoutParameters();
-			} catch (IllegalArgumentException iae) {
-				LOGGER.debug("Requested responseFormat {} is not a MediaType",
-						responseFormat.getResponseFormat());
-			}
-			if (contentTypeFromResponseFormat != null) {
-				if (MediaTypes.COMPATIBLE_TYPES.containsEntry(contentTypeFromResponseFormat, getContentType())) {
-					return getContentType();
-				}
-				return contentTypeFromResponseFormat;
-			}
-		}
-		return getContentType();
-	}
 }
