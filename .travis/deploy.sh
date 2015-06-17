@@ -5,16 +5,16 @@ stop() {
   exit 0
 }
 
-[[ "${TRAVIS_BRANCH}" == "${SNAPSHOT_BRANCH}" ]] \
+[ "${TRAVIS_BRANCH}" == "${SNAPSHOT_BRANCH}" ] \
   || stop "won't build branch ${TRAVIS_BRANCH}"
 
-[[ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]] \
+[ "${TRAVIS_SECURE_ENV_VARS}" == "true" ] \
   || stop "no secure enviroment variables were provided"
 
-[[ "${TRAVIS_JOB_NUMBER}" == "${TRAVIS_BUILD_NUMBER}.1" ]] \
+[ "${TRAVIS_JOB_NUMBER}" == "${TRAVIS_BUILD_NUMBER}.1" ] \
   || stop "only the first build job will be deployed"
 
-[[ "${TRAVIS_PULL_REQUEST}" == "false" ]] \
+[ "${TRAVIS_PULL_REQUEST}" == "false" ] \
   || stop "no deployment for pull requests"
 
 
