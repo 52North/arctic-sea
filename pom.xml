@@ -24,13 +24,13 @@
     <groupId>org.n52.iceland</groupId>
     <artifactId>iceland</artifactId>
     <version>1.0.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <name>52°North Iceland</name>
-    <description>52°North Iceland - Parent POM for defining dependency versions</description>
-    <url>https://wiki.52north.org/bin/view/SensorWeb/Iceland</url>
+    <description>52°North OWS Framework</description>
+    <url>https://github.com/52North/iceland</url>
 
     <inceptionYear>2015</inceptionYear>
-    <packaging>jar</packaging>
 
     <organization>
         <name>52°North Initiative for Geospatial Open Source Software GmbH</name>
@@ -87,11 +87,11 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
+            <id>sonatype-nexus-snapshots</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </snapshotRepository>
         <repository>
-            <id>ossrh</id>
+            <id>sonatype-nexus-releases</id>
             <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
     </distributionManagement>
@@ -104,6 +104,7 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
         <!-- Source encoding during build process ** !!! DO NOT CHANGE !!! ** -->
@@ -124,6 +125,22 @@
             <artifactId>spring-web</artifactId>
             <version>4.1.6.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
