@@ -29,8 +29,8 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCache;
+import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.ConfigLocationProvider;
@@ -89,18 +89,17 @@ public abstract class AbstractPersistingCachePersistenceStrategy
                 return;
             }
 
+            if (!file.canWrite()) {
+                LOGGER.error("Can not create writable file {}", file.getAbsolutePath());
+                return;
+            }
+
             try (FileOutputStream fos = new FileOutputStream(file);
                  ObjectOutputStream oos = new ObjectOutputStream(fos)) {
                 LOGGER.debug("Serializing cache to {}", file.getAbsolutePath());
-                if (!file.createNewFile() || !file.canWrite()) {
-                    LOGGER.error("Can not create writable file {}", file
-                                 .getAbsolutePath());
-                } else {
-                    oos.writeObject(cache);
-                }
+                oos.writeObject(cache);
             } catch (IOException t) {
-                LOGGER.error(String.format("Error serializing cache to '%s'", file
-                                           .getAbsolutePath()), t);
+                LOGGER.error(String.format("Error serializing cache to '%s'", file.getAbsolutePath()), t);
             }
         }
     }

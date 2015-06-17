@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 
 
 public class ServletConfigLocationProvider implements ConfigLocationProvider {
+    private static final String RELATIVE_PATH = "/";
 
     private String path;
 
@@ -34,7 +35,8 @@ public class ServletConfigLocationProvider implements ConfigLocationProvider {
 
     @Inject
     public void setServletContext(ServletContext servletContext) {
-        this.path = new File(servletContext.getRealPath("/")).getAbsolutePath();
+        String relativePath = servletContext.getRealPath(RELATIVE_PATH);
+        this.path = new File(relativePath).getAbsolutePath();
     }
 
 }
