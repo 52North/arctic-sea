@@ -16,9 +16,14 @@
  */
 package org.n52.iceland.util.activation;
 
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.base.Predicate;
@@ -37,61 +42,40 @@ public class Activatables {
     }
 
     public static <K, V> Map<K, V> filter(Map<K, Activatable<V>> map) {
-        if (map == null) {
-            return Maps.newHashMap();
-        }
-        Map<K, V> filtered = Maps.newHashMapWithExpectedSize(map.size());
-        for (K k : map.keySet()) {
-            if (map.get(k) != null && map.get(k).get() != null) {
-                filtered.put(k, map.get(k).get());
-            }
-        }
-        return filtered;
+        return Optional.ofNullable(map)
+                .orElseGet(HashMap::new)
+                .entrySet().stream()
+                .filter(e -> e.getValue() != null)
+                .filter(e -> e.getValue().isActive())
+                .collect(toMap(Entry::getKey, e -> e.getValue().get()));
     }
 
     public static <E> Set<E> filter(Set<Activatable<E>> set) {
-        if (set == null) {
-            return Sets.newHashSet();
-        }
-        Set<E> filtered = new HashSet<>(set.size());
-        for (Activatable<E> a : set) {
-            if (a.isActive()) {
-                filtered.add(a.get());
-            }
-        }
-        return filtered;
+        return Optional.ofNullable(set)
+                .orElseGet(HashSet::new)
+                .stream()
+                .filter(Activatable::isActive)
+                .map(Activatable::get)
+                .collect(toSet());
     }
 
     public static <E> Set<E> unfiltered(Set<Activatable<E>> set) {
-        if (set == null) {
-            return Sets.newHashSet();
-        }
-        Set<E> unfiltered = new HashSet<>(set.size());
-        for (Activatable<E> a : set) {
-            unfiltered.add(a.getInternal());
-        }
-        return unfiltered;
+        return Optional.ofNullable(set)
+                .orElseGet(HashSet::new).stream()
+                .map(Activatable::getInternal)
+                .collect(toSet());
     }
 
     public static <K, V> Map<K, V> unfiltered(Map<K, Activatable<V>> map) {
-        if (map == null) {
-            return Maps.newHashMap();
-        }
-        Map<K, V> filtered = new HashMap<>(map.size());
-        for (K k : map.keySet()) {
-            if (map.get(k) != null) {
-                filtered.put(k, map.get(k).getInternal());
-            }
-        }
-        return filtered;
+        return Optional.ofNullable(map)
+                .orElseGet(HashMap::new)
+                .entrySet().stream()
+                .filter(e -> e.getValue() != null)
+                .collect(toMap(Entry::getKey, e -> e.getValue().getInternal()));
     }
 
     public static <E> Set<Activatable<E>> from(Set<E> set) {
-        Set<Activatable<E>> a = new HashSet<>(set.size());
-        for (E t : set) {
-            a.add(from(t));
-        }
-        return a;
+        return set.stream().map(Activatables::from).collect(toSet());
     }
 
     public static <K, T> Set<K> activatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {

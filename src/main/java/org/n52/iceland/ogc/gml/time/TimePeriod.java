@@ -19,13 +19,16 @@ package org.n52.iceland.ogc.gml.time;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
+
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Constants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -390,8 +393,8 @@ public class TimePeriod extends Time {
         } else if (time instanceof TimePeriod) {
             extendToContain((TimePeriod) time);
         } else {
-            Object type = time != null ? time.getClass().getName() : time;
-            String errorMsg = String.format("Received ITime type \"%s\" unknown.", type);
+            String errorMsg = String.format("Received ITime type \"%s\" unknown.",
+                Optional.ofNullable(time).map(Object::getClass).map(Class::getName).orElse("null"));
             LOGGER.error(errorMsg);
             throw new IllegalArgumentException(errorMsg);
         }
@@ -478,7 +481,7 @@ public class TimePeriod extends Time {
         if (this.getTimeFormat().equals(TimeFormat.NOT_SET)) {
             this.setTimeFormat(timeFormat);
         } else {
-            if (!this.getTimeFormat().equals(timeFormat) && TimeFormat.SUPPORTED_FORAMTS.contains(timeFormat)) {
+            if (!this.getTimeFormat().equals(timeFormat) && TimeFormat.SUPPORTED_FORMATS.contains(timeFormat)) {
                 this.setTimeFormat(timeFormat);
             }
         }

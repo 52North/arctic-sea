@@ -22,6 +22,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -77,7 +78,10 @@ public class DCP implements Comparable<DCP> {
 
     @Override
     public String toString() {
-        return String.format("DCP[]", getUrl(), getConstraints());
+        return MoreObjects.toStringHelper(this)
+                .add("url", getUrl())
+                .add("constraints", getConstraints())
+                .toString();
     }
 
     @Override

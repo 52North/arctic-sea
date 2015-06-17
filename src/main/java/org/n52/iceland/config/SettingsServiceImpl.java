@@ -434,7 +434,7 @@ public class SettingsServiceImpl implements SettingsService {
         this.settingsManagerDao.deleteAll();
     }
 
-    private class ConfigurableObject {
+    private static class ConfigurableObject {
         private final Method method;
         private final WeakReference<Object> target;
         private final String key;

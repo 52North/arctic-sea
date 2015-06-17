@@ -21,9 +21,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.event.ServiceEvent;
 
+import com.google.common.base.MoreObjects;
+
 /**
  * Event is thrown if a {@link HttpServletResponse} was sent back.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -31,15 +33,14 @@ import org.n52.iceland.event.ServiceEvent;
 public class OutgoingResponseEvent implements ServiceEvent {
 
     private final HttpServletRequest request;
-
     private final HttpServletResponse response;
-
     private final long requestNumber;
-
     private final long elapsedTime;
 
-    public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber,
-            long elapsedTime) {
+    public OutgoingResponseEvent(HttpServletRequest request,
+                                 HttpServletResponse response,
+                                 long requestNumber,
+                                 long elapsedTime) {
         this.request = request;
         this.response = response;
         this.requestNumber = requestNumber;
@@ -64,8 +65,13 @@ public class OutgoingResponseEvent implements ServiceEvent {
 
     @Override
     public String toString() {
-        return String.format("OutgoingResponseEvent[request=%s, response=%s, requestNumber=%d, elapsedTime]",
-                getElapsedTime());
+        return MoreObjects
+                .toStringHelper(this)
+                .add("request", this.request)
+                .add("response", this.response)
+                .add("requestNumber", this.requestNumber)
+                .add("elapsedTime", this.elapsedTime)
+                .toString();
     }
 
 }

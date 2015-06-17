@@ -202,7 +202,7 @@ public class ServiceEventBus implements Constructable {
         getInstance().submit(event);
     }
 
-    private class ClassCache {
+    private static class ClassCache {
         private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
         private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps
@@ -237,7 +237,7 @@ public class ServiceEventBus implements Constructable {
         }
     }
 
-    private class HandlerExecution implements Runnable {
+    private static class HandlerExecution implements Runnable {
         private final ServiceEvent event;
 
         private final ServiceEventListener listener;

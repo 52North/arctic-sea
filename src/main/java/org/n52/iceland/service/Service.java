@@ -72,10 +72,10 @@ public class Service extends HttpServlet {
     private static final AtomicLong counter = new AtomicLong(0);
 
     @Inject
-    private BindingRepository bindingRepository;
+    private transient BindingRepository bindingRepository;
 
     @Inject
-    private ServiceEventBus serviceEventBus;
+    private transient ServiceEventBus serviceEventBus;
 
     private long logRequest(HttpServletRequest request) {
         long count = counter.incrementAndGet();

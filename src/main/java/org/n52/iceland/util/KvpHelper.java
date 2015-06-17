@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,7 +30,6 @@ import org.n52.iceland.exception.ows.MissingParameterValueException;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
@@ -112,15 +112,11 @@ public final class KvpHelper {
     }
 
     private static String getParameterValue(String name, Map<String, String> map) {
-        if (map.containsKey(name)) {
-            return map.get(name);
-        }
-        for (String key : map.keySet()) {
-            if (key.equalsIgnoreCase(name)) {
-                return map.get(key);
-            }
-        }
-        return null;
+        return map.computeIfAbsent(name, key ->
+           map.entrySet().stream()
+                   .filter(e -> e.getKey().equalsIgnoreCase(key))
+                   .findFirst().map(Entry::getValue).orElse(null)
+        );
     }
 
     public static String getParameterValue(Enum<?> name, Map<String, String> map) {

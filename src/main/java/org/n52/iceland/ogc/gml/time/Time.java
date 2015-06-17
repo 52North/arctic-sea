@@ -21,9 +21,11 @@ import java.util.Collection;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+
 import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
@@ -258,7 +260,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
     public enum TimeFormat {
         ISO8601, YMD, YM, Y, NOT_SET;
 
-        public static final Collection<TimeFormat> SUPPORTED_FORAMTS = Sets.newHashSet(ISO8601, YMD, YM, Y);
+        public static final Collection<TimeFormat> SUPPORTED_FORMATS = ImmutableSet.of(ISO8601, YMD, YM, Y);
     }
 
     /**

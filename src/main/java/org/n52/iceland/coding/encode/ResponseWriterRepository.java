@@ -17,6 +17,7 @@
 package org.n52.iceland.coding.encode;
 
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -91,7 +92,8 @@ public class ResponseWriterRepository extends AbstractComponentRepository<Respon
         return ResponseWriterRepository.instance;
     }
 
-    private class ClassSimilarityComparator implements Comparator<Class<?>> {
+    private static class ClassSimilarityComparator implements Serializable, Comparator<Class<?>> {
+        private static final long serialVersionUID = -377524541804891733L;
         private final Class<?> reference;
 
         ClassSimilarityComparator(Class<?> reference) {
