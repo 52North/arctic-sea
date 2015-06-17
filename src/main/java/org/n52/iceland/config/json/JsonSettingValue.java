@@ -16,8 +16,13 @@
  */
 package org.n52.iceland.config.json;
 
+import java.util.Objects;
+
 import org.n52.iceland.config.SettingType;
 import org.n52.iceland.config.SettingValue;
+
+import com.google.common.base.MoreObjects;
+
 
 /**
  * TODO JavaDoc
@@ -71,4 +76,29 @@ public class JsonSettingValue<T> implements SettingValue<T> {
         return this.type;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof SettingValue<?>)) {
+            return false;
+        }
+
+        SettingValue<?> that = (SettingValue<?>) obj;
+        return Objects.equals(this.getType(), that.getType()) &&
+               Objects.equals(this.getKey(), that.getKey()) &&
+               Objects.equals(this.getValue(), that.getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getType(), getKey(), getValue());
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("type", getType())
+                .add("key", getKey())
+                .add("value", getValue())
+                .toString();
+    }
 }

@@ -294,8 +294,7 @@ public class SettingsServiceImpl implements SettingsService {
         ConfigurationError e = null;
         configurableObjectsLock.readLock().lock();
         try {
-            Set<ConfigurableObject> cos = configurableObjects.get(setting
-                    .getKey());
+            Set<ConfigurableObject> cos = configurableObjects.get(setting.getKey());
             if (cos != null) {
                 for (ConfigurableObject co : cos) {
                     try {
@@ -408,8 +407,8 @@ public class SettingsServiceImpl implements SettingsService {
                             .getType(), newValue.getType()));
         }
 
-        SettingValue<?> oldValue = this.settingsManagerDao
-                .getSettingValue(newValue.getKey());
+        SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(newValue.getKey());
+
         if (oldValue == null || !oldValue.equals(newValue)) {
             applySetting(def, oldValue, newValue);
             this.settingsManagerDao.saveSettingValue(newValue);
