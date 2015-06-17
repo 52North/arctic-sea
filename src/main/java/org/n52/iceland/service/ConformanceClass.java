@@ -16,14 +16,17 @@
  */
 package org.n52.iceland.service;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
 public interface ConformanceClass {
 
-    Set<String> getConformanceClasses(String service, String version);
+    default Set<String> getConformanceClasses(String service, String version) {
+        return Collections.emptySet();
+    }
 
 }

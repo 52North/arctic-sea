@@ -24,15 +24,17 @@ import org.n52.iceland.util.http.MediaType;
 
 /**
  * abstract super class for all service request classes
- * 
+ *
  * @since 1.0.0
  */
-public abstract class AbstractServiceResponse extends AbstractServiceCommunicationObject implements HasExtension<AbstractServiceResponse> {
+public abstract class AbstractServiceResponse
+        extends AbstractServiceCommunicationObject
+        implements HasExtension<AbstractServiceResponse> {
 
     private MediaType contentType;
-    
+
     private Extensions extensions;
-    
+
     @Override
     public Extensions getExtensions() {
         return extensions;
@@ -43,7 +45,7 @@ public abstract class AbstractServiceResponse extends AbstractServiceCommunicati
         this.extensions = extensions;
         return this;
     }
-    
+
     @Override
     public AbstractServiceResponse addExtensions(final Extensions extensions) {
         if (getExtensions() == null) {
@@ -68,7 +70,7 @@ public abstract class AbstractServiceResponse extends AbstractServiceCommunicati
     public boolean isSetExtensions() {
         return extensions != null && !extensions.isEmpty();
     }
-    
+
     public AbstractServiceResponse setContentType(MediaType contentType) {
         this.contentType = contentType;
         return this;

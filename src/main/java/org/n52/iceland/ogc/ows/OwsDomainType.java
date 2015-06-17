@@ -20,11 +20,11 @@ import org.n52.iceland.util.StringHelper;
 
 /**
  * Class represents an OWS DomaintType element
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class OwsDomainType {
 
@@ -34,24 +34,11 @@ public class OwsDomainType {
 
     private String defaultValue;
 
-    /**
-     * constructor
-     * 
-     * @param name
-     * @param possibleValues
-     */
     public OwsDomainType(String name, OwsPossibleValues possibleValues) {
         setName(name);
         setValue(possibleValues);
     }
 
-    /**
-     * constructor
-     * 
-     * @param name
-     * @param possibleValues
-     * @param defaultValue
-     */
     public OwsDomainType(String name, OwsPossibleValues possibleValues, String defaultValue) {
         setName(name);
         setValue(possibleValues);
@@ -103,9 +90,6 @@ public class OwsDomainType {
         this.defaultValue = defaultValue;
     }
 
-    /**
-     * @return
-     */
     public boolean isSetDefaultValue() {
         return StringHelper.isNotEmpty(getDefaultValue());
     }

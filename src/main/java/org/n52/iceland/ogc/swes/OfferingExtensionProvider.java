@@ -18,21 +18,22 @@ package org.n52.iceland.ogc.swes;
 
 import java.util.Set;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.ogc.ows.Extensions;
 
 /**
  * Interface for OfferingExtensionProvider. Implementations of this interface
  * are loaded by the {@link OfferingExtensionRepository}.
- * 
+ *
  * @since 4.1.0
- * 
+ *
  */
-public interface OfferingExtensionProvider {
+public interface OfferingExtensionProvider extends Component<OfferingExtensionKey> {
 
     /**
      * Get the offering extension for the specific offering identifier this
      * provider provides.
-     * 
+     *
      * @param identifier
      *            the identifier to get extension for
      * @return provided offering extensions
@@ -42,7 +43,7 @@ public interface OfferingExtensionProvider {
     /**
      * Check if this provider provide offering extensions for the specific
      * identifier
-     * 
+     *
      * @param identifier
      *            the identifier to check
      * @return <code>true</code>, if offering extensions provided for this
@@ -52,9 +53,12 @@ public interface OfferingExtensionProvider {
 
     /**
      * Get the offering extension keys
-     * 
+     *
      * @return the offering extension keys
      */
-    Set<OfferingExtensionKey> getOfferingExtensionKeyTypes();
+    @Deprecated
+    default Set<OfferingExtensionKey> getOfferingExtensionKeyTypes() {
+        return getKeys();
+    }
 
 }

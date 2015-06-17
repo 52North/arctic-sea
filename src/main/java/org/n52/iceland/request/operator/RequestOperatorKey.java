@@ -18,6 +18,7 @@ package org.n52.iceland.request.operator;
 
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
@@ -25,10 +26,8 @@ import com.google.common.collect.ComparisonChain;
 /**
  * Key to identify a {@link RequestOperator}. The {@link RequestOperatorKey}
  * consists of service, version and operation name.
- * 
- * 
+ *
  * @since 1.0.0
- * 
  */
 public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
     private final ServiceOperatorKey sok;
@@ -39,7 +38,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     /**
      * Constructor
-     * 
+     *
      * @param sok
      * @param operationName
      */
@@ -49,7 +48,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     /**
      * Constructor
-     * 
+     *
      * @param sok
      * @param operationName
      * @param defaultActive
@@ -62,7 +61,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     /**
      * Constructor
-     * 
+     *
      * @param service
      * @param version
      * @param operationName
@@ -73,7 +72,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     /**
      * Constructor
-     * 
+     *
      * @param service
      * @param version
      * @param operationName
@@ -142,7 +141,10 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
 
     @Override
     public String toString() {
-        return String.format("%s[serviceOperatorKeyType=%s, operationName=%s, defaultActive=%b]", getClass()
-                .getSimpleName(), getServiceOperatorKey(), getOperationName(), isDefaultActive());
+        return MoreObjects.toStringHelper(this)
+                .add("serviceOperatorKey", getServiceOperatorKey())
+                .add("operationName", getOperationName())
+                .add("defaultActive", isDefaultActive())
+                .toString();
     }
 }

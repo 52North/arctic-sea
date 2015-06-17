@@ -16,18 +16,14 @@
  */
 package org.n52.iceland.config;
 
-import org.n52.iceland.service.MiscSettings;
-import org.n52.iceland.service.ServiceSettings;
+import java.util.Objects;
+
+import com.google.common.base.MoreObjects;
 
 /**
  * Class to group ISettingDefinitions. Not needed by the service but only for
  * representation in the GUI.
- * <p/>
- * 
- * @see ServiceSettings#GROUP
- * @see MiscSettings#GROUP
- * @see SosServiceProviderFactorySettings#GROUP
- * @see SosServiceIdentificationFactorySettings#GROUP
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
@@ -55,10 +51,9 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
 
     /**
      * Sets the title of this group.
-     * 
-     * @param title
-     *            the title
-     * 
+     *
+     * @param title the title
+     *
      * @return this
      */
     public SettingDefinitionGroup setTitle(String title) {
@@ -82,10 +77,9 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
 
     /**
      * Sets the description for this group.
-     * 
-     * @param description
-     *            the description
-     * 
+     *
+     * @param description the description
+     *
      * @return this
      */
     public SettingDefinitionGroup setDescription(String description) {
@@ -95,20 +89,21 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
 
     /**
      * Set if this settings group should be displayed in default settings
-     * 
-     * @param showInDefaultSetting
-     *            Display in default settings
+     *
+     * @param showInDefaultSetting Display in default settings
+     *
      * @return this
      */
-    public SettingDefinitionGroup setShwoInDefaultSettings(boolean showInDefaultSetting) {
+    public SettingDefinitionGroup setShowInDefaultSettings(
+            boolean showInDefaultSetting) {
         this.showInDefaultSetting = showInDefaultSetting;
         return this;
     }
 
     /**
      * Should this group be displayed in default settings
-     * 
-     * @return <code>true</code>, if this group should be displayed in default
+     *
+     * @return {@code true}, if this group should be displayed in default
      *         settings
      */
     public boolean isShowInDefaultSettings() {
@@ -117,10 +112,9 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
 
     /**
      * Checks if the parameter is not null and not empty.
-     * 
-     * @param s
-     *            the string to test
-     * 
+     *
+     * @param s the string to test
+     *
      * @return if it is not null and not empty
      */
     protected boolean hasStringProperty(String s) {
@@ -129,9 +123,7 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + (this.getTitle() != null ? this.getTitle().hashCode() : 0);
-        return hash;
+        return Objects.hash(getTitle());
     }
 
     @Override
@@ -143,16 +135,16 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
             return false;
         }
         final SettingDefinitionGroup other = (SettingDefinitionGroup) obj;
-        if ((this.getTitle() == null) ? (other.getTitle() != null) : !this.getTitle().equals(other.getTitle())) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.getTitle(), other.getTitle());
     }
 
     @Override
     public String toString() {
-        return String.format("%s[title=%s, description=%s, showInDefaultSetting=%b]", getClass().getSimpleName(),
-                getTitle(), getDescription(), isShowInDefaultSettings());
+        return MoreObjects.toStringHelper(this)
+                .add("title", getTitle())
+                .add("description", getDescription())
+                .add("showInDefaultSetting", isShowInDefaultSettings())
+                .toString();
     }
 
     @Override

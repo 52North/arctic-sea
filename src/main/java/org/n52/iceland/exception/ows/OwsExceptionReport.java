@@ -28,19 +28,17 @@ import org.n52.iceland.util.http.HTTPStatus;
  * according the <a
  * href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
  * Service Common Specification 1.1.0</a>
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
- * 
+ *
  * @since 1.0.0
  */
 public abstract class OwsExceptionReport extends Exception {
 
     private static final long serialVersionUID = 52L;
-
     private HTTPStatus status;
-
     private String version;
 
     /**
@@ -50,10 +48,10 @@ public abstract class OwsExceptionReport extends Exception {
 
     /**
      * Set SOS version
-     * 
+     *
      * @param version
      *            the version to set
-     * 
+     *
      * @return this
      */
     public OwsExceptionReport setVersion(final String version) {
@@ -63,7 +61,7 @@ public abstract class OwsExceptionReport extends Exception {
 
     /**
      * Get SOS version
-     * 
+     *
      * @return SOS version
      */
     public String getVersion() {
@@ -120,10 +118,10 @@ public abstract class OwsExceptionReport extends Exception {
 
     /**
      * Sets the HTTP response code for this {@code OwsExceptionReport}.
-     * 
+     *
      * @param status
      *            the code
-     * 
+     *
      * @return this (for method chaining)
      */
     public OwsExceptionReport setStatus(final HTTPStatus status) {

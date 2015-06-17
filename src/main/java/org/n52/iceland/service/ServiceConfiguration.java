@@ -17,29 +17,20 @@
 package org.n52.iceland.service;
 
 import static org.n52.iceland.service.MiscSettings.CHARACTER_ENCODING;
-//import static org.n52.iceland.service.MiscSettings.DEFAULT_FEATURE_PREFIX;
-//import static org.n52.iceland.service.MiscSettings.DEFAULT_OBSERVABLEPROPERTY_PREFIX;
-//import static org.n52.iceland.service.MiscSettings.DEFAULT_OFFERING_PREFIX;
-//import static org.n52.iceland.service.MiscSettings.DEFAULT_PROCEDURE_PREFIX;
 import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
 import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V1;
 import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V2;
-//import static org.n52.iceland.service.ServiceSettings.ADD_OUTPUTS_TO_SENSOR_ML;
-//import static org.n52.iceland.service.ServiceSettings.ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR;
-//import static org.n52.iceland.service.ServiceSettings.SENSOR_DIRECTORY;
 import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
-//import static org.n52.iceland.service.ServiceSettings.STRICT_SPATIAL_FILTERING_PROFILE;
-//import static org.n52.iceland.service.ServiceSettings.USE_DEFAULT_PREFIXES;
 import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 
 import java.net.URI;
 import java.util.Locale;
 
-import org.n52.iceland.config.SettingsManager;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.Validation;
 //import org.n52.sos.util.XmlOptionsHelper;
 
@@ -52,41 +43,30 @@ import org.n52.iceland.util.Validation;
  */
 @Configurable
 @Deprecated
-public class ServiceConfiguration {
+public class ServiceConfiguration implements Constructable {
     private static ServiceConfiguration instance;
 
     /**
      * character encoding for responses.
      */
     private String characterEncoding;
-
-    private String defaultOfferingPrefix;
-
     private boolean encodeFullChildrenInDescribeSensor;
-
     private boolean addOutputsToSensorML;
-
     private boolean strictSpatialFilteringProfile;
-
     private boolean validateResponse;
-
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
 
     /**
      * @return Returns a singleton instance of the ServiceConfiguration.
      */
+    @Deprecated
     public static synchronized ServiceConfiguration getInstance() {
-        if (instance == null) {
-            instance = new ServiceConfiguration();
-            SettingsManager.getInstance().configure(instance);
-        }
-        return instance;
+        return ServiceConfiguration.instance;
     }
 
-    /**
-     * private constructor for singleton
-     */
-    private ServiceConfiguration() {
+    @Override
+    public void init() {
+        ServiceConfiguration.instance = this;
     }
 
     /**
@@ -124,7 +104,7 @@ public class ServiceConfiguration {
      * tuple separator for result element.
      */
     private String tupleSeparator;
-    
+
     /**
      * decimal separator for result element.
      */
@@ -155,7 +135,7 @@ public class ServiceConfiguration {
     }
 
     @Setting(MiscSettings.TOKEN_SEPARATOR)
-    public void setTokenSeparator(final String separator) throws ConfigurationException {
+    public void setTokenSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Token separator", separator);
         tokenSeparator = separator;
     }
@@ -165,24 +145,24 @@ public class ServiceConfiguration {
     }
 
     @Setting(MiscSettings.TUPLE_SEPARATOR)
-    public void setTupleSeparator(final String separator) throws ConfigurationException {
+    public void setTupleSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Tuple separator", separator);
         tupleSeparator = separator;
     }
-    
+
 
     public String getDecimalSeparator() {
         return decimalSeparator;
     }
-    
+
     @Setting(MiscSettings.DECIMAL_SEPARATOR)
-    public void setDecimalSeparator(final String separator) throws ConfigurationException {
+    public void setDecimalSeparator(final String separator) throws ConfigurationError {
         Validation.notNullOrEmpty("Decimal separator", separator);
         decimalSeparator = separator;
     }
 
     @Setting(CHARACTER_ENCODING)
-    public void setCharacterEncoding(final String encoding) throws ConfigurationException {
+    public void setCharacterEncoding(final String encoding) throws ConfigurationError {
         Validation.notNullOrEmpty("Character Encoding", encoding);
         characterEncoding = encoding;
 //        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
@@ -192,8 +172,9 @@ public class ServiceConfiguration {
         return characterEncoding;
     }
 
+    @Deprecated
     public String getDefaultOfferingPrefix() {
-        return defaultOfferingPrefix;
+        return null;
     }
 
     @Deprecated
@@ -280,7 +261,7 @@ public class ServiceConfiguration {
     }
 
     @Setting(SERVICE_URL)
-    public void setServiceURL(final URI serviceURL) throws ConfigurationException {
+    public void setServiceURL(final URI serviceURL) throws ConfigurationError {
         Validation.notNull("Service URL", serviceURL);
         String url = serviceURL.toString();
         if (url.contains("?")) {
@@ -392,9 +373,6 @@ public class ServiceConfiguration {
         this.streamingEncoding  = streamingEncoding;
     }
 
-    /**
-     * @return
-     */
     public boolean isForceStreamingEncoding() {
         return streamingEncoding;
     }

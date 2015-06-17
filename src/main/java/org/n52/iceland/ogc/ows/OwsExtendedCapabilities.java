@@ -18,23 +18,22 @@ package org.n52.iceland.ogc.ows;
 
 /**
  * Interface for OWS ExtendeCapabilities. Implementations of this interface are
- * loaded by the {@link OwsExtendedCapabilitiesRepository}.
- * 
+ * loaded by the {@link OwsExtendedCapabilitiesProviderRepository}.
+ *
  * @since 1.0.0
- * 
  */
 public interface OwsExtendedCapabilities {
 
     /**
      * Get the service (e.g. SOS) this OWS ExtendedCapabilitiy is related to.
-     * 
+     *
      * @return Related service
      */
     String getService();
 
     /**
      * Get the encoding namespace for this OWS ExtendedCapabilitiy.
-     * 
+     *
      * @return Encoding namespace.
      */
     String getNamespace();

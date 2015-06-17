@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.convert;
 
-import java.util.Set;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
@@ -25,22 +25,16 @@ import org.n52.iceland.response.AbstractServiceResponse;
 /**
  * Interface for {@link AbstractServiceRequest} and
  * {@link AbstractServiceResponse} modifier
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
- *            The {@link AbstractServiceRequest} to modify
- * @param <S>
- *            The {@link AbstractServiceResponse} to modify
  */
-public interface RequestResponseModifier<T extends AbstractServiceRequest<?>, S extends AbstractServiceResponse> {
+public interface RequestResponseModifier extends Component<RequestResponseModifierKey> {
 
-    Set<RequestResponseModifierKeyType> getRequestResponseModifierKeyTypes();
+    AbstractServiceRequest<?> modifyRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
 
-    T modifyRequest(T request) throws OwsExceptionReport;
-
-    S modifyResponse(T request, S response) throws OwsExceptionReport;
+    AbstractServiceResponse modifyResponse(AbstractServiceRequest<?> request, AbstractServiceResponse response) throws OwsExceptionReport;
 
     RequestResponseModifierFacilitator getFacilitator();
 

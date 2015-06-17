@@ -16,10 +16,12 @@
  */
 package org.n52.iceland.ds;
 
+@Deprecated
 public interface ConnectionProviderIdentificator {
-    
+    @Deprecated
     String CONNECTION_PROVIDER_IDENTIFIER = "connection.provider.identifier";
-    
+
+    @Deprecated
     String getConnectionProviderIdentifier();
 
 }

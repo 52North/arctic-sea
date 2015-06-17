@@ -16,12 +16,75 @@
  */
 package org.n52.iceland.service;
 
+import java.util.Objects;
+
+import com.google.common.base.MoreObjects;
+
 /**
  * @since 4.0.0
- * 
+ *
  */
 public interface ServiceConstants {
-    enum SupportedTypeKey {
-        FeatureType, ObservationType, ProcedureDescriptionFormat, SweType
+
+    interface SupportedType {
+
+    }
+
+    abstract class AbstractSupportedStringType implements SupportedType {
+        private final String value;
+
+        public AbstractSupportedStringType(String value) {
+            this.value = value;
+        }
+
+        public String getValue() {
+            return this.value;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(getValue());
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            AbstractSupportedStringType that = (AbstractSupportedStringType) obj;
+            return Objects.equals(this.getValue(), that.getValue());
+        }
+
+        @Override
+        public String toString() {
+            return MoreObjects.toStringHelper(this)
+                    .add("value", getValue())
+                    .toString();
+        }
+
+    }
+
+    class FeatureType extends AbstractSupportedStringType{
+        public FeatureType(String value) {
+            super(value);
+        }
+    }
+
+    class ObservationType extends AbstractSupportedStringType {
+        public ObservationType(String value) {
+            super(value);
+        }
+    }
+
+    class ProcedureDescriptionFormat extends AbstractSupportedStringType {
+        public ProcedureDescriptionFormat(String value) {
+            super(value);
+        }
+    }
+
+    class SweType extends AbstractSupportedStringType {
+        public SweType(String value) {
+            super(value);
+        }
     }
 }

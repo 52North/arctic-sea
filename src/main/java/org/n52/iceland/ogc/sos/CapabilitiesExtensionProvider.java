@@ -16,26 +16,29 @@
  */
 package org.n52.iceland.ogc.sos;
 
+import org.n52.iceland.component.Component;
+
 
 /**
  * Interface for CapabilitiesExtensionProvider. Implementations of this
  * interface are loaded by the {@link CapabilitiesExtensionRepository}.
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
-public interface CapabilitiesExtensionProvider {
+public interface CapabilitiesExtensionProvider extends Component<CapabilitiesExtensionKey> {
 
     /**
      * Get the {@link CapabilitiesExtensionKey} for this provider
-     * 
+     *
      * @return CapabilitiesExtensionKey
      */
+    @Deprecated
     CapabilitiesExtensionKey getCapabilitiesExtensionKey();
 
     /**
      * Get the {@link CapabilitiesExtension} the provider provides.
-     * 
+     *
      * @return provided CapabilitiesExtension
      */
     CapabilitiesExtension getExtension();
@@ -43,7 +46,7 @@ public interface CapabilitiesExtensionProvider {
     /**
      * Does this {@link CapabilitiesExtension} related to a specific service
      * operation
-     * 
+     *
      * @return <code>true</code>, if service relates to a specific service
      *         operation
      */
@@ -52,7 +55,7 @@ public interface CapabilitiesExtensionProvider {
     /**
      * Get the specific service operation name this
      * {@link CapabilitiesExtension} relates to.
-     * 
+     *
      * @return Related service operation name
      */
     String getRelatedOperation();

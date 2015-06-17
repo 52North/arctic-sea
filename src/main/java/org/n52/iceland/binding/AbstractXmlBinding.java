@@ -25,6 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
@@ -33,26 +39,21 @@ import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.iceland.exception.CodedException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.Request;
 import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.http.HTTPUtils;
 import org.n52.iceland.w3c.W3CConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 
 /**
  * Abstract binding class for XML encoded requests
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -81,13 +82,13 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             } else {
                 return getNamespaceOperationDecoderKey(element);
             }
-            
+
         } catch (SAXException | IOException | ParserConfigurationException e) {
             throw new NoApplicableCodeException().causedBy(e).withMessage(
                     "An error occured when parsing the request decoder! Message: %s", e.getMessage());
         }
     }
-    
+
     private XmlNamespaceOperationDecoderKey getNamespaceOperationDecoderKey(Element element) {
         String nodeName = element.getNodeName();
         if (Strings.isNullOrEmpty(element.getNamespaceURI())) {

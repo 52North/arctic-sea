@@ -64,23 +64,20 @@ public class JSONUtils {
 
     private static final ObjectWriter WRITER;
 
-    private static final Function<Object, JsonNode> TO_JSON_STRING
-                = new Function<Object, JsonNode>() {
-                    @Override
-                    public JsonNode apply(Object object) {
-                        if (object == null) {
-                            return nodeFactory().nullNode();
-                        } else if (object instanceof JsonNode) {
-                            return (JsonNode) object;
-                        } else {
-                            return nodeFactory().textNode(String.valueOf(object));
-                        }
+    private static final Function<Object, JsonNode> TO_JSON_STRING = (object) -> {
+                    if (object == null) {
+                        return nodeFactory().nullNode();
+                    } else if (object instanceof JsonNode) {
+                        return (JsonNode) object;
+                    } else {
+                        return nodeFactory().textNode(String.valueOf(object));
                     }
-                };
+    };
 
     static {
-        final ObjectMapper mapper =
-                new ObjectMapper().setNodeFactory(FACTORY).enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
+        ObjectMapper mapper = new ObjectMapper()
+                        .setNodeFactory(FACTORY)
+                        .enable(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS);
         READER = mapper.reader();
         DefaultPrettyPrinter pp = new DefaultPrettyPrinter();
         pp.indentArraysWith(DefaultIndenter.SYSTEM_LINEFEED_INSTANCE);
@@ -102,7 +99,7 @@ public class JSONUtils {
         return FACTORY;
     }
 
-    public static String print(final JsonNode node) {
+    public static String print(JsonNode node) {
         final StringWriter writer = new StringWriter();
         try {
             print(writer, node);
@@ -132,21 +129,15 @@ public class JSONUtils {
     }
 
     public static JsonNode loadPath(final String path) throws IOException {
-        final JsonNode ret;
-        try (final FileInputStream in = new FileInputStream(path)){
-            ret = getReader().readTree(in);
+        try (FileInputStream in = new FileInputStream(path)) {
+            return getReader().readTree(in);
         }
-        return ret;
     }
 
     public static JsonNode loadFile(final File file) throws IOException {
-        final JsonNode ret;
-
-        try ( final FileInputStream in = new FileInputStream(file)){
-            ret = getReader().readTree(in);
+        try (FileInputStream in = new FileInputStream(file)) {
+            return getReader().readTree(in);
         }
-
-        return ret;
     }
 
     public static JsonNode loadStream(final InputStream in) throws IOException {

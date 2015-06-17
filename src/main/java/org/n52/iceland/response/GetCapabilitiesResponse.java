@@ -20,15 +20,14 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OwsCapabilities;
 
 /**
- * Implementation of {@link AbstractServiceResponse} for OWS GetCapabilities operation
- * 
+ * Implementation of {@link AbstractServiceResponse} for OWS GetCapabilities
+ * operation
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class GetCapabilitiesResponse extends AbstractServiceResponse {
-
     private OwsCapabilities capabilities;
-	
     private String xmlString;
 
     public OwsCapabilities getCapabilities() {
@@ -51,7 +50,7 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
     public void setXmlString(String xmlString) {
         this.xmlString = xmlString;
     }
-    
+
     public boolean isStatic() {
         return getXmlString() != null && !getXmlString().isEmpty();
     }

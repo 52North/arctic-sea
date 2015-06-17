@@ -20,18 +20,18 @@ import org.n52.iceland.util.StringHelper;
 
 /**
  * Class represents an OWS range element
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  *
  */
 public class OwsRange {
-    
+
     private String minValue;
-    
+
     private String maxValue;
-    
+
     private String spacing;
 
     /**
@@ -48,10 +48,7 @@ public class OwsRange {
         this.minValue = minValue;
         return this;
     }
-    
-    /**
-     * @return
-     */
+
     public boolean isSetMinValue() {
         return StringHelper.isNotEmpty(getMinValue());
     }
@@ -70,10 +67,7 @@ public class OwsRange {
         this.maxValue = maxValue;
         return this;
     }
-    
-    /**
-     * @return
-     */
+
     public boolean isSetMaxValue() {
         return StringHelper.isNotEmpty(getMaxValue());
     }
@@ -92,10 +86,7 @@ public class OwsRange {
         this.spacing = spacing;
         return this;
     }
-    
-    /**
-     * @return
-     */
+
     public boolean isSetSpacing() {
         return StringHelper.isNotEmpty(getSpacing());
     }

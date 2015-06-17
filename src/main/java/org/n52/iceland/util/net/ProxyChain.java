@@ -19,6 +19,7 @@ package org.n52.iceland.util.net;
 import java.util.List;
 
 import org.n52.iceland.util.Constants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -134,7 +135,7 @@ public class ProxyChain {
         }
         return Optional.absent();
     }
-    
+
     @VisibleForTesting
     static IPAddress getIPAddress(String address) {
         return new IPAddress(address.split(Constants.COLON_STRING)[0].trim());

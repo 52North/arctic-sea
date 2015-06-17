@@ -16,91 +16,89 @@
  */
 package org.n52.iceland.convert;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import org.n52.iceland.exception.ConfigurationException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.Producers;
+
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.SetMultimap;
 
 @SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository extends
-		AbstractConfiguringServiceLoaderRepository<RequestResponseModifier> {
+		      AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
 
+    @Deprecated
 	private static RequestResponseModifierRepository instance;
 
-	private final Map<RequestResponseModifierKeyType, List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>> requestResponseModifier = new HashMap<RequestResponseModifierKeyType, List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>>(
-			0);
+	private final ListMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> requestResponseModifier
+            = LinkedListMultimap.create();
 
-	public static RequestResponseModifierRepository getInstance() {
-		if (instance == null) {
-			instance = new RequestResponseModifierRepository();
-		}
-		return instance;
+    @Autowired(required = false)
+    private Collection<RequestResponseModifier> components;
+
+    @Autowired(required = false)
+    private Collection<RequestResponseModifierFactory> componentFactories;
+
+    @Override
+    public void init() {
+        RequestResponseModifierRepository.instance = this;
+        SetMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> implementations
+                = getProviders(this.components, this.componentFactories);
+        this.requestResponseModifier.clear();
+        for (RequestResponseModifierKey key : implementations.keySet()) {
+            requestResponseModifier.putAll(key, implementations.get(key));
+        }
+    }
+
+    public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request) {
+        RequestResponseModifierKey key = new RequestResponseModifierKey(request.getService(), request.getVersion(), request);
+        return getRequestResponseModifier(key);
+    }
+
+    public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
+        RequestResponseModifierKey key = new RequestResponseModifierKey(response.getService(), response.getVersion(), request, response);
+        return getRequestResponseModifier(key);
 	}
 
-	public RequestResponseModifierRepository() {
-		super(RequestResponseModifier.class, false);
-		load(false);
+    public List<RequestResponseModifier> getRequestResponseModifier(RequestResponseModifierKey key) {
+        List<Producer<RequestResponseModifier>> producers
+                = this.requestResponseModifier.get(key);
+        if (producers == null) {
+            return null;
+        } else {
+            return Producers.produce(producers);
+        }
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void processConfiguredImplementations(
-			Set<RequestResponseModifier> requestResponseModifier)
-			throws ConfigurationException {
-		this.requestResponseModifier.clear();
-		for (RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse> aModifier : requestResponseModifier) {
-			for (RequestResponseModifierKeyType modifierKeyType : aModifier
-					.getRequestResponseModifierKeyTypes()) {
-				List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> list = this.requestResponseModifier
-						.get(modifierKeyType);
-				if (list == null) {
-					list = new ArrayList<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>>();
-					this.requestResponseModifier.put(modifierKeyType, list);
-				}
-				list.add(aModifier);
-			}
-		}
-	}
+    public  boolean hasRequestResponseModifier(AbstractServiceRequest request) {
+        return hasRequestResponseModifier(new RequestResponseModifierKey(
+                request.getService(), request.getVersion(), request));
+    }
 
-	public List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(
-			AbstractServiceRequest request) {
-		return getRequestResponseModifier(new RequestResponseModifierKeyType(
-				request.getService(), request.getVersion(), request));
-	}
-
-	public List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(
-			AbstractServiceRequest request, AbstractServiceResponse response) {
-		return getRequestResponseModifier(new RequestResponseModifierKeyType(
-				response.getService(), response.getVersion(), request, response));
-	}
-
-	public <T, F> List<RequestResponseModifier<AbstractServiceRequest<?>, AbstractServiceResponse>> getRequestResponseModifier(
-			RequestResponseModifierKeyType key) {
-		return requestResponseModifier.get(key);
-	}
-
-	public boolean hasRequestResponseModifier(AbstractServiceRequest request) {
-		return hasRequestResponseModifier(new RequestResponseModifierKeyType(
-				request.getService(), request.getVersion(), request));
-	}
-
-	public boolean hasRequestResponseModifier(AbstractServiceRequest request,
-			AbstractServiceResponse response) {
-		return hasRequestResponseModifier(new RequestResponseModifierKeyType(
-				request.getService(), request.getVersion(), request, response))
-				&& hasRequestResponseModifier(new RequestResponseModifierKeyType(
-						response.getService(), response.getVersion(), request,
+    public boolean hasRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
+        return hasRequestResponseModifier(new RequestResponseModifierKey(
+                request.getService(), request.getVersion(), request, response))
+               && hasRequestResponseModifier(new RequestResponseModifierKey(
+                       response.getService(), response.getVersion(), request,
 						response));
 	}
 
-	public boolean hasRequestResponseModifier(RequestResponseModifierKeyType key) {
+	public boolean hasRequestResponseModifier(RequestResponseModifierKey key) {
 		return requestResponseModifier.containsKey(key);
+	}
+
+    @Deprecated
+	public static RequestResponseModifierRepository getInstance() {
+		return RequestResponseModifierRepository.instance;
 	}
 
 }

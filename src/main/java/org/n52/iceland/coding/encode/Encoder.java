@@ -16,42 +16,39 @@
  */
 package org.n52.iceland.coding.encode;
 
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.UnsupportedEncoderInputException;
 import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
+import org.n52.iceland.service.ServiceConstants.SupportedType;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.w3c.SchemaLocation;
 
 /**
  * Generic interface for Encoders.
- * 
+ *
  * @param <T>
  *            the resulting type, the "Target"
  * @param <S>
  *            the input type, the "Source"
- * 
+ *
  * @since 4.0.0
  */
-public interface Encoder<T, S> extends ConformanceClass {
-    /**
-     * @return List of supported encodings of this implementation (identified by
-     *         {@link EncoderKey})
-     */
-    Set<EncoderKey> getEncoderKeyType();
+public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
 
     /**
      * Encodes the specified object.
-     * 
+     *
      * @param objectToEncode
      *            the object to encode
-     * 
+     *
      * @return the encoded object
-     * 
+     *
      * @throws OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
@@ -63,14 +60,14 @@ public interface Encoder<T, S> extends ConformanceClass {
     /**
      * Encodes the specified object with the specified {@linkplain HelperValues}
      * .
-     * 
+     *
      * @param objectToEncode
      *            the object to encode
      * @param additionalValues
      *            the helper values
-     * 
+     *
      * @return the encoded object
-     * 
+     *
      * @throws OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
@@ -81,24 +78,30 @@ public interface Encoder<T, S> extends ConformanceClass {
             UnsupportedEncoderInputException;
 
     /**
-     * Get the {@linkplain SupportedTypeKey}
-     * 
+     * Get the {@link SupportedType}
+     *
      * @return the supported key types
      */
-    Map<SupportedTypeKey, Set<String>> getSupportedTypes();
+    default Set<SupportedType> getSupportedTypes() {
+        return Collections.emptySet();
+    }
 
     /**
      * Add the namespace prefix of this {@linkplain Encoder} instance to the
      * given {@linkplain Map}.
-     * 
+     *
      * @param nameSpacePrefixMap
      */
-    void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap);
+    default void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap) {
+        // do nothing
+    }
 
     /**
      * @return the content type of the encoded response.
      */
     MediaType getContentType();
 
-    Set<SchemaLocation> getSchemaLocations();
+    default Set<SchemaLocation> getSchemaLocations() {
+        return Collections.emptySet();
+    }
 }

@@ -35,16 +35,19 @@ import org.n52.iceland.util.StringHelper;
 
 /**
  * Abstract super class for all service request classes
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 @SuppressWarnings("rawtypes")
-public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> extends AbstractServiceCommunicationObject implements HasExtension<AbstractServiceRequest> {
+public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
+        extends AbstractServiceCommunicationObject
+        implements Request, HasExtension<AbstractServiceRequest> {
+    //TODO why liste?
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
 
     private RequestContext requestContext;
-    
+
     private Extensions extensions;
 
     public List<ServiceOperatorKey> getServiceOperatorKeyType() throws OwsExceptionReport {
@@ -63,7 +66,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
             throw new MissingVersionParameterException();
         }
     }
-    
+
     public RequestContext getRequestContext() {
         return requestContext;
     }
@@ -76,9 +79,9 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
     public boolean isSetRequestContext() {
         return requestContext != null;
     }
-    
+
     public abstract T getResponse() throws OwsExceptionReport;
-    
+
     @Override
     public Extensions getExtensions() {
         return extensions;
@@ -89,7 +92,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
         this.extensions = extensions;
         return this;
     }
-    
+
     @Override
     public AbstractServiceRequest addExtensions(final Extensions extensions) {
         if (getExtensions() == null) {
@@ -113,13 +116,13 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse> 
     public boolean isSetExtensions() {
         return extensions != null && !extensions.isEmpty();
     }
-    
-    
+
+
     public boolean isSetRequestedLanguage() {
         return StringHelper.isNotEmpty(getRequestedLanguage());
     }
-    
-    
+
+
     public String getRequestedLanguage() {
         if (isSetExtensions()) {
             if (getExtensions().containsExtension(OWSConstants.AdditionalRequestParams.language)) {

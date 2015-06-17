@@ -16,116 +16,80 @@
  */
 package org.n52.iceland.ds;
 
-import java.util.Collections;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
-import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.Producers;
+
 
 /**
  * In 52N SOS version 4.x called OperationDAORepository
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
-public class OperationHandlerRepository extends AbstractConfiguringServiceLoaderRepository<OperationHandler> {
+public class OperationHandlerRepository extends AbstractComponentRepository<OperationHandlerKey, OperationHandler, OperationHandlerFactory> implements Constructable {
+    @Deprecated
+    private static OperationHandlerRepository instance;
+    private final Map<OperationHandlerKey, Producer<OperationHandler>> operationHandlers = new HashMap<>();
+    private Collection<OperationHandler> components;
+    private Collection<OperationHandlerFactory> componentFactories;
 
-    private static class LazyHolder {
-        private static final OperationHandlerRepository INSTANCE = new OperationHandlerRepository();
-
-        private LazyHolder() {
-        };
-    }
-    
-    private static String datasourceDaoIdentficator;
-
-    /**
-     * @return Returns a singleton instance of the {@link OperationHandlerRepository}.
-     */
-    public static OperationHandlerRepository getInstance() {
-        return LazyHolder.INSTANCE;
+    @Autowired(required = false)
+    public void setComponents(Collection<OperationHandler> components) {
+        this.components = components;
     }
 
-    /**
-     * @return Returns a singleton instance of the {@link OperationHandlerRepository}.
-     */
-    public static OperationHandlerRepository createInstance(String datasourceDaoIdentficator) {
-        setDatasourceDaoIdentficator(datasourceDaoIdentficator);
-        return getInstance();
+    @Autowired(required = false)
+    public void setComponentFactories(Collection<OperationHandlerFactory> componentFactories) {
+        this.componentFactories = componentFactories;
     }
 
-    private static void setDatasourceDaoIdentficator(String datasourceDaoIdentficator) {
-        OperationHandlerRepository.datasourceDaoIdentficator = datasourceDaoIdentficator;
-    }
-
-    /** Implemented {@link OperationHandler} */
-    private final Map<OperationHandlerKeyType, OperationHandler> operationHandlers =
-            new HashMap<OperationHandlerKeyType, OperationHandler>(0);
-
-    /**
-     * Load implemented operation handler
-     * 
-     * @throws ConfigurationException
-     *             If no operation handler is implemented
-     */
-    private OperationHandlerRepository() throws ConfigurationException {
-        super(OperationHandler.class, false);
-        load(false);
-    }
-
-    /**
-     * Load the implemented operation handler and add them to a map with operation
-     * name as key.
-     * 
-     * @throws ConfigurationException
-     *             If no operation handler is implemented
-     */
     @Override
-    protected void processConfiguredImplementations(final Set<OperationHandler> daos) throws ConfigurationException {
-        operationHandlers.clear();
-        for (final OperationHandler dao : daos) {
-            if (checkDatasourceDaoIdentifications(dao)) {
-                operationHandlers.put(dao.getOperationHandlerKeyType(), dao);
-            }
-        }
+    public void init() {
+        OperationHandlerRepository.instance = this;
+        Map<OperationHandlerKey, Producer<OperationHandler>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
+        this.operationHandlers.clear();
+        this.operationHandlers.putAll(implementations);
     }
 
-    protected boolean checkDatasourceDaoIdentifications(DatasourceDaoIdentifier datasourceDaoIdentifier) {
-        if (datasourceDaoIdentficator.equalsIgnoreCase(datasourceDaoIdentifier
-                .getDatasourceDaoIdentifier()) || DatasourceDaoIdentifier.IDEPENDET_IDENTIFIER.equals(datasourceDaoIdentifier
-                .getDatasourceDaoIdentifier())) {
-            return true;
-        }
-        return false;
+    public Map<OperationHandlerKey, OperationHandler> getOperationHandlers() {
+        return Producers.produce(this.operationHandlers);
     }
 
-    /**
-     * @return the implemented operation Handlers
-     */
-    public Map<OperationHandlerKeyType, OperationHandler> getOperationDAOs() {
-        return Collections.unmodifiableMap(operationHandlers);
+    public OperationHandler getOperationHandler(String service, String operationName) {
+        return getOperationHandler(new OperationHandlerKey(service, operationName));
     }
 
-    /**
-     * @param service
-     *            the service name
-     * @param operationName
-     *            the operation name
-     * @return the implemented operation handler
-     */
-    public OperationHandler getOperationDAO(final String service, final String operationName) {
-        return operationHandlers.get(new OperationHandlerKeyType(service, operationName));
+    public OperationHandler getOperationHandler(OperationHandlerKey key) {
+        return Producers.produce(operationHandlers.get(key));
     }
 
-    /**
-     * @param operationHandlerIdentifier
-     *            the operation DAO identifier
-     * @return the implemented operation DAO
-     */
-    public OperationHandler getOperationDAO(final OperationHandlerKeyType operationHandlerIdentifier) {
-        return operationHandlers.get(operationHandlerIdentifier);
+    @Deprecated
+    public OperationHandler getOperationDAO(OperationHandlerKey key) {
+        return getOperationHandler(key);
+    }
+
+    @Deprecated
+    public Map<OperationHandlerKey, OperationHandler> getOperationDAOs() {
+        return getOperationHandlers();
+    }
+
+    @Deprecated
+    public OperationHandler getOperationDAO(String service, String operationName) {
+        return getOperationHandler(service, operationName);
+    }
+
+    @Deprecated
+    public static OperationHandlerRepository getInstance() {
+        return OperationHandlerRepository.instance;
     }
 }

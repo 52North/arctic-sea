@@ -22,9 +22,11 @@ import java.util.Set;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
+import com.google.common.collect.Sets;
+
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class TestBinding extends SimpleBinding {
 
@@ -39,8 +41,14 @@ public class TestBinding extends SimpleBinding {
     }
 
     @Override
+    public Set<BindingKey> getKeys() {
+        return Sets.<BindingKey>newHashSet(new PathBindingKey(URL_PATTERN));
+    }
+    private static final String URL_PATTERN = "/sos/test";
+
+    @Override
     public String getUrlPattern() {
-        return "/sos/test";
+        return URL_PATTERN;
     }
 
 }

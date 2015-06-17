@@ -22,7 +22,8 @@ import org.n52.iceland.response.TestResponse;
 public class TestRequest extends AbstractServiceRequest<TestResponse> {
 
     @Override
-    public TestResponse getResponse() throws OwsExceptionReport {
+    public TestResponse getResponse()
+            throws OwsExceptionReport {
         // TODO Auto-generated method stub
         return null;
     }

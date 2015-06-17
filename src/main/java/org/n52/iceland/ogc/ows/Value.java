@@ -18,7 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 /**
  * Generic interface for values
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -29,30 +29,31 @@ public interface Value<T, S> {
 
     /**
      * Get value
-     * 
+     *
      * @return value
      */
     public abstract T getValue();
 
     /**
      * Get value as {@link String}
-     * 
+     *
      * @return The value as {@link String}
      */
     public abstract String getStringValue();
 
     /**
      * Is the values set
-     * 
+     *
      * @return <code>true</code>, if the value is set
      */
     public abstract boolean isSetValue();
 
     /**
      * Set value
-     * 
+     *
      * @param value
      *            value to set
+     * @return this
      */
     public abstract S setValue(T value);
 

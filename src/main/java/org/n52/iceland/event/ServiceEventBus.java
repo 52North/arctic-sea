@@ -16,64 +16,72 @@
  */
 package org.n52.iceland.event;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Queue;
-import java.util.ServiceConfigurationError;
-import java.util.ServiceLoader;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.stream.Collectors;
 
-import org.n52.iceland.util.ClassHelper;
-import org.n52.iceland.util.GroupedAndNamedThreadFactory;
-import org.n52.iceland.util.MultiMaps;
-import org.n52.iceland.util.SetMultiMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.util.ClassHelper;
+import org.n52.iceland.util.GroupedAndNamedThreadFactory;
+import org.n52.iceland.util.collections.MultiMaps;
+import org.n52.iceland.util.collections.SetMultiMap;
+
+import com.google.common.collect.HashMultimap;
+import com.google.common.collect.SetMultimap;
 
 /**
  * The {@link ServiceEventListener} are registered to the
  * {@link ServiceEventBus} which delegates the fired {@link ServiceEvent} to the
  * {@link ServiceEventListener}.
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
-public class ServiceEventBus {
+public class ServiceEventBus implements Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(ServiceEventBus.class);
-
-    private static final boolean ASYNCHRONOUS_EXECUTION = false;
-
+    @Deprecated
+    private static ServiceEventBus instance;
     private static final int THREAD_POOL_SIZE = 3;
+    private static final String THREAD_GROUP_NAME = "ServiceEventBus-Worker";
 
-    private static final String THREAD_GROUP_NAME = "SosEventBus-Worker";
+    private final ClassCache classCache;
+    private final ReadWriteLock lock;
+    private final ThreadFactory threadFactory;
+    private final Executor executor;
+    private final SetMultimap<Class<? extends ServiceEvent>, ServiceEventListener> listeners;
+    private final Queue<HandlerExecution> queue;
+    private boolean async = false;
 
-    /**
-     * Get the instance of the {@link ServiceEventBus}
-     * 
-     * @return Instance of the {@link ServiceEventBus}
-     */
-    public static ServiceEventBus getInstance() {
-        return LazyHolder.INSTANCE;
+    public ServiceEventBus() {
+        this.classCache = new ClassCache();
+        this.lock = new ReentrantReadWriteLock();
+        this.threadFactory = new GroupedAndNamedThreadFactory(THREAD_GROUP_NAME);
+        this.executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, threadFactory);
+        this.listeners = HashMultimap.create();
+        this.queue = new ConcurrentLinkedQueue<>();
     }
 
-    /**
-     * Fire a new {@link ServiceEvent}
-     * 
-     * @param event
-     *            {@link ServiceEvent} to fire
-     */
-    public static void fire(final ServiceEvent event) {
-        getInstance().submit(event);
+    public void setAsync(boolean async) {
+        this.async = async;
     }
 
-    private static boolean checkEvent(final ServiceEvent event) {
+    @Override
+    public void init() {
+        ServiceEventBus.instance = this;
+    }
+
+    private boolean checkEvent(ServiceEvent event) {
         if (event == null) {
             LOG.warn("Submitted event is null!");
             return false;
@@ -81,7 +89,7 @@ public class ServiceEventBus {
         return true;
     }
 
-    private static boolean checkListener(final ServiceEventListener listener) {
+    private boolean checkListener(ServiceEventListener listener) {
         if (listener == null) {
             LOG.warn("Tried to unregister SosEventListener null");
             return false;
@@ -93,109 +101,65 @@ public class ServiceEventBus {
         return true;
     }
 
-    private final ClassCache classCache = new ClassCache();
-
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
-    private final Executor executor = Executors.newFixedThreadPool(THREAD_POOL_SIZE, new GroupedAndNamedThreadFactory(
-            THREAD_GROUP_NAME));
-
-    private final SetMultiMap<Class<? extends ServiceEvent>, ServiceEventListener> listeners = MultiMaps
-            .newSetMultiMap();
-
-    private final Queue<HandlerExecution> queue = new ConcurrentLinkedQueue<HandlerExecution>();
-
-    private ServiceEventBus() {
-        loadListenerImplementations();
-    }
-
-    private void loadListenerImplementations() {
-        final ServiceLoader<ServiceEventListener> serviceLoader = ServiceLoader.load(ServiceEventListener.class);
-        final Iterator<ServiceEventListener> iter = serviceLoader.iterator();
-        while (iter.hasNext()) {
-            try {
-                register(iter.next());
-            } catch (final ServiceConfigurationError e) {
-                LOG.error("Could not load Listener implementation", e);
-            }
-        }
-    }
-
     private Set<ServiceEventListener> getListenersForEvent(final ServiceEvent event) {
-        final LinkedList<ServiceEventListener> result = new LinkedList<ServiceEventListener>();
         lock.readLock().lock();
         try {
-            for (final Class<? extends ServiceEvent> eventType : classCache.getClasses(event.getClass())) {
-                final Set<ServiceEventListener> listenersForClass = listeners.get(eventType);
 
-                if (listenersForClass != null) {
-                    LOG.trace("Adding {} Listeners for event {} (eventType={})", listenersForClass.size(), event,
-                            eventType);
-                    result.addAll(listenersForClass);
-                } else {
-                    LOG.trace("Adding 0 Listeners for event {} (eventType={})", event, eventType);
-                }
-
-            }
+            return classCache.getClasses(event.getClass()).stream()
+                    .map(listeners::get).filter(Objects::nonNull)
+                    .flatMap(Set::stream).collect(Collectors.toSet());
         } finally {
             lock.readLock().unlock();
         }
-        return new HashSet<ServiceEventListener>(result);
     }
 
     /**
      * Submit the fired {@link ServiceEvent} to the registered
      * {@link ServiceEventListener} and initiate the handling of the
      * {@link ServiceEvent}
-     * 
+     *
      * @param event
-     *            Submitted {@link ServiceEvent}
+     *              Submitted {@link ServiceEvent}
      */
-    public void submit(final ServiceEvent event) {
-        boolean submittedEvent = false;
+    public void submit(ServiceEvent event) {
         if (!checkEvent(event)) {
             return;
         }
         lock.readLock().lock();
         try {
-            for (final ServiceEventListener listener : getListenersForEvent(event)) {
-                submittedEvent = true;
-                LOG.debug("Queueing Event {} for Listener {}", event, listener);
-                queue.offer(new HandlerExecution(event, listener));
-            }
+            getListenersForEvent(event).stream()
+                    .peek(listener -> LOG.debug("Queueing Event {} for Listener {}", event, listener))
+                    .map(listener -> new HandlerExecution(event, listener))
+                    .forEach(queue::offer);
         } finally {
             lock.readLock().unlock();
         }
         HandlerExecution r;
         while ((r = queue.poll()) != null) {
-            if (ASYNCHRONOUS_EXECUTION) {
+            if (async) {
                 executor.execute(r);
             } else {
                 r.run();
             }
-        }
-        if (!submittedEvent) {
-            LOG.debug("No Listeners for SosEvent {}", event);
         }
     }
 
     /**
      * Register a new {@link ServiceEventListener} to the
      * {@link ServiceEventBus}.
-     * 
+     *
      * @param listener
      *            {@link ServiceEventListener} to register
      */
-    public void register(final ServiceEventListener listener) {
+    public void register(ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
         }
         lock.writeLock().lock();
         try {
-            for (final Class<? extends ServiceEvent> eventType : listener.getTypes()) {
-                LOG.debug("Subscibing Listener {} to EventType {}", listener, eventType);
-                listeners.add(eventType, listener);
-            }
+            listener.getTypes().stream()
+                    .peek(type -> LOG.debug("Subscibing Listener {} to EventType {}", listener, type))
+                    .forEach(type -> listeners.put(type, listener));
         } finally {
             lock.writeLock().unlock();
         }
@@ -204,18 +168,18 @@ public class ServiceEventBus {
     /**
      * Unregister a new {@link ServiceEventListener} to the
      * {@link ServiceEventBus}.
-     * 
+     *
      * @param listener
      *            {@link ServiceEventListener} to unregister
      */
-    public void unregister(final ServiceEventListener listener) {
+    public void unregister(ServiceEventListener listener) {
         if (!checkListener(listener)) {
             return;
         }
         lock.writeLock().lock();
         try {
-            for (final Class<? extends ServiceEvent> eventType : listener.getTypes()) {
-                final Set<ServiceEventListener> listenersForKey = listeners.get(eventType);
+            for (Class<? extends ServiceEvent> eventType : listener.getTypes()) {
+                Set<ServiceEventListener> listenersForKey = listeners.get(eventType);
                 if (listenersForKey.contains(listener)) {
                     LOG.debug("Unsubscibing Listener {} from EventType {}", listener, eventType);
                     listenersForKey.remove(listener);
@@ -228,23 +192,26 @@ public class ServiceEventBus {
         }
     }
 
-    private static class LazyHolder {
-        private static final ServiceEventBus INSTANCE = new ServiceEventBus();
-
-        private LazyHolder() {
-        }
+    @Deprecated
+    public static ServiceEventBus getInstance() {
+        return ServiceEventBus.instance;
     }
 
-    private class ClassCache {
+    @Deprecated
+    public static void fire(ServiceEvent event) {
+        getInstance().submit(event);
+    }
+
+    private static class ClassCache {
         private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
         private final SetMultiMap<Class<? extends ServiceEvent>, Class<? extends ServiceEvent>> cache = MultiMaps
                 .newSetMultiMap();
 
-        public Set<Class<? extends ServiceEvent>> getClasses(final Class<? extends ServiceEvent> eventClass) {
+        public Set<Class<? extends ServiceEvent>> getClasses(Class<? extends ServiceEvent> eventClass) {
             lock.readLock().lock();
             try {
-                final Set<Class<? extends ServiceEvent>> r = cache.get(eventClass);
+                Set<Class<? extends ServiceEvent>> r = cache.get(eventClass);
                 if (r != null) {
                     return r;
                 }
@@ -265,17 +232,17 @@ public class ServiceEventBus {
             }
         }
 
-        private Set<Class<? extends ServiceEvent>> flatten(final Class<? extends ServiceEvent> eventClass) {
+        private Set<Class<? extends ServiceEvent>> flatten(Class<? extends ServiceEvent> eventClass) {
             return ClassHelper.flattenPartialHierachy(ServiceEvent.class, eventClass);
         }
     }
 
-    private class HandlerExecution implements Runnable {
+    private static class HandlerExecution implements Runnable {
         private final ServiceEvent event;
 
         private final ServiceEventListener listener;
 
-        HandlerExecution(final ServiceEvent event, final ServiceEventListener listener) {
+        HandlerExecution(ServiceEvent event, ServiceEventListener listener) {
             this.event = event;
             this.listener = listener;
         }

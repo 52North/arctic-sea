@@ -16,123 +16,123 @@
  */
 package org.n52.iceland.ogc.swes;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.exception.ConfigurationException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
-import org.n52.iceland.util.Activatable;
-import org.n52.iceland.util.CollectionHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.Producers;
+import org.n52.iceland.util.activation.Activatables;
+import org.n52.iceland.util.activation.ActivationListener;
+import org.n52.iceland.util.activation.ActivationListeners;
+import org.n52.iceland.util.activation.ActivationManager;
+import org.n52.iceland.util.activation.ActivationSource;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 /**
  * Repository for {@link OfferingExtensionProvider} implementations
- * 
+ *
  * @since 4.1.0
- * 
+ *
  */
-public class OfferingExtensionRepository extends AbstractConfiguringServiceLoaderRepository<OfferingExtensionProvider> {
+public class OfferingExtensionRepository extends AbstractComponentRepository<OfferingExtensionKey, OfferingExtensionProvider, OfferingExtensionProviderFactory>
+        implements ActivationManager<OfferingExtensionKey>,
+                   ActivationSource<OfferingExtensionKey>,
+                   Constructable {
+    @Deprecated
+    private static OfferingExtensionRepository instance;
+    private final Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> offeringExtensionProviders = new HashMap<>(0);
+    private final ActivationListeners<OfferingExtensionKey> activation = new ActivationListeners<>(true);
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(OfferingExtensionRepository.class);
+    @Autowired(required = false)
+    private Collection<OfferingExtensionProvider> components;
+    @Autowired(required = false)
+    private Collection<OfferingExtensionProviderFactory> componentFactories;
 
-    /**
-     * Lazy holder class for the {@link OfferingExtensionRepository}
-     * 
-     * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since 4.1.0
-     * 
-     */
-    private static class LazyHolder {
-        private static final OfferingExtensionRepository INSTANCE = new OfferingExtensionRepository();
-
-        private LazyHolder() {
-        };
-    }
-
-    private final Map<OfferingExtensionKey, Activatable<OfferingExtensionProvider>> offeringExtensionProviders =
-            new HashMap<OfferingExtensionKey, Activatable<OfferingExtensionProvider>>(0);
-
-    /**
-     * For singleton use
-     * 
-     * @return The single instance
-     */
-    public static OfferingExtensionRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    /**
-     * Load implemented {@link OfferingExtensionProvider}
-     * 
-     * @throws ConfigurationException
-     *             If no {@link OfferingExtensionProvider} is implemented
-     */
-    private OfferingExtensionRepository() throws ConfigurationException {
-        super(OfferingExtensionProvider.class, false);
-        load(false);
+    @Override
+    public void init() {
+        OfferingExtensionRepository.instance = this;
+        Map<OfferingExtensionKey, Producer<OfferingExtensionProvider>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
+        this.offeringExtensionProviders.clear();
+        this.offeringExtensionProviders.putAll(implementations);
     }
 
     @Override
-    protected void processConfiguredImplementations(final Set<OfferingExtensionProvider> offeringExtensionProviders)
-            throws ConfigurationException {
-        this.offeringExtensionProviders.clear();
-        SettingsManager sm = SettingsManager.getInstance();
-        for (final OfferingExtensionProvider oep : offeringExtensionProviders) {
-            for (OfferingExtensionKey key : oep.getOfferingExtensionKeyTypes()) {
-                try {
-                    LOGGER.info("Registered OfferingExtensionProvider for {}", key);
-                    this.offeringExtensionProviders.put(key, Activatable.from(oep, sm.isActive(key)));
-                } catch (final ConnectionProviderException cpe) {
-                    throw new ConfigurationException("Error while checking RequestOperator", cpe);
-                }
-            }
-        }
+    public void registerListener(ActivationListener<OfferingExtensionKey> listener) {
+        this.activation.registerListener(listener);
+    }
+
+    @Override
+    public void deregisterListener(ActivationListener<OfferingExtensionKey> listener) {
+        this.activation.deregisterListener(listener);
+    }
+
+    @Override
+    public boolean isActive(OfferingExtensionKey key) {
+        return this.activation.isActive(key);
+    }
+
+    @Override
+    public void activate(OfferingExtensionKey key) {
+        this.activation.activate(key);
+    }
+
+    @Override
+    public void deactivate(OfferingExtensionKey key) {
+        this.activation.deactivate(key);
+    }
+
+    @Override
+    public Set<OfferingExtensionKey> getKeys() {
+        return Collections.unmodifiableSet(this.offeringExtensionProviders.keySet());
     }
 
     /**
      * Get map of all, active and inactive, {@link OfferingExtensionProvider}s
-     * 
+     *
      * @return the map with all {@link OfferingExtensionProvider}s
      */
     public Map<OfferingExtensionKey, OfferingExtensionProvider> getAllOfferingExtensionProviders() {
-        return Activatable.unfiltered(offeringExtensionProviders);
+        return Producers.produce(this.offeringExtensionProviders);
     }
 
     /**
      * Get map of all active {@link OfferingExtensionProvider}s
-     * 
+     *
      * @return the map with all active {@link OfferingExtensionProvider}s
      */
     public Map<OfferingExtensionKey, OfferingExtensionProvider> getOfferingExtensionProviders() {
-        return Activatable.filter(offeringExtensionProviders);
+        return Producers.produce(Activatables.activatedMap(offeringExtensionProviders, this.activation));
     }
 
     /**
      * Get the loaded {@link OfferingExtensionProvider} implementation for the
      * specific service and version
-     * 
-     * @param serviceCommunicationObject
+     *
+     * @param message
      *            The {@link AbstractServiceCommunicationObject} with service
      *            and version
      * @return loaded {@link OfferingExtensionProvider} implementation
      */
-    public Set<OfferingExtensionProvider> getOfferingExtensionProvider(
-            AbstractServiceCommunicationObject serviceCommunicationObject) {
+    public Set<OfferingExtensionProvider> getOfferingExtensionProvider(AbstractServiceCommunicationObject message) {
         Set<OfferingExtensionProvider> providers = Sets.newHashSet();
         for (String name : getDomains()) {
-            OfferingExtensionProvider provider =
-                    getOfferingExtensionProvider(new OfferingExtensionKey(serviceCommunicationObject.getService(),
-                            serviceCommunicationObject.getVersion(), name));
+            OfferingExtensionKey key = new OfferingExtensionKey(message.getService(), message.getVersion(), name);
+            OfferingExtensionProvider provider = getOfferingExtensionProvider(key);
             if (provider != null) {
                 providers.add(provider);
             }
@@ -143,19 +143,20 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
     /**
      * Get the loaded {@link OfferingExtensionProvider} implementation for the
      * specific {@link OfferingExtensionKey}
-     * 
+     *
      * @param key
      *            The related {@link OfferingExtensionKey}
      * @return loaded {@link OfferingExtensionProvider} implementation
      */
-    public OfferingExtensionProvider getOfferingExtensionProvider(OfferingExtensionKey key) {
+    public OfferingExtensionProvider getOfferingExtensionProvider(
+            OfferingExtensionKey key) {
         return getOfferingExtensionProviders().get(key);
     }
 
     /**
      * Check if a {@link OfferingExtensionProvider} implementation is loaded for
      * the specific {@link OfferingExtensionKey}
-     * 
+     *
      * @param key
      *            The related {@link OfferingExtensionKey} to check for
      * @return <code>true</code>, if a {@link OfferingExtensionProvider}
@@ -167,20 +168,20 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
 
     /**
      * Check if a provider is available for the requested service and version
-     * 
-     * @param serviceCommunicationObject
+     *
+     * @param message
      *            request object with service and version
      * @return <code>true</code>, if a {@link OfferingExtensionProvider} is
      *         available
      */
-    public boolean hasOfferingExtensionProviderFor(AbstractServiceCommunicationObject serviceCommunicationObject) {
-        boolean hasProvider = false;
+    public boolean hasOfferingExtensionProviderFor(AbstractServiceCommunicationObject message) {
+        boolean hasProvider;
         for (String name : getDomains()) {
-            hasProvider =
-                    hasOfferingExtensionProviderFor(new OfferingExtensionKey(serviceCommunicationObject.getService(),
-                            serviceCommunicationObject.getVersion(), name));
+            OfferingExtensionKey key
+                    = new OfferingExtensionKey(message.getService(), message.getVersion(), name);
+            hasProvider = hasOfferingExtensionProviderFor(key);
             if (hasProvider) {
-                return hasProvider;
+                return activation.isActive(key);
             }
         }
         return false;
@@ -189,41 +190,48 @@ public class OfferingExtensionRepository extends AbstractConfiguringServiceLoade
     /**
      * Change the status of the {@link OfferingExtensionProvider} which relates
      * to the requested {@link OfferingExtensionKey}
-     * 
+     *
      * @param oekt
      *            the {@link OfferingExtensionKey} to change the status for
      * @param active
      *            the new status
      */
+    @Override
     public void setActive(final OfferingExtensionKey oekt, final boolean active) {
-        if (getAllOfferingExtensionProviders().containsKey(oekt)) {
-            offeringExtensionProviders.get(oekt).setActive(active);
-        }
+        this.activation.setActive(oekt, active);
     }
 
     /**
      * Get map with {@link ServiceOperatorKey} and linked domain values
-     * 
+     *
      * @return the map with {@link ServiceOperatorKey} and linked domain values
      */
     public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
         Map<ServiceOperatorKey, Collection<String>> domains = Maps.newHashMap();
-        for (OfferingExtensionKey key : getAllOfferingExtensionProviders().keySet()) {
-            CollectionHelper.addToCollectionMap(key.getServiceOperatorKey(), key.getDomain(), domains);
-        }
+        Activatables.activatedKeys(this.offeringExtensionProviders, this.activation).stream().forEach(key -> {
+            domains.computeIfAbsent(key.getServiceOperatorKey(), sok -> new LinkedList<>()).add(key.getDomain());
+        });
         return domains;
     }
 
     /**
      * Get all domain values from {@link OfferingExtensionKey}
-     * 
+     *
      * @return the domain values
      */
     private Set<String> getDomains() {
-        Set<String> domains = Sets.newHashSet();
-        for (OfferingExtensionKey key : getOfferingExtensionProviders().keySet()) {
-            domains.add(key.getDomain());
-        }
-        return domains;
+        return Activatables.activatedKeys(this.offeringExtensionProviders, this.activation)
+                .stream().map(OfferingExtensionKey::getDomain).collect(toSet());
+    }
+
+    /**
+     * For singleton use
+     *
+     * @return The single instance
+     * @deprecated use injection
+     */
+    @Deprecated
+    public static OfferingExtensionRepository getInstance() {
+        return OfferingExtensionRepository.instance;
     }
 }

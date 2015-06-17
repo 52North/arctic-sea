@@ -22,7 +22,21 @@ import java.util.Set;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
+import com.google.common.collect.ImmutableSet;
+
 public class TestXmlBinding extends AbstractXmlBinding {
+
+    private static final PathBindingKey PATH_KEY
+            = new PathBindingKey("/sos/test");
+    private static final MediaTypeBindingKey MEDIA_TYPE_KEY
+            = new MediaTypeBindingKey(MediaTypes.APPLICATION_XML);
+    private static final ImmutableSet<BindingKey> KEYS
+            = ImmutableSet.of(PATH_KEY, MEDIA_TYPE_KEY);
+
+    @Override
+    public Set<BindingKey> getKeys() {
+        return Collections.unmodifiableSet(KEYS);
+    }
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
@@ -31,12 +45,12 @@ public class TestXmlBinding extends AbstractXmlBinding {
 
     @Override
     protected MediaType getDefaultContentType() {
-        return MediaTypes.APPLICATION_XML;
+        return MEDIA_TYPE_KEY.getMediaType();
     }
 
     @Override
     public String getUrlPattern() {
-        return "/sos/test";
+        return PATH_KEY.getPath();
     }
 
 }

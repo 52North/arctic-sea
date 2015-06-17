@@ -16,94 +16,114 @@
  */
 package org.n52.iceland.request.operator;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.iceland.config.SettingsManager;
-import org.n52.iceland.ds.ConnectionProviderException;
-import org.n52.iceland.ds.OperationHandlerRepository;
-import org.n52.iceland.exception.ConfigurationException;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
-import org.n52.iceland.util.Activatable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.util.activation.Activatables;
+import org.n52.iceland.util.activation.ActivationListener;
+import org.n52.iceland.util.activation.ActivationListeners;
+import org.n52.iceland.util.activation.ActivationManager;
+import org.n52.iceland.util.activation.ActivationSource;
+
+import com.google.common.collect.Maps;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
-public class RequestOperatorRepository extends AbstractConfiguringServiceLoaderRepository<RequestOperator> {
-    private static final Logger LOG = LoggerFactory.getLogger(RequestOperatorRepository.class);
+public class RequestOperatorRepository extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
+        implements ActivationManager<RequestOperatorKey>,
+                   ActivationSource<RequestOperatorKey>,
+                   Constructable {
+    @Deprecated
+    private static RequestOperatorRepository instance;
 
-    private static class LazyHolder {
-    	private static final RequestOperatorRepository INSTANCE = new RequestOperatorRepository();
-    	
-    	private LazyHolder() {};
-    }
+    private final Map<RequestOperatorKey, Producer<RequestOperator>> requestOperators = Maps.newHashMap();
 
-    private final Map<RequestOperatorKey, Activatable<RequestOperator>> requestOperators =
-            new HashMap<RequestOperatorKey, Activatable<RequestOperator>>(0);
+    private final ActivationListeners<RequestOperatorKey> activation = new ActivationListeners<>(true);
 
-    public static RequestOperatorRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
-
-    /**
-     * private constructor for singleton
-     * 
-     * @throws ConfigurationException
-     */
-    private RequestOperatorRepository() throws ConfigurationException {
-        super(RequestOperator.class, false);
-        load(false);
-    }
+    @Autowired(required = false)
+    private Collection<RequestOperator> components;
+    @Autowired(required = false)
+    private Collection<RequestOperatorFactory> componentFactories;
 
     @Override
-    protected void processConfiguredImplementations(final Set<RequestOperator> requestOperators)
-            throws ConfigurationException {
+    public void init() {
+        RequestOperatorRepository.instance = this;
+        Map<RequestOperatorKey, Producer<RequestOperator>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
         this.requestOperators.clear();
-        for (final RequestOperator op : requestOperators) {
-            try {
-                LOG.info("Registered IRequestOperator for {}", op.getRequestOperatorKeyType());
-                final boolean active = SettingsManager.getInstance().isActive(op.getRequestOperatorKeyType());
-                this.requestOperators
-                        .put(op.getRequestOperatorKeyType(), new Activatable<RequestOperator>(op, active));
-            } catch (final ConnectionProviderException cpe) {
-                throw new ConfigurationException("Error while checking RequestOperator", cpe);
-            }
+        this.requestOperators.putAll(implementations);
+    }
+
+    public RequestOperator getRequestOperator(RequestOperatorKey key) {
+        if (isActive(key)) {
+            Producer<RequestOperator> producer = this.requestOperators.get(key);
+            return producer == null ? null : producer.get();
+        } else {
+            return null;
         }
     }
 
-    @Override
-    public void update() throws ConfigurationException {
-        OperationHandlerRepository.getInstance().update();
-        super.update();
-    }
-
-    public RequestOperator getRequestOperator(final RequestOperatorKey key) {
-        final Activatable<RequestOperator> a = requestOperators.get(key);
-        return a == null ? null : a.get();
-    }
-
-    public RequestOperator getRequestOperator(final ServiceOperatorKey sok, final String operationName) {
+    public RequestOperator getRequestOperator(ServiceOperatorKey sok, String operationName) {
         return getRequestOperator(new RequestOperatorKey(sok, operationName));
     }
 
-    public void setActive(final RequestOperatorKey rokt, final boolean active) {
-        if (requestOperators.get(rokt) != null) {
-            requestOperators.get(rokt).setActive(active);
-        }
+    @Override
+    public void setActive(RequestOperatorKey rokt, boolean active) {
+        this.activation.setActive(rokt, active);
     }
 
     public Set<RequestOperatorKey> getActiveRequestOperatorKeys() {
-        return Activatable.filter(requestOperators).keySet();
+        return Activatables.activatedKeys(this.requestOperators, this.activation);
     }
 
+    @Deprecated
     public Set<RequestOperatorKey> getAllRequestOperatorKeys() {
-        return Collections.unmodifiableSet(requestOperators.keySet());
+        return getKeys();
+    }
+
+    @Override
+    public boolean isActive(RequestOperatorKey rok) {
+        return this.activation.isActive(rok);
+    }
+
+    @Override
+    public void registerListener(ActivationListener<RequestOperatorKey> listener) {
+        this.activation.registerListener(listener);
+    }
+
+    @Override
+    public void deregisterListener(ActivationListener<RequestOperatorKey> listener) {
+        this.activation.deregisterListener(listener);
+    }
+
+    @Override
+    public void activate(RequestOperatorKey key) {
+        this.activation.activate(key);
+    }
+
+    @Override
+    public void deactivate(RequestOperatorKey key) {
+        this.activation.deactivate(key);
+    }
+
+    @Override
+    public Set<RequestOperatorKey> getKeys() {
+        return Collections.unmodifiableSet(this.requestOperators.keySet());
+    }
+
+    @Deprecated
+    public static RequestOperatorRepository getInstance() {
+        return RequestOperatorRepository.instance;
     }
 }

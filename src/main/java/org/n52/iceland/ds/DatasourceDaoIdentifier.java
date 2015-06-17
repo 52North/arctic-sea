@@ -16,11 +16,14 @@
  */
 package org.n52.iceland.ds;
 
+@Deprecated
 public interface DatasourceDaoIdentifier {
-
+    @Deprecated
     String IDEPENDET_IDENTIFIER = "independet";
-    
+
+    @Deprecated
     String DATASOURCE_DAO_IDENTIFIER = "datasource.dao.identifier";
-    
+
+    @Deprecated
     String getDatasourceDaoIdentifier();
 }

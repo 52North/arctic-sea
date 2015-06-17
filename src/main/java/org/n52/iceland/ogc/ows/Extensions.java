@@ -23,16 +23,16 @@ import java.util.Set;
 import org.n52.iceland.util.StringHelper;
 
 public class Extensions {
-    
-    private final Set<Extension<?>> extensions = new HashSet<Extension<?>>(0);
-    
+
+    private final Set<Extension<?>> extensions = new HashSet<>();
+
     public Extensions() {
-        
+
     }
-    
+
     /**
      * @param extensionName
-     * 
+     *
      * @return <b><tt>true</tt></b>, only if the extension with the definition
      *         <tt>extensionName</tt> is holding a {@link Boolean} and is set to
      *         <tt>true</tt>.
@@ -52,15 +52,18 @@ public class Extensions {
         }
         return false;
     }
+  public boolean addExtension(Extensions extensions) {
+       return addExtension(extensions.getExtensions());
+    }
 
-    public boolean addExtension(final Collection<Extension<?>> extensions) {
+    public boolean addExtension(Collection<Extension<?>> extensions) {
        return getExtensions().addAll(extensions);
     }
-    
-    public boolean addExtension(final Extension<?> extensions) {
+
+    public boolean addExtension(Extension<?> extensions) {
         return getExtensions().add(extensions);
     }
-    
+
     public Set<Extension<?>> getExtensions() {
         return extensions;
     }
@@ -71,12 +74,9 @@ public class Extensions {
     }
 
     public boolean containsExtension(String identifier) {
-        for (Extension<?> extension : extensions) {
-            if (isExtensionNameEquals(identifier, (Extension<?>)extension)) {
-                return true;
-            }
-        }
-        return false;
+        return this.extensions.stream()
+                .filter(e -> isExtensionNameEquals(identifier, e))
+                .findAny().isPresent();
     }
 
     @SuppressWarnings("rawtypes")
@@ -85,12 +85,9 @@ public class Extensions {
     }
 
     public Extension<?> getExtension(String identifier) {
-        for (Extension<?> extension : extensions) {
-            if (isExtensionNameEquals(identifier, (Extension<?>)extension)) {
-                return extension;
-            }
-        }
-        return null;
+        return this.extensions.stream()
+                .filter(e -> isExtensionNameEquals(identifier, e))
+                .findFirst().orElse(null);
     }
 
     public boolean isEmpty() {
@@ -101,7 +98,7 @@ public class Extensions {
     public String toString() {
         return String.format("Extensions [extensions=%s]", getExtensions());
     }
-    
+
     protected boolean isExtensionNameEquals(final String extensionName, final Extension<?> swesExtension) {
         return checkExtensionDefinition(extensionName, swesExtension)
                 || checkExtensionIdentifier(extensionName, swesExtension)

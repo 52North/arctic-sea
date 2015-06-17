@@ -32,22 +32,17 @@ import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * Implemnentation of {@link AbstractServiceRequest} for OWS GetCapabilities
- * 
+ * Implementation of {@link AbstractServiceRequest} for OWS GetCapabilities
+ *
  * @since 1.0.0
  */
 public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabilitiesResponse> {
-    private String updateSequence;
-
-    private final List<String> acceptVersions = new LinkedList<String>();
-
-    private final List<String> sections = new LinkedList<String>();
-
-    private final List<String> acceptFormats = new LinkedList<String>();
-
+    private final List<String> acceptVersions = new LinkedList<>();
+    private final List<String> sections = new LinkedList<>();
+    private final List<String> acceptFormats = new LinkedList<>();
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
-
     private String capabilitiesId;
+    private String updateSequence;
 
     public GetCapabilitiesRequest(String service) {
         setService(service);
@@ -81,7 +76,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get accept Formats
-     * 
+     *
      * @return accept Formats
      */
     public List<String> getAcceptFormats() {
@@ -90,7 +85,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Set accept Formats
-     * 
+     *
      * @param acceptFormats
      *            accept Formats
      */
@@ -103,7 +98,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get accept versions
-     * 
+     *
      * @return accept versions
      */
     public List<String> getAcceptVersions() {
@@ -125,7 +120,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get sections
-     * 
+     *
      * @return sections
      */
     public List<String> getSections() {
@@ -134,7 +129,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Set sections
-     * 
+     *
      * @param sections
      *            sections
      */
@@ -147,7 +142,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Get update sequence
-     * 
+     *
      * @return update sequence
      */
     public String getUpdateSequence() {
@@ -156,7 +151,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     /**
      * Set update sequence
-     * 
+     *
      * @param updateSequence
      *            update sequence
      */
@@ -200,7 +195,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     /**
      * Get the response version from request, from set version, from
      * acceptVersions or from supported versions
-     * 
+     *
      * @return the response version
      * @throws OwsExceptionReport
      *             If the requested version is not supported

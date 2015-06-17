@@ -26,6 +26,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingConstants;
+import org.n52.iceland.binding.BindingKey;
+import org.n52.iceland.binding.MediaTypeBindingKey;
+import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
@@ -37,6 +40,7 @@ import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
@@ -48,6 +52,18 @@ public class PoxBinding extends AbstractXmlBinding {
 
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
+
+     private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
+            .add(new PathBindingKey(BindingConstants.POX_BINDING_ENDPOINT))
+            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_XML))
+            .add(new MediaTypeBindingKey(MediaTypes.TEXT_XML))
+            .build();
+
+    @Override
+    public Set<BindingKey> getKeys() {
+        return Collections.unmodifiableSet(KEYS);
+    }
+
 
     @Override
     public void doPostOperation(HttpServletRequest req,
@@ -79,14 +95,14 @@ public class PoxBinding extends AbstractXmlBinding {
     }
 
     @Override
-    public String getUrlPattern() {
-        return BindingConstants.POX_BINDING_ENDPOINT;
-    }
-
-    @Override
     public boolean checkOperationHttpPostSupported(OperationKey k) {
         return hasDecoder(k, MediaTypes.TEXT_XML) ||
                hasDecoder(k, MediaTypes.APPLICATION_XML);
+    }
+
+    @Override
+    protected MediaType getDefaultContentType() {
+        return MediaTypes.APPLICATION_XML;
     }
 
     @Override
@@ -95,7 +111,9 @@ public class PoxBinding extends AbstractXmlBinding {
     }
 
     @Override
-    protected MediaType getDefaultContentType() {
-        return MediaTypes.APPLICATION_XML;
+    public String getUrlPattern() {
+        return BindingConstants.POX_BINDING_ENDPOINT;
     }
+
 }
+

@@ -16,60 +16,32 @@
  */
 package org.n52.iceland.service;
 
-import java.util.Collections;
-import java.util.Set;
-
-import org.n52.iceland.config.SettingDefinition;
-import org.n52.iceland.config.SettingDefinitionGroup;
-import org.n52.iceland.config.SettingDefinitionProvider;
-import org.n52.iceland.config.settings.BooleanSettingDefinition;
-import org.n52.iceland.config.settings.UriSettingDefinition;
-
-import com.google.common.collect.Sets;
-
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
  * @since 4.0.0
  */
-public class ServiceSettings implements SettingDefinitionProvider {
-    
-    public static final String NAME = "Service";
+public interface ServiceSettings {
 
-    public static final String SERVICE_URL = "service.url";
+    String SERVICE_URL = "service.sosUrl";
 
-    public static final String  VALIDATE_RESPONSE = "service.response.validate";
+    //  String SUPPORTS_QUALITY = "service.supportsQuality";
+    String SENSOR_DIRECTORY = "service.sensorDirectory";
 
-    public static final SettingDefinitionGroup GROUP = new SettingDefinitionGroup().setTitle(NAME).setOrder(2);
-    
+    String USE_DEFAULT_PREFIXES = "service.useDefaultPrefixes";
 
-    public static final UriSettingDefinition SERVICE_URL_DEFINITION = new UriSettingDefinition()
-            .setGroup(GROUP)
-            .setOrder(ORDER_0)
-            .setKey(SERVICE_URL)
-            .setTitle("SOS URL")
-            .setDescription(
-                    "The endpoint URL of this sos which will be shown in the GetCapabilities response "
-                            + "(e.g. <code>http://localhost:8080/52nSOS/sos</code> or <code>http://localhost:8080/52nSOS/service</code>)."
-                            + " The path to a specific binding (like <code>/soap</code>) will appended to this URL."
-                            + " For detailed information, please read the <a href=\"https://wiki.52north.org/bin/view/SensorWeb/SensorObservationServiceIVDocumentation\">documentation</a>");
+    String ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR
+            = "service.encodeFullChildrenInDescribeSensor";
 
-    public static final BooleanSettingDefinition VALIDATE_RESPONSE_DEFINITION =
-            new BooleanSettingDefinition()
-                    .setGroup(GROUP)
-                    .setOrder(ORDER_16)
-                    .setKey(VALIDATE_RESPONSE)
-                    .setDefaultValue(false)
-                    .setTitle("Should this SOS validate the XML response in non debug mode?")
-                    .setDescription(
-                            "Whether the SOS should validate the XML response when the debug mode is disables!");
+    String MAX_GET_OBSERVATION_RESULTS = "service.maxGetObservationResults";
 
-    private static final Set<SettingDefinition<?, ?>> DEFINITIONS = Sets.<SettingDefinition<?, ?>> newHashSet(
-            SERVICE_URL_DEFINITION,
-            VALIDATE_RESPONSE_DEFINITION);
+    String DEREGISTER_JDBC_DRIVER = "service.jdbc.deregister";
 
-    @Override
-    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
-        return Collections.unmodifiableSet(DEFINITIONS);
-    }
+    String ADD_OUTPUTS_TO_SENSOR_ML = "service.addOutputsToSensorML";
+
+    String STRICT_SPATIAL_FILTERING_PROFILE
+            = "service.strictSpatialFilteringProfile";
+
+    String VALIDATE_RESPONSE = "service.response.validate";
+
 }

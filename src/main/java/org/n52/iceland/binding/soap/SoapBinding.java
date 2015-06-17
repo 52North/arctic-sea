@@ -28,6 +28,9 @@ import javax.xml.soap.SOAPConstants;
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingConstants;
+import org.n52.iceland.binding.BindingKey;
+import org.n52.iceland.binding.MediaTypeBindingKey;
+import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
@@ -57,18 +60,29 @@ import org.n52.iceland.w3c.wsa.WsaMessageIDHeader;
 import org.n52.iceland.w3c.wsa.WsaReplyToHeader;
 import org.n52.iceland.w3c.wsa.WsaToHeader;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 /**
  * {@link Binding} implementation for SOAP encoded requests
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class SoapBinding extends AbstractXmlBinding {
 
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_SOAP_BINDING);
+
+    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
+            .add(new PathBindingKey(BindingConstants.SOAP_BINDING_ENDPOINT))
+            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML))
+            .build();
+
+    @Override
+    public Set<BindingKey> getKeys() {
+        return Collections.unmodifiableSet(KEYS);
+    }
 
     @Override
     public String getUrlPattern() {
@@ -77,7 +91,8 @@ public class SoapBinding extends AbstractXmlBinding {
 
     @Override
     public boolean checkOperationHttpPostSupported(OperationKey k) {
-        return hasDecoder(k, MediaTypes.TEXT_XML) || hasDecoder(k, MediaTypes.APPLICATION_XML);
+        return hasDecoder(k, MediaTypes.TEXT_XML) ||
+               hasDecoder(k, MediaTypes.APPLICATION_XML);
     }
 
     @Override
@@ -211,7 +226,7 @@ public class SoapBinding extends AbstractXmlBinding {
 
     /**
      * Check the {@link MediaType}
-     * 
+     *
      * @param chain
      *            SoapChain to check
      * @return the valid {@link MediaType}
@@ -229,7 +244,7 @@ public class SoapBinding extends AbstractXmlBinding {
     /**
      * Check if SoapHeader information is contained in the body response and add
      * the header information to the {@link SoapResponse}
-     * 
+     *
      * @param chain
      *            SoapChain to check
      */

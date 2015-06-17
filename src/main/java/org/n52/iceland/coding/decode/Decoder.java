@@ -16,57 +16,55 @@
  */
 package org.n52.iceland.coding.decode;
 
-import java.util.Map;
+import java.util.Collections;
 import java.util.Set;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.UnsupportedDecoderInputException;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.service.ServiceConstants.SupportedTypeKey;
+import org.n52.iceland.service.ServiceConstants.SupportedType;
 
 /**
  * Generic interface for decoders.
- * 
+ *
  * @param <T>
  *            the result of the decoding process, the "Target"
  * @param <S>
  *            the input which is decoded, the "Source"
- * 
+ *
  * @since 4.0.0
  */
-public interface Decoder<T, S> extends ConformanceClass {
-    /**
-     * @return List encodings this implementation (identified by
-     *         {@link DecoderKey}) is able to decode
-     */
-    Set<DecoderKey> getDecoderKeyTypes();
+public interface Decoder<T, S> extends ConformanceClass, Component<DecoderKey> {
 
     /**
      * Decode a object to another representation.
-     * 
+     *
      * @param objectToDecode
-     *            the object to encode
-     * 
+     *                       the object to encode
+     *
      * @return the encoded object
-     * 
+     *
      * @throws OwsExceptionReport
-     *             if an error occurs
+     *                                          if an error occurs
      * @throws UnsupportedDecoderInputException
-     *             if the supplied type (or any of it's contents) is not
-     *             supported by this decoder
+     *                                          if the supplied type (or any of it's contents) is not
+     *                                          supported by this decoder
      */
-    T decode(S objectToDecode) throws OwsExceptionReport, UnsupportedDecoderInputException;
+    T decode(S objectToDecode)
+            throws OwsExceptionReport, UnsupportedDecoderInputException;
 
     /**
-     * Get the {@linkplain SupportedTypeKey} in the case of having only generic
-     * java types, e.g. {@linkplain org.n52.sos.ogc.om.OmConstants}. In this
-     * case, the returned list provides a mapping from Type &rarr; SubType (e.g.
-     * {@linkplain org.n52.sos.service.ServiceConstants}
-     * .SupportedTypeKey.ObservationType &rarr;
-     * {@linkplain org.n52.sos.ogc.om.OmConstants}
-     * .OBS_TYPE_CATEGORY_OBSERVATION}).
-     * 
+     * Gets the supported types of this decoder.
+     *
      * @return the supported key types
      */
-    Map<SupportedTypeKey, Set<String>> getSupportedTypes();
+    default Set<SupportedType> getSupportedTypes() {
+        return Collections.emptySet();
+    }
+
+    @Deprecated
+    default Set<DecoderKey> getDecoderKeyTypes() {
+        return getKeys();
+    }
 }

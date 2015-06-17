@@ -16,12 +16,16 @@
  */
 package org.n52.iceland.ogc.sos;
 
+import java.util.Objects;
+
+import com.google.common.collect.ComparisonChain;
+
 
 /**
  * {@link CapabilitiesExtension} key class to identify CapabilitiesExtensions.
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
 public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensionKey> {
     private String service;
@@ -32,26 +36,25 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
      * Default constructor
      */
     public CapabilitiesExtensionKey() {
-        super();
+        this(null, null);
     }
 
     /**
      * Constructor
-     * 
+     *
      * @param service
      *            Related service
      * @param version
      *            Related version
      */
     public CapabilitiesExtensionKey(String service, String version) {
-        super();
         this.service = service;
         this.version = version;
     }
 
     /**
      * Get the key service
-     * 
+     *
      * @return Key servcice
      */
     public String getService() {
@@ -60,7 +63,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /**
      * Set the key service
-     * 
+     *
      * @param service
      *            service to set
      */
@@ -70,7 +73,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /**
      * Get the key version
-     * 
+     *
      * @return Key version
      */
     public String getVersion() {
@@ -79,7 +82,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     /**
      * Set the key version
-     * 
+     *
      * @param version
      *            version to set
      */
@@ -89,41 +92,35 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
 
     @Override
     public int compareTo(CapabilitiesExtensionKey o) {
-        if (o instanceof CapabilitiesExtensionKey) {
-            if (service.equals(o.service) && version.equals(o.version)) {
-                return 0;
-            }
-            return 1;
-        }
-        return -1;
+        return ComparisonChain.start()
+                .compare(getService(), o.getService())
+                .compare(getVersion(), o.getVersion())
+                .result();
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
     public boolean equals(Object paramObject) {
         if (service != null && version != null && paramObject instanceof CapabilitiesExtensionKey) {
             CapabilitiesExtensionKey toCheck = (CapabilitiesExtensionKey) paramObject;
-            return (service.equals(toCheck.service) && version.equals(toCheck.version));
+            return Objects.equals(getService(), toCheck.getService()) &&
+                   Objects.equals(getVersion(), toCheck.getVersion());
         }
         return false;
     }
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see java.lang.Object#hashCode()
      */
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int hash = 7;
-        hash = prime * hash + ((this.service != null) ? this.service.hashCode() : 0);
-        hash = prime * hash + ((this.version != null) ? this.version.hashCode() : 0);
-        return hash;
+        return Objects.hash(getService(), getVersion());
     }
 
     @Override

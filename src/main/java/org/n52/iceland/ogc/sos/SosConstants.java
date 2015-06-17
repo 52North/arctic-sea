@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
  * SosConstants holds all important and often used constants of OGC SOS (e.g.
  * name of the getCapabilities operation) that are global between all supported
  * versions
- * 
+ *
  * @since 1.0.0
  */
 public interface SosConstants extends OWSConstants {
@@ -116,7 +116,8 @@ public interface SosConstants extends OWSConstants {
     /**
      * Array of constants for response mode.
      */
-    Set<String> RESPONSE_MODES = ImmutableSet.of(RESPONSE_MODE_INLINE, RESPONSE_RESULT_TEMPLATE);
+    Set<String> RESPONSE_MODES = ImmutableSet.of(RESPONSE_MODE_INLINE,
+                                                 RESPONSE_RESULT_TEMPLATE);
 
     String MIN_VALUE = "MinValue";
 
@@ -141,18 +142,29 @@ public interface SosConstants extends OWSConstants {
      * specification
      */
     enum Operations {
-        GetCapabilities, GetObservation, GetObservationById, DescribeSensor, InsertObservation, GetResult, GetFeatureOfInterest;
+        GetCapabilities,
+        GetObservation,
+        GetObservationById,
+        DescribeSensor,
+        InsertObservation,
+        GetResult,
+        GetFeatureOfInterest;
     }
 
     enum Filter {
-        TimePeriod, TimeInstant;
+        TimePeriod,
+        TimeInstant;
     }
 
     /**
      * enum with names of Capabilities sections supported by all versions
      */
     enum CapabilitiesSections {
-        ServiceIdentification, ServiceProvider, OperationsMetadata, Contents, All;
+        ServiceIdentification,
+        ServiceProvider,
+        OperationsMetadata,
+        Contents,
+        All;
     }
 
     /**
@@ -160,7 +172,20 @@ public interface SosConstants extends OWSConstants {
      * versions
      */
     enum GetObservationParams {
-        srsName, resultType, startPosition, maxRecords, offering, procedure, observedProperty, featureOfInterest, result, responseFormat, resultModel, responseMode, SortBy, BBOX;
+        srsName,
+        resultType,
+        startPosition,
+        maxRecords,
+        offering,
+        procedure,
+        observedProperty,
+        featureOfInterest,
+        result,
+        responseFormat,
+        resultModel,
+        responseMode,
+        SortBy,
+        BBOX;
     }
 
     /**

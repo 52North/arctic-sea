@@ -16,73 +16,83 @@
  */
 package org.n52.iceland.convert;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
-import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.util.Producer;
 
 import com.google.common.collect.Sets;
 
 /**
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 @SuppressWarnings("rawtypes")
-public class ConverterRepository extends AbstractConfiguringServiceLoaderRepository<Converter> {
+public class ConverterRepository extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory> implements Constructable {
+    @Deprecated
+    private static ConverterRepository instance;
 
-	private static class LazyHolder {
-		private static final ConverterRepository INSTANCE = new ConverterRepository();
-		
-		private LazyHolder() {};
-	}
+    private Collection<Converter<?, ?>> components;
+    private Collection<ConverterFactory> componentFactories;
 
+    private final Map<ConverterKey, Producer<Converter<?, ?>>> converter
+            = new HashMap<>(0);
 
-    public static ConverterRepository getInstance() {
-        return LazyHolder.INSTANCE;
+    @Autowired(required = false)
+    public void setComponentFactories(Collection<ConverterFactory> componentFactories) {
+        this.componentFactories = componentFactories;
     }
 
-    private final Map<ConverterKeyType, Converter<?, ?>> converter = new HashMap<ConverterKeyType, Converter<?, ?>>(0);
-
-    private ConverterRepository() {
-        super(Converter.class, false);
-        load(false);
+    @Autowired(required = false)
+    public void setComponents(Collection<Converter<?, ?>> components) {
+        this.components = components;
     }
 
     @Override
-    protected void processConfiguredImplementations(final Set<Converter> converter) throws ConfigurationException {
-        this.converter.clear();
-        for (final Converter<?, ?> aConverter : converter) {
-            for (final ConverterKeyType converterKeyType : aConverter.getConverterKeyTypes()) {
-                this.converter.put(converterKeyType, aConverter);
-            }
-        }
+    public void init() {
+        ConverterRepository.instance = this;
         // TODO check for encoder/decoder used by converter
+        Map<ConverterKey, Producer<Converter<?, ?>>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
+        this.converter.clear();
+        this.converter.putAll(implementations);
     }
 
+
     public <T, F> Converter<T, F> getConverter(final String fromNamespace, final String toNamespace) {
-        return getConverter(new ConverterKeyType(fromNamespace, toNamespace));
+        return getConverter(new ConverterKey(fromNamespace, toNamespace));
     }
 
     @SuppressWarnings("unchecked")
-    public <T, F> Converter<T, F> getConverter(final ConverterKeyType key) {
-        return (Converter<T, F>) converter.get(key);
+    public <T, F> Converter<T, F> getConverter(final ConverterKey key) {
+        Supplier<Converter<?, ?>> producer = converter.get(key);
+        if (producer == null) {
+            return null;
+        }
+        return (Converter<T, F>) producer.get();
     }
 
     /**
      * Get all namespaces for which a converter is available to convert from
      * requested format to default format
-     * 
+     *
      * @param toNamespace
-     *            Requested format
+     *                    Requested format
+     *
      * @return Swt with all possible formats
      */
     public Set<String> getFromNamespaceConverterTo(final String toNamespace) {
         final Set<String> fromNamespaces = Sets.newHashSet();
-        for (final ConverterKeyType converterKey : converter.keySet()) {
+        for (final ConverterKey converterKey : converter.keySet()) {
             if (toNamespace.equals(converterKey.getToNamespace())) {
                 fromNamespaces.add(converterKey.getFromNamespace());
             }
@@ -93,14 +103,24 @@ public class ConverterRepository extends AbstractConfiguringServiceLoaderReposit
     /**
      * Checks if a converter is available to convert the stored object from the
      * default format to the requested format
-     * 
+     *
      * @param fromNamespace
-     *            Default format
+     *                      Default format
      * @param toNamespace
-     *            Requested fromat
+     *                      Requested fromat
+     *
      * @return If a converter is available
      */
     public boolean hasConverter(final String fromNamespace, final String toNamespace) {
-        return getConverter(new ConverterKeyType(fromNamespace, toNamespace)) != null;
+        return hasConverter(new ConverterKey(fromNamespace, toNamespace));
+    }
+
+    public boolean hasConverter(ConverterKey key) {
+        return this.converter.containsKey(key);
+    }
+
+    @Deprecated
+    public static ConverterRepository getInstance() {
+        return ConverterRepository.instance;
     }
 }

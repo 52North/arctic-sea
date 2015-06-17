@@ -31,7 +31,7 @@ import org.n52.iceland.config.settings.NumericSettingDefinition;
 import org.n52.iceland.config.settings.StringSettingDefinition;
 import org.n52.iceland.config.settings.TimeInstantSettingDefinition;
 import org.n52.iceland.config.settings.UriSettingDefinition;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.concrete.DateTimeParseException;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
@@ -55,8 +55,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newBooleanSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Boolean> newBooleanSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<Boolean> newBooleanSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newBooleanSettingValue().setValue(parseBoolean(stringValue)).setKey(setting.getKey());
     }
 
@@ -65,8 +64,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newIntegerSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Integer> newIntegerSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<Integer> newIntegerSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newIntegerSettingValue().setValue(parseInteger(stringValue)).setKey(setting.getKey());
     }
 
@@ -75,8 +73,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newNumericSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Double> newNumericSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<Double> newNumericSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newNumericSettingValue().setValue(parseDouble(stringValue)).setKey(setting.getKey());
     }
 
@@ -85,8 +82,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newStringSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<String> newStringSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<String> newStringSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newStringSettingValue().setValue(parseString(stringValue)).setKey(setting.getKey());
     }
 
@@ -95,8 +91,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newFileSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<File> newFileSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<File> newFileSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newFileSettingValue().setValue(parseFile(stringValue)).setKey(setting.getKey());
     }
 
@@ -105,8 +100,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newUriSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<URI> newUriSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<URI> newUriSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newUriSettingValue().setValue(parseUri(stringValue)).setKey(setting.getKey());
     }
 
@@ -115,8 +109,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newTimeInstantSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<TimeInstant> newTimeInstantSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting,
-            String stringValue) {
+    private SettingValue<TimeInstant> newTimeInstantSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         return newTimeInstantSettingValue().setValue(parseTimeInstant(stringValue)).setKey(setting.getKey());
     }
 
@@ -136,10 +129,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     private SettingValue<String> newChoiceSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         ChoiceSettingDefinition def = (ChoiceSettingDefinition) setting;
-        if (!def.hasOption(stringValue)) {
-            throw new ConfigurationException("Invalid choice value");
+        if (stringValue != null && !def.hasOption(stringValue)) {
+            throw new ConfigurationError("Invalid choice value");
         }
-       return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
+        return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
     }
 
 
@@ -182,14 +175,14 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected Boolean parseBoolean(String stringValue) throws IllegalArgumentException {
+    public Boolean parseBoolean(String stringValue) throws IllegalArgumentException {
         if (nullOrEmpty(stringValue)) {
             return Boolean.FALSE;
         }
-        stringValue = stringValue.trim().toLowerCase();
-        if (VALID_FALSE_VALUES.contains(stringValue)) {
+        String trimmedLowerCase = stringValue.trim().toLowerCase();
+        if (VALID_FALSE_VALUES.contains(trimmedLowerCase)) {
             return Boolean.FALSE;
-        } else if (VALID_TRUE_VALUES.contains(stringValue)) {
+        } else if (VALID_TRUE_VALUES.contains(trimmedLowerCase)) {
             return Boolean.TRUE;
         } else {
             throw new IllegalArgumentException(String.format("'%s' is not a valid boolean value", stringValue));
@@ -208,7 +201,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected File parseFile(String stringValue) throws IllegalArgumentException {
+    public File parseFile(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : new File(stringValue);
     }
 
@@ -224,7 +217,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected Integer parseInteger(String stringValue) throws IllegalArgumentException {
+    public Integer parseInteger(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : Integer.valueOf(stringValue, 10);
     }
 
@@ -240,7 +233,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected Double parseDouble(String stringValue) throws IllegalArgumentException {
+    public Double parseDouble(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : Double.parseDouble(stringValue);
     }
 
@@ -256,7 +249,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected URI parseUri(String stringValue) throws IllegalArgumentException {
+    public URI parseUri(String stringValue) throws IllegalArgumentException {
         if (nullOrEmpty(stringValue)) {
             return null;
         }
@@ -279,7 +272,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected String parseString(String stringValue) {
+    public String parseString(String stringValue) {
         return nullOrEmpty(stringValue) ? null : stringValue;
     }
 
@@ -295,7 +288,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
-    protected TimeInstant parseTimeInstant(String stringValue) {
+    public TimeInstant parseTimeInstant(String stringValue) {
         if (nullOrEmpty(stringValue)) {
             return null;
         } else {
@@ -306,7 +299,8 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
             }
         }
     }
-     private MultilingualString parseMultilingualString(String stringValue) {
+
+    public MultilingualString parseMultilingualString(String stringValue) {
         MultilingualString ms = new MultilingualString();
         if (!nullOrEmpty(stringValue)) {
             JsonNode json = JSONUtils.loadString(stringValue);
@@ -367,7 +361,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * @param stringValue
-     *            <p/>
+     *
      * @return <code>stringValue == null || stringValue.trim().isEmpty()</code>
      */
     protected boolean nullOrEmpty(String stringValue) {

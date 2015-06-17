@@ -21,14 +21,17 @@ import java.util.Set;
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.ogc.OGCConstants;
+import org.n52.iceland.service.ServiceConstants.ObservationType;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.w3c.SchemaLocation;
 
 import com.google.common.collect.ImmutableSet;
 
 /**
+ * Class contains element names and namespaces used to encode the O&M responses.
+ *
  * Interface contains element names and namespaces used to encode the OGC O&M responses.
- * 
+ *
  * @since 1.0.0
  */
 public interface OmConstants {
@@ -47,7 +50,7 @@ public interface OmConstants {
     String NS_GMD_PREFIX = "gmd";
 
     String NS_WV = "http://www.n52.org/wv";
-    
+
     String SCHEMA_LOCATION_URL_OM = "http://schemas.opengis.net/om/1.0.0/om.xsd";
 
     String SCHEMA_LOCATION_URL_OM_CONSTRAINT =
@@ -122,7 +125,7 @@ public interface OmConstants {
     String EN_OBSERVATION_COLLECTION = "ObservationCollection";
 
     String EN_OBSERVATION = "Observation";
-    
+
     String EN_OM_OBSERVATION = "OM_Observation";
 
     String EN_TYPE = "type";
@@ -140,15 +143,15 @@ public interface OmConstants {
     String EN_PROCEDURE = "procedure";
 
     String EN_PHENOMENON_TIME = "phenomenonTime";
-    
+
     String EN_RESULT_TIME = "resultTime";
 
     String EN_FEATURE_OF_INTEREST = "featureOfInterest";
 
     String EN_PROCESS = "Process";
-    
+
     String EN_PARAMETER = "parameter";
-    
+
     String EN_NAMED_VALUE = "NamedValue";
 
     // /////////////////////////////////////////////////////////////////////////////////
@@ -156,11 +159,11 @@ public interface OmConstants {
     String PHEN_SAMPLING_TIME = "http://www.opengis.net/def/property/OGC/0/SamplingTime";
 
     String PHENOMENON_TIME = "http://www.opengis.net/def/property/OGC/0/PhenomenonTime";
-    
+
     String RESULT_TIME = "http://www.opengis.net/def/property/OGC/0/ResultTime";
 
     String PHENOMENON_TIME_NAME = EN_PHENOMENON_TIME;
-    
+
     String SAMPLING_TIME_NAME = "samplingTime";
 
     String PHEN_UOM_ISO8601 = "http://www.opengis.net/def/uom/ISO-8601/0/Gregorian";
@@ -222,7 +225,7 @@ public interface OmConstants {
      */
     Set<QName> RESULT_MODELS = ImmutableSet.of(RESULT_MODEL_OBSERVATION, RESULT_MODEL_MEASUREMENT,
             RESULT_MODEL_CATEGORY_OBSERVATION, RESULT_MODEL_GEOMETRY_OBSERVATION);
-    
+
     String VALUE_REF_OM_OBSERVATION = NS_OM_PREFIX + ":observation";
 
     QName QN_OM_20_OBSERVATION = new QName(NS_OM_2, EN_OM_OBSERVATION, NS_OM_PREFIX);
@@ -230,13 +233,13 @@ public interface OmConstants {
     QName QN_OM_20_OBSERVATION_TYPE = new QName(NS_OM_2, EN_TYPE, NS_OM_PREFIX);
 
     QName QN_OM_20_PHENOMENON_TIME = new QName(NS_OM_2, EN_PHENOMENON_TIME, NS_OM_PREFIX);
-    
+
     QName QN_OM_20_RESULT_TIME = new QName(NS_OM_2, EN_RESULT_TIME, NS_OM_PREFIX);
 
     QName QN_OM_20_PROCEDURE = new QName(NS_OM_2, EN_PROCEDURE, NS_OM_PREFIX);
-    
+
     QName QN_OM_20_OBSERVED_PROPERTY = new QName(NS_OM_2, EN_OBSERVED_PROPERTY, NS_OM_PREFIX);
-    
+
     QName QN_OM_20_FEATURE_OF_INTEREST = new QName(NS_OM_2, EN_FEATURE_OF_INTEREST, NS_OM_PREFIX);
 
     QName QN_OM_20_RESULT = new QName(NS_OM_2, EN_RESULT, NS_OM_PREFIX);
@@ -244,5 +247,21 @@ public interface OmConstants {
     QName QN_OM_20_PARAMETER = new QName(NS_OM_2, EN_PARAMETER, NS_OM_PREFIX);
 
     QName QN_OM_20_NAMED_VALUE = new QName(NS_OM_2, EN_NAMED_VALUE, NS_OM_PREFIX);
-    
+
+    ObservationType OBS_TYPE_CATEGORY_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_CATEGORY_OBSERVATION);
+    ObservationType OBS_TYPE_COMPLEX_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_COMPLEX_OBSERVATION);
+    ObservationType OBS_TYPE_COUNT_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_COUNT_OBSERVATION);
+    ObservationType OBS_TYPE_GEOMETRY_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_GEOMETRY_OBSERVATION);
+    ObservationType OBS_TYPE_TEXT_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_TEXT_OBSERVATION);
+    ObservationType OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_SWE_ARRAY_OBSERVATION);
+    ObservationType OBS_TYPE_TRUTH_OBSERVATION_TYPE
+            = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
+    ObservationType OBS_TYPE_MEASUREMENT_TYPE
+            = new ObservationType(OBS_TYPE_MEASUREMENT);
 }

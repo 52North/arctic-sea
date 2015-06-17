@@ -19,16 +19,21 @@ package org.n52.iceland.binding;
 import java.io.IOException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.coding.CodingRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
+import org.n52.iceland.coding.decode.DecoderRepository;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
+import org.n52.iceland.coding.encode.EncoderRepository;
 import org.n52.iceland.coding.encode.ExceptionEncoderKey;
 import org.n52.iceland.coding.encode.OperationEncoderKey;
 import org.n52.iceland.event.ServiceEventBus;
@@ -54,22 +59,75 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HTTPUtils;
 import org.n52.iceland.util.http.MediaType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public abstract class SimpleBinding extends Binding {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);
     public static final String QUALITY = "q";
 
+    private ServiceEventBus eventBus;
+    @Deprecated
+    private ServiceConfiguration serviceConfiguration;
+    private ServiceOperatorRepository serviceOperatorRepository;
+    private EncoderRepository encoderRepository;
+    private DecoderRepository decoderRepository;
+
+    @Inject
+    public void setEventBus(ServiceEventBus eventBus) {
+        this.eventBus = eventBus;
+    }
+
+    public ServiceEventBus getEventBus() {
+        return eventBus;
+    }
+
+    @Inject
+    @Deprecated
+    public void setServiceConfiguration(ServiceConfiguration config) {
+        this.serviceConfiguration = config;
+    }
+
+    @Deprecated
+    public ServiceConfiguration getServiceConfiguration() {
+        return serviceConfiguration;
+    }
+
+    @Inject
+    public void setServiceOperatorRepository(ServiceOperatorRepository repo) {
+        this.serviceOperatorRepository = repo;
+    }
+
+    public ServiceOperatorRepository getServiceOperatorRepository() {
+        return this.serviceOperatorRepository;
+    }
+
+    @Inject
+    public void setEncoderRepository(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
+    }
+
+    public EncoderRepository getEncoderRepository() {
+        return encoderRepository;
+    }
+
+    @Inject
+    public void setDecoderRepository(DecoderRepository decoderRepository) {
+        this.decoderRepository = decoderRepository;
+    }
+
+    public DecoderRepository getDecoderRepository() {
+        return decoderRepository;
+    }
+
+    @Deprecated
     protected boolean isUseHttpResponseCodes() {
-        return ServiceConfiguration.getInstance().isUseHttpStatusCodesInKvpAndPoxBinding();
+        return this.serviceConfiguration.isUseHttpStatusCodesInKvpAndPoxBinding();
     }
 
     protected RequestContext getRequestContext(HttpServletRequest req) {
@@ -84,24 +142,20 @@ public abstract class SimpleBinding extends Binding {
         return getServiceOperatorRepository().isServiceSupported(service);
     }
 
-    protected ServiceOperatorRepository getServiceOperatorRepository() {
-        return ServiceOperatorRepository.getInstance();
-    }
-
     protected <F, T> Decoder<F, T> getDecoder(DecoderKey key) {
-        return CodingRepository.getInstance().getDecoder(key);
+        return this.decoderRepository.getDecoder(key);
     }
 
     protected <F, T> Encoder<F, T> getEncoder(EncoderKey key) {
-        return CodingRepository.getInstance().getEncoder(key);
+        return this.encoderRepository.getEncoder(key);
     }
 
     protected boolean hasDecoder(DecoderKey key) {
-        return CodingRepository.getInstance().hasDecoder(key);
+        return this.decoderRepository.hasDecoder(key);
     }
 
     protected boolean hasEncoder(EncoderKey key) {
-        return CodingRepository.getInstance().hasEncoder(key);
+        return this.encoderRepository.hasEncoder(key);
     }
 
     protected boolean hasDecoder(OperationKey key, MediaType mediaType) {
@@ -180,24 +234,22 @@ public abstract class SimpleBinding extends Binding {
         throw new HTTPException(HTTPStatus.NOT_ACCEPTABLE);
     }
 
-    protected ServiceOperator getServiceOperator(ServiceOperatorKey sokt) throws OwsExceptionReport {
+    protected ServiceOperator getServiceOperator(ServiceOperatorKey sokt) {
         return getServiceOperatorRepository().getServiceOperator(sokt);
     }
 
     protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        for (ServiceOperatorKey sokt : request.getServiceOperatorKeyType()) {
-            ServiceOperator so = getServiceOperator(sokt);
-            if (so != null) {
-                return so;
+        return request.getServiceOperatorKeyType().stream()
+                .map(this::getServiceOperator)
+                .findFirst()
+                .orElseThrow(() -> {
+            if (request instanceof GetCapabilitiesRequest) {
+                return new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
+            } else {
+                return new InvalidServiceOrVersionException(request.getService(), request.getVersion());
             }
-        }
-        // no operator found
-        if (request instanceof GetCapabilitiesRequest) {
-            throw new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
-        } else {
-            throw new InvalidServiceOrVersionException(request.getService(), request.getVersion());
-        }
+        });
     }
 
     protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {
@@ -245,7 +297,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected Object encodeResponse(AbstractServiceResponse response, MediaType contentType) throws OwsExceptionReport {
         OperationEncoderKey key = new OperationEncoderKey(response.getOperationKey(), contentType);
-        Encoder<Object, AbstractServiceResponse> encoder = CodingRepository.getInstance().getEncoder(key);
+        Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
@@ -255,7 +307,7 @@ public abstract class SimpleBinding extends Binding {
     protected void writeOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
             OwsExceptionReport oer) throws HTTPException {
         try {
-            ServiceEventBus.fire(new ExceptionEvent(oer));
+            this.eventBus.submit(new ExceptionEvent(oer));
             MediaType contentType =
                     chooseResponseContentTypeForExceptionReport(HTTPUtils.getAcceptHeader(request),
                             getDefaultContentType());
@@ -264,9 +316,7 @@ public abstract class SimpleBinding extends Binding {
                 response.setStatus(oer.getStatus().getCode());
             }
             HTTPUtils.writeObject(request, response, contentType, encoded);
-        } catch (IOException e) {
-            throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
-        } catch (OwsExceptionReport e) {
+        } catch (IOException | OwsExceptionReport e) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
     }

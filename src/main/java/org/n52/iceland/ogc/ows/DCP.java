@@ -17,20 +17,24 @@
 package org.n52.iceland.ogc.ows;
 
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class DCP implements Comparable<DCP> {
-    private final String url;
+    private static final Comparator<DCP> COMPARATOR
+            = Comparator.nullsFirst(Comparator.comparing(DCP::getUrl, Comparator.nullsFirst(String::compareTo)));
 
+    private final String url;
     private final SortedSet<Constraint> constraints;
 
     public DCP(String url) {
@@ -40,9 +44,9 @@ public class DCP implements Comparable<DCP> {
     public DCP(String url, Set<Constraint> constraints) {
         this.url = url;
         if (constraints == null) {
-            this.constraints = new TreeSet<Constraint>();
+            this.constraints = new TreeSet<>();
         } else {
-            this.constraints = new TreeSet<Constraint>(constraints);
+            this.constraints = new TreeSet<>(constraints);
         }
     }
 
@@ -74,23 +78,18 @@ public class DCP implements Comparable<DCP> {
 
     @Override
     public String toString() {
-        return String.format("DCP[]", getUrl(), getConstraints());
+        return MoreObjects.toStringHelper(this)
+                .add("url", getUrl())
+                .add("constraints", getConstraints())
+                .toString();
     }
 
     @Override
     public int compareTo(DCP o) {
-        if (o == null) {
-            throw new NullPointerException();
-        }
+        return compare(this, o);
+    }
 
-        if (url == null ^ o.getUrl() == null) {
-            return (url == null) ? -1 : 1;
-        }
-
-        if (url == null && o.getUrl() == null) {
-            return 0;
-        }
-        
-        return url.compareTo(o.getUrl());
+    public static int compare(DCP o1, DCP o2) {
+        return COMPARATOR.compare(o1, o2);
     }
 }

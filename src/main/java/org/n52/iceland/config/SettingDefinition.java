@@ -16,15 +16,15 @@
  */
 package org.n52.iceland.config;
 
+import java.util.Optional;
+
 /**
- * 
+ *
  * Interface for setting definitions that can be used within the Service.
  * Defined settings will be presented in the administrator and installer view.
- * <p/>
- * 
- * @see SettingDefinitionProvider
+ *
  * @see SettingDefinitionGroup
- * @see SettingsManager
+ * @see SettingsService
  * @see org.n52.iceland.config.settings.FileSettingDefinition
  * @see org.n52.iceland.config.settings.BooleanSettingDefinition
  * @see org.n52.iceland.config.settings.IntegerSettingDefinition
@@ -35,7 +35,6 @@ package org.n52.iceland.config;
  *            The type of the implementing class
  * @param <T>
  *            The type of the value
- *            <p/>
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
@@ -65,10 +64,23 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
      */
     T getDefaultValue();
 
+    default Optional<T> getOptionalDefaultValue() {
+        if (hasDefaultValue()) {
+            return Optional.of(getDefaultValue());
+        } else {
+            return Optional.empty();
+        }
+    }
+
     /**
      * @return the group of this definition
      */
     SettingDefinitionGroup getGroup();
+
+
+    default SettingDefinitionGroup getGroup(SettingDefinitionGroup defaultGroup) {
+        return hasGroup() ? getGroup() : defaultGroup;
+    }
 
     /**
      * @return if this definition has a non empty title
@@ -93,10 +105,10 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
     /**
      * Sets the unique identifier of this setting definition, which can be
      * referenced by configurable classes.
-     * 
+     *
      * @param key
      *            the <b>unique</b> key
-     * 
+     *
      * @return this (for method chaining)
      */
     S setKey(String key);
@@ -104,10 +116,10 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
     /**
      * Sets the title of this setting definition, which will be presented to the
      * user.
-     * 
+     *
      * @param title
      *            the title
-     * 
+     *
      * @return this (for method chaining)
      */
     S setTitle(String title);
@@ -115,10 +127,10 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
     /**
      * Sets the description of this setting definition, which should further
      * describe the purpose of this setting. Can contain XHTML markup.
-     * 
+     *
      * @param description
      *            the description
-     * 
+     *
      * @return this (for method chaining)
      */
     S setDescription(String description);
@@ -126,10 +138,10 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
     /**
      * Sets whether this setting is optional or can be null. By default all
      * settings are required.
-     * 
+     *
      * @param optional
      *            if this setting is optional
-     * 
+     *
      * @return this (for method chaining)
      */
     S setOptional(boolean optional);
@@ -138,10 +150,10 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
      * Sets the default value of this setting. All required settings should have
      * a default setting to allow a smoother integration of new settings in old
      * configurations.
-     * 
+     *
      * @param defaultValue
      *            the default value
-     * 
+     *
      * @return this (for method chaining)
      */
     S setDefaultValue(T defaultValue);
@@ -149,10 +161,10 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
     /**
      * Sets the group of this definition. If no group is set, the setting will
      * be moved to a default group.
-     * 
+     *
      * @param group
      *            the group
-     * 
+     *
      * @return this (for method chaining)
      */
     S setGroup(SettingDefinitionGroup group);

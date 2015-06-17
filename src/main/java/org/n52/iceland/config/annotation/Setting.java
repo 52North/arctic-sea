@@ -26,15 +26,14 @@ import java.lang.annotation.Target;
 /**
  * Annotation that should be applied to a method that takes a single Setting as
  * a parameter. The parameter of this method should be of the same type as the
- * {@link org.n52.iceland.config.SettingDefinition} declared with the same
- * {@code key} in a {@link org.n52.iceland.config.SettingDefinitionProvider}.
+ * type of the associated {@link org.n52.iceland.config.SettingDefinition}.
  * <p/>
  * It is needed to apply the {@code Configurable} annotation to a class with a
  * method annotated with this annotations for the {@code SettingsManager} to
  * recognize it.
  * <p/>
  * <b>Example usage:</b>
- * 
+ *
  * <pre>
  * &#064;Setting(MiscellaneousSettingDefinitions.TOKEN_SEPERATOR_KEY)
  * public void setTokenSeperator(String separator) {
@@ -42,11 +41,11 @@ import java.lang.annotation.Target;
  * }
  * </pre>
  * <p/>
- * 
+ *
  * @see Configurable
  * @see org.n52.iceland.config.SettingDefinition
- * @see org.n52.iceland.config.SettingDefinitionProvider
- * @see org.n52.iceland.config.SettingsManager <p/>
+ * @see org.n52.iceland.config.SettingsService
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
@@ -58,8 +57,7 @@ public @interface Setting {
 
     /**
      * The key of the setting.
-     * <p/>
-     * 
+     *
      * @return the key
      */
     String value();

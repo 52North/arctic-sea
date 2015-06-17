@@ -17,24 +17,30 @@
 package org.n52.iceland.ogc.ows;
 
 public interface Extension<T> {
-    
+
     String getNamespace();
-    
+
     Extension<T> setNamespace(String namespace);
-    
-    boolean isSetNamespace();
-    
+
+    default boolean isSetNamespace() {
+        return getNamespace() != null && !getNamespace().isEmpty();
+    }
+
     String getIdentifier();
-    
+
     Extension<T> setIdentifier(String identifier);
-    
-    boolean isSetIdentifier();
+
+    default boolean isSetIdentifier() {
+        return getIdentifier() != null && !getIdentifier().isEmpty();
+    }
 
     String getDefinition();
 
     Extension<T> setDefinition(String definition);
-    
-    boolean isSetDefinition();
+
+    default boolean isSetDefinition() {
+        return getDefinition() != null && !getDefinition().isEmpty();
+    }
 
     T getValue();
 

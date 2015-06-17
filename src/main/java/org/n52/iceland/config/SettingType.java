@@ -19,6 +19,7 @@ package org.n52.iceland.config;
 import java.io.File;
 import java.net.URI;
 
+import org.n52.iceland.config.json.JsonConstants;
 import org.n52.iceland.i18n.LocalizedString;
 import org.n52.iceland.ogc.gml.time.TimeInstant;
 
@@ -68,5 +69,61 @@ public enum SettingType {
      * Type for a selection.
      */
     CHOICE;
+
+
+     public static SettingType fromString(String type) {
+        switch (type) {
+            case JsonConstants.INTEGER_TYPE:
+                return SettingType.INTEGER;
+            case JsonConstants.NUMBER_TYPE:
+                return SettingType.NUMERIC;
+            case JsonConstants.BOOLEAN_TYPE:
+                return SettingType.BOOLEAN;
+            case JsonConstants.TIME_INSTANT_TYPE:
+                return SettingType.TIMEINSTANT;
+            case JsonConstants.FILE_TYPE:
+                return SettingType.FILE;
+            case JsonConstants.STRING_TYPE:
+                return SettingType.STRING;
+            case JsonConstants.URI_TYPE:
+                return SettingType.URI;
+            case JsonConstants.MULTILINGUAL_TYPE:
+                return SettingType.MULTILINGUAL_STRING;
+            case JsonConstants.CHOICE_TYPE:
+                return SettingType.CHOICE;
+            default:
+                throw new IllegalArgumentException(String.format("Unknown Type %s", type));
+        }
+    }
+
+    public static String toString(SettingType type) {
+        switch (type) {
+            case INTEGER:
+                return JsonConstants.INTEGER_TYPE;
+            case NUMERIC:
+                return JsonConstants.NUMBER_TYPE;
+            case BOOLEAN:
+                return JsonConstants.BOOLEAN_TYPE;
+            case TIMEINSTANT:
+                return JsonConstants.TIME_INSTANT_TYPE;
+            case FILE:
+                return JsonConstants.FILE_TYPE;
+            case STRING:
+                return JsonConstants.STRING_TYPE;
+            case URI:
+                return JsonConstants.URI_TYPE;
+            case MULTILINGUAL_STRING:
+                return JsonConstants.MULTILINGUAL_TYPE;
+            case CHOICE:
+                return JsonConstants.CHOICE_TYPE;
+            default:
+                throw new IllegalArgumentException(String.format("Unknown Type %s", type));
+        }
+    }
+
+    @Override
+    public String toString() {
+        return toString(this);
+    }
 
 }

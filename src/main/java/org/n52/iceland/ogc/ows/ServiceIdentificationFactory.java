@@ -31,10 +31,11 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
-import org.n52.iceland.config.SettingsManager;
+import javax.inject.Inject;
+
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationException;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
@@ -52,23 +53,21 @@ import com.google.common.collect.Sets;
 public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServiceIdentification> {
 
     private File file;
-
     private String[] keywords;
-
     private MultilingualString title;
-
     private MultilingualString abstrakt;
-
     private String serviceType;
-
     private String serviceTypeCodeSpace;
-
     private String fees;
-
     private String[] constraints;
+    private Locale defaultLocale = Locale.ENGLISH;
 
-    public ServiceIdentificationFactory() throws ConfigurationException {
-        SettingsManager.getInstance().configure(this);
+    @Inject
+    private ServiceOperatorRepository serviceOperatorRepository;
+
+    @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
+    public void setDefaultLanguage(String lang) {
+        this.defaultLocale = LocaleHelper.fromString(lang);
     }
 
     @Setting(FILE)
@@ -88,50 +87,50 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     }
 
     @Setting(TITLE)
-    public void setTitle(Object title) throws ConfigurationException {
+    public void setTitle(Object title) throws ConfigurationError {
         Validation.notNull("Service Identification Title", title);
         if (title instanceof MultilingualString) {
             this.title = (MultilingualString) title;
         } else if (title instanceof String) {
-            Locale locale = LocaleHelper.fromString(I18NSettings.I18N_DEFAULT_LANGUAGE_DEFINITION.getDefaultValue());
-            this.title = new MultilingualString().addLocalization(locale, (String)title);
+            this.title = new MultilingualString()
+                    .addLocalization(this.defaultLocale, (String) title);
         } else {
-            throw new ConfigurationException(
+            throw new ConfigurationError(
                     String.format("%s is not supported as title!", title.getClass().getName()));
         }
         setRecreate();
     }
 
     @Setting(ABSTRACT)
-    public void setAbstract(Object description) throws ConfigurationException {
+    public void setAbstract(Object description) throws ConfigurationError {
         Validation.notNull("Service Identification Abstract", description);
         if (description instanceof MultilingualString) {
             this.abstrakt = (MultilingualString) description;
         } else if (description instanceof String) {
-            Locale locale = LocaleHelper.fromString(I18NSettings.I18N_DEFAULT_LANGUAGE_DEFINITION.getDefaultValue());
-            this.abstrakt = new MultilingualString().addLocalization(locale, (String)description);
+            this.abstrakt = new MultilingualString()
+                    .addLocalization(this.defaultLocale, (String) description);
         } else {
-            throw new ConfigurationException(
+            throw new ConfigurationError(
                     String.format("%s is not supported as abstract!", description.getClass().getName()));
         }
         setRecreate();
     }
 
     @Setting(SERVICE_TYPE)
-    public void setServiceType(String serviceType) throws ConfigurationException {
+    public void setServiceType(String serviceType) throws ConfigurationError {
         Validation.notNullOrEmpty("Service Identification Service Type", serviceType);
         this.serviceType = serviceType;
         setRecreate();
     }
 
     @Setting(SERVICE_TYPE_CODE_SPACE)
-    public void setServiceTypeCodeSpace(String serviceTypeCodeSpace) throws ConfigurationException {
+    public void setServiceTypeCodeSpace(String serviceTypeCodeSpace) throws ConfigurationError {
         this.serviceTypeCodeSpace = serviceTypeCodeSpace;
         setRecreate();
     }
 
     @Setting(FEES)
-    public void setFees(String fees) throws ConfigurationException {
+    public void setFees(String fees) {
         // Validation.notNullOrEmpty("Service Identification Fees", fees);
         this.fees = fees;
         setRecreate();
@@ -148,7 +147,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     }
 
     @Override
-    protected OwsServiceIdentification create(Locale language) throws ConfigurationException {
+    protected OwsServiceIdentification create(Locale language) throws ConfigurationError {
         if (this.file != null) {
             return createFromFile();
         } else {
@@ -170,7 +169,7 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         serviceIdentification.setFees(this.fees);
         serviceIdentification.setServiceType(this.serviceType);
         serviceIdentification.setServiceTypeCodeSpace(this.serviceTypeCodeSpace);
-        Set<String> supportedVersions = ServiceOperatorRepository.getInstance().getSupportedVersions(SosConstants.SOS);
+        Set<String> supportedVersions = this.serviceOperatorRepository.getSupportedVersions(SosConstants.SOS);
         serviceIdentification.setVersions(supportedVersions);
         if (this.keywords != null) {
             serviceIdentification.setKeywords(Arrays.asList(this.keywords));
@@ -178,13 +177,13 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         return serviceIdentification;
     }
 
-    private OwsServiceIdentification createFromFile() throws ConfigurationException {
+    private OwsServiceIdentification createFromFile() throws ConfigurationError {
         try {
             OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
             serviceIdentification.setServiceIdentification(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
             return serviceIdentification;
         } catch (OwsExceptionReport ex) {
-            throw new ConfigurationException(ex);
+            throw new ConfigurationError(ex);
         }
     }
 

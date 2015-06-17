@@ -16,37 +16,8 @@
  */
 package org.n52.iceland.service;
 
-import java.util.Collections;
-import java.util.Set;
+public interface StreamingSettings {
 
-import org.n52.iceland.config.SettingDefinition;
-import org.n52.iceland.config.SettingDefinitionGroup;
-import org.n52.iceland.config.SettingDefinitionProvider;
-import org.n52.iceland.config.settings.BooleanSettingDefinition;
-
-import com.google.common.collect.Sets;
-
-public class StreamingSettings implements SettingDefinitionProvider {
-
-    public static final String FORCE_STREAMING_ENCODING = "service.streaming.encoding";
-
-    public static final SettingDefinitionGroup GROUP = new SettingDefinitionGroup().setTitle("Streaming").setOrder(5);
-
-    public static final BooleanSettingDefinition FORCE_STREAMING_ENCODING_DEFINITION = new BooleanSettingDefinition()
-            .setGroup(GROUP)
-            .setOrder(ORDER_0)
-            .setKey(FORCE_STREAMING_ENCODING)
-            .setDefaultValue(false)
-            .setTitle("Should this service stream the XML responses?")
-            .setDescription(
-                    "Whether the service should stream the XML response! If true, the responses are not validated!");
-
-    private static final Set<SettingDefinition<?, ?>> DEFINITIONS = Sets.<SettingDefinition<?, ?>> newHashSet(
-            FORCE_STREAMING_ENCODING_DEFINITION);
-
-    @Override
-    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
-        return Collections.unmodifiableSet(DEFINITIONS);
-    }
+    String FORCE_STREAMING_ENCODING = "service.streaming.encoding";
 
 }

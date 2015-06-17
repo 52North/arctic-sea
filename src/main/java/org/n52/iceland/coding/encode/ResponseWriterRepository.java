@@ -16,88 +16,94 @@
  */
 package org.n52.iceland.coding.encode;
 
-import static org.n52.iceland.util.ClassHelper.getSimiliarity;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.iceland.exception.ConfigurationException;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Comparables;
+import org.n52.iceland.util.Producer;
 
 import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @author CarstenHollmann <c.hollmann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
-@SuppressWarnings("rawtypes")
-public class ResponseWriterRepository extends AbstractConfiguringServiceLoaderRepository<ResponseWriterFactory> {
-	private static class LazyHolder {
-		private static final ResponseWriterRepository INSTANCE = new ResponseWriterRepository();
-		
-		private LazyHolder() {};
-	}
+public class ResponseWriterRepository extends AbstractComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory> implements Constructable {
 
+    private static ResponseWriterRepository instance;
 
-    private final Map<Class<?>, ResponseWriterFactory<?,?>> writersByClass = CollectionHelper.synchronizedMap();
+    private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper.synchronizedMap();
 
-    private final Set<ResponseWriterFactory<?,?>> writers = CollectionHelper.synchronizedSet();
+    @Autowired(required = false)
+    private Collection<ResponseWriter<?>> components;
 
-    public ResponseWriterRepository() {
-        super(ResponseWriterFactory.class, false);
-        load(false);
-    }
-
-    public static ResponseWriterRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
+    @Autowired(required = false)
+    private Collection<ResponseWriterFactory> componentFactories;
 
     @Override
-    protected void processConfiguredImplementations(final Set<ResponseWriterFactory> implementations) throws ConfigurationException {
-        writersByClass.clear();
-        writers.clear();
-        for (final ResponseWriterFactory<?,?> i : implementations) {
-            writers.add(i);
-        }
+    public void init() {
+        ResponseWriterRepository.instance = this;
+        Map<ResponseWriterKey, Producer<ResponseWriter<?>>> implementations
+                = getUniqueProviders(this.components, this.componentFactories);
+        this.writersByClass.clear();
+        this.writersByClass.putAll(implementations);
     }
 
     @SuppressWarnings("unchecked")
-	public <T> ResponseWriter<T> getWriter(final Class<? extends T> clazz) {
-        if (!writersByClass.containsKey(clazz)) {
-            final Set<ResponseWriterFactory<?,?>> compatible = Sets.newHashSet();
-            for (final ResponseWriterFactory<?,?> w : writers) {
-                if (ClassHelper.getSimiliarity(w.getType(), clazz) >= 0) {
-                    compatible.add(w);
+    public <T> ResponseWriter<T> getWriter(final Class<? extends T> clazz) {
+        ResponseWriterKey key = new ResponseWriterKey(clazz);
+        if (!writersByClass.containsKey(key)) {
+            Set<Class<?>> compatible = Sets.newHashSet();
+            for (ResponseWriterKey c : writersByClass.keySet()) {
+                if (ClassHelper.getSimiliarity(c.getType(), clazz) >= 0) {
+                    compatible.add(c.getType());
                 }
             }
-            writersByClass.put(clazz, chooseWriter(compatible, clazz));
+            writersByClass.put(key, writersByClass.get(chooseWriter(compatible, clazz)));
         }
-        return (ResponseWriter<T>) writersByClass.get(clazz).getResponseWriter();
+        return (ResponseWriter<T>) writersByClass.get(key).get();
     }
 
-    private ResponseWriterFactory<?,?> chooseWriter(final Set<ResponseWriterFactory<?,?>> compatible, final Class<?> clazz) {
-        return compatible.isEmpty() ? null : Collections.min(compatible, new ResponseWriterFactoryComparator(clazz));
+	private  ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
+        if (compatible.isEmpty()) {
+            return null;
+        }
+        Comparator<Class<?>> comparator = new ClassSimilarityComparator(clazz);
+        return new ResponseWriterKey(Collections.min(compatible, comparator));
     }
 
-    private class ResponseWriterFactoryComparator implements Comparator<ResponseWriterFactory<?,?>> {
-        private final Class<?> clazz;
+    @Deprecated
+    public static ResponseWriterRepository getInstance() {
+        return ResponseWriterRepository.instance;
+    }
 
-        ResponseWriterFactoryComparator(final Class<?> clazz) {
-            this.clazz = clazz;
+    private static class ClassSimilarityComparator implements Serializable, Comparator<Class<?>> {
+        private static final long serialVersionUID = -377524541804891733L;
+        private final Class<?> reference;
+
+        ClassSimilarityComparator(Class<?> reference) {
+            this.reference = reference;
         }
 
         @Override
-        public int compare(final ResponseWriterFactory<?,?> o1, final ResponseWriterFactory<?,?> o2) {
-            return Comparables.compare(getSimiliarity(o1.getType(), clazz), getSimiliarity(o2.getType(), clazz));
+        public int compare(Class<?> c1, Class<?> c2) {
+            return Comparables.compare(ClassHelper.getSimiliarity(c1, reference),
+                                       ClassHelper.getSimiliarity(c2, reference));
         }
     }
 }

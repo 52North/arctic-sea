@@ -23,9 +23,9 @@ import com.google.common.base.Objects;
 /**
  * This class defines a key for {@link ServiceOperator} which contains the
  * service name and the service version.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
     private final String service;
@@ -34,7 +34,7 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     /**
      * Constructor
-     * 
+     *
      * @param service
      *            Service name
      * @param version
@@ -47,7 +47,7 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     /**
      * Get the service name
-     * 
+     *
      * @return The service name
      */
     public String getService() {
@@ -56,7 +56,7 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     /**
      * Check if the service name is not null.
-     * 
+     *
      * @return <code>true</code>, if the service name is not null.
      */
     public boolean hasService() {
@@ -65,7 +65,7 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     /**
      * Get the service version
-     * 
+     *
      * @return The service version
      */
     public String getVersion() {
@@ -74,7 +74,7 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     /**
      * Check if the service version is not null.
-     * 
+     *
      * @return <code>true</code>, if the service version is not null.
      */
     public boolean hasVersion() {
@@ -83,15 +83,18 @@ public class ServiceOperatorKey implements Comparable<ServiceOperatorKey> {
 
     @Override
     public int compareTo(ServiceOperatorKey other) {
-        return Comparables.chain(other).compare(getService(), other.getService())
-                .compare(getVersion(), other.getVersion()).result();
+        return Comparables.chain(other)
+                .compare(getService(), other.getService())
+                .compare(getVersion(), other.getVersion())
+                .result();
     }
 
     @Override
     public boolean equals(Object o) {
         if (o != null && o.getClass() == getClass()) {
             ServiceOperatorKey other = (ServiceOperatorKey) o;
-            return Objects.equal(getService(), other.getService()) && Objects.equal(getVersion(), other.getVersion());
+            return Objects.equal(getService(), other.getService()) &&
+                   Objects.equal(getVersion(), other.getVersion());
         }
         return false;
     }

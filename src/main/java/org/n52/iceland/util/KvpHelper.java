@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -29,22 +30,21 @@ import org.n52.iceland.exception.ows.MissingParameterValueException;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
 /**
  * Utility class for Key-Value-Pair (KVP) requests
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
 public final class KvpHelper {
     private KvpHelper() {
     }
 
     public static Map<String, String> getKvpParameterValueMap(HttpServletRequest req) {
-        Map<String, String> kvp = new HashMap<String, String>();
+        Map<String, String> kvp = new HashMap<>();
         Enumeration<?> parameterNames = req.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             // all key names to lower case
@@ -112,15 +112,11 @@ public final class KvpHelper {
     }
 
     private static String getParameterValue(String name, Map<String, String> map) {
-        if (map.containsKey(name)) {
-            return map.get(name);
-        }
-        for (String key : map.keySet()) {
-            if (key.equalsIgnoreCase(name)) {
-                return map.get(key);
-            }
-        }
-        return null;
+        return map.computeIfAbsent(name, key ->
+           map.entrySet().stream()
+                   .filter(e -> e.getKey().equalsIgnoreCase(key))
+                   .findFirst().map(Entry::getValue).orElse(null)
+        );
     }
 
     public static String getParameterValue(Enum<?> name, Map<String, String> map) {
@@ -129,7 +125,7 @@ public final class KvpHelper {
 
     /**
      * Perform a sanity check on the request parameter without considering version.
-     * 
+     *
      * @param value
      * @throws InvalidParameterValueException
      */

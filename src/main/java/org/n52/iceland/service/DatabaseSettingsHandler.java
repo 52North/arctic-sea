@@ -16,35 +16,91 @@
  */
 package org.n52.iceland.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
+
+import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.n52.iceland.util.AbstractServletContextPropertyFileHandler;
+import org.n52.iceland.exception.ConfigurationError;
+import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.util.ServletContextPropertyFileHandler;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
-public class DatabaseSettingsHandler extends AbstractServletContextPropertyFileHandler {
+public class DatabaseSettingsHandler implements Constructable {
 
-    public static final String INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION = "datasourceConfigLocation";
+    public static final String INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION
+            = "datasourceConfigLocation";
 
+    @Deprecated
     private static DatabaseSettingsHandler instance;
+    private ServletContextPropertyFileHandler handler;
 
-    public static synchronized DatabaseSettingsHandler getInstance() {
-        if (instance == null) {
-            throw new IllegalStateException("Not yet initialized");
-        }
+    @Inject
+    public void setServletContext(ServletContext ctx) {
+        String name = ctx
+                .getInitParameter(INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION);
+        this.handler = new ServletContextPropertyFileHandler(ctx, name);
+    }
+
+    @Override
+    public void init() {
+        DatabaseSettingsHandler.instance = this;
+    }
+
+    public boolean delete() {
+        return this.handler.delete();
+    }
+
+    public void delete(String key) {
+        this.handler.delete(key);
+    }
+
+    public boolean exists() {
+        return this.handler.exists();
+    }
+
+    public String get(String m)
+            throws ConfigurationError {
+        return this.handler.get(m);
+    }
+
+    public Properties getAll()
+            throws ConfigurationError {
+        return this.handler.getAll();
+    }
+
+    public File getFile(boolean create)
+            throws IOException {
+        return this.handler.getFile(create);
+    }
+
+    public String getPath() {
+        return this.handler.getPath();
+    }
+
+    public void save(String m, String value)
+            throws ConfigurationError {
+        this.handler.save(m, value);
+    }
+
+    public void saveAll(Properties properties)
+            throws ConfigurationError {
+        this.handler.saveAll(properties);
+    }
+
+    @Deprecated
+    public static DatabaseSettingsHandler getInstance() {
         return instance;
     }
 
-    public static synchronized DatabaseSettingsHandler getInstance(ServletContext ctx) {
-        if (instance == null) {
-            instance = new DatabaseSettingsHandler(ctx);
-        }
+    @Deprecated
+    public static DatabaseSettingsHandler getInstance(ServletContext ctx) {
         return instance;
     }
 
-    private DatabaseSettingsHandler(ServletContext ctx) {
-        super(ctx, ctx.getInitParameter(INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION));
-    }
 }

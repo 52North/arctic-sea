@@ -19,19 +19,22 @@ package org.n52.iceland.ogc.gml.time;
 import java.text.ParseException;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
+
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Constants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Class represents a GML conform timePeriod element.
- * 
+ *
  * @since 1.0.0
  */
 public class TimePeriod extends Time {
@@ -66,14 +69,14 @@ public class TimePeriod extends Time {
 
     /**
      * default constructor
-     * 
+     *
      */
     public TimePeriod() {
     }
 
     /**
      * constructor with start and end date as parameters
-     * 
+     *
      * @param start
      *            start date of the time period
      * @param end
@@ -86,7 +89,7 @@ public class TimePeriod extends Time {
 
     /**
      * constructor
-     * 
+     *
      * @param start
      *            start date of the time period
      * @param end
@@ -102,7 +105,7 @@ public class TimePeriod extends Time {
 
     /**
      * constructor
-     * 
+     *
      * @param start
      *            start date of the time period
      * @param startIndet
@@ -121,7 +124,7 @@ public class TimePeriod extends Time {
 
     /**
      * standard constructor
-     * 
+     *
      * @param start
      *            timeString of start position in ISO8601 format
      * @param startIndet
@@ -148,7 +151,7 @@ public class TimePeriod extends Time {
 
     /**
      * Constructor using {@link TimeInstant}s
-     * 
+     *
      * @param startTime
      *            Start TimeInstant
      * @param endTime
@@ -169,7 +172,7 @@ public class TimePeriod extends Time {
     /**
      * Constructor using Java {@link Date}s, setting unknown indeterminate
      * values if null
-     * 
+     *
      * @param start
      *            start Date
      * @param end
@@ -191,7 +194,7 @@ public class TimePeriod extends Time {
     /**
      * Constructor using Java {@link Object}s, setting unknown indeterminate
      * values if null
-     * 
+     *
      * @param start
      *            start {@link Object}
      * @param end
@@ -212,7 +215,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get duration
-     * 
+     *
      * @return Returns the duration.
      */
     public Period getDuration() {
@@ -221,7 +224,7 @@ public class TimePeriod extends Time {
 
     /**
      * Set duration
-     * 
+     *
      * @param duration
      *            The duration to set.
      */
@@ -231,7 +234,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get start time
-     * 
+     *
      * @return Returns the start.
      */
     public DateTime getStart() {
@@ -240,7 +243,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get start time, resolving indeterminate value if start is null
-     * 
+     *
      * @return Returns the resolved start time.
      */
     public DateTime resolveStart() {
@@ -249,7 +252,7 @@ public class TimePeriod extends Time {
 
     /**
      * Set start time
-     * 
+     *
      * @param start
      *            The start to set.
      */
@@ -259,7 +262,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get end time
-     * 
+     *
      * @return Returns the end.
      */
     public DateTime getEnd() {
@@ -268,7 +271,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get end time, resolving indeterminate value if start is null
-     * 
+     *
      * @return Returns the resolved end time.
      */
     public DateTime resolveEnd() {
@@ -277,7 +280,7 @@ public class TimePeriod extends Time {
 
     /**
      * Set end time
-     * 
+     *
      * @param end
      *            The end to set.
      */
@@ -287,7 +290,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get start indet time
-     * 
+     *
      * @return Returns the startIndet.
      */
     public TimeIndeterminateValue getStartIndet() {
@@ -296,7 +299,7 @@ public class TimePeriod extends Time {
 
     /**
      * Set start indet time
-     * 
+     *
      * @param startIndet
      *            The startIndet to set.
      */
@@ -306,7 +309,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get end indet time
-     * 
+     *
      * @return Returns the endIndet.
      */
     public TimeIndeterminateValue getEndIndet() {
@@ -315,7 +318,7 @@ public class TimePeriod extends Time {
 
     /**
      * Set end indet time
-     * 
+     *
      * @param endIndet
      *            The endIndet to set.
      */
@@ -325,7 +328,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get interval
-     * 
+     *
      * @return Interval string
      */
     public String getInterval() {
@@ -334,7 +337,7 @@ public class TimePeriod extends Time {
 
     /**
      * Set interval
-     * 
+     *
      * @param interval
      */
     public void setInterval(String interval) {
@@ -343,7 +346,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get TimePosition for start.
-     * 
+     *
      * @return Start TimePosition object
      */
     public TimePosition getStartTimePosition() {
@@ -356,7 +359,7 @@ public class TimePeriod extends Time {
 
     /**
      * Get TimePosition for end.
-     * 
+     *
      * @return End TimePosition object
      */
     public TimePosition getEndTimePosition() {
@@ -369,42 +372,37 @@ public class TimePeriod extends Time {
 
     /**
      * Extend TimePeriod to contain Collection<ISosTime>
-     * 
+     *
      * @param times
      */
     public void extendToContain(Collection<Time> times) {
         if (CollectionHelper.isNotEmpty(times)) {
-            for (Time time : times) {
-                extendToContain(time);
-            }
+            times.forEach(this::extendToContain);
         }
     }
 
     /**
      * Extend TimePeriod to contain ISosTime
-     * 
+     *
      * @param time
      *            To contain {@link Time}
      */
     public void extendToContain(Time time) {
-        if (time != null) {
-            if (time instanceof TimeInstant) {
-                extendToContain((TimeInstant) time);
-            } else if (time instanceof TimePeriod) {
-                extendToContain((TimePeriod) time);
-            } else {
-                String errorMsg =
-                        String.format("Received ITime type \"%s\" unknown.", time != null ? time.getClass().getName()
-                                : time);
-                LOGGER.error(errorMsg);
-                throw new IllegalArgumentException(errorMsg);
-            }
+        if (time instanceof TimeInstant) {
+            extendToContain((TimeInstant) time);
+        } else if (time instanceof TimePeriod) {
+            extendToContain((TimePeriod) time);
+        } else {
+            String errorMsg = String.format("Received ITime type \"%s\" unknown.",
+                Optional.ofNullable(time).map(Object::getClass).map(Class::getName).orElse("null"));
+            LOGGER.error(errorMsg);
+            throw new IllegalArgumentException(errorMsg);
         }
     }
 
     /**
      * Extend TimePeriod to contain another {@link TimePeriod}
-     * 
+     *
      * @param period
      *            To contain {@link TimePeriod}
      */
@@ -416,7 +414,7 @@ public class TimePeriod extends Time {
 
     /**
      * Extend TimePeriod to contain {@link TimeInstant}
-     * 
+     *
      * @param instant
      *            To contain {@link TimeInstant}
      */
@@ -430,7 +428,7 @@ public class TimePeriod extends Time {
     /**
      * Extend TimePeriod to contain DateTime. Used by other extendToContain
      * methods.
-     * 
+     *
      * @param time
      */
     public void extendToContain(DateTime time) {
@@ -447,7 +445,7 @@ public class TimePeriod extends Time {
     /**
      * Is this TimePeriod contained by another TimePeriod? Equal start/end times
      * are considered to be containing, as are equal indeterminate times.
-     * 
+     *
      * @param otherTimePeriod
      *            Potentially containing TimePeriod
      * @return Whether the argument TimePeriod contains this one
@@ -475,7 +473,7 @@ public class TimePeriod extends Time {
 
     /**
      * Checks this timeFormat with passed
-     * 
+     *
      * @param timeFormat
      *            TimeFormat to check with local
      */
@@ -483,7 +481,7 @@ public class TimePeriod extends Time {
         if (this.getTimeFormat().equals(TimeFormat.NOT_SET)) {
             this.setTimeFormat(timeFormat);
         } else {
-            if (!this.getTimeFormat().equals(timeFormat) && TimeFormat.SUPPORTED_FORAMTS.contains(timeFormat)) {
+            if (!this.getTimeFormat().equals(timeFormat) && TimeFormat.SUPPORTED_FORMATS.contains(timeFormat)) {
                 this.setTimeFormat(timeFormat);
             }
         }

@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.util;
 
+import java.util.Comparator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -69,8 +70,11 @@ public class Comparables {
     }
 
     public static <T extends Comparable<T>> int compare(T a, T b) {
-        return (a == b) ? EQUAL : a == null ? LESS : b == null ? GREATER : a
-                .compareTo(b);
+        return (a == b) ? EQUAL : a == null ? LESS : b == null ? GREATER : a .compareTo(b);
+    }
+
+    public static <T> Comparator<T> allowNull(Comparator<T> delegate) {
+        return Comparator.nullsFirst(delegate);
     }
 
     public static ComparisonChain chain(Object o) {
@@ -130,7 +134,7 @@ public class Comparables {
 
     private static class InheritanceComparator<T> extends Ordering<T> {
         private static final InheritanceComparator<Object> INSTANCE
-                = new InheritanceComparator<Object>();
+                = new InheritanceComparator<>();
 
         private InheritanceComparator() {
         }

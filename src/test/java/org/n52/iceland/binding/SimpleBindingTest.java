@@ -19,11 +19,19 @@ package org.n52.iceland.binding;
 import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
+
+import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.EncoderRepository;
+import org.n52.iceland.coding.encode.OperationEncoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.response.TestResponse;
 import org.n52.iceland.util.http.MediaType;
@@ -31,7 +39,7 @@ import org.n52.iceland.util.http.MediaTypes;
 
 /**
  * @since 4.0.0
- * 
+ *
  */
 public class SimpleBindingTest {
     private static final List<MediaType> XML = newArrayList(MediaTypes.APPLICATION_XML);
@@ -55,7 +63,18 @@ public class SimpleBindingTest {
     public void setUp() {
         this.response = new TestResponse();
         this.binding = new TestBinding();
+        this.binding.setEncoderRepository(mockEncoderRepository());
         this.defaultContentType = binding.getDefaultContentType();
+    }
+
+    private EncoderRepository mockEncoderRepository() {
+        EncoderRepository encoderRepository = mock(EncoderRepository.class);
+        OperationKey operationKey = response.getOperationKey();
+        OperationEncoderKey operationEncoderKey =
+                new OperationEncoderKey(operationKey, MediaTypes.APPLICATION_JSON);
+        Encoder encoder = Mockito.mock(Encoder.class);
+        when(encoderRepository.getEncoder(operationEncoderKey)).thenReturn(encoder);
+        return encoderRepository;
     }
 
     @Test

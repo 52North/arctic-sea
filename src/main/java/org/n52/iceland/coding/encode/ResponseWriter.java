@@ -19,45 +19,46 @@ package org.n52.iceland.coding.encode;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.n52.iceland.component.Component;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.util.http.MediaType;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @author CarstenHollmann <c.hollmann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
-public interface ResponseWriter<T> {
+public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
 
     /**
      * Get the current contentType
-     * 
+     *
      * @return the contenType
      */
     MediaType getContentType();
 
     /**
      * Set the contentType
-     * 
+     *
      * @param contentType
      *            to set
      */
     void setContentType(MediaType contentType);
-    
+
     MediaType getEncodedContentType(ResponseFormat responseFormat);
 
     /**
      * Write object t to {@link OutputStream} out
-     * 
+     *
      * @param t
      *            Object to write
      * @param out
      *            {@link OutputStream} to be written to
      * @param responseProxy
-     *            {@link ResponseProxy} giving access to header and content length setters            
+     *            {@link ResponseProxy} giving access to header and content length setters
      * @throws IOException
      *             If an error occurs during writing
      */
@@ -65,10 +66,10 @@ public interface ResponseWriter<T> {
 
     /**
      * Check if GZip is supported by this writer
-     * 
+     *
      * @param t
      *            Object to write
      * @return <code>true</code>, if GZip is supported
      */
-    boolean supportsGZip(T t);  
+    boolean supportsGZip(T t);
 }

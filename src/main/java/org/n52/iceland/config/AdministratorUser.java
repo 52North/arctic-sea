@@ -17,50 +17,43 @@
 package org.n52.iceland.config;
 
 /**
- * Interface for users that are allowed to administer the SOS. Implementations
- * are {@link SettingsManager} specific.
- * <p/>
- * 
+ * Interface for users that are allowed to administer the service.
+ * Implementations are {@link SettingsService} specific.
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
  */
 public interface AdministratorUser {
 
     /**
-     * Get the value of password
-     * <p/>
-     * 
+     * Get the value of password.
+     *
      * @return the value of password
      */
     String getPassword();
 
     /**
-     * Get the value of username
-     * <p/>
-     * 
+     * Get the value of username.
+     *
      * @return the value of username
      */
     String getUsername();
 
     /**
-     * Set the value of password
-     * <p/>
-     * 
-     * @param password
-     *            new value of password
-     *            <p/>
-     * @return this
+     * Set the value of password.
+     *
+     * @param password new value of password
+     *
+     * @return {@code this}
      */
     AdministratorUser setPassword(String password);
 
     /**
-     * Set the value of username
-     * <p/>
-     * 
-     * @param username
-     *            new value of username
-     *            <p/>
-     * @return this
+     * Set the value of username.
+     *
+     * @param username new value of username
+     *
+     * @return {@code this}
      */
     AdministratorUser setUsername(String username);
 }

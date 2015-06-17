@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.util;
 
-import java.util.Locale;
+import javax.inject.Provider;
 
 /**
  * Generic Factory interface.
@@ -28,25 +28,11 @@ import java.util.Locale;
  * @since 4.0.0
  *
  */
-public interface Producer<T> {
+@FunctionalInterface
+public interface Producer<T> extends java.util.function.Supplier<T>,
+                                     com.google.common.base.Supplier<T>,
+                                     Provider<T> {
 
-    /**
-     * Get default Producer result
-     *
-     * @return Default producer result
-     */
+    @Override
     T get();
-    
-    
-    T get(String identification);
-
-    /**
-     * Get language specific Producer result
-     *
-     * @param language
-     *                 The resulting language
-     *
-     * @return Result in the specified language
-     */
-    T get(Locale language);
 }

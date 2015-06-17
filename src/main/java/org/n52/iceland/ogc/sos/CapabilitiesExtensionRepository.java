@@ -16,157 +16,136 @@
  */
 package org.n52.iceland.ogc.sos;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import static org.n52.iceland.util.Producers.produce;
 
-import org.n52.iceland.exception.ConfigurationException;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map.Entry;
+
+import javax.inject.Inject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.AbstractConfiguringServiceLoaderRepository;
-import org.n52.iceland.util.CollectionHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.iceland.util.Producer;
+import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.iceland.lifecycle.Constructable;
 
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.google.common.collect.SetMultimap;
 
 /**
  * Repository for {@link CapabilitiesExtension} implementations
- * 
+ *
  * @since 4.0.0
- * 
+ *
  */
 public class CapabilitiesExtensionRepository extends
-        AbstractConfiguringServiceLoaderRepository<CapabilitiesExtensionProvider> {
-    private static final Logger LOG = LoggerFactory.getLogger(CapabilitiesExtensionRepository.class);
-
-    private static class LazyHolder {
-		private static final CapabilitiesExtensionRepository INSTANCE = new CapabilitiesExtensionRepository();
-		
-		private LazyHolder() {};
-	}
-
+        AbstractComponentRepository<CapabilitiesExtensionKey, CapabilitiesExtensionProvider, CapabilitiesExtensionProviderFactory> implements Constructable{
+    @Deprecated
+    private static CapabilitiesExtensionRepository instance;
+    @Inject
+    private RequestOperatorRepository requestOperatorRepository;
 
     /**
      * Implemented {@link CapabilitiesExtensionProvider}
      */
-    private final Map<CapabilitiesExtensionKey, List<CapabilitiesExtensionProvider>> providers = Maps.newHashMap();
+    private final ListMultimap<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> providers
+            = LinkedListMultimap.create();
 
-    public static CapabilitiesExtensionRepository getInstance() {
-        return LazyHolder.INSTANCE;
-    }
+    @Autowired(required = false)
+    private Collection<CapabilitiesExtensionProvider> components;
+    @Autowired(required = false)
+    private Collection<CapabilitiesExtensionProviderFactory> componentFactories;
 
-    /**
-     * Load implemented Capabilities extension provider
-     * 
-     * @throws ConfigurationException
-     *             If no Capabilities extension provider is implemented
-     */
-    private CapabilitiesExtensionRepository() throws ConfigurationException {
-        super(CapabilitiesExtensionProvider.class, false);
-        load(false);
-    }
-
-    /**
-     * Load the implemented Capabilities extension provider and add them to a
-     * map with operation name as key
-     * 
-     * @param implementations
-     *            the loaded implementations
-     */
     @Override
-    protected void processConfiguredImplementations(final Set<CapabilitiesExtensionProvider> implementations) {
-        providers.clear();
-        for (final CapabilitiesExtensionProvider provider : implementations) {
-            if (provider.hasRelatedOperation()) {
-                if (checkIfRelatedOperationIsActivated(provider)) {
-                    LOG.info("Registered CapabilitiesExtensionProvider for {}", provider.getCapabilitiesExtensionKey());
-                    addCapabilitiesExtensionProvider(provider);
-                }
-            } else {
-                LOG.info("Registered CapabilitiesExtensionProvider for {}", provider.getCapabilitiesExtensionKey());
-                addCapabilitiesExtensionProvider(provider);
+    public void init() {
+        CapabilitiesExtensionRepository.instance = this;
+
+        SetMultimap<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> implementations
+                = getProviders(this.components, this.componentFactories);
+        this.providers.clear();
+        for (Entry<CapabilitiesExtensionKey, Producer<CapabilitiesExtensionProvider>> entry: implementations.entries()) {
+            CapabilitiesExtensionKey key = entry.getKey();
+            Producer<CapabilitiesExtensionProvider> value = entry.getValue();
+            CapabilitiesExtensionProvider provider = value.get();
+            if (!provider.hasRelatedOperation() ||
+                checkIfRelatedOperationIsActivated(key, provider
+                                                   .getRelatedOperation())) {
+                this.providers.put(key, value);
             }
         }
     }
 
-    public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(
-            final CapabilitiesExtensionKey serviceOperatorIdentifier) throws OwsExceptionReport {
-        return getAllValidCapabilitiesExtensionProvider(providers.get(serviceOperatorIdentifier));
+    public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(CapabilitiesExtensionKey key) throws OwsExceptionReport {
+        return getAllValidCapabilitiesExtensionProvider(key, providers.get(key));
     }
 
     /**
      * Get the implemented {@link CapabilitiesExtensionProvider} for service and
      * version
-     * 
+     *
      * @param service
-     *            Specific service
+     *                Specific service
      * @param version
-     *            Specific version
-     * 
+     *                Specific version
+     *
      * @return the implemented Capabilities extension provider
-     * 
+     *
      * @throws OwsExceptionReport
      */
-    public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(final String service, final String version)
+    public List<CapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(
+            String service, String version)
             throws OwsExceptionReport {
         return getCapabilitiesExtensionProvider(new CapabilitiesExtensionKey(service, version));
     }
 
     /**
      * Get all valid {@link CapabilitiesExtensionProvider}
-     * 
+     *
+     * @param key  the key
      * @param list
-     *            Loaded CapabilitiesExtensionProvider
-     * 
+     *             Loaded CapabilitiesExtensionProvider
+     *
      * @return Valid CapabilitiesExtensionProvider
      */
     private List<CapabilitiesExtensionProvider> getAllValidCapabilitiesExtensionProvider(
-            final List<CapabilitiesExtensionProvider> list) {
-        final List<CapabilitiesExtensionProvider> valid = Lists.newLinkedList();
-        if (CollectionHelper.isNotEmpty(list)) {
-            for (final CapabilitiesExtensionProvider provider : list) {
-                if (provider.hasRelatedOperation()) {
-                    if (checkIfRelatedOperationIsActivated(provider)) {
-                        valid.add(provider);
-                    }
-                } else {
-                    valid.add(provider);
-                }
+            CapabilitiesExtensionKey key, List<Producer<CapabilitiesExtensionProvider>> list) {
+        List<CapabilitiesExtensionProvider> activated = Lists.newLinkedList();
+        for (CapabilitiesExtensionProvider provider : produce(list)) {
+            if (!provider.hasRelatedOperation() ||
+                checkIfRelatedOperationIsActivated(key, provider.getRelatedOperation())) {
+                activated.add(provider);
             }
         }
-        return valid;
-    }
-
-    /**
-     * Add a loaded {@link CapabilitiesExtensionProvider} to the local map
-     * 
-     * @param provider
-     *            Loaded CapabilitiesExtensionProvider
-     */
-    private void addCapabilitiesExtensionProvider(final CapabilitiesExtensionProvider provider) {
-        final List<CapabilitiesExtensionProvider> extensions = Lists.newLinkedList();
-        extensions.add(provider);
-        if (providers.containsKey(provider.getCapabilitiesExtensionKey())) {
-            extensions.addAll(providers.get(provider.getCapabilitiesExtensionKey()));
-        }
-        providers.put(provider.getCapabilitiesExtensionKey(), extensions);
+        return activated;
     }
 
     /**
      * Check if the related operation for the loaded
      * {@link CapabilitiesExtensionProvider} is active
-     * 
-     * @param cep
-     *            CapabilitiesExtensionProvider to check
-     * 
+     *
+     * @param key              the key
+     * @param relatedOperation the operation
+     *
      * @return <code>true</code>, if related operation is active
      */
-    private boolean checkIfRelatedOperationIsActivated(final CapabilitiesExtensionProvider cep) {
-        final CapabilitiesExtensionKey cek = cep.getCapabilitiesExtensionKey();
-        final RequestOperatorKey rok = new RequestOperatorKey(cek.getService(), cek.getVersion(), cep.getRelatedOperation());
-        return RequestOperatorRepository.getInstance().getActiveRequestOperatorKeys().contains(rok);
+    private boolean checkIfRelatedOperationIsActivated(
+            CapabilitiesExtensionKey key, String relatedOperation) {
+        RequestOperatorKey rok = new RequestOperatorKey(key.getService(),
+                key.getVersion(),
+                relatedOperation);
+        return this.requestOperatorRepository.isActive(rok);
     }
+
+    @Deprecated
+    public static CapabilitiesExtensionRepository getInstance(
+    ) {
+        return CapabilitiesExtensionRepository.instance;
+    }
+
 }

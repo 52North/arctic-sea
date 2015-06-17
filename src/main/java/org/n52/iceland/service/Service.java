@@ -18,15 +18,23 @@ package org.n52.iceland.service;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
+import javax.inject.Inject;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
@@ -40,8 +48,6 @@ import org.n52.iceland.util.http.HTTPMethods;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Stopwatch;
 
@@ -52,29 +58,29 @@ import com.google.common.base.Stopwatch;
  *
  * @since 4.0.0
  */
-public class Service extends ConfiguratedHttpServlet {
+@Controller
+@RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")
+public class Service extends HttpServlet {
     private static final long serialVersionUID = -2103692310137045855L;
-
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
 
     public static final String BINDING_DELETE_METHOD = "doDeleteOperation";
-
     public static final String BINDING_PUT_METHOD = "doPutOperation";
-
     public static final String BINDING_POST_METHOD = "doPostOperation";
-
     public static final String BINDING_GET_METHOD = "doGetOperation";
 
     private static final AtomicLong counter = new AtomicLong(0);
 
-    @Override
-    public void init() throws ServletException {
-        LOGGER.info("SOS endpoint initalized successfully!");
-    }
+    @Inject
+    private transient BindingRepository bindingRepository;
+
+    @Inject
+    private transient ServiceEventBus serviceEventBus;
 
     private long logRequest(HttpServletRequest request) {
         long count = counter.incrementAndGet();
-        ServiceEventBus.fire(new IncomingRequestEvent(request, count));
+        this.serviceEventBus.submit(new IncomingRequestEvent(request, count));
+
         if (LOGGER.isDebugEnabled()) {
             Enumeration<?> headerNames = request.getHeaderNames();
             StringBuilder headers = new StringBuilder();
@@ -91,13 +97,19 @@ public class Service extends ConfiguratedHttpServlet {
 
     private void logResponse(HttpServletRequest request, HttpServletResponse response, long count, Stopwatch stopwatch) {
         long elapsed = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
-        ServiceEventBus.fire(new OutgoingResponseEvent(request, response, count, elapsed));
+        this.serviceEventBus.submit(new OutgoingResponseEvent(request, response, count, elapsed));
         LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)", count, response.isCommitted(), elapsed);
     }
 
     @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    @Deprecated
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        delete(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -109,9 +121,16 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        get(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public void get(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -123,9 +142,16 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        post(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public void post(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -137,9 +163,16 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
+        put(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.PUT)
+    public void put(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -151,23 +184,25 @@ public class Service extends ConfiguratedHttpServlet {
         }
     }
 
+    @Deprecated
     @Override
-    protected void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        options(request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    private void options(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws IOException, ServletException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         Binding binding = null;
         try {
-
             binding = getBinding(request);
             binding.doOptionsOperation(request, response);
         } catch (HTTPException exception) {
-            if (exception.getStatus() == HTTPStatus.METHOD_NOT_ALLOWED) {
-                if (binding != null) {
-                    doDefaultOptions(binding, request, response);
-                } else {
-                    super.doOptions(request, response);
-                }
+            if (exception.getStatus() == HTTPStatus.METHOD_NOT_ALLOWED && binding != null) {
+                doDefaultOptions(binding, request, response);
             } else {
                 onHttpException(request, response, exception);
             }
@@ -192,21 +227,24 @@ public class Service extends ConfiguratedHttpServlet {
      */
     private Binding getBinding(HttpServletRequest request) throws HTTPException {
         final String requestURI = request.getPathInfo();
-        final BindingRepository repo = BindingRepository.getInstance();
         if (requestURI == null || requestURI.isEmpty() || requestURI.equals("/")) {
             MediaType contentType = getContentType(request);
             // strip of the parameters to get rid of things like encoding
-            Binding binding = repo.getBinding(contentType.withoutParameters());
+            Binding binding = this.bindingRepository.getBinding(contentType.withoutParameters());
             if (binding == null) {
-                throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
+                if (contentType.equals(MediaTypes.APPLICATION_KVP)) {
+                    throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
+                } else {
+                    throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
+                }
             } else {
                 return binding;
             }
         }
 
-        for (String prefix : repo.getBindings().keySet()) {
+        for (String prefix : this.bindingRepository.getAllBindingsByPath().keySet()) {
             if (requestURI.startsWith(prefix)) {
-                return repo.getBinding(prefix);
+                return this.bindingRepository.getBinding(prefix);
             }
         }
         throw new HTTPException(HTTPStatus.NOT_FOUND);
@@ -232,7 +270,7 @@ public class Service extends ConfiguratedHttpServlet {
 
     protected void onHttpException(HttpServletRequest request, HttpServletResponse response, HTTPException exception)
             throws IOException {
-        ServiceEventBus.fire(new ExceptionEvent(exception));
+        this.serviceEventBus.submit(new ExceptionEvent(exception));
         response.sendError(exception.getStatus().getCode(), exception.getMessage());
     }
 
@@ -275,7 +313,7 @@ public class Service extends ConfiguratedHttpServlet {
 
     private Set<String> getDeclaredBindingMethods(Class<?> c) {
         if (c.equals(Binding.class)) {
-            return new HashSet<String>();
+            return Collections.emptySet();
         } else {
             Set<String> parent = getDeclaredBindingMethods(c.getSuperclass());
             for (Method m : c.getDeclaredMethods()) {

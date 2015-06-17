@@ -37,6 +37,10 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
     private static final long serialVersionUID = -1120455418520277338L;
     private final Map<Locale, LocalizedString> localizations = Maps.newHashMap();
 
+    public MultilingualString addLocalization(String lang, String value) {
+        return addLocalization(new LocalizedString(new Locale(lang), value));
+    }
+
     public MultilingualString addLocalization(Locale lang, String value) {
         return addLocalization(new LocalizedString(lang, value));
     }
@@ -50,25 +54,39 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
         return Optional.fromNullable(getLocalizations().get(lang));
     }
 
+    @Deprecated
     public Optional<LocalizedString> getLocalizationOrDefault(Locale lang) {
-        Optional<LocalizedString> localization = getLocalization(lang);
-        if (localization.isPresent()) {
-            return localization;
-        }
-        return getDefaultLocalization();
+        Locale defaultLanguage
+                = ServiceConfiguration.getInstance().getDefaultLanguage();
+        return getLocalizationOrDefault(lang, defaultLanguage);
     }
 
+    public Optional<LocalizedString> getLocalizationOrDefault(Locale lang, Locale defaultLocale) {
+        return getLocalization(lang).or(getLocalization(defaultLocale));
+    }
+
+    @Deprecated
     public Optional<LocalizedString> getDefaultLocalization() {
-        return getLocalization(getDefaultLocale());
+        Locale defaultLanguage
+                = ServiceConfiguration.getInstance().getDefaultLanguage();
+        return getLocalization(defaultLanguage);
     }
 
-     public MultilingualString filter(Locale locale) {
-        if (locale == null) {
-            return isShowAllLocales() ? this : only(getDefaultLocale());
-        } else {
-            return hasLocale(locale) ? only(locale) : only(getDefaultLocale());
-        }
+    public MultilingualString filter(Locale locale) {
+        boolean showAllLanguageValues
+                = ServiceConfiguration.getInstance().isShowAllLanguageValues();
+        Locale defaultLanguage
+                = ServiceConfiguration.getInstance().getDefaultLanguage();
+        return filter(locale, defaultLanguage, showAllLanguageValues);
     }
+
+     public MultilingualString filter(Locale locale, Locale defaultLocale, boolean showAll) {
+         if (locale == null) {
+            return showAll ? this : only(defaultLocale);
+        } else {
+            return hasLocale(locale) ? only(locale) : only(defaultLocale);
+        }
+     }
 
     public Set<Locale> getLocales() {
         return Collections.unmodifiableSet(getLocalizations().keySet());
@@ -115,8 +133,16 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
         return false;
     }
 
-    private Map<Locale, LocalizedString> getLocalizations() {
+    public Map<Locale, LocalizedString> getLocalizations() {
         return Collections.unmodifiableMap(this.localizations);
+    }
+
+    public MultilingualString setLocalizations(Map<String, String> localizations) {
+        this.localizations.clear();
+        for (Entry<String, String> localization : localizations.entrySet()) {
+            addLocalization(localization.getKey(), localization.getValue());
+        }
+        return this;
     }
 
     public MultilingualString only(Locale... locale) {
@@ -132,13 +158,5 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
             }
         }
         return mls;
-    }
-
-    protected boolean isShowAllLocales() {
-        return ServiceConfiguration.getInstance().isShowAllLanguageValues();
-    }
-
-    protected Locale getDefaultLocale() {
-        return ServiceConfiguration.getInstance().getDefaultLanguage();
     }
 }

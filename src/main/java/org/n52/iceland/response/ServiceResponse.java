@@ -25,12 +25,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.w3c.soap.SoapHeader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -60,7 +61,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
      * whether the service response should be gzipped
      */
     private boolean supportsGZip = true;
-    
+
     /**
      * the header field and values to be set in the {@link HttpServletResponse}
      */
@@ -70,7 +71,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
 
     /**
      * constructor with content and response code
-     * 
+     *
      * @param baos
      *            Output stream of the SOS response
      * @param contentType
@@ -87,7 +88,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
 
     /**
      * constructor with content but not specified response code
-     * 
+     *
      * @param baos
      *            Output stream of the SOS response
      * @param contentType
@@ -99,7 +100,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
 
     /**
      * constructor without content type but with specified response code
-     * 
+     *
      * @param contentType
      *            Content type
      * @param status
@@ -132,11 +133,11 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
     public Map<String, String> getHeaderMap() {
         return Collections.unmodifiableMap(headerMap);
     }
-    
+
     /**
      * @param outputStream
      *            The stream the content of this response is written to
-     * 
+     *
      * @see #isContentLess()
      */
     public void writeToOutputStream(OutputStream outputStream) {
@@ -153,10 +154,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
             LOGGER.error("doResponse", ioe);
         } finally {
             try {
-                if (byteArrayOutputStream != null) {
-                    byteArrayOutputStream.close();
-                }
-
+                byteArrayOutputStream.close();
             } catch (IOException ioe) {
                 LOGGER.error("doSoapResponse, close streams", ioe);
             }
@@ -165,10 +163,10 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
 
     /**
      * Check, if this response contains content to be written.
-     * 
+     *
      * @return <code>true</code>, if content is <b>NOT</b> available,<br />
      *         else <code>false</code>, if content is available
-     * 
+     *
      * @see #writeToOutputStream(OutputStream).
      */
     public boolean isContentLess() {
@@ -218,7 +216,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
     public boolean isSetSoapHeader() {
         return !this.soapHeaderMap.isEmpty();
     }
-    
+
     /**
      * @return Whether or not the response can be gzipped
      */
@@ -228,5 +226,5 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
 
     public void setSupportsGZip(boolean supportsGZip) {
         this.supportsGZip = supportsGZip;
-    }        
+    }
 }
