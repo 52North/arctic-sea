@@ -14,5 +14,6 @@ notifications:
     skip_join: false
 env:
   global:
+    - SNAPSHOT_BRANCH=develop
     - secure: ibKFb3rNTGglJCTblnqZXFAgonXiAy7g1T3Y5Mpi/uRZZ3ykvecJwB5NLdnDxaRAFkmSukrNu+B6LBl8UOGI82HotsAtw1oDeDU69hKAvF5yeLCxt8RZpXr8J2QCV5+AqxUEIyvmY57i842RPf7oASZPtYBPuKbXeNDVhJ1wCjY=
     - secure: IfM8vwcKIh4Is/9YJK6qMM6I42EMXlce7UMxFmTOF1Vy1K3xe3khMIgufU8t98cjQdNIst+nPpNQmGMRHg3PAxZ1g2MhM3/n/b6YydjveaRd6Zspq0AidF0i/Wl5taMwqT4H8dy/i9ewyQ6JjdNCDzQyS4P3cKInHYM+keZGZCQ=

@@ -5,7 +5,7 @@ stop() {
   exit 0
 }
 
-[[ "${TRAVIS_BRANCH}" == "develop" ]] \
+[[ "${TRAVIS_BRANCH}" == "${SNAPSHOT_BRANCH}" ]] \
   || stop "won't build branch ${TRAVIS_BRANCH}"
 
 [[ "${TRAVIS_SECURE_ENV_VARS}" == "true" ]] \
