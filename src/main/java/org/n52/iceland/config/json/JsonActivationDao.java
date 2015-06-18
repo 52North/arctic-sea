@@ -30,6 +30,7 @@ import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.config.ActivationDao;
 import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
+import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.util.http.MediaType;
@@ -43,6 +44,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class JsonActivationDao extends AbstractJsonActivationDao
         implements ActivationDao {
+    protected static final String OFFERING_EXTENSIONS = "offeringExtensions";
 
   @Override
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
@@ -107,6 +109,21 @@ public class JsonActivationDao extends AbstractJsonActivationDao
         } finally {
             readLock().unlock();
         }
+    }
+
+     @Override
+    public boolean isOfferingExtensionActive(OfferingExtensionKey key) {
+        return isActive(OFFERING_EXTENSIONS, matches(key), true);
+    }
+
+    @Override
+    public void setOfferingExtensionStatus(OfferingExtensionKey key, boolean active) {
+        setStatus(OFFERING_EXTENSIONS, matches(key), s -> encode(s, key), active);
+    }
+
+    @Override
+    public Set<OfferingExtensionKey> getOfferingExtensionKeys() {
+        return getKeys(OFFERING_EXTENSIONS, createDomainDecoder(OfferingExtensionKey::new));
     }
 
 
