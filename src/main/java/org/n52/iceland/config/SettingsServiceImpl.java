@@ -133,13 +133,14 @@ public class SettingsServiceImpl implements SettingsService {
     @Override
     public void configure(Object object)
             throws ConfigurationError {
-        LOG.debug("Configuring {}", object);
-        Class<?> clazz = object.getClass();
-        Configurable configurable = clazz.getAnnotation(Configurable.class);
 
-        if (configurable == null) {
+        Class<?> clazz = object.getClass();
+
+        if (clazz.getAnnotation(Configurable.class) == null) {
             return;
         }
+
+        LOG.debug("Configuring {}", object);
 
         for (Method method : clazz.getMethods()) {
             Setting s = method.getAnnotation(Setting.class);

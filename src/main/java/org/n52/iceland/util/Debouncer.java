@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.config.json;
+package org.n52.iceland.util;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import org.n52.iceland.lifecycle.Destroyable;
-
 /**
- * TODO JavaDoc
+ * Postpones a operation until a configurable amount of time is passed without
+ * further requests for the operation.
+ *
+ * @since 1.0.0
  *
  * @author Christian Autermann
  */
-public class Debouncer implements Destroyable {
+public class Debouncer {
 
     private final ScheduledExecutorService executor = Executors
             .newScheduledThreadPool(1);
@@ -36,11 +37,20 @@ public class Debouncer implements Destroyable {
     private final int interval;
     private DelayedTask delayed;
 
+    /**
+     * Creates a new {@code Debouncer}.
+     *
+     * @param interval the interval to wait for new {@linkplain #call() calls}.
+     * @param runnable the task to execute
+     */
     public Debouncer(int interval, Runnable runnable) {
         this.interval = interval;
         this.runnable = runnable;
     }
 
+    /**
+     * Request the execution of the operation.
+     */
     public void call() {
         DelayedTask task = new DelayedTask();
         DelayedTask prev;
@@ -50,25 +60,38 @@ public class Debouncer implements Destroyable {
                 this.delayed = task;
             }
             if (prev == null) {
-                this.executor
-                        .schedule(task, this.interval, TimeUnit.MILLISECONDS);
+                this.executor.schedule(task, this.interval, TimeUnit.MILLISECONDS);
             }
+
         } while (prev != null && !prev.postpone());
     }
 
-    @Override
-    public void destroy() {
+    /**
+     * Shut this {@code Debouncer} down by executing any pending request.
+     *
+     * Note: further calls to this class are undefined.
+     */
+    public void finish() {
         this.executor.shutdownNow().forEach(Runnable::run);
     }
 
+    /**
+     * Delayable task.
+     */
     private class DelayedTask implements Runnable {
         private final Object lock = new Object();
-        private long dueTime;
+        private long dueTime = 0;
 
         DelayedTask() {
             postpone();
         }
 
+        /**
+         * Postpone this task for {@code interval} milliseconds.
+         *
+         * @return {@code true} if this task was rescheduled, {@code false} if
+         *         this task has already been executed
+         */
         private boolean postpone() {
             synchronized (this.lock) {
                 if (this.dueTime < 0) {
@@ -79,6 +102,9 @@ public class Debouncer implements Destroyable {
             }
         }
 
+        /**
+         * Executes the operations or reschedules itself if postponed.
+         */
         @Override
         public void run() {
             synchronized (this.lock) {

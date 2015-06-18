@@ -18,7 +18,7 @@ package org.n52.iceland.exception;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class ConfigurationError extends Error {
     private static final long serialVersionUID = -7249708070675332849L;
@@ -27,8 +27,8 @@ public class ConfigurationError extends Error {
         super();
     }
 
-    public ConfigurationError(String message) {
-        super(message);
+    public ConfigurationError(String format, Object... args) {
+        super(String.format(format, args));
     }
 
     public ConfigurationError(Throwable exception) {

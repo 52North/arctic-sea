@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.config.json;
 
+import org.n52.iceland.util.Debouncer;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -41,12 +43,18 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
- * TODO JavaDoc
+ * Class to encapsulate writes and reads to a JSON file.
+ *
+ * @since 1.0.0
+ *
  * @author Christian Autermann
  */
-public class JsonConfiguration implements Constructable, Destroyable, Producer<ObjectNode> {
+public class JsonConfiguration implements Constructable,
+                                          Destroyable,
+                                          Producer<ObjectNode> {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JsonConfiguration.class);
+    private static final Logger LOG = LoggerFactory
+            .getLogger(JsonConfiguration.class);
 
     public static final String DEFAULT_FILE_NAME = "configuration.json";
     public static final int DEFAULT_WRITE_TIMEOUT = 1000;
@@ -60,98 +68,192 @@ public class JsonConfiguration implements Constructable, Destroyable, Producer<O
     private ConfigLocationProvider configLocationProvider;
     private Debouncer debouncer;
 
+    /**
+     * Initializes this configuration by initializing a {@link Debouncer} for
+     * writes and reading the configuration file.
+     */
     @Override
     public void init() {
-        this.debouncer = new Debouncer(this.writeTimeout, this::persist);
-        File directory = new File(this.configLocationProvider.get());
-        this.file = new File(directory, this.fileName);
-        this.configuration = readConfiguration(this.file)
-                .orElseGet(nodeFactory::objectNode);
-    }
-
-    @Override
-    public void destroy() {
-        this.debouncer.destroy();
-    }
-
-    public void delete() {
+        LOG.info("Initializing {}, {}", this.fileName, System.identityHashCode(this));
         writeLock().lock();
         try {
+            this.debouncer = new Debouncer(this.writeTimeout, this::persist);
+            File directory = new File(this.configLocationProvider.get());
+            this.file = new File(directory, this.fileName);
+            this.refresh();
+        } finally {
+            writeLock().unlock();
+        }
+    }
+
+    /**
+     * Refreshes the configuration from disk.
+     */
+    public void refresh() {
+        writeLock().lock();
+        try {
+            this.configuration = readConfiguration(this.file)
+                    .orElseGet(nodeFactory::objectNode);
+        } finally {
+            writeLock().unlock();
+        }
+    }
+
+    /**
+     * Destroys this configuration by executing any pending write.
+     *
+     * @see Debouncer#finish()
+     */
+    @Override
+    public void destroy() {
+        LOG.info("Destroying {}", System.identityHashCode(this));
+        this.debouncer.finish();
+    }
+
+    /**
+     * Deletes the configuration file if it exists.
+     */
+    public void delete() {
+
+        writeLock().lock();
+        try {
+            LOG.info("Deleting {}", System.identityHashCode(this));
             if (this.file.exists() && this.file.isFile()) {
-                this.file.delete();
+                if (!this.file.delete()) {
+                    throw new ConfigurationError("Can not delete configuration file %s", file
+                                                 .getAbsolutePath());
+                }
             }
         } finally {
             writeLock().unlock();
         }
     }
 
+    /**
+     * Gets the (possibly empty) configuration JSON node.
+     *
+     * @return the node (never {@code null})
+     */
     @Override
     public ObjectNode get() {
         return this.configuration;
     }
 
+    /**
+     * Sets the time to wait for additional changes before the configuration is
+     * persisted.
+     *
+     * @param writeTimeout the time out in milliseconds
+     */
     public void setWriteTimeout(int writeTimeout) {
         this.writeTimeout = writeTimeout;
     }
 
+    /**
+     * Sets the file name of this configuration.
+     *
+     * @param fileName the file name
+     */
     public void setFileName(String fileName) {
         this.fileName = fileName;
     }
 
+    /**
+     * Sets the configuration location provider.
+     *
+     * @param configLocationProvider the provider
+     */
     @Inject
-    public void setConfigLocationProvider(ConfigLocationProvider configLocationProvider) {
+    public void setConfigLocationProvider(
+            ConfigLocationProvider configLocationProvider) {
         this.configLocationProvider = configLocationProvider;
     }
 
+    /**
+     * Gets the read lock for this configuration.
+     *
+     * @return the (reentrant) read lock
+     */
     public Lock readLock() {
         return this.lock.readLock();
     }
 
+    /**
+     * Gets the write lock for this configuration.
+     *
+     * @return the (reentrant) write lock
+     */
     public Lock writeLock() {
         return this.lock.writeLock();
     }
 
+    /**
+     * Schedule a write. This will be executed after the configured
+     * {@link #setWriteTimeout timeout} if no further writes are scheduled, else
+     * it will postponed until their are no further requests for {@code timeout}
+     * milliseconds.
+     *
+     * @see Debouncer#call()
+     */
     public void scheduleWrite() {
-        LOG.debug("Scheduling write");
+//        LOG.debug("Scheduling write");
         this.debouncer.call();
     }
+    /**
+     * Do not wait, but persist the settings right now.
+     */
+    public void writeNow() {
+        this.persist();
+    }
 
-    private void persist() {
+    /**
+     * Actually persists the configuration.
+     */
+    private synchronized void persist() {
         readLock().lock();
         try {
+            LOG.info("Writing {}", System.identityHashCode(this));
             LOG.debug("Writing configuration file");
             try (FileOutputStream fos = new FileOutputStream(this.file)) {
                 JSONUtils.print(fos, this.configuration);
             }
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new ConfigurationError("Could not persist configuration", e);
         } finally {
             readLock().unlock();
         }
     }
 
+    /**
+     * Reads the configuration, if the file exists.
+     *
+     * @param file the file holding the configuration
+     *
+     * @return the decoded JSON object
+     */
     private Optional<ObjectNode> readConfiguration(File file) {
+        LOG.info("Reading {}", System.identityHashCode(this));
         if (!file.exists()) {
             return Optional.empty();
         }
         if (!file.isFile()) {
-            throw new ConfigurationError(file.getAbsolutePath() +
-                                             " is not a file");
+            throw new ConfigurationError("%s is not a file", file
+                                         .getAbsolutePath());
         }
         if (!file.canRead()) {
-            throw new ConfigurationError(file.getAbsolutePath() +
-                                             " is not a readable file");
+            throw new ConfigurationError("%s is not a readable file", file
+                                         .getAbsolutePath());
         }
         try {
             JsonNode node = JSONUtils.loadFile(file);
             if (!node.isObject()) {
-                throw new ConfigurationError(file.getAbsolutePath() +
-                                                 " does not contain a JSON object");
+                throw new ConfigurationError("%s does not contain a JSON object", file
+                                             .getAbsolutePath());
             }
             return Optional.of((ObjectNode) node);
         } catch (IOException ex) {
             throw new ConfigurationError("Could not read " + file
-                    .getAbsolutePath(), ex);
+                                         .getAbsolutePath(), ex);
         }
     }
 }

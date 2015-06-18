@@ -78,7 +78,6 @@ public class JsonAdminUserDao extends AbstractJsonDao implements AdminUserDao {
         } finally {
             configuration().readLock().unlock();
         }
-        configuration().scheduleWrite();
         return users;
     }
 
@@ -87,10 +86,11 @@ public class JsonAdminUserDao extends AbstractJsonDao implements AdminUserDao {
         configuration().writeLock().lock();
         try {
             getConfiguration().with(JsonConstants.USERS).put(user.getUsername(), user.getPassword());
+            configuration().writeNow();
         } finally {
             configuration().writeLock().unlock();
         }
-        configuration().scheduleWrite();
+
     }
 
     @Override

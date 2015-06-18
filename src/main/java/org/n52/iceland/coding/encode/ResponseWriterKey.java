@@ -25,6 +25,11 @@ import org.n52.iceland.component.ClassBasedComponentKey;
  */
 public class ResponseWriterKey extends ClassBasedComponentKey<Object> {
 
+    /**
+     * Creates a new {@code ResponseWriterKey} for the specified {@code type}.
+     *
+     * @param type the type the writer associated with this key can handle
+     */
     public ResponseWriterKey(Class<?> type) {
         super(type);
     }
