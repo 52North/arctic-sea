@@ -17,7 +17,11 @@
 package org.n52.iceland.util.activation;
 
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.function.BiConsumer;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.lifecycle.Constructable;
 
@@ -30,47 +34,54 @@ import com.google.common.collect.Maps;
  */
 @SuppressWarnings("rawtypes")
 public class ActivationRegistrator implements Constructable {
+    private static final Logger LOG = LoggerFactory
+            .getLogger(ActivationRegistrator.class);
 
     private final Map<ActivationListenable, ActivationListener> listeners;
     private final Map<ActivationSink, ActivationInitializer> initializers;
 
     public ActivationRegistrator() {
+        LOG.debug("Constructor");
         this.listeners = Maps.newHashMap();
         this.initializers = Maps.newHashMap();
     }
 
     public void setListeners(Map<ActivationListenable, ActivationListener> listeners) {
-        if (listeners != null) {
-            this.listeners.putAll(listeners);
-        }
+        Optional.ofNullable(listeners).ifPresent(this.listeners::putAll);
     }
 
     public void setInitializers(Map<ActivationSink, ActivationInitializer> initializers) {
-        if (initializers != null) {
-            this.initializers.putAll(initializers);
-        }
+        Optional.ofNullable(initializers).ifPresent(this.initializers::putAll);
     }
 
     @Override
     public void init() {
-        initializeManagers();
+        LOG.debug("Initializing");
+        initializeSinks();
         registerListeners();
     }
 
     @SuppressWarnings("unchecked")
-    private void initializeManagers() {
-        for (Entry<ActivationSink, ActivationInitializer> entry : this.initializers.entrySet()) {
-            entry.getValue().initialize(entry.getKey());
-        }
+    private void initializeSinks() {
+        LOG.debug("Initializing sinks");
+        this.initializers.forEach(switchParams(chain(logger(), ActivationInitializer::initialize)));
     }
 
     @SuppressWarnings("unchecked")
-    private void registerListeners() {
-        for (Entry<ActivationListenable, ActivationListener> mapping : this.listeners.entrySet()) {
-            mapping.getKey().registerListener(mapping.getValue());
-        }
+    private  void registerListeners() {
+        LOG.debug("Registering listeners");
+        this.listeners.forEach(chain(logger(), ActivationListenable::registerListener));
     }
 
+    private static <T, U> BiConsumer<T,U> logger() {
+        return (a, b) -> LOG.debug("Registrating {} for {}", a, b);
+    }
 
+    private static <T, U> BiConsumer<T, U> chain(BiConsumer<T, U> first, BiConsumer<T, U> second) {
+        return first.andThen(second);
+    }
 
+    private static <T, U> BiConsumer<U, T> switchParams(BiConsumer<T, U> consumer) {
+        return (a, b) -> consumer.accept(b, a);
+    }
 }

@@ -19,20 +19,21 @@ package org.n52.iceland.service;
 import java.util.Collections;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.event.ServiceEventListener;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Single point of exception logging.
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
- * 
+ *
  * @since 4.0.0
  */
 public class ExceptionLogger implements ServiceEventListener {

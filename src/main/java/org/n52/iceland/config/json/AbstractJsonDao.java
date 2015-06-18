@@ -23,6 +23,8 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.util.JSONUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -39,6 +41,7 @@ public abstract class AbstractJsonDao {
     private final JsonNodeFactory nodeFactory = JSONUtils.nodeFactory();
     private JsonConfiguration configuration;
 
+    @Inject
     public void setConfiguration(JsonConfiguration configuration) {
         this.configuration = configuration;
     }
