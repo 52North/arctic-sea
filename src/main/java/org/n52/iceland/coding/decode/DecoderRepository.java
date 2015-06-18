@@ -23,7 +23,6 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.coding.AbstractCodingRepository;
-import org.n52.iceland.decode.DecoderFactory;
 import org.n52.iceland.lifecycle.Constructable;
 
 /**
