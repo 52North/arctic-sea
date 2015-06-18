@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Optional;
+import java.util.logging.Level;
 
 import javax.inject.Inject;
 
@@ -89,9 +90,13 @@ public abstract class AbstractPersistingCachePersistenceStrategy
                 return;
             }
 
-            if (!file.canWrite()) {
-                LOGGER.error("Can not create writable file {}", file.getAbsolutePath());
-                return;
+            try {
+                if (!file.createNewFile()) {
+                    LOGGER.error("Can not create writable file {}", file.getAbsolutePath());
+                    return;
+                }
+            } catch (IOException ex) {
+                LOGGER.error(String.format("Error serializing cache to '%s'", file.getAbsolutePath()), ex);
             }
 
             try (FileOutputStream fos = new FileOutputStream(file);
