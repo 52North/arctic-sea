@@ -23,7 +23,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Optional;
-import java.util.logging.Level;
 
 import javax.inject.Inject;
 
