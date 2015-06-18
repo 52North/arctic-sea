@@ -74,11 +74,13 @@ public class JsonAdminUserDao extends AbstractJsonDao implements AdminUserDao {
         try {
             JsonNode node = getConfiguration().path(JsonConstants.USERS);
             users = new HashSet<>(node.size());
-            node.fieldNames().forEachRemaining(name -> users.add(new JsonAdministratorUser(name, node.path(name).asText(null))));
+            node.fieldNames()
+                    .forEachRemaining(name -> users.add(new JsonAdministratorUser(name, node.path(name).asText(null))));
+            return users;
         } finally {
             configuration().readLock().unlock();
         }
-        return users;
+
     }
 
     @Override

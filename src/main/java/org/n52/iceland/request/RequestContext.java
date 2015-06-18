@@ -19,13 +19,17 @@ package org.n52.iceland.request;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.util.http.HTTPHeaders;
+import org.n52.iceland.util.http.HTTPUtils;
+import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.ProxyChain;
 
@@ -48,6 +52,8 @@ public class RequestContext {
     private Optional<IPAddress> address = Optional.absent();
     private Optional<String> token = Optional.absent();
     private Optional<ProxyChain> proxyChain = Optional.absent();
+    private Optional<String> contentType = Optional.absent();
+    private Optional<List<MediaType>> acceptType = Optional.absent();
 
     public Optional<IPAddress> getIPAddress() {
         return address;
@@ -85,6 +91,22 @@ public class RequestContext {
         this.token = Preconditions.checkNotNull(token);
     }
 
+    public Optional<String> getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = Optional.fromNullable(contentType);
+    }
+
+    public Optional<List<MediaType>> getAcceptType() {
+        return acceptType;
+    }
+
+    public void setAcceptType(List<MediaType> list) {
+        this.acceptType = Optional.fromNullable(list);
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).omitNullValues()
@@ -99,6 +121,12 @@ public class RequestContext {
         rc.setIPAddress(getIPAddress(req));
         rc.setForwaredForChain(ProxyChain.fromForwardedForHeader(req.getHeader(HTTPHeaders.X_FORWARDED_FOR)));
         rc.setToken(req.getHeader(HTTPHeaders.AUTHORIZATION));
+        rc.setContentType(req.getHeader(HTTPHeaders.CONTENT_TYPE));
+        try {
+            rc.setAcceptType(HTTPUtils.getAcceptHeader(req));
+        } catch (HTTPException e) {
+            // do nothing somebody will catch this if it fails.
+        }
         return rc;
 
     }
