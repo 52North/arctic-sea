@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.config.json;
 
-import org.n52.iceland.util.Debouncer;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,6 +33,7 @@ import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.service.ConfigLocationProvider;
+import org.n52.iceland.util.Debouncer;
 import org.n52.iceland.util.JSONUtils;
 import org.n52.iceland.util.Producer;
 
@@ -74,7 +73,6 @@ public class JsonConfiguration implements Constructable,
      */
     @Override
     public void init() {
-        LOG.info("Initializing {}, {}", this.fileName, System.identityHashCode(this));
         writeLock().lock();
         try {
             this.debouncer = new Debouncer(this.writeTimeout, this::persist);
@@ -117,7 +115,6 @@ public class JsonConfiguration implements Constructable,
 
         writeLock().lock();
         try {
-            LOG.info("Deleting {}", System.identityHashCode(this));
             if (this.file.exists() && this.file.isFile()) {
                 if (!this.file.delete()) {
                     throw new ConfigurationError("Can not delete configuration file %s", file
@@ -212,7 +209,6 @@ public class JsonConfiguration implements Constructable,
     private synchronized void persist() {
         readLock().lock();
         try {
-            LOG.info("Writing {}", System.identityHashCode(this));
             LOG.debug("Writing configuration file");
             try (FileOutputStream fos = new FileOutputStream(this.file)) {
                 JSONUtils.print(fos, this.configuration);
@@ -232,7 +228,6 @@ public class JsonConfiguration implements Constructable,
      * @return the decoded JSON object
      */
     private Optional<ObjectNode> readConfiguration(File file) {
-        LOG.info("Reading {}", System.identityHashCode(this));
         if (!file.exists()) {
             return Optional.empty();
         }
