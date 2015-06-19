@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.coding;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -135,7 +134,8 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
         return Producers.produce(this.components);
     }
 
-    protected boolean hasComponent(K key, K... keys) {
+    @SafeVarargs
+    protected final boolean hasComponent(K key, K... keys) {
         return getComponent(key, keys) != null;
     }
 
@@ -147,7 +147,8 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
         return choose(findComponentsForCompositeKey(key), key.asKey());
     }
 
-    protected C getComponent(K key, K... keys) {
+    @SafeVarargs
+    protected final C getComponent(K key, K... keys) {
         if (keys.length == 0) {
             return getComponentForSingleKey(key);
         } else {

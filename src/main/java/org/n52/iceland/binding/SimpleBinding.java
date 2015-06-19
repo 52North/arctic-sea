@@ -52,7 +52,6 @@ import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.GetCapabilitiesRequest;
 import org.n52.iceland.request.RequestContext;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.service.ServiceConfiguration;
 import org.n52.iceland.service.operator.ServiceOperator;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
@@ -224,7 +223,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        return request.getServiceOperatorKeyType().stream()
+        return request.getServiceOperatorKeys().stream()
                 .map(this::getServiceOperator)
                 .findFirst()
                 .orElseThrow(() -> {
@@ -238,7 +237,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         CompositeOwsException exceptions = new CompositeOwsException();
-        for (ServiceOperatorKey sokt : request.getServiceOperatorKeyType()) {
+        for (ServiceOperatorKey sokt : request.getServiceOperatorKeys()) {
             if (sokt.hasService()) {
                 if (sokt.getService().isEmpty()) {
                     exceptions.add(new MissingServiceParameterException());

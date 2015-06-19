@@ -25,20 +25,27 @@ public interface ServiceSettings {
 
     String SERVICE_URL = "service.sosUrl";
 
+    @Deprecated
     //  String SUPPORTS_QUALITY = "service.supportsQuality";
     String SENSOR_DIRECTORY = "service.sensorDirectory";
 
+    @Deprecated
     String USE_DEFAULT_PREFIXES = "service.useDefaultPrefixes";
 
+    @Deprecated
     String ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR
             = "service.encodeFullChildrenInDescribeSensor";
 
+    @Deprecated
     String MAX_GET_OBSERVATION_RESULTS = "service.maxGetObservationResults";
 
+    @Deprecated
     String DEREGISTER_JDBC_DRIVER = "service.jdbc.deregister";
 
+    @Deprecated
     String ADD_OUTPUTS_TO_SENSOR_ML = "service.addOutputsToSensorML";
 
+    @Deprecated
     String STRICT_SPATIAL_FILTERING_PROFILE
             = "service.strictSpatialFilteringProfile";
 

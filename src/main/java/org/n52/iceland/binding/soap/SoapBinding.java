@@ -195,7 +195,7 @@ public class SoapBinding extends AbstractXmlBinding {
     private void writeOwsExceptionReport(SoapChain chain, OwsExceptionReport owse) throws HTTPException, IOException {
         try {
             String version = chain.hasBodyRequest() ? chain.getBodyRequest().getVersion() : null;
-            ServiceEventBus.fire(new ExceptionEvent(owse));
+            getEventBus().submit(new ExceptionEvent(owse));
             chain.getSoapResponse().setException(owse.setVersion(version));
             if (!chain.getSoapResponse().hasSoapVersion()) {
                 chain.getSoapResponse().setSoapVersion(SOAPConstants.SOAP_1_2_PROTOCOL);

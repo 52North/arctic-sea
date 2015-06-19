@@ -16,11 +16,12 @@
  */
 package org.n52.iceland.request;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
@@ -29,6 +30,7 @@ import org.n52.iceland.response.GetCapabilitiesResponse;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.CollectionHelper;
+import org.n52.iceland.util.Comparables;
 import org.n52.iceland.util.StringHelper;
 
 /**
@@ -51,27 +53,6 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     @Override
     public String getOperationName() {
         return OWSConstants.Operations.GetCapabilities.name();
-    }
-
-    @Override
-    public List<ServiceOperatorKey> getServiceOperatorKeyType() {
-        if (serviceOperatorKeyTypes == null) {
-            if (isSetAcceptVersions()) {
-                serviceOperatorKeyTypes = new ArrayList<ServiceOperatorKey>(acceptVersions.size());
-                for (String acceptVersion : acceptVersions) {
-                    serviceOperatorKeyTypes.add(new ServiceOperatorKey(getService(), acceptVersion));
-                }
-            } else {
-                Set<String> supportedVersions =
-                        ServiceOperatorRepository.getInstance().getSupportedVersions(getService());
-                if (CollectionHelper.isNotEmpty(supportedVersions)) {
-                    setVersion(Collections.max(supportedVersions));
-                }
-                serviceOperatorKeyTypes =
-                        Collections.singletonList(new ServiceOperatorKey(getService(), getVersion()));
-            }
-        }
-        return Collections.unmodifiableList(serviceOperatorKeyTypes);
     }
 
     /**
@@ -105,16 +86,16 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
         return acceptVersions == null ? null : Collections.unmodifiableList(acceptVersions);
     }
 
-    public void addAcceptVersion(String acceptVersion) {
-        if (acceptVersion != null) {
-            acceptVersions.add(acceptVersion);
-        }
-    }
-
     public void setAcceptVersions(List<String> acceptVersions) {
         this.acceptVersions.clear();
         if (acceptVersions != null) {
             this.acceptVersions.addAll(acceptVersions);
+        }
+    }
+
+    public void addAcceptVersion(String acceptVersion) {
+        if (acceptVersion != null) {
+            acceptVersions.add(acceptVersion);
         }
     }
 
@@ -189,7 +170,8 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     @Override
     public GetCapabilitiesResponse getResponse() throws OwsExceptionReport {
-        return (GetCapabilitiesResponse) new GetCapabilitiesResponse().set(this).setVersion(getVersionParameter());
+        return (GetCapabilitiesResponse)
+                new GetCapabilitiesResponse().set(this).setVersion(getVersionParameter());
     }
 
     /**
@@ -201,28 +183,61 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
      *             If the requested version is not supported
      */
     private String getVersionParameter() throws OwsExceptionReport {
-        if (!isSetVersion()) {
-            if (isSetAcceptVersions()) {
-                for (final String acceptedVersion : getAcceptVersions()) {
-                    if (ServiceOperatorRepository.getInstance().isVersionSupported(getService(), acceptedVersion)) {
-                        setVersion(acceptedVersion);
-                        return acceptedVersion;
-                    }
-                }
-            } else {
-                for (final String supportedVersion : ServiceOperatorRepository.getInstance().getSupportedVersions(
-                        getService())) {
-                    setVersion(supportedVersion);
-                    return supportedVersion;
-                }
-            }
-        } else {
+        if (isSetVersion()) {
             return getVersion();
+        } else {
+            Stream<String> versions;
+            if (isSetAcceptVersions()) {
+                versions = acceptVersions.stream()
+                        .filter(this::isVersionSupported);
+            } else {
+                versions = getSupportedVersions().stream();
+            }
+            return setVersion(versions.findFirst()
+                    .orElseThrow(this::versionNegotiationFailed)).getVersion();
         }
+    }
 
-        throw new VersionNegotiationFailedException().withMessage(
+    private OwsExceptionReport versionNegotiationFailed() {
+        return new VersionNegotiationFailedException().withMessage(
                 "The requested '%s' values are not supported by this service!",
                 OWSConstants.GetCapabilitiesParams.AcceptVersions);
+    }
+
+
+    @Override
+    public List<ServiceOperatorKey> getServiceOperatorKeys() {
+        if (serviceOperatorKeyTypes == null) {
+            String service = getService();
+            if (isSetAcceptVersions()) {
+                serviceOperatorKeyTypes = acceptVersions.stream()
+                        .map(version -> new ServiceOperatorKey(service, version))
+                        .collect(Collectors.toList());
+            } else {
+                Set<String> supportedVersions = getSupportedVersions();
+                if (CollectionHelper.isNotEmpty(supportedVersions)) {
+                    setVersion(Comparables.version().max(supportedVersions));
+                }
+                serviceOperatorKeyTypes = Collections.singletonList(new ServiceOperatorKey(service, getVersion()));
+            }
+        }
+        return Collections.unmodifiableList(serviceOperatorKeyTypes);
+    }
+
+    @Override
+    public String getVersion() {
+        /* TODO implement org.n52.iceland.request.GetCapabilitiesRequest.getVersion() */
+        return super.getVersion();
+    }
+
+
+
+    private Set<String> getSupportedVersions() {
+        return ServiceOperatorRepository.getInstance().getSupportedVersions(getService());
+    }
+
+    private boolean isVersionSupported(String acceptedVersion) {
+        return ServiceOperatorRepository.getInstance().isVersionSupported(getService(), acceptedVersion);
     }
 
 }

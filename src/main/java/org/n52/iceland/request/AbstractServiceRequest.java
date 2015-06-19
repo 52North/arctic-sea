@@ -50,7 +50,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
 
     private Extensions extensions;
 
-    public List<ServiceOperatorKey> getServiceOperatorKeyType() throws OwsExceptionReport {
+    public List<ServiceOperatorKey> getServiceOperatorKeys() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
             checkServiceAndVersionParameter();
             serviceOperatorKeyTypes = Collections.singletonList(new ServiceOperatorKey(getService(), getVersion()));
