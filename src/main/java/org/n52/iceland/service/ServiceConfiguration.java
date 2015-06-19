@@ -337,8 +337,7 @@ public class ServiceConfiguration implements Constructable {
     }
 
     public boolean isSetDefaultLanguage() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.defaultLanguage != null;
     }
 
     @Setting(MiscSettings.HYDRO_MAX_NUMBER_OF_RETURNED_TIME_SERIES)
