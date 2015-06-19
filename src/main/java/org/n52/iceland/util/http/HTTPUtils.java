@@ -41,9 +41,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class HTTPUtils {
@@ -83,12 +83,14 @@ public class HTTPUtils {
             return Collections.singletonList(MediaTypes.WILD_CARD);
         }
         String[] values = header.split(",");
-        ArrayList<MediaType> mediaTypes = new ArrayList<MediaType>(values.length);
+        ArrayList<MediaType> mediaTypes = new ArrayList<>(values.length);
         for (int i = 0; i < values.length; ++i) {
             try {
                 // Fix for invalid HTTP-Accept header send by OGC OWS-Cite tests
-                if (!" *; q=.2".equals(values[i]) && !"*; q=.2".equals(values[i]) && !" *; q=0.2".equals(values[i])
-                        && !"*; q=0.2".equals(values[i])) {
+                if (!" *; q=.2".equals(values[i]) &&
+                    !"*; q=.2".equals(values[i]) &&
+                    !" *; q=0.2".equals(values[i]) &&
+                    !"*; q=0.2".equals(values[i])) {
                     mediaTypes.add(MediaType.parse(values[i]));
                 } else {
                     LOGGER.warn("The HTTP-Accept header contains an invalid value: {}", values[i]);
@@ -117,9 +119,7 @@ public class HTTPUtils {
             throws IOException {
         response.setStatus(sr.getStatus().getCode());
 
-        for (Entry<String, String> header : sr.getHeaderMap().entrySet()) {
-            response.addHeader(header.getKey(), header.getValue());
-        }
+        sr.getHeaderMap().forEach(response::addHeader);
 
         if (!sr.isContentLess()) {
             writeObject(request, response, sr.getContentType(), new ServiceResponseWritable(sr));
@@ -149,12 +149,11 @@ public class HTTPUtils {
 
     private static class GenericWritable implements Writable {
         private final Object o;
-
-        private ResponseWriter<Object> writer;
+        private final ResponseWriter<Object> writer;
 
         /**
          * constructor
-         * 
+         *
          * @param o
          *            {@link Object} to write
          * @param ct
@@ -217,8 +216,8 @@ public class HTTPUtils {
     public interface Writable {
         void write(OutputStream out, ResponseProxy responseProxy) throws IOException;
 
-        boolean supportsGZip();        
-        
+        boolean supportsGZip();
+
         MediaType getEncodedContentType();
     }
 

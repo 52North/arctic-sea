@@ -96,6 +96,11 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     @Override
+    protected boolean isUseHttpResponseCodes() {
+        return false;
+    }
+
+    @Override
     public Set<String> getConformanceClasses(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);

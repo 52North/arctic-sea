@@ -30,6 +30,8 @@ import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.config.annotation.Configurable;
+import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
@@ -37,6 +39,7 @@ import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.iceland.service.MiscSettings;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
@@ -48,6 +51,7 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  *
  */
+@Configurable
 public class PoxBinding extends AbstractXmlBinding {
 
     private static final Set<String> CONFORMANCE_CLASSES = Collections
@@ -59,11 +63,22 @@ public class PoxBinding extends AbstractXmlBinding {
             .add(new MediaTypeBindingKey(MediaTypes.TEXT_XML))
             .build();
 
+    private boolean useHttpResponseCodes;
+
+    @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
+    public void setUseHttpResponseCodes(boolean useHttpResponseCodes) {
+        this.useHttpResponseCodes = useHttpResponseCodes;
+    }
+
+    @Override
+    protected boolean isUseHttpResponseCodes() {
+        return this.useHttpResponseCodes;
+    }
+
     @Override
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
     }
-
 
     @Override
     public void doPostOperation(HttpServletRequest req,

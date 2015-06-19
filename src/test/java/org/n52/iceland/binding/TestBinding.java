@@ -29,6 +29,12 @@ import com.google.common.collect.Sets;
  *
  */
 public class TestBinding extends SimpleBinding {
+    private static final String URL_PATTERN = "/sos/test";
+
+    @Override
+    protected boolean isUseHttpResponseCodes() {
+        return false;
+    }
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
@@ -44,7 +50,6 @@ public class TestBinding extends SimpleBinding {
     public Set<BindingKey> getKeys() {
         return Sets.<BindingKey>newHashSet(new PathBindingKey(URL_PATTERN));
     }
-    private static final String URL_PATTERN = "/sos/test";
 
     @Override
     public String getUrlPattern() {

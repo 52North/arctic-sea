@@ -72,8 +72,6 @@ public abstract class SimpleBinding extends Binding {
     public static final String QUALITY = "q";
 
     private ServiceEventBus eventBus;
-    @Deprecated
-    private ServiceConfiguration serviceConfiguration;
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
@@ -85,17 +83,6 @@ public abstract class SimpleBinding extends Binding {
 
     public ServiceEventBus getEventBus() {
         return eventBus;
-    }
-
-    @Inject
-    @Deprecated
-    public void setServiceConfiguration(ServiceConfiguration config) {
-        this.serviceConfiguration = config;
-    }
-
-    @Deprecated
-    public ServiceConfiguration getServiceConfiguration() {
-        return serviceConfiguration;
     }
 
     @Inject
@@ -125,10 +112,7 @@ public abstract class SimpleBinding extends Binding {
         return decoderRepository;
     }
 
-    @Deprecated
-    protected boolean isUseHttpResponseCodes() {
-        return this.serviceConfiguration.isUseHttpStatusCodesInKvpAndPoxBinding();
-    }
+    protected abstract boolean isUseHttpResponseCodes();
 
     protected RequestContext getRequestContext(HttpServletRequest req) {
         return RequestContext.fromRequest(req);
