@@ -224,14 +224,6 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
         return Collections.unmodifiableList(serviceOperatorKeyTypes);
     }
 
-    @Override
-    public String getVersion() {
-        /* TODO implement org.n52.iceland.request.GetCapabilitiesRequest.getVersion() */
-        return super.getVersion();
-    }
-
-
-
     private Set<String> getSupportedVersions() {
         return ServiceOperatorRepository.getInstance().getSupportedVersions(getService());
     }
