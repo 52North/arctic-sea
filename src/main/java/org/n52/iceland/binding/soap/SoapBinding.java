@@ -177,7 +177,7 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void createBodyResponse(SoapChain chain) throws OwsExceptionReport {
-        AbstractServiceRequest<?> req = chain.getBodyRequest();
+        AbstractServiceRequest<?> req = chain.getSoapRequest().getSoapBodyContent();
         chain.setBodyResponse(getServiceOperator(req).receiveRequest(req));
     }
 
