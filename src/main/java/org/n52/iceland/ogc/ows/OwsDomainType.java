@@ -29,21 +29,29 @@ import org.n52.iceland.util.StringHelper;
 public class OwsDomainType {
 
     private String name;
-
     private OwsPossibleValues value;
-
     private String defaultValue;
 
     public OwsDomainType(String name, OwsPossibleValues possibleValues) {
-        setName(name);
-        setValue(possibleValues);
+        this(name, possibleValues, null);
     }
 
-    public OwsDomainType(String name, OwsPossibleValues possibleValues, String defaultValue) {
-        setName(name);
-        setValue(possibleValues);
-        setDefaultValue(defaultValue);
+    public OwsDomainType(String name, OwsPossibleValues possibleValues,
+                         String defaultValue) {
+        this.name = name;
+        this.value = possibleValues;
+        this.defaultValue = defaultValue;
     }
+
+    public OwsDomainType(Enum<?> name, OwsPossibleValues possibleValues) {
+        this(name.name(), possibleValues);
+    }
+
+    public OwsDomainType(Enum<?> name, OwsPossibleValues possibleValues,
+                         String defaultValue) {
+        this(name.name(), possibleValues, defaultValue);
+    }
+
 
     /**
      * @return the name
