@@ -23,12 +23,12 @@ import org.n52.iceland.w3c.SchemaLocation;
 
 /**
  * Constants for OWS.
- * 
+ *
  * @since 1.0.0
  */
 public interface OWSConstants {
 
-    // namespace and schema locations
+    //fixme: add version...
     String NS_OWS = "http://www.opengis.net/ows/1.1";
 
     String NS_OWS_PREFIX = "ows";
@@ -89,7 +89,7 @@ public interface OWSConstants {
     QName QN_NO_APPLICABLE_CODE = new QName(NS_OWS, OwsExceptionCode.NoApplicableCode.name(), NS_OWS_PREFIX);
 
     String VERSION = "1.1.0";
-    
+
     /**
      * enum with parameter names for getCapabilities request
      */
@@ -105,7 +105,7 @@ public interface OWSConstants {
 
         public static final String DYNAMIC_CAPABILITIES_IDENTIFIER = "dynamic";
     }
-    
+
     /**
      * the names of the operations supported by all versions of the service
      * specification
@@ -116,7 +116,7 @@ public interface OWSConstants {
 
     /**
      * Enumeration for related feature role
-     * 
+     *
      */
     enum RelatedFeatureRole {
         featureOfInterestID, relatedFeatureID
@@ -129,7 +129,7 @@ public interface OWSConstants {
         /**
          * method checks whether the string parameter is contained in this
          * enumeration
-         * 
+         *
          * @param s
          *            the name which should be checked
          * @return true if the name is contained in the enumeration
@@ -143,7 +143,7 @@ public interface OWSConstants {
             return false;
         }
     }
-    
+
     /** enum with names of get request parameters for all requests */
     enum AdditionalRequestParams {
         language, crs, returnHumanReadableIdentifier;
@@ -151,7 +151,7 @@ public interface OWSConstants {
         /**
          * method checks whether the string parameter is contained in this
          * enumeration
-         * 
+         *
          * @param s
          *            the name which should be checked
          * @return true if the name is contained in the enumeration
@@ -165,10 +165,10 @@ public interface OWSConstants {
             return false;
         }
     }
-    
+
     enum ExtendedIndeterminateTime {
         first, latest;
-        
+
         private static final String GET_FIRST = "getFirst";
 
         public static boolean contains(final String timeString) {
@@ -184,7 +184,7 @@ public interface OWSConstants {
             return null;
         }
     }
-    
+
     // TODO add javadoc for each value
     enum HelperValues {
         GMLID, EXIST_FOI_IN_DOC, VERSION, TYPE,
@@ -199,36 +199,36 @@ public interface OWSConstants {
          */
         ENCODE_OWS_EXCEPTION_ONLY
     }
-    
+
     /**
      * Interface to identify if the implemented class supportes
      * {@link Extensions}
-     * 
+     *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * @since 4.1.0
-     * 
+     *
      * @param <T>
      */
     interface HasExtension<T> {
         /**
          * Get the {@link Extension}s
-         * 
+         *
          * @return {@link Extensions} with {@link Extension}s
          */
         public Extensions getExtensions();
 
         /**
          * Set the {@link Extensions} object
-         * 
+         *
          * @param extensions
          *            the {@link Extensions} object to set
          * @return this
          */
         public T setExtensions(final Extensions extensions);
-        
+
         /**
          * Add a {@link Extensions} to this object
-         * 
+         *
          * @param extension
          *            the {@link Extensions} to add
          * @return this
@@ -237,7 +237,7 @@ public interface OWSConstants {
 
         /**
          * Add a {@link Extension} to this object
-         * 
+         *
          * @param extension
          *            the {@link Extension} to add
          * @return this
@@ -247,11 +247,11 @@ public interface OWSConstants {
 
         /**
          * Check if {@link Extension}s are set
-         * 
+         *
          * @return <code>true</code>, if {@link Extensions} is not null or
          *         empty
          */
         public boolean isSetExtensions();
     }
-    
+
 }

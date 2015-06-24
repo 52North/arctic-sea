@@ -83,6 +83,50 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
     }
 
     /**
+     * Constructor
+     *
+     * @param sok
+     * @param operationName
+     */
+    public RequestOperatorKey(ServiceOperatorKey sok, Enum<?> operationName) {
+        this(sok, operationName.name());
+    }
+
+    /**
+     * Constructor
+     *
+     * @param sok
+     * @param operationName
+     * @param defaultActive
+     */
+    public RequestOperatorKey(ServiceOperatorKey sok, Enum<?> operationName, boolean defaultActive) {
+        this(sok, operationName.name(), defaultActive);
+    }
+
+    /**
+     * Constructor
+     *
+     * @param service
+     * @param version
+     * @param operationName
+     */
+    public RequestOperatorKey(String service, String version, Enum<?> operationName) {
+        this(service, version, operationName.name());
+    }
+
+    /**
+     * Constructor
+     *
+     * @param service
+     * @param version
+     * @param operationName
+     * @param defaultActive
+     */
+    public RequestOperatorKey(String service, String version, Enum<?> operationName, boolean defaultActive) {
+        this(service, version, operationName.name(), defaultActive);
+    }
+
+    /**
      * @return the {@link ServiceOperatorKey}
      */
     public ServiceOperatorKey getServiceOperatorKey() {

@@ -23,12 +23,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriter;
@@ -36,8 +38,6 @@ import org.n52.iceland.coding.encode.ResponseWriterRepository;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
@@ -178,6 +178,7 @@ public class HTTPUtils {
             writer.write(o, out, responseProxy);
         }
 
+        @Override
         public MediaType getEncodedContentType() {
         	if (o instanceof ResponseFormat) {
         		return writer.getEncodedContentType((ResponseFormat)o);

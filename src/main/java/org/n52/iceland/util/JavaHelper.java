@@ -93,6 +93,7 @@ public final class JavaHelper {
         return buf.toString();
     }
 
+    @Deprecated
     public static void appendTextToStringBuilderWithLineBreak(final StringBuilder stringBuilder, final String message) {
         if (stringBuilder != null && StringHelper.isNotEmpty(message)) {
             stringBuilder.append(message);

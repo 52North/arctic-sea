@@ -168,10 +168,11 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
         return StringHelper.isNotEmpty(getUpdateSequence());
     }
 
+
+    //FIXME rename to createResponse
     @Override
     public GetCapabilitiesResponse getResponse() throws OwsExceptionReport {
-        return (GetCapabilitiesResponse)
-                new GetCapabilitiesResponse().set(this).setVersion(getVersionParameter());
+        return (GetCapabilitiesResponse) new GetCapabilitiesResponse().set(this).setVersion(getVersionParameter());
     }
 
     /**

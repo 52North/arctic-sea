@@ -33,13 +33,16 @@ public class OperationHandlerKey implements Comparable<OperationHandlerKey> {
     private String service;
 
     public OperationHandlerKey() {
-        super();
+        this(null, (String) null);
     }
 
     public OperationHandlerKey(String service, String operationName) {
-        super();
         this.service = service;
         this.operationName = operationName;
+    }
+
+    public OperationHandlerKey(String service, Enum<?> operationName) {
+        this(service, operationName.name());
     }
 
     public String getService() {

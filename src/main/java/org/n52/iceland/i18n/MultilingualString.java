@@ -25,7 +25,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.service.ServiceConfiguration;
+import org.n52.iceland.util.Validation;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
@@ -71,7 +73,8 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
                 = ServiceConfiguration.getInstance().getDefaultLanguage();
         return getLocalization(defaultLanguage);
     }
-
+ 
+    @Deprecated
     public MultilingualString filter(Locale locale) {
         boolean showAllLanguageValues
                 = ServiceConfiguration.getInstance().isShowAllLanguageValues();

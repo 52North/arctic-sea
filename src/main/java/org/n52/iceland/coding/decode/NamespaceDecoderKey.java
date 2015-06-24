@@ -20,10 +20,10 @@ import com.google.common.base.Objects;
 
 /**
  * Abstract {@link DecoderKey} class for namespace decoder
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  */
 public abstract class NamespaceDecoderKey<T> implements DecoderKey {
@@ -36,28 +36,28 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
 
     /**
      * Set the tpye
-     * 
+     *
      * @param type
      */
     protected abstract void setType(T type);
 
     /**
      * Get the type
-     * 
+     *
      * @return the type
      */
     public abstract T getType();
 
     /**
      * Get {@link String} representation of the type.
-     * 
+     *
      * @return {@link String} representation of the type.
      */
     protected abstract String getTypeName();
 
     /**
      * Check for similarity
-     * 
+     *
      * @param key
      *            {@link DecoderKey} to check
      * @param type
@@ -77,7 +77,7 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
 
     @Override
     public String toString() {
-        return String.format("%s[namespace=%s, type=%s]", getTypeName(), getNamespace(), getTypeName());
+        return String.format("%s[namespace=%s, type=%s]", getClass().getName(), getNamespace(), getTypeName());
     }
 
     @Override

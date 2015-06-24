@@ -31,8 +31,6 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
@@ -40,8 +38,6 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
-import org.n52.iceland.ogc.sos.SosConstants;
-import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
@@ -64,6 +60,13 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
 
     @Inject
     private ServiceOperatorRepository serviceOperatorRepository;
+
+    private boolean showAllLanguageValues;
+
+    @Setting(I18NSettings.I18N_SHOW_ALL_LANGUAGE_VALUES)
+    public void setShowAllLanguageValues(final boolean showAllLanguageValues) {
+        this.showAllLanguageValues = showAllLanguageValues;
+    }
 
     @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
     public void setDefaultLanguage(String lang) {
@@ -158,10 +161,10 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     private OwsServiceIdentification createFromSettings(Locale locale) {
         OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
         if (this.title != null) {
-            serviceIdentification.setTitle(this.title.filter(locale));
+            serviceIdentification.setTitle(this.title.filter(locale, defaultLocale, showAllLanguageValues));
         }
         if (this.abstrakt != null) {
-            serviceIdentification.setAbstract(this.abstrakt.filter(locale));
+            serviceIdentification.setAbstract(this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues));
         }
         if (this.constraints != null) {
             serviceIdentification.setAccessConstraints(Arrays.asList(this.constraints));

@@ -35,7 +35,13 @@ import org.n52.iceland.lifecycle.Destroyable;
  * called if they are declared in a super class of the bean.
  *
  * This postprocess will be called at the same stages,
- * {@link CommonAnnotationBeanPostProcessor} would be called.
+ * {@link CommonAnnotationBeanPostProcessor} would be called:
+ * Constructor
+ * Bean-Injections
+ * Settings-Injections
+ * init()
+ * ...
+ * destroy()
  *
  * @see Constructable
  * @see Destroyable
