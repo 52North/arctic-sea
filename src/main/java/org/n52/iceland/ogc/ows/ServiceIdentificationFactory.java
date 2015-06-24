@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
@@ -38,6 +40,8 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
+import org.n52.iceland.ogc.sos.SosConstants;
+import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
