@@ -19,7 +19,9 @@ package org.n52.iceland.request.operator;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -72,6 +74,14 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
         } else {
             return null;
         }
+    }
+
+    public Set<RequestOperator> getRequestOperators() {
+        return this.requestOperators.entrySet().stream()
+                .filter(e ->  this.activation.isActive(e.getKey()))
+                .map(Entry::getValue)
+                .map(Producer::get)
+                .collect(Collectors.toSet());
     }
 
     public RequestOperator getRequestOperator(ServiceOperatorKey sok, String operationName) {
