@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.request.operator;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OwsOperation;
@@ -60,5 +63,12 @@ public interface RequestOperator extends ConformanceClass, Component<RequestOper
     OwsOperation getOperationMetadata(String service, String version) throws OwsExceptionReport;
 
     @Deprecated
-    RequestOperatorKey getRequestOperatorKeyType();
+    default RequestOperatorKey getRequestOperatorKeyType() {
+        Set<RequestOperatorKey> keys = getKeys();
+        if (keys.size() <= 1) {
+            return keys.stream().findAny().orElse(null);
+        } else {
+            throw new UnsupportedOperationException("This operator has multiple keys");
+        }
+    }
 }
