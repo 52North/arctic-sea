@@ -16,25 +16,20 @@
  */
 package org.n52.iceland.util;
 
-import java.util.Comparator;
-
-import javax.xml.namespace.QName;
+import java.util.Objects;
 
 /**
- * Comparator for {@link QName}s.
+ * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
- *
+ * @author Christian Autermann
  */
-public class QNameComparator implements Comparator<QName> {
-    public static final Comparator<QName> INSTANCE =
-            Comparator.nullsLast(Comparator.comparing(QName::getPrefix, Comparator.nullsLast(String::compareTo))
-                  .thenComparing(Comparator.comparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo))));
+@FunctionalInterface
+public interface ThrowingConsumer<T, X extends Exception> {
 
-    @Override
-    public int compare(QName o1, QName o2) {
-        return INSTANCE.compare(o1, o2);
+    void accept(T t) throws X;
+
+    default ThrowingConsumer<T, X> andThen(ThrowingConsumer<? super T, ? extends X> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> { accept(t); after.accept(t); };
     }
-
 }

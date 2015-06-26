@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -95,6 +96,25 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
 
     public Set<RequestOperatorKey> getActiveRequestOperatorKeys() {
         return Activatables.activatedKeys(this.requestOperators, this.activation);
+    }
+
+    public Set<RequestOperator> getActiveRequestOperators(ServiceOperatorKey sok) {
+        return activeRequestOperatorStream(sok)
+                .map(Entry::getValue)
+                .map(Producer::get)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<RequestOperatorKey> getActiveRequestOperatorKeys(ServiceOperatorKey sok) {
+        return activeRequestOperatorStream(sok)
+                .map(Entry::getKey)
+                .collect(Collectors.toSet());
+    }
+
+    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(ServiceOperatorKey sok) {
+        return this.requestOperators.entrySet().stream()
+                .filter(e -> activation.isActive(e.getKey()))
+                .filter(e -> e.getKey().getServiceOperatorKey().equals(sok));
     }
 
     @Deprecated
