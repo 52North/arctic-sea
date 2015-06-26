@@ -27,15 +27,15 @@ import org.n52.iceland.exception.CodedException;
 /**
  * Composite {@link OwsExceptionReport} which can contain several
  * {@link OwsExceptionReport}s which were thrown
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class CompositeOwsException extends OwsExceptionReport {
     private static final long serialVersionUID = -4876354677532448922L;
 
-    private List<CodedException> exceptions = new LinkedList<CodedException>();
+    private final List<CodedException> exceptions = new LinkedList<>();
 
     public CompositeOwsException(OwsExceptionReport... exceptions) {
         add(exceptions);
@@ -48,11 +48,12 @@ public class CompositeOwsException extends OwsExceptionReport {
     public CompositeOwsException() {
     }
 
-    public CompositeOwsException add(Collection<? extends OwsExceptionReport> exceptions) {
+    public final CompositeOwsException add(Collection<? extends OwsExceptionReport> exceptions) {
         if (exceptions != null) {
-            for (OwsExceptionReport e : exceptions) {
-                this.exceptions.addAll(e.getExceptions());
-            }
+            exceptions.stream()
+                    .map(OwsExceptionReport::getExceptions)
+                    .forEach(this.exceptions::addAll);
+
             if (getCause() == null && !this.exceptions.isEmpty()) {
                 initCause(this.exceptions.get(0));
             }
@@ -60,7 +61,7 @@ public class CompositeOwsException extends OwsExceptionReport {
         return this;
     }
 
-    public CompositeOwsException add(OwsExceptionReport... exceptions) {
+    public final CompositeOwsException add(OwsExceptionReport... exceptions) {
         return add(Arrays.asList(exceptions));
     }
 
@@ -79,7 +80,11 @@ public class CompositeOwsException extends OwsExceptionReport {
         return this.exceptions.size();
     }
 
+    public boolean isEmpty() {
+        return this.exceptions.isEmpty();
+    }
+
     public boolean hasExceptions() {
-        return !this.exceptions.isEmpty();
+        return !isEmpty();
     }
 }

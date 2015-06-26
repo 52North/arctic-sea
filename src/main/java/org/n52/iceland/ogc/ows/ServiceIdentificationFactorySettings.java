@@ -24,8 +24,10 @@ package org.n52.iceland.ogc.ows;
  * @since 1.0.0
  */
 public interface ServiceIdentificationFactorySettings {
+    @Deprecated
     String SERVICE_TYPE = "serviceIdentification.serviceType";
 
+    @Deprecated
     String SERVICE_TYPE_CODE_SPACE
             = "serviceIdentification.serviceTypeCodeSpace";
 

@@ -14,37 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.ogc.ows;
 
 import java.util.Locale;
 import java.util.Set;
 
+import org.n52.iceland.util.LocalizedProducer;
+
 /**
- * Generic Factory interface.
+ * TODO JavaDoc
  *
- * @param <T>
- *            the type to produce
- *
- * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
- *
+ * @author Christian Autermann
  */
-public interface LocalizedProducer<T> extends Producer<T> {
+public interface ServiceMetadataRepository {
 
-    /**
-     * Get language specific Producer result
-     *
-     * @param language
-     *                 The resulting language
-     *
-     * @return Result in the specified language
-     */
-    T get(Locale language);
+    LocalizedProducer<OwsServiceIdentification> getServiceIdentificationFactory(String service);
 
-    /**
-     * Gets the {@code Locale}s available to this {@code Producer}.
-     *
-     * @return the locales
-     */
+    LocalizedProducer<OwsServiceProvider> getServiceProviderFactory(String service);
+
     Set<Locale> getAvailableLocales();
+
 }

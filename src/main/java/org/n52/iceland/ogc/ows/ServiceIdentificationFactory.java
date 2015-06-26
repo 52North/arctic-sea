@@ -21,17 +21,15 @@ import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.ACCES
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.FEES;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.FILE;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.KEYWORDS;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.SERVICE_TYPE;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.SERVICE_TYPE_CODE_SPACE;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.TITLE;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Set;
-
-import javax.inject.Inject;
+import java.util.stream.Stream;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
@@ -40,32 +38,34 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
-import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
 
-import com.google.common.collect.Sets;
-
 @Configurable
-public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServiceIdentification> {
+public class ServiceIdentificationFactory
+        extends LazyThreadSafeProducer<OwsServiceIdentification> {
+
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
+
+    private final String service;
+    private final ServiceOperatorRepository serviceOperatorRepository;
 
     private File file;
-    private String[] keywords;
-    private MultilingualString title;
-    private MultilingualString abstrakt;
-    private String serviceType;
-    private String serviceTypeCodeSpace;
-    private String fees;
-    private String[] constraints;
+    private MultilingualString title = new MultilingualString();
+    private MultilingualString abstrakt = new MultilingualString();
+    private String fees = null;
+    private String[] keywords = EMPTY_STRING_ARRAY;
+    private String[] constraints = EMPTY_STRING_ARRAY;
     private Locale defaultLocale = Locale.ENGLISH;
-
-    @Inject
-    private ServiceOperatorRepository serviceOperatorRepository;
-
     private boolean showAllLanguageValues;
+
+    public ServiceIdentificationFactory(String service, ServiceOperatorRepository repository) {
+        this.service = service;
+        this.serviceOperatorRepository = repository;
+    }
 
     @Setting(I18NSettings.I18N_SHOW_ALL_LANGUAGE_VALUES)
     public void setShowAllLanguageValues(final boolean showAllLanguageValues) {
@@ -99,13 +99,16 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         if (title instanceof MultilingualString) {
             this.title = (MultilingualString) title;
         } else if (title instanceof String) {
-            this.title = new MultilingualString()
-                    .addLocalization(this.defaultLocale, (String) title);
+            this.title = createFromString(title);
         } else {
             throw new ConfigurationError(
                     String.format("%s is not supported as title!", title.getClass().getName()));
         }
         setRecreate();
+    }
+
+    private MultilingualString createFromString(Object value) {
+        return new MultilingualString().addLocalization(this.defaultLocale, (String) value);
     }
 
     @Setting(ABSTRACT)
@@ -114,25 +117,11 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
         if (description instanceof MultilingualString) {
             this.abstrakt = (MultilingualString) description;
         } else if (description instanceof String) {
-            this.abstrakt = new MultilingualString()
-                    .addLocalization(this.defaultLocale, (String) description);
+            this.abstrakt = createFromString(description);
         } else {
             throw new ConfigurationError(
                     String.format("%s is not supported as abstract!", description.getClass().getName()));
         }
-        setRecreate();
-    }
-
-    @Setting(SERVICE_TYPE)
-    public void setServiceType(String serviceType) throws ConfigurationError {
-        Validation.notNullOrEmpty("Service Identification Service Type", serviceType);
-        this.serviceType = serviceType;
-        setRecreate();
-    }
-
-    @Setting(SERVICE_TYPE_CODE_SPACE)
-    public void setServiceTypeCodeSpace(String serviceTypeCodeSpace) throws ConfigurationError {
-        this.serviceTypeCodeSpace = serviceTypeCodeSpace;
         setRecreate();
     }
 
@@ -164,24 +153,27 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
 
     private OwsServiceIdentification createFromSettings(Locale locale) {
         OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
-        if (this.title != null) {
-            serviceIdentification.setTitle(this.title.filter(locale, defaultLocale, showAllLanguageValues));
-        }
-        if (this.abstrakt != null) {
-            serviceIdentification.setAbstract(this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues));
-        }
-        if (this.constraints != null) {
-            serviceIdentification.setAccessConstraints(Arrays.asList(this.constraints));
-        }
+        serviceIdentification.setTitle(this.title.filter(locale, defaultLocale, showAllLanguageValues));
+        serviceIdentification.setAbstract(this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues));
+        serviceIdentification.setAccessConstraints(Arrays.asList(this.constraints));
         serviceIdentification.setFees(this.fees);
-        serviceIdentification.setServiceType(this.serviceType);
-        serviceIdentification.setServiceTypeCodeSpace(this.serviceTypeCodeSpace);
-        Set<String> supportedVersions = this.serviceOperatorRepository.getSupportedVersions(SosConstants.SOS);
-        serviceIdentification.setVersions(supportedVersions);
-        if (this.keywords != null) {
-            serviceIdentification.setKeywords(Arrays.asList(this.keywords));
-        }
+        serviceIdentification.setServiceType(getServiceType());
+        serviceIdentification.setServiceTypeCodeSpace(getServiceTypeCodespace());
+        serviceIdentification.setVersions(getSupportedVersions());
+        serviceIdentification.setKeywords(Arrays.asList(this.keywords));
         return serviceIdentification;
+    }
+
+    private String getServiceType() {
+        return "OGC:" + this.service;
+    }
+
+    private String getServiceTypeCodespace() {
+        return null;
+    }
+
+    private Set<String> getSupportedVersions() {
+        return this.serviceOperatorRepository.getSupportedVersions(this.service);
     }
 
     private OwsServiceIdentification createFromFile() throws ConfigurationError {
@@ -195,22 +187,13 @@ public class ServiceIdentificationFactory extends LazyThreadSafeProducer<OwsServ
     }
 
     public Set<Locale> getAvailableLocales() {
-        if (this.title == null) {
-            if (this.abstrakt == null) {
-                return Collections.emptySet();
-            } else {
-                return this.abstrakt.getLocales();
-            }
-        } else {
-            if (this.abstrakt == null) {
-                return this.title.getLocales();
-            } else {
-                return Sets.union(this.title.getLocales(), this.abstrakt.getLocales());
-            }
-        }
+        return Stream.of(this.title, this.abstrakt)
+                .filter(Objects::nonNull)
+                .map(MultilingualString::getLocales)
+                .collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     private static String[] copyOf(String[] a) {
-        return a == null ? new String[0] : Arrays.copyOf(a, a.length);
+        return a == null ? EMPTY_STRING_ARRAY : Arrays.copyOf(a, a.length);
     }
 }
