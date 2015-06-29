@@ -51,6 +51,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
         return hasComponent(key, keys);
     }
 
+    @SuppressWarnings("unchecked")
     public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
         return (Encoder<F, T>) getComponent(key, keys);
     }

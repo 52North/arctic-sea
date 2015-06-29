@@ -23,13 +23,12 @@ import com.google.common.base.Strings;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public abstract class AbstractServiceCommunicationObject implements Request {
 
     /** service parameter */
     private String service;
-
     private String version;
 
     /**
@@ -83,7 +82,7 @@ public abstract class AbstractServiceCommunicationObject implements Request {
     /**
      * Set service and version from another
      * {@link AbstractServiceCommunicationObject}
-     * 
+     *
      * @param object
      *            The {@link AbstractServiceCommunicationObject} to get values
      *            from

@@ -72,6 +72,7 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
         return getLocalization(defaultLanguage);
     }
 
+    @Deprecated
     public MultilingualString filter(Locale locale) {
         boolean showAllLanguageValues
                 = ServiceConfiguration.getInstance().isShowAllLanguageValues();

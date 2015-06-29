@@ -29,9 +29,9 @@ import com.google.common.collect.Multimap;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class MediaType implements Comparable<MediaType> {
@@ -52,7 +52,7 @@ public class MediaType implements Comparable<MediaType> {
 
     /**
      * Constructs a <code>type&#47;*</code> media type.
-     * 
+     *
      * @param type
      *            the type (may be <code>null</code> for a wild card)
      */
@@ -62,7 +62,7 @@ public class MediaType implements Comparable<MediaType> {
 
     /**
      * Constructs a <code>type&#47;subtype</code> media type.
-     * 
+     *
      * @param type
      *            the type (may be <code>null</code> for a wild card)
      * @param subtype
@@ -74,7 +74,7 @@ public class MediaType implements Comparable<MediaType> {
 
     /**
      * Constructs a <code>type&#47;subtype;parameter="name"</code> media type.
-     * 
+     *
      * @param type
      *            the type (may be <code>null</code> for a wild card)
      * @param subtype
@@ -91,7 +91,7 @@ public class MediaType implements Comparable<MediaType> {
 
     /**
      * Constructs a media type using the supplied parameters.
-     * 
+     *
      * @param type
      *            the type (may be <code>null</code> for a wild card)
      * @param subtype
@@ -131,17 +131,15 @@ public class MediaType implements Comparable<MediaType> {
         return getSubtype().equals(WILDCARD_TYPE);
     }
 
-    public boolean isCompatible(MediaType other) {        
+    public boolean isCompatible(MediaType other) {
         if (getDelegate().is(other.getDelegate())) {
             return true;
         }
         //check compatible types
         if (MediaTypes.COMPATIBLE_TYPES.containsKey(other)) {
-            for (MediaType compatibleType : MediaTypes.COMPATIBLE_TYPES.get(other)) {
-                if (getDelegate().is(compatibleType.getDelegate())) {
-                    return true;
-                }
-            }
+            return MediaTypes.COMPATIBLE_TYPES.get(other).stream()
+                    .map(MediaType::getDelegate)
+                    .anyMatch(getDelegate()::is);
         }
         return false;
     }
@@ -195,7 +193,7 @@ public class MediaType implements Comparable<MediaType> {
     public MediaType withoutQuality() {
         return withoutParameter(QUALITY_PARAMETER);
     }
-    
+
     public MediaType withoutParameters() {
         if (!hasParameters()) {
             return this;
@@ -236,15 +234,15 @@ public class MediaType implements Comparable<MediaType> {
     /**
      * Normalize mime type string by processing it through the MediaType parser.
      * Handles differing spaces between type and subtype, etc.
-     * 
+     *
      * @param string
      *            Mime type string to normalize
      * @return Normalized mime type string
-     */    
+     */
     public static String normalizeString(String string) {
         return parse(string).toString();
-    }    
-    
+    }
+
     private com.google.common.net.MediaType getDelegate() {
         return delegate;
     }

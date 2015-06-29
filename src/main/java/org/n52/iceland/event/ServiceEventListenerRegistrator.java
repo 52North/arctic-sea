@@ -21,6 +21,7 @@ import java.util.Collection;
 import javax.inject.Inject;
 
 import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.lifecycle.Destroyable;
 
 /**
  * Class used to decouple {@code ServiceEventListener} and
@@ -31,7 +32,7 @@ import org.n52.iceland.lifecycle.Constructable;
  * @since 1.0.0
  * @author Christian Autermann
  */
-public class ServiceEventListenerRegistrator implements Constructable {
+public class ServiceEventListenerRegistrator implements Constructable, Destroyable {
 
     private ServiceEventBus serviceEventBus;
     private Collection<ServiceEventListener> listeners;
@@ -49,6 +50,11 @@ public class ServiceEventListenerRegistrator implements Constructable {
     @Override
     public void init() {
         this.listeners.forEach(this.serviceEventBus::register);
+    }
+
+    @Override
+    public void destroy() {
+        this.listeners.forEach(this.serviceEventBus::unregister);
     }
 
 }

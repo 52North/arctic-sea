@@ -31,7 +31,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class OwsOperationsMetadata {
     private SortedSet<OwsOperation> operations;
@@ -45,7 +45,7 @@ public class OwsOperationsMetadata {
     }
 
     public void setOperations(Collection<OwsOperation> operations) {
-        this.operations = operations == null ? null : new TreeSet<OwsOperation>(operations);
+        this.operations = operations == null ? null : new TreeSet<>(operations);
     }
 
     public SortedMap<String, List<OwsParameterValue>> getCommonValues() {
@@ -54,26 +54,26 @@ public class OwsOperationsMetadata {
 
     public void addOperation(OwsOperation operation) {
         if (operations == null) {
-            operations = new TreeSet<OwsOperation>();
+            operations = new TreeSet<>();
         }
         operations.add(operation);
     }
 
     public void addCommonValue(String parameterName, OwsParameterValue value) {
         if (commonValues == null) {
-            commonValues = new TreeMap<String, List<OwsParameterValue>>();
+            commonValues = new TreeMap<>();
         }
         List<OwsParameterValue> values = commonValues.get(parameterName);
         if (values == null) {
-            values = new LinkedList<OwsParameterValue>();
+            values = new LinkedList<>();
             commonValues.put(parameterName, values);
         }
         values.add(value);
     }
-    
+
     public void overrideCommonValue(String parameterName, OwsParameterValue value) {
         if (commonValues == null) {
-            commonValues = new TreeMap<String, List<OwsParameterValue>>();
+            commonValues = new TreeMap<>();
         }
         List<OwsParameterValue> values = Lists.newLinkedList();
         values.add(value);

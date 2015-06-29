@@ -52,7 +52,6 @@ import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.GetCapabilitiesRequest;
 import org.n52.iceland.request.RequestContext;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.service.ServiceConfiguration;
 import org.n52.iceland.service.operator.ServiceOperator;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
@@ -72,8 +71,6 @@ public abstract class SimpleBinding extends Binding {
     public static final String QUALITY = "q";
 
     private ServiceEventBus eventBus;
-    @Deprecated
-    private ServiceConfiguration serviceConfiguration;
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
@@ -85,17 +82,6 @@ public abstract class SimpleBinding extends Binding {
 
     public ServiceEventBus getEventBus() {
         return eventBus;
-    }
-
-    @Inject
-    @Deprecated
-    public void setServiceConfiguration(ServiceConfiguration config) {
-        this.serviceConfiguration = config;
-    }
-
-    @Deprecated
-    public ServiceConfiguration getServiceConfiguration() {
-        return serviceConfiguration;
     }
 
     @Inject
@@ -125,10 +111,7 @@ public abstract class SimpleBinding extends Binding {
         return decoderRepository;
     }
 
-    @Deprecated
-    protected boolean isUseHttpResponseCodes() {
-        return this.serviceConfiguration.isUseHttpStatusCodesInKvpAndPoxBinding();
-    }
+    protected abstract boolean isUseHttpResponseCodes();
 
     protected RequestContext getRequestContext(HttpServletRequest req) {
         return RequestContext.fromRequest(req);
@@ -240,7 +223,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        return request.getServiceOperatorKeyType().stream()
+        return request.getServiceOperatorKeys().stream()
                 .map(this::getServiceOperator)
                 .findFirst()
                 .orElseThrow(() -> {
@@ -254,7 +237,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         CompositeOwsException exceptions = new CompositeOwsException();
-        for (ServiceOperatorKey sokt : request.getServiceOperatorKeyType()) {
+        for (ServiceOperatorKey sokt : request.getServiceOperatorKeys()) {
             if (sokt.hasService()) {
                 if (sokt.getService().isEmpty()) {
                     exceptions.add(new MissingServiceParameterException());

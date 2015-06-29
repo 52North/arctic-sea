@@ -16,12 +16,16 @@
  */
 package org.n52.iceland.request;
 
+import static org.n52.iceland.i18n.LocaleHelper.fromString;
+
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
+import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.ogc.ows.Extension;
 import org.n52.iceland.ogc.ows.Extensions;
 import org.n52.iceland.ogc.ows.OWSConstants;
@@ -50,7 +54,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
 
     private Extensions extensions;
 
-    public List<ServiceOperatorKey> getServiceOperatorKeyType() throws OwsExceptionReport {
+    public List<ServiceOperatorKey> getServiceOperatorKeys() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
             checkServiceAndVersionParameter();
             serviceOperatorKeyTypes = Collections.singletonList(new ServiceOperatorKey(getService(), getVersion()));
@@ -133,6 +137,10 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
             }
         }
         return Constants.EMPTY_STRING;
+    }
+
+    public Locale getRequestedLocale() {
+        return LocaleHelper.fromString(getRequestedLanguage());
     }
 
     @Override

@@ -18,7 +18,7 @@ package org.n52.iceland.ogc;
 
 /**
  * Constants interface for OGC SWES
- * 
+ *
  * @since 1.0.0
  */
 public interface OGCConstants {
@@ -27,6 +27,10 @@ public interface OGCConstants {
 
     String NS_OGC_PREFIX = "ogc";
 
+    /**
+     * @deprecated SOS specific
+     */
+    @Deprecated
     String SCHEMA_LOCATION_OGC = "http://schemas.opengis.net/sos/1.0.0/ogc4sos.xsd";
 
     String UNKNOWN = "http://www.opengis.net/def/nil/OGC/0/unknown";
@@ -41,7 +45,10 @@ public interface OGCConstants {
     /** Constant for prefixes of procedures */
     String URN_PHENOMENON_PREFIX = "urn:ogc:def:phenomenon:OGC:1.0.30:";
 
-    /** Constant for prefixes of procedures */
+    /**
+     * @deprecated SOS specific
+     */
+    @Deprecated
     String URN_PROCEDURE_PREFIX = "urn:ogc:object:feature:Sensor:IFGI:";
 
     String URN_PROPERTY_NAME_LOCATION = "urn:ogc:data:location";
@@ -53,16 +60,16 @@ public interface OGCConstants {
     String URN_UNIQUE_IDENTIFIER = "urn:ogc:def:identifier:OGC:uniqueID";
 
     String UNIQUE_ID = "uniqueID";
-    
+
     String URN_UNIQUE_IDENTIFIER_END = UNIQUE_ID;
 
     String URN_UNIQUE_IDENTIFIER_START = "urn:ogc:def:identifier:OGC:";
 
     String URN_OBSERVED_BBOX = "urn:ogc:def:property:OGC:1.0:observedBBOX";
-    
+
     String QUERY_LANGUAGE_PREFIX = "urn:ogc:def:queryLanguage:";
-    
+
     String URN_DEF_CRS_EPSG = "urn:ogc:def:crs:EPSG::";
-    
+
     String URL_DEF_CRS_EPSG = "http://www.opengis.net/def/crs/EPSG/0/";
 }

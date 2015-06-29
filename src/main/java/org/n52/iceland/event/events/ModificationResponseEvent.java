@@ -47,6 +47,7 @@ public abstract class ModificationResponseEvent<I extends AbstractServiceRequest
         return request;
     }
 
+    @SuppressWarnings("unchecked")
     public O getResponse() {
         return (O) super.getResponse();
     }

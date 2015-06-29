@@ -96,6 +96,11 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     @Override
+    protected boolean isUseHttpResponseCodes() {
+        return false;
+    }
+
+    @Override
     public Set<String> getConformanceClasses(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
@@ -172,7 +177,7 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void createBodyResponse(SoapChain chain) throws OwsExceptionReport {
-        AbstractServiceRequest<?> req = chain.getBodyRequest();
+        AbstractServiceRequest<?> req = chain.getSoapRequest().getSoapBodyContent();
         chain.setBodyResponse(getServiceOperator(req).receiveRequest(req));
     }
 
@@ -190,7 +195,7 @@ public class SoapBinding extends AbstractXmlBinding {
     private void writeOwsExceptionReport(SoapChain chain, OwsExceptionReport owse) throws HTTPException, IOException {
         try {
             String version = chain.hasBodyRequest() ? chain.getBodyRequest().getVersion() : null;
-            ServiceEventBus.fire(new ExceptionEvent(owse));
+            getEventBus().submit(new ExceptionEvent(owse));
             chain.getSoapResponse().setException(owse.setVersion(version));
             if (!chain.getSoapResponse().hasSoapVersion()) {
                 chain.getSoapResponse().setSoapVersion(SOAPConstants.SOAP_1_2_PROTOCOL);

@@ -16,13 +16,10 @@
  */
 package org.n52.iceland.util.action;
 
-import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +41,7 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
     private final String threadGroupName;
     private CountDownLatch countDownLatch;
 
+    @SafeVarargs
     public CompositeParallelAction(int threads, String threadGroupName, A... actions) {
         super(actions);
         this.threadGroupName = threadGroupName;

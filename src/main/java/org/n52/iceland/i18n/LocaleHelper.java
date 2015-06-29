@@ -39,6 +39,10 @@ public class LocaleHelper {
         return decoder.apply(locale);
     }
 
+    /**
+     * @deprecated use {@link AbstractServiceRequest#getRequestedLocale()}
+     */
+    @Deprecated
     public static Locale fromRequest(AbstractServiceRequest<?> locale) {
         return fromString(locale.getRequestedLanguage());
     }

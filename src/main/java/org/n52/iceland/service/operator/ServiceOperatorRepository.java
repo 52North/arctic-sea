@@ -21,6 +21,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -33,7 +34,6 @@ import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
@@ -51,8 +51,6 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
     /** supported SOS versions */
     private final SetMultiMap<String, String> supportedVersions = MultiMaps.newSetMultiMap();
 
-    /** supported services */
-    private final Set<String> supportedServices = Sets.newHashSet();
 
     @Autowired(required = false)
     private Collection<ServiceOperator> components;
@@ -66,14 +64,12 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
                 = getUniqueProviders(this.components, this.componentFactories);
 
         this.serviceOperators.clear();
-        this.supportedServices.clear();
         this.supportedVersions.clear();
 
         for (Entry<ServiceOperatorKey, Producer<ServiceOperator>> entry: implementations.entrySet()) {
             ServiceOperatorKey key = entry.getKey();
             Producer<ServiceOperator> producer = entry.getValue();
             this.serviceOperators.put(key, producer);
-            this.supportedServices.add(key.getService());
             this.supportedVersions.add(key.getService(), key.getVersion());
         }
     }
@@ -120,7 +116,9 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
     }
 
     public Set<String> getAllSupportedVersions() {
-        return CollectionHelper.union(supportedVersions.values());
+        return this.supportedVersions.values().stream()
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -129,11 +127,8 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
      * @return the supportedVersions
      *
      */
-    public Set<String> getSupportedVersions(final String service) {
-        if (isServiceSupported(service)) {
-            return Collections.unmodifiableSet(supportedVersions.get(service));
-        }
-        return Sets.newHashSet();
+    public Set<String> getSupportedVersions(String service) {
+        return Collections.unmodifiableSet(this.supportedVersions.getOrDefault(service, Collections.emptySet()));
     }
 
     /**
@@ -144,19 +139,19 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
      * @return the supportedVersions
      *
      */
-    public boolean isVersionSupported(final String service, final String version) {
-        return isServiceSupported(service) && supportedVersions.get(service).contains(version);
+    public boolean isVersionSupported(String service, String version) {
+        return getSupportedVersions(service).contains(version);
     }
 
     /**
      * @return the supportedVersions
      */
     public Set<String> getSupportedServices() {
-        return Collections.unmodifiableSet(supportedServices);
+        return Collections.unmodifiableSet(this.supportedVersions.keySet());
     }
 
-    public boolean isServiceSupported(final String service) {
-        return supportedServices.contains(service);
+    public boolean isServiceSupported(String service) {
+        return this.supportedVersions.containsKey(service);
     }
 
     @Deprecated

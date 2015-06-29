@@ -16,57 +16,53 @@
  */
 package org.n52.iceland.coding.decode;
 
+import org.n52.iceland.util.ClassHelper;
+
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 
 /**
- * {@link NamespaceDecoderKey} implementation for XML namespace and operation
- * name {@link String}.
+ * {@link NamespaceDecoderKey} implementation for XML namespace and {@link Class}.
  *
+ * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 1.0.0
  *
+ * @since 4.0.0
  */
-public class XmlNamespaceOperationDecoderKey extends NamespaceDecoderKey<String> {
+public class XmlNamespaceDecoderKey extends NamespaceDecoderKey<Class<?>> {
 
-    private String type;
+    private Class<?> type;
 
-    public XmlNamespaceOperationDecoderKey(String namespace, String type) {
+    public XmlNamespaceDecoderKey(String namespace, Class<?> type) {
         super(namespace, type);
     }
 
     @Override
     public int getSimilarity(DecoderKey key) {
-        return getSimilarity(key, getType());
+        return getSimilarity(key, Object.class);
     }
 
     @Override
-    protected void setType(String type) {
+    public Class<?> getType() {
+        return type;
+    }
+
+    @Override
+    protected void setType(Class<?> type) {
         this.type = type;
     }
 
     @Override
-    public String getType() {
-        return type;
-    }
-
-    @Override
     protected String getTypeName() {
-        return type;
+        return getType().getSimpleName();
     }
 
     @Override
-    protected int getSimilarity(DecoderKey key, String type) {
+    protected int getSimilarity(DecoderKey key, Class<?> type) {
         if (key != null && key.getClass() == getClass()) {
             NamespaceDecoderKey<?> xmlKey = (NamespaceDecoderKey<?>) key;
-            if (Objects.equal(getNamespace(), xmlKey.getNamespace()) && xmlKey.getType() instanceof String) {
-                if (!Strings.isNullOrEmpty(type) && xmlKey.getType() instanceof String
-                        && !Strings.isNullOrEmpty((String) xmlKey.getType())
-                        && type.equalsIgnoreCase((String) xmlKey.getType())) {
-                    return 0;
-                } else {
-                    return -1;
-                }
+            if (Objects.equal(getNamespace(), xmlKey.getNamespace()) && xmlKey.getType() instanceof Class<?>) {
+                return ClassHelper.getSimiliarity(getType() != null ? getType() : type,
+                        xmlKey.getType() != null ? (Class<?>)xmlKey.getType() : type);
             } else {
                 return -1;
             }
@@ -74,5 +70,4 @@ public class XmlNamespaceOperationDecoderKey extends NamespaceDecoderKey<String>
             return -1;
         }
     }
-
 }

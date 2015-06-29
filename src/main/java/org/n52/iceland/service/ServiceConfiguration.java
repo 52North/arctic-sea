@@ -31,6 +31,7 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.lifecycle.Constructable;
+import org.n52.iceland.util.CRSHelper;
 import org.n52.iceland.util.Validation;
 //import org.n52.sos.util.XmlOptionsHelper;
 
@@ -282,10 +283,7 @@ public class ServiceConfiguration implements Constructable {
 
     @Setting(SRS_NAME_PREFIX_SOS_V1)
     public void setSrsNamePrefixForSosV1(String prefix) {
-        if (!prefix.endsWith(":") && !prefix.isEmpty() && prefix.startsWith("urn")) {
-            prefix += ":";
-        }
-        srsNamePrefix = prefix;
+        srsNamePrefix = CRSHelper.asUrnPrefix(prefix);
     }
 
     /**
@@ -300,11 +298,10 @@ public class ServiceConfiguration implements Constructable {
 
     @Setting(SRS_NAME_PREFIX_SOS_V2)
     public void setSrsNamePrefixForSosV2(String prefix) {
-        if (!prefix.endsWith("/") && !prefix.isEmpty() && prefix.startsWith("http")) {
-            prefix += "/";
-        }
-        srsNamePrefixSosV2 = prefix;
+        srsNamePrefixSosV2 = CRSHelper.asHttpPrefix(prefix);
     }
+
+
 
 //    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)
     @Deprecated
@@ -337,8 +334,7 @@ public class ServiceConfiguration implements Constructable {
     }
 
     public boolean isSetDefaultLanguage() {
-        // TODO Auto-generated method stub
-        return false;
+        return this.defaultLanguage != null;
     }
 
     @Setting(MiscSettings.HYDRO_MAX_NUMBER_OF_RETURNED_TIME_SERIES)

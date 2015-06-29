@@ -23,12 +23,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriter;
@@ -36,14 +38,12 @@ import org.n52.iceland.coding.encode.ResponseWriterRepository;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 4.0.0
  */
 public class HTTPUtils {
@@ -83,12 +83,14 @@ public class HTTPUtils {
             return Collections.singletonList(MediaTypes.WILD_CARD);
         }
         String[] values = header.split(",");
-        ArrayList<MediaType> mediaTypes = new ArrayList<MediaType>(values.length);
+        ArrayList<MediaType> mediaTypes = new ArrayList<>(values.length);
         for (int i = 0; i < values.length; ++i) {
             try {
                 // Fix for invalid HTTP-Accept header send by OGC OWS-Cite tests
-                if (!" *; q=.2".equals(values[i]) && !"*; q=.2".equals(values[i]) && !" *; q=0.2".equals(values[i])
-                        && !"*; q=0.2".equals(values[i])) {
+                if (!" *; q=.2".equals(values[i]) &&
+                    !"*; q=.2".equals(values[i]) &&
+                    !" *; q=0.2".equals(values[i]) &&
+                    !"*; q=0.2".equals(values[i])) {
                     mediaTypes.add(MediaType.parse(values[i]));
                 } else {
                     LOGGER.warn("The HTTP-Accept header contains an invalid value: {}", values[i]);
@@ -117,9 +119,7 @@ public class HTTPUtils {
             throws IOException {
         response.setStatus(sr.getStatus().getCode());
 
-        for (Entry<String, String> header : sr.getHeaderMap().entrySet()) {
-            response.addHeader(header.getKey(), header.getValue());
-        }
+        sr.getHeaderMap().forEach(response::addHeader);
 
         if (!sr.isContentLess()) {
             writeObject(request, response, sr.getContentType(), new ServiceResponseWritable(sr));
@@ -149,12 +149,11 @@ public class HTTPUtils {
 
     private static class GenericWritable implements Writable {
         private final Object o;
-
-        private ResponseWriter<Object> writer;
+        private final ResponseWriter<Object> writer;
 
         /**
          * constructor
-         * 
+         *
          * @param o
          *            {@link Object} to write
          * @param ct
@@ -179,6 +178,7 @@ public class HTTPUtils {
             writer.write(o, out, responseProxy);
         }
 
+        @Override
         public MediaType getEncodedContentType() {
         	if (o instanceof ResponseFormat) {
         		return writer.getEncodedContentType((ResponseFormat)o);
@@ -217,8 +217,8 @@ public class HTTPUtils {
     public interface Writable {
         void write(OutputStream out, ResponseProxy responseProxy) throws IOException;
 
-        boolean supportsGZip();        
-        
+        boolean supportsGZip();
+
         MediaType getEncodedContentType();
     }
 

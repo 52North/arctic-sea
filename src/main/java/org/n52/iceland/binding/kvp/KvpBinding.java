@@ -36,6 +36,8 @@ import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
+import org.n52.iceland.config.annotation.Configurable;
+import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
@@ -49,6 +51,7 @@ import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.iceland.service.MiscSettings;
 import org.n52.iceland.util.KvpHelper;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
@@ -60,6 +63,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
+@Configurable
 public class KvpBinding extends SimpleBinding {
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);
 
@@ -70,6 +74,19 @@ public class KvpBinding extends SimpleBinding {
             .add(new PathBindingKey(BindingConstants.KVP_BINDING_ENDPOINT))
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_KVP))
             .build();
+
+    private boolean useHttpResponseCodes;
+
+    @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
+    public void setUseHttpResponseCodes(boolean useHttpResponseCodes) {
+        this.useHttpResponseCodes = useHttpResponseCodes;
+    }
+
+    @Override
+    protected boolean isUseHttpResponseCodes() {
+        return this.useHttpResponseCodes;
+    }
+
 
     @Override
     public Set<BindingKey> getKeys() {

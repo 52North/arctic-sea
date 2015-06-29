@@ -34,6 +34,11 @@ public class TestXmlBinding extends AbstractXmlBinding {
             = ImmutableSet.of(PATH_KEY, MEDIA_TYPE_KEY);
 
     @Override
+    protected boolean isUseHttpResponseCodes() {
+        return false;
+    }
+
+    @Override
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
     }

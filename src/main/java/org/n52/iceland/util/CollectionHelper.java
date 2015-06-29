@@ -16,20 +16,32 @@
  */
 package org.n52.iceland.util;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -52,92 +64,94 @@ public final class CollectionHelper {
      *            <i>unmodifiable</i> map
      * @return an <i>unmodifiable</i> map with all given entries
      */
-    public static <K, V> Map<K, V> map(final Entry<K, V>... entries) {
-        final HashMap<K, V> map = new HashMap<K, V>(entries.length);
-        for (final Entry<K, V> entry : entries) {
-            map.put(entry.getKey(), entry.getValue());
-        }
-        return Collections.unmodifiableMap(map);
+    @SafeVarargs
+    public static <K, V> Map<K, V> map(Entry<K, V>... entries) {
+        return Collections.unmodifiableMap(Arrays.stream(entries)
+                .collect(Collectors.toMap(Entry::getKey, Entry::getValue)));
     }
 
     /**
      * @return an <b>UNMODIFIABLE</b> Set&lt;T&gt;
      */
-    public static <T> Set<T> set(final T... elements) {
+    @SafeVarargs
+    public static <T> Set<T> set(T... elements) {
         return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(elements)));
     }
 
     /**
      * @return an <b>UNMODIFIABLE</b> List&lt;T&gt;
      */
-    public static <T> List<T> list(final T... elements) {
+    @SafeVarargs
+    public static <T> List<T> list(T... elements) {
         return Collections.unmodifiableList(Arrays.asList(elements));
     }
 
-    public static <T> Set<T> union(final Set<T>... elements) {
-        return ((elements.length == 0) ? Collections.<T> emptySet() : new HashSet<T>(elements.length
-                * elements[0].size()) {
-            private static final long serialVersionUID = -3161916411604210423L;
-            {
-                for (final Set<T> s : elements) {
-                    addAll(s);
-                }
-            }
-        });
+    @SafeVarargs
+    public static <T> Set<T> union(Set<T>... elements) {
+        return Arrays.stream(elements).flatMap(Set::stream).collect(toSet());
     }
 
-    public static <T> Set<T> union(final Iterable<Set<T>> elements) {
-        return new HashSet<T>() {
-            private static final long serialVersionUID = -3161916411604210423L;
-            {
-                for (final Set<T> s : elements) {
-                    addAll(s);
-                }
-            }
-        };
+    public static <T> Set<T> union(Iterable<Set<T>> elements) {
+        return StreamSupport.stream(elements.spliterator(), true)
+                .flatMap(Set::stream).collect(toSet());
     }
 
     /**
+     * @param <T> the key type
+     * @param s the set
      * @return an <b>UNMODIFIABLE</b> Set&lt;T&gt;
      */
-    public static <T> Set<T> unmodifiableSet(final Set<? extends T> s) {
-        return (s == null) ? Collections.<T> emptySet() : Collections.unmodifiableSet(s);
+    public static <T> Set<T> unmodifiableSet(Set<? extends T> s) {
+        return Optional.ofNullable(s)
+                .map(Collections::unmodifiableSet)
+                .orElseGet(Collections::emptySet);
     }
 
     /**
+     * @param <K> the key type
+     * @param <V> the value type
+     * @param m the map
      * @return an <b>UNMODIFIABLE</b> Map&lt;K, V&gt;
      */
-    public static <K, V> Map<K, V> unmodifiableMap(final Map<? extends K, ? extends V> m) {
-        return (m == null) ? Collections.<K, V> emptyMap() : Collections.unmodifiableMap(m);
+    public static <K, V> Map<K, V> unmodifiableMap(Map<? extends K, ? extends V> m) {
+        return Optional.ofNullable(m)
+                .map(Collections::unmodifiableMap)
+                .orElseGet(Collections::emptyMap);
     }
 
     /**
+     * @param c the collection
      * @return an <b>UNMODIFIABLE</b> Collection&lt;T&gt;
      */
-    public static <T> Collection<T> unmodifiableCollection(final Collection<? extends T> c) {
-        return (c == null) ? Collections.<T> emptyList() : Collections.unmodifiableCollection(c);
+    public static <T> Collection<T> unmodifiableCollection(
+            Collection<? extends T> c) {
+        return Optional.ofNullable(c)
+                .map(Collections::unmodifiableCollection)
+                .orElseGet(Collections::emptyList);
     }
 
     /**
+     * @param <T> the element type
+     * @param l the list
      * @return an <b>UNMODIFIABLE</b> List&lt;T&gt;
      */
-    public static <T> List<T> unmodifiableList(final List<? extends T> l) {
-        return (l == null) ? Collections.<T> emptyList() : Collections.unmodifiableList(l);
+    public static <T> List<T> unmodifiableList(List<? extends T> l) {
+        return Optional.ofNullable(l)
+                .map(Collections::unmodifiableList)
+                .orElseGet(Collections::emptyList);
     }
 
-    public static <T> List<T> conjunctCollections(final Collection<T> list1, final Collection<T> list2) {
-        final HashSet<T> s1 = new HashSet<T>(list1);
-        s1.retainAll(list2);
-        return new ArrayList<T>(s1);
+    public static <T> List<T> conjunctCollections(Collection<T> list1, Collection<T> list2) {
+        Set<T> set = new HashSet<>(list2);
+        return list1.stream().filter(set::contains).collect(toList());
     }
 
-    public static <T> Set<T> conjunctCollectionsToSet(final Collection<T> list1, final Collection<T> list2) {
-        final HashSet<T> s1 = new HashSet<T>(list1);
-        s1.retainAll(list2);
-        return s1;
+    public static <T> Set<T> conjunctCollectionsToSet(Collection<T> list1, Collection<T> list2) {
+        Set<T> set = new HashSet<>(list2);
+        return list1.stream().filter(set::contains).collect(toSet());
     }
 
-    public static <K, V> Map<K, V> synchronizedInitialSizeMapWithLoadFactor1(final int capacity) {
+    public static <K, V> Map<K, V> synchronizedInitialSizeMapWithLoadFactor1(int capacity) {
         return CollectionHelper.synchronizedMap(capacity, 1.0F);
     }
 
@@ -145,11 +159,11 @@ public final class CollectionHelper {
         return Collections.synchronizedMap(Maps.<K, V> newHashMap());
     }
 
-    public static <K, V> Map<K, V> synchronizedMap(final int initialCapacity) {
+    public static <K, V> Map<K, V> synchronizedMap(int initialCapacity) {
         return Collections.synchronizedMap(new HashMap<K, V>(initialCapacity));
     }
 
-    public static <K, V> Map<K, V> synchronizedMap(final int initialCapacity, final float loadFactor) {
+    public static <K, V> Map<K, V> synchronizedMap(int initialCapacity, float loadFactor) {
         return Collections.synchronizedMap(new HashMap<K, V>(initialCapacity, loadFactor));
     }
 
@@ -171,7 +185,7 @@ public final class CollectionHelper {
      *
      * @return a synchronized Set
      */
-    public static <T> Set<T> synchronizedSet(final int initialCapacity) {
+    public static <T> Set<T> synchronizedSet(int initialCapacity) {
         return Collections.synchronizedSet(new HashSet<T>(initialCapacity));
     }
 
@@ -193,7 +207,7 @@ public final class CollectionHelper {
      *
      * @return a synchronized List
      */
-    public static <E> List<E> synchronizedList(final int initialCapacity) {
+    public static <E> List<E> synchronizedList(int initialCapacity) {
         return Collections.synchronizedList(Lists.<E> newArrayListWithCapacity(initialCapacity));
     }
 
@@ -204,21 +218,14 @@ public final class CollectionHelper {
      * @return a Set&lt;T> containing all values of all Collections&lt;T>
      *         without any duplicates
      */
-    public static <T> Set<T> unionOfListOfLists(final Collection<? extends Collection<T>> collectionOfCollection) {
-        if (collectionOfCollection == null || collectionOfCollection.isEmpty()) {
-            return Collections.emptySet();
-        }
-        final HashSet<T> union = new HashSet<T>();
-        for (final Collection<T> col : collectionOfCollection) {
-            if (col != null) {
-                for (final T t : col) {
-                    if (t != null) {
-                        union.add(t);
-                    }
-                }
-            }
-        }
-        return union;
+    public static <T> Set<T> unionOfListOfLists(Collection<? extends Collection<? extends T>> collectionOfCollection) {
+        return Optional.ofNullable(collectionOfCollection)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .filter(Objects::nonNull)
+                .flatMap(x -> x.stream())
+                .filter(Objects::nonNull)
+                .collect(toSet());
     }
 
     /**
@@ -229,7 +236,7 @@ public final class CollectionHelper {
      *
      * @return empty or not
      */
-    public static <T> boolean isNotEmpty(final Collection<T> collection) {
+    public static <T> boolean isNotEmpty(Collection<T> collection) {
         return !isEmptyOrNull(collection);
     }
 
@@ -246,7 +253,7 @@ public final class CollectionHelper {
      * @return <tt>true</tt>, if collection is not null and empty, else
      *         <tt>false</tt>
      */
-    public static <T> boolean isEmpty(final Collection<T> collection) {
+    public static <T> boolean isEmpty(Collection<T> collection) {
         return collection != null && collection.isEmpty();
     }
 
@@ -260,7 +267,7 @@ public final class CollectionHelper {
      * @return <tt>false</tt>, if map is <tt>null</tt> or empty, else
      *         <tt>true</tt>.
      */
-    public static <K, V> boolean isNotEmpty(final Map<K, V> map) {
+    public static <K, V> boolean isNotEmpty(Map<K, V> map) {
         return map != null && !map.isEmpty();
     }
 
@@ -272,7 +279,7 @@ public final class CollectionHelper {
      *
      * @return <tt>true</tt>, if map is not null and empty, else <tt>false</tt>
      */
-    public static <K, V> boolean isEmpty(final Map<K, V> map) {
+    public static <K, V> boolean isEmpty(Map<K, V> map) {
         return map != null && map.isEmpty();
     }
 
@@ -288,12 +295,8 @@ public final class CollectionHelper {
      *
      * @return the reversed map
      */
-    public static <K, V> Map<V, K> reverse(final Map<K, V> map) {
-        final Map<V, K> reversed = new HashMap<V, K>(map.size());
-        for (final Entry<K, V> e : map.entrySet()) {
-            reversed.put(e.getValue(), e.getKey());
-        }
-        return reversed;
+    public static <K, V> Map<V, K> reverse(Map<K, V> map) {
+        return map.entrySet().stream().collect(entryToMap());
     }
 
     /**
@@ -305,14 +308,10 @@ public final class CollectionHelper {
      * @return whether the collection is null, empty, or contains only nulls
      */
     public static boolean nullEmptyOrContainsOnlyNulls(final Collection<? extends Object> collection) {
-        if (isNotEmpty(collection)) {
-            for (final Object obj : collection) {
-                if (obj != null) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return Optional.ofNullable(collection)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .allMatch(Objects::isNull);
     }
 
     /**
@@ -338,19 +337,8 @@ public final class CollectionHelper {
     }
 
     public static String collectionToString(Collection<?> collection) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(Constants.OPEN_BRACE_CHAR);
-        if (isNotEmpty(collection)) {
-            Iterator<?> iterator = collection.iterator();
-            while (iterator.hasNext()) {
-                Object object = (Object) iterator.next();
-                builder.append(object.toString());
-                builder.append(Constants.COMMA_CHAR);
-            }
-            builder.deleteCharAt(builder.lastIndexOf(Constants.COMMA_STRING));
-        }
-        builder.append(Constants.CLOSE_BRACE_CHAR);
-        return builder.toString();
+        return collection.stream().map(String::valueOf)
+                .collect(joining(",", "(", ")"));
     }
 
     /**
@@ -360,31 +348,31 @@ public final class CollectionHelper {
      * @param valueToAdd Vale to add to the key's collection
      * @param map Map holding collections
      */
-    public static <K, V> void addToCollectionMap(K key, V valueToAdd, Map<K,Collection<V>> map) {
-        if (key == null || valueToAdd == null || map == null) {
-            return;
+    public static <K, V> void addToCollectionMap(K key, V valueToAdd, Map<K, Collection<V>> map) {
+        if (key != null && valueToAdd != null && map != null)  {
+            map.computeIfAbsent(key, k -> Lists.newArrayList()).add(valueToAdd);
         }
-        Collection<V> collection = map.get(key);
-        if (collection == null) {
-            collection = Lists.newArrayList();
-            map.put(key, collection);
-        }
-        collection.add(valueToAdd);
     }
 
-    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue( Map<K, V> map) {
-    	List<Map.Entry<K, V>> list = new LinkedList<>( map.entrySet() );
-    	Collections.sort( list, new Comparator<Map.Entry<K, V>>() {
-    		@Override
-    		public int compare( Map.Entry<K, V> o1, Map.Entry<K, V> o2 ) {
-    			return (o1.getValue()).compareTo( o2.getValue() );
-    		}
-    	});
-    	Map<K, V> result = new LinkedHashMap<>();
-    	for (Map.Entry<K, V> entry : list) {
-    		result.put( entry.getKey(), entry.getValue() );
-    	}
-    	return result;
+    public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        return map.entrySet().stream()
+                .sorted(comparing(Map.Entry::getValue))
+                .collect(toLinkedHashMap());
     }
 
+    private static <A, B> BiConsumer<B, A> reverse(BiConsumer<A, B> consumer) {
+        return (a, b) -> consumer.accept(b, a);
+    }
+
+    private static <K,V> Collector<Entry<K, V>, ?, Map<V, K>> entryToMap() {
+        return Collectors.toMap(Entry::getValue, Entry::getKey);
+    }
+
+    private static <K,V> Collector<Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedHashMap() {
+        return toMap(Entry::getKey, Entry::getValue, throwingMerger(), LinkedHashMap::new);
+    }
+
+    private static <T> BinaryOperator<T> throwingMerger() {
+        return (u,v) -> { throw new IllegalStateException(String.format("Duplicate key %s", u)); };
+    }
 }

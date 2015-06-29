@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +66,7 @@ public class ResponseWriterRepository extends AbstractComponentRepository<Respon
     }
 
     @SuppressWarnings("unchecked")
-    public <T> ResponseWriter<T> getWriter(final Class<? extends T> clazz) {
+    public <T> ResponseWriter<T> getWriter(Class<? extends T> clazz) {
         ResponseWriterKey key = new ResponseWriterKey(clazz);
         if (!writersByClass.containsKey(key)) {
             Set<Class<?>> compatible = Sets.newHashSet();
@@ -76,7 +77,9 @@ public class ResponseWriterRepository extends AbstractComponentRepository<Respon
             }
             writersByClass.put(key, writersByClass.get(chooseWriter(compatible, clazz)));
         }
-        return (ResponseWriter<T>) writersByClass.get(key).get();
+        Producer<ResponseWriter<?>> producer = writersByClass.get(key);
+        return (ResponseWriter<T>) Optional.ofNullable(producer)
+                .map(Producer::get).orElse(null);
     }
 
 	private  ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {

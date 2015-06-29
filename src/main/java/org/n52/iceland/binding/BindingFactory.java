@@ -19,8 +19,9 @@ package org.n52.iceland.binding;
 import org.n52.iceland.component.ComponentFactory;
 
 /**
- * TODO JavaDoc
+ * {@code ComponentFactory} interface for {@link Binding}s.
  *
+ * @since 1.0.0
  * @author Christian Autermann
  */
 public interface BindingFactory extends ComponentFactory<BindingKey, Binding> {

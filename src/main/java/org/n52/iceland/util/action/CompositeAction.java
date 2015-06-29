@@ -26,12 +26,13 @@ import com.google.common.base.Joiner;
  * @param <A>
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
- * 
+ *
  */
 public abstract class CompositeAction<A extends Action> extends RunnableAction {
 
     private List<A> actions;
 
+    @SafeVarargs
     public CompositeAction(A... actions) {
         this.actions = Arrays.asList(actions);
     }

@@ -16,8 +16,13 @@
  */
 package org.n52.iceland.util.action;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 
 
 /**
@@ -30,12 +35,17 @@ import org.slf4j.LoggerFactory;
 public abstract class CompositeSerialAction<A extends Action> extends CompositeAction<A> {
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeSerialAction.class);
 
+    @SafeVarargs
     public CompositeSerialAction(A... actions) {
         super(actions);
     }
 
     @Override
     public void execute() {
+        Optional.ofNullable(getActions())
+                .map(List::stream)
+                .orElseGet(Stream::empty)
+                .forEach(this::pre);
         if (getActions() != null) {
             for (A action : getActions()) {
                 pre(action);
