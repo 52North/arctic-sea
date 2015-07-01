@@ -62,7 +62,7 @@ public interface MediaTypes {
     MediaType APPLICATION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
 
 	@Deprecated
-	MediaType APPLICTION_OM_20 O APLLICATION_OM_20;
+	MediaType APPLICTION_OM_20 = APPLICATION_OM_20;
     
     ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES = new ImmutableSetMultimap
             .Builder<MediaType, MediaType>()
