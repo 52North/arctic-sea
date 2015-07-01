@@ -29,7 +29,7 @@ import com.google.common.collect.ImmutableSet;
 /**
  * SosConstants holds all important and often used constants (e.g. name of the
  * getCapabilities operation) that are specific to OGC SOS 2.0
- * 
+ *
  * @since 1.0.0
  */
 public interface Sos2Constants extends SosConstants{
@@ -234,7 +234,12 @@ public interface Sos2Constants extends SosConstants{
      * versions
      */
     enum Operations {
-        InsertSensor, DeleteSensor, InsertResult, InsertResultTemplate, GetResultTemplate, UpdateSensorDescription;
+        InsertSensor,
+        DeleteSensor,
+        InsertResult,
+        InsertResultTemplate,
+        GetResultTemplate,
+        UpdateSensorDescription;
     }
 
     /**

@@ -129,6 +129,7 @@ public final class KvpHelper {
      * @param value
      * @throws InvalidParameterValueException
      */
+    @Deprecated
     public static void checkRequestParameter(String value) throws InvalidParameterValueException {
         for (RequestOperatorKey rok : RequestOperatorRepository.getInstance().getAllRequestOperatorKeys()) {
             if (value.equals(rok.getOperationName())) {

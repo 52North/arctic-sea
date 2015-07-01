@@ -31,7 +31,9 @@ import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.STATE;
 
 import java.io.File;
 import java.net.URI;
+import java.util.Collections;
 import java.util.Locale;
+import java.util.Set;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
@@ -138,24 +140,38 @@ public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServicePro
     protected OwsServiceProvider create(Locale language) throws ConfigurationError {
         OwsServiceProvider serviceProvider = new OwsServiceProvider();
         if (this.file != null) {
-            try {
-                serviceProvider.setServiceProvider(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
-            } catch (OwsExceptionReport ex) {
-                throw new ConfigurationError(ex);
-            }
+            createFromFile(serviceProvider);
         } else {
-            serviceProvider.setAdministrativeArea(this.administrativeArea);
-            serviceProvider.setCity(this.city);
-            serviceProvider.setCountry(this.country);
-            serviceProvider.setDeliveryPoint(this.deliveryPoint);
-            serviceProvider.setIndividualName(this.individualName);
-            serviceProvider.setMailAddress(this.mailAddress);
-            serviceProvider.setName(this.name);
-            serviceProvider.setPhone(this.phone);
-            serviceProvider.setPositionName(this.positionName);
-            serviceProvider.setPostalCode(this.postalCode);
-            serviceProvider.setSite(this.site == null ? null : this.site.toString());
+            createFromSettings(serviceProvider);
         }
         return serviceProvider;
+    }
+
+    private void createFromSettings(OwsServiceProvider serviceProvider) {
+        serviceProvider.setAdministrativeArea(this.administrativeArea);
+        serviceProvider.setCity(this.city);
+        serviceProvider.setCountry(this.country);
+        serviceProvider.setDeliveryPoint(this.deliveryPoint);
+        serviceProvider.setIndividualName(this.individualName);
+        serviceProvider.setMailAddress(this.mailAddress);
+        serviceProvider.setName(this.name);
+        serviceProvider.setPhone(this.phone);
+        serviceProvider.setPositionName(this.positionName);
+        serviceProvider.setPostalCode(this.postalCode);
+        serviceProvider.setSite(this.site == null ? null : this.site.toString());
+    }
+
+    private void createFromFile(OwsServiceProvider serviceProvider)
+            throws ConfigurationError {
+        try {
+            serviceProvider.setServiceProvider(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
+        } catch (OwsExceptionReport ex) {
+            throw new ConfigurationError(ex);
+        }
+    }
+
+    @Override
+    public Set<Locale> getAvailableLocales() {
+        return Collections.emptySet();
     }
 }

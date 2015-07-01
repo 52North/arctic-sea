@@ -39,10 +39,10 @@ public class OwsServiceIdentification {
     private String serviceType;
     private String serviceTypeCodeSpace;
     private String fees;
-    private final SortedSet<String> accessConstraints = new TreeSet<String>();
-    private final SortedSet<String> versions = new TreeSet<String>();
-    private final SortedSet<String> profiles = new TreeSet<String>();
-    private final SortedSet<String> keywords = new TreeSet<String>();
+    private final SortedSet<String> accessConstraints = new TreeSet<>();
+    private final SortedSet<String> versions = new TreeSet<>();
+    private final SortedSet<String> profiles = new TreeSet<>();
+    private final SortedSet<String> keywords = new TreeSet<>();
 
     public String getServiceIdentification() {
         return serviceIdentification;
@@ -51,7 +51,7 @@ public class OwsServiceIdentification {
     public void setServiceIdentification(final String serviceIdentification) {
         this.serviceIdentification = serviceIdentification;
     }
-    
+
     public boolean isSetServiceIdentification() {
         return !Strings.isNullOrEmpty(getServiceIdentification());
     }

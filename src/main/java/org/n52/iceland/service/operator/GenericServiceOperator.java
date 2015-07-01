@@ -40,28 +40,16 @@ import com.google.common.base.MoreObjects;
  *
  * @author Christian Autermann
  */
-public class GenericServiceOperator implements ServiceOperator, Constructable {
+public class GenericServiceOperator implements ServiceOperator {
     private RequestOperatorRepository requestOperatorRepository;
-    private ServiceOperatorKey key;
-    private String service;
-    private String version;
+    private final ServiceOperatorKey key;
+    private final String service;
+    private final String version;
 
-    /**
-     * Sets the version of this OWS Service.
-     *
-     * @param version
-     */
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    /**
-     * Sets the name of this OWS service.
-     *
-     * @param service
-     */
-    public void setService(String service) {
-        this.service = service;
+    public GenericServiceOperator(String service, String version) {
+        this.service = Objects.requireNonNull(service);
+        this.version = Objects.requireNonNull(version);
+        this.key = new ServiceOperatorKey(service, version);
     }
 
     /**
@@ -82,12 +70,6 @@ public class GenericServiceOperator implements ServiceOperator, Constructable {
     @Inject
     public void setRequestOperatorRepository(RequestOperatorRepository repo) {
         this.requestOperatorRepository = repo;
-    }
-
-    @Override
-    public void init() {
-        this.key = new ServiceOperatorKey(Objects.requireNonNull(this.service),
-                                          Objects.requireNonNull(this.version));
     }
 
     @Override

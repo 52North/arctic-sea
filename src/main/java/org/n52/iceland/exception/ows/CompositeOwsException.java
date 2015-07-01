@@ -16,26 +16,40 @@
  */
 package org.n52.iceland.exception.ows;
 
+import org.n52.iceland.util.ThrowingRunnable;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collector.Characteristics;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.n52.iceland.exception.CodedException;
+import org.n52.iceland.util.ThrowingCallable;
+import org.n52.iceland.util.ThrowingConsumer;
 
 /**
  * Composite {@link OwsExceptionReport} which can contain several
  * {@link OwsExceptionReport}s which were thrown
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class CompositeOwsException extends OwsExceptionReport {
     private static final long serialVersionUID = -4876354677532448922L;
 
-    private List<CodedException> exceptions = new LinkedList<CodedException>();
+    private final List<CodedException> exceptions = new LinkedList<>();
 
     public CompositeOwsException(OwsExceptionReport... exceptions) {
         add(exceptions);
@@ -48,11 +62,16 @@ public class CompositeOwsException extends OwsExceptionReport {
     public CompositeOwsException() {
     }
 
-    public CompositeOwsException add(Collection<? extends OwsExceptionReport> exceptions) {
+    public final CompositeOwsException addAllOf(CompositeOwsException exceptions) {
+        return this.add(exceptions.getExceptions());
+    }
+
+    public final CompositeOwsException add(Collection<? extends OwsExceptionReport> exceptions) {
         if (exceptions != null) {
-            for (OwsExceptionReport e : exceptions) {
-                this.exceptions.addAll(e.getExceptions());
-            }
+            exceptions.stream()
+                    .map(OwsExceptionReport::getExceptions)
+                    .forEach(this.exceptions::addAll);
+
             if (getCause() == null && !this.exceptions.isEmpty()) {
                 initCause(this.exceptions.get(0));
             }
@@ -60,7 +79,7 @@ public class CompositeOwsException extends OwsExceptionReport {
         return this;
     }
 
-    public CompositeOwsException add(OwsExceptionReport... exceptions) {
+    public final CompositeOwsException add(OwsExceptionReport... exceptions) {
         return add(Arrays.asList(exceptions));
     }
 
@@ -79,7 +98,81 @@ public class CompositeOwsException extends OwsExceptionReport {
         return this.exceptions.size();
     }
 
-    public boolean hasExceptions() {
-        return !this.exceptions.isEmpty();
+    public boolean isEmpty() {
+        return this.exceptions.isEmpty();
     }
+
+    public boolean hasExceptions() {
+        return !isEmpty();
+    }
+
+    public void wrap(ThrowingRunnable<OwsExceptionReport> runnable) {
+        try {
+            runnable.run();
+        } catch (OwsExceptionReport e) {
+            add(e);
+        }
+    }
+
+    public <T> Optional<T> wrap(ThrowingCallable<T, OwsExceptionReport> runnable) {
+        try {
+            return Optional.ofNullable(runnable.call());
+        } catch (OwsExceptionReport e) {
+            add(e);
+            return Optional.empty();
+        }
+    }
+
+    public static <T> Collector<? super T, ?, CompositeOwsException> toCompositeException(
+            ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun) {
+        return new ExceptionCollector<>(fun);
+    }
+
+    public static <T> void check(Stream<? extends T> stream,
+            ThrowingConsumer<? super T, ? extends OwsExceptionReport> consumer)
+            throws OwsExceptionReport {
+        CompositeOwsException exceptions = new CompositeOwsException();
+        stream.forEach(t -> exceptions.wrap(() -> consumer.accept(t)));
+        exceptions.throwIfNotEmpty();
+    }
+
+    private static class ExceptionCollector<T> implements Collector<T, CompositeOwsException, CompositeOwsException> {
+        private final ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun;
+
+        ExceptionCollector(ThrowingConsumer<? super T, ? extends OwsExceptionReport> fun) {
+            this.fun = fun;
+        }
+
+        @Override
+        public Supplier<CompositeOwsException> supplier() {
+            return CompositeOwsException::new;
+        }
+
+        @Override
+        public BiConsumer<CompositeOwsException, T> accumulator() {
+            return (composite, t) -> {
+                try {
+                    fun.accept(t);
+                } catch (OwsExceptionReport e) {
+                    composite.add(e);
+                }
+            };
+        }
+
+        @Override
+        public BinaryOperator<CompositeOwsException> combiner() {
+            return CompositeOwsException::addAllOf;
+        }
+
+        @Override
+        public Function<CompositeOwsException, CompositeOwsException> finisher() {
+            return Function.identity();
+        }
+
+        @Override
+        public Set<Characteristics> characteristics() {
+            return Collections.singleton(Characteristics.IDENTITY_FINISH);
+        }
+    }
+
 }

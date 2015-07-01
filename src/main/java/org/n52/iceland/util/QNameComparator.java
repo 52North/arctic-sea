@@ -22,29 +22,19 @@ import javax.xml.namespace.QName;
 
 /**
  * Comparator for {@link QName}s.
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 4.0.0
- * 
+ *
  */
 public class QNameComparator implements Comparator<QName> {
-    public static final QNameComparator INSTANCE = new QNameComparator();
+    public static final Comparator<QName> INSTANCE =
+            Comparator.nullsLast(Comparator.comparing(QName::getPrefix, Comparator.nullsLast(String::compareTo))
+                  .thenComparing(Comparator.comparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo))));
 
     @Override
     public int compare(QName o1, QName o2) {
-        if (o1.getPrefix() != null) {
-            if (o2.getPrefix() != null) {
-                int prefix = o1.getPrefix().compareTo(o2.getPrefix());
-                if (prefix != 0) {
-                    return prefix;
-                }
-            } else {
-                return 1;
-            }
-        } else if (o2.getPrefix() != null) {
-            return -1;
-        }
-        return o1.getLocalPart().compareTo(o2.getLocalPart());
+        return INSTANCE.compare(o1, o2);
     }
 
 }

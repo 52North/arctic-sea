@@ -17,6 +17,7 @@
 package org.n52.iceland.util;
 
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Generic Factory interface.
@@ -39,4 +40,11 @@ public interface LocalizedProducer<T> extends Producer<T> {
      * @return Result in the specified language
      */
     T get(Locale language);
+
+    /**
+     * Gets the {@code Locale}s available to this {@code Producer}.
+     *
+     * @return the locales
+     */
+    Set<Locale> getAvailableLocales();
 }

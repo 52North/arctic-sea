@@ -14,21 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.lifecycle;
+package org.n52.iceland.util;
 
-import javax.annotation.PostConstruct;
+import java.util.Objects;
 
 /**
+ * TODO JavaDoc
  *
- * 
- *
- * @see PostConstruct
- * @since 1.0.0
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  */
-public interface Constructable {
-    /**
-     * Constructs this object.
-     */
-    void init();
+@FunctionalInterface
+public interface ThrowingConsumer<T, X extends Exception> {
+
+    void accept(T t) throws X;
+
+    default ThrowingConsumer<T, X> andThen(ThrowingConsumer<? super T, ? extends X> after) {
+        Objects.requireNonNull(after);
+        return (T t) -> { accept(t); after.accept(t); };
+    }
 }

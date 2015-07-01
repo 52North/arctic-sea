@@ -14,21 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.lifecycle;
-
-import javax.annotation.PostConstruct;
+package org.n52.iceland.util;
 
 /**
+ * TODO JavaDoc
  *
- * 
- *
- * @see PostConstruct
- * @since 1.0.0
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
+ * @param <X> The exception type
  */
-public interface Constructable {
-    /**
-     * Constructs this object.
-     */
-    void init();
+@FunctionalInterface
+public interface ThrowingRunnable<X extends Exception> {
+
+    void run()
+            throws X;
+
 }

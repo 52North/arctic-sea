@@ -23,7 +23,7 @@ package org.n52.iceland.service;
  */
 public interface ServiceSettings {
 
-    String SERVICE_URL = "service.sosUrl";
+    String SERVICE_URL = "service.serviceURL";
 
     @Deprecated
     //  String SUPPORTS_QUALITY = "service.supportsQuality";

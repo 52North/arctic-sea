@@ -119,8 +119,8 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         String version = null;
         String operation = null;
         if (element.hasAttributes()) {
-            service = element.getAttribute(OWSConstants.RequestParams.service.name());
-            version = element.getAttribute(OWSConstants.RequestParams.version.name());
+            service = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.service.name()));
+            version = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.version.name()));
             if (!Strings.isNullOrEmpty(service)) {
                 String nodeName = element.getNodeName();
                 operation = nodeName.substring(nodeName.indexOf(Constants.COLON_STRING) + 1);

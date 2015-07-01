@@ -14,21 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.lifecycle;
-
-import javax.annotation.PostConstruct;
+package org.n52.iceland.util;
 
 /**
+ * TODO JavaDoc
  *
- * 
- *
- * @see PostConstruct
- * @since 1.0.0
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  */
-public interface Constructable {
-    /**
-     * Constructs this object.
-     */
-    void init();
+public class CRSHelper {
+    public static String asHttpPrefix(String prefix) {
+        return (!prefix.endsWith("/") && !prefix.isEmpty() && prefix
+                .startsWith("http")) ? prefix + "/" : prefix;
+    }
+
+    public static String asUrnPrefix(String prefix) {
+        return (!prefix.endsWith(":") && !prefix.isEmpty() && prefix
+                .startsWith("urn")) ? prefix + ":" : prefix;
+    }
 }

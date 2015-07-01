@@ -14,21 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.lifecycle;
+package org.n52.iceland.ogc.ows;
 
-import javax.annotation.PostConstruct;
+import java.util.Locale;
+import java.util.Set;
+
+import org.n52.iceland.util.LocalizedProducer;
 
 /**
+ * TODO JavaDoc
  *
- * 
- *
- * @see PostConstruct
- * @since 1.0.0
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  */
-public interface Constructable {
-    /**
-     * Constructs this object.
-     */
-    void init();
+public interface ServiceMetadataRepository {
+
+    LocalizedProducer<OwsServiceIdentification> getServiceIdentificationFactory(String service);
+
+    LocalizedProducer<OwsServiceProvider> getServiceProviderFactory(String service);
+
+    Set<Locale> getAvailableLocales();
+
 }
