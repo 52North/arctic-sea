@@ -30,17 +30,15 @@ import com.google.common.base.MoreObjects;
  * @since 1.0.0
  *
  */
-public class OutgoingResponseEvent implements ServiceEvent {
+public class OutgoingResponseEvent extends AbstractMessageFlowEvent implements ServiceEvent {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final long requestNumber;
     private final long elapsedTime;
 
-    public OutgoingResponseEvent(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 long requestNumber,
-                                 long elapsedTime) {
+    public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber, long elapsedTime) {
+        super(Thread.currentThread().getId());
         this.request = request;
         this.response = response;
         this.requestNumber = requestNumber;
@@ -65,13 +63,8 @@ public class OutgoingResponseEvent implements ServiceEvent {
 
     @Override
     public String toString() {
-        return MoreObjects
-                .toStringHelper(this)
-                .add("request", this.request)
-                .add("response", this.response)
-                .add("requestNumber", this.requestNumber)
-                .add("elapsedTime", this.elapsedTime)
-                .toString();
+        return MoreObjects.toStringHelper(this).add("request", this.request).add("response", this.response).add("requestNumber", this.requestNumber)
+                .add("elapsedTime", this.elapsedTime).toString();
     }
 
 }

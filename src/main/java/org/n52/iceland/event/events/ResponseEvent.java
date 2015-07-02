@@ -19,10 +19,11 @@ package org.n52.iceland.event.events;
 import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.response.AbstractServiceResponse;
 
-public class ResponseEvent implements ServiceEvent {
+public class ResponseEvent extends AbstractMessageFlowEvent implements ServiceEvent {
     private final AbstractServiceResponse response;
 
     public ResponseEvent(AbstractServiceResponse response) {
+        super(Thread.currentThread().getId());
         this.response = response;
     }
 
