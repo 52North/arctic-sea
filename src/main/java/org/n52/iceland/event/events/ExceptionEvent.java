@@ -32,7 +32,7 @@ import org.n52.iceland.event.ServiceEvent;
  * 
  * @since 1.0.0
  */
-public class ExceptionEvent extends AbstractMessageFlowEvent implements ServiceEvent {
+public class ExceptionEvent extends AbstractFlowEvent implements ServiceEvent {
     private final Exception exception;
 
     public ExceptionEvent(final Exception exception) {

@@ -28,7 +28,7 @@ import org.n52.iceland.request.operator.RequestOperator;
  * 
  * @since 1.0.0
  */
-public class RequestEvent extends AbstractMessageFlowEvent implements ServiceEvent {
+public class RequestEvent extends AbstractFlowEvent implements ServiceEvent {
 
     private final AbstractServiceRequest<?> request;
 

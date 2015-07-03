@@ -30,7 +30,7 @@ import com.google.common.base.MoreObjects;
  * @since 1.0.0
  *
  */
-public class OutgoingResponseEvent extends AbstractMessageFlowEvent implements ServiceEvent {
+public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceEvent {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
