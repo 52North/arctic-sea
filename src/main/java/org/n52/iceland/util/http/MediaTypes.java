@@ -22,8 +22,9 @@ import com.google.common.collect.ImmutableSetMultimap;
  * TODO JavaDoc
  * 
  * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface MediaTypes {
     
@@ -53,9 +54,23 @@ public interface MediaTypes {
 
     MediaType APPLICATION_NETCDF = new MediaType(APPLICATION, "netcdf");
     
-    MediaType APPLICTION_GML_32 = new MediaType(APPLICATION, "gml+xml", "version", "3.2");
+    MediaType APPLICATION_GML_32 = new MediaType(APPLICATION, "gml+xml", "version", "3.2");
+
+	/**
+	 * @Deprecated Use {@link MediaTypes#APPLICATION_GML_32}
+	 * 
+	 */
+    @Deprecated
+	MediaType APPLICTION_GML_32 = APPLICATION_GML_32;
     
-    MediaType APPLICTION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
+    MediaType APPLICATION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
+
+    /**
+	 * @Deprecated Use {@link MediaTypes#APPLICATION_OM_20}
+	 * 
+	 */
+	@Deprecated
+	MediaType APPLICTION_OM_20 = APPLICATION_OM_20;
     
     ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES = new ImmutableSetMultimap
             .Builder<MediaType, MediaType>()
