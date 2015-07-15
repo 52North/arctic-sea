@@ -21,8 +21,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.event.ServiceEvent;
 
-import com.google.common.base.MoreObjects;
-
 /**
  * Event is thrown if a {@link HttpServletResponse} was sent back.
  *
@@ -36,6 +34,7 @@ public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceE
     private final HttpServletResponse response;
     private final long requestNumber;
     private final long elapsedTime;
+    private Long bytesWritten = null;
 
     public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber, long elapsedTime) {
         super(Thread.currentThread().getId());
@@ -61,10 +60,18 @@ public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceE
         return elapsedTime;
     }
 
+    public Long getBytesWritten() {
+        return bytesWritten;
+    }
+
+    public void setBytesWritten(Long bytesWritten) {
+        this.bytesWritten = bytesWritten;
+    }
+
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("request", this.request).add("response", this.response).add("requestNumber", this.requestNumber)
-                .add("elapsedTime", this.elapsedTime).toString();
+        return "OutgoingResponseEvent [request=" + request + ", response=" + response + ", requestNumber=" + requestNumber + ", elapsedTime="
+                + elapsedTime + ", bytesWritten=" + bytesWritten + "]";
     }
 
 }
