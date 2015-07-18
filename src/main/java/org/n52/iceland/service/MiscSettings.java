@@ -59,5 +59,7 @@ public interface MiscSettings {
 
     String RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST
             = "profile.hydrology.overallExtrema";
+    
+    String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
 
 }

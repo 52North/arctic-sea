@@ -23,9 +23,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
@@ -58,6 +55,8 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HTTPUtils;
 import org.n52.iceland.util.http.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
@@ -74,8 +73,18 @@ public abstract class SimpleBinding extends Binding {
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
+    private HTTPUtils httpUtils;
+    
+    public HTTPUtils getHttpUtils() {
+		return httpUtils;
+	}
 
     @Inject
+	public void setHttpUtils(HTTPUtils httpUtils) {
+		this.httpUtils = httpUtils;
+	}
+
+	@Inject
     public void setEventBus(ServiceEventBus eventBus) {
         this.eventBus = eventBus;
     }
@@ -275,7 +284,7 @@ public abstract class SimpleBinding extends Binding {
             AbstractServiceResponse serviceResponse) throws HTTPException, IOException {
         MediaType contentType =
                 chooseResponseContentType(serviceResponse, HTTPUtils.getAcceptHeader(request), getDefaultContentType());
-        HTTPUtils.writeObject(request, response, contentType, serviceResponse);
+        httpUtils.writeObject(request, response, contentType, serviceResponse);
     }
 
     protected Object encodeResponse(AbstractServiceResponse response, MediaType contentType) throws OwsExceptionReport {
@@ -298,7 +307,7 @@ public abstract class SimpleBinding extends Binding {
             if (isUseHttpResponseCodes() && oer.hasStatus()) {
                 response.setStatus(oer.getStatus().getCode());
             }
-            HTTPUtils.writeObject(request, response, contentType, encoded);
+            httpUtils.writeObject(request, response, contentType, encoded);
         } catch (IOException | OwsExceptionReport e) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }

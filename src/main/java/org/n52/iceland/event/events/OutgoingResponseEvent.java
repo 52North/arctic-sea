@@ -34,7 +34,6 @@ public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceE
     private final HttpServletResponse response;
     private final long requestNumber;
     private final long elapsedTime;
-    private Long bytesWritten = null;
 
     public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber, long elapsedTime) {
         super(Thread.currentThread().getId());
@@ -60,18 +59,9 @@ public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceE
         return elapsedTime;
     }
 
-    public Long getBytesWritten() {
-        return bytesWritten;
-    }
-
-    public void setBytesWritten(Long bytesWritten) {
-        this.bytesWritten = bytesWritten;
-    }
-
     @Override
-    public String toString() {
-        return "OutgoingResponseEvent [request=" + request + ", response=" + response + ", requestNumber=" + requestNumber + ", elapsedTime="
-                + elapsedTime + ", bytesWritten=" + bytesWritten + "]";
-    }
+	public String toString() {
+		return "OutgoingResponseEvent [request=" + request + ", response=" + response + ", requestNumber=" + requestNumber + ", elapsedTime=" + elapsedTime + "]";
+	}
 
 }
