@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 
@@ -28,7 +27,7 @@ import org.n52.iceland.request.operator.RequestOperator;
  * 
  * @since 1.0.0
  */
-public class RequestEvent extends AbstractFlowEvent implements ServiceEvent {
+public class RequestEvent extends AbstractFlowEvent {
 
     private final AbstractServiceRequest<?> request;
 

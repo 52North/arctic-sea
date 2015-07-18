@@ -19,7 +19,7 @@ package org.n52.iceland.event.events;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.event.ServiceEvent;
+import com.google.common.base.MoreObjects;
 
 /**
  * Event is thrown if a {@link HttpServletResponse} was sent back.
@@ -28,7 +28,7 @@ import org.n52.iceland.event.ServiceEvent;
  * @since 1.0.0
  *
  */
-public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceEvent {
+public class OutgoingResponseEvent extends AbstractFlowEvent {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
@@ -60,8 +60,14 @@ public class OutgoingResponseEvent extends AbstractFlowEvent implements ServiceE
     }
 
     @Override
-	public String toString() {
-		return "OutgoingResponseEvent [request=" + request + ", response=" + response + ", requestNumber=" + requestNumber + ", elapsedTime=" + elapsedTime + "]";
-	}
+    public String toString() {
+        return MoreObjects
+                .toStringHelper(this)
+                .add("request", this.request)
+                .add("response", this.response)
+                .add("requestNumber", this.requestNumber)
+                .add("elapsedTime", this.elapsedTime)
+                .toString();
+    }
 
 }

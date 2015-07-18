@@ -20,8 +20,6 @@ import java.io.OutputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.event.ServiceEvent;
-
 /**
  * Event is fired if an occured {@link Exception} is written to the
  * {@link OutputStream} of the {@link HttpServletResponse}
@@ -32,7 +30,7 @@ import org.n52.iceland.event.ServiceEvent;
  * 
  * @since 1.0.0
  */
-public class ExceptionEvent extends AbstractFlowEvent implements ServiceEvent {
+public class ExceptionEvent extends AbstractFlowEvent {
     private final Exception exception;
 
     public ExceptionEvent(final Exception exception) {

@@ -30,6 +30,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.event.ServiceEventBus;
@@ -42,11 +48,6 @@ import org.n52.iceland.util.http.HTTPMethods;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.common.base.Stopwatch;
 
@@ -58,8 +59,7 @@ import com.google.common.base.Stopwatch;
  * @since 4.0.0
  */
 @Controller
-@RequestMapping(
-        value = "/service", consumes = "*/*", produces = "*/*")
+@RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")
 public class Service extends HttpServlet {
     private static final long serialVersionUID = -2103692310137045855L;
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
@@ -88,39 +88,28 @@ public class Service extends HttpServlet {
                 String name = (String) headerNames.nextElement();
                 headers.append("> ").append(name).append(": ").append(request.getHeader(name)).append("\n");
             }
-            LOGGER.debug("Incoming request No. {}:\n> [{} {} {}] from {} {}\n{}", count, request.getMethod(), request.getRequestURI(),
-                    request.getProtocol(), request.getRemoteAddr(), request.getRemoteHost(), headers);
+            LOGGER.debug("Incoming request No. {}:\n> [{} {} {}] from {} {}\n{}", count, request.getMethod(),
+                    request.getRequestURI(), request.getProtocol(), request.getRemoteAddr(), request.getRemoteHost(),
+                    headers);
         }
         return count;
     }
 
-    private void logResponse(HttpServletRequest request,
-            HttpServletResponse response,
-            long count,
-            Stopwatch stopwatch) {
+    private void logResponse(HttpServletRequest request, HttpServletResponse response, long count, Stopwatch stopwatch) {
         long elapsed = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
-        OutgoingResponseEvent outgoingResponseEvent = new OutgoingResponseEvent(request, response, count, elapsed);
-
-        Object bw = request.getAttribute("bytesWritten");
-        if (bw != null) {
-            outgoingResponseEvent.setBytesWritten((Long) bw);
-            request.removeAttribute("bytesWritten");
-        }
-        this.serviceEventBus.submit(outgoingResponseEvent);
+        this.serviceEventBus.submit(new OutgoingResponseEvent(request, response, count, elapsed));
         LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)", count, response.isCommitted(), elapsed);
     }
 
     @Override
     @Deprecated
-    public void doDelete(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         delete(request, response);
     }
 
-    @RequestMapping(
-            method = RequestMethod.DELETE)
-    public void delete(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    @RequestMapping(method = RequestMethod.DELETE)
+    public void delete(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -134,15 +123,14 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doGet(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
         get(request, response);
     }
 
-    @RequestMapping(
-            method = RequestMethod.GET)
-    public void get(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    @RequestMapping(method = RequestMethod.GET)
+    public void get(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -156,15 +144,14 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doPost(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
         post(request, response);
     }
 
-    @RequestMapping(
-            method = RequestMethod.POST)
-    public void post(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    @RequestMapping(method = RequestMethod.POST)
+    public void post(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -178,15 +165,14 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doPut(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+            IOException {
         put(request, response);
     }
 
-    @RequestMapping(
-            method = RequestMethod.PUT)
-    public void put(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
+    @RequestMapping(method = RequestMethod.PUT)
+    public void put(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -200,15 +186,14 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doOptions(HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, IOException {
+    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         options(request, response);
     }
 
-    @RequestMapping(
-            method = RequestMethod.OPTIONS)
+    @RequestMapping(method = RequestMethod.OPTIONS)
     private void options(HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+                         HttpServletResponse response)
+            throws IOException, ServletException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         Binding binding = null;
@@ -237,9 +222,8 @@ public class Service extends HttpServlet {
      *         given <code>urlPattern</code>.
      *
      *
-     * @throws HTTPException
-     *             If the URL pattern or ContentType is not supported by this
-     *             SOS.
+     * @throws HTTPException If the URL pattern or ContentType is not supported
+     *                       by this SOS.
      */
     private Binding getBinding(HttpServletRequest request) throws HTTPException {
         final String requestURI = request.getPathInfo();
@@ -266,7 +250,8 @@ public class Service extends HttpServlet {
         throw new HTTPException(HTTPStatus.NOT_FOUND);
     }
 
-    private MediaType getContentType(HttpServletRequest request) throws HTTPException {
+    private MediaType getContentType(HttpServletRequest request)
+            throws HTTPException {
         if (request.getContentType() == null) {
             // default to KVP for GET requests
             if (request.getMethod().equals(HTTPMethods.GET)) {
@@ -283,16 +268,14 @@ public class Service extends HttpServlet {
         }
     }
 
-    protected void onHttpException(HttpServletRequest request,
-            HttpServletResponse response,
-            HTTPException exception) throws IOException {
+    protected void onHttpException(HttpServletRequest request, HttpServletResponse response, HTTPException exception)
+            throws IOException {
         this.serviceEventBus.submit(new ExceptionEvent(exception));
         response.sendError(exception.getStatus().getCode(), exception.getMessage());
     }
 
-    protected void doDefaultOptions(Binding binding,
-            HttpServletRequest request,
-            HttpServletResponse response) throws IOException, ServletException {
+    protected void doDefaultOptions(Binding binding, HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
         Set<String> methods = getDeclaredBindingMethods(binding.getClass());
         StringBuilder allow = new StringBuilder();
         if (methods.contains(BINDING_GET_METHOD)) {
