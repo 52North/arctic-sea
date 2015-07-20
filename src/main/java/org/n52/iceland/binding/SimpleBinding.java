@@ -23,9 +23,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
@@ -58,6 +55,8 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HTTPUtils;
 import org.n52.iceland.util.http.MediaType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
@@ -74,6 +73,16 @@ public abstract class SimpleBinding extends Binding {
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
+    private HTTPUtils httpUtils;
+
+    public HTTPUtils getHttpUtils() {
+        return httpUtils;
+    }
+
+    @Inject
+    public void setHttpUtils(HTTPUtils httpUtils) {
+        this.httpUtils = httpUtils;
+    }
 
     @Inject
     public void setEventBus(ServiceEventBus eventBus) {
@@ -117,7 +126,8 @@ public abstract class SimpleBinding extends Binding {
         return RequestContext.fromRequest(req);
     }
 
-    protected boolean isVersionSupported(String service, String acceptVersion) {
+    protected boolean isVersionSupported(String service,
+            String acceptVersion) {
         return getServiceOperatorRepository().isVersionSupported(service, acceptVersion);
     }
 
@@ -141,19 +151,23 @@ public abstract class SimpleBinding extends Binding {
         return this.encoderRepository.hasEncoder(key);
     }
 
-    protected boolean hasDecoder(OperationKey key, MediaType mediaType) {
+    protected boolean hasDecoder(OperationKey key,
+            MediaType mediaType) {
         return hasDecoder(new OperationDecoderKey(key, mediaType));
     }
 
-    protected boolean hasEncoder(OperationKey key, MediaType mediaType) {
+    protected boolean hasEncoder(OperationKey key,
+            MediaType mediaType) {
         return hasEncoder(new OperationEncoderKey(key, mediaType));
     }
 
-    protected boolean hasEncoder(AbstractServiceResponse response, MediaType mediaType) {
+    protected boolean hasEncoder(AbstractServiceResponse response,
+            MediaType mediaType) {
         return hasEncoder(response.getOperationKey(), mediaType);
     }
 
-    protected MediaType chooseResponseContentType(AbstractServiceResponse response, List<MediaType> acceptHeader,
+    protected MediaType chooseResponseContentType(AbstractServiceResponse response,
+            List<MediaType> acceptHeader,
             MediaType defaultContentType) throws HTTPException {
         /*
          * TODO get a list of response content types and check against
@@ -185,8 +199,7 @@ public abstract class SimpleBinding extends Binding {
             if (!response.isSetContentType()) {
                 return defaultContentType;
             } else {
-                MediaType mediaType = response.getContentType()
-                        .withoutParameter(QUALITY);
+                MediaType mediaType = response.getContentType().withoutParameter(QUALITY);
                 if (hasEncoder(response, mediaType)) {
                     return mediaType;
                 }
@@ -196,9 +209,8 @@ public abstract class SimpleBinding extends Binding {
         }
     }
 
-    protected MediaType chooseResponseContentTypeForExceptionReport(
-            List<MediaType> acceptHeader, MediaType defaultContentType)
-            throws HTTPException {
+    protected MediaType chooseResponseContentTypeForExceptionReport(List<MediaType> acceptHeader,
+            MediaType defaultContentType) throws HTTPException {
         /*
          * TODO get a list of response content types and check against
          * wildcards/qualities
@@ -223,10 +235,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        return request.getServiceOperatorKeys().stream()
-                .map(this::getServiceOperator)
-                .findFirst()
-                .orElseThrow(() -> {
+        return request.getServiceOperatorKeys().stream().map(this::getServiceOperator).findFirst().orElseThrow(() -> {
             if (request instanceof GetCapabilitiesRequest) {
                 return new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
             } else {
@@ -271,14 +280,15 @@ public abstract class SimpleBinding extends Binding {
         exceptions.throwIfNotEmpty();
     }
 
-    protected void writeResponse(HttpServletRequest request, HttpServletResponse response,
+    protected void writeResponse(HttpServletRequest request,
+            HttpServletResponse response,
             AbstractServiceResponse serviceResponse) throws HTTPException, IOException {
-        MediaType contentType =
-                chooseResponseContentType(serviceResponse, HTTPUtils.getAcceptHeader(request), getDefaultContentType());
-        HTTPUtils.writeObject(request, response, contentType, serviceResponse);
+        MediaType contentType = chooseResponseContentType(serviceResponse, HTTPUtils.getAcceptHeader(request), getDefaultContentType());
+        httpUtils.writeObject(request, response, contentType, serviceResponse);
     }
 
-    protected Object encodeResponse(AbstractServiceResponse response, MediaType contentType) throws OwsExceptionReport {
+    protected Object encodeResponse(AbstractServiceResponse response,
+            MediaType contentType) throws OwsExceptionReport {
         OperationEncoderKey key = new OperationEncoderKey(response.getOperationKey(), contentType);
         Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
@@ -287,18 +297,17 @@ public abstract class SimpleBinding extends Binding {
         return encoder.encode(response);
     }
 
-    protected void writeOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
+    protected void writeOwsExceptionReport(HttpServletRequest request,
+            HttpServletResponse response,
             OwsExceptionReport oer) throws HTTPException {
         try {
             this.eventBus.submit(new ExceptionEvent(oer));
-            MediaType contentType =
-                    chooseResponseContentTypeForExceptionReport(HTTPUtils.getAcceptHeader(request),
-                            getDefaultContentType());
+            MediaType contentType = chooseResponseContentTypeForExceptionReport(HTTPUtils.getAcceptHeader(request), getDefaultContentType());
             Object encoded = encodeOwsExceptionReport(oer, contentType);
             if (isUseHttpResponseCodes() && oer.hasStatus()) {
                 response.setStatus(oer.getStatus().getCode());
             }
-            HTTPUtils.writeObject(request, response, contentType, encoded);
+            httpUtils.writeObject(request, response, contentType, encoded);
         } catch (IOException | OwsExceptionReport e) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
@@ -306,7 +315,8 @@ public abstract class SimpleBinding extends Binding {
 
     protected abstract MediaType getDefaultContentType();
 
-    protected Object encodeOwsExceptionReport(OwsExceptionReport oer, MediaType contentType) throws OwsExceptionReport, HTTPException {
+    protected Object encodeOwsExceptionReport(OwsExceptionReport oer,
+            MediaType contentType) throws OwsExceptionReport, HTTPException {
         Encoder<Object, OwsExceptionReport> encoder = getEncoder(new ExceptionEncoderKey(contentType));
         if (encoder == null) {
             LOG.error("Can't find OwsExceptionReport encoder for Content-Type {}", contentType);

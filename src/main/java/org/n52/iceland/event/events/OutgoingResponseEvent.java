@@ -19,8 +19,6 @@ package org.n52.iceland.event.events;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.event.ServiceEvent;
-
 import com.google.common.base.MoreObjects;
 
 /**
@@ -30,17 +28,15 @@ import com.google.common.base.MoreObjects;
  * @since 1.0.0
  *
  */
-public class OutgoingResponseEvent implements ServiceEvent {
+public class OutgoingResponseEvent extends AbstractFlowEvent {
 
     private final HttpServletRequest request;
     private final HttpServletResponse response;
     private final long requestNumber;
     private final long elapsedTime;
 
-    public OutgoingResponseEvent(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 long requestNumber,
-                                 long elapsedTime) {
+    public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber, long elapsedTime) {
+        super(Thread.currentThread().getId());
         this.request = request;
         this.response = response;
         this.requestNumber = requestNumber;

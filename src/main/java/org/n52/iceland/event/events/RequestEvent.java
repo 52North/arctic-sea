@@ -16,23 +16,23 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 
 /**
- * Event should be fired when a new {@link AbstractServiceRequest} arrives in the
- * implemented {@link RequestOperator}
+ * Event should be fired when a new {@link AbstractServiceRequest} arrives in
+ * the implemented {@link RequestOperator}
  * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
  * @since 1.0.0
  */
-public class RequestEvent implements ServiceEvent {
+public class RequestEvent extends AbstractFlowEvent {
 
     private final AbstractServiceRequest<?> request;
 
     public RequestEvent(final AbstractServiceRequest<?> request) {
+        super(Thread.currentThread().getId());
         this.request = request;
     }
 
