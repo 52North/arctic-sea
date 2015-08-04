@@ -16,18 +16,17 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.iceland.event.ServiceEvent;
 
-public class ResponseEvent extends AbstractFlowEvent {
-    private final AbstractServiceResponse response;
+public class AbstractFlowEvent implements ServiceEvent {
+    private final Long eventsGroupId;
 
-    public ResponseEvent(AbstractServiceResponse response) {
-        super(Thread.currentThread().getId());
-        this.response = response;
+    public AbstractFlowEvent(Long eventsGroupId) {
+        this.eventsGroupId = eventsGroupId;
     }
 
-    public AbstractServiceResponse getResponse() {
-        return response;
+    public Long getMessageGroupId() {
+        return eventsGroupId;
     }
 
 }
