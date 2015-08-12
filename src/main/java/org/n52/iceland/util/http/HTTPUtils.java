@@ -173,7 +173,7 @@ public class HTTPUtils {
             writable.write(out, new ResponseProxy(response));
             out.flush();
         } finally {
-            if (isCountingOutputStream && out instanceof CountingOutputStream) {
+            if (out instanceof CountingOutputStream) {
                 Long bytesWritten = ((CountingOutputStream) out).getCount();
                 eventBus.submit(new CountingOutputstreamEvent(bytesWritten));
             }
