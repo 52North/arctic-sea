@@ -27,55 +27,48 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
-public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
+public abstract class LocalizedLazyThreadSafeProducer<T> extends LazyThreadSafeProducer<T> implements LocalizedProducer<T> {
 
-    protected final ReadWriteLock lock = new ReentrantReadWriteLock();
-    
-    private T nullType = null;
+    private final LoadingCache<Locale, T> cache = CacheBuilder.newBuilder()
+            .build(new CacheLoader<Locale, T>() {
+                @Override
+                public T load(Locale key) {
+                    return create(key);
+                }
+            });
 
+    private T nullLocale = null;
+
+    @Override
     protected void setRecreate() {
-        this.lock.writeLock().lock();
-        try {
-            this.nullType = null;
-        } finally {
-            this.lock.writeLock().unlock();
+        super.setRecreate();
+        this.cache.invalidateAll();
+    }
+
+    @Override
+    public T get(Locale language)
+            throws ConfigurationError {
+        if (language == null) {
+            return get();
+        } else {
+            try {
+                return this.cache.getUnchecked(language);
+            } catch (UncheckedExecutionException ex) {
+                if (ex.getCause() instanceof ConfigurationError) {
+                    throw (ConfigurationError) ex.getCause();
+                } else {
+                    throw ex;
+                }
+            }
         }
     }
 
     @Override
-    public T get() throws ConfigurationError {
-        this.lock.readLock().lock();
-        try {
-            if (this.nullType != null) {
-                return this.nullType;
-            }
-        } finally {
-            this.lock.readLock().unlock();
-        }
-
-        // default value is null, create it
-        this.lock.writeLock().lock();
-        try {
-            // check if someone was faster
-            if (this.nullType == null) {
-                // create it
-                this.nullType = create();
-            }
-            // downgrade to read lock
-            this.lock.readLock().lock();
-        } finally {
-            this.lock.writeLock().unlock();
-        }
-
-        try {
-            return this.nullType;
-        } finally {
-            this.lock.readLock().unlock();
-        }
-
+    protected T create() throws ConfigurationError {
+        return create(null);
     }
-    
-    protected abstract T create()
+
+    protected abstract T create(Locale language)
             throws ConfigurationError;
 
 }
