@@ -35,7 +35,7 @@ import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterRepository;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.event.ServiceEventBus;
-import org.n52.iceland.event.events.CountingOutputstreamEvent;
+import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
@@ -164,7 +164,7 @@ public class HTTPUtils {
         } finally {
             if (isCountingOutputStream && out instanceof CountingOutputStream) {
                 Long bytesWritten = ((CountingOutputStream) out).getCount();
-                eventBus.submit(new CountingOutputstreamEvent(bytesWritten));
+                eventBus.submit(new CountingOutputStreamEvent(bytesWritten));
             }
             if (out != null) {
                 out.close();

@@ -61,6 +61,7 @@ This project includes:
   Reflections under WTFPL or The New BSD License
   servlet-api under CDDL 1.1 or GPL2 w/ CPE
   SLF4J API Module under MIT License
+  SLF4J Simple Binding under MIT License
   SnakeYAML under Apache License Version 2.0
   Spatial4J under The Apache Software License, Version 2.0
   Spring AOP under The Apache Software License, Version 2.0
@@ -68,6 +69,7 @@ This project includes:
   Spring Context under The Apache Software License, Version 2.0
   Spring Core under The Apache Software License, Version 2.0
   Spring Expression Language (SpEL) under The Apache Software License, Version 2.0
+  Spring TestContext Framework under The Apache Software License, Version 2.0
   Spring Web under The Apache Software License, Version 2.0
   StAX API under The Apache Software License, Version 2.0
 

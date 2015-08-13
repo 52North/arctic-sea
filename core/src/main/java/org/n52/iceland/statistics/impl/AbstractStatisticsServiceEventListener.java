@@ -31,7 +31,7 @@ import javax.inject.Inject;
 import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.event.ServiceEventListener;
 import org.n52.iceland.event.events.AbstractFlowEvent;
-import org.n52.iceland.event.events.CountingOutputstreamEvent;
+import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.event.events.OutgoingResponseEvent;
 import org.n52.iceland.event.events.RequestEvent;
@@ -54,7 +54,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     private final ExecutorService executorService;
     @SuppressWarnings("unchecked")
     private final Set<Class<? extends ServiceEvent>> eventTypes =
-            Sets.newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputstreamEvent.class);
+            Sets.newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputStreamEvent.class);
     private ConcurrentMap<Long, List<AbstractFlowEvent>> eventsCache = new ConcurrentHashMap<>();
 
     @Inject
@@ -129,9 +129,9 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
             OutgoingResponseEventResolver outgoingResponseEventResolver = resolverFactory.getOutgoingResponseEventResolver();
             outgoingResponseEventResolver.setEvent((OutgoingResponseEvent) event);
             evtResolver = outgoingResponseEventResolver;
-        } else if (event instanceof CountingOutputstreamEvent) {
+        } else if (event instanceof CountingOutputStreamEvent) {
             CountingOutputstreamEventResolver countingOutputstreamEventResolver = resolverFactory.getCountingOutputstreamEventResolver();
-            countingOutputstreamEventResolver.setEvent((CountingOutputstreamEvent) event);
+            countingOutputstreamEventResolver.setEvent((CountingOutputStreamEvent) event);
             evtResolver = countingOutputstreamEventResolver;
         } else {
             evtResolver = findResolver(event);
@@ -149,8 +149,8 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     }
 
     /**
-     * Call this method in the constructor to register additional event types to
-     * your listener
+     * Call this method in the constructor or before listener registration
+     * starts to register additional event types to your listener
      * 
      * @param types
      *            additional ServiceEvent to listener for

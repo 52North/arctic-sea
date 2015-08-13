@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2015 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<bean id="elasticsearchSettings" class="org.n52.iceland.statistics.api.ElasticsearchSettings" primary="true">
+		<property name="loggingEnabled" value="true"></property>
+		<property name="clusterName" value="elasticsearch"></property>
+		<property name="nodeConnectionMode" value="statistics.elasticsearch.connection_mode.transport_client"></property>
+		<property name="indexId" value="ogc-statistics-index"></property>
+		<property name="typeId" value="ogc-type"></property>
+		<property name="uuid" value="test-uuid"></property>
+		<property name="clusterNodes" value="localhost"></property>
+	</bean>
+	
+	<!-- Statistics -->
+	<bean id="adminDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchAdminHandler" depends-on="elasticsearchSettings" init-method="init" />
+	<bean id="elasticsearchDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchDataHandler" depends-on="adminDataHandler" ></bean>
+	<bean id="statisticsLocationUtil" class="org.n52.iceland.statistics.impl.StatisticsLocationUtil" init-method="init"></bean>
+	<bean id="statisticsResolverFactory" class="org.n52.iceland.statistics.impl.StatisticsResolverFactory"></bean>
+	
+	<import resource="statistics/countingoutputstream-event.xml"/>
+	<import resource="statistics/default-event.xml"/>
+	<import resource="statistics/exception-event.xml"/>
+	<import resource="statistics/outgoingresponse-event.xml"/>
+
+	<!-- Mock beans -->
+	<bean id="settingsService" class="org.n52.iceland.statistics.mock.MockSettingsService" />
+	<bean id="servletContext" class="org.n52.iceland.statistics.mock.MockServletContext"></bean>
+	<bean id="serviceBus" class="org.n52.iceland.event.ServiceEventBus"></bean>
+	<bean id="testElasticsearchSchema" class="org.n52.iceland.statistics.mock.TestElasticsearchSchema" ></bean>
+
+</beans>

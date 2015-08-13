@@ -18,14 +18,14 @@ package org.n52.iceland.statistics.impl.resolvers;
 
 import java.util.Map;
 
-import org.n52.iceland.event.events.CountingOutputstreamEvent;
+import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
 import org.n52.iceland.statistics.api.utils.EventHandlerFinder;
 
-public class CountingOutputstreamEventResolver implements StatisticsServiceEventResolver<CountingOutputstreamEvent> {
+public class CountingOutputstreamEventResolver implements StatisticsServiceEventResolver<CountingOutputStreamEvent> {
 
-    private CountingOutputstreamEvent event;
+    private CountingOutputStreamEvent event;
     private Map<String, StatisticsServiceEventHandler<?>> handlers;
 
     @Override
@@ -33,7 +33,7 @@ public class CountingOutputstreamEventResolver implements StatisticsServiceEvent
         if (event == null) {
             return null;
         }
-        StatisticsServiceEventHandler<CountingOutputstreamEvent> handler = EventHandlerFinder.findHandler(event, handlers);
+        StatisticsServiceEventHandler<CountingOutputStreamEvent> handler = EventHandlerFinder.findHandler(event, handlers);
 
         return handler.resolveAsMap(event);
     }
@@ -44,12 +44,12 @@ public class CountingOutputstreamEventResolver implements StatisticsServiceEvent
     }
 
     @Override
-    public void setEvent(CountingOutputstreamEvent payload) {
+    public void setEvent(CountingOutputStreamEvent payload) {
         this.event = payload;
     }
 
     @Override
-    public CountingOutputstreamEvent getEvent() {
+    public CountingOutputStreamEvent getEvent() {
         return event;
     }
 

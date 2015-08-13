@@ -14,31 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.event.events;
+package org.n52.iceland.statistics.mock;
 
-/**
- * Event is fired when the statistics counting outputstream size is enabled
- *
- */
-public class CountingOutputstreamEvent extends AbstractFlowEvent {
-	
-	private Long bytesWritten;
+import org.n52.iceland.statistics.impl.schemabuilders.DefaultElasticsearchSchemas;
 
-	public CountingOutputstreamEvent(Long bytesWritten) {
-		super(Thread.currentThread().getId());
-		this.bytesWritten = bytesWritten;
-	}
-	
-	public CountingOutputstreamEvent() {
-		super(Thread.currentThread().getId());
-	}
+public class TestElasticsearchSchema extends DefaultElasticsearchSchemas {
 
-	public Long getBytesWritten() {
-		return bytesWritten;
-	}
+    @Override
+    public int getSchemaVersion() {
+        return 1;
+    }
 
-	public void setBytesWritten(Long bytesWritten) {
-		this.bytesWritten = bytesWritten;
-	}
+    @Override
+    protected void appSpecificSchema() {
+    }
 
 }

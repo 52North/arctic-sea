@@ -22,7 +22,7 @@
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>org.n52.iceland</groupId>
-		<artifactId>iceland-core</artifactId>
+		<artifactId>iceland-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
 	<modules>
