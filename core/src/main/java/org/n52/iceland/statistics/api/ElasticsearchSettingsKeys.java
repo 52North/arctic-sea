@@ -39,4 +39,6 @@ public class ElasticsearchSettingsKeys {
 
     public static final String KIBANA_CONFIG_PATH = "statistics.elasticsearch.kibana_config_file";
     public static final String KIBANA_CONFIG_ENABLE = "statistics.elasticsearch.kibana_config_enable";
+
+    public static final String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
 }

@@ -37,7 +37,7 @@ import org.n52.iceland.event.events.OutgoingResponseEvent;
 import org.n52.iceland.event.events.RequestEvent;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
 import org.n52.iceland.statistics.api.interfaces.datahandler.IStatisticsDataHandler;
-import org.n52.iceland.statistics.impl.resolvers.CountingOutputstreamEventResolver;
+import org.n52.iceland.statistics.impl.resolvers.CountingOutputStreamEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.DefaultServiceEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.ExceptionEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.OutgoingResponseEventResolver;
@@ -130,7 +130,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
             outgoingResponseEventResolver.setEvent((OutgoingResponseEvent) event);
             evtResolver = outgoingResponseEventResolver;
         } else if (event instanceof CountingOutputStreamEvent) {
-            CountingOutputstreamEventResolver countingOutputstreamEventResolver = resolverFactory.getCountingOutputstreamEventResolver();
+            CountingOutputStreamEventResolver countingOutputstreamEventResolver = resolverFactory.getCountingOutputstreamEventResolver();
             countingOutputstreamEventResolver.setEvent((CountingOutputStreamEvent) event);
             evtResolver = countingOutputstreamEventResolver;
         } else {

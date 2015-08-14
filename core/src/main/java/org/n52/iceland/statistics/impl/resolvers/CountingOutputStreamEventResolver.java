@@ -23,7 +23,7 @@ import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
 import org.n52.iceland.statistics.api.utils.EventHandlerFinder;
 
-public class CountingOutputstreamEventResolver implements StatisticsServiceEventResolver<CountingOutputStreamEvent> {
+public class CountingOutputStreamEventResolver implements StatisticsServiceEventResolver<CountingOutputStreamEvent> {
 
     private CountingOutputStreamEvent event;
     private Map<String, StatisticsServiceEventHandler<?>> handlers;

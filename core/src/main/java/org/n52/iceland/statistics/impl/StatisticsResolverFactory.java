@@ -19,7 +19,7 @@ package org.n52.iceland.statistics.impl;
 import javax.inject.Inject;
 
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
-import org.n52.iceland.statistics.impl.resolvers.CountingOutputstreamEventResolver;
+import org.n52.iceland.statistics.impl.resolvers.CountingOutputStreamEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.DefaultServiceEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.ExceptionEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.OutgoingResponseEventResolver;
@@ -47,8 +47,8 @@ public class StatisticsResolverFactory {
         return ctx.getBean(OutgoingResponseEventResolver.class);
     }
 
-    public CountingOutputstreamEventResolver getCountingOutputstreamEventResolver() {
-        return ctx.getBean(CountingOutputstreamEventResolver.class);
+    public CountingOutputStreamEventResolver getCountingOutputstreamEventResolver() {
+        return ctx.getBean(CountingOutputStreamEventResolver.class);
     }
 
 }

@@ -40,26 +40,17 @@ public interface MiscSettings {
 
     String DEFAULT_PROCEDURE_PREFIX = "misc.defaultProcedurePrefix";
 
-    String DEFAULT_OBSERVABLEPROPERTY_PREFIX
-            = "misc.defaultObservablePropertyPrefix";
+    String DEFAULT_OBSERVABLEPROPERTY_PREFIX = "misc.defaultObservablePropertyPrefix";
 
     String DEFAULT_FEATURE_PREFIX = "misc.defaultFeaturePrefix";
 
-    String HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING
-            = "misc.httpResponseCodeUseInKvpAndPoxBinding";
+    String HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING = "misc.httpResponseCodeUseInKvpAndPoxBinding";
 
-    String RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES
-            = "misc.relatedSamplingFeatureRoleForChildFeatures";
+    String RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES = "misc.relatedSamplingFeatureRoleForChildFeatures";
 
-    String HYDRO_MAX_NUMBER_OF_RETURNED_VALUES
-            = "profile.hydrology.maxReturnedValue";
+    String HYDRO_MAX_NUMBER_OF_RETURNED_VALUES = "profile.hydrology.maxReturnedValue";
 
-    String HYDRO_MAX_NUMBER_OF_RETURNED_TIME_SERIES
-            = "profile.hydrology.maxReturnedTimeSeries";
+    String HYDRO_MAX_NUMBER_OF_RETURNED_TIME_SERIES = "profile.hydrology.maxReturnedTimeSeries";
 
-    String RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST
-            = "profile.hydrology.overallExtrema";
-    
-    String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
-
+    String RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST = "profile.hydrology.overallExtrema";
 }

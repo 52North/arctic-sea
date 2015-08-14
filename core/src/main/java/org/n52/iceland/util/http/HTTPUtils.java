@@ -34,11 +34,13 @@ import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterRepository;
 import org.n52.iceland.config.annotation.Configurable;
+import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
+import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,7 +74,7 @@ public class HTTPUtils {
         return isCountingOutputStream;
     }
 
-    // @Setting(MiscSettings.STATISTICS_COUNTING_OUTPUTSTREAM)
+    @Setting(ElasticsearchSettingsKeys.STATISTICS_COUNTING_OUTPUTSTREAM)
     public void setIsCountingOutputStream(Boolean isCountingOutputStream) {
         this.isCountingOutputStream = isCountingOutputStream;
     }
@@ -164,6 +166,7 @@ public class HTTPUtils {
         } finally {
             if (isCountingOutputStream && out instanceof CountingOutputStream) {
                 Long bytesWritten = ((CountingOutputStream) out).getCount();
+                LOGGER.debug("Counting output of bytes {}", bytesWritten);
                 eventBus.submit(new CountingOutputStreamEvent(bytesWritten));
             }
             if (out != null) {

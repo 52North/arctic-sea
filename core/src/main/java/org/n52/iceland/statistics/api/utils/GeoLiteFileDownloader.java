@@ -48,7 +48,7 @@ public class GeoLiteFileDownloader {
             }
 
             Properties prop = new Properties();
-            prop.load(GeoLiteFileDownloader.class.getResourceAsStream("/geolitepaths.properties"));
+            prop.load(GeoLiteFileDownloader.class.getResourceAsStream("/statistics/geolitepaths.properties"));
 
             String cityUrl = prop.getProperty("url.city");
             String countryUrl = prop.getProperty("url.country");

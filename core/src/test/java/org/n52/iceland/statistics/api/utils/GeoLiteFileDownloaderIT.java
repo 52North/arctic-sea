@@ -24,20 +24,22 @@ import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.n52.iceland.statistics.api.utils.GeoLiteFileDownloader;
 
-//TODO these classes needs to be in the integration test
 public class GeoLiteFileDownloaderIT {
-	
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
 
-	@Test
-	public void downloadFiletoCDriveTemp() throws URISyntaxException, IOException {
-		GeoLiteFileDownloader.downloadDefaultDatabases(folder.newFolder().getAbsolutePath());
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
-		Assert.assertTrue(new File("C:/temp/city.mmdb").exists());
-		Assert.assertTrue(new File("C:/temp/country.mmdb").exists());
+    @Test
+    public void downloadFiletoCDriveTemp() throws URISyntaxException, IOException {
+        String basePath = folder.newFolder().getAbsolutePath();
+        GeoLiteFileDownloader.downloadDefaultDatabases(basePath);
 
-	}
+        File city = new File(basePath + "/city.mmdb");
+        File country = new File(basePath + "/country.mmdb");
+
+        Assert.assertTrue(city.exists());
+        Assert.assertTrue(country.exists());
+
+    }
 }
