@@ -32,7 +32,7 @@ import org.n52.iceland.statistics.impl.ElasticsearchAdminHandler;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-public class KibanaImporterTest extends ElasticsearchAwareTest {
+public class KibanaImporterIT extends ElasticsearchAwareTest {
 
     @Inject
     private ElasticsearchSettings settings;

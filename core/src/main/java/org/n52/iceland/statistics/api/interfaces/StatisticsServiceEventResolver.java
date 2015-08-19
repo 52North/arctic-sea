@@ -24,7 +24,7 @@ public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
     /**
      * Resolves the the request to Elasticsearch format
      * 
-     * @return
+     * @return Elasticsearch format
      */
     Map<String, Object> resolve();
 

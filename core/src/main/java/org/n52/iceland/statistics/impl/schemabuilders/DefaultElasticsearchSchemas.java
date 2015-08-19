@@ -67,6 +67,7 @@ public abstract class DefaultElasticsearchSchemas {
                 resolveParameterField(value, mappings);
             }
         }
+        logger.debug(mappings.toString());
     }
 
     private void resolveParameterField(AbstractEsParameter value, Map<String, Object> map) {
@@ -117,7 +118,7 @@ public abstract class DefaultElasticsearchSchemas {
     public abstract int getSchemaVersion();
 
     /**
-     * @see {@link DefaultElasticsearchSchemas#processSchemaClass(Class)}
+     * {@link DefaultElasticsearchSchemas#processSchemaClass(Class)}
      */
     protected abstract void appSpecificSchema();
 }

@@ -67,7 +67,7 @@ public class ObjectEsParameterFactory {
             new Description(InformationOrigin.None, Operation.None, "Value reference"), ElasticsearchTypeRegistry.stringField);
 
     // ---------------- TIME -------------------//
-    public static final SingleEsParameter TIME_DURARTION = new SingleEsParameter("duration",
+    public static final SingleEsParameter TIME_DURARTION = new SingleEsParameter("duration-ms",
             new Description(InformationOrigin.None, Operation.None, "Duration between the END-START timestamp in milliseconds"),
             ElasticsearchTypeRegistry.longField);
 

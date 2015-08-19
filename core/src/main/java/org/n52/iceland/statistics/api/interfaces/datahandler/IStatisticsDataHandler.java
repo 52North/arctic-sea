@@ -35,14 +35,14 @@ public interface IStatisticsDataHandler {
     /**
      * Returns true if the statistics module is enabled otherwise false
      * 
-     * @return
+     * @return is the logging enabled
      */
     boolean isLoggingEnabled();
 
     /**
      * Returns the underlying elasticsearch client
      * 
-     * @return
+     * @return the opened ready to used client.
      */
     public Client getClient();
 

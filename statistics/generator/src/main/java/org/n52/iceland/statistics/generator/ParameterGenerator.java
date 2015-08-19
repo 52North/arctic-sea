@@ -55,8 +55,8 @@ public class ParameterGenerator {
         } else {
             // throw new IllegalArgumentException(String.format("Usage %s [%s]",
             // "..\\PARAMETERS.MD", "SosDataMapping"));
-            System.out.println("Application DataMapping class is not specified.");
-            System.out.println(String.format("Usage %s [%s]", "..\\PARAMETERS.MD", "SosDataMapping"));
+            System.out.println("Application's DataMapping class is not specified. Add the class name of your data mapping class.");
+            System.out.println(String.format("Usage java -jar statistics-kibana %s [%s]", "..\\PARAMETERS.MD", "SosDataMapping"));
         }
     }
 
@@ -73,8 +73,6 @@ public class ParameterGenerator {
         // System.out.println(printable);
         try {
             Files.write(printable, new File(outputFilePath), Charset.forName("UTF-8"));
-            // Files.write(printable, new File(outputFilePath),
-            // Charset.forName("UTF-8"));
         } catch (IOException e) {
             e.printStackTrace();
             throw e;

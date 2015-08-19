@@ -26,20 +26,19 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
 
-public class ElasticSearchDataHandlerTest extends ElasticsearchAwareTest {
+public class ElasticSearchDataHandlerIT extends ElasticsearchAwareTest {
 
     @Inject
     private ElasticsearchDataHandler dataHandler;
 
     @Test
     public void persistBasicData() throws InterruptedException {
-        Thread.sleep(2000);
         Map<String, Object> data = new HashMap<>();
         data.put("alma", "korte");
         dataHandler.persist(data);
 
         logger.debug("Waiting 3s");
-        Thread.sleep(2000);
+        Thread.sleep(3000);
 
         SearchResponse response = getEmbeddedClient().prepareSearch(clientSettings.getIndexId()).setTypes(clientSettings.getTypeId()).get();
         Assert.assertEquals("korte", response.getHits().getHits()[0].getSource().get("alma"));

@@ -30,8 +30,7 @@ import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
 import org.n52.iceland.statistics.impl.resolvers.DefaultServiceEventResolver;
 
-//TODO these classes needs to be in the integration test
-public class DefaultServiceEventResolverIt extends ElasticsearchAwareTest {
+public class DefaultServiceEventResolverIT extends ElasticsearchAwareTest {
 
     @Inject
     private DefaultServiceEventResolver resolver;
@@ -49,10 +48,9 @@ public class DefaultServiceEventResolverIt extends ElasticsearchAwareTest {
         Thread.sleep(2000);
 
         Client client = getEmbeddedClient();
-        SearchResponse resp =
-                client.prepareSearch(clientSettings.getIndexId()).setTypes(clientSettings.getTypeId()).setSearchType(SearchType.DFS_QUERY_AND_FETCH)
-                        .setQuery(QueryBuilders.matchQuery(ServiceEventDataMapping.UNHANDLED_SERVICEEVENT_TYPE.getName(), evt.getClass().toString()))
-                        .get();
+        SearchResponse resp = client.prepareSearch(clientSettings.getIndexId()).setTypes(clientSettings.getTypeId())
+                .setSearchType(SearchType.DFS_QUERY_AND_FETCH)
+                .setQuery(QueryBuilders.matchQuery(ServiceEventDataMapping.UNHANDLED_SERVICEEVENT_TYPE.getName(), evt.getClass().toString())).get();
 
         Assert.assertEquals(1, resp.getHits().getTotalHits());
     }

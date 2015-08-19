@@ -94,6 +94,11 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
                     eventsCache.put(evt.getMessageGroupId(), eventList);
                 }
 
+                // fall back
+                if (eventsCache.get(evt.getMessageGroupId()) == null) {
+                    eventList = new ArrayList<>(EVENTS_ARR_SIZE);
+                    eventsCache.put(evt.getMessageGroupId(), eventList);
+                }
                 eventsCache.get(evt.getMessageGroupId()).add(evt);
 
                 // received last event process eventsResolvers on a new thread
@@ -171,7 +176,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
      * {@link StatisticsServiceEventResolver} based on the {@link ServiceEvent}
      * 
      * @param serviceEvent
-     * @return
+     * @return the concrete service event resolver
      */
     protected abstract StatisticsServiceEventResolver<?> findResolver(ServiceEvent serviceEvent);
 

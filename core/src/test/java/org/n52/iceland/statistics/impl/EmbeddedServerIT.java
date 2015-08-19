@@ -16,11 +16,13 @@
  */
 package org.n52.iceland.statistics.impl;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.io.FileUtils;
 import org.elasticsearch.action.index.IndexResponse;
 import org.junit.Assert;
 import org.junit.Test;
@@ -28,7 +30,7 @@ import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
 import org.n52.iceland.statistics.basetests.SpringBaseTest;
 
-public class EmbeddedServerTest extends SpringBaseTest {
+public class EmbeddedServerIT extends SpringBaseTest {
     @Inject
     private ElasticsearchAdminHandler adminHandler;
 
@@ -55,6 +57,6 @@ public class EmbeddedServerTest extends SpringBaseTest {
 
         adminHandler.destroy();
 
-        // FileUtils.deleteDirectory(new File("./WEB-INF"));
+        FileUtils.deleteDirectory(new File("./elasticsearch"));
     }
 }

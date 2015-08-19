@@ -39,10 +39,10 @@
 	<bean id="statisticsLocationUtil" class="org.n52.iceland.statistics.impl.StatisticsLocationUtil" init-method="init"></bean>
 	<bean id="statisticsResolverFactory" class="org.n52.iceland.statistics.impl.StatisticsResolverFactory"></bean>
 	
-	<import resource="statistics/countingoutputstream-event.xml"/>
-	<import resource="statistics/default-event.xml"/>
-	<import resource="statistics/exception-event.xml"/>
-	<import resource="statistics/outgoingresponse-event.xml"/>
+	<import resource="statistics-test/countingoutputstream-event.xml"/>
+	<import resource="statistics-test/default-event.xml"/>
+	<import resource="statistics-test/exception-event.xml"/>
+	<import resource="statistics-test/outgoingresponse-event.xml"/>
 
 	<!-- Mock beans -->
 	<bean id="settingsService" class="org.n52.iceland.statistics.mock.MockSettingsService" />

@@ -21,8 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
@@ -37,6 +36,8 @@ import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.collect.ImmutableList;
+
 public class EmbeddedElasticsearch {
 
     private static final Logger logger = LoggerFactory.getLogger(EmbeddedElasticsearch.class);
@@ -44,6 +45,9 @@ public class EmbeddedElasticsearch {
     private String homePath;
     private Node embeddedNode;
     private Client client;
+    private static final String resourceBase = "/statistics/embedded";
+    private static final List<String> scriptsFileNames = ImmutableList.<String> of("getcapabilities_sections_concat.groovy",
+            "most_requested_observedproperties.groovy", "most_requested_procedures.groovy");
 
     public void destroy() {
         if (client != null) {
@@ -64,9 +68,8 @@ public class EmbeddedElasticsearch {
         try {
             if (!new File(homePath).exists()) {
                 FileUtils.forceMkdir(new File(homePath));
-                // FIXME groovy scripts not enabled
                 copyScriptFiles();
-                copyLoggingFile();
+                // copyLoggingFile();
                 downlaodGroovyLibrary();
             } else {
                 logger.info("Path " + homePath + " for embedded elasticsearch is exsits. Continue.");
@@ -75,7 +78,10 @@ public class EmbeddedElasticsearch {
             logger.error(e.getMessage(), e);
         }
 
-        Builder setting = ImmutableSettings.settingsBuilder().loadFromClasspath("embedded/elasticsearch_embedded.yml");
+        Builder setting = ImmutableSettings.settingsBuilder().classLoader(EmbeddedElasticsearch.class.getClassLoader())
+                .loadFromClasspath(resourceBase + "/elasticsearch_embedded.yml");
+        setting.put("cluster.name", "elasticsearch");
+        setting.put("node.name", "Embedded Server");
         setting.put("path.home", homePath);
         setting.put("path.logs", homePath + "/logs");
 
@@ -93,7 +99,7 @@ public class EmbeddedElasticsearch {
     }
 
     private void copyLoggingFile() throws FileNotFoundException, IOException {
-        InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream("/embedded/logging.yml");
+        InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream(resourceBase + "/logging.yml");
         FileOutputStream out = new FileOutputStream(new File(homePath + "/config/logging.yml"));
         IOUtils.copy(inputLogigng, out);
         out.close();
@@ -110,16 +116,9 @@ public class EmbeddedElasticsearch {
         File scripts = new File(homePath + "/config/scripts");
         FileUtils.forceMkdir(scripts);
 
-        InputStream folder = EmbeddedElasticsearch.class.getResourceAsStream("/embedded/scripts");
-        // write file content
-        File contents = File.createTempFile("scripts", ".tmp");
-        FileOutputStream out = new FileOutputStream(contents);
-        IOUtils.copy(folder, out);
-        out.close();
-
         // read the files list at least on windows works
-        for (String line : Files.readAllLines(Paths.get(contents.getAbsolutePath()))) {
-            InputStream scriptFile = EmbeddedElasticsearch.class.getResourceAsStream("/embedded/scripts/" + line);
+        for (String line : scriptsFileNames) {
+            InputStream scriptFile = EmbeddedElasticsearch.class.getResourceAsStream(resourceBase + "/scripts/" + line);
             FileOutputStream scriptFileOut = new FileOutputStream(scripts.getAbsolutePath() + "/" + line);
             IOUtils.copy(scriptFile, scriptFileOut);
             scriptFileOut.close();

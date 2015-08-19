@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.parameters.AbstractEsParameter;
-import org.n52.iceland.statistics.api.parameters.ObjectEsParameter;
-import org.n52.iceland.statistics.api.parameters.SingleEsParameter;
 import org.n52.iceland.statistics.api.parameters.Description.InformationOrigin;
 import org.n52.iceland.statistics.api.parameters.Description.Operation;
+import org.n52.iceland.statistics.api.parameters.ObjectEsParameter;
+import org.n52.iceland.statistics.api.parameters.SingleEsParameter;
 
-import com.google.api.client.repackaged.com.google.common.base.Strings;
+import com.google.common.base.Strings;
 
 public class MdFormat {
 
@@ -37,8 +37,7 @@ public class MdFormat {
     private static final String NO_DESCRIPTION = "No available description";
     private static final String TAB = "\t";
 
-    private String formatLine(AbstractEsParameter parameter,
-            int indent) {
+    private String formatLine(AbstractEsParameter parameter, int indent) {
         String line = Strings.repeat(TAB, indent);
 
         // Fieldname
@@ -64,14 +63,12 @@ public class MdFormat {
         return line;
     }
 
-    private void format(ObjectEsParameter parameter,
-            int indent) {
+    private void format(ObjectEsParameter parameter, int indent) {
         output.append(formatLine(parameter, indent));
         parameter.getAllChildren().stream().forEach(l -> this.appendToOutput(l, indent + 1));
     }
 
-    private void appendToOutput(AbstractEsParameter parameter,
-            int indent) {
+    private void appendToOutput(AbstractEsParameter parameter, int indent) {
         if (parameter instanceof ObjectEsParameter) {
             format((ObjectEsParameter) parameter, indent);
         } else {
@@ -79,8 +76,7 @@ public class MdFormat {
         }
     }
 
-    private void format(SingleEsParameter parameter,
-            int indent) {
+    private void format(SingleEsParameter parameter, int indent) {
         output.append(formatLine(parameter, indent));
     }
 

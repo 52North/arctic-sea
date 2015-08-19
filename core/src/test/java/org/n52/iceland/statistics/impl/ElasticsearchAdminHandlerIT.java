@@ -35,7 +35,7 @@ import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
 
-public class ElasticsearchAdminHandlerTest extends ElasticsearchAwareTest {
+public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
     @Inject
     private ElasticsearchAdminHandler adminHandler;

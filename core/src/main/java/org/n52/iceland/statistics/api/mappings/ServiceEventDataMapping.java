@@ -18,17 +18,17 @@ package org.n52.iceland.statistics.api.mappings;
 
 import org.n52.iceland.statistics.api.parameters.AbstractEsParameter;
 import org.n52.iceland.statistics.api.parameters.Description;
+import org.n52.iceland.statistics.api.parameters.Description.InformationOrigin;
+import org.n52.iceland.statistics.api.parameters.Description.Operation;
 import org.n52.iceland.statistics.api.parameters.ElasticsearchTypeRegistry;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameterFactory;
 import org.n52.iceland.statistics.api.parameters.SingleEsParameter;
-import org.n52.iceland.statistics.api.parameters.Description.InformationOrigin;
-import org.n52.iceland.statistics.api.parameters.Description.Operation;
 
 public class ServiceEventDataMapping {
     public static final AbstractEsParameter UNHANDLED_SERVICEEVENT_TYPE = new SingleEsParameter("unhandled-serviceevent-type",
             new Description(InformationOrigin.Computed, Operation.Default,
                     "If no processing handler is defined this field stores the Java class full name of the event"),
-            ElasticsearchTypeRegistry.stringField);
+            ElasticsearchTypeRegistry.ipv4Field);
 
     public static final AbstractEsParameter UUID_FIELD = new SingleEsParameter("instance-uuid",
             new Description(InformationOrigin.Computed, Operation.Default, "Unique ID of the instance who stored the event"),
@@ -39,7 +39,7 @@ public class ServiceEventDataMapping {
             ElasticsearchTypeRegistry.dateField);
 
     // --------------- OutgoingResponseEvent --------------//
-    public static final AbstractEsParameter ORE_EXEC_TIME = new SingleEsParameter("outre-exec-time",
+    public static final AbstractEsParameter ORE_EXEC_TIME = new SingleEsParameter("outre-exec-time-ms",
             new Description(InformationOrigin.OutgoingResponseEvent, Operation.Default, "The execution time of processing the request-response"),
             ElasticsearchTypeRegistry.integerField);
 
@@ -86,7 +86,7 @@ public class ServiceEventDataMapping {
                     ElasticsearchTypeRegistry.stringField);
 
     public static final AbstractEsParameter SR_LANGUAGE_FIELD = new SingleEsParameter("sr-language",
-            new Description(InformationOrigin.RequestEvent, Operation.Default, "Language of the deployment if specified"),
+            new Description(InformationOrigin.RequestEvent, Operation.Default, "Language of the request. Read from the extension fields"),
             ElasticsearchTypeRegistry.stringField);
 
     public static final AbstractEsParameter SR_OPERATION_NAME_FIELD = new SingleEsParameter("sr-operation-name",
