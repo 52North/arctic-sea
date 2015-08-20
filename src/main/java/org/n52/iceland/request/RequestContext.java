@@ -19,12 +19,10 @@ package org.n52.iceland.request;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.util.http.HTTPHeaders;
@@ -32,6 +30,8 @@ import org.n52.iceland.util.http.HTTPUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.ProxyChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
@@ -133,8 +133,9 @@ public class RequestContext {
 
     private static IPAddress getIPAddress(HttpServletRequest req) {
         InetAddress addr = null;
+        String addrAsString = req.getRemoteAddr();
         try {
-            addr = InetAddresses.forString(req.getRemoteAddr());
+            addr = InetAddresses.forString(addrAsString);
         } catch (IllegalArgumentException e) {
             LOG.warn("Ignoring invalid IP address: " + req.getRemoteAddr(), e);
         }
@@ -146,6 +147,13 @@ public class RequestContext {
             Inet6Address inet6Address = (Inet6Address) addr;
             if (InetAddresses.isCompatIPv4Address(inet6Address)) {
                 return new IPAddress(InetAddresses.getCompatIPv4Address(inet6Address));
+            } else if(InetAddresses.isMappedIPv4Address(addrAsString)) {
+            	try {
+					return new IPAddress(InetAddress.getByName(addrAsString).getAddress());
+				} catch (UnknownHostException e) {
+					LOG.warn("Ignoring invalid IPv4-mapped-IPv6 address: " + req.getRemoteAddr(), e);
+				}
+            	return null;
             } else if (InetAddresses.toAddrString(addr).equals("::1")) {
                 // ::1 is not handled by InetAddresses.isCompatIPv4Address()
                 return new IPAddress("127.0.0.1");
