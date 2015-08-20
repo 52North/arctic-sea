@@ -17,8 +17,6 @@
 package org.n52.iceland.util;
 
 import java.util.Locale;
-import java.util.concurrent.locks.ReadWriteLock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.n52.iceland.exception.ConfigurationError;
 
@@ -37,7 +35,7 @@ public abstract class LocalizedLazyThreadSafeProducer<T> extends LazyThreadSafeP
                 }
             });
 
-    private T nullLocale = null;
+    protected T nullLocale = null;
 
     @Override
     protected void setRecreate() {
