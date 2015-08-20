@@ -137,6 +137,6 @@ public class ProxyChain {
 
     @VisibleForTesting
     static IPAddress getIPAddress(String address) {
-        return new IPAddress(address.split(Constants.COMMA_STRING)[0].trim());
+        return new IPAddress(address.split(Constants.COLON_STRING)[0].trim());
     }
 }

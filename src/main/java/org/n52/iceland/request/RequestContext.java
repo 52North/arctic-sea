@@ -145,21 +145,24 @@ public class RequestContext {
             return new IPAddress(inet4Address);
         } else if (addr instanceof Inet6Address) {
             Inet6Address inet6Address = (Inet6Address) addr;
+            // embedded form
             if (InetAddresses.isCompatIPv4Address(inet6Address)) {
                 return new IPAddress(InetAddresses.getCompatIPv4Address(inet6Address));
-            } else if(InetAddresses.isMappedIPv4Address(addrAsString)) {
-            	try {
-					return new IPAddress(InetAddress.getByName(addrAsString).getAddress());
-				} catch (UnknownHostException e) {
-					LOG.warn("Ignoring invalid IPv4-mapped-IPv6 address: " + req.getRemoteAddr(), e);
-				}
-            	return null;
+                // mapped form
+            } else if (InetAddresses.isMappedIPv4Address(addrAsString)) {
+                try {
+                    return new IPAddress(InetAddress.getByName(addrAsString).getAddress());
+                } catch (UnknownHostException e) {
+                    LOG.warn("Ignoring invalid IPv4-mapped-IPv6 address: " + req.getRemoteAddr(), e);
+                }
+                //6to4 addresses
+            } else if (InetAddresses.is6to4Address(inet6Address)) {
+                return new IPAddress(InetAddresses.get6to4IPv4Address(inet6Address));
             } else if (InetAddresses.toAddrString(addr).equals("::1")) {
                 // ::1 is not handled by InetAddresses.isCompatIPv4Address()
                 return new IPAddress("127.0.0.1");
             } else {
-                LOG.warn("Ignoring not v4 compatible IP address: {}",
-                         req.getRemoteAddr());
+                LOG.warn("Ignoring not v4 compatible IP address: {}", req.getRemoteAddr());
             }
         } else {
             LOG.warn("Ignoring unknown InetAddress: {}", addr);

@@ -26,7 +26,7 @@ public class ProxyChainTest {
     
     private String ip = "192.168.52.123";
             
-    private String port = ":50684";
+    private String port = "50684";
     
     private String ipPort = ip + ":" + port;
     
