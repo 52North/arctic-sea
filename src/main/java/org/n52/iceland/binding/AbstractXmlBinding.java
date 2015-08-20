@@ -64,10 +64,16 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
 
     protected Request decode(HttpServletRequest request) throws OwsExceptionReport {
         String xmlString = xmlToString(request);
-        if (LOGGER.isDebugEnabled()) {
-            LOGGER.debug("XML-REQUEST: {}", xmlString);
+        LOGGER.debug("XML-REQUEST: {}", xmlString);
+        DecoderKey key = getDecoderKey(xmlString);
+        LOGGER.trace("Found decoder key: {}", key);
+        Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
+        if (decoder == null) {
+            throw new NoApplicableCodeException().withMessage(
+                    "No decoder found for incoming message based on derived decoder key: %s\nMessage: %s", key, xmlString);
+        } else {
+            LOGGER.trace("Using decoder: {}", decoder);
         }
-        Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(getDecoderKey(xmlString));
         return decoder.decode(xmlString);
     }
 
@@ -78,7 +84,13 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             Element element = document.getDocumentElement();
             element.normalize();
             if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
-                return new OperationDecoderKey(getOperationKey(element), getDefaultContentType());
+                OperationKey operationKey = getOperationKey(element);
+                OperationDecoderKey decoderKey = new OperationDecoderKey(operationKey, getDefaultContentType());
+                if (decoderKey == null) {
+                    throw new NoApplicableCodeException().withMessage(
+                            "No decoder found for incoming message based on element {}; derived decoder key: {}\nMessage: %s", element, decoderKey, xmlContent);
+                }
+                return decoderKey;
             } else {
                 return getNamespaceOperationDecoderKey(element);
             }
