@@ -14,31 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding.encode;
-
-import java.util.Set;
+package org.n52.iceland.coding.decode;
 
 import org.n52.iceland.coding.ProcedureCoder;
 
 /**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  * @param <S>
  * @param <T>
  */
-public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
-
-    /**
-     * Get the supported procedure description formats for this
-     * {@linkplain ProcedureEncoder} and the specified service and version.
-     * 
-     * @param service
-     *            the service
-     * @param version
-     *            the version
-     * 
-     * @return the procedure description formats
-     */
-    Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
+public interface ProcedureDecoder<T, S> extends Decoder<T, S>, ProcedureCoder {
 
 }

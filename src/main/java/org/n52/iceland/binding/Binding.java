@@ -43,7 +43,7 @@ import org.n52.iceland.util.http.MediaType;
  *
  * @since 1.0.0
  */
-public abstract class Binding implements ConformanceClass, Component<BindingKey> {
+public abstract class Binding implements ConformanceClass, Component<BindingKey>, OwsExceptionReportHandler {
     /**
      * HTTP DELETE request handling method
      *

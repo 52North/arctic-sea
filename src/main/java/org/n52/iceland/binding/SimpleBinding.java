@@ -119,6 +119,23 @@ public abstract class SimpleBinding extends Binding {
     public DecoderRepository getDecoderRepository() {
         return decoderRepository;
     }
+    
+    public Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
+            OwsExceptionReport oer) throws HTTPException {
+        try {
+            eventBus.submit(new ExceptionEvent(oer));
+            MediaType contentType =
+                    chooseResponseContentTypeForExceptionReport(HTTPUtils.getAcceptHeader(request),
+                            getDefaultContentType());
+            Object encoded = encodeOwsExceptionReport(oer, contentType);
+            if (isUseHttpResponseCodes() && oer.hasStatus()) {
+                response.setStatus(oer.getStatus().getCode());
+            }
+            return encoded;
+        } catch (OwsExceptionReport e) {
+            throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
+        }
+    }
 
     protected abstract boolean isUseHttpResponseCodes();
 
@@ -284,7 +301,7 @@ public abstract class SimpleBinding extends Binding {
             HttpServletResponse response,
             AbstractServiceResponse serviceResponse) throws HTTPException, IOException {
         MediaType contentType = chooseResponseContentType(serviceResponse, HTTPUtils.getAcceptHeader(request), getDefaultContentType());
-        httpUtils.writeObject(request, response, contentType, serviceResponse);
+        httpUtils.writeObject(request, response, contentType, serviceResponse, this);
     }
 
     protected Object encodeResponse(AbstractServiceResponse response,
@@ -307,7 +324,7 @@ public abstract class SimpleBinding extends Binding {
             if (isUseHttpResponseCodes() && oer.hasStatus()) {
                 response.setStatus(oer.getStatus().getCode());
             }
-            httpUtils.writeObject(request, response, contentType, encoded);
+            httpUtils.writeObject(request, response, contentType, encoded, this);
         } catch (IOException | OwsExceptionReport e) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }

@@ -290,7 +290,7 @@ public interface Sos2Constants extends SosConstants{
     }
 
     enum InsertResultTemplateParams {
-        offering, observedProperty, procedure, observationType, resultStructure, resultEncoding, proposedTemplate, identifier;
+        offering, observedProperty, procedure, featureOfInterest,observationType, resultStructure, resultEncoding, proposedTemplate, identifier;
     }
 
     enum GetResultParams {

@@ -14,31 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding.encode;
+package org.n52.iceland.binding;
 
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.coding.ProcedureCoder;
+import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
+
 
 /**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
- * @param <S>
- * @param <T>
+ *
  */
-public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
+public interface OwsExceptionReportHandler {
 
-    /**
-     * Get the supported procedure description formats for this
-     * {@linkplain ProcedureEncoder} and the specified service and version.
-     * 
-     * @param service
-     *            the service
-     * @param version
-     *            the version
-     * 
-     * @return the procedure description formats
-     */
-    Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
+    Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response, OwsExceptionReport oer)
+            throws HTTPException;
 
 }
