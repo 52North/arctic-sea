@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.util.http.HTTPHeaders;
-import org.n52.iceland.util.http.HTTPUtils;
+import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.ProxyChain;
@@ -123,7 +123,7 @@ public class RequestContext {
         rc.setToken(req.getHeader(HTTPHeaders.AUTHORIZATION));
         rc.setContentType(req.getHeader(HTTPHeaders.CONTENT_TYPE));
         try {
-            rc.setAcceptType(HTTPUtils.getAcceptHeader(req));
+            rc.setAcceptType(HttpUtils.getAcceptHeader(req));
         } catch (HTTPException e) {
             // do nothing somebody will catch this if it fails.
         }

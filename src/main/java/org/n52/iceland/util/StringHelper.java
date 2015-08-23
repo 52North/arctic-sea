@@ -19,6 +19,7 @@ package org.n52.iceland.util;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
@@ -92,8 +93,8 @@ public final class StringHelper {
     }
     
     public static boolean checkIfCharacterOccursXTimesIgnoreCase(final String toCheck, final char character, int count) {
-        String lowerCase = toCheck.toLowerCase();
-        String upperCase = toCheck.toUpperCase();
+        String lowerCase = toCheck.toLowerCase(Locale.ROOT);
+        String upperCase = toCheck.toUpperCase(Locale.ROOT);
         for (int i = 0; i < toCheck.length(); i++) {
             if (character == lowerCase.charAt(i) || character == upperCase.charAt(i)) {
                 count--;

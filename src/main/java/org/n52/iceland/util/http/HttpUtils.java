@@ -56,9 +56,9 @@ import com.google.common.io.CountingOutputStream;
  * @since 4.0.0
  */
 @Configurable
-public class HTTPUtils {
+public class HttpUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HTTPUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
 
     private Boolean isCountingOutputStream = false;
 
