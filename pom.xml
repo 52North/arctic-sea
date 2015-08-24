@@ -424,7 +424,6 @@
                 <configuration>
                     <noticeTemplate>etc/notice-template.txt</noticeTemplate>
                     <licenseMapping>
-                        <param>etc/license-mappings.xml</param>
                         <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
                     </licenseMapping>
                     <generateChildNotices>false</generateChildNotices>
