@@ -57,6 +57,7 @@ import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
+import java.util.Arrays;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -176,6 +177,7 @@ public class KvpBinding extends SimpleBinding {
         }
         DecoderKey k = new OperationDecoderKey(service, version, operation, MediaTypes.APPLICATION_KVP);
         Decoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
+        LOGGER.trace("Using {} to decode paramers: {}", decoder, Arrays.toString(parameterValueMap.entrySet().toArray()));
         if (decoder != null) {
             return decoder.decode(parameterValueMap);
         } else {
