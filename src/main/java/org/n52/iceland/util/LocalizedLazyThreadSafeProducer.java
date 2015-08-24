@@ -35,7 +35,7 @@ public abstract class LocalizedLazyThreadSafeProducer<T> extends LazyThreadSafeP
                 }
             });
 
-    protected T nullLocale = null;
+    protected T t = null;
 
     @Override
     protected void setRecreate() {

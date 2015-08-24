@@ -34,13 +34,13 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-    private T nullType = null;
+    private T t = null;
 
     protected void setRecreate() {
-        log.trace("Removing internal object to recreate it. Old object: {}", this.nullType);
+        log.trace("Removing internal object to recreate it. Old object: {}", this.t);
         this.lock.writeLock().lock();
         try {
-            this.nullType = null;
+            this.t = null;
         } finally {
             this.lock.writeLock().unlock();
         }
@@ -50,8 +50,8 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
     public T get() throws ConfigurationError {
         this.lock.readLock().lock();
         try {
-            if (this.nullType != null) {
-                return this.nullType;
+            if (this.t != null) {
+                return this.t;
             }
         } finally {
             this.lock.readLock().unlock();
@@ -61,10 +61,10 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
         this.lock.writeLock().lock();
         try {
             // check if someone was faster
-            if (this.nullType == null) {
+            if (this.t == null) {
                 // create it
-                this.nullType = create();
-                log.trace("Created a new object: {}", this.nullType);
+                this.t = create();
+                log.trace("Created a new object: {}", this.t);
             }
             // downgrade to read lock
             this.lock.readLock().lock();
@@ -73,7 +73,7 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
         }
 
         try {
-            return this.nullType;
+            return this.t;
         } finally {
             this.lock.readLock().unlock();
         }

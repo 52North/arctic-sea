@@ -35,18 +35,18 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
 
-    private T nullType = null;
+    private T t = null;
 
     protected void setRecreate() {
         this.lock.writeLock().lock();
         try {
-            log.trace("Removing internal object to recreate it. Old object: {}", this.nullType);
-            if (this.nullType != null) {
-                log.trace("Closing {}", this.nullType);
-                close(nullType);
+            log.trace("Removing internal object to recreate it. Old object: {}", this.t);
+            if (this.t != null) {
+                log.trace("Closing {}", this.t);
+                close(t);
             }
 
-            this.nullType = null;
+            this.t = null;
         } finally {
             this.lock.writeLock().unlock();
         }
@@ -56,8 +56,8 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
     public T get() throws ConfigurationError {
         this.lock.readLock().lock();
         try {
-            if (this.nullType != null) {
-                return this.nullType;
+            if (this.t != null) {
+                return this.t;
             }
         } finally {
             this.lock.readLock().unlock();
@@ -67,10 +67,10 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
         this.lock.writeLock().lock();
         try {
             // check if someone was faster
-            if (this.nullType == null) {
+            if (this.t == null) {
                 // create it
-                this.nullType = create();
-                log.trace("Created a new object: {}", this.nullType);
+                this.t = create();
+                log.trace("Created a new object: {}", this.t);
             }
             // downgrade to read lock
             this.lock.readLock().lock();
@@ -79,7 +79,7 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
         }
 
         try {
-            return this.nullType;
+            return this.t;
         } finally {
             this.lock.readLock().unlock();
         }
@@ -87,13 +87,13 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
 
     @Override
     public void destroy() {
-        if (nullType != null) {
-            close(nullType);
+        if (t != null) {
+            close(t);
         }
     }
 
     protected abstract T create()
             throws ConfigurationError;
 
-    protected abstract void close(T nullType);
+    protected abstract void close(T t);
 }
