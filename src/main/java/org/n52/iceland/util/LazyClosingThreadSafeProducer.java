@@ -20,15 +20,16 @@ import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.n52.iceland.exception.ConfigurationError;
+import org.n52.iceland.lifecycle.Destroyable;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
 
-@author Daniel Nüst <d.nuest@52north.org>
-*/
-public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
+ @author Daniel Nüst <d.nuest@52north.org>
+ */
+public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, Destroyable {
 
     private static final Logger log = LoggerFactory.getLogger(LocalizedLazyThreadSafeProducer.class);
 
@@ -37,9 +38,14 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
     private T t = null;
 
     protected void setRecreate() {
-        log.trace("Removing internal object to recreate it. Old object: {}", this.t);
         this.lock.writeLock().lock();
         try {
+            log.trace("Removing internal object to recreate it. Old object: {}", this.t);
+            if (this.t != null) {
+                log.trace("Closing {}", this.t);
+                close(t);
+            }
+
             this.t = null;
         } finally {
             this.lock.writeLock().unlock();
@@ -79,7 +85,15 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
         }
     }
 
+    @Override
+    public void destroy() {
+        if (t != null) {
+            close(t);
+        }
+    }
+
     protected abstract T create()
             throws ConfigurationError;
 
+    protected abstract void close(T t);
 }

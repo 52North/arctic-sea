@@ -40,7 +40,7 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.util.FileIOHelper;
-import org.n52.iceland.util.LazyThreadSafeProducer;
+import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 
 /**
@@ -49,7 +49,7 @@ import org.n52.iceland.util.StringHelper;
  * @since 1.0.0
  */
 @Configurable
-public class ServiceProviderFactory extends LazyThreadSafeProducer<OwsServiceProvider> {
+public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsServiceProvider> {
 
     private File file;
     private String name;

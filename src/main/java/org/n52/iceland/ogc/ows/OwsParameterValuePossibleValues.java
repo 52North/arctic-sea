@@ -32,7 +32,7 @@ public class OwsParameterValuePossibleValues implements OwsParameterValue {
     private SortedSet<String> values;
 
     public OwsParameterValuePossibleValues(Collection<String> values) {
-        this.values = values == null ? new TreeSet<String>() : new TreeSet<String>(values);
+        this.values = values == null ? new TreeSet<>() : new TreeSet<>(values);
     }
 
     public OwsParameterValuePossibleValues(String value) {
@@ -64,7 +64,7 @@ public class OwsParameterValuePossibleValues implements OwsParameterValue {
                 this.values.addAll(values);
             }
     	} else { 
-    		this.values = values == null ? new TreeSet<String>() : new TreeSet<String>(values);
+    		this.values = values == null ? new TreeSet<>() : new TreeSet<>(values);
     	}
     }
 
