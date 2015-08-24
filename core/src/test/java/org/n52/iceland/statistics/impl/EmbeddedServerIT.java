@@ -17,6 +17,7 @@
 package org.n52.iceland.statistics.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,6 +58,10 @@ public class EmbeddedServerIT extends SpringBaseTest {
 
         adminHandler.destroy();
 
-        FileUtils.deleteDirectory(new File("./elasticsearch"));
+        try {
+            FileUtils.deleteDirectory(new File("./elasticsearch"));
+        } catch (IOException e) {
+            logger.info(e.getMessage(), e);
+        }
     }
 }

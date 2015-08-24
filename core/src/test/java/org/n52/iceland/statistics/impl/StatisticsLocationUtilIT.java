@@ -63,7 +63,7 @@ public class StatisticsLocationUtilIT {
         StatisticsLocationUtil loc = new StatisticsLocationUtil();
         loc.setEnabled(true);
         loc.setAutoDownload(StatisticsLocationUtilSettingsKeys.DATABASE_DOWNLOADER_MANUAL);
-        String filepath = new File(getClass().getResource(cityDb).toURI()).getAbsolutePath();
+        String filepath = new File(cityDb).getAbsolutePath();
         loc.setCityDbLoc(filepath);
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_CITY);
 
@@ -76,7 +76,7 @@ public class StatisticsLocationUtilIT {
         StatisticsLocationUtil loc = new StatisticsLocationUtil();
         loc.setEnabled(true);
         loc.setAutoDownload(StatisticsLocationUtilSettingsKeys.DATABASE_DOWNLOADER_MANUAL);
-        String filepath = new File(getClass().getResource(countryDb).toURI()).getAbsolutePath();
+        String filepath = new File(countryDb).getAbsolutePath();
         loc.setCountryDbLoc(filepath);
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_COUNTRY);
 
@@ -89,7 +89,7 @@ public class StatisticsLocationUtilIT {
         StatisticsLocationUtil loc = new StatisticsLocationUtil();
         loc.setEnabled(false);
         loc.setAutoDownload(StatisticsLocationUtilSettingsKeys.DATABASE_DOWNLOADER_MANUAL);
-        String filepath = new File(getClass().getResource(countryDb).toURI()).getAbsolutePath();
+        String filepath = new File(countryDb).getAbsolutePath();
         loc.setCountryDbLoc(filepath);
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_COUNTRY);
 
