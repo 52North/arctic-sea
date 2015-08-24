@@ -20,16 +20,16 @@ package org.n52.iceland.event.events;
  * Event is fired when the statistics counting outputstream size is enabled
  *
  */
-public class CountingOutputstreamEvent extends AbstractFlowEvent {
+public class CountingOutputStreamEvent extends AbstractFlowEvent {
 	
 	private Long bytesWritten;
 
-	public CountingOutputstreamEvent(Long bytesWritten) {
+	public CountingOutputStreamEvent(Long bytesWritten) {
 		super(Thread.currentThread().getId());
 		this.bytesWritten = bytesWritten;
 	}
 	
-	public CountingOutputstreamEvent() {
+	public CountingOutputStreamEvent() {
 		super(Thread.currentThread().getId());
 	}
 
