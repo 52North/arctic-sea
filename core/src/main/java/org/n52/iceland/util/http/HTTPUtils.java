@@ -40,7 +40,7 @@ import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
-import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
+import org.n52.iceland.service.MiscSettings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -74,7 +74,7 @@ public class HTTPUtils {
         return isCountingOutputStream;
     }
 
-    @Setting(ElasticsearchSettingsKeys.STATISTICS_COUNTING_OUTPUTSTREAM)
+    @Setting(MiscSettings.STATISTICS_COUNTING_OUTPUTSTREAM)
     public void setIsCountingOutputStream(Boolean isCountingOutputStream) {
         this.isCountingOutputStream = isCountingOutputStream;
     }

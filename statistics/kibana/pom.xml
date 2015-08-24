@@ -31,7 +31,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.n52.iceland</groupId>
-			<artifactId>iceland-core</artifactId>
+			<artifactId>statistics-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

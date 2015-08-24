@@ -28,6 +28,8 @@
 	<modules>
 		<module>generator</module>
 		<module>kibana</module>
+		
+		<module>core</module>
 	</modules>
-	<name>52°North Iceland - Statistics Add-ons</name>
+	<name>52°North Iceland - Statistics</name>
 </project>

@@ -53,4 +53,6 @@ public interface MiscSettings {
     String HYDRO_MAX_NUMBER_OF_RETURNED_TIME_SERIES = "profile.hydrology.maxReturnedTimeSeries";
 
     String RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST = "profile.hydrology.overallExtrema";
+
+    String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
 }
