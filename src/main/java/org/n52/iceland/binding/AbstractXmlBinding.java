@@ -45,7 +45,7 @@ import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.Request;
 import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
-import org.n52.iceland.util.http.HTTPUtils;
+import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.w3c.W3CConstants;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -144,7 +144,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     protected String xmlToString(HttpServletRequest request) throws OwsExceptionReport {
         try {
             if (request.getParameterMap().isEmpty()) {
-                return StringHelper.convertStreamToString(HTTPUtils.getInputStream(request),
+                return StringHelper.convertStreamToString(HttpUtils.getInputStream(request),
                         request.getCharacterEncoding());
             } else {
                 return parseHttpPostBodyWithParameter(request.getParameterNames(), request.getParameterMap());

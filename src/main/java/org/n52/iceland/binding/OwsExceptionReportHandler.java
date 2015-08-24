@@ -14,30 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util.net;
+package org.n52.iceland.binding;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 
 
-import static org.junit.Assert.assertEquals;
+/**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
+public interface OwsExceptionReportHandler {
 
-import org.junit.Test;
-
-
-public class ProxyChainTest {
-    
-    private String ip = "192.168.52.123";
-            
-    private String port = "50684";
-    
-    private String ipPort = ip + ":" + port;
-    
-    @Test 
-    public void shouldHandleIp() {
-        assertEquals("192.168.52.123", ProxyChain.getIPAddress(ip).asString());
-     }
-    
-    @Test 
-    public void shouldHandleIpWithPort() {
-        assertEquals("192.168.52.123", ProxyChain.getIPAddress(ipPort).asString());
-     }
+    Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response, OwsExceptionReport oer)
+            throws HTTPException;
 
 }

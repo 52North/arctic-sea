@@ -55,6 +55,15 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
     Set<SettingDefinition<?, ?>> getChangableSettingDefinitions(Properties current);
 
     /**
+     * Parse datasource properties to map
+     *
+     * @param current
+     *            Current datasource properties
+     * @return Map with String key and Object value
+     */
+    Map<String, Object> parseDatasourceProperties(Properties current);
+        
+    /**
      * Check if a connection is possible.
      *
      * @param settings

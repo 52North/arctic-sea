@@ -19,19 +19,19 @@ package org.n52.iceland.request;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.util.http.HTTPHeaders;
-import org.n52.iceland.util.http.HTTPUtils;
+import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.ProxyChain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Optional;
@@ -123,7 +123,7 @@ public class RequestContext {
         rc.setToken(req.getHeader(HTTPHeaders.AUTHORIZATION));
         rc.setContentType(req.getHeader(HTTPHeaders.CONTENT_TYPE));
         try {
-            rc.setAcceptType(HTTPUtils.getAcceptHeader(req));
+            rc.setAcceptType(HttpUtils.getAcceptHeader(req));
         } catch (HTTPException e) {
             // do nothing somebody will catch this if it fails.
         }
@@ -133,8 +133,9 @@ public class RequestContext {
 
     private static IPAddress getIPAddress(HttpServletRequest req) {
         InetAddress addr = null;
+        String addrAsString = req.getRemoteAddr();
         try {
-            addr = InetAddresses.forString(req.getRemoteAddr());
+            addr = InetAddresses.forString(addrAsString);
         } catch (IllegalArgumentException e) {
             LOG.warn("Ignoring invalid IP address: " + req.getRemoteAddr(), e);
         }
@@ -144,14 +145,24 @@ public class RequestContext {
             return new IPAddress(inet4Address);
         } else if (addr instanceof Inet6Address) {
             Inet6Address inet6Address = (Inet6Address) addr;
+            // embedded form
             if (InetAddresses.isCompatIPv4Address(inet6Address)) {
                 return new IPAddress(InetAddresses.getCompatIPv4Address(inet6Address));
+                // mapped form
+            } else if (InetAddresses.isMappedIPv4Address(addrAsString)) {
+                try {
+                    return new IPAddress(InetAddress.getByName(addrAsString).getAddress());
+                } catch (UnknownHostException e) {
+                    LOG.warn("Ignoring invalid IPv4-mapped-IPv6 address: " + req.getRemoteAddr(), e);
+                }
+                //6to4 addresses
+            } else if (InetAddresses.is6to4Address(inet6Address)) {
+                return new IPAddress(InetAddresses.get6to4IPv4Address(inet6Address));
             } else if (InetAddresses.toAddrString(addr).equals("::1")) {
                 // ::1 is not handled by InetAddresses.isCompatIPv4Address()
                 return new IPAddress("127.0.0.1");
             } else {
-                LOG.warn("Ignoring not v4 compatible IP address: {}",
-                         req.getRemoteAddr());
+                LOG.warn("Ignoring not v4 compatible IP address: {}", req.getRemoteAddr());
             }
         } else {
             LOG.warn("Ignoring unknown InetAddress: {}", addr);

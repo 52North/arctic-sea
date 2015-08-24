@@ -19,6 +19,7 @@ package org.n52.iceland.util.http;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
+import java.util.Locale;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -85,7 +86,7 @@ public class MediaType implements Comparable<MediaType> {
      *            the parameter value
      */
     public MediaType(String type, String subtype, String parameter, String parameterValue) {
-        this(type, subtype, ImmutableListMultimap.of(checkNotNull(parameter).toLowerCase(),
+        this(type, subtype, ImmutableListMultimap.of(checkNotNull(parameter).toLowerCase(Locale.ROOT),
                 checkNotNull(parameterValue)));
     }
 
@@ -145,11 +146,11 @@ public class MediaType implements Comparable<MediaType> {
     }
 
     public List<String> getParameter(String parameter) {
-        return getParameters().get(parameter.toLowerCase());
+        return getParameters().get(parameter.toLowerCase(Locale.ROOT));
     }
 
     public boolean hasParameter(String parameter) {
-        return getParameters().containsKey(parameter.toLowerCase());
+        return getParameters().containsKey(parameter.toLowerCase(Locale.ROOT));
     }
 
     public float getQuality() {

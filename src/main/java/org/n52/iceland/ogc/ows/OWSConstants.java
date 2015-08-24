@@ -18,6 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 import javax.xml.namespace.QName;
 
+import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.OwsExceptionCode;
 import org.n52.iceland.w3c.SchemaLocation;
 
@@ -209,13 +210,19 @@ public interface OWSConstants {
      *
      * @param <T>
      */
+    /**
+     * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+     * @since
+     *
+     * @param <T>
+     */
     interface HasExtension<T> {
         /**
          * Get the {@link Extension}s
          *
          * @return {@link Extensions} with {@link Extension}s
          */
-        public Extensions getExtensions();
+        Extensions getExtensions();
 
         /**
          * Set the {@link Extensions} object
@@ -224,7 +231,7 @@ public interface OWSConstants {
          *            the {@link Extensions} object to set
          * @return this
          */
-        public T setExtensions(final Extensions extensions);
+        T setExtensions(final Extensions extensions);
 
         /**
          * Add a {@link Extensions} to this object
@@ -233,7 +240,7 @@ public interface OWSConstants {
          *            the {@link Extensions} to add
          * @return this
          */
-        public T addExtensions(final Extensions extension);
+        T addExtensions(final Extensions extension);
 
         /**
          * Add a {@link Extension} to this object
@@ -243,7 +250,7 @@ public interface OWSConstants {
          * @return this
          */
         @SuppressWarnings("rawtypes")
-        public T addExtension(final Extension extension);
+        T addExtension(final Extension extension);
 
         /**
          * Check if {@link Extension}s are set
@@ -251,7 +258,49 @@ public interface OWSConstants {
          * @return <code>true</code>, if {@link Extensions} is not null or
          *         empty
          */
-        public boolean isSetExtensions();
+        boolean isSetExtensions();
+
+        /**
+         * Check if {@link Extension} for identifier is set
+         * 
+         * @param identifier
+         *            Identifier to check
+         * @return <code>true</code>, if {@link Extensions} is available for the
+         *         identifier
+         */
+        boolean hasExtension(Enum identifier);
+
+        /**
+         * Check if {@link Extension} for identifier is set
+         * 
+         * @param identifier
+         *            Identifier to check
+         * @return <code>true</code>, if {@link Extensions} is available for the
+         *         identifier
+         */
+        boolean hasExtension(String identifier);
+
+        /**
+         * Get {@link Extension} for identifier
+         * 
+         * @param identifier
+         *            Identifier to get {@link Extension} for
+         * @return The requested {@link Extension}
+         * @throws InvalidParameterValueException
+         *             If an error occurs
+         */
+        Extension<?> getExtension(Enum identifier) throws InvalidParameterValueException;
+
+        /**
+         * Get {@link Extension} for identifier
+         * 
+         * @param identifier
+         *            Identifier to get {@link Extension} for
+         * @return The requested {@link Extension}
+         * @throws InvalidParameterValueException
+         *             If an error occurs
+         */
+        Extension<?> getExtension(String identifier) throws InvalidParameterValueException;
     }
 
 }

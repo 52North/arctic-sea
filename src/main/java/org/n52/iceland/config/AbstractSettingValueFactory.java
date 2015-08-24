@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 
 import org.n52.iceland.config.settings.BooleanSettingDefinition;
@@ -43,7 +44,11 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 
 
-
+/**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ */
 public abstract class AbstractSettingValueFactory implements SettingValueFactory {
 
     private static final Set<String> VALID_FALSE_VALUES = ImmutableSet.of("false", "no", "off", "0");
@@ -129,13 +134,14 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     private SettingValue<String> newChoiceSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
         ChoiceSettingDefinition def = (ChoiceSettingDefinition) setting;
-        if (stringValue != null && !def.hasOption(stringValue)) {
+        if (!def.hasOption(stringValue)) {
+            if (def.hasDefaultValue()) {
+                return newChoiceSettingValue().setValue(def.getDefaultValue()).setKey(setting.getKey());
+            }
             throw new ConfigurationError("Invalid choice value");
         }
-        return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
+       return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
     }
-
-
 
     @Override
     public SettingValue<?> newSettingValue(SettingDefinition<?, ?> setting, String value) {
@@ -179,7 +185,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         if (nullOrEmpty(stringValue)) {
             return Boolean.FALSE;
         }
-        String trimmedLowerCase = stringValue.trim().toLowerCase();
+        String trimmedLowerCase = stringValue.trim().toLowerCase(Locale.ROOT);
         if (VALID_FALSE_VALUES.contains(trimmedLowerCase)) {
             return Boolean.FALSE;
         } else if (VALID_TRUE_VALUES.contains(trimmedLowerCase)) {

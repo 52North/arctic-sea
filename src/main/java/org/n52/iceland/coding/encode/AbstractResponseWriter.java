@@ -16,7 +16,11 @@
  */
 package org.n52.iceland.coding.encode;
 
+import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.util.http.MediaType;
+import org.n52.iceland.util.http.MediaTypes;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract {@link ResponseWriter} class for response streaming
@@ -28,7 +32,7 @@ import org.n52.iceland.util.http.MediaType;
  *            generic for the element to write
  */
 public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractResponseWriter.class);
     private MediaType contentType;
 
     @Override
@@ -39,5 +43,24 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     @Override
     public void setContentType(MediaType contentType) {
         this.contentType = contentType;
+    }
+    
+    @Override
+    public MediaType getEncodedContentType(ResponseFormat responseFormat) {
+        if (responseFormat.isSetResponseFormat()) {
+            MediaType contentTypeFromResponseFormat = null;
+            try {
+                contentTypeFromResponseFormat = MediaType.parse(responseFormat.getResponseFormat());
+            } catch (IllegalArgumentException iae) {
+                LOGGER.debug("Requested responseFormat {} is not a MediaType", responseFormat.getResponseFormat());
+            }
+            if (contentTypeFromResponseFormat != null) {
+                if (MediaTypes.COMPATIBLE_TYPES.containsEntry(contentTypeFromResponseFormat, getContentType())) {
+                    return getContentType();
+                }
+                return contentTypeFromResponseFormat;
+            }
+        }
+        return getContentType();
     }
 }

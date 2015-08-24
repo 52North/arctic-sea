@@ -30,6 +30,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.n52.iceland.binding.OwsExceptionReportHandler;
 import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterRepository;
@@ -38,6 +39,7 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.CountingOutputstreamEvent;
 import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
 import org.n52.iceland.service.MiscSettings;
@@ -54,11 +56,12 @@ import com.google.common.io.CountingOutputStream;
  * @since 4.0.0
  */
 @Configurable
-public class HTTPUtils {
+public class HttpUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HTTPUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpUtils.class);
 
     private Boolean isCountingOutputStream = false;
+
     private ServiceEventBus eventBus;
 
     public ServiceEventBus getEventBus() {
@@ -87,9 +90,7 @@ public class HTTPUtils {
         return checkHeader(req, HTTPHeaders.CONTENT_ENCODING, HTTPConstants.GZIP_ENCODING);
     }
 
-    private static boolean checkHeader(HttpServletRequest req,
-            String headerName,
-            String value) {
+    private static boolean checkHeader(HttpServletRequest req, String headerName, String value) {
         Enumeration<?> headers = req.getHeaders(headerName);
         while (headers.hasMoreElements()) {
             String header = (String) headers.nextElement();
@@ -115,7 +116,8 @@ public class HTTPUtils {
         for (int i = 0; i < values.length; ++i) {
             try {
                 // Fix for invalid HTTP-Accept header send by OGC OWS-Cite tests
-                if (!" *; q=.2".equals(values[i]) && !"*; q=.2".equals(values[i]) && !" *; q=0.2".equals(values[i]) && !"*; q=0.2".equals(values[i])) {
+                if (!" *; q=.2".equals(values[i]) && !"*; q=.2".equals(values[i]) && !" *; q=0.2".equals(values[i])
+                        && !"*; q=0.2".equals(values[i])) {
                     mediaTypes.add(MediaType.parse(values[i]));
                 } else {
                     LOGGER.warn("The HTTP-Accept header contains an invalid value: {}", values[i]);
@@ -135,29 +137,24 @@ public class HTTPUtils {
         }
     }
 
-    public void writeObject(HttpServletRequest request,
-            HttpServletResponse response,
-            MediaType contentType,
-            Object object) throws IOException {
-        writeObject(request, response, contentType, new GenericWritable(object, contentType));
+    public void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
+            Object object, OwsExceptionReportHandler owserHandler) throws IOException, HTTPException {
+        writeObject(request, response, contentType, new GenericWritable(object, contentType), owserHandler);
     }
 
-    public void writeObject(HttpServletRequest request,
-            HttpServletResponse response,
-            ServiceResponse sr) throws IOException {
+    public void writeObject(HttpServletRequest request, HttpServletResponse response, ServiceResponse sr,
+            OwsExceptionReportHandler owserHandler) throws IOException, HTTPException {
         response.setStatus(sr.getStatus().getCode());
 
         sr.getHeaderMap().forEach(response::addHeader);
 
         if (!sr.isContentLess()) {
-            writeObject(request, response, sr.getContentType(), new ServiceResponseWritable(sr));
+            writeObject(request, response, sr.getContentType(), new ServiceResponseWritable(sr), owserHandler);
         }
     }
 
-    public void writeObject(HttpServletRequest request,
-            HttpServletResponse response,
-            MediaType contentType,
-            Writable writable) throws IOException {
+    public void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
+            Writable writable, OwsExceptionReportHandler owserHandler) throws IOException, HTTPException {
         OutputStream out = null;
         response.setContentType(writable.getEncodedContentType().toString());
 
@@ -172,6 +169,17 @@ public class HTTPUtils {
             }
             writable.write(out, new ResponseProxy(response));
             out.flush();
+        } catch (OwsExceptionReport owser) {
+            Object writeOwsExceptionReport = owserHandler.handleOwsExceptionReport(request, response, owser);
+            if (writeOwsExceptionReport != null) {
+                Writable owserWritable = getWritable(writeOwsExceptionReport, contentType);
+                try {
+                    owserWritable.write(out, new ResponseProxy(response));
+                    out.flush();
+                } catch (OwsExceptionReport oer) {
+                    throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, oer);
+                }
+            }
         } finally {
             if (out instanceof CountingOutputStream) {
                 Long bytesWritten = ((CountingOutputStream) out).getCount();
@@ -184,8 +192,16 @@ public class HTTPUtils {
         }
     }
 
+    private static Writable getWritable(Object writeOwsExceptionReport, MediaType contentType) {
+        if (writeOwsExceptionReport instanceof ServiceResponse) {
+            return new ServiceResponseWritable((ServiceResponse) writeOwsExceptionReport);
+        }
+        return new GenericWritable(writeOwsExceptionReport, contentType);
+    }
+
     private static class GenericWritable implements Writable {
         private final Object o;
+
         private final ResponseWriter<Object> writer;
 
         /**
@@ -211,8 +227,7 @@ public class HTTPUtils {
         }
 
         @Override
-        public void write(OutputStream out,
-                ResponseProxy responseProxy) throws IOException {
+        public void write(OutputStream out, ResponseProxy responseProxy) throws IOException, OwsExceptionReport {
             writer.write(o, out, responseProxy);
         }
 
@@ -233,8 +248,7 @@ public class HTTPUtils {
         }
 
         @Override
-        public void write(OutputStream out,
-                ResponseProxy responseProxy) throws IOException {
+        public void write(OutputStream out, ResponseProxy responseProxy) throws IOException {
             // set content length if not gzipped
             if (!(out instanceof GZIPOutputStream) && response.getContentLength() > -1) {
                 responseProxy.setContentLength(response.getContentLength());
@@ -254,8 +268,7 @@ public class HTTPUtils {
     }
 
     public interface Writable {
-        void write(OutputStream out,
-                ResponseProxy responseProxy) throws IOException;
+        void write(OutputStream out, ResponseProxy responseProxy) throws IOException, OwsExceptionReport;
 
         boolean supportsGZip();
 

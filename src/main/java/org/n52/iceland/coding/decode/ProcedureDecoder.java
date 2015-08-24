@@ -14,30 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util.net;
+package org.n52.iceland.coding.decode;
 
+import org.n52.iceland.coding.ProcedureCoder;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Test;
-
-
-public class ProxyChainTest {
-    
-    private String ip = "192.168.52.123";
-            
-    private String port = "50684";
-    
-    private String ipPort = ip + ":" + port;
-    
-    @Test 
-    public void shouldHandleIp() {
-        assertEquals("192.168.52.123", ProxyChain.getIPAddress(ip).asString());
-     }
-    
-    @Test 
-    public void shouldHandleIpWithPort() {
-        assertEquals("192.168.52.123", ProxyChain.getIPAddress(ipPort).asString());
-     }
+/**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
+ *
+ * @param <S>
+ * @param <T>
+ */
+public interface ProcedureDecoder<T, S> extends Decoder<T, S>, ProcedureCoder {
 
 }

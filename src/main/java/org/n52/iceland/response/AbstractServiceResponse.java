@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.response;
 
+import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.ogc.ows.Extension;
 import org.n52.iceland.ogc.ows.Extensions;
 import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
@@ -69,6 +70,38 @@ public abstract class AbstractServiceResponse
     @Override
     public boolean isSetExtensions() {
         return extensions != null && !extensions.isEmpty();
+    }
+    
+    @Override
+    public boolean hasExtension(Enum identifier) {
+        if (isSetExtensions()) {
+            return getExtensions().containsExtension(identifier);
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean hasExtension(String identifier) {
+        if (isSetExtensions()) {
+            return getExtensions().containsExtension(identifier);
+        }
+        return false;
+    }
+
+    @Override
+    public Extension<?> getExtension(Enum identifier) throws InvalidParameterValueException {
+        if (hasExtension(identifier)) {
+            return getExtensions().getExtension(identifier);
+        }
+        return null;
+    }
+    
+    @Override
+    public Extension<?> getExtension(String identifier) throws InvalidParameterValueException {
+        if (hasExtension(identifier)) {
+            return getExtensions().getExtension(identifier);
+        }
+        return null;
     }
 
     public AbstractServiceResponse setContentType(MediaType contentType) {

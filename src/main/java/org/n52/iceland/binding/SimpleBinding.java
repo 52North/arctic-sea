@@ -53,7 +53,7 @@ import org.n52.iceland.service.operator.ServiceOperator;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.HTTPUtils;
+import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,14 +73,14 @@ public abstract class SimpleBinding extends Binding {
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
-    private HTTPUtils httpUtils;
+    private HttpUtils httpUtils;
 
-    public HTTPUtils getHttpUtils() {
+    public HttpUtils getHttpUtils() {
         return httpUtils;
     }
 
     @Inject
-    public void setHttpUtils(HTTPUtils httpUtils) {
+    public void setHttpUtils(HttpUtils httpUtils) {
         this.httpUtils = httpUtils;
     }
 
@@ -118,6 +118,23 @@ public abstract class SimpleBinding extends Binding {
 
     public DecoderRepository getDecoderRepository() {
         return decoderRepository;
+    }
+    
+    public Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
+            OwsExceptionReport oer) throws HTTPException {
+        try {
+            eventBus.submit(new ExceptionEvent(oer));
+            MediaType contentType =
+                    chooseResponseContentTypeForExceptionReport(HttpUtils.getAcceptHeader(request),
+                            getDefaultContentType());
+            Object encoded = encodeOwsExceptionReport(oer, contentType);
+            if (isUseHttpResponseCodes() && oer.hasStatus()) {
+                response.setStatus(oer.getStatus().getCode());
+            }
+            return encoded;
+        } catch (OwsExceptionReport e) {
+            throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
+        }
     }
 
     protected abstract boolean isUseHttpResponseCodes();
@@ -283,8 +300,11 @@ public abstract class SimpleBinding extends Binding {
     protected void writeResponse(HttpServletRequest request,
             HttpServletResponse response,
             AbstractServiceResponse serviceResponse) throws HTTPException, IOException {
-        MediaType contentType = chooseResponseContentType(serviceResponse, HTTPUtils.getAcceptHeader(request), getDefaultContentType());
-        httpUtils.writeObject(request, response, contentType, serviceResponse);
+        MediaType contentType = chooseResponseContentType(serviceResponse, HttpUtils.getAcceptHeader(request), getDefaultContentType());
+        if (!serviceResponse.isSetContentType()) {
+            serviceResponse.setContentType(contentType);
+        }
+        httpUtils.writeObject(request, response, contentType, serviceResponse, this);
     }
 
     protected Object encodeResponse(AbstractServiceResponse response,
@@ -302,12 +322,12 @@ public abstract class SimpleBinding extends Binding {
             OwsExceptionReport oer) throws HTTPException {
         try {
             this.eventBus.submit(new ExceptionEvent(oer));
-            MediaType contentType = chooseResponseContentTypeForExceptionReport(HTTPUtils.getAcceptHeader(request), getDefaultContentType());
+            MediaType contentType = chooseResponseContentTypeForExceptionReport(HttpUtils.getAcceptHeader(request), getDefaultContentType());
             Object encoded = encodeOwsExceptionReport(oer, contentType);
             if (isUseHttpResponseCodes() && oer.hasStatus()) {
                 response.setStatus(oer.getStatus().getCode());
             }
-            httpUtils.writeObject(request, response, contentType, encoded);
+            httpUtils.writeObject(request, response, contentType, encoded, this);
         } catch (IOException | OwsExceptionReport e) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, e);
         }
