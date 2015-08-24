@@ -16,46 +16,42 @@
  */
 package org.n52.iceland.util;
 
-import java.util.Locale;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.n52.iceland.exception.ConfigurationError;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.util.concurrent.UncheckedExecutionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> {
+/**
+
+@author Daniel Nüst <d.nuest@52north.org>
+*/
+public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
+
+    private static final Logger log = LoggerFactory.getLogger(LocalizedLazyThreadSafeProducer.class);
 
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    private final LoadingCache<Locale, T> cache = CacheBuilder.newBuilder()
-            .build(new CacheLoader<Locale, T>() {
-                @Override
-                public T load(Locale key) {
-                    return create(key);
-                }
-            });
 
-    private T nullLocale = null;
+    private T t = null;
 
     protected void setRecreate() {
+        log.trace("Removing internal object to recreate it. Old object: {}", this.t);
         this.lock.writeLock().lock();
         try {
-            this.nullLocale = null;
+            this.t = null;
         } finally {
             this.lock.writeLock().unlock();
         }
-        this.cache.invalidateAll();
     }
 
     @Override
     public T get() throws ConfigurationError {
         this.lock.readLock().lock();
         try {
-            if (this.nullLocale != null) {
-                return this.nullLocale;
+            if (this.t != null) {
+                return this.t;
             }
         } finally {
             this.lock.readLock().unlock();
@@ -65,9 +61,10 @@ public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> 
         this.lock.writeLock().lock();
         try {
             // check if someone was faster
-            if (this.nullLocale == null) {
+            if (this.t == null) {
                 // create it
-                this.nullLocale = create(null);
+                this.t = create();
+                log.trace("Created a new object: {}", this.t);
             }
             // downgrade to read lock
             this.lock.readLock().lock();
@@ -76,32 +73,13 @@ public abstract class LazyThreadSafeProducer<T> implements LocalizedProducer<T> 
         }
 
         try {
-            return this.nullLocale;
+            return this.t;
         } finally {
             this.lock.readLock().unlock();
         }
-
     }
 
-    @Override
-    public T get(Locale language)
-            throws ConfigurationError {
-        if (language == null) {
-            return get();
-        } else {
-            try {
-                return this.cache.getUnchecked(language);
-            } catch (UncheckedExecutionException ex) {
-                if (ex.getCause() instanceof ConfigurationError) {
-                    throw (ConfigurationError) ex.getCause();
-                } else {
-                    throw ex;
-                }
-            }
-        }
-    }
-
-    protected abstract T create(Locale language)
+    protected abstract T create()
             throws ConfigurationError;
 
 }

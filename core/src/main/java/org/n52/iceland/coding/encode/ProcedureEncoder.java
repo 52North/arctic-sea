@@ -18,13 +18,15 @@ package org.n52.iceland.coding.encode;
 
 import java.util.Set;
 
+import org.n52.iceland.coding.ProcedureCoder;
+
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  * @param <S>
  * @param <T>
  */
-public interface ProcedureEncoder<S, T> extends Encoder<S, T> {
+public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
 
     /**
      * Get the supported procedure description formats for this

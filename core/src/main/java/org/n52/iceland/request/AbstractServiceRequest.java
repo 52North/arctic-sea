@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
@@ -121,6 +122,37 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         return extensions != null && !extensions.isEmpty();
     }
 
+    @Override
+    public boolean hasExtension(Enum identifier) {
+        if (isSetExtensions()) {
+            return getExtensions().containsExtension(identifier);
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean hasExtension(String identifier) {
+        if (isSetExtensions()) {
+            return getExtensions().containsExtension(identifier);
+        }
+        return false;
+    }
+
+    @Override
+    public Extension<?> getExtension(Enum identifier) throws InvalidParameterValueException {
+        if (hasExtension(identifier)) {
+            return getExtensions().getExtension(identifier);
+        }
+        return null;
+    }
+    
+    @Override
+    public Extension<?> getExtension(String identifier) throws InvalidParameterValueException {
+        if (hasExtension(identifier)) {
+            return getExtensions().getExtension(identifier);
+        }
+        return null;
+    }
 
     public boolean isSetRequestedLanguage() {
         return StringHelper.isNotEmpty(getRequestedLanguage());

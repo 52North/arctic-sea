@@ -17,7 +17,8 @@ This project includes:
 
   52°North Iceland under The Apache Software License, Version 2.0
   52°North Iceland - Core under The Apache Software License, Version 2.0
-  52°North Iceland - Statistics Add-ons under The Apache Software License, Version 2.0
+  52°North Iceland - Statistics under The Apache Software License, Version 2.0
+  52°North Iceland - Statistics Core under The Apache Software License, Version 2.0
   52°North Iceland - Statistics Documentation Generator under The Apache Software License, Version 2.0
   52°North Iceland - Statistics Kibana Exporter Tool under The Apache Software License, Version 2.0
   ANTLR 3 Runtime under BSD licence
@@ -39,6 +40,7 @@ This project includes:
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
+  Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   Javassist under MPL 1.1 or LGPL 2.1 or Apache License 2.0
   javax.inject under The Apache Software License, Version 2.0
   Joda-Time under Apache 2

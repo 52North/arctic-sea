@@ -48,7 +48,7 @@ import org.n52.iceland.request.GetCapabilitiesRequest;
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.HTTPUtils;
+import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 import org.n52.iceland.w3c.soap.SoapChain;
@@ -79,7 +79,7 @@ public class SoapBinding extends AbstractXmlBinding {
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML))
             .build();
     
-    private HTTPUtils httpUtils;
+    private HttpUtils httpUtils;
 
 	@Override
     public Set<BindingKey> getKeys() {
@@ -210,24 +210,24 @@ public class SoapBinding extends AbstractXmlBinding {
             }
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain),
-                    encodeSoapResponse(chain));
+                    encodeSoapResponse(chain), this);
         } catch (OwsExceptionReport t) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, t);
         }
     }
 
     private void writeResponse(SoapChain chain) throws IOException, HTTPException {
-        HTTPUtils.getAcceptHeader(chain.getHttpRequest());
+        HttpUtils.getAcceptHeader(chain.getHttpRequest());
         MediaType contentType =
-                chooseResponseContentType(chain.getBodyResponse(), HTTPUtils.getAcceptHeader(chain.getHttpRequest()),
+                chooseResponseContentType(chain.getBodyResponse(), HttpUtils.getAcceptHeader(chain.getHttpRequest()),
                         getDefaultContentType());
         // TODO allow other bindings to encode response as soap messages
         if (contentType.isCompatible(getDefaultContentType())) {
             checkSoapInjection(chain);
-            httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain), chain);
+            httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain), chain, this);
         } else {
         	httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), contentType,
-                    chain.getBodyResponse());
+                    chain.getBodyResponse(), this);
         }
     }
 
@@ -286,14 +286,14 @@ public class SoapBinding extends AbstractXmlBinding {
         }
         return null;
     }
-    
-    public HTTPUtils getHttpUtils() {
-		return httpUtils;
-	}
-    
+
+    public HttpUtils getHttpUtils() {
+        return httpUtils;
+    }
+
     @Inject
-	public void setHttpUtils(HTTPUtils httpUtils) {
-		this.httpUtils = httpUtils;
-	}
+    public void setHttpUtils(HttpUtils httpUtils) {
+        this.httpUtils = httpUtils;
+    }
 
 }

@@ -14,31 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.event.events;
+package org.n52.iceland.binding;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
+
 
 /**
- * Event is fired when the statistics counting outputstream size is enabled
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  *
  */
-public class CountingOutputStreamEvent extends AbstractFlowEvent {
-	
-	private Long bytesWritten;
+public interface OwsExceptionReportHandler {
 
-	public CountingOutputStreamEvent(Long bytesWritten) {
-		super(Thread.currentThread().getId());
-		this.bytesWritten = bytesWritten;
-	}
-	
-	public CountingOutputStreamEvent() {
-		super(Thread.currentThread().getId());
-	}
-
-	public Long getBytesWritten() {
-		return bytesWritten;
-	}
-
-	public void setBytesWritten(Long bytesWritten) {
-		this.bytesWritten = bytesWritten;
-	}
+    Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response, OwsExceptionReport oer)
+            throws HTTPException;
 
 }

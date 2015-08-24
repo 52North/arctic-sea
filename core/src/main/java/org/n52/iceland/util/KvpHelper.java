@@ -20,6 +20,7 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -49,7 +50,7 @@ public final class KvpHelper {
         while (parameterNames.hasMoreElements()) {
             // all key names to lower case
             String key = (String) parameterNames.nextElement();
-            kvp.put(key.replace("amp;", "").toLowerCase(), req.getParameter(key));
+            kvp.put(key.replace("amp;", "").toLowerCase(Locale.ROOT), req.getParameter(key));
         }
         return kvp;
     }

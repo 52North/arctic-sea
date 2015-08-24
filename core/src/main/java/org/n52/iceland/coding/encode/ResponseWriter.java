@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import org.n52.iceland.component.Component;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
@@ -70,7 +71,7 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
      * @throws IOException
      *             If an error occurs during writing
      */
-    void write(T t, OutputStream out, ResponseProxy responseProxy) throws IOException;
+    void write(T t, OutputStream out, ResponseProxy responseProxy) throws IOException, OwsExceptionReport;
 
     /**
      * Check if GZip is supported by this writer
@@ -84,19 +85,19 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
     default MediaType getEncodedContentType(ResponseFormat responseFormat) {
         MediaType defaultContentType = getContentType();
 
-		if (responseFormat.isSetResponseFormat()) {
-			try {
+        if (responseFormat.isSetResponseFormat()) {
+            try {
                 String rf = responseFormat.getResponseFormat();
-				MediaType mt = MediaType.parse(rf).withoutParameters();
+                MediaType mt = MediaType.parse(rf).withoutParameters();
                 if (MediaTypes.COMPATIBLE_TYPES.containsEntry(mt, defaultContentType)) {
                     return defaultContentType;
                 }
                 return mt;
-			} catch (IllegalArgumentException iae) {
+            } catch (IllegalArgumentException iae) {
                 // ignore
-			}
+            }
 
-		}
-		return defaultContentType;
-	}
+        }
+        return defaultContentType;
+    }
 }
