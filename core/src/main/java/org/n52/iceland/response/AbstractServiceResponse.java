@@ -74,18 +74,12 @@ public abstract class AbstractServiceResponse
     
     @Override
     public boolean hasExtension(Enum<?> identifier) {
-        if (isSetExtensions()) {
-            return getExtensions().containsExtension(identifier);
-        }
-        return false;
+        return isSetExtensions() && getExtensions().containsExtension(identifier);
     }
     
     @Override
     public boolean hasExtension(String identifier) {
-        if (isSetExtensions()) {
-            return getExtensions().containsExtension(identifier);
-        }
-        return false;
+        return isSetExtensions() && getExtensions().containsExtension(identifier);
     }
 
     @Override

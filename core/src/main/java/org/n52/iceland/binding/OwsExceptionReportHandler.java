@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -30,7 +29,9 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
  */
 public interface OwsExceptionReportHandler {
 
-    Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response, OwsExceptionReport oer)
+    Object handleOwsExceptionReport(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    OwsExceptionReport oer)
             throws HTTPException;
 
 }
