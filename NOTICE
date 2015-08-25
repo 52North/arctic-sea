@@ -16,11 +16,10 @@ limitations under the License.
 This project includes:
 
   52°North Iceland under The Apache Software License, Version 2.0
-  52°North Iceland - Core under The Apache Software License, Version 2.0
-  52°North Iceland - Statistics under The Apache Software License, Version 2.0
-  52°North Iceland - Statistics Core under The Apache Software License, Version 2.0
-  52°North Iceland - Statistics Documentation Generator under The Apache Software License, Version 2.0
-  52°North Iceland - Statistics Kibana Exporter Tool under The Apache Software License, Version 2.0
+  52°North Iceland Aggregator Project under The Apache Software License, Version 2.0
+  52°North Iceland Statistics under The Apache Software License, Version 2.0
+  52°North Iceland Statistics Documentation Generator under The Apache Software License, Version 2.0
+  52°North Iceland Statistics Kibana Exporter Tool under The Apache Software License, Version 2.0
   ANTLR 3 Runtime under BSD licence
   AOP alliance under Public Domain
   Apache Commons Compress under The Apache Software License, Version 2.0
