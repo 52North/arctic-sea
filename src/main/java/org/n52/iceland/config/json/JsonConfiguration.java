@@ -264,7 +264,7 @@ public class JsonConfiguration implements Constructable,
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("file", file).toString(); //To change body of generated methods, choose Tools | Templates.
+                .add("file", file).toString();
     }
     
     
