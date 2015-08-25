@@ -20,6 +20,9 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+/**
+ * @author Csaba Lestar
+*/
 public class RequestContextTest {
 
     @Test

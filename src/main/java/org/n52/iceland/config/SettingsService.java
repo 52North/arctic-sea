@@ -24,8 +24,6 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 
 /**
- * TODO JavaDoc
- *
  * @author Christian Autermann
  */
 public interface SettingsService {
@@ -137,5 +135,10 @@ public interface SettingsService {
      * @return all values by definition
      */
     Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings();
+    
+    /**
+     * Gets all values for all definitions and udpates (changes or configures) all configured objets.
+    */
+    void reconfigure();
 
 }
