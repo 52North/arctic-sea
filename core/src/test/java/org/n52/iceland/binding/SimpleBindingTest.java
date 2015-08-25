@@ -67,7 +67,7 @@ public class SimpleBindingTest {
         this.defaultContentType = binding.getDefaultContentType();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private EncoderRepository mockEncoderRepository() {
         EncoderRepository encoderRepository = mock(EncoderRepository.class);
         OperationKey operationKey = response.getOperationKey();

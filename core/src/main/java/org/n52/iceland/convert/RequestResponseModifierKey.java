@@ -34,6 +34,7 @@ import org.n52.iceland.util.StringHelper;
  * @since 1.0.0
  *
  */
+@SuppressWarnings("rawtypes")
 public class RequestResponseModifierKey implements Comparable<RequestResponseModifierKey> {
     private final String service;
     private final String version;

@@ -26,7 +26,7 @@ import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.SearchHit;
-import org.n52.iceland.statistics.api.utils.KibanaImporter;
+
 import org.n52.iceland.statistics.api.utils.dto.KibanaConfigEntryDto;
 import org.n52.iceland.statistics.api.utils.dto.KibanaConfigHolderDto;
 
@@ -40,7 +40,7 @@ public class KibanaExporter {
 
     public static void main(String args[]) throws Exception {
         if (args.length != 2) {
-            System.out.println(String.format("Usage: java KibanaExporter.jar %s %s", "localhost:9300", "my-cluster-name"));
+            System.out.printf("Usage: java KibanaExporter.jar %s %s\n", "localhost:9300", "my-cluster-name");
             System.exit(0);
         }
         if (!args[0].contains(":")) {
@@ -49,7 +49,9 @@ public class KibanaExporter {
 
         // set ES address
         String split[] = args[0].split(":");
-        InetSocketTransportAddress address = new InetSocketTransportAddress(split[0], Integer.valueOf(split[1]));
+        InetSocketTransportAddress address
+                = new InetSocketTransportAddress(split[0], Integer
+                                                 .parseInt(split[1], 10));
 
         // set cluster name
         Builder tcSettings = ImmutableSettings.settingsBuilder();
@@ -66,33 +68,33 @@ public class KibanaExporter {
         System.out.println("Reading .kibana index");
 
         SearchResponse resp = client.prepareSearch(".kibana").setSize(1000).get();
-        Arrays.asList(resp.getHits().getHits()).stream().forEach(l -> {
-            holder.add(parseSearchHit(l));
-        });
+        Arrays.asList(resp.getHits().getHits()).stream()
+                .map(KibanaExporter::parseSearchHit).forEach(holder::add);
         System.out.println("Reading finished");
 
         ObjectMapper mapper = new ObjectMapper();
         // we love pretty things
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         File f = new File("kibana_config.json");
-        if (f.exists()) {
-            System.out.println(f.getAbsolutePath() + " exists it will be deleted.");
-            f.delete();
+
+        try (FileOutputStream out = new FileOutputStream(f, false)) {
+            mapper.writeValue(out, holder);
         }
-        mapper.writeValue(new FileOutputStream(f), holder);
+
         System.out.println("File outputted to: " + f.getAbsolutePath());
 
         client.close();
 
     }
 
-    private static void searchIndexPattern() throws Exception {
+    private static void searchIndexPattern()
+            throws Exception {
         // find statistics index
         System.out.println("Searching index pattern name for index-needle");
         SearchResponse indexPatternResp = client.prepareSearch(".kibana").setTypes("index-pattern").get();
         if (indexPatternResp.getHits().getHits().length != 1) {
-            throw new Exception("The .kibana/index-pattern type has multiple elements or none. Only one element is legal. "
-                    + "Set your kibana settings with only one index-pattern");
+            throw new Exception("The .kibana/index-pattern type has multiple elements or none. Only one element is legal. " +
+                     "Set your kibana settings with only one index-pattern");
         }
 
         statisticsIndex = indexPatternResp.getHits().getHits()[0].getId();
@@ -100,7 +102,7 @@ public class KibanaExporter {
     }
 
     private static KibanaConfigEntryDto parseSearchHit(SearchHit hit) {
-        System.out.println(String.format("Reading %s/%s/%s", hit.getIndex(), hit.getType(), hit.getId()));
+        System.out.printf("Reading %s/%s/%s\n", hit.getIndex(), hit.getType(), hit.getId());
 
         String id = hit.getId();
         if (hit.getId().equals(statisticsIndex)) {

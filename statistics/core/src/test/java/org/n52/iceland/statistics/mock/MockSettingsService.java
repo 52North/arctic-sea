@@ -29,63 +29,52 @@ public class MockSettingsService implements SettingsService {
 
     @Override
     public void changeSetting(SettingValue<?> newValue) throws ConfigurationError {
-
     }
 
     @Override
     public void configure(Object object) throws ConfigurationError {
-
     }
 
     @Override
     public void deleteAll() {
-
     }
 
     @Override
     public void deleteSetting(SettingDefinition<?, ?> setting) throws ConfigurationError {
-
     }
 
     @Override
     public SettingDefinition<?, ?> getDefinitionByKey(String key) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Set<String> getKeys() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> SettingValue<T> getSetting(SettingDefinition<?, T> key) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
     @Override
     public <T> SettingValue<T> getSetting(String key) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
     @Override
     public SettingValueFactory getSettingFactory() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
     @Override
     public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 

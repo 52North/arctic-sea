@@ -18,11 +18,33 @@ package org.n52.iceland.statistics.api.parameters;
 
 public class Description {
     public static enum InformationOrigin {
-        RequestEvent, ResponseEvent, CountingStreamEvent, OutgoingResponseEvent, ExceptionEvent, Computed, None;
+        RequestEvent,
+        ResponseEvent,
+        CountingStreamEvent,
+        OutgoingResponseEvent,
+        ExceptionEvent,
+        Computed,
+        None;
     }
 
     public static enum Operation {
-        None, Default, Metadata, GetCapabilities, GetObservation, GetObservationById, DescribeSensor, InsertObservation, GetResult, GetFeatureOfInterest, DeleteSensor, GetDataAvailability, GetResultTemplate, InsertResult, InsertResultTemplate, InsertSensor, UpdateSensor;
+        None,
+        Default,
+        Metadata,
+        GetCapabilities,
+        GetObservation,
+        GetObservationById,
+        DescribeSensor,
+        InsertObservation,
+        GetResult,
+        GetFeatureOfInterest,
+        DeleteSensor,
+        GetDataAvailability,
+        GetResultTemplate,
+        InsertResult,
+        InsertResultTemplate,
+        InsertSensor,
+        UpdateSensor;
     }
 
     private final InformationOrigin informationOrigin;

@@ -57,7 +57,7 @@ public interface MediaTypes {
     MediaType APPLICATION_GML_32 = new MediaType(APPLICATION, "gml+xml", "version", "3.2");
 
 	/**
-	 * @Deprecated Use {@link MediaTypes#APPLICATION_GML_32}
+	 * @deprecated Use {@link MediaTypes#APPLICATION_GML_32}
 	 * 
 	 */
     @Deprecated
@@ -66,7 +66,7 @@ public interface MediaTypes {
     MediaType APPLICATION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
 
     /**
-	 * @Deprecated Use {@link MediaTypes#APPLICATION_OM_20}
+	 * @deprecated Use {@link MediaTypes#APPLICATION_OM_20}
 	 * 
 	 */
 	@Deprecated

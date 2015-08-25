@@ -24,20 +24,20 @@
         http://www.springframework.org/schema/context/spring-context.xsd">
 
 	<bean id="elasticsearchSettings" class="org.n52.iceland.statistics.api.ElasticsearchSettings" primary="true">
-		<property name="loggingEnabled" value="true"></property>
-		<property name="clusterName" value="elasticsearch"></property>
-		<property name="nodeConnectionMode" value="statistics.elasticsearch.connection_mode.transport_client"></property>
-		<property name="indexId" value="ogc-statistics-index"></property>
-		<property name="typeId" value="ogc-type"></property>
-		<property name="uuid" value="test-uuid"></property>
-		<property name="clusterNodes" value="localhost"></property>
+		<property name="loggingEnabled" value="true"/>
+		<property name="clusterName" value="elasticsearch"/>
+		<property name="nodeConnectionMode" value="statistics.elasticsearch.connection_mode.transport_client"/>
+		<property name="indexId" value="ogc-statistics-index"/>
+		<property name="typeId" value="ogc-type"/>
+		<property name="uuid" value="test-uuid"/>
+		<property name="clusterNodes" value="localhost"/>
 	</bean>
 	
 	<!-- Statistics -->
 	<bean id="adminDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchAdminHandler" depends-on="elasticsearchSettings" init-method="init" />
-	<bean id="elasticsearchDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchDataHandler" depends-on="adminDataHandler" ></bean>
-	<bean id="statisticsLocationUtil" class="org.n52.iceland.statistics.impl.StatisticsLocationUtil" init-method="init"></bean>
-	<bean id="statisticsResolverFactory" class="org.n52.iceland.statistics.impl.StatisticsResolverFactory"></bean>
+	<bean id="elasticsearchDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchDataHandler" depends-on="adminDataHandler" />
+	<bean id="statisticsLocationUtil" class="org.n52.iceland.statistics.impl.StatisticsLocationUtil" init-method="init"/>
+	<bean id="statisticsResolverFactory" class="org.n52.iceland.statistics.impl.StatisticsResolverFactory"/>
 	
 	<import resource="statistics-test/countingoutputstream-event.xml"/>
 	<import resource="statistics-test/default-event.xml"/>
@@ -46,8 +46,8 @@
 
 	<!-- Mock beans -->
 	<bean id="settingsService" class="org.n52.iceland.statistics.mock.MockSettingsService" />
-	<bean id="servletContext" class="org.n52.iceland.statistics.mock.MockServletContext"></bean>
-	<bean id="serviceBus" class="org.n52.iceland.event.ServiceEventBus"></bean>
-	<bean id="testElasticsearchSchema" class="org.n52.iceland.statistics.mock.TestElasticsearchSchema" ></bean>
+	<bean id="servletContext" class="org.n52.iceland.statistics.mock.MockServletContext" />
+	<bean id="serviceBus" class="org.n52.iceland.event.ServiceEventBus" />
+	<bean id="testElasticsearchSchema" class="org.n52.iceland.statistics.mock.TestElasticsearchSchema" />
 
 </beans>
