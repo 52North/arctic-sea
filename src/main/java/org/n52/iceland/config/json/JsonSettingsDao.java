@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.config.json;
 
-
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Optional;
@@ -32,14 +31,17 @@ import org.n52.iceland.i18n.MultilingualString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.n52.iceland.exception.ConfigurationError;
 
 /**
  *
- * @author Christian Autermann
+ * @author Christian Autermann, Daniel Nüst
  */
 public class JsonSettingsDao extends AbstractJsonDao
         implements SettingsDao {
+
     private JsonSettingsEncoder settingsEncoder;
+    
     private JsonSettingValueFactory settingValueFactory;
 
     @Inject
@@ -74,7 +76,9 @@ public class JsonSettingsDao extends AbstractJsonDao
         readLock().lock();
         try {
             JsonNode node = getConfiguration().path(JsonConstants.SETTINGS).path(key);
-            if (!node.isObject()) { return null; }
+            if (!node.isObject()) {
+                return null;
+            }
             return createSettingValue(key, node);
         } finally {
             readLock().unlock();
@@ -99,7 +103,7 @@ public class JsonSettingsDao extends AbstractJsonDao
             ObjectNode settings = getConfiguration().with(JsonConstants.SETTINGS);
             JsonNode node = settings.path(value.getKey());
             ObjectNode settingNode = (ObjectNode) Optional.ofNullable(node.isObject() ? node : null)
-                    .orElseGet(()-> settings.putObject(value.getKey()));
+                    .orElseGet(() -> settings.putObject(value.getKey()));
             settingNode.put(JsonConstants.TYPE, value.getType().toString());
             settingNode.set(JsonConstants.VALUE, this.settingsEncoder.encodeValue(value));
         } finally {
@@ -122,8 +126,14 @@ public class JsonSettingsDao extends AbstractJsonDao
     protected Object decodeValue(SettingType type, JsonNode node) {
         switch (type) {
             case INTEGER:
+                if (!node.canConvertToInt()) {
+                    numberDecodeError(type, node);
+                }
                 return node.intValue();
             case NUMERIC:
+                if (!node.isDouble()) {
+                    numberDecodeError(type, node);
+                }
                 return node.doubleValue();
             case BOOLEAN:
                 return node.booleanValue();
@@ -140,7 +150,7 @@ public class JsonSettingsDao extends AbstractJsonDao
             case CHOICE:
                 return node.textValue();
             default:
-                throw new IllegalArgumentException(String.format("Unknown Type %s", type));
+                throw new ConfigurationError(String.format("Unknown Type %s", type));
         }
     }
 
@@ -151,6 +161,10 @@ public class JsonSettingsDao extends AbstractJsonDao
             mls.addLocalization(locale, e.getValue().asText());
         });
         return mls;
+    }
+
+    private void numberDecodeError(SettingType type, JsonNode node) {
+        throw new ConfigurationError(String.format("Cannot decode setting to %s type: node type = %s, value = >%s<", type, node.getNodeType(), node.toString()));
     }
 
 }

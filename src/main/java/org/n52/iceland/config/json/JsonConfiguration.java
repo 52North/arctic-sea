@@ -40,6 +40,9 @@ import org.n52.iceland.util.Producer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.google.common.base.MoreObjects;
+import java.nio.file.Path;
+import org.n52.iceland.config.FileSettingsConfiguration;
 
 /**
  * Class to encapsulate writes and reads to a JSON file.
@@ -50,7 +53,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class JsonConfiguration implements Constructable,
                                           Destroyable,
-                                          Producer<ObjectNode> {
+                                          Producer<ObjectNode>,
+                                          FileSettingsConfiguration {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(JsonConfiguration.class);
@@ -87,6 +91,7 @@ public class JsonConfiguration implements Constructable,
     /**
      * Refreshes the configuration from disk.
      */
+    @Override
     public void refresh() {
         writeLock().lock();
         try {
@@ -112,7 +117,6 @@ public class JsonConfiguration implements Constructable,
      * Deletes the configuration file if it exists.
      */
     public void delete() {
-
         writeLock().lock();
         try {
             if (this.file.exists() && this.file.isFile()) {
@@ -251,4 +255,17 @@ public class JsonConfiguration implements Constructable,
                                          .getAbsolutePath(), ex);
         }
     }
+
+    @Override
+    public Path getPath() {
+        return this.file.toPath();
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).omitNullValues()
+                .add("file", file).toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
 }

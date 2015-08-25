@@ -22,4 +22,12 @@ The [TimeInstantSettingDefinition](../src/main/java/org/n52/iceland/config/setti
 ### UriSettingDefinition
 The [UriSettingDefinition](../src/main/java/org/n52/iceland/config/settings/UriSettingDefinition.java)  for URIs.
 
+
+**Important:**
+
+* JSON configuration file
+  * Setting types are case sensitive!
+* ``@Configurable``
+  * classes using this annotation to be configured must be components and cannot be defined in ``application-context.xml`` 
+
 Back to [Index](Index.md)
