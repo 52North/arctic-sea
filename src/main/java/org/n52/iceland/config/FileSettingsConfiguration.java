@@ -14,19 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.exception.ows.concrete;
+package org.n52.iceland.config;
 
-import org.n52.iceland.exception.ows.OptionNotSupportedException;
+import java.nio.file.Path;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
- * 
- * @since 1.0.0
+ *
+ * @author Daniel Nüst <d.nuest@52north.org>
  */
-public class ParameterNotSupportedException extends OptionNotSupportedException {
-    private static final long serialVersionUID = -4888724617519223794L;
-
-    public ParameterNotSupportedException(String parameterName) {
-        withMessage("The parameter '%s' is not supported by this service!", parameterName);
-    }
+public interface FileSettingsConfiguration {
+    
+    /**
+     * the path of a file pased settings configuration 
+    */
+    Path getPath();
+    
+    /**
+     * read the contents of the file again
+    */
+    void refresh();
+    
 }

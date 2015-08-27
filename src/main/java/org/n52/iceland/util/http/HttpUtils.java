@@ -181,7 +181,7 @@ public class HttpUtils {
                 }
             }
         } finally {
-            if (isCountingOutputStream && out instanceof CountingOutputStream) {
+            if (out instanceof CountingOutputStream) {
                 Long bytesWritten = ((CountingOutputStream) out).getCount();
                 eventBus.submit(new CountingOutputstreamEvent(bytesWritten));
             }

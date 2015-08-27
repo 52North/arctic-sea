@@ -66,9 +66,9 @@ public class OwsParameterValuePossibleValues implements OwsParameterValue {
             if (values != null) {
                 this.values.addAll(values);
             }
-        } else {
-            this.values = values == null ? new TreeSet<String>() : new TreeSet<String>(values);
-        }
+    	} else { 
+    		this.values = values == null ? new TreeSet<>() : new TreeSet<>(values);
+    	}
     }
 
     public void setValues(Collection<String> values) {
