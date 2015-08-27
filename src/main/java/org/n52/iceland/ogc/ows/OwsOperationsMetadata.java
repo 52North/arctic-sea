@@ -27,6 +27,9 @@ import java.util.TreeSet;
 
 import org.n52.iceland.util.CollectionHelper;
 
+import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
 /**
@@ -46,6 +49,14 @@ public class OwsOperationsMetadata {
 
     public void setOperations(Collection<OwsOperation> operations) {
         this.operations = operations == null ? null : new TreeSet<>(operations);
+    }
+    
+    public Optional<OwsOperation> findOperation(Predicate<OwsOperation> predicate) {
+        if (isSetOperations()) {
+            return Iterables.tryFind(this.operations, predicate);
+        } else {
+            return Optional.absent();
+        }
     }
 
     public SortedMap<String, List<OwsParameterValue>> getCommonValues() {
