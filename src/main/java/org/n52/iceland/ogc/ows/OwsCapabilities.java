@@ -22,7 +22,7 @@ import org.n52.iceland.util.StringHelper;
  * @since 1.0.0
  * 
  */
-public abstract class OwsCapabilities {
+public class OwsCapabilities {
 
     private String service;
 
@@ -44,11 +44,30 @@ public abstract class OwsCapabilities {
      * Operations meta data for all supported operations.
      */
     private OwsOperationsMetadata operationsMetadata;
-
-    public OwsCapabilities(String service, String version) {
+    
+    
+    public OwsCapabilities() {
+    }
+    
+    public OwsCapabilities(OwsCapabilities owsCapabilities) {
+        copyToThis(owsCapabilities);
+    }
+    
+    public OwsCapabilities(String service, OwsCapabilities owsCapabilities) {
+       this(owsCapabilities);
+       setService(service);
+    }
+    
+    public OwsCapabilities(String version) {
         this.version = version;
     }
     
+    public OwsCapabilities(String service, String version) {
+        this.version = version;
+        this.service = service;
+    }
+  
+
     /**
      * @param service the service
      */
@@ -61,6 +80,10 @@ public abstract class OwsCapabilities {
      */
     public String getService() {
         return this.service;
+    }
+    
+    public boolean isSetService() {
+        return StringHelper.isNotEmpty(getService());
     }
 
     /**
@@ -170,5 +193,26 @@ public abstract class OwsCapabilities {
 
     public boolean isSetOperationsMetadata() {
         return getOperationsMetadata() != null && !getOperationsMetadata().isEmpty();
+    }
+    
+    private void copyToThis(OwsCapabilities owsCapabilities) {
+        if (owsCapabilities.isSetService()) {
+            setService(owsCapabilities.getService());
+        }
+        if (owsCapabilities.isSetVersion()) {
+            setVersion(owsCapabilities.getVersion());
+        }
+        if (owsCapabilities.isSetUpdateSequence()) {
+            setUpdateSequence(owsCapabilities.getUpdateSequence());
+        }
+        if (owsCapabilities.isSetServiceIdentification()) {
+            setServiceIdentification(owsCapabilities.getServiceIdentification());
+        }
+        if (owsCapabilities.isSetServiceProvider()) {
+            setServiceProvider(owsCapabilities.getServiceProvider());
+        }
+        if (owsCapabilities.isSetOperationsMetadata()) {
+            setOperationsMetadata(owsCapabilities.getOperationsMetadata());
+        }
     }
 }
