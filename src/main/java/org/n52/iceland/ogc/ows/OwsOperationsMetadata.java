@@ -34,6 +34,7 @@ import com.google.common.collect.Lists;
  *
  */
 public class OwsOperationsMetadata {
+    
     private SortedSet<OwsOperation> operations;
 
     private SortedMap<String, List<OwsParameterValue>> commonValues;
@@ -92,17 +93,10 @@ public class OwsOperationsMetadata {
         return CollectionHelper.isEmpty(getOperations());
     }
 
-    /**
-     * @return the extendedCapabilities
-     */
     public OwsExtendedCapabilities getExtendedCapabilities() {
         return extendedCapabilities;
     }
 
-    /**
-     * @param extendedCapabilities
-     *            the extendedCapabilities to set
-     */
     public void setExtendedCapabilities(OwsExtendedCapabilities extendedCapabilities) {
         this.extendedCapabilities = extendedCapabilities;
     }
