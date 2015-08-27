@@ -32,7 +32,7 @@ import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.coding.encode.EncoderRepository;
 import org.n52.iceland.coding.encode.ExceptionEncoderKey;
-import org.n52.iceland.coding.encode.OperationEncoderKey;
+import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
@@ -175,7 +175,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected boolean hasEncoder(OperationKey key,
             MediaType mediaType) {
-        return hasEncoder(new OperationEncoderKey(key, mediaType));
+        return hasEncoder(new OperationResponseEncoderKey(key, mediaType));
     }
 
     protected boolean hasEncoder(AbstractServiceResponse response,
@@ -309,7 +309,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected Object encodeResponse(AbstractServiceResponse response,
             MediaType contentType) throws OwsExceptionReport {
-        OperationEncoderKey key = new OperationEncoderKey(response.getOperationKey(), contentType);
+        OperationResponseEncoderKey key = new OperationResponseEncoderKey(response.getOperationKey(), contentType);
         Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
