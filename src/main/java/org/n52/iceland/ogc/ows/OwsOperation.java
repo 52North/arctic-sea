@@ -122,8 +122,10 @@ public class OwsOperation implements Comparable<OwsOperation> {
      *            Parameter value map
      */
     public void setParameterValues(Map<String, List<OwsParameterValue>> parameterValues) {
-        this.parameterValues.clear();
-        parameterValues.forEach(this::addParameterValue);
+        if (parameterValues != null) {
+            this.parameterValues.clear();
+            parameterValues.forEach(this::addParameterValue);
+        }
     }
 
      /**
