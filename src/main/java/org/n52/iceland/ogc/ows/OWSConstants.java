@@ -119,6 +119,7 @@ public interface OWSConstants {
      * Enumeration for related feature role
      *
      */
+    @Deprecated //SOS-specific
     enum RelatedFeatureRole {
         featureOfInterestID, relatedFeatureID
     }
@@ -146,6 +147,7 @@ public interface OWSConstants {
     }
 
     /** enum with names of get request parameters for all requests */
+    @Deprecated //SOS-specific
     enum AdditionalRequestParams {
         language, crs, returnHumanReadableIdentifier;
 
@@ -167,6 +169,7 @@ public interface OWSConstants {
         }
     }
 
+    @Deprecated //SOS-specific
     enum ExtendedIndeterminateTime {
         first, latest;
 
@@ -188,12 +191,12 @@ public interface OWSConstants {
 
     // TODO add javadoc for each value
     enum HelperValues {
-        GMLID, EXIST_FOI_IN_DOC, VERSION, TYPE,
+        @Deprecated GMLID, @Deprecated EXIST_FOI_IN_DOC, VERSION, TYPE,
         /**
          * Encode the given 'object to encode' in a <tt>*Document</tt> object
          * and not <tt>*Type</tt>.
          */
-        DOCUMENT, PROPERTY_TYPE, FOR_OBSERVATION, ENCODE, ENCODE_NAMESPACE, REFERENCED,
+        DOCUMENT, PROPERTY_TYPE, @Deprecated FOR_OBSERVATION, ENCODE, ENCODE_NAMESPACE, REFERENCED,
         /**
          * Encode the given <tt>OwsExceptionReport</tt> not into an
          * <tt>ows:ExceptionReport</tt> but one <tt>ows:Exception</tt>.
@@ -207,12 +210,6 @@ public interface OWSConstants {
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * @since 4.1.0
-     *
-     * @param <T>
-     */
-    /**
-     * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since
      *
      * @param <T>
      */
