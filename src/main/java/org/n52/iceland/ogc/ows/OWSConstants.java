@@ -43,14 +43,20 @@ public interface OWSConstants {
     SchemaLocation OWS_110_EXCEPTION_REPORT_SCHEMA_LOCATION = new SchemaLocation(NS_OWS_PREFIX,
             SCHEMA_LOCATION_URL_OWS_EXCEPTIONREPORT);
 
+    String NS_OWS_100 = "http://www.opengis.net/ows/1.0";
+
+    String SCHEMA_LOCATION_URL_OWS100 = "http://schemas.opengis.net/ows/1.0.0/owsAll.xsd";
+
+    SchemaLocation OWS_100_SCHEMA_LOCATION = new SchemaLocation(NS_OWS_100, SCHEMA_LOCATION_URL_OWS100);
+
     // exception messages
     String SOAP_REASON_INVALID_PARAMETER_VALUE = "The request contained an invalid parameter value.";
 
-    String SOAP_REASON_INVALID_UPDATE_SEQUENCES =
-            "The value of the updateSequence parameter in the GetCapabilities operation request was greater than the current value of the service metadata updateSequence number.";
+    String SOAP_REASON_INVALID_UPDATE_SEQUENCES
+            = "The value of the updateSequence parameter in the GetCapabilities operation request was greater than the current value of the service metadata updateSequence number.";
 
-    String SOAP_REASON_MISSING_PARAMETER_VALUE =
-            "The request did not include a value for a required parameter and this server does not declare a default value for it.";
+    String SOAP_REASON_MISSING_PARAMETER_VALUE
+            = "The request did not include a value for a required parameter and this server does not declare a default value for it.";
 
     String SOAP_REASON_NO_APPLICABLE_CODE = "A server exception was encountered.";
 
