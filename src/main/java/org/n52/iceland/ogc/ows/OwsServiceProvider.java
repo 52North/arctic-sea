@@ -25,6 +25,7 @@ import com.google.common.base.Strings;
  * 
  */
 public class OwsServiceProvider {
+
     private String serviceProvider;
 
     private String name;
@@ -48,6 +49,16 @@ public class OwsServiceProvider {
     private String mailAddress;
 
     private String administrativeArea;
+
+    private String facsimile;
+
+    private String hoursOfService;
+
+    private String contactInstructions;
+
+    private String onlineResourceTitle;
+
+    private String onlineResourceHref;
 
     public String getName() {
         return name;
@@ -165,7 +176,7 @@ public class OwsServiceProvider {
         return StringHelper.isNotEmpty(getMailAddress());
     }
 
-    public void setMailAddress(String mailAddress) {
+    public void setElectronicMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
     }
 
@@ -192,4 +203,82 @@ public class OwsServiceProvider {
     public boolean isSetServiceProvider() {
         return !Strings.isNullOrEmpty(getServiceProvider());
     }
+
+    public String getFacsimile() {
+        return facsimile;
+    }
+
+    public boolean hasFacsimile() {
+        return StringHelper.isNotEmpty(getFacsimile());
+    }
+
+    public void setFacsimile(String facsimile) {
+        this.facsimile = facsimile;
+    }
+
+    public String getHoursOfService() {
+        return hoursOfService;
+    }
+
+    public boolean hasHoursOfService() {
+        return StringHelper.isNotEmpty(getHoursOfService());
+    }
+
+    public void setHoursOfService(String hoursOfService) {
+        this.hoursOfService = hoursOfService;
+    }
+
+    public String getContactInstructions() {
+        return contactInstructions;
+    }
+
+    public boolean hasContactInstructions() {
+        return StringHelper.isNotEmpty(getContactInstructions());
+    }
+
+    public void setContactInstructions(String contactInstructions) {
+        this.contactInstructions = contactInstructions;
+    }
+
+    public String getOnlineResourceTitle() {
+        return onlineResourceTitle;
+    }
+
+    public void setOnlineResourceTitle(String onlineResourceTitle) {
+        this.onlineResourceTitle = onlineResourceTitle;
+    }
+
+    public String getOnlineResourceHref() {
+        return onlineResourceHref;
+    }
+
+    public void setOnlineResourceHref(String onlineResourceHref) {
+        this.onlineResourceHref = onlineResourceHref;
+    }
+
+    /**
+     * @return true if both title and href are set
+     */
+    public boolean hasOnlineResource() {
+        return (StringHelper.isNotEmpty(getOnlineResourceTitle()) && StringHelper.isNotEmpty(getOnlineResourceHref()));
+    }
+
+    public boolean hasContactInfo() {
+        return (hasPhone() 
+                || hasFacsimile() 
+                || hasAddress() 
+                || hasOnlineResource() 
+                || hasHoursOfService() 
+                || hasContactInstructions());
+    }
+
+    public boolean hasAddress() {
+        return (hasDeliveryPoint()
+                || hasCity()
+                || hasAdministrativeArea()
+                || hasPostalCode()
+                || hasCountry()
+                || hasMailAddress());
+    }
+
 }
