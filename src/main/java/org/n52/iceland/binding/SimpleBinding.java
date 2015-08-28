@@ -67,7 +67,7 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class SimpleBinding extends Binding {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);
-    public static final String QUALITY = "q";
+    public static final String HTTP_MEDIA_TYPE_QUALITY_PARAM = "q";
 
     private ServiceEventBus eventBus;
     private ServiceOperatorRepository serviceOperatorRepository;
@@ -194,7 +194,7 @@ public abstract class SimpleBinding extends Binding {
         if (!acceptHeader.isEmpty()) {
             if (!response.isSetContentType()) {
                 for (MediaType mt : acceptHeader) {
-                    MediaType mediaType = mt.withoutParameter(QUALITY);
+                    MediaType mediaType = mt.withoutParameter(HTTP_MEDIA_TYPE_QUALITY_PARAM);
                     if (defaultContentType.isCompatible(mediaType)) {
                         return defaultContentType;
                     } else if (hasEncoder(response, mediaType)) {
@@ -205,7 +205,7 @@ public abstract class SimpleBinding extends Binding {
                 throw new HTTPException(HTTPStatus.NOT_ACCEPTABLE);
             } else {
                 for (MediaType mt : acceptHeader) {
-                    MediaType mediaType = mt.withoutParameter(QUALITY);
+                    MediaType mediaType = mt.withoutParameter(HTTP_MEDIA_TYPE_QUALITY_PARAM);
                     if (response.getContentType().isCompatible(mediaType)) {
                         return response.getContentType();
                     }
@@ -217,7 +217,7 @@ public abstract class SimpleBinding extends Binding {
             if (!response.isSetContentType()) {
                 return defaultContentType;
             } else {
-                MediaType mediaType = response.getContentType().withoutParameter(QUALITY);
+                MediaType mediaType = response.getContentType().withoutParameter(HTTP_MEDIA_TYPE_QUALITY_PARAM);
                 if (hasEncoder(response, mediaType)) {
                     return mediaType;
                 }
@@ -237,7 +237,7 @@ public abstract class SimpleBinding extends Binding {
             return defaultContentType;
         }
         for (MediaType mt : acceptHeader) {
-            MediaType mediaType = mt.withoutParameter(QUALITY);
+            MediaType mediaType = mt.withoutParameter(HTTP_MEDIA_TYPE_QUALITY_PARAM);
             if (defaultContentType.isCompatible(mediaType)) {
                 return defaultContentType;
             } else if (hasEncoder(new ExceptionEncoderKey(mediaType))) {
