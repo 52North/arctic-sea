@@ -1,11 +1,10 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 install: true
 script: mvn clean install -P check
-after_script: ./.travis/deploy.sh
+after_script: "./.travis/deploy.sh"
 notifications:
-  slack: n52:8obgjZeoDxgq2BW2oyOEINJN
   irc:
     channels:
     - chat.freenode.net#52north
@@ -13,8 +12,10 @@ notifications:
     on_failure: always
     use_notice: true
     skip_join: false
+  slack:
+    secure: jGmoGloP0k6V6rlKRDmVXvEVpOncX8rdGat8qZaA/c0wqwZKvAVdWwHaxTFkFgYE1dLILyasht+JA58puoZhJdaFicLdskTgUEJjWzEz9IiY61quZeeBHgmcUznJaw/KktV5+MUU9EdHw378dpV2nYK3+M+TiVnRoG30W1UqNk8=
 env:
   global:
-    - SNAPSHOT_BRANCH=develop
-    - secure: ibKFb3rNTGglJCTblnqZXFAgonXiAy7g1T3Y5Mpi/uRZZ3ykvecJwB5NLdnDxaRAFkmSukrNu+B6LBl8UOGI82HotsAtw1oDeDU69hKAvF5yeLCxt8RZpXr8J2QCV5+AqxUEIyvmY57i842RPf7oASZPtYBPuKbXeNDVhJ1wCjY=
-    - secure: IfM8vwcKIh4Is/9YJK6qMM6I42EMXlce7UMxFmTOF1Vy1K3xe3khMIgufU8t98cjQdNIst+nPpNQmGMRHg3PAxZ1g2MhM3/n/b6YydjveaRd6Zspq0AidF0i/Wl5taMwqT4H8dy/i9ewyQ6JjdNCDzQyS4P3cKInHYM+keZGZCQ=
+  - SNAPSHOT_BRANCH=develop
+  - secure: ibKFb3rNTGglJCTblnqZXFAgonXiAy7g1T3Y5Mpi/uRZZ3ykvecJwB5NLdnDxaRAFkmSukrNu+B6LBl8UOGI82HotsAtw1oDeDU69hKAvF5yeLCxt8RZpXr8J2QCV5+AqxUEIyvmY57i842RPf7oASZPtYBPuKbXeNDVhJ1wCjY=
+  - secure: IfM8vwcKIh4Is/9YJK6qMM6I42EMXlce7UMxFmTOF1Vy1K3xe3khMIgufU8t98cjQdNIst+nPpNQmGMRHg3PAxZ1g2MhM3/n/b6YydjveaRd6Zspq0AidF0i/Wl5taMwqT4H8dy/i9ewyQ6JjdNCDzQyS4P3cKInHYM+keZGZCQ=
