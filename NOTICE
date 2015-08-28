@@ -24,6 +24,7 @@ This project includes:
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
+  Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   Javassist under MPL 1.1 or LGPL 2.1 or Apache License 2.0
   javax.inject under The Apache Software License, Version 2.0
   Joda-Time under Apache 2
@@ -37,6 +38,7 @@ This project includes:
   Spring Context under The Apache Software License, Version 2.0
   Spring Core under The Apache Software License, Version 2.0
   Spring Expression Language (SpEL) under The Apache Software License, Version 2.0
+  Spring TestContext Framework under The Apache Software License, Version 2.0
   Spring Web under The Apache Software License, Version 2.0
   StAX API under The Apache Software License, Version 2.0
 

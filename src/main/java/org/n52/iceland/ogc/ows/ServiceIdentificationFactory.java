@@ -40,13 +40,13 @@ import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.FileIOHelper;
-import org.n52.iceland.util.LazyThreadSafeProducer;
+import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
 
 @Configurable
 public class ServiceIdentificationFactory
-        extends LazyThreadSafeProducer<OwsServiceIdentification> {
+        extends LocalizedLazyThreadSafeProducer<OwsServiceIdentification> {
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
 
