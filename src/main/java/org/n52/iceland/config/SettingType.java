@@ -20,6 +20,7 @@ import java.io.File;
 import java.net.URI;
 
 import org.n52.iceland.config.json.JsonConstants;
+import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.LocalizedString;
 import org.n52.iceland.ogc.gml.time.TimeInstant;
 
@@ -33,6 +34,7 @@ import org.n52.iceland.ogc.gml.time.TimeInstant;
  * @since 4.0.0
  */
 public enum SettingType {
+    
     /**
      * Type for {@link Boolean} and {@code boolean}.
      */
@@ -92,7 +94,7 @@ public enum SettingType {
             case JsonConstants.CHOICE_TYPE:
                 return SettingType.CHOICE;
             default:
-                throw new IllegalArgumentException(String.format("Unknown Type %s", type));
+                throw new ConfigurationError(String.format("Unknown Type %s", type));
         }
     }
 

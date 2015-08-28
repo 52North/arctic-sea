@@ -14,19 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.exception.ows.concrete;
+package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.exception.ows.OptionNotSupportedException;
+import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.util.http.MediaType;
+
+import com.google.common.base.Objects;
 
 /**
+ * TODO JavaDoc
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
-public class ParameterNotSupportedException extends OptionNotSupportedException {
-    private static final long serialVersionUID = -4888724617519223794L;
+public class OperationRequestEncoderKey extends OperationEncoderKey  {
 
-    public ParameterNotSupportedException(String parameterName) {
-        withMessage("The parameter '%s' is not supported by this service!", parameterName);
+    public OperationRequestEncoderKey(String service, String version, String operation, MediaType contentType) {
+        super(service, version, operation, contentType);
+    }
+
+    public OperationRequestEncoderKey(String service, String version, Enum<?> operation, MediaType contentType) {
+        super(service, version, operation, contentType);
+    }
+
+    public OperationRequestEncoderKey(OperationKey key, MediaType contentType) {
+        super(key, contentType);
     }
 }

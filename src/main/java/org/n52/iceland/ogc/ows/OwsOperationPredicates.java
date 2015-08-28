@@ -14,19 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.exception.ows.concrete;
+package org.n52.iceland.ogc.ows;
 
-import org.n52.iceland.exception.ows.OptionNotSupportedException;
+import com.google.common.base.Predicate;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
- * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
+ *
  */
-public class ParameterNotSupportedException extends OptionNotSupportedException {
-    private static final long serialVersionUID = -4888724617519223794L;
-
-    public ParameterNotSupportedException(String parameterName) {
-        withMessage("The parameter '%s' is not supported by this service!", parameterName);
+public class OwsOperationPredicates {
+    
+    public OwsOperationPredicates() {
     }
+    public static Predicate<OwsOperation> name(String name) {
+        return new NamePredicate(name);
+    }
+    
+
+    private static class NamePredicate implements Predicate<OwsOperation> {
+        private final String name;
+
+        NamePredicate(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean apply(OwsOperation input) {
+            return name.equals(input.getOperationName());
+        }
+    }
+
 }

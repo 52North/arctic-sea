@@ -56,22 +56,8 @@ public interface MediaTypes {
     
     MediaType APPLICATION_GML_32 = new MediaType(APPLICATION, "gml+xml", "version", "3.2");
 
-	/**
-	 * @Deprecated Use {@link MediaTypes#APPLICATION_GML_32}
-	 * 
-	 */
-    @Deprecated
-	MediaType APPLICTION_GML_32 = APPLICATION_GML_32;
-    
     MediaType APPLICATION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
 
-    /**
-	 * @Deprecated Use {@link MediaTypes#APPLICATION_OM_20}
-	 * 
-	 */
-	@Deprecated
-	MediaType APPLICTION_OM_20 = APPLICATION_OM_20;
-    
     ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES = new ImmutableSetMultimap
             .Builder<MediaType, MediaType>()
             .put(TEXT_XML, APPLICATION_XML)

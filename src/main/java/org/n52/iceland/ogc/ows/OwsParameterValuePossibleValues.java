@@ -23,16 +23,18 @@ import java.util.TreeSet;
 
 import org.n52.iceland.util.CollectionHelper;
 
+import com.google.common.collect.Sets;
+
 /**
  * @since 1.0.0
  * 
  */
 public class OwsParameterValuePossibleValues implements OwsParameterValue {
 
-    private SortedSet<String> values;
+    private SortedSet<String> values = Sets.newTreeSet();
 
     public OwsParameterValuePossibleValues(Collection<String> values) {
-        this.values = values == null ? new TreeSet<>() : new TreeSet<>(values);
+        setValues(values);
     }
 
     public OwsParameterValuePossibleValues(String value) {
@@ -42,25 +44,26 @@ public class OwsParameterValuePossibleValues implements OwsParameterValue {
     public OwsParameterValuePossibleValues(Enum<?> value) {
         this(value.name());
     }
-    
+
     public OwsParameterValuePossibleValues() {
+        this(new TreeSet<String>());
     }
 
     public SortedSet<String> getValues() {
         return Collections.unmodifiableSortedSet(values);
     }
-    
+
     public void addValue(String value) {
-    	addValues(Collections.singleton(value));
+        addValues(Collections.singleton(value));
     }
-    
+
     public void addValue(Enum<?> value) {
-    	addValues(Collections.singleton(value.name()));
+        addValues(Collections.singleton(value.name()));
     }
-    
+
     public void addValues(Collection<String> values) {
-    	if (isSetValues()) {
-    		if (values != null) {
+        if (isSetValues()) {
+            if (values != null) {
                 this.values.addAll(values);
             }
     	} else { 
@@ -74,9 +77,9 @@ public class OwsParameterValuePossibleValues implements OwsParameterValue {
             this.values.addAll(values);
         }
     }
-    
+
     public boolean isSetValues() {
-    	return CollectionHelper.isNotEmpty(getValues());
+        return CollectionHelper.isNotEmpty(getValues());
     }
 
 }

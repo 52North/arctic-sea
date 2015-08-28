@@ -5,6 +5,7 @@ install: true
 script: mvn clean install -P check
 after_script: ./.travis/deploy.sh
 notifications:
+  slack: n52:8obgjZeoDxgq2BW2oyOEINJN
   irc:
     channels:
     - chat.freenode.net#52north

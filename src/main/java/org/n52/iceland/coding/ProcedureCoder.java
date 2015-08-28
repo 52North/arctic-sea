@@ -18,13 +18,9 @@ package org.n52.iceland.coding;
 
 import java.util.Set;
 
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
- * @param <S>
- * @param <T>
  */
 public interface ProcedureCoder {
     /**

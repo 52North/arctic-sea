@@ -66,6 +66,7 @@ import com.google.common.collect.SetMultimap;
  * @since 4.0.0
  */
 public class SettingsServiceImpl implements SettingsService {
+
     private static final Logger LOG = LoggerFactory
             .getLogger(SettingsServiceImpl.class);
     private final SetMultimap<String, ConfigurableObject> configurableObjects
@@ -100,10 +101,10 @@ public class SettingsServiceImpl implements SettingsService {
         this.definitionByKey = new HashMap<>(definitions.size());
         definitions.forEach(definition -> {
             this.definitions.add(definition);
-            if (this.definitionByKey.put(definition.getKey(), definition) !=
-                null) {
+            if (this.definitionByKey.put(definition.getKey(), definition)
+                    != null) {
                 LOG.warn("Duplicate setting definition for key {}", definition
-                         .getKey());
+                        .getKey());
             }
         });
     }
@@ -289,7 +290,7 @@ public class SettingsServiceImpl implements SettingsService {
      *                                if there is a error configuring the objects
      */
     private void applySetting(SettingDefinition<?, ?> setting,
-                              SettingValue<?> oldValue, SettingValue<?> newValue)
+            SettingValue<?> oldValue, SettingValue<?> newValue)
             throws ConfigurationError {
         LinkedList<ConfigurableObject> changed = new LinkedList<>();
         ConfigurationError e = null;
@@ -337,7 +338,7 @@ public class SettingsServiceImpl implements SettingsService {
             co.configure(getNotNullSettingValue(co));
         } catch (RuntimeException cpe) {
             throw new ConfigurationError("Exception configuring " + co
-                                             .getKey(), cpe);
+                    .getKey(), cpe);
         }
     }
 
@@ -361,7 +362,7 @@ public class SettingsServiceImpl implements SettingsService {
             } else if (def.hasDefaultValue()) {
                 LOG
                         .debug("Using default value '{}' for required setting {}", def
-                               .getDefaultValue(), co.getKey());
+                                .getDefaultValue(), co.getKey());
                 this.settingsManagerDao.saveSettingValue(val.setValue(def
                         .getDefaultValue()));
             } else if (def.getKey().equals(ServiceSettings.SERVICE_URL)) {
@@ -434,7 +435,22 @@ public class SettingsServiceImpl implements SettingsService {
         this.settingsManagerDao.deleteAll();
     }
 
+    @Override
+    public void reconfigure() {
+        this.configurableObjectsLock.readLock().lock();
+        LOG.trace("Reconfiguring all objects");
+        try {
+            configurableObjects.values().stream()
+                    .map(this::getNotNullSettingValue)
+                    .forEach(sv -> configurableObjects.get(sv.getKey()).stream()
+                            .forEach(co -> co.configure(sv)));
+        } finally {
+            this.configurableObjectsLock.readLock().unlock();
+        }
+    }
+
     private static class ConfigurableObject {
+
         private final Method method;
         private final WeakReference<Object> target;
         private final String key;
@@ -544,14 +560,14 @@ public class SettingsServiceImpl implements SettingsService {
                 return false;
             }
             final ConfigurableObject other = (ConfigurableObject) obj;
-            if (getMethod() != other.getMethod() && (getMethod() == null ||
-                                                     !getMethod().equals(other
-                                                             .getMethod()))) {
+            if (getMethod() != other.getMethod() && (getMethod() == null
+                    || !getMethod().equals(other
+                            .getMethod()))) {
                 return false;
             }
-            if (getTarget() != other.getTarget() && (getTarget() == null ||
-                                                     !getTarget().equals(other
-                                                             .getTarget()))) {
+            if (getTarget() != other.getTarget() && (getTarget() == null
+                    || !getTarget().equals(other
+                            .getTarget()))) {
                 return false;
             }
             return !((getKey() == null) ? (other.getKey() != null) : !getKey()

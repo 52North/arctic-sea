@@ -31,7 +31,7 @@ import org.mockito.Mockito;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.encode.OperationEncoderKey;
+import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.response.TestResponse;
 import org.n52.iceland.util.http.MediaType;
@@ -71,8 +71,8 @@ public class SimpleBindingTest {
     private EncoderRepository mockEncoderRepository() {
         EncoderRepository encoderRepository = mock(EncoderRepository.class);
         OperationKey operationKey = response.getOperationKey();
-        OperationEncoderKey operationEncoderKey =
-                new OperationEncoderKey(operationKey, MediaTypes.APPLICATION_JSON);
+        OperationResponseEncoderKey operationEncoderKey =
+                new OperationResponseEncoderKey(operationKey, MediaTypes.APPLICATION_JSON);
         Encoder encoder = Mockito.mock(Encoder.class);
         when(encoderRepository.getEncoder(operationEncoderKey)).thenReturn(encoder);
         return encoderRepository;

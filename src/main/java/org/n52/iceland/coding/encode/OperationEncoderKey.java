@@ -22,13 +22,11 @@ import org.n52.iceland.util.http.MediaType;
 import com.google.common.base.Objects;
 
 /**
- * TODO JavaDoc
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  *
- * @author Christian Autermann <c.autermann@52north.org>
- *
- * @since 4.0.0
  */
-public class OperationEncoderKey extends OperationKey implements EncoderKey {
+public abstract class OperationEncoderKey extends OperationKey implements EncoderKey {
     private final MediaType contentType;
 
     public OperationEncoderKey(String service, String version, String operation, MediaType contentType) {
@@ -57,7 +55,7 @@ public class OperationEncoderKey extends OperationKey implements EncoderKey {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), this.contentType);
+        return Objects.hashCode(super.hashCode(), this.getClass());
     }
 
     @Override
