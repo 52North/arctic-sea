@@ -120,6 +120,7 @@ public abstract class SimpleBinding extends Binding {
         return decoderRepository;
     }
     
+    @Override
     public Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
             OwsExceptionReport oer) throws HTTPException {
         try {

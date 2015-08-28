@@ -54,6 +54,7 @@ import com.google.common.collect.Sets;
 @Configurable
 public class PoxBinding extends AbstractXmlBinding {
 
+    @Deprecated // SOS-specific
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
 

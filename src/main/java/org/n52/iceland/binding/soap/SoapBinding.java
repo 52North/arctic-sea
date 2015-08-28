@@ -102,6 +102,7 @@ public class SoapBinding extends AbstractXmlBinding {
         return false;
     }
 
+    @Deprecated // uses SOS constants
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
@@ -287,11 +288,13 @@ public class SoapBinding extends AbstractXmlBinding {
         return null;
     }
 
+    @Override
     public HttpUtils getHttpUtils() {
         return httpUtils;
     }
 
     @Inject
+    @Override
     public void setHttpUtils(HttpUtils httpUtils) {
         this.httpUtils = httpUtils;
     }
