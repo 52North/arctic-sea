@@ -18,6 +18,7 @@ package org.n52.iceland.binding;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -253,13 +254,17 @@ public abstract class SimpleBinding extends Binding {
 
     protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        return request.getServiceOperatorKeys().stream().map(this::getServiceOperator).findFirst().orElseThrow(() -> {
-            if (request instanceof GetCapabilitiesRequest) {
-                return new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
-            } else {
-                return new InvalidServiceOrVersionException(request.getService(), request.getVersion());
-            }
-        });
+        return request.getServiceOperatorKeys().stream()
+                .map(this::getServiceOperator)
+                .filter(Objects::nonNull)
+                .findFirst()
+                .orElseThrow(() -> {
+                    if (request instanceof GetCapabilitiesRequest) {
+                        return new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
+                    } else {
+                        return new InvalidServiceOrVersionException(request.getService(), request.getVersion());
+                    }
+                });
     }
 
     protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {
