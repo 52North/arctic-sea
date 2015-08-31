@@ -34,12 +34,22 @@ import com.google.common.collect.Lists;
  *
  */
 public class OwsOperationsMetadata {
-    
+
     private SortedSet<OwsOperation> operations;
 
-    private SortedMap<String, List<OwsParameterValue>> commonValues;
+    private SortedMap<String, List<OwsParameterValue>> commonValues = new TreeMap<>();
+
+    private SortedMap<String, List<OwsParameterValue>> commonConstraints = new TreeMap<>();
 
     private OwsExtendedCapabilities extendedCapabilities;
+
+    public SortedMap<String, List<OwsParameterValue>> getCommonConstraints() {
+        return Collections.unmodifiableSortedMap(commonConstraints);
+    }
+
+    public void setCommonConstraints(SortedMap<String, List<OwsParameterValue>> commonConstraints) {
+        this.commonConstraints = commonConstraints;
+    }
 
     public SortedSet<OwsOperation> getOperations() {
         return Collections.unmodifiableSortedSet(operations);
@@ -61,9 +71,6 @@ public class OwsOperationsMetadata {
     }
 
     public void addCommonValue(String parameterName, OwsParameterValue value) {
-        if (commonValues == null) {
-            commonValues = new TreeMap<>();
-        }
         List<OwsParameterValue> values = commonValues.get(parameterName);
         if (values == null) {
             values = new LinkedList<>();
@@ -73,9 +80,6 @@ public class OwsOperationsMetadata {
     }
 
     public void overrideCommonValue(String parameterName, OwsParameterValue value) {
-        if (commonValues == null) {
-            commonValues = new TreeMap<>();
-        }
         List<OwsParameterValue> values = Lists.newLinkedList();
         values.add(value);
         commonValues.put(parameterName, values);
@@ -103,5 +107,24 @@ public class OwsOperationsMetadata {
 
     public boolean isSetExtendedCapabilities() {
         return getExtendedCapabilities() != null;
+    }
+
+    public void addCommonConstraint(String constraintName, OwsParameterValue value) {
+        List<OwsParameterValue> values = commonConstraints.get(constraintName);
+        if (values == null) {
+            values = new LinkedList<>();
+            commonConstraints.put(constraintName, values);
+        }
+        values.add(value);
+    }
+
+    public void overrideCommonConstraint(String constraintName, OwsParameterValue value) {
+        List<OwsParameterValue> values = Lists.newLinkedList();
+        values.add(value);
+        commonConstraints.put(constraintName, values);
+    }
+
+    public boolean isSetCommonConstraints() {
+        return !CollectionHelper.isEmpty(getCommonConstraints());
     }
 }
