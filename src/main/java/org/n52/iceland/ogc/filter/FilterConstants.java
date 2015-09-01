@@ -23,6 +23,8 @@ import org.n52.iceland.w3c.SchemaLocation;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
+import com.google.common.collect.Sets;
+import java.util.Set;
 
 /**
  * Constants interface for <a
@@ -208,7 +210,7 @@ public interface FilterConstants {
         Contains,
         DWithin,
         Beyond,
-        BBOX
+        BBOX;
     }
 
     /**
@@ -286,7 +288,12 @@ public interface FilterConstants {
     }
 
     interface LogicOperator {
-        //
+        
+        public static final Set<LogicOperator> ALL = Sets.newHashSet(
+                BinaryLogicOperator.And, 
+                BinaryLogicOperator.Or, 
+                UnaryLogicOperator.Not);
+        
     }
 
     /**
