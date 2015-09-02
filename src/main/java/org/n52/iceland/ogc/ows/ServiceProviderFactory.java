@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import com.google.common.base.Splitter;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ADDRESS;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CITY;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.COUNTRY;
@@ -32,6 +33,7 @@ import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.STATE;
 import java.io.File;
 import java.net.URI;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
 
@@ -39,6 +41,10 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CONTACT_INSTRUCTIONS;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.FACSIMILE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.HOURS_OF_SERVICE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ONLINE_RESOURCE;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
@@ -61,8 +67,13 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
     private String city;
     private String postalCode;
     private String country;
-    private String mailAddress;
+    private String electronicMailAddress;
     private String administrativeArea;
+    private String facsimile;
+    private String hoursOfService;
+    private String contactInstructions;
+    private String onlineResoureTitle;
+    private String onlineResoureHref;
 
     @Setting(FILE)
     public void setFile(File file) {
@@ -100,6 +111,12 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
         setRecreate();
     }
 
+    @Setting(FACSIMILE)
+    public void setFacsimile(String facsimile) {
+        this.facsimile = facsimile;
+        setRecreate();
+    }
+
     @Setting(ADDRESS)
     public void setDeliveryPoint(String deliveryPoint) {
         this.deliveryPoint = deliveryPoint;
@@ -126,13 +143,34 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
 
     @Setting(EMAIL)
     public void setMailAddress(String mailAddress) {
-        this.mailAddress = mailAddress;
+        this.electronicMailAddress = mailAddress;
         setRecreate();
     }
 
     @Setting(STATE)
     public void setAdministrativeArea(String administrativeArea) {
         this.administrativeArea = administrativeArea;
+        setRecreate();
+    }
+
+    @Setting(HOURS_OF_SERVICE)
+    public void setHours(String hours) {
+        this.hoursOfService = hours;
+        setRecreate();
+    }
+
+    @Setting(CONTACT_INSTRUCTIONS)
+    public void setContactInstructions(String contactInstructions) {
+        this.contactInstructions = contactInstructions;
+        setRecreate();
+    }
+    
+    @Setting(ONLINE_RESOURCE)
+    public void setOnlineResource(String onlineResource) {
+        Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
+        Iterator<String> iterator = split.iterator();
+        this.onlineResoureTitle = iterator.next();
+        this.onlineResoureHref = iterator.next();
         setRecreate();
     }
 
@@ -150,11 +188,16 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
     private void createFromSettings(OwsServiceProvider serviceProvider) {
         serviceProvider.setAdministrativeArea(this.administrativeArea);
         serviceProvider.setCity(this.city);
+        serviceProvider.setContactInstructions(this.contactInstructions);
         serviceProvider.setCountry(this.country);
         serviceProvider.setDeliveryPoint(this.deliveryPoint);
+        serviceProvider.setFacsimile(this.facsimile);
+        serviceProvider.setHoursOfService(this.hoursOfService);
         serviceProvider.setIndividualName(this.individualName);
-        serviceProvider.setMailAddress(this.mailAddress);
+        serviceProvider.setElectronicMailAddress(this.electronicMailAddress);
         serviceProvider.setName(this.name);
+        serviceProvider.setOnlineResourceHref(this.onlineResoureHref);
+        serviceProvider.setOnlineResourceTitle(this.onlineResoureTitle);
         serviceProvider.setPhone(this.phone);
         serviceProvider.setPositionName(this.positionName);
         serviceProvider.setPostalCode(this.postalCode);

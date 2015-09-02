@@ -19,7 +19,7 @@ package org.n52.iceland.ogc.ows;
 import org.n52.iceland.w3c.xlink.SimpleAttrs;
 
 /**
- * SOS class for OwsMetadata
+ * Class for OwsMetadata
  * 
  * @since 1.0.0
  * 

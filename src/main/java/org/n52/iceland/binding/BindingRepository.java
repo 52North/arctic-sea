@@ -128,8 +128,8 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         if (this.bindings.isEmpty()) {
             final StringBuilder exceptionText = new StringBuilder();
             exceptionText.append("No Binding implementation could be loaded! ");
-            exceptionText.append("If the SOS is not used as webapp, this has no effect! ");
-            exceptionText.append("Else add a Binding implementation!");
+            exceptionText.append("If the service is not used as a webapp, this has no effect! ");
+            exceptionText.append("Please add a Binding implementation!");
             LOG.warn(exceptionText.toString());
         }
     }
