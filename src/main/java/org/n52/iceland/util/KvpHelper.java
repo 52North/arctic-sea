@@ -33,6 +33,9 @@ import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 
 import com.google.common.base.Strings;
+import java.net.URI;
+import java.net.URISyntaxException;
+import org.n52.iceland.exception.CodedException;
 
 /**
  * Utility class for Key-Value-Pair (KVP) requests
@@ -55,8 +58,7 @@ public final class KvpHelper {
         return kvp;
     }
 
-    public static String checkParameterSingleValue(String value, String name) throws MissingParameterValueException,
-            InvalidParameterValueException {
+    public static String checkParameterSingleValue(String value, String name) throws CodedException {
         if (checkParameterMultipleValues(value, name).size() == 1) {
             return value;
         } else {
@@ -64,9 +66,23 @@ public final class KvpHelper {
         }
     }
 
-    public static String checkParameterSingleValue(String value, Enum<?> name) throws MissingParameterValueException,
-            InvalidParameterValueException {
+    public static String checkParameterSingleValue(String value, Enum<?> name) throws CodedException {
         return checkParameterSingleValue(value, name.name());
+    }
+
+    public static URI checkParameterSingleURI(String values, String name) throws CodedException {
+        String value = checkParameterSingleValue(values, name);
+        try {
+            URI uri = new URI(value);
+            return uri;
+        } catch (URISyntaxException e) {
+            throw new InvalidParameterValueException(name, values).withMessage("Cannot parse provided value '%s' to URI", value).causedBy(e);
+        }
+    }
+    
+    public static boolean checkParameterBooleanValue(String value, String name) throws CodedException {
+        checkParameterValue(value, name);
+        return Boolean.valueOf(value);
     }
 
     public static List<String> checkParameterMultipleValues(String values, String name)
@@ -100,23 +116,21 @@ public final class KvpHelper {
         }
     }
 
-    public static void checkParameterValue(String value, String name) throws MissingParameterValueException,
-            InvalidParameterValueException {
+    public static void checkParameterValue(String value, String name) throws CodedException {
         if (Strings.isNullOrEmpty(value)) {
             throw new MissingParameterValueException(name);
         }
     }
 
-    public static void checkParameterValue(String value, Enum<?> name) throws MissingParameterValueException,
-            InvalidParameterValueException {
+    public static void checkParameterValue(String value, Enum<?> name) throws CodedException {
         checkParameterValue(value, name.name());
     }
 
     private static String getParameterValue(String name, Map<String, String> map) {
-        return map.computeIfAbsent(name, key ->
-           map.entrySet().stream()
-                   .filter(e -> e.getKey().equalsIgnoreCase(key))
-                   .findFirst().map(Entry::getValue).orElse(null)
+        return map.computeIfAbsent(name, key
+                -> map.entrySet().stream()
+                .filter(e -> e.getKey().equalsIgnoreCase(key))
+                .findFirst().map(Entry::getValue).orElse(null)
         );
     }
 
