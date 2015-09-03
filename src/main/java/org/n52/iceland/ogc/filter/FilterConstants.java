@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.filter;
 
+import com.google.common.base.Joiner;
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.ogc.OGCConstants;
@@ -25,6 +26,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Sets;
 import java.util.Set;
+import org.n52.iceland.ogc.gml.GmlConstants;
 
 /**
  * Constants interface for <a
@@ -239,7 +241,7 @@ public interface FilterConstants {
         Solid;
 
         public static String asString(GeometryOperand go) {
-            return "gml:" + go.name();
+            return Joiner.on(":").join(GmlConstants.NS_GML_PREFIX, go.name());
         }
     }
 
@@ -288,12 +290,12 @@ public interface FilterConstants {
     }
 
     interface LogicOperator {
-        
+
         public static final Set<LogicOperator> ALL = Sets.newHashSet(
-                BinaryLogicOperator.And, 
-                BinaryLogicOperator.Or, 
+                BinaryLogicOperator.And,
+                BinaryLogicOperator.Or,
                 UnaryLogicOperator.Not);
-        
+
     }
 
     /**
@@ -351,6 +353,7 @@ public interface FilterConstants {
      *
      */
     enum SortOrder {
+
         ASC,
         DESC
     }
