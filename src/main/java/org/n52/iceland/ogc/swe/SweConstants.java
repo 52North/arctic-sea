@@ -101,29 +101,31 @@ public interface SweConstants {
     
     String EN_VALUE = "value";
 
-    String VT_BOOLEAN = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_BOOLEAN);
+    Joiner COLON_JOINER = Joiner.on(Constants.COLON_CHAR);
 
-    String VT_CATEGORY = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_CATEGORY);
+    String VT_BOOLEAN = COLON_JOINER.join(NS_SWE_PREFIX, EN_BOOLEAN);
 
-    String VT_COUNT = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_COUNT);
+    String VT_CATEGORY = COLON_JOINER.join(NS_SWE_PREFIX, EN_CATEGORY);
 
-    String VT_COUNT_RANGE = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_COUNT_RANGE);
+    String VT_COUNT = COLON_JOINER.join(NS_SWE_PREFIX, EN_COUNT);
 
-    String VT_OBSERVABLE_PROPERTY = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_OBSERVABLE_PROPERTY);
+    String VT_COUNT_RANGE = COLON_JOINER.join(NS_SWE_PREFIX, EN_COUNT_RANGE);
 
-    String VT_QUANTITY = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_QUANTITY);
+    String VT_OBSERVABLE_PROPERTY = COLON_JOINER.join(NS_SWE_PREFIX, EN_OBSERVABLE_PROPERTY);
 
-    String VT_QUANTITY_RANGE = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_QUANTITY_RANGE);
+    String VT_QUANTITY = COLON_JOINER.join(NS_SWE_PREFIX, EN_QUANTITY);
 
-    String VT_TEXT = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_TEXT);
+    String VT_QUANTITY_RANGE = COLON_JOINER.join(NS_SWE_PREFIX, EN_QUANTITY_RANGE);
 
-    String VT_TIME = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_TIME);
+    String VT_TEXT = COLON_JOINER.join(NS_SWE_PREFIX, EN_TEXT);
 
-    String VT_TIME_RANGE = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_TIME_RANGE);
+    String VT_TIME = COLON_JOINER.join(NS_SWE_PREFIX, EN_TIME);
 
-    String VT_DATA_ARRAY = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_DATA_ARRAY);
+    String VT_TIME_RANGE = COLON_JOINER.join(NS_SWE_PREFIX, EN_TIME_RANGE);
 
-    String VT_DATA_RECORD = Joiner.on(Constants.COLON_CHAR).join(NS_SWE_PREFIX, EN_DATA_RECORD);
+    String VT_DATA_ARRAY = COLON_JOINER.join(NS_SWE_PREFIX, EN_DATA_ARRAY);
+
+    String VT_DATA_RECORD = COLON_JOINER.join(NS_SWE_PREFIX, EN_DATA_RECORD);
 
     QName QN_BOOLEAN_SWE_101 = new QName(NS_SWE_101, EN_BOOLEAN, NS_SWE_PREFIX);
 
@@ -179,7 +181,7 @@ public interface SweConstants {
 
     QName QN_VALUE_SWE_200 = new QName(NS_SWE_20, EN_VALUE, NS_SWE_PREFIX);
 
-	QName QN_DATA_ARRAY_SWE_101 = new QName(NS_SWE_101, EN_DATA_ARRAY, NS_SWE_PREFIX);
+    QName QN_DATA_ARRAY_SWE_101 = new QName(NS_SWE_101, EN_DATA_ARRAY, NS_SWE_PREFIX);
 
     /**
      * Enum for SensorML types

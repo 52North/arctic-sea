@@ -96,6 +96,8 @@ public interface OmConstants {
 
     String EN_GEOMETRY_OBSERVATION = "GeometryObservation";
 
+    String EN_COMPLEX_OBSERVATION = "ComplexObservation";
+
     String EN_COMMON_OBSERVATION = "CommonObservation";
 
     String EN_COMPOSITE_PHENOMENON = "CompositePhenomenon";
@@ -153,6 +155,8 @@ public interface OmConstants {
     String EN_PARAMETER = "parameter";
 
     String EN_NAMED_VALUE = "NamedValue";
+    
+    String EN_VALID_TIME = "validTime";
 
     // /////////////////////////////////////////////////////////////////////////////////
     // other constants
@@ -163,6 +167,8 @@ public interface OmConstants {
     String RESULT_TIME = "http://www.opengis.net/def/property/OGC/0/ResultTime";
 
     String PHENOMENON_TIME_NAME = EN_PHENOMENON_TIME;
+
+    String VALID_TIME_NAME = EN_VALID_TIME;
 
     String SAMPLING_TIME_NAME = "samplingTime";
 
@@ -216,6 +222,8 @@ public interface OmConstants {
 
     QName RESULT_MODEL_COUNT_OBSERVATION = new QName(NS_OM, EN_COUNT_OBSERVATION, NS_OM_PREFIX);
 
+    QName RESULT_MODEL_COMPLEX_OBSERVATION = new QName(NS_OM, EN_COMPLEX_OBSERVATION, NS_OM_PREFIX);
+
     QName RESULT_MODEL_TRUTH_OBSERVATION = new QName(NS_OM, EN_TRUTH_OBSERVATION, NS_OM_PREFIX);
 
     QName RESULT_MODEL_TEXT_OBSERVATION = new QName(NS_OM, EN_TEXT_OBSERVATION, NS_OM_PREFIX);
@@ -233,6 +241,8 @@ public interface OmConstants {
     QName QN_OM_20_OBSERVATION_TYPE = new QName(NS_OM_2, EN_TYPE, NS_OM_PREFIX);
 
     QName QN_OM_20_PHENOMENON_TIME = new QName(NS_OM_2, EN_PHENOMENON_TIME, NS_OM_PREFIX);
+
+    QName QN_OM_20_VALID_TIME = new QName(NS_OM_2, EN_VALID_TIME, NS_OM_PREFIX);
 
     QName QN_OM_20_RESULT_TIME = new QName(NS_OM_2, EN_RESULT_TIME, NS_OM_PREFIX);
 
@@ -264,4 +274,15 @@ public interface OmConstants {
             = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
     ObservationType OBS_TYPE_MEASUREMENT_TYPE
             = new ObservationType(OBS_TYPE_MEASUREMENT);
+    
+    Set<String> OBSERVATION_TYPES = ImmutableSet.of(
+            OBS_TYPE_MEASUREMENT,
+            OBS_TYPE_CATEGORY_OBSERVATION,
+            OBS_TYPE_COMPLEX_OBSERVATION,
+            OBS_TYPE_COUNT_OBSERVATION,
+            OBS_TYPE_GEOMETRY_OBSERVATION,
+            OBS_TYPE_TEXT_OBSERVATION,
+            OBS_TYPE_TRUTH_OBSERVATION,
+            OBS_TYPE_SWE_ARRAY_OBSERVATION
+    );
 }

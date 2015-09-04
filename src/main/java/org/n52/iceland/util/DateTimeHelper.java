@@ -420,6 +420,15 @@ public final class DateTimeHelper {
     }
 
     /**
+     * Transforms the supplied {@code DateTime} to UTC.
+     * @param datetime the date time (may be {@code null})
+     * @return the UTC time (or {@code null}
+     */
+    public static DateTime toUTC(DateTime datetime) {
+        return datetime == null ? null : new DateTime(datetime.getMillis(), DateTimeZone.UTC);
+    }
+
+    /**
      * Find the max of two dates (null safe)
      *
      * @param dt1

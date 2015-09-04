@@ -65,6 +65,8 @@ public interface ConformanceClasses {
 
     String OM_V2_CATEGORY_OBSERVATION = "http://www.opengis.net/spec/OMXML/2.0/conf/categoryObservation";
 
+    String OM_V2_COMPLEX_OBSERVATION = "http://www.opengis.net/spec/OMXML/2.0/conf/complexObservation";
+
     String OM_V2_SAMPLING_POINT = "http://www.opengis.net/spec/OMXML/2.0/conf/samplingPoint";
 
     String OM_V2_SAMPLING_CURVE = "http://www.opengis.net/spec/OMXML/2.0/conf/samplingCurve";
