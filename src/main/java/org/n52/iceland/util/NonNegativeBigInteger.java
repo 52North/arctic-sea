@@ -31,6 +31,14 @@ public class NonNegativeBigInteger extends ValidatableBigInteger {
     public NonNegativeBigInteger(String val) {
         super(val);
     }
+    
+    public NonNegativeBigInteger(int i) {
+        super(Integer.toString(i));
+    }
+    
+    public NonNegativeBigInteger(long l) {
+        super(Long.toString(l));
+    }
 
     @Override
     protected void validate() {

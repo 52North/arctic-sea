@@ -32,6 +32,14 @@ public class PositiveBigInteger extends ValidatableBigInteger {
         super(val);
     }
 
+    public PositiveBigInteger(int i) {
+        super(Integer.toString(i));
+    }
+
+    public PositiveBigInteger(long l) {
+        super(Long.toString(l));
+    }
+
     @Override
     protected void validate() {
         if (compareTo(ONE) < 0) {
