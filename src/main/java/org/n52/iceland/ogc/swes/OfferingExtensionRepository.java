@@ -45,7 +45,7 @@ import com.google.common.collect.Sets;
 /**
  * Repository for {@link OfferingExtensionProvider} implementations
  *
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class OfferingExtensionRepository extends AbstractComponentRepository<OfferingExtensionKey, OfferingExtensionProvider, OfferingExtensionProviderFactory>

@@ -20,7 +20,7 @@ import org.n52.iceland.config.SettingType;
 import org.n52.iceland.config.SettingValue;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public class StringSettingValueForTesting implements SettingValue<String> {

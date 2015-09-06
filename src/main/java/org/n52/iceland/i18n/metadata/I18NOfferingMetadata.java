@@ -22,7 +22,7 @@ import org.n52.iceland.i18n.MultilingualString;
  * I18N object class for offering
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class I18NOfferingMetadata extends AbstractI18NMetadata {

@@ -254,7 +254,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      * {@link TimeFormat#YMD} - year, month, day <br>
      * {v #NOT_SET} - not defined
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     public enum TimeFormat {
@@ -272,7 +272,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      * {@link TimeIndeterminateValue#unknown} - unknown time <br>
      * {@link TimeIndeterminateValue#template} - template, e.g. result handling
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     public enum TimeIndeterminateValue {
@@ -314,7 +314,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      * {@link RelativePosition#BegunBy} - BegunBy <br>
      * {@link RelativePosition#EndedB} - EndedB <br>
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     public enum RelativePosition {
@@ -326,7 +326,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      *
      * {@link NilReason#template} - template, e.g. result handling
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     public enum NilReason {

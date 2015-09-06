@@ -21,7 +21,7 @@ package org.n52.iceland.ds;
  * underlying data source (e.g. database, web service). Implementation can
  * contain a ConnectionPool.
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface ConnectionProvider {
 

@@ -37,7 +37,7 @@ import com.google.common.base.Strings;
 /**
  * Utility class for Key-Value-Pair (KVP) requests
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class KvpHelper {

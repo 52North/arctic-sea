@@ -56,7 +56,7 @@ import com.google.common.base.Stopwatch;
  * requests and sends the operation result documents to the client TODO review
  * exception handling
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 @Controller
 @RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")

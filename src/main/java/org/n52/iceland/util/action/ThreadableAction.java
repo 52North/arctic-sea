@@ -23,7 +23,7 @@ import java.util.concurrent.CountDownLatch;
  * counted down after execution).
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public abstract class ThreadableAction extends RunnableAction {

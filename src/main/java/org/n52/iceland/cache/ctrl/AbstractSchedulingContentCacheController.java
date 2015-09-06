@@ -35,7 +35,7 @@ import org.n52.iceland.util.Validation;
  * Abstract class for capabilities cache controller implementations that
  * schedules a complete cache update at a configured interval.
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 @Configurable
 public abstract class AbstractSchedulingContentCacheController implements ContentCacheController, Destroyable {

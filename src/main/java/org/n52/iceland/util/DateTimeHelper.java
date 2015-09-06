@@ -42,7 +42,7 @@ import com.google.common.base.Strings;
 /**
  * Utility class for Time formatting and parsing. Uses Joda Time.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class DateTimeHelper {

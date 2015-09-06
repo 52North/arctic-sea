@@ -52,7 +52,7 @@ import com.google.common.io.Closeables;
  *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.2.0
+ * @since 1.0.0
  */
 public class JSONUtils {
 

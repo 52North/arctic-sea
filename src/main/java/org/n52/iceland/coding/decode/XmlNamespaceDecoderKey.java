@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class XmlNamespaceDecoderKey extends NamespaceDecoderKey<Class<?>> {
 

@@ -38,7 +38,7 @@ import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SimpleBindingTest {

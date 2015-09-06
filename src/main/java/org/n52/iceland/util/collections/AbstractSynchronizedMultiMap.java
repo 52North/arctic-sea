@@ -37,7 +37,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  *
  * @see Collections#synchronizedMap(java.util.Map)
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public abstract class AbstractSynchronizedMultiMap<K, V, C extends Collection<V>> extends

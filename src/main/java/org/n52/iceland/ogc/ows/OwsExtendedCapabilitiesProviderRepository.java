@@ -46,7 +46,7 @@ import org.n52.iceland.util.activation.ActivationSource;
  * Repository for {@link OwsExtendedCapabilities}. Loads all implemented
  * {@link OwsExtendedCapabilitiesProvider} and adds to this repository.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class OwsExtendedCapabilitiesProviderRepository

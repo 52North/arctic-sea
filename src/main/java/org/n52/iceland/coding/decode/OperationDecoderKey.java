@@ -22,7 +22,7 @@ import org.n52.iceland.util.http.MediaType;
 import com.google.common.base.Objects;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class OperationDecoderKey extends OperationKey implements DecoderKey {

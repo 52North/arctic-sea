@@ -26,7 +26,7 @@ import com.google.common.base.Joiner;
 /**
  * Constants interface for OGC SWE 1.0.1 and 2.0
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface SweConstants {
 

@@ -299,7 +299,7 @@ public interface FilterConstants {
     /**
      * Enumeration for binary logic operators
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum BinaryLogicOperator implements LogicOperator {
@@ -311,7 +311,7 @@ public interface FilterConstants {
     /**
      * Enumeration for unary logic operators
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum UnaryLogicOperator implements LogicOperator {
@@ -322,7 +322,7 @@ public interface FilterConstants {
     /**
      * Enumeration for AdHoc query parameter
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum AdHocQueryParams {
@@ -347,7 +347,7 @@ public interface FilterConstants {
     /**
      * Enumeration for sort order
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum SortOrder {

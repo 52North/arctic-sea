@@ -23,7 +23,7 @@ import org.n52.iceland.service.operator.ServiceOperatorKey;
  * Key class to identify {@link OfferingExtensionProvider}.
  * 
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  * 
  */
 public class OfferingExtensionKey extends AbstractComparableServiceVersionDomainKey<OfferingExtensionKey> {

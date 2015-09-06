@@ -24,7 +24,7 @@ import javax.xml.namespace.QName;
  * Comparator for {@link QName}s.
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class QNameComparator implements Comparator<QName> {
