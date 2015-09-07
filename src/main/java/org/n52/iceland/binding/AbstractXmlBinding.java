@@ -97,7 +97,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
 
         } catch (SAXException | IOException | ParserConfigurationException e) {
             throw new NoApplicableCodeException().causedBy(e).withMessage(
-                    "An error occured when parsing the request decoder! Message: %s", e.getMessage());
+                    "An error occured when parsing the request! Message: %s", e.getMessage());
         }
     }
 
