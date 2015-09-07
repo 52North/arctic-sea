@@ -25,7 +25,7 @@ import org.n52.iceland.ogc.ows.Extensions;
  * Interface for OfferingExtensionProvider. Implementations of this interface
  * are loaded by the {@link OfferingExtensionRepository}.
  *
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public interface OfferingExtensionProvider extends Component<OfferingExtensionKey> {

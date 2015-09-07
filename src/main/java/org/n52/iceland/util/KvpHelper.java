@@ -40,7 +40,7 @@ import org.n52.iceland.exception.CodedException;
 /**
  * Utility class for Key-Value-Pair (KVP) requests
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class KvpHelper {

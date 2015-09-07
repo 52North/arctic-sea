@@ -20,7 +20,7 @@ package org.n52.iceland.util;
  * @param <T>
  *            the type
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class MinMax<T> {

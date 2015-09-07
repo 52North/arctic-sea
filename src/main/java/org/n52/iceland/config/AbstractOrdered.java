@@ -25,7 +25,7 @@ package org.n52.iceland.config;
  *            <p/>
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractOrdered<T extends Ordered<T>> implements Ordered<T> {
 

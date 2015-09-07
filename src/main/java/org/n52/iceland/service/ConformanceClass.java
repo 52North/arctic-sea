@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface ConformanceClass {

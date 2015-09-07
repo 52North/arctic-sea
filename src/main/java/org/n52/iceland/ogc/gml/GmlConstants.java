@@ -240,7 +240,7 @@ public interface GmlConstants extends Constants {
      * Enumeration of the possible values for indeterminate Time attribute of
      * eventtime in GetObservation request
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum IndetTimeValues {
@@ -250,7 +250,7 @@ public interface GmlConstants extends Constants {
     /**
      * enumeration of the possible sorting orders
      *
-     * @since 4.0.0
+     * @since 1.0.0
      */
     enum SortingOrder {
         ASC, DESC
@@ -267,7 +267,7 @@ public interface GmlConstants extends Constants {
      * 
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * 
-     * @since 4.3.0
+     * @since 1.0.0
      *
      */
     enum NilReason {

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * @param <A>
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public abstract class CompositeSerialAction<A extends Action> extends CompositeAction<A> {

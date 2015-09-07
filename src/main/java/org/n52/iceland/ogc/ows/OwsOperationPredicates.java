@@ -14,26 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.i18n.metadata;
+package org.n52.iceland.ogc.ows;
 
-import org.n52.iceland.i18n.MultilingualString;
+import com.google.common.base.Predicate;
 
 /**
- * I18N object class for offering
- *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public class I18NOfferingMetadata extends AbstractI18NMetadata {
-
-    public I18NOfferingMetadata(String id, MultilingualString name,
-                              MultilingualString description) {
-        super(id, name, description);
+public class OwsOperationPredicates {
+    
+    public OwsOperationPredicates() {
     }
+    public static Predicate<OwsOperation> name(String name) {
+        return new NamePredicate(name);
+    }
+    
 
-    public I18NOfferingMetadata(String id) {
-        super(id);
+    private static class NamePredicate implements Predicate<OwsOperation> {
+        private final String name;
+
+        NamePredicate(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public boolean apply(OwsOperation input) {
+            return name.equals(input.getOperationName());
+        }
     }
 
 }

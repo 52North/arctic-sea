@@ -34,8 +34,23 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
         return capabilities;
     }
 
-    public void setCapabilities(OwsCapabilities capabilities) {
+    /**
+     * Set {@link OwsCapabilities}. Adds service and version from
+     * {@link OwsCapabilities} to {@link GetCapabilitiesResponse} is missing.
+     * 
+     * @param capabilities
+     *            {@link OwsCapabilities} to set
+     * @return this
+     */
+    public GetCapabilitiesResponse setCapabilities(OwsCapabilities capabilities) {
         this.capabilities = capabilities;
+        if (!isSetService()) {
+            setService(capabilities.getService());
+        }
+        if (!isSetVersion()) {
+            setVersion(capabilities.getVersion());
+        }
+        return this;
     }
 
     @Override
@@ -47,8 +62,9 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
         return xmlString;
     }
 
-    public void setXmlString(String xmlString) {
+    public GetCapabilitiesResponse setXmlString(String xmlString) {
         this.xmlString = xmlString;
+        return this;
     }
 
     public boolean isStatic() {

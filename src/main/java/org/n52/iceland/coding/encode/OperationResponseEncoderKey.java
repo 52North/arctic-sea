@@ -14,35 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util.collections;
+package org.n52.iceland.coding.encode;
 
+import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.util.http.MediaType;
+
+import com.google.common.base.Objects;
 
 /**
+ * TODO JavaDoc
+ *
  * @author Christian Autermann <c.autermann@52north.org>
+ *
  * @since 1.0.0
- * 
  */
-public final class MultiMaps {
-    public static <K, V> SetMultiMap<K, V> newSetMultiMap() {
-        return new HashSetMultiMap<K, V>();
+public class OperationResponseEncoderKey extends OperationEncoderKey {
+
+    public OperationResponseEncoderKey(String service, String version, String operation, MediaType contentType) {
+        super(service, version, operation, contentType);
     }
 
-    public static <K extends Enum<K>, V> SetMultiMap<K, V> newSetMultiMap(Class<K> keyType) {
-        return new EnumSetMultiMap<K, V>(keyType);
+    public OperationResponseEncoderKey(String service, String version, Enum<?> operation, MediaType contentType) {
+        super(service, version, operation, contentType);
     }
 
-    public static <K, V> SetMultiMap<K, V> newSynchronizedSetMultiMap() {
-        return new SynchronizedSetMultiMap<K, V>();
+    public OperationResponseEncoderKey(OperationKey key, MediaType contentType) {
+        super(key, contentType);
     }
 
-    public static <K, V> ListMultiMap<K, V> newListMultiMap() {
-        return new LinkedListMultiMap<K, V>();
-    }
-
-    public static <K, V> ListMultiMap<K, V> newSynchronizedListMultiMap() {
-        return new SynchronizedListMultiMap<K, V>();
-    }
-
-    private MultiMaps() {
-    }
+    
 }

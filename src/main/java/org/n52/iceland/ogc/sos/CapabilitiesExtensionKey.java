@@ -24,7 +24,7 @@ import com.google.common.collect.ComparisonChain;
 /**
  * {@link CapabilitiesExtension} key class to identify CapabilitiesExtensions.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensionKey> {

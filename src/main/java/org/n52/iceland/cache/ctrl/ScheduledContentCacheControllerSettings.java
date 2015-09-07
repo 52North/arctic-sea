@@ -21,7 +21,7 @@ package org.n52.iceland.cache.ctrl;
  *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface ScheduledContentCacheControllerSettings {
     String CAPABILITIES_CACHE_UPDATE_INTERVAL

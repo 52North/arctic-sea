@@ -21,7 +21,7 @@ import org.n52.iceland.util.Similar;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface EncoderKey extends Similar<EncoderKey> {
 }

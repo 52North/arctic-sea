@@ -21,7 +21,7 @@ package org.n52.iceland.ds;
  * Interface for data connection provider
  * 
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a> <c.hollmann@62north.org>
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface DataConnectionProvider extends ConnectionProvider {

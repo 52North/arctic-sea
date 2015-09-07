@@ -30,7 +30,7 @@ import java.util.Comparator;
  *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class ProxySimilarityComparator<T, K extends Similar<K>> implements Comparator<T> {
     private final SimilarityComparator<K> comp;

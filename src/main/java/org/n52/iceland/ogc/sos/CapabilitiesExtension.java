@@ -20,7 +20,7 @@ package org.n52.iceland.ogc.sos;
  * Interface for CapabilitiesExtension. Implementations of this interface are
  * returned by the {@link CapabilitiesExtensionProvider}.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface CapabilitiesExtension {

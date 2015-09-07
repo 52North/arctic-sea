@@ -33,7 +33,7 @@ import org.n52.iceland.service.ServiceConstants.SupportedType;
  * @param <S>
  *            the input which is decoded, the "Source"
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface Decoder<T, S> extends ConformanceClass, Component<DecoderKey> {
 

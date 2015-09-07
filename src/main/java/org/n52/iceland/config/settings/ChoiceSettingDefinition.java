@@ -36,7 +36,7 @@ import com.google.common.base.Preconditions;
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public class ChoiceSettingDefinition extends AbstractSettingDefinition<ChoiceSettingDefinition, String> {

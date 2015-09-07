@@ -23,7 +23,7 @@ import org.n52.iceland.component.Component;
  * Interface for CapabilitiesExtensionProvider. Implementations of this
  * interface are loaded by the {@link CapabilitiesExtensionRepository}.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface CapabilitiesExtensionProvider extends Component<CapabilitiesExtensionKey> {

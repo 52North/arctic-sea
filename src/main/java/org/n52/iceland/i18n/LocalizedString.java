@@ -31,7 +31,7 @@ import com.google.common.base.Objects;
  * Immutable localized variant of a string.
  *
  * @author Christian Autermann
- * @since 4.2.0
+ * @since 1.0.0
  */
 public class LocalizedString implements Serializable {
     private static final Locale NULL_LOCALE = new Locale("");

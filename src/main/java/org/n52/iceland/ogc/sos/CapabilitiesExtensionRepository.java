@@ -41,7 +41,7 @@ import com.google.common.collect.SetMultimap;
 /**
  * Repository for {@link CapabilitiesExtension} implementations
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class CapabilitiesExtensionRepository extends
