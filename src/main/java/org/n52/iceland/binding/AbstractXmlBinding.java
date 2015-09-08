@@ -25,17 +25,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
+import org.n52.iceland.coding.decode.XmlStringOperationDecoderKey;
 import org.n52.iceland.exception.CodedException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
@@ -47,6 +41,11 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.w3c.W3CConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -63,9 +62,10 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXmlBinding.class);
 
     protected Request decode(HttpServletRequest request) throws OwsExceptionReport {
-        String xmlString = xmlToString(request);
+        String characterEncoding = getCharacterEncoding(request);
+        String xmlString = xmlToString(request, characterEncoding);
         LOGGER.debug("XML-REQUEST: {}", xmlString);
-        DecoderKey key = getDecoderKey(xmlString);
+        DecoderKey key = getDecoderKey(xmlString, characterEncoding);
         LOGGER.trace("Found decoder key: {}", key);
         Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
         if (decoder == null) {
@@ -78,18 +78,14 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     }
 
     @VisibleForTesting
-    protected DecoderKey getDecoderKey(String xmlContent) throws CodedException {
-        try (ByteArrayInputStream stream = new ByteArrayInputStream(xmlContent.getBytes())) {
+    protected DecoderKey getDecoderKey(String xmlContent, String characterEncoding) throws CodedException {
+        try (ByteArrayInputStream stream = new ByteArrayInputStream(xmlContent.getBytes(characterEncoding))) {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             Element element = document.getDocumentElement();
             element.normalize();
             if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
                 OperationKey operationKey = getOperationKey(element);
-                OperationDecoderKey decoderKey = new OperationDecoderKey(operationKey, getDefaultContentType());
-                if (decoderKey == null) {
-                    throw new NoApplicableCodeException().withMessage(
-                            "No decoder found for incoming message based on element {}; derived decoder key: {}\nMessage: %s", element, decoderKey, xmlContent);
-                }
+                XmlStringOperationDecoderKey decoderKey = new XmlStringOperationDecoderKey(operationKey, getDefaultContentType());
                 return decoderKey;
             } else {
                 return getNamespaceOperationDecoderKey(element);
@@ -141,11 +137,10 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         return new OperationKey(service, version, operation);
     }
 
-    protected String xmlToString(HttpServletRequest request) throws OwsExceptionReport {
+    protected String xmlToString(HttpServletRequest request, String characterEncoding) throws OwsExceptionReport {
         try {
             if (request.getParameterMap().isEmpty()) {
-                return StringHelper.convertStreamToString(HttpUtils.getInputStream(request),
-                        request.getCharacterEncoding());
+                return StringHelper.convertStreamToString(HttpUtils.getInputStream(request), characterEncoding);
             } else {
                 return parseHttpPostBodyWithParameter(request.getParameterNames(), request.getParameterMap());
             }
@@ -153,6 +148,10 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             throw new NoApplicableCodeException().causedBy(ioe).withMessage(
                     "Error while reading request! Message: %s", ioe.getMessage());
         }
+    }
+
+    private String getCharacterEncoding(HttpServletRequest request) {
+        return !Strings.isNullOrEmpty(request.getCharacterEncoding()) ? request.getCharacterEncoding() : "UTF-8";
     }
 
     /**
