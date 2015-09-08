@@ -31,27 +31,44 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  */
 public class DCP implements Comparable<DCP> {
+    
     private static final Comparator<DCP> COMPARATOR
             = Comparator.nullsFirst(Comparator.comparing(DCP::getUrl, Comparator.nullsFirst(String::compareTo)));
 
     private final String url;
+    
     private final SortedSet<Constraint> constraints;
+    
+    private final SortedSet<OwsParameterValue> parameters;
 
     public DCP(String url) {
         this(url, (Set<Constraint>) null);
     }
 
     public DCP(String url, Set<Constraint> constraints) {
+        this(url, constraints, (Set<OwsParameterValue>) null);
+    }
+    
+    public DCP(String url, Set<Constraint> constraints, Set<OwsParameterValue> parameters) {
         this.url = url;
         if (constraints == null) {
             this.constraints = new TreeSet<>();
         } else {
             this.constraints = new TreeSet<>(constraints);
         }
+        if (parameters == null) {
+            this.parameters = new TreeSet<>();
+        } else {
+            this.parameters = new TreeSet<>(parameters);
+        }
     }
 
     public DCP(String url, Constraint constraint) {
         this(url, Collections.singleton(constraint));
+    }
+    
+    public DCP(String url, Constraint constraint, OwsParameterValue parameter) {
+        this(url, Collections.singleton(constraint), Collections.singleton(parameter));
     }
 
     public String getUrl() {
@@ -60,6 +77,10 @@ public class DCP implements Comparable<DCP> {
 
     public Set<Constraint> getConstraints() {
         return Collections.unmodifiableSet(constraints);
+    }
+    
+    public Set<OwsParameterValue> getParameters() {
+        return Collections.unmodifiableSet(parameters);
     }
 
     @Override
@@ -81,6 +102,7 @@ public class DCP implements Comparable<DCP> {
         return MoreObjects.toStringHelper(this)
                 .add("url", getUrl())
                 .add("constraints", getConstraints())
+                .add("parameters", getParameters())
                 .toString();
     }
 
