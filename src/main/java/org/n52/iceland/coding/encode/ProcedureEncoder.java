@@ -26,6 +26,7 @@ import org.n52.iceland.coding.ProcedureCoder;
  * @param <S>
  * @param <T>
  */
+@Deprecated // SOS-specific
 public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
 
     /**
