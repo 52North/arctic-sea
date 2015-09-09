@@ -16,17 +16,12 @@
  */
 package org.n52.iceland.util.activation;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * @param <T>
@@ -80,7 +75,7 @@ public class Activatable<T> {
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Activatable) {
-            Activatable<?> a = (Activatable) obj;
+            Activatable<?> a = (Activatable<?>) obj;
             return Objects.equal(isActive(), a.isActive()) && Objects.equal(getInternal(), a.getInternal());
 
         }

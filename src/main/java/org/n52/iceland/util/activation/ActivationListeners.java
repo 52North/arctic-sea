@@ -53,7 +53,13 @@ public class ActivationListeners<K> implements ActivationManager<K> {
     @Override
     public boolean isActive(K key) {
         Boolean active = this.actives.get(key);
-        return active == null ? this.stateForMissingKey : active;
+        if (active == null) {
+            if (key instanceof DefaultActive) {
+                return ((DefaultActive) key).isDefaultActive();
+            }
+            return this.stateForMissingKey;
+        }
+        return active;
     }
 
     private boolean setState(K key, boolean value) {
