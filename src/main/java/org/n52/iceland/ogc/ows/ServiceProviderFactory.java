@@ -35,6 +35,7 @@ import java.net.URI;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Set;
 
 import org.n52.iceland.config.annotation.Configurable;
@@ -164,14 +165,16 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
         this.contactInstructions = contactInstructions;
         setRecreate();
     }
-    
+
     @Setting(ONLINE_RESOURCE)
     public void setOnlineResource(String onlineResource) {
-        Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
-        Iterator<String> iterator = split.iterator();
-        this.onlineResoureTitle = iterator.next();
-        this.onlineResoureHref = iterator.next();
-        setRecreate();
+        if (Optional.ofNullable(onlineResource).isPresent()) {
+            Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
+            Iterator<String> iterator = split.iterator();
+            this.onlineResoureTitle = iterator.next();
+            this.onlineResoureHref = iterator.next();
+            setRecreate();
+        }
     }
 
     @Override
