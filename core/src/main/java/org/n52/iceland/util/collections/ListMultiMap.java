@@ -28,7 +28,7 @@ import java.util.List;
  *            the value type
  * 
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public interface ListMultiMap<K, V> extends MultiMap<K, V, List<V>>, Serializable {

@@ -25,7 +25,7 @@ import com.google.common.base.MoreObjects;
  * representation in the GUI.
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGroup> {
 

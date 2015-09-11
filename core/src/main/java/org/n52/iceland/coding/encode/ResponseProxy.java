@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * 
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  *
- * @since 4.1.0
+ * @since 1.0.0
  */
 public class ResponseProxy {
     private final HttpServletResponse response;

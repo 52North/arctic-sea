@@ -22,8 +22,6 @@ import java.util.Set;
 import org.n52.iceland.util.LocalizedProducer;
 
 /**
- * TODO JavaDoc
- *
  * @author Christian Autermann
  */
 public interface ServiceMetadataRepository {

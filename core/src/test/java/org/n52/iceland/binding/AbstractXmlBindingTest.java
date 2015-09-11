@@ -29,6 +29,8 @@ import org.n52.iceland.w3c.soap.SoapConstants;
 public class AbstractXmlBindingTest {
 
     private TestXmlBinding binding = new TestXmlBinding();
+    
+    private String characterEncoding = "UTF-8";
 
     private String xmlStringGetObs =
             new StringBuilder()
@@ -62,21 +64,21 @@ public class AbstractXmlBindingTest {
 
     @Test
     public void test_SoapPrefix() throws CodedException {
-        DecoderKey decoderKey = binding.getDecoderKey(xmlStringSoapPrefix);
+        DecoderKey decoderKey = binding.getDecoderKey(xmlStringSoapPrefix, characterEncoding);
         assertTrue(decoderKey instanceof XmlNamespaceOperationDecoderKey);
         assertTrue(SoapConstants.NS_SOAP_12.equals(((XmlNamespaceOperationDecoderKey)decoderKey).getNamespace()));
     }
     
     @Test
     public void test_SoapNoPrefix() throws CodedException {
-        DecoderKey decoderKey = binding.getDecoderKey(xmlStringSoapNoPrefix);
+        DecoderKey decoderKey = binding.getDecoderKey(xmlStringSoapNoPrefix, characterEncoding);
         assertTrue(decoderKey instanceof XmlNamespaceOperationDecoderKey);
         assertTrue(SoapConstants.NS_SOAP_12.equals(((XmlNamespaceOperationDecoderKey)decoderKey).getNamespace()));
     }
 
     @Test
     public void test_GetObs() throws CodedException {
-        DecoderKey decoderKey = binding.getDecoderKey(xmlStringGetObs);
+        DecoderKey decoderKey = binding.getDecoderKey(xmlStringGetObs, characterEncoding);
         if (decoderKey instanceof OperationDecoderKey) {
             assertThat(((OperationDecoderKey) decoderKey).getService(), is("SOS"));
             assertThat(((OperationDecoderKey) decoderKey).getVersion(), is("2.0.0"));
@@ -86,7 +88,7 @@ public class AbstractXmlBindingTest {
 
     @Test
     public void test_GetCaps() throws CodedException {
-        DecoderKey decoderKey = binding.getDecoderKey(xmlStringGetCaps);
+        DecoderKey decoderKey = binding.getDecoderKey(xmlStringGetCaps, characterEncoding);
         if (decoderKey instanceof OperationDecoderKey) {
             assertThat(((OperationDecoderKey) decoderKey).getService(), is("SOS"));
             assertThat(((OperationDecoderKey) decoderKey).getOperation(), is("GetCapabilities"));

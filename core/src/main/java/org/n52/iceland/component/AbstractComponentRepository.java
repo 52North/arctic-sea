@@ -46,7 +46,7 @@ import com.google.common.collect.SetMultimap;
  *
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractComponentRepository<K, C extends Component<K>, F extends ComponentFactory<K, C>> {
     private static final Logger LOG = LoggerFactory

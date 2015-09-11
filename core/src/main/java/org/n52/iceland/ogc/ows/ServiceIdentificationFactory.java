@@ -186,6 +186,7 @@ public class ServiceIdentificationFactory
         }
     }
 
+    @Override
     public Set<Locale> getAvailableLocales() {
         return Stream.of(this.title, this.abstrakt)
                 .filter(Objects::nonNull)

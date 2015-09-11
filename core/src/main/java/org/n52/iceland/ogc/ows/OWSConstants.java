@@ -43,14 +43,20 @@ public interface OWSConstants {
     SchemaLocation OWS_110_EXCEPTION_REPORT_SCHEMA_LOCATION = new SchemaLocation(NS_OWS_PREFIX,
             SCHEMA_LOCATION_URL_OWS_EXCEPTIONREPORT);
 
+    String NS_OWS_100 = "http://www.opengis.net/ows/1.0";
+
+    String SCHEMA_LOCATION_URL_OWS100 = "http://schemas.opengis.net/ows/1.0.0/owsAll.xsd";
+
+    SchemaLocation OWS_100_SCHEMA_LOCATION = new SchemaLocation(NS_OWS_100, SCHEMA_LOCATION_URL_OWS100);
+
     // exception messages
     String SOAP_REASON_INVALID_PARAMETER_VALUE = "The request contained an invalid parameter value.";
 
-    String SOAP_REASON_INVALID_UPDATE_SEQUENCES =
-            "The value of the updateSequence parameter in the GetCapabilities operation request was greater than the current value of the service metadata updateSequence number.";
+    String SOAP_REASON_INVALID_UPDATE_SEQUENCES
+            = "The value of the updateSequence parameter in the GetCapabilities operation request was greater than the current value of the service metadata updateSequence number.";
 
-    String SOAP_REASON_MISSING_PARAMETER_VALUE =
-            "The request did not include a value for a required parameter and this server does not declare a default value for it.";
+    String SOAP_REASON_MISSING_PARAMETER_VALUE
+            = "The request did not include a value for a required parameter and this server does not declare a default value for it.";
 
     String SOAP_REASON_NO_APPLICABLE_CODE = "A server exception was encountered.";
 
@@ -119,6 +125,7 @@ public interface OWSConstants {
      * Enumeration for related feature role
      *
      */
+    @Deprecated //SOS-specific
     enum RelatedFeatureRole {
         featureOfInterestID, relatedFeatureID
     }
@@ -146,6 +153,7 @@ public interface OWSConstants {
     }
 
     /** enum with names of get request parameters for all requests */
+    @Deprecated //SOS-specific
     enum AdditionalRequestParams {
         language, crs, returnHumanReadableIdentifier;
 
@@ -167,6 +175,7 @@ public interface OWSConstants {
         }
     }
 
+    @Deprecated //SOS-specific
     enum ExtendedIndeterminateTime {
         first, latest;
 
@@ -188,12 +197,12 @@ public interface OWSConstants {
 
     // TODO add javadoc for each value
     enum HelperValues {
-        GMLID, EXIST_FOI_IN_DOC, VERSION, TYPE,
+        @Deprecated GMLID, @Deprecated EXIST_FOI_IN_DOC, VERSION, TYPE,
         /**
          * Encode the given 'object to encode' in a <tt>*Document</tt> object
          * and not <tt>*Type</tt>.
          */
-        DOCUMENT, PROPERTY_TYPE, FOR_OBSERVATION, ENCODE, ENCODE_NAMESPACE, REFERENCED,
+        DOCUMENT, PROPERTY_TYPE, @Deprecated FOR_OBSERVATION, ENCODE, ENCODE_NAMESPACE, REFERENCED,
         /**
          * Encode the given <tt>OwsExceptionReport</tt> not into an
          * <tt>ows:ExceptionReport</tt> but one <tt>ows:Exception</tt>.
@@ -206,13 +215,7 @@ public interface OWSConstants {
      * {@link Extensions}
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since 4.1.0
-     *
-     * @param <T>
-     */
-    /**
-     * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since
+     * @since 1.0.0
      *
      * @param <T>
      */

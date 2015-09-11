@@ -14,16 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.ows;
-
-import org.n52.iceland.w3c.xlink.SimpleAttrs;
+package org.n52.iceland.util.activation;
 
 /**
- * Class for OwsMetadata
+ * Interface for default active method
  * 
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  */
-public class OwsMetadata extends SimpleAttrs {
+public interface DefaultActive {
 
+    /**
+     * @return <code>true</code>, if this operation should be active by default
+     */
+    public boolean isDefaultActive();
 }

@@ -23,7 +23,7 @@ import org.n52.iceland.util.DateTimeHelper;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  * 
  */
 public class TimeInstantSettingDefinition extends AbstractSettingDefinition<TimeInstantSettingDefinition, Time> {

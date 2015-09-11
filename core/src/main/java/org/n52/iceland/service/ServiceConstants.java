@@ -21,7 +21,7 @@ import java.util.Objects;
 import com.google.common.base.MoreObjects;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface ServiceConstants {

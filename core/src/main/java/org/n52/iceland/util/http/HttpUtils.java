@@ -54,7 +54,7 @@ import com.google.common.io.CountingOutputStream;
  *
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 @Configurable
 public class HttpUtils {
@@ -176,7 +176,9 @@ public class HttpUtils {
                 Writable owserWritable = getWritable(writeOwsExceptionReport, contentType);
                 try {
                     owserWritable.write(out, new ResponseProxy(response));
-                    out.flush();
+                    if (out != null) {
+                        out.flush();
+                    }
                 } catch (OwsExceptionReport oer) {
                     throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, oer);
                 }
@@ -201,6 +203,7 @@ public class HttpUtils {
     }
 
     private static class GenericWritable implements Writable {
+
         private final Object o;
 
         private final ResponseWriter<Object> writer;
@@ -242,6 +245,7 @@ public class HttpUtils {
     }
 
     private static class ServiceResponseWritable implements Writable {
+
         private final ServiceResponse response;
 
         ServiceResponseWritable(ServiceResponse response) {
@@ -269,6 +273,7 @@ public class HttpUtils {
     }
 
     public interface Writable {
+
         void write(OutputStream out, ResponseProxy responseProxy) throws IOException, OwsExceptionReport;
 
         boolean supportsGZip();

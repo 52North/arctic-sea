@@ -32,7 +32,7 @@ import java.util.Map;
  *            the collection type
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface MultiMap<K, V, C extends Collection<V>> extends Map<K, C>, Serializable {

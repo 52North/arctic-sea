@@ -68,6 +68,7 @@ import java.util.Arrays;
 public class KvpBinding extends SimpleBinding {
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);
 
+    @Deprecated // SOS-specific
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_KVP_CORE_BINDING);
 

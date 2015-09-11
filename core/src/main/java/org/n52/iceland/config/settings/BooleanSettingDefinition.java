@@ -23,7 +23,7 @@ import org.n52.iceland.config.SettingType;
  * {@link SettingDefinition} for {@code Boolean}s.
  * <p/>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * @author Christian Autermann <c.autermann@52north.org>
  */
 public class BooleanSettingDefinition extends AbstractSettingDefinition<BooleanSettingDefinition, Boolean> {

@@ -24,7 +24,7 @@ import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.IPAddressRange;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public class IPAddressRangeTest {

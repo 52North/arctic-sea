@@ -30,7 +30,7 @@ import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 /**
  * @param <A>
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public abstract class CompositeParallelAction<A extends ThreadableAction> extends CompositeAction<A> {

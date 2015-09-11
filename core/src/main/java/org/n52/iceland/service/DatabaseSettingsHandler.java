@@ -28,7 +28,7 @@ import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class DatabaseSettingsHandler implements Constructable {

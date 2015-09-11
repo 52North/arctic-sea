@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * Abstract {@link ResponseWriter} class for response streaming
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  * @param <T>
  *            generic for the element to write

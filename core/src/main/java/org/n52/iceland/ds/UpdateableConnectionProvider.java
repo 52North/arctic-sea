@@ -14,16 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.ows;
-
-import org.n52.iceland.w3c.xlink.SimpleAttrs;
+package org.n52.iceland.ds;
 
 /**
- * Class for OwsMetadata
- * 
+ * Identify updateable {@link ConnectionProvider}
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  */
-public class OwsMetadata extends SimpleAttrs {
+public interface UpdateableConnectionProvider extends ConnectionProvider {
+    
+    /**
+     * Get update script
+     * 
+     * @return Update script
+     * @throws ConnectionProviderException
+     */
+    String getUpdateScript() throws ConnectionProviderException;
+    
+    /**
+     * @return <code>true</code>, if update script is supported
+     */
+    boolean supportsUpdateScript();
 
 }

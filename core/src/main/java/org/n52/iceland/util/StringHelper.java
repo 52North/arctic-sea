@@ -35,7 +35,7 @@ import com.google.common.collect.Sets;
  * Helper class for String objects. Contains methods to join Strings, convert
  * streams to Strings or to check for null and emptiness.
  * 
- * @since 4.0.0
+ * @since 1.0.0
  * 
  */
 public final class StringHelper {

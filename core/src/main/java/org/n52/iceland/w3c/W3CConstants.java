@@ -92,7 +92,7 @@ public interface W3CConstants {
     /**
      * Enum for xlink type attribute types
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum TypeType {
@@ -102,7 +102,7 @@ public interface W3CConstants {
     /**
      * Enum for xlink show attribute types. Use toString() to get the value.
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum ShowType {
@@ -124,7 +124,7 @@ public interface W3CConstants {
     /**
      * Enum for xlink sctuate attribute types
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum ActuateType {

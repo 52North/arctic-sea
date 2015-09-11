@@ -17,6 +17,7 @@
 package org.n52.iceland.request.operator;
 
 import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.iceland.util.activation.DefaultActive;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -29,7 +30,7 @@ import com.google.common.collect.ComparisonChain;
  *
  * @since 1.0.0
  */
-public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
+public class RequestOperatorKey implements Comparable<RequestOperatorKey>, DefaultActive {
     private final ServiceOperatorKey sok;
 
     private final String operationName;
@@ -154,9 +155,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey> {
         return operationName;
     }
 
-    /**
-     * @return <code>true</code>, if this operation should be active by default
-     */
+    @Override
     public boolean isDefaultActive() {
         return defaultActive;
     }

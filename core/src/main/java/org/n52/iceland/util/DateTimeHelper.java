@@ -42,7 +42,7 @@ import com.google.common.base.Strings;
 /**
  * Utility class for Time formatting and parsing. Uses Joda Time.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class DateTimeHelper {
@@ -417,6 +417,15 @@ public final class DateTimeHelper {
      */
     public static DateTime makeDateTime(Object object) {
         return object == null ? null : new DateTime(object, DateTimeZone.UTC);
+    }
+
+    /**
+     * Transforms the supplied {@code DateTime} to UTC.
+     * @param datetime the date time (may be {@code null})
+     * @return the UTC time (or {@code null}
+     */
+    public static DateTime toUTC(DateTime datetime) {
+        return datetime == null ? null : new DateTime(datetime.getMillis(), DateTimeZone.UTC);
     }
 
     /**

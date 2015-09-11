@@ -22,23 +22,25 @@ import org.n52.iceland.util.http.MediaType;
 import com.google.common.base.Objects;
 
 /**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public class OperationDecoderKey extends OperationKey implements DecoderKey {
+public class XmlStringOperationDecoderKey extends OperationKey implements DecoderKey {
+
     private final MediaType contentType;
 
-    public OperationDecoderKey(String service, String version, String operation, MediaType contentType) {
+    public XmlStringOperationDecoderKey(String service, String version, String operation, MediaType contentType) {
         super(service, version, operation);
         this.contentType = contentType;
     }
 
-    public OperationDecoderKey(String service, String version, Enum<?> operation, MediaType contentType) {
+    public XmlStringOperationDecoderKey(String service, String version, Enum<?> operation, MediaType contentType) {
         super(service, version, operation);
         this.contentType = contentType;
     }
 
-    public OperationDecoderKey(OperationKey key, MediaType contentType) {
+    public XmlStringOperationDecoderKey(OperationKey key, MediaType contentType) {
         super(key);
         this.contentType = contentType;
     }
@@ -66,7 +68,7 @@ public class OperationDecoderKey extends OperationKey implements DecoderKey {
     @Override
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
-            final OperationDecoderKey o = (OperationDecoderKey) obj;
+            final XmlStringOperationDecoderKey o = (XmlStringOperationDecoderKey) obj;
             return Objects.equal(getService(), o.getService()) &&
                    Objects.equal(getVersion(), o.getVersion()) &&
                    Objects.equal(getOperation(), o.getOperation())
@@ -74,4 +76,5 @@ public class OperationDecoderKey extends OperationKey implements DecoderKey {
         }
         return false;
     }
+
 }

@@ -31,7 +31,7 @@ import java.util.Set;
  *            the collection type
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractDelegatingMultiMap<K, V, C extends Collection<V>> implements MultiMap<K, V, C> {
     private static final long serialVersionUID = 7065617676463608631L;

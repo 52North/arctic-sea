@@ -28,7 +28,7 @@ import com.google.common.collect.Sets;
  * 
  * @author Christian Autermann <c.autermann@52north.org>
  * 
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class CompositeSimilar<T extends Similar<T>> implements Similar<T> {
     private final Set<T> similars;

@@ -21,7 +21,7 @@ package org.n52.iceland.config;
  * Implementations are {@link SettingsService} specific.
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface AdministratorUser {
 

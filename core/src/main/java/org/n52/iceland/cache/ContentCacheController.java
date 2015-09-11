@@ -22,7 +22,7 @@ import org.n52.iceland.lifecycle.Destroyable;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface ContentCacheController extends Destroyable {
     /**
@@ -56,7 +56,7 @@ public interface ContentCacheController extends Destroyable {
     /**
      * @return the ContentCachePersistenceStrategy
      *
-     * @since 4.2.0
+     * @since 1.0.0
      */
     ContentCachePersistenceStrategy getContentCachePersistenceStrategy();
 }

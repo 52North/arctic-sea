@@ -25,7 +25,7 @@ import javax.inject.Provider;
  *            the type to produce
  *
  * @author Christian Autermann <c.autermann@52north.org>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 @FunctionalInterface

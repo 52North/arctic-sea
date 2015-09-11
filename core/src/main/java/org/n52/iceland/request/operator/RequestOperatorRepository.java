@@ -41,7 +41,7 @@ import com.google.common.collect.Maps;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class RequestOperatorRepository extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
         implements ActivationManager<RequestOperatorKey>,

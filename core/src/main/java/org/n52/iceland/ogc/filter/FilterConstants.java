@@ -23,6 +23,8 @@ import org.n52.iceland.w3c.SchemaLocation;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
+import com.google.common.collect.Sets;
+import java.util.Set;
 
 /**
  * Constants interface for <a
@@ -31,13 +33,22 @@ import com.google.common.collect.EnumBiMap;
  * @since 1.0.0
  */
 public interface FilterConstants {
+
     String NS_FES_2 = "http://www.opengis.net/fes/2.0";
+
+    String NS_FES_110 = "http://www.opengis.net/ogc";
 
     String NS_FES_2_PREFIX = "fes";
 
+    String NS_FES_110_PREFIX = "fes";
+
     String SCHEMA_LOCATION_URL_FES_20 = "http://schemas.opengis.net/filter/2.0/filterAll.xsd";
 
+    String SCHEMA_LOCATION_URL_FES_110 = "http://schemas.opengis.net/filter/1.1.0/filter.xsd";
+
     SchemaLocation FES_20_SCHEMA_LOCATION = new SchemaLocation(NS_FES_2, SCHEMA_LOCATION_URL_FES_20);
+
+    SchemaLocation FES_110_SCHEMA_LOCATION = new SchemaLocation(NS_FES_110, SCHEMA_LOCATION_URL_FES_110);
 
     String FILTER_LANGUAGE_FES_FILTER = OGCConstants.QUERY_LANGUAGE_PREFIX + "OGC-FES:Filter";
 
@@ -62,6 +73,7 @@ public interface FilterConstants {
      * Enumeration for conformance class constraint names
      */
     enum ConformanceClassConstraintNames {
+
         ImplementsQuery,
         ImplementsAdHocQuery,
         ImplementsFunctions,
@@ -80,6 +92,7 @@ public interface FilterConstants {
     }
 
     class TimeOperatorMapping {
+
         private static final BiMap<TimeOperator, TimeOperator2> bimap
                 = EnumBiMap.create(TimeOperator.class, TimeOperator2.class);
 
@@ -112,6 +125,7 @@ public interface FilterConstants {
      * Enumeration for temporal operators
      */
     enum TimeOperator {
+
         TM_Before,
         TM_After,
         TM_Begins,
@@ -129,7 +143,6 @@ public interface FilterConstants {
         public TimeOperator2 getEquivalent() {
             return TimeOperatorMapping.get(this);
         }
-
 
         public static TimeOperator from(String s) {
             for (TimeOperator to : TimeOperator.values()) {
@@ -149,6 +162,7 @@ public interface FilterConstants {
      * Enumeration for FES 2.0 temporal operators
      */
     enum TimeOperator2 {
+
         Before,
         After,
         Begins,
@@ -185,6 +199,7 @@ public interface FilterConstants {
      * Enumeration for spatial operators
      */
     enum SpatialOperator {
+
         Equals,
         Disjoint,
         Touches,
@@ -195,13 +210,44 @@ public interface FilterConstants {
         Contains,
         DWithin,
         Beyond,
-        BBOX
+        BBOX;
+    }
+
+    /**
+     * Enumeration for geometry types
+     */
+    enum GeometryOperand {
+
+        Envelope,
+        Point,
+        LineString,
+        Polygon,
+        ArcByCenterPoint,
+        CircleByCenterPoint,
+        Arc,
+        Circle,
+        ArcByBulge,
+        Bezier,
+        Clothoid,
+        CubicSpline,
+        Geodesic,
+        OffsetCurve,
+        Triangle,
+        PolyhedralSurface,
+        TriangulatedSurface,
+        Tin,
+        Solid;
+
+        public static String asString(GeometryOperand go) {
+            return "gml:" + go.name();
+        }
     }
 
     /**
      * Enumeration for comparison operators
      */
     enum ComparisonOperator {
+
         PropertyIsEqualTo,
         PropertyIsNotEqualTo,
         PropertyIsLessThan,
@@ -211,16 +257,53 @@ public interface FilterConstants {
         PropertyIsLike,
         PropertyIsNil,
         PropertyIsNull,
-        PropertyIsBetween
+        PropertyIsBetween;
+
+        public static String asString(ComparisonOperator co) {
+            switch (co) {
+                case PropertyIsEqualTo:
+                    return "EqualTo";
+                case PropertyIsNotEqualTo:
+                    return "NotEqualTo";
+                case PropertyIsLessThan:
+                    return "LessThan";
+                case PropertyIsGreaterThan:
+                    return "GreaterThan";
+                case PropertyIsLessThanOrEqualTo:
+                    return "LessThanOrEqualTo";
+                case PropertyIsGreaterThanOrEqualTo:
+                    return "GreaterThanEqualTo";
+                case PropertyIsLike:
+                    return "Like";
+                case PropertyIsNil:
+                    return "Nil";
+                case PropertyIsNull:
+                    return "NullCheck";
+                case PropertyIsBetween:
+                    return "Between";
+                default:
+                    throw new IllegalArgumentException(String.format("Operators %s is not supported.", co));
+            }
+        }
+    }
+
+    interface LogicOperator {
+        
+        public static final Set<LogicOperator> ALL = Sets.newHashSet(
+                BinaryLogicOperator.And, 
+                BinaryLogicOperator.Or, 
+                UnaryLogicOperator.Not);
+        
     }
 
     /**
      * Enumeration for binary logic operators
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
-    enum BinaryLogicOperator {
+    enum BinaryLogicOperator implements LogicOperator {
+
         And,
         Or
     }
@@ -228,20 +311,22 @@ public interface FilterConstants {
     /**
      * Enumeration for unary logic operators
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
-    enum UnaryLogicOperator {
+    enum UnaryLogicOperator implements LogicOperator {
+
         Not
     }
 
     /**
      * Enumeration for AdHoc query parameter
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum AdHocQueryParams {
+
         TypeNames,
         Aliases,
         PropertyName,
@@ -262,7 +347,7 @@ public interface FilterConstants {
     /**
      * Enumeration for sort order
      *
-     * @since 4.0.0
+     * @since 1.0.0
      *
      */
     enum SortOrder {
@@ -271,7 +356,22 @@ public interface FilterConstants {
     }
 
     enum Expression {
+
         ValueReference,
         Function
+    }
+
+    enum SimpleArithmeticOperator {
+
+        Add,
+        Sub,
+        Mul,
+        Div
+    }
+
+    enum Id {
+
+        EID,
+        FID
     }
 }

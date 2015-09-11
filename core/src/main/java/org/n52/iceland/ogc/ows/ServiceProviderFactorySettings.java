@@ -30,6 +30,8 @@ public interface ServiceProviderFactorySettings {
     String STATE = "serviceProvider.state";
 
     String PHONE = "serviceProvider.phone";
+    
+    String FACSIMILE = "serviceProvider.facsimile";
 
     String ADDRESS = "serviceProvider.address";
 
@@ -48,5 +50,11 @@ public interface ServiceProviderFactorySettings {
     String EMAIL = "serviceProvider.email";
 
     String COUNTRY = "serviceProvider.country";
+    
+    String HOURS_OF_SERVICE = "serviceProvider.hoursOfService";
+    
+    String CONTACT_INSTRUCTIONS = "serviceProvider.contactInstructions";
+    
+    String ONLINE_RESOURCE = "serviceProvider.onlineResource";
 
 }
