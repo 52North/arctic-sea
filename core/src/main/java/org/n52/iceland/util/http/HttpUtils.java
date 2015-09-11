@@ -30,6 +30,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.binding.OwsExceptionReportHandler;
 import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriter;
@@ -43,8 +46,6 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
 import org.n52.iceland.service.MiscSettings;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.io.CountingOutputStream;
 

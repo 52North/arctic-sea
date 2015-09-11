@@ -47,6 +47,10 @@ public abstract class AbstractEsParameter {
         this.description = description;
     }
 
+    public boolean hasDescription() {
+        return this.description != null;
+    }
+
     public final String getName() {
         return name;
     }

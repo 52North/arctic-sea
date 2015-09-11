@@ -268,7 +268,7 @@ public interface OWSConstants {
          * @return <code>true</code>, if {@link Extensions} is available for the
          *         identifier
          */
-        boolean hasExtension(Enum identifier);
+        boolean hasExtension(Enum<?> identifier);
 
         /**
          * Check if {@link Extension} for identifier is set
@@ -289,7 +289,7 @@ public interface OWSConstants {
          * @throws InvalidParameterValueException
          *             If an error occurs
          */
-        Extension<?> getExtension(Enum identifier) throws InvalidParameterValueException;
+        Extension<?> getExtension(Enum<?> identifier) throws InvalidParameterValueException;
 
         /**
          * Get {@link Extension} for identifier

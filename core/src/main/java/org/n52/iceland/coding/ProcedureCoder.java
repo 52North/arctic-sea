@@ -18,25 +18,22 @@ package org.n52.iceland.coding;
 
 import java.util.Set;
 
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
- * @param <S>
- * @param <T>
  */
 public interface ProcedureCoder {
     /**
      * Get the supported procedure description formats for this
      * {@linkplain ProcedureCoder} and the specified service and version.
-     * 
+     *
      * @param service
-     *            the service
+     *                the service
      * @param version
-     *            the version
-     * 
+     *                the version
+     *
      * @return the procedure description formats
      */
-    Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
+    Set<String> getSupportedProcedureDescriptionFormats(String service,
+                                                        String version);
 }

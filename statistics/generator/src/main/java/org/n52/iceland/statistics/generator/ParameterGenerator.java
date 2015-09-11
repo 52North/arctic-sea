@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.statistics.generator;
 
+import static java.util.stream.Collectors.groupingBy;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
@@ -26,7 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
@@ -45,7 +47,7 @@ public class ParameterGenerator {
         if (args.length >= 2) {
             outputFilePath = args[0];
             ParameterGenerator gen = new ParameterGenerator();
-            List<Class<?>> processClasses = new ArrayList<>();
+            List<Class<?>> processClasses = new ArrayList<>(args.length+1);
             for (int i = 1; i < args.length; i++) {
                 processClasses.add(Class.forName(args[i]));
             }
@@ -60,15 +62,9 @@ public class ParameterGenerator {
         }
     }
 
-    private Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> parameters;
-
     public void processClass(List<Class<?>> classes) throws IOException {
-        parameters = new HashMap<>();
-        for (Class<?> klass : classes) {
-            organize(klass.getFields());
-        }
         MdFormat formatter = new MdFormat();
-        formatter.setParameters(parameters);
+        formatter.setParameters(getParameters(classes));
         String printable = formatter.create();
         // System.out.println(printable);
         try {
@@ -77,30 +73,27 @@ public class ParameterGenerator {
             e.printStackTrace();
             throw e;
         }
-
     }
 
-    private void organize(Field[] fields) {
-        Map<Operation, List<AbstractEsParameter>> mid =
-                Arrays.asList(fields).stream().map(this::getFieldValue).filter(l -> l != null && l.getDescription() != null)
-                        .collect(Collectors.groupingBy(l -> ((AbstractEsParameter) l).getDescription().getOperation()));
-
-        for (Operation op : mid.keySet()) {
-            Map<InformationOrigin, List<AbstractEsParameter>> collect =
-                    mid.get(op).stream().collect(Collectors.groupingBy(l -> ((AbstractEsParameter) l).getDescription().getInformationOrigin()));
-            parameters.put(op, collect);
-        }
-
+    private Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> getParameters(List<Class<?>> classes) {
+        return classes.stream()
+                .map(Class::getFields)
+                .flatMap(Arrays::stream)
+                .map(this::getFieldValue)
+                .filter(Objects::nonNull)
+                .filter(AbstractEsParameter::hasDescription)
+                .collect(groupingBy(l -> l.getDescription().getOperation(),
+                                            groupingBy(l -> l.getDescription().getInformationOrigin())));
     }
 
     private AbstractEsParameter getFieldValue(Field field) {
-        boolean bool = Modifier.isFinal(field.getModifiers()) && Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers());
-        bool = bool && field.getType().isAssignableFrom((AbstractEsParameter.class));
-        if (bool) {
+        if (Modifier.isFinal(field.getModifiers()) &&
+            Modifier.isStatic(field.getModifiers()) &&
+            Modifier.isPublic(field.getModifiers()) &&
+            field.getType().isAssignableFrom((AbstractEsParameter.class))) {
             try {
                 return (AbstractEsParameter) field.get(null);
-
-            } catch (Exception e) {
+            } catch (IllegalArgumentException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
