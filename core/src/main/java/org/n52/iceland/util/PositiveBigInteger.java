@@ -16,32 +16,37 @@
  */
 package org.n52.iceland.util;
 
+import java.math.BigInteger;
+
 /**
  *
  * @author Christian Autermann
  */
-public class PositiveBigInteger extends ValidatableBigInteger {
+public class PositiveBigInteger extends BigInteger {
 
     private static final long serialVersionUID = -8551747145360341868L;
 
     public PositiveBigInteger(byte[] val) {
         super(val);
+        validate();
     }
 
     public PositiveBigInteger(String val) {
         super(val);
+        validate();
     }
 
     public PositiveBigInteger(int i) {
         super(Integer.toString(i));
+        validate();
     }
 
     public PositiveBigInteger(long l) {
         super(Long.toString(l));
+        validate();
     }
 
-    @Override
-    protected void validate() {
+    private void validate() {
         if (compareTo(ONE) < 0) {
             throw new IllegalArgumentException("Not positive");
         }

@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.util;
 
-import java.security.InvalidParameterException;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import org.junit.Assert;

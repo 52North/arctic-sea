@@ -16,32 +16,37 @@
  */
 package org.n52.iceland.util;
 
+import java.math.BigInteger;
+
 /**
  *
  * @author Daniel Nüst <d.nuest@52north.org>
  */
-public class NonNegativeBigInteger extends ValidatableBigInteger {
+public class NonNegativeBigInteger extends BigInteger {
     
     private static final long serialVersionUID = 4583082216155045978L;
 
     public NonNegativeBigInteger(byte[] val) {
         super(val);
+        validate();
     }
     
     public NonNegativeBigInteger(String val) {
         super(val);
+        validate();
     }
     
     public NonNegativeBigInteger(int i) {
         super(Integer.toString(i));
+        validate();
     }
     
     public NonNegativeBigInteger(long l) {
         super(Long.toString(l));
+        validate();
     }
 
-    @Override
-    protected void validate() {
+    private void validate() {
         if (compareTo(ZERO) < 0) {
             throw new IllegalArgumentException("Negative value");
         }

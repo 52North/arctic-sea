@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.ogc.filter;
 
-import com.google.common.base.Joiner;
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.ogc.OGCConstants;
@@ -247,7 +246,7 @@ public interface FilterConstants {
         Solid;
 
         public static String asString(GeometryOperand go) {
-            return Joiner.on(":").join(GmlConstants.NS_GML_PREFIX, go.name());
+            return GmlConstants.NS_GML_PREFIX + ":" + go.name();
         }
     }
 
