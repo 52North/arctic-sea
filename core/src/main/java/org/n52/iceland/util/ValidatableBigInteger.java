@@ -23,7 +23,10 @@ import java.util.Random;
  *
  * @author Daniel Nüst <d.nuest@52north.org>
  */
+@SuppressWarnings("OverridableMethodCallInConstructor")
 public abstract class ValidatableBigInteger extends BigInteger {
+    
+    private static final long serialVersionUID = 6457955185468886192L;
 
     public ValidatableBigInteger(byte[] val) {
         super(val);
