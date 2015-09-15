@@ -45,10 +45,7 @@ public interface OmConstants {
 
     String NS_OM_PREFIX = "om";
 
-    String NS_GMD = "http://www.isotc211.org/2005/gmd";
-
-    String NS_GMD_PREFIX = "gmd";
-
+    @Deprecated // project specific, should go into seperate class
     String NS_WV = "http://www.n52.org/wv";
 
     String SCHEMA_LOCATION_URL_OM = "http://schemas.opengis.net/om/1.0.0/om.xsd";

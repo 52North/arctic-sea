@@ -25,6 +25,7 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Sets;
 import java.util.Set;
+import org.n52.iceland.ogc.gml.GmlConstants;
 
 /**
  * Constants interface for <a
@@ -51,6 +52,12 @@ public interface FilterConstants {
     SchemaLocation FES_110_SCHEMA_LOCATION = new SchemaLocation(NS_FES_110, SCHEMA_LOCATION_URL_FES_110);
 
     String FILTER_LANGUAGE_FES_FILTER = OGCConstants.QUERY_LANGUAGE_PREFIX + "OGC-FES:Filter";
+    
+    String SHORT_NAME = "Filter";
+    
+    String VERSION_STRING_FES_110 = "1.1.0";
+    
+    String VERSION_STRING_FES_2 = "2.0";
 
     /*
      * element names
@@ -239,7 +246,7 @@ public interface FilterConstants {
         Solid;
 
         public static String asString(GeometryOperand go) {
-            return "gml:" + go.name();
+            return GmlConstants.NS_GML_PREFIX + ":" + go.name();
         }
     }
 
@@ -351,6 +358,7 @@ public interface FilterConstants {
      *
      */
     enum SortOrder {
+
         ASC,
         DESC
     }
