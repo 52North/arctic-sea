@@ -49,6 +49,7 @@ import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
+import org.n52.iceland.exception.ows.InvalidParameterValueException;
 
 /**
  * Abstract binding class for XML encoded requests
@@ -69,7 +70,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         LOGGER.trace("Found decoder key: {}", key);
         Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
         if (decoder == null) {
-            throw new NoApplicableCodeException().withMessage(
+            throw new InvalidParameterValueException().withMessage(
                     "No decoder found for incoming message based on derived decoder key: %s\nMessage: %s", key, xmlString);
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
@@ -93,7 +94,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
 
         } catch (SAXException | IOException | ParserConfigurationException e) {
             throw new NoApplicableCodeException().causedBy(e).withMessage(
-                    "An error occured when parsing the request decoder! Message: %s", e.getMessage());
+                    "An error occured when parsing the request! Message: %s", e.getMessage());
         }
     }
 
