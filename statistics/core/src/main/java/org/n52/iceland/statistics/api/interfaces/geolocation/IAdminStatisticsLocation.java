@@ -40,7 +40,7 @@ public interface IAdminStatisticsLocation {
     /**
      * Initialize the memory database. The path and the
      * {@code LocationDatabaseType} MUST match.
-     * 
+     *
      * @param type
      *            type of the loaded database from file.
      * @param pathToDatabase

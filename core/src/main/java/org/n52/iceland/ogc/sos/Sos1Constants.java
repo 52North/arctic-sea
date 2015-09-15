@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableSet;
 /**
  * SosConstants holds all important and often used constants (e.g. name of the
  * getCapabilities operation) that are specific to OGC OGC SOS 1.0.0.0
- * 
+ *
  * @since 1.0.0
  */
 public interface Sos1Constants extends SosConstants {
@@ -36,7 +36,7 @@ public interface Sos1Constants extends SosConstants {
 
     /** Constant for the schema repository of the SOS */
     String SCHEMA_LOCATION_SOS = "http://schemas.opengis.net/sos/1.0.0/sosAll.xsd";
-    
+
     String SCHEMA_LOCATION_URL_SOS1_GET_CAPBABILITIES = "http://schemas.opengis.net/sos/1.0.0/sosAll.xsd";
 
     SchemaLocation SOS1_SCHEMA_LOCATION = new SchemaLocation(NS_SOS, SCHEMA_LOCATION_SOS);

@@ -23,11 +23,11 @@ import com.google.common.collect.Sets;
 
 /**
  * Class represents an OWS AllowedValues value element
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class OwsAllowedValuesValue implements OwsAllowedValues {
 
@@ -35,7 +35,7 @@ public class OwsAllowedValuesValue implements OwsAllowedValues {
 
     /**
      * constructor
-     * 
+     *
      * @param value
      */
     public OwsAllowedValuesValue(String value) {
@@ -44,7 +44,7 @@ public class OwsAllowedValuesValue implements OwsAllowedValues {
 
     /**
      * constructor
-     * 
+     *
      * @param values
      */
     public OwsAllowedValuesValue(Collection<String> values) {

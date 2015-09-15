@@ -18,9 +18,9 @@ package org.n52.iceland.util;
 
 /**
  * class represents a range
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class Range {
 
@@ -32,7 +32,7 @@ public class Range {
 
     /**
      * constructor
-     * 
+     *
      * @param start
      *            Start value
      * @param end
@@ -45,7 +45,7 @@ public class Range {
 
     /**
      * returns true if a given value is contained in range
-     * 
+     *
      * @param value
      * @return boolean true if value is contained in range, else false
      */

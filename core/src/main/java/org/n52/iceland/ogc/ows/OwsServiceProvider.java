@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class OwsServiceProvider {
 
@@ -264,11 +264,11 @@ public class OwsServiceProvider {
     }
 
     public boolean hasContactInfo() {
-        return (hasPhone() 
-                || hasFacsimile() 
-                || hasAddress() 
-                || hasOnlineResource() 
-                || hasHoursOfService() 
+        return (hasPhone()
+                || hasFacsimile()
+                || hasAddress()
+                || hasOnlineResource()
+                || hasHoursOfService()
                 || hasContactInstructions());
     }
 

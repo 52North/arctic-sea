@@ -26,8 +26,8 @@ import com.google.common.collect.Lists;
  *
  */
 public class AcceptVersions {
-    
-    private List<String> acceptVersions = Lists.newArrayList();;
+
+    private List<String> acceptVersions = Lists.newArrayList();
 
     /**
      * @return the acceptVersions
@@ -44,7 +44,7 @@ public class AcceptVersions {
         this.acceptVersions = acceptVersions;
         return this;
     }
-    
+
     /**
      * @param acceptVersions the acceptVersions to add
      */
@@ -52,7 +52,7 @@ public class AcceptVersions {
         this.acceptVersions.addAll(acceptVersions);
         return this;
     }
-    
+
     /**
      * @param acceptVersion the acceptVersion to add
      */
@@ -60,7 +60,7 @@ public class AcceptVersions {
         this.acceptVersions.add(acceptVersion);
         return this;
     }
-    
+
     public boolean isSetAcceptVersions() {
         return !acceptVersions.isEmpty();
     }

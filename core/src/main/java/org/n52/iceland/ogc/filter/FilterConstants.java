@@ -288,12 +288,12 @@ public interface FilterConstants {
     }
 
     interface LogicOperator {
-        
+
         public static final Set<LogicOperator> ALL = Sets.newHashSet(
-                BinaryLogicOperator.And, 
-                BinaryLogicOperator.Or, 
+                BinaryLogicOperator.And,
+                BinaryLogicOperator.Or,
                 UnaryLogicOperator.Not);
-        
+
     }
 
     /**

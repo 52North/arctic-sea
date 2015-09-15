@@ -164,7 +164,7 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
         this.contactInstructions = contactInstructions;
         setRecreate();
     }
-    
+
     @Setting(ONLINE_RESOURCE)
     public void setOnlineResource(String onlineResource) {
         Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);

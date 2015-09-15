@@ -32,7 +32,9 @@ import com.google.common.primitives.Longs;
 import com.google.common.primitives.Shorts;
 
 public class Comparables {
-    public static final int LESS = -1, EQUAL = 0, GREATER = 1;
+    public static final int LESS = -1;
+    public static final int EQUAL = 0;
+    public static final int GREATER = 1;
 
     private Comparables() {
     }

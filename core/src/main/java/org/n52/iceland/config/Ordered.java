@@ -18,7 +18,7 @@ package org.n52.iceland.config;
 
 /**
  * Generic class to implement a Order based on floating point numbers.
- * 
+ *
  * @param <T>
  *            the type of the extending class
  *            <p/>

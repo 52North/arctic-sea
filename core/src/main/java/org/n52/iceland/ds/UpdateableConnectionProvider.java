@@ -23,15 +23,15 @@ package org.n52.iceland.ds;
  *
  */
 public interface UpdateableConnectionProvider extends ConnectionProvider {
-    
+
     /**
      * Get update script
-     * 
+     *
      * @return Update script
      * @throws ConnectionProviderException
      */
     String getUpdateScript() throws ConnectionProviderException;
-    
+
     /**
      * @return <code>true</code>, if update script is supported
      */

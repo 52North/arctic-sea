@@ -37,7 +37,7 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
     /**
      * Set {@link OwsCapabilities}. Adds service and version from
      * {@link OwsCapabilities} to {@link GetCapabilitiesResponse} is missing.
-     * 
+     *
      * @param capabilities
      *            {@link OwsCapabilities} to set
      * @return this

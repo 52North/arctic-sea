@@ -19,7 +19,7 @@ package org.n52.iceland.convert;
 /**
  * Defines the types of modification the {@link RequestResponseModifier}
  * performs
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *

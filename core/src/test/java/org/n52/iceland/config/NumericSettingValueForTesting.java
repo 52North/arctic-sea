@@ -21,7 +21,7 @@ import org.n52.iceland.config.SettingValue;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class NumericSettingValueForTesting implements SettingValue<Double> {
 

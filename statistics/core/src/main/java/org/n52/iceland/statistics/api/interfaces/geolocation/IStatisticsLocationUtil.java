@@ -25,7 +25,7 @@ public interface IStatisticsLocationUtil {
     public Map<String, Object> ip2SpatialData(IPAddress ip);
 
     /**
-     * 
+     *
      * @param host
      *            String of the IPv4 address e.g.: <code>123.123.123.123</code>
      * @return geo loation data in Elasticsearch's accept format

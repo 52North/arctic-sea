@@ -39,8 +39,8 @@ import org.slf4j.LoggerFactory;
 /**
  * http://andreinc.net/2013/12/06/java-7-nio-2-tutorial-writing-a-simple-filefolder-monitor-using-the-watch-service-api/
  * https://docs.oracle.com/javase/tutorial/essential/io/notification.html
- * 
- * 
+ *
+ *
  * Load bean:
  * <pre><bean id="fileWatcher" class="org.n52.iceland.config.SettingsFileWatcher" /></pre>
  *

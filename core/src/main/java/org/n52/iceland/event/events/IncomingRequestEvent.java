@@ -22,7 +22,7 @@ import org.n52.iceland.event.ServiceEvent;
 
 /**
  * Event is thrown if a new {@link HttpServletRequest} arrives.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -30,7 +30,7 @@ import org.n52.iceland.event.ServiceEvent;
 public class IncomingRequestEvent implements ServiceEvent {
 
     private final HttpServletRequest request;
-    
+
     private final long requestNumber;
 
     public IncomingRequestEvent(final HttpServletRequest request, long requestNumber) {
@@ -41,7 +41,7 @@ public class IncomingRequestEvent implements ServiceEvent {
     public HttpServletRequest getRequest() {
         return request;
     }
-    
+
     public long getRequestNumber() {
         return requestNumber;
     }
@@ -50,5 +50,5 @@ public class IncomingRequestEvent implements ServiceEvent {
     public String toString() {
         return String.format("IncomingRequestEvent[request=%s, requestNumber=%d]", getRequest(), getRequestNumber());
     }
-    
+
 }

@@ -24,13 +24,13 @@ import com.google.common.base.Predicate;
  *
  */
 public class OwsOperationPredicates {
-    
+
     public OwsOperationPredicates() {
     }
     public static Predicate<OwsOperation> name(String name) {
         return new NamePredicate(name);
     }
-    
+
 
     private static class NamePredicate implements Predicate<OwsOperation> {
         private final String name;

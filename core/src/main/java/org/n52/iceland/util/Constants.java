@@ -19,29 +19,29 @@ package org.n52.iceland.util;
 /**
  * Default constants interface with constants used by other constant interfaces
  * or classes
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public interface Constants {
 
     int EPSG_WGS84_3D = 4979;
 
     int EPSG_WGS84 = 4326;
-    
+
     String DEFAULT_ENCODING = "UTF-8";
 
     // String constants
     String EMPTY_STRING = "";
-    
+
     String SPACE_STRING = " ";
 
     String BLANK_STRING = SPACE_STRING;
-    
+
     String SEMICOLON_STRING = ";";
 
     String COLON_STRING = ":";
-    
+
     String DOUBLE_COLON_STRING = COLON_STRING + COLON_STRING;
 
     String DOT_STRING = ".";
@@ -83,16 +83,16 @@ public interface Constants {
     String MINUS_STRING = "-";
 
     String PLUS_STRING = "+";
-    
+
     String LESS_THAN_SIGN_STRING = "<";
-    
+
     String GREATER_THAN_SIGN_STRING = ">";
-    
+
     String INVERTED_COMMA_STRING = "'";
 
     // char constants
     char SPACE_CHAR = ' ';
-    
+
     char BLANK_CHAR = SPACE_CHAR;
 
     char SEMICOLON_CHAR = ';';
@@ -132,7 +132,7 @@ public interface Constants {
     char MINUS_CHAR = '-';
 
     char PLUS_CHAR = '+';
-    
+
     char INVERTED_COMMA_CHAR = '\'';
 
     int INT_0 = 0;

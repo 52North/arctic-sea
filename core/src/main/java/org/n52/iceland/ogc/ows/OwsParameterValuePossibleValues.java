@@ -27,7 +27,7 @@ import com.google.common.collect.Sets;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class OwsParameterValuePossibleValues implements OwsParameterValue {
 
@@ -66,9 +66,9 @@ public class OwsParameterValuePossibleValues implements OwsParameterValue {
             if (values != null) {
                 this.values.addAll(values);
             }
-    	} else { 
-    		this.values = values == null ? new TreeSet<>() : new TreeSet<>(values);
-    	}
+        } else {
+            this.values = values == null ? new TreeSet<>() : new TreeSet<>(values);
+        }
     }
 
     public void setValues(Collection<String> values) {

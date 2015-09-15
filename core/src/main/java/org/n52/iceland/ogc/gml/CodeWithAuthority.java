@@ -25,9 +25,9 @@ import com.google.common.base.Objects;
 
 /**
  * Class represents a GML conform CodeWithAuthority element
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Serializable {
 
@@ -45,7 +45,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * constructor
-     * 
+     *
      * @param value
      *            Value/identifier
      */
@@ -55,7 +55,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * constructor
-     * 
+     *
      * @param value
      *            Value/identifier
      * @param codeSpace
@@ -68,7 +68,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * Get value
-     * 
+     *
      * @return Value
      */
     public String getValue() {
@@ -77,7 +77,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * Get code space
-     * 
+     *
      * @return Code space
      */
     public String getCodeSpace() {
@@ -86,7 +86,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * Set value and return this CodeWithAuthority object
-     * 
+     *
      * @param value
      *            Value to set
      * @return This CodeWithAuthority object
@@ -98,7 +98,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * Set code space and return this CodeWithAuthority object
-     * 
+     *
      * @param codeSpace
      *            Code space to set
      * @return This CodeWithAuthority object
@@ -110,7 +110,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * Check whether value is set
-     * 
+     *
      * @return <code>true</code> if value is set
      */
     public boolean isSetValue() {
@@ -119,7 +119,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
 
     /**
      * Check whether code space is set
-     * 
+     *
      * @return <code>true</code> if code space is set
      */
     public boolean isSetCodeSpace() {

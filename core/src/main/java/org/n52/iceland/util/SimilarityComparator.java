@@ -20,12 +20,12 @@ import java.util.Comparator;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @param <T>
  *            the type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class SimilarityComparator<T extends Similar<T>> implements Comparator<T> {
@@ -47,7 +47,7 @@ public class SimilarityComparator<T extends Similar<T>> implements Comparator<T>
         // check for equals after strict == and null checks
         if (o1.equals(o2)) {
             return 0;
-        }        
+        }
         int s1 = o1.getSimilarity(ref);
         int s2 = o2.getSimilarity(ref);
         //check for inheritance

@@ -23,15 +23,15 @@ import java.nio.file.Path;
  * @author Daniel Nüst <d.nuest@52north.org>
  */
 public interface FileSettingsConfiguration {
-    
+
     /**
-     * the path of a file pased settings configuration 
+     * the path of a file pased settings configuration
     */
     Path getPath();
-    
+
     /**
      * read the contents of the file again
     */
     void refresh();
-    
+
 }

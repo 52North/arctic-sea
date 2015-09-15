@@ -23,12 +23,12 @@ import org.n52.iceland.config.SettingType;
 
 /**
  * Generic implementation of <code>SettingDefinition</code>.
- * 
+ *
  * @param <S>
  *            the type of the class extending this class
  * @param <T>
  *            the type of the value
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
  */
@@ -163,10 +163,10 @@ abstract class AbstractSettingDefinition<S extends AbstractSettingDefinition<S, 
         if (obj instanceof AbstractSettingDefinition) {
             AbstractSettingDefinition<?, ?> o = (AbstractSettingDefinition<?, ?>) obj;
             return (getKey() == null ? o.getKey() == null : getKey().equals(o.getKey()))
-            		&& (getTitle() == null ? o.getTitle() == null : getTitle().equals(o.getTitle()))
-            		&& (getDescription() == null ? o.getDescription() == null : getDescription().equals(o.getDescription())) 
-            		&& (getGroup() == null ? o.getGroup() == null : getGroup().equals(o.getGroup()))
-            		&& (getDefaultValue() == null ? o.getDefaultValue() == null : getDefaultValue().equals(o.getDefaultValue()))
+                    && (getTitle() == null ? o.getTitle() == null : getTitle().equals(o.getTitle()))
+                    && (getDescription() == null ? o.getDescription() == null : getDescription().equals(o.getDescription()))
+                    && (getGroup() == null ? o.getGroup() == null : getGroup().equals(o.getGroup()))
+                    && (getDefaultValue() == null ? o.getDefaultValue() == null : getDefaultValue().equals(o.getDefaultValue()))
                     && (getType() == o.getType())
                     && (isOptional() == o.isOptional());
         }

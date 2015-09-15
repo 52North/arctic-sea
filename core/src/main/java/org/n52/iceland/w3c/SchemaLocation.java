@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
 
 /**
  * Class represents a XML schema location with namespace and schema file URL.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
@@ -35,7 +35,7 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
 
     /**
      * Constructor
-     * 
+     *
      * @param namespace
      *            Namespace
      * @param schemaFileUrl
@@ -49,7 +49,7 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
 
     /**
      * Get namespace of schema location
-     * 
+     *
      * @return namespace
      */
     public String getNamespace() {
@@ -58,7 +58,7 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
 
     /**
      * Get schema file URL
-     * 
+     *
      * @return schema file URL
      */
     public String getSchemaFileUrl() {

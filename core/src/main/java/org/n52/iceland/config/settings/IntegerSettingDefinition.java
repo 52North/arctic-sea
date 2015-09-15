@@ -22,7 +22,7 @@ import org.n52.iceland.config.SettingType;
 /**
  * {@link SettingDefinition} for {@code Integer}s.
  * <p/>
- * 
+ *
  * @since 1.0.0
  * @author Christian Autermann <c.autermann@52north.org>
  */
@@ -46,7 +46,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Get the value of minimum.
      * <p/>
-     * 
+     *
      * @return the value of minimum
      */
     public Integer getMinimum() {
@@ -63,7 +63,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Set the value of minimum.
      * <p/>
-     * 
+     *
      * @param minimum
      *            new value of minimum
      *            <p/>
@@ -77,7 +77,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Get the value of maximum.
      * <p/>
-     * 
+     *
      * @return the value of maximum
      */
     public Integer getMaximum() {
@@ -94,7 +94,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Set the value of maximum.
      * <p/>
-     * 
+     *
      * @param maximum
      *            new value of maximum
      *            <p/>
@@ -108,7 +108,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Get the value of exclusiveMaximum.
      * <p/>
-     * 
+     *
      * @return the value of exclusiveMaximum
      */
     public boolean isExclusiveMaximum() {
@@ -118,7 +118,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Set the value of exclusiveMaximum.
      * <p/>
-     * 
+     *
      * @param exclusiveMaximum
      *            new value of exclusiveMaximum
      *            <p/>
@@ -132,7 +132,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Get the value of exclusiveMinimum.
      * <p/>
-     * 
+     *
      * @return the value of exclusiveMinimum
      */
     public boolean isExclusiveMinimum() {
@@ -142,7 +142,7 @@ public class IntegerSettingDefinition extends AbstractSettingDefinition<IntegerS
     /**
      * Set the value of exclusiveMinimum.
      * <p/>
-     * 
+     *
      * @param exclusiveMinimum
      *            new value of exclusiveMinimum
      *            <p/>

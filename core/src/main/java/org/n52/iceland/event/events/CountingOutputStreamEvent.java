@@ -21,24 +21,24 @@ package org.n52.iceland.event.events;
  *
  */
 public class CountingOutputStreamEvent extends AbstractFlowEvent {
-	
-	private Long bytesWritten;
 
-	public CountingOutputStreamEvent(Long bytesWritten) {
-		super(Thread.currentThread().getId());
-		this.bytesWritten = bytesWritten;
-	}
-	
-	public CountingOutputStreamEvent() {
-		super(Thread.currentThread().getId());
-	}
+    private Long bytesWritten;
 
-	public Long getBytesWritten() {
-		return bytesWritten;
-	}
+    public CountingOutputStreamEvent(Long bytesWritten) {
+        super(Thread.currentThread().getId());
+        this.bytesWritten = bytesWritten;
+    }
 
-	public void setBytesWritten(Long bytesWritten) {
-		this.bytesWritten = bytesWritten;
-	}
+    public CountingOutputStreamEvent() {
+        super(Thread.currentThread().getId());
+    }
+
+    public Long getBytesWritten() {
+        return bytesWritten;
+    }
+
+    public void setBytesWritten(Long bytesWritten) {
+        this.bytesWritten = bytesWritten;
+    }
 
 }

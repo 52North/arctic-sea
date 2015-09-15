@@ -20,10 +20,10 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public class GroupedAndNamedThreadFactory implements ThreadFactory {
     private final AtomicInteger i = new AtomicInteger(0);

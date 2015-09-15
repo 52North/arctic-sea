@@ -41,7 +41,7 @@ public class JsonSettingsDao extends AbstractJsonDao
         implements SettingsDao {
 
     private JsonSettingsEncoder settingsEncoder;
-    
+
     private JsonSettingValueFactory settingValueFactory;
 
     @Inject

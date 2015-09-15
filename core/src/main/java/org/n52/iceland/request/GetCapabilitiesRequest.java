@@ -39,17 +39,17 @@ import org.n52.iceland.util.StringHelper;
  * @since 1.0.0
  */
 public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabilitiesResponse> {
-    
+
     private final List<String> acceptVersions = new LinkedList<>();
-    
+
     private final List<String> sections = new LinkedList<>();
-    
+
     private final List<String> acceptFormats = new LinkedList<>();
-    
+
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
-    
+
     private String capabilitiesId;
-    
+
     private String updateSequence;
 
     public GetCapabilitiesRequest(String service) {

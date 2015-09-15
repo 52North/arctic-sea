@@ -77,8 +77,8 @@ public final class DateTimeHelper {
     private static final String Z = "Z";
 
     private static final String UTC_OFFSET = "+00:00";
-    
-    private static final double SECONDS_OF_DAY = 86400; 
+
+    private static final double SECONDS_OF_DAY = 86400;
 
     /**
      * lease value
@@ -445,18 +445,18 @@ public final class DateTimeHelper {
         }
         return dt1;
     }
-    
+
     public static int getDaysSince(DateTime start, DateTime end) {
         return Days.daysBetween(start, end).getDays();
     }
-    
+
     public static double getDaysSinceWithPrecision(DateTime start, DateTime end) {
         double value = Days.daysBetween(start, end).getDays() + end.getSecondOfDay()/SECONDS_OF_DAY;
         return new BigDecimal(value).doubleValue();
     }
-    
+
     public static double getSecondsSinceEpoch(DateTime time) throws CodedException{
-        return time.getMillis() / 1000;        
+        return time.getMillis() / 1000;
     }
 
     /**

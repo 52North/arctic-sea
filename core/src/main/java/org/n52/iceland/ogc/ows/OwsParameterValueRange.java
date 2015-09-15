@@ -20,7 +20,7 @@ import org.n52.iceland.util.MinMax;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class OwsParameterValueRange implements OwsParameterValue {
 

@@ -25,7 +25,7 @@ public interface IStatisticsDataHandler {
 
     /**
      * Persist the date to the database
-     * 
+     *
      * @param dataMap
      *            keys are property names and the values are the objects
      * @throws Exception
@@ -34,14 +34,14 @@ public interface IStatisticsDataHandler {
 
     /**
      * Returns true if the statistics module is enabled otherwise false
-     * 
+     *
      * @return is the logging enabled
      */
     boolean isLoggingEnabled();
 
     /**
      * Returns the underlying elasticsearch client
-     * 
+     *
      * @return the opened ready to used client.
      */
     public Client getClient();

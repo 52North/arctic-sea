@@ -21,15 +21,15 @@ import java.util.List;
 
 /**
  * Interface for {@link List} based {@link MultiMap}s.
- * 
+ *
  * @param <K>
  *            the key type
  * @param <V>
  *            the value type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public interface ListMultiMap<K, V> extends MultiMap<K, V, List<V>>, Serializable {
 }

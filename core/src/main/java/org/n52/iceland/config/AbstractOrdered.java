@@ -19,12 +19,12 @@ package org.n52.iceland.config;
 /**
  * Abstract, generic implementation of {@code Ordered}.
  * <p/>
- * 
+ *
  * @param <T>
  *            the type of the class extending this class
  *            <p/>
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public abstract class AbstractOrdered<T extends Ordered<T>> implements Ordered<T> {

@@ -373,13 +373,14 @@ public final class CollectionHelper {
     }
 
     private static <T> BinaryOperator<T> throwingMerger() {
-        return (u,v) -> { throw new IllegalStateException(String.format("Duplicate key %s", u)); };
+        return (u, v) -> {
+            throw new IllegalStateException(String.format("Duplicate key %s", u));
+        };
     }
-    
-    
+
     /**
      * Parse CSV string to {@link List}
-     * 
+     *
      * @param csv
      *            CSV string
      * @return {@link List} with separated values
@@ -390,7 +391,7 @@ public final class CollectionHelper {
 
     /**
      * Parse separated value string to {@link List}
-     * 
+     *
      * @param sv
      *            Separated value string
      * @param separator
@@ -403,7 +404,7 @@ public final class CollectionHelper {
 
     /**
      * Parse CSV string to {@link Set}
-     * 
+     *
      * @param csv
      *            CSV string
      * @return {@link Set} with separated values
@@ -414,7 +415,7 @@ public final class CollectionHelper {
 
     /**
      * Parse separated value string to {@link Set}
-     * 
+     *
      * @param sv
      *            Separated value string
      * @param separator
@@ -427,7 +428,7 @@ public final class CollectionHelper {
 
     /**
      * Parse separated value string to array with trimmed values
-     * 
+     *
      * @param sv
      *            Separated value string
      * @param separator
@@ -441,5 +442,5 @@ public final class CollectionHelper {
         }
         return split;
     }
-    
+
 }

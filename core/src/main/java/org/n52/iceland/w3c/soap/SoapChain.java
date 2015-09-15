@@ -24,7 +24,7 @@ import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
  */

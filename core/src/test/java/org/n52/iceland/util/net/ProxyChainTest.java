@@ -23,19 +23,19 @@ import org.junit.Test;
 
 
 public class ProxyChainTest {
-    
+
     private String ip = "192.168.52.123";
-            
+
     private String port = "50684";
-    
+
     private String ipPort = ip + ":" + port;
-    
-    @Test 
+
+    @Test
     public void shouldHandleIp() {
         assertEquals("192.168.52.123", ProxyChain.getIPAddress(ip).asString());
      }
-    
-    @Test 
+
+    @Test
     public void shouldHandleIpWithPort() {
         assertEquals("192.168.52.123", ProxyChain.getIPAddress(ipPort).asString());
      }

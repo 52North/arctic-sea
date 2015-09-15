@@ -18,10 +18,10 @@ package org.n52.iceland.convert;
 
 /**
  * Exception that should be use in the {@link Converter}
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  */
 public class ConverterException extends Exception {
 
@@ -36,7 +36,7 @@ public class ConverterException extends Exception {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      */
     public ConverterException(String message) {
@@ -45,7 +45,7 @@ public class ConverterException extends Exception {
 
     /**
      * Constructor
-     * 
+     *
      * @param exception
      */
     public ConverterException(Throwable exception) {
@@ -54,7 +54,7 @@ public class ConverterException extends Exception {
 
     /**
      * Constructor
-     * 
+     *
      * @param message
      * @param exception
      */

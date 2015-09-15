@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
 /**
  * Indicates that this class has one or more methods to configure the class.
  * <p/>
- * 
+ *
  * @see Setting
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0

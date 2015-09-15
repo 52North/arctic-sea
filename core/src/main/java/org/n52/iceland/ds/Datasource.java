@@ -62,7 +62,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
      * @return Map with String key and Object value
      */
     Map<String, Object> parseDatasourceProperties(Properties current);
-        
+
     /**
      * Check if a connection is possible.
      *

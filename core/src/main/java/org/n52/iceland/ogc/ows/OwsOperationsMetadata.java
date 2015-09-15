@@ -61,7 +61,7 @@ public class OwsOperationsMetadata {
     public void setOperations(Collection<OwsOperation> operations) {
         this.operations = operations == null ? null : new TreeSet<>(operations);
     }
-    
+
     public Optional<OwsOperation> findOperation(Predicate<OwsOperation> predicate) {
         if (isSetOperations()) {
             return Iterables.tryFind(this.operations, predicate);

@@ -26,7 +26,7 @@ import org.n52.iceland.ogc.ows.ExceptionCode;
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
- * 
+ *
  * @since 1.0.0
  */
 public abstract class CodedException extends OwsExceptionReport {
@@ -80,9 +80,9 @@ public abstract class CodedException extends OwsExceptionReport {
      *            the message format
      * @param args
      *            the optional formatting arguments
-     * 
+     *
      * @return this
-     * 
+     *
      * @see String#format(java.lang.String, java.lang.Object[])
      */
     public CodedException withMessage(final String message, final Object... args) {

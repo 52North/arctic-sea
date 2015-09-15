@@ -34,7 +34,7 @@ import org.n52.iceland.ogc.gml.time.TimeInstant;
  * @since 1.0.0
  */
 public enum SettingType {
-    
+
     /**
      * Type for {@link Boolean} and {@code boolean}.
      */

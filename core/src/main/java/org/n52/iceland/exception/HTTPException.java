@@ -20,9 +20,9 @@ import org.n52.iceland.util.http.HTTPStatus;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class HTTPException extends Exception {

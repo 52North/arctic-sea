@@ -22,9 +22,9 @@ import org.n52.iceland.w3c.SchemaLocation;
 
 /**
  * Constants for OGC SWES 2.0
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public interface SwesConstants {
 

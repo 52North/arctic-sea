@@ -20,7 +20,7 @@ import org.n52.iceland.util.StringHelper;
 
 /**
  * Class represents W3C href attribute.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -37,7 +37,7 @@ public class W3CHrefAttribute {
 
     /**
      * Constructor
-     * 
+     *
      * @param href
      *            value to set
      */

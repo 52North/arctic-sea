@@ -27,7 +27,7 @@ import com.google.common.base.Joiner;
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
- * 
+ *
  * @since 1.0.0
  */
 public class NotYetSupportedException extends NoApplicableCodeException {

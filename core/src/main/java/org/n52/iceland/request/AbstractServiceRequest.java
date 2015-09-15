@@ -129,7 +129,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         }
         return false;
     }
-    
+
     @Override
     public boolean hasExtension(String identifier) {
         if (isSetExtensions()) {
@@ -145,7 +145,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         }
         return null;
     }
-    
+
     @Override
     public Extension<?> getExtension(String identifier) throws InvalidParameterValueException {
         if (hasExtension(identifier)) {

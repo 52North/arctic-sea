@@ -21,7 +21,7 @@ import java.text.DecimalFormat;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public abstract class RunnableAction implements Action, Runnable {
     private Long startTimeMillis;
@@ -37,7 +37,7 @@ public abstract class RunnableAction implements Action, Runnable {
         }
         return stopwatchFormat.format((System.currentTimeMillis() - startTimeMillis) / 1000.0) + " s";
     }
-    
+
     @Override
     public void run() {
         execute();

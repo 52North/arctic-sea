@@ -78,10 +78,10 @@ public class SoapBinding extends AbstractXmlBinding {
             .add(new PathBindingKey(BindingConstants.SOAP_BINDING_ENDPOINT))
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML))
             .build();
-    
+
     private HttpUtils httpUtils;
 
-	@Override
+    @Override
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
     }
@@ -227,7 +227,7 @@ public class SoapBinding extends AbstractXmlBinding {
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain), chain, this);
         } else {
-        	httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), contentType,
+            httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), contentType,
                     chain.getBodyResponse(), this);
         }
     }

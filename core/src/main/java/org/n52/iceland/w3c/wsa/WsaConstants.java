@@ -20,9 +20,9 @@ import javax.xml.namespace.QName;
 
 /**
  * Constants for WS-Addressing
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public interface WsaConstants {
     /**

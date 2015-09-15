@@ -25,7 +25,7 @@ import org.n52.iceland.config.SettingType;
 /**
  * {@link SettingDefinition} for {@code URI}s.
  * <p/>
- * 
+ *
  * @since 1.0.0
  * @author Christian Autermann <c.autermann@52north.org>
  */
@@ -37,7 +37,7 @@ public class UriSettingDefinition extends AbstractSettingDefinition<UriSettingDe
     public UriSettingDefinition() {
         super(SettingType.URI);
     }
-    
+
     public UriSettingDefinition setDefaultStringValue(String value) {
         try {
             setDefaultValue(new URI(value));

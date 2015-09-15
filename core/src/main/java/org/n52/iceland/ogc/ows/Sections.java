@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
  */
 public class Sections {
 
-    private List<String> sections = Lists.newArrayList();;
+    private List<String> sections = Lists.newArrayList();
 
     /**
      * @return the sections
@@ -44,7 +44,7 @@ public class Sections {
         this.sections = sections;
         return this;
     }
-    
+
     /**
      * @param sections the sections to add
      */
@@ -52,7 +52,7 @@ public class Sections {
         this.sections.addAll(sections);
         return this;
     }
-    
+
     /**
      * @param section the section to add
      */
@@ -60,7 +60,7 @@ public class Sections {
         this.sections.add(section);
         return this;
     }
-    
+
     public boolean isSetSections() {
         return !sections.isEmpty();
     }

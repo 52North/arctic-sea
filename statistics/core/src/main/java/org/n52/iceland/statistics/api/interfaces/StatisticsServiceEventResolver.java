@@ -23,7 +23,7 @@ import org.n52.iceland.event.ServiceEvent;
 public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
     /**
      * Resolves the the request to Elasticsearch format
-     * 
+     *
      * @return Elasticsearch format
      */
     Map<String, Object> resolve();
@@ -31,7 +31,7 @@ public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
     /**
      * before the processing the Handlers can be added to the resolver via
      * spring xml
-     * 
+     *
      * @param handlers
      */
     void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers);
@@ -39,7 +39,7 @@ public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
     /**
      * Sets the payload to the Resolver class. Before the {@link #resolve()}
      * method is called.
-     * 
+     *
      * @param event
      */
     void setEvent(T event);

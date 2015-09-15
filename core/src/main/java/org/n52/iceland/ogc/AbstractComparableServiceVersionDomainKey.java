@@ -25,10 +25,10 @@ import com.google.common.collect.ComparisonChain;
 /**
  * Abstract class for comparable keys with parameters service, version and
  * domain
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  * @param <T>
  *            implementation of this class
  */
@@ -40,7 +40,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * constructor
-     * 
+     *
      * @param sok
      *            the {@link ServiceOperatorKey} to set
      * @param domain
@@ -53,7 +53,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * constructor
-     * 
+     *
      * @param service
      *            the service to set
      * @param version
@@ -67,7 +67,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * Set the {@link ServiceOperatorKey} to set
-     * 
+     *
      * @param sok
      *            the {@link ServiceOperatorKey} to set
      */
@@ -77,7 +77,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * Get the {@link ServiceOperatorKey}
-     * 
+     *
      * @return the {@link ServiceOperatorKey}
      */
     public ServiceOperatorKey getServiceOperatorKey() {
@@ -86,7 +86,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * Get the service
-     * 
+     *
      * @return the service
      */
     public String getService() {
@@ -95,7 +95,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * Get the version
-     * 
+     *
      * @return the version
      */
     public String getVersion() {
@@ -104,7 +104,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * Get the domain
-     * 
+     *
      * @return the domain
      */
     public String getDomain() {
@@ -113,7 +113,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
 
     /**
      * Set the domain
-     * 
+     *
      * @param domain
      *            the domain to set
      */

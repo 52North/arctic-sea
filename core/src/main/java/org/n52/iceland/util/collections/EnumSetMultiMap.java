@@ -23,15 +23,15 @@ import java.util.Set;
 
 /**
  * {@linkplain SetMultiMap} implementation backed with a {@link EnumMap}.
- * 
+ *
  * @param <K>
  *            the key type
  * @param <V>
  *            the value type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public class EnumSetMultiMap<K extends Enum<K>, V> extends AbstractDelegatingMultiMap<K, V, Set<V>> implements
         SetMultiMap<K, V> {

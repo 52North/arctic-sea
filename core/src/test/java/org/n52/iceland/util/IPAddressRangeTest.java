@@ -25,7 +25,7 @@ import org.n52.iceland.util.net.IPAddressRange;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class IPAddressRangeTest {
     @Test
@@ -54,7 +54,7 @@ public class IPAddressRangeTest {
         assertThat(isAddressInRange("192.168.0.0/16", "192.167.1.1"), is(false));
         assertThat(isAddressInRange("192.168.0.0/16", "192.169.1.1"), is(false));
     }
-    
+
     @Test
     public void should_return_false_for_ip_addresses_outside_of_subnet_range() {
         assertThat(isAddressInRange("192.168.0.0/255.255.0.0", "10.1.16.100"), is(false));

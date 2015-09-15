@@ -18,7 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class OwsParameterDataType implements OwsParameterValue {
 

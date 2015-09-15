@@ -22,15 +22,15 @@ import java.util.Set;
 
 /**
  * Interface for {@link Set} based {@link MultiMap}s.
- * 
+ *
  * @param <K>
  *            the key type
  * @param <V>
  *            the value type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public interface SetMultiMap<K, V> extends MultiMap<K, V, Set<V>>, Map<K, Set<V>>, Serializable {
 }
