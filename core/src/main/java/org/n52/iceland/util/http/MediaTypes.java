@@ -20,20 +20,20 @@ import com.google.common.collect.ImmutableSetMultimap;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * 
+ *
  * @since 1.0.0
  */
 public interface MediaTypes {
-    
+
     String TEXT = "text";
-    
+
     String XML = "xml";
-    
+
     String APPLICATION = "application";
-    
+
     MediaType WILD_CARD = new MediaType();
 
     MediaType TEXT_PLAIN = new MediaType(TEXT, "plain");
@@ -45,7 +45,7 @@ public interface MediaTypes {
     MediaType APPLICATION_ZIP = new MediaType(APPLICATION, "zip");
 
     MediaType APPLICATION_JSON = new MediaType(APPLICATION, "json");
-    
+
     MediaType APPLICATION_EXI = new MediaType(APPLICATION, "exi");
 
     MediaType APPLICATION_KVP = new MediaType(APPLICATION, "x-kvp");
@@ -53,25 +53,25 @@ public interface MediaTypes {
     MediaType APPLICATION_SOAP_XML = new MediaType(APPLICATION, "soap+xml");
 
     MediaType APPLICATION_NETCDF = new MediaType(APPLICATION, "netcdf");
-    
+
     MediaType APPLICATION_GML_32 = new MediaType(APPLICATION, "gml+xml", "version", "3.2");
 
     MediaType APPLICATION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
 
-	/**
-	 * @deprecated Use {@link MediaTypes#APPLICATION_GML_32}
-	 * 
-	 */
-    @Deprecated
-	MediaType APPLICTION_GML_32 = APPLICATION_GML_32;
-    
     /**
-	 * @deprecated Use {@link MediaTypes#APPLICATION_OM_20}
-	 * 
-	 */
-	@Deprecated
-	MediaType APPLICTION_OM_20 = APPLICATION_OM_20;
-    
+     * @deprecated Use {@link MediaTypes#APPLICATION_GML_32}
+     *
+     */
+    @Deprecated
+    MediaType APPLICTION_GML_32 = APPLICATION_GML_32;
+
+    /**
+     * @deprecated Use {@link MediaTypes#APPLICATION_OM_20}
+     *
+     */
+    @Deprecated
+    MediaType APPLICTION_OM_20 = APPLICATION_OM_20;
+
     ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES = new ImmutableSetMultimap
             .Builder<MediaType, MediaType>()
             .put(TEXT_XML, APPLICATION_XML)

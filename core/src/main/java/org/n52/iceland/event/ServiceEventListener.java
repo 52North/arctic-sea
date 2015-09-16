@@ -21,7 +21,7 @@ import java.util.Set;
 /**
  * Interface for the {@link ServiceEvent} listener
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public interface ServiceEventListener {

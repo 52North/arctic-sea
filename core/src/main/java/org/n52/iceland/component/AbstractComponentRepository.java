@@ -109,7 +109,6 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
                     if (old != null) {
                         LOG.warn("Duplicate component for key {}: {} vs. {}", provider.getKey(), old, provider);
                     }
-
                 });
         return uniqueKeyImplementations;
     }

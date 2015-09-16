@@ -27,7 +27,7 @@ import com.google.common.base.Joiner;
 /**
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public final class ClassHelper {
 
@@ -38,7 +38,7 @@ public final class ClassHelper {
 
     /**
      * Calculates class similarity based on hierarchy depth.
-     * 
+     *
      * @param superClass
      * @param clazz
      * @return 0 for equality, -1 for non-hierarchy classes, >0 the lower the

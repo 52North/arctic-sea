@@ -22,7 +22,7 @@ import org.n52.iceland.coding.ProcedureCoder;
 
 /**
  * @since 1.0.0
- * 
+ *
  * @param <S>
  * @param <T>
  */
@@ -32,12 +32,12 @@ public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
     /**
      * Get the supported procedure description formats for this
      * {@linkplain ProcedureEncoder} and the specified service and version.
-     * 
+     *
      * @param service
      *            the service
      * @param version
      *            the version
-     * 
+     *
      * @return the procedure description formats
      */
     Set<String> getSupportedProcedureDescriptionFormats(String service, String version);

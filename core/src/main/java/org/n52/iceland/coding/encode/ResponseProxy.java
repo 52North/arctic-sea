@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Proxy class for HttpServletResponse to give ResponseWriters access to selected methods,
  * including addHeader and setContentLength.
- * 
+ *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  *
  * @since 1.0.0

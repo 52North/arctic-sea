@@ -22,9 +22,9 @@ import org.n52.iceland.request.operator.RequestOperator;
 /**
  * Event should be fired when a new {@link AbstractServiceRequest} arrives in
  * the implemented {@link RequestOperator}
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class RequestEvent extends AbstractFlowEvent {

@@ -18,23 +18,23 @@ package org.n52.iceland.request;
 
 /**
  * Marker interface to responseFormat
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
 public interface ResponseFormat {
 
-	/**
+    /**
      * Get response format
-     * 
+     *
      * @return response format
      */
     public String getResponseFormat();
 
     /**
      * Set response format
-     * 
+     *
      * @param responseFormat
      *            response format
      */
@@ -42,9 +42,9 @@ public interface ResponseFormat {
 
     /**
      * Is response format set?
-     * 
-     * @return True if response format is set 
+     *
+     * @return True if response format is set
      */
     public boolean isSetResponseFormat();
-	
+
 }

@@ -29,7 +29,7 @@ import org.n52.iceland.w3c.soap.SoapConstants;
 public class AbstractXmlBindingTest {
 
     private TestXmlBinding binding = new TestXmlBinding();
-    
+
     private String characterEncoding = "UTF-8";
 
     private String xmlStringGetObs =
@@ -53,11 +53,11 @@ public class AbstractXmlBindingTest {
                     .append(" xmlns:sos=\"http://www.opengis.net/sos/2.0\"")
                     .append(" xsi:schemaLocation=\"http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sos.xsd\">")
                     .append("</sos:GetCapabilities>").toString();
-    
+
     private String xmlStringSoapPrefix= new StringBuilder().append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
             .append("<env:Envelope xmlns:env=\"http://www.w3.org/2003/05/soap-envelope\">").append("<env:Body/>")
             .append("</env:Envelope>").toString();
-    
+
     private String xmlStringSoapNoPrefix = new StringBuilder().append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")
             .append("<Envelope xmlns=\"http://www.w3.org/2003/05/soap-envelope\">").append("<env:Body/>")
             .append("</Envelope>").toString();
@@ -68,7 +68,7 @@ public class AbstractXmlBindingTest {
         assertTrue(decoderKey instanceof XmlNamespaceOperationDecoderKey);
         assertTrue(SoapConstants.NS_SOAP_12.equals(((XmlNamespaceOperationDecoderKey)decoderKey).getNamespace()));
     }
-    
+
     @Test
     public void test_SoapNoPrefix() throws CodedException {
         DecoderKey decoderKey = binding.getDecoderKey(xmlStringSoapNoPrefix, characterEncoding);

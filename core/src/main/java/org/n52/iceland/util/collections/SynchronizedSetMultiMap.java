@@ -25,15 +25,15 @@ import java.util.Set;
 /**
  * Implementation based on synchronized {@link HashSet}s and a synchronized
  * {@link HashMap}.
- * 
+ *
  * @param <K>
  *            the key type
  * @param <V>
  *            the value type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public class SynchronizedSetMultiMap<K, V> extends AbstractSynchronizedMultiMap<K, V, Set<V>> implements
         SetMultiMap<K, V> {

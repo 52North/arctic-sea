@@ -25,15 +25,15 @@ import java.util.Map;
 /**
  * Implementation based on synchonized {@link LinkedList}s and a synchronized
  * {@link HashMap}.
- * 
+ *
  * @param <K>
  *            the key type
  * @param <V>
  *            the value type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public class SynchronizedListMultiMap<K, V> extends AbstractSynchronizedMultiMap<K, V, List<V>> implements
         ListMultiMap<K, V> {

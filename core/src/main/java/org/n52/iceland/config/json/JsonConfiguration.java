@@ -266,6 +266,6 @@ public class JsonConfiguration implements Constructable,
         return MoreObjects.toStringHelper(this).omitNullValues()
                 .add("file", file).toString();
     }
-    
-    
+
+
 }

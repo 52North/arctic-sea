@@ -23,24 +23,24 @@ import java.math.BigInteger;
  * @author Daniel Nüst <d.nuest@52north.org>
  */
 public class NonNegativeBigInteger extends BigInteger {
-    
+
     private static final long serialVersionUID = 4583082216155045978L;
 
     public NonNegativeBigInteger(byte[] val) {
         super(val);
         validate();
     }
-    
+
     public NonNegativeBigInteger(String val) {
         super(val);
         validate();
     }
-    
+
     public NonNegativeBigInteger(int i) {
         super(Integer.toString(i));
         validate();
     }
-    
+
     public NonNegativeBigInteger(long l) {
         super(Long.toString(l));
         validate();
@@ -51,5 +51,5 @@ public class NonNegativeBigInteger extends BigInteger {
             throw new IllegalArgumentException("Negative value");
         }
     }
-    
+
 }

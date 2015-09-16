@@ -25,10 +25,10 @@ import org.n52.iceland.util.StringHelper;
  * different feature types should be supported. The SOS database or another
  * feature source (e.g. WFS) should provide information about the application
  * schema.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  */
 public abstract class AbstractFeature extends AbstractGML implements Serializable {
 
@@ -36,9 +36,9 @@ public abstract class AbstractFeature extends AbstractGML implements Serializabl
      * serial number
      */
     private static final long serialVersionUID = -6117378246552782214L;
-    
+
     private String defaultEncoding;
-    
+
     /**
      * constructor
      */
@@ -55,7 +55,7 @@ public abstract class AbstractFeature extends AbstractGML implements Serializabl
 
     /**
      * constructor
-     * 
+     *
      * @param featureIdentifier
      *            Feature identifier
      */
@@ -65,7 +65,7 @@ public abstract class AbstractFeature extends AbstractGML implements Serializabl
 
     /**
      * constructor
-     * 
+     *
      * @param featureIdentifier
      *            Feature identifier
      * @param gmlId
@@ -74,22 +74,22 @@ public abstract class AbstractFeature extends AbstractGML implements Serializabl
     public AbstractFeature(CodeWithAuthority featureIdentifier, String gmlId) {
         super(featureIdentifier, gmlId);
     }
-    
+
     public void copyTo(AbstractFeature copyOf) {
         super.copyTo(copyOf);
     }
-    
+
     public AbstractFeature setDefaultElementEncoding(String defaultEncoding) {
-    	this.defaultEncoding = defaultEncoding;
-    	return this;
+        this.defaultEncoding = defaultEncoding;
+        return this;
     }
 
     public String getDefaultElementEncoding() {
-    	return defaultEncoding;
+        return defaultEncoding;
     }
-    
+
     public boolean isSetDefaultElementEncoding() {
-    	return StringHelper.isNotEmpty(getDefaultElementEncoding());
+        return StringHelper.isNotEmpty(getDefaultElementEncoding());
     }
 
 }

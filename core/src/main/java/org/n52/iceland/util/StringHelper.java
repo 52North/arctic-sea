@@ -34,15 +34,15 @@ import com.google.common.collect.Sets;
 /**
  * Helper class for String objects. Contains methods to join Strings, convert
  * streams to Strings or to check for null and emptiness.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public final class StringHelper {
     /**
      * @param toNormalize
      *            the string to normalize
-     * 
+     *
      * @return a normalized String for use in a file path, i.e. all
      *         [\,/,:,*,?,",<,>,;] characters are replaced by '_'.
      */
@@ -59,10 +59,10 @@ public final class StringHelper {
 
     /**
      * Check if string is not null and not empty
-     * 
+     *
      * @param string
      *            string to check
-     * 
+     *
      * @return empty or not
      */
     public static boolean isNotEmpty(final String string) {
@@ -91,7 +91,7 @@ public final class StringHelper {
     public static String convertStreamToString(InputStream is) throws OwsExceptionReport {
         return convertStreamToString(is, null);
     }
-    
+
     public static boolean checkIfCharacterOccursXTimesIgnoreCase(final String toCheck, final char character, int count) {
         String lowerCase = toCheck.toLowerCase(Locale.ROOT);
         String upperCase = toCheck.toUpperCase(Locale.ROOT);
@@ -102,7 +102,7 @@ public final class StringHelper {
         }
         return count == 0;
     }
-    
+
     public static boolean checkIfCharacterOccursXTimes(final String toCheck, final char character, int count) {
         for (int i = 0; i < toCheck.length(); i++) {
             if (character == toCheck.charAt(i)) {
@@ -114,7 +114,7 @@ public final class StringHelper {
 
     private StringHelper() {
     }
-    
+
     public static List<String> splitToList(String string) {
         return splitToList(string, Constants.COMMA_STRING);
     }
@@ -130,11 +130,11 @@ public final class StringHelper {
         }
         return stringList;
     }
-    
+
     public static Set<String> splitToSet(String stringToSplit, String separator) {
         return Sets.newTreeSet(splitToList(stringToSplit, separator));
     }
-    
+
     public static Set<String> splitToSet(String stringToSplit) {
         return splitToSet(stringToSplit, Constants.COMMA_STRING);
     }
@@ -143,7 +143,7 @@ public final class StringHelper {
         List<String> splitToList = splitToList(stringToSplit, separator);
         return splitToList.toArray(new String[splitToList.size()]);
     }
-    
+
     public static String[] splitToArray(String stringToSplit) {
         return splitToArray(stringToSplit, Constants.COMMA_STRING);
     }

@@ -152,7 +152,7 @@ public interface OmConstants {
     String EN_PARAMETER = "parameter";
 
     String EN_NAMED_VALUE = "NamedValue";
-    
+
     String EN_VALID_TIME = "validTime";
 
     // /////////////////////////////////////////////////////////////////////////////////
@@ -271,7 +271,7 @@ public interface OmConstants {
             = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
     ObservationType OBS_TYPE_MEASUREMENT_TYPE
             = new ObservationType(OBS_TYPE_MEASUREMENT);
-    
+
     Set<String> OBSERVATION_TYPES = ImmutableSet.of(
             OBS_TYPE_MEASUREMENT,
             OBS_TYPE_CATEGORY_OBSERVATION,

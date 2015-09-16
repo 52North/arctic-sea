@@ -22,7 +22,7 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 /**
  * ExceptionCodes are defined in <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
  * Service Common Specification 1.1.0</a>.
- * 
+ *
  * @since 1.0.0
  */
 public enum OwsExceptionCode implements ExceptionCode {

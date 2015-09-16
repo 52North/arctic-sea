@@ -20,7 +20,7 @@ import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public abstract class DateTimeException extends NoApplicableCodeException {
 

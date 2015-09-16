@@ -20,7 +20,7 @@ import org.n52.iceland.exception.ows.OptionNotSupportedException;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class ParameterNotSupportedException extends OptionNotSupportedException {

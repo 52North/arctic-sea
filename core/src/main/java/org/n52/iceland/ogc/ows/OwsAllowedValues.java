@@ -18,9 +18,9 @@ package org.n52.iceland.ogc.ows;
 
 /**
  * Interface represents an OWS AllowedValues element
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  *
  */

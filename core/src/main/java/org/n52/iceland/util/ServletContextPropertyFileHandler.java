@@ -20,10 +20,10 @@ import javax.servlet.ServletContext;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public class ServletContextPropertyFileHandler extends AbstractPropertyFileHandler {
 

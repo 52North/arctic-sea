@@ -18,9 +18,9 @@ package org.n52.iceland.ogc.ows;
 
 /**
  * Class represents an OWS valueReference element
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  *
  */
@@ -30,7 +30,7 @@ public class OwsValuesRererence implements OwsPossibleValues {
 
     /**
      * constructor
-     * 
+     *
      * @param reference
      */
     public OwsValuesRererence(String reference) {
@@ -50,6 +50,6 @@ public class OwsValuesRererence implements OwsPossibleValues {
     private void setReference(String reference) {
         this.reference = reference;
     }
-    
-    
+
+
 }

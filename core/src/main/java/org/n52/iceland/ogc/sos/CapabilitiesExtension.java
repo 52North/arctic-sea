@@ -19,16 +19,16 @@ package org.n52.iceland.ogc.sos;
 /**
  * Interface for CapabilitiesExtension. Implementations of this interface are
  * returned by the {@link CapabilitiesExtensionProvider}.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public interface CapabilitiesExtension {
 
     /**
      * Get the section name if it should be listed in the GetCapabilities
      * OperationMetadata. E.g InsertionCapabilities.
-     * 
+     *
      * @return Section name to be listed
      */
     String getSectionName();

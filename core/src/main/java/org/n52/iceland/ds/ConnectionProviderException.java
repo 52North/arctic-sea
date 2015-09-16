@@ -19,12 +19,12 @@ package org.n52.iceland.ds;
 /**
  * @author CarstenHollmann
  * @since 1.0.0
- * 
+ *
  */
 public class ConnectionProviderException extends Exception {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1139334322506609081L;
 

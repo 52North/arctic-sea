@@ -24,34 +24,34 @@ import org.n52.iceland.config.SettingDefinitionGroup;
 import org.n52.iceland.config.settings.BooleanSettingDefinition;
 
 public class AbstractSettingsDefinitionTest {
-	
-	
-	@Test
-	public void isNotEquals() {
-		assertThat(getBooleanSettingOne().equals(getBooleanSettingTwo()), is(false));
-	}
 
-	private BooleanSettingDefinition getBooleanSettingOne() {
-		return getDefaultBooleanSetting().setKey("key.one")
-		 .setTitle("Test setting one")
-	        .setDescription("Test setting one");
-	}
 
-	private BooleanSettingDefinition getBooleanSettingTwo() {
-		return getDefaultBooleanSetting().setKey("key.two")
-				 .setTitle("Test setting two")
-			        .setDescription("Test setting two");
-		
-	}
-	
-	private BooleanSettingDefinition getDefaultBooleanSetting() {
-		return new BooleanSettingDefinition()
+    @Test
+    public void isNotEquals() {
+        assertThat(getBooleanSettingOne().equals(getBooleanSettingTwo()), is(false));
+    }
+
+    private BooleanSettingDefinition getBooleanSettingOne() {
+        return getDefaultBooleanSetting().setKey("key.one")
+         .setTitle("Test setting one")
+            .setDescription("Test setting one");
+    }
+
+    private BooleanSettingDefinition getBooleanSettingTwo() {
+        return getDefaultBooleanSetting().setKey("key.two")
+                 .setTitle("Test setting two")
+                    .setDescription("Test setting two");
+
+    }
+
+    private BooleanSettingDefinition getDefaultBooleanSetting() {
+        return new BooleanSettingDefinition()
         .setGroup(getGroup()).setOrder(1).setDefaultValue(false).setOptional(true);
-       
-	}
 
-	private SettingDefinitionGroup getGroup() {
-		return new SettingDefinitionGroup().setTitle("Test").setOrder(2);
-	}
+    }
+
+    private SettingDefinitionGroup getGroup() {
+        return new SettingDefinitionGroup().setTitle("Test").setOrder(2);
+    }
 
 }

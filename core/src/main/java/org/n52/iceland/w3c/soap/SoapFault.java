@@ -22,9 +22,9 @@ import javax.xml.namespace.QName;
 
 /**
  * SOAP Fault representation
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class SoapFault {
 

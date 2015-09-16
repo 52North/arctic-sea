@@ -26,15 +26,15 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * 
+ *
  * Implementation based on {@link HashSet}s and a {@link HashMap}.
- * 
+ *
  * @param <K>
  * @param <V>
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public class HashSetMultiMap<K, V> extends AbstractMultiHashMap<K, V, Set<V>> implements SetMultiMap<K, V>,
         Serializable {

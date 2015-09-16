@@ -56,7 +56,7 @@ public abstract class DefaultElasticsearchSchemas {
      * Call this method in your subclass and point it to your class where the
      * mappings exists. This class will process the
      * <code>public static final {@link AbstractEsParameter}</code> fields only.
-     * 
+     *
      * @param schemaClass
      *            application specific schema
      */

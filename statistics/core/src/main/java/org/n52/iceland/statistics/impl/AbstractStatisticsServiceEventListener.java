@@ -156,7 +156,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     /**
      * Call this method in the constructor or before listener registration
      * starts to register additional event types to your listener
-     * 
+     *
      * @param types
      *            additional ServiceEvent to listener for
      */
@@ -174,7 +174,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     /**
      * Returns the application specific resolver
      * {@link StatisticsServiceEventResolver} based on the {@link ServiceEvent}
-     * 
+     *
      * @param serviceEvent
      * @return the concrete service event resolver
      */

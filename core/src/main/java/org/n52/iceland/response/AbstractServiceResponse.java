@@ -71,12 +71,12 @@ public abstract class AbstractServiceResponse
     public boolean isSetExtensions() {
         return extensions != null && !extensions.isEmpty();
     }
-    
+
     @Override
     public boolean hasExtension(Enum<?> identifier) {
         return isSetExtensions() && getExtensions().containsExtension(identifier);
     }
-    
+
     @Override
     public boolean hasExtension(String identifier) {
         return isSetExtensions() && getExtensions().containsExtension(identifier);
@@ -89,7 +89,7 @@ public abstract class AbstractServiceResponse
         }
         return null;
     }
-    
+
     @Override
     public Extension<?> getExtension(String identifier) throws InvalidParameterValueException {
         if (hasExtension(identifier)) {

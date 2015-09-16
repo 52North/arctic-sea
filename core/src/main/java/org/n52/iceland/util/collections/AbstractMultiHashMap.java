@@ -23,17 +23,17 @@ import java.util.Map;
 
 /**
  * Abstract implementation that delegates to a {@link HashMap}.
- * 
+ *
  * @param <K>
  *            the key type
  * @param <V>
  *            the value type
  * @param <C>
  *            the collection type
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
  * @since 1.0.0
- * 
+ *
  */
 public abstract class AbstractMultiHashMap<K, V, C extends Collection<V>> extends AbstractDelegatingMultiMap<K, V, C>
         implements MultiMap<K, V, C>, Map<K, C>, Serializable {

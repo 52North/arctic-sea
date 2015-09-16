@@ -79,7 +79,7 @@ public final class KvpHelper {
             throw new InvalidParameterValueException(name, values).withMessage("Cannot parse provided value '%s' to URI", value).causedBy(e);
         }
     }
-    
+
     public static boolean checkParameterBooleanValue(String value, String name) throws CodedException {
         checkParameterValue(value, name);
         return Boolean.valueOf(value);

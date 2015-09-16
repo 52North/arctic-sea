@@ -26,10 +26,15 @@ import java.util.Objects;
 @FunctionalInterface
 public interface ThrowingConsumer<T, X extends Exception> {
 
-    void accept(T t) throws X;
+    void accept(T t)
+            throws X;
 
-    default ThrowingConsumer<T, X> andThen(ThrowingConsumer<? super T, ? extends X> after) {
+    default ThrowingConsumer<T, X> andThen(
+            ThrowingConsumer<? super T, ? extends X> after) {
         Objects.requireNonNull(after);
-        return (T t) -> { accept(t); after.accept(t); };
+        return (T t) -> {
+            accept(t);
+            after.accept(t);
+        };
     }
 }

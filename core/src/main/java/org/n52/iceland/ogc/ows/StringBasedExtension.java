@@ -26,5 +26,5 @@ public interface StringBasedExtension extends Extension<String> {
      *
      * @return the extension as a xml text
      */
-	public String getExtension();
+    public String getExtension();
 }

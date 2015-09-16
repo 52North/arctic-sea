@@ -265,7 +265,7 @@ public interface OWSConstants {
 
         /**
          * Check if {@link Extension} for identifier is set
-         * 
+         *
          * @param identifier
          *            Identifier to check
          * @return <code>true</code>, if {@link Extensions} is available for the
@@ -275,7 +275,7 @@ public interface OWSConstants {
 
         /**
          * Check if {@link Extension} for identifier is set
-         * 
+         *
          * @param identifier
          *            Identifier to check
          * @return <code>true</code>, if {@link Extensions} is available for the
@@ -285,7 +285,7 @@ public interface OWSConstants {
 
         /**
          * Get {@link Extension} for identifier
-         * 
+         *
          * @param identifier
          *            Identifier to get {@link Extension} for
          * @return The requested {@link Extension}
@@ -296,7 +296,7 @@ public interface OWSConstants {
 
         /**
          * Get {@link Extension} for identifier
-         * 
+         *
          * @param identifier
          *            Identifier to get {@link Extension} for
          * @return The requested {@link Extension}

@@ -25,7 +25,7 @@ import com.google.common.base.Joiner;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class InvalidAcceptVersionsParameterException extends VersionNegotiationFailedException {

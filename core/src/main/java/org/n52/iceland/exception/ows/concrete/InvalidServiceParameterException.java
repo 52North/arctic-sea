@@ -21,11 +21,11 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class InvalidServiceParameterException extends InvalidParameterValueException {
     private static final long serialVersionUID = 4979630437608155123L;
-    
+
     public InvalidServiceParameterException(String value) {
         at(OWSConstants.GetCapabilitiesParams.service);
         withMessage("The value of the mandatory parameter '%s' is invalid. Delivered value was: %s",

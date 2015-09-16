@@ -34,12 +34,12 @@ import com.google.common.collect.SetMultimap;
 
 @SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository extends
-		      AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
+              AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
 
     @Deprecated
-	private static RequestResponseModifierRepository instance;
+    private static RequestResponseModifierRepository instance;
 
-	private final ListMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> requestResponseModifier
+    private final ListMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> requestResponseModifier
             = LinkedListMultimap.create();
 
     @Autowired(required = false)
@@ -67,7 +67,7 @@ public class RequestResponseModifierRepository extends
     public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
         RequestResponseModifierKey key = new RequestResponseModifierKey(response.getService(), response.getVersion(), request, response);
         return getRequestResponseModifier(key);
-	}
+    }
 
     public List<RequestResponseModifier> getRequestResponseModifier(RequestResponseModifierKey key) {
         List<Producer<RequestResponseModifier>> producers
@@ -77,7 +77,7 @@ public class RequestResponseModifierRepository extends
         } else {
             return Producers.produce(producers);
         }
-	}
+    }
 
     public  boolean hasRequestResponseModifier(AbstractServiceRequest request) {
         return hasRequestResponseModifier(new RequestResponseModifierKey(
@@ -89,16 +89,16 @@ public class RequestResponseModifierRepository extends
                 request.getService(), request.getVersion(), request, response))
                && hasRequestResponseModifier(new RequestResponseModifierKey(
                        response.getService(), response.getVersion(), request,
-						response));
-	}
+                        response));
+    }
 
-	public boolean hasRequestResponseModifier(RequestResponseModifierKey key) {
-		return requestResponseModifier.containsKey(key);
-	}
+    public boolean hasRequestResponseModifier(RequestResponseModifierKey key) {
+        return requestResponseModifier.containsKey(key);
+    }
 
     @Deprecated
-	public static RequestResponseModifierRepository getInstance() {
-		return RequestResponseModifierRepository.instance;
-	}
+    public static RequestResponseModifierRepository getInstance() {
+        return RequestResponseModifierRepository.instance;
+    }
 
 }

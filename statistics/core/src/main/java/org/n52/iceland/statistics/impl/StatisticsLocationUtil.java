@@ -51,7 +51,7 @@ import com.maxmind.geoip2.record.Location;
 /**
  * Utility class for mapping objects to Elasticsearch specific Geolocation type
  * objects
- * 
+ *
  */
 
 @Singleton
@@ -120,7 +120,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
     /**
      * Resolves source {@link IPAddress} if there were a proxy get the original
      * address
-     * 
+     *
      * @param ctx
      *            holder of the address
      * @return caller source address

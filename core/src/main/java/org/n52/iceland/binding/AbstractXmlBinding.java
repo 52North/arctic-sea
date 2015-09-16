@@ -25,6 +25,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
@@ -41,11 +47,6 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.w3c.W3CConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -102,7 +103,9 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         String nodeName = element.getNodeName();
         if (Strings.isNullOrEmpty(element.getNamespaceURI())) {
             String[] splittedNodeName = nodeName.split(Constants.COLON_STRING);
-            String elementName, namespace, name;
+            String elementName;
+            String namespace;
+            String name;
             String prefix = null;
             if (splittedNodeName.length == 2) {
                 prefix = splittedNodeName[0];

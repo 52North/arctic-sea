@@ -18,9 +18,9 @@ package org.n52.iceland.util.http;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public enum HTTPStatus {

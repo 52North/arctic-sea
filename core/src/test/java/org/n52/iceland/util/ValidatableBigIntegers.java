@@ -32,32 +32,32 @@ public class ValidatableBigIntegers {
         PositiveBigInteger pbi = new PositiveBigInteger("52");
         Assert.assertThat(pbi.intValue(), is(equalTo(52)));
     }
-    
+
     @Test
     public void validNonNegative() {
         NonNegativeBigInteger nnbi = new NonNegativeBigInteger("52");
         Assert.assertThat(nnbi.intValue(), is(equalTo(52)));
-        
+
         nnbi = new NonNegativeBigInteger("0");
         Assert.assertThat(nnbi.intValue(), is(equalTo(0)));
     }
-    
+
     @Test
     public void validNonNegativeZero() {
         NonNegativeBigInteger nnbi = new NonNegativeBigInteger("0");
         Assert.assertThat(nnbi.intValue(), is(equalTo(0)));
     }
-    
+
     @Test (expected = IllegalArgumentException.class )
     public void invalidPositive() {
         PositiveBigInteger pbi = new PositiveBigInteger("-1");
     }
-    
+
     @Test (expected = IllegalArgumentException.class )
     public void invalidPositiveZero() {
         PositiveBigInteger pbi = new PositiveBigInteger("0");
     }
-    
+
     @Test (expected = IllegalArgumentException.class )
     public void invalidNonNegative() {
         NonNegativeBigInteger nnbi = new NonNegativeBigInteger("-1");

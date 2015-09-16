@@ -31,9 +31,9 @@ import org.n52.iceland.exception.ows.concrete.GenericThrowableWrapperException;
 
 /**
  * Utility class for file handling
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public final class FileIOHelper {
 
@@ -45,14 +45,14 @@ public final class FileIOHelper {
 
     /**
      * Loads a file and returns an InputStream
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @param file
      *            File to load
-     * 
+     *
      * @return InputStream of the file
-     * 
+     *
      * @throws OwsExceptionReport
      *             If and error occurs;
      */

@@ -148,7 +148,7 @@ public class ElasticsearchSettings {
     /**
      * this variable must not be null and format of host[:port] comma separated
      * if multiple values are given
-     * 
+     *
      * @param clusterNodes
      *            list of the clusterNodes
      */
@@ -186,7 +186,7 @@ public class ElasticsearchSettings {
     /**
      * Connection type to the Elasticsearch cluster. NodeClient or
      * TransportClient are supported.
-     * 
+     *
      * @param choice
      *            {@link ElasticsearchSettingsKeys#CONNECTION_MODE_NODE} or
      *            {@link ElasticsearchSettingsKeys#CONNECTION_MODE_TRANSPORT_CLIENT}
@@ -199,7 +199,7 @@ public class ElasticsearchSettings {
 
     /**
      * With the settings API saves the new value to the configuration file
-     * 
+     *
      * @param key
      *            key to save the value
      * @param value

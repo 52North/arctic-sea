@@ -20,7 +20,7 @@ import org.n52.iceland.ogc.sos.CapabilitiesExtension;
 
 /**
  * @since 1.0.0
- * 
+ *
  * @param <T>
  */
 public interface MergableExtension<T extends MergableExtension<T>> extends CapabilitiesExtension {

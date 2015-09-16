@@ -23,9 +23,9 @@ import org.n52.iceland.response.AbstractServiceResponse;
 
 /**
  * Representation of a SOAP response
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class SoapResponse {
 

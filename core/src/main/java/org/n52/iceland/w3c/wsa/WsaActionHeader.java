@@ -18,7 +18,7 @@ package org.n52.iceland.w3c.wsa;
 
 /**
  * Class represents a W3C WS-Addressing action header
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -27,7 +27,7 @@ public class WsaActionHeader extends WsaHeader {
 
     /**
      * Constructor
-     * 
+     *
      * @param value
      *            Value to set
      */

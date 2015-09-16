@@ -72,8 +72,8 @@ public class ChoiceSettingDefinition extends AbstractSettingDefinition<ChoiceSet
 
     public ChoiceSettingDefinition addOption(String option, String displayName) {
         this.options.put(
-        		Preconditions.checkNotNull(option),
-        		Preconditions.checkNotNull(displayName));
+                Preconditions.checkNotNull(option),
+                Preconditions.checkNotNull(displayName));
         return this;
     }
 

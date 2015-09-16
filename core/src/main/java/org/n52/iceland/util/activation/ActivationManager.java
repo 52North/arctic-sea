@@ -24,6 +24,6 @@ package org.n52.iceland.util.activation;
  */
 public interface ActivationManager<K>
         extends ActivationListenable<K>,
-                ActivationProvider<K>, 
+                ActivationProvider<K>,
                 ActivationSink<K> {
 }

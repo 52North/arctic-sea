@@ -21,9 +21,9 @@ import java.util.NoSuchElementException;
 
 /**
  * TODO JavaDoc
- * 
+ *
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 @SuppressWarnings(value = "unchecked")

@@ -64,23 +64,23 @@ public class SwesExtension<T> implements Extension<T> {
 
 
     @Override
-	public String getDefinition() {
+    public String getDefinition() {
         return definition;
     }
 
     @Override
-	public SwesExtension<T> setDefinition(final String definition) {
+    public SwesExtension<T> setDefinition(final String definition) {
         this.definition = definition;
         return this;
     }
 
     @Override
-	public T getValue() {
+    public T getValue() {
         return value;
     }
 
     @Override
-	public SwesExtension<T> setValue(final T value) {
+    public SwesExtension<T> setValue(final T value) {
         this.value = value;
         return this;
     }

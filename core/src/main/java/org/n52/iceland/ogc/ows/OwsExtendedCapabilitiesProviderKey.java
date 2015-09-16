@@ -21,7 +21,7 @@ import org.n52.iceland.service.operator.ServiceOperatorKey;
 
 /**
  * Key class to identify {@link OwsExtendedCapabilitiesProvider}.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -30,7 +30,7 @@ public class OwsExtendedCapabilitiesProviderKey extends AbstractComparableServic
 
     /**
      * constructor
-     * 
+     *
      * @param sok
      *            the {@link ServiceOperatorKey} to set
      * @param domain
@@ -42,7 +42,7 @@ public class OwsExtendedCapabilitiesProviderKey extends AbstractComparableServic
 
     /**
      * constructor
-     * 
+     *
      * @param service
      *            the service to set
      * @param version

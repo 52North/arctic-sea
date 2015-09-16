@@ -21,7 +21,7 @@ import org.n52.iceland.w3c.W3CConstants;
 
 /**
  * Class represents W3C Xlink SimpleAttrs.
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *

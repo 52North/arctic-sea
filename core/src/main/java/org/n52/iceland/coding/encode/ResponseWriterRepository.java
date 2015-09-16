@@ -82,7 +82,7 @@ public class ResponseWriterRepository extends AbstractComponentRepository<Respon
                 .map(Producer::get).orElse(null);
     }
 
-	private  ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
+    private  ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
         if (compatible.isEmpty()) {
             return null;
         }

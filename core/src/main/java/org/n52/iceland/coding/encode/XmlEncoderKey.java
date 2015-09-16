@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
 
 /**
  * @author Christian Autermann <c.autermann@52north.org>
- * 
+ *
  * @since 1.0.0
  */
 public class XmlEncoderKey implements EncoderKey {

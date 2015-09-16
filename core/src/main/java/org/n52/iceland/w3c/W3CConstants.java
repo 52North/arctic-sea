@@ -47,7 +47,7 @@ public interface W3CConstants {
     String AN_SCHEMA_LOCATION = "schemaLocation";
 
     String AN_XMLNS = "xmlns";
-    
+
     String PREFIX_XMLNS = AN_XMLNS + Constants.COLON_STRING;
 
     // namespaces and schema locations

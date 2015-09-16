@@ -44,7 +44,7 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     public void setContentType(MediaType contentType) {
         this.contentType = contentType;
     }
-    
+
     @Override
     public MediaType getEncodedContentType(ResponseFormat responseFormat) {
         if (responseFormat.isSetResponseFormat()) {

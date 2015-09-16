@@ -20,7 +20,7 @@ import org.n52.iceland.util.StringHelper;
 
 /**
  * @since 1.0.0
- * 
+ *
  */
 public class OwsCapabilities {
 
@@ -44,35 +44,35 @@ public class OwsCapabilities {
      * Operations meta data for all supported operations.
      */
     private OwsOperationsMetadata operationsMetadata;
-    
-    
+
+
     public OwsCapabilities() {
     }
-    
+
     public OwsCapabilities(OwsCapabilities owsCapabilities) {
         copyToThis(owsCapabilities);
     }
-    
+
     public OwsCapabilities(String service, OwsCapabilities owsCapabilities) {
        this(owsCapabilities);
        setService(service);
     }
-    
+
     public OwsCapabilities(String version) {
         this.version = version;
     }
-    
+
     public OwsCapabilities(String service, String version) {
         this.version = version;
         this.service = service;
     }
-  
+
 
     /**
      * @param service the service
      */
     public void setService(String service) {
-    	this.service = service;
+        this.service = service;
     }
 
     /**
@@ -81,7 +81,7 @@ public class OwsCapabilities {
     public String getService() {
         return this.service;
     }
-    
+
     public boolean isSetService() {
         return StringHelper.isNotEmpty(getService());
     }
@@ -126,7 +126,7 @@ public class OwsCapabilities {
 
     /**
      * Set service identification
-     * 
+     *
      * @param serviceIdentification
      *            service identification
      */
@@ -137,7 +137,7 @@ public class OwsCapabilities {
 
     /**
      * Get service identification
-     * 
+     *
      * @return service identification
      */
     public OwsServiceIdentification getServiceIdentification() {
@@ -150,7 +150,7 @@ public class OwsCapabilities {
 
     /**
      * Set service provider
-     * 
+     *
      * @param serviceProvider
      *            service provider
      */
@@ -161,7 +161,7 @@ public class OwsCapabilities {
 
     /**
      * Get service provider
-     * 
+     *
      * @return service provider
      */
     public OwsServiceProvider getServiceProvider() {
@@ -174,7 +174,7 @@ public class OwsCapabilities {
 
     /**
      * Get operations metadata
-     * 
+     *
      * @return operations metadata
      */
     public OwsOperationsMetadata getOperationsMetadata() {
@@ -183,7 +183,7 @@ public class OwsCapabilities {
 
     /**
      * Set operations metadata
-     * 
+     *
      * @param operationsMetadata
      *            operations metadata
      */
@@ -194,7 +194,7 @@ public class OwsCapabilities {
     public boolean isSetOperationsMetadata() {
         return getOperationsMetadata() != null && !getOperationsMetadata().isEmpty();
     }
-    
+
     private void copyToThis(OwsCapabilities owsCapabilities) {
         if (owsCapabilities.isSetService()) {
             setService(owsCapabilities.getService());

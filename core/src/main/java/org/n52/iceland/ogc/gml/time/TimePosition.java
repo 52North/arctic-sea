@@ -24,9 +24,9 @@ import org.n52.iceland.util.Constants;
 /**
  * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod
  * during encoding to reduce duplicate code.
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class TimePosition {
 
@@ -47,7 +47,7 @@ public class TimePosition {
 
     /**
      * constructor
-     * 
+     *
      * @param time
      *            Time postion time
      */
@@ -57,7 +57,7 @@ public class TimePosition {
 
     /**
      * constructor
-     * 
+     *
      * @param indeterminateValue
      *            Indeterminate value of time position
      */
@@ -68,7 +68,7 @@ public class TimePosition {
 
     /**
      * constructor
-     * 
+     *
      * @param time
      *            Time position time
      * @param timeFormat
@@ -82,7 +82,7 @@ public class TimePosition {
 
     /**
      * Get time position time
-     * 
+     *
      * @return the time Time position time
      */
     public DateTime getTime() {
@@ -91,7 +91,7 @@ public class TimePosition {
 
     /**
      * Set time position time
-     * 
+     *
      * @param time
      *            the time to set
      */
@@ -101,7 +101,7 @@ public class TimePosition {
 
     /**
      * Get time position indeterminate value
-     * 
+     *
      * @return the indeterminateValue time position indeterminate value
      */
     public TimeIndeterminateValue getIndeterminateValue() {
@@ -110,7 +110,7 @@ public class TimePosition {
 
     /**
      * Get time position time format
-     * 
+     *
      * @return the timeFormat Time position time format
      */
     public TimeFormat getTimeFormat() {
@@ -119,7 +119,7 @@ public class TimePosition {
 
     /**
      * Set time position time format
-     * 
+     *
      * @param timeFormat
      *            the timeFormat to set
      */
@@ -129,7 +129,7 @@ public class TimePosition {
 
     /**
      * Set time position indeterminat value
-     * 
+     *
      * @param indeterminateValue
      *            the indeterminateValue to set
      */
@@ -139,7 +139,7 @@ public class TimePosition {
 
     /**
      * Check if time value is set
-     * 
+     *
      * @return <tt>true</tt>, if time is set
      */
     public boolean isSetTime() {
@@ -148,7 +148,7 @@ public class TimePosition {
 
     /**
      * Check if indeterminateValue is set
-     * 
+     *
      * @return <tt>true</tt>, if indeterminateValue is set
      */
     public boolean isSetIndeterminateValue() {
@@ -157,7 +157,7 @@ public class TimePosition {
 
     /**
      * Check if time format is set
-     * 
+     *
      * @return <tt>true</tt>, if time format is set
      */
     public boolean isSetTimeFormat() {

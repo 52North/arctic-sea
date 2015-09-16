@@ -22,11 +22,11 @@ import org.n52.iceland.w3c.soap.SoapHeader;
 
 /**
  * Interface to provide SOAP Header support in Request and Response objects.
- * 
+ *
  * @author Matthes Rieke
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public interface CommunicationObjectWithSoapHeader {
 
@@ -43,7 +43,7 @@ public interface CommunicationObjectWithSoapHeader {
 
     /**
      * Convenience method to check if the SoapHeader is set.
-     * 
+     *
      * @return true if Header is set
      */
     boolean isSetSoapHeader();

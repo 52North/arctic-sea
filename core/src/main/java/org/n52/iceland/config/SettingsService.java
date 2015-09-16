@@ -135,7 +135,7 @@ public interface SettingsService {
      * @return all values by definition
      */
     Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings();
-    
+
     /**
      * Gets all values for all definitions and udpates (changes or configures) all configured objets.
     */

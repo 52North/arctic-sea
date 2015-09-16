@@ -33,14 +33,14 @@ import org.w3c.dom.NodeList;
 
 /**
  * Utility class for SOAP requests.
- * 
+ *
  * @since 1.0.0
  */
 public class SoapHelper {
 
     /**
      * Checks the HTTP-Header for action or SOAPAction elements.
-     * 
+     *
      * @param request
      *            HTTP request
      * @return SOAP action element
@@ -69,7 +69,7 @@ public class SoapHelper {
 
     /**
      * Get text content from element by namespace.
-     * 
+     *
      * @param soapHeader
      *            SOAPHeader element
      * @param namespaceURI
@@ -89,7 +89,7 @@ public class SoapHelper {
 
     /**
      * Creates a SOAP message for SOAP 1.2 or 1.1
-     * 
+     *
      * @param soapVersion
      *            SOAP version
      * @return Version depending SOAP message
@@ -107,7 +107,7 @@ public class SoapHelper {
 
     /**
      * Get the reason for a SOAP fault from Exception code
-     * 
+     *
      * @param exceptionCode
      *            OWS exception code to get reason for.
      * @return Text for SOAP fault reason

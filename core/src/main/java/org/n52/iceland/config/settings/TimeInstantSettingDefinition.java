@@ -24,7 +24,7 @@ import org.n52.iceland.util.DateTimeHelper;
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- * 
+ *
  */
 public class TimeInstantSettingDefinition extends AbstractSettingDefinition<TimeInstantSettingDefinition, Time> {
 
@@ -38,7 +38,7 @@ public class TimeInstantSettingDefinition extends AbstractSettingDefinition<Time
     /**
      * Setter for default value as {@link String}. Parses the string to
      * {@link Time} object
-     * 
+     *
      * @param value
      *            Default value as String
      * @return this
