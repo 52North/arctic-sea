@@ -30,7 +30,7 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 /**
  * Single point of exception logging.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  *

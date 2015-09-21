@@ -18,7 +18,7 @@ package org.n52.iceland.event;
 
 /**
  * {@link ServiceEvent} interface. Each event should implement this interface
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */

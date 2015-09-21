@@ -27,7 +27,7 @@ import org.n52.iceland.lifecycle.Destroyable;
 
 /**
 
- @author Daniel Nüst <d.nuest@52north.org>
+ @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  */
 public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, Destroyable {
 

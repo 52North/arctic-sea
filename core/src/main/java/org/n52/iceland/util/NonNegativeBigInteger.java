@@ -20,7 +20,7 @@ import java.math.BigInteger;
 
 /**
  *
- * @author Daniel Nüst <d.nuest@52north.org>
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  */
 public class NonNegativeBigInteger extends BigInteger {
 

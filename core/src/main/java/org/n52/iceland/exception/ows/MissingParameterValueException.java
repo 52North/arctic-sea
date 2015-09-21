@@ -26,7 +26,7 @@ import static org.n52.iceland.util.http.HTTPStatus.BAD_REQUEST;
  * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
  *      Web Service Common Specification 1.1.0, Table 25 — Standard exception codes and
  *      meanings</a>
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */

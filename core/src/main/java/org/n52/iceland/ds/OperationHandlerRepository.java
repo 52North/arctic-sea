@@ -31,7 +31,7 @@ import org.n52.iceland.util.Producers;
 /**
  * In 52N SOS version 4.x called OperationDAORepository
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */

@@ -20,7 +20,7 @@ import java.util.Set;
 
 /**
  * Interface for the {@link ServiceEvent} listener
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  * Event is fired if an occured {@link Exception} is written to the
  * {@link OutputStream} of the {@link HttpServletResponse}
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  *

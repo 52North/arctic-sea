@@ -20,7 +20,7 @@ package org.n52.iceland.config;
  * Interface for users that are allowed to administer the service.
  * Implementations are {@link SettingsService} specific.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
 public interface AdministratorUser {

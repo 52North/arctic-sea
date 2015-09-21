@@ -20,7 +20,7 @@ import java.nio.file.Path;
 
 /**
  *
- * @author Daniel Nüst <d.nuest@52north.org>
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  */
 public interface FileSettingsConfiguration {
 

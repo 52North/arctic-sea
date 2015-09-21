@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
  *       <property name="defaultValue" value="false" />
  * </bean></pre>
  *
- * @author Daniel Nüst <d.nuest@52north.org>
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  */
 @Configurable
 public class SettingsFileWatcher implements Constructable, Destroyable {

@@ -27,7 +27,7 @@ import com.google.common.primitives.Ints;
 /**
  * Encapsulation of an IPv4 address.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public class IPAddress implements Comparable<IPAddress> {
     private final int address;

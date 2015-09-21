@@ -35,7 +35,7 @@ import com.google.common.collect.Lists;
  * Representation of a proxy chain as found in HTTP {@code X-Forwarded-For}
  * header.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public class ProxyChain {
     private static final Logger LOG = LoggerFactory.getLogger(ProxyChain.class);

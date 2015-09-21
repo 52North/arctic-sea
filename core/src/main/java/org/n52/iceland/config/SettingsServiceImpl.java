@@ -62,7 +62,7 @@ import com.google.common.collect.SetMultimap;
  * @see SettingDefinition
  * @see SettingValue
  * @see Configurable
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
 public class SettingsServiceImpl implements SettingsService {

@@ -18,7 +18,7 @@ package org.n52.iceland.ogc.filter;
 
 /**
  *
- * @author Daniel Nüst <d.nuest@52north.org>
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  *
  * @since 1.0.0
  *
