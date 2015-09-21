@@ -36,7 +36,7 @@ nbdist/
 nbactions.xml
 nb-configuration.xml
 .nb-gradle/
-
+elasticsearch/
 
 ### https://raw.github.com/github/gitignore/master/Global/Eclipse.gitignore
 
@@ -118,7 +118,7 @@ $RECYCLE.BIN/
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
 
 # Thumbnails
 ._*
