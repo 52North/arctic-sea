@@ -123,7 +123,9 @@ public class JsonActivationDao extends AbstractJsonActivationDao
 
     @Override
     public Set<OfferingExtensionKey> getOfferingExtensionKeys() {
-        return getKeys(OFFERING_EXTENSIONS, createDomainDecoder(OfferingExtensionKey::new));
+        Function<JsonNode, OfferingExtensionKey> fun
+                = createDomainDecoder(OfferingExtensionKey::new);
+        return getKeys(OFFERING_EXTENSIONS, fun);
     }
 
 
