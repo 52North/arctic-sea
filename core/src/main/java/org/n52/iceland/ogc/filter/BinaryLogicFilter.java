@@ -24,19 +24,19 @@ import com.google.common.collect.Sets;
 
 /**
  * SOS class for binary logic filters "AND" and "OR"
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements LogicFilter {
 
     private BinaryLogicOperator operator;
 
     private Set<Filter<?>> filterPredicates = Sets.newHashSet();
-    
+
     /**
      * constructor
-     * 
+     *
      * @param operator
      *            Binary logic filter operator
      */
@@ -47,7 +47,7 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
 
     /**
      * constructor
-     * 
+     *
      * @param operator
      *            Binary logic filter operator
      * @param filterOne
@@ -96,7 +96,6 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
     public BinaryLogicFilter addFilterPredicates(Set<Filter<?>> filterPredicates) {
         this.filterPredicates.addAll(filterPredicates);
         return this;
-        
     }
 
 }

@@ -20,9 +20,9 @@ import org.n52.iceland.ogc.filter.FilterConstants.SpatialOperator;
 
 /**
  * Spatial filter class
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class SpatialFilter extends Filter<SpatialOperator> {
 
@@ -45,7 +45,7 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     /**
      * constructor
-     * 
+     *
      * @param operatorp
      *            Spatial operator
      * @param geometryp
@@ -72,7 +72,7 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     /**
      * Get SRID
-     * 
+     *
      * @return SRID
      */
     public int getSrid() {
@@ -81,7 +81,7 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     /**
      * Get filter geometry
-     * 
+     *
      * @return filter geometry
      */
     public Geometry getGeometry() {
@@ -90,7 +90,7 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     /**
      * Set filter geometry
-     * 
+     *
      * @param geometry
      *            filter geometry
      * @return This filter

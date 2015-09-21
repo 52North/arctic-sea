@@ -22,9 +22,9 @@ import com.google.common.collect.Lists;
 
 /**
  * class for FES SortBy element
- * 
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  *
  */
@@ -32,13 +32,12 @@ public class FesSortBy implements AbstractSortingClause {
 
     private List<FesSortProperty> sortProperties = Lists.newArrayList();
 
-    
     @SuppressWarnings("OverridableMethodCallInConstructor")
     public FesSortBy(FesSortProperty sortProperty) {
         super();
         addSortProperty(sortProperty);
     }
-    
+
     public FesSortBy(List<FesSortProperty> sortProperties) {
         super();
         setSortProperties(sortProperties);

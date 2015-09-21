@@ -57,9 +57,9 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      * single char character
      */
     private String singleChar;
-    
+
     private boolean matchCase = true;
-    
+
     /**
      * default constructor
      */
@@ -295,11 +295,11 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
     public boolean isMatchCase() {
         return matchCase;
     }
-    
+
     public void setMatchCase(boolean matchCase) {
         this.matchCase = matchCase;
     }
-    
+
     @Override
     public String toString() {
         String result = "ComparisonFilter: ";

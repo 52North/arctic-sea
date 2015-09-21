@@ -27,14 +27,14 @@ import org.slf4j.LoggerFactory;
 
 /**
  * ID filter class
- * 
+ *
  * @since 1.0.0
- * 
+ *
  */
 public class IdFilter extends Filter<Id> {
 
     private static final Logger log = LoggerFactory.getLogger(IdFilter.class);
-    
+
     private Id operator;
 
     private Set<String> ids;

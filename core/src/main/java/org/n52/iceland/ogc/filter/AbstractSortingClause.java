@@ -17,13 +17,13 @@
 package org.n52.iceland.ogc.filter;
 
 /**
- * interface for FES 2.0 AbstractSelectionClause
- * 
+ * interface for FES 2.0 AbstractSortingClause
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  *
  */
-public interface AbstractSelectionClause {
-
+public interface AbstractSortingClause {
+    //
 }

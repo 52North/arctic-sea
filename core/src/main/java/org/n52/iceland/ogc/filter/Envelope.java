@@ -110,5 +110,5 @@ public class Envelope implements Geometry {
         }
         return true;
     }
-    
+
 }

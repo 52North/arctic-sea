@@ -16,14 +16,37 @@
  */
 package org.n52.iceland.ogc.filter;
 
+import org.n52.iceland.util.StringHelper;
+
 /**
- * interface for FES 2.0 AbstractProjectionClause
- * 
+ * abstract class for FES 2.0 AbstractQueryExpression
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
  * @since 1.0.0
  *
  */
-public interface AbstractProjectionClause {
+public abstract class AbstractQueryExpression {
+
+    private String handle;
+
+    /**
+     * @return the handle
+     */
+    public String getHandle() {
+        return handle;
+    }
+
+    /**
+     * @param handle the handle to set
+     */
+    public AbstractQueryExpression setHandle(String handle) {
+        this.handle = handle;
+        return this;
+    }
+
+    public boolean isSetHandle() {
+        return StringHelper.isNotEmpty(getHandle());
+    }
 
 }

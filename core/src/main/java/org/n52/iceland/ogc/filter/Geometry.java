@@ -16,37 +16,15 @@
  */
 package org.n52.iceland.ogc.filter;
 
-import org.n52.iceland.util.StringHelper;
-
 /**
- * abstract class for FES 2.0 AbstractQueryExpression
- * 
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * 
+ *
+ * @author Daniel Nüst <d.nuest@52north.org>
+ *
  * @since 1.0.0
  *
  */
-public abstract class AbstractQueryExpression {
-    
-    private String handle;
+public interface Geometry {
 
-    /**
-     * @return the handle
-     */
-    public String getHandle() {
-        return handle;
-    }
-
-    /**
-     * @param handle the handle to set
-     */
-    public AbstractQueryExpression setHandle(String handle) {
-        this.handle = handle;
-        return this;
-    }
-    
-    public boolean isSetHandle() {
-        return StringHelper.isNotEmpty(getHandle());
-    }
+    public abstract int getSRID();
 
 }

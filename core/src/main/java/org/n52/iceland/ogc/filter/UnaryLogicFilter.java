@@ -20,19 +20,19 @@ import org.n52.iceland.ogc.filter.FilterConstants.UnaryLogicOperator;
 
 /**
  * class for unary logic filter "NOT"
- * 
+ *
  * @since 1.0.0
  *
  */
 public class UnaryLogicFilter extends Filter<UnaryLogicOperator> implements LogicFilter {
-    
+
    private UnaryLogicOperator operator = UnaryLogicOperator.Not;
-    
+
     private Filter<?> filterPredicate;
-    
+
     /**
      * Constructor
-     * 
+     *
      * @param filterPredicate Filter
      */
     public UnaryLogicFilter(Filter<?> filterPredicate) {
