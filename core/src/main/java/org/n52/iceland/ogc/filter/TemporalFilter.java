@@ -32,7 +32,7 @@ public class TemporalFilter extends Filter<TimeOperator> {
     private Time time;
 
     public TemporalFilter() {
-        this(null, null, null);
+        this((String)null, null, null);
     }
 
     /**

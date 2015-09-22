@@ -27,7 +27,7 @@ import java.util.Arrays;
 public class Envelope implements Geometry {
 
     private static final int NO_SRID = -1;
-    
+
     private int srid = NO_SRID;
 
     // a coordinate position consisting of all the minimal ordinates for each dimension for all points within the envelope
