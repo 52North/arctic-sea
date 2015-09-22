@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.filter;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Sets;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import org.n52.iceland.ogc.filter.FilterConstants.Id;
@@ -40,7 +41,7 @@ public class IdFilter extends Filter<Id> {
     private Set<String> ids;
 
     public IdFilter() {
-        //
+        this(Sets.<String>newHashSet());
     }
 
     public IdFilter(String id) {
@@ -61,9 +62,6 @@ public class IdFilter extends Filter<Id> {
     }
 
     public Filter<Id> addId(String id) {
-        if (!Optional.ofNullable(ids).isPresent()) {
-            this.ids = Sets.newHashSet();
-        }
         this.ids.add(id);
         return this;
     }

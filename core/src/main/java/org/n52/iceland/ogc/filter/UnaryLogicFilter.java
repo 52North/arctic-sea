@@ -36,7 +36,6 @@ public class UnaryLogicFilter extends Filter<UnaryLogicOperator> implements Logi
      * @param filterPredicate Filter
      */
     public UnaryLogicFilter(Filter<?> filterPredicate) {
-        super();
         this.filterPredicate = filterPredicate;
     }
 

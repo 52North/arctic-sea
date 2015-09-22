@@ -46,7 +46,6 @@ public abstract class Filter<T> implements AbstractSelectionClause {
      * @param valueReference
      */
     public Filter(String valueReference) {
-        super();
         this.valueReference = valueReference;
     }
 

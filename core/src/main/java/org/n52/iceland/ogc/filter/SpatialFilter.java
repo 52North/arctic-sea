@@ -26,37 +26,28 @@ import org.n52.iceland.ogc.filter.FilterConstants.SpatialOperator;
  */
 public class SpatialFilter extends Filter<SpatialOperator> {
 
-    /**
-     * Spatial filter operator
-     */
     private SpatialOperator operator;
 
-    /**
-     * Filter geometry
-     */
     private Geometry geometry;
 
-    /**
-     * default constructor
-     */
     public SpatialFilter() {
-        super();
+        this(null, null, null);
     }
 
     /**
      * constructor
      *
-     * @param operatorp
+     * @param operator
      *            Spatial operator
-     * @param geometryp
+     * @param geometry
      *            Filter geometry
-     * @param valueReferencep
+     * @param valueReference
      *            Filter valueReference
      */
-    public SpatialFilter(SpatialOperator operatorp, Geometry geometryp, String valueReferencep) {
-        super(valueReferencep);
-        this.operator = operatorp;
-        this.geometry = geometryp;
+    public SpatialFilter(SpatialOperator operator, Geometry geometry, String valueReference) {
+        super(valueReference);
+        this.operator = operator;
+        this.geometry = geometry;
     }
 
     @Override

@@ -25,6 +25,6 @@ package org.n52.iceland.ogc.filter;
  */
 public interface Geometry {
 
-    public abstract int getSRID();
+    int getSRID();
 
 }

@@ -30,19 +30,10 @@ import org.n52.iceland.util.Constants;
  */
 public class TimePosition {
 
-    /**
-     * Date time of time position
-     */
     private DateTime time;
 
-    /**
-     * Indeterminate value of time position
-     */
     private TimeIndeterminateValue indeterminateValue;
 
-    /**
-     * Time format
-     */
     private TimeFormat timeFormat;
 
     /**
@@ -52,7 +43,7 @@ public class TimePosition {
      *            Time postion time
      */
     public TimePosition(DateTime time) {
-        super();
+        //
     }
 
     /**
@@ -62,7 +53,6 @@ public class TimePosition {
      *            Indeterminate value of time position
      */
     public TimePosition(TimeIndeterminateValue indeterminateValue) {
-        super();
         this.indeterminateValue = indeterminateValue;
     }
 
@@ -75,9 +65,8 @@ public class TimePosition {
      *            Time format
      */
     public TimePosition(DateTime time, TimeFormat timeFormat) {
-        super();
         this.time = time;
-        this.setTimeFormat(timeFormat);
+        this.timeFormat = timeFormat;
     }
 
     /**

@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.filter;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import java.util.Collections;
 
 /**
  * class for FES SortBy element
@@ -32,40 +33,29 @@ public class FesSortBy implements AbstractSortingClause {
 
     private List<FesSortProperty> sortProperties = Lists.newArrayList();
 
-    @SuppressWarnings("OverridableMethodCallInConstructor")
     public FesSortBy(FesSortProperty sortProperty) {
-        super();
-        addSortProperty(sortProperty);
+        sortProperties.add(sortProperty);
     }
 
     public FesSortBy(List<FesSortProperty> sortProperties) {
-        super();
-        setSortProperties(sortProperties);
+        sortProperties.addAll(sortProperties);
     }
 
     /**
      * @return the sortProperties
      */
     public List<FesSortProperty> getSortProperties() {
-        return sortProperties;
+        return Collections.unmodifiableList(sortProperties);
     }
 
     public FesSortBy addSortProperty(FesSortProperty sortProperty) {
-       getSortProperties().add(sortProperty);
-       return this;
-    }
-
-    public FesSortBy addSortProperties(List<FesSortProperty> sortProperties) {
-        getSortProperties().addAll(sortProperties);
+        this.sortProperties.add(sortProperty);
         return this;
     }
 
-    /**
-     * @param sortProperties
-     *            the sortProperties to set
-     */
-    private void setSortProperties(List<FesSortProperty> sortProperties) {
-        this.sortProperties = sortProperties;
+    public FesSortBy addSortProperties(List<FesSortProperty> sortProperties) {
+        this.sortProperties.addAll(sortProperties);
+        return this;
     }
 
 }

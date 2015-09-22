@@ -27,53 +27,42 @@ import org.n52.iceland.ogc.gml.time.Time;
  */
 public class TemporalFilter extends Filter<TimeOperator> {
 
-    /**
-     * Temporal filter operator
-     */
     private TimeOperator operator;
 
-    /**
-     * Temporal filter time value
-     */
     private Time time;
 
-    /**
-     * constructor
-     */
     public TemporalFilter() {
-        super();
+        this(null, null, null);
     }
 
     /**
      * constructor
      *
-     * @param operatorp
+     * @param operator
      *            Temporal filter operator
-     * @param timep
+     * @param time
      *            Filter time
-     * @param valueReferencep
+     * @param valueReference
      *            value reference
      */
-    public TemporalFilter(TimeOperator operatorp, Time timep, String valueReferencep) {
-        super(valueReferencep);
-        this.operator = operatorp;
-        this.time = timep;
+    public TemporalFilter(TimeOperator operator, Time time, String valueReference) {
+        super(valueReference);
+        this.operator = operator;
+        this.time = time;
     }
 
     /**
      * constructor
      *
-     * @param operatorNamep
+     * @param operatorName
      *            Temporal filter operator name
-     * @param timep
+     * @param time
      *            Filter time
-     * @param valueReferencep
+     * @param valueReference
      *            value reference
      */
-    public TemporalFilter(String operatorNamep, Time timep, String valueReferencep) {
-        super(valueReferencep);
-        this.operator = TimeOperator.valueOf(operatorNamep);
-        this.time = timep;
+    public TemporalFilter(String operatorName, Time time, String valueReference) {
+        this(TimeOperator.valueOf(operatorName), time, valueReference);
     }
 
     @Override

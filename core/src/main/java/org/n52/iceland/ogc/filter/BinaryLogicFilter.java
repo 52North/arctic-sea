@@ -41,7 +41,6 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
      *            Binary logic filter operator
      */
     public BinaryLogicFilter(BinaryLogicOperator operator) {
-        super();
         this.operator = operator;
     }
 
@@ -56,7 +55,6 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
      *            Second filter
      */
     public BinaryLogicFilter(BinaryLogicOperator operator, Filter<?> filterOne, Filter<?> filterTwo) {
-        super();
         this.operator = operator;
         filterPredicates.add(filterOne);
         filterPredicates.add(filterTwo);
