@@ -90,7 +90,7 @@ public class Envelope implements Geometry {
         hash = 41 * hash + Arrays.hashCode(this.upperCorner);
         return hash;
     }
-    
+
 
     @Override
     public boolean equals(Object obj) {
