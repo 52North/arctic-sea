@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.gml.time;
 
+import java.util.Optional;
 import org.joda.time.DateTime;
 import org.n52.iceland.ogc.gml.time.Time.TimeFormat;
 import org.n52.iceland.ogc.gml.time.Time.TimeIndeterminateValue;
@@ -30,11 +31,11 @@ import org.n52.iceland.util.Constants;
  */
 public class TimePosition {
 
-    private DateTime time;
+    private Optional<DateTime> time = Optional.empty();
 
-    private TimeIndeterminateValue indeterminateValue;
+    private Optional<TimeIndeterminateValue> indeterminateValue = Optional.empty();
 
-    private TimeFormat timeFormat;
+    private Optional<TimeFormat> timeFormat = Optional.empty();
 
     /**
      * constructor
@@ -43,7 +44,7 @@ public class TimePosition {
      *            Time postion time
      */
     public TimePosition(DateTime time) {
-        //
+        this(time, null);
     }
 
     /**
@@ -53,7 +54,7 @@ public class TimePosition {
      *            Indeterminate value of time position
      */
     public TimePosition(TimeIndeterminateValue indeterminateValue) {
-        this.indeterminateValue = indeterminateValue;
+        this.indeterminateValue = Optional.of(indeterminateValue);
     }
 
     /**
@@ -65,8 +66,8 @@ public class TimePosition {
      *            Time format
      */
     public TimePosition(DateTime time, TimeFormat timeFormat) {
-        this.time = time;
-        this.timeFormat = timeFormat;
+        this.time = Optional.of(time);
+        this.timeFormat = Optional.of(timeFormat);
     }
 
     /**
@@ -75,7 +76,7 @@ public class TimePosition {
      * @return the time Time position time
      */
     public DateTime getTime() {
-        return time;
+        return time.get();
     }
 
     /**
@@ -85,7 +86,7 @@ public class TimePosition {
      *            the time to set
      */
     public void setTime(DateTime time) {
-        this.time = time;
+        this.time = Optional.of(time);
     }
 
     /**
@@ -94,7 +95,7 @@ public class TimePosition {
      * @return the indeterminateValue time position indeterminate value
      */
     public TimeIndeterminateValue getIndeterminateValue() {
-        return indeterminateValue;
+        return indeterminateValue.get();
     }
 
     /**
@@ -103,7 +104,7 @@ public class TimePosition {
      * @return the timeFormat Time position time format
      */
     public TimeFormat getTimeFormat() {
-        return timeFormat;
+        return timeFormat.get();
     }
 
     /**
@@ -113,7 +114,7 @@ public class TimePosition {
      *            the timeFormat to set
      */
     public void setTimeFormat(TimeFormat timeFormat) {
-        this.timeFormat = timeFormat;
+        this.timeFormat = Optional.of(timeFormat);
     }
 
     /**
@@ -123,7 +124,7 @@ public class TimePosition {
      *            the indeterminateValue to set
      */
     public void setIndeterminateValue(TimeIndeterminateValue indeterminateValue) {
-        this.indeterminateValue = indeterminateValue;
+        this.indeterminateValue = Optional.of(indeterminateValue);
     }
 
     /**
@@ -132,7 +133,7 @@ public class TimePosition {
      * @return <tt>true</tt>, if time is set
      */
     public boolean isSetTime() {
-        return getTime() != null;
+        return time.isPresent();
     }
 
     /**
@@ -141,7 +142,7 @@ public class TimePosition {
      * @return <tt>true</tt>, if indeterminateValue is set
      */
     public boolean isSetIndeterminateValue() {
-        return getIndeterminateValue() != null;
+        return indeterminateValue.isPresent();
     }
 
     /**
@@ -150,7 +151,7 @@ public class TimePosition {
      * @return <tt>true</tt>, if time format is set
      */
     public boolean isSetTimeFormat() {
-        return getTimeFormat() != null;
+        return timeFormat.isPresent();
     }
 
     @Override

@@ -36,10 +36,6 @@ public abstract class AbstractFeature extends AbstractGML implements Serializabl
 
     private String defaultEncoding;
 
-    public AbstractFeature() {
-        //
-    }
-
     public AbstractFeature(String identifier) {
         super(identifier);
     }

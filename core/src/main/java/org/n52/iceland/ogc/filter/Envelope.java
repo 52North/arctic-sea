@@ -31,40 +31,40 @@ public class Envelope implements Geometry {
     private int srid = NO_SRID;
 
     // a coordinate position consisting of all the minimal ordinates for each dimension for all points within the envelope
-    private Double[] lowerCorner;
+    private double[] lowerCorner;
 
     // a coordinate position consisting of all the maximal ordinates for each dimension for all points within the envelope
-    private Double[] upperCorner;
+    private double[] upperCorner;
 
     public Envelope() {
-        //
+        this(null, null, NO_SRID);
     }
 
-    public Envelope(Double[] lowerCorner, Double[] upperCorner) {
+    public Envelope(double[] lowerCorner, double[] upperCorner) {
         this(lowerCorner, upperCorner, NO_SRID);
     }
 
-    public Envelope(Double[] lowerCorner, Double[] upperCorner, int srid) {
+    public Envelope(double[] lowerCorner, double[] upperCorner, int srid) {
         this.lowerCorner = lowerCorner;
         this.upperCorner = upperCorner;
         this.srid = srid;
     }
 
-    public Envelope setLowerCorner(Double[] corner) {
+    public Envelope setLowerCorner(double[] corner) {
         this.lowerCorner = corner;
         return this;
     }
 
-    public Envelope setUpperCorner(Double[] corner) {
+    public Envelope setUpperCorner(double[] corner) {
         this.upperCorner = corner;
         return this;
     }
 
-    public Double[] getLowerCorner() {
+    public double[] getLowerCorner() {
         return lowerCorner;
     }
 
-    public Double[] getUpperCorner() {
+    public double[] getUpperCorner() {
         return upperCorner;
     }
 
@@ -84,12 +84,13 @@ public class Envelope implements Geometry {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 43 * hash + this.srid;
-        hash = 43 * hash + Arrays.deepHashCode(this.lowerCorner);
-        hash = 43 * hash + Arrays.deepHashCode(this.upperCorner);
+        int hash = 5;
+        hash = 41 * hash + this.srid;
+        hash = 41 * hash + Arrays.hashCode(this.lowerCorner);
+        hash = 41 * hash + Arrays.hashCode(this.upperCorner);
         return hash;
     }
+    
 
     @Override
     public boolean equals(Object obj) {
@@ -103,10 +104,10 @@ public class Envelope implements Geometry {
         if (this.srid != other.srid) {
             return false;
         }
-        if (!Arrays.deepEquals(this.lowerCorner, other.lowerCorner)) {
+        if (!Arrays.equals(this.lowerCorner, other.lowerCorner)) {
             return false;
         }
-        if (!Arrays.deepEquals(this.upperCorner, other.upperCorner)) {
+        if (!Arrays.equals(this.upperCorner, other.upperCorner)) {
             return false;
         }
         return true;
