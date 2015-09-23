@@ -44,6 +44,7 @@
         <module>statistics/core</module>
         <module>statistics/generator</module>
         <module>statistics/kibana</module>
+        <module>statistics/geolocation</module>
     </modules>
 
     <inceptionYear>2015</inceptionYear>
@@ -75,6 +76,14 @@
             <id>autermann</id>
             <name>Christian Autermann</name>
             <email>c.autermann@52north.org</email>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
+            <timezone>GMT+1</timezone>
+        </developer>
+        <developer>
+            <id>nuest</id>
+            <name>Daniel Nüst</name>
+            <email>d.nuest@52north.org</email>
             <organization>${project.organization.name}</organization>
             <organizationUrl>${project.organization.url}</organizationUrl>
             <timezone>GMT+1</timezone>

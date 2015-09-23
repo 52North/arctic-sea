@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.statistics.impl;
+package org.n52.iceland.statistics.impl.geolocation;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,8 +33,6 @@ import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.request.RequestContext;
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
-import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
-import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameterFactory;
 import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.n52.iceland.statistics.api.utils.GeoLiteFileDownloader;
@@ -47,6 +45,8 @@ import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
+import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
+import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 
 /**
  * Utility class for mapping objects to Elasticsearch specific Geolocation type
