@@ -25,14 +25,18 @@ import org.n52.iceland.statistics.api.parameters.Description.Operation;
 
 public class MetadataDataMapping {
 
-    // ---- METADATA type ----
     public static final String METADATA_TYPE_NAME = "mt";
+    
     public static final String METADATA_ROW_ID = "1";
+    
     public static final AbstractEsParameter METADATA_CREATION_TIME_FIELD = new SingleEsParameter("mt-creation-time", new Description(
             InformationOrigin.Computed, Operation.Metadata, "Creation time of the Elasticsearch index"), ElasticsearchTypeRegistry.dateField);
 
     public static final AbstractEsParameter METADATA_UPDATE_TIME_FIELD = new SingleEsParameter("mt-update-time", new Description(
             InformationOrigin.Computed, Operation.Metadata, "Update time of the Elasticsearch metadata type"), ElasticsearchTypeRegistry.dateField);
+    
+    public static final AbstractEsParameter METADATA_NAME_FIELD = new SingleEsParameter("mt-name", new Description(
+            InformationOrigin.None, Operation.Metadata, "Name of the used metadata type"), ElasticsearchTypeRegistry.stringField);
 
     public static final AbstractEsParameter METADATA_VERSION_FIELD = new SingleEsParameter("mt-version", new Description(InformationOrigin.Computed,
             Operation.Metadata, "Monoton increasing version field. The deployment schema and the Elasticsearch schema version must match"),
