@@ -35,7 +35,7 @@ public class GeoLiteFileDownloader {
 
     public static void downloadDefaultDatabases(String folderPath) {
         logger.info("Downloading default databases to {}", folderPath);
-        
+
         try {
 
             // create folder

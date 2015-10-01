@@ -35,9 +35,6 @@ public class MetadataDataMapping {
     public static final AbstractEsParameter METADATA_UPDATE_TIME_FIELD = new SingleEsParameter("mt-update-time", new Description(
             InformationOrigin.Computed, Operation.Metadata, "Update time of the Elasticsearch metadata type"), ElasticsearchTypeRegistry.dateField);
 
-    public static final AbstractEsParameter METADATA_NAME_FIELD = new SingleEsParameter("mt-name", new Description(
-            InformationOrigin.None, Operation.Metadata, "Name of the used metadata type"), ElasticsearchTypeRegistry.stringField);
-
     public static final AbstractEsParameter METADATA_VERSION_FIELD = new SingleEsParameter("mt-version", new Description(InformationOrigin.Computed,
             Operation.Metadata, "Monoton increasing version field. The deployment schema and the Elasticsearch schema version must match"),
             ElasticsearchTypeRegistry.integerField);
