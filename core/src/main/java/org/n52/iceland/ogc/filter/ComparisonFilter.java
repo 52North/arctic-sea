@@ -106,7 +106,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             this.valueUpper = valueUpper;
         } else {
             throw new NoApplicableCodeException()
-                    .withMessage("Use other constructor for ComparisonFilter! This constructor could only"
+                    .withMessage("Use other constructor for ComparisonFilter! This constructor can only"
                             + "be used for operator 'PropertyIsBetween'");
         }
     }
@@ -137,7 +137,8 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             this.escapeString = escapeString;
         } else {
             throw new NoApplicableCodeException()
-                    .withMessage("Use other constructor for ComparisonFilter! This constructor could only be used for operator 'PropertyIsLike'");
+                    .withMessage("Use other constructor for ComparisonFilter! "
+                            + "This constructor can only be used for operator 'PropertyIsLike'");
         }
     }
 

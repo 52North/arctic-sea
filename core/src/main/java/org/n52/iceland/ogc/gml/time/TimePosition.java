@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.gml.time;
 
+import com.google.common.base.MoreObjects;
 import java.util.Optional;
 import org.joda.time.DateTime;
 import org.n52.iceland.ogc.gml.time.Time.TimeFormat;
@@ -31,6 +32,8 @@ import org.n52.iceland.util.Constants;
  */
 public class TimePosition {
 
+    private static final TimeFormat DEFAULT_TIME_FORMAT = TimeFormat.ISO8601;
+
     private Optional<DateTime> time = Optional.empty();
 
     private Optional<TimeIndeterminateValue> indeterminateValue = Optional.empty();
@@ -38,13 +41,13 @@ public class TimePosition {
     private Optional<TimeFormat> timeFormat = Optional.empty();
 
     /**
-     * constructor
+     * constructor using default time format ISO 8601
      *
      * @param time
      *            Time postion time
      */
     public TimePosition(DateTime time) {
-        this(time, null);
+        this(time, DEFAULT_TIME_FORMAT);
     }
 
     /**
@@ -67,7 +70,7 @@ public class TimePosition {
      */
     public TimePosition(DateTime time, TimeFormat timeFormat) {
         this.time = Optional.of(time);
-        this.timeFormat = Optional.of(timeFormat);
+        this.timeFormat = Optional.ofNullable(timeFormat);
     }
 
     /**
@@ -77,16 +80,6 @@ public class TimePosition {
      */
     public DateTime getTime() {
         return time.get();
-    }
-
-    /**
-     * Set time position time
-     *
-     * @param time
-     *            the time to set
-     */
-    public void setTime(DateTime time) {
-        this.time = Optional.of(time);
     }
 
     /**
@@ -105,26 +98,6 @@ public class TimePosition {
      */
     public TimeFormat getTimeFormat() {
         return timeFormat.get();
-    }
-
-    /**
-     * Set time position time format
-     *
-     * @param timeFormat
-     *            the timeFormat to set
-     */
-    public void setTimeFormat(TimeFormat timeFormat) {
-        this.timeFormat = Optional.of(timeFormat);
-    }
-
-    /**
-     * Set time position indeterminat value
-     *
-     * @param indeterminateValue
-     *            the indeterminateValue to set
-     */
-    public void setIndeterminateValue(TimeIndeterminateValue indeterminateValue) {
-        this.indeterminateValue = Optional.of(indeterminateValue);
     }
 
     /**
@@ -156,11 +129,9 @@ public class TimePosition {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("Time position: ");
-        if (isSetTime()) {
-            result.append(getTime().toString()).append(Constants.COMMA_STRING);
-        }
-        result.append(getIndeterminateValue());
-        return result.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("time", this.time.get())
+                .add("indeterminate time", this.indeterminateValue.get())
+                .omitNullValues().toString();
     }
 }
