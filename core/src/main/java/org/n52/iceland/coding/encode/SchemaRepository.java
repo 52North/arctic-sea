@@ -27,6 +27,7 @@ import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.w3c.SchemaLocation;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
@@ -59,8 +60,9 @@ public class SchemaRepository implements Constructable {
                 if (key instanceof XmlEncoderKey) {
                     Set<SchemaLocation> locations = encoder.getSchemaLocations();
                     if (locations != null && !locations.isEmpty()) {
-                        String namespace = ((XmlEncoderKey) key).getNamespace();
-                        this.schemaLocations.put(namespace, locations);
+                        for (SchemaLocation schemaLocation : locations) {
+                            this.schemaLocations.put(schemaLocation.getNamespace(), Sets.newHashSet(schemaLocation));
+                        }
                     }
                 }
             }
