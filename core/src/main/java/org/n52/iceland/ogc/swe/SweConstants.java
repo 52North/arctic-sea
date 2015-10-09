@@ -257,7 +257,7 @@ public interface SweConstants {
     /**
      * Enum for sensor descriptions
      */
-    enum SensorDescription {
+    enum SosSensorDescription {
         XmlStringDescription, SosDescription
     }
 
