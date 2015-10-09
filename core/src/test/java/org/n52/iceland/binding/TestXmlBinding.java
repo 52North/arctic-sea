@@ -27,7 +27,7 @@ import com.google.common.collect.ImmutableSet;
 public class TestXmlBinding extends AbstractXmlBinding {
 
     private static final PathBindingKey PATH_KEY
-            = new PathBindingKey("/sos/test");
+            = new PathBindingKey("/service/test");
     private static final MediaTypeBindingKey MEDIA_TYPE_KEY
             = new MediaTypeBindingKey(MediaTypes.APPLICATION_XML);
     private static final ImmutableSet<BindingKey> KEYS

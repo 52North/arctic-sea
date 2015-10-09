@@ -274,13 +274,11 @@ public class ServiceConfiguration implements Constructable {
     /**
      * @return prefix URN for the spatial reference system
      */
-    /*
-     * SosHelper AbstractKvpDecoder GmlEncoderv311 ITRequestEncoder
-     */
     public String getSrsNamePrefix() {
         return srsNamePrefix;
     }
 
+    @Deprecated // SOS-specific
     @Setting(SRS_NAME_PREFIX_SOS_V1)
     public void setSrsNamePrefixForSosV1(String prefix) {
         srsNamePrefix = CRSHelper.asUrnPrefix(prefix);
@@ -292,24 +290,24 @@ public class ServiceConfiguration implements Constructable {
     /*
      * SosHelper GmlEncoderv321 AbstractKvpDecoder SosEncoderv100
      */
+    @Deprecated // SOS-specific
     public String getSrsNamePrefixSosV2() {
         return srsNamePrefixSosV2;
     }
 
+    @Deprecated // SOS-specific
     @Setting(SRS_NAME_PREFIX_SOS_V2)
     public void setSrsNamePrefixForSosV2(String prefix) {
         srsNamePrefixSosV2 = CRSHelper.asHttpPrefix(prefix);
     }
 
-
-
 //    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)
-    @Deprecated
+    @Deprecated // SOS-specific?!
     public void setDeregisterJdbcDriver(final boolean deregisterJdbcDriver) {
         this.deregisterJdbcDriver = deregisterJdbcDriver;
     }
 
-    @Deprecated
+    @Deprecated // SOS-specific
     public boolean isDeregisterJdbcDriver() {
         return deregisterJdbcDriver;
     }

@@ -30,7 +30,7 @@ import java.util.TreeMap;
 import org.n52.iceland.util.MinMax;
 
 /**
- * Class represents a OperationMetadata. Used in SosCapabilities.
+ * Class represents a OperationMetadata.
  *
  * @since 1.0.0
  */

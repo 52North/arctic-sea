@@ -54,12 +54,4 @@ public interface OperationHandler extends ConformanceClass, Component<OperationH
      */
     OwsOperation getOperationsMetadata(String service, String version) throws OwsExceptionReport;
 
-    // /**
-    // * @return the operation specific extension information (&larr; should be
-    // available from cache or from code)
-    // *
-    // * @throws OwsExceptionReport
-    // */
-    // // SosCapabilitiesExtension getExtension() throws OwsExceptionReport;
-
 }

@@ -58,7 +58,7 @@ public final class JavaHelper {
     static {
         try {
             messageDigest = MessageDigest.getInstance("SHA1");
-            reflections = new Reflections("org.n52.sos");
+            reflections = new Reflections("org.n52.sos"); // FIXME SOS-specific
         } catch (final NoSuchAlgorithmException nsae) {
             LOGGER.error("Error while getting SHA-1 messagedigest!", nsae);
         }

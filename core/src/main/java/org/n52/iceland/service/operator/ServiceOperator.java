@@ -30,7 +30,7 @@ public interface ServiceOperator extends Component<ServiceOperatorKey> {
 
     /**
      * method handles the incoming operation request and returns a matching
-     * response or an ServiceExceptionReport if the SOS was not able to build a
+     * response or an ServiceExceptionReport if the service was not able to build a
      * response
      *
      * @param request the operation request

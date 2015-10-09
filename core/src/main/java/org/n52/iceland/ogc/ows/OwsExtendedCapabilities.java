@@ -25,7 +25,7 @@ package org.n52.iceland.ogc.ows;
 public interface OwsExtendedCapabilities {
 
     /**
-     * Get the service (e.g. SOS) this OWS ExtendedCapabilitiy is related to.
+     * Get the service this OWS ExtendedCapabilitiy is related to.
      *
      * @return Related service
      */

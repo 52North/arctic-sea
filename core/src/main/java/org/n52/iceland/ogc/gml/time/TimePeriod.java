@@ -371,7 +371,7 @@ public class TimePeriod extends Time {
     }
 
     /**
-     * Extend TimePeriod to contain Collection<ISosTime>
+     * Extend TimePeriod to contain provided collection of {@link Time}s
      *
      * @param times
      */
@@ -382,7 +382,7 @@ public class TimePeriod extends Time {
     }
 
     /**
-     * Extend TimePeriod to contain ISosTime
+     * Extend TimePeriod to contain provided {@link Time}
      *
      * @param time
      *            To contain {@link Time}

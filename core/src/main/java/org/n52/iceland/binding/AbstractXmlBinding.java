@@ -191,7 +191,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
      * @return Value of the parameter
      *
      * @throws OwsExceptionReport
-     *             * If the parameter is not supported by this SOS.
+     *             * If the parameter is not supported by this service.
      */
     private String parseHttpPostBodyWithParameter(final Enumeration<?> paramNames, final Map<?, ?> parameterMap)
             throws OwsExceptionReport {
@@ -204,12 +204,12 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
                 } else {
                     throw new NoApplicableCodeException()
                             .withMessage(
-                                    "The parameter '%s' has more than one value or is empty for HTTP-Post requests by this SOS!",
+                                    "The parameter '%s' has more than one value or is empty for HTTP-Post requests to this service!",
                                     paramName);
                 }
             } else {
                 throw new NoApplicableCodeException().withMessage(
-                        "The parameter '%s' is not supported for HTTP-Post requests by this SOS!", paramName);
+                        "The parameter '%s' is not supported for HTTP-Post requests to this service!", paramName);
             }
         }
         // FIXME: valid exception

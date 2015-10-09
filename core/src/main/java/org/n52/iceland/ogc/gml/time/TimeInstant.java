@@ -83,7 +83,7 @@ public class TimeInstant extends Time {
      * constructor
      *
      * @param extendedIndeterminateTime
-     *            SOS indeterminate time
+     *            indeterminate time
      */
     public TimeInstant(ExtendedIndeterminateTime extendedIndeterminateTime) {
         this.extendedIndeterminateTime = extendedIndeterminateTime;
@@ -317,6 +317,7 @@ public class TimeInstant extends Time {
      *
      * @return SOS indeterminate value
      */
+    @Deprecated // is this SOS-specific?
     public OWSConstants.ExtendedIndeterminateTime getSosIndeterminateTime() {
         return extendedIndeterminateTime;
     }
@@ -327,6 +328,7 @@ public class TimeInstant extends Time {
      * @param extendedIndeterminateTime
      * @return This TimeInstant
      */
+    @Deprecated // is this SOS-specific?
     public TimeInstant setSosIndeterminateTime(final OWSConstants.ExtendedIndeterminateTime extendedIndeterminateTime) {
         this.extendedIndeterminateTime = extendedIndeterminateTime;
         return this;

@@ -22,7 +22,7 @@ import org.n52.iceland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.iceland.util.StringHelper;
 
 /**
- * SOS class for result filter
+ * OGC Filter class for comparison filter
  *
  * @since 1.0.0
  */

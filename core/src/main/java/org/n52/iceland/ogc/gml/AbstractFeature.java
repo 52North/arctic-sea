@@ -22,7 +22,7 @@ import org.n52.iceland.util.StringHelper;
 
 /**
  * Abstract class for encoding the feature of interest. Necessary because
- * different feature types should be supported. The SOS database or another
+ * different feature types should be supported. The database or another
  * feature source (e.g. WFS) should provide information about the application
  * schema.
  *

@@ -73,7 +73,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
      * constructor with content and response code
      *
      * @param baos
-     *            Output stream of the SOS response
+     *            Output stream of the service response
      * @param contentType
      *            Content type
      * @param status
@@ -90,7 +90,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
      * constructor with content but not specified response code
      *
      * @param baos
-     *            Output stream of the SOS response
+     *            Output stream of the service response
      * @param contentType
      *            Content type
      */

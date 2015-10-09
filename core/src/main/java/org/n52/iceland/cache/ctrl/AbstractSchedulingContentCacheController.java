@@ -43,7 +43,7 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
 
     private boolean initialized = false;
     private long updateInterval;
-    private final Timer timer = new Timer("52n-sos-capabilities-cache-controller", true);
+    private final Timer timer = new Timer("52n-iceland-capabilities-cache-controller", true);
     private TimerTask current = null;
 
     /**

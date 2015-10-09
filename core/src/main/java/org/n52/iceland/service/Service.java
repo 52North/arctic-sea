@@ -223,7 +223,7 @@ public class Service extends HttpServlet {
      *
      *
      * @throws HTTPException If the URL pattern or ContentType is not supported
-     *                       by this SOS.
+     *                       by this service.
      */
     private Binding getBinding(HttpServletRequest request) throws HTTPException {
         final String requestURI = request.getPathInfo();

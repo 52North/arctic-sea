@@ -91,11 +91,11 @@ public class ServiceEventBus implements Constructable {
 
     private boolean checkListener(ServiceEventListener listener) {
         if (listener == null) {
-            LOG.warn("Tried to unregister SosEventListener null");
+            LOG.warn("Tried to unregister ServiceEventListener null");
             return false;
         }
         if (listener.getTypes() == null || listener.getTypes().isEmpty()) {
-            LOG.warn("Listener {} has no EventTypes", listener);
+            LOG.warn("Listener {} has no EventTypes: {}", listener, listener.getTypes());
             return false;
         }
         return true;
