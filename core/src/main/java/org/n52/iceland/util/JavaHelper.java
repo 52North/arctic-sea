@@ -18,14 +18,10 @@ package org.n52.iceland.util;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-import org.reflections.Reflections;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -37,8 +33,6 @@ import com.google.common.collect.Sets;
  */
 public final class JavaHelper {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaHelper.class);
-
     /**
      * hexadecimal values
      */
@@ -49,20 +43,6 @@ public final class JavaHelper {
      * Message digest for generating single identifier
      */
     private static MessageDigest messageDigest;
-
-    private static Reflections reflections;
-
-    /**
-     * Instantiation of the message digest
-     */
-    static {
-        try {
-            messageDigest = MessageDigest.getInstance("SHA1");
-            reflections = new Reflections("org.n52.sos"); // FIXME SOS-specific
-        } catch (final NoSuchAlgorithmException nsae) {
-            LOGGER.error("Error while getting SHA-1 messagedigest!", nsae);
-        }
-    }
 
     /**
      * Generates a sensor id from description and current time as long.
@@ -176,10 +156,6 @@ public final class JavaHelper {
             return Boolean.valueOf((String) object);
         }
         return null;
-    }
-
-    public static <T> Set<Class<? extends T>> getSubclasses(Class<T> clazz) {
-        return reflections.getSubTypesOf(clazz);
     }
 
     public static Set<Integer> getIntegerSetFromString(String s) {
