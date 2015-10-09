@@ -21,7 +21,6 @@ import java.util.Optional;
 import org.joda.time.DateTime;
 import org.n52.iceland.ogc.gml.time.Time.TimeFormat;
 import org.n52.iceland.ogc.gml.time.Time.TimeIndeterminateValue;
-import org.n52.iceland.util.Constants;
 
 /**
  * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod
@@ -94,10 +93,10 @@ public class TimePosition {
     /**
      * Get time position time format
      *
-     * @return the timeFormat Time position time format
+     * @return the time format if set, the default time format otherwise
      */
     public TimeFormat getTimeFormat() {
-        return timeFormat.get();
+        return timeFormat.orElse(DEFAULT_TIME_FORMAT);
     }
 
     /**
