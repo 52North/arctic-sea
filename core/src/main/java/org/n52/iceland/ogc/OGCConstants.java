@@ -27,10 +27,6 @@ public interface OGCConstants {
 
     String NS_OGC_PREFIX = "ogc";
 
-    /**
-     * @deprecated SOS specific
-     */
-    @Deprecated
     String SCHEMA_LOCATION_OGC = "http://schemas.opengis.net/sos/1.0.0/ogc4sos.xsd";
 
     String UNKNOWN = "http://www.opengis.net/def/nil/OGC/0/unknown";
@@ -46,7 +42,7 @@ public interface OGCConstants {
     String URN_PHENOMENON_PREFIX = "urn:ogc:def:phenomenon:OGC:1.0.30:";
 
     /**
-     * @deprecated SOS specific
+     * @deprecated IFGI!?
      */
     @Deprecated
     String URN_PROCEDURE_PREFIX = "urn:ogc:object:feature:Sensor:IFGI:";

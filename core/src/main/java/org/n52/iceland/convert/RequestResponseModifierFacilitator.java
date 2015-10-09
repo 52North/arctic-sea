@@ -60,7 +60,7 @@ public class RequestResponseModifierFacilitator {
 
     /**
      * @return <code>true</code>, if the {@link RequestResponseModifier} splits
-     *         values, e.g. SweDataArray observaiton into single observations
+     *         values, e.g. a SweDataArray observation into single observations
      */
     public boolean isSplitter() {
         return splitter;

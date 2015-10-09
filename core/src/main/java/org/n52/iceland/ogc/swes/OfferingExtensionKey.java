@@ -26,6 +26,7 @@ import org.n52.iceland.service.operator.ServiceOperatorKey;
  * @since 1.0.0
  *
  */
+@Deprecated // SOS-specific
 public class OfferingExtensionKey extends AbstractComparableServiceVersionDomainKey<OfferingExtensionKey> {
 
     /**
