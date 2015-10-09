@@ -17,6 +17,7 @@
 package org.n52.iceland.ogc.gml;
 
 import java.util.NoSuchElementException;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
 import org.joda.time.DateTime;
 import static org.junit.Assert.assertThat;
@@ -39,10 +40,12 @@ public class TimeTest {
         assertThat("time format is set", timePosition.isSetTimeFormat(), is(true));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void missingFormat() {
         TimePosition timePosition = new TimePosition(DateTime.now(), null);
-        timePosition.getTimeFormat();
+        TimePosition timePositionWithDefaultFormat = new TimePosition(DateTime.now());
+        assertThat("provided nullable time format will return default time format", timePosition.getTimeFormat(),
+                is(equalTo(timePositionWithDefaultFormat.getTimeFormat())));
     }
 
     @Test(expected = NoSuchElementException.class)
