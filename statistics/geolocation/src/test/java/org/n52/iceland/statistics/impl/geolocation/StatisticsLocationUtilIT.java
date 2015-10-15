@@ -1,3 +1,5 @@
+package org.n52.iceland.statistics.impl.geolocation;
+
 /*
  * Copyright 2015 52°North Initiative for Geospatial Open Source
  * Software GmbH
@@ -14,8 +16,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.statistics.impl;
-
 import java.io.File;
 import java.util.Map;
 

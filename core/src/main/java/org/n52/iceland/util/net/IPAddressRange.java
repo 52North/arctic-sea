@@ -28,7 +28,7 @@ import com.google.common.primitives.Ints;
  * Representation of an IPv4 address range based on an address and a subnet
  * mask.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public class IPAddressRange implements Predicate<IPAddress> {
     private static final int CIDR_MAX = 32;

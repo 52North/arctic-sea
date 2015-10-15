@@ -24,13 +24,13 @@ import com.google.common.base.Objects;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */
 public class OperationKey implements Comparable<OperationKey> {
     private final String service;
-    private final String version;
+    private final String version; // TODO should be optional because GetCapabilities does not need to have it
     private final String operation;
 
     public OperationKey(String service, String version, String operation) {

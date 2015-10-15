@@ -45,7 +45,7 @@ import com.google.common.collect.SetMultimap;
  * @param <F> the component factory type
  *
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
 public abstract class AbstractComponentRepository<K, C extends Component<K>, F extends ComponentFactory<K, C>> {

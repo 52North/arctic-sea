@@ -16,10 +16,11 @@
  */
 package org.n52.iceland.ogc.gml.time;
 
+import com.google.common.base.MoreObjects;
+import java.util.Optional;
 import org.joda.time.DateTime;
 import org.n52.iceland.ogc.gml.time.Time.TimeFormat;
 import org.n52.iceland.ogc.gml.time.Time.TimeIndeterminateValue;
-import org.n52.iceland.util.Constants;
 
 /**
  * Representation class for GML TimePosition. Used by TimeInstant and TimePeriod
@@ -30,29 +31,22 @@ import org.n52.iceland.util.Constants;
  */
 public class TimePosition {
 
-    /**
-     * Date time of time position
-     */
-    private DateTime time;
+    private static final TimeFormat DEFAULT_TIME_FORMAT = TimeFormat.ISO8601;
+
+    private Optional<DateTime> time = Optional.empty();
+
+    private Optional<TimeIndeterminateValue> indeterminateValue = Optional.empty();
+
+    private Optional<TimeFormat> timeFormat = Optional.empty();
 
     /**
-     * Indeterminate value of time position
-     */
-    private TimeIndeterminateValue indeterminateValue;
-
-    /**
-     * Time format
-     */
-    private TimeFormat timeFormat;
-
-    /**
-     * constructor
+     * constructor using default time format ISO 8601
      *
      * @param time
      *            Time postion time
      */
     public TimePosition(DateTime time) {
-        super();
+        this(time, DEFAULT_TIME_FORMAT);
     }
 
     /**
@@ -62,8 +56,7 @@ public class TimePosition {
      *            Indeterminate value of time position
      */
     public TimePosition(TimeIndeterminateValue indeterminateValue) {
-        super();
-        this.indeterminateValue = indeterminateValue;
+        this.indeterminateValue = Optional.of(indeterminateValue);
     }
 
     /**
@@ -75,9 +68,8 @@ public class TimePosition {
      *            Time format
      */
     public TimePosition(DateTime time, TimeFormat timeFormat) {
-        super();
-        this.time = time;
-        this.setTimeFormat(timeFormat);
+        this.time = Optional.of(time);
+        this.timeFormat = Optional.ofNullable(timeFormat);
     }
 
     /**
@@ -86,17 +78,7 @@ public class TimePosition {
      * @return the time Time position time
      */
     public DateTime getTime() {
-        return time;
-    }
-
-    /**
-     * Set time position time
-     *
-     * @param time
-     *            the time to set
-     */
-    public void setTime(DateTime time) {
-        this.time = time;
+        return time.get();
     }
 
     /**
@@ -105,36 +87,16 @@ public class TimePosition {
      * @return the indeterminateValue time position indeterminate value
      */
     public TimeIndeterminateValue getIndeterminateValue() {
-        return indeterminateValue;
+        return indeterminateValue.get();
     }
 
     /**
      * Get time position time format
      *
-     * @return the timeFormat Time position time format
+     * @return the time format if set, the default time format otherwise
      */
     public TimeFormat getTimeFormat() {
-        return timeFormat;
-    }
-
-    /**
-     * Set time position time format
-     *
-     * @param timeFormat
-     *            the timeFormat to set
-     */
-    public void setTimeFormat(TimeFormat timeFormat) {
-        this.timeFormat = timeFormat;
-    }
-
-    /**
-     * Set time position indeterminat value
-     *
-     * @param indeterminateValue
-     *            the indeterminateValue to set
-     */
-    public void setIndeterminateValue(TimeIndeterminateValue indeterminateValue) {
-        this.indeterminateValue = indeterminateValue;
+        return timeFormat.orElse(DEFAULT_TIME_FORMAT);
     }
 
     /**
@@ -143,7 +105,7 @@ public class TimePosition {
      * @return <tt>true</tt>, if time is set
      */
     public boolean isSetTime() {
-        return getTime() != null;
+        return time.isPresent();
     }
 
     /**
@@ -152,7 +114,7 @@ public class TimePosition {
      * @return <tt>true</tt>, if indeterminateValue is set
      */
     public boolean isSetIndeterminateValue() {
-        return getIndeterminateValue() != null;
+        return indeterminateValue.isPresent();
     }
 
     /**
@@ -161,16 +123,14 @@ public class TimePosition {
      * @return <tt>true</tt>, if time format is set
      */
     public boolean isSetTimeFormat() {
-        return getTimeFormat() != null;
+        return timeFormat.isPresent();
     }
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder("Time position: ");
-        if (isSetTime()) {
-            result.append(getTime().toString()).append(Constants.COMMA_STRING);
-        }
-        result.append(getIndeterminateValue());
-        return result.toString();
+        return MoreObjects.toStringHelper(this)
+                .add("time", this.time.get())
+                .add("indeterminate time", this.indeterminateValue.get())
+                .omitNullValues().toString();
     }
 }

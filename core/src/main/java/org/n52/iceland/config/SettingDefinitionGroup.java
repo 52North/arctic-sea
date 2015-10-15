@@ -24,7 +24,7 @@ import com.google.common.base.MoreObjects;
  * Class to group ISettingDefinitions. Not needed by the service but only for
  * representation in the GUI.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
 public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGroup> {

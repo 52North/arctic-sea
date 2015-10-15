@@ -23,7 +23,7 @@ import com.google.common.base.Objects;
 /**
  * {@link NamespaceDecoderKey} implementation for XML namespace and {@link Class}.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
  * @since 1.0.0

@@ -24,7 +24,7 @@ import javax.annotation.PostConstruct;
  *
  * @see PostConstruct
  * @since 1.0.0
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public interface Constructable {
     /**

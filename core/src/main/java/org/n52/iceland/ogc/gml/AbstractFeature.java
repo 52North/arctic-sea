@@ -32,23 +32,10 @@ import org.n52.iceland.util.StringHelper;
  */
 public abstract class AbstractFeature extends AbstractGML implements Serializable {
 
-    /**
-     * serial number
-     */
     private static final long serialVersionUID = -6117378246552782214L;
 
     private String defaultEncoding;
 
-    /**
-     * constructor
-     */
-    public AbstractFeature() {
-        super();
-    }
-
-    /**
-     * constructor
-     */
     public AbstractFeature(String identifier) {
         super(identifier);
     }

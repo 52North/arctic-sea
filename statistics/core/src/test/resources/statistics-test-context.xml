@@ -32,13 +32,13 @@
 		<property name="uuid" value="test-uuid"/>
 		<property name="clusterNodes" value="localhost"/>
 	</bean>
-	
+
 	<!-- Statistics -->
 	<bean id="adminDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchAdminHandler" depends-on="elasticsearchSettings" init-method="init" />
 	<bean id="elasticsearchDataHandler" class="org.n52.iceland.statistics.impl.ElasticsearchDataHandler" depends-on="adminDataHandler" />
-	<bean id="statisticsLocationUtil" class="org.n52.iceland.statistics.impl.StatisticsLocationUtil" init-method="init"/>
+	<!--<bean id="statisticsLocationUtil" class="org.n52.iceland.statistics.impl.StatisticsLocationUtil" init-method="init"/>-->
 	<bean id="statisticsResolverFactory" class="org.n52.iceland.statistics.impl.StatisticsResolverFactory"/>
-	
+
 	<import resource="statistics-test/countingoutputstream-event.xml"/>
 	<import resource="statistics-test/default-event.xml"/>
 	<import resource="statistics-test/exception-event.xml"/>

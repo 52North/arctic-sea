@@ -20,7 +20,7 @@ import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */

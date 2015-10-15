@@ -20,7 +20,7 @@ package org.n52.iceland.binding;
  * Class to identify a Binding. Used to keep the interfaces stable if the
  * identification of a Binding changes from servlet path to e.g. Content-Type.
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
 public interface BindingKey {

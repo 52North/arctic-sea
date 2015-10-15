@@ -19,7 +19,7 @@ package org.n52.iceland.util;
 import org.n52.iceland.exception.ConfigurationError;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  *
  */

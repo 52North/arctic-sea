@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  *
  */

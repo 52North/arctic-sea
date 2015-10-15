@@ -35,7 +35,7 @@ import java.util.Optional;
  *            The type of the implementing class
  * @param <T>
  *            The type of the value
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
 public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends Ordered<S>, Cloneable {

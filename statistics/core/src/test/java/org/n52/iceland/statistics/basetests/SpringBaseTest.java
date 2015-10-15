@@ -24,7 +24,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(
-        locations = { "classpath:statistics-text-context.xml" })
+        locations = { "classpath:statistics-test-context.xml" })
 public abstract class SpringBaseTest {
     protected final static Logger logger = LoggerFactory.getLogger(SpringBaseTest.class);
 }

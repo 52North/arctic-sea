@@ -54,6 +54,7 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.base.Joiner;
+import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 
 public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
@@ -96,9 +97,11 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         } else {
             logger.info("Index {} not exists creating a new one now.", settings.getIndexId());
             // create metadata table and index table table
-
-            indices.prepareCreate(settings.getIndexId()).addMapping(MetadataDataMapping.METADATA_TYPE_NAME, schemas.getMetadataSchema())
-                    .addMapping(settings.getTypeId(), schemas.getSchema()).get();
+            CreateIndexResponse response = indices.prepareCreate(settings.getIndexId())
+                    .addMapping(MetadataDataMapping.METADATA_TYPE_NAME, schemas.getMetadataSchema())
+                    .addMapping(settings.getTypeId(), schemas.getSchema())
+                    .get();
+            logger.debug("Created indices: {}", response);
             // insert metadata values
             createMetadataType(schemas.getSchemaVersion());
         }

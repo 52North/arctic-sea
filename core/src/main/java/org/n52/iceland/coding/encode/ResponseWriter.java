@@ -28,7 +28,7 @@ import org.n52.iceland.util.http.MediaTypes;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author CarstenHollmann <c.hollmann@52north.org>
  *
  * @since 1.0.0

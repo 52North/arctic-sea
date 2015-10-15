@@ -34,6 +34,8 @@ public class GeoLiteFileDownloader {
     public static final String COUNTRY_FILE_NAME = "country.mmdb";
 
     public static void downloadDefaultDatabases(String folderPath) {
+        logger.info("Downloading default databases to {}", folderPath);
+
         try {
 
             // create folder
