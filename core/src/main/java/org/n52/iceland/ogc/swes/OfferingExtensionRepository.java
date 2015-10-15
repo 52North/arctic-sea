@@ -48,6 +48,7 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  *
  */
+@Deprecated // SOS-specific and not constants
 public class OfferingExtensionRepository extends AbstractComponentRepository<OfferingExtensionKey, OfferingExtensionProvider, OfferingExtensionProviderFactory>
         implements ActivationManager<OfferingExtensionKey>,
                    ActivationSource<OfferingExtensionKey>,

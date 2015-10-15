@@ -22,6 +22,7 @@ import org.n52.iceland.component.ComponentFactory;
  *
  * @author Christian Autermann
  */
+@Deprecated // SOS-specific and not constants
 public interface OfferingExtensionProviderFactory extends
         ComponentFactory<OfferingExtensionKey, OfferingExtensionProvider> {
 

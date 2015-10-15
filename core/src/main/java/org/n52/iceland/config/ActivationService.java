@@ -70,12 +70,12 @@ public class ActivationService {
     }
 
     /**
-     * Returns if a operation is active and should be offered by this SOS.
+     * Returns if a operation is active and should be offered by this service.
      *
      * @param key
      *            the key identifying the operation
      *
-     * @return {@code true} if the operation is active in this SOS
+     * @return {@code true} if the operation is active in this service
      */
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
         return this.dao.isRequestOperatorActive(key);

@@ -28,7 +28,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Producer;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
@@ -48,7 +47,7 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
      */
     private final Map<ServiceOperatorKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
 
-    /** supported SOS versions */
+    /** supported service versions */
     private final SetMultiMap<String, String> supportedVersions = MultiMaps.newSetMultiMap();
 
 

@@ -16,9 +16,8 @@
  */
 package org.n52.iceland.service;
 
-import java.util.Objects;
-
 import com.google.common.base.MoreObjects;
+import java.util.Objects;
 
 /**
  * @since 1.0.0
@@ -27,7 +26,6 @@ import com.google.common.base.MoreObjects;
 public interface ServiceConstants {
 
     interface SupportedType {
-
     }
 
     abstract class AbstractSupportedStringType implements SupportedType {
@@ -64,24 +62,28 @@ public interface ServiceConstants {
 
     }
 
+    @Deprecated // SOS specific
     class FeatureType extends AbstractSupportedStringType{
         public FeatureType(String value) {
             super(value);
         }
     }
 
+    @Deprecated // SOS specific
     class ObservationType extends AbstractSupportedStringType {
         public ObservationType(String value) {
             super(value);
         }
     }
 
+    @Deprecated // SOS specific
     class ProcedureDescriptionFormat extends AbstractSupportedStringType {
         public ProcedureDescriptionFormat(String value) {
             super(value);
         }
     }
 
+    @Deprecated // SOS specific
     class SweType extends AbstractSupportedStringType {
         public SweType(String value) {
             super(value);

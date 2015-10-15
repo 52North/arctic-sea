@@ -71,6 +71,7 @@ import com.google.common.collect.Lists;
  */
 public class SoapBinding extends AbstractXmlBinding {
 
+    @Deprecated // SOS-specific
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_SOAP_BINDING);
 

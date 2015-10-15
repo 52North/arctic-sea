@@ -44,6 +44,8 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public class JsonActivationDao extends AbstractJsonActivationDao
         implements ActivationDao {
+
+    @Deprecated // SOS-specific
     protected static final String OFFERING_EXTENSIONS = "offeringExtensions";
 
   @Override

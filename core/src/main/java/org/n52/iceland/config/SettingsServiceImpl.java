@@ -49,7 +49,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 
 /**
- * Class to handle the settings and configuration of the SOS. Allows other
+ * Class to handle the settings and configuration of the service. Allows other
  * classes to change, delete, and declare settings and to create, modify and
  * delete administrator users. Classes can subscribe to specific settings using
  * the {@code Configurable} and {@code Setting} annotations. To be recognized by

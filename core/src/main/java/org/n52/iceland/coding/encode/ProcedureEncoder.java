@@ -17,7 +17,6 @@
 package org.n52.iceland.coding.encode;
 
 import java.util.Set;
-
 import org.n52.iceland.coding.ProcedureCoder;
 
 /**
@@ -40,6 +39,7 @@ public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
      *
      * @return the procedure description formats
      */
+    @Override
     Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
 
 }

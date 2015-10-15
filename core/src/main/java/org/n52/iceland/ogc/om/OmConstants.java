@@ -16,16 +16,13 @@
  */
 package org.n52.iceland.ogc.om;
 
+import com.google.common.collect.ImmutableSet;
 import java.util.Set;
-
 import javax.xml.namespace.QName;
-
 import org.n52.iceland.ogc.OGCConstants;
 import org.n52.iceland.service.ServiceConstants.ObservationType;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.w3c.SchemaLocation;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * Class contains element names and namespaces used to encode the O&M responses.
@@ -45,7 +42,7 @@ public interface OmConstants {
 
     String NS_OM_PREFIX = "om";
 
-    @Deprecated // project specific, should go into seperate class
+    @Deprecated // project specific, should go into seperate class?
     String NS_WV = "http://www.n52.org/wv";
 
     String SCHEMA_LOCATION_URL_OM = "http://schemas.opengis.net/om/1.0.0/om.xsd";

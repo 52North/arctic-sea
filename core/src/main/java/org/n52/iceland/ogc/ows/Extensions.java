@@ -99,13 +99,13 @@ public class Extensions {
         return String.format("Extensions [extensions=%s]", getExtensions());
     }
 
-    protected boolean isExtensionNameEquals(final String extensionName, final Extension<?> swesExtension) {
-        return checkExtensionDefinition(extensionName, swesExtension)
-                || checkExtensionIdentifier(extensionName, swesExtension)
-                || checkSweExtensionValue(extensionName, swesExtension);
+    protected boolean isExtensionNameEquals(final String extensionName, final Extension<?> extension) {
+        return checkExtensionDefinition(extensionName, extension)
+                || checkExtensionIdentifier(extensionName, extension)
+                || checkExtensionValue(extensionName, extension);
     }
 
-    private boolean checkSweExtensionValue(String extensionName, Extension<?> extension) {
+    private boolean checkExtensionValue(String extensionName, Extension<?> extension) {
             return (extension.isSetDefinition() && extension.getDefinition()
                     .equalsIgnoreCase(extensionName))
                     || (extension.isSetIdentifier() && extension.getIdentifier()

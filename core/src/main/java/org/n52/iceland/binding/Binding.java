@@ -146,9 +146,9 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
 
     /**
      * Get URL pattern for the operator.<br />
-     * The URL pattern MUST start with "/sos", MUST NOT contain any additional
-     * "/", and MUST be unique over all bindings present in the SOS at runtime.<br />
-     * For example, a kvp binding could have the pattern "/sos/kvp".
+     * The URL pattern MUST start with "/service", MUST NOT contain any additional
+     * "/", and MUST be unique over all bindings present in the service at runtime.<br />
+     * For example, a kvp binding could have the pattern "/service/kvp".
      *
      * @return URL pattern
      */

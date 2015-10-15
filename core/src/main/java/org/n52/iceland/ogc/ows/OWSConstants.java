@@ -17,7 +17,6 @@
 package org.n52.iceland.ogc.ows;
 
 import javax.xml.namespace.QName;
-
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.OwsExceptionCode;
 import org.n52.iceland.w3c.SchemaLocation;
@@ -76,6 +75,7 @@ public interface OWSConstants {
     String SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT =
             "The requested result set exceeds the response size limit of this service and thus cannot be delivered.";
 
+    @Deprecated // SOS-specific
     String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
             "Observations for the requested combination of observedProperty and offering do not use SWE Common encoded results.";
 

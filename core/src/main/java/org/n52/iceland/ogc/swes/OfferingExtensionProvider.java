@@ -17,7 +17,6 @@
 package org.n52.iceland.ogc.swes;
 
 import java.util.Set;
-
 import org.n52.iceland.component.Component;
 import org.n52.iceland.ogc.ows.Extensions;
 
@@ -28,6 +27,7 @@ import org.n52.iceland.ogc.ows.Extensions;
  * @since 1.0.0
  *
  */
+@Deprecated // SOS-specific and not constants
 public interface OfferingExtensionProvider extends Component<OfferingExtensionKey> {
 
     /**

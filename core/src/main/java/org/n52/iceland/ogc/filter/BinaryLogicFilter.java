@@ -23,7 +23,7 @@ import org.n52.iceland.ogc.filter.FilterConstants.BinaryLogicOperator;
 import com.google.common.collect.Sets;
 
 /**
- * SOS class for binary logic filters "AND" and "OR"
+ * OGC Filter class for binary logic filters "AND" and "OR"
  *
  * @since 1.0.0
  *

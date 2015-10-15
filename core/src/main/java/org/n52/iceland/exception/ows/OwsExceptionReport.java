@@ -47,7 +47,7 @@ public abstract class OwsExceptionReport extends Exception {
     public abstract List<? extends CodedException> getExceptions();
 
     /**
-     * Set SOS version
+     * Set service version
      *
      * @param version
      *            the version to set
@@ -60,9 +60,9 @@ public abstract class OwsExceptionReport extends Exception {
     }
 
     /**
-     * Get SOS version
+     * Get service version
      *
-     * @return SOS version
+     * @return service version
      */
     public String getVersion() {
         if (version == null) {
