@@ -32,7 +32,7 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
 
     private BinaryLogicOperator operator;
 
-    private Set<Filter<?>> filterPredicates = Sets.newHashSet();
+    private final Set<Filter<?>> filterPredicates = Sets.newLinkedHashSet(); // keep insertion order
 
     /**
      * constructor
