@@ -277,7 +277,7 @@ public interface FilterConstants {
                 case PropertyIsGreaterThan:
                     return "GreaterThan";
                 case PropertyIsLessThanOrEqualTo:
-                    return "LessThanOrEqualTo";
+                    return "LessThanEqualTo";
                 case PropertyIsGreaterThanOrEqualTo:
                     return "GreaterThanEqualTo";
                 case PropertyIsLike:
