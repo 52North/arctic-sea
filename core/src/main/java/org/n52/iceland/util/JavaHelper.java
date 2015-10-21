@@ -66,7 +66,7 @@ public final class JavaHelper {
     private static MessageDigest getMessageDigest() {
         try {
             if (messageDigest == null) {
-                messageDigest = MessageDigest.getInstance("SHA1");
+                messageDigest = MessageDigest.getInstance("SHA-256");
             }
         } catch (final NoSuchAlgorithmException nsae) {
             LOGGER.error("Error while getting SHA-1 messagedigest!", nsae);
