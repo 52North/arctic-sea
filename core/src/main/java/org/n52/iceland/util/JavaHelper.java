@@ -49,30 +49,30 @@ public final class JavaHelper {
      */
     private static MessageDigest messageDigest;
 
+
+    /**
+     * Instantiation of the message digest
+     */
+    static {
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (final NoSuchAlgorithmException nsae) {
+            LOGGER.error("Error while getting SHA-256 messagedigest!", nsae);
+        }
+    }
+
     /**
      * Generates a sensor id from description and current time as long.
      *
      * @param message
      *            sensor description
-     * @return generated sensor id as hex SHA-1.
+     * @return generated sensor id as hex SHA-256.
      * @throws NoSuchAlgorithmException
      */
     public static String generateID(final String message) {
         final long autoGeneratredID = new DateTime().getMillis();
         final String concate = message + Long.toString(autoGeneratredID);
-        return bytesToHex(getMessageDigest().digest(concate.getBytes()));
-    }
-
-    private static MessageDigest getMessageDigest() {
-        try {
-            if (messageDigest == null) {
-                messageDigest = MessageDigest.getInstance("SHA-256");
-            }
-        } catch (final NoSuchAlgorithmException nsae) {
-            LOGGER.error("Error while getting SHA-1 messagedigest!", nsae);
-        }
-
-        return messageDigest;
+        return bytesToHex(messageDigest.digest(concate.getBytes()));
     }
 
     /**
