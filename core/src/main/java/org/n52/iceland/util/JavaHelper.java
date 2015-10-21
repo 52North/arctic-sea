@@ -18,10 +18,13 @@ package org.n52.iceland.util;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -32,6 +35,8 @@ import com.google.common.collect.Sets;
  *
  */
 public final class JavaHelper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JavaHelper.class);
 
     /**
      * hexadecimal values
@@ -50,11 +55,24 @@ public final class JavaHelper {
      * @param message
      *            sensor description
      * @return generated sensor id as hex SHA-1.
+     * @throws NoSuchAlgorithmException
      */
     public static String generateID(final String message) {
         final long autoGeneratredID = new DateTime().getMillis();
         final String concate = message + Long.toString(autoGeneratredID);
-        return bytesToHex(messageDigest.digest(concate.getBytes()));
+        return bytesToHex(getMessageDigest().digest(concate.getBytes()));
+    }
+
+    private static MessageDigest getMessageDigest() {
+        try {
+            if (messageDigest == null) {
+                messageDigest = MessageDigest.getInstance("SHA1");
+            }
+        } catch (final NoSuchAlgorithmException nsae) {
+            LOGGER.error("Error while getting SHA-1 messagedigest!", nsae);
+        }
+
+        return messageDigest;
     }
 
     /**
