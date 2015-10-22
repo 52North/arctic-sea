@@ -18,10 +18,15 @@ package org.n52.iceland.util;
 
 import java.math.BigDecimal;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
+
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -42,14 +47,27 @@ public final class JavaHelper {
     /**
      * Message digest for generating single identifier
      */
-    private static MessageDigest messageDigest;
+    private static final MessageDigest messageDigest;
+
+
+    /**
+     * Instantiation of the message digest
+     */
+    static {
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256");
+        } catch (final NoSuchAlgorithmException nsae) {
+            throw new Error("Error while getting SHA-256 messagedigest!", nsae);
+        }
+    }
 
     /**
      * Generates a sensor id from description and current time as long.
      *
      * @param message
      *            sensor description
-     * @return generated sensor id as hex SHA-1.
+     * @return generated sensor id as hex SHA-256.
+     * @throws NoSuchAlgorithmException
      */
     public static String generateID(final String message) {
         final long autoGeneratredID = new DateTime().getMillis();
