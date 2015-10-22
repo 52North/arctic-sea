@@ -22,6 +22,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.management.RuntimeErrorException;
+
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,8 +38,6 @@ import com.google.common.collect.Sets;
  */
 public final class JavaHelper {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaHelper.class);
-
     /**
      * hexadecimal values
      */
@@ -47,7 +47,7 @@ public final class JavaHelper {
     /**
      * Message digest for generating single identifier
      */
-    private static MessageDigest messageDigest;
+    private static final MessageDigest messageDigest;
 
 
     /**
@@ -57,7 +57,7 @@ public final class JavaHelper {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
         } catch (final NoSuchAlgorithmException nsae) {
-            LOGGER.error("Error while getting SHA-256 messagedigest!", nsae);
+            throw new Error("Error while getting SHA-256 messagedigest!", nsae);
         }
     }
 
