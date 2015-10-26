@@ -28,6 +28,32 @@ import org.n52.iceland.util.StringHelper;
  */
 public class ComparisonFilter extends Filter<ComparisonOperator> {
 
+    public static ComparisonFilter of(ComparisonFilter base) {
+        ComparisonFilter copy = new ComparisonFilter();
+        if (base.isSetEscapeString()) {
+            copy.setEscapeString(base.getEscapeString());
+        }
+        if (base.isSetOperator()) {
+            copy.setOperator(base.getOperator());
+        }
+        if (base.isSetSingleChar()) {
+            copy.setSingleChar(base.getSingleChar());
+        }
+        if (base.isSetValue()) {
+            copy.setValue(base.getValue());
+        }
+        if (base.isSetValueUpper()) {
+            copy.setValueUpper(base.getValueUpper());
+        }
+        if (base.isSetWildCard()) {
+            copy.setWildCard(base.getWildCard());
+        }
+
+        copy.setValueReference(base.getValueReference());
+        copy.setMatchCase(base.isMatchCase());
+        return copy;
+    }
+
     /**
      * Filter operator
      */
@@ -311,6 +337,5 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             return result + getValueReference() + " " + getOperator().name() + " " + getValue();
         }
     }
-
 
 }
