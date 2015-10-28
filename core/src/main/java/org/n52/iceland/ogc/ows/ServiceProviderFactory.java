@@ -46,6 +46,8 @@ import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CONTACT_INS
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.FACSIMILE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.HOURS_OF_SERVICE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ONLINE_RESOURCE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_CODESPACE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_VALUE;
 import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
@@ -75,6 +77,8 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
     private String contactInstructions;
     private String onlineResoureTitle;
     private String onlineResoureHref;
+    private String role;
+    private URI roleCodespace;
 
     @Setting(FILE)
     public void setFile(File file) {
@@ -177,6 +181,18 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
         }
     }
 
+    @Setting(ROLE_VALUE)
+    public void setRole(String role) {
+        this.role = role;
+        setRecreate();
+    }
+
+    @Setting(ROLE_CODESPACE)
+    public void setRoleCodespace(URI roleCodespace) {
+        this.roleCodespace = roleCodespace;
+        setRecreate();
+    }
+
     @Override
     protected OwsServiceProvider create(Locale language) throws ConfigurationError {
         OwsServiceProvider serviceProvider = new OwsServiceProvider();
@@ -204,6 +220,9 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
         serviceProvider.setPhone(this.phone);
         serviceProvider.setPositionName(this.positionName);
         serviceProvider.setPostalCode(this.postalCode);
+        OwsCodeType r = new OwsCodeType(this.role);
+        r.setCodeSpace(this.roleCodespace);
+        serviceProvider.setRole(r);
         serviceProvider.setSite(this.site == null ? null : this.site.toString());
     }
 

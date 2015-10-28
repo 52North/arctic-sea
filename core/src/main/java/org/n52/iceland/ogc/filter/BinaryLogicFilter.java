@@ -105,7 +105,7 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
                 .add("predicates", Arrays.toString(this.filterPredicates.toArray()))
                 .toString();
     }
-    
-    
+
+
 
 }

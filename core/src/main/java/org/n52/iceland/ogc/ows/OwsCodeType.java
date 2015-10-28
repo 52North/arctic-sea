@@ -1,12 +1,11 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
- * Software GmbH
+ * Copyright 2015 52°North Initiative for Geospatial Open Source Software GmbH.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,33 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.gml;
-
-import org.n52.iceland.ogc.AbstractCodeType;
+package org.n52.iceland.ogc.ows;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import java.net.URI;
-import java.net.URISyntaxException;
+import org.n52.iceland.ogc.AbstractCodeType;
 
 /**
- * Class represents a GML conform CodeType element
  *
- * @since 1.0.0
- *
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  */
-public class CodeType extends AbstractCodeType {
+public class OwsCodeType extends AbstractCodeType {
 
-    public CodeType(final String value) {
+    public OwsCodeType(String value) {
         super(value);
     }
 
-    @Deprecated
-    public CodeType(final String value, final String codespace) throws URISyntaxException {
-        super(value, new URI(codespace));
-    }
-
-    public CodeType(final String value, final URI codespace) {
+    public OwsCodeType(String value, URI codespace) {
         super(value, codespace);
     }
 
@@ -54,10 +44,10 @@ public class CodeType extends AbstractCodeType {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof CodeType) {
-            CodeType that = (CodeType) obj;
-            return Objects.equal(getValue(), that.getValue()) &&
-                   Objects.equal(getCodeSpace(), that.getCodeSpace());
+        if (obj instanceof OwsCodeType) {
+            OwsCodeType that = (OwsCodeType) obj;
+            return Objects.equal(getValue(), that.getValue())
+                    && Objects.equal(getCodeSpace(), that.getCodeSpace());
         }
         return false;
     }
