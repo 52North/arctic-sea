@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.request;
 
-import static org.n52.iceland.i18n.LocaleHelper.fromString;
 
 import java.util.Collections;
 import java.util.List;
@@ -165,6 +164,9 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
                 Object value = getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
                 if (value instanceof Value<?, ?>) {
                     return ((Value<?, ?>) value).getStringValue();
+                }
+                if(value instanceof String) {
+                    return (String) value;
                 }
             }
         }
