@@ -153,7 +153,6 @@ public interface OWSConstants {
     }
 
     /** enum with names of get request parameters for all requests */
-    @Deprecated //SOS-specific
     enum AdditionalRequestParams {
         language, crs, returnHumanReadableIdentifier;
 
