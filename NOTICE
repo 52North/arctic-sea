@@ -27,7 +27,6 @@ This project includes:
   Apache Commons Logging under The Apache Software License, Version 2.0
   ASM Commons under BSD
   ASM Core under BSD
-  ClassLoader leak prevention under Apache 2
   Codec under The Apache Software License, Version 2.0
   Commons IO under The Apache Software License, Version 2.0
   elasticsearch under The Apache Software License, Version 2.0
