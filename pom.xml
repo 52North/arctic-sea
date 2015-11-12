@@ -200,11 +200,6 @@
                 <version>2.8.1</version>
             </dependency>
             <dependency>
-                <groupId>se.jiderhamn</groupId>
-                <artifactId>classloader-leak-prevention</artifactId>
-                <version>1.11.0</version>
-            </dependency>
-            <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${version.jackson}</version>
