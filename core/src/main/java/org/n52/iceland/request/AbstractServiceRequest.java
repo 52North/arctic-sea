@@ -16,10 +16,10 @@
  */
 package org.n52.iceland.request;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
@@ -47,12 +47,16 @@ import org.n52.iceland.util.StringHelper;
 public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         extends AbstractServiceCommunicationObject
         implements Request, HasExtension<AbstractServiceRequest> {
+
     //TODO why liste?
+
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
 
     private RequestContext requestContext;
 
     private Extensions extensions;
+
+    private Optional<String> originalRequest = Optional.empty();
 
     public List<ServiceOperatorKey> getServiceOperatorKeys() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
@@ -157,7 +161,6 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         return StringHelper.isNotEmpty(getRequestedLanguage());
     }
 
-
     public String getRequestedLanguage() {
         if (isSetExtensions()) {
             if (getExtensions().containsExtension(OWSConstants.AdditionalRequestParams.language)) {
@@ -165,7 +168,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
                 if (value instanceof Value<?, ?>) {
                     return ((Value<?, ?>) value).getStringValue();
                 }
-                if(value instanceof String) {
+                if (value instanceof String) {
                     return (String) value;
                 }
             }
@@ -175,6 +178,18 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
 
     public Locale getRequestedLocale() {
         return LocaleHelper.fromString(getRequestedLanguage());
+    }
+
+    public String getOriginalRequest() {
+        return originalRequest.get();
+    }
+
+    public boolean isSetOriginalRequest() {
+        return originalRequest.isPresent();
+    }
+
+    public void setOriginalRequest(String request) {
+        this.originalRequest = Optional.of(request);
     }
 
     @Override

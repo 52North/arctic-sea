@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.binding.kvp;
 
+import com.google.common.base.Joiner;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
@@ -58,6 +59,7 @@ import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
+import org.n52.iceland.util.Constants;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -66,29 +68,36 @@ import java.util.Arrays;
  */
 @Configurable
 public class KvpBinding extends SimpleBinding {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);
 
     @Deprecated // SOS-specific
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_KVP_CORE_BINDING);
 
-     private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
+    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
             .add(new PathBindingKey(BindingConstants.KVP_BINDING_ENDPOINT))
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_KVP))
             .build();
 
     private boolean useHttpResponseCodes;
 
+    private boolean includeOriginal = false;
+
     @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
     public void setUseHttpResponseCodes(boolean useHttpResponseCodes) {
         this.useHttpResponseCodes = useHttpResponseCodes;
+    }
+
+    @Setting(MiscSettings.INCLUDE_ORIGINAL_REQUEST)
+    public void setIncludeOriginalRequest(boolean includeOriginal) {
+        this.includeOriginal = includeOriginal;
     }
 
     @Override
     protected boolean isUseHttpResponseCodes() {
         return this.useHttpResponseCodes;
     }
-
 
     @Override
     public Set<BindingKey> getKeys() {
@@ -180,7 +189,12 @@ public class KvpBinding extends SimpleBinding {
         Decoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
         LOGGER.trace("Using {} to decode paramers: {}", decoder, Arrays.toString(parameterValueMap.entrySet().toArray()));
         if (decoder != null) {
-            return decoder.decode(parameterValueMap);
+            AbstractServiceRequest<?> request = decoder.decode(parameterValueMap);
+            if (includeOriginal) {
+                request.setOriginalRequest(Joiner.on(Constants.QUERSTIONMARK_STRING)
+                        .join(req.getRequestURL(), req.getQueryString()));
+            }
+            return request;
         } else {
             throw new NoDecoderForKeyException(k);
         }

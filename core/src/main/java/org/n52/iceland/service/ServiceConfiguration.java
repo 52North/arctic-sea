@@ -32,6 +32,7 @@ import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.util.CRSHelper;
+import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.Validation;
 //import org.n52.sos.util.XmlOptionsHelper;
 
@@ -265,7 +266,7 @@ public class ServiceConfiguration implements Constructable {
     public void setServiceURL(final URI serviceURL) throws ConfigurationError {
         Validation.notNull("Service URL", serviceURL);
         String url = serviceURL.toString();
-        if (url.contains("?")) {
+        if (url.contains(Constants.QUERSTIONMARK_STRING)) {
             url = url.split("[?]")[0];
         }
         this.serviceURL = url;
