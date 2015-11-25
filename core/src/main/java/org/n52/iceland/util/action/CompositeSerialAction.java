@@ -18,6 +18,7 @@ package org.n52.iceland.util.action;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import org.slf4j.Logger;
@@ -45,14 +46,9 @@ public abstract class CompositeSerialAction<A extends Action> extends CompositeA
         Optional.ofNullable(getActions())
                 .map(List::stream)
                 .orElseGet(Stream::empty)
-                .forEach(this::pre);
-        if (getActions() != null) {
-            for (A action : getActions()) {
-                pre(action);
-                LOGGER.debug("Running {}.", action);
-                action.execute();
-                post(action);
-            }
-        }
+                .forEach(((Consumer<A>) this::pre)
+                        .andThen(a -> LOGGER.debug("Running {}.", a))
+                        .andThen(A::execute)
+                        .andThen(this::post));
     }
 }
