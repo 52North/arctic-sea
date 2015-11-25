@@ -45,14 +45,11 @@ public abstract class CompositeSerialAction<A extends Action> extends CompositeA
         Optional.ofNullable(getActions())
                 .map(List::stream)
                 .orElseGet(Stream::empty)
-                .forEach(this::pre);
-        if (getActions() != null) {
-            for (A action : getActions()) {
-                pre(action);
-                LOGGER.debug("Running {}.", action);
-                action.execute();
-                post(action);
-            }
-        }
+                .forEach(action -> {
+                    pre(action);
+                    LOGGER.debug("Running {}.", action);
+                    action.execute();
+                    post(action);
+                });
     }
 }
