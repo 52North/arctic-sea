@@ -34,7 +34,7 @@ public class ComparisonFilterTest {
         original.setMatchCase(false);
         original.setSingleChar("single");
         original.setWildCard("wild");
-        ComparisonFilter copy = ComparisonFilter.of(original);
+        ComparisonFilter copy = original.copy();
 
         Assert.assertThat(copy.getEscapeString(), is(original.getEscapeString()));
         Assert.assertThat(copy.getSingleChar(), is(original.getSingleChar()));
