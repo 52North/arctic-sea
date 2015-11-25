@@ -17,7 +17,6 @@
 package org.n52.iceland.ogc.ows;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import java.net.URI;
 import org.n52.iceland.ogc.AbstractCodeType;
 
@@ -41,21 +40,6 @@ public class OwsCodeType extends AbstractCodeType {
                 .add("value", getValue())
                 .add("codeSpace", getCodeSpace())
                 .toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof OwsCodeType) {
-            OwsCodeType that = (OwsCodeType) obj;
-            return Objects.equal(getValue(), that.getValue())
-                    && Objects.equal(getCodeSpace(), that.getCodeSpace());
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getValue(), getCodeSpace());
     }
 
 }

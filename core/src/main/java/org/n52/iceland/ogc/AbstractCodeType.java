@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc;
 
+import com.google.common.base.Objects;
 import java.net.URI;
 import org.n52.iceland.util.StringHelper;
 
@@ -66,7 +67,7 @@ public abstract class AbstractCodeType {
      *            Value to set
      * @return This CodeType object
      */
-    public AbstractCodeType setValue(final String value) {
+    public AbstractCodeType setValue(String value) {
         this.value = value;
         return this;
     }
@@ -78,7 +79,7 @@ public abstract class AbstractCodeType {
      *            Code space to set
      * @return This CodeType object
      */
-    public AbstractCodeType setCodeSpace(final URI codeSpace) {
+    public AbstractCodeType setCodeSpace(URI codeSpace) {
         this.codeSpace = codeSpace;
         return this;
     }
@@ -99,6 +100,22 @@ public abstract class AbstractCodeType {
      */
     public boolean isSetCodeSpace() {
         return getCodeSpace() != null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AbstractCodeType) {
+            AbstractCodeType that = (AbstractCodeType) obj;
+            return Objects.equal(getClass(), that.getClass())
+                    && Objects.equal(getValue(), that.getValue())
+                    && Objects.equal(getCodeSpace(), that.getCodeSpace());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getValue(), getCodeSpace());
     }
 
 }

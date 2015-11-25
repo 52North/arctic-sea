@@ -19,7 +19,6 @@ package org.n52.iceland.ogc.gml;
 import org.n52.iceland.ogc.AbstractCodeType;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -50,21 +49,6 @@ public class CodeType extends AbstractCodeType {
                 .add("value", getValue())
                 .add("codeSpace", getCodeSpace())
                 .toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof CodeType) {
-            CodeType that = (CodeType) obj;
-            return Objects.equal(getValue(), that.getValue()) &&
-                   Objects.equal(getCodeSpace(), that.getCodeSpace());
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getValue(), getCodeSpace());
     }
 
 }

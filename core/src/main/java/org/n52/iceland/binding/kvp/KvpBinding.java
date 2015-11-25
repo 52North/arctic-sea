@@ -59,7 +59,6 @@ import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
-import org.n52.iceland.util.Constants;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -83,6 +82,8 @@ public class KvpBinding extends SimpleBinding {
     private boolean useHttpResponseCodes;
 
     private boolean includeOriginal = false;
+
+    private static final Joiner urlJoiner = Joiner.on("?");
 
     @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
     public void setUseHttpResponseCodes(boolean useHttpResponseCodes) {
@@ -191,8 +192,7 @@ public class KvpBinding extends SimpleBinding {
         if (decoder != null) {
             AbstractServiceRequest<?> request = decoder.decode(parameterValueMap);
             if (includeOriginal) {
-                request.setOriginalRequest(Joiner.on(Constants.QUERSTIONMARK_STRING)
-                        .join(req.getRequestURL(), req.getQueryString()));
+                request.setOriginalRequest(urlJoiner.join(req.getRequestURL(), req.getQueryString()));
             }
             return request;
         } else {

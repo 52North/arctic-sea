@@ -48,8 +48,6 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         extends AbstractServiceCommunicationObject
         implements Request, HasExtension<AbstractServiceRequest> {
 
-    //TODO why liste?
-
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
 
     private RequestContext requestContext;
