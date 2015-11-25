@@ -21,7 +21,6 @@ import java.util.List;
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
 import org.n52.iceland.ogc.ows.OWSConstants;
 
-import com.google.common.base.Joiner;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -29,15 +28,18 @@ import com.google.common.base.Joiner;
  * @since 1.0.0
  */
 public class InvalidAcceptVersionsParameterException extends VersionNegotiationFailedException {
+
     private static final long serialVersionUID = -4208117985311582007L;
 
+    @SuppressWarnings("ThrowableResultIgnored")
     public InvalidAcceptVersionsParameterException(String... acceptVersions) {
         withMessage("The requested %s values (%s) are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions, Joiner.on(", ").join(acceptVersions));
+                OWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
     }
 
+    @SuppressWarnings("ThrowableResultIgnored")
     public InvalidAcceptVersionsParameterException(List<String> acceptVersions) {
         withMessage("The requested %s values (%s) are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions, Joiner.on(", ").join(acceptVersions));
+                OWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
     }
 }
