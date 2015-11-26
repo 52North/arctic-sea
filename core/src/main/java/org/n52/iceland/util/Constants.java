@@ -23,6 +23,7 @@ package org.n52.iceland.util;
  * @since 1.0.0
  *
  */
+@Deprecated
 public interface Constants {
 
     int EPSG_WGS84_3D = 4979;
