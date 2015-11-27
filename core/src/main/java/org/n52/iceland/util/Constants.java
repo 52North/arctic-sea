@@ -59,8 +59,6 @@ public interface Constants {
 
     String EQUAL_SIGN_STRING = "=";
 
-    String QUERSTIONMARK_STRING = "?";
-
     String SLASH_STRING = "/";
 
     String BACKSLASH_STRING = "\\";

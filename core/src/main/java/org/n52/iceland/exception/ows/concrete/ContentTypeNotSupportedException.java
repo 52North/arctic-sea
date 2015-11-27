@@ -31,6 +31,7 @@ public class ContentTypeNotSupportedException extends InvalidParameterValueExcep
 
     private static final long serialVersionUID = 400L;
 
+    @SuppressWarnings("ThrowableResultIgnored")
     public ContentTypeNotSupportedException(final String contentType, final String... supportedContentType) {
         super("HTTP header Accept", contentType);
         withMessage(

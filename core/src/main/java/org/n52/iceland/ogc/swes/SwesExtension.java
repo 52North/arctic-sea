@@ -25,7 +25,6 @@ import org.n52.iceland.ogc.swe.SweConstants;
  *
  * @since 1.0.0
  */
-@Deprecated // SOS-specific and not constants
 public class SwesExtension<T> implements Extension<T> {
 
     private String namespace = SweConstants.NS_SWE_20;

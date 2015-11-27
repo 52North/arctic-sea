@@ -26,6 +26,7 @@ import org.n52.iceland.ogc.gml.CodeType;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import java.net.URISyntaxException;
 
 /**
  * Immutable localized variant of a string.
@@ -87,7 +88,7 @@ public class LocalizedString implements Serializable {
         return false;
     }
 
-    public CodeType asCodeType() {
+    public CodeType asCodeType() throws URISyntaxException {
         return new CodeType(getText(), LocaleHelper.toString(getLang()));
     }
 

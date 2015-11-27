@@ -14,32 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.gml;
-
-import org.n52.iceland.ogc.AbstractCodeType;
+package org.n52.iceland.ogc.ows;
 
 import com.google.common.base.MoreObjects;
 import java.net.URI;
-import java.net.URISyntaxException;
+import org.n52.iceland.ogc.AbstractCodeType;
 
 /**
- * Class represents a GML conform CodeType element
  *
- * @since 1.0.0
- *
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
  */
-public class CodeType extends AbstractCodeType {
+public class OwsCodeType extends AbstractCodeType {
 
-    public CodeType(final String value) {
+    public OwsCodeType(String value) {
         super(value);
     }
 
-    @Deprecated
-    public CodeType(final String value, final String codespace) throws URISyntaxException {
-        super(value, new URI(codespace));
-    }
-
-    public CodeType(final String value, final URI codespace) {
+    public OwsCodeType(String value, URI codespace) {
         super(value, codespace);
     }
 

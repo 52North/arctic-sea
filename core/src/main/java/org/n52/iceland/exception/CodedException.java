@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.exception;
 
+import com.google.common.base.Joiner;
 import java.util.Collections;
 import java.util.List;
 
@@ -30,7 +31,10 @@ import org.n52.iceland.ogc.ows.ExceptionCode;
  * @since 1.0.0
  */
 public abstract class CodedException extends OwsExceptionReport {
+
     private static final long serialVersionUID = 52L;
+
+    protected static final Joiner possibleValues = Joiner.on(", ");
 
     private final List<CodedException> exceptions = Collections.singletonList(this);
 

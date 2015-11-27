@@ -21,7 +21,6 @@ import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.util.http.HTTPStatus;
 
-import com.google.common.base.Joiner;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -51,7 +50,7 @@ public class NotYetSupportedException extends NoApplicableCodeException {
 
     public NotYetSupportedException(final String type, final Object feature, final Object... supportedFeatures) {
         withMessage("The %s %s is not yet supported. Currently supported: %s", type, feature,
-                Joiner.on(", ").join(supportedFeatures));
+                possibleValues.join(supportedFeatures));
         setStatus(status);
     }
 }

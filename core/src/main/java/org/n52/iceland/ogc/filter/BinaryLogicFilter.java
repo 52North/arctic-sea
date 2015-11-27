@@ -16,11 +16,13 @@
  */
 package org.n52.iceland.ogc.filter;
 
+import com.google.common.base.MoreObjects;
 import java.util.Set;
 
 import org.n52.iceland.ogc.filter.FilterConstants.BinaryLogicOperator;
 
 import com.google.common.collect.Sets;
+import java.util.Arrays;
 
 /**
  * OGC Filter class for binary logic filters "AND" and "OR"
@@ -32,7 +34,7 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
 
     private BinaryLogicOperator operator;
 
-    private Set<Filter<?>> filterPredicates = Sets.newHashSet();
+    private final Set<Filter<?>> filterPredicates = Sets.newLinkedHashSet(); // keep insertion order
 
     /**
      * constructor
@@ -95,5 +97,15 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
         this.filterPredicates.addAll(filterPredicates);
         return this;
     }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("children", this.filterPredicates.size())
+                .add("predicates", Arrays.toString(this.filterPredicates.toArray()))
+                .toString();
+    }
+
+
 
 }

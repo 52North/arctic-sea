@@ -20,7 +20,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
@@ -92,7 +91,7 @@
         <connection>scm:git:https://github.com/52North/iceland.git</connection>
         <developerConnection>scm:git:https://github.com/52North/iceland.git</developerConnection>
       <tag>HEAD</tag>
-  </scm>
+    </scm>
 
     <issueManagement>
         <system>GitHub issues</system>
@@ -151,8 +150,9 @@
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
-                <artifactId>servlet-api</artifactId>
-                <version>2.5</version>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
             </dependency>
             <!-- only needed for the servlet -->
             <dependency>
@@ -201,11 +201,6 @@
                 <version>2.8.1</version>
             </dependency>
             <dependency>
-                <groupId>se.jiderhamn</groupId>
-                <artifactId>classloader-leak-prevention</artifactId>
-                <version>1.11.0</version>
-            </dependency>
-            <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
                 <version>${version.jackson}</version>
@@ -222,11 +217,6 @@
             </dependency>
 
             <!-- Testing dependencies -->
-            <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
-                <version>3.1.0</version>
-            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
