@@ -178,12 +178,8 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         return LocaleHelper.fromString(getRequestedLanguage());
     }
 
-    public String getOriginalRequest() {
-        return originalRequest.get();
-    }
-
-    public boolean isSetOriginalRequest() {
-        return originalRequest.isPresent();
+    public Optional<String> getOriginalRequest() {
+        return originalRequest;
     }
 
     public void setOriginalRequest(String request) {
