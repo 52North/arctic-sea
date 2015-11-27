@@ -183,7 +183,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
     }
 
     public void setOriginalRequest(String request) {
-        this.originalRequest = Optional.of(request);
+        this.originalRequest = Optional.ofNullable(request);
     }
 
     @Override
