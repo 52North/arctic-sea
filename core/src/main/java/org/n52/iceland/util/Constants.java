@@ -23,6 +23,7 @@ package org.n52.iceland.util;
  * @since 1.0.0
  *
  */
+@Deprecated
 public interface Constants {
 
     int EPSG_WGS84_3D = 4979;
@@ -57,8 +58,6 @@ public interface Constants {
     String AMPERSAND_STRING = "&";
 
     String EQUAL_SIGN_STRING = "=";
-
-    String QUERSTIONMARK_STRING = "?";
 
     String SLASH_STRING = "/";
 

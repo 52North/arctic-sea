@@ -301,6 +301,32 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
         this.matchCase = matchCase;
     }
 
+    public ComparisonFilter copy() {
+        ComparisonFilter copy = new ComparisonFilter();
+        if (isSetEscapeString()) {
+            copy.setEscapeString(getEscapeString());
+        }
+        if (isSetOperator()) {
+            copy.setOperator(getOperator());
+        }
+        if (isSetSingleChar()) {
+            copy.setSingleChar(getSingleChar());
+        }
+        if (isSetValue()) {
+            copy.setValue(getValue());
+        }
+        if (isSetValueUpper()) {
+            copy.setValueUpper(getValueUpper());
+        }
+        if (isSetWildCard()) {
+            copy.setWildCard(getWildCard());
+        }
+
+        copy.setValueReference(getValueReference());
+        copy.setMatchCase(isMatchCase());
+        return copy;
+    }
+
     @Override
     public String toString() {
         String result = "ComparisonFilter: ";
@@ -311,6 +337,5 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             return result + getValueReference() + " " + getOperator().name() + " " + getValue();
         }
     }
-
 
 }

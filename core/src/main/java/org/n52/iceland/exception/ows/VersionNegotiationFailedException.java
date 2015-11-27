@@ -31,8 +31,10 @@ package org.n52.iceland.exception.ows;
  * @since 1.0.0
  */
 public class VersionNegotiationFailedException extends CodedOwsException {
+
     private static final long serialVersionUID = 3626112515127914596L;
 
+    @SuppressWarnings("ThrowableResultIgnored")
     public VersionNegotiationFailedException() {
         super(OwsExceptionCode.VersionNegotiationFailed);
         setStatus(org.n52.iceland.util.http.HTTPStatus.BAD_REQUEST);

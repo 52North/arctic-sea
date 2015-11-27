@@ -60,6 +60,8 @@ public class OwsServiceProvider {
 
     private String onlineResourceHref;
 
+    private OwsCodeType role;
+
     public String getName() {
         return name;
     }
@@ -254,6 +256,18 @@ public class OwsServiceProvider {
 
     public void setOnlineResourceHref(String onlineResourceHref) {
         this.onlineResourceHref = onlineResourceHref;
+    }
+
+    public OwsCodeType getRole() {
+        return role;
+    }
+
+    public boolean hasRole() {
+        return (getRole() != null && StringHelper.isNotEmpty(getRole().getValue()));
+    }
+
+    public void setRole(OwsCodeType role) {
+        this.role = role;
     }
 
     /**

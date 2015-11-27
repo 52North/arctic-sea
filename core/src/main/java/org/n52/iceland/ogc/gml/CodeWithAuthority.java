@@ -39,7 +39,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
     private String value;
 
     /**
-     * code space
+     * code space, TODO: probably should be a URI
      */
     private String codeSpace = Constants.EMPTY_STRING;
 

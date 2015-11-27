@@ -19,7 +19,6 @@ package org.n52.iceland.ogc.filter;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Sets;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import org.n52.iceland.ogc.filter.FilterConstants.Id;

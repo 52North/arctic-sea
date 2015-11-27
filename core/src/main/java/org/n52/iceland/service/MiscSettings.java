@@ -72,4 +72,6 @@ public interface MiscSettings {
 
     String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
 
+    String INCLUDE_ORIGINAL_REQUEST = "misc.includeOriginalRequest";
+
 }

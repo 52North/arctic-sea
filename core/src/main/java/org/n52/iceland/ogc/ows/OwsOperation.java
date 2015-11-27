@@ -38,8 +38,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     private static final Comparator<OwsOperation> COMPARATOR
             = Comparator.nullsFirst(Comparator.comparing(OwsOperation::getOperationName,
-                                                         Comparator.nullsFirst(String::compareTo)));
-
+                            Comparator.nullsFirst(String::compareTo)));
 
     /**
      * Name of the operation which metadata are represented.
@@ -55,6 +54,11 @@ public class OwsOperation implements Comparable<OwsOperation> {
      * Map with names and allowed values for the parameter.
      */
     private final SortedMap<String, List<OwsParameterValue>> parameterValues = new TreeMap<>();
+
+    /**
+     * Map with names and allowed values for the parameter.
+     */
+    private final SortedMap<String, List<OwsParameterValue>> constraints = new TreeMap<>();
 
     /**
      * Get operation name
@@ -128,7 +132,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
         }
     }
 
-     /**
+    /**
      * Add values for parameter
      *
      * @param parameterName
@@ -139,7 +143,6 @@ public class OwsOperation implements Comparable<OwsOperation> {
     public void addParameterValue(String parameterName, Collection<? extends OwsParameterValue> value) {
         parameterValues.computeIfAbsent(parameterName, name -> new LinkedList<>()).addAll(value);
     }
-
 
     /**
      * Add values for parameter
@@ -180,7 +183,7 @@ public class OwsOperation implements Comparable<OwsOperation> {
     }
 
     public void addAnyParameterValue(String paramterName) {
-        addPossibleValuesParameter(paramterName, Collections.<String> emptyList());
+        addPossibleValuesParameter(paramterName, Collections.<String>emptyList());
     }
 
     public <E extends Enum<E>> void addAnyParameterValue(E parameterName) {
@@ -213,6 +216,52 @@ public class OwsOperation implements Comparable<OwsOperation> {
 
     public <E extends Enum<E>> void addRangeParameterValue(E parameterName, OwsParameterValueRange value) {
         addParameterValue(parameterName.name(), value);
+    }
+
+    /**
+     * Get constraints and value map
+     *
+     * @return constraints value map
+     */
+    public SortedMap<String, List<OwsParameterValue>> getConstraints() {
+        return Collections.unmodifiableSortedMap(this.constraints);
+    }
+
+    /**
+     * Set constrant and value map
+     *
+     * @param constraints
+     *            constraints value map
+     */
+    public void setConstraintValues(Map<String, List<OwsParameterValue>> constraints) {
+        if (constraints != null) {
+            this.constraints.clear();
+            constraints.forEach(this::addConstraint);
+        }
+    }
+
+    /**
+     * Add values for constraint
+     *
+     * @param constraintsName
+     *            constraint name
+     * @param value
+     *            values to add
+     */
+    public void addConstraint(String constraintName, Collection<? extends OwsParameterValue> value) {
+        constraints.computeIfAbsent(constraintName, name -> new LinkedList<>()).addAll(value);
+    }
+
+    /**
+     * Add values for constraint
+     *
+     * @param constraintsName
+     *            constraints name
+     * @param value
+     *            values to add
+     */
+    public void addConstraintValue(String constraintName, OwsParameterValue value) {
+        constraints.computeIfAbsent(constraintName, name -> new LinkedList<>()).add(value);
     }
 
     @Override

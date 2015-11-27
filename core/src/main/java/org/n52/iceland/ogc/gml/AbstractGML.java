@@ -26,6 +26,8 @@ import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 import com.google.common.base.Objects;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Class represents an AbstractGML object
@@ -329,7 +331,13 @@ public abstract class AbstractGML implements Serializable {
      *            Codespace of the feature name
      * @return {@code this}
      */
-    public AbstractGML addName(final String name, final String codespace) {
+    @Deprecated
+    public AbstractGML addName(final String name, final String codespace) throws URISyntaxException {
+        addName(new CodeType(name, codespace));
+        return this;
+    }
+
+    public AbstractGML addName(final String name, final URI codespace) throws URISyntaxException {
         addName(new CodeType(name, codespace));
         return this;
     }

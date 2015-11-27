@@ -57,4 +57,8 @@ public interface ServiceProviderFactorySettings {
 
     String ONLINE_RESOURCE = "serviceProvider.onlineResource";
 
+    String ROLE_VALUE = "serviceProvider.role.value";
+
+    String ROLE_CODESPACE = "serviceProvider.role.codespace";
+
 }

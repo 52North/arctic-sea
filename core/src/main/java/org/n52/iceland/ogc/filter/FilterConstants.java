@@ -25,7 +25,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Sets;
 import java.util.Set;
-import org.n52.iceland.ogc.gml.GmlConstants;
 
 /**
  * Constants interface for <a
@@ -245,9 +244,6 @@ public interface FilterConstants {
         Tin,
         Solid;
 
-        public static String asString(GeometryOperand go) {
-            return GmlConstants.NS_GML_PREFIX + ":" + go.name();
-        }
     }
 
     /**
@@ -277,7 +273,7 @@ public interface FilterConstants {
                 case PropertyIsGreaterThan:
                     return "GreaterThan";
                 case PropertyIsLessThanOrEqualTo:
-                    return "LessThanOrEqualTo";
+                    return "LessThanEqualTo";
                 case PropertyIsGreaterThanOrEqualTo:
                     return "GreaterThanEqualTo";
                 case PropertyIsLike:
