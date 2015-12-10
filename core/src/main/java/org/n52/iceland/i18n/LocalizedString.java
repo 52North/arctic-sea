@@ -26,6 +26,8 @@ import org.n52.iceland.ogc.gml.CodeType;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+
+import java.net.URI;
 import java.net.URISyntaxException;
 
 /**
@@ -89,7 +91,7 @@ public class LocalizedString implements Serializable {
     }
 
     public CodeType asCodeType() throws URISyntaxException {
-        return new CodeType(getText(), LocaleHelper.toString(getLang()));
+        return new CodeType(getText(), new URI(LocaleHelper.toString(getLang())));
     }
 
 }
