@@ -36,7 +36,7 @@ public class DateTimeFormatException extends DateTimeException {
     }
 
     public DateTimeFormatException(final Time value, final Throwable cause) {
-        withMessage("Error formatting Time %s", value);
+        withMessage("Error formatting %s %s", value.getClass().getSimpleName(), value);
         if (cause != null) {
             causedBy(cause);
         }
@@ -48,7 +48,7 @@ public class DateTimeFormatException extends DateTimeException {
     }
 
     public DateTimeFormatException(final DateTime value, final Throwable cause) {
-        withMessage("Error formatting DateTime %s", value);
+        withMessage("Error formatting %s %s", value.getClass().getSimpleName(), value);
         if (cause != null) {
             causedBy(cause);
         }
