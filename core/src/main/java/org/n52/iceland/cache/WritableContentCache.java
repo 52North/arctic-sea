@@ -16,11 +16,15 @@
  */
 package org.n52.iceland.cache;
 
+import org.joda.time.DateTime;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
 public interface WritableContentCache extends ContentCache {
+
+    void setLastUpdateTime(DateTime now);
 
 }
