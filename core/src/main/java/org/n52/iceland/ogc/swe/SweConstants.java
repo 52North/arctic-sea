@@ -139,6 +139,8 @@ public interface SweConstants {
 
     QName QN_COUNT_SWE_200 = new QName(NS_SWE_20, EN_COUNT, NS_SWE_PREFIX);
 
+    QName QN_COUNT_RANGE_SWE_200 = new QName(NS_SWE_20, EN_COUNT_RANGE, NS_SWE_PREFIX);
+
     QName QN_DATA_ARRAY_SWE_200 = new QName(NS_SWE_20, EN_DATA_ARRAY, NS_SWE_PREFIX);
 
     QName QN_DATA_RECORD_SWE_200 = new QName(NS_SWE_20, EN_DATA_RECORD, NS_SWE_PREFIX);
@@ -204,7 +206,6 @@ public interface SweConstants {
         easting, northing, altitude
     }
 
-
     /**
      * Enum for coordinate names for easting
      */
@@ -265,6 +266,22 @@ public interface SweConstants {
      * Enum for SWE DataComponent types
      */
     enum SweDataComponentType {
-        DataArray, DataRecord, SimpleDataRecord, Envelope, Field, Vector, Position, Boolean, Category, Count, CountRange, Quantity, QuantityRange, Text, Time, TimeRange, ObservableProperty
+        DataArray,
+        DataRecord,
+        SimpleDataRecord,
+        Envelope,
+        Field,
+        Vector,
+        Position,
+        Boolean,
+        Category,
+        Count,
+        CountRange,
+        Quantity,
+        QuantityRange,
+        Text,
+        Time,
+        TimeRange,
+        ObservableProperty
     }
 }
