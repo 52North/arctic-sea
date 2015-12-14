@@ -27,7 +27,7 @@ import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.joda.time.DateTime;
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCacheUpdate;
 import org.n52.iceland.cache.WritableContentCache;
@@ -114,6 +114,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
             } else {
                 executePartial(new PartialUpdate(update));
             }
+            cache.setLastUpdateTime(DateTime.now());
         } else {
             throw new IllegalArgumentException("update may not be null");
         }
