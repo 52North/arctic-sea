@@ -34,8 +34,6 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -54,7 +52,10 @@ import org.slf4j.LoggerFactory;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.base.Joiner;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
+import org.elasticsearch.common.settings.Settings;
 
 public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
@@ -108,7 +109,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
     }
 
     public void importPreconfiguredKibana() throws JsonParseException, JsonMappingException, IOException {
-        String json = null;
+        String json;
         if (settings.getKibanaConfPath() == null || settings.getKibanaConfPath().trim().isEmpty()) {
             logger.info("No path is defined. Use default settings values");
             json = IOUtils.toString(this.getClass().getResourceAsStream("/kibana/kibana_config.json"));
@@ -158,7 +159,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
         // add new uuid if needed
         if (!values.stream().anyMatch(m -> m.equals(uuid))) {
-            Map<String, Object> uuids = new HashMap<String, Object>();
+            Map<String, Object> uuids = new HashMap<>();
             values.add(uuid);
             uuids.put(MetadataDataMapping.METADATA_UUIDS_FIELD.getName(), values);
             uuids.put(MetadataDataMapping.METADATA_UPDATE_TIME_FIELD.getName(), Calendar.getInstance(DateTimeZone.UTC.toTimeZone()));
@@ -185,7 +186,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         Objects.requireNonNull(settings.getClusterName());
         Objects.requireNonNull(settings.getClusterNodes());
 
-        Builder settingsBuilder = ImmutableSettings.settingsBuilder();
+        Settings.Builder settingsBuilder = Settings.settingsBuilder();
         settingsBuilder.put("discovery.zen.ping.unicast.hosts", Joiner.on(",").join(settings.getClusterNodes()));
 
         node = NodeBuilder.nodeBuilder().settings(settingsBuilder).client(true).clusterName(settings.getClusterName()).node();
@@ -201,18 +202,32 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         Objects.requireNonNull(settings.getClusterName());
         Objects.requireNonNull(settings.getClusterNodes());
 
-        Builder tcSettings = ImmutableSettings.settingsBuilder();
+        Settings.Builder tcSettings = Settings.settingsBuilder();
         tcSettings.put("cluster.name", settings.getClusterName());
 
-        TransportClient cl = new TransportClient(tcSettings);
+        TransportClient cl = TransportClient.builder()
+                .settings(tcSettings).build();
         // nodes has format host[:port]
         settings.getClusterNodes().stream().forEach(i -> {
+            InetSocketTransportAddress address = null;
             if (i.contains(":")) {
-                String[] split = i.split(":");
-                cl.addTransportAddress(new InetSocketTransportAddress(split[0], Integer.valueOf(split[1])));
+                try {
+                    String[] split = i.split(":");
+                    address = new InetSocketTransportAddress(InetAddress.getByName(split[0]), Integer.valueOf(split[1]));
+                } catch (UnknownHostException e) {
+                    logger.error("Could not create address for given host and port: {}", i, e);
+                }
             } else {
-                // default communication port
-                cl.addTransportAddress(new InetSocketTransportAddress(i, 9300));
+                try {
+                    // default communication port
+                    address = new InetSocketTransportAddress(InetAddress.getByName(i), 9300);
+                } catch (UnknownHostException e) {
+                    logger.error("Could not create address for given host and port: {}", i, e);
+                }
+            }
+
+            if (address != null) {
+                cl.addTransportAddress(address);
             }
         });
         this.client = cl;

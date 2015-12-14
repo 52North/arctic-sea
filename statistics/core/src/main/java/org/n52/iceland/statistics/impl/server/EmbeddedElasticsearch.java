@@ -27,8 +27,6 @@ import java.util.Objects;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -37,6 +35,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableList;
+import org.elasticsearch.common.settings.Settings.Builder;
 
 public class EmbeddedElasticsearch {
 
@@ -46,7 +45,7 @@ public class EmbeddedElasticsearch {
     private Node embeddedNode;
     private Client client;
     private static final String resourceBase = "/statistics/embedded";
-    private static final List<String> scriptsFileNames = ImmutableList.<String> of("getcapabilities_sections_concat.groovy",
+    private static final List<String> scriptsFileNames = ImmutableList.<String>of("getcapabilities_sections_concat.groovy",
             "most_requested_observedproperties.groovy", "most_requested_procedures.groovy");
 
     public void destroy() {
@@ -78,8 +77,9 @@ public class EmbeddedElasticsearch {
             logger.error(e.getMessage(), e);
         }
 
-        Builder setting = ImmutableSettings.settingsBuilder().classLoader(EmbeddedElasticsearch.class.getClassLoader())
-                .loadFromClasspath(resourceBase + "/elasticsearch_embedded.yml");
+        String resource = resourceBase + "/elasticsearch_embedded.yml";
+        Builder setting = Settings.settingsBuilder()
+                .loadFromStream(resource, getClass().getResourceAsStream(resourceBase + "/elasticsearch_embedded.yml"));
         setting.put("cluster.name", "elasticsearch");
         setting.put("node.name", "Embedded Server");
         setting.put("path.home", homePath);
