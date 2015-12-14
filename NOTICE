@@ -21,12 +21,9 @@ This project includes:
   52°North Iceland Statistics Documentation Generator under The Apache Software License, Version 2.0
   52°North Iceland Statistics Geolocation Feature under The Apache Software License, Version 2.0
   52°North Iceland Statistics Kibana Exporter Tool under The Apache Software License, Version 2.0
-  ANTLR 3 Runtime under BSD licence
   AOP alliance under Public Domain
-  Apache Commons Compress under The Apache Software License, Version 2.0
+  Apache Commons Compress under Apache License, Version 2.0
   Apache Commons Logging under The Apache Software License, Version 2.0
-  ASM Commons under BSD
-  ASM Core under BSD
   Codec under The Apache Software License, Version 2.0
   Commons IO under The Apache Software License, Version 2.0
   elasticsearch under The Apache Software License, Version 2.0
