@@ -25,14 +25,11 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import javax.inject.Inject;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.config.FileSettingsConfiguration;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.lifecycle.Destroyable;
 import org.n52.iceland.service.ConfigLocationProvider;
 import org.n52.iceland.util.Debouncer;
@@ -51,8 +48,7 @@ import com.google.common.base.MoreObjects;
  *
  * @author Christian Autermann
  */
-public class JsonConfiguration implements Constructable,
-                                          Destroyable,
+public class JsonConfiguration implements Destroyable,
                                           Producer<ObjectNode>,
                                           FileSettingsConfiguration {
 
@@ -75,7 +71,6 @@ public class JsonConfiguration implements Constructable,
      * Initializes this configuration by initializing a {@link Debouncer} for
      * writes and reading the configuration file.
      */
-    @Override
     public void init() {
         writeLock().lock();
         try {
@@ -164,7 +159,6 @@ public class JsonConfiguration implements Constructable,
      *
      * @param configLocationProvider the provider
      */
-    @Inject
     public void setConfigLocationProvider(
             ConfigLocationProvider configLocationProvider) {
         this.configLocationProvider = configLocationProvider;
