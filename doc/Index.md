@@ -18,4 +18,5 @@ The 52°North Iceland was previously developed in the the [52°North SOS 4.x](ht
  * [Settings](Settings.md)
  * [Exception](Exception.md)
  * [Development environment](Development.md)
+ * [Release](Release.md)
  

@@ -24,7 +24,6 @@ import javax.inject.Inject;
 import org.apache.commons.io.FileUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.ImmutableSettings;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
@@ -48,7 +47,10 @@ public abstract class ElasticsearchAwareTest extends SpringBaseTest {
     public static void init() throws IOException, InterruptedException {
 
         logger.debug("Starting embedded node");
-        Settings settings = ImmutableSettings.settingsBuilder().loadFromClasspath("elasticsearch_embedded.yml").build();
+        String resource = "elasticsearch_embedded.yml";
+        Settings.Builder settings = Settings.settingsBuilder()
+                .loadFromStream(resource, ElasticsearchAwareTest.class.getResourceAsStream(resource));
+
         embeddedNode = NodeBuilder.nodeBuilder().settings(settings).build();
         embeddedNode.start();
 
