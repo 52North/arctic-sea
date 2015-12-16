@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.coding.encode;
 
+import org.n52.iceland.coding.CodingRepository;
 import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
@@ -45,6 +46,26 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
         this.contentType = contentType;
     }
 
+    /**
+     * Check if contentType is set
+     * @return <code>true</code>, if contentType is set
+     */
+    public boolean isSetContentType() {
+        return getContentType() != null;
+    }
+
+    /**
+     * Getter for encoder, encapsulates the instance call
+     *
+     * @param key
+     *            Encoder key
+     * @return Matching encoder
+     */
+    protected <D, S> Encoder<D, S> getEncoder(EncoderKey key) {
+        return CodingRepository.getInstance().getEncoder(key);
+    }
+
+
     @Override
     public MediaType getEncodedContentType(ResponseFormat responseFormat) {
         if (responseFormat.isSetResponseFormat()) {
@@ -55,7 +76,8 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
                 LOGGER.debug("Requested responseFormat {} is not a MediaType", responseFormat.getResponseFormat());
             }
             if (contentTypeFromResponseFormat != null) {
-                if (MediaTypes.COMPATIBLE_TYPES.containsEntry(contentTypeFromResponseFormat, getContentType())) {
+                if (MediaTypes.COMPATIBLE_TYPES.containsEntry(contentTypeFromResponseFormat.withoutParameters(),
+                        getContentType())) {
                     return getContentType();
                 }
                 return contentTypeFromResponseFormat;

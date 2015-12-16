@@ -19,6 +19,8 @@ package org.n52.iceland.ogc.gml;
 import org.n52.iceland.ogc.AbstractCodeType;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -28,7 +30,7 @@ import java.net.URISyntaxException;
  * @since 1.0.0
  *
  */
-public class CodeType extends AbstractCodeType {
+public class CodeType extends AbstractCodeType implements Cloneable {
 
     public CodeType(final String value) {
         super(value);
@@ -44,11 +46,32 @@ public class CodeType extends AbstractCodeType {
     }
 
     @Override
+    public CodeType clone() throws CloneNotSupportedException {
+        return new CodeType(getValue(), getCodeSpace());
+    }
+
+
+    @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .add("value", getValue())
                 .add("codeSpace", getCodeSpace())
                 .toString();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof CodeType) {
+            CodeType that = (CodeType) obj;
+            return Objects.equal(getValue(), that.getValue()) &&
+                   Objects.equal(getCodeSpace(), that.getCodeSpace());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getValue(), getCodeSpace());
     }
 
 }

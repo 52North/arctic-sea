@@ -22,8 +22,6 @@ import java.util.Arrays;
 
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.ImmutableSettings;
-import org.elasticsearch.common.settings.ImmutableSettings.Builder;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.search.SearchHit;
 
@@ -32,6 +30,9 @@ import org.n52.iceland.statistics.api.utils.dto.KibanaConfigHolderDto;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import java.net.InetAddress;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.settings.Settings.Builder;
 
 public class KibanaExporter {
 
@@ -49,16 +50,16 @@ public class KibanaExporter {
 
         // set ES address
         String split[] = args[0].split(":");
-        InetSocketTransportAddress address
-                = new InetSocketTransportAddress(split[0], Integer
-                                                 .parseInt(split[1], 10));
+        InetSocketTransportAddress address = new InetSocketTransportAddress(
+                InetAddress.getByName(split[0]),
+                Integer.parseInt(split[1], 10));
 
         // set cluster name
-        Builder tcSettings = ImmutableSettings.settingsBuilder();
+        Builder tcSettings = Settings.settingsBuilder();
         tcSettings.put("cluster.name", args[1]);
         System.out.println("Connection to " + args[1]);
 
-        client = new TransportClient(tcSettings);
+        client = TransportClient.builder().settings(tcSettings).build();
         client.addTransportAddress(address);
 
         // search index pattern for needle
@@ -93,8 +94,8 @@ public class KibanaExporter {
         System.out.println("Searching index pattern name for index-needle");
         SearchResponse indexPatternResp = client.prepareSearch(".kibana").setTypes("index-pattern").get();
         if (indexPatternResp.getHits().getHits().length != 1) {
-            throw new Exception("The .kibana/index-pattern type has multiple elements or none. Only one element is legal. " +
-                     "Set your kibana settings with only one index-pattern");
+            throw new Exception("The .kibana/index-pattern type has multiple elements or none. Only one element is legal. "
+                    + "Set your kibana settings with only one index-pattern");
         }
 
         statisticsIndex = indexPatternResp.getHits().getHits()[0].getId();

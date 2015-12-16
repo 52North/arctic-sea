@@ -194,6 +194,17 @@ public final class DateTimeHelper {
         return formatDateTime2FormattedString(dateTime, responseFormat);
     }
 
+    /**
+     * Get formatted string from {@link DateTime} as defined {@link TimeFormat}
+     *
+     * @param dateTime
+     *            {@link DateTime} to format
+     * @param timeFormat
+     *            The response {@link TimeFormat}
+     * @return The formatted {@link DateTime}
+     * @throws DateTimeFormatException
+     *             If an error occurs when formatting the {@link DateTime}
+     */
     public static String formatDateTime2String(final DateTime dateTime, final TimeFormat timeFormat)
             throws DateTimeFormatException {
         switch (timeFormat) {
@@ -208,6 +219,15 @@ public final class DateTimeHelper {
         }
     }
 
+    /**
+     * Get formatted string from {@link TimePosition}
+     *
+     * @param timePosition
+     *            {@link TimePosition} to format
+     * @return The formatted {@link TimePosition}
+     * @throws DateTimeFormatException
+     *             If an error occurs when formatting the {@link TimePosition}
+     */
     public static String formatDateTime2String(final TimePosition timePosition)
             throws DateTimeFormatException {
         switch (timePosition.getTimeFormat()) {
@@ -446,16 +466,41 @@ public final class DateTimeHelper {
         return dt1;
     }
 
+    /**
+     * Get days between the given {@link DateTime}s
+     *
+     * @param start
+     *            Start {@link DateTime}
+     * @param end
+     *            End {@link DateTime}
+     * @return Days between the two {@link DateTime}s
+     */
     public static int getDaysSince(DateTime start, DateTime end) {
         return Days.daysBetween(start, end).getDays();
     }
 
+    /**
+     * Get days between the given {@link DateTime}s with precision
+     *
+     * @param start
+     *            Start {@link DateTime}
+     * @param end
+     *            End {@link DateTime}
+     * @return Days with precisions between the two {@link DateTime}s
+     */
     public static double getDaysSinceWithPrecision(DateTime start, DateTime end) {
         double value = Days.daysBetween(start, end).getDays() + end.getSecondOfDay()/SECONDS_OF_DAY;
         return new BigDecimal(value).doubleValue();
     }
 
-    public static double getSecondsSinceEpoch(DateTime time) throws CodedException{
+    /**
+     * Get seconds since epoch
+     *
+     * @param time
+     *            {@link DateTime} to get seconds for
+     * @return Seconds since epoch
+     */
+    public static double getSecondsSinceEpoch(DateTime time) {
         return time.getMillis() / 1000;
     }
 
