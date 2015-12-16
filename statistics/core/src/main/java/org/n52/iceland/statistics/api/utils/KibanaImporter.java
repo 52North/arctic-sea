@@ -66,7 +66,8 @@ public class KibanaImporter {
         for (KibanaConfigEntryDto dto : holder.getEntries()) {
             dto = processDto(dto);
             logger.debug("Importing {}", dto);
-            client.prepareIndex(kibanaIndexName, dto.getType(), dto.getId()).setSource(dto.getSource()).setOperationThreaded(false).get();
+            client.prepareIndex(kibanaIndexName, dto.getType(), dto.getId())
+                    .setSource(dto.getSource()).get();
         }
     }
 

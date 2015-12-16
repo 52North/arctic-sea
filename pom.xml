@@ -117,7 +117,7 @@
         <!-- Source encoding during build process ** !!! DO NOT CHANGE !!! ** -->
         <version.spring>4.2.3.RELEASE</version.spring>
         <version.slf4j>1.7.13</version.slf4j>
-        <version.guava>19.0</version.guava>
+        <version.guava>18.0</version.guava>
         <version.java>1.8</version.java>
         <version.jackson>2.6.3</version.jackson>
     </properties>
@@ -263,7 +263,7 @@
             <dependency>
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
-                <version>1.7.3</version>
+                <version>2.1.0</version>
             </dependency>
             <!-- MaxMind geo database -->
             <dependency>
