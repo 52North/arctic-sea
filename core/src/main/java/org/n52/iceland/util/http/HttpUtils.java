@@ -168,6 +168,11 @@ public class HttpUtils {
             if (isCountingOutputStream) {
                 out = new CountingOutputStream(out);
             }
+
+            if (writable.hasForcedHttpStatus()) {
+                response.setStatus(writable.getForcedHttpStatus().getCode());
+            }
+
             writable.write(out, new ResponseProxy(response));
             out.flush();
         } catch (OwsExceptionReport owser) {
@@ -189,6 +194,7 @@ public class HttpUtils {
                 eventBus.submit(new CountingOutputStreamEvent(bytesWritten));
             }
             if (out != null) {
+                LOGGER.debug("Response status = "+response.getStatus());
                 out.close();
             }
 
@@ -223,6 +229,16 @@ public class HttpUtils {
                 throw new RuntimeException("no writer for " + o.getClass() + " found!");
             }
             writer.setContentType(ct);
+        }
+
+        @Override
+        public boolean hasForcedHttpStatus() {
+            return writer.hasForcedHttpStatus(this.o);
+        }
+
+        @Override
+        public HTTPStatus getForcedHttpStatus() {
+            return writer.getForcedHttpStatus(this.o);
         }
 
         @Override
@@ -279,6 +295,14 @@ public class HttpUtils {
         boolean supportsGZip();
 
         MediaType getEncodedContentType();
+
+        default boolean hasForcedHttpStatus() {
+            return false;
+        };
+
+        default HTTPStatus getForcedHttpStatus() {
+            return HTTPStatus.OK;
+        };
     }
 
 }
