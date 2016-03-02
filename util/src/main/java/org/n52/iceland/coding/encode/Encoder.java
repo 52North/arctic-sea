@@ -22,8 +22,8 @@ import java.util.Set;
 import org.n52.iceland.coding.SupportedType;
 
 import org.n52.iceland.component.Component;
+import org.n52.iceland.exception.CodingException;
 import org.n52.iceland.exception.UnsupportedEncoderInputException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.util.http.MediaType;
 
 /**
@@ -45,13 +45,13 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      *            the object to encode
      *
      * @return the encoded object
-     * @throws org.n52.iceland.exception.ows.OwsExceptionReport
+     * @throws org.n52.iceland.exception.CodingException
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
      *             if the supplied object (or any of it's contents) is not
      *             supported by this encoder
      */
-    T encode(S objectToEncode) throws OwsExceptionReport, UnsupportedEncoderInputException;
+    T encode(S objectToEncode) throws CodingException, UnsupportedEncoderInputException;
 
     /**
      * Encodes the specified object with the specified {@linkplain HelperValues}
@@ -63,13 +63,13 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      *            the helper values
      *
      * @return the encoded object
-     * @throws org.n52.iceland.exception.ows.OwsExceptionReport
+     * @throws org.n52.iceland.exception.CodingException
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
      *             if the supplied object (or any of it's contents) is not
      *             supported by this encoder
      */
-    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws OwsExceptionReport, UnsupportedEncoderInputException;
+    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws CodingException, UnsupportedEncoderInputException;
 
     /**
      * Get the {@link SupportedType}
