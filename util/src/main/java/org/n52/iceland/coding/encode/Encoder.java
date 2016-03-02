@@ -94,8 +94,8 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      * @return the content type of the encoded response.
      */
     MediaType getContentType();
-    
-    
+
+
     // TODO add javadoc for each value
     enum HelperValues {
         @Deprecated GMLID, @Deprecated EXIST_FOI_IN_DOC, VERSION, TYPE,

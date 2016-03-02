@@ -44,5 +44,5 @@ public class UnsupportedDecoderInputException extends Exception {
     public Object getObjectToDecode() {
         return objectToDecode;
     }
-    
+
 }

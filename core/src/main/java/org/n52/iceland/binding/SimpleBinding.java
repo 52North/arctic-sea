@@ -327,14 +327,14 @@ public abstract class SimpleBinding extends Binding {
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
-        
+
         Object result;
         try {
             result = encoder.encode(response);
         } catch (CodingException | UnsupportedEncoderInputException ex) {
             throw new NoApplicableCodeException().causedBy(ex);
         }
-        
+
         return result;
     }
 
@@ -363,7 +363,7 @@ public abstract class SimpleBinding extends Binding {
             LOG.error("Can't find OwsExceptionReport encoder for Content-Type {}", contentType);
             throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
         }
-        
+
         try {
             return encoder.encode(oer);
         } catch (CodingException | UnsupportedEncoderInputException ex) {

@@ -40,6 +40,6 @@ public class UnsupportedEncoderInputException extends Exception {
     public Object getObjectToEncode() {
         return objectToEncode;
     }
-    
-    
+
+
 }

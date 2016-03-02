@@ -103,13 +103,13 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
         }
-        
+
         try {
             return decoder.decode(xmlString);
         } catch (CodingException | UnsupportedDecoderInputException ex) {
             throw new NoApplicableCodeException().causedBy(ex);
         }
-        
+
     }
 
     @VisibleForTesting
