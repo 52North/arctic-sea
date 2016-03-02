@@ -17,7 +17,7 @@
 package org.n52.iceland.exception.ows.concrete;
 
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
 
 /**
  * @since 1.0.0
@@ -27,8 +27,8 @@ public class InvalidServiceParameterException extends InvalidParameterValueExcep
     private static final long serialVersionUID = 4979630437608155123L;
 
     public InvalidServiceParameterException(String value) {
-        at(OWSConstants.GetCapabilitiesParams.service);
+        at(ExtendedOWSConstants.GetCapabilitiesParams.service);
         withMessage("The value of the mandatory parameter '%s' is invalid. Delivered value was: %s",
-                OWSConstants.GetCapabilitiesParams.service, value);
+                ExtendedOWSConstants.GetCapabilitiesParams.service, value);
     }
 }

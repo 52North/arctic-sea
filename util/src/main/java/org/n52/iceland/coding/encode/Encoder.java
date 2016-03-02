@@ -22,8 +22,9 @@ import java.util.Set;
 import org.n52.iceland.coding.SupportedType;
 
 import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.CodingException;
-import org.n52.iceland.exception.UnsupportedEncoderInputException;
+import org.n52.iceland.exception.ows.concrete.UnsupportedEncoderInputException;
+import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
 import org.n52.iceland.util.http.MediaType;
 
 /**
@@ -45,13 +46,13 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      *            the object to encode
      *
      * @return the encoded object
-     * @throws org.n52.iceland.exception.CodingException
+     * @throws org.n52.iceland.exception.ows.OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
      *             if the supplied object (or any of it's contents) is not
      *             supported by this encoder
      */
-    T encode(S objectToEncode) throws CodingException, UnsupportedEncoderInputException;
+    T encode(S objectToEncode) throws OwsExceptionReport, UnsupportedEncoderInputException;
 
     /**
      * Encodes the specified object with the specified {@linkplain HelperValues}
@@ -63,13 +64,13 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      *            the helper values
      *
      * @return the encoded object
-     * @throws org.n52.iceland.exception.CodingException
+     * @throws org.n52.iceland.exception.ows.OwsExceptionReport
      *             if an error occurs
      * @throws UnsupportedEncoderInputException
      *             if the supplied object (or any of it's contents) is not
      *             supported by this encoder
      */
-    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws CodingException, UnsupportedEncoderInputException;
+    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws OwsExceptionReport, UnsupportedEncoderInputException;
 
     /**
      * Get the {@link SupportedType}
@@ -95,19 +96,4 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      */
     MediaType getContentType();
 
-
-    // TODO add javadoc for each value
-    enum HelperValues {
-        @Deprecated GMLID, @Deprecated EXIST_FOI_IN_DOC, VERSION, TYPE,
-        /**
-         * Encode the given 'object to encode' in a <tt>*Document</tt> object
-         * and not <tt>*Type</tt>.
-         */
-        DOCUMENT, PROPERTY_TYPE, @Deprecated FOR_OBSERVATION, ENCODE, ENCODE_NAMESPACE, REFERENCED,
-        /**
-         * Encode the given <tt>OwsExceptionReport</tt> not into an
-         * <tt>ows:ExceptionReport</tt> but one <tt>ows:Exception</tt>.
-         */
-        ENCODE_OWS_EXCEPTION_ONLY
-    }
 }

@@ -16,10 +16,10 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
+import org.n52.iceland.coding.encode.Encoder;
 import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.coding.encode.ConformanceClassEncoder;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -31,7 +31,7 @@ import org.n52.iceland.coding.encode.ConformanceClassEncoder;
 public class UnsupportedEncoderInputException extends NoApplicableCodeException {
     private static final long serialVersionUID = 7033551424176154646L;
 
-    public UnsupportedEncoderInputException(final ConformanceClassEncoder<?, ?> encoder, final Object o) {
+    public UnsupportedEncoderInputException(final Encoder<?, ?> encoder, final Object o) {
         if (o == null) {
             withMessage("Encoder %s can not encode 'null'", encoder.getClass().getName());
         } else {

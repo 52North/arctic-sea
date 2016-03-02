@@ -32,14 +32,15 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.iceland.coding.decode.XmlStringOperationDecoderKey;
 import org.n52.iceland.exception.CodedException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants.RequestParams;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.Request;
 import org.n52.iceland.util.Constants;
@@ -50,13 +51,8 @@ import org.n52.iceland.w3c.W3CConstants;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import java.util.Optional;
-import java.util.logging.Level;
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.n52.iceland.coding.decode.ConformanceClassDecoder;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.exception.CodingException;
-import org.n52.iceland.exception.UnsupportedDecoderInputException;
 
 /**
  * Abstract binding class for XML encoded requests
@@ -88,13 +84,13 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
                 opOrType = xmlStringKey.getOperation();
                 service = Optional.of(xmlStringKey.getService());
             }
-            if (OWSConstants.Operations.GetCapabilities.toString().equalsIgnoreCase(opOrType)) {
+            if (ExtendedOWSConstants.Operations.GetCapabilities.toString().equalsIgnoreCase(opOrType)) {
                 if (service.isPresent()) {
-                    throw new InvalidParameterValueException(OWSConstants.GetCapabilitiesParams.service, service.get())
+                    throw new InvalidParameterValueException(ExtendedOWSConstants.GetCapabilitiesParams.service, service.get())
                             .withMessage("The service '%s' is not supported.", service);
                 } else {
-                    throw new MissingParameterValueException(OWSConstants.GetCapabilitiesParams.service)
-                            .withMessage("The parameter '%s' is missing.", OWSConstants.GetCapabilitiesParams.service);
+                    throw new MissingParameterValueException(ExtendedOWSConstants.GetCapabilitiesParams.service)
+                            .withMessage("The parameter '%s' is missing.", ExtendedOWSConstants.GetCapabilitiesParams.service);
                 }
             } else {
                 throw new InvalidParameterValueException().withMessage(
@@ -103,13 +99,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
         }
-
-        try {
-            return decoder.decode(xmlString);
-        } catch (CodingException | UnsupportedDecoderInputException ex) {
-            throw new NoApplicableCodeException().causedBy(ex);
-        }
-
+        return decoder.decode(xmlString);
     }
 
     @VisibleForTesting
@@ -118,7 +108,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
             Element element = document.getDocumentElement();
             element.normalize();
-            if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
+            if (element.hasAttributes() && element.hasAttribute(ExtendedOWSConstants.RequestParams.service.name())) {
                 OperationKey operationKey = getOperationKey(element);
                 XmlStringOperationDecoderKey decoderKey = new XmlStringOperationDecoderKey(operationKey, getDefaultContentType());
                 return decoderKey;
@@ -164,8 +154,8 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         String version = null;
         String operation = null;
         if (element.hasAttributes()) {
-            service = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.service.name()));
-            version = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.version.name()));
+            service = Strings.emptyToNull(element.getAttribute(ExtendedOWSConstants.RequestParams.service.name()));
+            version = Strings.emptyToNull(element.getAttribute(ExtendedOWSConstants.RequestParams.version.name()));
             if (!Strings.isNullOrEmpty(service)) {
                 String nodeName = element.getNodeName();
                 operation = nodeName.substring(nodeName.indexOf(Constants.COLON_STRING) + 1);

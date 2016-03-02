@@ -19,16 +19,17 @@ package org.n52.iceland.binding;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Level;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.coding.OperationKey;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.DecoderRepository;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
+import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.coding.encode.EncoderRepository;
 import org.n52.iceland.coding.encode.ExceptionEncoderKey;
@@ -57,14 +58,6 @@ import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.n52.iceland.coding.decode.ConformanceClassDecoder;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.encode.ConformanceClassEncoder;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.exception.CodingException;
-import org.n52.iceland.exception.UnsupportedDecoderInputException;
-import org.n52.iceland.exception.UnsupportedEncoderInputException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * TODO JavaDoc
@@ -327,15 +320,7 @@ public abstract class SimpleBinding extends Binding {
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
-
-        Object result;
-        try {
-            result = encoder.encode(response);
-        } catch (CodingException | UnsupportedEncoderInputException ex) {
-            throw new NoApplicableCodeException().causedBy(ex);
-        }
-
-        return result;
+        return encoder.encode(response);
     }
 
     protected void writeOwsExceptionReport(HttpServletRequest request,
@@ -363,12 +348,7 @@ public abstract class SimpleBinding extends Binding {
             LOG.error("Can't find OwsExceptionReport encoder for Content-Type {}", contentType);
             throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
         }
-
-        try {
-            return encoder.encode(oer);
-        } catch (CodingException | UnsupportedEncoderInputException ex) {
-            throw new NoApplicableCodeException().causedBy(ex);
-        }
+        return encoder.encode(oer);
     }
 
 }

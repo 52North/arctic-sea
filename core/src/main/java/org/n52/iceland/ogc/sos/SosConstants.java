@@ -20,11 +20,11 @@ import static java.util.Collections.unmodifiableSet;
 
 import java.util.Set;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
 
 /**
  * SosConstants holds all important and often used constants of OGC SOS (e.g.
@@ -33,7 +33,7 @@ import com.google.common.collect.Sets;
  *
  * @since 1.0.0
  */
-public interface SosConstants extends OWSConstants {
+public interface SosConstants extends ExtendedOWSConstants {
 
     String NS_SOS_PREFIX = "sos";
 

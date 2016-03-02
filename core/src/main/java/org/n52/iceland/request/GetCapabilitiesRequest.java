@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.response.GetCapabilitiesResponse;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Comparables;
 import org.n52.iceland.util.StringHelper;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
 
 /**
  * Implementation of {@link AbstractServiceRequest} for OWS GetCapabilities
@@ -58,7 +58,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     @Override
     public String getOperationName() {
-        return OWSConstants.Operations.GetCapabilities.name();
+        return ExtendedOWSConstants.Operations.GetCapabilities.name();
     }
 
     /**
@@ -206,9 +206,8 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     }
 
     private OwsExceptionReport versionNegotiationFailed() {
-        return new VersionNegotiationFailedException().withMessage(
-                "The requested '%s' values are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions);
+        return new VersionNegotiationFailedException().withMessage("The requested '%s' values are not supported by this service!",
+                ExtendedOWSConstants.GetCapabilitiesParams.AcceptVersions);
     }
 
 

@@ -19,7 +19,7 @@ package org.n52.iceland.exception.ows.concrete;
 import java.util.List;
 
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
-import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
 
 
 /**
@@ -34,12 +34,12 @@ public class InvalidAcceptVersionsParameterException extends VersionNegotiationF
     @SuppressWarnings("ThrowableResultIgnored")
     public InvalidAcceptVersionsParameterException(String... acceptVersions) {
         withMessage("The requested %s values (%s) are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
+                ExtendedOWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
     }
 
     @SuppressWarnings("ThrowableResultIgnored")
     public InvalidAcceptVersionsParameterException(List<String> acceptVersions) {
         withMessage("The requested %s values (%s) are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
+                ExtendedOWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
     }
 }

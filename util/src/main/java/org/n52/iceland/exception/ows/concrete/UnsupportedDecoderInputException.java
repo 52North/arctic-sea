@@ -16,10 +16,10 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
+import org.n52.iceland.coding.decode.Decoder;
 import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.coding.decode.ConformanceClassDecoder;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -31,7 +31,7 @@ import org.n52.iceland.coding.decode.ConformanceClassDecoder;
 public class UnsupportedDecoderInputException extends NoApplicableCodeException {
     private static final long serialVersionUID = 5561451567407304739L;
 
-    public UnsupportedDecoderInputException(ConformanceClassDecoder<?, ?> decoder, Object o) {
+    public UnsupportedDecoderInputException(Decoder<?, ?> decoder, Object o) {
         if (o == null) {
             withMessage("Decoder %s can not decode 'null'", decoder.getClass().getSimpleName());
         } else {

@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.response;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OwsCapabilities;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
 
 /**
  * Implementation of {@link AbstractServiceResponse} for OWS GetCapabilities
@@ -55,7 +55,7 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
 
     @Override
     public String getOperationName() {
-        return OWSConstants.Operations.GetCapabilities.name();
+        return ExtendedOWSConstants.Operations.GetCapabilities.name();
     }
 
     public String getXmlString() {

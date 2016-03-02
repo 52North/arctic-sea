@@ -19,7 +19,7 @@ package org.n52.iceland.response;
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.ogc.ows.Extension;
 import org.n52.iceland.ogc.ows.Extensions;
-import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
+import org.n52.iceland.ogc.ows.ExtendedOWSConstants.HasExtension;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.util.http.MediaType;
 
