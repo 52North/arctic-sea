@@ -35,7 +35,9 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.encode.ConformanceClassEncoder;
+import org.n52.iceland.coding.encode.Encoder;
 
 /**
  * TODO JavaDoc
@@ -71,14 +73,14 @@ public class SupportedTypeRepository implements Constructable {
         SupportedTypeRepository.instance = this;
         this.supportedTypes.clear();
 
-        for (ConformanceClassDecoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
+        for (Decoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
             Set<SupportedType> set = decoder.getSupportedTypes();
             if (set != null) {
                 this.supportedTypes.addAll(Activatable.from(set));
             }
         }
 
-        for (ConformanceClassEncoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
+        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             Set<SupportedType> set = encoder.getSupportedTypes();
             if (set != null) {
                 this.supportedTypes.addAll(Activatable.from(set));

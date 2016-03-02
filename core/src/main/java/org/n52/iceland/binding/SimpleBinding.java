@@ -58,7 +58,9 @@ import org.n52.iceland.util.http.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.encode.ConformanceClassEncoder;
+import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.exception.CodingException;
 import org.n52.iceland.exception.UnsupportedDecoderInputException;
 import org.n52.iceland.exception.UnsupportedEncoderInputException;
@@ -159,11 +161,11 @@ public abstract class SimpleBinding extends Binding {
         return getServiceOperatorRepository().isServiceSupported(service);
     }
 
-    protected <F, T> ConformanceClassDecoder<F, T> getDecoder(DecoderKey key) {
+    protected <F, T> Decoder<F, T> getDecoder(DecoderKey key) {
         return this.decoderRepository.getDecoder(key);
     }
 
-    protected <F, T> ConformanceClassEncoder<F, T> getEncoder(EncoderKey key) {
+    protected <F, T> Encoder<F, T> getEncoder(EncoderKey key) {
         return this.encoderRepository.getEncoder(key);
     }
 
@@ -321,7 +323,7 @@ public abstract class SimpleBinding extends Binding {
     protected Object encodeResponse(AbstractServiceResponse response,
             MediaType contentType) throws OwsExceptionReport {
         OperationResponseEncoderKey key = new OperationResponseEncoderKey(response.getOperationKey(), contentType);
-        ConformanceClassEncoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
+        Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
@@ -356,7 +358,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected Object encodeOwsExceptionReport(OwsExceptionReport oer,
             MediaType contentType) throws OwsExceptionReport, HTTPException {
-        ConformanceClassEncoder<Object, OwsExceptionReport> encoder = getEncoder(new ExceptionEncoderKey(contentType));
+        Encoder<Object, OwsExceptionReport> encoder = getEncoder(new ExceptionEncoderKey(contentType));
         if (encoder == null) {
             LOG.error("Can't find OwsExceptionReport encoder for Content-Type {}", contentType);
             throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);

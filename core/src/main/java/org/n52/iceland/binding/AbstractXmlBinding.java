@@ -54,6 +54,7 @@ import java.util.logging.Level;
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.MissingParameterValueException;
 import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.exception.CodingException;
 import org.n52.iceland.exception.UnsupportedDecoderInputException;
 
@@ -74,7 +75,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         LOGGER.debug("XML-REQUEST: {}", xmlString);
         DecoderKey key = getDecoderKey(xmlString, characterEncoding);
         LOGGER.trace("Found decoder key: {}", key);
-        ConformanceClassDecoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
+        Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
         if (decoder == null) {
             // if this a GetCapabilities request, then the service is not supported
             String opOrType = null;

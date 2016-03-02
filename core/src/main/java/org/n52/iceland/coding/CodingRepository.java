@@ -31,7 +31,9 @@ import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.w3c.SchemaLocation;
 import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.encode.ConformanceClassEncoder;
+import org.n52.iceland.coding.encode.Encoder;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -70,12 +72,12 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public Set<ConformanceClassDecoder<?, ?>> getDecoders() {
+    public Set<Decoder<?, ?>> getDecoders() {
         return this.decoderRepository.getDecoders();
     }
 
     @Deprecated
-    public Set<ConformanceClassEncoder<?, ?>> getEncoders() {
+    public Set<Encoder<?, ?>> getEncoders() {
         return this.encoderRepository.getEncoders();
     }
 
@@ -95,7 +97,7 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public <F, T> ConformanceClassDecoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
+    public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
         return this.decoderRepository.getDecoder(key, keys);
     }
 
@@ -105,7 +107,7 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public <F, T> ConformanceClassEncoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
+    public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
         return this.encoderRepository.getEncoder(key, keys);
     }
 

@@ -60,6 +60,7 @@ import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
 import java.util.logging.Level;
 import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.exception.CodingException;
 import org.n52.iceland.exception.UnsupportedDecoderInputException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
@@ -191,7 +192,7 @@ public class KvpBinding extends SimpleBinding {
             throw new VersionNotSupportedException();
         }
         DecoderKey k = new OperationDecoderKey(service, version, operation, MediaTypes.APPLICATION_KVP);
-        ConformanceClassDecoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
+        Decoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
         LOGGER.trace("Using {} to decode paramers: {}", decoder, Arrays.toString(parameterValueMap.entrySet().toArray()));
         if (decoder != null) {
             AbstractServiceRequest<?> request;

@@ -50,6 +50,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import java.util.logging.Level;
 import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.exception.CodingException;
 import org.n52.iceland.exception.UnsupportedDecoderInputException;
 
@@ -130,7 +131,7 @@ public class JSONBinding extends SimpleBinding {
                     json.path(VERSION).textValue(),
                     json.path(REQUEST).textValue(),
                     MediaTypes.APPLICATION_JSON);
-            ConformanceClassDecoder<AbstractServiceRequest<?>, JsonNode> decoder =
+            Decoder<AbstractServiceRequest<?>, JsonNode> decoder =
                     getDecoder(key);
             if (decoder == null) {
                 throw new NoDecoderForKeyException(key);
