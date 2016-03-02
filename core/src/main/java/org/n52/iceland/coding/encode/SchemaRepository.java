@@ -55,7 +55,7 @@ public class SchemaRepository implements Constructable {
     public void init() {
         SchemaRepository.instance = this;
         this.schemaLocations.clear();
-        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
+        for (ConformanceClassEncoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             for (EncoderKey key : encoder.getKeys()) {
                 if (key instanceof XmlEncoderKey) {
                     Set<SchemaLocation> locations = encoder.getSchemaLocations();
@@ -92,7 +92,7 @@ public class SchemaRepository implements Constructable {
 
     private Map<String, String> getPrefixNamspaceMap() {
         Map<String, String> prefixMap = Maps.newHashMap();
-        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
+        for (ConformanceClassEncoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             encoder.addNamespacePrefixToMap(prefixMap);
         }
         return prefixMap;

@@ -16,13 +16,25 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.component.ComponentFactory;
+import java.util.Collections;
+import java.util.Set;
+
+import org.n52.iceland.service.ConformanceClass;
+import org.n52.iceland.w3c.SchemaLocation;
 
 /**
+ * Generic interface for Encoders.
  *
- * @author Christian Autermann
+ * @param <T>
+ *            the resulting type, the "Target"
+ * @param <S>
+ *            the input type, the "Source"
+ *
+ * @since 1.0.0
  */
-public interface EncoderFactory extends
-        ComponentFactory<EncoderKey, ConformanceClassEncoder<?, ?>> {
+public interface ConformanceClassEncoder<T, S> extends ConformanceClass, Encoder<T, S> {
 
+    default Set<SchemaLocation> getSchemaLocations() {
+        return Collections.emptySet();
+    }
 }

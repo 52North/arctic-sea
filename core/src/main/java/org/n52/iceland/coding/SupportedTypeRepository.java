@@ -20,15 +20,12 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderRepository;
-import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderRepository;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.service.ServiceConstants.AbstractSupportedStringType;
 import org.n52.iceland.service.ServiceConstants.FeatureType;
 import org.n52.iceland.service.ServiceConstants.ObservationType;
-import org.n52.iceland.service.ServiceConstants.SupportedType;
 import org.n52.iceland.util.activation.Activatable;
 
 import com.google.common.cache.CacheBuilder;
@@ -37,6 +34,8 @@ import com.google.common.cache.LoadingCache;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.encode.ConformanceClassEncoder;
 
 /**
  * TODO JavaDoc
@@ -72,14 +71,14 @@ public class SupportedTypeRepository implements Constructable {
         SupportedTypeRepository.instance = this;
         this.supportedTypes.clear();
 
-        for (Decoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
+        for (ConformanceClassDecoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
             Set<SupportedType> set = decoder.getSupportedTypes();
             if (set != null) {
                 this.supportedTypes.addAll(Activatable.from(set));
             }
         }
 
-        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
+        for (ConformanceClassEncoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             Set<SupportedType> set = encoder.getSupportedTypes();
             if (set != null) {
                 this.supportedTypes.addAll(Activatable.from(set));

@@ -34,7 +34,6 @@ import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.config.annotation.Configurable;
@@ -59,6 +58,11 @@ import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
+import java.util.logging.Level;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.exception.CodingException;
+import org.n52.iceland.exception.UnsupportedDecoderInputException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -187,10 +191,15 @@ public class KvpBinding extends SimpleBinding {
             throw new VersionNotSupportedException();
         }
         DecoderKey k = new OperationDecoderKey(service, version, operation, MediaTypes.APPLICATION_KVP);
-        Decoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
+        ConformanceClassDecoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
         LOGGER.trace("Using {} to decode paramers: {}", decoder, Arrays.toString(parameterValueMap.entrySet().toArray()));
         if (decoder != null) {
-            AbstractServiceRequest<?> request = decoder.decode(parameterValueMap);
+            AbstractServiceRequest<?> request;
+            try {
+                request = decoder.decode(parameterValueMap);
+            } catch (CodingException | UnsupportedDecoderInputException ex) {
+                throw new NoApplicableCodeException().causedBy(ex);
+            }
             if (includeOriginal) {
                 request.setOriginalRequest(urlJoiner.join(req.getRequestURL(), req.getQueryString()));
             }

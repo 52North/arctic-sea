@@ -33,7 +33,6 @@ import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.coding.encode.XmlEncoderKey;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -62,6 +61,12 @@ import org.n52.iceland.w3c.wsa.WsaToHeader;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.n52.iceland.coding.encode.ConformanceClassEncoder;
+import org.n52.iceland.exception.CodingException;
+import org.n52.iceland.exception.UnsupportedEncoderInputException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * {@link Binding} implementation for SOAP encoded requests
@@ -188,9 +193,13 @@ public class SoapBinding extends AbstractXmlBinding {
     private Object encodeSoapResponse(SoapChain chain) throws OwsExceptionReport {
         final EncoderKey key =
                 new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(), chain.getSoapResponse().getClass());
-        final Encoder<?, SoapResponse> encoder = getEncoder(key);
+        final ConformanceClassEncoder<?, SoapResponse> encoder = getEncoder(key);
         if (encoder != null) {
-            return encoder.encode(chain.getSoapResponse());
+            try {
+                return encoder.encode(chain.getSoapResponse());
+            } catch (CodingException | UnsupportedEncoderInputException ex) {
+                throw new NoApplicableCodeException().causedBy(ex);
+            }
         } else {
             throw new NoEncoderForKeyException(key);
         }

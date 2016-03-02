@@ -26,12 +26,12 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.encode.ConformanceClassEncoder;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -70,22 +70,22 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public Set<Decoder<?, ?>> getDecoders() {
+    public Set<ConformanceClassDecoder<?, ?>> getDecoders() {
         return this.decoderRepository.getDecoders();
     }
 
     @Deprecated
-    public Set<Encoder<?, ?>> getEncoders() {
+    public Set<ConformanceClassEncoder<?, ?>> getEncoders() {
         return this.encoderRepository.getEncoders();
     }
 
     @Deprecated
-    public Map<DecoderKey, Set<Decoder<?, ?>>> getDecoderByKey() {
+    public Map<DecoderKey, Set<ConformanceClassDecoder<?, ?>>> getDecoderByKey() {
         return Collections.emptyMap();
     }
 
     @Deprecated
-    public Map<EncoderKey, Set<Encoder<?, ?>>> getEncoderByKey() {
+    public Map<EncoderKey, Set<ConformanceClassEncoder<?, ?>>> getEncoderByKey() {
         return Collections.emptyMap();
     }
 
@@ -95,7 +95,7 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
+    public <F, T> ConformanceClassDecoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
         return this.decoderRepository.getDecoder(key, keys);
     }
 
@@ -105,7 +105,7 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
+    public <F, T> ConformanceClassEncoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
         return this.encoderRepository.getEncoder(key, keys);
     }
 

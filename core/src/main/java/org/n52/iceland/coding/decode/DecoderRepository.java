@@ -31,10 +31,10 @@ import org.n52.iceland.lifecycle.Constructable;
  * @author Christian Autermann
  */
 public class DecoderRepository
-        extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory> implements Constructable {
+        extends AbstractCodingRepository<DecoderKey, ConformanceClassDecoder<?, ?>, DecoderFactory> implements Constructable {
 
     @Autowired(required = false)
-    private Collection<Decoder<?, ?>> decoders;
+    private Collection<ConformanceClassDecoder<?, ?>> decoders;
     @Autowired(required = false)
     private Collection<DecoderFactory> decoderFactories;
 
@@ -43,7 +43,7 @@ public class DecoderRepository
         setProducers(getProviders(decoders, decoderFactories));
     }
 
-    public Set<Decoder<?, ?>> getDecoders() {
+    public Set<ConformanceClassDecoder<?, ?>> getDecoders() {
         return getComponents();
     }
 
@@ -52,8 +52,8 @@ public class DecoderRepository
     }
 
     @SuppressWarnings("unchecked")
-    public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
-        return (Decoder<F, T>) getComponent(key, keys);
+    public <F, T> ConformanceClassDecoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
+        return (ConformanceClassDecoder<F, T>) getComponent(key, keys);
     }
 
     @Override

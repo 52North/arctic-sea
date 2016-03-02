@@ -14,15 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding.encode;
+package org.n52.iceland.coding.decode;
 
-import org.n52.iceland.component.ComponentFactory;
+import org.n52.iceland.service.ConformanceClass;
 
 /**
+ * Generic interface for decoders.
  *
- * @author Christian Autermann
+ * @param <T>
+ *            the result of the decoding process, the "Target"
+ * @param <S>
+ *            the input which is decoded, the "Source"
+ *
+ * @since 1.0.0
  */
-public interface EncoderFactory extends
-        ComponentFactory<EncoderKey, ConformanceClassEncoder<?, ?>> {
+public interface ConformanceClassDecoder<T, S> extends ConformanceClass, Decoder<T, S> {
 
 }

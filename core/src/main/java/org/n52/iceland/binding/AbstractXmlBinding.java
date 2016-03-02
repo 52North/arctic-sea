@@ -32,7 +32,6 @@ import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.iceland.coding.decode.XmlStringOperationDecoderKey;
@@ -51,8 +50,12 @@ import org.n52.iceland.w3c.W3CConstants;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import java.util.Optional;
+import java.util.logging.Level;
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.MissingParameterValueException;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.exception.CodingException;
+import org.n52.iceland.exception.UnsupportedDecoderInputException;
 
 /**
  * Abstract binding class for XML encoded requests
@@ -71,7 +74,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         LOGGER.debug("XML-REQUEST: {}", xmlString);
         DecoderKey key = getDecoderKey(xmlString, characterEncoding);
         LOGGER.trace("Found decoder key: {}", key);
-        Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
+        ConformanceClassDecoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
         if (decoder == null) {
             // if this a GetCapabilities request, then the service is not supported
             String opOrType = null;
@@ -99,7 +102,13 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
         }
-        return decoder.decode(xmlString);
+        
+        try {
+            return decoder.decode(xmlString);
+        } catch (CodingException | UnsupportedDecoderInputException ex) {
+            throw new NoApplicableCodeException().causedBy(ex);
+        }
+        
     }
 
     @VisibleForTesting

@@ -30,11 +30,11 @@ import org.n52.iceland.lifecycle.Constructable;
  *
  * @author Christian Autermann
  */
-public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
+public class EncoderRepository extends AbstractCodingRepository<EncoderKey, ConformanceClassEncoder<?, ?>, EncoderFactory>
         implements Constructable {
 
     @Autowired(required = false)
-    private Collection<Encoder<?, ?>> encoders;
+    private Collection<ConformanceClassEncoder<?, ?>> encoders;
     @Autowired(required = false)
     private Collection<EncoderFactory> encoderFactories;
 
@@ -43,7 +43,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
         setProducers(getProviders(encoders, encoderFactories));
     }
 
-    public Set<Encoder<?, ?>> getEncoders() {
+    public Set<ConformanceClassEncoder<?, ?>> getEncoders() {
         return getComponents();
     }
 
@@ -52,8 +52,8 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
     }
 
     @SuppressWarnings("unchecked")
-    public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
-        return (Encoder<F, T>) getComponent(key, keys);
+    public <F, T> ConformanceClassEncoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
+        return (ConformanceClassEncoder<F, T>) getComponent(key, keys);
     }
 
     @Override

@@ -18,16 +18,16 @@ package org.n52.iceland.coding.encode;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.coding.encode.EncoderRepository;
+import org.n52.iceland.coding.encode.ConformanceClassEncoder;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public abstract class AbstractDelegatingEncoder<T, S> implements Encoder<T, S> {
+public abstract class AbstractDelegatingEncoder<T, S> implements ConformanceClassEncoder<T, S> {
 
     private EncoderRepository encoderRepository;
 
@@ -40,7 +40,7 @@ public abstract class AbstractDelegatingEncoder<T, S> implements Encoder<T, S> {
         this.encoderRepository = encoderRepository;
     }
 
-    public <T, S> Encoder<T, S> getEncoder(EncoderKey key, EncoderKey... others) {
+    public <T, S> ConformanceClassEncoder<T, S> getEncoder(EncoderKey key, EncoderKey... others) {
         return this.encoderRepository.getEncoder(key, others);
     }
 

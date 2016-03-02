@@ -19,17 +19,16 @@ package org.n52.iceland.binding;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Level;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.DecoderRepository;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
-import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.coding.encode.EncoderRepository;
 import org.n52.iceland.coding.encode.ExceptionEncoderKey;
@@ -58,6 +57,12 @@ import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.encode.ConformanceClassEncoder;
+import org.n52.iceland.exception.CodingException;
+import org.n52.iceland.exception.UnsupportedDecoderInputException;
+import org.n52.iceland.exception.UnsupportedEncoderInputException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * TODO JavaDoc
@@ -154,11 +159,11 @@ public abstract class SimpleBinding extends Binding {
         return getServiceOperatorRepository().isServiceSupported(service);
     }
 
-    protected <F, T> Decoder<F, T> getDecoder(DecoderKey key) {
+    protected <F, T> ConformanceClassDecoder<F, T> getDecoder(DecoderKey key) {
         return this.decoderRepository.getDecoder(key);
     }
 
-    protected <F, T> Encoder<F, T> getEncoder(EncoderKey key) {
+    protected <F, T> ConformanceClassEncoder<F, T> getEncoder(EncoderKey key) {
         return this.encoderRepository.getEncoder(key);
     }
 
@@ -316,11 +321,19 @@ public abstract class SimpleBinding extends Binding {
     protected Object encodeResponse(AbstractServiceResponse response,
             MediaType contentType) throws OwsExceptionReport {
         OperationResponseEncoderKey key = new OperationResponseEncoderKey(response.getOperationKey(), contentType);
-        Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
+        ConformanceClassEncoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
-        return encoder.encode(response);
+        
+        Object result;
+        try {
+            result = encoder.encode(response);
+        } catch (CodingException | UnsupportedEncoderInputException ex) {
+            throw new NoApplicableCodeException().causedBy(ex);
+        }
+        
+        return result;
     }
 
     protected void writeOwsExceptionReport(HttpServletRequest request,
@@ -343,12 +356,17 @@ public abstract class SimpleBinding extends Binding {
 
     protected Object encodeOwsExceptionReport(OwsExceptionReport oer,
             MediaType contentType) throws OwsExceptionReport, HTTPException {
-        Encoder<Object, OwsExceptionReport> encoder = getEncoder(new ExceptionEncoderKey(contentType));
+        ConformanceClassEncoder<Object, OwsExceptionReport> encoder = getEncoder(new ExceptionEncoderKey(contentType));
         if (encoder == null) {
             LOG.error("Can't find OwsExceptionReport encoder for Content-Type {}", contentType);
             throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
         }
-        return encoder.encode(oer);
+        
+        try {
+            return encoder.encode(oer);
+        } catch (CodingException | UnsupportedEncoderInputException ex) {
+            throw new NoApplicableCodeException().causedBy(ex);
+        }
     }
 
 }

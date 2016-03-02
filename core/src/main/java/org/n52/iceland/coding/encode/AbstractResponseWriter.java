@@ -61,7 +61,7 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
      *            Encoder key
      * @return Matching encoder
      */
-    protected <D, S> Encoder<D, S> getEncoder(EncoderKey key) {
+    protected <D, S> ConformanceClassEncoder<D, S> getEncoder(EncoderKey key) {
         return CodingRepository.getInstance().getEncoder(key);
     }
 

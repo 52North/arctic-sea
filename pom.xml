@@ -38,6 +38,7 @@
 
     <modules>
         <module>core</module>
+        <module>util</module>
         <module>statistics/core</module>
         <module>statistics/generator</module>
         <module>statistics/kibana</module>
@@ -126,6 +127,11 @@
             <dependency>
                 <groupId>org.n52.iceland</groupId>
                 <artifactId>iceland</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.iceland</groupId>
+                <artifactId>util</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

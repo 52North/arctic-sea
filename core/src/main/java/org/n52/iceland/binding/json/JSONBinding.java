@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
@@ -49,6 +48,10 @@ import org.n52.iceland.binding.PathBindingKey;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import java.util.logging.Level;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.exception.CodingException;
+import org.n52.iceland.exception.UnsupportedDecoderInputException;
 
 /**
  * {@link Binding} implementation for JSON encoded requests
@@ -127,12 +130,17 @@ public class JSONBinding extends SimpleBinding {
                     json.path(VERSION).textValue(),
                     json.path(REQUEST).textValue(),
                     MediaTypes.APPLICATION_JSON);
-            Decoder<AbstractServiceRequest<?>, JsonNode> decoder =
+            ConformanceClassDecoder<AbstractServiceRequest<?>, JsonNode> decoder =
                     getDecoder(key);
             if (decoder == null) {
                 throw new NoDecoderForKeyException(key);
             }
-            AbstractServiceRequest<?> sosRequest = decoder.decode(json);
+            AbstractServiceRequest<?> sosRequest;
+            try {
+                sosRequest = decoder.decode(json);
+            } catch (CodingException | UnsupportedDecoderInputException ex) {
+                throw new NoApplicableCodeException().causedBy(ex);
+            }
             sosRequest.setRequestContext(getRequestContext(request));
             return sosRequest;
         } catch (IOException ioe) {

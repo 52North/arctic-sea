@@ -26,7 +26,7 @@ import org.n52.iceland.coding.ProcedureCoder;
  * @param <T>
  */
 @Deprecated // SOS-specific
-public interface ProcedureEncoder<S, T> extends Encoder<S, T>, ProcedureCoder {
+public interface ProcedureEncoder<S, T> extends ConformanceClassEncoder<S, T>, ProcedureCoder {
 
     /**
      * Get the supported procedure description formats for this
