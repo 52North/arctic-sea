@@ -111,6 +111,7 @@ public class JSONBinding extends SimpleBinding {
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(request != null ? request.getVersion() : null);
+            LOG.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }
