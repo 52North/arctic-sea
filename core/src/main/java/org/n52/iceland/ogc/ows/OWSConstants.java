@@ -96,18 +96,4 @@ public interface OWSConstants {
         GetCapabilities;
     }
 
-    // TODO add javadoc for each value
-    enum HelperValues {
-        @Deprecated GMLID, @Deprecated EXIST_FOI_IN_DOC, VERSION, TYPE,
-        /**
-         * Encode the given 'object to encode' in a <tt>*Document</tt> object
-         * and not <tt>*Type</tt>.
-         */
-        DOCUMENT, PROPERTY_TYPE, @Deprecated FOR_OBSERVATION, ENCODE, ENCODE_NAMESPACE, REFERENCED,
-        /**
-         * Encode the given <tt>OwsExceptionReport</tt> not into an
-         * <tt>ows:ExceptionReport</tt> but one <tt>ows:Exception</tt>.
-         */
-        ENCODE_OWS_EXCEPTION_ONLY
-    }
 }

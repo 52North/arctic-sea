@@ -19,10 +19,10 @@ package org.n52.iceland.coding.encode;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import org.n52.iceland.coding.HelperValues;
 import org.n52.iceland.coding.SupportedType;
 
 import org.n52.iceland.component.Component;
-import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
 import org.n52.iceland.util.http.MediaType;
 
 /**
