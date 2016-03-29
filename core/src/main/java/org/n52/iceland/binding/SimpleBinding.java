@@ -325,7 +325,7 @@ public abstract class SimpleBinding extends Binding {
         try {
             return encoder.encode(response);
         } catch (EncodingException ex) {
-            throw new NoApplicableCodeException().causedBy(ex);
+            throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
         }
     }
 
@@ -357,7 +357,7 @@ public abstract class SimpleBinding extends Binding {
         try {
             return encoder.encode(oer);
         } catch (EncodingException ex) {
-            throw new NoApplicableCodeException().causedBy(ex);
+            throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
         }
     }
 

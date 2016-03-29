@@ -195,7 +195,7 @@ public class SoapBinding extends AbstractXmlBinding {
             try {
                 return encoder.encode(chain.getSoapResponse());
             } catch (EncodingException ex) {
-                throw new NoApplicableCodeException().causedBy(ex);
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }
         } else {
             throw new NoEncoderForKeyException(key);

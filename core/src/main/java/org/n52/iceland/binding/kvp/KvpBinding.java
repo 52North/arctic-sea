@@ -197,7 +197,7 @@ public class KvpBinding extends SimpleBinding {
             try {
                 request = decoder.decode(parameterValueMap);
             } catch (DecodingException ex) {
-                throw new NoApplicableCodeException().causedBy(ex);
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }
             if (includeOriginal) {
                 request.setOriginalRequest(urlJoiner.join(req.getRequestURL(), req.getQueryString()));

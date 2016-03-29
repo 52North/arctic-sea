@@ -103,7 +103,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         try {
             return decoder.decode(xmlString);
         } catch (DecodingException ex) {
-            throw new NoApplicableCodeException().causedBy(ex);
+            throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
         }
     }
 

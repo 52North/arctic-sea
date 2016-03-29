@@ -138,7 +138,7 @@ public class JSONBinding extends SimpleBinding {
             try {
                 sosRequest = decoder.decode(json);
             } catch (DecodingException ex) {
-                throw new NoApplicableCodeException().causedBy(ex);
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }
             sosRequest.setRequestContext(getRequestContext(request));
             return sosRequest;
