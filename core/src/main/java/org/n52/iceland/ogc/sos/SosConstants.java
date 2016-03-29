@@ -24,7 +24,7 @@ import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * SosConstants holds all important and often used constants of OGC SOS (e.g.
@@ -33,7 +33,7 @@ import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
  *
  * @since 1.0.0
  */
-public interface SosConstants extends ExtendedOWSConstants {
+public interface SosConstants extends OWSConstants {
 
     String NS_SOS_PREFIX = "sos";
 

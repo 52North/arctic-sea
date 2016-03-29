@@ -17,7 +17,7 @@
 package org.n52.iceland.exception.ows.concrete;
 
 import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -28,6 +28,6 @@ public class MissingVersionParameterException extends MissingParameterValueExcep
     private static final long serialVersionUID = 2689961871576299539L;
 
     public MissingVersionParameterException() {
-        super(ExtendedOWSConstants.RequestParams.version);
+        super(OWSConstants.RequestParams.version);
     }
 }

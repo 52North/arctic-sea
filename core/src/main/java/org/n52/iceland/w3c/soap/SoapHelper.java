@@ -29,7 +29,7 @@ import javax.xml.soap.SOAPMessage;
 
 import org.n52.iceland.ogc.ows.ExceptionCode;
 import org.w3c.dom.NodeList;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Utility class for SOAP requests.
@@ -116,7 +116,7 @@ public class SoapHelper {
         if (exceptionCode != null && exceptionCode.getSoapFaultReason() != null) {
             return exceptionCode.getSoapFaultReason();
         } else {
-            return ExtendedOWSConstants.SOAP_REASON_UNKNOWN;
+            return OWSConstants.SOAP_REASON_UNKNOWN;
         }
     }
 

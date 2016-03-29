@@ -45,8 +45,8 @@ import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
 import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants.RequestParams;
+import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
 import org.n52.iceland.ogc.sos.Sos2Constants;
 import org.n52.iceland.ogc.sos.SosConstants;
@@ -165,7 +165,7 @@ public class KvpBinding extends SimpleBinding {
     }
 
     protected boolean isGetCapabilities(Map<String, String> map) throws OwsExceptionReport {
-        return ExtendedOWSConstants.Operations.GetCapabilities.name().equals(getRequestParameterValue(map));
+        return OWSConstants.Operations.GetCapabilities.name().equals(getRequestParameterValue(map));
     }
 
     public String getRequestParameterValue(Map<String, String> map) throws OwsExceptionReport {

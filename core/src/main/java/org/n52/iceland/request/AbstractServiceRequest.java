@@ -28,14 +28,14 @@ import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.ogc.ows.Extension;
 import org.n52.iceland.ogc.ows.Extensions;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants.HasExtension;
+import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.ogc.ows.Value;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Abstract super class for all service request classes
@@ -161,8 +161,8 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
 
     public String getRequestedLanguage() {
         if (isSetExtensions()) {
-            if (getExtensions().containsExtension(ExtendedOWSConstants.AdditionalRequestParams.language)) {
-                Object value = getExtensions().getExtension(ExtendedOWSConstants.AdditionalRequestParams.language).getValue();
+            if (getExtensions().containsExtension(OWSConstants.AdditionalRequestParams.language)) {
+                Object value = getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
                 if (value instanceof Value<?, ?>) {
                     return ((Value<?, ?>) value).getStringValue();
                 }

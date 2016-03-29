@@ -21,9 +21,9 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants.ExtendedIndeterminateTime;
+import org.n52.iceland.ogc.ows.OWSConstants.ExtendedIndeterminateTime;
 import org.n52.iceland.util.Constants;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Class represents a GML conform timeInstant element
@@ -318,7 +318,7 @@ public class TimeInstant extends Time {
      * @return SOS indeterminate value
      */
     @Deprecated // is this SOS-specific?
-    public ExtendedOWSConstants.ExtendedIndeterminateTime getSosIndeterminateTime() {
+    public OWSConstants.ExtendedIndeterminateTime getSosIndeterminateTime() {
         return extendedIndeterminateTime;
     }
 
@@ -329,7 +329,7 @@ public class TimeInstant extends Time {
      * @return This TimeInstant
      */
     @Deprecated // is this SOS-specific?
-    public TimeInstant setSosIndeterminateTime(final ExtendedOWSConstants.ExtendedIndeterminateTime extendedIndeterminateTime) {
+    public TimeInstant setSosIndeterminateTime(final OWSConstants.ExtendedIndeterminateTime extendedIndeterminateTime) {
         this.extendedIndeterminateTime = extendedIndeterminateTime;
         return this;
     }

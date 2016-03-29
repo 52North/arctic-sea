@@ -31,7 +31,7 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Comparables;
 import org.n52.iceland.util.StringHelper;
-import org.n52.iceland.ogc.ows.ExtendedOWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Implementation of {@link AbstractServiceRequest} for OWS GetCapabilities
@@ -58,7 +58,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     @Override
     public String getOperationName() {
-        return ExtendedOWSConstants.Operations.GetCapabilities.name();
+        return OWSConstants.Operations.GetCapabilities.name();
     }
 
     /**
@@ -207,7 +207,7 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     private OwsExceptionReport versionNegotiationFailed() {
         return new VersionNegotiationFailedException().withMessage("The requested '%s' values are not supported by this service!",
-                ExtendedOWSConstants.GetCapabilitiesParams.AcceptVersions);
+                OWSConstants.GetCapabilitiesParams.AcceptVersions);
     }
 
 
