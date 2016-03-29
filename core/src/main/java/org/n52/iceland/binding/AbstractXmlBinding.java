@@ -51,6 +51,7 @@ import org.n52.iceland.w3c.W3CConstants;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import java.util.Optional;
+import org.n52.iceland.coding.decode.DecodingException;
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.MissingParameterValueException;
 
@@ -99,7 +100,11 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
         }
-        return decoder.decode(xmlString);
+        try {
+            return decoder.decode(xmlString);
+        } catch (DecodingException ex) {
+            throw new NoApplicableCodeException().causedBy(ex);
+        }
     }
 
     @VisibleForTesting

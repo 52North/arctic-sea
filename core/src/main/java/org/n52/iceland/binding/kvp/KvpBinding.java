@@ -59,6 +59,8 @@ import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Arrays;
+import org.n52.iceland.coding.decode.DecodingException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -191,7 +193,12 @@ public class KvpBinding extends SimpleBinding {
         Decoder<AbstractServiceRequest<?>, Map<String, String>> decoder = getDecoder(k);
         LOGGER.trace("Using {} to decode paramers: {}", decoder, Arrays.toString(parameterValueMap.entrySet().toArray()));
         if (decoder != null) {
-            AbstractServiceRequest<?> request = decoder.decode(parameterValueMap);
+            AbstractServiceRequest<?> request;
+            try {
+                request = decoder.decode(parameterValueMap);
+            } catch (DecodingException ex) {
+                throw new NoApplicableCodeException().causedBy(ex);
+            }
             if (includeOriginal) {
                 request.setOriginalRequest(urlJoiner.join(req.getRequestURL(), req.getQueryString()));
             }

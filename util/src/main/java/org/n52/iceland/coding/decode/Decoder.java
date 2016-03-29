@@ -21,8 +21,6 @@ import java.util.Set;
 import org.n52.iceland.coding.SupportedType;
 
 import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.concrete.UnsupportedDecoderInputException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 
 /**
  * Generic interface for decoders.
@@ -43,14 +41,11 @@ public interface Decoder<T, S> extends Component<DecoderKey> {
      *                       the object to encode
      *
      * @return the encoded object
-     * @throws org.n52.iceland.exception.ows.OwsExceptionReport
+     * @throws DecodingException
      *             if an error occurs
-     * @throws UnsupportedDecoderInputException
-     *                                          if the supplied type (or any of it's contents) is not
-     *                                          supported by this decoder
      */
     T decode(S objectToDecode)
-            throws OwsExceptionReport, UnsupportedDecoderInputException;
+            throws DecodingException;
 
     /**
      * Gets the supported types of this decoder.

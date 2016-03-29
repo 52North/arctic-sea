@@ -32,12 +32,14 @@ import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.coding.encode.EncoderRepository;
+import org.n52.iceland.coding.encode.EncodingException;
 import org.n52.iceland.coding.encode.ExceptionEncoderKey;
 import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.CompositeOwsException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceOrVersionException;
@@ -320,7 +322,11 @@ public abstract class SimpleBinding extends Binding {
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
         }
-        return encoder.encode(response);
+        try {
+            return encoder.encode(response);
+        } catch (EncodingException ex) {
+            throw new NoApplicableCodeException().causedBy(ex);
+        }
     }
 
     protected void writeOwsExceptionReport(HttpServletRequest request,
@@ -348,7 +354,11 @@ public abstract class SimpleBinding extends Binding {
             LOG.error("Can't find OwsExceptionReport encoder for Content-Type {}", contentType);
             throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
         }
-        return encoder.encode(oer);
+        try {
+            return encoder.encode(oer);
+        } catch (EncodingException ex) {
+            throw new NoApplicableCodeException().causedBy(ex);
+        }
     }
 
 }
