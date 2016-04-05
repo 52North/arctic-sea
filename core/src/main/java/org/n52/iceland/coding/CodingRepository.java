@@ -26,12 +26,14 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
 import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.iceland.coding.decode.ConformanceClassDecoder;
+import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.encode.ConformanceClassEncoder;
+import org.n52.iceland.coding.encode.Encoder;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -80,12 +82,12 @@ public class CodingRepository implements Constructable {
     }
 
     @Deprecated
-    public Map<DecoderKey, Set<Decoder<?, ?>>> getDecoderByKey() {
+    public Map<DecoderKey, Set<ConformanceClassDecoder<?, ?>>> getDecoderByKey() {
         return Collections.emptyMap();
     }
 
     @Deprecated
-    public Map<EncoderKey, Set<Encoder<?, ?>>> getEncoderByKey() {
+    public Map<EncoderKey, Set<ConformanceClassEncoder<?, ?>>> getEncoderByKey() {
         return Collections.emptyMap();
     }
 

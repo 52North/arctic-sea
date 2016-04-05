@@ -49,6 +49,7 @@ import org.n52.iceland.binding.PathBindingKey;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
+import org.n52.iceland.coding.decode.DecodingException;
 
 /**
  * {@link Binding} implementation for JSON encoded requests
@@ -111,6 +112,7 @@ public class JSONBinding extends SimpleBinding {
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(request != null ? request.getVersion() : null);
+            LOG.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }
@@ -132,7 +134,12 @@ public class JSONBinding extends SimpleBinding {
             if (decoder == null) {
                 throw new NoDecoderForKeyException(key);
             }
-            AbstractServiceRequest<?> sosRequest = decoder.decode(json);
+            AbstractServiceRequest<?> sosRequest;
+            try {
+                sosRequest = decoder.decode(json);
+            } catch (DecodingException ex) {
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
+            }
             sosRequest.setRequestContext(getRequestContext(request));
             return sosRequest;
         } catch (IOException ioe) {

@@ -21,9 +21,9 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OWSConstants.ExtendedIndeterminateTime;
 import org.n52.iceland.util.Constants;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Class represents a GML conform timeInstant element

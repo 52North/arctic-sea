@@ -19,15 +19,11 @@ package org.n52.iceland.coding.encode;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import org.n52.iceland.coding.HelperValues;
+import org.n52.iceland.coding.SupportedType;
 
 import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.exception.ows.concrete.UnsupportedEncoderInputException;
-import org.n52.iceland.ogc.ows.OWSConstants.HelperValues;
-import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.service.ServiceConstants.SupportedType;
 import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.w3c.SchemaLocation;
 
 /**
  * Generic interface for Encoders.
@@ -39,7 +35,7 @@ import org.n52.iceland.w3c.SchemaLocation;
  *
  * @since 1.0.0
  */
-public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
+public interface Encoder<T, S> extends Component<EncoderKey> {
 
     /**
      * Encodes the specified object.
@@ -48,14 +44,10 @@ public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
      *            the object to encode
      *
      * @return the encoded object
-     *
-     * @throws OwsExceptionReport
+     * @throws EncodingException
      *             if an error occurs
-     * @throws UnsupportedEncoderInputException
-     *             if the supplied object (or any of it's contents) is not
-     *             supported by this encoder
      */
-    T encode(S objectToEncode) throws OwsExceptionReport, UnsupportedEncoderInputException;
+    T encode(S objectToEncode) throws EncodingException;
 
     /**
      * Encodes the specified object with the specified {@linkplain HelperValues}
@@ -67,15 +59,10 @@ public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
      *            the helper values
      *
      * @return the encoded object
-     *
-     * @throws OwsExceptionReport
+     * @throws EncodingException
      *             if an error occurs
-     * @throws UnsupportedEncoderInputException
-     *             if the supplied object (or any of it's contents) is not
-     *             supported by this encoder
      */
-    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws OwsExceptionReport,
-            UnsupportedEncoderInputException;
+    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws EncodingException;
 
     /**
      * Get the {@link SupportedType}
@@ -101,7 +88,4 @@ public interface Encoder<T, S> extends ConformanceClass, Component<EncoderKey> {
      */
     MediaType getContentType();
 
-    default Set<SchemaLocation> getSchemaLocations() {
-        return Collections.emptySet();
-    }
 }

@@ -16,29 +16,18 @@
  */
 package org.n52.iceland.coding.encode;
 
-import javax.inject.Inject;
-
-
 /**
- * TODO JavaDoc
  *
- * @author Christian Autermann
+ * @author Matthes Rieke <m.rieke@52north.org>
  */
-public abstract class AbstractDelegatingEncoder<T, S> implements ConformanceClassEncoder<T, S> {
+public class EncodingException extends Exception {
 
-    private EncoderRepository encoderRepository;
-
-    public EncoderRepository getEncoderRepository() {
-        return encoderRepository;
+    public EncodingException(String message) {
+        super(message);
     }
 
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    public <T, S> Encoder<T, S> getEncoder(EncoderKey key, EncoderKey... others) {
-        return this.encoderRepository.getEncoder(key, others);
+    public EncodingException(String message, Throwable cause) {
+        super(message, cause);
     }
 
 }

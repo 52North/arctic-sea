@@ -28,8 +28,8 @@ import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 
 import org.n52.iceland.ogc.ows.ExceptionCode;
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.w3c.dom.NodeList;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Utility class for SOAP requests.

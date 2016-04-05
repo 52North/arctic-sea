@@ -57,8 +57,8 @@ public class SchemaRepository implements Constructable {
         this.schemaLocations.clear();
         for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
             for (EncoderKey key : encoder.getKeys()) {
-                if (key instanceof XmlEncoderKey) {
-                    Set<SchemaLocation> locations = encoder.getSchemaLocations();
+                if (key instanceof XmlEncoderKey && encoder instanceof ConformanceClassEncoder) {
+                    Set<SchemaLocation> locations = ((ConformanceClassEncoder) encoder).getSchemaLocations();
                     if (locations != null && !locations.isEmpty()) {
                         for (SchemaLocation schemaLocation : locations) {
                             this.schemaLocations.put(schemaLocation.getNamespace(), Sets.newHashSet(schemaLocation));

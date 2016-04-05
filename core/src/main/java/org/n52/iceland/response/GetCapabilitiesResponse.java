@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.response;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OwsCapabilities;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Implementation of {@link AbstractServiceResponse} for OWS GetCapabilities

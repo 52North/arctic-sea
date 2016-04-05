@@ -16,29 +16,25 @@
  */
 package org.n52.iceland.coding.encode;
 
-import javax.inject.Inject;
+import java.util.Collections;
+import java.util.Set;
 
+import org.n52.iceland.service.ConformanceClass;
+import org.n52.iceland.w3c.SchemaLocation;
 
 /**
- * TODO JavaDoc
+ * Generic interface for Encoders.
  *
- * @author Christian Autermann
+ * @param <T>
+ *            the resulting type, the "Target"
+ * @param <S>
+ *            the input type, the "Source"
+ *
+ * @since 1.0.0
  */
-public abstract class AbstractDelegatingEncoder<T, S> implements ConformanceClassEncoder<T, S> {
+public interface ConformanceClassEncoder<T, S> extends ConformanceClass, Encoder<T, S> {
 
-    private EncoderRepository encoderRepository;
-
-    public EncoderRepository getEncoderRepository() {
-        return encoderRepository;
+    default Set<SchemaLocation> getSchemaLocations() {
+        return Collections.emptySet();
     }
-
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    public <T, S> Encoder<T, S> getEncoder(EncoderKey key, EncoderKey... others) {
-        return this.encoderRepository.getEncoder(key, others);
-    }
-
 }

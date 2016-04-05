@@ -62,6 +62,8 @@ import org.n52.iceland.w3c.wsa.WsaToHeader;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import org.n52.iceland.coding.encode.EncodingException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * {@link Binding} implementation for SOAP encoded requests
@@ -190,7 +192,11 @@ public class SoapBinding extends AbstractXmlBinding {
                 new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(), chain.getSoapResponse().getClass());
         final Encoder<?, SoapResponse> encoder = getEncoder(key);
         if (encoder != null) {
-            return encoder.encode(chain.getSoapResponse());
+            try {
+                return encoder.encode(chain.getSoapResponse());
+            } catch (EncodingException ex) {
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
+            }
         } else {
             throw new NoEncoderForKeyException(key);
         }

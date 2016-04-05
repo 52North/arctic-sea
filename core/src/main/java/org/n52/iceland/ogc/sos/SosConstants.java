@@ -20,11 +20,11 @@ import static java.util.Collections.unmodifiableSet;
 
 import java.util.Set;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * SosConstants holds all important and often used constants of OGC SOS (e.g.

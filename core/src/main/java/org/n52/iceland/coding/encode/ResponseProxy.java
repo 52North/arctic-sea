@@ -45,4 +45,4 @@ public class ResponseProxy {
     public void setContentLength(int contentLength) {
         response.setContentLength(contentLength);
     }
-}
+    }

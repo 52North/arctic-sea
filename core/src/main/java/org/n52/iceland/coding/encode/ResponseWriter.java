@@ -22,6 +22,7 @@ import java.io.OutputStream;
 import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.ResponseFormat;
+import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
@@ -99,5 +100,13 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
 
         }
         return defaultContentType;
+    }
+
+    default boolean hasForcedHttpStatus(T t) {
+        return false;
+    }
+
+    default HTTPStatus getForcedHttpStatus(T t) {
+        return HTTPStatus.OK;
     }
 }

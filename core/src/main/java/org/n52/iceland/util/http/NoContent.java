@@ -14,31 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding.encode;
-
-import javax.inject.Inject;
-
+package org.n52.iceland.util.http;
 
 /**
- * TODO JavaDoc
  *
- * @author Christian Autermann
+ * @author Matthes Rieke <m.rieke@52north.org>
  */
-public abstract class AbstractDelegatingEncoder<T, S> implements ConformanceClassEncoder<T, S> {
-
-    private EncoderRepository encoderRepository;
-
-    public EncoderRepository getEncoderRepository() {
-        return encoderRepository;
-    }
-
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    public <T, S> Encoder<T, S> getEncoder(EncoderKey key, EncoderKey... others) {
-        return this.encoderRepository.getEncoder(key, others);
-    }
+public class NoContent {
 
 }

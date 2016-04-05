@@ -14,31 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.coding.encode;
+package org.n52.iceland.coding.decode;
 
-import javax.inject.Inject;
-
+import org.n52.iceland.service.ConformanceClass;
 
 /**
- * TODO JavaDoc
+ * Generic interface for decoders.
  *
- * @author Christian Autermann
+ * @param <T>
+ *            the result of the decoding process, the "Target"
+ * @param <S>
+ *            the input which is decoded, the "Source"
+ *
+ * @since 1.0.0
  */
-public abstract class AbstractDelegatingEncoder<T, S> implements ConformanceClassEncoder<T, S> {
-
-    private EncoderRepository encoderRepository;
-
-    public EncoderRepository getEncoderRepository() {
-        return encoderRepository;
-    }
-
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    public <T, S> Encoder<T, S> getEncoder(EncoderKey key, EncoderKey... others) {
-        return this.encoderRepository.getEncoder(key, others);
-    }
+public interface ConformanceClassDecoder<T, S> extends ConformanceClass, Decoder<T, S> {
 
 }

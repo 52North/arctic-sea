@@ -45,6 +45,8 @@ import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * {@link Binding} implementation for POX (XML) encoded requests
@@ -63,6 +65,8 @@ public class PoxBinding extends AbstractXmlBinding {
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_XML))
             .add(new MediaTypeBindingKey(MediaTypes.TEXT_XML))
             .build();
+
+    private static final Logger LOG = LoggerFactory.getLogger(PoxBinding.class);
 
     private boolean useHttpResponseCodes;
 
@@ -93,6 +97,7 @@ public class PoxBinding extends AbstractXmlBinding {
             writeResponse(req, res, sosResponse);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(sosRequest != null ? sosRequest.getVersion() : null);
+            LOG.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }

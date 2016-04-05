@@ -18,15 +18,13 @@ package org.n52.iceland.service;
 
 import com.google.common.base.MoreObjects;
 import java.util.Objects;
+import org.n52.iceland.coding.SupportedType;
 
 /**
  * @since 1.0.0
  *
  */
 public interface ServiceConstants {
-
-    interface SupportedType {
-    }
 
     abstract class AbstractSupportedStringType implements SupportedType {
         private final String value;
