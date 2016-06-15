@@ -23,6 +23,7 @@ import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
+import org.n52.iceland.coding.DocumentBuilderProvider;
 
 public class TestXmlBinding extends AbstractXmlBinding {
 
@@ -32,6 +33,12 @@ public class TestXmlBinding extends AbstractXmlBinding {
             = new MediaTypeBindingKey(MediaTypes.APPLICATION_XML);
     private static final ImmutableSet<BindingKey> KEYS
             = ImmutableSet.of(PATH_KEY, MEDIA_TYPE_KEY);
+
+    public TestXmlBinding() {
+        DocumentBuilderProvider fac = new DocumentBuilderProvider();
+        fac.init();
+        super.setDocumentFactory(fac);
+    }
 
     @Override
     protected boolean isUseHttpResponseCodes() {
