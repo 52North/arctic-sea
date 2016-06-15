@@ -22,7 +22,6 @@ import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
@@ -52,8 +51,10 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import java.util.Optional;
 import org.n52.iceland.coding.decode.DecodingException;
+import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.MissingParameterValueException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Abstract binding class for XML encoded requests
@@ -65,6 +66,14 @@ import org.n52.iceland.exception.ows.MissingParameterValueException;
 public abstract class AbstractXmlBinding extends SimpleBinding {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXmlBinding.class);
+
+
+    private DocumentBuilderProvider documentFactory;
+
+    @Autowired
+    public void setDocumentFactory(DocumentBuilderProvider documentFactory) {
+        this.documentFactory = documentFactory;
+    }
 
     protected Request decode(HttpServletRequest request) throws OwsExceptionReport {
         String characterEncoding = getCharacterEncoding(request);
@@ -110,7 +119,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     @VisibleForTesting
     protected DecoderKey getDecoderKey(String xmlContent, String characterEncoding) throws CodedException {
         try (ByteArrayInputStream stream = new ByteArrayInputStream(xmlContent.getBytes(characterEncoding))) {
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(stream);
+            Document document = documentFactory.newDocumentBuilder().parse(stream);
             Element element = document.getDocumentElement();
             element.normalize();
             if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
