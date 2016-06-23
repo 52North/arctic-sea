@@ -16,21 +16,24 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import com.google.common.base.Splitter;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ADDRESS;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CITY;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CONTACT_INSTRUCTIONS;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.COUNTRY;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.EMAIL;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.FILE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.FACSIMILE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.HOURS_OF_SERVICE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.INDIVIDUAL_NAME;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.NAME;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ONLINE_RESOURCE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.PHONE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.POSITION_NAME;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.POSTAL_CODE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_CODESPACE;
+import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_VALUE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.SITE;
 import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.STATE;
 
-import java.io.File;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Iterator;
@@ -41,16 +44,9 @@ import java.util.Set;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CONTACT_INSTRUCTIONS;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.FACSIMILE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.HOURS_OF_SERVICE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ONLINE_RESOURCE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_CODESPACE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_VALUE;
-import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
-import org.n52.iceland.util.StringHelper;
+
+import com.google.common.base.Splitter;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -60,7 +56,6 @@ import org.n52.iceland.util.StringHelper;
 @Configurable
 public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsServiceProvider> {
 
-    private File file;
     private String name;
     private URI site;
     private String individualName;
@@ -76,15 +71,10 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
     private String hoursOfService;
     private String contactInstructions;
     private String onlineResoureTitle;
-    private String onlineResoureHref;
+    private URI onlineResoureHref;
     private String role;
     private URI roleCodespace;
 
-    @Setting(FILE)
-    public void setFile(File file) {
-        this.file = file;
-        setRecreate();
-    }
 
     @Setting(NAME)
     public void setName(String name) throws ConfigurationError {
@@ -176,7 +166,7 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
             Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
             Iterator<String> iterator = split.iterator();
             this.onlineResoureTitle = iterator.next();
-            this.onlineResoureHref = iterator.next();
+            this.onlineResoureHref = URI.create(iterator.next());
             setRecreate();
         }
     }
@@ -195,44 +185,14 @@ public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsS
 
     @Override
     protected OwsServiceProvider create(Locale language) throws ConfigurationError {
-        OwsServiceProvider serviceProvider = new OwsServiceProvider();
-        if (this.file != null) {
-            createFromFile(serviceProvider);
-        } else {
-            createFromSettings(serviceProvider);
-        }
+        OwsOnlineResource providerSite = new OwsOnlineResource(onlineResoureHref, onlineResoureTitle);
+        OwsAddress address = new OwsAddress(deliveryPoint, city, administrativeArea, postalCode, country, electronicMailAddress);
+        OwsContact contactInfo =new OwsContact(new OwsPhone(phone, facsimile), address, new OwsOnlineResource(site), hoursOfService, contactInstructions);
+        // TODO organisation name is missing
+        OwsResponsibleParty serviceContact = new OwsResponsibleParty(individualName, null, positionName, contactInfo, new OwsCode(role, roleCodespace));
+        OwsServiceProvider serviceProvider = new OwsServiceProvider(name, providerSite, serviceContact);
         return serviceProvider;
-    }
 
-    private void createFromSettings(OwsServiceProvider serviceProvider) {
-        serviceProvider.setAdministrativeArea(this.administrativeArea);
-        serviceProvider.setCity(this.city);
-        serviceProvider.setContactInstructions(this.contactInstructions);
-        serviceProvider.setCountry(this.country);
-        serviceProvider.setDeliveryPoint(this.deliveryPoint);
-        serviceProvider.setFacsimile(this.facsimile);
-        serviceProvider.setHoursOfService(this.hoursOfService);
-        serviceProvider.setIndividualName(this.individualName);
-        serviceProvider.setElectronicMailAddress(this.electronicMailAddress);
-        serviceProvider.setName(this.name);
-        serviceProvider.setOnlineResourceHref(this.onlineResoureHref);
-        serviceProvider.setOnlineResourceTitle(this.onlineResoureTitle);
-        serviceProvider.setPhone(this.phone);
-        serviceProvider.setPositionName(this.positionName);
-        serviceProvider.setPostalCode(this.postalCode);
-        OwsCodeType r = new OwsCodeType(this.role);
-        r.setCodeSpace(this.roleCodespace);
-        serviceProvider.setRole(r);
-        serviceProvider.setSite(this.site == null ? null : this.site.toString());
-    }
-
-    private void createFromFile(OwsServiceProvider serviceProvider)
-            throws ConfigurationError {
-        try {
-            serviceProvider.setServiceProvider(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
-        } catch (OwsExceptionReport ex) {
-            throw new ConfigurationError(ex);
-        }
     }
 
     @Override

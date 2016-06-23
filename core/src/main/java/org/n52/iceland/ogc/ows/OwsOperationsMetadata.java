@@ -16,126 +16,40 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.SortedMap;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import org.n52.iceland.util.CollectionHelper;
-
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 
 /**
- * @since 1.0.0
+ * TODO JavaDoc
  *
+ * @author Christian Autermann
  */
 public class OwsOperationsMetadata {
 
-    private SortedSet<OwsOperation> operations;
+    private final List<OwsOperation> operations;
+    private final List<OwsDomain> parameters;
+    private final List<OwsDomain> constraints;
 
-    private SortedMap<String, List<OwsParameterValue>> commonValues = new TreeMap<>();
-
-    private SortedMap<String, List<OwsParameterValue>> commonConstraints = new TreeMap<>();
-
-    private OwsExtendedCapabilities extendedCapabilities;
-
-    public SortedMap<String, List<OwsParameterValue>> getCommonConstraints() {
-        return Collections.unmodifiableSortedMap(commonConstraints);
+    public OwsOperationsMetadata(List<OwsOperation> operations,
+                                 List<OwsDomain> parameters,
+                                 List<OwsDomain> constraints) {
+        this.operations = operations == null ? Collections.emptyList()
+                          : operations;
+        this.parameters = parameters == null ? Collections.emptyList()
+                          : parameters;
+        this.constraints = constraints == null ? Collections.emptyList()
+                           : constraints;
     }
 
-    public void setCommonConstraints(SortedMap<String, List<OwsParameterValue>> commonConstraints) {
-        this.commonConstraints = commonConstraints;
+    public List<OwsOperation> getOperations() {
+        return Collections.unmodifiableList(operations);
     }
 
-    public SortedSet<OwsOperation> getOperations() {
-        return Collections.unmodifiableSortedSet(operations);
+    public List<OwsDomain> getParameters() {
+        return Collections.unmodifiableList(parameters);
     }
 
-    public void setOperations(Collection<OwsOperation> operations) {
-        this.operations = operations == null ? null : new TreeSet<>(operations);
-    }
-
-    public Optional<OwsOperation> findOperation(Predicate<OwsOperation> predicate) {
-        if (isSetOperations()) {
-            return Iterables.tryFind(this.operations, predicate);
-        } else {
-            return Optional.absent();
-        }
-    }
-
-    public SortedMap<String, List<OwsParameterValue>> getCommonValues() {
-        return Collections.unmodifiableSortedMap(commonValues);
-    }
-
-    public void addOperation(OwsOperation operation) {
-        if (operations == null) {
-            operations = new TreeSet<>();
-        }
-        operations.add(operation);
-    }
-
-    public void addCommonValue(String parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = commonValues.get(parameterName);
-        if (values == null) {
-            values = new LinkedList<>();
-            commonValues.put(parameterName, values);
-        }
-        values.add(value);
-    }
-
-    public void overrideCommonValue(String parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = Lists.newLinkedList();
-        values.add(value);
-        commonValues.put(parameterName, values);
-    }
-
-    public boolean isSetCommonValues() {
-        return !CollectionHelper.isEmpty(getCommonValues());
-    }
-
-    public boolean isSetOperations() {
-        return !CollectionHelper.isEmpty(getOperations());
-    }
-
-    public boolean isEmpty() {
-        return CollectionHelper.isEmpty(getOperations());
-    }
-
-    public OwsExtendedCapabilities getExtendedCapabilities() {
-        return extendedCapabilities;
-    }
-
-    public void setExtendedCapabilities(OwsExtendedCapabilities extendedCapabilities) {
-        this.extendedCapabilities = extendedCapabilities;
-    }
-
-    public boolean isSetExtendedCapabilities() {
-        return getExtendedCapabilities() != null;
-    }
-
-    public void addCommonConstraint(String constraintName, OwsParameterValue value) {
-        List<OwsParameterValue> values = commonConstraints.get(constraintName);
-        if (values == null) {
-            values = new LinkedList<>();
-            commonConstraints.put(constraintName, values);
-        }
-        values.add(value);
-    }
-
-    public void overrideCommonConstraint(String constraintName, OwsParameterValue value) {
-        List<OwsParameterValue> values = Lists.newLinkedList();
-        values.add(value);
-        commonConstraints.put(constraintName, values);
-    }
-
-    public boolean isSetCommonConstraints() {
-        return !CollectionHelper.isEmpty(getCommonConstraints());
+    public List<OwsDomain> getConstraints() {
+        return Collections.unmodifiableList(constraints);
     }
 }

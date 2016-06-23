@@ -17,13 +17,27 @@
 package org.n52.iceland.ogc.ows;
 
 /**
- * Class represents an OWS AnyValue element
+ * TODO JavaDoc
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
- * @since 1.0.0
- *
+ * @author Christian Autermann
  */
 public class OwsAnyValue implements OwsPossibleValues {
+    private static final OwsAnyValue INSTANCE = new OwsAnyValue();
 
+    private OwsAnyValue() {
+    }
+
+    @Override
+    public boolean isAnyValue() {
+        return true;
+    }
+
+    @Override
+    public OwsAnyValue asAnyValues() {
+        return this;
+    }
+
+    public static OwsAnyValue instance() {
+        return INSTANCE;
+    }
 }

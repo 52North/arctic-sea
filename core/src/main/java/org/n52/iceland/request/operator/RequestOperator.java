@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.request.operator;
 
-import java.util.Iterator;
 import java.util.Set;
 
 import org.n52.iceland.component.Component;

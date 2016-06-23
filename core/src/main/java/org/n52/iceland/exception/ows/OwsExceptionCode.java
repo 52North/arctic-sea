@@ -16,23 +16,24 @@
  */
 package org.n52.iceland.exception.ows;
 
-import org.n52.iceland.ogc.ows.ExceptionCode;
+import org.n52.iceland.exception.ExceptionCode;
 import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
- * ExceptionCodes are defined in <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
+ * ExceptionCodes are defined in
+ * <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC Web
  * Service Common Specification 1.1.0</a>.
  *
  * @since 1.0.0
  */
 public enum OwsExceptionCode implements ExceptionCode {
-    InvalidParameterValue(OWSConstants.SOAP_REASON_INVALID_PARAMETER_VALUE), InvalidUpdateSequence(
-            OWSConstants.SOAP_REASON_INVALID_UPDATE_SEQUENCES), MissingParameterValue(
-            OWSConstants.SOAP_REASON_MISSING_PARAMETER_VALUE), NoApplicableCode(
-            OWSConstants.SOAP_REASON_NO_APPLICABLE_CODE), OperationNotSupported(
-            OWSConstants.SOAP_REASON_OPTION_NOT_SUPPORTED), OptionNotSupported(
-            OWSConstants.SOAP_REASON_OPERATION_NOT_SUPPORTED), VersionNegotiationFailed(
-            OWSConstants.SOAP_REASON_VERSION_NEGOTIATION_FAILED);
+    InvalidParameterValue(OWSConstants.SOAP_REASON_INVALID_PARAMETER_VALUE),
+    InvalidUpdateSequence(OWSConstants.SOAP_REASON_INVALID_UPDATE_SEQUENCES),
+    MissingParameterValue(OWSConstants.SOAP_REASON_MISSING_PARAMETER_VALUE),
+    NoApplicableCode(OWSConstants.SOAP_REASON_NO_APPLICABLE_CODE),
+    OperationNotSupported(OWSConstants.SOAP_REASON_OPTION_NOT_SUPPORTED),
+    OptionNotSupported(OWSConstants.SOAP_REASON_OPERATION_NOT_SUPPORTED),
+    VersionNegotiationFailed(OWSConstants.SOAP_REASON_VERSION_NEGOTIATION_FAILED);
     private final String soapFaulReason;
 
     private OwsExceptionCode(String soapFaultReason) {

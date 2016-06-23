@@ -16,30 +16,30 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import static java.util.stream.Collectors.toSet;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.ABSTRACT;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.ACCESS_CONSTRAINTS;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.FEES;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.FILE;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.KEYWORDS;
 import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.TITLE;
 
-import java.io.File;
+import java.net.URI;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.util.FileIOHelper;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
@@ -52,8 +52,6 @@ public class ServiceIdentificationFactory
 
     private final String service;
     private final ServiceOperatorRepository serviceOperatorRepository;
-
-    private File file;
     private MultilingualString title = new MultilingualString();
     private MultilingualString abstrakt = new MultilingualString();
     private String fees = null;
@@ -75,12 +73,6 @@ public class ServiceIdentificationFactory
     @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
     public void setDefaultLanguage(String lang) {
         this.defaultLocale = LocaleHelper.fromString(lang);
-    }
-
-    @Setting(FILE)
-    public void setFile(File file) {
-        this.file = file;
-        setRecreate();
     }
 
     public void setKeywords(String[] keywords) {
@@ -127,7 +119,6 @@ public class ServiceIdentificationFactory
 
     @Setting(FEES)
     public void setFees(String fees) {
-        // Validation.notNullOrEmpty("Service Identification Fees", fees);
         this.fees = fees;
         setRecreate();
     }
@@ -144,46 +135,29 @@ public class ServiceIdentificationFactory
 
     @Override
     protected OwsServiceIdentification create(Locale language) throws ConfigurationError {
-        if (this.file != null) {
-            return createFromFile();
-        } else {
-            return createFromSettings(language);
-        }
+        return createFromSettings(language);
     }
 
     private OwsServiceIdentification createFromSettings(Locale locale) {
-        OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
-        serviceIdentification.setTitle(this.title.filter(locale, defaultLocale, showAllLanguageValues));
-        serviceIdentification.setAbstract(this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues));
-        serviceIdentification.setAccessConstraints(Arrays.asList(this.constraints));
-        serviceIdentification.setFees(this.fees);
-        serviceIdentification.setServiceType(getServiceType());
-        serviceIdentification.setServiceTypeCodeSpace(getServiceTypeCodespace());
-        serviceIdentification.setVersions(getSupportedVersions());
-        serviceIdentification.setKeywords(Arrays.asList(this.keywords));
-        return serviceIdentification;
+        // TODO
+        Set<URI> profiles = null;
+        Set<String> fees = Optional.ofNullable(this.fees).map(Collections::singleton).orElseGet(Collections::emptySet);
+        HashSet<String> constraints = new HashSet<>(Arrays.asList(this.constraints));
+        MultilingualString title = this.title.filter(locale, defaultLocale, showAllLanguageValues);
+        MultilingualString abstrakt = this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
+        Set<OwsKeyword> keywords = Arrays.stream(this.keywords).map(OwsKeyword::new).collect(toSet());
+        OwsCode serviceType = getServiceType();
+        Set<String> serviceTypeVersion = getSupportedVersions();
+        return new OwsServiceIdentification(serviceType, serviceTypeVersion, profiles, fees, constraints, title, abstrakt, keywords);
     }
 
-    private String getServiceType() {
-        return "OGC:" + this.service;
-    }
-
-    private String getServiceTypeCodespace() {
-        return null;
+    private OwsCode getServiceType() {
+        URI codeSpace = null;
+        return new OwsCode("OGC:" + this.service, codeSpace);
     }
 
     private Set<String> getSupportedVersions() {
         return this.serviceOperatorRepository.getSupportedVersions(this.service);
-    }
-
-    private OwsServiceIdentification createFromFile() throws ConfigurationError {
-        try {
-            OwsServiceIdentification serviceIdentification = new OwsServiceIdentification();
-            serviceIdentification.setServiceIdentification(StringHelper.convertStreamToString(FileIOHelper.loadInputStreamFromFile(this.file)));
-            return serviceIdentification;
-        } catch (OwsExceptionReport ex) {
-            throw new ConfigurationError(ex);
-        }
     }
 
     @Override

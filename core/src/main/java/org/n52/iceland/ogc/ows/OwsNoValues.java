@@ -17,13 +17,28 @@
 package org.n52.iceland.ogc.ows;
 
 /**
- * Class represents an OWS NoValues element
+ * Specifies that no values are allowed for this parameter or quantity.
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
- * @since 1.0.0
- *
+ * @author Christian Autermann
  */
 public class OwsNoValues implements OwsPossibleValues {
 
+    private static final OwsNoValues INSTANCE = new OwsNoValues();
+
+    private OwsNoValues() {
+    }
+
+    @Override
+    public boolean isNoValues() {
+        return true;
+    }
+
+    @Override
+    public OwsNoValues asNoValues() {
+        return this;
+    }
+
+    public static OwsNoValues instance() {
+        return INSTANCE;
+    }
 }

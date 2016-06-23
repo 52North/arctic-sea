@@ -20,41 +20,41 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
+import org.n52.iceland.coding.decode.DecodingException;
+import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.iceland.coding.decode.XmlStringOperationDecoderKey;
 import org.n52.iceland.exception.CodedException;
+import org.n52.iceland.exception.ows.InvalidParameterValueException;
+import org.n52.iceland.exception.ows.MissingParameterValueException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.Request;
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.w3c.W3CConstants;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
-import java.util.Optional;
-import org.n52.iceland.coding.decode.DecodingException;
-import org.n52.iceland.coding.DocumentBuilderProvider;
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Abstract binding class for XML encoded requests
@@ -111,6 +111,8 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         }
         try {
             return decoder.decode(xmlString);
+        } catch (OwsDecodingException ex) {
+            throw ex.getCause();
         } catch (DecodingException ex) {
             throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
         }
@@ -139,7 +141,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     private XmlNamespaceOperationDecoderKey getNamespaceOperationDecoderKey(Element element) {
         String nodeName = element.getNodeName();
         if (Strings.isNullOrEmpty(element.getNamespaceURI())) {
-            String[] splittedNodeName = nodeName.split(Constants.COLON_STRING);
+            String[] splittedNodeName = nodeName.split(":");
             String elementName;
             String namespace;
             String name;
@@ -159,7 +161,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             namespace = element.getAttribute(name);
             return new XmlNamespaceOperationDecoderKey(namespace, elementName);
         } else {
-            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(Constants.COLON_STRING) + 1));
+            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(":") + 1));
         }
     }
 
@@ -172,7 +174,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             version = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.version.name()));
             if (!Strings.isNullOrEmpty(service)) {
                 String nodeName = element.getNodeName();
-                operation = nodeName.substring(nodeName.indexOf(Constants.COLON_STRING) + 1);
+                operation = nodeName.substring(nodeName.indexOf(":") + 1);
             }
         }
         return new OperationKey(service, version, operation);

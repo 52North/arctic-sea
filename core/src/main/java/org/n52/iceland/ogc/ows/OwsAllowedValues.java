@@ -16,14 +16,62 @@
  */
 package org.n52.iceland.ogc.ows;
 
-/**
- * Interface represents an OWS AllowedValues element
- *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
- * @since 1.0.0
- *
- */
-public interface OwsAllowedValues extends OwsPossibleValues {
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Stream;
 
+/**
+ * TODO JavaDoc
+ *
+ * @author Christian Autermann
+ */
+public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRestriction> {
+    private final Set<OwsValueRestriction> restrictions = new HashSet<>();
+
+    public OwsAllowedValues(Iterable<OwsValueRestriction> restrictions) {
+        if (restrictions!= null) {
+            for (OwsValueRestriction restriction : restrictions) {
+                this.restrictions.add(Objects.requireNonNull(restriction));
+            }
+        }
+    }
+
+    public OwsAllowedValues(Stream<OwsValueRestriction> restrictions) {
+        if (restrictions != null) {
+            restrictions.forEach(x -> this.restrictions.add(Objects.requireNonNull(x)));
+        }
+    }
+
+    public OwsAllowedValues() {
+    }
+
+    public void add(OwsValueRestriction restriction) {
+        this.restrictions.add(Objects.requireNonNull(restriction));
+    }
+
+    @Override
+    public Iterator<OwsValueRestriction> iterator() {
+        return this.restrictions.iterator();
+    }
+
+    public Stream<OwsValueRestriction> stream() {
+        return this.restrictions.stream();
+    }
+
+    @Override
+    public boolean isAllowedValues() {
+        return true;
+    }
+
+    @Override
+    public OwsAllowedValues asAllowedValues() {
+        return this;
+    }
+
+    public Set<OwsValueRestriction> getRestrictions() {
+        return Collections.unmodifiableSet(restrictions);
+    }
 }

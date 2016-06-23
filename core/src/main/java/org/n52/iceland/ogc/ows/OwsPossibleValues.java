@@ -17,13 +17,41 @@
 package org.n52.iceland.ogc.ows;
 
 /**
- * Interface represents an OWS PossibleValues element
+ * Specifies the possible values of this quantity.
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
- * @since 1.0.0
- *
+ * @author Christian Autermann
  */
 public interface OwsPossibleValues {
 
+    default boolean isAllowedValues() {
+        return false;
+    }
+
+    default boolean isAnyValue() {
+        return false;
+    }
+
+    default boolean isValuesReference() {
+        return false;
+    }
+
+    default boolean isNoValues() {
+        return false;
+    }
+
+    default OwsAllowedValues asAllowedValues() {
+        throw new UnsupportedOperationException();
+    }
+
+    default OwsAnyValue asAnyValues() {
+        throw new UnsupportedOperationException();
+    }
+
+    default OwsValuesReference asValuesReference() {
+        throw new UnsupportedOperationException();
+    }
+
+    default OwsNoValues asNoValues() {
+        throw new UnsupportedOperationException();
+    }
 }

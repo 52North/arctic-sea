@@ -18,8 +18,8 @@ package org.n52.iceland.coding.decode;
 
 import java.util.Collections;
 import java.util.Set;
-import org.n52.iceland.coding.SupportedType;
 
+import org.n52.iceland.coding.SupportedType;
 import org.n52.iceland.component.Component;
 
 /**

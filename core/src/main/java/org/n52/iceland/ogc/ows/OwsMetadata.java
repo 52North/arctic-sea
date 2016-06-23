@@ -16,14 +16,64 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import org.n52.iceland.w3c.xlink.SimpleAttrs;
+import java.net.URI;
+import java.util.Objects;
+import java.util.Optional;
+
+import org.n52.iceland.w3c.xlink.Link;
+import org.n52.iceland.w3c.xlink.Link.Actuate;
+import org.n52.iceland.w3c.xlink.Link.Show;
 
 /**
- * Class for OwsMetadata
- *
- * @since 1.0.0
- *
+ * @author Christian Autermann
  */
-public class OwsMetadata extends SimpleAttrs {
+public class OwsMetadata extends Link {
+    private final Optional<URI> about;
+
+    public OwsMetadata(URI href) {
+        this(href, null, null, null, null, null, null);
+    }
+
+      public OwsMetadata(URI href, URI about) {
+        this(href, null, null, null, null, null, about);
+    }
+
+    public OwsMetadata(URI href, String title) {
+        this(href, null, null, title, null, null, null);
+    }
+
+    public OwsMetadata(URI href, String title, URI about) {
+        this(href, null, null, title, null, null, about);
+    }
+
+    public OwsMetadata(URI href, URI role, URI arcrole, String title, Show show, Actuate actuate, URI about) {
+        super(href, role, arcrole, title, show, actuate);
+        this.about = Optional.ofNullable(about);
+    }
+
+    public Optional<URI> getAbout() {
+        return about;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsMetadata other = (OwsMetadata) obj;
+
+        return super.equals(obj) && Objects.equals(getAbout(), other.getAbout());
+    }
+
+    @Override
+    public int hashCode() {
+        return 53 * super.hashCode() + Objects.hashCode(getAbout());
+    }
 
 }

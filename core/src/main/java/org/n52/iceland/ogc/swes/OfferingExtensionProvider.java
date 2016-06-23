@@ -17,8 +17,9 @@
 package org.n52.iceland.ogc.swes;
 
 import java.util.Set;
+
 import org.n52.iceland.component.Component;
-import org.n52.iceland.ogc.ows.Extensions;
+import org.n52.iceland.ogc.ows.extension.Extensions;
 
 /**
  * Interface for OfferingExtensionProvider. Implementations of this interface

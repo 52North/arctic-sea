@@ -35,9 +35,12 @@ import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.encode.Encoder;
 import org.n52.iceland.coding.encode.EncoderKey;
+import org.n52.iceland.coding.encode.EncodingException;
+import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.coding.encode.XmlEncoderKey;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.NoEncoderForKeyException;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
@@ -62,8 +65,6 @@ import org.n52.iceland.w3c.wsa.WsaToHeader;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-import org.n52.iceland.coding.encode.EncodingException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * {@link Binding} implementation for SOAP encoded requests
@@ -194,6 +195,8 @@ public class SoapBinding extends AbstractXmlBinding {
         if (encoder != null) {
             try {
                 return encoder.encode(chain.getSoapResponse());
+            } catch (OwsEncodingException ex) {
+                throw ex.getCause();
             } catch (EncodingException ex) {
                 throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }
