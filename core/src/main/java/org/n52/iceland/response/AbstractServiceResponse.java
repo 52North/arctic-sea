@@ -17,9 +17,9 @@
 package org.n52.iceland.response;
 
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
+import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.ogc.ows.extension.Extension;
 import org.n52.iceland.ogc.ows.extension.Extensions;
-import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.util.http.MediaType;
 
@@ -35,6 +35,14 @@ public abstract class AbstractServiceResponse
     private MediaType contentType;
 
     private Extensions extensions;
+
+    public AbstractServiceResponse() {
+        super();
+    }
+
+    public AbstractServiceResponse(String service, String version) {
+        super(service, version);
+    }
 
     @Override
     public Extensions getExtensions() {

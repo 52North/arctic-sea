@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRestriction> {
     private final Set<OwsValueRestriction> restrictions = new HashSet<>();
 
-    public OwsAllowedValues(Iterable<OwsValueRestriction> restrictions) {
+    public OwsAllowedValues(Iterable<? extends OwsValueRestriction> restrictions) {
         if (restrictions!= null) {
             for (OwsValueRestriction restriction : restrictions) {
                 this.restrictions.add(Objects.requireNonNull(restriction));
@@ -39,7 +39,7 @@ public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRes
         }
     }
 
-    public OwsAllowedValues(Stream<OwsValueRestriction> restrictions) {
+    public OwsAllowedValues(Stream<? extends OwsValueRestriction> restrictions) {
         if (restrictions != null) {
             restrictions.forEach(x -> this.restrictions.add(Objects.requireNonNull(x)));
         }

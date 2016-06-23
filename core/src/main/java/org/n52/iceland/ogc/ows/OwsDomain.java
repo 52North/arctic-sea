@@ -29,6 +29,11 @@ import com.google.common.base.Strings;
 public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain> {
     private final String name;
 
+
+    public OwsDomain(String name, OwsPossibleValues possibleValues) {
+        this(name, possibleValues, null, null, null, null, null);
+    }
+
     public OwsDomain(String name,
                      OwsPossibleValues possibleValues,
                      OwsValue defaultValue,

@@ -26,16 +26,16 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
 import org.n52.iceland.i18n.LocaleHelper;
+import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.ogc.ows.extension.Extension;
 import org.n52.iceland.ogc.ows.extension.Extensions;
-import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
 import org.n52.iceland.ogc.ows.extension.Value;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
-import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Abstract super class for all service request classes

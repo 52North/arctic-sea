@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.n52.iceland.util.CollectionHelper;
@@ -34,7 +34,7 @@ public class OwsHttp implements OwsDCP {
 
     private final SortedSet<OwsRequestMethod> requestMethods;
 
-    public OwsHttp(Set<OwsRequestMethod> requestMethods) {
+    public OwsHttp(Collection<OwsRequestMethod> requestMethods) {
         this.requestMethods
                 = CollectionHelper.newSortedSet(requestMethods);
     }
