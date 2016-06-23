@@ -311,28 +311,6 @@
                     <preparationGoals>clean install</preparationGoals>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <source>
-                                import java.util.Date
-                                import java.text.MessageFormat
-                                def vartimestamp = MessageFormat.format("{0,date,yyyy}", new
-                                Date())
-                                project.properties['currentYearDynamic'] = vartimestamp
-                            </source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
 			<plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
