@@ -19,6 +19,9 @@ package org.n52.iceland.util;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.function.Function;
+
+import org.n52.iceland.component.Keyed;
 
 /**
  * TODO JavaDoc
@@ -32,27 +35,50 @@ import java.util.Comparator;
  *
  * @since 1.0.0
  */
-public abstract class ProxySimilarityComparator<T, K extends Similar<K>> implements Comparator<T> {
-    private final SimilarityComparator<K> comp;
+public abstract class ProxySimilarityComparator<T, K extends Similar<K>>
+        implements Comparator<T> {
+
+    private final Comparator<T> comparator;
 
     public ProxySimilarityComparator(K ref) {
-        this.comp = new SimilarityComparator<>(ref);
+        this.comparator = createComparator(ref);
+    }
+
+    private Comparator<T> createComparator(K ref) {
+        Comparator<K> keyComparator = new SimilarityComparator<>(ref);
+        return Comparator.comparing(min(this::getSimilars, keyComparator), keyComparator)
+                .thenComparing(Object::getClass, classComparator());
     }
 
     @Override
     public int compare(T o1, T o2) {
-        int compResult = comp.compare(Collections.min(getSimilars(o1), comp),
-                                      Collections.min(getSimilars(o2), comp));
-        // check inheritance hierarchy if key matches are equal and classes are not
-        if (compResult == 0 && !o1.getClass().equals(o2.getClass())) {
-            if (o1.getClass().isAssignableFrom(o2.getClass())) {
-                return 1;
-            } else if (o2.getClass().isAssignableFrom(o1.getClass())) {
-                return -1;
-            }
-        }
-        return compResult;
+        return this.comparator.compare(o1, o2);
     }
 
     protected abstract Collection<K> getSimilars(T t);
+
+    private Function<T, K> min(Function<T, Collection<K>> func, Comparator<K> k) {
+        return (T x) -> Collections.min(func.apply(x), k);
+    }
+
+    private static Comparator<Class<?>> classComparator() {
+        return (a, b) -> a.isAssignableFrom(b) ? 1 : b .isAssignableFrom(a) ? -1 : 0;
+    }
+
+    public static <C extends Keyed<K>, K extends Similar<K>> Comparator<C> create(K ref) {
+        return new ProxySimilarityComparator<C, K>(ref) {
+            @Override protected Collection<K> getSimilars(C t) {
+                return t.getKeys();
+            }
+        };
+    }
+
+    public static <T, K extends Similar<K>> Comparator<T> create(
+            K ref, Function<T, Collection<K>> similars) {
+        return new ProxySimilarityComparator<T, K>(ref) {
+            @Override protected Collection<K> getSimilars(T t) {
+                return similars.apply(t);
+            }
+        };
+    }
 }
