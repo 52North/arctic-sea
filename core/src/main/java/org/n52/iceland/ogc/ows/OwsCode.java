@@ -17,8 +17,11 @@
 package org.n52.iceland.ogc.ows;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.iceland.util.Optionals;
 
 import com.google.common.base.Strings;
 
@@ -27,7 +30,10 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class OwsCode {
+public class OwsCode implements Comparable<OwsCode> {
+    private static final Comparator<OwsCode> COMPARATOR
+            = Comparator.nullsLast(Comparator.comparing(OwsCode::getCodeSpace, Optionals.nullsLast())
+                    .thenComparing(Comparator.comparing(OwsCode::getValue)));
 
     private final String value;
     private final Optional<URI> codeSpace;
@@ -76,6 +82,11 @@ public class OwsCode {
     @Override
     public String toString() {
         return "OwsCode{" + "value=" + value + ", codeSpace=" + codeSpace + '}';
+    }
+
+    @Override
+    public int compareTo(OwsCode o) {
+        return COMPARATOR.compare(this, o);
     }
 
 }

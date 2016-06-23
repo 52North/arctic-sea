@@ -16,10 +16,12 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
@@ -34,7 +36,7 @@ public class OwsCapabilities {
     private final Optional<OwsServiceIdentification> serviceIdentification;
     private final Optional<OwsServiceProvider> serviceProvider;
     private final Optional<OwsOperationsMetadata> operationsMetadata;
-    private final Optional<Set<String>> languages;
+    private final Optional<SortedSet<String>> languages;
 
     public OwsCapabilities(String service,
                            String version,
@@ -50,7 +52,7 @@ public class OwsCapabilities {
         this.serviceProvider = Optional.ofNullable(serviceProvider);
         this.operationsMetadata = Optional.ofNullable(operationsMetadata);
         this.languages = languages == null ? Optional.empty()
-                : Optional.of(Collections.unmodifiableSet(languages));
+                : Optional.of(CollectionHelper.newSortedSet(languages));
     }
 
     public String getVersion() {
@@ -73,7 +75,7 @@ public class OwsCapabilities {
         return operationsMetadata;
     }
 
-    public Optional<Set<String>> getLanguages() {
+    public Optional<SortedSet<String>> getLanguages() {
         return this.languages;
     }
 

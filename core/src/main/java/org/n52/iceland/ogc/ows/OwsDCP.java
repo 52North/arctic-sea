@@ -21,7 +21,7 @@ package org.n52.iceland.ogc.ows;
  *
  * @author Christian Autermann
  */
-public interface OwsDCP {
+public interface OwsDCP extends Comparable<OwsDCP> {
     default boolean isHTTP() {
         return false;
     }

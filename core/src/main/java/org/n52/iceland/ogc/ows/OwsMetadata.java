@@ -17,9 +17,11 @@
 package org.n52.iceland.ogc.ows;
 
 import java.net.URI;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.n52.iceland.util.Optionals;
 import org.n52.iceland.w3c.xlink.Link;
 import org.n52.iceland.w3c.xlink.Link.Actuate;
 import org.n52.iceland.w3c.xlink.Link.Show;
@@ -27,14 +29,20 @@ import org.n52.iceland.w3c.xlink.Link.Show;
 /**
  * @author Christian Autermann
  */
-public class OwsMetadata extends Link {
+public class OwsMetadata extends Link implements Comparable<OwsMetadata> {
+
+    private static final Comparator<OwsMetadata> COMPARATOR
+            = Comparator.nullsLast(Comparator
+                    .comparing(OwsMetadata::getTitle, Optionals.nullsLast())
+                    .thenComparing(OwsMetadata::getHref, Optionals.nullsLast()));
+
     private final Optional<URI> about;
 
     public OwsMetadata(URI href) {
         this(href, null, null, null, null, null, null);
     }
 
-      public OwsMetadata(URI href, URI about) {
+    public OwsMetadata(URI href, URI about) {
         this(href, null, null, null, null, null, about);
     }
 
@@ -46,7 +54,8 @@ public class OwsMetadata extends Link {
         this(href, null, null, title, null, null, about);
     }
 
-    public OwsMetadata(URI href, URI role, URI arcrole, String title, Show show, Actuate actuate, URI about) {
+    public OwsMetadata(URI href, URI role, URI arcrole, String title, Show show,
+                       Actuate actuate, URI about) {
         super(href, role, arcrole, title, show, actuate);
         this.about = Optional.ofNullable(about);
     }
@@ -74,6 +83,11 @@ public class OwsMetadata extends Link {
     @Override
     public int hashCode() {
         return 53 * super.hashCode() + Objects.hashCode(getAbout());
+    }
+
+    @Override
+    public int compareTo(OwsMetadata o) {
+        return COMPARATOR.compare(this, o);
     }
 
 }

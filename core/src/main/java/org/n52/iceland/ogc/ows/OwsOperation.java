@@ -16,9 +16,12 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
@@ -29,43 +32,41 @@ import com.google.common.base.Strings;
  */
 public class OwsOperation implements Comparable<OwsOperation> {
     private final String name;
-    private final List<OwsDomain> parameters;
-    private final List<OwsDomain> constraints;
-    private final List<OwsMetadata> metadata;
-    private final List<OwsDCP> dcp;
+    private final SortedSet<OwsDomain> parameters;
+    private final SortedSet<OwsDomain> constraints;
+    private final SortedSet<OwsMetadata> metadata;
+    private final SortedSet<OwsDCP> dcp;
 
     public OwsOperation(String name,
-                        List<OwsDomain> parameters,
-                        List<OwsDomain> constraints,
-                        List<OwsMetadata> metadata,
-                        List<OwsDCP> dcp) {
+                        Collection<OwsDomain> parameters,
+                        Collection<OwsDomain> constraints,
+                        Collection<OwsMetadata> metadata,
+                        Collection<OwsDCP> dcp) {
         this.name = Objects.requireNonNull(Strings.emptyToNull(name));
-        this.parameters = parameters == null ? Collections.emptyList()
-                                  : parameters;
-        this.constraints = constraints == null ? Collections.emptyList()
-                                   : constraints;
-        this.metadata = metadata == null ? Collections.emptyList() : metadata;
-        this.dcp = dcp == null ? Collections.emptyList() : dcp;
+        this.parameters = CollectionHelper.newSortedSet(parameters);
+        this.constraints = CollectionHelper.newSortedSet(constraints);
+        this.metadata = CollectionHelper.newSortedSet(metadata);
+        this.dcp = CollectionHelper.newSortedSet(dcp);
     }
 
     public String getName() {
         return this.name;
     }
 
-    public List<OwsDomain> getParameters() {
-        return Collections.unmodifiableList(this.parameters);
+    public SortedSet<OwsDomain> getParameters() {
+        return Collections.unmodifiableSortedSet(this.parameters);
     }
 
-    public List<OwsDomain> getConstraints() {
-        return Collections.unmodifiableList(this.constraints);
+    public SortedSet<OwsDomain> getConstraints() {
+        return Collections.unmodifiableSortedSet(this.constraints);
     }
 
-    public List<OwsMetadata> getMetadata() {
-        return Collections.unmodifiableList(this.metadata);
+    public SortedSet<OwsMetadata> getMetadata() {
+        return Collections.unmodifiableSortedSet(this.metadata);
     }
 
-    public List<OwsDCP> getDCP() {
-        return Collections.unmodifiableList(this.dcp);
+    public SortedSet<OwsDCP> getDCP() {
+        return Collections.unmodifiableSortedSet(this.dcp);
     }
 
     @Override

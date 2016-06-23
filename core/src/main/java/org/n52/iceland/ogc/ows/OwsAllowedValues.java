@@ -48,10 +48,6 @@ public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRes
     public OwsAllowedValues() {
     }
 
-    public void add(OwsValueRestriction restriction) {
-        this.restrictions.add(Objects.requireNonNull(restriction));
-    }
-
     @Override
     public Iterator<OwsValueRestriction> iterator() {
         return this.restrictions.iterator();

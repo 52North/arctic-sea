@@ -16,13 +16,12 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import org.n52.iceland.ogc.ows.extension.Extension;
-import org.n52.iceland.ogc.ows.extension.Extensions;
-
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
 import org.n52.iceland.exception.ows.OwsExceptionCode;
+import org.n52.iceland.ogc.ows.extension.Extension;
+import org.n52.iceland.ogc.ows.extension.Extensions;
 import org.n52.iceland.w3c.SchemaLocation;
 
 /**

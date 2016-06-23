@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.google.common.base.Strings;
 
@@ -26,16 +26,16 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>{
+public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain> {
     private final String name;
 
     public OwsDomain(String name,
-                         OwsPossibleValues possibleValues,
-                         OwsValue defaultValue,
-                         OwsDomainMetadata meaning,
-                         OwsDomainMetadata dataType,
-                         OwsValuesUnit valuesUnit,
-                         List<OwsMetadata> metadata) {
+                     OwsPossibleValues possibleValues,
+                     OwsValue defaultValue,
+                     OwsDomainMetadata meaning,
+                     OwsDomainMetadata dataType,
+                     OwsValuesUnit valuesUnit,
+                     Set<OwsMetadata> metadata) {
         super(possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
         this.name = Objects.requireNonNull(Strings.emptyToNull(name), "name");
     }

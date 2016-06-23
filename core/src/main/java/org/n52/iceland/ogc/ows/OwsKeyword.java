@@ -16,14 +16,23 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Comparator;
 import java.util.Optional;
+
+import org.n52.iceland.util.Optionals;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class OwsKeyword {
+public class OwsKeyword implements Comparable<OwsKeyword> {
+    private static final Comparator<OwsKeyword> COMPARATOR
+            = Comparator.nullsLast(Comparator
+                    .comparing(OwsKeyword::getType, Optionals.nullsLast())
+                    .thenComparing(OwsKeyword::getKeyword,Comparator
+                                   .comparing(OwsLanguageString::getLang, Optionals.nullsLast())
+                                   .thenComparing(OwsLanguageString::getValue)));
 
     private final OwsLanguageString keyword;
     private final Optional<OwsCode> type;
@@ -51,5 +60,10 @@ public class OwsKeyword {
 
     public Optional<OwsCode> getType() {
         return type;
+    }
+
+    @Override
+    public int compareTo(OwsKeyword o) {
+        return COMPARATOR.compare(this, o);
     }
 }

@@ -30,7 +30,7 @@ import javax.xml.namespace.QName;
 public class QNameComparator implements Comparator<QName> {
     public static final Comparator<QName> INSTANCE =
             Comparator.nullsLast(Comparator.comparing(QName::getPrefix, Comparator.nullsLast(String::compareTo))
-                  .thenComparing(Comparator.comparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo))));
+                  .thenComparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo)));
 
     @Override
     public int compare(QName o1, QName o2) {

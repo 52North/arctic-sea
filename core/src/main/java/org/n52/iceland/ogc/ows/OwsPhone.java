@@ -19,6 +19,9 @@ package org.n52.iceland.ogc.ows;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -27,24 +30,24 @@ import java.util.Set;
  */
 public class OwsPhone {
 
-    private final Set<String> voice;
-    private final Set<String> facsimile;
+    private final SortedSet<String> voice;
+    private final SortedSet<String> facsimile;
 
     public OwsPhone(Set<String> voice, Set<String> facsimile) {
-        this.voice = voice == null ? Collections.emptySet() : voice;
-        this.facsimile = facsimile == null ? Collections.emptySet() : facsimile;
+        this.voice = CollectionHelper.newSortedSet(voice);
+        this.facsimile = CollectionHelper.newSortedSet(facsimile);
     }
 
     public OwsPhone(String voice, String facsimile) {
         this(toSet(voice), toSet(facsimile));
     }
 
-    public Set<String> getVoice() {
-        return Collections.unmodifiableSet(voice);
+    public SortedSet<String> getVoice() {
+        return Collections.unmodifiableSortedSet(voice);
     }
 
-    public Set<String> getFacsimile() {
-        return Collections.unmodifiableSet(facsimile);
+    public SortedSet<String> getFacsimile() {
+        return Collections.unmodifiableSortedSet(facsimile);
     }
 
     private static <T> Set<T> toSet(T t) {

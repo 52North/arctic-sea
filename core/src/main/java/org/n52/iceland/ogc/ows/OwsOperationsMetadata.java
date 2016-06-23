@@ -16,8 +16,11 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -26,30 +29,27 @@ import java.util.List;
  */
 public class OwsOperationsMetadata {
 
-    private final List<OwsOperation> operations;
-    private final List<OwsDomain> parameters;
-    private final List<OwsDomain> constraints;
+    private final SortedSet<OwsOperation> operations;
+    private final SortedSet<OwsDomain> parameters;
+    private final SortedSet<OwsDomain> constraints;
 
-    public OwsOperationsMetadata(List<OwsOperation> operations,
-                                 List<OwsDomain> parameters,
-                                 List<OwsDomain> constraints) {
-        this.operations = operations == null ? Collections.emptyList()
-                          : operations;
-        this.parameters = parameters == null ? Collections.emptyList()
-                          : parameters;
-        this.constraints = constraints == null ? Collections.emptyList()
-                           : constraints;
+    public OwsOperationsMetadata(Collection<OwsOperation> operations,
+                                 Collection<OwsDomain> parameters,
+                                 Collection<OwsDomain> constraints) {
+        this.operations = CollectionHelper.newSortedSet(operations);
+        this.parameters = CollectionHelper.newSortedSet(parameters);
+        this.constraints = CollectionHelper.newSortedSet(constraints);
     }
 
-    public List<OwsOperation> getOperations() {
-        return Collections.unmodifiableList(operations);
+    public SortedSet<OwsOperation> getOperations() {
+        return Collections.unmodifiableSortedSet(operations);
     }
 
-    public List<OwsDomain> getParameters() {
-        return Collections.unmodifiableList(parameters);
+    public SortedSet<OwsDomain> getParameters() {
+        return Collections.unmodifiableSortedSet(parameters);
     }
 
-    public List<OwsDomain> getConstraints() {
-        return Collections.unmodifiableList(constraints);
+    public SortedSet<OwsDomain> getConstraints() {
+        return Collections.unmodifiableSortedSet(constraints);
     }
 }

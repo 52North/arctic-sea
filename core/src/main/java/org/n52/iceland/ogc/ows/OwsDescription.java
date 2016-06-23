@@ -19,8 +19,10 @@ package org.n52.iceland.ogc.ows;
 import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.n52.iceland.i18n.MultilingualString;
+import org.n52.iceland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -31,14 +33,14 @@ public abstract class OwsDescription {
 
     private final Optional<MultilingualString> title;
     private final Optional<MultilingualString> abstrakt;
-    private final Set<OwsKeyword> keywords;
+    private final SortedSet<OwsKeyword> keywords;
 
     public OwsDescription(MultilingualString title,
                           MultilingualString abstrakt,
                           Set<OwsKeyword> keywords) {
         this.title = Optional.ofNullable(title);
         this.abstrakt = Optional.ofNullable(abstrakt);
-        this.keywords = keywords == null ? Collections.emptySet() : keywords;
+        this.keywords = CollectionHelper.newSortedSet(keywords);
     }
 
     public Optional<MultilingualString> getTitle() {
@@ -49,8 +51,8 @@ public abstract class OwsDescription {
         return abstrakt;
     }
 
-    public Set<OwsKeyword> getKeywords() {
-        return Collections.unmodifiableSet(keywords);
+    public SortedSet<OwsKeyword> getKeywords() {
+        return Collections.unmodifiableSortedSet(keywords);
     }
 
 }

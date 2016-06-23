@@ -19,8 +19,10 @@ package org.n52.iceland.ogc.ows;
 import java.net.URI;
 import java.util.Collections;
 import java.util.Set;
+import java.util.SortedSet;
 
 import org.n52.iceland.i18n.MultilingualString;
+import org.n52.iceland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -30,10 +32,10 @@ import org.n52.iceland.i18n.MultilingualString;
 public class OwsServiceIdentification extends OwsDescription {
 
     private final OwsCode serviceType;
-    private final Set<String> serviceTypeVersion;
-    private final Set<URI> profiles;
-    private final Set<String> fees;
-    private final Set<String> accessConstraints;
+    private final SortedSet<String> serviceTypeVersion;
+    private final SortedSet<URI> profiles;
+    private final SortedSet<String> fees;
+    private final SortedSet<String> accessConstraints;
 
     public OwsServiceIdentification(OwsCode serviceType,
                                     Set<String> serviceTypeVersion,
@@ -45,15 +47,13 @@ public class OwsServiceIdentification extends OwsDescription {
                                     Set<OwsKeyword> keywords) {
         super(title, abstrakt, keywords);
         this.serviceType = serviceType;
-        this.serviceTypeVersion
-                = serviceTypeVersion == null ? Collections.emptySet()
-                          : serviceTypeVersion;
-        this.profiles = profiles == null ? Collections.emptySet() : profiles;
-        this.fees = fees == null ? Collections.emptySet() : fees;
-        this.accessConstraints
-                = accessConstraints == null ? Collections.emptySet()
-                          : accessConstraints;
+        this.serviceTypeVersion = CollectionHelper.newSortedSet(serviceTypeVersion);
+        this.profiles = CollectionHelper.newSortedSet(profiles);
+        this.fees = CollectionHelper.newSortedSet(fees);
+        this.accessConstraints = CollectionHelper.newSortedSet(accessConstraints);
     }
+
+
 
     public OwsCode getServiceType() {
         return serviceType;
@@ -74,5 +74,6 @@ public class OwsServiceIdentification extends OwsDescription {
     public Set<String> getAccessConstraints() {
         return Collections.unmodifiableSet(accessConstraints);
     }
+
 
 }

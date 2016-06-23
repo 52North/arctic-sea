@@ -17,9 +17,14 @@
 package org.n52.iceland.ogc.ows;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
+import java.util.Comparator;
 import java.util.Objects;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
+import org.n52.iceland.util.Optionals;
 
 import com.google.common.base.Strings;
 
@@ -28,30 +33,39 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class OwsRequestMethod extends OwsOnlineResource {
+public class OwsRequestMethod extends OwsOnlineResource implements Comparable<OwsRequestMethod> {
+    private static final Comparator<OwsRequestMethod> COMPARATOR
+            = Comparator.nullsLast(Comparator.comparing(OwsRequestMethod::getHttpMethod)
+                    .thenComparing(OwsRequestMethod::getHref, Optionals.nullsLast())
+                    .thenComparing(OwsRequestMethod::getTitle, Optionals.nullsLast()));
 
-    private final List<OwsDomain> constraints;
+    private final SortedSet<OwsDomain> constraints;
     private final String httpMethod;
 
-    public OwsRequestMethod(URI href, String httpMethod, List<OwsDomain> constraints) {
+    public OwsRequestMethod(URI href, String httpMethod, Collection<OwsDomain> constraints) {
         super(href);
         this.httpMethod = Objects.requireNonNull(Strings.emptyToNull(httpMethod));
-        this.constraints = constraints == null ? Collections.emptyList() : constraints;
+        this.constraints = CollectionHelper.newSortedSet(constraints);
     }
 
-    public OwsRequestMethod(URI href, List<OwsDomain> constraints, String httpMethod,
+    public OwsRequestMethod(URI href, Collection<OwsDomain> constraints, String httpMethod,
                             URI role, URI arcrole, String title, Show show, Actuate actuate) {
         super(href, role, arcrole, title, show, actuate);
         this.httpMethod = Objects.requireNonNull(Strings.emptyToNull(httpMethod));
-        this.constraints = constraints == null ? Collections.emptyList() : constraints;
+        this.constraints = CollectionHelper.newSortedSet(constraints);
     }
 
-    public List<OwsDomain> getConstraints() {
-        return Collections.unmodifiableList(this.constraints);
+    public SortedSet<OwsDomain> getConstraints() {
+        return Collections.unmodifiableSortedSet(this.constraints);
     }
 
     public String getHttpMethod() {
         return this.httpMethod;
+    }
+
+    @Override
+    public int compareTo(OwsRequestMethod o) {
+        return COMPARATOR.compare(this, o);
     }
 
 }

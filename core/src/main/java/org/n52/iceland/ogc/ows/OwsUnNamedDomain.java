@@ -17,9 +17,12 @@
 package org.n52.iceland.ogc.ows;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -32,20 +35,20 @@ public class OwsUnNamedDomain {
     private final Optional<OwsDomainMetadata> meaning;
     private final Optional<OwsDomainMetadata> dataType;
     private final Optional<OwsValuesUnit> valuesUnit;
-    private final List<OwsMetadata> metadata;
+    private final SortedSet<OwsMetadata> metadata;
 
     public OwsUnNamedDomain(OwsPossibleValues possibleValues,
                          OwsValue defaultValue,
                          OwsDomainMetadata meaning,
                          OwsDomainMetadata dataType,
                          OwsValuesUnit valuesUnit,
-                         List<OwsMetadata> metadata) {
+                         Set<OwsMetadata> metadata) {
         this.possibleValues = Objects.requireNonNull(possibleValues, "possibleValues");
         this.defaultValue = Optional.ofNullable(defaultValue);
         this.meaning = Optional.ofNullable(meaning);
         this.dataType = Optional.ofNullable(dataType);
         this.valuesUnit = Optional.ofNullable(valuesUnit);
-        this.metadata = metadata == null ? Collections.emptyList() : metadata;
+        this.metadata = CollectionHelper.newSortedSet(metadata);
     }
 
     public OwsPossibleValues getPossibleValues() {
@@ -68,7 +71,7 @@ public class OwsUnNamedDomain {
         return this.valuesUnit;
     }
 
-    public List<OwsMetadata> getMetadata() {
-        return Collections.unmodifiableList(this.metadata);
+    public SortedSet<OwsMetadata> getMetadata() {
+        return Collections.unmodifiableSortedSet(this.metadata);
     }
 }
