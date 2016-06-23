@@ -74,4 +74,58 @@ public class OwsUnNamedDomain {
     public SortedSet<OwsMetadata> getMetadata() {
         return Collections.unmodifiableSortedSet(this.metadata);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 61 * hash + Objects.hashCode(this.possibleValues);
+        hash = 61 * hash + Objects.hashCode(this.defaultValue);
+        hash = 61 * hash + Objects.hashCode(this.meaning);
+        hash = 61 * hash + Objects.hashCode(this.dataType);
+        hash = 61 * hash + Objects.hashCode(this.valuesUnit);
+        hash = 61 * hash + Objects.hashCode(this.metadata);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsUnNamedDomain other = (OwsUnNamedDomain) obj;
+        if (!Objects.equals(this.possibleValues, other.possibleValues)) {
+            return false;
+        }
+        if (!Objects.equals(this.defaultValue, other.defaultValue)) {
+            return false;
+        }
+        if (!Objects.equals(this.meaning, other.meaning)) {
+            return false;
+        }
+        if (!Objects.equals(this.dataType, other.dataType)) {
+            return false;
+        }
+        if (!Objects.equals(this.valuesUnit, other.valuesUnit)) {
+            return false;
+        }
+        if (!Objects.equals(this.metadata, other.metadata)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsUnNamedDomain{" + "possibleValues=" + possibleValues +
+               ", defaultValue=" + defaultValue + ", meaning=" + meaning +
+               ", dataType=" + dataType + ", valuesUnit=" + valuesUnit +
+               ", metadata=" + metadata + '}';
+    }
+    
 }

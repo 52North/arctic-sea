@@ -18,6 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import com.google.common.base.Strings;
@@ -81,6 +82,59 @@ public class OwsAddress {
 
     public List<String> getElectronicMailAddress() {
         return Collections.unmodifiableList(electronicMailAddress);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.deliveryPoint);
+        hash = 53 * hash + Objects.hashCode(this.city);
+        hash = 53 * hash + Objects.hashCode(this.administrativeArea);
+        hash = 53 * hash + Objects.hashCode(this.postalCode);
+        hash = 53 * hash + Objects.hashCode(this.country);
+        hash = 53 * hash + Objects.hashCode(this.electronicMailAddress);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsAddress other = (OwsAddress) obj;
+        if (!Objects.equals(this.deliveryPoint, other.deliveryPoint)) {
+            return false;
+        }
+        if (!Objects.equals(this.city, other.city)) {
+            return false;
+        }
+        if (!Objects.equals(this.administrativeArea, other.administrativeArea)) {
+            return false;
+        }
+        if (!Objects.equals(this.postalCode, other.postalCode)) {
+            return false;
+        }
+        if (!Objects.equals(this.country, other.country)) {
+            return false;
+        }
+        if (!Objects.equals(this.electronicMailAddress, other.electronicMailAddress)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsAddress{" + "deliveryPoint=" + deliveryPoint + ", city=" +
+               city + ", administrativeArea=" + administrativeArea +
+               ", postalCode=" + postalCode + ", country=" + country +
+               ", electronicMailAddress=" + electronicMailAddress + '}';
     }
 
     private static <T> List<T> toList(T t) {

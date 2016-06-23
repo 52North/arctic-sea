@@ -70,4 +70,35 @@ public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRes
     public Set<OwsValueRestriction> getRestrictions() {
         return Collections.unmodifiableSet(restrictions);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.restrictions);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsAllowedValues other = (OwsAllowedValues) obj;
+        if (!Objects.equals(this.restrictions, other.restrictions)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsAllowedValues{" + "restrictions=" + restrictions + '}';
+    }
+
 }

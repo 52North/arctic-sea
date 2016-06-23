@@ -37,6 +37,11 @@ public class OwsAnyValue implements OwsPossibleValues {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "OwsAnyValue{}";
+    }
+
     public static OwsAnyValue instance() {
         return INSTANCE;
     }

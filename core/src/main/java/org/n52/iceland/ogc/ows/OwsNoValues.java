@@ -38,6 +38,11 @@ public class OwsNoValues implements OwsPossibleValues {
         return this;
     }
 
+    @Override
+    public String toString() {
+        return "OwsNoValues{}";
+    }
+
     public static OwsNoValues instance() {
         return INSTANCE;
     }

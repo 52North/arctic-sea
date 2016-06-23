@@ -17,6 +17,7 @@
 package org.n52.iceland.ogc.ows;
 
 import java.util.Comparator;
+import java.util.Objects;
 import java.util.Optional;
 
 import org.n52.iceland.util.Optionals;
@@ -66,4 +67,39 @@ public class OwsKeyword implements Comparable<OwsKeyword> {
     public int compareTo(OwsKeyword o) {
         return COMPARATOR.compare(this, o);
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 19 * hash + Objects.hashCode(this.keyword);
+        hash = 19 * hash + Objects.hashCode(this.type);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsKeyword other = (OwsKeyword) obj;
+        if (!Objects.equals(this.keyword, other.keyword)) {
+            return false;
+        }
+        if (!Objects.equals(this.type, other.type)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsKeyword{" + "keyword=" + keyword + ", type=" + type + '}';
+    }
+    
 }

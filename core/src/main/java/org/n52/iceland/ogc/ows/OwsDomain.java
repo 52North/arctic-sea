@@ -49,4 +49,34 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
         return getName().compareTo(o.getName());
     }
 
+    @Override
+    public int hashCode() {
+        int hash = super.hashCode();
+        hash = 41 * hash + Objects.hashCode(this.name);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsDomain other = (OwsDomain) obj;
+        return super.equals(obj) && Objects.equals(this.name, other.name);
+    }
+
+    @Override
+    public String toString() {
+        return "OwsDomain{" + "name=" + name + '}';
+    }
+
+
+
+
 }

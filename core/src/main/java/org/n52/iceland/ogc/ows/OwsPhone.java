@@ -17,6 +17,7 @@
 package org.n52.iceland.ogc.ows;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
@@ -50,8 +51,44 @@ public class OwsPhone {
         return Collections.unmodifiableSortedSet(facsimile);
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.voice);
+        hash = 79 * hash + Objects.hashCode(this.facsimile);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsPhone other = (OwsPhone) obj;
+        if (!Objects.equals(this.voice, other.voice)) {
+            return false;
+        }
+        if (!Objects.equals(this.facsimile, other.facsimile)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsPhone{" + "voice=" + voice + ", facsimile=" + facsimile + '}';
+    }
+
     private static <T> Set<T> toSet(T t) {
         return Optional.ofNullable(t).map(Collections::singleton).orElseGet(Collections::emptySet);
     }
+
+    
 
 }

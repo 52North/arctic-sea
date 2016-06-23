@@ -74,4 +74,52 @@ public class OwsOperation implements Comparable<OwsOperation> {
         return getName().compareTo(o.getName());
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.name);
+        hash = 83 * hash + Objects.hashCode(this.parameters);
+        hash = 83 * hash + Objects.hashCode(this.constraints);
+        hash = 83 * hash + Objects.hashCode(this.metadata);
+        hash = 83 * hash + Objects.hashCode(this.dcp);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsOperation other = (OwsOperation) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.parameters, other.parameters)) {
+            return false;
+        }
+        if (!Objects.equals(this.constraints, other.constraints)) {
+            return false;
+        }
+        if (!Objects.equals(this.metadata, other.metadata)) {
+            return false;
+        }
+        if (!Objects.equals(this.dcp, other.dcp)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsOperation{" + "name=" + name + ", parameters=" + parameters +
+               ", constraints=" + constraints + ", metadata=" + metadata +
+               ", dcp=" + dcp + '}';
+    }
+
 }

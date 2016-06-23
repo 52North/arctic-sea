@@ -17,6 +17,7 @@
 package org.n52.iceland.ogc.ows;
 
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -29,7 +30,7 @@ import org.n52.iceland.util.Comparables;
  *
  * @author Christian Autermann
  */
-public class OwsHttp implements OwsDCP{
+public class OwsHttp implements OwsDCP {
 
     private final SortedSet<OwsRequestMethod> requestMethods;
 
@@ -59,6 +60,36 @@ public class OwsHttp implements OwsDCP{
         } else {
             return Comparables.EQUAL;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.requestMethods);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsHttp other = (OwsHttp) obj;
+        if (!Objects.equals(this.requestMethods, other.requestMethods)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsHttp{" + "requestMethods=" + requestMethods + '}';
     }
 
 }

@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import com.google.common.base.Strings;
@@ -65,5 +66,55 @@ public class OwsResponsibleParty {
     public Optional<OwsCode> getRole() {
         return role;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.individualName);
+        hash = 79 * hash + Objects.hashCode(this.organisationName);
+        hash = 79 * hash + Objects.hashCode(this.positionName);
+        hash = 79 * hash + Objects.hashCode(this.contactInfo);
+        hash = 79 * hash + Objects.hashCode(this.role);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsResponsibleParty other = (OwsResponsibleParty) obj;
+        if (!Objects.equals(this.individualName, other.individualName)) {
+            return false;
+        }
+        if (!Objects.equals(this.organisationName, other.organisationName)) {
+            return false;
+        }
+        if (!Objects.equals(this.positionName, other.positionName)) {
+            return false;
+        }
+        if (!Objects.equals(this.contactInfo, other.contactInfo)) {
+            return false;
+        }
+        if (!Objects.equals(this.role, other.role)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsResponsibleParty{" + "individualName=" + individualName +
+               ", organisationName=" + organisationName + ", positionName=" +
+               positionName + ", contactInfo=" + contactInfo + ", role=" + role +
+               '}';
+    }
+    
 
 }

@@ -52,4 +52,46 @@ public class OwsServiceProvider {
     public OwsResponsibleParty getServiceContact() {
         return serviceContact;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 83 * hash + Objects.hashCode(this.providerName);
+        hash = 83 * hash + Objects.hashCode(this.providerSite);
+        hash = 83 * hash + Objects.hashCode(this.serviceContact);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsServiceProvider other = (OwsServiceProvider) obj;
+        if (!Objects.equals(this.providerName, other.providerName)) {
+            return false;
+        }
+        if (!Objects.equals(this.providerSite, other.providerSite)) {
+            return false;
+        }
+        if (!Objects.equals(this.serviceContact, other.serviceContact)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsServiceProvider{" + "providerName=" + providerName +
+               ", providerSite=" + providerSite + ", serviceContact=" +
+               serviceContact + '}';
+    }
+
+    
 }

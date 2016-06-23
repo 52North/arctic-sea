@@ -89,4 +89,10 @@ public class OwsValuesReference implements OwsPossibleValues {
                Objects.equals(this.reference, other.reference);
     }
 
+    @Override
+    public String toString() {
+        return "OwsValuesReference{" + "reference=" + reference + ", value=" +
+               value + '}';
+    }
+
 }

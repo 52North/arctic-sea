@@ -18,6 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 import java.net.URI;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 
@@ -73,6 +74,55 @@ public class OwsServiceIdentification extends OwsDescription {
 
     public Set<String> getAccessConstraints() {
         return Collections.unmodifiableSet(accessConstraints);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.serviceType);
+        hash = 53 * hash + Objects.hashCode(this.serviceTypeVersion);
+        hash = 53 * hash + Objects.hashCode(this.profiles);
+        hash = 53 * hash + Objects.hashCode(this.fees);
+        hash = 53 * hash + Objects.hashCode(this.accessConstraints);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsServiceIdentification other = (OwsServiceIdentification) obj;
+        if (!Objects.equals(this.serviceType, other.serviceType)) {
+            return false;
+        }
+        if (!Objects.equals(this.serviceTypeVersion, other.serviceTypeVersion)) {
+            return false;
+        }
+        if (!Objects.equals(this.profiles, other.profiles)) {
+            return false;
+        }
+        if (!Objects.equals(this.fees, other.fees)) {
+            return false;
+        }
+        if (!Objects.equals(this.accessConstraints, other.accessConstraints)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsServiceIdentification{" + "serviceType=" + serviceType +
+               ", serviceTypeVersion=" + serviceTypeVersion + ", profiles=" +
+               profiles + ", fees=" + fees + ", accessConstraints=" +
+               accessConstraints + '}';
     }
 
 

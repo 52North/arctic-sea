@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -61,6 +62,55 @@ public class OwsContact {
 
     public Optional<String> getContactInstructions() {
         return contactInstructions;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 71 * hash + Objects.hashCode(this.phone);
+        hash = 71 * hash + Objects.hashCode(this.address);
+        hash = 71 * hash + Objects.hashCode(this.onlineResource);
+        hash = 71 * hash + Objects.hashCode(this.hoursOfService);
+        hash = 71 * hash + Objects.hashCode(this.contactInstructions);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsContact other = (OwsContact) obj;
+        if (!Objects.equals(this.phone, other.phone)) {
+            return false;
+        }
+        if (!Objects.equals(this.address, other.address)) {
+            return false;
+        }
+        if (!Objects.equals(this.onlineResource, other.onlineResource)) {
+            return false;
+        }
+        if (!Objects.equals(this.hoursOfService, other.hoursOfService)) {
+            return false;
+        }
+        if (!Objects.equals(this.contactInstructions, other.contactInstructions)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsContact{" + "phone=" + phone + ", address=" + address +
+               ", onlineResource=" + onlineResource + ", hoursOfService=" +
+               hoursOfService + ", contactInstructions=" + contactInstructions +
+               '}';
     }
 
 }

@@ -18,6 +18,7 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.SortedSet;
 
 import org.n52.iceland.util.CollectionHelper;
@@ -51,5 +52,45 @@ public class OwsOperationsMetadata {
 
     public SortedSet<OwsDomain> getConstraints() {
         return Collections.unmodifiableSortedSet(constraints);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.operations);
+        hash = 47 * hash + Objects.hashCode(this.parameters);
+        hash = 47 * hash + Objects.hashCode(this.constraints);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsOperationsMetadata other = (OwsOperationsMetadata) obj;
+        if (!Objects.equals(this.operations, other.operations)) {
+            return false;
+        }
+        if (!Objects.equals(this.parameters, other.parameters)) {
+            return false;
+        }
+        if (!Objects.equals(this.constraints, other.constraints)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsOperationsMetadata{" + "operations=" + operations +
+               ", parameters=" + parameters + ", constraints=" + constraints +
+               '}';
     }
 }
