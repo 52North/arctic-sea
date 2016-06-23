@@ -101,5 +101,5 @@ public class OwsKeyword implements Comparable<OwsKeyword> {
     public String toString() {
         return "OwsKeyword{" + "keyword=" + keyword + ", type=" + type + '}';
     }
-    
+
 }

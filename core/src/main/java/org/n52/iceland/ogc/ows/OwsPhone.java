@@ -89,6 +89,6 @@ public class OwsPhone {
         return Optional.ofNullable(t).map(Collections::singleton).orElseGet(Collections::emptySet);
     }
 
-    
+
 
 }

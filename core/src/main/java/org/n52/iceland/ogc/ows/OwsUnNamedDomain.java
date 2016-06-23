@@ -127,5 +127,5 @@ public class OwsUnNamedDomain {
                ", dataType=" + dataType + ", valuesUnit=" + valuesUnit +
                ", metadata=" + metadata + '}';
     }
-    
+
 }

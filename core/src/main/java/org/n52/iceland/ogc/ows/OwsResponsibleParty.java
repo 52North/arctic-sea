@@ -115,6 +115,6 @@ public class OwsResponsibleParty {
                positionName + ", contactInfo=" + contactInfo + ", role=" + role +
                '}';
     }
-    
+
 
 }
