@@ -22,7 +22,7 @@ import com.google.common.collect.ComparisonChain;
 
 
 /**
- * {@link CapabilitiesExtension} key class to identify CapabilitiesExtensions.
+ * {@link OwsCapabilitiesExtension} key class to identify CapabilitiesExtensions.
  *
  * @since 1.0.0
  *
