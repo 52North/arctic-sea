@@ -25,13 +25,13 @@ import java.util.stream.Stream;
 
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
+import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.response.GetCapabilitiesResponse;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.CollectionHelper;
 import org.n52.iceland.util.Comparables;
 import org.n52.iceland.util.StringHelper;
-import org.n52.iceland.ogc.ows.OWSConstants;
 
 /**
  * Implementation of {@link AbstractServiceRequest} for OWS GetCapabilities
@@ -41,10 +41,9 @@ import org.n52.iceland.ogc.ows.OWSConstants;
 public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabilitiesResponse> {
 
     private final List<String> acceptVersions = new LinkedList<>();
-
     private final List<String> sections = new LinkedList<>();
-
     private final List<String> acceptFormats = new LinkedList<>();
+    private final List<String> acceptLanguages = new LinkedList<>();
 
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
 
@@ -236,6 +235,17 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
 
     private boolean isVersionSupported(String acceptedVersion) {
         return ServiceOperatorRepository.getInstance().isVersionSupported(getService(), acceptedVersion);
+    }
+
+    public void setAcceptLanguages(List<String> acceptLanguages) {
+        this.acceptLanguages.clear();
+        if (acceptLanguages!=null) {
+            this.acceptLanguages.addAll(acceptLanguages);
+        }
+    }
+
+    public List<String> getAcceptLanguages() {
+        return Collections.unmodifiableList(acceptLanguages);
     }
 
 }
