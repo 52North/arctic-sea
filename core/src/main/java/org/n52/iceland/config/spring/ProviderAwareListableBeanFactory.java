@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.iceland.config.spring;
 
 import java.io.Serializable;
@@ -30,7 +46,8 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
     }
 
     @Override
-    protected Map<String, Object> findAutowireCandidates(String beanName, Class<?> requiredType, DependencyDescriptor descriptor) {
+    protected Map<String, Object> findAutowireCandidates(String beanName, Class<?> requiredType,
+                                                         DependencyDescriptor descriptor) {
         if (requiredType.equals(Provider.class)) {
             DependencyDescriptor providedDescriptor = new DependencyDescriptor(descriptor);
             providedDescriptor.increaseNestingLevel();
@@ -41,7 +58,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
             return super.findAutowireCandidates(beanName, requiredType, descriptor);
         }
 
-	}
+    }
 
     private static class OptionalDependencyDescriptor extends DependencyDescriptor {
         private static final long serialVersionUID = -6623409266686702545L;
@@ -72,16 +89,17 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
         }
 
         @Override
-        public Object getObject() throws BeansException {
+        public Object getObject()
+                throws BeansException {
             Object resolved = doResolveDependency(this.descriptor, beanName, null, null);
             return (this.optional) ? Optional.ofNullable(resolved) : resolved;
         }
 
         @Override
-        public Object get() throws BeansException {
+        public Object get()
+                throws BeansException {
             return getObject();
         }
     }
-
 
 }

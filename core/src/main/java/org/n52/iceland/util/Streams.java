@@ -37,7 +37,9 @@ public class Streams {
 
     public static <T> BinaryOperator<T> throwingMerger(BiFunction<T, T, ? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);
-        return (a, b) -> { throw exceptionSupplier.apply(a, b); };
+        return (a, b) -> {
+            throw exceptionSupplier.apply(a, b);
+        };
     }
 
     public static <T> BinaryOperator<T> throwingMerger() {
