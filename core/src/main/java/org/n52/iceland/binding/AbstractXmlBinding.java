@@ -121,9 +121,10 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     @VisibleForTesting
     protected DecoderKey getDecoderKey(String xmlContent, String characterEncoding) throws CodedException {
         try (ByteArrayInputStream stream = new ByteArrayInputStream(xmlContent.getBytes(characterEncoding))) {
+            // FIXME do not parse the complete request, if we only need the first element
             Document document = documentFactory.newDocumentBuilder().parse(stream);
             Element element = document.getDocumentElement();
-            element.normalize();
+            element.normalize();// TODO is this REALLY needed!?
             if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
                 OperationKey operationKey = getOperationKey(element);
                 XmlStringOperationDecoderKey decoderKey = new XmlStringOperationDecoderKey(operationKey, getDefaultContentType());
