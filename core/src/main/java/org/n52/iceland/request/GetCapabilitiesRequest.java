@@ -248,4 +248,12 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
         return Collections.unmodifiableList(acceptLanguages);
     }
 
+    @Override
+    public String getRequestedLanguage() {
+        if (acceptLanguages.isEmpty()) {
+            return super.getRequestedLanguage();
+        } else {
+            return acceptLanguages.iterator().next();
+        }
+    }
 }
