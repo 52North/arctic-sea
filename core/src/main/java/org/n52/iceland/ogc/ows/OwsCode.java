@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import org.n52.iceland.util.Optionals;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 
 /**
@@ -48,19 +49,16 @@ public class OwsCode implements Comparable<OwsCode> {
     }
 
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     public Optional<URI> getCodeSpace() {
-        return codeSpace;
+        return this.codeSpace;
     }
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 59 * hash + Objects.hashCode(this.value);
-        hash = 59 * hash + Objects.hashCode(this.codeSpace);
-        return hash;
+        return Objects.hash(getValue(), getCodeSpace());
     }
 
     @Override
@@ -75,13 +73,17 @@ public class OwsCode implements Comparable<OwsCode> {
             return false;
         }
         final OwsCode other = (OwsCode) obj;
-        return Objects.equals(this.value, other.value) &&
-               Objects.equals(this.codeSpace, other.codeSpace);
+        return Objects.equals(this.getValue(), other.getValue()) &&
+               Objects.equals(this.getCodeSpace(), other.getCodeSpace());
     }
 
     @Override
     public String toString() {
-        return "OwsCode{" + "value=" + value + ", codeSpace=" + codeSpace + '}';
+        return MoreObjects.toStringHelper(this)
+                .omitNullValues()
+                .add("value", getValue())
+                .add("codeSpace", getCodeSpace().orElse(null))
+                .toString();
     }
 
     @Override

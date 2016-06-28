@@ -29,9 +29,35 @@ import com.google.common.base.Strings;
 public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain> {
     private final String name;
 
+    public OwsDomain(Enum<?> name, OwsPossibleValues possibleValues) {
+        this(name.toString(), possibleValues, null, null, null, null, null);
+    }
 
     public OwsDomain(String name, OwsPossibleValues possibleValues) {
         this(name, possibleValues, null, null, null, null, null);
+    }
+
+    public OwsDomain(Enum<?> name,
+                     OwsPossibleValues possibleValues,
+                     OwsValue defaultValue) {
+        this(name.toString(), possibleValues, defaultValue, null, null, null, null);
+    }
+
+    public OwsDomain(Enum<?> name,
+                     OwsPossibleValues possibleValues,
+                     OwsValue defaultValue,
+                     OwsDomainMetadata meaning,
+                     OwsDomainMetadata dataType,
+                     OwsValuesUnit valuesUnit,
+                     Set<OwsMetadata> metadata) {
+        this(name.toString(), possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
+    }
+
+    public OwsDomain(String name,
+                     OwsPossibleValues possibleValues,
+                     OwsValue defaultValue) {
+        this(name, possibleValues, defaultValue, null, null, null, null);
+
     }
 
     public OwsDomain(String name,
@@ -80,8 +106,5 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
     public String toString() {
         return "OwsDomain{" + "name=" + name + '}';
     }
-
-
-
 
 }

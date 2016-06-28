@@ -28,6 +28,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.convert.RequestResponseModifier;
 import org.n52.iceland.convert.RequestResponseModifierRepository;
 import org.n52.iceland.ds.GenericOperationHandler;
@@ -66,16 +67,20 @@ public class GenericRequestOperator<
                                  String operation,
                                  Class<Q> requestType,
                                  ParameterValidator<Q> validator) {
-        this(service, version, operation, true, requestType, validator);
+        this(new OperationKey(service, version, operation), true, requestType, validator);
     }
 
-    public GenericRequestOperator(String service,
-                                   String version,
-                                   String operation,
+    public GenericRequestOperator(OperationKey operation,
+                                 Class<Q> requestType,
+                                 ParameterValidator<Q> validator) {
+        this(operation, true, requestType, validator);
+    }
+
+    public GenericRequestOperator(OperationKey operation,
                                    boolean defaultActive,
                                    Class<Q> requestType,
                                    ParameterValidator<Q> validator) {
-        this.requestOperatorKey = new RequestOperatorKey(service, version, operation, defaultActive);
+        this.requestOperatorKey = new RequestOperatorKey(operation.getService(), operation.getVersion(), operation.getOperation(), defaultActive);
         this.requestType = Objects.requireNonNull(requestType, "requestType");
         this.validator = Objects.requireNonNull(validator, "checker");
         LOG.info("{} initialized successfully for {}!", getClass().getSimpleName(), this.requestOperatorKey);

@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -28,11 +29,16 @@ import java.util.stream.Stream;
  *
  * @author Christian Autermann
  */
-public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRestriction> {
+public class OwsAllowedValues implements OwsPossibleValues,
+                                         Iterable<OwsValueRestriction> {
     private final Set<OwsValueRestriction> restrictions = new HashSet<>();
 
+    public OwsAllowedValues(OwsValueRestriction... restrictions) {
+        this(Arrays.asList(restrictions));
+    }
+
     public OwsAllowedValues(Iterable<? extends OwsValueRestriction> restrictions) {
-        if (restrictions!= null) {
+        if (restrictions != null) {
             for (OwsValueRestriction restriction : restrictions) {
                 this.restrictions.add(Objects.requireNonNull(restriction));
             }
@@ -41,7 +47,8 @@ public class OwsAllowedValues implements OwsPossibleValues, Iterable<OwsValueRes
 
     public OwsAllowedValues(Stream<? extends OwsValueRestriction> restrictions) {
         if (restrictions != null) {
-            restrictions.forEach(x -> this.restrictions.add(Objects.requireNonNull(x)));
+            restrictions.forEach(x -> this.restrictions.add(Objects
+                    .requireNonNull(x)));
         }
     }
 

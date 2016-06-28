@@ -106,25 +106,25 @@ public class Comparables {
             Scanner bs = new Scanner(b).useDelimiter(DELIMITER);
             while (as.hasNextInt() && bs.hasNextInt()) {
                 int c = Comparables.compare(as.nextInt(), bs.nextInt());
-                if (c != 0) {
+                if (c != EQUAL) {
                     return c;
                 }
             }
             if (as.hasNextInt()) {
-                return 1;
+                return GREATER;
             } else if (bs.hasNextInt()) {
-                return -1;
+                return LESS;
             } else {
                 boolean na = as.useDelimiter(EOF).hasNext();
                 boolean nb = bs.useDelimiter(EOF).hasNext();
                 if (na && nb) {
                     return as.next().compareTo(bs.next());
                 } else if (na) {
-                    return -1;
+                    return LESS;
                 } else if (nb) {
-                    return 1;
+                    return GREATER;
                 } else {
-                    return 0;
+                    return EQUAL;
                 }
             }
         }
