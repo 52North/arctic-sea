@@ -30,18 +30,18 @@ public class Streams {
     private Streams() {
     }
 
-    public static <T> BinaryOperator<T> throwingMerger(
-            Supplier<? extends RuntimeException> exceptionSupplier) {
+    public static <T> BinaryOperator<T> throwingMerger(Supplier<? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);
         return throwingMerger((a, b) -> exceptionSupplier.get());
     }
 
-    public static <T> BinaryOperator<T> throwingMerger(
-            BiFunction<T, T, ? extends RuntimeException> exceptionSupplier) {
+    public static <T> BinaryOperator<T> throwingMerger(BiFunction<T, T, ? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);
-        return (a, b) -> {
-            throw exceptionSupplier.apply(a, b);
-        };
+        return (a, b) -> { throw exceptionSupplier.apply(a, b); };
+    }
+
+    public static <T> BinaryOperator<T> throwingMerger() {
+        return throwingMerger((a, b) -> new IllegalStateException(String.format("Duplicate key %s", a)));
     }
 
     public static <T> Collector<T, List<T>, T> toSingleResult() {
