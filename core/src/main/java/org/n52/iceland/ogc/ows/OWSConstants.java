@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Optional;
+
 import javax.xml.namespace.QName;
 
 import org.n52.iceland.exception.ows.InvalidParameterValueException;
@@ -111,9 +113,28 @@ public interface OWSConstants {
         service,
         request,
         Section,
-        CapabilitiesId;
+        CapabilitiesId,
+        AcceptLanguages;
 
         public static final String DYNAMIC_CAPABILITIES_IDENTIFIER = "dynamic";
+    }
+
+    enum CapabilitiesSection {
+        All,
+        ServiceProvider,
+        ServiceIdentification,
+        OperationsMetadata,
+        Languages,
+        Contents;
+
+        public static Optional<CapabilitiesSection> fromString(String string) {
+            for (CapabilitiesSection section : values()) {
+                if (section.toString().equalsIgnoreCase(string)) {
+                    return Optional.of(section);
+                }
+            }
+            return Optional.empty();
+        }
     }
 
     /**
