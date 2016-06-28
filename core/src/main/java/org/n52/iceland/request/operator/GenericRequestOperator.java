@@ -252,7 +252,7 @@ public class GenericRequestOperator<
 
     protected A receive(Q request)
             throws OwsExceptionReport {
-        return getOperationHandler().handler(request);
+        return getOperationHandler().handle(request);
     }
 
     @Override

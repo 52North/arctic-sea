@@ -25,5 +25,5 @@ public interface GenericOperationHandler<
             A extends AbstractServiceResponse>
         extends OperationHandler {
 
-    A handler(Q request) throws OwsExceptionReport;
+    A handle(Q request) throws OwsExceptionReport;
 }
