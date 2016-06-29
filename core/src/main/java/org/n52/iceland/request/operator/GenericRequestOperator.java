@@ -45,7 +45,6 @@ import org.n52.iceland.service.operator.ServiceOperatorRepository;
 
 import com.google.common.base.MoreObjects;
 
-//TODO move to iceland
 public class GenericRequestOperator<
             Q extends AbstractServiceRequest<A>,
             A extends AbstractServiceResponse>
@@ -125,73 +124,71 @@ public class GenericRequestOperator<
 
     private void checkForModifierAndProcess(AbstractServiceRequest<?> request)
             throws OwsExceptionReport {
-        if (this.modifierRepository
-                .hasRequestResponseModifier(request)) {
-            List<RequestResponseModifier> splitter = new LinkedList<>();
-            List<RequestResponseModifier> remover = new LinkedList<>();
-            List<RequestResponseModifier> defaultModifier = new LinkedList<>();
-            this.modifierRepository
-                    .getRequestResponseModifier(request).stream()
-                    .forEach(modifier -> {
-                        if (modifier.getFacilitator().isSplitter()) {
-                            splitter.add(modifier);
-                        } else if (modifier.getFacilitator().isAdderRemover()) {
-                            remover.add(modifier);
-                        } else {
-                            defaultModifier.add(modifier);
-                        }
-                    });
-            // execute adder/remover
-            for (RequestResponseModifier modifier : remover) {
-                modifier.modifyRequest(request);
-            }
-            // execute default
-            for (RequestResponseModifier modifier : defaultModifier) {
-                modifier.modifyRequest(request);
-            }
-            // execute splitter
-            for (RequestResponseModifier modifier : splitter) {
-                modifier.modifyRequest(request);
-            }
+        if (!this.modifierRepository.hasRequestResponseModifier(request)) {
+            return;
+        }
+        List<RequestResponseModifier> splitter = new LinkedList<>();
+        List<RequestResponseModifier> remover = new LinkedList<>();
+        List<RequestResponseModifier> defaultModifier = new LinkedList<>();
+        this.modifierRepository
+                .getRequestResponseModifier(request).stream()
+                .forEach(modifier -> {
+                    if (modifier.getFacilitator().isSplitter()) {
+                        splitter.add(modifier);
+                    } else if (modifier.getFacilitator().isAdderRemover()) {
+                        remover.add(modifier);
+                    } else {
+                        defaultModifier.add(modifier);
+                    }
+                });
+        // execute adder/remover
+        for (RequestResponseModifier modifier : remover) {
+            modifier.modifyRequest(request);
+        }
+        // execute default
+        for (RequestResponseModifier modifier : defaultModifier) {
+            modifier.modifyRequest(request);
+        }
+        // execute splitter
+        for (RequestResponseModifier modifier : splitter) {
+            modifier.modifyRequest(request);
         }
     }
 
-    private AbstractServiceResponse checkForModifierAndProcess(
+    private void checkForModifierAndProcess(
             AbstractServiceRequest<?> request,
             AbstractServiceResponse response)
             throws OwsExceptionReport {
-        if (this.modifierRepository
-                .hasRequestResponseModifier(request, response)) {
-            List<RequestResponseModifier> defaultModifier = new LinkedList<>();
-            List<RequestResponseModifier> remover = new LinkedList<>();
-            List<RequestResponseModifier> merger = new LinkedList<>();
-            this.modifierRepository
-                    .getRequestResponseModifier(request, response).stream()
-                    .forEach((modifier) -> {
-                        if (modifier.getFacilitator().isMerger()) {
-                            merger.add(modifier);
-                        } else if (modifier.getFacilitator().isAdderRemover()) {
-                            remover.add(modifier);
-                        } else {
-                            defaultModifier.add(modifier);
-                        }
-                    });
-
-            // execute merger
-            for (RequestResponseModifier modifier : merger) {
-                modifier.modifyResponse(request, response);
-            }
-            // execute default
-            for (RequestResponseModifier modifier : defaultModifier) {
-                modifier.modifyResponse(request, response);
-            }
-            // execute adder/remover
-            for (RequestResponseModifier modifier : remover) {
-                modifier.modifyResponse(request, response);
-            }
-            return response;
+        if (!this.modifierRepository.hasRequestResponseModifier(request, response)) {
+            return;
         }
-        return response;
+        List<RequestResponseModifier> defaultModifier = new LinkedList<>();
+        List<RequestResponseModifier> remover = new LinkedList<>();
+        List<RequestResponseModifier> merger = new LinkedList<>();
+        this.modifierRepository
+                .getRequestResponseModifier(request, response).stream()
+                .forEach((modifier) -> {
+                    if (modifier.getFacilitator().isMerger()) {
+                        merger.add(modifier);
+                    } else if (modifier.getFacilitator().isAdderRemover()) {
+                        remover.add(modifier);
+                    } else {
+                        defaultModifier.add(modifier);
+                    }
+                });
+
+        // execute merger
+        for (RequestResponseModifier modifier : merger) {
+            modifier.modifyResponse(request, response);
+        }
+        // execute default
+        for (RequestResponseModifier modifier : defaultModifier) {
+            modifier.modifyResponse(request, response);
+        }
+        // execute adder/remover
+        for (RequestResponseModifier modifier : remover) {
+            modifier.modifyResponse(request, response);
+        }
     }
 
     @Override
@@ -205,7 +202,8 @@ public class GenericRequestOperator<
             this.validator.validate(request);
             A response = receive(request);
             this.serviceEventBus.submit(new ResponseEvent(response));
-            return checkForModifierAndProcess(request, response);
+            checkForModifierAndProcess(request, response);
+            return response;
         } else {
             throw new OperationNotSupportedException(abstractRequest
                     .getOperationName());

@@ -16,8 +16,11 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.iceland.util.Optionals;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -32,6 +35,9 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  */
 public class OwsRange implements OwsValueRestriction {
+    public static final Comparator<OwsRange> COMPARATOR = Comparator.comparing(OwsRange::getLowerBound, Optionals.nullsFirst())
+                .thenComparing(Comparator.comparing(OwsRange::getUpperBound, Optionals.nullsLast()));
+
     public static final String CLOSED = "closed";
     public static final String CLOSED_OPEN = "closed-open";
     public static final String OPEN_CLOSED = "open-closed";

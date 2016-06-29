@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Comparator;
 import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
@@ -26,8 +27,8 @@ import com.google.common.base.MoreObjects;
  *
  * @author Christian Autermann
  */
-public class OwsValue implements OwsValueRestriction, Comparable<OwsValue> {
-
+public class OwsValue implements OwsValueRestriction {
+    public static final Comparator<OwsValue> COMPARATOR = Comparator.comparing(OwsValue::getValue);
     private final String value;
 
     public OwsValue(String value) {
@@ -65,11 +66,6 @@ public class OwsValue implements OwsValueRestriction, Comparable<OwsValue> {
     @Override
     public boolean isValue() {
         return true;
-    }
-
-    @Override
-    public int compareTo(OwsValue o) {
-        return getValue().compareTo(o.getValue());
     }
 
     public static OwsValue of(String value) {

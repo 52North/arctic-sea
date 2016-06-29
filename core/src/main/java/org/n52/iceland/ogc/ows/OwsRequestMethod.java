@@ -78,23 +78,12 @@ public class OwsRequestMethod extends OwsOnlineResource implements Comparable<Ow
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (!super.equals(obj)) {
             return false;
         }
         final OwsRequestMethod other = (OwsRequestMethod) obj;
-        if (!Objects.equals(this.httpMethod, other.httpMethod)) {
-            return false;
-        }
-        if (!Objects.equals(this.constraints, other.constraints)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.httpMethod, other.httpMethod) &&
+               Objects.equals(this.constraints, other.constraints);
     }
 
     @Override

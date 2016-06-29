@@ -30,19 +30,19 @@ public class Optionals {
     private Optionals() {
     }
 
-    public static <U> Comparator<Optional<U>> nullsLast(Comparator<U> comparator) {
+    public static <U> Comparator<Optional<U>> nullsLast(Comparator<? super U> comparator) {
         return Comparator.comparing(Optionals::orElseNull, Comparator.nullsLast(comparator));
     }
 
-    public static <U extends Comparable<U>> Comparator<Optional<U>> nullsLast() {
+    public static <U extends Comparable<? super U>> Comparator<Optional<U>> nullsLast() {
         return nullsLast(Comparator.<U>naturalOrder());
     }
 
-    public static <U> Comparator<Optional<U>> nullsFirst(Comparator<U> comparator) {
+    public static <U> Comparator<Optional<U>> nullsFirst(Comparator<? super U> comparator) {
         return Comparator.comparing(Optionals::orElseNull, Comparator.nullsFirst(comparator));
     }
 
-    public static <U extends Comparable<U>> Comparator<Optional<U>> nullsFirst() {
+    public static <U extends Comparable<? super U>> Comparator<Optional<U>> nullsFirst() {
         return nullsFirst(Comparator.<U>naturalOrder());
     }
 

@@ -16,8 +16,11 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+
+import org.n52.iceland.util.Optionals;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -27,7 +30,11 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class OwsLanguageString {
+public class OwsLanguageString implements Comparable<OwsLanguageString> {
+    private static final Comparator<OwsLanguageString> COMPARATOR
+            = Comparator.nullsLast(Comparator
+                    .comparing(OwsLanguageString::getLang, Optionals.nullsLast())
+                    .thenComparing(OwsLanguageString::getValue));
     private final String lang;
     private final String value;
 
@@ -73,6 +80,11 @@ public class OwsLanguageString {
                 .add("lang", this.lang)
                 .add("value", this.value)
                 .toString();
+    }
+
+    @Override
+    public int compareTo(OwsLanguageString o) {
+        return COMPARATOR.compare(this, o);
     }
 
 }

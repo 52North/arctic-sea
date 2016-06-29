@@ -16,12 +16,40 @@
  */
 package org.n52.iceland.ogc.ows;
 
+
+import java.util.Comparator;
+
+import org.n52.iceland.util.Comparables;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public interface OwsValueRestriction {
+public interface OwsValueRestriction extends Comparable<OwsValueRestriction> {
+    public static final Comparator<OwsValueRestriction> COMPARATOR = Comparator.nullsLast((o1, o2) -> {
+        if (o1.isRange()) {
+            if (o2.isRange()) {
+                return OwsRange.COMPARATOR.compare(o1.asRange(), o2.asRange());
+            } else if (o2.isValue()) {
+                return Comparables.GREATER;
+            } else {
+                throw new AssertionError();
+            }
+        } else if (o1.isValue()) {
+            if (o2.isRange()) {
+                return Comparables.LESS;
+            } else if (o2.isValue()) {
+                return OwsValue.COMPARATOR.compare(o1.asValue(), o2.asValue());
+            } else {
+                throw new AssertionError();
+            }
+        } else {
+            throw new AssertionError();
+        }
+    });
+
+
     default boolean isRange() {
         return false;
     }
@@ -36,6 +64,11 @@ public interface OwsValueRestriction {
 
     default OwsValue asValue() {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public default int compareTo(OwsValueRestriction other) {
+        return COMPARATOR.compare(this, other);
     }
 
 }

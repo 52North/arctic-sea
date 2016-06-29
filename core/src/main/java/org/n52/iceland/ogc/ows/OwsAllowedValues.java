@@ -18,10 +18,10 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.stream.Stream;
 
 /**
@@ -31,7 +31,7 @@ import java.util.stream.Stream;
  */
 public class OwsAllowedValues implements OwsPossibleValues,
                                          Iterable<OwsValueRestriction> {
-    private final Set<OwsValueRestriction> restrictions = new HashSet<>();
+    private final SortedSet<OwsValueRestriction> restrictions = new TreeSet<>();
 
     public OwsAllowedValues(OwsValueRestriction... restrictions) {
         this(Arrays.asList(restrictions));
@@ -74,8 +74,8 @@ public class OwsAllowedValues implements OwsPossibleValues,
         return this;
     }
 
-    public Set<OwsValueRestriction> getRestrictions() {
-        return Collections.unmodifiableSet(restrictions);
+    public SortedSet<OwsValueRestriction> getRestrictions() {
+        return Collections.unmodifiableSortedSet(restrictions);
     }
 
     @Override

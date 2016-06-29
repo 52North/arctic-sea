@@ -16,6 +16,10 @@
  */
 package org.n52.iceland.util.http;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * TODO JavaDoc
  *
@@ -37,4 +41,7 @@ public interface HTTPMethods {
     String TRACE = "TRACE";
 
     String OPTIONS = "OPTIONS";
+
+    List<String> METHODS = Collections.unmodifiableList(Arrays
+            .asList(GET, POST, PUT, DELETE, TRACE, HEAD, OPTIONS));
 }
