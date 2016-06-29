@@ -14,27 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.function;
 
-import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODO JavaDoc
- *
  * @author Christian Autermann
  */
-@FunctionalInterface
-public interface ThrowingConsumer<T, X extends Exception> {
-
-    void accept(T t)
-            throws X;
-
-    default ThrowingConsumer<T, X> andThen(
-            ThrowingConsumer<? super T, ? extends X> after) {
-        Objects.requireNonNull(after);
-        return (T t) -> {
-            accept(t);
-            after.accept(t);
-        };
+public class Functions {
+    private Functions() {
     }
+
+    public static <T, R> Supplier<R> bind(Function<? super T, ? extends R> function, T t) {
+        return () -> function.apply(t);
+    }
+
+    public static <T1, T2, R> Function<T2, R> bind1(BiFunction<T1, T2, R> bifunction, T1 t1) {
+        return (t2) -> bifunction.apply(t1, t2);
+    }
+
+    public static <T1, T2, R> Function<T1, R> bind2(BiFunction<T1, T2, R> bifunction, T2 t2) {
+        return (t1) -> bifunction.apply(t1, t2);
+    }
+
 }

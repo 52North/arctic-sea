@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.exception.ows;
 
-import org.n52.iceland.util.ThrowingRunnable;
+import org.n52.iceland.util.function.ThrowingRunnable;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -35,8 +35,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.n52.iceland.exception.CodedException;
-import org.n52.iceland.util.ThrowingCallable;
-import org.n52.iceland.util.ThrowingConsumer;
+import org.n52.iceland.util.function.ThrowingCallable;
+import org.n52.iceland.util.function.ThrowingConsumer;
 
 /**
  * Composite {@link OwsExceptionReport} which can contain several

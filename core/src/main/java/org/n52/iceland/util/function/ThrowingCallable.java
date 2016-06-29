@@ -14,18 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.util;
+package org.n52.iceland.util.function;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
- * @param <X> The exception type
+ * @param <V> the return type
+ * @param <X> the exception type
  */
 @FunctionalInterface
-public interface ThrowingRunnable<X extends Exception> {
-
-    void run()
-            throws X;
-
+public interface ThrowingCallable<V, X extends Exception> {
+    V call() throws X;
 }

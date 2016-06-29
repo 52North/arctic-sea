@@ -18,6 +18,7 @@ package org.n52.iceland.config.spring;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -91,8 +92,9 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
         @Override
         public Object getObject()
                 throws BeansException {
-            Object resolved = doResolveDependency(this.descriptor, beanName, null, null);
-            return (this.optional) ? Optional.ofNullable(resolved) : resolved;
+            Object resolved = getBean(beanName);
+            //Object resolved = doResolveDependency(this.descriptor, beanName, null, null);
+            return (this.optional) ? Optional.ofNullable(resolved) : Objects.requireNonNull(resolved);
         }
 
         @Override

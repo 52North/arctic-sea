@@ -19,9 +19,11 @@ package org.n52.iceland.coding;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import org.n52.iceland.lifecycle.Constructable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.n52.iceland.lifecycle.Constructable;
 
 /**
  *
@@ -43,11 +45,12 @@ public class DocumentBuilderProvider implements Constructable {
             // Xerces 2 only - http://xerces.apache.org/xerces-j/features.html#external-general-entities
             this.factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
         } catch (ParserConfigurationException e) {
-            LOG.warn("Could not set feature on document builder factory: "+e.getMessage(), e);
+            LOG.warn("Could not set feature on document builder factory: " + e.getMessage(), e);
         }
     }
 
-    public DocumentBuilder newDocumentBuilder() throws ParserConfigurationException {
+    public DocumentBuilder newDocumentBuilder()
+            throws ParserConfigurationException {
         return this.factory.newDocumentBuilder();
     }
 
