@@ -133,7 +133,6 @@ public class KvpBinding extends SimpleBinding {
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(serviceRequest != null ? serviceRequest.getVersion() : null);
-            LOGGER.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }
