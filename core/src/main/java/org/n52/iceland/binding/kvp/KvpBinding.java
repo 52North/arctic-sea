@@ -43,10 +43,10 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.n52.iceland.exception.ows.OperationNotSupportedException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
-import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
 import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
@@ -206,7 +206,7 @@ public class KvpBinding extends SimpleBinding {
             }
             return request;
         } else {
-            throw new NoDecoderForKeyException(k);
+            throw new OperationNotSupportedException(operation);
         }
     }
 
