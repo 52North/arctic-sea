@@ -22,10 +22,15 @@ import java.util.function.Supplier;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class Functions {
     private Functions() {
+    }
+
+    public static <X, T> Function<? super X, T> constant(T t) {
+        return (x) -> t;
     }
 
     public static <T, R> Supplier<R> bind(Function<? super T, ? extends R> function, T t) {

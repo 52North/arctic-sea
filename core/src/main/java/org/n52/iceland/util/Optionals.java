@@ -19,6 +19,8 @@ package org.n52.iceland.util;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * TODO JavaDoc
@@ -48,6 +50,24 @@ public class Optionals {
 
     public static <U> U orElseNull(Optional<U> optional) {
         return optional.orElse(null);
+    }
+
+    public static <U> Optional<U> ifPresentOrElse(Optional<U> optional, Consumer<U> consumer, Runnable ifNotPresent) {
+        if (optional.isPresent()) {
+            consumer.accept(optional.get());
+        } else {
+            ifNotPresent.run();
+        }
+        return optional;
+    }
+
+    public static <T, U> Optional<U> mapOrElse(Optional<T> optional, Function<? super T, ? extends U> mapper, Runnable ifNotPresent) {
+        if (!optional.isPresent()) {
+            ifNotPresent.run();
+            return Optional.empty();
+        } else {
+            return Optional.ofNullable(mapper.apply(optional.get()));
+        }
     }
 
     public static <U> Optional<U> or(Optional<U> a, Optional<U> b) {
