@@ -52,7 +52,17 @@ public class OwsCapabilities {
         this.serviceProvider = Optional.ofNullable(serviceProvider);
         this.operationsMetadata = Optional.ofNullable(operationsMetadata);
         this.languages = languages == null ? Optional.empty()
-                : Optional.of(CollectionHelper.newSortedSet(languages));
+                                 : Optional.of(CollectionHelper.newSortedSet(languages));
+    }
+
+    public OwsCapabilities(OwsCapabilities other) {
+        this(other.getService(),
+             other.getVersion(),
+             other.getUpdateSequence().orElse(null),
+             other.getServiceIdentification().orElse(null),
+             other.getServiceProvider().orElse(null),
+             other.getOperationsMetadata().orElse(null),
+             other.getLanguages().orElse(null));
     }
 
     public String getVersion() {
