@@ -18,6 +18,7 @@ package org.n52.iceland.binding.kvp;
 
 import java.util.Map;
 
+import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
 import org.n52.iceland.coding.decode.DecodingException;
@@ -65,6 +66,10 @@ public abstract class AbstractKvpDecoder<T> implements Decoder<T, Map<String, St
 
     protected static DecoderKey createKey(String service, String version, Enum<?> operation) {
         return createKey(service, version, operation.name());
+    }
+
+    protected static DecoderKey createKey(OperationKey key) {
+        return createKey(key.getService(), key.getVersion(), key.getOperation());
     }
 
     protected static OwsExceptionReport unsupportedParameter(String name, String value) {

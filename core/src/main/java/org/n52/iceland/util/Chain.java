@@ -17,6 +17,7 @@
 package org.n52.iceland.util;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -29,17 +30,34 @@ import java.util.stream.Stream;
  *
  * @author Christian Autermann
  */
-public final class Chain<T> implements Iterable<T> {
+public class Chain<T> implements Iterable<T> {
 
     private final List<T> chain;
 
     public Chain(T t) {
         this(Arrays.asList(t));
+
     }
 
-    private Chain(List<T> chain) {
+    public Chain(List<T> chain) {
         chain.forEach(Objects::requireNonNull);
-        this.chain = chain;
+        this.chain = Collections.unmodifiableList(chain);
+    }
+
+    public T first() {
+        return chain.get(0);
+    }
+
+    public T last() {
+        return this.chain.get(this.chain.size() - 1);
+    }
+
+    public Optional<Chain<T>> tail() {
+        if (this.chain.size() == 1) {
+            return Optional.empty();
+        } else {
+            return Optional.of(new Chain<>(this.chain.subList(1, this.chain.size())));
+        }
     }
 
     public Chain<T> child(T t) {
@@ -55,7 +73,7 @@ public final class Chain<T> implements Iterable<T> {
         if (this.chain.size() == 1) {
             return Optional.empty();
         }
-        return Optional.of(new Chain<>(stream().skip(1).collect(Collectors.toList())));
+        return Optional.of(new Chain<>(this.chain.subList(0, this.chain.size() - 1)));
     }
 
     @Override
