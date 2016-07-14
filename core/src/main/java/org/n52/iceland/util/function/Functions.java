@@ -16,9 +16,18 @@
  */
 package org.n52.iceland.util.function;
 
+import static java.util.stream.Collectors.toSet;
+
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 /**
  * TODO JavaDoc
@@ -43,6 +52,33 @@ public class Functions {
 
     public static <T1, T2, R> Function<T1, R> bind2(BiFunction<T1, T2, R> bifunction, T2 t2) {
         return (t1) -> bifunction.apply(t1, t2);
+    }
+
+    public static <K, V> BinaryOperator<Map<K, V>> mergeToRightMap(BiFunction<? super V, ? super V, ? extends V> valueMerger) {
+        BinaryOperator<Map<K, V>> mergeToLeftMap = mergeToLeftMap(valueMerger);
+        return (a, b) -> mergeToLeftMap.apply(b, a);
+    }
+
+    public static <K, V> BinaryOperator<Map<K, V>> mergeToLeftMap(BiFunction<? super V, ? super V, ? extends V> valueMerger) {
+        Objects.requireNonNull(valueMerger);
+        return (a, b) -> {
+            b.forEach((key, value) -> a.merge(key, value, valueMerger));
+            return b;
+        };
+    }
+
+    public static <K, V> Function<Map<K, V>, Set<K>> keySetWhereValues(Predicate<? super V> predicate) {
+        Objects.requireNonNull(predicate);
+        return map -> map.entrySet().stream()
+                .filter(e -> predicate.test(e.getValue()))
+                .map(Entry::getKey).collect(toSet());
+    }
+
+    public static <K, V> Function<Map<K, V>, Stream<K>> keyStreamWhereValues(Predicate<? super V> predicate) {
+        Objects.requireNonNull(predicate);
+        return map -> map.entrySet().stream()
+                .filter(e -> predicate.test(e.getValue()))
+                .map(Entry::getKey);
     }
 
 }

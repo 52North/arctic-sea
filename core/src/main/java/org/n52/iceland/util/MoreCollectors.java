@@ -17,21 +17,28 @@
 package org.n52.iceland.util;
 
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
-import static java.util.stream.Collectors.reducing;
-import static java.util.stream.Collectors.toMap;
 import static org.n52.iceland.util.function.Functions.constant;
 
 import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
+import java.util.stream.Collector.Characteristics;
 import java.util.stream.Stream;
+
+import org.n52.iceland.util.function.Functions;
+
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.reducing;
+import static java.util.stream.Collectors.toMap;
+
 
 /**
  * TODO JavaDoc
@@ -67,6 +74,36 @@ public class MoreCollectors {
     public static <X, T, U> Collector<X, ?, Map<Chain<T>, U>> toChain(
             Function<X, T> id, Predicate<X> hasSubElements, Function<X, Stream<X>> subElements, Function<X, U> finisher) {
         return new ChainCollector<>(id, hasSubElements, subElements).collector(finisher);
+    }
+
+    public static <X> Collector<X, ?, Set<X>> toDuplicateSet() {
+        return toDuplicateSet(2);
+    }
+
+    public static <X> Collector<X, ?, Stream<X>> toDuplicateStream() {
+        return toDuplicateStream(2);
+    }
+
+    public static <X> Collector<X, ?, Set<X>> toDuplicateSet(int min) {
+        if (min < 2) {
+            throw new IllegalArgumentException();
+        }
+        return Collector.of(HashMap::new,
+                            (map, key) -> map.merge(key, 1, Integer::sum),
+                            Functions.mergeToLeftMap(Integer::sum),
+                            Functions.keySetWhereValues(v -> v >= min),
+                            Characteristics.UNORDERED);
+    }
+
+    public static <X> Collector<X, ?, Stream<X>> toDuplicateStream(int min) {
+        if (min < 2) {
+            throw new IllegalArgumentException();
+        }
+        return Collector.of(HashMap::new,
+                            (map, key) -> map.merge(key, 1, Integer::sum),
+                            Functions.mergeToLeftMap(Integer::sum),
+                            Functions.keyStreamWhereValues(v -> v >= min),
+                            Characteristics.UNORDERED);
     }
 
     private static class ChainCollector<X, T> {
