@@ -42,4 +42,9 @@ public class MissingParameterValueException extends CodedOwsException {
     public MissingParameterValueException(final Enum<?> parameter) {
         this(parameter.name());
     }
+
+    public MissingParameterValueException() {
+        super(OwsExceptionCode.MissingParameterValue);
+        setStatus(BAD_REQUEST);
+    }
 }

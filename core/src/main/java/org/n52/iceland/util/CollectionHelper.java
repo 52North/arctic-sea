@@ -36,6 +36,8 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
@@ -441,6 +443,10 @@ public final class CollectionHelper {
             split[i] = split[i].trim();
         }
         return split;
+    }
+
+    public static <T extends Comparable<T>> SortedSet<T> newSortedSet(Collection<? extends T> set) {
+        return Optional.ofNullable(set).map(TreeSet::new).orElseGet(TreeSet::new);
     }
 
 }

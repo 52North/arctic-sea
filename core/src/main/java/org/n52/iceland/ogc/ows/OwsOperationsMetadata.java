@@ -18,124 +18,79 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.SortedMap;
+import java.util.Objects;
 import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
 
 import org.n52.iceland.util.CollectionHelper;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-
 /**
- * @since 1.0.0
+ * TODO JavaDoc
  *
+ * @author Christian Autermann
  */
 public class OwsOperationsMetadata {
 
-    private SortedSet<OwsOperation> operations;
+    private final SortedSet<OwsOperation> operations;
+    private final SortedSet<OwsDomain> parameters;
+    private final SortedSet<OwsDomain> constraints;
 
-    private SortedMap<String, List<OwsParameterValue>> commonValues = new TreeMap<>();
-
-    private SortedMap<String, List<OwsParameterValue>> commonConstraints = new TreeMap<>();
-
-    private OwsExtendedCapabilities extendedCapabilities;
-
-    public SortedMap<String, List<OwsParameterValue>> getCommonConstraints() {
-        return Collections.unmodifiableSortedMap(commonConstraints);
-    }
-
-    public void setCommonConstraints(SortedMap<String, List<OwsParameterValue>> commonConstraints) {
-        this.commonConstraints = commonConstraints;
+    public OwsOperationsMetadata(Collection<OwsOperation> operations,
+                                 Collection<OwsDomain> parameters,
+                                 Collection<OwsDomain> constraints) {
+        this.operations = CollectionHelper.newSortedSet(operations);
+        this.parameters = CollectionHelper.newSortedSet(parameters);
+        this.constraints = CollectionHelper.newSortedSet(constraints);
     }
 
     public SortedSet<OwsOperation> getOperations() {
         return Collections.unmodifiableSortedSet(operations);
     }
 
-    public void setOperations(Collection<OwsOperation> operations) {
-        this.operations = operations == null ? null : new TreeSet<>(operations);
+    public SortedSet<OwsDomain> getParameters() {
+        return Collections.unmodifiableSortedSet(parameters);
     }
 
-    public Optional<OwsOperation> findOperation(Predicate<OwsOperation> predicate) {
-        if (isSetOperations()) {
-            return Iterables.tryFind(this.operations, predicate);
-        } else {
-            return Optional.absent();
+    public SortedSet<OwsDomain> getConstraints() {
+        return Collections.unmodifiableSortedSet(constraints);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 47 * hash + Objects.hashCode(this.operations);
+        hash = 47 * hash + Objects.hashCode(this.parameters);
+        hash = 47 * hash + Objects.hashCode(this.constraints);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
         }
-    }
-
-    public SortedMap<String, List<OwsParameterValue>> getCommonValues() {
-        return Collections.unmodifiableSortedMap(commonValues);
-    }
-
-    public void addOperation(OwsOperation operation) {
-        if (operations == null) {
-            operations = new TreeSet<>();
+        if (obj == null) {
+            return false;
         }
-        operations.add(operation);
-    }
-
-    public void addCommonValue(String parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = commonValues.get(parameterName);
-        if (values == null) {
-            values = new LinkedList<>();
-            commonValues.put(parameterName, values);
+        if (getClass() != obj.getClass()) {
+            return false;
         }
-        values.add(value);
-    }
-
-    public void overrideCommonValue(String parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = Lists.newLinkedList();
-        values.add(value);
-        commonValues.put(parameterName, values);
-    }
-
-    public boolean isSetCommonValues() {
-        return !CollectionHelper.isEmpty(getCommonValues());
-    }
-
-    public boolean isSetOperations() {
-        return !CollectionHelper.isEmpty(getOperations());
-    }
-
-    public boolean isEmpty() {
-        return CollectionHelper.isEmpty(getOperations());
-    }
-
-    public OwsExtendedCapabilities getExtendedCapabilities() {
-        return extendedCapabilities;
-    }
-
-    public void setExtendedCapabilities(OwsExtendedCapabilities extendedCapabilities) {
-        this.extendedCapabilities = extendedCapabilities;
-    }
-
-    public boolean isSetExtendedCapabilities() {
-        return getExtendedCapabilities() != null;
-    }
-
-    public void addCommonConstraint(String constraintName, OwsParameterValue value) {
-        List<OwsParameterValue> values = commonConstraints.get(constraintName);
-        if (values == null) {
-            values = new LinkedList<>();
-            commonConstraints.put(constraintName, values);
+        final OwsOperationsMetadata other = (OwsOperationsMetadata) obj;
+        if (!Objects.equals(this.operations, other.operations)) {
+            return false;
         }
-        values.add(value);
+        if (!Objects.equals(this.parameters, other.parameters)) {
+            return false;
+        }
+        if (!Objects.equals(this.constraints, other.constraints)) {
+            return false;
+        }
+        return true;
     }
 
-    public void overrideCommonConstraint(String constraintName, OwsParameterValue value) {
-        List<OwsParameterValue> values = Lists.newLinkedList();
-        values.add(value);
-        commonConstraints.put(constraintName, values);
-    }
-
-    public boolean isSetCommonConstraints() {
-        return !CollectionHelper.isEmpty(getCommonConstraints());
+    @Override
+    public String toString() {
+        return "OwsOperationsMetadata{" + "operations=" + operations +
+               ", parameters=" + parameters + ", constraints=" + constraints +
+               '}';
     }
 }

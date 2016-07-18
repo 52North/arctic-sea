@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.ogc.swes;
 
-import org.n52.iceland.ogc.ows.Extension;
+import org.n52.iceland.ogc.ows.extension.Extension;
 import org.n52.iceland.ogc.swe.SweConstants;
 
 /**

@@ -16,164 +16,114 @@
  */
 package org.n52.iceland.ogc.ows;
 
-
-import java.util.Collection;
+import java.net.URI;
 import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.StringHelper;
-
-import com.google.common.base.Strings;
 
 /**
- * @since 1.0.0
+ * TODO JavaDoc
  *
+ * @author Christian Autermann
  */
-public class OwsServiceIdentification {
-    private String serviceIdentification;
-    private MultilingualString title;
-    private MultilingualString abstrakt;
-    private String serviceType;
-    private String serviceTypeCodeSpace;
-    private String fees;
-    private final SortedSet<String> accessConstraints = new TreeSet<>();
-    private final SortedSet<String> versions = new TreeSet<>();
-    private final SortedSet<String> profiles = new TreeSet<>();
-    private final SortedSet<String> keywords = new TreeSet<>();
+public class OwsServiceIdentification extends OwsDescription {
 
-    public String getServiceIdentification() {
-        return serviceIdentification;
+    private final OwsCode serviceType;
+    private final SortedSet<String> serviceTypeVersion;
+    private final SortedSet<URI> profiles;
+    private final SortedSet<String> fees;
+    private final SortedSet<String> accessConstraints;
+
+    public OwsServiceIdentification(OwsCode serviceType,
+                                    Set<String> serviceTypeVersion,
+                                    Set<URI> profiles,
+                                    Set<String> fees,
+                                    Set<String> accessConstraints,
+                                    MultilingualString title,
+                                    MultilingualString abstrakt,
+                                    Set<OwsKeyword> keywords) {
+        super(title, abstrakt, keywords);
+        this.serviceType = serviceType;
+        this.serviceTypeVersion = CollectionHelper.newSortedSet(serviceTypeVersion);
+        this.profiles = CollectionHelper.newSortedSet(profiles);
+        this.fees = CollectionHelper.newSortedSet(fees);
+        this.accessConstraints = CollectionHelper.newSortedSet(accessConstraints);
     }
 
-    public void setServiceIdentification(final String serviceIdentification) {
-        this.serviceIdentification = serviceIdentification;
-    }
 
-    public boolean isSetServiceIdentification() {
-        return !Strings.isNullOrEmpty(getServiceIdentification());
-    }
 
-    public SortedSet<String> getVersions() {
-        return Collections.unmodifiableSortedSet(versions);
-    }
-
-    public void setVersions(final Collection<String> versions) {
-        this.versions.clear();
-        if (versions != null) {
-            this.versions.addAll(versions);
-        }
-    }
-
-    public boolean hasVersions() {
-        return CollectionHelper.isNotEmpty(getVersions());
-    }
-
-    public SortedSet<String> getProfiles() {
-        return Collections.unmodifiableSortedSet(profiles);
-    }
-
-    public synchronized void setProfiles(final Collection<String> profiles) {
-        this.profiles.clear();
-        if (profiles != null) {
-            this.profiles.addAll(profiles);
-        }
-    }
-
-    public boolean hasProfiles() {
-        return CollectionHelper.isNotEmpty(getProfiles());
-    }
-
-    public SortedSet<String> getKeywords() {
-        return Collections.unmodifiableSortedSet(keywords);
-    }
-
-    public void setKeywords(final Collection<String> keywords) {
-        this.keywords.clear();
-        if (keywords != null) {
-            this.keywords.addAll(keywords);
-        }
-    }
-
-    public boolean hasKeywords() {
-        return CollectionHelper.isNotEmpty(getKeywords());
-    }
-
-    public MultilingualString getTitle() {
-        return title;
-    }
-
-    public void setTitle(MultilingualString title) {
-        this.title = title;
-    }
-
-    public boolean hasTitle() {
-        return this.title != null;
-    }
-
-    public MultilingualString getAbstract() {
-        return abstrakt;
-    }
-
-    public void setAbstract(MultilingualString abstrakt) {
-        this.abstrakt = abstrakt;
-    }
-
-    public boolean hasAbstract() {
-        return this.abstrakt != null;
-    }
-
-    public String getServiceType() {
+    public OwsCode getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(final String serviceType) {
-        this.serviceType = serviceType;
+    public Set<String> getServiceTypeVersion() {
+        return Collections.unmodifiableSet(serviceTypeVersion);
     }
 
-    public boolean hasServiceType() {
-        return StringHelper.isNotEmpty(getServiceType());
+    public Set<URI> getProfiles() {
+        return Collections.unmodifiableSet(profiles);
     }
 
-    public String getServiceTypeCodeSpace() {
-        return serviceTypeCodeSpace;
+    public Set<String> getFees() {
+        return Collections.unmodifiableSet(fees);
     }
 
-    public void setServiceTypeCodeSpace(final String serviceTypeCodeSpace) {
-        this.serviceTypeCodeSpace = serviceTypeCodeSpace;
+    public Set<String> getAccessConstraints() {
+        return Collections.unmodifiableSet(accessConstraints);
     }
 
-    public boolean hasServiceTypeCodeSpace() {
-        return StringHelper.isNotEmpty(getServiceTypeCodeSpace());
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 53 * hash + Objects.hashCode(this.serviceType);
+        hash = 53 * hash + Objects.hashCode(this.serviceTypeVersion);
+        hash = 53 * hash + Objects.hashCode(this.profiles);
+        hash = 53 * hash + Objects.hashCode(this.fees);
+        hash = 53 * hash + Objects.hashCode(this.accessConstraints);
+        return hash;
     }
 
-    public String getFees() {
-        return fees;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsServiceIdentification other = (OwsServiceIdentification) obj;
+        if (!Objects.equals(this.serviceType, other.serviceType)) {
+            return false;
+        }
+        if (!Objects.equals(this.serviceTypeVersion, other.serviceTypeVersion)) {
+            return false;
+        }
+        if (!Objects.equals(this.profiles, other.profiles)) {
+            return false;
+        }
+        if (!Objects.equals(this.fees, other.fees)) {
+            return false;
+        }
+        if (!Objects.equals(this.accessConstraints, other.accessConstraints)) {
+            return false;
+        }
+        return true;
     }
 
-    public void setFees(final String fees) {
-        this.fees = fees;
+    @Override
+    public String toString() {
+        return "OwsServiceIdentification{" + "serviceType=" + serviceType +
+               ", serviceTypeVersion=" + serviceTypeVersion + ", profiles=" +
+               profiles + ", fees=" + fees + ", accessConstraints=" +
+               accessConstraints + '}';
     }
 
-    public boolean hasFees() {
-        return StringHelper.isNotEmpty(getFees());
-    }
 
-    public SortedSet<String> getAccessConstraints() {
-        return Collections.unmodifiableSortedSet(accessConstraints);
-    }
-
-    public void setAccessConstraints(Collection<String> accessConstraints) {
-        this.accessConstraints.addAll(accessConstraints);
-    }
-
-    public boolean hasAccessConstraints() {
-        return CollectionHelper.isNotEmpty(getAccessConstraints());
-    }
-
-    public void addAccessConstraint(final String accessConstraints) {
-        this.accessConstraints.add(accessConstraints);
-    }
 }

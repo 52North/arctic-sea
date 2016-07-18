@@ -31,6 +31,15 @@ public abstract class AbstractServiceCommunicationObject implements Request {
     private String service;
     private String version;
 
+    public AbstractServiceCommunicationObject() {
+        this(null, null);
+    }
+
+    public AbstractServiceCommunicationObject(String service, String version) {
+        this.service = service;
+        this.version = version;
+    }
+
     /**
      * @return the service
      */

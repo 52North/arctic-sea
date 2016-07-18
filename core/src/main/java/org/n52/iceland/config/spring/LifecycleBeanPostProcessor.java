@@ -68,29 +68,24 @@ public class LifecycleBeanPostProcessor
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
-
         if (bean instanceof Constructable) {
             try {
                 ((Constructable) bean).init();
             } catch (Throwable t) {
-                throw new BeanInitializationException(
-                        "Couldn't counstruct bean " + beanName, t);
+                throw new BeanInitializationException("Couldn't counstruct bean " + beanName, t);
             }
         }
-
         return bean;
     }
 
     @Override
     public void postProcessBeforeDestruction(Object bean, String beanName) {
         if (bean instanceof Destroyable) {
-
             try {
                 ((Destroyable) bean).destroy();
             } catch (Throwable t) {
                 LOG.error("Couldn't invoke destroy method on " + beanName, t);
             }
-
         }
     }
 

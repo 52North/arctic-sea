@@ -18,264 +18,108 @@ package org.n52.iceland.ogc.ows;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import java.util.Objects;
+import java.util.SortedSet;
 
-import org.n52.iceland.util.MinMax;
+import org.n52.iceland.util.CollectionHelper;
+
+import com.google.common.base.Strings;
 
 /**
- * Class represents a OperationMetadata.
+ * TODO JavaDoc
  *
- * @since 1.0.0
+ * @author Christian Autermann
  */
 public class OwsOperation implements Comparable<OwsOperation> {
+    private final String name;
+    private final SortedSet<OwsDomain> parameters;
+    private final SortedSet<OwsDomain> constraints;
+    private final SortedSet<OwsMetadata> metadata;
+    private final SortedSet<OwsDCP> dcp;
 
-    private static final Comparator<OwsOperation> COMPARATOR
-            = Comparator.nullsFirst(Comparator.comparing(OwsOperation::getOperationName,
-                            Comparator.nullsFirst(String::compareTo)));
-
-    /**
-     * Name of the operation which metadata are represented.
-     */
-    private String operationName;
-
-    /**
-     * Supported DCPs
-     */
-    private final SortedMap<String, Set<DCP>> dcp = new TreeMap<>();
-
-    /**
-     * Map with names and allowed values for the parameter.
-     */
-    private final SortedMap<String, List<OwsParameterValue>> parameterValues = new TreeMap<>();
-
-    /**
-     * Map with names and allowed values for the parameter.
-     */
-    private final SortedMap<String, List<OwsParameterValue>> constraints = new TreeMap<>();
-
-    /**
-     * Get operation name
-     *
-     * @return operation name
-     */
-    public String getOperationName() {
-        return operationName;
+    public OwsOperation(String name,
+                        Collection<OwsDomain> parameters,
+                        Collection<OwsDomain> constraints,
+                        Collection<OwsMetadata> metadata,
+                        Collection<OwsDCP> dcp) {
+        this.name = Objects.requireNonNull(Strings.emptyToNull(name));
+        this.parameters = CollectionHelper.newSortedSet(parameters);
+        this.constraints = CollectionHelper.newSortedSet(constraints);
+        this.metadata = CollectionHelper.newSortedSet(metadata);
+        this.dcp = CollectionHelper.newSortedSet(dcp);
     }
 
-    /**
-     * Set operation name
-     *
-     * @param operationName
-     */
-    public void setOperationName(String operationName) {
-        this.operationName = operationName;
+    public String getName() {
+        return this.name;
     }
 
-    /**
-     * Get DCP for operation
-     *
-     * @return DCP map
-     */
-    public SortedMap<String, Set<DCP>> getDcp() {
-        return Collections.unmodifiableSortedMap(this.dcp);
+    public SortedSet<OwsDomain> getParameters() {
+        return Collections.unmodifiableSortedSet(this.parameters);
     }
 
-    /**
-     * Set DCP for operation
-     *
-     * @param dcp
-     *            DCP map
-     */
-    public void setDcp(Map<String, ? extends Collection<DCP>> dcp) {
-        this.dcp.clear();
-        dcp.forEach(this::addDcp);
+    public SortedSet<OwsDomain> getConstraints() {
+        return Collections.unmodifiableSortedSet(this.constraints);
     }
 
-    /**
-     * Add DCP for operation
-     *
-     * @param operation
-     *            Operation name
-     * @param values
-     *            DCP values
-     */
-    public void addDcp(String operation, Collection<DCP> values) {
-        this.dcp.put(operation, new HashSet<>(values));
+    public SortedSet<OwsMetadata> getMetadata() {
+        return Collections.unmodifiableSortedSet(this.metadata);
     }
 
-    /**
-     * Get parameter and value map
-     *
-     * @return Parameter value map
-     */
-    public SortedMap<String, List<OwsParameterValue>> getParameterValues() {
-        return Collections.unmodifiableSortedMap(this.parameterValues);
-    }
-
-    /**
-     * Set parameter and value map
-     *
-     * @param parameterValues
-     *            Parameter value map
-     */
-    public void setParameterValues(Map<String, List<OwsParameterValue>> parameterValues) {
-        if (parameterValues != null) {
-            this.parameterValues.clear();
-            parameterValues.forEach(this::addParameterValue);
-        }
-    }
-
-    /**
-     * Add values for parameter
-     *
-     * @param parameterName
-     *            parameter name
-     * @param value
-     *            values to add
-     */
-    public void addParameterValue(String parameterName, Collection<? extends OwsParameterValue> value) {
-        parameterValues.computeIfAbsent(parameterName, name -> new LinkedList<>()).addAll(value);
-    }
-
-    /**
-     * Add values for parameter
-     *
-     * @param parameterName
-     *            parameter name
-     * @param value
-     *            values to add
-     */
-    public void addParameterValue(String parameterName, OwsParameterValue value) {
-        parameterValues.computeIfAbsent(parameterName, name -> new LinkedList<>()).add(value);
-    }
-
-    public <E extends Enum<E>> void addParameterValue(E parameterName, OwsParameterValue value) {
-        addParameterValue(parameterName.name(), value);
-    }
-
-    public <E extends Enum<E>> void overrideParameter(E parameterName, OwsParameterValue value) {
-        List<OwsParameterValue> values = new LinkedList<>();
-        values.add(value);
-        parameterValues.put(parameterName.name(), values);
-    }
-
-    public <E extends Enum<E>> void addPossibleValuesParameter(E parameterName, Collection<String> values) {
-        addPossibleValuesParameter(parameterName.name(), values);
-    }
-
-    public <E extends Enum<E>> void addPossibleValuesParameter(E parameterName, String value) {
-        addPossibleValuesParameter(parameterName.name(), value);
-    }
-
-    public void addPossibleValuesParameter(String parameterName, Collection<String> values) {
-        addParameterValue(parameterName, new OwsParameterValuePossibleValues(values));
-    }
-
-    public void addPossibleValuesParameter(String parameterName, String value) {
-        addParameterValue(parameterName, new OwsParameterValuePossibleValues(value));
-    }
-
-    public void addAnyParameterValue(String paramterName) {
-        addPossibleValuesParameter(paramterName, Collections.<String>emptyList());
-    }
-
-    public <E extends Enum<E>> void addAnyParameterValue(E parameterName) {
-        addAnyParameterValue(parameterName.name());
-    }
-
-    public void addRangeParameterValue(String parameterName, String min, String max) {
-        addParameterValue(parameterName, new OwsParameterValueRange(min, max));
-    }
-
-    public <E extends Enum<E>> void addRangeParameterValue(E parameterName, String min, String max) {
-        addRangeParameterValue(parameterName.name(), min, max);
-    }
-
-    public void addRangeParameterValue(String parameterName, MinMax<String> minMax) {
-        addRangeParameterValue(parameterName, minMax.getMinimum(), minMax.getMaximum());
-    }
-
-    public <E extends Enum<E>> void addRangeParameterValue(E parameterName, MinMax<String> minMax) {
-        addRangeParameterValue(parameterName.name(), minMax);
-    }
-
-    public void addDataTypeParameter(String parameterName, String value) {
-        addParameterValue(parameterName, new OwsParameterDataType(value));
-    }
-
-    public <E extends Enum<E>> void addDataTypeParameter(E parameterName, String value) {
-        addDataTypeParameter(parameterName.name(), value);
-    }
-
-    public <E extends Enum<E>> void addRangeParameterValue(E parameterName, OwsParameterValueRange value) {
-        addParameterValue(parameterName.name(), value);
-    }
-
-    /**
-     * Get constraints and value map
-     *
-     * @return constraints value map
-     */
-    public SortedMap<String, List<OwsParameterValue>> getConstraints() {
-        return Collections.unmodifiableSortedMap(this.constraints);
-    }
-
-    /**
-     * Set constrant and value map
-     *
-     * @param constraints
-     *            constraints value map
-     */
-    public void setConstraintValues(Map<String, List<OwsParameterValue>> constraints) {
-        if (constraints != null) {
-            this.constraints.clear();
-            constraints.forEach(this::addConstraint);
-        }
-    }
-
-    /**
-     * Add values for constraint
-     *
-     * @param constraintsName
-     *            constraint name
-     * @param value
-     *            values to add
-     */
-    public void addConstraint(String constraintName, Collection<? extends OwsParameterValue> value) {
-        constraints.computeIfAbsent(constraintName, name -> new LinkedList<>()).addAll(value);
-    }
-
-    /**
-     * Add values for constraint
-     *
-     * @param constraintsName
-     *            constraints name
-     * @param value
-     *            values to add
-     */
-    public void addConstraintValue(String constraintName, OwsParameterValue value) {
-        constraints.computeIfAbsent(constraintName, name -> new LinkedList<>()).add(value);
+    public SortedSet<OwsDCP> getDCP() {
+        return Collections.unmodifiableSortedSet(this.dcp);
     }
 
     @Override
     public int compareTo(OwsOperation o) {
-        return compare(this, o);
+        return getName().compareTo(o.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 83 * hash + Objects.hashCode(this.name);
+        hash = 83 * hash + Objects.hashCode(this.parameters);
+        hash = 83 * hash + Objects.hashCode(this.constraints);
+        hash = 83 * hash + Objects.hashCode(this.metadata);
+        hash = 83 * hash + Objects.hashCode(this.dcp);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsOperation other = (OwsOperation) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        if (!Objects.equals(this.parameters, other.parameters)) {
+            return false;
+        }
+        if (!Objects.equals(this.constraints, other.constraints)) {
+            return false;
+        }
+        if (!Objects.equals(this.metadata, other.metadata)) {
+            return false;
+        }
+        if (!Objects.equals(this.dcp, other.dcp)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return String.format("OwsOperation[operationName=%s", getOperationName());
-    }
-
-    public static int compare(OwsOperation o1, OwsOperation o2) {
-        return COMPARATOR.compare(o1, o2);
+        return "OwsOperation{" + "name=" + name + ", parameters=" + parameters +
+               ", constraints=" + constraints + ", metadata=" + metadata +
+               ", dcp=" + dcp + '}';
     }
 
 }

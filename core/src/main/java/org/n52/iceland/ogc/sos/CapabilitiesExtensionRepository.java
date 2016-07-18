@@ -26,12 +26,12 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.util.Producer;
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.lifecycle.Constructable;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -39,7 +39,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.SetMultimap;
 
 /**
- * Repository for {@link CapabilitiesExtension} implementations
+ * Repository for {@link OwsCapabilitiesExtension} implementations
  *
  * @since 1.0.0
  *

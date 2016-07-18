@@ -33,6 +33,7 @@ public interface ServiceIdentificationFactorySettings {
 
     String ACCESS_CONSTRAINTS = "serviceIdentification.accessConstraints";
 
+    @Deprecated
     String FILE = "serviceIdentification.file";
 
     String TITLE = "serviceIdentification.title";

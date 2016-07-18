@@ -46,7 +46,13 @@ public abstract class OperationEncoderKey extends OperationKey implements Encode
 
     @Override
     public int getSimilarity(EncoderKey key) {
-        return equals(key) ? 0 : -1;
+        if (key instanceof OperationEncoderKey) {
+            OperationEncoderKey other = (OperationEncoderKey) key;
+            if (super.equals(other)) {
+                return getContentType().getSimilarity(other.getContentType());
+            }
+        }
+        return -1;
     }
 
     public MediaType getContentType() {
@@ -63,8 +69,7 @@ public abstract class OperationEncoderKey extends OperationKey implements Encode
         super.equals(obj);
         if (obj != null && getClass() == obj.getClass()) {
             final OperationEncoderKey other = (OperationEncoderKey) obj;
-            return super.equals(obj) && getContentType() != null
-                    && getContentType().isCompatible(other.getContentType());
+            return super.equals(obj) && Objects.equal(this.getContentType(), other.getContentType());
         }
         return false;
     }

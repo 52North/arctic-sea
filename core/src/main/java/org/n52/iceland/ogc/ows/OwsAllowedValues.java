@@ -16,14 +16,96 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.stream.Stream;
+
 /**
- * Interface represents an OWS AllowedValues element
+ * TODO JavaDoc
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
- * @since 1.0.0
- *
+ * @author Christian Autermann
  */
-public interface OwsAllowedValues extends OwsPossibleValues {
+public class OwsAllowedValues implements OwsPossibleValues,
+                                         Iterable<OwsValueRestriction> {
+    private final SortedSet<OwsValueRestriction> restrictions = new TreeSet<>();
+
+    public OwsAllowedValues(OwsValueRestriction... restrictions) {
+        this(Arrays.asList(restrictions));
+    }
+
+    public OwsAllowedValues(Iterable<? extends OwsValueRestriction> restrictions) {
+        if (restrictions != null) {
+            for (OwsValueRestriction restriction : restrictions) {
+                this.restrictions.add(Objects.requireNonNull(restriction));
+            }
+        }
+    }
+
+    public OwsAllowedValues(Stream<? extends OwsValueRestriction> restrictions) {
+        if (restrictions != null) {
+            restrictions.forEach(x -> this.restrictions.add(Objects
+                    .requireNonNull(x)));
+        }
+    }
+
+    public OwsAllowedValues() {
+    }
+
+    @Override
+    public Iterator<OwsValueRestriction> iterator() {
+        return this.restrictions.iterator();
+    }
+
+    public Stream<OwsValueRestriction> stream() {
+        return this.restrictions.stream();
+    }
+
+    @Override
+    public boolean isAllowedValues() {
+        return true;
+    }
+
+    @Override
+    public OwsAllowedValues asAllowedValues() {
+        return this;
+    }
+
+    public SortedSet<OwsValueRestriction> getRestrictions() {
+        return Collections.unmodifiableSortedSet(restrictions);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 43 * hash + Objects.hashCode(this.restrictions);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final OwsAllowedValues other = (OwsAllowedValues) obj;
+        if (!Objects.equals(this.restrictions, other.restrictions)) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "OwsAllowedValues{" + "restrictions=" + restrictions + '}';
+    }
 
 }

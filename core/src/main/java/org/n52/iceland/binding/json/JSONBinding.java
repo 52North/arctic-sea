@@ -23,11 +23,19 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.binding.Binding;
+import org.n52.iceland.binding.BindingKey;
+import org.n52.iceland.binding.MediaTypeBindingKey;
+import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
+import org.n52.iceland.coding.decode.DecodingException;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
+import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.NoApplicableCodeException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
@@ -40,16 +48,8 @@ import org.n52.iceland.util.JSONUtils;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
-
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
-import org.n52.iceland.coding.decode.DecodingException;
 
 /**
  * {@link Binding} implementation for JSON encoded requests
@@ -137,6 +137,8 @@ public class JSONBinding extends SimpleBinding {
             AbstractServiceRequest<?> sosRequest;
             try {
                 sosRequest = decoder.decode(json);
+            } catch (OwsDecodingException ex) {
+                throw ex.getCause();
             } catch (DecodingException ex) {
                 throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }

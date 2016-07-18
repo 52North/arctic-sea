@@ -16,12 +16,12 @@
  */
 package org.n52.iceland.exception;
 
-import com.google.common.base.Joiner;
 import java.util.Collections;
 import java.util.List;
 
 import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.ExceptionCode;
+
+import com.google.common.base.Joiner;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

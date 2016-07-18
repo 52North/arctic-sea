@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.List;
 import java.util.Locale;
 
+import org.n52.iceland.util.Similar;
+
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
@@ -35,7 +37,7 @@ import com.google.common.collect.Multimap;
  *
  * @since 1.0.0
  */
-public class MediaType implements Comparable<MediaType> {
+public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
     private static final String WILDCARD_TYPE = "*";
 
     private static final String QUALITY_PARAMETER = "q";
@@ -225,6 +227,24 @@ public class MediaType implements Comparable<MediaType> {
     @Override
     public String toString() {
         return getDelegate().toString();
+    }
+
+    @Override
+    public int getSimilarity(MediaType other) {
+        if (equals(other)) {
+            return 0;
+        } else if (other.isCompatible(this)) {
+            if (isWildcard()) {
+                return 1;
+            } else if (isWildcardType()) {
+                return 2;
+            } else if (isWildcardSubtype()) {
+                return 3;
+            } else {
+                return 0;
+            }
+        }
+        return -1;
     }
 
     public static MediaType parse(String string) {

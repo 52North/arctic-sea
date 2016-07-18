@@ -16,9 +16,11 @@
  */
 package org.n52.iceland.service;
 
-import com.google.common.base.MoreObjects;
 import java.util.Objects;
+
 import org.n52.iceland.coding.SupportedType;
+
+import com.google.common.base.MoreObjects;
 
 /**
  * @since 1.0.0

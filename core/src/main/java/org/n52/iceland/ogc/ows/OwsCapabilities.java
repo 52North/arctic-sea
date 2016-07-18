@@ -16,203 +16,80 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import org.n52.iceland.util.StringHelper;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.SortedSet;
+
+import org.n52.iceland.util.CollectionHelper;
+
+import com.google.common.base.Strings;
 
 /**
- * @since 1.0.0
- *
+ * TODO JavaDoc
+ * @author Christian Autermann
  */
 public class OwsCapabilities {
+    private final String service;
+    private final String version;
+    private final Optional<String> updateSequence;
+    private final Optional<OwsServiceIdentification> serviceIdentification;
+    private final Optional<OwsServiceProvider> serviceProvider;
+    private final Optional<OwsOperationsMetadata> operationsMetadata;
+    private final Optional<SortedSet<String>> languages;
 
-    private String service;
-
-    private String version;
-
-    private String updateSequence;
-
-    /**
-     * Service identification, loaded from file.
-     */
-    private OwsServiceIdentification serviceIdentification;
-
-    /**
-     * Service provider, loaded from file.
-     */
-    private OwsServiceProvider serviceProvider;
-
-    /**
-     * Operations meta data for all supported operations.
-     */
-    private OwsOperationsMetadata operationsMetadata;
-
-
-    public OwsCapabilities() {
+    public OwsCapabilities(String service,
+                           String version,
+                           String updateSequence,
+                           OwsServiceIdentification serviceIdentification,
+                           OwsServiceProvider serviceProvider,
+                           OwsOperationsMetadata operationsMetadata,
+                           Set<String> languages) {
+        this.service = Objects.requireNonNull(Strings.emptyToNull(service));
+        this.version = Objects.requireNonNull(Strings.emptyToNull(version));
+        this.updateSequence = Optional.ofNullable(Strings.emptyToNull(updateSequence));
+        this.serviceIdentification = Optional.ofNullable(serviceIdentification);
+        this.serviceProvider = Optional.ofNullable(serviceProvider);
+        this.operationsMetadata = Optional.ofNullable(operationsMetadata);
+        this.languages = languages == null ? Optional.empty()
+                                 : Optional.of(CollectionHelper.newSortedSet(languages));
     }
 
-    public OwsCapabilities(OwsCapabilities owsCapabilities) {
-        copyToThis(owsCapabilities);
+    public OwsCapabilities(OwsCapabilities other) {
+        this(other.getService(),
+             other.getVersion(),
+             other.getUpdateSequence().orElse(null),
+             other.getServiceIdentification().orElse(null),
+             other.getServiceProvider().orElse(null),
+             other.getOperationsMetadata().orElse(null),
+             other.getLanguages().orElse(null));
     }
 
-    public OwsCapabilities(String service, OwsCapabilities owsCapabilities) {
-       this(owsCapabilities);
-       setService(service);
-    }
-
-    public OwsCapabilities(String version) {
-        this.version = version;
-    }
-
-    public OwsCapabilities(String service, String version) {
-        this.version = version;
-        this.service = service;
-    }
-
-
-    /**
-     * @param service the service
-     */
-    public void setService(String service) {
-        this.service = service;
-    }
-
-    /**
-     * @return the service
-     */
-    public String getService() {
-        return this.service;
-    }
-
-    public boolean isSetService() {
-        return StringHelper.isNotEmpty(getService());
-    }
-
-    /**
-     * @return the version
-     */
     public String getVersion() {
         return version;
     }
 
-    /**
-     * @param version
-     *            the version to set
-     */
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public boolean isSetVersion() {
-        return StringHelper.isNotEmpty(getVersion());
-    }
-
-    /**
-     * @return the updateSequence
-     */
-    public String getUpdateSequence() {
+    public Optional<String> getUpdateSequence() {
         return updateSequence;
     }
 
-    /**
-     * @param updateSequence
-     *            the updateSequence to set
-     */
-    public void setUpdateSequence(String updateSequence) {
-        this.updateSequence = updateSequence;
-    }
-
-    public boolean isSetUpdateSequence() {
-        return StringHelper.isNotEmpty(getUpdateSequence());
-    }
-
-    /**
-     * Set service identification
-     *
-     * @param serviceIdentification
-     *            service identification
-     */
-    public void setServiceIdentification(OwsServiceIdentification serviceIdentification) {
-        this.serviceIdentification = serviceIdentification;
-
-    }
-
-    /**
-     * Get service identification
-     *
-     * @return service identification
-     */
-    public OwsServiceIdentification getServiceIdentification() {
+    public Optional<OwsServiceIdentification> getServiceIdentification() {
         return serviceIdentification;
     }
 
-    public boolean isSetServiceIdentification() {
-        return getServiceIdentification() != null;
-    }
-
-    /**
-     * Set service provider
-     *
-     * @param serviceProvider
-     *            service provider
-     */
-    public void setServiceProvider(OwsServiceProvider serviceProvider) {
-        this.serviceProvider = serviceProvider;
-
-    }
-
-    /**
-     * Get service provider
-     *
-     * @return service provider
-     */
-    public OwsServiceProvider getServiceProvider() {
+    public Optional<OwsServiceProvider> getServiceProvider() {
         return serviceProvider;
     }
 
-    public boolean isSetServiceProvider() {
-        return getServiceProvider() != null;
-    }
-
-    /**
-     * Get operations metadata
-     *
-     * @return operations metadata
-     */
-    public OwsOperationsMetadata getOperationsMetadata() {
+    public Optional<OwsOperationsMetadata> getOperationsMetadata() {
         return operationsMetadata;
     }
 
-    /**
-     * Set operations metadata
-     *
-     * @param operationsMetadata
-     *            operations metadata
-     */
-    public void setOperationsMetadata(OwsOperationsMetadata operationsMetadata) {
-        this.operationsMetadata = operationsMetadata;
+    public Optional<SortedSet<String>> getLanguages() {
+        return this.languages;
     }
 
-    public boolean isSetOperationsMetadata() {
-        return getOperationsMetadata() != null && !getOperationsMetadata().isEmpty();
-    }
-
-    private void copyToThis(OwsCapabilities owsCapabilities) {
-        if (owsCapabilities.isSetService()) {
-            setService(owsCapabilities.getService());
-        }
-        if (owsCapabilities.isSetVersion()) {
-            setVersion(owsCapabilities.getVersion());
-        }
-        if (owsCapabilities.isSetUpdateSequence()) {
-            setUpdateSequence(owsCapabilities.getUpdateSequence());
-        }
-        if (owsCapabilities.isSetServiceIdentification()) {
-            setServiceIdentification(owsCapabilities.getServiceIdentification());
-        }
-        if (owsCapabilities.isSetServiceProvider()) {
-            setServiceProvider(owsCapabilities.getServiceProvider());
-        }
-        if (owsCapabilities.isSetOperationsMetadata()) {
-            setOperationsMetadata(owsCapabilities.getOperationsMetadata());
-        }
+    public String getService() {
+        return service;
     }
 }

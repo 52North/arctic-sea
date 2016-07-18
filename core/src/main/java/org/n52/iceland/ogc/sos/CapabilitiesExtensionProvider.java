@@ -37,14 +37,14 @@ public interface CapabilitiesExtensionProvider extends Component<CapabilitiesExt
     CapabilitiesExtensionKey getCapabilitiesExtensionKey();
 
     /**
-     * Get the {@link CapabilitiesExtension} the provider provides.
+     * Get the {@link OwsCapabilitiesExtension} the provider provides.
      *
      * @return provided CapabilitiesExtension
      */
-    CapabilitiesExtension getExtension();
+    OwsCapabilitiesExtension getExtension();
 
     /**
-     * Does this {@link CapabilitiesExtension} related to a specific service
+     * Does this {@link OwsCapabilitiesExtension} related to a specific service
      * operation
      *
      * @return <code>true</code>, if service relates to a specific service
@@ -54,7 +54,7 @@ public interface CapabilitiesExtensionProvider extends Component<CapabilitiesExt
 
     /**
      * Get the specific service operation name this
-     * {@link CapabilitiesExtension} relates to.
+     * {@link OwsCapabilitiesExtension} relates to.
      *
      * @return Related service operation name
      */

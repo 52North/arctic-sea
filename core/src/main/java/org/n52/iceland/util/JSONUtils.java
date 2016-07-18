@@ -26,6 +26,8 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 
@@ -130,6 +132,12 @@ public class JSONUtils {
 
     public static JsonNode loadPath(final String path) throws IOException {
         try (FileInputStream in = new FileInputStream(path)) {
+            return getReader().readTree(in);
+        }
+    }
+
+    public static JsonNode loadPath(final Path path) throws IOException {
+        try (InputStream in = Files.newInputStream(path)) {
             return getReader().readTree(in);
         }
     }

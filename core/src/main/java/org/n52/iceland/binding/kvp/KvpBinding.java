@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.binding.kvp;
 
-import com.google.common.base.Joiner;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -36,14 +36,17 @@ import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.decode.DecoderKey;
+import org.n52.iceland.coding.decode.DecodingException;
 import org.n52.iceland.coding.decode.OperationDecoderKey;
+import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.n52.iceland.exception.ows.OperationNotSupportedException;
 import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
-import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
 import org.n52.iceland.ogc.ows.OWSConstants;
 import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
@@ -57,10 +60,8 @@ import org.n52.iceland.util.KvpHelper;
 import org.n52.iceland.util.http.MediaType;
 import org.n52.iceland.util.http.MediaTypes;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
-import java.util.Arrays;
-import org.n52.iceland.coding.decode.DecodingException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -132,7 +133,6 @@ public class KvpBinding extends SimpleBinding {
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(serviceRequest != null ? serviceRequest.getVersion() : null);
-            LOGGER.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }
@@ -196,6 +196,8 @@ public class KvpBinding extends SimpleBinding {
             AbstractServiceRequest<?> request;
             try {
                 request = decoder.decode(parameterValueMap);
+            } catch (OwsDecodingException ex) {
+                throw ex.getCause();
             } catch (DecodingException ex) {
                 throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }
@@ -204,7 +206,7 @@ public class KvpBinding extends SimpleBinding {
             }
             return request;
         } else {
-            throw new NoDecoderForKeyException(k);
+            throw new OperationNotSupportedException(operation);
         }
     }
 

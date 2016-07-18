@@ -19,7 +19,7 @@ package org.n52.iceland.config;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
+import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 

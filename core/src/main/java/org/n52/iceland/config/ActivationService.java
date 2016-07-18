@@ -21,7 +21,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
+import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.util.activation.ActivationInitializer;
