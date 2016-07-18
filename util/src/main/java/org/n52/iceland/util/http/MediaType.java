@@ -38,7 +38,26 @@ import com.google.common.collect.Multimap;
  * @since 1.0.0
  */
 public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
-    private static final String WILDCARD_TYPE = "*";
+
+    public static final String IMAGE_TYPE = "image";
+    public static final String AUDIO_TYPE = "audio";
+    public static final String VIDEO_TYPE = "video";
+    public static final String MESSAGE_TYPE = "message";
+    public static final String MODEL_TYPE = "model";
+    public static final String MULTIPART_TYPE = "multipart";
+    public static final String APPLICATION_TYPE = "application";
+    public static final String TEXT_TYPE = "text";
+    public static final String WILDCARD_TYPE = "*";
+
+    private static final MediaType ANY = new MediaType(WILDCARD_TYPE, WILDCARD_TYPE);
+    private static final MediaType ANY_APPLICATION = application(WILDCARD_TYPE);
+    private static final MediaType ANY_TEXT = text(WILDCARD_TYPE);
+    private static final MediaType ANY_IMAGE = image(WILDCARD_TYPE);
+    private static final MediaType ANY_AUDIO = audio(WILDCARD_TYPE);
+    private static final MediaType ANY_VIDEO = video(WILDCARD_TYPE);
+    private static final MediaType ANY_MESSAGE = message(WILDCARD_TYPE);
+    private static final MediaType ANY_MODEL = model(WILDCARD_TYPE);
+    private static final MediaType ANY_MULTIPART = multipart(WILDCARD_TYPE);
 
     private static final String QUALITY_PARAMETER = "q";
 
@@ -144,6 +163,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
                     .map(MediaType::getDelegate)
                     .anyMatch(getDelegate()::is);
         }
+
         return false;
     }
 
@@ -247,6 +267,10 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return -1;
     }
 
+    private com.google.common.net.MediaType getDelegate() {
+        return delegate;
+    }
+
     public static MediaType parse(String string) {
         Preconditions.checkArgument(string != null);
         return new MediaType(com.google.common.net.MediaType.parse(string.trim()));
@@ -264,7 +288,78 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return parse(string).toString();
     }
 
-    private com.google.common.net.MediaType getDelegate() {
-        return delegate;
+    public static MediaType application(String subtype) {
+        return new MediaType(APPLICATION_TYPE, subtype);
     }
+
+    public static MediaType application(String subtype, String parameterName, String parameterValue) {
+        return application(subtype).withParameter(parameterName, parameterValue);
+    }
+
+    public static MediaType text(String subtype) {
+        return new MediaType(TEXT_TYPE, subtype);
+    }
+
+    public static MediaType image(String subtype) {
+        return new MediaType(IMAGE_TYPE, subtype);
+    }
+
+    public static MediaType audio(String subtype) {
+        return new MediaType(AUDIO_TYPE, subtype);
+    }
+
+    public static MediaType video(String subtype) {
+        return new MediaType(VIDEO_TYPE, subtype);
+    }
+
+    public static MediaType message(String subtype) {
+        return new MediaType(MESSAGE_TYPE, subtype);
+    }
+
+    public static MediaType model(String subtype) {
+        return new MediaType(MODEL_TYPE, subtype);
+    }
+
+    public static MediaType multipart(String subtype) {
+        return new MediaType(MULTIPART_TYPE, subtype);
+    }
+
+    public static MediaType any() {
+        return ANY;
+    }
+
+    public static MediaType anyApplication() {
+        return ANY_APPLICATION;
+    }
+
+    public static MediaType anyText() {
+        return ANY_TEXT;
+    }
+
+    public static MediaType anyImage() {
+        return ANY_IMAGE;
+    }
+
+    public static MediaType anyAudio() {
+        return ANY_AUDIO;
+    }
+
+    public static MediaType anyVideo() {
+        return ANY_VIDEO;
+    }
+
+    public static MediaType anyMessage() {
+        return ANY_MESSAGE;
+    }
+
+    public static MediaType anyModel() {
+        return ANY_MODEL;
+    }
+
+    public static MediaType anyMultipart() {
+        return ANY_MULTIPART;
+    }
+
 }
+
+
