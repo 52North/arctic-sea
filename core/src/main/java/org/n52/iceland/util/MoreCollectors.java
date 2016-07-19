@@ -17,27 +17,30 @@
 package org.n52.iceland.util;
 
 import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.reducing;
+import static java.util.stream.Collectors.toMap;
 import static org.n52.iceland.util.function.Functions.constant;
 
 import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collector.Characteristics;
 import java.util.stream.Stream;
 
 import org.n52.iceland.util.function.Functions;
-
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.reducing;
-import static java.util.stream.Collectors.toMap;
 
 
 /**
@@ -103,6 +106,27 @@ public class MoreCollectors {
                             (map, key) -> map.merge(key, 1, Integer::sum),
                             Functions.mergeToLeftMap(Integer::sum),
                             Functions.keyStreamWhereValues(v -> v >= min),
+                            Characteristics.UNORDERED);
+    }
+
+    public static <T> Collector<T, ?, T> toSingleResult() {
+        return toSingleResult(IllegalStateException::new);
+    }
+
+    public static <T> Collector<T, ?, T> toSingleResult(Supplier<? extends RuntimeException> exceptionSupplier) {
+        Objects.requireNonNull(exceptionSupplier);
+        return Collector.of(LinkedList<T>::new,
+                            List<T>::add,
+                            (left, right) -> {
+                                left.addAll(right);
+                                return left;
+                            },
+                            (list) -> {
+                                if (list.size() != 1) {
+                                    throw exceptionSupplier.get();
+                                }
+                                return list.get(0);
+                            },
                             Characteristics.UNORDERED);
     }
 
