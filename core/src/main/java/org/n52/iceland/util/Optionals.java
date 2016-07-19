@@ -17,10 +17,10 @@
 package org.n52.iceland.util;
 
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODO JavaDoc
@@ -70,15 +70,15 @@ public class Optionals {
         }
     }
 
-    public static <U> Optional<U> or(Optional<U> a, Optional<U> b) {
-        Objects.requireNonNull(a);
-        Objects.requireNonNull(b);
+    public static <U> Optional<U> or(Optional<U> a, Supplier<Optional<U>> b) {
         if (a.isPresent()) {
             return a;
-        } else if (b.isPresent()) {
-            return b;
         } else {
-            return Optional.empty();
+            return b.get();
         }
+    }
+
+    public static <U> Optional<U> or(Optional<U> a, Optional<U> b) {
+        return or(a, () -> b);
     }
 }

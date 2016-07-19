@@ -22,11 +22,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.management.RuntimeErrorException;
-
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
@@ -41,8 +37,9 @@ public final class JavaHelper {
     /**
      * hexadecimal values
      */
-    private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-            'E', 'F' };
+    private static final char[] HEX_DIGITS = {
+        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
+    };
 
     /**
      * Message digest for generating single identifier
@@ -95,7 +92,7 @@ public final class JavaHelper {
     public static void appendTextToStringBuilderWithLineBreak(final StringBuilder stringBuilder, final String message) {
         if (stringBuilder != null && StringHelper.isNotEmpty(message)) {
             stringBuilder.append(message);
-            stringBuilder.append(Constants.LINE_SEPARATOR_STRING);
+            stringBuilder.append("\n");
         }
     }
 
@@ -118,7 +115,7 @@ public final class JavaHelper {
             return ((Integer) object).toString();
         }
         // TODO why not object.toString()?
-        return Constants.EMPTY_STRING;
+        return "";
     }
 
     /**
@@ -179,7 +176,7 @@ public final class JavaHelper {
     public static Set<Integer> getIntegerSetFromString(String s) {
         HashSet<Integer> set = Sets.newHashSet();
         if (StringHelper.isNotEmpty(s)) {
-            Set<String> splitToSet = StringHelper.splitToSet(s, Constants.COMMA_STRING);
+            Set<String> splitToSet = StringHelper.splitToSet(s, ",");
             if (CollectionHelper.isNotEmpty(splitToSet)) {
                 for (String string : splitToSet) {
                     set.add(Integer.parseInt(string));

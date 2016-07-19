@@ -17,17 +17,16 @@
 package org.n52.iceland.ogc.gml;
 
 import java.io.Serializable;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 import com.google.common.base.Objects;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * Class represents an AbstractGML object
@@ -399,7 +398,7 @@ public abstract class AbstractGML implements Serializable {
      * @return GML id
      */
     public String getGmlId() {
-        return gmlId == null ? null : gmlId.replaceFirst(Constants.NUMBER_SIGN_STRING, Constants.EMPTY_STRING);
+        return gmlId == null ? null : gmlId.replaceFirst("#", "");
     }
 
     /**
@@ -428,7 +427,7 @@ public abstract class AbstractGML implements Serializable {
      * @return <code>true</code> if feature is still contained in XML document
      */
     public boolean isReferenced() {
-        return isSetGmlID() && gmlId.startsWith(Constants.NUMBER_SIGN_STRING);
+        return isSetGmlID() && gmlId.startsWith("#");
     }
 
     /**

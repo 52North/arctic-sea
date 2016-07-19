@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.util.http;
 
+import static org.n52.iceland.util.http.MediaType.application;
+import static org.n52.iceland.util.http.MediaType.text;
+
 import com.google.common.collect.ImmutableSetMultimap;
 
 /**
@@ -28,53 +31,47 @@ import com.google.common.collect.ImmutableSetMultimap;
  */
 public interface MediaTypes {
 
-    String TEXT = "text";
+    MediaType APPLICATION_X_GEOTIFF = application("x-geotiff");
+    MediaType APPLICATION_GEOTIFF = application("geotiff");
+    MediaType APPLICATION_X_NETCDF = application("x-netcdf");
+    MediaType TEXT_HTML = text("html");
+    MediaType TEXT_CSV = text("csv");
+    MediaType TEXT_PLAIN = text("plain");
+    MediaType TEXT_XML = text("xml");
+    MediaType APPLICATION_XML = application("xml");
+    MediaType APPLICATION_ZIP = application("zip");
+    MediaType APPLICATION_JSON = application("json");
+    MediaType APPLICATION_EXI = application("exi");
+    MediaType APPLICATION_KVP = application("x-kvp");
+    MediaType APPLICATION_SOAP_XML = application("soap+xml");
+    MediaType APPLICATION_NETCDF = application("netcdf");
+    MediaType APPLICATION_GML_32 = application("gml+xml", "version", "3.2");
+    MediaType APPLICATION_OM_20 = application("om+xml", "version", "2.0");
+    MediaType APPLICATION_RDATA = application("rData");
+    MediaType APPLICATION_X_RDATA = application("x-rData");
+    MediaType APPLICATION_X_ZIPPED_SHP = application("x-zipped-shp");
 
-    String XML = "xml";
+    ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES
+            = new ImmutableSetMultimap.Builder<MediaType, MediaType>()
+            .putAll(TEXT_XML, TEXT_XML, APPLICATION_XML)
+            .putAll(APPLICATION_XML, APPLICATION_XML, TEXT_XML)
 
-    String APPLICATION = "application";
+            .putAll(APPLICATION_GEOTIFF, APPLICATION_GEOTIFF, APPLICATION_X_GEOTIFF)
+            .putAll(APPLICATION_X_GEOTIFF, APPLICATION_X_GEOTIFF, APPLICATION_GEOTIFF)
 
-    MediaType WILD_CARD = new MediaType();
+            .putAll(APPLICATION_NETCDF, APPLICATION_NETCDF, APPLICATION_X_NETCDF)
+            .putAll(APPLICATION_X_NETCDF, APPLICATION_X_NETCDF, APPLICATION_NETCDF)
 
-    MediaType TEXT_PLAIN = new MediaType(TEXT, "plain");
+            .putAll(APPLICATION_RDATA, APPLICATION_RDATA, APPLICATION_X_RDATA)
+            .putAll(APPLICATION_X_RDATA, APPLICATION_X_RDATA, APPLICATION_RDATA)
 
-    MediaType TEXT_XML = new MediaType(TEXT, XML);
-
-    MediaType APPLICATION_XML = new MediaType(APPLICATION, XML);
-
-    MediaType APPLICATION_ZIP = new MediaType(APPLICATION, "zip");
-
-    MediaType APPLICATION_JSON = new MediaType(APPLICATION, "json");
-
-    MediaType APPLICATION_EXI = new MediaType(APPLICATION, "exi");
-
-    MediaType APPLICATION_KVP = new MediaType(APPLICATION, "x-kvp");
-
-    MediaType APPLICATION_SOAP_XML = new MediaType(APPLICATION, "soap+xml");
-
-    MediaType APPLICATION_NETCDF = new MediaType(APPLICATION, "netcdf");
-
-    MediaType APPLICATION_GML_32 = new MediaType(APPLICATION, "gml+xml", "version", "3.2");
-
-    MediaType APPLICATION_OM_20 = new MediaType(APPLICATION, "om+xml", "version", "2.0");
-
-    /**
-     * @deprecated Use {@link MediaTypes#APPLICATION_GML_32}
-     *
-     */
-    @Deprecated
-    MediaType APPLICTION_GML_32 = APPLICATION_GML_32;
-
-    /**
-     * @deprecated Use {@link MediaTypes#APPLICATION_OM_20}
-     *
-     */
-    @Deprecated
-    MediaType APPLICTION_OM_20 = APPLICATION_OM_20;
-
-    ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES = new ImmutableSetMultimap
-            .Builder<MediaType, MediaType>()
-            .put(TEXT_XML, APPLICATION_XML)
-            .put(APPLICATION_XML, TEXT_XML)
             .build();
+
+
+
+    @Deprecated String XML = "xml";
+    @Deprecated MediaType WILD_CARD = MediaType.any();
+    @Deprecated String APPLICATION = MediaType.APPLICATION_TYPE;
+    @Deprecated String TEXT = MediaType.TEXT_TYPE;
+
 }
