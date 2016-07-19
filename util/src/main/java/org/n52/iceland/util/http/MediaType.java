@@ -20,15 +20,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import org.n52.iceland.util.Similar;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+
 
 /**
  * TODO JavaDoc
@@ -48,6 +49,8 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
     public static final String APPLICATION_TYPE = "application";
     public static final String TEXT_TYPE = "text";
     public static final String WILDCARD_TYPE = "*";
+    private static final String QUALITY_PARAMETER = "q";
+    private static final ImmutableListMultimap<String, String> EMPTY_MULTI_MAP = ImmutableListMultimap.of();
 
     private static final MediaType ANY = new MediaType(WILDCARD_TYPE, WILDCARD_TYPE);
     private static final MediaType ANY_APPLICATION = application(WILDCARD_TYPE);
@@ -58,10 +61,6 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
     private static final MediaType ANY_MESSAGE = message(WILDCARD_TYPE);
     private static final MediaType ANY_MODEL = model(WILDCARD_TYPE);
     private static final MediaType ANY_MULTIPART = multipart(WILDCARD_TYPE);
-
-    private static final String QUALITY_PARAMETER = "q";
-
-    private static final ImmutableListMultimap<String, String> EMPTY_MULTI_MAP = ImmutableListMultimap.of();
 
     private final com.google.common.net.MediaType delegate;
 
@@ -122,7 +121,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
      *            the parameter map
      */
     public MediaType(String type, String subtype, Multimap<String, String> parameters) {
-        this(com.google.common.net.MediaType.create(type, subtype).withParameters(parameters));
+        this(com.google.common.net.MediaType.create(type, subtype).withParameters(java.util.Objects.requireNonNull(parameters)));
     }
 
     private MediaType(com.google.common.net.MediaType mediaType) {
@@ -233,7 +232,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
     public boolean equals(Object obj) {
         if (obj instanceof MediaType) {
             MediaType other = (MediaType) obj;
-            return Objects.equal(getDelegate(), other.getDelegate());
+            return Objects.equals(getDelegate(), other.getDelegate());
         }
         return false;
     }
@@ -359,7 +358,9 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
     public static MediaType anyMultipart() {
         return ANY_MULTIPART;
     }
-
+    public static void main(String[] args) {
+        new MediaType();
+    }
 }
 
 
