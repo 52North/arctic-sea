@@ -388,7 +388,7 @@ public final class CollectionHelper {
      * @return {@link List} with separated values
      */
     public static List<String> csvStringToList(String csv) {
-        return svStringToList(csv, Constants.COMMA_STRING);
+        return svStringToList(csv, ",");
     }
 
     /**
@@ -412,7 +412,7 @@ public final class CollectionHelper {
      * @return {@link Set} with separated values
      */
     public static Set<String> csvStringToSet(String csv) {
-        return svStringToSet(csv, Constants.COMMA_STRING);
+        return svStringToSet(csv, ",");
     }
 
     /**

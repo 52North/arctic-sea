@@ -116,7 +116,7 @@ public final class StringHelper {
     }
 
     public static List<String> splitToList(String string) {
-        return splitToList(string, Constants.COMMA_STRING);
+        return splitToList(string, ",");
     }
 
     public static List<String> splitToList(String string, String separator) {
@@ -136,7 +136,7 @@ public final class StringHelper {
     }
 
     public static Set<String> splitToSet(String stringToSplit) {
-        return splitToSet(stringToSplit, Constants.COMMA_STRING);
+        return splitToSet(stringToSplit, ",");
     }
 
     public static String[] splitToArray(String stringToSplit, String separator) {
@@ -145,6 +145,6 @@ public final class StringHelper {
     }
 
     public static String[] splitToArray(String stringToSplit) {
-        return splitToArray(stringToSplit, Constants.COMMA_STRING);
+        return splitToArray(stringToSplit, ",");
     }
 }

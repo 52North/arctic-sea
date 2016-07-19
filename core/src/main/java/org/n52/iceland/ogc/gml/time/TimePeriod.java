@@ -25,12 +25,10 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
-
-import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.Constants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.n52.iceland.util.CollectionHelper;
 
 /**
  * Class represents a GML conform timePeriod element.
@@ -242,15 +240,6 @@ public class TimePeriod extends Time {
     }
 
     /**
-     * Get start time, resolving indeterminate value if start is null
-     *
-     * @return Returns the resolved start time.
-     */
-    public DateTime resolveStart() {
-        return resolveDateTime(start, startIndet);
-    }
-
-    /**
      * Set start time
      *
      * @param start
@@ -258,6 +247,15 @@ public class TimePeriod extends Time {
      */
     public void setStart(DateTime start) {
         this.start = start;
+    }
+
+    /**
+     * Get start time, resolving indeterminate value if start is null
+     *
+     * @return Returns the resolved start time.
+     */
+    public DateTime resolveStart() {
+        return resolveDateTime(start, startIndet);
     }
 
     /**
@@ -269,14 +267,6 @@ public class TimePeriod extends Time {
         return end;
     }
 
-    /**
-     * Get end time, resolving indeterminate value if start is null
-     *
-     * @return Returns the resolved end time.
-     */
-    public DateTime resolveEnd() {
-        return resolveDateTime(end, endIndet);
-    }
 
     /**
      * Set end time
@@ -286,6 +276,14 @@ public class TimePeriod extends Time {
      */
     public void setEnd(DateTime end) {
         this.end = end;
+    }
+    /**
+     * Get end time, resolving indeterminate value if start is null
+     *
+     * @return Returns the resolved end time.
+     */
+    public DateTime resolveEnd() {
+        return resolveDateTime(end, endIndet);
     }
 
     /**
@@ -491,11 +489,11 @@ public class TimePeriod extends Time {
     public String toString() {
         StringBuilder result = new StringBuilder("Time period: ");
         if (isSetStart()) {
-            result.append(getStart().toString()).append(Constants.COMMA_SPACE_STRING);
+            result.append(getStart().toString()).append(", ");
         }
-        result.append(getStartIndet()).append(Constants.COMMA_SPACE_STRING);
+        result.append(getStartIndet()).append(", ");
         if (isSetEnd()) {
-            result.append(getEnd().toString()).append(Constants.COMMA_SPACE_STRING);
+            result.append(getEnd().toString()).append(", ");
         }
         result.append(getEndIndet());
         return result.toString();
@@ -526,6 +524,7 @@ public class TimePeriod extends Time {
      * @see #isSetStart()
      * @see #isSetEnd()
      */
+    @Override
     public boolean isEmpty() {
         return !isSetEnd() && !isSetStart();
     }

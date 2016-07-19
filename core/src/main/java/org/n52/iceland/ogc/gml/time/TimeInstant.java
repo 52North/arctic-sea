@@ -21,9 +21,8 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import org.n52.iceland.ogc.ows.OWSConstants.ExtendedIndeterminateTime;
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.iceland.ogc.ows.OWSConstants.ExtendedIndeterminateTime;
 
 /**
  * Class represents a GML conform timeInstant element
@@ -127,15 +126,6 @@ public class TimeInstant extends Time {
     }
 
     /**
-     * Get time value, resolving indeterminate value if value is null
-     *
-     * @return Returns the resolved value.
-     */
-    public DateTime resolveValue() {
-        return resolveDateTime(value, getIndeterminateValue());
-    }
-
-    /**
      * Set time value
      *
      * @param value
@@ -143,6 +133,15 @@ public class TimeInstant extends Time {
      */
     public void setValue(final DateTime value) {
         this.value = value;
+    }
+
+    /**
+     * Get time value, resolving indeterminate value if value is null
+     *
+     * @return Returns the resolved value.
+     */
+    public DateTime resolveValue() {
+        return resolveDateTime(value, getIndeterminateValue());
     }
 
     /**
@@ -173,7 +172,7 @@ public class TimeInstant extends Time {
     public String toString() {
         StringBuilder result = new StringBuilder("Time instant: ");
         if (isSetValue()) {
-            result.append(getValue().toString()).append(Constants.COMMA_STRING);
+            result.append(getValue().toString()).append(", ");
         }
         result.append(getIndeterminateValue());
         return result.toString();

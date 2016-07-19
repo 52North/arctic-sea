@@ -18,7 +18,6 @@ package org.n52.iceland.ogc.swe;
 
 import javax.xml.namespace.QName;
 
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.w3c.SchemaLocation;
 
 import com.google.common.base.Joiner;
@@ -101,7 +100,7 @@ public interface SweConstants {
 
     String EN_VALUE = "value";
 
-    Joiner COLON_JOINER = Joiner.on(Constants.COLON_CHAR);
+    Joiner COLON_JOINER = Joiner.on(":");
 
     String VT_BOOLEAN = COLON_JOINER.join(NS_SWE_PREFIX, EN_BOOLEAN);
 

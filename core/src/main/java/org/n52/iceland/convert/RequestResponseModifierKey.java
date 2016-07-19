@@ -23,7 +23,6 @@ import java.util.Optional;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.util.Comparables;
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 
@@ -105,10 +104,8 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
     public RequestResponseModifierKey(String service, String version,
                                       Optional<Class<? extends AbstractServiceRequest>> request,
                                       Optional<Class<? extends AbstractServiceResponse>> response) {
-        this.service = Optional.ofNullable(service)
-                .orElse(Constants.EMPTY_STRING);
-        this.version = Optional.ofNullable(version)
-                .orElse(Constants.EMPTY_STRING);
+        this.service = Optional.ofNullable(service).orElse("");
+        this.version = Optional.ofNullable(version).orElse("");
         this.request = Objects.requireNonNull(request);
         this.response = Objects.requireNonNull(response);
     }
@@ -159,10 +156,10 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
 
     @Override
     public String toString() {
-        return String.format("%s[service=%s, service=%s, request=%s, response=%s]", getClass().getSimpleName(),
-                getService(), getVersion(), isSetRequest() ? getRequest().getClass().getSimpleName()
-                        : Constants.EMPTY_STRING, isSetResponse() ? getResponse().getClass().getSimpleName()
-                        : Constants.EMPTY_STRING);
+        return String.format("%s[service=%s, service=%s, request=%s, response=%s]",
+                             getClass().getSimpleName(), getService(), getVersion(),
+                             isSetRequest() ? getRequest().getClass().getSimpleName() : "",
+                             isSetResponse() ? getResponse().getClass().getSimpleName(): "");
     }
 
     @Override

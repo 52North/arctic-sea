@@ -22,11 +22,9 @@ import java.util.Collection;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /**
  * Abstract class for time objects
@@ -36,9 +34,6 @@ import com.google.common.collect.Sets;
  */
 public abstract class Time implements Comparable<Time>, Serializable {
 
-    /**
-     * serial numbeer
-     */
     private static final long serialVersionUID = 1366100818431254519L;
 
     /**
@@ -89,14 +84,14 @@ public abstract class Time implements Comparable<Time>, Serializable {
     }
 
     /**
-     * Get GML id. If not null, first {@link Constants#NUMBER_SIGN_STRING}
+     * Get GML id. If not null, first {@code #}
      * (document reference indicator) is removed
      *
      * @return GML id
      */
     public String getGmlId() {
         if (this.gmlId != null) {
-            return this.gmlId.replaceFirst(Constants.NUMBER_SIGN_STRING, Constants.EMPTY_STRING);
+            return this.gmlId.replaceFirst("#", "");
         }
         return this.gmlId;
     }
@@ -117,7 +112,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      *         indicator
      */
     public boolean isReferenced() {
-        return isSetGmlId() && this.gmlId.startsWith(Constants.NUMBER_SIGN_STRING);
+        return isSetGmlId() && this.gmlId.startsWith("#");
     }
 
     /**

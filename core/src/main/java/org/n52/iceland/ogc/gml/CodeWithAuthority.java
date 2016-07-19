@@ -18,7 +18,6 @@ package org.n52.iceland.ogc.gml;
 
 import java.io.Serializable;
 
-import org.n52.iceland.util.Constants;
 import org.n52.iceland.util.StringHelper;
 
 import com.google.common.base.Objects;
@@ -41,7 +40,7 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Seriali
     /**
      * code space, TODO: probably should be a URI
      */
-    private String codeSpace = Constants.EMPTY_STRING;
+    private String codeSpace = "";
 
     /**
      * constructor

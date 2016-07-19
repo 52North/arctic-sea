@@ -21,6 +21,7 @@ package org.n52.iceland.coding.decode;
  * @author Matthes Rieke <m.rieke@52north.org>
  */
 public class DecodingException extends Exception {
+    private static final long serialVersionUID = 1864784275478310843L;
 
     public DecodingException(String message) {
         super(message);

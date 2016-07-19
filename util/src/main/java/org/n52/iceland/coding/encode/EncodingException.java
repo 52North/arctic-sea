@@ -21,6 +21,7 @@ package org.n52.iceland.coding.encode;
  * @author Matthes Rieke <m.rieke@52north.org>
  */
 public class EncodingException extends Exception {
+    private static final long serialVersionUID = -7730668591653900392L;
 
     public EncodingException(String message) {
         super(message);
