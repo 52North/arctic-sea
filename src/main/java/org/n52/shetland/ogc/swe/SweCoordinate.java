@@ -1,0 +1,95 @@
+/*
+ * Copyright 2016 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.n52.shetland.ogc.swe;
+
+import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
+import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
+
+/**
+ * SOS internal representation of SWE coordinates
+ *
+ * @param <T>
+ * @since 4.0.0
+ */
+public class SweCoordinate<T> implements Cloneable {
+
+    /**
+     * Coordinate name
+     */
+    private String name;
+
+    /**
+     * Coordinate value TODO is this assignment to generic? maybe, we switch to
+     * {@link SweAbstractUomType}?
+     */
+    private SweAbstractSimpleType<T> value;
+
+    /**
+     * constructor
+     *
+     * @param name
+     *            Coordinate name
+     * @param value
+     *            Coordinate value
+     */
+    public SweCoordinate(final String name, final SweAbstractSimpleType<T> value) {
+        super();
+        this.name = name;
+        this.value = value;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the value
+     */
+    public SweAbstractSimpleType<T> getValue() {
+        return value;
+    }
+
+    /**
+     * @param value
+     *            the value to set
+     */
+    public void setValue(final SweAbstractSimpleType<T> value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("SosSweCoordinate[name=%s, value=%s]", getName(), getValue());
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @Override
+    protected SweCoordinate clone() throws CloneNotSupportedException {
+        return new SweCoordinate(getName(), (SweAbstractSimpleType<?>)getValue().clone());
+    }
+}

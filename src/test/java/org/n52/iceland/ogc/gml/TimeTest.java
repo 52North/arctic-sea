@@ -17,13 +17,18 @@
 package org.n52.iceland.ogc.gml;
 
 import java.util.NoSuchElementException;
+
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
+
 import org.joda.time.DateTime;
+
 import static org.junit.Assert.assertThat;
+
 import org.junit.Test;
-import org.n52.iceland.ogc.gml.time.Time;
-import org.n52.iceland.ogc.gml.time.TimePosition;
+
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.gml.time.TimePosition;
 
 /**
  *

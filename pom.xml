@@ -66,7 +66,7 @@
         <url>https://github.com/52North/shetland</url>
         <connection>scm:git:https://github.com/52North/shetland.git</connection>
         <developerConnection>scm:git:https://github.com/52North/shetland.git</developerConnection>
-      <tag>HEAD</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
@@ -100,9 +100,19 @@
             <version>2.9.1</version>
         </dependency>
         <dependency>
+            <groupId>com.vividsolutions</groupId>
+            <artifactId>jts</artifactId>
+            <version>1.13</version>
+        </dependency>
+        <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
         </dependency>
 
         <!-- Testing dependencies -->
@@ -136,6 +146,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>javax.inject</groupId>
+            <artifactId>javax.inject</artifactId>
+            <version>1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -150,10 +165,9 @@
                     <preparationGoals>clean install</preparationGoals>
                 </configuration>
             </plugin>
-			<plugin>
+            <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
                 <executions>
                     <execution>
                         <phase>initialize</phase>
@@ -284,7 +298,13 @@
                     <excludeFilterFile>etc/findbugs-excludes.xml</excludeFilterFile>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <additionalJOption>-Xdoclint:none</additionalJOption>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
