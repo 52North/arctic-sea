@@ -16,9 +16,14 @@
  */
 package org.n52.shetland.util;
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+
 import java.util.Comparator;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+
+import javax.xml.namespace.QName;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
@@ -35,6 +40,10 @@ public class Comparables {
     public static final int LESS = -1;
     public static final int EQUAL = 0;
     public static final int GREATER = 1;
+
+    private static final Comparator<QName> QNAME_COMPARATOR
+            = nullsLast(comparing(QName::getPrefix, nullsLast(String::compareTo))
+                    .thenComparing(QName::getLocalPart, nullsLast(String::compareTo)));
 
     private Comparables() {
     }
@@ -72,7 +81,7 @@ public class Comparables {
     }
 
     public static <T extends Comparable<T>> int compare(T a, T b) {
-        return (a == b) ? EQUAL : a == null ? LESS : b == null ? GREATER : a .compareTo(b);
+        return (a == b) ? EQUAL : a == null ? LESS : b == null ? GREATER : a.compareTo(b);
     }
 
     public static <T> Comparator<T> allowNull(Comparator<T> delegate) {
@@ -90,6 +99,10 @@ public class Comparables {
 
     public static Ordering<String> version() {
         return VersionComparator.instance();
+    }
+
+    public static Comparator<QName> qname() {
+        return QNAME_COMPARATOR;
     }
 
     private static class VersionComparator extends Ordering<String> {

@@ -16,19 +16,15 @@
  */
 package org.n52.shetland.util;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.joda.time.DateTime;
 
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.StringHelper;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 
 /**
  * Helper class for Java objects.
@@ -37,13 +33,6 @@ import com.google.common.collect.Sets;
  *
  */
 public final class JavaHelper {
-
-    /**
-     * hexadecimal values
-     */
-    private static final char[] HEX_DIGITS = {
-        '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
-    };
 
     /**
      * Message digest for generating single identifier
@@ -59,6 +48,9 @@ public final class JavaHelper {
         } catch (final NoSuchAlgorithmException nsae) {
             throw new Error("Error while getting SHA-256 messagedigest!", nsae);
         }
+    }
+
+    private JavaHelper() {
     }
 
     /**
@@ -78,22 +70,22 @@ public final class JavaHelper {
     /**
      * Transforms byte to hex representation
      *
-     * @param b
+     * @param bytes
      *          bytes
      *
      * @return hex
      */
-    private static String bytesToHex(final byte[] b) {
-        final StringBuilder buf = new StringBuilder();
-        for (final byte element : b) {
-            buf.append(HEX_DIGITS[(element >> 4) & 0x0f]);
-            buf.append(HEX_DIGITS[element & 0x0f]);
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder buffer = new StringBuilder(2 * bytes.length);
+        for (int i = 0; i < bytes.length; ++i) {
+            buffer.append(Character.forDigit((bytes[i] >> 4) & 0xF, 16));
+            buffer.append(Character.forDigit((bytes[i] & 0xF), 16));
         }
-        return buf.toString();
+        return buffer.toString();
     }
 
     @Deprecated
-    public static void appendTextToStringBuilderWithLineBreak(final StringBuilder stringBuilder, final String message) {
+    public static void appendTextToStringBuilderWithLineBreak(StringBuilder stringBuilder, String message) {
         if (stringBuilder != null && StringHelper.isNotEmpty(message)) {
             stringBuilder.append(message);
             stringBuilder.append("\n");
@@ -178,19 +170,6 @@ public final class JavaHelper {
     }
 
     public static Set<Integer> getIntegerSetFromString(String s) {
-        HashSet<Integer> set = Sets.newHashSet();
-        if (!Strings.isNullOrEmpty(s)) {
-            Set<String> splitToSet = StringHelper.splitToSet(s, ",");
-            if (CollectionHelper.isNotEmpty(splitToSet)) {
-                for (String string : splitToSet) {
-                    set.add(Integer.parseInt(string));
-                }
-            }
-        }
-        return set;
+        return StringHelper.splitToStream(s, ",").map(Integer::parseInt).collect(toSet());
     }
-
-    private JavaHelper() {
-    }
-
 }

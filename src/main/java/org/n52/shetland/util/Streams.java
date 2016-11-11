@@ -16,10 +16,17 @@
  */
 package org.n52.shetland.util;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Supplier;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -27,11 +34,11 @@ public class Streams {
     private Streams() {
     }
 
-    public static <T> Stream<? extends T> stream(Iterable<? extends T> iterable){
+    public static <T> Stream<? extends T> stream(Iterable<? extends T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
-    public static <T> Stream<? extends T> parallelStream(Iterable<? extends T> iterable){
+    public static <T> Stream<? extends T> parallelStream(Iterable<? extends T> iterable) {
         return StreamSupport.stream(iterable.spliterator(), true);
     }
 
@@ -49,6 +56,14 @@ public class Streams {
 
     public static <T> BinaryOperator<T> throwingMerger() {
         return throwingMerger((a, b) -> new IllegalStateException(String.format("Duplicate key %s", a)));
+    }
+
+    public static <K, V> Collector<Entry<K, V>, ?, Map<V, K>> entryToMap() {
+        return Collectors.toMap(Entry::getValue, Entry::getKey);
+    }
+
+    public static <K, V> Collector<Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedHashMap() {
+        return toMap(Entry::getKey, Entry::getValue, Streams.throwingMerger(), LinkedHashMap::new);
     }
 
 }

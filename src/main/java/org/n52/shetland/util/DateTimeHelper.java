@@ -330,8 +330,7 @@ public final class DateTimeHelper {
             valueSplit = time.substring(0, time.indexOf('Z'));
         } else if (time.contains("+")) {
             valueSplit = time.substring(0, time.indexOf('+'));
-        } else if (time.contains("-")
-                && StringHelper.checkIfCharacterOccursXTimesIgnoreCase(time, '-', 3)) {
+        } else if (StringHelper.getCharacterCount(time, '-') == 3) {
             valueSplit = time.substring(0, time.lastIndexOf('-'));
         }
         return valueSplit != null ? valueSplit.length() : time.length();

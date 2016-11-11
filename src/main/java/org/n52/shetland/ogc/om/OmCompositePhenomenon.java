@@ -16,11 +16,11 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.common.collect.Iterators;
 
 
 public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterable<OmObservableProperty>{
@@ -87,7 +87,7 @@ public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterabl
     @Override
     public Iterator<OmObservableProperty> iterator() {
         if (getPhenomenonComponents() == null) {
-            return Iterators.emptyIterator();
+            return Collections.emptyIterator();
         } else {
             return getPhenomenonComponents().iterator();
         }

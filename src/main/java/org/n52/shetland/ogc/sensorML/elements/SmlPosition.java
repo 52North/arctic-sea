@@ -22,7 +22,6 @@ import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.StringHelper;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweCoordinate;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
@@ -32,6 +31,7 @@ import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 /**
@@ -142,7 +142,7 @@ public class SmlPosition extends SweAbstractDataComponent {
     }
 
     public boolean isSetReferenceFrame() {
-        return StringHelper.isNotEmpty(referenceFrame);
+        return !Strings.isNullOrEmpty(referenceFrame);
     }
 
     /**

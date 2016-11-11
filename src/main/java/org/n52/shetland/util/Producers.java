@@ -61,7 +61,8 @@ public class Producers {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> ProducingFunction<T> producingFunction() {
+    @Deprecated
+    public static <T> Function<Producer<T>, T> producingFunction() {
         return (ProducingFunction<T>) ProducingFunction.getInstance();
     }
 

@@ -21,6 +21,7 @@ import java.io.Serializable;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 /**
@@ -93,7 +94,7 @@ public abstract class AbstractPhenomenon extends AbstractFeature
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .omitNullValues()
                 .add("identifier", getIdentifier())
                 .add("description", getDescription())

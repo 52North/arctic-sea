@@ -19,7 +19,6 @@ package org.n52.shetland.util;
 import static java.util.Comparator.comparing;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -38,12 +36,8 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -102,8 +96,7 @@ public final class CollectionHelper {
     }
 
     public static <T> Set<T> union(Iterable<Set<T>> elements) {
-        return StreamSupport.stream(elements.spliterator(), true)
-                .flatMap(Set::stream).collect(toSet());
+        return Streams.parallelStream(elements).flatMap(Set<T>::stream).collect(toSet());
     }
 
     /**
@@ -113,9 +106,7 @@ public final class CollectionHelper {
      * @return an <b>UNMODIFIABLE</b> Set&lt;T&gt;
      */
     public static <T> Set<? extends T> unmodifiableSet(Set<? extends T> s) {
-        return Optional.ofNullable(s)
-                .map(Collections::unmodifiableSet)
-                .orElseGet(Collections::emptySet);
+        return Optional.ofNullable(s).map(Collections::unmodifiableSet).orElseGet(Collections::emptySet);
     }
 
     /**
@@ -126,9 +117,7 @@ public final class CollectionHelper {
      * @return an <b>UNMODIFIABLE</b> Map&lt;K, V&gt;
      */
     public static <K, V> Map<? extends K, ? extends V> unmodifiableMap(Map<? extends K, ? extends V> m) {
-        return Optional.ofNullable(m)
-                .map(Collections::unmodifiableMap)
-                .orElseGet(Collections::emptyMap);
+        return Optional.ofNullable(m).map(Collections::unmodifiableMap).orElseGet(Collections::emptyMap);
     }
 
     /**
@@ -137,11 +126,8 @@ public final class CollectionHelper {
      *
      * @return an <b>UNMODIFIABLE</b> Collection&lt;T&gt;
      */
-    public static <T> Collection<? extends T> unmodifiableCollection(
-            Collection<? extends T> c) {
-        return Optional.ofNullable(c)
-                .map(Collections::unmodifiableCollection)
-                .orElseGet(Collections::emptyList);
+    public static <T> Collection<? extends T> unmodifiableCollection(Collection<? extends T> c) {
+        return Optional.ofNullable(c).map(Collections::unmodifiableCollection).orElseGet(Collections::emptyList);
     }
 
     /**
@@ -151,9 +137,7 @@ public final class CollectionHelper {
      * @return an <b>UNMODIFIABLE</b> List&lt;T&gt;
      */
     public static <T> List<? extends T> unmodifiableList(List<? extends T> l) {
-        return Optional.ofNullable(l)
-                .map(Collections::unmodifiableList)
-                .orElseGet(Collections::emptyList);
+        return Optional.ofNullable(l).map(Collections::unmodifiableList).orElseGet(Collections::emptyList);
     }
 
     public static <T> List<T> conjunctCollections(Collection<T> list1, Collection<T> list2) {
@@ -322,7 +306,7 @@ public final class CollectionHelper {
      * @return the reversed map
      */
     public static <K, V> Map<V, K> reverse(Map<K, V> map) {
-        return map.entrySet().stream().collect(entryToMap());
+        return map.entrySet().stream().collect(Streams.entryToMap());
     }
 
     /**
@@ -335,10 +319,7 @@ public final class CollectionHelper {
      * @return whether the collection is null, empty, or contains only nulls
      */
     public static boolean nullEmptyOrContainsOnlyNulls(final Collection<? extends Object> collection) {
-        return Optional.ofNullable(collection)
-                .map(Collection::stream)
-                .orElseGet(Stream::empty)
-                .allMatch(Objects::isNull);
+        return Optional.ofNullable(collection).map(Collection::stream).orElseGet(Stream::empty).allMatch(Objects::isNull);
     }
 
     /**
@@ -388,26 +369,10 @@ public final class CollectionHelper {
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         return map.entrySet().stream()
                 .sorted(comparing(Map.Entry::getValue))
-                .collect(toLinkedHashMap());
+                .collect(Streams.toLinkedHashMap());
     }
 
-    private static <A, B> BiConsumer<B, A> reverse(BiConsumer<A, B> consumer) {
-        return (a, b) -> consumer.accept(b, a);
-    }
 
-    private static <K, V> Collector<Entry<K, V>, ?, Map<V, K>> entryToMap() {
-        return Collectors.toMap(Entry::getValue, Entry::getKey);
-    }
-
-    private static <K, V> Collector<Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedHashMap() {
-        return toMap(Entry::getKey, Entry::getValue, throwingMerger(), LinkedHashMap::new);
-    }
-
-    private static <T> BinaryOperator<T> throwingMerger() {
-        return (u, v) -> {
-            throw new IllegalStateException(String.format("Duplicate key %s", u));
-        };
-    }
 
     /**
      * Parse CSV string to {@link List}

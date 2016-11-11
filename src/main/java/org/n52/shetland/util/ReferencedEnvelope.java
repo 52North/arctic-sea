@@ -51,7 +51,7 @@ public class ReferencedEnvelope implements Serializable {
      * @param srid
      *            SRID
      */
-    public ReferencedEnvelope(final Envelope envelope, final int srid) {
+    public ReferencedEnvelope(Envelope envelope, int srid) {
         setEnvelope(envelope);
         setSrid(srid);
     }
@@ -70,7 +70,7 @@ public class ReferencedEnvelope implements Serializable {
      *
      * @param e the envelope (may be <code>null</code>)
      */
-    public void expandToInclude(final Envelope e) {
+    public void expandToInclude(Envelope e) {
         if (e != null) {
             if (isSetEnvelope()) {
                 getEnvelope().expandToInclude(e);
@@ -85,7 +85,7 @@ public class ReferencedEnvelope implements Serializable {
      *
      * @param e the envelope (may be <code>null</code>)
      */
-    public void expandToInclude(final ReferencedEnvelope e) {
+    public void expandToInclude(ReferencedEnvelope e) {
         if (e != null && e.isSetEnvelope()) {
             expandToInclude(e.getEnvelope());
         }
@@ -97,7 +97,7 @@ public class ReferencedEnvelope implements Serializable {
      * @param envelope
      *            the envelope to set
      */
-    public ReferencedEnvelope setEnvelope(final Envelope envelope) {
+    public ReferencedEnvelope setEnvelope(Envelope envelope) {
         this.envelope = envelope;
         return this;
     }
@@ -121,7 +121,7 @@ public class ReferencedEnvelope implements Serializable {
      * @param srid
      *            the srid to set
      */
-    public ReferencedEnvelope setSrid(final int srid) {
+    public ReferencedEnvelope setSrid(int srid) {
         this.srid = srid;
         return this;
     }
@@ -140,7 +140,7 @@ public class ReferencedEnvelope implements Serializable {
     }
 
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }

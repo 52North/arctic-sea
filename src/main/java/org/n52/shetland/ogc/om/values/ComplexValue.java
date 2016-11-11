@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.om.values;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class ComplexValue implements Value<SweAbstractDataRecord> {
@@ -56,7 +57,7 @@ public class ComplexValue implements Value<SweAbstractDataRecord> {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(this)
+        return MoreObjects.toStringHelper(this)
                 .add("value", this.value)
                 .add("unit", this.unit)
                 .toString();

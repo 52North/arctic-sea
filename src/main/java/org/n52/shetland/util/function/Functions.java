@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -52,6 +53,10 @@ public class Functions {
 
     public static <T1, T2, R> Function<T1, R> bind2(BiFunction<T1, T2, R> bifunction, T2 t2) {
         return (t1) -> bifunction.apply(t1, t2);
+    }
+
+    public static <A, B> BiConsumer<B, A> reverse(BiConsumer<A, B> consumer) {
+        return (a, b) -> consumer.accept(b, a);
     }
 
     public static <K, V> BinaryOperator<Map<K, V>> mergeToRightMap(BiFunction<? super V, ? super V, ? extends V> valueMerger) {

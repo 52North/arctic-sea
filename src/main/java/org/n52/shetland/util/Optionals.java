@@ -38,7 +38,7 @@ public class Optionals {
     }
 
     public static boolean any(Iterable<Optional<?>> optionals) {
-        return Streams.stream(optionals).anyMatch(Optional::isPresent);
+        return Streams.stream(optionals).anyMatch(o -> o.isPresent());
     }
 
     public static <U> Comparator<Optional<U>> nullsLast(Comparator<? super U> comparator) {

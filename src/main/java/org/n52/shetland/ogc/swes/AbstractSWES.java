@@ -76,7 +76,7 @@ public abstract class AbstractSWES extends AbstractFeature implements HasExtensi
     }
 
     @Override
-    public boolean hasExtension(Enum identifier) {
+    public boolean hasExtension(Enum<?> identifier) {
         if (isSetExtensions()) {
             return getExtensions().containsExtension(identifier);
         }
@@ -92,7 +92,7 @@ public abstract class AbstractSWES extends AbstractFeature implements HasExtensi
     }
 
     @Override
-    public Extension<?> getExtension(Enum identifier) throws InvalidParameterValueException {
+    public Extension<?> getExtension(Enum<?> identifier) throws InvalidParameterValueException {
         if (hasExtension(identifier)) {
             return getExtensions().getExtension(identifier);
         }

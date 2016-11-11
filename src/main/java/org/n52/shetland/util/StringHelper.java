@@ -16,20 +16,25 @@
  */
 package org.n52.shetland.util;
 
+import static java.util.stream.Collectors.toCollection;
+import static java.util.stream.Collectors.toList;
+
 import java.io.InputStream;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.NoSuchElementException;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Stream;
 
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * Helper class for String objects. Contains methods to join Strings, convert
@@ -78,7 +83,7 @@ public class StringHelper {
     public static String convertStreamToString(InputStream is, String charset) throws OwsExceptionReport {
         try {
             Scanner scanner;
-            if (isNotEmpty(charset)) {
+            if (!Strings.isNullOrEmpty(charset)) {
                 scanner = new Scanner(is, charset);
             } else {
                 scanner = new Scanner(is);
@@ -88,8 +93,8 @@ public class StringHelper {
                 return scanner.next();
             }
         } catch (NoSuchElementException nsee) {
-            throw new NoApplicableCodeException().causedBy(nsee).withMessage(
-                    "Error while reading content of HTTP request: %s", nsee.getMessage());
+            throw new NoApplicableCodeException().causedBy(nsee)
+                    .withMessage("Error while reading content of HTTP request: %s", nsee.getMessage());
         }
         return "";
     }
@@ -113,19 +118,11 @@ public class StringHelper {
     }
 
     public static List<String> splitToList(String string, String separator) {
-        ArrayList<String> stringList = Lists.newArrayList();
-        if (StringHelper.isNotEmpty(string)) {
-            for (String s : string.split(separator)) {
-                if (s != null && !s.trim().isEmpty()) {
-                    stringList.add(s.trim());
-                }
-            }
-        }
-        return stringList;
+        return splitToStream(string, separator).collect(toList());
     }
 
-    public static Set<String> splitToSet(String stringToSplit, String separator) {
-        return Sets.newTreeSet(splitToList(stringToSplit, separator));
+    public static Set<String> splitToSet(String string, String separator) {
+        return splitToStream(string, separator).collect(toCollection(TreeSet::new));
     }
 
     public static Set<String> splitToSet(String stringToSplit) {
@@ -133,8 +130,7 @@ public class StringHelper {
     }
 
     public static String[] splitToArray(String stringToSplit, String separator) {
-        List<String> splitToList = splitToList(stringToSplit, separator);
-        return splitToList.toArray(new String[splitToList.size()]);
+        return splitToStream(stringToSplit, separator).toArray(length -> new String[length]);
     }
 
     public static String[] splitToArray(String stringToSplit) {
@@ -142,11 +138,20 @@ public class StringHelper {
     }
 
     public static long getCharacterCountIgnoreCase(String s, char character) {
-        return getCharacterCount(s.toUpperCase(Locale.ROOT),
-                                 Character.toUpperCase(character));
+        return getCharacterCount(s.toUpperCase(Locale.ROOT), Character.toUpperCase(character));
     }
 
     public static long getCharacterCount(String s, char character) {
         return s.chars().filter(c -> c == character).count();
+    }
+
+    public static Stream<String> splitToStream(String string, String separator) {
+        return Optional.ofNullable(string)
+                .map(s -> s.split(separator))
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .map(String::trim)
+                .map(Strings::emptyToNull)
+                .filter(Objects::nonNull);
     }
 }

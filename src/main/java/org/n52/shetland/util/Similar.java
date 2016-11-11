@@ -31,6 +31,11 @@ public interface Similar<T> {
      * x &gt; 0         &hArr; similar
      * y &gt; 0 &amp; x &gt; y &hArr; x more similar than y
      * </pre>
+     *
+     * @param other the other object
+     *
+     * @return the similarity value
+     *
      */
     int getSimilarity(T other);
 }

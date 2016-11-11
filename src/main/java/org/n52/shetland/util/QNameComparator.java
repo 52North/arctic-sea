@@ -25,16 +25,15 @@ import javax.xml.namespace.QName;
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use {@link Comparables#qname() }
  *
  */
+@Deprecated
 public class QNameComparator implements Comparator<QName> {
-    public static final Comparator<QName> INSTANCE =
-            Comparator.nullsLast(Comparator.comparing(QName::getPrefix, Comparator.nullsLast(String::compareTo))
-                  .thenComparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo)));
 
     @Override
     public int compare(QName o1, QName o2) {
-        return INSTANCE.compare(o1, o2);
+        return Comparables.qname().compare(o1, o2);
     }
 
 }
