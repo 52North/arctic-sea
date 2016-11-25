@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
-    
+
+
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
         <version>2</version>
     </parent>
-    
+
     <groupId>org.n52.janmayen</groupId>
     <artifactId>janmayen</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    
-    
-    <name>52°North Iceland Jan Mayen</name>
+
+
+    <name>52°North Jan Mayen</name>
     <packaging>jar</packaging>
-    
+
     <developers>
         <developer>
             <id>autermann</id>
@@ -33,7 +33,7 @@
         <developerConnection>scm:git:https://github.com/52North/janmayen.git</developerConnection>
         <tag>HEAD</tag>
     </scm>
-    
+
     <issueManagement>
         <system>GitHub issues</system>
         <url>https://github.com/52North/janmayen/issues?state=open</url>
@@ -52,11 +52,11 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
-    
+
     <properties>
         <version.java>1.8</version.java>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -73,7 +73,7 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.21</version>
         </dependency>
-            
+
         <!-- Testing dependencies -->
         <dependency>
             <groupId>junit</groupId>
@@ -94,7 +94,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
+
     <build>
         <defaultGoal>install</defaultGoal>
         <plugins>
