@@ -28,6 +28,4 @@ package org.n52.shetland.ogc.sensorML.v20;
  */
 public class DescribedObject extends AbstractProcessV20 {
 
-    private static final long serialVersionUID = -7879476936930717477L;
-
 }

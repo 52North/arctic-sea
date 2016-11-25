@@ -21,17 +21,15 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
+import org.n52.shetland.util.CollectionHelper;
 
 /**
  * @since 4.0.0
  *
  */
 public class AbstractProcess extends AbstractSensorML {
-
-    private static final long serialVersionUID = 90768395878987095L;
 
     private List<SmlIo<?>> inputs = new ArrayList<>(0);
     private List<SmlIo<?>> outputs = new ArrayList<>(0);

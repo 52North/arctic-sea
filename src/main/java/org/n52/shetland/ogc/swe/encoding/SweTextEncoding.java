@@ -59,7 +59,7 @@ public class SweTextEncoding extends SweAbstractEncoding {
     }
 
     public boolean isCollapseWhiteSpaces() {
-        return collapseWhiteSpaces.booleanValue();
+        return collapseWhiteSpaces;
     }
 
     public boolean isSetCollapseWhiteSpaces() {

@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.filter;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 
+import com.vividsolutions.jts.geom.Geometry;
+
 /**
  * Spatial filter class
  *

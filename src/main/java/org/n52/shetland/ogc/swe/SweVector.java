@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.swe;
 import java.util.Arrays;
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 
 import com.google.common.base.Objects;
@@ -30,29 +29,30 @@ import com.google.common.collect.Lists;
  *
  */
 public class SweVector extends SweAbstractDataComponent {
-    private List<? extends SweCoordinate<?>> coordinates;
+    private List<? extends SweCoordinate<? extends Number>> coordinates;
 
     private String referenceFrame;
 
     private String localFrame;
 
-    public SweVector(List<? extends SweCoordinate<?>> coordinates) {
+    public SweVector(List<? extends SweCoordinate<? extends Number>> coordinates) {
         this.coordinates = coordinates;
     }
 
-    public SweVector(SweCoordinate<?>... coordinates) {
+    @SafeVarargs
+    public SweVector(SweCoordinate<? extends Number>... coordinates) {
         this(Arrays.asList(coordinates));
     }
 
     public SweVector() {
-        this((List<SweCoordinate<?>>) null);
+        this((List<SweCoordinate<? extends Number>>) null);
     }
 
-    public List<? extends SweCoordinate<?>> getCoordinates() {
+    public List<? extends SweCoordinate<? extends Number>> getCoordinates() {
         return coordinates;
     }
 
-    public SweVector setCoordinates(final List<? extends SweCoordinate<?>> coordinates) {
+    public SweVector setCoordinates(final List<? extends SweCoordinate<? extends Number>> coordinates) {
         this.coordinates = coordinates;
         return this;
     }
@@ -118,14 +118,12 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

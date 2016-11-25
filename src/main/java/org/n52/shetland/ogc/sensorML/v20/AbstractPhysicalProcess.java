@@ -28,15 +28,11 @@ import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
  */
 public class AbstractPhysicalProcess extends DescribedObject {
 
-    private static final long serialVersionUID = -4028425256170806503L;
-
     private SpatialFrame localReferenceFrame;
-
     private TemporalFrame localTimeFrame;
 
     // TODO extend to list and support other type (point, text, datarecord, ...)
     private SmlPosition position;
-
     private Object timePosition;
 
     /**
@@ -120,13 +116,6 @@ public class AbstractPhysicalProcess extends DescribedObject {
      */
     public void setTimePosition(Object timePosition) {
         this.timePosition = timePosition;
-    }
-
-    /**
-     * @return the serialversionuid
-     */
-    public static long getSerialversionuid() {
-        return serialVersionUID;
     }
 
     public boolean isSetPosition() {

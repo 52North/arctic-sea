@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc;
 
+import org.n52.shetland.w3c.SchemaLocation;
+
 /**
  * Constants interface for OGC SWES
  *
@@ -28,6 +30,8 @@ public interface OGCConstants {
     String NS_OGC_PREFIX = "ogc";
 
     String SCHEMA_LOCATION_OGC = "http://schemas.opengis.net/sos/1.0.0/ogc4sos.xsd";
+
+    SchemaLocation OGC_SCHEMA_LOCATION = new SchemaLocation(OGCConstants.NS_OGC, OGCConstants.SCHEMA_LOCATION_OGC);
 
     String UNKNOWN = "http://www.opengis.net/def/nil/OGC/0/unknown";
 

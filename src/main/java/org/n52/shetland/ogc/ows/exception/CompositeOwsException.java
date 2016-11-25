@@ -31,9 +31,9 @@ import java.util.stream.Collector;
 import java.util.stream.Collector.Characteristics;
 import java.util.stream.Stream;
 
-import org.n52.shetland.util.function.ThrowingCallable;
-import org.n52.shetland.util.function.ThrowingConsumer;
-import org.n52.shetland.util.function.ThrowingRunnable;
+import org.n52.janmayen.function.ThrowingCallable;
+import org.n52.janmayen.function.ThrowingConsumer;
+import org.n52.janmayen.function.ThrowingRunnable;
 
 /**
  * Composite {@link OwsExceptionReport} which can contain several

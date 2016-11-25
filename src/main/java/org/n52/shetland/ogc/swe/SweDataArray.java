@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
@@ -129,7 +128,7 @@ public class SweDataArray extends SweAbstractDataComponent {
      */
     public boolean add(final List<String> blockOfTokensToAddAtTheEnd) {
         if (values == null) {
-            values = new LinkedList<List<String>>();
+            values = new LinkedList<>();
         }
         return values.add(blockOfTokensToAddAtTheEnd);
     }
@@ -202,14 +201,12 @@ public class SweDataArray extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

@@ -19,9 +19,9 @@ package org.n52.shetland.ogc.sensorML.v20;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.ogc.sensorML.HasComponents;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.util.JavaHelper;
 
 /**
  * Class that represents SensorML 2.0 PhysicalSystem
@@ -31,8 +31,6 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
  *
  */
 public class PhysicalSystem extends AbstractPhysicalProcess implements HasComponents<PhysicalSystem> {
-
-    private static final long serialVersionUID = 2985786628770187177L;
 
     public static final String ID_PREFIX = "ps_";
 

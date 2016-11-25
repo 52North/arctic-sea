@@ -16,12 +16,86 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Set;
+import java.util.TreeSet;
+
+import com.google.common.base.Strings;
+
 /**
  *
  * @author Christian Autermann
  */
-public interface IndeterminateValue {
-    default String getValue() {
-        return toString();
+public class IndeterminateValue {
+
+    public static final IndeterminateValue AFTER = new IndeterminateValue("after");
+    public static final IndeterminateValue BEFORE = new IndeterminateValue("before");
+    public static final IndeterminateValue NOW = new IndeterminateValue("now");
+    public static final IndeterminateValue UNKNOWN = new IndeterminateValue("unknown");
+    public static final IndeterminateValue TEMPLATE = new IndeterminateValue("template");
+
+    private final String value;
+    private final TreeSet<String> alias;
+
+    public IndeterminateValue(String value, String... alias) {
+        this.value = Objects.requireNonNull(Strings.emptyToNull(value));
+        this.alias = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        this.alias.addAll(Arrays.asList(alias));
+        this.alias.add(value);
+    }
+
+    public String getValue() {
+        return this.value;
+    }
+
+    public Set<String> getAlias() {
+        return Collections.unmodifiableSet(alias);
+    }
+
+    public boolean isAfter() {
+        return equals(AFTER);
+    }
+
+    public boolean isBefore() {
+        return equals(AFTER);
+    }
+
+    public boolean isNow() {
+        return equals(AFTER);
+    }
+
+    public boolean isTemplate() {
+        return equals(AFTER);
+    }
+
+    public boolean Unknown() {
+        return equals(AFTER);
+    }
+
+    public boolean equals(IndeterminateValue other) {
+        if (other == null) {
+            return false;
+        }
+        return getValue().equalsIgnoreCase(other.getValue());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (!(obj instanceof IndeterminateValue)) {
+            return false;
+        }
+        IndeterminateValue other = (IndeterminateValue) obj;
+        return getAlias().contains(other.getValue()) ||
+               other.getAlias().contains(getValue());
+    }
+
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
     }
 }

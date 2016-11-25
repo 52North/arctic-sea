@@ -17,6 +17,7 @@
 package org.n52.shetland.ogc.ows;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
@@ -32,11 +33,11 @@ import org.n52.shetland.util.CollectionHelper;
  */
 public class OwsServiceIdentification extends OwsDescription {
 
-    private final OwsCode serviceType;
-    private final SortedSet<String> serviceTypeVersion;
-    private final SortedSet<URI> profiles;
-    private final SortedSet<String> fees;
-    private final SortedSet<String> accessConstraints;
+    private OwsCode serviceType;
+    private SortedSet<String> serviceTypeVersion;
+    private SortedSet<URI> profiles;
+    private SortedSet<String> fees;
+    private SortedSet<String> accessConstraints;
 
     public OwsServiceIdentification(OwsCode serviceType,
                                     Set<String> serviceTypeVersion,
@@ -47,7 +48,7 @@ public class OwsServiceIdentification extends OwsDescription {
                                     MultilingualString abstrakt,
                                     Set<OwsKeyword> keywords) {
         super(title, abstrakt, keywords);
-        this.serviceType = serviceType;
+        this.serviceType = Objects.requireNonNull(serviceType);
         this.serviceTypeVersion = CollectionHelper.newSortedSet(serviceTypeVersion);
         this.profiles = CollectionHelper.newSortedSet(profiles);
         this.fees = CollectionHelper.newSortedSet(fees);
@@ -60,20 +61,40 @@ public class OwsServiceIdentification extends OwsDescription {
         return serviceType;
     }
 
+    public void setServiceType(OwsCode serviceType) {
+        this.serviceType = Objects.requireNonNull(serviceType);
+    }
+
     public Set<String> getServiceTypeVersion() {
         return Collections.unmodifiableSet(serviceTypeVersion);
+    }
+
+    public void setServiceTypeVersion(Collection<String> serviceTypeVersion) {
+        this.serviceTypeVersion = CollectionHelper.newSortedSet(serviceTypeVersion);
     }
 
     public Set<URI> getProfiles() {
         return Collections.unmodifiableSet(profiles);
     }
 
+    public void setProfiles(Collection<URI> profiles) {
+        this.profiles = CollectionHelper.newSortedSet(profiles);
+    }
+
     public Set<String> getFees() {
         return Collections.unmodifiableSet(fees);
     }
 
+    public void setFees(Collection<String> fees) {
+        this.fees = CollectionHelper.newSortedSet(fees);
+    }
+
     public Set<String> getAccessConstraints() {
         return Collections.unmodifiableSet(accessConstraints);
+    }
+
+    public void setAccessConstraints(Collection<String> accessConstraints) {
+        this.accessConstraints = CollectionHelper.newSortedSet(accessConstraints);
     }
 
     @Override
@@ -99,22 +120,19 @@ public class OwsServiceIdentification extends OwsDescription {
             return false;
         }
         final OwsServiceIdentification other = (OwsServiceIdentification) obj;
-        if (!Objects.equals(this.serviceType, other.serviceType)) {
+        if (!Objects.equals(this.serviceType, other.getServiceType())) {
             return false;
         }
-        if (!Objects.equals(this.serviceTypeVersion, other.serviceTypeVersion)) {
+        if (!Objects.equals(this.serviceTypeVersion, other.getServiceTypeVersion())) {
             return false;
         }
-        if (!Objects.equals(this.profiles, other.profiles)) {
+        if (!Objects.equals(this.profiles, other.getProfiles())) {
             return false;
         }
-        if (!Objects.equals(this.fees, other.fees)) {
+        if (!Objects.equals(this.fees, other.getFees())) {
             return false;
         }
-        if (!Objects.equals(this.accessConstraints, other.accessConstraints)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.accessConstraints, other.getAccessConstraints());
     }
 
     @Override

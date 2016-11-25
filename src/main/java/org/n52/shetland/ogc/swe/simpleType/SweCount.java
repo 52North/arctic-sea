@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
@@ -48,7 +47,7 @@ public class SweCount extends SweAbstractSimpleType<Integer> {
     @Override
     public String getStringValue() {
         if (isSetValue()) {
-            return Integer.toString(value.intValue());
+            return Integer.toString(value);
         }
         return null;
     }
@@ -67,14 +66,12 @@ public class SweCount extends SweAbstractSimpleType<Integer> {
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

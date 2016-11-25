@@ -16,6 +16,10 @@
  */
 package org.n52.iceland.ogc.swe;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
+
 import javax.xml.namespace.QName;
 
 import org.n52.shetland.w3c.SchemaLocation;
@@ -188,69 +192,54 @@ public interface SweConstants {
      * Enum for SensorML types
      */
     enum SensorMLType {
-        System, Component, ProcessModel, ProcessChain
+        System,
+        Component,
+        ProcessModel,
+        ProcessChain
     }
 
     /**
      * Enum for SWE aggregate types
      */
     enum SweAggregateType {
-        SimpleDataRecord, DataRecord
+        SimpleDataRecord,
+        DataRecord
     }
 
-    /**
-     * Enum for coordinate names (default)
-     */
-    enum SweCoordinateName {
-        easting, northing, altitude
-    }
+    public static final class SweCoordinateNames {
+        public static final String EASTING = "easting";
+        public static final String NORTHING = "northing";
+        public static final String ALTITUDE = "altitude";
+        public static final String HEIGHT = "height";
+        public static final String SOUTHING = "southing";
+        public static final String WESTING = "westing";
+        public static final String LONGITUDE = "longitude";
+        public static final String LATITUDE = "latitude";
+        public static final String DEPTH = "depth";
 
-    /**
-     * Enum for coordinate names for easting
-     */
-    enum EastingSweCoordinateName {
-        easting, westing, longitude;
+        private static final Set<String> X_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        private static final Set<String> Y_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        private static final Set<String> Z_NAMES = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
 
-        public static boolean isEastingSweCoordinateName(String name) {
-            for (EastingSweCoordinateName eastingSweCoordinateName : EastingSweCoordinateName.values()) {
-                if (eastingSweCoordinateName.name().equalsIgnoreCase(name)) {
-                    return true;
-                }
-            }
-            return false;
+
+        static {
+            Collections.addAll(X_NAMES, EASTING, WESTING, LONGITUDE);
+            Collections.addAll(Y_NAMES, NORTHING, SOUTHING, LATITUDE);
+            Collections.addAll(Z_NAMES, ALTITUDE, HEIGHT, DEPTH);
         }
 
-    }
+        private SweCoordinateNames() {}
 
-    /**
-     * Enum for coordinate names for northing
-     */
-    enum NorthingSweCoordinateName {
-        northing, southing, latitude;
-
-        public static boolean isNorthingSweCoordinateName(String name) {
-            for (NorthingSweCoordinateName northingSweCoordinateName : NorthingSweCoordinateName.values()) {
-                if (northingSweCoordinateName.name().equalsIgnoreCase(name)) {
-                    return true;
-                }
-            }
-            return false;
+        public static boolean isX(String name) {
+            return X_NAMES.contains(name);
         }
-    }
 
-    /**
-     * Enum for coordinate names for altitude
-     */
-    enum AltitudeSweCoordinateName {
-        altitude, height, depth;
+        public static boolean isY(String name) {
+            return Y_NAMES.contains(name);
+        }
 
-        public static boolean isAltitudeSweCoordinateName(String name) {
-            for (AltitudeSweCoordinateName altitudeSweCoordinateName : AltitudeSweCoordinateName.values()) {
-                if (altitudeSweCoordinateName.name().equalsIgnoreCase(name)) {
-                    return true;
-                }
-            }
-            return false;
+        public static boolean isZ(String name) {
+            return Z_NAMES.contains(name);
         }
     }
 
@@ -258,7 +247,8 @@ public interface SweConstants {
      * Enum for sensor descriptions
      */
     enum SosSensorDescription {
-        XmlStringDescription, SosDescription
+        XmlStringDescription,
+        SosDescription
     }
 
     /**

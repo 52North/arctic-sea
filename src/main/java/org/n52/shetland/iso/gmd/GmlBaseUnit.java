@@ -19,7 +19,6 @@ package org.n52.shetland.iso.gmd;
 import java.net.URI;
 
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.util.JavaHelper;
 
 /**
@@ -65,7 +64,7 @@ public class GmlBaseUnit {
         return unitSystem;
     }
 
-    public static GmlBaseUnit uncertaintyEstimation() throws CodedException {
+    public static GmlBaseUnit uncertaintyEstimation() {
         return new GmlBaseUnit("PercentageUnit",
                 "http://dd.eionet.europa.eu/vocabularies/aq/resultquality/uncertaintyestimation/",
                 new CodeType("%", URI.create("http://www.opengis.net/def/uom/UCUM/")),

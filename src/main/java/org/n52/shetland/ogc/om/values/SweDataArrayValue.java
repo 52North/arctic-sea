@@ -24,16 +24,16 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.util.DateTimeHelper;
 
 import com.google.common.collect.Sets;
 
@@ -45,7 +45,6 @@ import com.google.common.collect.Sets;
  */
 public class SweDataArrayValue implements MultiValue<SweDataArray> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SweDataArrayValue.class);
-    private static final long serialVersionUID = 3022136042762771037L;
 
     /**
      * Measurement values

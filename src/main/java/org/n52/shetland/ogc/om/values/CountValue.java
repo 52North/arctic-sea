@@ -26,11 +26,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  */
 public class CountValue implements Value<Integer> {
     /**
-     * serial number
-     */
-    private static final long serialVersionUID = 6995364149748171024L;
-
-    /**
      * Measurement value
      */
     private Integer value;

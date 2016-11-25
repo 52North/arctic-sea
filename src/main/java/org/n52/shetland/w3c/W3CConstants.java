@@ -60,6 +60,8 @@ public interface W3CConstants {
 
     String SCHEMA_LOCATION_XLINK = "http://www.w3.org/1999/xlink.xsd";
 
+    SchemaLocation XLINK_SCHEMA_LOCATION = new SchemaLocation(NS_XLINK, SCHEMA_LOCATION_XLINK);
+
     String SCHEMA_LOCATION = "schemaLocation";
 
     String NS_XS = "http://www.w3.org/2001/XMLSchema";

@@ -21,29 +21,25 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterable<OmObservableProperty> {
 
-
-public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterable<OmObservableProperty>{
     /**
-     * serial number
+     * the components of the composite phenomenon
      */
-    private static final long serialVersionUID = 364153143602078222L;
-
-    /** the components of the composite phenomenon */
     private List<OmObservableProperty> phenomenonComponents;
 
     /**
      * standard constructor
      *
      * @param compPhenId
-     *            id of the composite phenomenon
+     *                             id of the composite phenomenon
      * @param compPhenDesc
-     *            description of the composite phenomenon
+     *                             description of the composite phenomenon
      * @param phenomenonComponents
-     *            components of the composite phenomenon
+     *                             components of the composite phenomenon
      */
     public OmCompositePhenomenon(String compPhenId, String compPhenDesc,
-            List<OmObservableProperty> phenomenonComponents) {
+                                 List<OmObservableProperty> phenomenonComponents) {
         super(compPhenId, compPhenDesc);
         this.phenomenonComponents = phenomenonComponents;
     }
@@ -71,7 +67,7 @@ public class OmCompositePhenomenon extends AbstractPhenomenon implements Iterabl
      * Set observableProperties
      *
      * @param phenomenonComponents
-     *            The phenomenonComponents to set.
+     *                             The phenomenonComponents to set.
      */
     public void setPhenomenonComponents(List<OmObservableProperty> phenomenonComponents) {
         this.phenomenonComponents = phenomenonComponents;

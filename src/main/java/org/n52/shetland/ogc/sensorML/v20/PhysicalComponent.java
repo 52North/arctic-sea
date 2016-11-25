@@ -16,9 +16,9 @@
  */
 package org.n52.shetland.ogc.sensorML.v20;
 
-import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.ogc.sensorML.HasProcessMethod;
 import org.n52.shetland.ogc.sensorML.ProcessMethod;
+import org.n52.shetland.util.JavaHelper;
 
 /**
  * Class that represents SensorML 2.0 PhysicalComponent
@@ -28,8 +28,6 @@ import org.n52.shetland.ogc.sensorML.ProcessMethod;
  *
  */
 public class PhysicalComponent extends AbstractPhysicalProcess implements HasProcessMethod {
-
-    private static final long serialVersionUID = 5935212001491183960L;
 
     public static final String ID_PREFIX = "pc_";
 

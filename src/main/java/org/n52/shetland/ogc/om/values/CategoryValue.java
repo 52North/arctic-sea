@@ -25,10 +25,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  *
  */
 public class CategoryValue implements Value<String> {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = 8364802854103009470L;
 
     /**
      * Measurement value

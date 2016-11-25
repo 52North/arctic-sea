@@ -26,11 +26,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  */
 public class TextValue implements Value<String> {
     /**
-     * serial number
-     */
-    private static final long serialVersionUID = 7540851661208136333L;
-
-    /**
      * Measurement value
      */
     private String value;

@@ -105,7 +105,7 @@ public class TimePeriod extends Time {
      * @param endIndet
      *            indeterminate time value of end position
      */
-    public TimePeriod(DateTime start, TimeIndeterminateValue startIndet, DateTime end, TimeIndeterminateValue endIndet) {
+    public TimePeriod(DateTime start, IndeterminateValue startIndet, DateTime end, IndeterminateValue endIndet) {
         this.start = start;
         this.startIndet = startIndet;
         this.end = end;
@@ -130,8 +130,8 @@ public class TimePeriod extends Time {
      *             if parsing the time strings of start or end into
      *             java.util.Date failed
      */
-    public TimePeriod(DateTime start, TimeIndeterminateValue startIndet, DateTime end,
-            TimeIndeterminateValue endIndet, String duration, String id) throws ParseException {
+    public TimePeriod(DateTime start, IndeterminateValue startIndet, DateTime end,
+            IndeterminateValue endIndet, String duration, String id) throws ParseException {
         super(id);
         this.start = start;
         this.startIndet = startIndet;
@@ -172,12 +172,12 @@ public class TimePeriod extends Time {
         if (start != null) {
             this.start = new DateTime(start, DateTimeZone.UTC);
         } else {
-            this.startIndet = TimeIndeterminateValue.unknown;
+            this.startIndet = IndeterminateValue.UNKNOWN;
         }
         if (end != null) {
             this.end = new DateTime(end, DateTimeZone.UTC);
         } else {
-            this.endIndet = TimeIndeterminateValue.unknown;
+            this.endIndet = IndeterminateValue.UNKNOWN;
         }
     }
 
@@ -194,12 +194,12 @@ public class TimePeriod extends Time {
         if (start != null) {
             this.start = new DateTime(start, DateTimeZone.UTC);
         } else {
-            this.startIndet = TimeIndeterminateValue.unknown;
+            this.startIndet = IndeterminateValue.UNKNOWN;
         }
         if (end != null) {
             this.end = new DateTime(end, DateTimeZone.UTC);
         } else {
-            this.endIndet = TimeIndeterminateValue.unknown;
+            this.endIndet = IndeterminateValue.UNKNOWN;
         }
     }
 
@@ -293,7 +293,7 @@ public class TimePeriod extends Time {
      * @param startIndet
      *            The startIndet to set.
      */
-    public void setStartIndet(TimeIndeterminateValue startIndet) {
+    public void setStartIndet(IndeterminateValue startIndet) {
         this.startIndet = startIndet;
     }
 
@@ -312,7 +312,7 @@ public class TimePeriod extends Time {
      * @param endIndet
      *            The endIndet to set.
      */
-    public void setEndIndet(TimeIndeterminateValue endIndet) {
+    public void setEndIndet(IndeterminateValue endIndet) {
         this.endIndet = endIndet;
     }
 

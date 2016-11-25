@@ -22,11 +22,10 @@ import java.util.Set;
 
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -49,7 +48,6 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
         return null;
     }
 
-
     public SmlFeatureOfInterest addFeaturesOfInterest(Collection<String> features) {
         getFeaturesOfInterest().addAll(features);
         return this;
@@ -65,7 +63,8 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     public boolean isSetFeaturesOfInterest() {
-        return CollectionHelper.isNotEmpty(getFeaturesOfInterest()) || CollectionHelper.isNotEmpty(getFeaturesOfInterestMap());
+        return CollectionHelper.isNotEmpty(getFeaturesOfInterest()) || CollectionHelper
+               .isNotEmpty(getFeaturesOfInterestMap());
     }
 
     public SmlFeatureOfInterest addFeaturesOfInterest(Map<String, AbstractFeature> featuresOfInterestMap) {
@@ -99,15 +98,14 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor) throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor) throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
-
 
     @Override
     public SmlFeatureOfInterest clone() throws CloneNotSupportedException {

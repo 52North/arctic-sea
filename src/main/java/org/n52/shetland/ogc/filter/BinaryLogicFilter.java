@@ -16,15 +16,13 @@
  */
 package org.n52.shetland.ogc.filter;
 
-import com.google.common.base.MoreObjects;
-
+import java.util.Arrays;
 import java.util.Set;
 
 import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.collect.Sets;
-
-import java.util.Arrays;
 
 /**
  * OGC Filter class for binary logic filters "AND" and "OR"

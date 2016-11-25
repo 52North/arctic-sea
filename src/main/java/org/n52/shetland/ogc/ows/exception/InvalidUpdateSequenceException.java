@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
-import static org.n52.shetland.util.http.HTTPStatus.BAD_REQUEST;
+import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
 
 /**
  * Implementation of {@link CodedOwsException} to be used if </br> <i>Value of

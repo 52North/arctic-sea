@@ -223,7 +223,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
         if (dateTime != null) {
             return dateTime;
         }
-        if (indeterminateValue != null & TimeIndeterminateValue.now.equals(indeterminateValue)) {
+        if (IndeterminateValue.NOW.equals(indeterminateValue)) {
             return new DateTime(DateTimeZone.UTC);
         }
         return null;
@@ -251,43 +251,13 @@ public abstract class Time implements Comparable<Time>, Serializable {
      *
      */
     public enum TimeFormat {
-        ISO8601, YMD, YM, Y, NOT_SET;
+        ISO8601,
+        YMD,
+        YM,
+        Y,
+        NOT_SET;
 
         public static final Collection<TimeFormat> SUPPORTED_FORMATS = ImmutableSet.of(ISO8601, YMD, YM, Y);
-    }
-
-    /**
-     * Enum for intederminate time values <br>
-     *
-     * {@link TimeIndeterminateValue#after} - after the set time position <br>
-     * {@link TimeIndeterminateValue#before} - before the set time position <br>
-     * {@link TimeIndeterminateValue#now} - current time <br>
-     * {@link TimeIndeterminateValue#unknown} - unknown time <br>
-     * {@link TimeIndeterminateValue#template} - template, e.g. result handling
-     *
-     * @since 1.0.0
-     *
-     */
-    public enum TimeIndeterminateValue implements IndeterminateValue {
-        after,
-        before,
-        now,
-        unknown,
-        template;
-
-        public static boolean contains(final String timeString) {
-            return getEnumForString(timeString) != null;
-        }
-
-        public static TimeIndeterminateValue getEnumForString(final String value) {
-            for (TimeIndeterminateValue tiv : values()) {
-                if (tiv.name().equalsIgnoreCase(value)) {
-                    return tiv;
-                }
-            }
-            return null;
-        }
-
     }
 
     /**

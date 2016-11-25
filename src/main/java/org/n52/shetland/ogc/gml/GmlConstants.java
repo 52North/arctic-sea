@@ -270,7 +270,11 @@ public interface GmlConstants {
      *
      */
     enum NilReason {
-        inapplicable, missing, template, unknown, withheld;
+        inapplicable,
+        missing,
+        template,
+        unknown,
+        withheld;
     }
 
 }

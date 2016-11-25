@@ -24,7 +24,7 @@ import java.util.Objects;
 import java.util.SortedSet;
 
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.Optionals;
+import org.n52.janmayen.Optionals;
 import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Show;
 

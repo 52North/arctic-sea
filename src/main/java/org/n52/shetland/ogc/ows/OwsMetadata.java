@@ -21,9 +21,9 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.n52.shetland.util.Optionals;
-import org.n52.shetland.w3c.xlink.Link;
+import org.n52.janmayen.Optionals;
 import org.n52.shetland.w3c.xlink.Actuate;
+import org.n52.shetland.w3c.xlink.Link;
 import org.n52.shetland.w3c.xlink.Show;
 
 /**

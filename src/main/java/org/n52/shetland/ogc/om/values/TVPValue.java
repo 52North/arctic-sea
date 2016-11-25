@@ -22,9 +22,9 @@ import java.util.List;
 
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.util.CollectionHelper;
 
 /**
  * Multi value representing a time value pairs for observations
@@ -33,11 +33,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  *
  */
 public class TVPValue implements MultiValue<List<TimeValuePair>> {
-
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = -5156098026027119423L;
 
     /**
      * Mesurement values

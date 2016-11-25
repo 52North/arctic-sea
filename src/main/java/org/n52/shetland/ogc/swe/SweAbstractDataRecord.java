@@ -55,7 +55,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
     @Override
     public SweAbstractDataRecord addField(final SweField field) {
         if (fields == null) {
-            fields = new LinkedList<SweField>();
+            fields = new LinkedList<>();
         }
         fields.add(field);
         return this;

@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.SortedSet;
 
 import org.n52.shetland.util.CollectionHelper;
@@ -30,19 +30,19 @@ import org.n52.shetland.util.CollectionHelper;
  */
 public class OwsUnNamedDomain {
 
-    private final OwsPossibleValues possibleValues;
-    private final Optional<OwsValue> defaultValue;
-    private final Optional<OwsDomainMetadata> meaning;
-    private final Optional<OwsDomainMetadata> dataType;
-    private final Optional<OwsValuesUnit> valuesUnit;
-    private final SortedSet<OwsMetadata> metadata;
+    private OwsPossibleValues possibleValues;
+    private Optional<OwsValue> defaultValue;
+    private Optional<OwsDomainMetadata> meaning;
+    private Optional<OwsDomainMetadata> dataType;
+    private Optional<OwsValuesUnit> valuesUnit;
+    private SortedSet<OwsMetadata> metadata;
 
     public OwsUnNamedDomain(OwsPossibleValues possibleValues,
                          OwsValue defaultValue,
                          OwsDomainMetadata meaning,
                          OwsDomainMetadata dataType,
                          OwsValuesUnit valuesUnit,
-                         Set<OwsMetadata> metadata) {
+                         Collection<OwsMetadata> metadata) {
         this.possibleValues = Objects.requireNonNull(possibleValues, "possibleValues");
         this.defaultValue = Optional.ofNullable(defaultValue);
         this.meaning = Optional.ofNullable(meaning);
@@ -55,24 +55,48 @@ public class OwsUnNamedDomain {
         return this.possibleValues;
     }
 
+    public void setPossibleValues(OwsPossibleValues possibleValues) {
+        this.possibleValues = Objects.requireNonNull(possibleValues);
+    }
+
     public Optional<OwsValue> getDefaultValue() {
         return this.defaultValue;
+    }
+
+    public void setDefaultValue(OwsValue defaultValue) {
+        this.defaultValue = Optional.ofNullable(defaultValue);
     }
 
     public Optional<OwsDomainMetadata> getMeaning() {
         return this.meaning;
     }
 
+    public void setMeaning(OwsDomainMetadata meaning) {
+        this.meaning = Optional.ofNullable(meaning);
+    }
+
     public Optional<OwsDomainMetadata> getDataType() {
         return this.dataType;
+    }
+
+    public void setDataType(OwsDomainMetadata dataType) {
+        this.dataType = Optional.ofNullable(dataType);
     }
 
     public Optional<OwsValuesUnit> getValuesUnit() {
         return this.valuesUnit;
     }
 
+    public void setValuesUnit(OwsValuesUnit valuesUnit) {
+        this.valuesUnit = Optional.ofNullable(valuesUnit);
+    }
+
     public SortedSet<OwsMetadata> getMetadata() {
         return Collections.unmodifiableSortedSet(this.metadata);
+    }
+
+    public void setMetadata(Collection<OwsMetadata> metadata) {
+        this.metadata = CollectionHelper.newSortedSet(metadata);
     }
 
     @Override

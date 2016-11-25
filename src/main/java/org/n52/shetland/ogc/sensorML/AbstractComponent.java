@@ -24,10 +24,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
  *
  */
 public class AbstractComponent extends AbstractProcess {
-
-    private static final long serialVersionUID = -7668360974212650356L;
     private SmlPosition position;
-
     private SmlLocation location;
 
     public SmlPosition getPosition() {

@@ -25,10 +25,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  *
  */
 public class UnknownValue implements Value<Object> {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = 8929998388747095683L;
 
     /**
      * Measurement

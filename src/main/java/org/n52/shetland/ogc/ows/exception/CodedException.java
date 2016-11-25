@@ -19,9 +19,6 @@ package org.n52.shetland.ogc.ows.exception;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-
-
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

@@ -55,8 +55,8 @@ public class TimeInstant extends Time {
      * @param dateTime
      *            Time position of this time instant
      */
-    public TimeInstant(final DateTime dateTime) {
-        this.value = dateTime;
+    public TimeInstant(DateTime dateTime) {
+        this(dateTime, 0, null);
     }
 
     /**
@@ -66,7 +66,7 @@ public class TimeInstant extends Time {
      *            Indeterminate value
      */
     public TimeInstant(IndeterminateValue indeterminateValue) {
-        this(null, indeterminateValue);
+        this(null, 0, indeterminateValue);
     }
 
     /**
@@ -78,9 +78,7 @@ public class TimeInstant extends Time {
      *            Indeterminate value
      */
     public TimeInstant(DateTime dateValue, IndeterminateValue indeterminateValue) {
-        super(null);
-        this.value = dateValue;
-        this.indeterminateValue = indeterminateValue;
+        this(dateValue, 0, indeterminateValue);
     }
 
     /**
@@ -93,8 +91,18 @@ public class TimeInstant extends Time {
         if (date != null) {
             this.value = new DateTime(date, DateTimeZone.UTC);
         } else {
-            this.indeterminateValue = TimeIndeterminateValue.unknown;
+            this.indeterminateValue = IndeterminateValue.UNKNOWN;
         }
+    }
+
+    public TimeInstant(DateTime value, int requestedTimeLength) {
+        this(value, requestedTimeLength, null);
+    }
+
+    private TimeInstant(DateTime value, int requestedTimeLength, IndeterminateValue indeterminateValue) {
+        this.value = value;
+        this.requestedTimeLength = requestedTimeLength;
+        this.indeterminateValue = indeterminateValue;
     }
 
     /**
@@ -263,7 +271,7 @@ public class TimeInstant extends Time {
      *            The indeterminateValue to set.
      * @return this
      */
-    public Time setIndeterminateValue(final IndeterminateValue indeterminateValue) {
+    public Time setIndeterminateValue(IndeterminateValue indeterminateValue) {
         this.indeterminateValue = indeterminateValue;
         return this;
     }

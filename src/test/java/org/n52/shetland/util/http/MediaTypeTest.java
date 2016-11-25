@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.util.http;
 
+import org.n52.janmayen.http.MediaType;
+
 import static org.hamcrest.Matchers.is;
 
 import org.junit.Rule;

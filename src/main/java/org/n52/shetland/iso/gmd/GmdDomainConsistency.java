@@ -17,7 +17,6 @@
 package org.n52.shetland.iso.gmd;
 
 import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 
 public abstract class GmdDomainConsistency implements OmResultQuality {
@@ -38,12 +37,12 @@ public abstract class GmdDomainConsistency implements OmResultQuality {
         return new GmdConformanceResult(nilReason, GmdSpecification.timeCoverage());
     }
 
-    public static GmdQuantitativeResult uncertaintyEstimation(double value) throws CodedException {
+    public static GmdQuantitativeResult uncertaintyEstimation(double value) {
         return new GmdQuantitativeResult( GmlBaseUnit.uncertaintyEstimation().unifyId(value),
                                          Double.toString(value));
     }
 
-    public static GmdQuantitativeResult uncertaintyEstimation(GmlConstants.NilReason nilReason) throws CodedException {
+    public static GmdQuantitativeResult uncertaintyEstimation(GmlConstants.NilReason nilReason)  {
         return new GmdQuantitativeResult(GmlBaseUnit.uncertaintyEstimation().unifyId(nilReason), nilReason);
     }
 

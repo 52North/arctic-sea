@@ -25,6 +25,8 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
+import com.google.common.base.Strings;
+
 
 /**
  * Helper class for Java objects.
@@ -86,7 +88,7 @@ public final class JavaHelper {
 
     @Deprecated
     public static void appendTextToStringBuilderWithLineBreak(StringBuilder stringBuilder, String message) {
-        if (stringBuilder != null && StringHelper.isNotEmpty(message)) {
+        if (stringBuilder != null && !Strings.isNullOrEmpty(message)) {
             stringBuilder.append(message);
             stringBuilder.append("\n");
         }

@@ -31,11 +31,11 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  */
 public class OwsOperation implements Comparable<OwsOperation> {
-    private final String name;
-    private final SortedSet<OwsDomain> parameters;
-    private final SortedSet<OwsDomain> constraints;
-    private final SortedSet<OwsMetadata> metadata;
-    private final SortedSet<OwsDCP> dcp;
+    private String name;
+    private SortedSet<OwsDomain> parameters;
+    private SortedSet<OwsDomain> constraints;
+    private SortedSet<OwsMetadata> metadata;
+    private SortedSet<OwsDCP> dcp;
 
     public OwsOperation(String name,
                         Collection<OwsDomain> parameters,
@@ -53,20 +53,56 @@ public class OwsOperation implements Comparable<OwsOperation> {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = Objects.requireNonNull(Strings.emptyToNull(name));
+    }
+
     public SortedSet<OwsDomain> getParameters() {
         return Collections.unmodifiableSortedSet(this.parameters);
+    }
+
+    public void setParameters(Collection<OwsDomain> parameters) {
+        this.parameters = CollectionHelper.newSortedSet(parameters);
+    }
+
+    public void addParameter(OwsDomain parameter) {
+        this.parameters.add(Objects.requireNonNull(parameter));
     }
 
     public SortedSet<OwsDomain> getConstraints() {
         return Collections.unmodifiableSortedSet(this.constraints);
     }
 
+    public void setConstraints(Collection<OwsDomain> constraints) {
+        this.constraints = CollectionHelper.newSortedSet(constraints);
+    }
+
+    public void addConstraint(OwsDomain constraint) {
+        this.constraints.add(Objects.requireNonNull(constraint));
+    }
+
     public SortedSet<OwsMetadata> getMetadata() {
         return Collections.unmodifiableSortedSet(this.metadata);
     }
 
+    public void setMetadata(Collection<OwsMetadata> metadata) {
+        this.metadata = CollectionHelper.newSortedSet(metadata);
+    }
+
+    public void addMetadata(OwsMetadata constraint) {
+        this.metadata.add(Objects.requireNonNull(constraint));
+    }
+
     public SortedSet<OwsDCP> getDCP() {
         return Collections.unmodifiableSortedSet(this.dcp);
+    }
+
+    public void setDCP(Collection<OwsDCP> dcp) {
+        this.dcp = CollectionHelper.newSortedSet(dcp);
+    }
+
+    public void addDCP(OwsDCP dcp) {
+        this.dcp.add(Objects.requireNonNull(dcp));
     }
 
     @Override

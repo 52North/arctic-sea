@@ -25,7 +25,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
  * @param <T>
  * @since 4.0.0
  */
-public class SweCoordinate<T> implements Cloneable {
+public class SweCoordinate<T extends Number> implements Cloneable {
 
     /**
      * Coordinate name

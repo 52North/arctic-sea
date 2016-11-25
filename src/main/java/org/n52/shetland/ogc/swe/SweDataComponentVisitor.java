@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.swe;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
@@ -36,62 +35,43 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
  *
  * @author Christian Autermann
  */
-public interface SweDataComponentVisitor<T> {
-    T visit(SweField component)
-            throws OwsExceptionReport;
+public interface SweDataComponentVisitor<T, X extends Throwable> {
+    T visit(SweField component) throws X;
 
-    T visit(SweDataRecord component)
-            throws OwsExceptionReport;
+    T visit(SweDataRecord component) throws X;
 
-    T visit(SweDataArray component)
-            throws OwsExceptionReport;
+    T visit(SweDataArray component) throws X;
 
-    T visit(SweCount component)
-            throws OwsExceptionReport;
+    T visit(SweCount component) throws X;
 
-    T visit(SweCountRange component)
-            throws OwsExceptionReport;
+    T visit(SweCountRange component) throws X;
 
-    T visit(SweBoolean component)
-            throws OwsExceptionReport;
+    T visit(SweBoolean component) throws X;
 
-    T visit(SweCategory component)
-            throws OwsExceptionReport;
+    T visit(SweCategory component) throws X;
 
-    T visit(SweObservableProperty component)
-            throws OwsExceptionReport;
+    T visit(SweObservableProperty component) throws X;
 
-    T visit(SweQuantity component)
-            throws OwsExceptionReport;
+    T visit(SweQuantity component) throws X;
 
-    T visit(SweQuantityRange component)
-            throws OwsExceptionReport;
+    T visit(SweQuantityRange component) throws X;
 
-    T visit(SweText component)
-            throws OwsExceptionReport;
+    T visit(SweText component) throws X;
 
-    T visit(SweTime component)
-            throws OwsExceptionReport;
+    T visit(SweTime component) throws X;
 
-    T visit(SweTimeRange component)
-            throws OwsExceptionReport;
+    T visit(SweTimeRange component) throws X;
 
-    T visit(SweEnvelope component)
-            throws OwsExceptionReport;
+    T visit(SweEnvelope component) throws X;
 
-    T visit(SweVector component)
-            throws OwsExceptionReport;
+    T visit(SweVector component) throws X;
 
-    T visit(SweSimpleDataRecord component)
-            throws OwsExceptionReport;
+    T visit(SweSimpleDataRecord component) throws X;
 
-    T visit(SmlPosition component)
-            throws OwsExceptionReport;
+    T visit(SmlPosition component) throws X;
 
-    T visit(SmlDataInterface component)
-            throws OwsExceptionReport;
+    T visit(SmlDataInterface component) throws X;
 
-    T visit(SmlFeatureOfInterest component)
-            throws OwsExceptionReport;
+    T visit(SmlFeatureOfInterest component) throws X;
 
 }

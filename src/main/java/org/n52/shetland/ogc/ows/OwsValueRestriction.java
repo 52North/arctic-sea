@@ -19,7 +19,8 @@ package org.n52.shetland.ogc.ows;
 
 import java.util.Comparator;
 
-import org.n52.shetland.util.Comparables;
+import org.n52.janmayen.Comparables;
+
 
 /**
  * TODO JavaDoc

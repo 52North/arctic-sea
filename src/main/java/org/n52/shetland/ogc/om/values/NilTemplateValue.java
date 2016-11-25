@@ -27,11 +27,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 public class NilTemplateValue implements Value<String> {
 
     /**
-     * serial number
-     */
-    private static final long serialVersionUID = -3751934124688213692L;
-
-    /**
      * Unit of measure
      */
     private String unit;

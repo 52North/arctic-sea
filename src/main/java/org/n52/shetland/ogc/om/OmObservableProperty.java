@@ -22,10 +22,6 @@ package org.n52.shetland.ogc.om;
  * @since 4.0.0
  */
 public class OmObservableProperty extends AbstractPhenomenon {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = -1820718860701876580L;
 
     /**
      * unit of the values of the phenomenons observations

@@ -34,7 +34,7 @@ public class OperationNotSupportedException extends CodedOwsException {
 
     public OperationNotSupportedException() {
         super(OwsExceptionCode.OperationNotSupported);
-        setStatus(org.n52.shetland.util.http.HTTPStatus.BAD_REQUEST);
+        setStatus(org.n52.janmayen.http.HTTPStatus.BAD_REQUEST);
     }
 
     public OperationNotSupportedException(final String operation) {

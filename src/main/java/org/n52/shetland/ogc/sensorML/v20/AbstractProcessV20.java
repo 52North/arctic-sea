@@ -28,8 +28,6 @@ import org.n52.shetland.ogc.sensorML.SensorMLConstants;
  */
 public class AbstractProcessV20 extends AbstractProcess {
 
-    private static final long serialVersionUID = 1L;
-
     private AbstractSettings configuration;
 
     private SmlFeatureOfInterest featureOfInterest;

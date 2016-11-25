@@ -16,9 +16,13 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
+import java.util.Optional;
+
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
+import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
+import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.n52.shetland.ogc.swes.SwesExtension;
 
 /**
  * Interface to identify if the implemented class supportes
@@ -29,7 +33,7 @@ import org.n52.shetland.ogc.ows.extension.Extensions;
  *
  * @param <T>
  */
-public interface HasExtension<T> {
+public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Get the {@link Extension}s
      *
@@ -50,12 +54,20 @@ public interface HasExtension<T> {
     /**
      * Add a {@link Extensions} to this object
      *
-     * @param extension
-     *                  the {@link Extensions} to add
+     * @param extensions
+     *                   the {@link Extensions} to add
      *
      * @return this
      */
-    T addExtensions(Extensions extension);
+    @SuppressWarnings("unchecked")
+    default T addExtensions(Extensions extensions) {
+        if (getExtensions() == null) {
+            setExtensions(extensions);
+        } else {
+            getExtensions().addExtension(extensions.getExtensions());
+        }
+        return (T) this;
+    }
 
     /**
      * Add a {@link Extension} to this object
@@ -65,7 +77,14 @@ public interface HasExtension<T> {
      *
      * @return this
      */
-    T addExtension(Extension<?> extension);
+    @SuppressWarnings("unchecked")
+    default T addExtension(Extension<?> extension) {
+        if (getExtensions() == null) {
+            setExtensions(new Extensions());
+        }
+        getExtensions().addExtension(extension);
+        return (T) this;
+    }
 
     /**
      * Check if {@link Extension}s are set
@@ -73,7 +92,9 @@ public interface HasExtension<T> {
      * @return <code>true</code>, if {@link Extensions} is not null or
      *         empty
      */
-    boolean isSetExtensions();
+    default boolean isSetExtensions() {
+        return getExtensions() != null && !getExtensions().isEmpty();
+    }
 
     /**
      * Check if {@link Extension} for identifier is set
@@ -84,8 +105,12 @@ public interface HasExtension<T> {
      * @return <code>true</code>, if {@link Extensions} is available for the
      *         identifier
      */
-    boolean hasExtension(
-            Enum<?> identifier);
+    default boolean hasExtension(Enum<?> identifier) {
+        if (isSetExtensions()) {
+            return getExtensions().containsExtension(identifier);
+        }
+        return false;
+    }
 
     /**
      * Check if {@link Extension} for identifier is set
@@ -96,7 +121,12 @@ public interface HasExtension<T> {
      * @return <code>true</code>, if {@link Extensions} is available for the
      *         identifier
      */
-    boolean hasExtension(String identifier);
+    default boolean hasExtension(String identifier) {
+        if (isSetExtensions()) {
+            return getExtensions().containsExtension(identifier);
+        }
+        return false;
+    }
 
     /**
      * Get {@link Extension} for identifier
@@ -106,10 +136,13 @@ public interface HasExtension<T> {
      *
      * @return The requested {@link Extension}
      *
-     * @throws InvalidParameterValueException
-     *                                        If an error occurs
      */
-    Extension<?> getExtension(Enum<?> identifier) throws InvalidParameterValueException;
+    default Optional<Extension<?>> getExtension(Enum<?> identifier) {
+        if (hasExtension(identifier)) {
+            return getExtensions().getExtension(identifier);
+        }
+        return Optional.empty();
+    }
 
     /**
      * Get {@link Extension} for identifier
@@ -119,9 +152,36 @@ public interface HasExtension<T> {
      *
      * @return The requested {@link Extension}
      *
-     * @throws InvalidParameterValueException
-     *                                        If an error occurs
      */
-    Extension<?> getExtension(String identifier) throws InvalidParameterValueException;
+    default Optional<Extension<?>> getExtension(String identifier) {
+        if (hasExtension(identifier)) {
+            return getExtensions().getExtension(identifier);
+        }
+        return Optional.empty();
+    }
 
+    default <V> void addSwesExtension(String name, V value) {
+        SwesExtension<V> extension = new SwesExtension<>();
+        extension.setIdentifier(name);
+        extension.setValue(value);
+        addExtension(extension);
+    }
+
+    default void addSweTextExtension(String name, String value) {
+        SweText sweText = new SweText();
+        sweText.setValue(value);
+        sweText.setIdentifier(name);
+        addSwesExtension(name, sweText);
+    }
+
+    default void addSweBooleanExtension(String name, String value) {
+        addSweBooleanExtension(name, Boolean.parseBoolean(value));
+    }
+
+    default void addSweBooleanExtension(String name, boolean value) {
+        SweBoolean sweBoolean = new SweBoolean();
+        sweBoolean.setValue(value);
+        sweBoolean.setIdentifier(name);
+        addSwesExtension(name, sweBoolean);
+    }
 }

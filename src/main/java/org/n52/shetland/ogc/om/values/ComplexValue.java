@@ -23,7 +23,6 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
 public class ComplexValue implements Value<SweAbstractDataRecord> {
-    private static final long serialVersionUID = 7864029515468084800L;
     private SweAbstractDataRecord value;
     private String unit;
 

@@ -17,12 +17,15 @@
 package org.n52.shetland.ogc.filter;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.n52.shetland.ogc.ows.OwsDomain;
 import org.n52.shetland.util.CollectionHelper;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
@@ -44,6 +47,7 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     private Set<QName> typeNames;
 
     private Set<String> aliases;
+    public List<OwsDomain> conformance = Lists.newArrayList();
 
     public AbstractAdHocQueryExpression(Collection<QName> typeNames) {
         setTypeNames(typeNames);

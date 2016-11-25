@@ -27,11 +27,6 @@ import com.vividsolutions.jts.geom.Geometry;
 public class GmlAbstractGeometry extends AbstractFeature {
 
     /**
-     * serial number
-     */
-    private static final long serialVersionUID = -2997129475905560236L;
-
-    /**
      * Geometry
      */
     private Geometry geometry;

@@ -18,7 +18,6 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.joda.time.DateTime;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
@@ -61,14 +60,12 @@ public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

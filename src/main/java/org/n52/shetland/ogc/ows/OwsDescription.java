@@ -16,13 +16,13 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.Set;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.n52.shetland.i18n.MultilingualString;
+import org.n52.shetland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -31,20 +31,24 @@ import org.n52.shetland.i18n.MultilingualString;
  */
 public abstract class OwsDescription {
 
-    private final Optional<MultilingualString> title;
-    private final Optional<MultilingualString> abstrakt;
-    private final SortedSet<OwsKeyword> keywords;
+    private  Optional<MultilingualString> title;
+    private  Optional<MultilingualString> abstrakt;
+    private  SortedSet<OwsKeyword> keywords;
 
     public OwsDescription(MultilingualString title,
                           MultilingualString abstrakt,
-                          Set<OwsKeyword> keywords) {
+                          Collection<OwsKeyword> keywords) {
         this.title = Optional.ofNullable(title);
         this.abstrakt = Optional.ofNullable(abstrakt);
-        this.keywords = Optional.ofNullable(keywords).map(TreeSet::new).orElseGet(TreeSet::new);
+        this.keywords = CollectionHelper.newSortedSet(keywords);
     }
 
     public Optional<MultilingualString> getTitle() {
         return title;
+    }
+
+    public void setTitle(MultilingualString title) {
+        this.title = Optional.ofNullable(title);
     }
 
     public Optional<MultilingualString> getAbstract() {
@@ -53,6 +57,14 @@ public abstract class OwsDescription {
 
     public SortedSet<OwsKeyword> getKeywords() {
         return Collections.unmodifiableSortedSet(keywords);
+    }
+
+    public void setKeywords(Collection<OwsKeyword> keywords) {
+        this.keywords = CollectionHelper.newSortedSet(keywords);
+    }
+
+    public void setAbstrakt(MultilingualString abstrakt) {
+        this.abstrakt = Optional.ofNullable(abstrakt);
     }
 
 }

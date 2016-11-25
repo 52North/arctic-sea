@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-import java.io.Serializable;
 
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 
@@ -28,7 +27,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @param <T>
  *            specific value type
  */
-public interface Value<T> extends Serializable {
+public interface Value<T> {
 
     /**
      * Set the measurment value

@@ -20,6 +20,8 @@ import java.util.Comparator;
 
 import javax.xml.namespace.QName;
 
+import org.n52.janmayen.Comparables;
+
 /**
  * Comparator for {@link QName}s.
  *

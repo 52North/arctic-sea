@@ -16,20 +16,21 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweCoordinate;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -45,7 +46,7 @@ public class SmlPosition extends SweAbstractDataComponent {
 
     private String referenceFrame;
 
-    private List<? extends SweCoordinate<?>> position;
+    private List<? extends SweCoordinate<? extends Number>> position;
 
     private SweVector vector;
 
@@ -72,7 +73,7 @@ public class SmlPosition extends SweAbstractDataComponent {
      */
     public SmlPosition(final String name, final boolean fixed,
                        final String referenceFrame,
-                       final List<SweCoordinate<?>> position) {
+                       final List<SweCoordinate<? extends Number>> position) {
         super();
         setName(name);
         this.fixed = fixed;
@@ -94,7 +95,7 @@ public class SmlPosition extends SweAbstractDataComponent {
      */
     public SmlPosition(final CodeType name, final boolean fixed,
                        final String referenceFrame,
-                       final List<SweCoordinate<?>> position) {
+                       final List<SweCoordinate<? extends Number>> position) {
         super();
         setName(name);
         this.fixed = fixed;
@@ -148,7 +149,7 @@ public class SmlPosition extends SweAbstractDataComponent {
     /**
      * @return the position
      */
-    public List<? extends SweCoordinate<?>> getPosition() {
+    public List<? extends SweCoordinate<? extends Number>> getPosition() {
         if (!isSetPosition()) {
             if (isSetVector() && getVector().isSetCoordinates()) {
                 if (!isSetName() && vector.isSetName()) {
@@ -158,13 +159,14 @@ public class SmlPosition extends SweAbstractDataComponent {
             } else if (isSetAbstractDataComponent() && getAbstractDataComponent() instanceof SweDataRecord) {
                 SweDataRecord dataRecord = (SweDataRecord) getAbstractDataComponent();
                 if (dataRecord.isSetFields()) {
-                    List<SweCoordinate<?>> coordinates = Lists.newArrayList();
-                    for (SweField field : dataRecord.getFields()) {
-                        if (field.getElement() instanceof SweQuantity) {
-                            coordinates.add(new SweCoordinate<Double>(field.getName().getValue(), (SweQuantity)field.getElement()));
-                        }
-                    }
-                    return coordinates;
+                    return dataRecord.getFields().stream().map(field -> {
+                                if (field.getElement() instanceof SweQuantity) {
+                                    return new SweCoordinate<>(field.getName().getValue(), (SweQuantity) field.getElement());
+                                } else if (field.getElement() instanceof SweCount) {
+                                    return new SweCoordinate<>(field.getName().getValue(), (SweCount) field.getElement());
+                                }
+                                return null;
+                    }).collect(toList());
                 }
             }
         }
@@ -177,7 +179,7 @@ public class SmlPosition extends SweAbstractDataComponent {
      *
      * @return This object
      */
-    public SmlPosition setPosition(List<? extends SweCoordinate<?>> position) {
+    public SmlPosition setPosition(List<? extends SweCoordinate<? extends Number>> position) {
         this.position = position;
         return this;
     }
@@ -230,16 +232,15 @@ public class SmlPosition extends SweAbstractDataComponent {
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
+
 
     @Override
     public SmlPosition clone() throws CloneNotSupportedException {

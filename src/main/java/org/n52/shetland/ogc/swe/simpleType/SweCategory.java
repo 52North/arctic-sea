@@ -16,14 +16,13 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * J&uuml;rrens</a>
  * @since 4.0.0
  */
 public class SweCategory extends SweAbstractUomType<String> implements SweQuality {
@@ -57,7 +56,7 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
     @Override
     public String toString() {
         return String.format("SosSweCategory [quality=%s, value=%s, codeSpace=%s, simpleType=%s]", getQuality(),
-                value, getUom(), getDataComponentType());
+                             value, getUom(), getDataComponentType());
     }
 
     @Override
@@ -76,14 +75,12 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
     }
 
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 

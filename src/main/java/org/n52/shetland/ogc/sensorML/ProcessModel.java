@@ -22,8 +22,6 @@ package org.n52.shetland.ogc.sensorML;
  */
 public class ProcessModel extends AbstractProcess implements HasProcessMethod {
 
-    private static final long serialVersionUID = -5490781462864023242L;
-
     private ProcessMethod method;
 
     public ProcessMethod getMethod() {

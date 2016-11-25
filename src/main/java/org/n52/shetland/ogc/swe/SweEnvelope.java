@@ -17,13 +17,13 @@
 package org.n52.shetland.ogc.swe;
 
 import org.n52.iceland.ogc.swe.SweConstants;
-import org.n52.iceland.ogc.swe.SweConstants.SweCoordinateName;
+import org.n52.iceland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.util.CRSHelper;
-import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.util.CRSHelper;
+import org.n52.shetland.util.ReferencedEnvelope;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -59,7 +59,8 @@ public class SweEnvelope extends SweAbstractDataComponent {
              northingFirst);
     }
 
-    public SweEnvelope(String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time, boolean northingFirst) {
+    public SweEnvelope(String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
+                       boolean northingFirst) {
         this.referenceFrame = referenceFrame;
         this.upperCorner = upperCorner;
         this.lowerCorner = lowerCorner;
@@ -139,9 +140,9 @@ public class SweEnvelope extends SweAbstractDataComponent {
         if (obj instanceof SweEnvelope) {
             SweEnvelope other = (SweEnvelope) obj;
             return Objects.equal(getReferenceFrame(), other.getReferenceFrame()) &&
-                     Objects.equal(getUpperCorner(), other.getUpperCorner()) &&
-                     Objects.equal(getLowerCorner(), other.getLowerCorner()) &&
-                     Objects.equal(getTime(), other.getTime());
+                   Objects.equal(getUpperCorner(), other.getUpperCorner()) &&
+                   Objects.equal(getLowerCorner(), other.getLowerCorner()) &&
+                   Objects.equal(getTime(), other.getTime());
 
         }
         return false;
@@ -198,46 +199,19 @@ public class SweEnvelope extends SweAbstractDataComponent {
     }
 
     private Double extractDouble(SweCoordinate<?> coord) {
-        if (coord != null &&
-            coord.getValue() != null &&
-            coord.getValue().getValue() instanceof Number) {
-            return ((Number) coord.getValue().getValue()).doubleValue();
+        if (coord != null && coord.getValue() != null) {
+            return coord.getValue().getValue().doubleValue();
         }
         return null;
     }
 
-    private static SweVector createLowerCorner(ReferencedEnvelope env, String uom, boolean northingFirst) {
-        if (northingFirst) {
-            return createSweVector(env.getEnvelope().getMinY(), env.getEnvelope().getMinX(), uom);
-        } else {
-            return createSweVector(env.getEnvelope().getMinX(), env.getEnvelope().getMinY(), uom);
-        }
-    }
-
-    private static SweVector createUpperCorner(ReferencedEnvelope env, String uom, boolean northingFirst) {
-        if (northingFirst) {
-            return createSweVector(env.getEnvelope().getMaxY(), env.getEnvelope().getMaxX(), uom);
-        } else {
-            return createSweVector(env.getEnvelope().getMaxX(), env.getEnvelope().getMaxY(), uom);
-        }
-    }
-
-    private static SweVector createSweVector(double x, double y, String uom) {
-        SweQuantity xCoord = new SweQuantity().setAxisID(SweConstants.X_AXIS).setValue(x).setUom(uom);
-        SweQuantity yCoord = new SweQuantity().setAxisID(SweConstants.Y_AXIS).setValue(y).setUom(uom);
-        return new SweVector(new SweCoordinate<>(SweCoordinateName.easting.name(), xCoord),
-                             new SweCoordinate<>(SweCoordinateName.northing.name(), yCoord));
-    }
-
     @Override
-    public <T> T accept(SweDataComponentVisitor<T> visitor)
-            throws OwsExceptionReport {
+    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
 
     @Override
-    public void accept(VoidSweDataComponentVisitor visitor)
-            throws OwsExceptionReport {
+    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X {
         visitor.visit(this);
     }
 
@@ -253,5 +227,25 @@ public class SweEnvelope extends SweAbstractDataComponent {
             clone.setUpperCorner(getUpperCorner().clone());
         }
         return clone;
+    }
+    private static SweVector createLowerCorner(ReferencedEnvelope env, String uom, boolean northingFirst) {
+        if (northingFirst) {
+            return createSweVector(env.getEnvelope().getMinY(), env.getEnvelope().getMinX(), uom);
+        } else {
+            return createSweVector(env.getEnvelope().getMinX(), env.getEnvelope().getMinY(), uom);
+        }
+    }
+    private static SweVector createUpperCorner(ReferencedEnvelope env, String uom, boolean northingFirst) {
+        if (northingFirst) {
+            return createSweVector(env.getEnvelope().getMaxY(), env.getEnvelope().getMaxX(), uom);
+        } else {
+            return createSweVector(env.getEnvelope().getMaxX(), env.getEnvelope().getMaxY(), uom);
+        }
+    }
+    private static SweVector createSweVector(double x, double y, String uom) {
+        SweQuantity xCoord = new SweQuantity().setAxisID(SweConstants.X_AXIS).setValue(x).setUom(uom);
+        SweQuantity yCoord = new SweQuantity().setAxisID(SweConstants.Y_AXIS).setValue(y).setUom(uom);
+        return new SweVector(new SweCoordinate<>(SweCoordinateNames.EASTING, xCoord),
+                new SweCoordinate<>(SweCoordinateNames.NORTHING, yCoord));
     }
 }

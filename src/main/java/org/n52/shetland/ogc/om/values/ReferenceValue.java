@@ -21,8 +21,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 
 public class ReferenceValue implements Value<ReferenceType> {
 
-    private static final long serialVersionUID = -4027273330438374298L;
-
     private ReferenceType value;
 
     /**

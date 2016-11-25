@@ -16,25 +16,24 @@
  */
 package org.n52.shetland.ogc.om;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -45,8 +44,7 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  * @since 4.0.0
  */
-public class OmObservation extends AbstractFeature implements Serializable {
-    private static final long serialVersionUID = 2703347670924921229L;
+public class OmObservation extends AbstractFeature {
 
     /**
      * ID of this observation; in the standard 52n SOS PostgreSQL database, this
@@ -501,8 +499,8 @@ public class OmObservation extends AbstractFeature implements Serializable {
      */
     public boolean isTemplateResultTime() {
         return isSetResultTime() &&
-               (getResultTime().isIndeterminateValueEqualTo(Time.TimeIndeterminateValue.template) || getResultTime()
-                .isNilReasonEqualTo(Time.NilReason.template));
+               (getResultTime().isIndeterminateValueEqualTo(IndeterminateValue.TEMPLATE) ||
+                getResultTime().isNilReasonEqualTo(Time.NilReason.template));
     }
 
     /**

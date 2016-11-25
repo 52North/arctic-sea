@@ -346,30 +346,27 @@ public final class DateTimeHelper {
      *            Length of the time object
      * @return Modified time object.
      */
-    public static DateTime setDateTime2EndOfMostPreciseUnit4RequestedEndPosition(final DateTime dateTime,
-            final int isoTimeLength) {
+    public static DateTime setDateTime2EndOfMostPreciseUnit4RequestedEndPosition(DateTime dateTime, int isoTimeLength) {
         switch (isoTimeLength) {
-        // year
-        case YEAR:
-            return dateTime.plusYears(1).minusMillis(1);
-            // year, month
-        case YEAR_MONTH:
-            return dateTime.plusMonths(1).minusMillis(1);
-            // year, month, day
-        case YEAR_MONTH_DAY:
-            return dateTime.plusDays(1).minusMillis(1);
-            // year, month, day, hour
-        case YEAR_MONTH_DAY_HOUR:
-            return dateTime.plusHours(1).minusMillis(1);
-            // year, month, day, hour, minute
-        case YEAR_MONTH_DAY_HOUR_MINUTE:
-            return dateTime.plusMinutes(1).minusMillis(1);
-            // year, month, day, hour, minute, second
-        case YEAR_MONTH_DAY_HOUR_MINUTE_SECOND:
-            return dateTime.plusSeconds(1).minusMillis(1);
-        default:
-            return dateTime;
+            case YEAR:
+                return dateTime.plusYears(1).minusMillis(1);
+            case YEAR_MONTH:
+                return dateTime.plusMonths(1).minusMillis(1);
+            case YEAR_MONTH_DAY:
+                return dateTime.plusDays(1).minusMillis(1);
+            case YEAR_MONTH_DAY_HOUR:
+                return dateTime.plusHours(1).minusMillis(1);
+            case YEAR_MONTH_DAY_HOUR_MINUTE:
+                return dateTime.plusMinutes(1).minusMillis(1);
+            case YEAR_MONTH_DAY_HOUR_MINUTE_SECOND:
+                return dateTime.plusSeconds(1).minusMillis(1);
+            default:
+                return dateTime;
         }
+    }
+
+      public static DateTime setDateTime2EndOfMostPreciseUnit4RequestedEndPosition(String time) throws DateTimeParseException {
+        return setDateTime2EndOfMostPreciseUnit4RequestedEndPosition(parseIsoString2DateTime(time), getTimeLengthBeforeTimeZone(time));
     }
 
     /**

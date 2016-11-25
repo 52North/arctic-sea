@@ -47,7 +47,6 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractSensorML extends AbstractFeature {
 
-    private static final long serialVersionUID = -5715790909736521952L;
     private List<String> keywords = new ArrayList<>(0);
     private List<SmlIdentifier> identifications = new ArrayList<>(0);
     private List<SmlClassifier> classifications = new ArrayList<>(0);

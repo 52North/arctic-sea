@@ -16,17 +16,16 @@
  */
 package org.n52.iceland.ogc.gml;
 
-import java.util.NoSuchElementException;
-
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
-
-import org.joda.time.DateTime;
-
 import static org.junit.Assert.assertThat;
 
+import java.util.NoSuchElementException;
+
+import org.joda.time.DateTime;
 import org.junit.Test;
 
+import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePosition;
 
@@ -61,17 +60,17 @@ public class TimeTest {
 
     @Test(expected = NoSuchElementException.class)
     public void missingTime() {
-        TimePosition timePosition = new TimePosition(Time.TimeIndeterminateValue.unknown);
+        TimePosition timePosition = new TimePosition(IndeterminateValue.UNKNOWN);
         timePosition.getTime();
     }
 
     @Test
     public void inteterminate() {
-        TimePosition timePosition = new TimePosition(Time.TimeIndeterminateValue.now);
+        TimePosition timePosition = new TimePosition(IndeterminateValue.NOW);
 
         assertThat("time position is not set", timePosition.isSetTime(), is(false));
         assertThat("indeterminate value is set", timePosition.isSetIndeterminateValue(), is(true));
-        assertThat("indeterminate value is 'now'", timePosition.getIndeterminateValue(), is(Time.TimeIndeterminateValue.now));
+        assertThat("indeterminate value is 'now'", timePosition.getIndeterminateValue(), is(IndeterminateValue.NOW));
         assertThat("format is not set", timePosition.isSetTimeFormat(), is(false));
     }
 

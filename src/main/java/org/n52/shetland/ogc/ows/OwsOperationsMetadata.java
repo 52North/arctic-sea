@@ -31,10 +31,10 @@ import org.n52.shetland.util.CollectionHelper;
  */
 public class OwsOperationsMetadata {
 
-    private final SortedSet<OwsOperation> operations;
-    private final SortedSet<OwsDomain> parameters;
-    private final SortedSet<OwsDomain> constraints;
-    private final Optional<OwsOperationMetadataExtension> extension;
+    private SortedSet<OwsOperation> operations;
+    private SortedSet<OwsDomain> parameters;
+    private SortedSet<OwsDomain> constraints;
+    private Optional<OwsOperationMetadataExtension> extension;
 
     public OwsOperationsMetadata(Collection<OwsOperation> operations,
                                  Collection<OwsDomain> parameters,
@@ -50,16 +50,32 @@ public class OwsOperationsMetadata {
         return Collections.unmodifiableSortedSet(operations);
     }
 
+    public void setOperations(Collection<OwsOperation> operations) {
+        this.operations = CollectionHelper.newSortedSet(operations);
+    }
+
     public SortedSet<OwsDomain> getParameters() {
         return Collections.unmodifiableSortedSet(parameters);
+    }
+
+    public void setParameters(Collection<OwsDomain> parameters) {
+        this.parameters = CollectionHelper.newSortedSet(parameters);
     }
 
     public SortedSet<OwsDomain> getConstraints() {
         return Collections.unmodifiableSortedSet(constraints);
     }
 
+    public void setConstraints(Collection<OwsDomain> constraints) {
+        this.constraints = CollectionHelper.newSortedSet(constraints);
+    }
+
     public Optional<OwsOperationMetadataExtension> getExtension() {
         return this.extension;
+    }
+
+    public void setExtension(OwsOperationMetadataExtension extension) {
+        this.extension = Optional.ofNullable(extension);
     }
 
     @Override

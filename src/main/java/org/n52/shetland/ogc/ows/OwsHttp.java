@@ -22,8 +22,9 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 
-import org.n52.shetland.util.Comparables;
+import org.n52.janmayen.Comparables;
 
 
 /**
@@ -41,6 +42,10 @@ public class OwsHttp implements OwsDCP {
 
     public SortedSet<OwsRequestMethod> getRequestMethods() {
         return Collections.unmodifiableSortedSet(requestMethods);
+    }
+
+    public void removeRequestMethodIf(Predicate<? super OwsRequestMethod> condition) {
+        this.requestMethods.removeIf(condition);
     }
 
     @Override

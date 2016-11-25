@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.om;
 
-import java.io.Serializable;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -29,12 +28,7 @@ import com.google.common.base.Objects;
  *
  * @since 4.0.0
  */
-public abstract class AbstractPhenomenon extends AbstractFeature
-    implements Comparable<AbstractPhenomenon>, Serializable {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = 8730485367220080360L;
+public abstract class AbstractPhenomenon extends AbstractFeature implements Comparable<AbstractPhenomenon> {
 
     /**
      * constructor

@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.OWSConstants;
-import org.n52.shetland.util.http.HTTPStatus;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
  * Implementation of the OWS service exception. The exception codes are defined

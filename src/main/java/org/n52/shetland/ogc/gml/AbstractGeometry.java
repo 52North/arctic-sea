@@ -19,8 +19,6 @@ package org.n52.shetland.ogc.gml;
 import com.vividsolutions.jts.geom.Geometry;
 
 public class AbstractGeometry extends AbstractGML {
-
-    private static final long serialVersionUID = -554861658832158456L;
     /**
      * Geometry
      */

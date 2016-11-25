@@ -16,12 +16,10 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
 public class HrefAttributeValue implements Value<W3CHrefAttribute> {
-
-    private static final long serialVersionUID = 1762674768718660098L;
 
     private W3CHrefAttribute value;
 

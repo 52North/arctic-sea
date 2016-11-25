@@ -39,6 +39,8 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.n52.janmayen.Streams;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -63,6 +65,7 @@ public final class CollectionHelper {
      * @return an <i>unmodifiable</i> map with all given entries
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <K, V> Map<K, V> map(Entry<K, V>... entries) {
         return Collections.unmodifiableMap(Arrays.stream(entries)
                 .collect(Collectors.toMap(Entry::getKey, Entry::getValue)));
@@ -75,6 +78,7 @@ public final class CollectionHelper {
      * @return an <b>UNMODIFIABLE</b> Set&lt;T&gt;
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <T> Set<T> set(T... elements) {
         return Collections.unmodifiableSet(new HashSet<>(Arrays.asList(elements)));
     }
@@ -86,11 +90,13 @@ public final class CollectionHelper {
      * @return an <b>UNMODIFIABLE</b> List&lt;T&gt;
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <T> List<T> list(T... elements) {
         return Collections.unmodifiableList(Arrays.asList(elements));
     }
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <T> Set<T> union(Set<T>... elements) {
         return Arrays.stream(elements).flatMap(Set::stream).collect(toSet());
     }
@@ -229,7 +235,7 @@ public final class CollectionHelper {
                 .map(Collection::stream)
                 .orElseGet(Stream::empty)
                 .filter(Objects::nonNull)
-                .flatMap(x -> x.stream())
+                .flatMap(c -> c.stream())
                 .filter(Objects::nonNull)
                 .collect(toSet());
     }
@@ -306,7 +312,7 @@ public final class CollectionHelper {
      * @return the reversed map
      */
     public static <K, V> Map<V, K> reverse(Map<K, V> map) {
-        return map.entrySet().stream().collect(Streams.entryToMap());
+        return map.entrySet().stream().collect(Streams.toValueMap());
     }
 
     /**
@@ -318,7 +324,7 @@ public final class CollectionHelper {
      *
      * @return whether the collection is null, empty, or contains only nulls
      */
-    public static boolean nullEmptyOrContainsOnlyNulls(final Collection<? extends Object> collection) {
+    public static boolean nullEmptyOrContainsOnlyNulls(Collection<? extends Object> collection) {
         return Optional.ofNullable(collection).map(Collection::stream).orElseGet(Stream::empty).allMatch(Objects::isNull);
     }
 
@@ -367,12 +373,8 @@ public final class CollectionHelper {
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        return map.entrySet().stream()
-                .sorted(comparing(Map.Entry::getValue))
-                .collect(Streams.toLinkedHashMap());
+        return map.entrySet().stream().sorted(comparing(Map.Entry::getValue)).collect(Streams.toLinkedHashMap());
     }
-
-
 
     /**
      * Parse CSV string to {@link List}

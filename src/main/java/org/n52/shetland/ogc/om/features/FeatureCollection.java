@@ -33,7 +33,6 @@ import com.google.common.collect.Maps;
  * @since 4.0.0
  */
 public class FeatureCollection extends AbstractFeature implements Iterable<AbstractFeature> {
-    private static final long serialVersionUID = -6527441724827160710L;
 
     /**
      * members of this feature collection

@@ -16,11 +16,17 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 
-import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionCode;
 import org.n52.shetland.w3c.SchemaLocation;
 
@@ -115,6 +121,29 @@ public interface OWSConstants {
         AcceptLanguages;
 
         public static final String DYNAMIC_CAPABILITIES_IDENTIFIER = "dynamic";
+
+         /**
+         * Check if the supplied string represents a constant of this enumeration.
+         *
+         * @param string the string value
+         *
+         * @return wether or not the string represents an enum value
+         */
+        public static boolean contains(String string) {
+            return Enums.contains(GetCapabilitiesParams.class, string);
+        }
+
+        /**
+         * Get the corresponding enum constant for the supplied string representation.
+         *
+         * @param string the string value
+         *
+         * @return the enum constant
+         */
+        public static Optional<GetCapabilitiesParams> from(String string) {
+            return Enums.fromString(GetCapabilitiesParams.class, string);
+        }
+
     }
 
     enum CapabilitiesSection {
@@ -125,13 +154,26 @@ public interface OWSConstants {
         Languages,
         Contents;
 
-        public static Optional<CapabilitiesSection> fromString(String string) {
-            for (CapabilitiesSection section : values()) {
-                if (section.toString().equalsIgnoreCase(string)) {
-                    return Optional.of(section);
-                }
-            }
-            return Optional.empty();
+         /**
+         * Check if the supplied string represents a constant of this enumeration.
+         *
+         * @param string the string value
+         *
+         * @return wether or not the string represents an enum value
+         */
+        public static boolean contains(String string) {
+            return Enums.contains(CapabilitiesSection.class, string);
+        }
+
+        /**
+         * Get the corresponding enum constant for the supplied string representation.
+         *
+         * @param string the string value
+         *
+         * @return the enum constant
+         */
+        public static Optional<CapabilitiesSection> from(String string) {
+            return Enums.fromString(CapabilitiesSection.class, string);
         }
     }
 
@@ -149,50 +191,66 @@ public interface OWSConstants {
      */
     @Deprecated //SOS-specific
     enum RelatedFeatureRole {
-        featureOfInterestID, relatedFeatureID
+        featureOfInterestID,
+        relatedFeatureID
     }
 
     /** enum with names of get request parameters for all requests */
     enum RequestParams {
-        request, service, version;
+        request,
+        service,
+        version;
 
         /**
-         * method checks whether the string parameter is contained in this
-         * enumeration
+         * Check if the supplied string represents a constant of this enumeration.
          *
-         * @param s
-         *            the name which should be checked
-         * @return true if the name is contained in the enumeration
+         * @param string the string value
+         *
+         * @return wether or not the string represents an enum value
          */
-        public static boolean contains(String s) {
-            for (Enum<?> p : values()) {
-                if (p.name().equals(s)) {
-                    return true;
-                }
-            }
-            return false;
+        public static boolean contains(String string) {
+            return Enums.contains(RequestParams.class, string);
+        }
+
+        /**
+         * Get the corresponding enum constant for the supplied string representation.
+         *
+         * @param string the string value
+         *
+         * @return the enum constant
+         */
+        public static Optional<RequestParams> from(String string) {
+            return Enums.fromString(RequestParams.class, string);
         }
     }
 
+
     /** enum with names of get request parameters for all requests */
     enum AdditionalRequestParams {
-        language, crs, returnHumanReadableIdentifier;
+        language,
+        crs,
+        returnHumanReadableIdentifier;
+
+         /**
+         * Check if the supplied string represents a constant of this enumeration.
+         *
+         * @param string the string value
+         *
+         * @return wether or not the string represents an enum value
+         */
+        public static boolean contains(String string) {
+            return Enums.contains(AdditionalRequestParams.class, string);
+        }
 
         /**
-         * method checks whether the string parameter is contained in this
-         * enumeration
+         * Get the corresponding enum constant for the supplied string representation.
          *
-         * @param s
-         *            the name which should be checked
-         * @return true if the name is contained in the enumeration
+         * @param string the string value
+         *
+         * @return the enum constant
          */
-        public static boolean contains(String s) {
-            for (Enum<?> p : values()) {
-                if (p.name().equals(s)) {
-                    return true;
-                }
-            }
-            return false;
+        public static Optional<AdditionalRequestParams> from(String string) {
+            return Enums.fromString(AdditionalRequestParams.class, string);
         }
     }
 

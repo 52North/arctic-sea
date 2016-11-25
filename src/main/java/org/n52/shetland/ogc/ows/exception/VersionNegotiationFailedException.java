@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
-import org.n52.shetland.util.http.HTTPStatus;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
  * Implementation of {@link CodedOwsException} to be used if </br> <i>List of

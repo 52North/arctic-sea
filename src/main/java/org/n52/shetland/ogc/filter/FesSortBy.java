@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.filter;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import java.util.Collections;
 
 /**
  * class for FES SortBy element

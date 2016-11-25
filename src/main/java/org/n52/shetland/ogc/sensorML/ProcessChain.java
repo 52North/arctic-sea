@@ -23,8 +23,6 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 
 public class ProcessChain extends AbstractProcess implements HasComponents<ProcessChain> {
 
-    private static final long serialVersionUID = -3101809476636384049L;
-
     private final List<SmlComponent> components = new ArrayList<>(0);
 
     @Override

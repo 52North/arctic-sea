@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.gml;
 
-import java.io.Serializable;
-
 /**
  * Abstract class for encoding the feature of interest. Necessary because
  * different feature types should be supported. The database or another
@@ -28,9 +26,7 @@ import java.io.Serializable;
  * @since 1.0.0
  *
  */
-public abstract class AbstractFeature extends AbstractGML implements Serializable {
-
-    private static final long serialVersionUID = -6117378246552782214L;
+public abstract class AbstractFeature extends AbstractGML {
 
     private String defaultEncoding;
 

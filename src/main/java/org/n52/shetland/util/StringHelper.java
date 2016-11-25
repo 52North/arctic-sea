@@ -19,22 +19,20 @@ package org.n52.shetland.util;
 import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-
 import com.google.common.base.Strings;
+import com.google.common.io.CharStreams;
 
 /**
  * Helper class for String objects. Contains methods to join Strings, convert
@@ -80,26 +78,15 @@ public class StringHelper {
         return !Strings.isNullOrEmpty(string);
     }
 
-    public static String convertStreamToString(InputStream is, String charset) throws OwsExceptionReport {
-        try {
-            Scanner scanner;
-            if (!Strings.isNullOrEmpty(charset)) {
-                scanner = new Scanner(is, charset);
-            } else {
-                scanner = new Scanner(is);
-            }
-            scanner.useDelimiter("\\A");
-            if (scanner.hasNext()) {
-                return scanner.next();
-            }
-        } catch (NoSuchElementException nsee) {
-            throw new NoApplicableCodeException().causedBy(nsee)
-                    .withMessage("Error while reading content of HTTP request: %s", nsee.getMessage());
+    public static String convertStreamToString(InputStream is, String charset) throws IOException {
+        try (InputStreamReader reader = new InputStreamReader(is, Strings.emptyToNull(charset))) {
+            return CharStreams.toString(reader);
+        } catch (IOException ex) {
+            throw new IOException("Error while reading content of HTTP request", ex);
         }
-        return "";
     }
 
-    public static String convertStreamToString(InputStream is) throws OwsExceptionReport {
+    public static String convertStreamToString(InputStream is) throws IOException {
         return convertStreamToString(is, null);
     }
 

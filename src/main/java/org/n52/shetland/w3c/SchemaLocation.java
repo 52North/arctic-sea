@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.w3c;
 
-import org.n52.shetland.util.Comparables;
+import org.n52.janmayen.Comparables;
 
 import com.google.common.base.Objects;
 
@@ -28,9 +28,7 @@ import com.google.common.base.Objects;
  */
 public class SchemaLocation implements Comparable<SchemaLocation> {
     private final String namespace;
-
     private final String schemaFileUrl;
-
     private final String schemaLocationString;
 
     /**
@@ -44,7 +42,7 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
     public SchemaLocation(String namespace, String schemaFileUrl) {
         this.namespace = namespace;
         this.schemaFileUrl = schemaFileUrl;
-        this.schemaLocationString = new StringBuilder().append(namespace).append(' ').append(schemaFileUrl).toString();
+        this.schemaLocationString = String.format("%s %s", namespace, schemaFileUrl);
     }
 
     /**
@@ -74,8 +72,10 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
 
     @Override
     public int compareTo(SchemaLocation o) {
-        return Comparables.chain(o).compare(getNamespace(), o.getNamespace())
-                .compare(getSchemaFileUrl(), o.getSchemaFileUrl()).result();
+        return Comparables.chain(o)
+                .compare(getNamespace(), o.getNamespace())
+                .compare(getSchemaFileUrl(), o.getSchemaFileUrl())
+                .result();
     }
 
     @Override

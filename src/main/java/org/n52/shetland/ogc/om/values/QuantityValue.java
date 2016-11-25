@@ -25,10 +25,6 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  *
  */
 public class QuantityValue implements Value<Double> {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = -1422892416601346312L;
 
     /**
      * Measurement value

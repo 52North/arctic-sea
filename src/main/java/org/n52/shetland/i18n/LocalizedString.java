@@ -23,8 +23,10 @@ import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Locale;
+import java.util.MissingResourceException;
 
 import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.ows.OwsLanguageString;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -66,6 +68,16 @@ public class LocalizedString implements Serializable {
         return this.lang;
     }
 
+    public String getLangString() throws MissingResourceException {
+        String country = this.lang.getISO3Country();
+        String language = this.lang.getISO3Language();
+        StringBuilder sb = new StringBuilder(language);
+        if (!country.isEmpty()) {
+            sb.append("-").append(country);
+        }
+        return sb.toString();
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -90,13 +102,11 @@ public class LocalizedString implements Serializable {
     }
 
     public CodeType asCodeType() throws URISyntaxException {
-        String country = this.lang.getISO3Country();
-        String language = this.lang.getISO3Language();
-        StringBuilder sb = new StringBuilder(language);
-        if (!country.isEmpty()) {
-            sb.append("-").append(country);
-        }
-        return new CodeType(getText(), new URI(sb.toString()));
+        return new CodeType(getText(), new URI(getLangString()));
+    }
+
+    public OwsLanguageString asOwsLanguageString() {
+        return new OwsLanguageString(getLangString(), text);
     }
 
 }

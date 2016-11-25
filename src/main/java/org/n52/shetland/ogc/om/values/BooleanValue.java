@@ -27,10 +27,6 @@ import com.google.common.base.Strings;
  *
  */
 public class BooleanValue implements Value<Boolean> {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 3752649909580561689L;
 
     /**
      * Measurement value

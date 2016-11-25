@@ -16,8 +16,8 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 
 import com.google.common.base.Strings;
 
@@ -27,7 +27,7 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  */
 public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain> {
-    private final String name;
+    private String name;
 
     public OwsDomain(Enum<?> name, OwsPossibleValues possibleValues) {
         this(name.toString(), possibleValues, null, null, null, null, null);
@@ -47,7 +47,7 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
                      OwsDomainMetadata meaning,
                      OwsDomainMetadata dataType,
                      OwsValuesUnit valuesUnit,
-                     Set<OwsMetadata> metadata) {
+                     Collection<OwsMetadata> metadata) {
         this(name.toString(), possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
     }
 
@@ -64,13 +64,21 @@ public class OwsDomain extends OwsUnNamedDomain implements Comparable<OwsDomain>
                      OwsDomainMetadata meaning,
                      OwsDomainMetadata dataType,
                      OwsValuesUnit valuesUnit,
-                     Set<OwsMetadata> metadata) {
+                     Collection<OwsMetadata> metadata) {
         super(possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
         this.name = Objects.requireNonNull(Strings.emptyToNull(name), "name");
     }
 
     public String getName() {
         return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = Objects.requireNonNull(Strings.emptyToNull(name));
+    }
+
+    public void setName(Enum<?> name) {
+        setName(name.name());
     }
 
     @Override

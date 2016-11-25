@@ -19,9 +19,9 @@ package org.n52.shetland.ogc.sensorML.v20;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.ogc.sensorML.HasComponents;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.util.JavaHelper;
 
 /**
  * Class that represents SensorML 2.0 AggregateProcess
@@ -31,8 +31,6 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
  *
  */
 public class AggregateProcess extends DescribedObject implements HasComponents<AggregateProcess> {
-
-    private static final long serialVersionUID = 2502657552214755614L;
 
     public static final String ID_PREFIX = "ap_";
 

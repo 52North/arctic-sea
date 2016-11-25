@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Objects;
@@ -216,9 +215,9 @@ public abstract class SweAbstractDataComponent implements Cloneable {
 
     public abstract SweDataComponentType getDataComponentType();
 
-    public abstract <T> T accept(SweDataComponentVisitor<T> visitor) throws OwsExceptionReport;
+    public abstract <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X;
 
-    public abstract void accept(VoidSweDataComponentVisitor visitor) throws OwsExceptionReport;
+    public abstract <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X;
 
     @Override
     public abstract SweAbstractDataComponent clone() throws CloneNotSupportedException;

@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.filter;
 
+import java.util.Set;
+
 import javax.xml.namespace.QName;
 
 import org.n52.shetland.ogc.OGCConstants;
@@ -24,8 +26,6 @@ import org.n52.shetland.w3c.SchemaLocation;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.EnumBiMap;
 import com.google.common.collect.Sets;
-
-import java.util.Set;
 
 /**
  * Constants interface for <a

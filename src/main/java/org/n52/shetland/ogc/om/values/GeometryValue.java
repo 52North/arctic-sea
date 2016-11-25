@@ -28,7 +28,6 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  */
 public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
-    private static final long serialVersionUID = 4634315072352929082L;
     /**
      * Unit of measure
      */

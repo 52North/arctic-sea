@@ -28,8 +28,6 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
  */
 public class System extends AbstractComponent implements HasComponents<System> {
 
-    private static final long serialVersionUID = -7628087158818024900L;
-
     private EngineeringCRS spatialReferenceFrame;
 
     private final List<SmlComponent> components = new ArrayList<SmlComponent>(0);

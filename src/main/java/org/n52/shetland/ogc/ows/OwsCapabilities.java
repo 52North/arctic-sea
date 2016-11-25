@@ -23,6 +23,8 @@ import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.n52.shetland.util.CollectionHelper;
+
 import com.google.common.base.Strings;
 
 /**
@@ -31,14 +33,14 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  */
 public class OwsCapabilities {
-    private final String service;
-    private final String version;
-    private final Optional<String> updateSequence;
-    private final Optional<OwsServiceIdentification> serviceIdentification;
-    private final Optional<OwsServiceProvider> serviceProvider;
-    private final Optional<OwsOperationsMetadata> operationsMetadata;
-    private final Optional<SortedSet<String>> languages;
-    private final SortedSet<OwsCapabilitiesExtension> extensions;
+    private Optional<String> service;
+    private String version;
+    private Optional<String> updateSequence;
+    private Optional<OwsServiceIdentification> serviceIdentification;
+    private Optional<OwsServiceProvider> serviceProvider;
+    private Optional<OwsOperationsMetadata> operationsMetadata;
+    private Optional<SortedSet<String>> languages;
+    private SortedSet<OwsCapabilitiesExtension> extensions;
 
     public OwsCapabilities(String service,
                            String version,
@@ -48,7 +50,7 @@ public class OwsCapabilities {
                            OwsOperationsMetadata operationsMetadata,
                            Collection<String> languages,
                            Collection<OwsCapabilitiesExtension> extensions) {
-        this.service = Objects.requireNonNull(Strings.emptyToNull(service));
+        this.service = Optional.ofNullable(Strings.emptyToNull(service));
         this.version = Objects.requireNonNull(Strings.emptyToNull(version));
         this.updateSequence = Optional.ofNullable(Strings.emptyToNull(updateSequence));
         this.serviceIdentification = Optional.ofNullable(serviceIdentification);
@@ -59,7 +61,7 @@ public class OwsCapabilities {
     }
 
     public OwsCapabilities(OwsCapabilities other) {
-        this(other.getService(),
+        this(other.getService().orElse(null),
              other.getVersion(),
              other.getUpdateSequence().orElse(null),
              other.getServiceIdentification().orElse(null),
@@ -73,32 +75,64 @@ public class OwsCapabilities {
         return version;
     }
 
+    public void setVersion(String version) {
+        this.version = Objects.requireNonNull(Strings.emptyToNull(version));
+    }
+
+    public Optional<String> getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = Optional.ofNullable(Strings.emptyToNull(service));
+    }
+
     public Optional<String> getUpdateSequence() {
         return updateSequence;
+    }
+
+    public void setUpdateSequence(String updateSequence) {
+        this.updateSequence = Optional.ofNullable(Strings.emptyToNull(updateSequence));
     }
 
     public Optional<OwsServiceIdentification> getServiceIdentification() {
         return serviceIdentification;
     }
 
+    public void setServiceIdentification(OwsServiceIdentification serviceIdentification) {
+        this.serviceIdentification = Optional.ofNullable(serviceIdentification);
+    }
+
     public Optional<OwsServiceProvider> getServiceProvider() {
         return serviceProvider;
+    }
+
+    public void setServiceProvider(OwsServiceProvider serviceProvider) {
+        this.serviceProvider = Optional.ofNullable(serviceProvider);
     }
 
     public Optional<OwsOperationsMetadata> getOperationsMetadata() {
         return operationsMetadata;
     }
 
+    public void setOperationsMetadata(OwsOperationsMetadata operationsMetadata) {
+        this.operationsMetadata = Optional.ofNullable(operationsMetadata);
+    }
+
     public Optional<SortedSet<String>> getLanguages() {
         return this.languages;
+    }
+
+    public void setLanguages(SortedSet<String> languages) {
+        this.languages = Optional.ofNullable(languages).map(TreeSet::new);
     }
 
     public SortedSet<OwsCapabilitiesExtension> getExtensions() {
         return Collections.unmodifiableSortedSet(extensions);
     }
 
-    public String getService() {
-        return service;
+    public void setExtensions(Collection<OwsCapabilitiesExtension> extensions) {
+        this.extensions = CollectionHelper.newSortedSet(extensions);
     }
 
 }

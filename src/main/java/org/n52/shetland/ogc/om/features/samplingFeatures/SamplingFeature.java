@@ -24,8 +24,8 @@ import java.util.List;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.om.NamedValue;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -39,11 +39,6 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  */
 public class SamplingFeature extends AbstractFeature {
-
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = 4660755526492323288L;
 
     /**
      * XML document representing this feature

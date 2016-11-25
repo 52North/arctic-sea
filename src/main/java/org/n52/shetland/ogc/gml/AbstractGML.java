@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.gml;
 
-import java.io.Serializable;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
@@ -35,9 +34,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public abstract class AbstractGML implements Serializable {
-
-    private static final long serialVersionUID = 1923602315280257718L;
+public abstract class AbstractGML {
 
     /**
      * Feature identifier

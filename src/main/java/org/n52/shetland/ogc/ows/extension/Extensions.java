@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.ows.extension;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.base.Strings;
@@ -26,11 +27,6 @@ import com.google.common.base.Strings;
 public class Extensions {
 
     private final Set<Extension<?>> extensions = new HashSet<>();
-
-    public Extensions() {
-
-    }
-
     /**
      * @param extensionName
      *
@@ -82,14 +78,14 @@ public class Extensions {
     }
 
     @SuppressWarnings("rawtypes")
-    public Extension<?> getExtension(Enum identifier) {
+    public Optional<Extension<?>> getExtension(Enum identifier) {
         return getExtension(identifier.name());
     }
 
-    public Extension<?> getExtension(String identifier) {
+    public Optional<Extension<?>> getExtension(String identifier) {
         return this.extensions.stream()
                 .filter(e -> isExtensionNameEquals(identifier, e))
-                .findFirst().orElse(null);
+                .findFirst();
     }
 
     public boolean isEmpty() {
@@ -101,37 +97,23 @@ public class Extensions {
         return String.format("Extensions [extensions=%s]", getExtensions());
     }
 
-    protected boolean isExtensionNameEquals(final String extensionName,
-                                            final Extension<?> extension) {
+    protected boolean isExtensionNameEquals(String extensionName, Extension<?> extension) {
         return checkExtensionDefinition(extensionName, extension) ||
                checkExtensionIdentifier(extensionName, extension) ||
                checkExtensionValue(extensionName, extension);
     }
 
-    private boolean checkExtensionValue(String extensionName,
-                                        Extension<?> extension) {
-        return (extension.isSetDefinition() && extension.getDefinition()
-                .equalsIgnoreCase(extensionName)) ||
-               (extension.isSetIdentifier() && extension.getIdentifier()
-                .equalsIgnoreCase(extensionName));
+    private boolean checkExtensionValue(String extensionName, Extension<?> extension) {
+        return (extension.isSetDefinition() && extension.getDefinition().equalsIgnoreCase(extensionName)) ||
+               (extension.isSetIdentifier() && extension.getIdentifier().equalsIgnoreCase(extensionName));
     }
 
-    private boolean checkExtensionIdentifier(String extensionName,
-                                             Extension<?> extension) {
-        if (Strings.emptyToNull(extensionName) != null) {
-            return extension.isSetIdentifier() && extension.getIdentifier()
-                   .equalsIgnoreCase(extensionName);
-        }
-        return false;
+    private boolean checkExtensionIdentifier(String extensionName, Extension<?> extension) {
+        return Strings.emptyToNull(extensionName) != null && extension.isSetIdentifier() && extension.getIdentifier().equalsIgnoreCase(extensionName);
     }
 
-    private boolean checkExtensionDefinition(String extensionName,
-                                             Extension<?> extension) {
-        if (extensionName != null && extension != null) {
-            return extension.isSetDefinition() && extension.getDefinition()
-                   .equalsIgnoreCase(extensionName);
-        }
-        return false;
+    private boolean checkExtensionDefinition(String extensionName, Extension<?> extension) {
+        return extensionName != null && extension != null && extension.isSetDefinition() && extension.getDefinition().equalsIgnoreCase(extensionName);
     }
 
 }
