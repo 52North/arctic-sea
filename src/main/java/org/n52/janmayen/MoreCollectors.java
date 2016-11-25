@@ -1,5 +1,5 @@
-/*^
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+/*
+ * Copyright 2016 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -169,9 +169,9 @@ public class MoreCollectors {
 
         private Collector<X, ?, Map<Chain<T>, BigInteger>> countCollector() {
             return flatMapping(this::toIdentifierChain,
-                               mapping(Entry::getKey,
-                                       groupingBy(Function.identity(),
-                                                  mapping(Functions.constant(BigInteger.ONE),
+                               Collectors.mapping(Entry::getKey,
+                                       Collectors.groupingBy(Function.identity(),
+                                                  Collectors.mapping(Functions.constant(BigInteger.ONE),
                                                           Collectors.reducing(BigInteger.ZERO, BigInteger::add)))));
         }
 
