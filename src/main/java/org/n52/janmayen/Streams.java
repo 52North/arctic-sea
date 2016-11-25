@@ -36,7 +36,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collector.Characteristics;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -91,8 +90,8 @@ public class Streams {
         return throwingMerger((a, b) -> new IllegalStateException(String.format("Duplicate key %s", a)));
     }
 
-    public static <K, V> Collector<Entry<K, V>, ?, Map<V, K>> entryToMap() {
-        return Collectors.toMap(Entry::getValue, Entry::getKey);
+    public static <K, V> Collector<Entry<K, V>, ?, Map<V, K>> toValueMap() {
+        return toMap(Entry::getValue, Entry::getKey);
     }
 
     public static <K, V> Collector<Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedHashMap() {
