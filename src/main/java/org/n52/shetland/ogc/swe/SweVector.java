@@ -40,6 +40,7 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public SweVector(SweCoordinate<? extends Number>... coordinates) {
         this(Arrays.asList(coordinates));
     }

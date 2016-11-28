@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 import com.google.common.base.Objects;
