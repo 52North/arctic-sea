@@ -32,7 +32,7 @@ import java.util.Objects;
  *
  */
 @FunctionalInterface
-public interface ThrowingPredicate<T, X extends Throwable> {
+public interface ThrowingPredicate<T, X extends Exception> {
 
     /**
      * Evaluates this predicate on the given argument.

@@ -89,17 +89,17 @@ public class Functions {
         return (a, b) -> consumer.accept(b, a);
     }
 
-    public static <T> BinaryOperator<T> mergeLeft(BiConsumer<T,T> merger) {
+    public static <T> BinaryOperator<T> mergeLeft(BiConsumer<T, T> merger) {
         Objects.requireNonNull(merger);
-        return (a,b) -> {
+        return (a, b) -> {
             merger.accept(a, b);
             return a;
         };
     }
 
-    public static <T> BinaryOperator<T> mergeRight(BiConsumer<T,T> merger) {
+    public static <T> BinaryOperator<T> mergeRight(BiConsumer<T, T> merger) {
         Objects.requireNonNull(merger);
-        return (a,b) -> {
+        return (a, b) -> {
             merger.accept(a, b);
             return b;
         };
@@ -132,6 +132,16 @@ public class Functions {
         return (T t) -> {
             action.accept(t);
             return t;
+        };
+    }
+
+    public static <S, T, X extends Exception> Function<S, T> errorWrapper(ThrowingFunction<S, T, X> fun) {
+        return s -> {
+            try {
+                return fun.apply(s);
+            } catch (Exception ex) {
+                throw new Error(ex);
+            }
         };
     }
 

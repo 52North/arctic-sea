@@ -38,7 +38,7 @@ import java.util.function.Function;
  * @since 1.8
  */
 @FunctionalInterface
-public interface ThrowingUnaryOperator<T, X extends Throwable> extends ThrowingFunction<T, T, X> {
+public interface ThrowingUnaryOperator<T, X extends Exception> extends ThrowingFunction<T, T, X> {
 
     /**
      * Returns a unary operator that always returns its input argument.
@@ -47,7 +47,7 @@ public interface ThrowingUnaryOperator<T, X extends Throwable> extends ThrowingF
      * @param <X> the type of the exception that might be thrown
      * @return a unary operator that always returns its input argument
      */
-    static <T, X extends Throwable> ThrowingUnaryOperator<T, X> identity() {
+    static <T, X extends Exception> ThrowingUnaryOperator<T, X> identity() {
         return t -> t;
     }
 }

@@ -33,7 +33,7 @@ import java.util.function.Function;
  * @author Christian Autermann
  */
 @FunctionalInterface
-public interface ThrowingFunction<T, R, X extends Throwable> {
+public interface ThrowingFunction<T, R, X extends Exception> {
 
     /**
      * Applies this function to the given argument.

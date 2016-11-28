@@ -32,7 +32,7 @@ package org.n52.janmayen.function;
  *
  */
 @FunctionalInterface
-public interface ThrowingSupplier<T, X extends Throwable> {
+public interface ThrowingSupplier<T, X extends Exception> {
 
     /**
      * Gets a result.

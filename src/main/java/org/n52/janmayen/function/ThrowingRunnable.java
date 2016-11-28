@@ -23,7 +23,7 @@ package org.n52.janmayen.function;
  * @param <X> The exception type
  */
 @FunctionalInterface
-public interface ThrowingRunnable<X extends Throwable> {
+public interface ThrowingRunnable<X extends Exception> {
 
     void run()
             throws X;

@@ -33,7 +33,7 @@ import java.util.Objects;
  *
  */
 @FunctionalInterface
-public interface ThrowingConsumer<A, X extends Throwable> {
+public interface ThrowingConsumer<A, X extends Exception> {
     /**
      * Performs this operation on the given argument.
      *

@@ -28,7 +28,7 @@ import java.util.Objects;
  * @param <X> the type of the thrown exception
  */
 @FunctionalInterface
-public interface ThrowingTriConsumer<A, B, C, X extends Throwable> {
+public interface ThrowingTriConsumer<A, B, C, X extends Exception> {
     void accept(A a, B b, C c) throws X;
 
     /**

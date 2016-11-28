@@ -39,7 +39,7 @@ import java.util.function.Consumer;
  * @author Christian Autermann
  */
 @FunctionalInterface
-public interface ThrowingBiConsumer<A, B, X extends Throwable> {
+public interface ThrowingBiConsumer<A, B, X extends Exception> {
 
     /**
      * Performs this operation on the given arguments.

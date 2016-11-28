@@ -39,7 +39,7 @@ import java.util.function.Predicate;
  *
  */
 @FunctionalInterface
-public interface ThrowingBiPredicate<T, U, X extends Throwable> {
+public interface ThrowingBiPredicate<T, U, X extends Exception> {
 
     /**
      * Evaluates this predicate on the given arguments.
