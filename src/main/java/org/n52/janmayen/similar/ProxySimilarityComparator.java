@@ -22,8 +22,6 @@ import java.util.Comparator;
 import java.util.function.Function;
 
 import org.n52.janmayen.component.Keyed;
-import org.n52.janmayen.similar.Similar;
-import org.n52.janmayen.similar.SimilarityComparator;
 
 /**
  * TODO JavaDoc

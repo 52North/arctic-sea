@@ -53,7 +53,7 @@ public class MoreCollectors {
                             (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
                             downstream.combiner(),
                             downstream.finisher(),
-                            downstream.characteristics().stream().toArray(Collector.Characteristics[]::new));
+                            downstream.characteristics().stream().toArray(Characteristics[]::new));
     }
 
     public static <X, T> Collector<X, ?, Map<Chain<T>, BigInteger>> toCardinalities(
@@ -110,10 +110,7 @@ public class MoreCollectors {
         Objects.requireNonNull(exceptionSupplier);
         return Collector.of(LinkedList<T>::new,
                             List<T>::add,
-                            (left, right) -> {
-                                left.addAll(right);
-                                return left;
-                            },
+                            Functions.mergeLeft(List::addAll),
                             (list) -> {
                                 if (list.size() != 1) {
                                     throw exceptionSupplier.get();
@@ -158,7 +155,7 @@ public class MoreCollectors {
 
         private <U> Collector<X, ?, Map<Chain<T>, U>> collector(Function<X, U> finisher) {
             Function<Entry<Chain<T>, X>, X> valueFunction = Entry::getValue;
-            return flatMapping(this::toIdentifierChain, Collectors.toMap(Entry::getKey, valueFunction.andThen(finisher)));
+            return MoreCollectors.flatMapping(this::toIdentifierChain, Collectors.toMap(Entry::getKey, valueFunction.andThen(finisher)));
         }
     }
 
@@ -168,11 +165,16 @@ public class MoreCollectors {
         }
 
         private Collector<X, ?, Map<Chain<T>, BigInteger>> countCollector() {
-            return flatMapping(this::toIdentifierChain,
-                               Collectors.mapping(Entry::getKey,
-                                       Collectors.groupingBy(Function.identity(),
-                                                  Collectors.mapping(Functions.constant(BigInteger.ONE),
-                                                          Collectors.reducing(BigInteger.ZERO, BigInteger::add)))));
+
+            return MoreCollectors.flatMapping(
+                    this::toIdentifierChain,
+                    Collectors.mapping(
+                            Entry::getKey,
+                            Collectors.groupingBy(
+                                    Function.identity(),
+                                    Collectors.mapping(
+                                            Functions.constant(BigInteger.ONE),
+                                            Collectors.reducing(BigInteger.ZERO, BigInteger::add)))));
         }
 
     }
