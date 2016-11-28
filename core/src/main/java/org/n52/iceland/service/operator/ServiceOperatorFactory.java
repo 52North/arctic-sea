@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.service.operator;
 
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.janmayen.component.ComponentFactory;
 
 /**
@@ -23,6 +24,6 @@ import org.n52.janmayen.component.ComponentFactory;
  * @author Christian Autermann
  */
 public interface ServiceOperatorFactory extends
-        ComponentFactory<ServiceOperatorKey, ServiceOperator> {
+        ComponentFactory<OwsServiceKey, ServiceOperator> {
 
 }

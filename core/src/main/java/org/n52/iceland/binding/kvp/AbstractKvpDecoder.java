@@ -29,7 +29,7 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.function.ThrowingBiConsumer;
 import org.n52.janmayen.function.ThrowingTriConsumer;
@@ -50,7 +50,7 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  * @param <R> the request type
  */
-public abstract class AbstractKvpDecoder<R extends AbstractServiceRequest> implements Decoder<R, Map<String,String>> {
+public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements Decoder<R, Map<String,String>> {
 
     private final Set<DecoderKey> keys;
     private final Supplier<? extends R> supplier;
@@ -96,9 +96,9 @@ public abstract class AbstractKvpDecoder<R extends AbstractServiceRequest> imple
 
     @SuppressWarnings("rawtypes")
     protected void getCommonRequestParameterDefinitions(Builder<R> builder) {
-        builder.add(OWSConstants.RequestParams.service, AbstractServiceRequest::setService);
-        builder.add(OWSConstants.RequestParams.version, AbstractServiceRequest::setVersion);
-        builder.add(OWSConstants.RequestParams.request, AbstractServiceRequest::setOperationName);
+        builder.add(OWSConstants.RequestParams.service, OwsServiceRequest::setService);
+        builder.add(OWSConstants.RequestParams.version, OwsServiceRequest::setVersion);
+        builder.add(OWSConstants.RequestParams.request, OwsServiceRequest::setOperationName);
 
     }
 
@@ -135,7 +135,7 @@ public abstract class AbstractKvpDecoder<R extends AbstractServiceRequest> imple
         };
     }
 
-    protected static class Builder<R extends AbstractServiceRequest> {
+    protected static class Builder<R extends OwsServiceRequest> {
         private final Map<String, ThrowingBiConsumer<? super R, String, DecodingException>> parsers
                 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 

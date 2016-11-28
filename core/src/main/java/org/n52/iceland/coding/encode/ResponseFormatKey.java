@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.base.Objects;
 
@@ -26,11 +26,11 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  */
 public class ResponseFormatKey {
-    private ServiceOperatorKey serviceOperatorKey;
+    private OwsServiceKey serviceOperatorKey;
 
     private String responseFormat;
 
-    public ResponseFormatKey(ServiceOperatorKey serviceOperatorKey, String responseFormat) {
+    public ResponseFormatKey(OwsServiceKey serviceOperatorKey, String responseFormat) {
         this.serviceOperatorKey = serviceOperatorKey;
         this.responseFormat = responseFormat;
     }
@@ -40,20 +40,20 @@ public class ResponseFormatKey {
     }
 
     @Deprecated
-    public ServiceOperatorKey getServiceOperatorKeyType() {
+    public OwsServiceKey getServiceOperatorKeyType() {
         return getServiceOperatorKey();
     }
 
     @Deprecated
-    public void setServiceOperatorKeyType(ServiceOperatorKey serviceOperatorKeyType) {
+    public void setServiceOperatorKeyType(OwsServiceKey serviceOperatorKeyType) {
         setServiceOperatorKey(serviceOperatorKeyType);
     }
 
-    public ServiceOperatorKey getServiceOperatorKey() {
+    public OwsServiceKey getServiceOperatorKey() {
         return this.serviceOperatorKey;
     }
 
-    public void setServiceOperatorKey(ServiceOperatorKey serviceOperatorKey) {
+    public void setServiceOperatorKey(OwsServiceKey serviceOperatorKey) {
         this.serviceOperatorKey = serviceOperatorKey;
     }
 

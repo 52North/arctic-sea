@@ -23,7 +23,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
-import org.n52.iceland.request.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.impl.handlers.CountingOutputStreamEventHandler;
 import org.n52.iceland.statistics.impl.handlers.DefaultServiceEventHandler;

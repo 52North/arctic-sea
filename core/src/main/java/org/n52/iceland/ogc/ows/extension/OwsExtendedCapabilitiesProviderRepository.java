@@ -32,8 +32,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.iceland.service.AbstractServiceCommunicationObject;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationListeners;
@@ -130,11 +130,11 @@ public class OwsExtendedCapabilitiesProviderRepository
      * the specific service and version
      *
      * @param serviceCommunicationObject
-     *            The {@link AbstractServiceCommunicationObject} with service
+     *            The {@link OwsServiceCommunicationObject} with service
      *            and version
      * @return loaded {@link OwsExtendedCapabilitiesProvider} implementation
      */
-    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(AbstractServiceCommunicationObject serviceCommunicationObject) {
+    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(OwsServiceCommunicationObject serviceCommunicationObject) {
         String service = serviceCommunicationObject.getService();
         String version = serviceCommunicationObject.getVersion();
         return getExtendedCapabilitiesProvider(service, version);
@@ -171,16 +171,16 @@ public class OwsExtendedCapabilitiesProviderRepository
 
     /**
      * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
-     * loaded for the specific {@link AbstractServiceCommunicationObject}
+     * loaded for the specific {@link OwsServiceCommunicationObject}
      *
      * @param serviceCommunicationObject
-     *            The {@link AbstractServiceCommunicationObject} with service
+     *            The {@link OwsServiceCommunicationObject} with service
      *            and version
      * @return <code>true</code>, if a {@link OwsExtendedCapabilitiesProvider}
      *         implementation is loaded for the specific
-     *         {@link AbstractServiceCommunicationObject}
+     *         {@link OwsServiceCommunicationObject}
      */
-    public boolean hasExtendedCapabilitiesProvider(AbstractServiceCommunicationObject serviceCommunicationObject) {
+    public boolean hasExtendedCapabilitiesProvider(OwsServiceCommunicationObject serviceCommunicationObject) {
         String service = serviceCommunicationObject.getService();
         String version = serviceCommunicationObject.getVersion();
         return hasExtendedCapabilitiesProvider(service, version);
@@ -242,11 +242,11 @@ public class OwsExtendedCapabilitiesProviderRepository
     }
 
     /**
-     * Get map with {@link ServiceOperatorKey} and linked domain values
+     * Get map with {@link OwsServiceKey} and linked domain values
      *
-     * @return the map with {@link ServiceOperatorKey} and linked domain values
+     * @return the map with {@link OwsServiceKey} and linked domain values
      */
-    public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
+    public Map<OwsServiceKey, Collection<String>> getAllDomains() {
         return this.extendedCapabilitiesProvider.keySet().stream()
                 .collect(groupingBy(OwsExtendedCapabilitiesProviderKey::getServiceOperatorKey,
                             mapping(OwsExtendedCapabilitiesProviderKey::getDomain, toCollection(LinkedList::new))));

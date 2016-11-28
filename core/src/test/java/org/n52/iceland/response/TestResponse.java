@@ -16,7 +16,9 @@
  */
 package org.n52.iceland.response;
 
-public class TestResponse extends AbstractServiceResponse {
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+
+public class TestResponse extends OwsServiceResponse {
 
 
 }

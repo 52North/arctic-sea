@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
+import org.n52.iceland.w3c.soap.SoapHeader;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
-import org.n52.iceland.w3c.soap.SoapHeader;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -164,7 +164,7 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
     /**
      * Check, if this response contains content to be written.
      *
-     * @return <code>true</code>, if content is <b>NOT</b> available,<br />
+     * @return <code>true</code>, if content is <b>NOT</b> available,
      *         else <code>false</code>, if content is available
      *
      * @see #writeToOutputStream(OutputStream).

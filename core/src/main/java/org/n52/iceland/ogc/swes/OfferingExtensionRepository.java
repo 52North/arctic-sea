@@ -29,8 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.iceland.service.AbstractServiceCommunicationObject;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
 import org.n52.iceland.util.activation.Activatables;
@@ -125,11 +125,11 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      * specific service and version
      *
      * @param message
-     *            The {@link AbstractServiceCommunicationObject} with service
+     *            The {@link OwsServiceCommunicationObject} with service
      *            and version
      * @return loaded {@link OfferingExtensionProvider} implementation
      */
-    public Set<OfferingExtensionProvider> getOfferingExtensionProvider(AbstractServiceCommunicationObject message) {
+    public Set<OfferingExtensionProvider> getOfferingExtensionProvider(OwsServiceCommunicationObject message) {
         Set<OfferingExtensionProvider> providers = Sets.newHashSet();
         for (String name : getDomains()) {
             OfferingExtensionKey key = new OfferingExtensionKey(message.getService(), message.getVersion(), name);
@@ -175,7 +175,7 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
      * @return <code>true</code>, if a {@link OfferingExtensionProvider} is
      *         available
      */
-    public boolean hasOfferingExtensionProviderFor(AbstractServiceCommunicationObject message) {
+    public boolean hasOfferingExtensionProviderFor(OwsServiceCommunicationObject message) {
         boolean hasProvider;
         for (String name : getDomains()) {
             OfferingExtensionKey key
@@ -203,12 +203,12 @@ public class OfferingExtensionRepository extends AbstractComponentRepository<Off
     }
 
     /**
-     * Get map with {@link ServiceOperatorKey} and linked domain values
+     * Get map with {@link OwsServiceKey} and linked domain values
      *
-     * @return the map with {@link ServiceOperatorKey} and linked domain values
+     * @return the map with {@link OwsServiceKey} and linked domain values
      */
-    public Map<ServiceOperatorKey, Collection<String>> getAllDomains() {
-        Map<ServiceOperatorKey, Collection<String>> domains = Maps.newHashMap();
+    public Map<OwsServiceKey, Collection<String>> getAllDomains() {
+        Map<OwsServiceKey, Collection<String>> domains = Maps.newHashMap();
         Activatables.activatedKeys(this.offeringExtensionProviders, this.activation).stream().forEach(key -> {
             domains.computeIfAbsent(key.getServiceOperatorKey(), sok -> new LinkedList<>()).add(key.getDomain());
         });

@@ -33,14 +33,14 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.request.RequestContext;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameterFactory;
 import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.n52.iceland.statistics.api.utils.GeoLiteFileDownloader;
-import org.n52.iceland.util.net.IPAddress;
+import org.n52.janmayen.net.IPAddress;
 import org.n52.janmayen.lifecycle.Constructable;
 
 import com.maxmind.db.Reader.FileMode;
@@ -127,7 +127,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
      * @return caller source address
      */
     @Override
-    public IPAddress resolveOriginalIpAddress(RequestContext ctx) {
+    public IPAddress resolveOriginalIpAddress(OwsServiceRequestContext ctx) {
         if (ctx == null) {
             return null;
         }

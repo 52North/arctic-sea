@@ -42,13 +42,13 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
-import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
+import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.Streams;
 import org.n52.janmayen.http.MediaType;
@@ -134,12 +134,12 @@ public class KvpBinding extends SimpleBinding {
     @Override
     public void doGetOperation(HttpServletRequest req, HttpServletResponse res) throws HTTPException, IOException {
         LOGGER.debug("KVP-REQUEST: {}", req.getQueryString());
-        AbstractServiceRequest serviceRequest = null;
+        OwsServiceRequest serviceRequest = null;
         try {
             serviceRequest = parseRequest(req);
             // add request context information
             serviceRequest.setRequestContext(getRequestContext(req));
-            AbstractServiceResponse response = getServiceOperator(serviceRequest).receiveRequest(serviceRequest);
+            OwsServiceResponse response = getServiceOperator(serviceRequest).receiveRequest(serviceRequest);
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(serviceRequest != null ? serviceRequest.getVersion() : null);
@@ -156,7 +156,7 @@ public class KvpBinding extends SimpleBinding {
         return name.replace("amp;", "").toLowerCase(Locale.ROOT);
     }
 
-    protected AbstractServiceRequest parseRequest(HttpServletRequest req) throws OwsExceptionReport {
+    protected OwsServiceRequest parseRequest(HttpServletRequest req) throws OwsExceptionReport {
 
         if (req.getParameterMap() == null || req.getParameterMap().isEmpty()) {
             throw new MissingRequestParameterException();
@@ -185,14 +185,14 @@ public class KvpBinding extends SimpleBinding {
             throw new VersionNotSupportedException();
         }
 
-        Decoder<AbstractServiceRequest, Map<String, String>> decoder
+        Decoder<OwsServiceRequest, Map<String, String>> decoder
                 = getDecoder(new OperationDecoderKey(service, version, operation, MediaTypes.APPLICATION_KVP));
 
         if (decoder == null) {
             throw new OperationNotSupportedException(operation);
         }
 
-        AbstractServiceRequest request;
+        OwsServiceRequest request;
         try {
             request = decoder.decode(parameters);
         } catch (OwsDecodingException ex) {

@@ -17,9 +17,9 @@
 package org.n52.iceland.event.events;
 
 import org.n52.iceland.event.ServiceEvent;
-import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 /**
  * Abstract event that should be fired if a successful request changed the
@@ -33,7 +33,7 @@ import org.n52.iceland.response.AbstractServiceResponse;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public abstract class ModificationResponseEvent<I extends AbstractServiceRequest, O extends AbstractServiceResponse>
+public abstract class ModificationResponseEvent<I extends OwsServiceRequest, O extends OwsServiceResponse>
         extends ResponseEvent
         implements ServiceEvent {
     private final I request;

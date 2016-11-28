@@ -19,7 +19,7 @@ package org.n52.iceland.i18n;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.service.ServiceConfiguration;
 
 import com.google.common.base.Function;
@@ -43,7 +43,7 @@ public class LocaleHelper {
      * @deprecated use {@link AbstractServiceRequest#getRequestedLocale()}
      */
     @Deprecated
-    public static Locale fromRequest(AbstractServiceRequest locale) {
+    public static Locale fromRequest(OwsServiceRequest locale) {
         return fromString(locale.getRequestedLanguage());
     }
 

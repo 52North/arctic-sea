@@ -23,8 +23,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
 
@@ -59,12 +59,12 @@ public class RequestResponseModifierRepository extends
         }
     }
 
-    public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request) {
+    public List<RequestResponseModifier> getRequestResponseModifier(OwsServiceRequest request) {
         RequestResponseModifierKey key = new RequestResponseModifierKey(request.getService(), request.getVersion(), request);
         return getRequestResponseModifier(key);
     }
 
-    public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
+    public List<RequestResponseModifier> getRequestResponseModifier(OwsServiceRequest request, OwsServiceResponse response) {
         RequestResponseModifierKey key = new RequestResponseModifierKey(response.getService(), response.getVersion(), request, response);
         return getRequestResponseModifier(key);
     }
@@ -79,12 +79,12 @@ public class RequestResponseModifierRepository extends
         }
     }
 
-    public  boolean hasRequestResponseModifier(AbstractServiceRequest request) {
+    public  boolean hasRequestResponseModifier(OwsServiceRequest request) {
         return hasRequestResponseModifier(new RequestResponseModifierKey(
                 request.getService(), request.getVersion(), request));
     }
 
-    public boolean hasRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
+    public boolean hasRequestResponseModifier(OwsServiceRequest request, OwsServiceResponse response) {
         return hasRequestResponseModifier(new RequestResponseModifierKey(
                 request.getService(), request.getVersion(), request, response))
                && hasRequestResponseModifier(new RequestResponseModifierKey(

@@ -41,8 +41,8 @@ import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.iceland.w3c.soap.SoapChain;
@@ -184,7 +184,7 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void createBodyResponse(SoapChain chain) throws OwsExceptionReport {
-        AbstractServiceRequest req = chain.getSoapRequest().getSoapBodyContent();
+        OwsServiceRequest req = chain.getSoapRequest().getSoapBodyContent();
         chain.setBodyResponse(getServiceOperator(req).receiveRequest(req));
     }
 

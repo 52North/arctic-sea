@@ -16,17 +16,17 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 public class ResponseEvent extends AbstractFlowEvent {
-    private final AbstractServiceResponse response;
+    private final OwsServiceResponse response;
 
-    public ResponseEvent(AbstractServiceResponse response) {
+    public ResponseEvent(OwsServiceResponse response) {
         super(Thread.currentThread().getId());
         this.response = response;
     }
 
-    public AbstractServiceResponse getResponse() {
+    public OwsServiceResponse getResponse() {
         return response;
     }
 

@@ -40,8 +40,8 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -90,10 +90,10 @@ public class PoxBinding extends AbstractXmlBinding {
     public void doPostOperation(HttpServletRequest req,
                                 HttpServletResponse res)
             throws HTTPException, IOException {
-        AbstractServiceRequest sosRequest = null;
+        OwsServiceRequest sosRequest = null;
         try {
             sosRequest = parseRequest(req);
-            AbstractServiceResponse sosResponse = getServiceOperator(sosRequest)
+            OwsServiceResponse sosResponse = getServiceOperator(sosRequest)
                     .receiveRequest(sosRequest);
             writeResponse(req, res, sosResponse);
         } catch (OwsExceptionReport oer) {
@@ -103,9 +103,9 @@ public class PoxBinding extends AbstractXmlBinding {
         }
     }
 
-    protected AbstractServiceRequest parseRequest(HttpServletRequest request)
+    protected OwsServiceRequest parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
-        return ((AbstractServiceRequest)decode(request)).setRequestContext(getRequestContext(request));
+        return ((OwsServiceRequest)decode(request)).setRequestContext(getRequestContext(request));
     }
 
     @Override

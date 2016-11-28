@@ -16,12 +16,10 @@
  */
 package org.n52.iceland.util.http;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
@@ -87,55 +85,23 @@ public class HttpUtils {
         this.isCountingOutputStream = isCountingOutputStream;
     }
 
+    @Deprecated
     public static boolean supportsGzipEncoding(HttpServletRequest req) {
-        return checkHeader(req, HTTPHeaders.ACCEPT_ENCODING, HTTPConstants.GZIP_ENCODING);
+        return HTTPHeaders.supportsGzipEncoding(req);
     }
 
+    @Deprecated
     public static boolean isGzipEncoded(HttpServletRequest req) {
-        return checkHeader(req, HTTPHeaders.CONTENT_ENCODING, HTTPConstants.GZIP_ENCODING);
+        return HTTPHeaders.isGzipEncoded(req);
     }
 
-    private static boolean checkHeader(HttpServletRequest req, String headerName, String value) {
-        Enumeration<?> headers = req.getHeaders(headerName);
-        while (headers.hasMoreElements()) {
-            String header = (String) headers.nextElement();
-            if ((header != null) && !header.isEmpty()) {
-                String[] split = header.split(",");
-                for (String string : split) {
-                    if (string.equalsIgnoreCase(value)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public static List<MediaType> getAcceptHeader(HttpServletRequest req) throws HTTPException {
-        String header = req.getHeader(HTTPHeaders.ACCEPT);
-        if (header == null || header.isEmpty()) {
-            return Collections.singletonList(MediaType.any());
-        }
-        String[] values = header.split(",");
-        ArrayList<MediaType> mediaTypes = new ArrayList<>(values.length);
-        for (int i = 0; i < values.length; ++i) {
-            try {
-                // Fix for invalid HTTP-Accept header send by OGC OWS-Cite tests
-                if (!" *; q=.2".equals(values[i]) && !"*; q=.2".equals(values[i]) && !" *; q=0.2".equals(values[i])
-                        && !"*; q=0.2".equals(values[i])) {
-                    mediaTypes.add(MediaType.parse(values[i]));
-                } else {
-                    LOGGER.warn("The HTTP-Accept header contains an invalid value: {}", values[i]);
-                }
-            } catch (IllegalArgumentException e) {
-                throw new HTTPException(HTTPStatus.BAD_REQUEST, e);
-            }
-        }
-        return mediaTypes;
+    @Deprecated
+    public static List<MediaType> getAcceptHeader(HttpServletRequest req) {
+        return HTTPHeaders.getAcceptHeader(req);
     }
 
     public static InputStream getInputStream(HttpServletRequest req) throws IOException {
-        if (isGzipEncoded(req)) {
+        if (HTTPHeaders.isGzipEncoded(req)) {
             return new GZIPInputStream(req.getInputStream());
         } else {
             return req.getInputStream();
@@ -165,7 +131,7 @@ public class HttpUtils {
 
         try {
             out = response.getOutputStream();
-            if (supportsGzipEncoding(request) && writable.supportsGZip()) {
+            if (HTTPHeaders.supportsGzipEncoding(request) && writable.supportsGZip()) {
                 out = new GZIPOutputStream(out);
                 response.setHeader(HTTPHeaders.CONTENT_ENCODING, HTTPConstants.GZIP_ENCODING);
             }

@@ -35,8 +35,7 @@ import org.xml.sax.SAXException;
 import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.OwsDecodingException;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.Request;
+import org.n52.shetland.ogc.ows.service.Request;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
@@ -45,6 +44,7 @@ import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.StringHelper;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.decode.Decoder;
@@ -81,7 +81,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         LOGGER.debug("XML-REQUEST: {}", xmlString);
         DecoderKey key = getDecoderKey(xmlString, characterEncoding);
         LOGGER.trace("Found decoder key: {}", key);
-        Decoder<AbstractServiceRequest, String> decoder = getDecoder(key);
+        Decoder<OwsServiceRequest, String> decoder = getDecoder(key);
         if (decoder == null) {
             // if this a GetCapabilities request, then the service is not supported
             String opOrType = null;

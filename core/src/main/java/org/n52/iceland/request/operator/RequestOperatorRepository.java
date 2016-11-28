@@ -28,7 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.janmayen.Producer;
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
@@ -85,7 +85,7 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
                 .collect(Collectors.toSet());
     }
 
-    public RequestOperator getRequestOperator(ServiceOperatorKey sok, String operationName) {
+    public RequestOperator getRequestOperator(OwsServiceKey sok, String operationName) {
         return getRequestOperator(new RequestOperatorKey(sok, operationName));
     }
 
@@ -98,20 +98,20 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
         return Activatables.activatedKeys(this.requestOperators, this.activation);
     }
 
-    public Set<RequestOperator> getActiveRequestOperators(ServiceOperatorKey sok) {
+    public Set<RequestOperator> getActiveRequestOperators(OwsServiceKey sok) {
         return activeRequestOperatorStream(sok)
                 .map(Entry::getValue)
                 .map(Producer::get)
                 .collect(Collectors.toSet());
     }
 
-    public Set<RequestOperatorKey> getActiveRequestOperatorKeys(ServiceOperatorKey sok) {
+    public Set<RequestOperatorKey> getActiveRequestOperatorKeys(OwsServiceKey sok) {
         return activeRequestOperatorStream(sok)
                 .map(Entry::getKey)
                 .collect(Collectors.toSet());
     }
 
-    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(ServiceOperatorKey sok) {
+    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(OwsServiceKey sok) {
         return this.requestOperators.entrySet().stream()
                 .filter(e -> activation.isActive(e.getKey()))
                 .filter(e -> e.getKey().getServiceOperatorKey().equals(sok));

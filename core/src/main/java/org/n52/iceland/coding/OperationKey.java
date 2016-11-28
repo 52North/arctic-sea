@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.coding;
 
+import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.janmayen.Comparables;
 
 import com.google.common.base.MoreObjects;
@@ -32,6 +33,10 @@ public class OperationKey implements Comparable<OperationKey> {
     private final String service;
     private final String version; // TODO should be optional because GetCapabilities does not need to have it
     private final String operation;
+
+    public OperationKey(OwsServiceCommunicationObject asco) {
+        this(asco.getService(), asco.getVersion(), asco.getOperationName());
+    }
 
     public OperationKey(String service, String version, String operation) {
         this.service = service;

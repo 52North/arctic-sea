@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.service.operator;
 
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -39,13 +41,13 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class ServiceOperatorRepository extends AbstractComponentRepository<ServiceOperatorKey, ServiceOperator, ServiceOperatorFactory> implements Constructable{
+public class ServiceOperatorRepository extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory> implements Constructable{
     @Deprecated
     private static ServiceOperatorRepository instance;
     /**
      * Implemented ServiceOperator
      */
-    private final Map<ServiceOperatorKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
+    private final Map<OwsServiceKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
 
     /** supported service versions */
     private final SetMultiMap<String, String> supportedVersions = MultiMaps.newSetMultiMap();
@@ -59,14 +61,14 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
     @Override
     public void init() {
         ServiceOperatorRepository.instance = this;
-        Map<ServiceOperatorKey, Producer<ServiceOperator>> implementations
+        Map<OwsServiceKey, Producer<ServiceOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
 
         this.serviceOperators.clear();
         this.supportedVersions.clear();
 
-        for (Entry<ServiceOperatorKey, Producer<ServiceOperator>> entry: implementations.entrySet()) {
-            ServiceOperatorKey key = entry.getKey();
+        for (Entry<OwsServiceKey, Producer<ServiceOperator>> entry: implementations.entrySet()) {
+            OwsServiceKey key = entry.getKey();
             Producer<ServiceOperator> producer = entry.getValue();
             this.serviceOperators.put(key, producer);
             this.supportedVersions.add(key.getService(), key.getVersion());
@@ -76,10 +78,10 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
     /**
      * @return the implemented request listener
      */
-    public Map<ServiceOperatorKey, ServiceOperator> getServiceOperators() {
-        Map<ServiceOperatorKey, ServiceOperator> result = Maps.newHashMap();
-        for (Entry<ServiceOperatorKey, Producer<ServiceOperator>> entrySet : this.serviceOperators.entrySet()) {
-            ServiceOperatorKey key = entrySet.getKey();
+    public Map<OwsServiceKey, ServiceOperator> getServiceOperators() {
+        Map<OwsServiceKey, ServiceOperator> result = Maps.newHashMap();
+        for (Entry<OwsServiceKey, Producer<ServiceOperator>> entrySet : this.serviceOperators.entrySet()) {
+            OwsServiceKey key = entrySet.getKey();
             Producer<ServiceOperator> value = entrySet.getValue();
             result.put(key, value.get());
         }
@@ -87,15 +89,15 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
     }
 
     @Deprecated
-    public Set<ServiceOperatorKey> getServiceOperatorKeyTypes() {
+    public Set<OwsServiceKey> getServiceOperatorKeyTypes() {
         return getServiceOperatorKeys();
     }
 
-    public Set<ServiceOperatorKey> getServiceOperatorKeys() {
+    public Set<OwsServiceKey> getServiceOperatorKeys() {
         return getServiceOperators().keySet();
     }
 
-    public ServiceOperator getServiceOperator(ServiceOperatorKey sok) {
+    public ServiceOperator getServiceOperator(OwsServiceKey sok) {
         Producer<ServiceOperator> producer = serviceOperators.get(sok);
         return producer == null ? null : producer.get();
     }
@@ -111,7 +113,7 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<Servi
      * @throws OwsExceptionReport
      */
     public ServiceOperator getServiceOperator(final String service, final String version) throws OwsExceptionReport {
-        return getServiceOperator(new ServiceOperatorKey(service, version));
+        return getServiceOperator(new OwsServiceKey(service, version));
     }
 
     public Set<String> getAllSupportedVersions() {

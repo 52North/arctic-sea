@@ -18,8 +18,8 @@ package org.n52.iceland.statistics.api.interfaces.geolocation;
 
 import java.util.Map;
 
-import org.n52.iceland.request.RequestContext;
-import org.n52.iceland.util.net.IPAddress;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
+import org.n52.janmayen.net.IPAddress;
 
 public interface IStatisticsLocationUtil {
     public Map<String, Object> ip2SpatialData(IPAddress ip);
@@ -32,5 +32,5 @@ public interface IStatisticsLocationUtil {
      */
     public Map<String, Object> ip2SpatialData(String host);
 
-    public IPAddress resolveOriginalIpAddress(RequestContext ctx);
+    public IPAddress resolveOriginalIpAddress(OwsServiceRequestContext ctx);
 }
