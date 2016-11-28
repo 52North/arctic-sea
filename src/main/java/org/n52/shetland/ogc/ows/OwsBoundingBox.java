@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
-import com.google.common.base.Preconditions;
-
 /**
  * TODO JavaDoc
  *
@@ -38,13 +36,17 @@ public class OwsBoundingBox {
     public OwsBoundingBox(double[] lowerCorner, double[] upperCorner, int dimension, URI crs) {
         Objects.requireNonNull(lowerCorner, "lowerCorner");
         Objects.requireNonNull(lowerCorner, "upperCorner");
-        Preconditions.checkArgument(dimension > 0, "dimension has to be positive");
-        Preconditions.checkArgument(lowerCorner.length == dimension,
-                                    "lowerCorner has wrong dimension (%s vs %s)",
-                                    lowerCorner.length, dimension);
-        Preconditions.checkArgument(upperCorner.length == dimension,
-                                    "upperCorner has wrong dimension (%s vs %s)",
-                                    upperCorner.length, dimension);
+        if (dimension <= 0) {
+            throw new IllegalArgumentException("dimension has to be positive");
+        }
+        if (lowerCorner.length != dimension) {
+            throw new IllegalArgumentException(String.format("lowerCorner has wrong dimension (%s vs %s)",
+                                                             lowerCorner.length, dimension));
+        }
+        if (upperCorner.length != dimension) {
+            throw new IllegalArgumentException(String.format("upperCorner has wrong dimension (%s vs %s)",
+                                                             upperCorner.length, dimension));
+        }
         this.lowerCorner = lowerCorner;
         this.upperCorner = upperCorner;
         this.dimension = dimension;
