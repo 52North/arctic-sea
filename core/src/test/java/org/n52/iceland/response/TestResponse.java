@@ -18,10 +18,5 @@ package org.n52.iceland.response;
 
 public class TestResponse extends AbstractServiceResponse {
 
-    @Override
-    public String getOperationName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
 }

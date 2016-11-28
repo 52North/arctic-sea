@@ -21,21 +21,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
 import org.n52.iceland.i18n.LocaleHelper;
-import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
-import org.n52.iceland.ogc.ows.extension.Extension;
-import org.n52.iceland.ogc.ows.extension.Extensions;
-import org.n52.iceland.ogc.ows.extension.Value;
-import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.Constants;
-import org.n52.iceland.util.StringHelper;
+import org.n52.shetland.ogc.ows.HasExtension;
+import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
+import org.n52.shetland.ogc.ows.extension.Value;
+
+import com.google.common.base.Strings;
 
 /**
  * Abstract super class for all service request classes
@@ -44,17 +42,25 @@ import org.n52.iceland.util.StringHelper;
  *
  */
 @SuppressWarnings("rawtypes")
-public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
+public abstract class AbstractServiceRequest
         extends AbstractServiceCommunicationObject
         implements Request, HasExtension<AbstractServiceRequest> {
 
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
-
     private RequestContext requestContext;
-
-    private Extensions extensions;
-
+    private Extensions extensions = new Extensions();
     private Optional<String> originalRequest = Optional.empty();
+
+    public AbstractServiceRequest() {
+    }
+
+    public AbstractServiceRequest(String service, String version) {
+        super(service, version);
+    }
+
+    public AbstractServiceRequest(String service, String version, String operationName) {
+        super(service, version, operationName);
+    }
 
     public List<ServiceOperatorKey> getServiceOperatorKeys() throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
@@ -77,7 +83,7 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         return requestContext;
     }
 
-    public AbstractServiceRequest setRequestContext(final RequestContext requestContext) {
+    public AbstractServiceRequest setRequestContext(RequestContext requestContext) {
         this.requestContext = requestContext;
         return this;
     }
@@ -86,92 +92,32 @@ public abstract class AbstractServiceRequest<T extends AbstractServiceResponse>
         return requestContext != null;
     }
 
-    public abstract T getResponse() throws OwsExceptionReport;
-
     @Override
     public Extensions getExtensions() {
         return extensions;
     }
 
     @Override
-    public AbstractServiceRequest setExtensions(final Extensions extensions) {
-        this.extensions = extensions;
+    public AbstractServiceRequest setExtensions(Extensions extensions) {
+        this.extensions = Optional.ofNullable(extensions).orElseGet(Extensions::new);
         return this;
-    }
-
-    @Override
-    public AbstractServiceRequest addExtensions(final Extensions extensions) {
-        if (getExtensions() == null) {
-            setExtensions(extensions);
-        } else {
-            getExtensions().addExtension(extensions.getExtensions());
-        }
-        return this;
-    }
-
-    @Override
-    public AbstractServiceRequest addExtension(final Extension extension) {
-        if (getExtensions() == null) {
-            setExtensions(new Extensions());
-        }
-        getExtensions().addExtension(extension);
-        return this;
-    }
-
-    @Override
-    public boolean isSetExtensions() {
-        return extensions != null && !extensions.isEmpty();
-    }
-
-    @Override
-    public boolean hasExtension(Enum identifier) {
-        if (isSetExtensions()) {
-            return getExtensions().containsExtension(identifier);
-        }
-        return false;
-    }
-
-    @Override
-    public boolean hasExtension(String identifier) {
-        if (isSetExtensions()) {
-            return getExtensions().containsExtension(identifier);
-        }
-        return false;
-    }
-
-    @Override
-    public Extension<?> getExtension(Enum identifier) throws InvalidParameterValueException {
-        if (hasExtension(identifier)) {
-            return getExtensions().getExtension(identifier);
-        }
-        return null;
-    }
-
-    @Override
-    public Extension<?> getExtension(String identifier) throws InvalidParameterValueException {
-        if (hasExtension(identifier)) {
-            return getExtensions().getExtension(identifier);
-        }
-        return null;
     }
 
     public boolean isSetRequestedLanguage() {
-        return StringHelper.isNotEmpty(getRequestedLanguage());
+        return !Strings.isNullOrEmpty(getRequestedLanguage());
     }
 
     public String getRequestedLanguage() {
-        if (isSetExtensions()) {
-            if (getExtensions().containsExtension(OWSConstants.AdditionalRequestParams.language)) {
-                Object value = getExtensions().getExtension(OWSConstants.AdditionalRequestParams.language).getValue();
-                if (value instanceof Value<?, ?>) {
-                    return ((Value<?, ?>) value).getStringValue();
-                }
-                if (value instanceof String) {
-                    return (String) value;
-                }
-            }
-        }
-        return Constants.EMPTY_STRING;
+        return getExtension(OWSConstants.AdditionalRequestParams.language).map(Extension::getValue)
+                .map(value -> {
+                    if (value instanceof Value<?, ?>) {
+                        return ((Value<?, ?>) value).getStringValue();
+                    } else if (value instanceof String) {
+                        return (String) value;
+                    } else {
+                        return "";
+                    }
+                }).orElse("");
     }
 
     public Locale getRequestedLocale() {

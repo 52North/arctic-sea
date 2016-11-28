@@ -22,8 +22,9 @@ import java.util.Optional;
 
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.Comparables;
-import org.n52.iceland.util.StringHelper;
+import org.n52.janmayen.Comparables;
+
+import com.google.common.base.Strings;
 
 
 /**
@@ -48,7 +49,7 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
      * @param request The {@link AbstractServiceRequest}
      */
     public RequestResponseModifierKey(String service, String version,
-                                      AbstractServiceRequest<?> request) {
+                                      AbstractServiceRequest request) {
         this(service, version, request, null);
     }
 
@@ -61,7 +62,7 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
      * @param response The {@link AbstractServiceResponse}
      */
     public RequestResponseModifierKey(String service, String version,
-                                      AbstractServiceRequest<?> request,
+                                      AbstractServiceRequest request,
                                       AbstractServiceResponse response) {
         this(service, version, getClass(request), getClass(response));
     }
@@ -74,7 +75,7 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
      * @param request The {@link AbstractServiceRequest}
      */
     public RequestResponseModifierKey(String service, String version,
-                                      Class<? extends AbstractServiceRequest<?>> request) {
+                                      Class<? extends AbstractServiceRequest> request) {
         this(service, version, request, null);
     }
 
@@ -87,7 +88,7 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
      * @param response The {@link AbstractServiceResponse}
      */
     public RequestResponseModifierKey(String service, String version,
-                                      Class<? extends AbstractServiceRequest<?>> request,
+                                      Class<? extends AbstractServiceRequest> request,
                                       Class<? extends AbstractServiceResponse> response) {
         this(service, version, Optional.ofNullable(request), Optional
              .ofNullable(response));
@@ -125,11 +126,11 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
     }
 
     public boolean isSetService() {
-        return StringHelper.isNotEmpty(getService());
+        return !Strings.isNullOrEmpty(getService());
     }
 
     public boolean isSetVersion() {
-        return StringHelper.isNotEmpty(getVersion());
+        return !Strings.isNullOrEmpty(getVersion());
     }
 
     /**

@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.service.operator;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 
@@ -40,6 +40,6 @@ public interface ServiceOperator extends Component<ServiceOperatorKey> {
      * @throws OwsExceptionReport If an error occurred or the requested
      *                            operation is not supported
      */
-    AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request)
+    AbstractServiceResponse receiveRequest(AbstractServiceRequest request)
             throws OwsExceptionReport;
 }

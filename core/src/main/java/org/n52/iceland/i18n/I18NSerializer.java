@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.i18n;
 
+import org.n52.shetland.i18n.LocalizedString;
+import org.n52.shetland.i18n.MultilingualString;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;

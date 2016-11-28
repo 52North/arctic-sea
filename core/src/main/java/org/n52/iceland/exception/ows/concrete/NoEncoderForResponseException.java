@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
+import static org.n52.janmayen.http.HTTPStatus.INTERNAL_SERVER_ERROR;
 
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

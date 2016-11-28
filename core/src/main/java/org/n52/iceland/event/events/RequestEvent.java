@@ -29,14 +29,14 @@ import org.n52.iceland.request.operator.RequestOperator;
  */
 public class RequestEvent extends AbstractFlowEvent {
 
-    private final AbstractServiceRequest<?> request;
+    private final AbstractServiceRequest request;
 
-    public RequestEvent(final AbstractServiceRequest<?> request) {
+    public RequestEvent(AbstractServiceRequest request) {
         super(Thread.currentThread().getId());
         this.request = request;
     }
 
-    public AbstractServiceRequest<?> getRequest() {
+    public AbstractServiceRequest getRequest() {
         return request;
     }
 

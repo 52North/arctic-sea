@@ -33,12 +33,12 @@ import org.n52.iceland.config.settings.StringSettingDefinition;
 import org.n52.iceland.config.settings.TimeInstantSettingDefinition;
 import org.n52.iceland.config.settings.UriSettingDefinition;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.exception.ows.concrete.DateTimeParseException;
 import org.n52.iceland.i18n.LocaleHelper;
-import org.n52.iceland.i18n.MultilingualString;
-import org.n52.iceland.ogc.gml.time.TimeInstant;
-import org.n52.iceland.util.DateTimeHelper;
 import org.n52.iceland.util.JSONUtils;
+import org.n52.shetland.i18n.MultilingualString;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.DateTimeParseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
@@ -171,13 +171,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code Boolean}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
@@ -197,13 +194,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code File}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
@@ -213,13 +207,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code Integer}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
@@ -229,13 +220,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code Double}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
@@ -245,13 +233,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code URI}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
@@ -268,13 +253,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code String}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */
@@ -284,13 +266,10 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
 
     /**
      * Parses the a string to a {@code String}.
-     * <p/>
      *
      * @param stringValue
      *            the string value
-     *            <p/>
      * @return the parsed value
-     *         <p/>
      * @throws IllegalArgumentException
      *             if the string value is invalid
      */

@@ -21,7 +21,8 @@ This project includes:
   52°North Iceland Statistics Documentation Generator under The Apache Software License, Version 2.0
   52°North Iceland Statistics Geolocation Feature under The Apache Software License, Version 2.0
   52°North Iceland Statistics Kibana Exporter Tool under The Apache Software License, Version 2.0
-  52°North Iceland Util module under The Apache Software License, Version 2.0
+  52°North Jan Mayen under The Apache Software License, Version 2.0
+  52°North Shetland under The Apache Software License, Version 2.0
   AOP alliance under Public Domain
   Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
@@ -48,6 +49,7 @@ This project includes:
   Joda convert under Apache 2
   Joda-Time under Apache 2
   JSR166e under CC0 1.0 Universal
+  JTS Topology Suite under Lesser General Public License (LGPL)
   JUnit under Eclipse Public License 1.0
   Lucene Common Analyzers under Apache 2
   Lucene Core under Apache 2

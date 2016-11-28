@@ -33,7 +33,7 @@ import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.MediaType;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;

@@ -16,24 +16,23 @@
  */
 package org.n52.iceland.coding;
 
-import org.n52.iceland.coding.encode.SchemaRepository;
-import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.decode.DecoderRepository;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.w3c.SchemaLocation;
-import org.n52.iceland.coding.decode.ConformanceClassDecoder;
-import org.n52.iceland.coding.decode.Decoder;
 import org.n52.iceland.coding.encode.ConformanceClassEncoder;
-import org.n52.iceland.coding.encode.Encoder;
+import org.n52.iceland.coding.encode.SchemaRepository;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.decode.ConformanceClassDecoder;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.DecoderKey;
+import org.n52.svalbard.decode.DecoderRepository;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.EncoderRepository;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

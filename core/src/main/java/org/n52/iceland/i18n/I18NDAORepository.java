@@ -21,10 +21,10 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
+import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.Producer;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.Producer;
 
 import com.google.common.collect.Maps;
 

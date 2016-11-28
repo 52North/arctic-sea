@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.request.operator;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-public interface ParameterValidator<T extends AbstractServiceRequest<?>> {
+public interface ParameterValidator<T extends AbstractServiceRequest> {
     void validate(T request) throws OwsExceptionReport;
 }

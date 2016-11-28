@@ -22,15 +22,8 @@ package org.n52.iceland.response;
  */
 public class NoContentResponse extends AbstractServiceResponse {
 
-    private final String operationName;
-
     public NoContentResponse(String operationName) {
-        this.operationName = operationName;
-    }
-
-    @Override
-    public String getOperationName() {
-        return operationName;
+        super(null, null, operationName);
     }
 
 }

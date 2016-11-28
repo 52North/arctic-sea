@@ -17,7 +17,6 @@
 package org.n52.iceland.service;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.request.Request;
 
 import com.google.common.base.Strings;
 
@@ -25,19 +24,25 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public abstract class AbstractServiceCommunicationObject implements Request {
+public abstract class AbstractServiceCommunicationObject {
 
     /** service parameter */
     private String service;
     private String version;
+    private String operationName;
 
     public AbstractServiceCommunicationObject() {
-        this(null, null);
+        this(null, null, null);
     }
 
     public AbstractServiceCommunicationObject(String service, String version) {
+        this(service, version, null);
+    }
+
+    public AbstractServiceCommunicationObject(String service, String version, String operationName) {
         this.service = service;
         this.version = version;
+        this.operationName = operationName;
     }
 
     /**
@@ -106,7 +111,17 @@ public abstract class AbstractServiceCommunicationObject implements Request {
     /**
      * @return the operationName
      */
-    public abstract String getOperationName();
+    public String getOperationName() {
+        return this.operationName;
+    }
+
+    public void setOperationName(String operationName) {
+        this.operationName = operationName;
+    }
+
+    public boolean hasOperationName() {
+        return !Strings.isNullOrEmpty(this.operationName);
+    }
 
     /**
      * @return The {@link OperationKey} of this

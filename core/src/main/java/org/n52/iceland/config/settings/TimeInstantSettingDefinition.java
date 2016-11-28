@@ -17,9 +17,8 @@
 package org.n52.iceland.config.settings;
 
 import org.n52.iceland.config.SettingType;
-import org.n52.iceland.exception.ows.concrete.DateTimeParseException;
-import org.n52.iceland.ogc.gml.time.Time;
-import org.n52.iceland.util.DateTimeHelper;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.util.DateTimeHelper;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -44,11 +43,7 @@ public class TimeInstantSettingDefinition extends AbstractSettingDefinition<Time
      * @return this
      */
     public TimeInstantSettingDefinition setDefaultStringValue(String value) {
-        try {
-            setDefaultValue(DateTimeHelper.parseIsoString2DateTime2Time(value));
-        } catch (DateTimeParseException e) {
-            throw new IllegalArgumentException(e);
-        }
+        setDefaultValue(DateTimeHelper.parseIsoString2DateTime2Time(value));
         return this;
     }
 

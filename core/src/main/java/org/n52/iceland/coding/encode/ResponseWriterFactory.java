@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.component.ComponentFactory;
+import org.n52.janmayen.component.ComponentFactory;
 
 /**
  * Response writer factory which is loaded by the

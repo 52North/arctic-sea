@@ -33,7 +33,7 @@ import org.n52.iceland.response.TestResponse;
 public class RequestResponseModifierKeyTypeTest {
     private static final String service = "SOS";
     private static final String version = "2.0.0";
-    private final AbstractServiceRequest<?> request = new TestRequest();
+    private final AbstractServiceRequest request = new TestRequest();
     private final AbstractServiceResponse response = new TestResponse();
 
     @Rule
@@ -58,7 +58,7 @@ public class RequestResponseModifierKeyTypeTest {
         errors.checkThat(new RequestResponseModifierKey(service, version, request, response), is(equalTo(new RequestResponseModifierKey(service, version, request, response))));
     }
 
-    private AbstractServiceRequest<?> getModifiedRequest() {
+    private AbstractServiceRequest getModifiedRequest() {
         TestRequest request = new TestRequest();
         request.setService(service).setVersion(version);
         return request;

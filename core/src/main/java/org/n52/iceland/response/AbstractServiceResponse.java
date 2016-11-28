@@ -16,12 +16,10 @@
  */
 package org.n52.iceland.response;
 
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.ogc.ows.OWSConstants.HasExtension;
-import org.n52.iceland.ogc.ows.extension.Extension;
-import org.n52.iceland.ogc.ows.extension.Extensions;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.shetland.ogc.ows.HasExtension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
+import org.n52.janmayen.http.MediaType;
 
 /**
  * abstract super class for all service request classes
@@ -33,15 +31,17 @@ public abstract class AbstractServiceResponse
         implements HasExtension<AbstractServiceResponse> {
 
     private MediaType contentType;
-
     private Extensions extensions;
 
     public AbstractServiceResponse() {
-        super();
     }
 
     public AbstractServiceResponse(String service, String version) {
         super(service, version);
+    }
+
+    public AbstractServiceResponse(String service, String version, String operationName) {
+        super(service, version, operationName);
     }
 
     @Override
@@ -53,57 +53,6 @@ public abstract class AbstractServiceResponse
     public AbstractServiceResponse setExtensions(final Extensions extensions) {
         this.extensions = extensions;
         return this;
-    }
-
-    @Override
-    public AbstractServiceResponse addExtensions(final Extensions extensions) {
-        if (getExtensions() == null) {
-            setExtensions(extensions);
-        } else {
-            getExtensions().addExtension(extensions.getExtensions());
-        }
-        return this;
-    }
-
-    @SuppressWarnings("rawtypes")
-    @Override
-    public AbstractServiceResponse addExtension(final Extension extension) {
-        if (getExtensions() == null) {
-            setExtensions(new Extensions());
-        }
-        getExtensions().addExtension(extension);
-        return this;
-    }
-
-    @Override
-    public boolean isSetExtensions() {
-        return extensions != null && !extensions.isEmpty();
-    }
-
-    @Override
-    public boolean hasExtension(Enum<?> identifier) {
-        return isSetExtensions() && getExtensions().containsExtension(identifier);
-    }
-
-    @Override
-    public boolean hasExtension(String identifier) {
-        return isSetExtensions() && getExtensions().containsExtension(identifier);
-    }
-
-    @Override
-    public Extension<?> getExtension(Enum<?> identifier) throws InvalidParameterValueException {
-        if (hasExtension(identifier)) {
-            return getExtensions().getExtension(identifier);
-        }
-        return null;
-    }
-
-    @Override
-    public Extension<?> getExtension(String identifier) throws InvalidParameterValueException {
-        if (hasExtension(identifier)) {
-            return getExtensions().getExtension(identifier);
-        }
-        return null;
     }
 
     public AbstractServiceResponse setContentType(MediaType contentType) {

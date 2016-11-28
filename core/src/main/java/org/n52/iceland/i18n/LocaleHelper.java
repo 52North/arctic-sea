@@ -43,7 +43,7 @@ public class LocaleHelper {
      * @deprecated use {@link AbstractServiceRequest#getRequestedLocale()}
      */
     @Deprecated
-    public static Locale fromRequest(AbstractServiceRequest<?> locale) {
+    public static Locale fromRequest(AbstractServiceRequest locale) {
         return fromString(locale.getRequestedLanguage());
     }
 

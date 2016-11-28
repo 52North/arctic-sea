@@ -19,7 +19,7 @@ package org.n52.iceland.w3c.soap;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
 
-import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * Constants for SOAP messages

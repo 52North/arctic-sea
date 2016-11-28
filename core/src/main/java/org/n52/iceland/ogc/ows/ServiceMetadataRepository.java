@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import org.n52.shetland.ogc.ows.OwsServiceProvider;
+import org.n52.shetland.ogc.ows.OwsServiceIdentification;
+
 import java.util.Locale;
 import java.util.Set;
 

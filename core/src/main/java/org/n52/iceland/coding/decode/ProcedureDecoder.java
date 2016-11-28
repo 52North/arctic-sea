@@ -17,6 +17,8 @@
 package org.n52.iceland.coding.decode;
 
 import org.n52.iceland.coding.ProcedureCoder;
+import org.n52.iceland.service.ConformanceClass;
+import org.n52.svalbard.decode.Decoder;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -26,6 +28,6 @@ import org.n52.iceland.coding.ProcedureCoder;
  * @param <T>
  */
 @Deprecated // SOS-specific
-public interface ProcedureDecoder<T, S> extends ConformanceClassDecoder<T, S>, ProcedureCoder {
+public interface ProcedureDecoder<T, S> extends Decoder<T, S>, ConformanceClass, ProcedureCoder {
 
 }

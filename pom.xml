@@ -38,7 +38,6 @@
 
     <modules>
         <module>core</module>
-        <module>util</module>
         <module>statistics/core</module>
         <module>statistics/generator</module>
         <module>statistics/kibana</module>
@@ -91,7 +90,7 @@
         <url>https://github.com/52North/iceland</url>
         <connection>scm:git:https://github.com/52North/iceland.git</connection>
         <developerConnection>scm:git:https://github.com/52North/iceland.git</developerConnection>
-      <tag>HEAD</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
@@ -118,12 +117,22 @@
         <!-- Source encoding during build process ** !!! DO NOT CHANGE !!! ** -->
         <version.spring>4.2.3.RELEASE</version.spring>
         <version.slf4j>1.7.13</version.slf4j>
-        <version.guava>18.0</version.guava>
+        <version.guava>20.0</version.guava>
         <version.java>1.8</version.java>
         <version.jackson>2.6.3</version.jackson>
     </properties>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.n52.janmayen</groupId>
+                <artifactId>janmayen</artifactId>
+                <version>1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.svalbard</groupId>
+                <artifactId>svalbard</artifactId>
+                <version>1-SNAPSHOT</version>
+            </dependency>
             <dependency>
                 <groupId>org.n52.iceland</groupId>
                 <artifactId>iceland</artifactId>
@@ -153,6 +162,11 @@
                 <groupId>org.n52.iceland</groupId>
                 <artifactId>iceland-build</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.shetland</groupId>
+                <artifactId>shetland</artifactId>
+                <version>1-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -287,7 +301,7 @@
                     </exclusion>
                     <exclusion>
                         <groupId>com.google.code.findbugs</groupId>
-                       <artifactId>jsr305</artifactId>
+                        <artifactId>jsr305</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -311,7 +325,7 @@
                     <preparationGoals>clean install</preparationGoals>
                 </configuration>
             </plugin>
-			<plugin>
+            <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
                 <version>1.0</version>
@@ -453,7 +467,7 @@
                 <configuration>
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                     <links>
-                        <link>http://docs.guava-libraries.googlecode.com/git-history/v${version.guava}/javadoc/</link>
+                        <link>https://google.github.io/guava/releases/${version.guava}/api/docs/</link>
                         <link>http://www.joda.org/joda-time/apidocs/</link>
                     </links>
                 </configuration>

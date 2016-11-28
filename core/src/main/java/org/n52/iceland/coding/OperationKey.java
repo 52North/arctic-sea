@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.coding;
 
-import org.n52.iceland.util.Comparables;
+import org.n52.janmayen.Comparables;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;

@@ -69,8 +69,7 @@ public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
         try {
             this.settingsService.configure(bean);
         } catch (Throwable t) {
-            throw new BeanInitializationException(
-                    "Couldn't set settings on bean " + beanName, t);
+            throw new BeanInitializationException("Couldn't set settings on bean " + beanName, t);
         }
         return bean;
     }

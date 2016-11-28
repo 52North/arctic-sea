@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.n52.iceland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
+import org.n52.shetland.ogc.filter.FilterConstants;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

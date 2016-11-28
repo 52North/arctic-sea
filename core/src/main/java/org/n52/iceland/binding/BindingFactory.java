@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.binding;
 
-import org.n52.iceland.component.ComponentFactory;
+import org.n52.janmayen.component.ComponentFactory;
 
 /**
  * {@code ComponentFactory} interface for {@link Binding}s.

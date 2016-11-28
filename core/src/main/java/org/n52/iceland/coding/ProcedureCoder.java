@@ -35,6 +35,5 @@ public interface ProcedureCoder {
      *
      * @return the procedure description formats
      */
-    Set<String> getSupportedProcedureDescriptionFormats(String service,
-                                                        String version);
+    Set<String> getSupportedProcedureDescriptionFormats(String service, String version);
 }

@@ -38,11 +38,14 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.i18n.LocaleHelper;
-import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
-import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.Validation;
+import org.n52.shetland.i18n.MultilingualString;
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.ows.OwsKeyword;
+import org.n52.shetland.ogc.ows.OwsServiceIdentification;
+import org.n52.shetland.util.StringHelper;
 
 @Configurable
 public class ServiceIdentificationFactory

@@ -18,12 +18,12 @@ package org.n52.iceland.request.operator;
 
 import java.util.Set;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OwsOperation;
+import org.n52.janmayen.component.Component;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.ConformanceClass;
+import org.n52.shetland.ogc.ows.OwsOperation;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Interface for SOS request operator implementations
@@ -45,7 +45,7 @@ public interface RequestOperator extends ConformanceClass, Component<RequestOper
      *             If an error occurs during the processing of the
      *             {@link AbstractServiceRequest}
      */
-    AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
+    AbstractServiceResponse receiveRequest(AbstractServiceRequest request) throws OwsExceptionReport;
 
     /**
      * Get {@link OwsOperation} metadata for service and version

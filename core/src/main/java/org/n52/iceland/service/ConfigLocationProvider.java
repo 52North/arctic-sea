@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.service;
 
-import org.n52.iceland.util.Producer;
+import org.n52.janmayen.Producer;
 
 /**
  * TODO JavaDoc

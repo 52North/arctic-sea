@@ -22,8 +22,8 @@ import java.net.URI;
 import org.n52.iceland.config.AbstractSettingValueFactory;
 import org.n52.iceland.config.SettingType;
 import org.n52.iceland.config.SettingValue;
-import org.n52.iceland.i18n.MultilingualString;
-import org.n52.iceland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.i18n.MultilingualString;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
 
 /**
  * TODO JavaDoc

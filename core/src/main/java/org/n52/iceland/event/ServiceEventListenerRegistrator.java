@@ -20,8 +20,8 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.lifecycle.Destroyable;
 
 /**
  * Class used to decouple {@code ServiceEventListener} and

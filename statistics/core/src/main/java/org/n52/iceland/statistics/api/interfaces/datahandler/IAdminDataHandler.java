@@ -16,10 +16,12 @@
  */
 package org.n52.iceland.statistics.api.interfaces.datahandler;
 
+import javax.security.auth.Destroyable;
+
 import org.elasticsearch.client.Client;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
+
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
+import org.n52.janmayen.lifecycle.Constructable;
 
 public interface IAdminDataHandler extends Constructable, Destroyable {
 

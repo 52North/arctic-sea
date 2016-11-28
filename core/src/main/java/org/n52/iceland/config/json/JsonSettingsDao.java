@@ -27,10 +27,11 @@ import org.n52.iceland.config.SettingType;
 import org.n52.iceland.config.SettingValue;
 import org.n52.iceland.config.SettingsDao;
 import org.n52.iceland.i18n.LocaleHelper;
-import org.n52.iceland.i18n.MultilingualString;
+import org.n52.shetland.i18n.MultilingualString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import org.n52.iceland.exception.ConfigurationError;
 
 /**

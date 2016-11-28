@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.exception;
 
-import org.n52.iceland.util.http.HTTPStatus;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
  * TODO JavaDoc

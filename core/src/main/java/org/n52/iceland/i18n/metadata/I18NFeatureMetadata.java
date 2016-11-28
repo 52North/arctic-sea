@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.i18n.metadata;
 
-import org.n52.iceland.i18n.MultilingualString;
+import org.n52.shetland.i18n.MultilingualString;
 
 public class I18NFeatureMetadata extends AbstractI18NMetadata {
 

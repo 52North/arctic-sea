@@ -17,17 +17,23 @@
 package org.n52.iceland.coding.encode;
 
 
+import org.n52.svalbard.encode.SchemaAwareEncoder;
+import org.n52.svalbard.encode.EncoderRepository;
+
+import static java.util.stream.Collectors.groupingBy;
+
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
@@ -46,27 +52,17 @@ public class SchemaRepository implements Constructable {
         this.encoderRepository = encoderRepository;
     }
 
-    @Deprecated
-    public static SchemaRepository getInstance() {
-        return instance;
-    }
-
     @Override
     public void init() {
         SchemaRepository.instance = this;
         this.schemaLocations.clear();
-        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
-            for (EncoderKey key : encoder.getKeys()) {
-                if (key instanceof XmlEncoderKey && encoder instanceof ConformanceClassEncoder) {
-                    Set<SchemaLocation> locations = ((ConformanceClassEncoder) encoder).getSchemaLocations();
-                    if (locations != null && !locations.isEmpty()) {
-                        for (SchemaLocation schemaLocation : locations) {
-                            this.schemaLocations.put(schemaLocation.getNamespace(), Sets.newHashSet(schemaLocation));
-                        }
-                    }
-                }
-            }
-        }
+        this.schemaLocations.putAll(this.encoderRepository.getEncoders().stream()
+                .filter(e -> e instanceof SchemaAwareEncoder)
+                .map(e -> (SchemaAwareEncoder<?,?>) e)
+                .map(SchemaAwareEncoder::getSchemaLocations)
+                .filter(Objects::nonNull)
+                .flatMap(Set<SchemaLocation>::stream)
+                .collect(groupingBy(SchemaLocation::getNamespace, Collectors.toSet())));
     }
 
      public Set<SchemaLocation> getSchemaLocation(String namespace) {
@@ -92,10 +88,15 @@ public class SchemaRepository implements Constructable {
 
     private Map<String, String> getPrefixNamspaceMap() {
         Map<String, String> prefixMap = Maps.newHashMap();
-        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
-            encoder.addNamespacePrefixToMap(prefixMap);
-        }
+        this.encoderRepository.getEncoders().stream()
+                .filter(encoder -> encoder instanceof SchemaAwareEncoder)
+                .map(encoder -> (SchemaAwareEncoder<?,?>) encoder)
+                .forEach(encoder -> encoder.addNamespacePrefixToMap(prefixMap));
         return prefixMap;
+    }
+    @Deprecated
+    public static SchemaRepository getInstance() {
+        return instance;
     }
 
 }

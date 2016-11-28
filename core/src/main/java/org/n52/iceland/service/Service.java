@@ -43,11 +43,11 @@ import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.event.events.IncomingRequestEvent;
 import org.n52.iceland.event.events.OutgoingResponseEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.util.http.HTTPHeaders;
-import org.n52.iceland.util.http.HTTPMethods;
-import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPMethods;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
 
 import com.google.common.base.Stopwatch;
 

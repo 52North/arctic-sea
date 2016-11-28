@@ -33,7 +33,7 @@ import org.n52.iceland.response.AbstractServiceResponse;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public abstract class ModificationResponseEvent<I extends AbstractServiceRequest<?>, O extends AbstractServiceResponse>
+public abstract class ModificationResponseEvent<I extends AbstractServiceRequest, O extends AbstractServiceResponse>
         extends ResponseEvent
         implements ServiceEvent {
     private final I request;

@@ -22,8 +22,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.exception.ows.OperationNotSupportedException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
@@ -86,7 +86,7 @@ public class GenericServiceOperator implements ServiceOperator {
      */
     @Override
     public AbstractServiceResponse receiveRequest(
-            AbstractServiceRequest<?> request)
+            AbstractServiceRequest request)
             throws OwsExceptionReport {
         String operationName = request.getOperationName();
         RequestOperator operator = this.requestOperatorRepository

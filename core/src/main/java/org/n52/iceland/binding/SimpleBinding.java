@@ -28,28 +28,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.decode.DecoderRepository;
-import org.n52.iceland.coding.decode.OperationDecoderKey;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.encode.EncodingException;
-import org.n52.iceland.coding.encode.ExceptionEncoderKey;
+import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
+import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.CompositeOwsException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceOrVersionException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
-import org.n52.iceland.exception.ows.concrete.NoEncoderForKeyException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.GetCapabilitiesRequest;
@@ -58,9 +47,21 @@ import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.operator.ServiceOperator;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.DecoderKey;
+import org.n52.svalbard.decode.DecoderRepository;
+import org.n52.svalbard.decode.OperationDecoderKey;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.ExceptionEncoderKey;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * TODO JavaDoc
@@ -125,9 +126,16 @@ public abstract class SimpleBinding extends Binding {
     }
 
     @Override
-    public Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
-            OwsExceptionReport oer) throws HTTPException {
+    public Object handleEncodingException(HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          EncodingException ex) throws HTTPException {
         try {
+            OwsExceptionReport oer;
+            if (ex instanceof OwsEncodingException) {
+                oer = ((OwsEncodingException) ex).getCause();
+            } else {
+                oer = new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
+            }
             eventBus.submit(new ExceptionEvent(oer));
             MediaType contentType =
                     chooseResponseContentTypeForExceptionReport(HttpUtils.getAcceptHeader(request),
@@ -148,8 +156,7 @@ public abstract class SimpleBinding extends Binding {
         return RequestContext.fromRequest(req);
     }
 
-    protected boolean isVersionSupported(String service,
-            String acceptVersion) {
+    protected boolean isVersionSupported(String service, String acceptVersion) {
         return getServiceOperatorRepository().isVersionSupported(service, acceptVersion);
     }
 
@@ -255,7 +262,7 @@ public abstract class SimpleBinding extends Binding {
         return getServiceOperatorRepository().getServiceOperator(sokt);
     }
 
-    protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
+    protected ServiceOperator getServiceOperator(AbstractServiceRequest request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
         return request.getServiceOperatorKeys().stream()
                 .map(this::getServiceOperator)
@@ -270,7 +277,7 @@ public abstract class SimpleBinding extends Binding {
                 });
     }
 
-    protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {
+    protected void checkServiceOperatorKeyTypes(AbstractServiceRequest request) throws OwsExceptionReport {
         CompositeOwsException exceptions = new CompositeOwsException();
         for (ServiceOperatorKey sokt : request.getServiceOperatorKeys()) {
             if (sokt.hasService()) {
@@ -318,12 +325,13 @@ public abstract class SimpleBinding extends Binding {
 
     protected Object encodeResponse(AbstractServiceResponse response,
             MediaType contentType) throws OwsExceptionReport {
-        OperationResponseEncoderKey key = new OperationResponseEncoderKey(response.getOperationKey(), contentType);
-        Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
-        if (encoder == null) {
-            throw new NoEncoderForKeyException(key);
-        }
+
         try {
+            OperationResponseEncoderKey key = new OperationResponseEncoderKey(response.getOperationKey(), contentType);
+            Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
+            if (encoder == null) {
+                throw new NoEncoderForKeyException(key);
+            }
             return encoder.encode(response);
         } catch (EncodingException ex) {
             throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);

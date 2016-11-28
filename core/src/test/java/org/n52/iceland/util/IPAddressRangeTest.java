@@ -20,6 +20,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
+
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.IPAddressRange;
 

@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.convert;
 
-import org.n52.iceland.component.ComponentFactory;
+import org.n52.janmayen.component.ComponentFactory;
 
 /**
  * TODO JavaDoc

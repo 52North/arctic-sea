@@ -29,8 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
-import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
 import org.n52.iceland.w3c.soap.SoapHeader;
 
 import com.google.common.collect.Lists;

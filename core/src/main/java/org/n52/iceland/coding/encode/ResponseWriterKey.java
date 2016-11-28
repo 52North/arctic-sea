@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.component.ClassBasedComponentKey;
+import org.n52.janmayen.component.ClassBasedComponentKey;
 
 /**
  * TODO JavaDoc

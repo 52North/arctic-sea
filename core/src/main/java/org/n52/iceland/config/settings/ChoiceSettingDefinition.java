@@ -23,7 +23,7 @@ import java.util.Map.Entry;
 
 import org.n52.iceland.config.SettingDefinition;
 import org.n52.iceland.config.SettingType;
-import org.n52.iceland.util.CollectionHelper;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Preconditions;
 

@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.event.ServiceEventListener;
 import org.n52.iceland.event.events.ExceptionEvent;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Single point of exception logging.

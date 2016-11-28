@@ -34,24 +34,24 @@ import org.xml.sax.SAXException;
 
 import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.decode.DecodingException;
 import org.n52.iceland.coding.decode.OwsDecodingException;
-import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
-import org.n52.iceland.coding.decode.XmlStringOperationDecoderKey;
-import org.n52.iceland.exception.CodedException;
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.Request;
-import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.w3c.W3CConstants;
+import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.shetland.ogc.ows.exception.CodedException;
+import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
+import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.util.StringHelper;
+import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.DecoderKey;
+import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
+import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -81,7 +81,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         LOGGER.debug("XML-REQUEST: {}", xmlString);
         DecoderKey key = getDecoderKey(xmlString, characterEncoding);
         LOGGER.trace("Found decoder key: {}", key);
-        Decoder<AbstractServiceRequest<?>, String> decoder = getDecoder(key);
+        Decoder<AbstractServiceRequest, String> decoder = getDecoder(key);
         if (decoder == null) {
             // if this a GetCapabilities request, then the service is not supported
             String opOrType = null;

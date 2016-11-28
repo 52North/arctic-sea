@@ -16,11 +16,9 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import static org.n52.iceland.util.http.HTTPStatus.BAD_REQUEST;
+import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
 
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-
-import com.google.common.base.Joiner;
+import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -28,15 +26,12 @@ import com.google.common.base.Joiner;
  * @since 1.0.0
  */
 public class ContentTypeNotSupportedException extends InvalidParameterValueException {
-
-    private static final long serialVersionUID = 400L;
+    private static final long serialVersionUID = -4947423996380128523L;
 
     @SuppressWarnings("ThrowableResultIgnored")
-    public ContentTypeNotSupportedException(final String contentType, final String... supportedContentType) {
+    public ContentTypeNotSupportedException(String contentType, String... supportedContentType) {
         super("HTTP header Accept", contentType);
-        withMessage(
-                "Requested content type '%s' as specified in 'Accept' header not supported. Please use something like: '%s'.",
-                contentType, Joiner.on(", ").join(supportedContentType));
+        withMessage("Requested content type '%s' as specified in 'Accept' header not supported. Please one of %s.", contentType, String.join(", ", supportedContentType));
         setStatus(BAD_REQUEST);
     }
 

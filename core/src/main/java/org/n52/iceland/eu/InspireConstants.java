@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.eu;
 
-import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  *

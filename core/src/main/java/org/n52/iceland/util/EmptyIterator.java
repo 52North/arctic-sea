@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.util;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -23,13 +24,21 @@ import java.util.NoSuchElementException;
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
+ * @deprecated use {@link Collections#emptyIterator() }
  * @since 1.0.0
  */
+@Deprecated
 @SuppressWarnings(value = "unchecked")
 public class EmptyIterator<T> implements Iterator<T> {
     private static final EmptyIterator<?> instance = new EmptyIterator<Object>();
 
+    /**
+     *
+     * @param <T>
+     * @return
+     * @deprecated use {@link Collections#emptyIterator() }
+     */
+    @Deprecated
     @SuppressWarnings(value = "unchecked")
     public static <T> Iterator<T> instance() {
         return (Iterator<T>) instance;

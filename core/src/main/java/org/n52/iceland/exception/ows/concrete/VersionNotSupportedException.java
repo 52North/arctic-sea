@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
+import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

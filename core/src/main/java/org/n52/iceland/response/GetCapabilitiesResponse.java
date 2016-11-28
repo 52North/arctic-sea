@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.response;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.ogc.ows.OwsCapabilities;
+import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.OwsCapabilities;
 
 /**
  * Implementation of {@link AbstractServiceResponse} for OWS GetCapabilities
@@ -30,6 +30,18 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
     private OwsCapabilities capabilities;
     private String xmlString;
 
+    public GetCapabilitiesResponse() {
+        super(null, null, OWSConstants.Operations.GetCapabilities.name());
+    }
+
+    public GetCapabilitiesResponse(String service, String version) {
+        super(service, version, OWSConstants.Operations.GetCapabilities.name());
+    }
+
+    public GetCapabilitiesResponse(String service, String version, String operationName) {
+        super(service, version, operationName);
+    }
+
     public OwsCapabilities getCapabilities() {
         return capabilities;
     }
@@ -39,23 +51,15 @@ public class GetCapabilitiesResponse extends AbstractServiceResponse {
      * {@link OwsCapabilities} to {@link GetCapabilitiesResponse} is missing.
      *
      * @param capabilities
-     *            {@link OwsCapabilities} to set
+     *                     {@link OwsCapabilities} to set
+     *
      * @return this
      */
     public GetCapabilitiesResponse setCapabilities(OwsCapabilities capabilities) {
         this.capabilities = capabilities;
-        if (!isSetService()) {
-            setService(capabilities.getService());
-        }
-        if (!isSetVersion()) {
-            setVersion(capabilities.getVersion());
-        }
+        capabilities.getService().ifPresent(this::setService);
+        setVersion(capabilities.getVersion());
         return this;
-    }
-
-    @Override
-    public String getOperationName() {
-        return OWSConstants.Operations.GetCapabilities.name();
     }
 
     public String getXmlString() {

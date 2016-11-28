@@ -16,23 +16,7 @@
  */
 package org.n52.iceland.request;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.response.TestResponse;
-
-public class TestRequest extends AbstractServiceRequest<TestResponse> {
-
-    @Override
-    public TestResponse getResponse()
-            throws OwsExceptionReport {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public String getOperationName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class TestRequest extends AbstractServiceRequest {
 
     @Override
     public boolean isSetRequestedLanguage() {

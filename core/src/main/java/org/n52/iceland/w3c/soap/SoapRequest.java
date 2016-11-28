@@ -28,17 +28,11 @@ import org.n52.iceland.request.Request;
  *
  */
 public class SoapRequest implements Request {
-
     private String soapNamespace;
-
     private String soapVersion;
-
     private SoapFault soapFault;
-
-    private AbstractServiceRequest<?> soapBodyContent;
-
+    private AbstractServiceRequest soapBodyContent;
     private String soapAction;
-
     private List<SoapHeader> soapHeader;
 
     public SoapRequest(String soapNamespace, String soapVersion) {
@@ -89,11 +83,11 @@ public class SoapRequest implements Request {
         return getSoapFault() != null;
     }
 
-    public AbstractServiceRequest<?> getSoapBodyContent() {
+    public AbstractServiceRequest getSoapBodyContent() {
         return soapBodyContent;
     }
 
-    public void setSoapBodyContent(AbstractServiceRequest<?> soapBodyContent) {
+    public void setSoapBodyContent(AbstractServiceRequest soapBodyContent) {
         this.soapBodyContent = soapBodyContent;
 
     }

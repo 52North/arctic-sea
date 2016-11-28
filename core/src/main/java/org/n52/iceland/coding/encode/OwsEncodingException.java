@@ -16,13 +16,14 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * TODO JavaDoc
  * @author Christian Autermann
  */
-public class OwsEncodingException extends EncodingException{
+public class OwsEncodingException extends EncodingException {
     private static final long serialVersionUID = 1924135887853730006L;
 
     public OwsEncodingException(OwsExceptionReport cause) {

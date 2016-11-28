@@ -24,11 +24,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.component.Component;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
 
 /**
  * Abstract Super class for binding implementations<br />
@@ -43,7 +43,7 @@ import org.n52.iceland.util.http.MediaType;
  *
  * @since 1.0.0
  */
-public abstract class Binding implements ConformanceClass, Component<BindingKey>, OwsExceptionReportHandler {
+public abstract class Binding implements ConformanceClass, Component<BindingKey>, EncodingExceptionHandler {
     /**
      * HTTP DELETE request handling method
      *

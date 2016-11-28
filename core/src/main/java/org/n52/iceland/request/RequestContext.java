@@ -28,9 +28,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.util.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.MediaType;
 import org.n52.iceland.util.net.IPAddress;
 import org.n52.iceland.util.net.ProxyChain;
 

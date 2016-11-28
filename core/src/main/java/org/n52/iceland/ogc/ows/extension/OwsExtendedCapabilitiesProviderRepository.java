@@ -30,17 +30,17 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.lifecycle.Constructable;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.iceland.service.AbstractServiceCommunicationObject;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.Producer;
-import org.n52.iceland.util.Producers;
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationListeners;
 import org.n52.iceland.util.activation.ActivationManager;
 import org.n52.iceland.util.activation.ActivationSource;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.Producers;
 
 /**
  * Repository for {@link OwsExtendedCapabilities}. Loads all implemented
@@ -197,8 +197,7 @@ public class OwsExtendedCapabilitiesProviderRepository
      *         implementation is loaded for the specific {@code service} and
      *         {@code version}
      */
-    private boolean hasExtendedCapabilitiesProvider(String service,
-                                                    String version) {
+    public boolean hasExtendedCapabilitiesProvider(String service, String version) {
         return getDomains().stream()
                 .map(domain -> new OwsExtendedCapabilitiesProviderKey(service, version, domain))
                 .anyMatch(this::hasExtendedCapabilitiesProvider);

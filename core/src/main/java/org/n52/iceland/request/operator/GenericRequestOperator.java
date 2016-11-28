@@ -31,22 +31,22 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.convert.RequestResponseModifier;
 import org.n52.iceland.convert.RequestResponseModifierRepository;
-import org.n52.iceland.request.handler.GenericOperationHandler;
-import org.n52.iceland.request.handler.OperationHandlerRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.RequestEvent;
 import org.n52.iceland.event.events.ResponseEvent;
-import org.n52.iceland.exception.ows.OperationNotSupportedException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OwsOperation;
 import org.n52.iceland.request.AbstractServiceRequest;
+import org.n52.iceland.request.handler.GenericOperationHandler;
+import org.n52.iceland.request.handler.OperationHandlerRepository;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
+import org.n52.shetland.ogc.ows.OwsOperation;
+import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.google.common.base.MoreObjects;
 
 public class GenericRequestOperator<
-            Q extends AbstractServiceRequest<A>,
+            Q extends AbstractServiceRequest,
             A extends AbstractServiceResponse>
         implements RequestOperator {
 
@@ -122,7 +122,7 @@ public class GenericRequestOperator<
         return serviceEventBus;
     }
 
-    private void checkForModifierAndProcess(AbstractServiceRequest<?> request)
+    private void checkForModifierAndProcess(AbstractServiceRequest request)
             throws OwsExceptionReport {
         if (!this.modifierRepository.hasRequestResponseModifier(request)) {
             return;
@@ -156,7 +156,7 @@ public class GenericRequestOperator<
     }
 
     private void checkForModifierAndProcess(
-            AbstractServiceRequest<?> request,
+            AbstractServiceRequest request,
             AbstractServiceResponse response)
             throws OwsExceptionReport {
         if (!this.modifierRepository.hasRequestResponseModifier(request, response)) {
@@ -193,7 +193,7 @@ public class GenericRequestOperator<
 
     @Override
     public AbstractServiceResponse receiveRequest(
-            final AbstractServiceRequest<?> abstractRequest)
+            final AbstractServiceRequest abstractRequest)
             throws OwsExceptionReport {
         this.serviceEventBus.submit(new RequestEvent(abstractRequest));
         if (requestType.isAssignableFrom(abstractRequest.getClass())) {

@@ -19,26 +19,18 @@ package org.n52.iceland.request;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
-import org.n52.iceland.ogc.ows.OWSConstants;
-import org.n52.iceland.response.GetCapabilitiesResponse;
 import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.Comparables;
-import org.n52.iceland.util.StringHelper;
+import org.n52.shetland.util.CollectionHelper;
+
+import com.google.common.base.Strings;
 
 /**
  * Implementation of {@link AbstractServiceRequest} for OWS GetCapabilities
  *
  * @since 1.0.0
  */
-public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabilitiesResponse> {
+public class GetCapabilitiesRequest extends AbstractServiceRequest {
 
     private final List<String> acceptVersions = new LinkedList<>();
     private final List<String> sections = new LinkedList<>();
@@ -46,18 +38,14 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     private final List<String> acceptLanguages = new LinkedList<>();
 
     private List<ServiceOperatorKey> serviceOperatorKeyTypes;
-
     private String capabilitiesId;
-
     private String updateSequence;
 
     public GetCapabilitiesRequest(String service) {
         setService(service);
     }
 
-    @Override
-    public String getOperationName() {
-        return OWSConstants.Operations.GetCapabilities.name();
+    public GetCapabilitiesRequest() {
     }
 
     /**
@@ -170,72 +158,9 @@ public class GetCapabilitiesRequest extends AbstractServiceRequest<GetCapabiliti
     }
 
     public boolean isSetUpdateSequence() {
-        return StringHelper.isNotEmpty(getUpdateSequence());
+        return !Strings.isNullOrEmpty(getUpdateSequence());
     }
 
-
-    //FIXME rename to createResponse
-    @Override
-    public GetCapabilitiesResponse getResponse() throws OwsExceptionReport {
-        return (GetCapabilitiesResponse) new GetCapabilitiesResponse().set(this).setVersion(getVersionParameter());
-    }
-
-    /**
-     * Get the response version from request, from set version, from
-     * acceptVersions or from supported versions
-     *
-     * @return the response version
-     * @throws OwsExceptionReport
-     *             If the requested version is not supported
-     */
-    private String getVersionParameter() throws OwsExceptionReport {
-        if (isSetVersion()) {
-            return getVersion();
-        } else {
-            Stream<String> versions;
-            if (isSetAcceptVersions()) {
-                versions = acceptVersions.stream()
-                        .filter(this::isVersionSupported);
-            } else {
-                versions = getSupportedVersions().stream();
-            }
-            return setVersion(versions.findFirst()
-                    .orElseThrow(this::versionNegotiationFailed)).getVersion();
-        }
-    }
-
-    private OwsExceptionReport versionNegotiationFailed() {
-        return new VersionNegotiationFailedException().withMessage("The requested '%s' values are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions);
-    }
-
-
-    @Override
-    public List<ServiceOperatorKey> getServiceOperatorKeys() {
-        if (serviceOperatorKeyTypes == null) {
-            String service = getService();
-            if (isSetAcceptVersions()) {
-                serviceOperatorKeyTypes = acceptVersions.stream()
-                        .map(version -> new ServiceOperatorKey(service, version))
-                        .collect(Collectors.toList());
-            } else {
-                Set<String> supportedVersions = getSupportedVersions();
-                if (CollectionHelper.isNotEmpty(supportedVersions)) {
-                    setVersion(Comparables.version().max(supportedVersions));
-                }
-                serviceOperatorKeyTypes = Collections.singletonList(new ServiceOperatorKey(service, getVersion()));
-            }
-        }
-        return Collections.unmodifiableList(serviceOperatorKeyTypes);
-    }
-
-    private Set<String> getSupportedVersions() {
-        return ServiceOperatorRepository.getInstance().getSupportedVersions(getService());
-    }
-
-    private boolean isVersionSupported(String acceptedVersion) {
-        return ServiceOperatorRepository.getInstance().isVersionSupported(getService(), acceptedVersion);
-    }
 
     public void setAcceptLanguages(List<String> acceptLanguages) {
         this.acceptLanguages.clear();

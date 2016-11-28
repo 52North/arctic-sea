@@ -17,8 +17,8 @@
 package org.n52.iceland.convert;
 
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 
@@ -32,9 +32,9 @@ import org.n52.iceland.response.AbstractServiceResponse;
  */
 public interface RequestResponseModifier extends Component<RequestResponseModifierKey> {
 
-    AbstractServiceRequest<?> modifyRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
+    AbstractServiceRequest modifyRequest(AbstractServiceRequest request) throws OwsExceptionReport;
 
-    AbstractServiceResponse modifyResponse(AbstractServiceRequest<?> request, AbstractServiceResponse response) throws OwsExceptionReport;
+    AbstractServiceResponse modifyResponse(AbstractServiceRequest request, AbstractServiceResponse response) throws OwsExceptionReport;
 
     RequestResponseModifierFacilitator getFacilitator();
 

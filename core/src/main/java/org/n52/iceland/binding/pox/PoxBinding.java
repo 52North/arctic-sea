@@ -36,15 +36,15 @@ import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
-import org.n52.iceland.ogc.sos.Sos2Constants;
-import org.n52.iceland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.MiscSettings;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -90,7 +90,7 @@ public class PoxBinding extends AbstractXmlBinding {
     public void doPostOperation(HttpServletRequest req,
                                 HttpServletResponse res)
             throws HTTPException, IOException {
-        AbstractServiceRequest<?> sosRequest = null;
+        AbstractServiceRequest sosRequest = null;
         try {
             sosRequest = parseRequest(req);
             AbstractServiceResponse sosResponse = getServiceOperator(sosRequest)
@@ -103,9 +103,9 @@ public class PoxBinding extends AbstractXmlBinding {
         }
     }
 
-    protected AbstractServiceRequest<?> parseRequest(HttpServletRequest request)
+    protected AbstractServiceRequest parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
-        return ((AbstractServiceRequest<?>)decode(request)).setRequestContext(getRequestContext(request));
+        return ((AbstractServiceRequest)decode(request)).setRequestContext(getRequestContext(request));
     }
 
     @Override

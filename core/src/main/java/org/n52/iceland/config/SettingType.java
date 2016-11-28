@@ -21,8 +21,8 @@ import java.net.URI;
 
 import org.n52.iceland.config.json.JsonConstants;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.i18n.LocalizedString;
-import org.n52.iceland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.i18n.LocalizedString;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
 
 /**
  * Enum to describe the type of a {@code SettingDefinition} and
