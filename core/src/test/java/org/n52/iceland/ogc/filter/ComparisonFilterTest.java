@@ -16,11 +16,16 @@
  */
 package org.n52.iceland.ogc.filter;
 
+import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.filter.FilterConstants;
+
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  *

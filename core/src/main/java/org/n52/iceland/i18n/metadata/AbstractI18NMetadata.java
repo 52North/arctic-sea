@@ -19,7 +19,7 @@ package org.n52.iceland.i18n.metadata;
 import java.util.Locale;
 import java.util.Set;
 
-import org.n52.iceland.i18n.MultilingualString;
+import org.n52.shetland.i18n.MultilingualString;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;

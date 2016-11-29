@@ -17,7 +17,7 @@
 package org.n52.iceland.ogc.swes;
 
 import org.n52.iceland.ogc.AbstractComparableServiceVersionDomainKey;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 /**
  * Key class to identify {@link OfferingExtensionProvider}.
@@ -33,11 +33,11 @@ public class OfferingExtensionKey extends AbstractComparableServiceVersionDomain
      * constructor
      *
      * @param sok
-     *            the {@link ServiceOperatorKey} to set
+     *            the {@link OwsServiceKey} to set
      * @param domain
      *            the domain to set
      */
-    public OfferingExtensionKey(ServiceOperatorKey sok, String domain) {
+    public OfferingExtensionKey(OwsServiceKey sok, String domain) {
         super(sok, domain);
     }
 

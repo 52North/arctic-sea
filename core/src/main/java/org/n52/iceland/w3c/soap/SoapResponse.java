@@ -18,8 +18,8 @@ package org.n52.iceland.w3c.soap;
 
 import java.util.List;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 /**
  * Representation of a SOAP response
@@ -37,7 +37,7 @@ public class SoapResponse {
 
     private SoapFault soapFault;
 
-    private AbstractServiceResponse bodyContent;
+    private OwsServiceResponse bodyContent;
 
     private List<SoapHeader> header;
 
@@ -92,7 +92,7 @@ public class SoapResponse {
         return soapFault;
     }
 
-    public AbstractServiceResponse getSoapBodyContent() {
+    public OwsServiceResponse getSoapBodyContent() {
         return bodyContent;
     }
 
@@ -104,15 +104,15 @@ public class SoapResponse {
         return soapAction;
     }
 
-    public void setSoapBodyContent(AbstractServiceResponse bodyContent) {
+    public void setSoapBodyContent(OwsServiceResponse bodyContent) {
         this.bodyContent = bodyContent;
     }
 
-    public void setBodyContent(AbstractServiceResponse response) {
+    public void setBodyContent(OwsServiceResponse response) {
         this.bodyContent = response;
     }
 
-    public AbstractServiceResponse getBodyContent() {
+    public OwsServiceResponse getBodyContent() {
         return bodyContent;
     }
 

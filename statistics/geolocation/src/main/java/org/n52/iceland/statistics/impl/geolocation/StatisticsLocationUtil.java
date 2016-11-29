@@ -25,28 +25,29 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Singleton;
+import javax.security.auth.Destroyable;
 
 import org.elasticsearch.common.geo.GeoPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
-import org.n52.iceland.request.RequestContext;
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
+import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
+import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameterFactory;
 import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.n52.iceland.statistics.api.utils.GeoLiteFileDownloader;
-import org.n52.iceland.util.net.IPAddress;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.net.IPAddress;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
-import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
-import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 
 /**
  * Utility class for mapping objects to Elasticsearch specific Geolocation type
@@ -126,14 +127,14 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
      * @return caller source address
      */
     @Override
-    public IPAddress resolveOriginalIpAddress(RequestContext ctx) {
+    public IPAddress resolveOriginalIpAddress(OwsServiceRequestContext ctx) {
         if (ctx == null) {
             return null;
         }
         if (ctx.getForwardedForChain().isPresent()) {
             return ctx.getForwardedForChain().get().getOrigin();
         } else {
-            return ctx.getIPAddress().orNull();
+            return ctx.getIPAddress().orElse(null);
         }
     }
 

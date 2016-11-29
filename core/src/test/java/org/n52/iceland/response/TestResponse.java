@@ -16,12 +16,9 @@
  */
 package org.n52.iceland.response;
 
-public class TestResponse extends AbstractServiceResponse {
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
-    @Override
-    public String getOperationName() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public class TestResponse extends OwsServiceResponse {
+
 
 }

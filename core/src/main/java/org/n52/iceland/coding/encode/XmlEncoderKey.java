@@ -16,7 +16,8 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.util.ClassHelper;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.janmayen.ClassHelper;
 
 import com.google.common.base.Objects;
 
@@ -29,6 +30,10 @@ public class XmlEncoderKey implements EncoderKey {
     private final String namespace;
 
     private final Class<?> type;
+
+    public XmlEncoderKey(String namespace, Object type) {
+        this(namespace, type.getClass());
+    }
 
     public XmlEncoderKey(String namespace, Class<?> type) {
         this.namespace = namespace;

@@ -30,10 +30,9 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.CRSHelper;
+import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.iceland.util.Validation;
-//import org.n52.sos.util.XmlOptionsHelper;
+import org.n52.shetland.util.CRSHelper;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -200,6 +199,7 @@ public class ServiceConfiguration implements Constructable {
         this.addOutputsToSensorML = addOutputsToSensorML;
     }
 
+    @Deprecated
     public boolean isStrictSpatialFilteringProfile() {
         return strictSpatialFilteringProfile;
     }

@@ -22,14 +22,14 @@ import java.util.Map.Entry;
 
 import org.n52.iceland.exception.JSONException;
 import org.n52.iceland.i18n.LocaleHelper;
-import org.n52.iceland.i18n.LocalizedString;
-import org.n52.iceland.i18n.MultilingualString;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.iceland.i18n.metadata.I18NFeatureMetadata;
 import org.n52.iceland.i18n.metadata.I18NObservablePropertyMetadata;
 import org.n52.iceland.i18n.metadata.I18NOfferingMetadata;
 import org.n52.iceland.i18n.metadata.I18NProcedureMetadata;
 import org.n52.iceland.util.JSONUtils;
+import org.n52.shetland.i18n.LocalizedString;
+import org.n52.shetland.i18n.MultilingualString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

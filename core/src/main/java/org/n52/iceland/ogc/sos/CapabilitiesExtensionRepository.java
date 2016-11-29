@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.ogc.sos;
 
-import static org.n52.iceland.util.Producers.produce;
+import static org.n52.janmayen.Producers.produce;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,12 +26,13 @@ import javax.inject.Inject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.lifecycle.Constructable;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.util.Producer;
+import org.n52.janmayen.Producer;
+import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;

@@ -39,10 +39,13 @@
             <artifactId>iceland</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.n52.iceland</groupId>
-            <artifactId>util</artifactId>
+            <groupId>org.n52.shetland</groupId>
+            <artifactId>shetland</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.n52.janmayen</groupId>
+            <artifactId>janmayen</artifactId>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

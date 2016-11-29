@@ -16,11 +16,13 @@
  */
 package org.n52.iceland.ogc.ows.extension;
 
+
 import java.util.Set;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.request.GetCapabilitiesRequest;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -31,16 +33,16 @@ import org.n52.iceland.request.GetCapabilitiesRequest;
 public interface OwsExtendedCapabilitiesProvider extends Component<OwsExtendedCapabilitiesProviderKey> {
 
     /**
-     * Get the {@link OwsExtendedCapabilities} for the
+     * Get the {@link OwsOperationMetadataExtension} for the
      * {@link GetCapabilitiesRequest}
      *
      * @param request
      *            Capabilities request
-     * @return Resulting {@link OwsExtendedCapabilities}
+     * @return Resulting {@link OwsOperationMetadataExtension}
      * @throws OwsExceptionReport
      *             If an error occurs when creating extended capabilities
      */
-    OwsExtendedCapabilities getOwsExtendedCapabilities(GetCapabilitiesRequest request) throws OwsExceptionReport;
+    OwsOperationMetadataExtension getOwsExtendedCapabilities(GetCapabilitiesRequest request) throws OwsExceptionReport;
 
     boolean hasExtendedCapabilitiesFor(GetCapabilitiesRequest request);
 

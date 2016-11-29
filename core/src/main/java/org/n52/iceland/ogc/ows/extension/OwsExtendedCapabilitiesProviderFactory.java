@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.ogc.ows.extension;
 
-import org.n52.iceland.component.ComponentFactory;
+import org.n52.janmayen.component.ComponentFactory;
 
 /**
  * TODO JavaDoc

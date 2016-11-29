@@ -32,21 +32,21 @@ import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.decode.DecodingException;
-import org.n52.iceland.coding.decode.OperationDecoderKey;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
-import org.n52.iceland.ogc.sos.Sos2Constants;
-import org.n52.iceland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.util.JSONUtils;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.NoDecoderForKeyException;
+import org.n52.svalbard.decode.OperationDecoderKey;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
@@ -104,11 +104,11 @@ public class JSONBinding extends SimpleBinding {
     @Override
     public void doPostOperation(HttpServletRequest req, HttpServletResponse res)
             throws HTTPException, IOException {
-        AbstractServiceRequest<?> request = null;
+        OwsServiceRequest request = null;
         try {
             request = parseRequest(req);
             checkServiceOperatorKeyTypes(request);
-            AbstractServiceResponse response = getServiceOperator(request).receiveRequest(request);
+            OwsServiceResponse response = getServiceOperator(request).receiveRequest(request);
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(request != null ? request.getVersion() : null);
@@ -117,7 +117,7 @@ public class JSONBinding extends SimpleBinding {
         }
     }
 
-    private AbstractServiceRequest<?> parseRequest(HttpServletRequest request)
+    private OwsServiceRequest parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
         try {
             JsonNode json = JSONUtils.loadReader(request.getReader());
@@ -129,12 +129,13 @@ public class JSONBinding extends SimpleBinding {
                     json.path(VERSION).textValue(),
                     json.path(REQUEST).textValue(),
                     MediaTypes.APPLICATION_JSON);
-            Decoder<AbstractServiceRequest<?>, JsonNode> decoder =
+            Decoder<OwsServiceRequest, JsonNode> decoder =
                     getDecoder(key);
             if (decoder == null) {
-                throw new NoDecoderForKeyException(key);
+                NoDecoderForKeyException cause = new NoDecoderForKeyException(key);
+                throw new NoApplicableCodeException().withMessage(cause.getMessage()).causedBy(cause);
             }
-            AbstractServiceRequest<?> sosRequest;
+            OwsServiceRequest sosRequest;
             try {
                 sosRequest = decoder.decode(json);
             } catch (OwsDecodingException ex) {

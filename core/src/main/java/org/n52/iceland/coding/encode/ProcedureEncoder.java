@@ -17,6 +17,7 @@
 package org.n52.iceland.coding.encode;
 
 import java.util.Set;
+
 import org.n52.iceland.coding.ProcedureCoder;
 
 /**

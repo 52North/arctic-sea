@@ -48,6 +48,14 @@ import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 
 import com.google.common.base.Splitter;
 
+import org.n52.shetland.ogc.ows.OwsAddress;
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.ows.OwsContact;
+import org.n52.shetland.ogc.ows.OwsOnlineResource;
+import org.n52.shetland.ogc.ows.OwsPhone;
+import org.n52.shetland.ogc.ows.OwsResponsibleParty;
+import org.n52.shetland.ogc.ows.OwsServiceProvider;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *

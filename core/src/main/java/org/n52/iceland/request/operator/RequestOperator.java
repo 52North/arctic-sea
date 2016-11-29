@@ -18,12 +18,12 @@ package org.n52.iceland.request.operator;
 
 import java.util.Set;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OwsOperation;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.service.ConformanceClass;
+import org.n52.shetland.ogc.ows.OwsOperation;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Interface for SOS request operator implementations
@@ -34,18 +34,18 @@ import org.n52.iceland.service.ConformanceClass;
 public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey>{
 
     /**
-     * Receives and processes the incoming {@link AbstractServiceRequest} and
-     * returns a {@link AbstractServiceResponse}
+     * Receives and processes the incoming {@link OwsServiceRequest} and
+     * returns a {@link OwsServiceResponse}
      *
      * @param request
-     *            The incoming {@link AbstractServiceRequest}
-     * @return {@link AbstractServiceResponse} of the
-     *         {@link AbstractServiceRequest}
+     *            The incoming {@link OwsServiceRequest}
+     * @return {@link OwsServiceResponse} of the
+     *         {@link OwsServiceRequest}
      * @throws OwsExceptionReport
      *             If an error occurs during the processing of the
-     *             {@link AbstractServiceRequest}
+     *             {@link OwsServiceRequest}
      */
-    AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request) throws OwsExceptionReport;
+    OwsServiceResponse receiveRequest(OwsServiceRequest request) throws OwsExceptionReport;
 
     /**
      * Get {@link OwsOperation} metadata for service and version

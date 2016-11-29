@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.request.operator;
 
-import org.n52.iceland.service.operator.ServiceOperatorKey;
 import org.n52.iceland.util.activation.DefaultActive;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -31,7 +31,7 @@ import com.google.common.collect.ComparisonChain;
  * @since 1.0.0
  */
 public class RequestOperatorKey implements Comparable<RequestOperatorKey>, DefaultActive {
-    private final ServiceOperatorKey sok;
+    private final OwsServiceKey sok;
 
     private final String operationName;
 
@@ -43,7 +43,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
      * @param sok
      * @param operationName
      */
-    public RequestOperatorKey(ServiceOperatorKey sok, String operationName) {
+    public RequestOperatorKey(OwsServiceKey sok, String operationName) {
         this(sok, operationName, true);
     }
 
@@ -54,7 +54,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
      * @param operationName
      * @param defaultActive
      */
-    public RequestOperatorKey(ServiceOperatorKey sok, String operationName, boolean defaultActive) {
+    public RequestOperatorKey(OwsServiceKey sok, String operationName, boolean defaultActive) {
         this.sok = sok;
         this.operationName = operationName;
         this.defaultActive = defaultActive;
@@ -68,7 +68,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
      * @param operationName
      */
     public RequestOperatorKey(String service, String version, String operationName) {
-        this(new ServiceOperatorKey(service, version), operationName, true);
+        this(new OwsServiceKey(service, version), operationName, true);
     }
 
     /**
@@ -80,7 +80,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
      * @param defaultActive
      */
     public RequestOperatorKey(String service, String version, String operationName, boolean defaultActive) {
-        this(new ServiceOperatorKey(service, version), operationName, defaultActive);
+        this(new OwsServiceKey(service, version), operationName, defaultActive);
     }
 
     /**
@@ -89,7 +89,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
      * @param sok
      * @param operationName
      */
-    public RequestOperatorKey(ServiceOperatorKey sok, Enum<?> operationName) {
+    public RequestOperatorKey(OwsServiceKey sok, Enum<?> operationName) {
         this(sok, operationName.name());
     }
 
@@ -100,7 +100,7 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
      * @param operationName
      * @param defaultActive
      */
-    public RequestOperatorKey(ServiceOperatorKey sok, Enum<?> operationName, boolean defaultActive) {
+    public RequestOperatorKey(OwsServiceKey sok, Enum<?> operationName, boolean defaultActive) {
         this(sok, operationName.name(), defaultActive);
     }
 
@@ -128,9 +128,9 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
     }
 
     /**
-     * @return the {@link ServiceOperatorKey}
+     * @return the {@link OwsServiceKey}
      */
-    public ServiceOperatorKey getServiceOperatorKey() {
+    public OwsServiceKey getServiceOperatorKey() {
         return sok;
     }
 

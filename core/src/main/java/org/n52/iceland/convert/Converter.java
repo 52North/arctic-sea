@@ -18,7 +18,7 @@ package org.n52.iceland.convert;
 
 import java.util.List;
 
-import org.n52.iceland.component.Component;
+import org.n52.janmayen.component.Component;
 
 /**
  * Interface to convert an object into another object, e.g. SensorML 1.0.1 to

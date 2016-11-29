@@ -19,8 +19,9 @@ package org.n52.iceland.util;
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.util.http.HTTPStatus;
+
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * TODO JavaDoc

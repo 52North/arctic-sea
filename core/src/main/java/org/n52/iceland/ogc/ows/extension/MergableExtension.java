@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.ogc.ows.extension;
 
-import org.n52.iceland.ogc.sos.OwsCapabilitiesExtension;
+import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 
 /**
  * @since 1.0.0

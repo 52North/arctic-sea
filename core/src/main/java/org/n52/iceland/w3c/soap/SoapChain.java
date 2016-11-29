@@ -19,8 +19,8 @@ package org.n52.iceland.w3c.soap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 /**
  * TODO JavaDoc
@@ -33,9 +33,9 @@ public class SoapChain {
 
     private final HttpServletResponse httpResponse;
 
-    private AbstractServiceRequest<?> bodyRequest;
+    private OwsServiceRequest bodyRequest;
 
-    private AbstractServiceResponse bodyResponse;
+    private OwsServiceResponse bodyResponse;
 
     private SoapRequest soapRequest;
 
@@ -46,7 +46,7 @@ public class SoapChain {
         this.httpResponse = httpResponse;
     }
 
-    public AbstractServiceRequest<?> getBodyRequest() {
+    public OwsServiceRequest getBodyRequest() {
         return bodyRequest;
     }
 
@@ -54,11 +54,11 @@ public class SoapChain {
         return getBodyRequest() != null;
     }
 
-    public void setBodyRequest(AbstractServiceRequest<?> bodyRequest) {
+    public void setBodyRequest(OwsServiceRequest bodyRequest) {
         this.bodyRequest = bodyRequest;
     }
 
-    public AbstractServiceResponse getBodyResponse() {
+    public OwsServiceResponse getBodyResponse() {
         return bodyResponse;
     }
 
@@ -66,7 +66,7 @@ public class SoapChain {
         return getBodyResponse() != null;
     }
 
-    public void setBodyResponse(AbstractServiceResponse bodyResponse) {
+    public void setBodyResponse(OwsServiceResponse bodyResponse) {
         this.bodyResponse = bodyResponse;
         if (hasSoapResponse()) {
             getSoapResponse().setBodyContent(bodyResponse);

@@ -32,8 +32,8 @@ import org.n52.iceland.config.ActivationDao;
 import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
+import org.n52.janmayen.http.MediaType;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -159,7 +159,7 @@ public class JsonActivationDao extends AbstractJsonActivationDao
     protected Supplier<ObjectNode> encode(Supplier<ObjectNode> supplier, RequestOperatorKey key) {
         Objects.requireNonNull(supplier);
         return () -> {
-            ServiceOperatorKey sok = key == null ? null : key.getServiceOperatorKey();
+            OwsServiceKey sok = key == null ? null : key.getServiceOperatorKey();
             String operationName = key == null ? null : key.getOperationName();
             return encode(supplier, sok).get()
                     .put(JsonConstants.OPERATION_NAME, operationName);
@@ -167,7 +167,7 @@ public class JsonActivationDao extends AbstractJsonActivationDao
     }
 
     protected Predicate<JsonNode> matches(RequestOperatorKey key) {
-        ServiceOperatorKey sok = key == null ? null : key.getServiceOperatorKey();
+        OwsServiceKey sok = key == null ? null : key.getServiceOperatorKey();
         String operationName = key == null ? null : key.getOperationName();
         return matches(sok).and(matchesOperationName(operationName));
     }

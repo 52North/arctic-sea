@@ -16,8 +16,9 @@
  */
 package org.n52.iceland.w3c.wsa;
 
-import org.n52.iceland.util.StringHelper;
 import org.n52.iceland.w3c.soap.SoapHeader;
+
+import com.google.common.base.Strings;
 
 /**
  * Class represents a W3C WS-Addressing header
@@ -59,7 +60,7 @@ public abstract class WsaHeader implements SoapHeader {
      * @return if the value is set
      */
     public boolean isSetValue() {
-        return StringHelper.isNotEmpty(getValue());
+        return !Strings.isNullOrEmpty(getValue());
     }
 
     @Override

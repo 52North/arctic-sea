@@ -18,7 +18,7 @@ package org.n52.iceland.config;
 
 import org.n52.iceland.config.SettingType;
 import org.n52.iceland.config.SettingValue;
-import org.n52.iceland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
 
 public class TimeInstantSettingValueForTesting implements SettingValue<TimeInstant> {
 

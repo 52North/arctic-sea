@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.cache;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.util.action.Action;
 
 /**

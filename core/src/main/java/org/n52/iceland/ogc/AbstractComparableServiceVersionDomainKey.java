@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.ogc;
 
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
@@ -34,7 +34,7 @@ import com.google.common.collect.ComparisonChain;
  */
 public abstract class AbstractComparableServiceVersionDomainKey<T extends AbstractComparableServiceVersionDomainKey<T>>
         implements Comparable<T> {
-    private ServiceOperatorKey sok;
+    private OwsServiceKey sok;
 
     private String domain;
 
@@ -42,11 +42,11 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      * constructor
      *
      * @param sok
-     *            the {@link ServiceOperatorKey} to set
+     *            the {@link OwsServiceKey} to set
      * @param domain
      *            the domain to set
      */
-    public AbstractComparableServiceVersionDomainKey(ServiceOperatorKey sok, String domain) {
+    public AbstractComparableServiceVersionDomainKey(OwsServiceKey sok, String domain) {
         setServiceOperatorKey(sok);
         setDomain(domain);
     }
@@ -62,25 +62,25 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      *            the domain to set
      */
     public AbstractComparableServiceVersionDomainKey(String service, String version, String domain) {
-        this(new ServiceOperatorKey(service, version), domain);
+        this(new OwsServiceKey(service, version), domain);
     }
 
     /**
-     * Set the {@link ServiceOperatorKey} to set
+     * Set the {@link OwsServiceKey} to set
      *
      * @param sok
-     *            the {@link ServiceOperatorKey} to set
+     *            the {@link OwsServiceKey} to set
      */
-    private void setServiceOperatorKey(ServiceOperatorKey sok) {
+    private void setServiceOperatorKey(OwsServiceKey sok) {
         this.sok = sok;
     }
 
     /**
-     * Get the {@link ServiceOperatorKey}
+     * Get the {@link OwsServiceKey}
      *
-     * @return the {@link ServiceOperatorKey}
+     * @return the {@link OwsServiceKey}
      */
-    public ServiceOperatorKey getServiceOperatorKey() {
+    public OwsServiceKey getServiceOperatorKey() {
         return sok;
     }
 

@@ -16,7 +16,8 @@
  */
 package org.n52.iceland.coding.decode;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -24,6 +25,7 @@ import org.n52.iceland.exception.ows.OwsExceptionReport;
  * @author Christian Autermann
  */
 public class OwsDecodingException extends DecodingException {
+    private static final long serialVersionUID = -5015331829782851185L;
 
     public OwsDecodingException(OwsExceptionReport cause) {
         super(cause.getMessage(), cause);

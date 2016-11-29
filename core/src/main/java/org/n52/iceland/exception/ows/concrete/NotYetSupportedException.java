@@ -16,41 +16,33 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.janmayen.http.HTTPStatus;
 
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.util.http.HTTPStatus;
-
+import com.google.common.base.Joiner;
 
 /**
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * TODO JavaDoc
  *
- * @since 1.0.0
+ * @author Christian Autermann
  */
 public class NotYetSupportedException extends NoApplicableCodeException {
-    private static final long serialVersionUID = 8214490617892996058L;
+    private static final long serialVersionUID = 2406018601586191L;
 
-    private final HTTPStatus status = INTERNAL_SERVER_ERROR;
-
-    public NotYetSupportedException() {
-        setStatus(status);
-    }
-
-    public NotYetSupportedException(final String feature) {
+    public NotYetSupportedException(String feature) {
         withMessage("%s is not yet supported", feature);
-        setStatus(status);
+        setStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public NotYetSupportedException(final String type, final Object feature) {
+    public NotYetSupportedException(String type, Object feature) {
         withMessage("The %s %s is not yet supported", type, feature);
-        setStatus(status);
+        setStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     }
 
-    public NotYetSupportedException(final String type, final Object feature, final Object... supportedFeatures) {
-        withMessage("The %s %s is not yet supported. Currently supported: %s", type, feature,
-                possibleValues.join(supportedFeatures));
-        setStatus(status);
+    public NotYetSupportedException(String type, Object feature, Object... supportedFeatures) {
+        withMessage("The %s %s is not yet supported. Currently supported: %s",
+                    type, feature, Joiner.on(", ").join(supportedFeatures));
+        setStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     }
+
 }

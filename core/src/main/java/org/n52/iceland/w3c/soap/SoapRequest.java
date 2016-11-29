@@ -18,8 +18,8 @@ package org.n52.iceland.w3c.soap;
 
 import java.util.List;
 
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.Request;
+import org.n52.shetland.ogc.ows.service.Request;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 /**
  * Representation of a SOAP request
@@ -28,17 +28,11 @@ import org.n52.iceland.request.Request;
  *
  */
 public class SoapRequest implements Request {
-
     private String soapNamespace;
-
     private String soapVersion;
-
     private SoapFault soapFault;
-
-    private AbstractServiceRequest<?> soapBodyContent;
-
+    private OwsServiceRequest soapBodyContent;
     private String soapAction;
-
     private List<SoapHeader> soapHeader;
 
     public SoapRequest(String soapNamespace, String soapVersion) {
@@ -89,11 +83,11 @@ public class SoapRequest implements Request {
         return getSoapFault() != null;
     }
 
-    public AbstractServiceRequest<?> getSoapBodyContent() {
+    public OwsServiceRequest getSoapBodyContent() {
         return soapBodyContent;
     }
 
-    public void setSoapBodyContent(AbstractServiceRequest<?> soapBodyContent) {
+    public void setSoapBodyContent(OwsServiceRequest soapBodyContent) {
         this.soapBodyContent = soapBodyContent;
 
     }

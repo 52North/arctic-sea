@@ -26,6 +26,8 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.n52.iceland.config.SettingsService;
+import org.n52.shetland.ogc.ows.OwsServiceIdentification;
+import org.n52.shetland.ogc.ows.OwsServiceProvider;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LocalizedProducer;
 

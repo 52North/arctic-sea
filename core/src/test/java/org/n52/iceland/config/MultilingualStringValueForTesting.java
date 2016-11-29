@@ -19,7 +19,7 @@ package org.n52.iceland.config;
 
 import org.n52.iceland.config.SettingType;
 import org.n52.iceland.config.SettingValue;
-import org.n52.iceland.i18n.MultilingualString;
+import org.n52.shetland.i18n.MultilingualString;
 
 public class MultilingualStringValueForTesting implements
         SettingValue<MultilingualString> {

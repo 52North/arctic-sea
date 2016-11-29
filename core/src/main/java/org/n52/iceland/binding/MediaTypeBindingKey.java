@@ -18,7 +18,7 @@ package org.n52.iceland.binding;
 
 import java.util.Objects;
 
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.MediaType;
 
 /**
  * TODO JavaDoc

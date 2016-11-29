@@ -16,12 +16,13 @@
  */
 package org.n52.iceland.config.spring;
 
+import static java.util.function.Function.identity;
+import static java.util.stream.Collectors.toMap;
+
 import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import javax.inject.Provider;
 
@@ -49,15 +50,15 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
     @Override
     protected Map<String, Object> findAutowireCandidates(String beanName, Class<?> requiredType,
                                                          DependencyDescriptor descriptor) {
-        if (requiredType.equals(Provider.class)) {
-            DependencyDescriptor providedDescriptor = new DependencyDescriptor(descriptor);
-            providedDescriptor.increaseNestingLevel();
-            Class<?> providedType = providedDescriptor.getDependencyType();
-            return findAutowireCandidates(beanName, providedType, providedDescriptor).keySet().stream()
-                    .collect(Collectors.toMap(Function.identity(), name -> new DependencyProvider(descriptor, name)));
-        } else {
+
+        if (!requiredType.equals(Provider.class)) {
             return super.findAutowireCandidates(beanName, requiredType, descriptor);
         }
+
+        DependencyDescriptor providedDescriptor = new DependencyDescriptor(descriptor);
+        providedDescriptor.increaseNestingLevel();
+        return findAutowireCandidates(beanName, providedDescriptor.getDependencyType(), providedDescriptor)
+                .keySet().stream().collect(toMap(identity(), name -> new DependencyProvider(descriptor, name)));
 
     }
 

@@ -25,16 +25,14 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
 import org.n52.iceland.convert.RequestResponseModifierKey;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.TestRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.response.TestResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 public class RequestResponseModifierKeyTypeTest {
     private static final String service = "SOS";
     private static final String version = "2.0.0";
-    private final AbstractServiceRequest<?> request = new TestRequest();
-    private final AbstractServiceResponse response = new TestResponse();
+    private final OwsServiceRequest request = new OwsServiceRequest() {};
+    private final OwsServiceResponse response = new OwsServiceResponse() {};
 
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
@@ -58,14 +56,14 @@ public class RequestResponseModifierKeyTypeTest {
         errors.checkThat(new RequestResponseModifierKey(service, version, request, response), is(equalTo(new RequestResponseModifierKey(service, version, request, response))));
     }
 
-    private AbstractServiceRequest<?> getModifiedRequest() {
-        TestRequest request = new TestRequest();
+    private OwsServiceRequest getModifiedRequest() {
+        OwsServiceRequest request = new OwsServiceRequest() {};
         request.setService(service).setVersion(version);
         return request;
     }
 
-    private AbstractServiceResponse getModifiedResponse() {
-        TestResponse response = new TestResponse();
+    private OwsServiceResponse getModifiedResponse() {
+        OwsServiceResponse response = new OwsServiceResponse() {};
         response.setService(service).setVersion(version);
         return response;
     }

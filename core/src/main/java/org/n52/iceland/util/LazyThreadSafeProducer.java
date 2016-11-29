@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.util;
 
+import org.n52.janmayen.Producer;
+
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 

@@ -16,13 +16,13 @@
  */
 package org.n52.iceland.request.handler;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 public interface GenericOperationHandler<
-            Q extends AbstractServiceRequest<A>,
-            A extends AbstractServiceResponse>
+            Q extends OwsServiceRequest,
+            A extends OwsServiceResponse>
         extends OperationHandler {
 
     A handle(Q request) throws OwsExceptionReport;

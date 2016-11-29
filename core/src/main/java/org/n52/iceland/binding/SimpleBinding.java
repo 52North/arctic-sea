@@ -28,39 +28,40 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.decode.DecoderRepository;
-import org.n52.iceland.coding.decode.OperationDecoderKey;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.encode.EncodingException;
-import org.n52.iceland.coding.encode.ExceptionEncoderKey;
 import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
+import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.CompositeOwsException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceOrVersionException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
-import org.n52.iceland.exception.ows.concrete.MissingServiceParameterException;
-import org.n52.iceland.exception.ows.concrete.MissingVersionParameterException;
-import org.n52.iceland.exception.ows.concrete.NoEncoderForKeyException;
+import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
+import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.GetCapabilitiesRequest;
-import org.n52.iceland.request.RequestContext;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.service.operator.ServiceOperator;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
-import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.DecoderKey;
+import org.n52.svalbard.decode.DecoderRepository;
+import org.n52.svalbard.decode.OperationDecoderKey;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.ExceptionEncoderKey;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
 /**
  * TODO JavaDoc
@@ -125,9 +126,16 @@ public abstract class SimpleBinding extends Binding {
     }
 
     @Override
-    public Object handleOwsExceptionReport(HttpServletRequest request, HttpServletResponse response,
-            OwsExceptionReport oer) throws HTTPException {
+    public Object handleEncodingException(HttpServletRequest request,
+                                          HttpServletResponse response,
+                                          EncodingException ex) throws HTTPException {
         try {
+            OwsExceptionReport oer;
+            if (ex instanceof OwsEncodingException) {
+                oer = ((OwsEncodingException) ex).getCause();
+            } else {
+                oer = new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
+            }
             eventBus.submit(new ExceptionEvent(oer));
             MediaType contentType =
                     chooseResponseContentTypeForExceptionReport(HttpUtils.getAcceptHeader(request),
@@ -144,12 +152,11 @@ public abstract class SimpleBinding extends Binding {
 
     protected abstract boolean isUseHttpResponseCodes();
 
-    protected RequestContext getRequestContext(HttpServletRequest req) {
-        return RequestContext.fromRequest(req);
+    protected OwsServiceRequestContext getRequestContext(HttpServletRequest req) {
+        return OwsServiceRequestContext.fromRequest(req);
     }
 
-    protected boolean isVersionSupported(String service,
-            String acceptVersion) {
+    protected boolean isVersionSupported(String service, String acceptVersion) {
         return getServiceOperatorRepository().isVersionSupported(service, acceptVersion);
     }
 
@@ -183,12 +190,12 @@ public abstract class SimpleBinding extends Binding {
         return hasEncoder(new OperationResponseEncoderKey(key, mediaType));
     }
 
-    protected boolean hasEncoder(AbstractServiceResponse response,
+    protected boolean hasEncoder(OwsServiceResponse response,
             MediaType mediaType) {
-        return hasEncoder(response.getOperationKey(), mediaType);
+        return hasEncoder(new OperationKey(response), mediaType);
     }
 
-    protected MediaType chooseResponseContentType(AbstractServiceResponse response,
+    protected MediaType chooseResponseContentType(OwsServiceResponse response,
             List<MediaType> acceptHeader,
             MediaType defaultContentType) throws HTTPException {
         /*
@@ -251,11 +258,11 @@ public abstract class SimpleBinding extends Binding {
         throw new HTTPException(HTTPStatus.NOT_ACCEPTABLE);
     }
 
-    protected ServiceOperator getServiceOperator(ServiceOperatorKey sokt) {
+    protected ServiceOperator getServiceOperator(OwsServiceKey sokt) {
         return getServiceOperatorRepository().getServiceOperator(sokt);
     }
 
-    protected ServiceOperator getServiceOperator(AbstractServiceRequest<?> request) throws OwsExceptionReport {
+    protected ServiceOperator getServiceOperator(OwsServiceRequest request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
         return request.getServiceOperatorKeys().stream()
                 .map(this::getServiceOperator)
@@ -270,9 +277,9 @@ public abstract class SimpleBinding extends Binding {
                 });
     }
 
-    protected void checkServiceOperatorKeyTypes(AbstractServiceRequest<?> request) throws OwsExceptionReport {
+    protected void checkServiceOperatorKeyTypes(OwsServiceRequest request) throws OwsExceptionReport {
         CompositeOwsException exceptions = new CompositeOwsException();
-        for (ServiceOperatorKey sokt : request.getServiceOperatorKeys()) {
+        for (OwsServiceKey sokt : request.getServiceOperatorKeys()) {
             if (sokt.hasService()) {
                 if (sokt.getService().isEmpty()) {
                     exceptions.add(new MissingServiceParameterException());
@@ -308,7 +315,7 @@ public abstract class SimpleBinding extends Binding {
 
     protected void writeResponse(HttpServletRequest request,
             HttpServletResponse response,
-            AbstractServiceResponse serviceResponse) throws HTTPException, IOException {
+            OwsServiceResponse serviceResponse) throws HTTPException, IOException {
         MediaType contentType = chooseResponseContentType(serviceResponse, HttpUtils.getAcceptHeader(request), getDefaultContentType());
         if (!serviceResponse.isSetContentType()) {
             serviceResponse.setContentType(contentType);
@@ -316,14 +323,15 @@ public abstract class SimpleBinding extends Binding {
         httpUtils.writeObject(request, response, contentType, serviceResponse, this);
     }
 
-    protected Object encodeResponse(AbstractServiceResponse response,
+    protected Object encodeResponse(OwsServiceResponse response,
             MediaType contentType) throws OwsExceptionReport {
-        OperationResponseEncoderKey key = new OperationResponseEncoderKey(response.getOperationKey(), contentType);
-        Encoder<Object, AbstractServiceResponse> encoder = getEncoder(key);
-        if (encoder == null) {
-            throw new NoEncoderForKeyException(key);
-        }
+
         try {
+            OperationResponseEncoderKey key = new OperationResponseEncoderKey(new OperationKey(response), contentType);
+            Encoder<Object, OwsServiceResponse> encoder = getEncoder(key);
+            if (encoder == null) {
+                throw new NoEncoderForKeyException(key);
+            }
             return encoder.encode(response);
         } catch (EncodingException ex) {
             throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);

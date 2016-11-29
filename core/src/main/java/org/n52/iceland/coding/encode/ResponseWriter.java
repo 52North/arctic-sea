@@ -16,15 +16,16 @@
  */
 package org.n52.iceland.coding.encode;
 
+
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.request.ResponseFormat;
-import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.component.Component;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * TODO JavaDoc
@@ -47,38 +48,42 @@ public interface ResponseWriter<T> extends Component<ResponseWriterKey> {
      * Set the contentType
      *
      * @param contentType
-     *            to set
+     *                    to set
      */
     void setContentType(MediaType contentType);
 
-     /**
+    /**
      * Check if contentType is set
+     *
      * @return <code>true</code>, if contentType is set
      */
     default boolean isSetContentType() {
         return getContentType() != null;
     }
 
-
     /**
      * Write object t to {@link OutputStream} out
      *
      * @param t
-     *            Object to write
+     *                      Object to write
      * @param out
-     *            {@link OutputStream} to be written to
+     *                      {@link OutputStream} to be written to
      * @param responseProxy
-     *            {@link ResponseProxy} giving access to header and content length setters
+     *                      {@link ResponseProxy} giving access to header and content length setters
+     *
      * @throws IOException
-     *             If an error occurs during writing
+     *                           If an error occurs during writing
+     * @throws EncodingException if an errors occurs during encoding
+     *
      */
-    void write(T t, OutputStream out, ResponseProxy responseProxy) throws IOException, OwsExceptionReport;
+    void write(T t, OutputStream out, ResponseProxy responseProxy) throws IOException, EncodingException;
 
     /**
      * Check if GZip is supported by this writer
      *
      * @param t
-     *            Object to write
+     *          Object to write
+     *
      * @return <code>true</code>, if GZip is supported
      */
     boolean supportsGZip(T t);

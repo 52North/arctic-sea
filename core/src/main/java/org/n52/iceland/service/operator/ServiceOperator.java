@@ -16,17 +16,18 @@
  */
 package org.n52.iceland.service.operator;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 /**
  * Interface for the request listeners of a service, e.g. SOS 2.0 or SOS 1.0.0.
  *
  * @since 1.0.0
  */
-public interface ServiceOperator extends Component<ServiceOperatorKey> {
+public interface ServiceOperator extends Component<OwsServiceKey> {
 
     /**
      * method handles the incoming operation request and returns a matching
@@ -40,6 +41,6 @@ public interface ServiceOperator extends Component<ServiceOperatorKey> {
      * @throws OwsExceptionReport If an error occurred or the requested
      *                            operation is not supported
      */
-    AbstractServiceResponse receiveRequest(AbstractServiceRequest<?> request)
+    OwsServiceResponse receiveRequest(OwsServiceRequest request)
             throws OwsExceptionReport;
 }

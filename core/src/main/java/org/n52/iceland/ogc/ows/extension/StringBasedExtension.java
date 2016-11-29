@@ -17,6 +17,9 @@
 package org.n52.iceland.ogc.ows.extension;
 
 //<!--@deprecated use {@link org.n52.sos.ogc.swes.SwesExtension&lt;java.lang.String&gt;}-->
+
+import org.n52.shetland.ogc.ows.extension.Extension;
+
 //FIXME should this one replaced by SwesExtension<String> or should {@link SwesExtension} provide a direct and easy way to get the string represenation of this extension Object?
 //<!--@deprecated use {@link Encoder.encode(Object).toString()}-->
 public interface StringBasedExtension extends Extension<String> {

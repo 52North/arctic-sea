@@ -17,7 +17,7 @@
 package org.n52.iceland.coding.encode;
 
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.MediaType;
 
 /**
  * TODO JavaDoc

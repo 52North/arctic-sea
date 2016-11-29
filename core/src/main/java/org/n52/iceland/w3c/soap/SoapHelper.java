@@ -27,11 +27,11 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPHeader;
 import javax.xml.soap.SOAPMessage;
 
-import org.n52.iceland.exception.ExceptionCode;
+import org.n52.shetland.ogc.ows.exception.ExceptionCode;
 
 import org.w3c.dom.NodeList;
 
-import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.OWSConstants;
 
 /**
  * Utility class for SOAP requests.

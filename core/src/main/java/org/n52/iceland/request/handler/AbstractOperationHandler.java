@@ -39,21 +39,21 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.ows.OwsAllowedValues;
-import org.n52.iceland.ogc.ows.OwsDCP;
-import org.n52.iceland.ogc.ows.OwsDomain;
-import org.n52.iceland.ogc.ows.OwsHttp;
-import org.n52.iceland.ogc.ows.OwsMetadata;
-import org.n52.iceland.ogc.ows.OwsOperation;
-import org.n52.iceland.ogc.ows.OwsRequestMethod;
-import org.n52.iceland.ogc.ows.OwsValue;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.OwsAllowedValues;
+import org.n52.shetland.ogc.ows.OwsDCP;
+import org.n52.shetland.ogc.ows.OwsDomain;
+import org.n52.shetland.ogc.ows.OwsHttp;
+import org.n52.shetland.ogc.ows.OwsMetadata;
+import org.n52.shetland.ogc.ows.OwsOperation;
+import org.n52.shetland.ogc.ows.OwsRequestMethod;
+import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.iceland.service.ServiceSettings;
 import org.n52.iceland.util.Validation;
-import org.n52.iceland.util.http.HTTPHeaders;
-import org.n52.iceland.util.http.HTTPMethods;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPMethods;
+import org.n52.janmayen.http.MediaType;
 
 /**
  * TODO JavaDoc
@@ -76,7 +76,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         this.serviceURL = Validation.notNull("Service URL", serviceURL);
     }
 
-    private Set<OwsDCP> getDCP (String service, String version)
+    private Set<OwsDCP> getDCP(String service, String version)
             throws OwsExceptionReport {
         return Collections.singleton(getDCP(new OperationKey(service, version, getOperationName())));
     }
@@ -99,20 +99,22 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     private Stream<OwsRequestMethod> getRequestMethodsForServiceURL(OperationKey operation) {
         Collection<Binding> bindings = bindingRepository.getBindings().values();
         Map<String, Set<OwsValue>> mediaTypesByMethod = new HashMap<>();
-        bindings.stream().forEach(binding ->
-            HTTPMethods.METHODS.stream()
-                    .filter(method -> isMethodSupported(binding, method, operation))
-                    .forEach(method -> mediaTypesByMethod.computeIfAbsent(method, (m) -> new HashSet<>())
-                                .addAll(Optional.ofNullable(binding.getSupportedEncodings())
-                                        .filter(x -> !x.isEmpty()).map(Collection::stream)
-                                        .map(x -> x.map(MediaType::toString).map(OwsValue::new).collect(toSet()))
-                                        .orElseGet(Collections::emptySet))
-                    )
+        bindings.stream().forEach(binding
+                -> HTTPMethods.METHODS.stream()
+                .filter(method -> isMethodSupported(binding, method, operation))
+                .forEach(method -> mediaTypesByMethod.computeIfAbsent(method, (m) -> new HashSet<>())
+                        .addAll(Optional.ofNullable(binding.getSupportedEncodings())
+                                .filter(x -> !x.isEmpty()).map(Collection::stream)
+                                .map(x -> x.map(MediaType::toString).map(OwsValue::new).collect(toSet()))
+                                .orElseGet(Collections::emptySet))
+                )
         );
 
         return mediaTypesByMethod.entrySet().stream()
                 .map(e -> new OwsRequestMethod(serviceURL, e.getKey(),
-                        Collections.singleton(new OwsDomain(HTTPHeaders.CONTENT_TYPE, new OwsAllowedValues(e.getValue())))));
+                                               Collections
+                                               .singleton(new OwsDomain(HTTPHeaders.CONTENT_TYPE, new OwsAllowedValues(e
+                                                                        .getValue())))));
     }
 
     private Stream<OwsRequestMethod> getRequestMethods(Binding binding, OperationKey operation) {
@@ -129,7 +131,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
 
     private boolean isMethodSupported(Binding binding, String method, OperationKey decoderKey) {
         try {
-            switch(method) {
+            switch (method) {
                 case HTTPMethods.GET:
                     return binding.checkOperationHttpGetSupported(decoderKey);
                 case HTTPMethods.POST:
@@ -145,7 +147,6 @@ public abstract class AbstractOperationHandler implements OperationHandler {
             return false;
         }
     }
-
 
     private Set<OwsDomain> getConstraints(Binding binding) {
         return Optional
@@ -166,18 +167,18 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         Set<OwsDomain> constraints = getOperationConstraints(service, version);
         Set<OwsMetadata> metadata = getOperationMetadata(service, version);
         Set<OwsDCP> dcp = getDCP(service, version);
-         return new OwsOperation(name, parameters, constraints, metadata, dcp);
+        return new OwsOperation(name, parameters, constraints, metadata, dcp);
     }
 
-    protected  Set<OwsDomain> getOperationParameters(String service, String version) {
+    protected Set<OwsDomain> getOperationParameters(String service, String version) throws OwsExceptionReport {
         return null;
     }
 
-    protected Set<OwsDomain> getOperationConstraints(String service, String version) {
+    protected Set<OwsDomain> getOperationConstraints(String service, String version) throws OwsExceptionReport {
         return null;
     }
 
-    protected Set<OwsMetadata> getOperationMetadata(String service, String version) {
+    protected Set<OwsMetadata> getOperationMetadata(String service, String version) throws OwsExceptionReport {
         return null;
     }
 

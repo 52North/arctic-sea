@@ -33,27 +33,18 @@ import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.EncodingException;
+import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.coding.encode.XmlEncoderKey;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.exception.ows.concrete.NoEncoderForKeyException;
 import org.n52.iceland.ogc.sos.ConformanceClasses;
-import org.n52.iceland.ogc.sos.Sos2Constants;
-import org.n52.iceland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
-import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
 import org.n52.iceland.w3c.soap.SoapChain;
 import org.n52.iceland.w3c.soap.SoapHeader;
 import org.n52.iceland.w3c.soap.SoapHelper;
@@ -62,6 +53,15 @@ import org.n52.iceland.w3c.soap.SoapResponse;
 import org.n52.iceland.w3c.wsa.WsaMessageIDHeader;
 import org.n52.iceland.w3c.wsa.WsaReplyToHeader;
 import org.n52.iceland.w3c.wsa.WsaToHeader;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -165,7 +165,7 @@ public class SoapBinding extends AbstractXmlBinding {
     // throw new NoApplicableCodeException().withMessage(
     // "The returned object is not an AbstractServiceRequest implementation").setStatus(BAD_REQUEST);
     // }
-    // AbstractServiceRequest<?> bodyRequest = (AbstractServiceRequest<?>)
+    // AbstractServiceRequest bodyRequest = (AbstractServiceRequest)
     // aBodyRequest;
     // bodyRequest.setRequestContext(getRequestContext(chain.getHttpRequest()));
     // if (bodyRequest instanceof CommunicationObjectWithSoapHeader) {
@@ -184,11 +184,11 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void createBodyResponse(SoapChain chain) throws OwsExceptionReport {
-        AbstractServiceRequest<?> req = chain.getSoapRequest().getSoapBodyContent();
+        OwsServiceRequest req = chain.getSoapRequest().getSoapBodyContent();
         chain.setBodyResponse(getServiceOperator(req).receiveRequest(req));
     }
 
-    private Object encodeSoapResponse(SoapChain chain) throws OwsExceptionReport {
+    private Object encodeSoapResponse(SoapChain chain) throws OwsExceptionReport, NoEncoderForKeyException {
         final EncoderKey key =
                 new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(), chain.getSoapResponse().getClass());
         final Encoder<?, SoapResponse> encoder = getEncoder(key);
@@ -201,7 +201,8 @@ public class SoapBinding extends AbstractXmlBinding {
                 throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }
         } else {
-            throw new NoEncoderForKeyException(key);
+            NoEncoderForKeyException cause = new NoEncoderForKeyException(key);
+            throw new NoApplicableCodeException().withMessage(cause.getMessage()).causedBy(cause);
         }
     }
 
@@ -222,7 +223,7 @@ public class SoapBinding extends AbstractXmlBinding {
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain),
                     encodeSoapResponse(chain), this);
-        } catch (OwsExceptionReport t) {
+        } catch (OwsExceptionReport | NoEncoderForKeyException t) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, t);
         }
     }

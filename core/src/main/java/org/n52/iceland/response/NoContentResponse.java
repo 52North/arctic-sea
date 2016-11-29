@@ -16,21 +16,16 @@
  */
 package org.n52.iceland.response;
 
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+
 /**
  *
  * @author Matthes Rieke <m.rieke@52north.org>
  */
-public class NoContentResponse extends AbstractServiceResponse {
-
-    private final String operationName;
+public class NoContentResponse extends OwsServiceResponse {
 
     public NoContentResponse(String operationName) {
-        this.operationName = operationName;
-    }
-
-    @Override
-    public String getOperationName() {
-        return operationName;
+        super(null, null, operationName);
     }
 
 }

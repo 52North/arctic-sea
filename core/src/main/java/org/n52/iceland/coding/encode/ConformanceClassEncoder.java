@@ -16,11 +16,9 @@
  */
 package org.n52.iceland.coding.encode;
 
-import java.util.Collections;
-import java.util.Set;
 
+import org.n52.svalbard.encode.Encoder;
 import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.w3c.SchemaLocation;
 
 /**
  * Generic interface for Encoders.
@@ -34,7 +32,4 @@ import org.n52.iceland.w3c.SchemaLocation;
  */
 public interface ConformanceClassEncoder<T, S> extends ConformanceClass, Encoder<T, S> {
 
-    default Set<SchemaLocation> getSchemaLocations() {
-        return Collections.emptySet();
-    }
 }

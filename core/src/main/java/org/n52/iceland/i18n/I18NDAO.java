@@ -19,8 +19,8 @@ package org.n52.iceland.i18n;
 import java.util.Collection;
 import java.util.Locale;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 
 /**

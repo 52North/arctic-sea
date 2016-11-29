@@ -30,11 +30,11 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.ClassHelper;
 import org.n52.iceland.util.GroupedAndNamedThreadFactory;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
+import org.n52.janmayen.ClassHelper;
+import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.SetMultimap;
@@ -178,17 +178,19 @@ public class ServiceEventBus implements Constructable {
         }
         lock.writeLock().lock();
         try {
-            for (Class<? extends ServiceEvent> eventType : listener.getTypes()) {
-                Set<ServiceEventListener> listenersForKey = listeners.get(eventType);
-                if (listenersForKey.contains(listener)) {
-                    LOG.debug("Unsubscibing Listener {} from EventType {}", listener, eventType);
-                    listenersForKey.remove(listener);
-                } else {
-                    LOG.warn("Listener {} was not registered for SosEvent Type {}", listener, eventType);
-                }
-            }
+            listener.getTypes().forEach(eventType -> unregister(listener, eventType));
         } finally {
             lock.writeLock().unlock();
+        }
+    }
+
+    private void unregister(ServiceEventListener listener, Class<? extends ServiceEvent> eventType) {
+        Set<ServiceEventListener> listenersForKey = listeners.get(eventType);
+        if (listenersForKey.contains(listener)) {
+            LOG.debug("Unsubscibing Listener {} from EventType {}", listener, eventType);
+            listenersForKey.remove(listener);
+        } else {
+            LOG.warn("Listener {} was not registered for SosEvent Type {}", listener, eventType);
         }
     }
 

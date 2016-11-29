@@ -18,10 +18,10 @@ package org.n52.iceland.statistics.impl.handlers.exceptions;
 
 import java.util.Map;
 
-import org.n52.iceland.exception.CodedException;
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
+import org.n52.shetland.ogc.ows.exception.CodedException;
 
 public class CodedExceptionEventHandler extends AbstractElasticSearchDataHolder implements StatisticsServiceEventHandler<Exception> {
 

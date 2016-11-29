@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.util;
 
+import org.n52.janmayen.Producer;
+
 /**
  *
  * @author Christian Autermann
