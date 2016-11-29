@@ -19,14 +19,12 @@ package org.n52.shetland.ogc.ows.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Function;
 
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
 import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.ows.extension.Value;
 
@@ -105,9 +103,8 @@ public abstract class OwsServiceRequest
     }
 
     public String getRequestedLanguage() {
-        Function<Extension<?>, ?> getValue = Extension::getValue;
-        Optional<Extension<?>> extension = getExtension(OWSConstants.AdditionalRequestParams.language);
-        Function<Object, String> toString = value -> {
+        return getExtension(OWSConstants.AdditionalRequestParams.language)
+                .map(e -> e.getValue()).map(value -> {
             if (value instanceof Value<?, ?>) {
                 return ((Value<?, ?>) value).getStringValue();
             } else if (value instanceof String) {
@@ -115,8 +112,7 @@ public abstract class OwsServiceRequest
             } else {
                 return "";
             }
-        };
-        return extension.map(getValue).map(toString).orElse("");
+        }).orElse("");
     }
 
     public Optional<String> getOriginalRequest() {
