@@ -302,15 +302,6 @@
             </plugin>
 
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>findbugs-maven-plugin</artifactId>
-                <inherited>false</inherited>
-                <configuration>
-                    <failOnError>true</failOnError>
-                    <excludeFilterFile>etc/findbugs-excludes.xml</excludeFilterFile>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
@@ -321,39 +312,6 @@
     </build>
 
     <profiles>
-        <profile>
-            <id>check</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>cobertura-maven-plugin</artifactId>
-                        <!-- https://github.com/cobertura/cobertura/issues/248
-                            <executions>
-                                <execution>
-                                    <goals>
-                                        <goal>clean</goal>
-                                        <goal>check</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        -->
-                    </plugin>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>findbugs-maven-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>check</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
         <profile>
             <id>create-license-list</id>
             <build>
