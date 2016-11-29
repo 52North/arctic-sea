@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.om;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -28,8 +27,7 @@ import com.google.common.base.Objects;
 /**
  * @since 4.0.0
  */
-public class OmObservationConstellation implements Serializable, Cloneable {
-    private static final long serialVersionUID = 8758412729768944974L;
+public class OmObservationConstellation implements Cloneable {
 
     /** Identifier of the procedure by which the observation is made */
     private AbstractFeature procedure;

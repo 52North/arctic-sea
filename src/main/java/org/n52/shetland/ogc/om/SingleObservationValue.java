@@ -19,9 +19,9 @@ package org.n52.shetland.ogc.om;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
 
@@ -34,10 +34,6 @@ import com.google.common.collect.Sets;
  *            value type
  */
 public class SingleObservationValue<T> extends AbstractObservationValue<Value<T>> {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = -8162038672393523937L;
 
     /**
      * Phenomenon time

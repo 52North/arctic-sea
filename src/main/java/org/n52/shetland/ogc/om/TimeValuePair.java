@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.util.Objects;
+
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
@@ -91,6 +93,35 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
     @Override
     public int compareTo(TimeValuePair o) {
         return time.compareTo(o.time);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 37 * hash + Objects.hashCode(this.time);
+        hash = 37 * hash + Objects.hashCode(this.value);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final TimeValuePair other = (TimeValuePair) obj;
+        if (!Objects.equals(this.time, other.time)) {
+            return false;
+        }
+        if (!Objects.equals(this.value, other.value)) {
+            return false;
+        }
+        return true;
     }
 
 }

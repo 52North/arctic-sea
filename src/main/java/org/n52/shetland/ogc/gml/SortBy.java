@@ -58,7 +58,7 @@ public class SortBy {
      * @return Returns String representation with values of this object
      */
     public String toString() {
-        return String.format("Sort by [property=%s, order=%]", getProperty(), getOrder());
+        return String.format("Sort by [property=%s, order=%s]", getProperty(), getOrder());
     }
 
     /**

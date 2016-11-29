@@ -293,10 +293,9 @@ public interface FilterConstants {
 
     interface LogicOperator {
 
-        public static final Set<LogicOperator> ALL = Sets.newHashSet(
-                BinaryLogicOperator.And,
-                BinaryLogicOperator.Or,
-                UnaryLogicOperator.Not);
+        public static final Set<LogicOperator> ALL = Sets.newHashSet(BinaryLogicOperator.And,
+                                                                     BinaryLogicOperator.Or,
+                                                                     UnaryLogicOperator.Not);
 
     }
 
@@ -307,7 +306,6 @@ public interface FilterConstants {
      *
      */
     enum BinaryLogicOperator implements LogicOperator {
-
         And,
         Or
     }
@@ -319,7 +317,6 @@ public interface FilterConstants {
      *
      */
     enum UnaryLogicOperator implements LogicOperator {
-
         Not
     }
 

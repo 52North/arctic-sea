@@ -247,17 +247,16 @@ public final class DateTimeHelper {
      */
     public static String formatDateTime2FormattedString(DateTime dateTime, String dateFormat)
             throws DateTimeFormatException {
-        try {
-            if (Strings.isNullOrEmpty(dateFormat)) {
-                return formatDateTime2IsoString(dateTime);
-            } else {
-                if (dateTime == null) {
-                    return getZeroUtcDateTime().toString(DateTimeFormat.forPattern(dateFormat));
-                }
-                return dateTime.toString(DateTimeFormat.forPattern(dateFormat)).replace(Z, UTC_OFFSET);
+        if (Strings.isNullOrEmpty(dateFormat)) {
+            return formatDateTime2IsoString(dateTime);
+        } else if (dateTime == null) {
+            return getZeroUtcDateTime().toString(DateTimeFormat.forPattern(dateFormat));
+        } else {
+            try {
+               return dateTime.toString(DateTimeFormat.forPattern(dateFormat)).replace(Z, UTC_OFFSET);
+            } catch (IllegalArgumentException iae) {
+                throw new DateTimeFormatException(dateTime, iae);
             }
-        } catch (IllegalArgumentException iae) {
-            throw new DateTimeFormatException(dateTime, iae);
         }
     }
 

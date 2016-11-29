@@ -19,9 +19,6 @@ package org.n52.shetland.ogc.om;
 import org.n52.shetland.ogc.om.values.Value;
 
 public abstract class AbstractObservationValue<T extends Value<?>> implements ObservationValue<T> {
-
-    private static final long serialVersionUID = -8969234704767943799L;
-
     private String observationID;
     private String observationType;
     private String observableProperty;

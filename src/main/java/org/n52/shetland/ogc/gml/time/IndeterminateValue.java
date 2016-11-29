@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Objects;
@@ -28,13 +29,13 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class IndeterminateValue {
-
+public class IndeterminateValue implements Serializable {
     public static final IndeterminateValue AFTER = new IndeterminateValue("after");
     public static final IndeterminateValue BEFORE = new IndeterminateValue("before");
     public static final IndeterminateValue NOW = new IndeterminateValue("now");
     public static final IndeterminateValue UNKNOWN = new IndeterminateValue("unknown");
     public static final IndeterminateValue TEMPLATE = new IndeterminateValue("template");
+    private static final long serialVersionUID = -3624227423960325361L;
 
     private final String value;
     private final TreeSet<String> alias;
@@ -70,8 +71,8 @@ public class IndeterminateValue {
         return equals(AFTER);
     }
 
-    public boolean Unknown() {
-        return equals(AFTER);
+    public boolean isUnknown() {
+        return equals(UNKNOWN);
     }
 
     public boolean equals(IndeterminateValue other) {

@@ -19,6 +19,7 @@ package org.n52.shetland.util;
 import static java.util.stream.Collectors.toSet;
 
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Set;
@@ -66,7 +67,7 @@ public final class JavaHelper {
     public static String generateID(String message) {
         final long autoGeneratredID = new DateTime().getMillis();
         final String concate = message + Long.toString(autoGeneratredID);
-        return bytesToHex(messageDigest.digest(concate.getBytes()));
+        return bytesToHex(messageDigest.digest(concate.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**

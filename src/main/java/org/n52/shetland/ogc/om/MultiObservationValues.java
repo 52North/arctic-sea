@@ -29,11 +29,6 @@ import org.n52.shetland.ogc.om.values.MultiValue;
  */
 public class MultiObservationValues<T> extends AbstractObservationValue<MultiValue<T>> {
     /**
-     * serial number
-     */
-    private static final long serialVersionUID = 4481588813229272799L;
-
-    /**
      * Mesurement values
      */
     private MultiValue<T> values;

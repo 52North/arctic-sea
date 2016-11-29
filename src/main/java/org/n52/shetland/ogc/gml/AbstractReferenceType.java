@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.gml;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.Objects;
+
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
 public class AbstractReferenceType implements Comparable<AbstractReferenceType> {
@@ -168,4 +170,38 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
                                            : o.getHref() == null ? 1
                                                      : getHref().compareTo(o.getHref());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 29 * hash + Objects.hashCode(this.href);
+        hash = 29 * hash + Objects.hashCode(this.title);
+        hash = 29 * hash + Objects.hashCode(this.role);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractReferenceType other = (AbstractReferenceType) obj;
+        if (!Objects.equals(this.title, other.title)) {
+            return false;
+        }
+        if (!Objects.equals(this.role, other.role)) {
+            return false;
+        }
+        if (!Objects.equals(this.href, other.href)) {
+            return false;
+        }
+        return true;
+    }
+
 }

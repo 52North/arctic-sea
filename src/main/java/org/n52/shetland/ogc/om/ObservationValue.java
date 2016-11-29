@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.om;
 
-import java.io.Serializable;
-
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
@@ -29,7 +27,7 @@ import org.n52.shetland.ogc.om.values.Value;
  * @param <T>
  *            observation value type
  */
-public interface ObservationValue<T extends Value<?>> extends Serializable {
+public interface ObservationValue<T extends Value<?>> {
 
     /**
      * Get phenomenon or sampling time of the observation

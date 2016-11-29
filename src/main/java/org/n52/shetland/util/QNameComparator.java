@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.util;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
 import javax.xml.namespace.QName;
@@ -31,7 +32,8 @@ import org.n52.janmayen.Comparables;
  *
  */
 @Deprecated
-public class QNameComparator implements Comparator<QName> {
+public class QNameComparator implements Comparator<QName>, Serializable {
+    private static final long serialVersionUID = 1592187241620935158L;
 
     @Override
     public int compare(QName o1, QName o2) {
