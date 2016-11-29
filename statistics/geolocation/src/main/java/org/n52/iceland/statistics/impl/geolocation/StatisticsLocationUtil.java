@@ -33,15 +33,15 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameterFactory;
 import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.n52.iceland.statistics.api.utils.GeoLiteFileDownloader;
-import org.n52.janmayen.net.IPAddress;
 import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.net.IPAddress;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.DatabaseReader;
@@ -134,7 +134,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
         if (ctx.getForwardedForChain().isPresent()) {
             return ctx.getForwardedForChain().get().getOrigin();
         } else {
-            return ctx.getIPAddress().orNull();
+            return ctx.getIPAddress().orElse(null);
         }
     }
 
