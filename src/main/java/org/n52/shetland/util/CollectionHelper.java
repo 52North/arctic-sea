@@ -39,6 +39,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.janmayen.stream.Streams;
 
 import com.google.common.collect.Lists;
@@ -102,7 +103,7 @@ public final class CollectionHelper {
     }
 
     public static <T> Set<T> union(Iterable<Set<T>> elements) {
-        return Streams.parallelStream(elements).flatMap(Set<T>::stream).collect(toSet());
+        return Streams.stream(elements).flatMap(Set<T>::stream).collect(toSet());
     }
 
     /**
@@ -312,7 +313,7 @@ public final class CollectionHelper {
      * @return the reversed map
      */
     public static <K, V> Map<V, K> reverse(Map<K, V> map) {
-        return map.entrySet().stream().collect(Streams.toValueMap());
+        return map.entrySet().stream().collect(MoreCollectors.toValueMap());
     }
 
     /**
@@ -373,7 +374,7 @@ public final class CollectionHelper {
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        return map.entrySet().stream().sorted(comparing(Map.Entry::getValue)).collect(Streams.toLinkedHashMap());
+        return map.entrySet().stream().sorted(comparing(Map.Entry::getValue)).collect(MoreCollectors.toLinkedHashMap());
     }
 
     /**
