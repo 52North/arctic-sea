@@ -41,20 +41,62 @@ public class Functions {
     private Functions() {
     }
 
+    /**
+     * Creates a {@link Predicate} that checks if it's input is an instance of {@code clazz}.
+     *
+     * @param <T>   The input type.
+     * @param <U>   The type of which the input has to be an instance of.
+     * @param clazz The class of which the input has to be an instance of.
+     *
+     * @return The predicate.
+     */
     public static <T, U extends T> Predicate<T> instanceOf(Class<? extends U> clazz) {
         Objects.requireNonNull(clazz);
         return x -> clazz.isAssignableFrom(x.getClass());
     }
 
+    /**
+     * Casts it's input argument to any type.
+     *
+     * @param <T> The input type.
+     * @param <U> The output type.
+     * @param t   The object to be casted.
+     *
+     * @return The casted object.
+     *
+     * @throws ClassCastException if the object can not be casted.
+     */
     @SuppressWarnings("unchecked")
-    public static <T, U extends T> Function<T, U> cast() {
-        return (t) -> (U) t;
+    public static <T, U extends T> U cast(T t) throws ClassCastException {
+        return (U) t;
     }
 
+    /**
+     * Returns a {@link Function} that casts it's input argument to any type.
+     *
+     * @param <T>   The input type.
+     * @param <U>   The output type.
+     * @param clazz The class the input should be casted to.
+     *
+     * @return The casting function.
+     *
+     * @see #cast(java.lang.Object)
+     *
+     */
     public static <T, U extends T> Function<T, U> cast(Class<? extends U> clazz) {
-        return cast();
+        return Functions::cast;
     }
 
+    /**
+     * Returns a {@link Function} that casts it'S input argument to the specified type if it's the right type. The
+     * returned {@link Optional} either contains the casted input arguemnt or is empty.
+     *
+     * @param <T>   The input type.
+     * @param <U>   The output type.
+     * @param clazz The class to
+     *
+     * @return An {@link Optional} containing the input
+     */
     public static <T, U extends T> Function<T, Optional<U>> castIfInstanceOf(Class<? extends U> clazz) {
         Objects.requireNonNull(clazz);
         return t -> Optional.ofNullable(t).filter(instanceOf(clazz)).map(cast(clazz));
@@ -127,6 +169,14 @@ public class Functions {
                 .map(Entry::getKey);
     }
 
+    /**
+     * Wrapps a {@link Consumer} into a {@link Function} that returns it's input argument.
+     *
+     * @param <T>    The consumed element's type.
+     * @param action The consumer.
+     *
+     * @return A function that applies the consumer and returns it's input.
+     */
     public static <T> Function<T, T> mutate(Consumer<? super T> action) {
         Objects.requireNonNull(action);
         return (T t) -> {
@@ -135,6 +185,18 @@ public class Functions {
         };
     }
 
+    /**
+     *
+     * Wraps an {@link ThrowingFunction} into an {@link Function} that throws an {@link Error} if the function throws an
+     * {@link Exception}.
+     *
+     * @param <S> The function's input type.
+     * @param <T> The function's output type.
+     * @param <X> The type of the the exception that might be thrown.
+     * @param fun The function.
+     *
+     * @return The wrapped function.
+     */
     public static <S, T, X extends Exception> Function<S, T> errorWrapper(ThrowingFunction<S, T, X> fun) {
         return s -> {
             try {

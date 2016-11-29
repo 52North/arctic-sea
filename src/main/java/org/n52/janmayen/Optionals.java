@@ -16,6 +16,8 @@
  */
 package org.n52.janmayen;
 
+import org.n52.janmayen.stream.Streams;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;

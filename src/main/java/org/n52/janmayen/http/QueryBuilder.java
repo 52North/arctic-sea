@@ -31,7 +31,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-import org.n52.janmayen.Streams;
+import org.n52.janmayen.stream.Streams;
 import org.n52.janmayen.function.Functions;
 
 import com.google.common.base.Joiner;

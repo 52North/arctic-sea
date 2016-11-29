@@ -14,11 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.janmayen;
+package org.n52.janmayen.stream;
+
+import static java.util.stream.Collectors.toMap;
 
 import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -34,7 +40,10 @@ import java.util.stream.Collector.Characteristics;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.n52.janmayen.Chain;
+import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.function.ThrowingConsumer;
 
 /**
  * TODO JavaDoc
@@ -48,6 +57,7 @@ public class MoreCollectors {
 
     public static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper,
                                                               Collector<? super U, A, R> downstream) {
+        Objects.requireNonNull(mapper);
         BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
         return Collector.of(downstream.supplier(),
                             (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
@@ -56,19 +66,21 @@ public class MoreCollectors {
                             downstream.characteristics().stream().toArray(Characteristics[]::new));
     }
 
-    public static <X, T> Collector<X, ?, Map<Chain<T>, BigInteger>> toCardinalities(
-            Function<X, T> id, Predicate<X> hasSubElements, Function<X, Stream<X>> subElements) {
+    public static <X, T> Collector<X, ?, Map<Chain<T>, BigInteger>> toCardinalities(Function<X, T> id,
+                                                                                    Predicate<X> hasSubElements,
+                                                                                    Function<X, Stream<X>> subElements) {
         return new CardinalityCalculator<>(id, hasSubElements, subElements).countCollector();
 
     }
 
-    public static <X, T> Collector<X, ?, Map<Chain<T>, X>> toChain(
-            Function<X, T> id, Predicate<X> hasSubElements, Function<X, Stream<X>> subElements) {
+    public static <X, T> Collector<X, ?, Map<Chain<T>, X>> toChain(Function<X, T> id, Predicate<X> hasSubElements,
+                                                                   Function<X, Stream<X>> subElements) {
         return toChain(id, hasSubElements, subElements, Function.identity());
     }
 
-    public static <X, T, U> Collector<X, ?, Map<Chain<T>, U>> toChain(
-            Function<X, T> id, Predicate<X> hasSubElements, Function<X, Stream<X>> subElements, Function<X, U> finisher) {
+    public static <X, T, U> Collector<X, ?, Map<Chain<T>, U>> toChain(Function<X, T> id, Predicate<X> hasSubElements,
+                                                                      Function<X, Stream<X>> subElements,
+                                                                      Function<X, U> finisher) {
         return new ChainCollector<>(id, hasSubElements, subElements).collector(finisher);
     }
 
@@ -108,8 +120,7 @@ public class MoreCollectors {
 
     public static <T> Collector<T, ?, T> toSingleResult(Supplier<? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);
-        return Collector.of(LinkedList<T>::new,
-                            List<T>::add,
+        return Collector.of(LinkedList<T>::new, List<T>::add,
                             Functions.mergeLeft(List::addAll),
                             (list) -> {
                                 if (list.size() != 1) {
@@ -120,6 +131,101 @@ public class MoreCollectors {
                             Characteristics.UNORDERED);
     }
 
+    public static <K, V> Collector<Entry<K, V>, ?, Map<V, K>> toValueMap() {
+        return toMap(Entry::getValue, Entry::getKey);
+    }
+
+    public static <K, V> Collector<Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedHashMap() {
+        return toMap(Entry::getKey, Entry::getValue, Streams.throwingMerger(), LinkedHashMap::new);
+    }
+
+    public static <T, A, R> Collector<T, ?, R> collector(Supplier<A> supplier, BiConsumer<A, T> accumulator,
+                                                         BinaryOperator<A> combiner, Function<A, R> finisher) {
+        return new CollectorImpl<>(supplier, accumulator, combiner, finisher, EnumSet.noneOf(Characteristics.class));
+
+    }
+
+    public static <T, R> Collector<T, ?, R> collector(Supplier<R> supplier, BiConsumer<R, T> accumulator,
+                                                      BiConsumer<R, R> combiner) {
+        return new CollectorImpl<>(supplier, accumulator, Functions.mergeLeft(combiner), Function.identity(),
+                                   EnumSet.of(Characteristics.IDENTITY_FINISH));
+    }
+
+    public static <T, R> Collector<T, ?, R> collector(Supplier<R> supplier, BiConsumer<R, T> accumulator,
+                                                      BinaryOperator<R> combiner) {
+        return new CollectorImpl<>(supplier, accumulator, combiner, Function.identity(), EnumSet
+                                   .of(Characteristics.IDENTITY_FINISH));
+    }
+
+    public static <T, A, R> Collector<T, ?, R> collector(Supplier<A> supplier, BiConsumer<A, T> accumulator,
+                                                         BiConsumer<A, A> combiner, Function<A, R> finisher) {
+        return new CollectorImpl<>(supplier, accumulator, Functions.mergeLeft(combiner), finisher, EnumSet
+                                   .noneOf(Characteristics.class));
+    }
+
+    public static <T, E extends Exception> Collector<T, ?, CompositeException> toCompositeException(
+            ThrowingConsumer<? super T, E> fun) {
+        return toCompositeException(CompositeException::new, fun);
+    }
+
+    public static <T, E extends Exception, X extends CompositeException> Collector<T, ?, X> toCompositeException(
+            Supplier<X> supplier, ThrowingConsumer<? super T, E> fun) {
+        BiConsumer<X, T> accumulator = (composite, t) -> {
+            try {
+                fun.accept(t);
+            } catch (Exception e) {
+                composite.add(e);
+            }
+        };
+        BiConsumer<X, X> combiner = CompositeException::add;
+        return collector(supplier, accumulator, combiner);
+    }
+
+    private static class CollectorImpl<T, A, R> implements Collector<T, A, R> {
+        private final Supplier<A> supplier;
+        private final BiConsumer<A, T> accumulator;
+        private final BinaryOperator<A> combiner;
+        private final Function<A, R> finisher;
+        private final Set<Characteristics> characteristics;
+
+        CollectorImpl(Supplier<A> supplier,
+                      BiConsumer<A, T> accumulator,
+                      BinaryOperator<A> combiner,
+                      Function<A, R> finisher,
+                      Set<Characteristics> characteristics) {
+            this.supplier = Objects.requireNonNull(supplier);
+            this.accumulator = Objects.requireNonNull(accumulator);
+            this.combiner = Objects.requireNonNull(combiner);
+            this.finisher = Objects.requireNonNull(finisher);
+            this.characteristics = Objects.requireNonNull(characteristics);
+        }
+
+        @Override
+        public Supplier<A> supplier() {
+            return this.supplier;
+        }
+
+        @Override
+        public BiConsumer<A, T> accumulator() {
+            return this.accumulator;
+        }
+
+        @Override
+        public BinaryOperator<A> combiner() {
+            return this.combiner;
+        }
+
+        @Override
+        public Function<A, R> finisher() {
+            return this.finisher;
+        }
+
+        @Override
+        public Set<Characteristics> characteristics() {
+            return Collections.unmodifiableSet(this.characteristics);
+        }
+    }
+
     private static class ChainCollector<X, T> {
         private final Function<X, T> id;
         private final Predicate<X> hasSubElements;
@@ -128,9 +234,9 @@ public class MoreCollectors {
         private ChainCollector(Function<X, T> id,
                                Predicate<X> hasSubElements,
                                Function<X, Stream<X>> subElements) {
-            this.id = id;
-            this.hasSubElements = hasSubElements;
-            this.subElements = subElements;
+            this.id = Objects.requireNonNull(id);
+            this.hasSubElements = Objects.requireNonNull(hasSubElements);
+            this.subElements = Objects.requireNonNull(subElements);
         }
 
         protected Stream<Entry<Chain<T>, X>> toIdentifierChain(X x) {
@@ -153,13 +259,15 @@ public class MoreCollectors {
             }
         }
 
-        private <U> Collector<X, ?, Map<Chain<T>, U>> collector(Function<X, U> finisher) {
+        protected <U> Collector<X, ?, Map<Chain<T>, U>> collector(Function<X, U> finisher) {
             Function<Entry<Chain<T>, X>, X> valueFunction = Entry::getValue;
-            return MoreCollectors.flatMapping(this::toIdentifierChain, Collectors.toMap(Entry::getKey, valueFunction.andThen(finisher)));
+            return MoreCollectors.flatMapping(this::toIdentifierChain, Collectors.toMap(Entry::getKey, valueFunction
+                                                                                        .andThen(finisher)));
         }
     }
 
     private static class CardinalityCalculator<X, T> extends ChainCollector<X, T> {
+
         private CardinalityCalculator(Function<X, T> id, Predicate<X> hasSubElements, Function<X, Stream<X>> subElements) {
             super(id, hasSubElements, subElements);
         }
