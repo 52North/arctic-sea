@@ -39,7 +39,7 @@ import java.util.TreeSet;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.n52.janmayen.Streams;
+import org.n52.janmayen.stream.Streams;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
