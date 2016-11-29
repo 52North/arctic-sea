@@ -24,6 +24,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Stream;
 
 /**
  * TODO JavaDoc
@@ -41,7 +43,10 @@ public class Enums {
     private static Map<String, Enum<?>> getNamesForEnum(Class<? extends Enum<?>> enumClass) {
         Function<Enum<?>, String> getName = e -> e.toString().toLowerCase(Locale.ROOT);
         Function<Enum<?>, Enum<?>> identity = Function.identity();
-        return Arrays.stream(enumClass.getEnumConstants()).collect(toMap(getName, identity));
+        Enum<?>[] enums = enumClass.getEnumConstants();
+        Stream<Enum<?>> stream = Arrays.stream(enums);
+        Collector<Enum<?>, ?, Map<String, Enum<?>>> collector = toMap(getName, identity);
+        return stream.collect(collector);
     }
 
     static <E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {
