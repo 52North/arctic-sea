@@ -39,8 +39,9 @@ public class Enums {
     }
 
     private static Map<String, Enum<?>> getNamesForEnum(Class<? extends Enum<?>> enumClass) {
-        return Arrays.stream(enumClass.getEnumConstants())
-                .collect(toMap(e -> e.toString().toLowerCase(Locale.ROOT), Function.identity()));
+        Function<Enum<?>, String> getName = e -> e.toString().toLowerCase(Locale.ROOT);
+        Function<Enum<?>, Enum<?>> identity = Function.identity();
+        return Arrays.stream(enumClass.getEnumConstants()).collect(toMap(getName, identity));
     }
 
     static <E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {

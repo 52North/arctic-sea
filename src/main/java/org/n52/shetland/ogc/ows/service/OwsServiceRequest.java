@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.ows.service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.OWSConstants;
@@ -104,8 +105,9 @@ public abstract class OwsServiceRequest
     }
 
     public String getRequestedLanguage() {
+        Function<Extension<?>, Object> getValue = Extension::getValue;
         return getExtension(OWSConstants.AdditionalRequestParams.language)
-                .map(Extension::getValue)
+                .map(getValue)
                 .map(value -> {
                     if (value instanceof Value<?, ?>) {
                         return ((Value<?, ?>) value).getStringValue();
