@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.ows.extension;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -55,15 +56,17 @@ public class Extensions {
     }
 
     public boolean addExtension(Collection<Extension<?>> extensions) {
-        return getExtensions().addAll(extensions);
+        return extensions.stream()
+                .map(this::addExtension)
+                .reduce(false, (ret, changed) -> ret || changed);
     }
 
     public boolean addExtension(Extension<?> extensions) {
-        return getExtensions().add(extensions);
+        return this.extensions.add(Objects.requireNonNull(extensions));
     }
 
     public Set<Extension<?>> getExtensions() {
-        return Collections.unmodifiableSet(extensions);
+        return Collections.unmodifiableSet(this.extensions);
     }
 
     @SuppressWarnings("rawtypes")
