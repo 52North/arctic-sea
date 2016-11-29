@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import java.util.Collection;
 
-import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 

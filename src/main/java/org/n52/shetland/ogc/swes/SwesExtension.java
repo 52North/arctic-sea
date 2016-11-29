@@ -16,8 +16,8 @@
  */
 package org.n52.shetland.ogc.swes;
 
-import org.n52.iceland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.swe.SweConstants;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>

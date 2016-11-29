@@ -16,10 +16,9 @@
  */
 package org.n52.shetland.ogc.swe;
 
-import org.n52.iceland.ogc.swe.SweConstants;
-import org.n52.iceland.ogc.swe.SweConstants.SweCoordinateNames;
-import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
+import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.shetland.util.CRSHelper;

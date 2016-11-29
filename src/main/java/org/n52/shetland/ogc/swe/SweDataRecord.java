@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.ogc.swe;
 
-import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 /**
  * SOS internal representation of SWE dataRecord

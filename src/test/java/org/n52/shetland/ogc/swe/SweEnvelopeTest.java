@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import org.n52.iceland.ogc.swe.SweConstants.SweCoordinateNames;
+import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.util.ReferencedEnvelope;
 

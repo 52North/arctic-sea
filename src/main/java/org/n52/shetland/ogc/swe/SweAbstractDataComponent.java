@@ -19,8 +19,8 @@ package org.n52.shetland.ogc.swe;
 import java.util.Collection;
 import java.util.List;
 
-import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Objects;

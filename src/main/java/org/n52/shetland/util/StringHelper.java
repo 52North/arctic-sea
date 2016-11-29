@@ -124,12 +124,12 @@ public class StringHelper {
         return splitToArray(stringToSplit, ",");
     }
 
-    public static long getCharacterCountIgnoreCase(String s, char character) {
+    public static int getCharacterCountIgnoreCase(String s, char character) {
         return getCharacterCount(s.toUpperCase(Locale.ROOT), Character.toUpperCase(character));
     }
 
-    public static long getCharacterCount(String s, char character) {
-        return s.chars().filter(c -> c == character).count();
+    public static int getCharacterCount(String s, char character) {
+        return (int) s.chars().filter(c -> c == character).count();
     }
 
     public static Stream<String> splitToStream(String string, String separator) {

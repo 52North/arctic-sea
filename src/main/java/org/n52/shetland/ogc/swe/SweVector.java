@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.swe;
 import java.util.Arrays;
 import java.util.List;
 
-import org.n52.iceland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
