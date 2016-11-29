@@ -105,18 +105,18 @@ public abstract class OwsServiceRequest
     }
 
     public String getRequestedLanguage() {
-        Function<Extension<?>, Object> getValue = Extension::getValue;
-        return getExtension(OWSConstants.AdditionalRequestParams.language)
-                .map(getValue)
-                .map(value -> {
-                    if (value instanceof Value<?, ?>) {
-                        return ((Value<?, ?>) value).getStringValue();
-                    } else if (value instanceof String) {
-                        return (String) value;
-                    } else {
-                        return "";
-                    }
-                }).orElse("");
+        Function<Extension<?>, ?> getValue = Extension::getValue;
+        Optional<Extension<?>> extension = getExtension(OWSConstants.AdditionalRequestParams.language);
+        Function<Object, String> toString = value -> {
+            if (value instanceof Value<?, ?>) {
+                return ((Value<?, ?>) value).getStringValue();
+            } else if (value instanceof String) {
+                return (String) value;
+            } else {
+                return "";
+            }
+        };
+        return extension.map(getValue).map(toString).orElse("");
     }
 
     public Optional<String> getOriginalRequest() {
