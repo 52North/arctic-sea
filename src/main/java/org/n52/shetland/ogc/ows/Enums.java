@@ -16,13 +16,14 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 /**
  * TODO JavaDoc
@@ -31,14 +32,15 @@ import java.util.stream.Collectors;
  */
 public class Enums {
 
+
+    private static final Map<Class<? extends Enum<?>>, Map<String, Enum<?>>> NAMES = new HashMap<>();
+
     private Enums() {
     }
 
-    private static final Map<Class<? extends Enum<?>>, Map<String, ? extends Enum<?>>> NAMES = new HashMap<>();
-
-    private static Map<String, ? extends Enum<?>> getNamesForEnum(Class<? extends Enum<?>> enumClass) {
-        return Arrays.stream(enumClass.getEnumConstants()).collect(Collectors.toMap(e -> e.toString()
-                .toLowerCase(Locale.ROOT), Function.identity()));
+    private static Map<String, Enum<?>> getNamesForEnum(Class<? extends Enum<?>> enumClass) {
+        return Arrays.stream(enumClass.getEnumConstants())
+                .collect(toMap(e -> e.toString().toLowerCase(Locale.ROOT), Function.identity()));
     }
 
     static <E extends Enum<E>> boolean contains(Class<? extends E> enumClass, String string) {
@@ -47,8 +49,8 @@ public class Enums {
 
     @SuppressWarnings(value = "unchecked")
     static <E extends Enum<E>> Optional<E> fromString(Class<? extends E> enumClass, String string) {
-        return Optional.ofNullable((E) NAMES.computeIfAbsent(enumClass, Enums::getNamesForEnum).get(string
-                .toLowerCase(Locale.ROOT)));
+        return Optional.ofNullable((E) NAMES.computeIfAbsent(enumClass, Enums::getNamesForEnum)
+                .get(string.toLowerCase(Locale.ROOT)));
     }
 
 }
