@@ -40,7 +40,7 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.request.ResponseFormat;
+import org.n52.shetland.ogc.sos.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.http.HTTPConstants;
