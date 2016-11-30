@@ -31,9 +31,9 @@ package org.n52.shetland.ogc.sos.response;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.iceland.request.ResponseFormat;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.sos.ResponseFormat;
 
 import com.google.common.base.Strings;
 

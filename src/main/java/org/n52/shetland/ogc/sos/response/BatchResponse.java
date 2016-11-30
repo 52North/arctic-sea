@@ -36,8 +36,8 @@ import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.sos.BatchConstants;
 import org.n52.shetland.ogc.sos.response.BatchResponse.ExceptionOrResponse;
-import org.n52.sos.util.BatchConstants;
 
 /**
  * TODO JavaDoc
