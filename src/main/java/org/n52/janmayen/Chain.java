@@ -16,6 +16,8 @@
  */
 package org.n52.janmayen;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
@@ -62,11 +64,11 @@ public class Chain<T> implements Iterable<T> {
 
     public Chain<T> child(T t) {
         Objects.requireNonNull(t);
-        return new Chain<>(Stream.concat(stream(), Stream.of(t)).collect(Collectors.toList()));
+        return new Chain<>(Stream.concat(stream(), Stream.of(t)).collect(toList()));
     }
 
     public Chain<T> child(Chain<T> t) {
-        return new Chain<>(Stream.concat(stream(), t.stream()).collect(Collectors.toList()));
+        return new Chain<>(Stream.concat(stream(), t.stream()).collect(toList()));
     }
 
     public Optional<Chain<T>> parent() {
