@@ -20,11 +20,11 @@ package org.n52.iceland.coding.encode;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.n52.iceland.request.ResponseFormat;
 import org.n52.janmayen.component.Component;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**

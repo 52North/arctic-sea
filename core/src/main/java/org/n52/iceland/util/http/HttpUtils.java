@@ -40,13 +40,13 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.request.ResponseFormat;
 import org.n52.iceland.response.ServiceResponse;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.http.HTTPConstants;
 import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.io.CountingOutputStream;
