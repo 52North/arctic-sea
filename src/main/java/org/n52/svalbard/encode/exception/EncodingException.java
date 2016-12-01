@@ -61,4 +61,8 @@ public class EncodingException extends LocationHintException {
         super(cause, location);
     }
 
+    public EncodingException(Throwable cause, String message, Object... args) {
+        super(cause, message, args);
+    }
+
 }

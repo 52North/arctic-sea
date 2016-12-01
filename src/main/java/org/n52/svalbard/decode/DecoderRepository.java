@@ -24,7 +24,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.AbstractCodingRepository;
-import org.n52.svalbard.AbstractCodingRepository;
 
 /**
  * TODO JavaDoc
