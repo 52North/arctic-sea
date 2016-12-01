@@ -27,9 +27,9 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.shetland.ogc.sos.ResponseFormat;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
 
 /**
  * Abstract {@link ResponseWriter} class for response streaming
