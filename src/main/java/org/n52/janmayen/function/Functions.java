@@ -107,7 +107,7 @@ public class Functions {
         return t -> supplier.get();
     }
 
-    public static <X, T> Function<? super X, T> constant(T t) {
+    public static <X, T> Function<X, T> constant(T t) {
         return x -> t;
     }
 

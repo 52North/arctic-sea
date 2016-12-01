@@ -3,7 +3,7 @@ jdk:
 - oraclejdk8
 install: true
 script: mvn clean install -P check
-after_script: "./.travis/deploy.sh"
+after_success: "./.travis/deploy.sh"
 env:
   global:
   - SNAPSHOT_BRANCH=master
