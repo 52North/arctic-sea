@@ -17,12 +17,12 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.n52.janmayen.component.Component;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
+import org.n52.svalbard.EncodingContext;
 import org.n52.svalbard.HelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -65,7 +65,7 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      * @throws EncodingException
      *                           if an error occurs
      */
-    T encode(S objectToEncode, Map<HelperValues, String> additionalValues) throws EncodingException;
+    T encode(S objectToEncode, EncodingContext additionalValues) throws EncodingException;
 
     /**
      * Get the {@link SupportedType}

@@ -66,7 +66,7 @@
         <url>https://github.com/52North/svalbard</url>
         <connection>scm:git:https://github.com/52North/svalbard.git</connection>
         <developerConnection>scm:git:https://github.com/52North/svalbard.git</developerConnection>
-      <tag>HEAD</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <issueManagement>
@@ -94,6 +94,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>jsr305</artifactId>
+            <version>3.0.1</version>
+        </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
@@ -171,7 +176,7 @@
                     <preparationGoals>clean install</preparationGoals>
                 </configuration>
             </plugin>
-			<plugin>
+            <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
                 <version>1.0</version>
