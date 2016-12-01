@@ -219,4 +219,8 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
         return !isSetObservableProperties() && !isSetProcedures() && !isSetTemporalFilters() &&
                !isSetFeatureOfInterestIdentifiers();
     }
+    
+    public boolean hasParameter() {
+        return !hasNoParameter();
+    }
 }

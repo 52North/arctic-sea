@@ -34,8 +34,6 @@ import org.n52.shetland.ogc.sos.SosConstants;
 
 import com.google.common.base.Strings;
 
-import org.n52.shetland.ogc.sos.SosConstants;
-
 /**
  * SOS DescribeSensor request
  *
@@ -139,4 +137,5 @@ public class DescribeSensorRequest extends OwsServiceRequest {
     public boolean isSetValidTime() {
         return getValidTime() != null;
     }
+    
 }

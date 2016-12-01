@@ -46,12 +46,10 @@ import com.google.common.base.Strings;
  */
 public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
     private List<OmObservation> observationCollection;
-
     private String responseFormat;
-
     private String resultModel;
-
     private boolean mergeObservation = false;
+    private GlobalObservationResponseValues globalValues;
 
     public AbstractObservationResponse() {
     }
@@ -112,6 +110,19 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
 
     public boolean isSetMergeObservation() {
         return mergeObservation;
+    }
+    
+    public AbstractObservationResponse setGlobalObservationValues(GlobalObservationResponseValues globalValues) {
+        this.globalValues = globalValues;
+        return this;
+    }
+
+    public GlobalObservationResponseValues getGlobalObservationValues() {
+        return globalValues;
+    }
+
+    public boolean hasGlobalObservationValues() {
+        return getGlobalObservationValues() != null && !getGlobalObservationValues().isEmpty();
     }
 
 }

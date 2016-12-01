@@ -59,6 +59,8 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
      * Response mode
      */
     private String responseMode;
+    
+    private boolean checkForDuplicity = true;
 
     public AbstractObservationRequest() {
     }
@@ -157,12 +159,28 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
     public boolean isSetSrsName() {
         return !Strings.isNullOrEmpty(getSrsName());
     }
+    
+    /**
+     * @return the checkForDuplicity
+     */
+    public boolean isCheckForDuplicity() {
+        return checkForDuplicity;
+    }
+
+    /**
+     * @param checkForDuplicity the checkForDuplicity to set
+     */
+    public void setCheckForDuplicity(boolean checkForDuplicity) {
+        this.checkForDuplicity = checkForDuplicity;
+    }
+
 
     public void copyOf(AbstractObservationRequest res) {
         res.setResponseFormat(this.responseFormat);
         res.setResponseMode(this.responseMode);
         res.setResultModel(this.resultModel);
         res.setSrsName(this.srsName);
+        res.setCheckForDuplicity(this.isCheckForDuplicity());
     }
 
 }
