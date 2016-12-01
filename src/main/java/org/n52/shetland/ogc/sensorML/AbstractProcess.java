@@ -21,6 +21,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.util.CollectionHelper;
@@ -34,6 +36,7 @@ public class AbstractProcess extends AbstractSensorML {
     private List<SmlIo<?>> inputs = new ArrayList<>(0);
     private List<SmlIo<?>> outputs = new ArrayList<>(0);
     private List<String> parameters = new ArrayList<>(0);
+    private List<Time> validTime = new ArrayList<>(0);
 
 
     public AbstractProcess setDescriptions(List<String> descriptions) {
@@ -110,24 +113,41 @@ public class AbstractProcess extends AbstractSensorML {
         return parameters != null && !parameters.isEmpty();
     }
 
-    public AbstractProcess addName(final CodeType name) {
-        super.addName(name);
+    public List<Time> getValidTime() {
+        return validTime;
+    }
+
+    public Time getMergedValidTime() {
+        TimePeriod tp = new TimePeriod();
+        for (Time time : getValidTime()) {
+            tp.extendToContain(time);
+        }
+        return tp;
+    }
+
+    public AbstractProcess setValidTime(Time validTime) {
+        this.validTime.clear();
+        if (validTime != null) {
+            this.validTime.add(validTime);
+        }
         return this;
     }
 
-    protected void checkAndSetChildProcedures(final List<SmlComponent> components) {
-        if (components != null) {
-            for (final SmlComponent component : components) {
-                checkAndSetChildProcedures(component);
-            }
+    public AbstractProcess setValidTime(List<Time> validTime) {
+        this.validTime.clear();
+        if (validTime != null) {
+            this.validTime.addAll(validTime);
         }
+        return this;
     }
 
-    protected void checkAndSetChildProcedures(final SmlComponent component) {
-        if (component != null && component.isSetName()
-                && component.getName().contains(SensorMLConstants.ELEMENT_NAME_CHILD_PROCEDURES)) {
-            addChildProcedure(component.getProcess());
-        }
+    public boolean isSetValidTime() {
+        return this.validTime != null && !this.validTime.isEmpty();
+    }
+
+    public AbstractProcess addName(final CodeType name) {
+        super.addName(name);
+        return this;
     }
 
     public void copyTo(AbstractProcess copyOf) {

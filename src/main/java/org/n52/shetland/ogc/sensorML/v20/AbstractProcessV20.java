@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.sensorML.v20;
 
+import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.AbstractProcess;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 
@@ -29,43 +30,22 @@ import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 public class AbstractProcessV20 extends AbstractProcess {
 
     private AbstractSettings configuration;
-
     private SmlFeatureOfInterest featureOfInterest;
-
     private AbstractModes modes;
-
     private String definition;
+    private ReferenceType typeOf;
 
     public AbstractProcessV20 setSmlFeatureOfInterest(SmlFeatureOfInterest featureOfInterest) {
         this.featureOfInterest = featureOfInterest;
-        if (featureOfInterest.isSetFeatures()) {
-            if (featureOfInterest.isSetFeaturesOfInterest()) {
-                addFeaturesOfInterest(featureOfInterest.getFeaturesOfInterest());
-            }
-            if (featureOfInterest.isSetFeaturesOfInterestMap()) {
-                addFeaturesOfInterest(featureOfInterest.getFeaturesOfInterestMap());
-            }
-        }
         return this;
     }
 
     public SmlFeatureOfInterest getSmlFeatureOfInterest() {
-        if (featureOfInterest == null && (isSetFeaturesOfInterest() || isSetFeaturesOfInterestMap())) {
-            featureOfInterest = new SmlFeatureOfInterest();
-            featureOfInterest.setDefinition(SensorMLConstants.FEATURE_OF_INTEREST_FIELD_DEFINITION);
-            featureOfInterest.setLabel(SensorMLConstants.ELEMENT_NAME_FEATURES_OF_INTEREST);
-        }
-        if (isSetFeaturesOfInterest()) {
-            featureOfInterest.addFeaturesOfInterest(getFeaturesOfInterest());
-        }
-        if (isSetFeaturesOfInterestMap()) {
-            featureOfInterest.addFeaturesOfInterest(getFeaturesOfInterestMap());
-        }
         return featureOfInterest;
     }
 
     public boolean isSetSmlFeatureOfInterest() {
-        return (featureOfInterest != null && featureOfInterest.isSetFeatures()) || isSetFeatures();
+        return featureOfInterest != null && featureOfInterest.isSetFeatures();
     }
 
     /**
@@ -110,4 +90,24 @@ public class AbstractProcessV20 extends AbstractProcess {
         this.definition = definition;
     }
 
+    /**
+     * @return the typeOf
+     */
+    public ReferenceType getTypeOf() {
+        return typeOf;
+    }
+
+    /**
+     * @param typeOf the typeOf to set
+     */
+    public void setTypeOf(ReferenceType typeOf) {
+        this.typeOf = typeOf;
+    }
+
+    /**
+     * @return <code>true</code>, if typeOf is not null
+     */
+    public boolean isSetTypeOf() {
+        return getTypeOf() != null;
+    }
 }

@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.gml;
 
+import com.google.common.base.Strings;
+
 /**
  * Abstract class for encoding the feature of interest. Necessary because
  * different feature types should be supported. The database or another
@@ -29,6 +31,7 @@ package org.n52.shetland.ogc.gml;
 public abstract class AbstractFeature extends AbstractGML {
 
     private String defaultEncoding;
+    private String xml;
 
     public AbstractFeature(String identifier) {
         super(identifier);
@@ -73,4 +76,22 @@ public abstract class AbstractFeature extends AbstractGML {
         return this.defaultEncoding != null && !this.defaultEncoding.isEmpty();
     }
 
+    /**
+     * @return the xml
+     */
+    public String getXml() {
+        return xml;
+    }
+
+    /**
+     * @param xml the xml to set
+     */
+    public AbstractFeature setXml(String xml) {
+        this.xml = xml;
+        return this;
+    }
+
+    public boolean isSetXml() {
+        return !Strings.isNullOrEmpty(getXml());
+    }
 }

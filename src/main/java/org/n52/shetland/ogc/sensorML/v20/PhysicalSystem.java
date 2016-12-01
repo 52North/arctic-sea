@@ -50,7 +50,6 @@ public class PhysicalSystem extends AbstractPhysicalProcess implements HasCompon
     @Override
     public PhysicalSystem addComponents(final List<SmlComponent> components) {
         if (components != null) {
-            checkAndSetChildProcedures(components);
             this.components.addAll(components);
         }
         return this;
@@ -59,7 +58,6 @@ public class PhysicalSystem extends AbstractPhysicalProcess implements HasCompon
     @Override
     public PhysicalSystem addComponent(final SmlComponent component) {
         if (component != null) {
-            checkAndSetChildProcedures(component);
             components.add(component);
         }
         return this;

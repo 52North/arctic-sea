@@ -17,24 +17,24 @@
 package org.n52.shetland.ogc.sensorML;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Locale;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.ogc.om.AbstractPhenomenon;
 import org.n52.shetland.ogc.sensorML.elements.AbstractSmlDocumentation;
 import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
+import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
 import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
 import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
+import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweField;
+import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 
 import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
@@ -54,14 +54,12 @@ public abstract class AbstractSensorML extends AbstractFeature {
     private List<SmlCapabilities> capabilities = new ArrayList<>(0);
     private List<SmlContact> contacts = new ArrayList<>(0);
     private List<AbstractSmlDocumentation> documentations = new ArrayList<>(0);
-    private Map<String, AbstractFeature> featuresOfInterestMap = new HashMap<>();
-    private Set<String> featuresOfInterest = Sets.newLinkedHashSet();
-    private Map<String, AbstractPhenomenon> phenomenonMap = new HashMap<>();
-    private ReferenceType parentProcedure;
-    private Set<AbstractSensorML> childProcedures = new LinkedHashSet<>();
-    private ReferenceType typeOf;
+//    private Map<String, AbstractFeature> featuresOfInterestMap = new HashMap<>();
+//    private Set<String> featuresOfInterest = Sets.newLinkedHashSet();
+//    private Map<String, AbstractPhenomenon> phenomenonMap = new HashMap<>();
+//    private ReferenceType parentProcedure;
+//    private Set<AbstractSensorML> childProcedures = new LinkedHashSet<>();
     private String history;
-    private Time validTime;
 
     /**
      * constructor
@@ -97,10 +95,6 @@ public abstract class AbstractSensorML extends AbstractFeature {
 
     public AbstractSensorML() {
         this("");
-    }
-
-    public boolean isSetParentProcedure() {
-        return this.parentProcedure != null;
     }
 
     public boolean isAggragation() {
@@ -183,11 +177,6 @@ public abstract class AbstractSensorML extends AbstractFeature {
 
     public AbstractSensorML addClassification(final SmlClassifier classifier) {
         classifications.add(classifier);
-        return this;
-    }
-
-    public AbstractSensorML setValidTime(final Time validTime) {
-        this.validTime = validTime;
         return this;
     }
 
@@ -357,6 +346,72 @@ public abstract class AbstractSensorML extends AbstractFeature {
         return history != null && !history.isEmpty();
     }
 
+    public boolean isSetMobile() {
+        return getSweBooleanFromCapabilitiesFor(Sets.newHashSet(SensorMLConstants.STATIONARY, SensorMLConstants.MOBILE)) == null ? false : true;
+    }
+
+    public boolean getMobile() {
+        SweBoolean sweBoolean = getSweBooleanFromCapabilitiesFor(Sets.newHashSet(SensorMLConstants.STATIONARY, SensorMLConstants.MOBILE, SensorMLConstants.FIXED));
+        if (SensorMLConstants.MOBILE.equalsIgnoreCase(sweBoolean.getDefinition())) {
+            return sweBoolean.getValue();
+        } else if (SensorMLConstants.STATIONARY.equalsIgnoreCase(sweBoolean.getDefinition())) {
+            return !sweBoolean.getValue();
+        }
+        return false;
+    }
+
+    public boolean isSetInsitu() {
+        return getSweBooleanFromCapabilitiesFor(Sets.newHashSet(Sets.newHashSet(SensorMLConstants.INSITU, SensorMLConstants.REMOTE))) == null ? false : true;
+    }
+
+    public boolean getInsitu() {
+        SweBoolean sweBoolean = getSweBooleanFromCapabilitiesFor(Sets.newHashSet(Sets.newHashSet(SensorMLConstants.INSITU, SensorMLConstants.REMOTE)));
+        if (SensorMLConstants.INSITU.equalsIgnoreCase(sweBoolean.getDefinition())) {
+            return sweBoolean.getValue();
+        } else if (SensorMLConstants.REMOTE.equalsIgnoreCase(sweBoolean.getDefinition())) {
+            return !sweBoolean.getValue();
+        }
+        return true;
+    }
+
+    private SweBoolean getSweBooleanFromCapabilitiesFor(Collection<String> definitions) {
+        if (this instanceof SensorML && ((SensorML)this).isWrapper()) {
+            for (AbstractProcess absProcess : ((SensorML)this).getMembers()) {
+                return getSweBooleanFromCapabilitiesFor(absProcess, definitions);
+            }
+        } else {
+            return getSweBooleanFromCapabilitiesFor(this, definitions);
+        }
+        return null;
+    }
+
+    private SweBoolean getSweBooleanFromCapabilitiesFor(AbstractSensorML sml, Collection<String> definitions) {
+        if (sml.isSetCapabilities()) {
+            for (SmlCapabilities caps : sml.getCapabilities()) {
+                for (SmlCapability cap : caps.getCapabilities()) {
+                    if (cap.getAbstractDataComponent() instanceof SweDataRecord) {
+                        for (SweField field : ((SweDataRecord)cap.getAbstractDataComponent()).getFields()) {
+                            if (field.getElement() instanceof SweBoolean) {
+                                if (field.getElement().isSetDefinition() && definitions.contains(field.getElement().getDefinition().toLowerCase(Locale.ROOT))) {
+                                    return (SweBoolean)field.getElement();
+                                } else if (cap.isSetName() && definitions.contains(cap.getName().toLowerCase(Locale.ROOT))) {
+                                    return (SweBoolean)field.getElement();
+                                }
+                            }
+                        }
+                    } else if (cap.getAbstractDataComponent() instanceof SweBoolean) {
+                        if (cap.getAbstractDataComponent().isSetDefinition() && definitions.contains(cap.getAbstractDataComponent().getDefinition().toLowerCase(Locale.ROOT))) {
+                            return (SweBoolean)cap.getAbstractDataComponent();
+                        } else if (cap.isSetName() && definitions.contains(cap.getName().toLowerCase(Locale.ROOT))) {
+                            return (SweBoolean)cap.getAbstractDataComponent();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     public void copyTo(AbstractSensorML copyOf) {
         super.copyTo(copyOf);
         copyOf.setCharacteristics(getCharacteristics());
@@ -367,80 +422,71 @@ public abstract class AbstractSensorML extends AbstractFeature {
         copyOf.setIdentifications(getIdentifications());
         copyOf.setKeywords(getKeywords());
     }
-
-    public Time getValidTime() {
-        return validTime;
-    }
-
-    public ReferenceType getParentProcedure() {
-        return parentProcedure;
-    }
-
-    public void setParentProcedure(ReferenceType parentProcedure) {
-        this.parentProcedure = parentProcedure;
-    }
-
-    public void addChildProcedure(AbstractSensorML process) {
-        this.childProcedures.add(process);
-    }
-
-    public Set<AbstractSensorML> getChildProcedures() {
-        return childProcedures;
-    }
-
-    public void setChildProcedures(Set<AbstractSensorML> childProcedures) {
-        this.childProcedures = childProcedures;
-    }
-
-    public ReferenceType getTypeOf() {
-        return typeOf;
-    }
-
-    public void setTypeOf(ReferenceType typeOf) {
-        this.typeOf = typeOf;
-    }
-
-    public Map<String, AbstractFeature> getFeaturesOfInterestMap() {
-        return featuresOfInterestMap;
-    }
-
-    public void setFeaturesOfInterestMap(Map<String, AbstractFeature> featuresOfInterestMap) {
-        this.featuresOfInterestMap = featuresOfInterestMap;
-    }
-
-    public void addFeaturesOfInterest(Map<String, AbstractFeature> featureOfInterest) {
-        featureOfInterest.forEach(this.featuresOfInterestMap::put);
-    }
-
-    public void addFeaturesOfInterest(Set<String> featureOfInterest) {
-        featureOfInterest.forEach(this.featuresOfInterest::add);
-    }
-
-    public void addFeatureOfInterest(AbstractFeature featureOfInterest) {
-        this.featuresOfInterestMap.put(featureOfInterest.getIdentifier(), featureOfInterest);
-    }
-
-    public void addFeatureOfInterest(String featureOfInterest) {
-        this.featuresOfInterest.add(featureOfInterest);
-    }
-
-    public boolean isSetFeaturesOfInterestMap() {
-        return this.featuresOfInterestMap != null && !this.featuresOfInterestMap.isEmpty();
-    }
-
-    public boolean isSetFeaturesOfInterest() {
-        return this.featuresOfInterest != null && !this.featuresOfInterest.isEmpty();
-    }
-
-    public void setFeaturesOfInterest(Set<String> featuresOfInterest) {
-        this.featuresOfInterest = featuresOfInterest;
-    }
-
-    public Set<String> getFeaturesOfInterest() {
-        return featuresOfInterest;
-    }
-
-    public boolean isSetFeatures() {
-        return isSetFeaturesOfInterest() || isSetFeaturesOfInterestMap();
-    }
+//    public ReferenceType getParentProcedure() {
+//        return parentProcedure;
+//    }
+//
+//    public void setParentProcedure(ReferenceType parentProcedure) {
+//        this.parentProcedure = parentProcedure;
+//    }
+//
+//    public boolean isSetParentProcedure() {
+//        return this.parentProcedure != null;
+//    }
+//
+//    public void addChildProcedure(AbstractSensorML process) {
+//        this.childProcedures.add(process);
+//    }
+//
+//    public Set<AbstractSensorML> getChildProcedures() {
+//        return childProcedures;
+//    }
+//
+//    public void setChildProcedures(Set<AbstractSensorML> childProcedures) {
+//        this.childProcedures = childProcedures;
+//    }
+//
+//    public Map<String, AbstractFeature> getFeaturesOfInterestMap() {
+//        return featuresOfInterestMap;
+//    }
+//
+//    public void setFeaturesOfInterestMap(Map<String, AbstractFeature> featuresOfInterestMap) {
+//        this.featuresOfInterestMap = featuresOfInterestMap;
+//    }
+//
+//    public void addFeaturesOfInterest(Map<String, AbstractFeature> featureOfInterest) {
+//        featureOfInterest.forEach(this.featuresOfInterestMap::put);
+//    }
+//
+//    public void addFeaturesOfInterest(Set<String> featureOfInterest) {
+//        featureOfInterest.forEach(this.featuresOfInterest::add);
+//    }
+//
+//    public void addFeatureOfInterest(AbstractFeature featureOfInterest) {
+//        this.featuresOfInterestMap.put(featureOfInterest.getIdentifier(), featureOfInterest);
+//    }
+//
+//    public void addFeatureOfInterest(String featureOfInterest) {
+//        this.featuresOfInterest.add(featureOfInterest);
+//    }
+//
+//    public boolean isSetFeaturesOfInterestMap() {
+//        return this.featuresOfInterestMap != null && !this.featuresOfInterestMap.isEmpty();
+//    }
+//
+//    public boolean isSetFeaturesOfInterest() {
+//        return this.featuresOfInterest != null && !this.featuresOfInterest.isEmpty();
+//    }
+//
+//    public void setFeaturesOfInterest(Set<String> featuresOfInterest) {
+//        this.featuresOfInterest = featuresOfInterest;
+//    }
+//
+//    public Set<String> getFeaturesOfInterest() {
+//        return featuresOfInterest;
+//    }
+//
+//    public boolean isSetFeatures() {
+//        return isSetFeaturesOfInterest() || isSetFeaturesOfInterestMap();
+//    }
 }

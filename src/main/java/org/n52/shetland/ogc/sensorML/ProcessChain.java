@@ -33,7 +33,6 @@ public class ProcessChain extends AbstractProcess implements HasComponents<Proce
     @Override
     public ProcessChain addComponents(final List<SmlComponent> components) {
         if (components != null) {
-            checkAndSetChildProcedures(components);
             this.components.addAll(components);
         }
         return this;
@@ -42,7 +41,6 @@ public class ProcessChain extends AbstractProcess implements HasComponents<Proce
     @Override
     public ProcessChain addComponent(final SmlComponent component) {
         if (component != null) {
-            checkAndSetChildProcedures(component);
             components.add(component);
         }
         return this;

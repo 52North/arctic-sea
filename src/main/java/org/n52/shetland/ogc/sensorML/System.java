@@ -40,7 +40,6 @@ public class System extends AbstractComponent implements HasComponents<System> {
     @Override
     public System addComponents(final List<SmlComponent> components) {
         if (components != null) {
-            checkAndSetChildProcedures(components);
             this.components.addAll(components);
         }
         return this;
@@ -49,7 +48,6 @@ public class System extends AbstractComponent implements HasComponents<System> {
     @Override
     public System addComponent(final SmlComponent component) {
         if (component != null) {
-            checkAndSetChildProcedures(component);
             components.add(component);
         }
         return this;

@@ -50,7 +50,6 @@ public class AggregateProcess extends DescribedObject implements HasComponents<A
     @Override
     public AggregateProcess addComponents(final List<SmlComponent> components) {
         if (components != null) {
-            checkAndSetChildProcedures(components);
             this.components.addAll(components);
         }
         return this;
@@ -59,7 +58,6 @@ public class AggregateProcess extends DescribedObject implements HasComponents<A
     @Override
     public AggregateProcess addComponent(final SmlComponent component) {
         if (component != null) {
-            checkAndSetChildProcedures(component);
             components.add(component);
         }
         return this;

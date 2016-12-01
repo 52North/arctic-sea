@@ -28,6 +28,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
  */
 public class AbstractPhysicalProcess extends DescribedObject {
 
+    private ReferenceType attachedTo;
     private SpatialFrame localReferenceFrame;
     private TemporalFrame localTimeFrame;
 
@@ -39,8 +40,7 @@ public class AbstractPhysicalProcess extends DescribedObject {
      * @return the attachedTo
      */
     public ReferenceType getAttachedTo() {
-        // if parent procedures set
-        return this.getParentProcedure();
+        return attachedTo;
     }
 
     /**
@@ -51,11 +51,11 @@ public class AbstractPhysicalProcess extends DescribedObject {
      *                   the attachedTo to set
      */
     public void setAttachedTo(ReferenceType attachedTo) {
-        this.setParentProcedure(attachedTo);
+       this.attachedTo = attachedTo;
     }
 
     public boolean isSetAttachedTo() {
-        return isSetParentProcedure();
+        return getAttachedTo() != null;
     }
 
     /**

@@ -144,7 +144,10 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      *
      * @return Title from href
      */
-    public String getTitleFromHref() {
+    public String getTitleOrFromHref() {
+        if (isSetTitle()) {
+            return getTitle();
+        }
         String title = getHref();
         if (title.startsWith("http")) {
             title = title.substring(title.lastIndexOf('/') + 1, title.length());
