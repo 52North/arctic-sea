@@ -16,14 +16,14 @@
  */
 package org.n52.janmayen;
 
-import org.n52.janmayen.stream.Streams;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
+import org.n52.janmayen.stream.Streams;
 
 /**
  * TODO JavaDoc
@@ -40,7 +40,7 @@ public class Optionals {
     }
 
     public static boolean any(Iterable<Optional<?>> optionals) {
-        return Streams.stream(optionals).anyMatch(o -> o.isPresent());
+        return Streams.stream(optionals).anyMatch(Optional::isPresent);
     }
 
     public static <U> Comparator<Optional<U>> nullsLast(Comparator<? super U> comparator) {
@@ -82,11 +82,7 @@ public class Optionals {
     }
 
     public static <U> Optional<U> or(Optional<U> a, Supplier<Optional<U>> b) {
-        if (a.isPresent()) {
-            return a;
-        } else {
-            return b.get();
-        }
+        return a.isPresent() ? a : b.get();
     }
 
     public static <U> Optional<U> or(Optional<U> a, Optional<U> b) {
