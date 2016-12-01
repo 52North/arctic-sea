@@ -57,6 +57,10 @@ public abstract class LocationHintException extends StringInterpolationException
         this(null, location, message, args);
     }
 
+    public LocationHintException(Throwable cause, String message, Object... args) {
+        this(cause, (String) null, message, args);
+    }
+
     public LocationHintException(Throwable cause, Enum<?> location, String message, Object... args) {
         this(cause, location == null ? (String) null : location.name(), message, args);
     }
