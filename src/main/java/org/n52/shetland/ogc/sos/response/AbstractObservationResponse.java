@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.sos.ResponseFormat;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
 
 import com.google.common.base.Strings;
 
