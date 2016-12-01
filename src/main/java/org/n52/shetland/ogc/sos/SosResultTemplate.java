@@ -29,13 +29,6 @@
 package org.n52.shetland.ogc.sos;
 
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
-import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
-import org.n52.sos.util.CodingHelper;
-import org.n52.svalbard.decode.exception.DecoderResponseUnsupportedException;
-import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * @since 4.0.0
@@ -44,10 +37,8 @@ import org.n52.svalbard.decode.exception.DecodingException;
 public class SosResultTemplate {
 
     private CodeWithAuthority identifier;
-    private String xmlResultStructure;
-    private String xmResultEncoding;
-    private SweAbstractDataComponent resultStructure;
-    private SweAbstractEncoding resultEncoding;
+    private SosResultStructure resultStructure;
+    private SosResultEncoding resultEncoding;
 
     public CodeWithAuthority getIdentifier() {
         return identifier;
@@ -57,54 +48,20 @@ public class SosResultTemplate {
         this.identifier = identifier;
     }
 
-    public String getXmlResultStructure() {
-        return xmlResultStructure;
-    }
-
-    public void setXmlResultStructure(String xmlResultStructure) {
-        this.xmlResultStructure = xmlResultStructure;
-    }
-    public String getXmResultEncoding() {
-        return xmResultEncoding;
-    }
-
-    public void setXmResultEncoding(String xmResultEncoding) {
-        this.xmResultEncoding = xmResultEncoding;
-    }
-    public SweAbstractDataComponent getResultStructure() throws DecodingException {
-        if (resultStructure == null) {
-            this.resultStructure = parseResultStructure();
-        }
+    public SosResultStructure getResultStructure() {
         return resultStructure;
     }
 
-    public void setResultStructure(SweAbstractDataComponent resultStructure) {
+    public void setResultStructure(SosResultStructure resultStructure) {
         this.resultStructure = resultStructure;
     }
-    public SweAbstractEncoding getResultEncoding() throws DecodingException {
-        if (resultEncoding == null) {
-            this.resultEncoding = parseResultEncoding();
-        }
+
+    public SosResultEncoding getResultEncoding() {
         return resultEncoding;
     }
 
-    public void setResultEncoding(SweAbstractEncoding resultEncoding) {
+    public void setResultEncoding(SosResultEncoding resultEncoding) {
         this.resultEncoding = resultEncoding;
     }
 
-    private SweAbstractDataComponent parseResultStructure() throws DecodingException {
-        Object decodedObject = CodingHelper.decodeXmlObject(xmlResultStructure);
-        if (decodedObject instanceof SweDataRecord) {
-            return (SweDataRecord) decodedObject;
-        }
-        throw new DecoderResponseUnsupportedException(xmlResultStructure, decodedObject);
-    }
-
-    private SweAbstractEncoding parseResultEncoding() throws DecodingException {
-        Object decodedObject = CodingHelper.decodeXmlObject(xmResultEncoding);
-        if (decodedObject instanceof SweTextEncoding) {
-            return (SweTextEncoding) decodedObject;
-        }
-        throw new DecoderResponseUnsupportedException(xmResultEncoding, decodedObject);
-    }
 }
