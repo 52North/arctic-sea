@@ -14,15 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sos;
+package org.n52.shetland.ogc.om.features.samplingFeatures;
 
-import org.n52.shetland.ogc.gml.time.IndeterminateValue;
+public class SpecLocation {
 
-/**
- * TODO JavaDoc
- * @author Christian Autermann
- */
-public interface ExtendedIndeterminateTime {
-    IndeterminateValue FIRST = new IndeterminateValue("first", "getFirst");
-    IndeterminateValue LATEST = new IndeterminateValue("latest");
 }

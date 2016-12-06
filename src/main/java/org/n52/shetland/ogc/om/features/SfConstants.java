@@ -27,7 +27,7 @@ import org.n52.shetland.w3c.SchemaLocation;
  */
 public interface SfConstants {
 
-    // namespaces and schema lcations
+ // namespaces and schema lcations
     String NS_SA = "http://www.opengis.net/sampling/1.0";
 
     String NS_SA_PREFIX = "sa";
@@ -40,17 +40,25 @@ public interface SfConstants {
 
     String NS_SAMS_PREFIX = "sams";
 
+    String NS_SPEC = "http://www.opengis.net/samplingSpecimen/2.0";
+
+    String NS_SPEC_PREFIX = "spec";
+
     String SCHEMA_LOCATION_URL_SA = "http://schemas.opengis.net/sampling/1.0.0/sampling.xsd";
 
     String SCHEMA_LOCATION_URL_SF = "http://schemas.opengis.net/sampling/2.0/samplingFeature.xsd";
 
     String SCHEMA_LOCATION_URL_SAMS = "http://schemas.opengis.net/samplingSpatial/2.0/spatialSamplingFeature.xsd";
 
+    String SCHEMA_LOCATION_URL_SPEC = "http://schemas.opengis.net/samplingSpecimen/2.0/specimen.xsd";
+
     SchemaLocation SA_SCHEMA_LOCATION = new SchemaLocation(NS_SA, SCHEMA_LOCATION_URL_SA);
 
     SchemaLocation SF_SCHEMA_LOCATION = new SchemaLocation(NS_SF, SCHEMA_LOCATION_URL_SF);
 
     SchemaLocation SAMS_SCHEMA_LOCATION = new SchemaLocation(NS_SAMS, SCHEMA_LOCATION_URL_SAMS);
+
+    SchemaLocation SPEC_SCHEMA_LOCATION = new SchemaLocation(NS_SPEC, SCHEMA_LOCATION_URL_SPEC);
 
     // feature types
     String SAMPLING_FEAT_TYPE_SF_SAMPLING_FEATURE =
@@ -71,8 +79,8 @@ public interface SfConstants {
     String SAMPLING_FEAT_TYPE_SF_SAMPLING_SOLID =
             "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingSolid";
 
-    String SAMPLING_FEAT_TYPE_SF_SAMPLING_SPECIMEN =
-            "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingSpecimen";
+    String SAMPLING_FEAT_TYPE_SF_SPECIMEN =
+            "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_Specimen";
 
     // element names
     String EN_SAMPLINGPOINT = "SamplingPoint";
@@ -86,13 +94,5 @@ public interface SfConstants {
     String FT_SAMPLINGSURFACE = NS_SA_PREFIX + ":" + EN_SAMPLINGSURFACE;
 
     String FT_SAMPLINGCURVE = NS_SA_PREFIX + ":" + EN_SAMPLINGCURVE;
-
-    String EN_SF_SAMPLING_FEATURE = "SF_SamplingFeature";
-
-    String EN_SAMS_SPATIAL_SAMPLING_FEATURE = "SF_SpatialSamplingFeature";
-
-    QName QN_SF_20_SAMPLING_FEATURE = new QName(NS_SF, EN_SF_SAMPLING_FEATURE, NS_SF_PREFIX);
-
-    QName QN_SAMS_20_SPATIAL_SAMPLING_FEATURE = new QName(NS_SAMS, EN_SAMS_SPATIAL_SAMPLING_FEATURE, NS_SAMS_PREFIX);
 
 }

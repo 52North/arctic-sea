@@ -430,7 +430,7 @@ public abstract class AbstractGML {
      * @return <code>true</code> if GML id is set
      */
     public boolean isSetGmlID() {
-        return Strings.emptyToNull(getGmlId()) != null;
+        return !Strings.isNullOrEmpty(gmlId);
     }
 
     /**

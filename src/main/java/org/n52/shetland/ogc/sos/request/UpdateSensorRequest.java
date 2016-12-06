@@ -26,9 +26,6 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosProcedureDescription;
-
 /**
  * class represents a updateSensor request
  *

@@ -24,8 +24,15 @@ import java.util.List;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.FeatureWith.FeatureWithEncode;
+import org.n52.shetland.ogc.gml.FeatureWith.FeatureWithGeometry;
+import org.n52.shetland.ogc.gml.FeatureWith.FeatureWithFeatureType;
+import org.n52.shetland.ogc.gml.FeatureWith.FeatureWithUrl;
 import org.n52.shetland.ogc.om.NamedValue;
+import org.n52.shetland.ogc.om.features.SfConstants;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.util.JavaHelper;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -38,12 +45,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * @since 4.0.0
  *
  */
-public class SamplingFeature extends AbstractFeature {
-
-    /**
-     * XML document representing this feature
-     */
-    private String xmlDescription;
+public class SamplingFeature extends AbstractFeature implements FeatureWithGeometry, FeatureWithFeatureType,
+        FeatureWithUrl, FeatureWithEncode {
 
     /**
      * Feature geometry
@@ -80,151 +83,91 @@ public class SamplingFeature extends AbstractFeature {
      */
     private Collection<SamplingFeatureComplex> relatedSamplingFeatures;
 
+    private boolean wasEncoded = false;
+
     /**
      * constructor
      *
      * @param featureIdentifier
-     *                          identifier of sampling feature
+     *            identifier of sampling feature
      */
     public SamplingFeature(final CodeWithAuthority featureIdentifier) {
-        super(featureIdentifier);
+        this(featureIdentifier, null);
+
     }
 
     /**
      * constructor
      *
      * @param featureIdentifier
-     *                          identifier of sampling feature
+     *            identifier of sampling feature
      * @param gmlId
-     *                          GML of this feature
+     *            GML of this feature
      */
     public SamplingFeature(final CodeWithAuthority featureIdentifier, final String gmlId) {
         super(featureIdentifier, gmlId);
+        setDefaultElementEncoding(SfConstants.NS_SAMS);
     }
 
-    /**
-     * Get XML representation of this feature
-     *
-     * @return XML representation of this feature
-     */
-    public String getXmlDescription() {
-        return xmlDescription;
+    @Override
+    public boolean isSetGmlID() {
+        return super.isSetGmlID() && wasEncoded;
     }
 
-    /**
-     * Check whether XML representation of this feature is set
-     *
-     * @return <code>true</code>, if XML representation of this feature is set
-     */
-    public boolean isSetXmlDescription() {
-        return !Strings.isNullOrEmpty(getXmlDescription());
+    @Override
+    public String getGmlId() {
+        if (!super.isSetGmlID()) {
+            final StringBuilder builder = new StringBuilder();
+            builder.append("ssf_");
+            builder.append(JavaHelper.generateID(getIdentifierCodeWithAuthority().getValue()));
+            setGmlId(builder.toString());
+        }
+        return super.getGmlId();
     }
 
-    /**
-     * Set XML representation of this feature
-     *
-     * @param xmlDescription
-     *                       XML representation of this feature to set
-     */
-    public void setXmlDescription(final String xmlDescription) {
-        this.xmlDescription = xmlDescription;
-    }
-
-    /**
-     * Get feature geometry
-     *
-     * @return Feature geometry
-     */
+    @Override
     public Geometry getGeometry() {
         return geometry;
     }
 
-    /**
-     * Set feature geometry, checks whether srid is valid
-     *
-     * @param geometry
-     *                 Geometry to set
-     *
-     * @throws InvalidSridException
-     *                              If srid is invalid
-     */
-    public void setGeometry(Geometry geometry) throws InvalidSridException {
+    @Override
+    public void setGeometry(final Geometry geometry) throws InvalidSridException {
         if (geometry != null && geometry.getSRID() == 0) {
             throw new InvalidSridException(0);
         }
         this.geometry = geometry;
     }
 
-    /**
-     * Check whether geometry is set
-     *
-     * @return <code>true</code>, if geometry is set
-     */
+    @Override
     public boolean isSetGeometry() {
         return getGeometry() != null && !getGeometry().isEmpty();
     }
 
-    /**
-     * Get feature type
-     *
-     * @return Type of this feature
-     */
+    @Override
     public String getFeatureType() {
         return featureType;
     }
 
-    /**
-     * Set feature type
-     *
-     * @param featureType
-     *                    Type of this feature
-     */
+    @Override
     public void setFeatureType(final String featureType) {
         this.featureType = featureType;
     }
 
-    /**
-     * Check whether feature type is set
-     *
-     * @return <code>true</code>, if feature type is set
-     */
-    public boolean isSetFeatureType() {
-        return !Strings.isNullOrEmpty(getFeatureType());
-    }
-
-    /**
-     * Get URL
-     *
-     * @return URL
-     */
+    @Override
     public String getUrl() {
         return url;
     }
 
-    /**
-     * Set URL
-     *
-     * @param url
-     *            URL to set
-     */
+    @Override
     public void setUrl(final String url) {
         this.url = url;
-    }
-
-    /**
-     * Check whether URL is set
-     *
-     * @return <code>true</code>, if URL is set
-     */
-    public boolean isSetUrl() {
-        return !Strings.isNullOrEmpty(getUrl());
     }
 
     /**
      * Set sampled features
      *
      * @param sampledFeatures
-     *                        Sampled fearure list
+     *            Sampled fearure list
      */
     public void setSampledFeatures(final List<AbstractFeature> sampledFeatures) {
         this.sampledFeatures.addAll(sampledFeatures);
@@ -255,7 +198,7 @@ public class SamplingFeature extends AbstractFeature {
      * Add parameter
      *
      * @param namedValue
-     *                   Parameter ro add
+     *            Parameter ro add
      */
     public void addParameter(final NamedValue<?> namedValue) {
         parameters.add(namedValue);
@@ -265,9 +208,9 @@ public class SamplingFeature extends AbstractFeature {
      * Add parameters
      *
      * @param parameters
-     *                   Parameters to add
+     *            Parameters to add
      */
-    public void setParameters(final List<NamedValue<?>> parameters) {
+    public void setParameters(final Collection<NamedValue<?>> parameters) {
         this.parameters.addAll(parameters);
     }
 
@@ -280,20 +223,12 @@ public class SamplingFeature extends AbstractFeature {
         return parameters;
     }
 
-    /**
-     * Check whether parameters are set
-     *
-     * @return <code>true</code>, if parameters are set
-     */
+    @Override
     public boolean isSetParameter() {
         return CollectionHelper.isNotEmpty(parameters);
     }
 
-    /**
-     * Check whether feature should be encoded
-     *
-     * @return <code>true</code>, if feature should be encoded
-     */
+    @Override
     public boolean isEncode() {
         return encode;
     }
@@ -302,17 +237,21 @@ public class SamplingFeature extends AbstractFeature {
      * Set indicator if feature should be encoded
      *
      * @param encode
-     *               Encoding indicator
+     *            Encoding indicator
      */
     public void setEncode(final boolean encode) {
         this.encode = encode;
+    }
+
+    public void wasEncoded() {
+        this.wasEncoded = true;
     }
 
     /**
      * Add related sampling feature
      *
      * @param relatedSamplingFeature
-     *                               Related sampling feature to add
+     *            Related sampling feature to add
      */
     public void addRelatedSamplingFeature(final SamplingFeatureComplex relatedSamplingFeature) {
         if (!isSetRelatedSamplingFeatures()) {
@@ -327,7 +266,7 @@ public class SamplingFeature extends AbstractFeature {
      * Add related sampling features
      *
      * @param relatedSamplingFeatures
-     *                                Related sampling features to add
+     *            Related sampling features to add
      */
     public void addAllRelatedSamplingFeatures(final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
         if (isSetRelatedSamplingFeatures()) {
@@ -341,7 +280,7 @@ public class SamplingFeature extends AbstractFeature {
      * Set related sampling features
      *
      * @param relatedSamplingFeatures
-     *                                Related sampling features to set
+     *            Related sampling features to set
      */
     public void setRelatedSamplingFeatures(final Collection<SamplingFeatureComplex> relatedSamplingFeatures) {
         this.relatedSamplingFeatures = relatedSamplingFeatures;
@@ -353,7 +292,8 @@ public class SamplingFeature extends AbstractFeature {
      * @return Related sampling features
      */
     public List<SamplingFeatureComplex> getRelatedSamplingFeatures() {
-        return Lists.newArrayList(relatedSamplingFeatures);
+        return relatedSamplingFeatures != null ? Lists.newArrayList(relatedSamplingFeatures)
+                : Collections.<SamplingFeatureComplex> emptyList();
     }
 
     /**
@@ -365,12 +305,16 @@ public class SamplingFeature extends AbstractFeature {
         return CollectionHelper.isNotEmpty(relatedSamplingFeatures);
     }
 
+    public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
+        return visitor.visit(this);
+    }
+
     @Override
     public String toString() {
-        return String
-                .format("SamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
-                        getName(), getDescription(), getXmlDescription(), getGeometry(), getFeatureType(), getUrl(),
-                        getSampledFeatures(), getParameters(), isEncode(), getRelatedSamplingFeatures());
+        return String.format(
+                "SamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
+                getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(),
+                getSampledFeatures(), getParameters(), isEncode(), getRelatedSamplingFeatures());
     }
 
 }

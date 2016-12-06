@@ -78,5 +78,4 @@ public class SamplingFeatureComplex {
     public SamplingFeature getRelatedSamplingFeature() {
         return relatedSamplingFeature;
     }
-
 }
