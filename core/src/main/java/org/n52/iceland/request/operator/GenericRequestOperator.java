@@ -34,14 +34,14 @@ import org.n52.iceland.convert.RequestResponseModifierRepository;
 import org.n52.iceland.event.ServiceEventBus;
 import org.n52.iceland.event.events.RequestEvent;
 import org.n52.iceland.event.events.ResponseEvent;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.request.handler.GenericOperationHandler;
 import org.n52.iceland.request.handler.OperationHandlerRepository;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 import com.google.common.base.MoreObjects;
 

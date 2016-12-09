@@ -19,6 +19,7 @@ package org.n52.iceland.binding;
 import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -36,22 +37,22 @@ import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceOrVersionException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
-import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
-import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.iceland.service.operator.ServiceOperator;
-import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HttpUtils;
+import org.n52.janmayen.Comparables;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
-import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
+import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
+import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.DecoderRepository;
@@ -264,53 +265,42 @@ public abstract class SimpleBinding extends Binding {
 
     protected ServiceOperator getServiceOperator(OwsServiceRequest request) throws OwsExceptionReport {
         checkServiceOperatorKeyTypes(request);
-        return request.getServiceOperatorKeys().stream()
-                .map(this::getServiceOperator)
-                .filter(Objects::nonNull)
-                .findFirst()
-                .orElseThrow(() -> {
-                    if (request instanceof GetCapabilitiesRequest) {
-                        return new InvalidAcceptVersionsParameterException(((GetCapabilitiesRequest) request).getAcceptVersions());
-                    } else {
-                        return new InvalidServiceOrVersionException(request.getService(), request.getVersion());
-                    }
-                });
+        String service = request.getService();
+        String version = request.getVersion();
+        if (request instanceof GetCapabilitiesRequest) {
+            GetCapabilitiesRequest gcr = (GetCapabilitiesRequest) request;
+            if (gcr.isSetAcceptVersions()) {
+                return gcr.getAcceptVersions().stream().map(v -> new OwsServiceKey(service, v))
+                        .map(this::getServiceOperator).filter(Objects::nonNull).findFirst()
+                        .orElseThrow(() -> new InvalidServiceOrVersionException(service, version));
+            } else {
+                Set<String> supportedVersions = serviceOperatorRepository.getSupportedVersions(service);
+                String newest = supportedVersions.stream().max(Comparables.version())
+                        .orElseThrow(() -> new InvalidServiceParameterException(service));
+                return getServiceOperator(new OwsServiceKey(service, newest));
+            }
+        } else {
+            return getServiceOperator(new OwsServiceKey(service, version));
+        }
     }
 
     protected void checkServiceOperatorKeyTypes(OwsServiceRequest request) throws OwsExceptionReport {
-        CompositeOwsException exceptions = new CompositeOwsException();
-        for (OwsServiceKey sokt : request.getServiceOperatorKeys()) {
-            if (sokt.hasService()) {
-                if (sokt.getService().isEmpty()) {
-                    exceptions.add(new MissingServiceParameterException());
-                } else if (!getServiceOperatorRepository().isServiceSupported(sokt.getService())) {
-                    exceptions.add(new InvalidServiceParameterException(sokt.getService()));
-                }
+        String service = request.getService();
+        String version = request.getVersion();
+        if (service == null || service.isEmpty()) {
+            throw new MissingServiceParameterException();
+        } else if (!getServiceOperatorRepository().isServiceSupported(service)) {
+            throw new InvalidServiceParameterException(service);
+        } else if (request instanceof GetCapabilitiesRequest) {
+            GetCapabilitiesRequest gcr = (GetCapabilitiesRequest) request;
+            if (gcr.isSetAcceptVersions() && !gcr.getAcceptVersions().stream().anyMatch(v -> isVersionSupported(service, v))) {
+                throw new InvalidAcceptVersionsParameterException(gcr.getAcceptVersions());
             }
-            if (request instanceof GetCapabilitiesRequest) {
-                GetCapabilitiesRequest gcr = (GetCapabilitiesRequest) request;
-                if (gcr.isSetAcceptVersions()) {
-                    boolean hasSupportedVersion = false;
-                    for (String acceptVersion : gcr.getAcceptVersions()) {
-                        if (isVersionSupported(request.getService(), acceptVersion)) {
-                            hasSupportedVersion = true;
-                        }
-                    }
-                    if (!hasSupportedVersion) {
-                        exceptions.add(new InvalidAcceptVersionsParameterException(gcr.getAcceptVersions()));
-                    }
-                }
-            } else {
-                if (sokt.hasVersion()) {
-                    if (sokt.getVersion().isEmpty()) {
-                        exceptions.add(new MissingVersionParameterException());
-                    } else if (!isVersionSupported(sokt.getService(), sokt.getVersion())) {
-                        exceptions.add(new VersionNotSupportedException());
-                    }
-                }
-            }
+        } else if (version == null || version.isEmpty()) {
+            throw new MissingVersionParameterException();
+        } else if (!isVersionSupported(service, version)) {
+            throw new VersionNotSupportedException();
         }
-        exceptions.throwIfNotEmpty();
     }
 
     protected void writeResponse(HttpServletRequest request,
