@@ -14,24 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wps.response;
-
+package org.n52.shetland.ogc.wps.request;
 
 import org.n52.shetland.ogc.wps.WPSConstants;
 
 /**
  * @author Christian Autermann
  */
-public class GetResultRequest extends AbstractJobIdRequest {
-    public GetResultRequest() {
-        super(null, null, WPSConstants.Operations.GetResult.name());
+public class GetStatusRequest extends AbstractJobIdRequest {
+    public GetStatusRequest() {
+        super(null, null, WPSConstants.Operations.GetStatus.name());
     }
 
-    public GetResultRequest(String service, String version) {
-        super(service, version, WPSConstants.Operations.GetResult.name());
+    public GetStatusRequest(String service, String version) {
+        super(service, version, WPSConstants.Operations.GetStatus.name());
     }
 
-    public GetResultRequest(String service, String version, String operationName) {
+    public GetStatusRequest(String service, String version, String operationName) {
         super(service, version, operationName);
     }
 
