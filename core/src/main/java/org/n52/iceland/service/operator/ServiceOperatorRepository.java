@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.service.operator;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceKey;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -27,12 +25,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.janmayen.component.AbstractComponentRepository;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.janmayen.Producer;
 import org.n52.iceland.util.collections.MultiMaps;
 import org.n52.iceland.util.collections.SetMultiMap;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.collect.Maps;
 

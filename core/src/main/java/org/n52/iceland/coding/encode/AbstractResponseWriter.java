@@ -16,10 +16,6 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.svalbard.encode.Encoder;
-import org.n52.svalbard.encode.EncoderKey;
-import org.n52.svalbard.encode.EncoderRepository;
-
 import java.util.Objects;
 
 import javax.inject.Inject;
@@ -27,9 +23,12 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.request.ResponseFormat;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.EncoderRepository;
 
 /**
  * Abstract {@link ResponseWriter} class for response streaming

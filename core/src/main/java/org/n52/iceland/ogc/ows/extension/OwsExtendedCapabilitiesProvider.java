@@ -20,9 +20,9 @@ package org.n52.iceland.ogc.ows.extension;
 import java.util.Set;
 
 import org.n52.janmayen.component.Component;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>

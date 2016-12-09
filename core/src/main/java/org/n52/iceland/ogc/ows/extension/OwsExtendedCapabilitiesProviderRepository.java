@@ -30,10 +30,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.janmayen.component.AbstractComponentRepository;
-import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
-import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationListeners;
@@ -41,9 +37,13 @@ import org.n52.iceland.util.activation.ActivationManager;
 import org.n52.iceland.util.activation.ActivationSource;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 /**
- * Repository for {@link OwsExtendedCapabilities}. Loads all implemented
+ * Repository for {@link OwsOperationMetadataExtension}. Loads all implemented
  * {@link OwsExtendedCapabilitiesProvider} and adds to this repository.
  *
  * @since 1.0.0
@@ -227,6 +227,7 @@ public class OwsExtendedCapabilitiesProviderRepository
      * @param active
      *            the new status
      */
+    @Override
     public void setActive(OwsExtendedCapabilitiesProviderKey oeckt, boolean active) {
         if (this.extendedCapabilitiesProvider.containsKey(oeckt)) {
             this.activations.activate(oeckt);
