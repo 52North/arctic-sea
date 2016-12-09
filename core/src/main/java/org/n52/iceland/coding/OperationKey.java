@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.coding;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.janmayen.Comparables;
+import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
