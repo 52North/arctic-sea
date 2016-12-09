@@ -96,14 +96,14 @@ public class LiteralDataDomainImpl implements LiteralDataDomain {
         @Override
         @SuppressWarnings(value = "unchecked")
         public B withDataType(OwsDomainMetadata dataType) {
-            this.dataType = Objects.requireNonNull(dataType);
+            this.dataType = dataType;
             return (B) this;
         }
 
         @Override
         @SuppressWarnings(value = "unchecked")
         public B withDefaultValue(OwsValue value) {
-            this.defaultValue = Objects.requireNonNull(value);
+            this.defaultValue = value;
             return (B) this;
         }
 
