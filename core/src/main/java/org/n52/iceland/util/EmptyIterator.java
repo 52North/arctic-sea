@@ -34,8 +34,8 @@ public class EmptyIterator<T> implements Iterator<T> {
 
     /**
      *
-     * @param <T>
-     * @return
+     * @param <T> the iterator's element type
+     * @return the instance
      * @deprecated use {@link Collections#emptyIterator() }
      */
     @Deprecated

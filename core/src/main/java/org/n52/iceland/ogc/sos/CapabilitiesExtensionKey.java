@@ -18,6 +18,8 @@ package org.n52.iceland.ogc.sos;
 
 import java.util.Objects;
 
+import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
+
 import com.google.common.collect.ComparisonChain;
 
 
