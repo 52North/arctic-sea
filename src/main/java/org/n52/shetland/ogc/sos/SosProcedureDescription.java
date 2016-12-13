@@ -64,7 +64,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return validTime;
     }
 
-    public SosProcedureDescription setValidTime(Time validTime) {
+    public SosProcedureDescription<T> setValidTime(Time validTime) {
         this.validTime = validTime;
         return this;
     }
@@ -77,7 +77,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return descriptionFormat;
     }
 
-    public SosProcedureDescription setDescriptionFormat(String descriptionFormat) {
+    public SosProcedureDescription<T> setDescriptionFormat(String descriptionFormat) {
         this.descriptionFormat = descriptionFormat;
         return this;
     }
@@ -86,12 +86,12 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return offerings;
     }
 
-    public SosProcedureDescription addOfferings(Collection<SosOffering> offerings) {
+    public SosProcedureDescription<T> addOfferings(Collection<SosOffering> offerings) {
         this.offerings.addAll(offerings);
         return this;
     }
 
-    public SosProcedureDescription addOffering(SosOffering offering) {
+    public SosProcedureDescription<T> addOffering(SosOffering offering) {
         if (offering != null) {
             this.offerings.add(offering);
         }
@@ -114,7 +114,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return Sets.newHashSet();
     }
 
-    public SosProcedureDescription setParentProcedure(ReferenceType parentProcedure) {
+    public SosProcedureDescription<T> setParentProcedure(ReferenceType parentProcedure) {
         this.parentProcedure = parentProcedure;
         return this;
     }
@@ -123,7 +123,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return this.parentProcedure != null;
     }
 
-    public SosProcedureDescription addChildProcedure(AbstractSensorML process) {
+    public SosProcedureDescription<T> addChildProcedure(AbstractSensorML process) {
         if (process != null) {
             this.childProcedures.add(process);
         }
@@ -134,13 +134,13 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return childProcedures;
     }
 
-    public SosProcedureDescription setChildProcedures(Collection<AbstractSensorML> childProcedures) {
+    public SosProcedureDescription<T> setChildProcedures(Collection<AbstractSensorML> childProcedures) {
         this.childProcedures.clear();
         addChildProcedures(childProcedures);
         return this;
     }
 
-    public SosProcedureDescription addChildProcedures(Collection<AbstractSensorML> childProcedures) {
+    public SosProcedureDescription<T> addChildProcedures(Collection<AbstractSensorML> childProcedures) {
         if (childProcedures != null) {
             childProcedures.forEach(this.childProcedures::add);
         }
@@ -155,28 +155,28 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return featuresOfInterestMap;
     }
 
-    public SosProcedureDescription setFeaturesOfInterestMap(Map<String, AbstractFeature> featuresOfInterestMap) {
+    public SosProcedureDescription<T> setFeaturesOfInterestMap(Map<String, AbstractFeature> featuresOfInterestMap) {
         this.featuresOfInterestMap.clear();
         addFeaturesOfInterestMap(featuresOfInterestMap);
         return this;
     }
 
-    public SosProcedureDescription addFeaturesOfInterestMap(Map<String, AbstractFeature> featureOfInterest) {
+    public SosProcedureDescription<T> addFeaturesOfInterestMap(Map<String, AbstractFeature> featureOfInterest) {
         featureOfInterest.forEach(this.featuresOfInterestMap::put);
         return this;
     }
 
-    public SosProcedureDescription addFeaturesOfInterest(Collection<String> featureOfInterest) {
+    public SosProcedureDescription<T> addFeaturesOfInterest(Collection<String> featureOfInterest) {
         featureOfInterest.forEach(this.featuresOfInterest::add);
         return this;
     }
 
-    public SosProcedureDescription addFeatureOfInterest(AbstractFeature featureOfInterest) {
+    public SosProcedureDescription<T> addFeatureOfInterest(AbstractFeature featureOfInterest) {
         this.featuresOfInterestMap.put(featureOfInterest.getIdentifier(), featureOfInterest);
         return this;
     }
 
-    public SosProcedureDescription addFeatureOfInterest(String featureOfInterest) {
+    public SosProcedureDescription<T> addFeatureOfInterest(String featureOfInterest) {
         this.featuresOfInterest.add(featureOfInterest);
         return this;
     }
@@ -189,7 +189,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return this.featuresOfInterest != null && !this.featuresOfInterest.isEmpty();
     }
 
-    public SosProcedureDescription setFeaturesOfInterest(Collection<String> featuresOfInterest) {
+    public SosProcedureDescription<T> setFeaturesOfInterest(Collection<String> featuresOfInterest) {
         this.featuresOfInterest.clear();
         addFeaturesOfInterest(featuresOfInterest);
         return this;
@@ -203,18 +203,18 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return isSetFeaturesOfInterest() || isSetFeaturesOfInterestMap();
     }
 
-    public SosProcedureDescription addPhenomenon(AbstractPhenomenon phenomenon) {
+    public SosProcedureDescription<T> addPhenomenon(AbstractPhenomenon phenomenon) {
         getPhenomenon().put(phenomenon.getIdentifier(), phenomenon);
         return this;
     }
 
-    public SosProcedureDescription setPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
+    public SosProcedureDescription<T> setPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
         this.phenomenonMap.clear();
         addPhenomenon(phenomenons);
         return this;
     }
 
-    public SosProcedureDescription addPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
+    public SosProcedureDescription<T> addPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
         phenomenons.forEach(phenomenons::put);
         return this;
     }
@@ -239,7 +239,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return mobile;
     }
 
-    public SosProcedureDescription setMobile(boolean mobile) {
+    public SosProcedureDescription<T> setMobile(boolean mobile) {
         this.mobile = mobile;
         return this;
     }
@@ -248,7 +248,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return insitu;
     }
 
-    public SosProcedureDescription setInsitu(boolean insitu) {
+    public SosProcedureDescription<T> setInsitu(boolean insitu) {
         this.insitu = insitu;
         return this;
     }
@@ -264,7 +264,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
      * @param typeOf
      *            the typeOf to set
      */
-    public SosProcedureDescription setTypeOf(ReferenceType typeOf) {
+    public SosProcedureDescription<T> setTypeOf(ReferenceType typeOf) {
         this.typeOf = typeOf;
         return this;
     }
@@ -280,7 +280,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return aggregation;
     }
 
-    public SosProcedureDescription setIsAggregation(boolean aggregation) {
+    public SosProcedureDescription<T> setIsAggregation(boolean aggregation) {
         this.aggregation = aggregation;
         return this;
     }

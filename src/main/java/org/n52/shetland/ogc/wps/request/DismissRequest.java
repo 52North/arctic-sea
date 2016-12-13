@@ -16,37 +16,22 @@
  */
 package org.n52.shetland.ogc.wps.request;
 
-import java.util.Objects;
-
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.wps.StatusInfo;
 import org.n52.shetland.ogc.wps.WPSConstants;
 
 /**
  * @author Christian Autermann
  */
-public class DismissResponse extends OwsServiceResponse {
-    private StatusInfo status;
-
-    public DismissResponse(String service, String version, StatusInfo status) {
-        super(service, version);
-        this.status = status;
+public class DismissRequest extends AbstractJobIdRequest {
+    public DismissRequest() {
+        super(null, null, WPSConstants.Operations.Dismiss.name());
     }
 
-    public DismissResponse() {
+    public DismissRequest(String service, String version) {
+        super(service, version, WPSConstants.Operations.Dismiss.name());
     }
 
-    @Override
-    public String getOperationName() {
-        return WPSConstants.Operations.Dismiss.toString();
-    }
-
-    public StatusInfo getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusInfo status) {
-        this.status = Objects.requireNonNull(status);
+    public DismissRequest(String service, String version, String operationName) {
+        super(service, version, operationName);
     }
 
 }

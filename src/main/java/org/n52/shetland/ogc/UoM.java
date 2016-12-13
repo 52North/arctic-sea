@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc;
 
+import java.util.Objects;
+
 import com.google.common.base.Strings;
 
 public class UoM {
@@ -93,5 +95,12 @@ public class UoM {
             return getUom().equals(((UoM) o).getUom());
         }
         return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + Objects.hashCode(this.uom);
+        return hash;
     }
 }
