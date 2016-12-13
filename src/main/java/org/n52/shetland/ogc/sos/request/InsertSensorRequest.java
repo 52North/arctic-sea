@@ -16,22 +16,19 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.swes.SwesFeatureRelationship;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.sos.SosInsertionMetadata;
 import org.n52.shetland.ogc.sos.SosOffering;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
+import org.n52.shetland.ogc.swes.SwesFeatureRelationship;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
-
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosOffering;
-import org.n52.shetland.ogc.sos.SosProcedureDescription;
 
 /**
  * @since 4.0.0
@@ -184,7 +181,7 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return assignedOfferings;
     }
 
-    public void setAssignedOfferings(List<SosOffering> assignedOfferings) {
+    public void setAssignedOfferings(Collection<SosOffering> assignedOfferings) {
         this.assignedOfferings.addAll(assignedOfferings);
     }
 
