@@ -22,7 +22,7 @@ import com.google.common.base.Predicates;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  */
 public class SmlIdentifierPredicates {
     private SmlIdentifierPredicates() {

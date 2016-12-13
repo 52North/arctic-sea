@@ -19,9 +19,9 @@ package org.n52.shetland.ogc.sensorML;
 import com.google.common.base.Strings;
 
 /**
- * Abtract class represents SensorML 2.0 TermType
+ * Abtract class represents SensorML 2.0 TermType.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author Carsten Hollmann
  * @since 4.4.0
  *
  */
@@ -34,7 +34,7 @@ public abstract class Term {
     private String definition;
 
     /**
-     * Classifier codeSpace href
+     * Classifier codeSpace href.
      */
     private String codeSpace;
 
@@ -52,8 +52,7 @@ public abstract class Term {
     }
 
     /**
-     * @param name
-     *            the name to set
+     * @param name the name to set
      */
     public void setName(final String name) {
         this.name = name;
@@ -67,8 +66,7 @@ public abstract class Term {
     }
 
     /**
-     * @param name
-     *            Identifier name
+     * @param label Identifier label
      */
     public void setLabel(final String label) {
         this.label = label;
@@ -83,8 +81,7 @@ public abstract class Term {
     }
 
     /**
-     * @param definition
-     *            Identifier definition
+     * @param definition Identifier definition
      */
     public void setDefinition(final String definition) {
         this.definition = definition;
@@ -98,8 +95,7 @@ public abstract class Term {
     }
 
     /**
-     * @param codeSpace href
-     *            Classifier codeSpace href
+     * @param codeSpace href Classifier codeSpace href
      */
     public void setCodeSpace(final String codeSpace) {
         this.codeSpace = codeSpace;
@@ -113,8 +109,7 @@ public abstract class Term {
     }
 
     /**
-     * @param value
-     *            the value to set
+     * @param value the value to set
      */
     public void setValue(final String value) {
         this.value = value;

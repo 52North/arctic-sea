@@ -16,8 +16,8 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
-import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
 
 import com.google.common.base.Strings;
 

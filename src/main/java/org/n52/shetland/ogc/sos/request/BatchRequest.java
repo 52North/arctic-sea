@@ -28,7 +28,7 @@ import org.n52.shetland.ogc.sos.BatchConstants;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  *
  * @since 4.0.0
  */

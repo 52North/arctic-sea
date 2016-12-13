@@ -53,104 +53,100 @@ public class OmObservation extends AbstractFeature {
     private String observationID;
 
     /**
-     * result time of the observation
+     * result time of the observation.
      */
     private TimeInstant resultTime;
 
     /**
-     * valid time of the observation
+     * valid time of the observation.
      */
     private TimePeriod validTime;
 
     /**
-     * constellation of procedure, obervedProperty, offering and observationType
+     * constellation of procedure, obervedProperty, offering and observationType.
      */
     private OmObservationConstellation observationConstellation;
 
     /**
-     * type of the value or the result the value points to
+     * type of the value or the result the value points to.
      */
     private String resultType;
 
     /**
-     * O&M parameter
+     * O&M parameter.
      */
     private Collection<NamedValue<?>> parameter;
 
     /**
-     * Map with observation values for each obsservableProeprty
+     * Map with observation values for each obsservableProeprty.
      */
     private ObservationValue<?> value;
 
     /**
      * token separator for the value tuples contained in the result element of
-     * the generic observation
+     * the generic observation.
      */
     private String tokenSeparator;
 
     /**
-     * no data value for the values contained in the result element
+     * no data value for the values contained in the result element.
      */
     private String noDataValue;
 
     /**
-     * separator of value tuples, which are contained in the resulte element
+     * separator of value tuples, which are contained in the resulte element.
      */
     private String tupleSeparator;
 
     /**
-     * separator of decimal values, which are contained in the resulte element
+     * separator of decimal values, which are contained in the resulte element.
      */
     private String decimalSeparator;
 
     /**
-     * Measurment quality
+     * Measurment quality.
      */
     private Set<OmResultQuality> qualityList = Sets.newHashSet();
 
     private String additionalMergeIndicator;
 
     /**
-     * constructor
+     * constructor.
      */
     public OmObservation() {
         this("");
     }
 
     /**
-     * constructor
+     * constructor.
      *
-     * @param identifier
-     *                   Feature identifier
+     * @param identifier Feature identifier
      */
     public OmObservation(String identifier) {
         super(identifier);
     }
 
     /**
-     * constructor
+     * constructor.
      *
-     * @param identifier
-     *                   Feature identifier
+     * @param identifier Feature identifier
      */
     public OmObservation(CodeWithAuthority identifier) {
         super(identifier);
     }
 
     /**
-     * constructor
+     * constructor.
      *
-     * @param identifier
-     *                   Feature identifier
-     * @param gmlId
-     *                   GML id
+     * @param identifier Feature identifier
+     * @param gmlId      GML id
      */
     public OmObservation(CodeWithAuthority identifier, String gmlId) {
         super(identifier, gmlId);
     }
 
     /**
-     * Get the observation constellation
+     * Get the observation constellation.
      *
      * @return the observationConstellation
      */
@@ -159,17 +155,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set the observation constellation
+     * Set the observation constellation.
      *
-     * @param observationConstellation
-     *                                 the observationConstellation to set
+     * @param observationConstellation the observationConstellation to set
      */
     public void setObservationConstellation(OmObservationConstellation observationConstellation) {
         this.observationConstellation = observationConstellation;
     }
 
     /**
-     * Get observation ID
+     * Get observation ID.
      *
      * @return the observationID
      */
@@ -178,17 +173,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set observation ID
+     * Set observation ID.
      *
-     * @param observationID
-     *                      the observationID to set
+     * @param observationID the observationID to set
      */
     public void setObservationID(final String observationID) {
         this.observationID = observationID;
     }
 
     /**
-     * Get phenomenon time
+     * Get phenomenon time.
      *
      * @return the phenomenonTime
      */
@@ -201,7 +195,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Get result time
+     * Get result time.
      *
      * @return the resultTime
      */
@@ -210,17 +204,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set result time
+     * Set result time.
      *
-     * @param resultTime
-     *                   the resultTime to set
+     * @param resultTime the resultTime to set
      */
     public void setResultTime(final TimeInstant resultTime) {
         this.resultTime = resultTime;
     }
 
     /**
-     * Get valid time
+     * Get valid time.
      *
      * @return the validTime
      */
@@ -229,17 +222,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set valid time
+     * Set valid time.
      *
-     * @param validTime
-     *                  the validTime to set
+     * @param validTime the validTime to set
      */
     public void setValidTime(final TimePeriod validTime) {
         this.validTime = validTime;
     }
 
     /**
-     * Get result type
+     * Get result type.
      *
      * @return the resultType
      */
@@ -248,17 +240,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set result type
+     * Set result type.
      *
-     * @param resultType
-     *                   the resultType to set
+     * @param resultType the resultType to set
      */
     public void setResultType(final String resultType) {
         this.resultType = resultType;
     }
 
     /**
-     * Get token separator
+     * Get token separator.
      *
      * @return the tokenSeparator
      */
@@ -267,17 +258,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set token separator
+     * Set token separator.
      *
-     * @param tokenSeparator
-     *                       the tokenSeparator to set
+     * @param tokenSeparator the tokenSeparator to set
      */
     public void setTokenSeparator(final String tokenSeparator) {
         this.tokenSeparator = tokenSeparator;
     }
 
     /**
-     * Get noData value
+     * Get noData value.
      *
      * @return the noDataValue
      */
@@ -286,17 +276,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set noData value
+     * Set noData value.
      *
-     * @param noDataValue
-     *                    the noDataValue to set
+     * @param noDataValue the noDataValue to set
      */
     public void setNoDataValue(final String noDataValue) {
         this.noDataValue = noDataValue;
     }
 
     /**
-     * Get tuple separator
+     * Get tuple separator.
      *
      * @return the tupleSeparator
      */
@@ -305,17 +294,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set tuple separator
+     * Set tuple separator.
      *
-     * @param tupleSeparator
-     *                       the tupleSeparator to set
+     * @param tupleSeparator the tupleSeparator to set
      */
     public void setTupleSeparator(final String tupleSeparator) {
         this.tupleSeparator = tupleSeparator;
     }
 
     /**
-     * Get decimal separator
+     * Get decimal separator.
      *
      * @return the decimalSeparator
      */
@@ -324,17 +312,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set decimal separator
+     * Set decimal separator.
      *
-     * @param decimalSeparator
-     *                         the decimalSeparator to set
+     * @param decimalSeparator the decimalSeparator to set
      */
     public void setDecimalSeparator(final String decimalSeparator) {
         this.decimalSeparator = decimalSeparator;
     }
 
     /**
-     * Get observation values
+     * Get observation values.
      *
      * @return the values
      */
@@ -343,10 +330,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set observation values
+     * Set observation values.
      *
-     * @param value
-     *              the values to set
+     * @param value the values to set
      */
     public void setValue(final ObservationValue<?> value) {
         this.value = value;
@@ -357,10 +343,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Merge this observation with passed observation
+     * Merge this observation with passed observation.
      *
-     * @param sosObservation
-     *                       Observation to merge
+     * @param sosObservation Observation to merge
      */
     public void mergeWithObservation(final OmObservation sosObservation) {
         mergeValues(sosObservation.getValue());
@@ -369,10 +354,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Merge this observation with passed observation
+     * Merge this observation with passed observation.
      *
-     * @param sosObservation
-     *                       Observation to merge
+     * @param observationValue Observation to merge
      */
     public void mergeWithObservation(ObservationValue<?> observationValue) {
         mergeValues(observationValue);
@@ -389,10 +373,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Merge result time with passed observation result time
+     * Merge result time with passed observation result time.
      *
-     * @param sosObservation
-     *                       Observation to merge
+     * @param sosObservation Observation to merge
      */
     private void mergeResultTimes(final OmObservation sosObservation) {
         if (isSetResultTime() && sosObservation.isSetResultTime()) {
@@ -405,10 +388,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Merge observation values with passed observation values
+     * Merge observation values with passed observation values.
      *
-     * @param observationValue
-     *                         Observation to merge
+     * @param observationValue Observation to merge
      */
     private void mergeValues(final ObservationValue<?> observationValue) {
         TVPValue tvpValue;
@@ -429,10 +411,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Convert {@link SingleObservationValue} to {@link TVPValue}
+     * Convert {@link SingleObservationValue} to {@link TVPValue}.
      *
-     * @param singleValue
-     *                    Single observation value
+     * @param singleValue Single observation value
      *
      * @return Converted TVPValue value
      */
@@ -448,7 +429,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether observation id is set
+     * Check whether observation id is set.
      *
      * @return <code>true</code>, if observation id is set
      */
@@ -457,7 +438,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether tuple separator is set
+     * Check whether tuple separator is set.
      *
      * @return <code>true</code>, if tuple separator is set
      */
@@ -466,7 +447,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether token separator is set
+     * Check whether token separator is set.
      *
      * @return <code>true</code>, if token separator is set
      */
@@ -475,7 +456,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether decimal separator is set
+     * Check whether decimal separator is set.
      *
      * @return <code>true</code>, if decimal separator is set
      */
@@ -484,7 +465,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether result time is set
+     * Check whether result time is set.
      *
      * @return <code>true</code>, if result time is set
      */
@@ -493,7 +474,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether result time is template is set
+     * Check whether result time is template is set.
      *
      * @return <code>true</code>, if result time is template is set
      */
@@ -504,7 +485,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether result type is set
+     * Check whether result type is set.
      *
      * @return <code>true</code>, if result type is set
      */
@@ -513,7 +494,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether valid time is set
+     * Check whether valid time is set.
      *
      * @return <code>true</code>, if valid time is set
      */
@@ -522,7 +503,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Get parameter
+     * Get parameter.
      *
      * @return the parameter
      */
@@ -531,10 +512,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set parameter
+     * Set parameter.
      *
-     * @param parameter
-     *                  the parameter to set
+     * @param parameter the parameter to set
      */
     public void setParameter(Collection<NamedValue<?>> parameter) {
         this.parameter = parameter;
@@ -552,10 +532,9 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Add parameter
+     * Add parameter.
      *
-     * @param namedValue
-     *                   the namedValue to add to parameter
+     * @param namedValue the namedValue to add to parameter
      */
     public void addParameter(NamedValue<?> namedValue) {
         if (parameter == null) {
@@ -565,7 +544,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether parameter is set
+     * Check whether parameter is set.
      *
      * @return <code>true</code>, if parameter is set
      */
@@ -574,23 +553,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether spatial filtering profile parameter is set
+     * Check whether spatial filtering profile parameter is set.
      *
      * @return <code>true</code>, if spatial filtering profile parameter is set
      */
     public boolean isSetSpatialFilteringProfileParameter() {
-        if (isSetParameter()) {
-            for (NamedValue<?> namedValue : getParameter()) {
-                if (isSamplingGeometryParameter(namedValue)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return isSetParameter() ? getParameter().stream().anyMatch(this::isSamplingGeometryParameter) : false;
     }
 
     /**
-     * Get spatial filtering profile parameter
+     * Get spatial filtering profile parameter.
      *
      * @return Spatial filtering profile parameter
      */
@@ -607,10 +579,11 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether sampling geometry for spatial filtering profile is set
+     * Check whether sampling geometry for spatial filtering profile is set.
      *
-     * @return <code>true</code>, if sampling geometry for spatial filtering
-     *         profile is set
+     * @param namedValue the parameter
+     *
+     * @return <code>true</code>, if sampling geometry for spatial filtering profile is set
      */
     private boolean isSamplingGeometryParameter(NamedValue<?> namedValue) {
         return namedValue.isSetName() && namedValue.getName().isSetHref() &&
@@ -619,23 +592,16 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether height parameter is set
+     * Check whether height parameter is set.
      *
      * @return <code>true</code>, if height parameter is set
      */
     public boolean isSetHeightParameter() {
-        if (isSetParameter()) {
-            for (NamedValue<?> namedValue : getParameter()) {
-                if (isHeightParameter(namedValue)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return isSetParameter() ? getParameter().stream().anyMatch(this::isHeightParameter) : false;
     }
 
     /**
-     * Get height parameter
+     * Get height parameter.
      *
      * @return Height parameter
      */
@@ -658,19 +624,12 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Check whether depth parameter is set
+     * Check whether depth parameter is set.
      *
      * @return <code>true</code>, if depth parameter is set
      */
     public boolean isSetDepthParameter() {
-        if (isSetParameter()) {
-            for (NamedValue<?> namedValue : getParameter()) {
-                if (isDepthParameter(namedValue)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return (isSetParameter()) ? getParameter().stream().anyMatch(this::isDepthParameter) : false;
     }
 
     /**
@@ -697,21 +656,11 @@ public class OmObservation extends AbstractFeature {
     }
 
     public boolean isSetHeightDepthParameter() {
-        if (isSetParameter()) {
-            for (NamedValue<?> namedValue : getParameter()) {
-                if (isHeightDepthParameter(namedValue)) {
-                    return true;
-                }
-            }
-        }
-        return false;
+        return isSetParameter() ? getParameter().stream().anyMatch(this::isHeightDepthParameter) : false;
     }
 
     public NamedValue<Double> getHeightDepthParameter() {
-        if (isSetDepthParameter()) {
-            return getDepthParameter();
-        }
-        return getHeightParameter();
+        return isSetDepthParameter() ? getDepthParameter() : getHeightParameter();
     }
 
     private boolean isHeightDepthParameter(NamedValue<?> namedValue) {
@@ -738,10 +687,11 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Set result quality
+     * Set result quality.
      *
-     * @param qualityList
-     *                    Result quality to set
+     * @param qualityList Result quality to set
+     *
+     * @return {@code this}
      */
     public OmObservation setResultQuality(Set<OmResultQuality> qualityList) {
         this.qualityList = qualityList;
@@ -759,7 +709,7 @@ public class OmObservation extends AbstractFeature {
     }
 
     /**
-     * Get result quality
+     * Get result quality.
      *
      * @return Result quality
      */

@@ -16,12 +16,9 @@
  */
 package org.n52.shetland.ogc.sos;
 
-import org.n52.shetland.ogc.sos.SosOffering;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -30,10 +27,11 @@ import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
+import org.n52.janmayen.Comparables;
+import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.swes.AbstractSWES;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.janmayen.Comparables;
 import org.n52.shetland.util.ReferencedEnvelope;
 
 /**
@@ -44,182 +42,106 @@ import org.n52.shetland.util.ReferencedEnvelope;
 public class SosObservationOffering extends AbstractSWES implements Comparable<SosObservationOffering> {
 
     /**
-     * clear and add collection to sorted set
-     *
-     * @param set
-     * @param coll
-     */
-    private static <T> void set(SortedSet<T> set, Collection<? extends T> coll) {
-        if (set != null) {
-            set.clear();
-            add(set, coll);
-        }
-    }
-    /**
-     * add collection to sorted set
-     *
-     * @param set
-     * @param coll
-     */
-    private static <T> void add(SortedSet<T> set, Collection<? extends T> coll) {
-        if (set != null) {
-            if (coll != null) {
-                set.addAll(coll);
-            }
-        }
-    }
-
-    /**
-     * Add key and value to map
-     *
-     * @param map
-     * @param key
-     * @param value
-     */
-    private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, V value) {
-        if (map != null && key != null && value != null) {
-            SortedSet<V> set = map.get(key);
-            if (set == null) {
-                set = new TreeSet<>();
-                map.put(key, set);
-            }
-            set.add(value);
-        }
-    }
-
-    /**
-     * Add key and values to map
-     *
-     * @param map
-     * @param key
-     * @param value
-     */
-    private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, Collection<V> value) {
-        if (map != null && key != null && value != null) {
-            SortedSet<V> set = map.get(key);
-            if (set == null) {
-                set = new TreeSet<>();
-                map.put(key, set);
-            }
-            set.addAll(value);
-        }
-    }
-
-    /**
-     * Add map to sorted map
-     *
-     * @param sortedMap
-     * @param map
-     */
-    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
-        if (sortedMap != null) {
-            sortedMap.clear();
-            if (map != null) {
-                for (Entry<K, ? extends Collection<V>> e : map.entrySet()) {
-                    sortedMap.put(e.getKey(), e.getValue() != null ? new TreeSet<>(e.getValue()) : new TreeSet<V>());
-                }
-            }
-        }
-    }
-
-    /**
-     * offering identifier for this contents sub section
+     * offering identifier for this contents sub section.
      */
     private SosOffering offering;
 
     /**
-     * area observed by this offering
+     * area observed by this offering.
      */
     private ReferencedEnvelope observedArea;
 
     /**
-     * All observableProperties contained in the offering
+     * All observableProperties contained in the offering.
      */
     private final SortedSet<String> observableProperties = new TreeSet<>();
 
     /**
-     * All compositePhenomenon contained in the offering
+     * All compositePhenomenon contained in the offering.
      */
     private final SortedSet<String> compositePhenomena = new TreeSet<>();
 
     /**
-     * All phenomenon for compositePhenomenon contained in the offering
+     * All phenomenon for compositePhenomenon contained in the offering.
      */
     private final SortedMap<String, SortedSet<String>> phens4CompPhens = new TreeMap<>();
 
     /**
-     * TimePeriod of data in the offering
+     * TimePeriod of data in the offering.
      */
     private Time phenomenonTime;
 
     /**
-     * Result TimePeriod of data in the offering
+     * Result TimePeriod of data in the offering.
      */
     private Time resultTime;
 
     /**
-     * All featuresOfinterest contained in the offering
+     * All featuresOfinterest contained in the offering.
      */
     private final SortedSet<String> featureOfInterest = new TreeSet<>();
 
     /**
-     * All related features contained in the offering
+     * All related features contained in the offering.
      */
     private final SortedMap<String, SortedSet<String>> relatedFeatures = new TreeMap<>();
 
     /**
-     * All procedures contained in the offering
+     * All procedures contained in the offering.
      */
     private final SortedSet<String> procedures = new TreeSet<>();
 
     /**
-     * All resultModels contained in the offering
+     * All resultModels contained in the offering.
      */
     private final SortedSet<QName> resultModels = new TreeSet<>(Comparables.qname());
 
     /**
-     * All observation types contained in the offering
+     * All observation types contained in the offering.
      */
     private final SortedSet<String> observationTypes = new TreeSet<>();
 
     /**
-     * All featureOfInterest types contained in the offering
+     * All featureOfInterest types contained in the offering.
      */
     private final SortedSet<String> featureOfInterestTypes = new TreeSet<>();
 
     /**
-     * All observation result types contained in the offering
+     * All observation result types contained in the offering.
      */
     private final SortedMap<String, SortedSet<String>> observationResultTypes = new TreeMap<>();
 
     /**
-     * All response formats contained in the offering
+     * All response formats contained in the offering.
      */
     private final SortedSet<String> responseFormats = new TreeSet<>();
 
     /**
-     * All response modes contained in the offering
+     * All response modes contained in the offering.
      */
     private final SortedSet<String> responseModes = new TreeSet<>();
 
     /**
-     * All procedure description formats contained in the offering
+     * All procedure description formats contained in the offering.
      */
     private final SortedSet<String> procedureDescriptionFormats = new TreeSet<>();
 
     /**
      * @return Offering identifier
      */
-    /**
-     * @return
-     */
     public SosOffering getOffering() {
         return offering;
     }
 
     /**
-     * @param offering
-     *            Offering identifier
+     * @param offering Offering identifier
+     */
+    public void setOffering(String offering) {
+        setOffering(new SosOffering(offering, ""));
+    }
+
+    /**
+     * @param offering Offering identifier
      */
     public void setOffering(SosOffering offering) {
         this.offering = offering;
@@ -232,14 +154,6 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
         if (!isSetDescription() && offering.isSetDescription()) {
             this.setDescription(offering.getDescription());
         }
-    }
-
-    /**
-     * @param offering
-     *            Offering identifier
-     */
-    public void setOffering(String offering) {
-        setOffering(new SosOffering(offering, ""));
     }
 
     /**
@@ -291,7 +205,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
 
     /**
      * @param phenomenonTime
-     *            the phenomenon time
+     *                       the phenomenon time
      */
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
@@ -305,8 +219,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param resultTime
-     *            the result time
+     * @param resultTime the result time
      */
     public void setResultTime(Time resultTime) {
         this.resultTime = resultTime;
@@ -320,7 +233,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param featureOfInterest
+     * @param featureOfInterest the fature of interest
      */
     public void setFeatureOfInterest(Collection<String> featureOfInterest) {
         set(this.featureOfInterest, featureOfInterest);
@@ -334,19 +247,24 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param relatedFeatures
+     * @param relatedFeatures the related features
      */
     public void setRelatedFeatures(Map<String, Set<String>> relatedFeatures) {
         set(this.relatedFeatures, relatedFeatures);
     }
 
     /**
+     * @return Sorted map of related features
+     */
+    public SortedMap<String, SortedSet<String>> getRelatedFeatures() {
+        return Collections.unmodifiableSortedMap(relatedFeatures);
+    }
+
+    /**
      * Add a related feature to this offering
      *
-     * @param identifier
-     *            Related feature identifier
-     * @param role
-     *            Related feature role
+     * @param identifier Related feature identifier
+     * @param role       Related feature role
      */
     public void addRelatedFeature(String identifier, String role) {
         addToMap(this.relatedFeatures, identifier, role);
@@ -355,20 +273,11 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * Add a related feature to this offering
      *
-     * @param identifier
-     *            Related feature identifier
-     * @param roles
-     *            Related feature roles
+     * @param identifier Related feature identifier
+     * @param roles      Related feature roles
      */
     public void addRelatedFeature(String identifier, Set<String> roles) {
         addToMap(this.relatedFeatures, identifier, roles);
-    }
-
-    /**
-     * @return Sorted map of related features
-     */
-    public SortedMap<String, SortedSet<String>> getRelatedFeatures() {
-        return Collections.unmodifiableSortedMap(relatedFeatures);
     }
 
     /**
@@ -407,8 +316,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observationTypes
-     *            the observationTypes to set
+     * @param observationTypes the observationTypes to set
      */
     public void setObservationTypes(Collection<String> observationTypes) {
         set(this.observationTypes, observationTypes);
@@ -422,8 +330,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observationResultTypes
-     *            the observationResultTypes to set
+     * @param observationResultTypes the observationResultTypes to set
      */
     public void setObservationResultTypes(Map<String, Collection<String>> observationResultTypes) {
         set(this.observationResultTypes, observationResultTypes);
@@ -451,7 +358,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param responseModes
+     * @param responseModes the response modes
      */
     public void setResponseModes(Collection<String> responseModes) {
         set(this.responseModes, responseModes);
@@ -499,12 +406,23 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     public boolean isEmpty() {
-        return !isSetOffering() && !isSetObservedArea() && !isSetObservableProperties()
-                && !isSetCompositePhenomena() && !isSetPhens4CompPhens() && !isSetPhenomenonTime()
-                && !isSetResultTime() && !isSetFeatureOfInterest() && !isSetRelatedFeature() && !isSetProcedures()
-                && !isSetresultModels() && !isSetObservationTypes() && !isSetFeatureOfInterestTypes()
-                && !isSetObservationResultTypes() && !isSetResponseFormats() && !isSetResponseModes()
-                && !isSetProcedureDescriptionFormats();
+        return !isSetOffering() &&
+               !isSetObservedArea() &&
+               !isSetObservableProperties() &&
+               !isSetCompositePhenomena() &&
+               !isSetPhens4CompPhens() &&
+               !isSetPhenomenonTime() &&
+               !isSetResultTime() &&
+               !isSetFeatureOfInterest() &&
+               !isSetRelatedFeature() &&
+               !isSetProcedures() &&
+               !isSetresultModels() &&
+               !isSetObservationTypes() &&
+               !isSetFeatureOfInterestTypes() &&
+               !isSetObservationResultTypes() &&
+               !isSetResponseFormats() &&
+               !isSetResponseModes() &&
+               !isSetProcedureDescriptionFormats();
     }
 
     public boolean isValidObservationOffering() {
@@ -540,48 +458,122 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     public boolean isSetFeatureOfInterest() {
-        return  CollectionHelper.isNotEmpty(getFeatureOfInterest());
+        return CollectionHelper.isNotEmpty(getFeatureOfInterest());
     }
 
     public boolean isSetRelatedFeature() {
-        return  CollectionHelper.isNotEmpty(getRelatedFeatures());
+        return CollectionHelper.isNotEmpty(getRelatedFeatures());
     }
 
     public boolean isSetProcedures() {
-        return  CollectionHelper.isNotEmpty(getProcedures());
+        return CollectionHelper.isNotEmpty(getProcedures());
     }
 
     public boolean isSetresultModels() {
-        return  CollectionHelper.isNotEmpty(getResultModels());
+        return CollectionHelper.isNotEmpty(getResultModels());
     }
 
     public boolean isSetObservationTypes() {
-        return  CollectionHelper.isNotEmpty(getObservationTypes());
+        return CollectionHelper.isNotEmpty(getObservationTypes());
     }
 
     public boolean isSetFeatureOfInterestTypes() {
-        return  CollectionHelper.isNotEmpty(getFeatureOfInterestTypes());
+        return CollectionHelper.isNotEmpty(getFeatureOfInterestTypes());
     }
 
     private boolean isSetObservationResultTypes() {
-        return  CollectionHelper.isNotEmpty(getObservationResultTypes());
+        return CollectionHelper.isNotEmpty(getObservationResultTypes());
     }
 
     public boolean isSetResponseFormats() {
-        return  CollectionHelper.isNotEmpty(getResponseFormats());
+        return CollectionHelper.isNotEmpty(getResponseFormats());
     }
 
     private boolean isSetResponseModes() {
-        return  CollectionHelper.isNotEmpty(getResponseModes());
+        return CollectionHelper.isNotEmpty(getResponseModes());
     }
 
     public boolean isSetProcedureDescriptionFormats() {
-        return  CollectionHelper.isNotEmpty(getProcedureDescriptionFormats());
+        return CollectionHelper.isNotEmpty(getProcedureDescriptionFormats());
     }
 
     @Override
     public String toString() {
         return "SosObservationOffering [offering=" + offering + "]";
+    }
+
+    /**
+     * clear and add collection to sorted set.
+     *
+     * @param <T>  the element type
+     * @param set  the set
+     * @param coll the collection
+     */
+    private static <T> void set(SortedSet<T> set, Collection<? extends T> coll) {
+        if (set != null) {
+            set.clear();
+            add(set, coll);
+        }
+    }
+
+    /**
+     * add collection to sorted set.
+     *
+     * @param <T>  the element type
+     * @param set  the set
+     * @param coll the collection
+     */
+    private static <T> void add(SortedSet<T> set, Collection<? extends T> coll) {
+        if (set != null && coll != null) {
+            set.addAll(coll);
+        }
+    }
+
+    /**
+     * Add key and value to map.
+     *
+     * @param <K>   the key type
+     * @param <V>   the value type
+     * @param map   the map
+     * @param key   the key
+     * @param value the value
+     */
+    private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, V value) {
+        if (map != null && key != null && value != null) {
+            map.computeIfAbsent(key, Functions.forSupplier(TreeSet::new)).add(value);
+        }
+    }
+
+    /**
+     * Add key and values to map.
+     *
+     * @param <K>   the key type
+     * @param <V>   the value type
+     * @param map   the map
+     * @param key   the key
+     * @param value the values
+     */
+    private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, Collection<V> value) {
+        if (map != null && key != null && value != null) {
+            map.computeIfAbsent(key, Functions.forSupplier(TreeSet::new)).addAll(value);
+        }
+    }
+
+    /**
+     * Add map to sorted map.
+     *
+     * @param <K>       the key type
+     * @param <V>       the value type
+     * @param sortedMap the target map
+     * @param map       the source map
+     */
+    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
+        if (sortedMap != null) {
+            sortedMap.clear();
+            if (map != null) {
+                map.forEach((key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
+            }
+        }
     }
 
 }

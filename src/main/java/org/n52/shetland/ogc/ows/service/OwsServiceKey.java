@@ -21,7 +21,7 @@ import org.n52.janmayen.Comparables;
 import com.google.common.base.Objects;
 
 /**
- * This class defines a key for {@link ServiceOperator} which contains the
+ * This class defines a key for OWS services which contains the
  * service name and the service version.
  *
  * @since 1.0.0

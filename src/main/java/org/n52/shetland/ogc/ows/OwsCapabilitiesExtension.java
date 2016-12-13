@@ -19,8 +19,7 @@ package org.n52.shetland.ogc.ows;
 import java.util.Comparator;
 
 /**
- * Interface for CapabilitiesExtension. Implementations of this interface are
- * returned by the {@link CapabilitiesExtensionProvider}.
+ * Interface for OWS capabilities extensions.
  *
  * @since 1.0.0
  *

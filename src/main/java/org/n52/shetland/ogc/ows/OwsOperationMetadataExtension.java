@@ -17,8 +17,7 @@
 package org.n52.shetland.ogc.ows;
 
 /**
- * Interface for OWS ExtendeCapabilities. Implementations of this interface are
- * loaded by the {@link OwsExtendedCapabilitiesProviderRepository}.
+ * Interface for OWS operation metadata extensions.
  *
  * @since 1.0.0
  */

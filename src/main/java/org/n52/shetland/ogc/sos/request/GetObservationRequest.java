@@ -45,44 +45,44 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 /**
- * SOS GetObservation request
+ * SOS GetObservation request.
  *
  * @since 4.0.0
  */
 public class GetObservationRequest extends AbstractObservationRequest implements SpatialFeatureQueryRequest {
 
     /**
-     * Request as String
+     * Request as String.
      */
     private String requestString;
 
     /**
-     * Offerings list
+     * Offerings list.
      */
     private List<String> offerings = Lists.newLinkedList();
 
     /**
-     * Temporal filters list
+     * Temporal filters list.
      */
     private List<TemporalFilter> temporalFilters = Lists.newLinkedList();
 
     /**
-     * Procedures list
+     * Procedures list.
      */
     private List<String> procedures = Lists.newLinkedList();
 
     /**
-     * ObservedProperties list
+     * ObservedProperties list.
      */
     private List<String> observedProperties = Lists.newLinkedList();
 
     /**
-     * FOI identifiers list
+     * FOI identifiers list.
      */
     private List<String> featureIdentifiers = Lists.newLinkedList();
 
     /**
-     * Spatial filters list
+     * Spatial filters list.
      */
     private SpatialFilter spatialFilter;
 
@@ -106,7 +106,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Get temporal filters
+     * Get temporal filters.
      *
      * @return temporal filters
      */
@@ -115,17 +115,16 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set temporal filters
+     * Set temporal filters.
      *
-     * @param temporalFilters
-     *                        temporal filters
+     * @param temporalFilters temporal filters
      */
     public void setTemporalFilters(List<TemporalFilter> temporalFilters) {
         this.temporalFilters = temporalFilters;
     }
 
     /**
-     * Get FOI identifiers
+     * Get FOI identifiers.
      *
      * @return FOI identifiers
      */
@@ -135,10 +134,9 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set FOI identifiers
+     * Set FOI identifiers.
      *
-     * @param featureIdentifiers
-     *                           FOI identifiers
+     * @param featureIdentifiers FOI identifiers
      */
     @Override
     public void setFeatureIdentifiers(List<String> featureIdentifiers) {
@@ -146,7 +144,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Get observableProperties
+     * Get observableProperties.
      *
      * @return observableProperties
      */
@@ -155,17 +153,16 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set observedProperties
+     * Set observedProperties.
      *
-     * @param observedProperties
-     *                           observedProperties
+     * @param observedProperties observedProperties
      */
     public void setObservedProperties(List<String> observedProperties) {
         this.observedProperties = observedProperties;
     }
 
     /**
-     * Get offerings
+     * Get offerings.
      *
      * @return offerings
      */
@@ -174,17 +171,16 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set offerings
+     * Set offerings.
      *
-     * @param offerings
-     *                  offerings
+     * @param offerings offerings
      */
     public void setOfferings(List<String> offerings) {
         this.offerings = offerings;
     }
 
     /**
-     * Get procedures
+     * Get procedures.
      *
      * @return procedures
      */
@@ -193,17 +189,16 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set procedures
+     * Set procedures.
      *
-     * @param procedures
-     *                   procedures
+     * @param procedures procedures
      */
     public void setProcedures(List<String> procedures) {
         this.procedures = procedures;
     }
 
     /**
-     * Get result filter(s)
+     * Get result filter(s).
      *
      * @return result filter(s)
      */
@@ -213,10 +208,9 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Add result filter(s)
+     * Add result filter(s).
      *
-     * @param resultFilter
-     *                     result filter(s)
+     * @param resultFilter result filter(s)
      */
     @SuppressWarnings("rawtypes")
     public void setResultFilter(Filter resultFilter) {
@@ -224,7 +218,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Check if a result filter is set
+     * Check if a result filter is set.
      *
      * @return <code>true</code>, if a result filter is set
      */
@@ -234,7 +228,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
 
     /**
      *
-     * Get request as String
+     * Get request as String.
      *
      * @return request as String
      */
@@ -243,17 +237,16 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set request as String
+     * Set request as String.
      *
-     * @param requestString
-     *                      request as String
+     * @param requestString request as String
      */
     public void setRequestString(String requestString) {
         this.requestString = requestString;
     }
 
     /**
-     * Get spatial filter
+     * Get spatial filter.
      *
      * @return spatial filter
      */
@@ -263,10 +256,9 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Set spatial filter
+     * Set spatial filter.
      *
-     * @param resultSpatialFilter
-     *                            spatial filter
+     * @param resultSpatialFilter spatial filter
      */
     @Override
     public void setSpatialFilter(SpatialFilter resultSpatialFilter) {
@@ -274,10 +266,9 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     }
 
     /**
-     * Create a copy of this request with defined observableProperties
+     * Create a copy of this request with defined observableProperties.
      *
-     * @param obsProps
-     *                 defined observableProperties
+     * @param obsProps defined observableProperties
      *
      * @return SOS GetObservation request copy
      */

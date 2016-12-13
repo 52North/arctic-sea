@@ -217,7 +217,7 @@ public abstract class Time implements Comparable<Time>, Serializable {
      * @param indeterminateValue
      *            IndeterminateValue to check
      * @return Passed DateTime or current time
-     *         {@link TimeIndeterminateValue#now}
+     *         {@link IndeterminateValue#NOW}
      */
     protected DateTime resolveDateTime(DateTime dateTime, IndeterminateValue indeterminateValue) {
         if (dateTime != null) {

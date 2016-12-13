@@ -16,26 +16,26 @@
  */
 package org.n52.shetland.ogc.filter;
 
+import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
+
 /**
- * class for FES FilterPredicates
+ * class for FES FilterPredicates.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
- *            operator type, e.g.
- *            {@link org.n52.iceland.ogc.filter.FilterConstants.TimeOperator},
- *            {@link org.n52.iceland.ogc.filter.FilterConstants.SpatialOperator}
+ * @param <T> operator type, e.g. {@link TimeOperator},{@link SpatialOperator}
  */
 public abstract class Filter<T> implements AbstractSelectionClause {
 
     /**
-     * Value reference
+     * Value reference.
      */
     private String valueReference;
 
     /**
-     * constructor
+     * constructor.
      */
     public Filter() {
     }
@@ -48,7 +48,7 @@ public abstract class Filter<T> implements AbstractSelectionClause {
     }
 
     /**
-     * Get value reference
+     * Get value reference.
      *
      * @return value reference
      */
@@ -57,10 +57,9 @@ public abstract class Filter<T> implements AbstractSelectionClause {
     }
 
     /**
-     * Set value reference
+     * Set value reference.
      *
-     * @param valueReference
-     *                       value reference
+     * @param valueReference value reference
      *
      * @return This filter
      */
@@ -70,7 +69,7 @@ public abstract class Filter<T> implements AbstractSelectionClause {
     }
 
     /**
-     * Check if valueReference is set
+     * Check if valueReference is set.
      *
      * @return <code>true</code>, if valueReference is set
      */
@@ -79,24 +78,23 @@ public abstract class Filter<T> implements AbstractSelectionClause {
     }
 
     /**
-     * Get filter operator
+     * Get filter operator.
      *
      * @return filter operator
      */
     public abstract T getOperator();
 
     /**
-     * Set filter operator
+     * Set filter operator.
      *
-     * @param operator
-     *                 filter operator
+     * @param operator filter operator
      *
      * @return {@code this}
      */
     public abstract Filter<T> setOperator(T operator);
 
     /**
-     * Check if operator is set
+     * Check if operator is set.
      *
      * @return <code>true</code>, if operator is set
      */

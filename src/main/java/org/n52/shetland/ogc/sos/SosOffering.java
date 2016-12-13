@@ -17,20 +17,20 @@
 package org.n52.shetland.ogc.sos;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.stream.Collectors.toSet;
 
-import java.util.Collections;
 import java.util.Map;
-import java.util.Map.Entry;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
 
 /**
  * class represents an offering in the SOS database
@@ -38,14 +38,12 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 public class SosOffering extends AbstractFeature implements Comparable<SosOffering> {
-
+    private static final String OFFERING_NAME_PREFIX = "Offering for sensor ";
     /**
      * flag to identify offering as offering from a parent procedure, default =
      * false.
      */
     private boolean parentOffering = false;
-
-    private static final String OFFERING_NAME_PREFIX = "Offering for sensor ";
 
     /**
      * constructor
@@ -155,16 +153,16 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
     public boolean equals(Object o) {
         if (o instanceof SosOffering) {
             SosOffering other = (SosOffering) o;
-            return Objects.equal(getIdentifier(), other.getIdentifier())
-                    && Objects.equal(getName(), other.getName())
-                    && Objects.equal(isParentOffering(), other.isParentOffering());
+            return Objects.equals(getIdentifier(), other.getIdentifier())
+                    && Objects.equals(getName(), other.getName())
+                    && Objects.equals(isParentOffering(), other.isParentOffering());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getIdentifier(), getName(), isParentOffering());
+        return Objects.hash(getIdentifier(), getName(), isParentOffering());
     }
 
     /**
@@ -177,46 +175,29 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
      * @return the set (never {@literal null})
      */
     public static Set<SosOffering> fromMap(Map<String, String> map) {
-        if (map == null) {
-            return Collections.emptySet();
-        }
-        final Set<SosOffering> set = Sets.newHashSetWithExpectedSize(map.size());
-        for (Entry<String, String> e : map.entrySet()) {
-            set.add(new SosOffering(e.getKey(), e.getValue()));
-        }
-        return set;
+        return Optional.ofNullable(map).map(Map::entrySet).map(Set::stream).orElseGet(Stream::empty)
+                .map(e -> new SosOffering(e.getKey(), e.getValue())).collect(toSet());
     }
 
     /**
-     * Creates a set of {@literal SosOffering}s from a map containing
+     * Creates a set of {@literal SosOffering}s from a set containing
      * identifiers as keys and names as values.
      *
-     * @param map
-     *            the map (may be {@literal null})
+     * @param set
+     *            the set (may be {@literal null})
      *
      * @return the set (never {@literal null})
      */
     public static Set<SosOffering> fromSet(Set<SweAbstractSimpleType<?>> set) {
-        if (set == null) {
-            return Collections.emptySet();
-        }
-        final Set<SosOffering> offeringSet = Sets.newHashSetWithExpectedSize(set.size());
-        for (SweAbstractSimpleType<?> type : set) {
-            SosOffering sosOffering = new SosOffering(type.getValue().toString(), type.getName());
-            if (type.isSetDescription()) {
-                sosOffering.setDescription(type.getDescription());
-            }
-            offeringSet.add(sosOffering);
-        }
-        return offeringSet;
+        return Optional.ofNullable(set).map(Set::stream).orElseGet(Stream::empty)
+                .map(SosOffering::from).collect(toSet());
     }
 
     /**
-     * Creates a set of {@literal SosOffering}s from a map containing
-     * identifiers as keys and names as values.
+     * Creates a set of {@literal SosOffering}s from SWE simple type.
      *
-     * @param map
-     *            the map (may be {@literal null})
+     * @param type
+     *            the type (may be {@literal null})
      *
      * @return the set (never {@literal null})
      */
@@ -224,11 +205,13 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
         if (type == null) {
             return null;
         }
-        SosOffering sosOffering = new SosOffering(type.getValue().toString(), type.getName());
+        String identifer = type.getValue().toString();
+        CodeType name = type.getName();
+        SosOffering offering = new SosOffering(identifer, name);
         if (type.isSetDescription()) {
-            sosOffering.setDescription(type.getDescription());
+            offering.setDescription(type.getDescription());
         }
-        return sosOffering;
+        return offering;
     }
 
 }

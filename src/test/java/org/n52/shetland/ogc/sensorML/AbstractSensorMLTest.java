@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author Christian Autermann
  */
 public class AbstractSensorMLTest {
     @Test
