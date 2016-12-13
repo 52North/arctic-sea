@@ -44,7 +44,6 @@ import org.n52.svalbard.encode.EncoderRepository;
 @Deprecated
 public class CodingRepository implements Constructable {
 
-    @Deprecated
     private static CodingRepository instance;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
@@ -70,62 +69,50 @@ public class CodingRepository implements Constructable {
         CodingRepository.instance = this;
     }
 
-    @Deprecated
     public Set<Decoder<?, ?>> getDecoders() {
         return this.decoderRepository.getDecoders();
     }
 
-    @Deprecated
     public Set<Encoder<?, ?>> getEncoders() {
         return this.encoderRepository.getEncoders();
     }
 
-    @Deprecated
     public Map<DecoderKey, Set<ConformanceClassDecoder<?, ?>>> getDecoderByKey() {
         return Collections.emptyMap();
     }
 
-    @Deprecated
     public Map<EncoderKey, Set<ConformanceClassEncoder<?, ?>>> getEncoderByKey() {
         return Collections.emptyMap();
     }
 
-    @Deprecated
     public boolean hasDecoder(DecoderKey key, DecoderKey... keys) {
         return this.decoderRepository.hasDecoder(key, keys);
     }
 
-    @Deprecated
     public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
         return this.decoderRepository.getDecoder(key, keys);
     }
 
-    @Deprecated
     public boolean hasEncoder(EncoderKey key, EncoderKey... keys) {
         return this.encoderRepository.hasEncoder(key, keys);
     }
 
-    @Deprecated
     public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
         return this.encoderRepository.getEncoder(key, keys);
     }
 
-    @Deprecated
     public Set<SchemaLocation> getSchemaLocation(String namespace) {
         return this.schemaRepository.getSchemaLocation(namespace);
     }
 
-    @Deprecated
     public String getNamespaceFor(String prefix) {
         return this.schemaRepository.getNamespaceFor(prefix);
     }
 
-    @Deprecated
     public String getPrefixFor(String namespace) {
         return this.schemaRepository.getPrefixFor(namespace);
     }
 
-    @Deprecated
     public static CodingRepository getInstance() {
         return CodingRepository.instance;
     }
