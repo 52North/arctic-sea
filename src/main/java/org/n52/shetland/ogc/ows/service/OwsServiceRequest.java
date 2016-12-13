@@ -16,11 +16,15 @@
  */
 package org.n52.shetland.ogc.ows.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
+import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.ows.extension.Value;
 
@@ -51,6 +55,23 @@ public abstract class OwsServiceRequest
 
     public OwsServiceRequest(String service, String version, String operationName) {
         super(service, version, operationName);
+    }
+
+    public List<OwsServiceKey> getServiceOperatorKeys() throws OwsExceptionReport {
+        if (serviceOperatorKeyTypes == null) {
+            checkServiceAndVersionParameter();
+            serviceOperatorKeyTypes = Collections.singletonList(new OwsServiceKey(getService(), getVersion()));
+        }
+        return Collections.unmodifiableList(serviceOperatorKeyTypes);
+    }
+
+    private void checkServiceAndVersionParameter() throws OwsExceptionReport {
+        if (!isSetService()) {
+            throw new MissingServiceParameterException();
+        }
+        if (!isSetVersion()) {
+            throw new MissingVersionParameterException();
+        }
     }
 
     public OwsServiceRequestContext getRequestContext() {

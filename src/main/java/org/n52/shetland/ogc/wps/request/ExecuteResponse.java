@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wps.response;
+package org.n52.shetland.ogc.wps.request;
 
 import java.util.Optional;
 

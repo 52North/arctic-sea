@@ -16,39 +16,22 @@
  */
 package org.n52.shetland.ogc.wps.response;
 
-import java.util.Objects;
-
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.wps.Result;
 import org.n52.shetland.ogc.wps.WPSConstants;
 
 /**
  * @author Christian Autermann
  */
-public class GetResultResponse extends OwsServiceResponse {
-
-    private Result result;
-
-    public GetResultResponse() {
-        this(null, null, null);
+public class DismissRequest extends AbstractJobIdRequest {
+    public DismissRequest() {
+        super(null, null, WPSConstants.Operations.Dismiss.name());
     }
 
-    public GetResultResponse(String service, String version, Result result) {
-        super(service, version);
-        this.result = result;
+    public DismissRequest(String service, String version) {
+        super(service, version, WPSConstants.Operations.Dismiss.name());
     }
 
-    @Override
-    public String getOperationName() {
-        return WPSConstants.Operations.GetResult.toString();
-    }
-
-    public Result getResult() {
-        return this.result;
-    }
-
-    public void setResult(Result result) {
-        this.result = Objects.requireNonNull(result);
+    public DismissRequest(String service, String version, String operationName) {
+        super(service, version, operationName);
     }
 
 }

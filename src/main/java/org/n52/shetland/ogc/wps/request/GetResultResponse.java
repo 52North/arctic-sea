@@ -14,39 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wps.response;
+package org.n52.shetland.ogc.wps.request;
 
 import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.wps.StatusInfo;
+import org.n52.shetland.ogc.wps.Result;
 import org.n52.shetland.ogc.wps.WPSConstants;
 
 /**
  * @author Christian Autermann
  */
-public class GetStatusResponse extends OwsServiceResponse {
-    private StatusInfo status;
+public class GetResultResponse extends OwsServiceResponse {
 
-    public GetStatusResponse() {
+    private Result result;
+
+    public GetResultResponse() {
+        this(null, null, null);
     }
 
-    public GetStatusResponse(String service, String version, StatusInfo status) {
+    public GetResultResponse(String service, String version, Result result) {
         super(service, version);
-        this.status = status;
+        this.result = result;
     }
 
     @Override
     public String getOperationName() {
-        return WPSConstants.Operations.GetStatus.toString();
+        return WPSConstants.Operations.GetResult.toString();
     }
 
-    public StatusInfo getStatus() {
-        return status;
+    public Result getResult() {
+        return this.result;
     }
 
-    public void setStatusInfo(StatusInfo status) {
-        this.status = Objects.requireNonNull(status);
+    public void setResult(Result result) {
+        this.result = Objects.requireNonNull(result);
     }
 
 }

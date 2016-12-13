@@ -47,6 +47,14 @@
             <organizationUrl>${project.organization.url}</organizationUrl>
             <timezone>GMT+1</timezone>
         </developer>
+        <developer>
+            <id>CarstenHollmann</id>
+            <name>Carsten Hollmann</name>
+            <email>c.hollmann@52north.org</email>
+            <organization>${project.organization.name}</organization>
+            <organizationUrl>${project.organization.url}</organizationUrl>
+            <timezone>GMT+1</timezone>
+        </developer>
     </developers>
 
     <mailingLists>

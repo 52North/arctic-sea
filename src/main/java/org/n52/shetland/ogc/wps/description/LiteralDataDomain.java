@@ -43,8 +43,7 @@ public interface LiteralDataDomain {
         B withDefaultValue(OwsValue value);
 
         default B withDefaultValue(String value) {
-            return withDefaultValue(Strings.emptyToNull(value) == null ? null
-                                    : new OwsValue(value));
+            return withDefaultValue(new OwsValue(value));
         }
 
         B withDataType(OwsDomainMetadata dataType);

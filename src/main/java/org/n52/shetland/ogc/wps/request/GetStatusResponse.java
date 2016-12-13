@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wps.response;
+package org.n52.shetland.ogc.wps.request;
 
 import java.util.Objects;
 
@@ -25,27 +25,27 @@ import org.n52.shetland.ogc.wps.WPSConstants;
 /**
  * @author Christian Autermann
  */
-public class DismissResponse extends OwsServiceResponse {
+public class GetStatusResponse extends OwsServiceResponse {
     private StatusInfo status;
 
-    public DismissResponse(String service, String version, StatusInfo status) {
+    public GetStatusResponse() {
+    }
+
+    public GetStatusResponse(String service, String version, StatusInfo status) {
         super(service, version);
         this.status = status;
     }
 
-    public DismissResponse() {
-    }
-
     @Override
     public String getOperationName() {
-        return WPSConstants.Operations.Dismiss.toString();
+        return WPSConstants.Operations.GetStatus.toString();
     }
 
     public StatusInfo getStatus() {
         return status;
     }
 
-    public void setStatus(StatusInfo status) {
+    public void setStatusInfo(StatusInfo status) {
         this.status = Objects.requireNonNull(status);
     }
 
