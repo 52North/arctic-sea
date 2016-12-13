@@ -19,8 +19,8 @@ package org.n52.iceland.i18n;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.service.ServiceConfiguration;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilder;
@@ -40,7 +40,7 @@ public class LocaleHelper {
     }
 
     /**
-     * @deprecated use {@link AbstractServiceRequest#getRequestedLocale()}
+     * @deprecated use {@link OwsServiceRequest#getRequestedLanguage()}
      */
     @Deprecated
     public static Locale fromRequest(OwsServiceRequest locale) {
