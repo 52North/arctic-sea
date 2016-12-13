@@ -17,7 +17,6 @@
 package org.n52.janmayen.function;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 /**
  * Represents a function that accepts one argument and produces a result.
@@ -61,7 +60,7 @@ public interface ThrowingFunction<T, R, X extends Exception> {
      *
      * @throws NullPointerException if before is null
      *
-     * @see #andThen(Function)
+     * @see #andThen(ThrowingFunction)
      */
     default <V> ThrowingFunction<V, R, X> compose(ThrowingFunction<? super V, ? extends T, ? extends X> before) {
         Objects.requireNonNull(before);
@@ -83,7 +82,7 @@ public interface ThrowingFunction<T, R, X extends Exception> {
      *
      * @throws NullPointerException if after is null
      *
-     * @see #compose(Function)
+     * @see #compose(ThrowingFunction)
      */
     default <V> ThrowingFunction<T, V, X> andThen(ThrowingFunction<? super R, ? extends V, ? extends X> after) {
         Objects.requireNonNull(after);
