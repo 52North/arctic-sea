@@ -23,12 +23,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.NamedValue;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Objects;
@@ -45,7 +45,7 @@ import com.google.common.collect.Sets;
  * @since 4.0.0
  */
 public class GetDataAvailabilityResponse extends OwsServiceResponse implements ResponseFormat {
-    private final List<DataAvailability> dataAvailabilities = new LinkedList<DataAvailability>();
+    private final List<DataAvailability> dataAvailabilities = new LinkedList<>();
 
     private String responseFormat;
 
@@ -56,7 +56,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      * more {@code DataAvailability} objects.
      *
      * @param dataAvailabilities
-     *            the data availabilities
+     *                           the data availabilities
      */
     public GetDataAvailabilityResponse(DataAvailability... dataAvailabilities) {
         super(null, null, GetDataAvailabilityConstants.OPERATION_NAME);
@@ -64,7 +64,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     }
 
     public GetDataAvailabilityResponse() {
-        super(null,null, GetDataAvailabilityConstants.OPERATION_NAME);
+        super(null, null, GetDataAvailabilityConstants.OPERATION_NAME);
     }
 
     public GetDataAvailabilityResponse(String service, String version) {
@@ -75,7 +75,6 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         super(service, version, operationName);
     }
 
-
     /**
      * @return the {@code DataAvailabilities}.
      */
@@ -84,36 +83,34 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     }
 
     /**
-     * Adds a new {@code DataAvailability} to the response.
-     *
-     * @param dataAvailability
-     *            the {@code DataAvailability}.
-     */
-    public void addDataAvailability(DataAvailability dataAvailability) {
-        this.dataAvailabilities.add(dataAvailability);
-    }
-
-    /**
      * Sets the {@code DataAvailabilities} of the response.
      *
      * @param dataAvailabilities
-     *            the {@code DataAvailabilities}
+     *                           the {@code DataAvailabilities}
      */
     public void setDataAvailabilities(Collection<? extends DataAvailability> dataAvailabilities) {
         this.dataAvailabilities.clear();
         this.dataAvailabilities.addAll(dataAvailabilities);
     }
 
+    /**
+     * Adds a new {@code DataAvailability} to the response.
+     *
+     * @param dataAvailability
+     *                         the {@code DataAvailability}.
+     */
+    public void addDataAvailability(DataAvailability dataAvailability) {
+        this.dataAvailabilities.add(dataAvailability);
+    }
+
+    @Override
     public String getResponseFormat() {
         return responseFormat;
     }
 
+    @Override
     public void setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
-    }
-
-    public boolean isSetResponseFormat() {
-        return !Strings.isNullOrEmpty(getResponseFormat());
     }
 
     public void setNamespace(String namespace) {
@@ -149,24 +146,24 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
         private FormatDescriptor formatDescriptor;
 
-        private Map<String, NamedValue> metadata = Maps.newHashMap();
+        private Map<String, NamedValue<?>> metadata = Maps.newHashMap();
 
         /**
          * Creates a new {@code DataAvailability}.
          *
          * @param procedure
-         *            the {@code procedure}
+         *                          the {@code procedure}
          * @param observedProperty
-         *            the {@code observedProperty}
+         *                          the {@code observedProperty}
          * @param featureOfInterest
-         *            the {@code featureOfInterest}
+         *                          the {@code featureOfInterest}
          * @param offering
-         *            the {@code offering}
+         *                          the {@code offering}
          * @param phenomenonTime
-         *            the {@code phenomenonTime} for which data is available.
+         *                          the {@code phenomenonTime} for which data is available.
          */
         public DataAvailability(ReferenceType procedure, ReferenceType observedProperty,
-                ReferenceType featureOfInterest, ReferenceType offering, TimePeriod phenomenonTime) {
+                                ReferenceType featureOfInterest, ReferenceType offering, TimePeriod phenomenonTime) {
             this.observedProperty = observedProperty;
             this.procedure = procedure;
             this.featureOfInterest = featureOfInterest;
@@ -178,20 +175,21 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
          * Creates a new {@code DataAvailability}.
          *
          * @param procedure
-         *            the {@code procedure}
+         *                          the {@code procedure}
          * @param observedProperty
-         *            the {@code observedProperty}
+         *                          the {@code observedProperty}
          * @param featureOfInterest
-         *            the {@code featureOfInterest}
+         *                          the {@code featureOfInterest}
          * @param offering
-         *            the {@code offering}
+         *                          the {@code offering}
          * @param phenomenonTime
-         *            the {@code phenomenonTime} for which data is available.
+         *                          the {@code phenomenonTime} for which data is available.
          * @param valueCount
-         *            the {@code valueCount} for this combination.
+         *                          the {@code valueCount} for this combination.
          */
         public DataAvailability(ReferenceType procedure, ReferenceType observedProperty,
-                ReferenceType featureOfInterest, ReferenceType offering, TimePeriod phenomenonTime, long valueCount) {
+                                ReferenceType featureOfInterest, ReferenceType offering, TimePeriod phenomenonTime,
+                                long valueCount) {
             this.observedProperty = observedProperty;
             this.procedure = procedure;
             this.featureOfInterest = featureOfInterest;
@@ -238,6 +236,8 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         /**
          * Set the {@code count} for this combination
          *
+         * @param count the count
+         *
          * @return this.
          */
         public DataAvailability setCount(long count) {
@@ -276,19 +276,19 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
             return offering;
         }
 
+        /**
+         * @param offering
+         *                 the offering to set
+         */
+        public void setOffering(ReferenceType offering) {
+            this.offering = offering;
+        }
+
         public String getOfferingString() {
             if (isSetOffering()) {
                 return getOffering().getHref();
             }
             return null;
-        }
-
-        /**
-         * @param offering
-         *            the offering to set
-         */
-        public void setOffering(ReferenceType offering) {
-            this.offering = offering;
         }
 
         public boolean isSetOffering() {
@@ -302,10 +302,6 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
             return formatDescriptor;
         }
 
-        /**
-         * @param observationTypes
-         *            the observationTypes to set
-         */
         public void setFormatDescriptor(FormatDescriptor formatDescriptor) {
             this.formatDescriptor = formatDescriptor;
         }
@@ -317,24 +313,25 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         /**
          * @return the metadata
          */
-        public Map<String, NamedValue> getMetadata() {
+        public Map<String, NamedValue<?>> getMetadata() {
             return metadata;
         }
 
         /**
          * @param metadata
-         *            the metadata to set
+         *                 the metadata to set
          */
-        public void setMetadata(Map<String, NamedValue> metadata) {
+        public void setMetadata(Map<String, NamedValue<?>> metadata) {
             this.metadata.clear();
             this.metadata.putAll(metadata);
         }
 
         /**
+         * @param key the key of the metadata
          * @param metadata
-         *            the metadata to add
+         *                 the metadata to add
          */
-        public void addMetadata(String key, NamedValue metadata) {
+        public void addMetadata(String key, NamedValue<?> metadata) {
             this.metadata.put(key, metadata);
         }
 
@@ -353,7 +350,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         @Override
         public int hashCode() {
             return Objects.hashCode(this.procedure, 19, this.observedProperty, 43, this.featureOfInterest, 37,
-                    this.offering);
+                                    this.offering);
         }
 
         public boolean sameConstellation(Object o) {
@@ -367,9 +364,11 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
             return Objects.hashCode(this.procedure, 19, this.observedProperty, 43, this.featureOfInterest);
         }
 
+        @Override
         public DataAvailability clone() {
-            DataAvailability dataAvailability = new DataAvailability(procedure, observedProperty, featureOfInterest, offering,
-                    new TimePeriod(phenomenonTime.getStart(), phenomenonTime.getEnd()));
+            DataAvailability dataAvailability
+                    = new DataAvailability(procedure, observedProperty, featureOfInterest, offering,
+                                           new TimePeriod(phenomenonTime.getStart(), phenomenonTime.getEnd()));
             dataAvailability.setOffering(offering);
             dataAvailability.setCount(getCount());
             dataAvailability.setFormatDescriptor(getFormatDescriptor().clone());
@@ -392,14 +391,11 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         private void mergeFormatDescriptors(FormatDescriptor fdToMerge) {
-            for (ObservationFormatDescriptor formatDescriptor : getFormatDescriptor()
-                    .getObservationFormatDescriptors()) {
-                for (ObservationFormatDescriptor ofdToMerge : fdToMerge.getObservationFormatDescriptors()) {
-                    if (formatDescriptor.getResponseFormat().equals(ofdToMerge.getResponseFormat())) {
-                        formatDescriptor.getObservationTypes().addAll(ofdToMerge.getObservationTypes());
-                    }
-                }
-            }
+            getFormatDescriptor().getObservationFormatDescriptors().forEach(fd
+                    -> fdToMerge.getObservationFormatDescriptors().stream()
+                            .filter(fd2 -> fd.getResponseFormat().equals(fd2.getResponseFormat()))
+                            .forEachOrdered(fd2 -> fd.getObservationTypes().addAll(fd2.getObservationTypes()))
+            );
         }
     }
 
@@ -411,14 +407,14 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     public static class FormatDescriptor {
         private ProcedureDescriptionFormatDescriptor procedureDescriptionFormatDescriptor;
 
-        private Set<ObservationFormatDescriptor> observationFormatDescriptors;
+        private final Set<ObservationFormatDescriptor> observationFormatDescriptors;
 
         /**
          * @param procedureDescriptionFormatDescriptor
          * @param observationFormatDescriptors
          */
         public FormatDescriptor(ProcedureDescriptionFormatDescriptor procedureDescriptionFormatDescriptor,
-                Set<ObservationFormatDescriptor> observationFormatDescriptors) {
+                                Set<ObservationFormatDescriptor> observationFormatDescriptors) {
             super();
             this.procedureDescriptionFormatDescriptor = procedureDescriptionFormatDescriptor;
             this.observationFormatDescriptors = observationFormatDescriptors;
@@ -433,7 +429,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
         /**
          * @param procedureDescriptionFormatDescriptor
-         *            the procedureDescriptionFormatDescriptor to set
+         *                                             the procedureDescriptionFormatDescriptor to set
          */
         public void setProcedureDescriptionFormatDescriptor(
                 ProcedureDescriptionFormatDescriptor procedureDescriptionFormatDescriptor) {
@@ -449,16 +445,17 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
         /**
          * @param observationFormatDescriptors
-         *            the observationFormatDescriptors to set
+         *                                     the observationFormatDescriptors to set
          */
         public void setObservationFormatDescriptors(Set<ObservationFormatDescriptor> observationFormatDescriptors) {
             this.observationFormatDescriptors.clear();
             this.observationFormatDescriptors.addAll(observationFormatDescriptors);
         }
 
+        @Override
         public FormatDescriptor clone() {
             return new FormatDescriptor(procedureDescriptionFormatDescriptor,
-                    Sets.newHashSet(observationFormatDescriptors));
+                                        Sets.newHashSet(observationFormatDescriptors));
         }
     }
 
@@ -470,7 +467,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     public static class ObservationFormatDescriptor {
         private String responseFormat;
 
-        private Set<String> observationTypes;
+        private final Set<String> observationTypes;
 
         /**
          * @param responseFormat
@@ -491,7 +488,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
         /**
          * @param responseFormat
-         *            the responseFormat to set
+         *                       the responseFormat to set
          */
         public void setResponseFormat(String responseFormat) {
             this.responseFormat = responseFormat;
@@ -506,13 +503,14 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
         /**
          * @param observationTypes
-         *            the observationTypes to set
+         *                         the observationTypes to set
          */
         public void setObservationTypes(Set<String> observationTypes) {
             this.observationTypes.clear();
             this.observationTypes.addAll(observationTypes);
         }
 
+        @Override
         public ObservationFormatDescriptor clone() {
             return new ObservationFormatDescriptor(responseFormat, Sets.newHashSet(observationTypes));
         }
@@ -544,12 +542,13 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
         /**
          * @param procedureDescriptionFormat
-         *            the procedureDescriptionFormat to set
+         *                                   the procedureDescriptionFormat to set
          */
         public void setProcedureDescriptionFormat(String procedureDescriptionFormat) {
             this.procedureDescriptionFormat = procedureDescriptionFormat;
         }
 
+        @Override
         public ProcedureDescriptionFormatDescriptor clone() {
             return new ProcedureDescriptionFormatDescriptor(procedureDescriptionFormat);
         }

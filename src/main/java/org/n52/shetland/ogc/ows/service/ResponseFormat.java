@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.ows.service;
 
+import com.google.common.base.Strings;
+
 /**
  * Marker interface to responseFormat
  *
@@ -36,7 +38,7 @@ public interface ResponseFormat {
      * Set response format
      *
      * @param responseFormat
-     *            response format
+     *                       response format
      */
     public void setResponseFormat(String responseFormat);
 
@@ -45,6 +47,8 @@ public interface ResponseFormat {
      *
      * @return True if response format is set
      */
-    public boolean isSetResponseFormat();
+    default boolean isSetResponseFormat() {
+        return !Strings.isNullOrEmpty(getResponseFormat());
+    }
 
 }
