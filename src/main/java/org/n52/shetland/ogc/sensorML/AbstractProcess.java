@@ -23,9 +23,7 @@ import java.util.List;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
-import org.n52.shetland.util.CollectionHelper;
 
 /**
  * @since 4.0.0
@@ -33,8 +31,8 @@ import org.n52.shetland.util.CollectionHelper;
  */
 public class AbstractProcess extends AbstractSensorML {
 
-    private List<SmlIo<?>> inputs = new ArrayList<>(0);
-    private List<SmlIo<?>> outputs = new ArrayList<>(0);
+    private List<SmlIo> inputs = new ArrayList<>(0);
+    private List<SmlIo> outputs = new ArrayList<>(0);
     private List<String> parameters = new ArrayList<>(0);
     private List<Time> validTime = new ArrayList<>(0);
 
@@ -70,20 +68,20 @@ public class AbstractProcess extends AbstractSensorML {
         return this;
     }
 
-    public List<SmlIo<?>> getInputs() {
+    public List<SmlIo> getInputs() {
         return inputs;
     }
 
-    public AbstractProcess setInputs(final List<SmlIo<?>> inputs) {
+    public AbstractProcess setInputs(final List<SmlIo> inputs) {
         this.inputs = inputs;
         return this;
     }
 
-    public List<SmlIo<?>> getOutputs() {
+    public List<SmlIo> getOutputs() {
         return outputs;
     }
 
-    public AbstractProcess setOutputs(final List<SmlIo<?>> outputs) {
+    public AbstractProcess setOutputs(final List<SmlIo> outputs) {
         this.outputs = outputs;
         return this;
     }
@@ -95,10 +93,6 @@ public class AbstractProcess extends AbstractSensorML {
     public AbstractProcess setParameters(final List<String> parameters) {
         this.parameters = parameters;
         return this;
-    }
-
-    public boolean isSetName() {
-        return CollectionHelper.isNotEmpty(getName());
     }
 
     public boolean isSetInputs() {
@@ -145,6 +139,7 @@ public class AbstractProcess extends AbstractSensorML {
         return this.validTime != null && !this.validTime.isEmpty();
     }
 
+    @Override
     public AbstractProcess addName(final CodeType name) {
         super.addName(name);
         return this;

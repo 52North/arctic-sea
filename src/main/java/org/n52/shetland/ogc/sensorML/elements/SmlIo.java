@@ -22,11 +22,9 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 /**
  * SOS internal representation of SensorML IOs
  *
- * @param <T>
- *
  * @since 4.0.0
  */
-public class SmlIo<T> extends AbstractReferenceType {
+public class SmlIo extends AbstractReferenceType {
 
     private String ioName;
 
@@ -62,7 +60,7 @@ public class SmlIo<T> extends AbstractReferenceType {
      *            the inputName to set
      * @return This object
      */
-    public SmlIo<T> setIoName(final String inputName) {
+    public SmlIo setIoName(final String inputName) {
         this.ioName = inputName;
         return this;
     }
@@ -79,7 +77,7 @@ public class SmlIo<T> extends AbstractReferenceType {
      *            the input to set
      * @return This object
      */
-    public SmlIo<T> setIoValue(final SweAbstractDataComponent ioValue) {
+    public SmlIo setIoValue(final SweAbstractDataComponent ioValue) {
         this.ioValue = ioValue;
         return this;
     }
