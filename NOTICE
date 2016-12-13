@@ -22,4 +22,5 @@ This project includes:
   javax.inject under The Apache Software License, Version 2.0
   JUnit under Eclipse Public License 1.0
   SLF4J API Module under MIT License
+  SLF4J Simple Binding under MIT License
 
