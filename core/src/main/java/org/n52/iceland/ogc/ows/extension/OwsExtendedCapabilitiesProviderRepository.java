@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -154,6 +155,7 @@ public class OwsExtendedCapabilitiesProviderRepository
         return getDomains().stream()
                 .map(domain -> new OwsExtendedCapabilitiesProviderKey(service, version, domain))
                 .map(this::getExtendedCapabilitiesProvider)
+                .filter(Objects::nonNull)
                 .findFirst().orElse(null);
     }
 
