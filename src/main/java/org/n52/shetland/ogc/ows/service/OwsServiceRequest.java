@@ -89,7 +89,7 @@ public abstract class OwsServiceRequest
 
     @Override
     public Extensions getExtensions() {
-        return extensions;
+        return this.extensions;
     }
 
     @Override

@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import com.google.common.base.Strings;
 
@@ -67,6 +68,10 @@ public class Extensions {
 
     public Set<Extension<?>> getExtensions() {
         return Collections.unmodifiableSet(this.extensions);
+    }
+
+    public Stream<Extension<?>> stream() {
+        return this.extensions.stream();
     }
 
     @SuppressWarnings("rawtypes")

@@ -25,8 +25,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swes.SwesExtension;
 
 /**
- * Interface to identify if the implemented class supportes
- * {@link Extensions}
+ * Interface to identify if the implemented class supportes {@link Extensions}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -44,8 +43,7 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Set the {@link Extensions} object
      *
-     * @param extensions
-     *                   the {@link Extensions} object to set
+     * @param extensions the {@link Extensions} object to set
      *
      * @return this
      */
@@ -54,34 +52,25 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Add a {@link Extensions} to this object
      *
-     * @param extensions
-     *                   the {@link Extensions} to add
+     * @param extensions the {@link Extensions} to add
      *
      * @return this
      */
     @SuppressWarnings("unchecked")
     default T addExtensions(Extensions extensions) {
-        if (getExtensions() == null) {
-            setExtensions(extensions);
-        } else {
-            getExtensions().addExtension(extensions.getExtensions());
-        }
+        getExtensions().addExtension(extensions.getExtensions());
         return (T) this;
     }
 
     /**
      * Add a {@link Extension} to this object
      *
-     * @param extension
-     *                  the {@link Extension} to add
+     * @param extension the {@link Extension} to add
      *
      * @return this
      */
     @SuppressWarnings("unchecked")
     default T addExtension(Extension<?> extension) {
-        if (getExtensions() == null) {
-            setExtensions(new Extensions());
-        }
         getExtensions().addExtension(extension);
         return (T) this;
     }
@@ -89,75 +78,61 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
      * Check if {@link Extension}s are set
      *
-     * @return <code>true</code>, if {@link Extensions} is not null or
-     *         empty
+     * @return <code>true</code>, if {@link Extensions} is not null or empty
+     *
+     * @deprecated {@link #getExtensions() } will never return {@code null}
      */
+    @Deprecated
     default boolean isSetExtensions() {
-        return getExtensions() != null && !getExtensions().isEmpty();
+        return true;
     }
 
     /**
      * Check if {@link Extension} for identifier is set
      *
-     * @param identifier
-     *                   Identifier to check
+     * @param identifier Identifier to check
      *
      * @return <code>true</code>, if {@link Extensions} is available for the
      *         identifier
      */
     default boolean hasExtension(Enum<?> identifier) {
-        if (isSetExtensions()) {
-            return getExtensions().containsExtension(identifier);
-        }
-        return false;
+        return getExtensions().containsExtension(identifier);
     }
 
     /**
      * Check if {@link Extension} for identifier is set
      *
-     * @param identifier
-     *                   Identifier to check
+     * @param identifier Identifier to check
      *
      * @return <code>true</code>, if {@link Extensions} is available for the
      *         identifier
      */
     default boolean hasExtension(String identifier) {
-        if (isSetExtensions()) {
-            return getExtensions().containsExtension(identifier);
-        }
-        return false;
+        return getExtensions().containsExtension(identifier);
     }
 
     /**
      * Get {@link Extension} for identifier
      *
-     * @param identifier
-     *                   Identifier to get {@link Extension} for
+     * @param identifier Identifier to get {@link Extension} for
      *
      * @return The requested {@link Extension}
      *
      */
     default Optional<Extension<?>> getExtension(Enum<?> identifier) {
-        if (hasExtension(identifier)) {
-            return getExtensions().getExtension(identifier);
-        }
-        return Optional.empty();
+        return getExtensions().getExtension(identifier);
     }
 
     /**
      * Get {@link Extension} for identifier
      *
-     * @param identifier
-     *                   Identifier to get {@link Extension} for
+     * @param identifier Identifier to get {@link Extension} for
      *
      * @return The requested {@link Extension}
      *
      */
     default Optional<Extension<?>> getExtension(String identifier) {
-        if (hasExtension(identifier)) {
-            return getExtensions().getExtension(identifier);
-        }
-        return Optional.empty();
+        return getExtensions().getExtension(identifier);
     }
 
     default <V> void addSwesExtension(String name, V value) {

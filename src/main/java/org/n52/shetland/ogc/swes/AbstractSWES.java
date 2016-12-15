@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.swes;
 
+import java.util.Optional;
+
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -29,7 +31,7 @@ import org.n52.shetland.ogc.ows.extension.Extensions;
  */
 public abstract class AbstractSWES extends AbstractFeature implements HasExtension<AbstractSWES> {
 
-    private Extensions extensions;
+    private Extensions extensions = new Extensions();
 
     public AbstractSWES() {
         super("");
@@ -41,8 +43,8 @@ public abstract class AbstractSWES extends AbstractFeature implements HasExtensi
     }
 
     @Override
-    public AbstractSWES setExtensions(final Extensions extensions) {
-        this.extensions = extensions;
+    public AbstractSWES setExtensions(Extensions extensions) {
+        this.extensions = Optional.ofNullable(extensions).orElseGet(Extensions::new);
         return this;
     }
 }

@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.ows.service;
 
+import java.util.Optional;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.ows.HasExtension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -30,7 +32,7 @@ public abstract class OwsServiceResponse
         implements HasExtension<OwsServiceResponse> {
 
     private MediaType contentType;
-    private Extensions extensions;
+    private Extensions extensions = new Extensions();
 
     public OwsServiceResponse() {
     }
@@ -45,12 +47,12 @@ public abstract class OwsServiceResponse
 
     @Override
     public Extensions getExtensions() {
-        return extensions;
+        return this.extensions;
     }
 
     @Override
-    public OwsServiceResponse setExtensions(final Extensions extensions) {
-        this.extensions = extensions;
+    public OwsServiceResponse setExtensions(Extensions extensions) {
+        this.extensions = Optional.ofNullable(extensions).orElseGet(Extensions::new);
         return this;
     }
 

@@ -19,12 +19,12 @@ package org.n52.shetland.ogc.sos.request;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.filter.Filter;
@@ -400,7 +400,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
      *         {@link Filter}
      */
     public boolean isSetFesFilterExtension() {
-        return isSetExtensions() && getExtensions().getExtensions().stream().anyMatch(this::isFesFilterExtension);
+        return getExtensions().stream().anyMatch(this::isFesFilterExtension);
     }
 
     /**
@@ -410,9 +410,8 @@ public class GetObservationRequest extends AbstractObservationRequest implements
      */
     public Set<Extension<?>> getFesFilterExtensions() {
         return Optional.ofNullable(getExtensions())
-                .map(Extensions::getExtensions)
-                .orElseGet(Collections::emptySet)
-                .stream()
+                .map(Extensions::stream)
+                .orElseGet(Stream::empty)
                 .filter(this::isFesFilterExtension)
                 .collect(toSet());
     }
