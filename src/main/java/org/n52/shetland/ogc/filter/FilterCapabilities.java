@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.filter;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -27,12 +28,12 @@ import java.util.TreeSet;
 
 import javax.xml.namespace.QName;
 
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
 import org.n52.shetland.ogc.ows.OwsDomain;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.janmayen.Comparables;
 
 /**
  * SOS filter capabilities
@@ -125,18 +126,6 @@ public class FilterCapabilities {
         setOperators(this.temporalOperators, temporalOperators);
     }
 
-    /**
-     * Get temporal operators
-     *
-     * @return temporal operators
-     *
-     * @deprecated use {@link #getTemporalOperators() }
-     */
-    @Deprecated
-    public SortedMap<TimeOperator, SortedSet<QName>> getTempporalOperators() {
-        return getTemporalOperators();
-    }
-
     private <T> void setOperators(SortedMap<T, SortedSet<QName>> operators,
                                   Map<T, ? extends Collection<QName>> newOperators) {
         operators.clear();
@@ -171,11 +160,11 @@ public class FilterCapabilities {
     }
 
     public void addConformance(OwsDomain domainType) {
-        getConformance().add(domainType);
+        this.conformance.add(Objects.requireNonNull(domainType));
     }
 
     public void addConformance(Collection<OwsDomain> domainTypes) {
-        getConformance().addAll(domainTypes);
+        domainTypes.stream().forEach(this::addConformance);
     }
 
     public void setConformance(Collection<OwsDomain> domainTypes) {
