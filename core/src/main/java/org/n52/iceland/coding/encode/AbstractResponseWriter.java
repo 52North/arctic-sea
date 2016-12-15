@@ -16,9 +16,6 @@
  */
 package org.n52.iceland.coding.encode;
 
-import java.util.Objects;
-
-import javax.inject.Inject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,11 +39,10 @@ import org.n52.svalbard.encode.EncoderRepository;
 public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractResponseWriter.class);
     private MediaType contentType;
-    private EncoderRepository encoderRepository;
+    private final EncoderRepository encoderRepository;
 
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = Objects.requireNonNull(encoderRepository);
+    public AbstractResponseWriter(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
     }
 
     @Override
@@ -89,5 +85,9 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
             }
         }
         return getContentType();
+    }
+
+    protected EncoderRepository getEncoderRepository() {
+        return encoderRepository;
     }
 }
