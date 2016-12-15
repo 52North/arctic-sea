@@ -82,7 +82,6 @@ public final class DateTimeHelper {
      *             If an error occurs.
      */
     public static DateTime parseIsoString2DateTime(final String timeString) throws DateTimeParseException {
-        checkForValidity(timeString);
         if (Strings.isNullOrEmpty(timeString)) {
             return null;
         }
@@ -114,17 +113,6 @@ public final class DateTimeHelper {
             return new TimePeriod(parseIsoString2DateTime(subTokens[0]), parseIsoString2DateTime(subTokens[1]));
         } else {
             return new TimeInstant(parseIsoString2DateTime(timeString));
-        }
-    }
-
-    private static void checkForValidity(String timeString) throws DateTimeParseException {
-        switch (timeString.length()) {
-            case YEAR:
-            case YEAR_MONTH:
-            case YEAR_MONTH_DAY:
-                break;
-            default:
-                throw new DateTimeParseException(timeString);
         }
     }
 
