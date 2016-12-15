@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
@@ -39,11 +40,12 @@ public class GetCapabilitiesRequest extends OwsServiceRequest {
     private String capabilitiesId;
     private String updateSequence;
 
-    public GetCapabilitiesRequest(String service) {
-        setService(service);
+    public GetCapabilitiesRequest() {
+        this(null);
     }
 
-    public GetCapabilitiesRequest() {
+    public GetCapabilitiesRequest(String service) {
+        super(service, null, OWSConstants.Operations.GetCapabilities.name());
     }
 
     /**
