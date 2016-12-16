@@ -16,13 +16,14 @@
  */
 package org.n52.shetland.ogc.sos.request;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.filter.TemporalFilter;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
 
@@ -36,7 +37,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
     /**
      * FOI identifiers list
      */
-    private List<String> featureIdentifiers;
+    private List<String> featureIdentifiers = new ArrayList<>();
 
     /**
      * FOI observedProperties list
@@ -106,8 +107,11 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
      * @param featureIDs
      *                   FOI identifiers
      */
-    public void setFeatureIdentifiers(List<String> featureIDs) {
-        this.featureIdentifiers = featureIDs;
+    public void setFeatureIdentifiers(Collection<String> featureIDs) {
+        this.featureIdentifiers.clear();
+        if (featureIDs != null) {
+            this.featureIdentifiers.addAll(featureIDs);
+        }
     }
 
     /**
@@ -205,7 +209,7 @@ public class GetFeatureOfInterestRequest extends OwsServiceRequest {
 
     public boolean hasNoParameter() {
         return !isSetObservableProperties() && !isSetProcedures() && !isSetTemporalFilters() &&
-               !isSetFeatureOfInterestIdentifiers();
+               !isSetFeatureOfInterestIdentifiers() && !isSetSpatialFilters();
     }
 
     public boolean hasParameter() {
