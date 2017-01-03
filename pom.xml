@@ -226,7 +226,7 @@
                     </includes>
                     <strictCheck>true</strictCheck>
                     <properties>
-                        <year>${currentYearDynamic}</year>
+                        <year>${project.inceptionYear}-${currentYearDynamic}</year>
                     </properties>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
