@@ -137,6 +137,14 @@ public interface SosConstants extends OWSConstants {
 
     String GENERATED_IDENTIFIER_PREFIX = "generated_";
 
+    String PHENOMENON_TIME_VALUE_REFERENCE = "phenomenonTime";
+
+    String RESULT_TIME_VALUE_REFERENCE = "resultTime";
+
+    String VALID_TIME_VALUE_REFERENCE = "validTime";
+
+    String VALID_DESCRIBE_SENSOR_TIME_VALUE_REFERENCE = "validDescribeSensorTime";
+
     /**
      * the names of the operations supported by all versions of the SOS
      * specification
