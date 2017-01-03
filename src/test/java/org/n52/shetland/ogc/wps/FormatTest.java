@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.wps;
+package org.n52.shetland.ogc.wps;
 
 import org.n52.shetland.ogc.wps.Format;
 
