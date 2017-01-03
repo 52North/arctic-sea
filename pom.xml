@@ -116,7 +116,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <!-- Source encoding during build process ** !!! DO NOT CHANGE !!! ** -->
         <version.spring>4.2.3.RELEASE</version.spring>
-        <version.slf4j>1.7.13</version.slf4j>
+        <version.slf4j>1.7.21</version.slf4j>
         <version.guava>20.0</version.guava>
         <version.java>1.8</version.java>
         <version.jackson>2.8.5</version.jackson>
@@ -223,7 +223,7 @@
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.9.1</version>
+                <version>2.9.4</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
