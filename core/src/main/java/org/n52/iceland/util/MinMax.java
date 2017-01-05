@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.util;
 
+import java.util.Comparator;
+
 /**
  * @param <T>
  *            the type
@@ -23,7 +25,7 @@ package org.n52.iceland.util;
  * @since 1.0.0
  *
  */
-public class MinMax<T extends Comparable<? super T>> {
+public class MinMax<T> {
 
     private T minimum;
     private T maximum;
@@ -82,15 +84,16 @@ public class MinMax<T extends Comparable<? super T>> {
      * Extend this {@code MinMax} to include {@code t}.
      *
      * @param t the object to include
+     * @param c the comparator used to compare the values
      *
      * @return this
      */
-    public MinMax<T> extend(T t) {
+    public MinMax<T> extend(T t, Comparator<? super T> c) {
         if (t != null) {
-            if (this.maximum == null || t.compareTo(this.maximum) > 0)  {
+            if (this.maximum == null || c.compare(t, this.maximum) > 0)  {
                 this.maximum = t;
             }
-            if (this.minimum == null || t.compareTo(this.minimum) < 0)  {
+            if (this.minimum == null || c.compare(t, this.minimum) < 0)  {
                 this.minimum = t;
             }
         }
@@ -105,8 +108,8 @@ public class MinMax<T extends Comparable<? super T>> {
      *
      * @return this
      */
-    public MinMax<T> extend(MinMax<T> minmax) {
-        return extend(minmax.getMinimum()).extend(minmax.getMaximum());
+    public MinMax<T> extend(MinMax<T> minmax, Comparator<? super T> c) {
+        return extend(minmax.getMinimum(), c).extend(minmax.getMaximum(), c);
     }
 
     @Override
