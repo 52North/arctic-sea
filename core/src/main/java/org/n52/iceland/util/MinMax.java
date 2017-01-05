@@ -23,7 +23,7 @@ package org.n52.iceland.util;
  * @since 1.0.0
  *
  */
-public class MinMax<T> {
+public class MinMax<T extends Comparable<? super T>> {
 
     private T minimum;
     private T maximum;
@@ -50,7 +50,6 @@ public class MinMax<T> {
      *
      * @param minimum
      *            new value of minimum
-     *            <p/>
      * @return this
      */
     public MinMax<T> setMinimum(T minimum) {
@@ -72,12 +71,42 @@ public class MinMax<T> {
      *
      * @param maximum
      *            new value of maximum
-     *            <p/>
      * @return this
      */
     public MinMax<T> setMaximum(T maximum) {
         this.maximum = maximum;
         return this;
+    }
+
+    /**
+     * Extend this {@code MinMax} to include {@code t}.
+     *
+     * @param t the object to include
+     *
+     * @return this
+     */
+    public MinMax<T> extend(T t) {
+        if (t != null) {
+            if (this.maximum == null || t.compareTo(this.maximum) > 0)  {
+                this.maximum = t;
+            }
+            if (this.minimum == null || t.compareTo(this.minimum) < 0)  {
+                this.minimum = t;
+            }
+        }
+        return this;
+    }
+
+    /**
+     * *
+     * Extend this {@code MinMax} to include {@code minmax}.
+     *
+     * @param minmax the {@code MinMax} to include
+     *
+     * @return this
+     */
+    public MinMax<T> extend(MinMax<T> minmax) {
+        return extend(minmax.getMinimum()).extend(minmax.getMaximum());
     }
 
     @Override
