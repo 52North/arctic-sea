@@ -37,7 +37,7 @@ import java.util.stream.Stream;
  *
  * @author Christian Autermann
  */
-public class Functions {
+public final class Functions {
     private Functions() {
     }
 

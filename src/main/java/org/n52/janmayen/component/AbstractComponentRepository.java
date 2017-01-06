@@ -63,10 +63,10 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      */
     protected SetMultimap<K, Producer<C>> getProviders(Collection<? extends C> components,
                                                        Collection<? extends F> factories) {
-        return createProviders(factories, components)
-                .collect(HashMultimap::create,
-                         (map, provider) -> map.put(provider.getKey(), provider),
-                         SetMultimap::putAll);
+        return createProviders(factories, components).collect(
+                HashMultimap::create,
+                (map, provider) -> map.put(provider.getKey(), provider),
+                SetMultimap::putAll);
     }
 
     private Stream<KeyedProducer<K, C>> createProviders(Collection<? extends F> factories,
@@ -75,8 +75,9 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
                              createProviders(components, InstanceProducer::new));
     }
 
-    private <T extends Keyed<? extends K>> Stream<? extends KeyedProducer<K,C>>
-        createProviders(Collection<? extends T> objects, BiFunction<? super K, ? super T, ? extends KeyedProducer<K, C>> creator) {
+    private <T extends Keyed<? extends K>> Stream<? extends KeyedProducer<K, C>>
+            createProviders(Collection<? extends T> objects,
+                            BiFunction<? super K, ? super T, ? extends KeyedProducer<K, C>> creator) {
         Objects.requireNonNull(creator);
         Function<T, Stream<KeyedProducer<K, C>>> mapper = (T t) -> {
             return t.getKeys().stream().map(key -> creator.apply(key, t));
@@ -118,7 +119,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      * @param <K> the key type
      * @param <C> the component type
      */
-    private static abstract class KeyedProducer<K, C extends Component<K>>
+    private abstract static class KeyedProducer<K, C extends Component<K>>
             implements Producer<C> {
         private final K key;
 

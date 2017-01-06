@@ -34,6 +34,15 @@ public interface SingleTypeComponentFactory<K, C extends Component<K>>
         extends ComponentFactory<K, C> {
 
     /**
+     * Creates the single {@link Component} supported by this factory. Whether
+     * this method will always return the same instance or a fresh instance for
+     * each call is implementation dependent.
+     *
+     * @return the component
+     */
+    C create();
+
+    /**
      * {@inheritDoc}
      *
      * @throws IllegalArgumentException if {@code key} does not equal the
@@ -59,6 +68,13 @@ public interface SingleTypeComponentFactory<K, C extends Component<K>>
     }
 
     /**
+     * Gets the single key supported by this factory.
+     *
+     * @return the key
+     */
+    K getKey();
+
+    /**
      * Creates a singleton set of the key supported by this factory.
      *
      * @return the key
@@ -80,19 +96,4 @@ public interface SingleTypeComponentFactory<K, C extends Component<K>>
         return key != null && key.equals(getKey());
     }
 
-    /**
-     * Gets the single key supported by this factory.
-     *
-     * @return the key
-     */
-    K getKey();
-
-    /**
-     * Creates the single {@link Component} supported by this factory. Whether
-     * this method will always return the same instance or a fresh instance for
-     * each call is implementation dependent.
-     *
-     * @return the component
-     */
-    C create();
 }

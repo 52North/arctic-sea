@@ -39,8 +39,8 @@ public final class ClassHelper {
     /**
      * Calculates class similarity based on hierarchy depth.
      *
-     * @param superClass
-     * @param clazz
+     * @param superClass the super class
+     * @param clazz the class
      * @return 0 for equality, -1 for non-hierarchy classes, >0 the lower the
      *         more similiar
      */

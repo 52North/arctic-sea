@@ -16,9 +16,8 @@
  */
 package org.n52.janmayen.net;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.Objects;
 
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Range;
@@ -33,6 +32,8 @@ import com.google.common.primitives.Ints;
 public class IPAddressRange implements Predicate<IPAddress> {
     private static final int CIDR_MAX = 32;
     private static final int CIDR_MIN = 0;
+    private static final String NOT_VALID_ERR_MSG = "Not a valid CIDR address!";
+    private static final String RANGE_SEPERATOR = "/";
     private final IPAddress address;
     private final IPAddress mask;
 
@@ -50,14 +51,12 @@ public class IPAddressRange implements Predicate<IPAddress> {
      */
     public IPAddressRange(String string) {
         Preconditions.checkNotNull(string);
-        final String[] split = string.split("/", 2);
-        Preconditions.checkArgument(split.length == 2,
-                                    "Not a valid CIDR address!");
+        final String[] split = string.split(RANGE_SEPERATOR, 2);
+        Preconditions.checkArgument(split.length == 2, NOT_VALID_ERR_MSG);
         address = new IPAddress(split[0]);
         final Integer cidr = Ints.tryParse(split[1]);
         if (cidr != null) {
-            Preconditions.checkArgument(cidr >= CIDR_MIN && cidr <= CIDR_MAX,
-                                        "Not a valid CIDR address!");
+            Preconditions.checkArgument(cidr >= CIDR_MIN && cidr <= CIDR_MAX, NOT_VALID_ERR_MSG);
             mask = new IPAddress(-1 << (CIDR_MAX - cidr));
         } else {
             mask = new IPAddress(split[1]);
@@ -71,8 +70,8 @@ public class IPAddressRange implements Predicate<IPAddress> {
      * @param mask    the subnet mask
      */
     public IPAddressRange(IPAddress address, IPAddress mask) {
-        this.address = checkNotNull(address);
-        this.mask = checkNotNull(mask);
+        this.address = Objects.requireNonNull(address);
+        this.mask = Objects.requireNonNull(mask);
     }
 
     /**
@@ -129,21 +128,21 @@ public class IPAddressRange implements Predicate<IPAddress> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getAddress(), getSubnetMask());
+        return Objects.hash(getAddress(), getSubnetMask());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof IPAddressRange) {
             IPAddressRange other = (IPAddressRange) obj;
-            return Objects.equal(getAddress(), other.getAddress()) &&
-                   Objects.equal(getSubnetMask(), other.getSubnetMask());
+            return Objects.equals(getAddress(), other.getAddress()) &&
+                   Objects.equals(getSubnetMask(), other.getSubnetMask());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return getAddress() + "/" + getSubnetMask();
+        return getAddress() + RANGE_SEPERATOR + getSubnetMask();
     }
 }

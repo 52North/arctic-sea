@@ -31,8 +31,8 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Function;
 
-import org.n52.janmayen.stream.Streams;
 import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.stream.Streams;
 
 import com.google.common.base.Joiner;
 
@@ -107,30 +107,11 @@ public class QueryBuilder {
         }
     }
 
-    public static void main(String[] args) throws MalformedURLException {
-        String s = "http://abc:asdf@www.52north.org?request=GetCapabilities&service=SOS&version=2.0.0";
-
-        URL url = new URL(s);
-        url = new URL(url, url.getPath() + "?");
-
-        System.out.println(url);
-        System.out.println("authority:" + url.getAuthority());
-        System.out.println("defaultport:" + url.getDefaultPort());
-        System.out.println("file:" + url.getFile());
-        System.out.println("host:" + url.getHost());
-        System.out.println("path:" + url.getPath());
-        System.out.println("port:" + url.getPort());
-        System.out.println("protocol:" + url.getProtocol());
-        System.out.println("query:" + url.getQuery());
-        System.out.println("ref:" + url.getRef());
-        System.out.println("userInfo:" + url.getUserInfo());
-
-    }
-    private static class MappingIterator<S, T> implements Iterator<T> {
+    private static final class MappingIterator<S, T> implements Iterator<T> {
         private final Iterator<S> iter;
         private final Function<? super S, ? extends T> mapper;
 
-        public MappingIterator(Iterator<S> iter, Function<? super S, ? extends T> mapper) {
+        private MappingIterator(Iterator<S> iter, Function<? super S, ? extends T> mapper) {
             this.iter = Objects.requireNonNull(iter);
             this.mapper = Objects.requireNonNull(mapper);
         }

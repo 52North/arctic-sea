@@ -101,7 +101,7 @@ public abstract class HTTPHeaders {
     }
 
     private static MediaType parseMediaType(String mt) {
-         try {
+        try {
             return MediaType.parse(mt);
         } catch (IllegalArgumentException e) {
             LOGGER.warn("The HTTP-Accept header contains an invalid value: " + mt, e);

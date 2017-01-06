@@ -16,8 +16,6 @@
  */
 package org.n52.janmayen;
 
-import static java.util.Comparator.comparing;
-import static java.util.Comparator.nullsLast;
 
 import java.util.Comparator;
 import java.util.Objects;
@@ -29,14 +27,15 @@ import javax.xml.namespace.QName;
 import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 
-public class Comparables {
+public final class Comparables {
     public static final int LESS = -1;
     public static final int EQUAL = 0;
     public static final int GREATER = 1;
 
     private static final Comparator<QName> QNAME_COMPARATOR
-            = nullsLast(comparing(QName::getPrefix, nullsLast(String::compareTo))
-                    .thenComparing(QName::getLocalPart, nullsLast(String::compareTo)));
+            = Comparator.nullsLast(Comparator
+                    .comparing(QName::getPrefix, Comparator.nullsLast(String::compareTo))
+                    .thenComparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo)));
 
     private Comparables() {
     }
@@ -98,7 +97,7 @@ public class Comparables {
         return QNAME_COMPARATOR;
     }
 
-    private static class VersionComparator extends Ordering<String> {
+    private static final class VersionComparator extends Ordering<String> {
         private static final VersionComparator INSTANCE = new VersionComparator();
         private static final Pattern DELIMITER = Pattern.compile("[._-]");
         private static final Pattern EOF = Pattern.compile("\\z");
@@ -140,7 +139,7 @@ public class Comparables {
         }
     }
 
-    private static class InheritanceComparator<T> extends Ordering<T> {
+    private static final class InheritanceComparator<T> extends Ordering<T> {
         private static final InheritanceComparator<Object> INSTANCE
                 = new InheritanceComparator<>();
 

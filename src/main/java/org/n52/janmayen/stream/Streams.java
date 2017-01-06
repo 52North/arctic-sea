@@ -34,7 +34,7 @@ import java.util.stream.StreamSupport;
 
 import com.google.common.collect.Iterators;
 
-public class Streams {
+public final class Streams {
 
     private Streams() {
     }

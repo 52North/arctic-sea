@@ -16,8 +16,6 @@
  */
 package org.n52.janmayen.http;
 
-import static org.n52.janmayen.http.MediaType.application;
-import static org.n52.janmayen.http.MediaType.text;
 
 import com.google.common.collect.ImmutableSetMultimap;
 
@@ -31,25 +29,25 @@ import com.google.common.collect.ImmutableSetMultimap;
  */
 public interface MediaTypes {
 
-    MediaType APPLICATION_X_GEOTIFF = application("x-geotiff");
-    MediaType APPLICATION_GEOTIFF = application("geotiff");
-    MediaType APPLICATION_X_NETCDF = application("x-netcdf");
-    MediaType TEXT_HTML = text("html");
-    MediaType TEXT_CSV = text("csv");
-    MediaType TEXT_PLAIN = text("plain");
-    MediaType TEXT_XML = text("xml");
-    MediaType APPLICATION_XML = application("xml");
-    MediaType APPLICATION_ZIP = application("zip");
-    MediaType APPLICATION_JSON = application("json");
-    MediaType APPLICATION_EXI = application("exi");
-    MediaType APPLICATION_KVP = application("x-kvp");
-    MediaType APPLICATION_SOAP_XML = application("soap+xml");
-    MediaType APPLICATION_NETCDF = application("netcdf");
-    MediaType APPLICATION_GML_32 = application("gml+xml", "version", "3.2");
-    MediaType APPLICATION_OM_20 = application("om+xml", "version", "2.0");
-    MediaType APPLICATION_RDATA = application("rData");
-    MediaType APPLICATION_X_RDATA = application("x-rData");
-    MediaType APPLICATION_X_ZIPPED_SHP = application("x-zipped-shp");
+    MediaType APPLICATION_X_GEOTIFF = MediaType.application("x-geotiff");
+    MediaType APPLICATION_GEOTIFF = MediaType.application("geotiff");
+    MediaType APPLICATION_X_NETCDF = MediaType.application("x-netcdf");
+    MediaType TEXT_HTML = MediaType.text("html");
+    MediaType TEXT_CSV = MediaType.text("csv");
+    MediaType TEXT_PLAIN = MediaType.text("plain");
+    MediaType TEXT_XML = MediaType.text("xml");
+    MediaType APPLICATION_XML = MediaType.application("xml");
+    MediaType APPLICATION_ZIP = MediaType.application("zip");
+    MediaType APPLICATION_JSON = MediaType.application("json");
+    MediaType APPLICATION_EXI = MediaType.application("exi");
+    MediaType APPLICATION_KVP = MediaType.application("x-kvp");
+    MediaType APPLICATION_SOAP_XML = MediaType.application("soap+xml");
+    MediaType APPLICATION_NETCDF = MediaType.application("netcdf");
+    MediaType APPLICATION_GML_32 = MediaType.application("gml+xml", "version", "3.2");
+    MediaType APPLICATION_OM_20 = MediaType.application("om+xml", "version", "2.0");
+    MediaType APPLICATION_RDATA = MediaType.application("rData");
+    MediaType APPLICATION_X_RDATA = MediaType.application("x-rData");
+    MediaType APPLICATION_X_ZIPPED_SHP = MediaType.application("x-zipped-shp");
 
     ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES
             = new ImmutableSetMultimap.Builder<MediaType, MediaType>()

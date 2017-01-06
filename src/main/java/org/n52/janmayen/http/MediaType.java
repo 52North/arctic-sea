@@ -16,8 +16,6 @@
  */
 package org.n52.janmayen.http;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -107,8 +105,9 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
      *            the parameter value
      */
     public MediaType(String type, String subtype, String parameter, String parameterValue) {
-        this(type, subtype, ImmutableListMultimap.of(checkNotNull(parameter).toLowerCase(Locale.ROOT),
-                checkNotNull(parameterValue)));
+        this(type, subtype, ImmutableListMultimap.of(
+                Objects.requireNonNull(parameter).toLowerCase(Locale.ROOT),
+                Objects.requireNonNull(parameterValue)));
     }
 
     /**
@@ -122,7 +121,8 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
      *            the parameter map
      */
     public MediaType(String type, String subtype, Multimap<String, String> parameters) {
-        this(com.google.common.net.MediaType.create(type, subtype).withParameters(java.util.Objects.requireNonNull(parameters)));
+        this(com.google.common.net.MediaType.create(type, subtype)
+                .withParameters(Objects.requireNonNull(parameters)));
     }
 
     private MediaType(com.google.common.net.MediaType mediaType) {
@@ -240,7 +240,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
 
     @Override
     public int compareTo(MediaType o) {
-        checkNotNull(o);
+        Objects.requireNonNull(o);
         return ComparisonChain.start().compare(getType(), o.getType()).compare(getSubtype(), o.getSubtype()).result();
     }
 

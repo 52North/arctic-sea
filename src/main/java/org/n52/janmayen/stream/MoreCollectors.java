@@ -50,7 +50,7 @@ import org.n52.janmayen.function.ThrowingConsumer;
  *
  * @author Christian Autermann
  */
-public class MoreCollectors {
+public final class MoreCollectors {
 
     private MoreCollectors() {
     }
@@ -59,13 +59,14 @@ public class MoreCollectors {
             Function<? super T, ? extends Stream<? extends U>> mapper,
             Collector<? super U, A, R> downstream) {
         Objects.requireNonNull(mapper);
-        BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
-        return Collector.of(downstream.supplier(),
-                            (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
-                            downstream.combiner(),
-                            downstream.finisher(),
-                            downstream.characteristics().stream()
-                                    .toArray(Characteristics[]::new));
+        BiConsumer<A, ? super U> downstreamAccumulator = downstream
+                .accumulator();
+        return Collector.of(
+                downstream.supplier(),
+                (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
+                downstream.combiner(),
+                downstream.finisher(),
+                downstream.characteristics().stream().toArray(Characteristics[]::new));
     }
 
     public static <X, T> Collector<X, ?, Map<Chain<T>, BigInteger>> toCardinalities(
@@ -92,10 +93,6 @@ public class MoreCollectors {
         return toDuplicateSet(2);
     }
 
-    public static <X> Collector<X, ?, Stream<X>> toDuplicateStream() {
-        return toDuplicateStream(2);
-    }
-
     public static <X> Collector<X, ?, Set<X>> toDuplicateSet(int min) {
         if (min < 2) {
             throw new IllegalArgumentException();
@@ -109,6 +106,10 @@ public class MoreCollectors {
                 = Functions.keySetWhereValues(v -> v >= min);
         return Collector.of(supplier, accumulator, combiner, finisher,
                             Characteristics.UNORDERED);
+    }
+
+    public static <X> Collector<X, ?, Stream<X>> toDuplicateStream() {
+        return toDuplicateStream(2);
     }
 
     public static <X> Collector<X, ?, Stream<X>> toDuplicateStream(int min) {
@@ -220,7 +221,7 @@ public class MoreCollectors {
          * @param hasChildren   a predicate to check if x has children elements
          * @param getChildren   a function to get the children
          */
-        private ChainCollector(Function<X, T> getIdentifier,
+        protected ChainCollector(Function<X, T> getIdentifier,
                                Predicate<X> hasChildren,
                                Function<X, Stream<X>> getChildren) {
             this.getIdentifier = Objects.requireNonNull(getIdentifier);
@@ -266,8 +267,7 @@ public class MoreCollectors {
         }
     }
 
-    // Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper, Collector<? super U, A, R> downstream)
-    private static class CardinalityCalculator<X, T> extends ChainCollector<X, T> {
+    private static final class CardinalityCalculator<X, T> extends ChainCollector<X, T> {
 
         private CardinalityCalculator(Function<X, T> getIdentifier,
                                       Predicate<X> hasChildren,

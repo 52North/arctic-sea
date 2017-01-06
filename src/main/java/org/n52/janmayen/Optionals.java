@@ -30,7 +30,7 @@ import org.n52.janmayen.stream.Streams;
  *
  * @author Christian Autermann
  */
-public class Optionals {
+public final class Optionals {
 
     private Optionals() {
     }
@@ -72,7 +72,9 @@ public class Optionals {
         return optional;
     }
 
-    public static <T, U> Optional<U> mapOrElse(Optional<T> optional, Function<? super T, ? extends U> mapper, Runnable ifNotPresent) {
+    public static <T, U> Optional<U> mapOrElse(Optional<T> optional,
+                                               Function<? super T, ? extends U> mapper,
+                                               Runnable ifNotPresent) {
         if (!optional.isPresent()) {
             ifNotPresent.run();
             return Optional.empty();

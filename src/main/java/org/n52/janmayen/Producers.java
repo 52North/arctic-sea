@@ -22,8 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.n52.janmayen.Producer;
-
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.Maps;
@@ -33,7 +31,7 @@ import com.google.common.collect.Maps;
  *
  * @author Christian Autermann
  */
-public class Producers {
+public final class Producers {
 
     private Producers() {
     }
@@ -70,7 +68,7 @@ public class Producers {
 
     private static class ProducingFunction<T> implements
             Function<Producer<T>, T> {
-        private static final ProducingFunction<?> instance
+        private static final ProducingFunction<?> INSTANCE
                 = new ProducingFunction<>();
 
         @Override
@@ -79,7 +77,7 @@ public class Producers {
         }
 
         public static ProducingFunction<?> getInstance() {
-            return instance;
+            return INSTANCE;
         }
 
     }

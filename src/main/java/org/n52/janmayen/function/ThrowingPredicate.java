@@ -80,7 +80,7 @@ public interface ThrowingPredicate<T, X extends Exception> {
         return (t) -> !test(t);
     }
 
-     /**
+    /**
      * Returns a composed predicate that represents a short-circuiting logical
      * OR of this predicate and another. When evaluating the composed
      * predicate, if this predicate is {@code true}, then the {@code other}

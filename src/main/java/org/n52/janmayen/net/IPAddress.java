@@ -16,7 +16,6 @@
  */
 package org.n52.janmayen.net;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.Inet4Address;
 
@@ -98,7 +97,7 @@ public class IPAddress implements Comparable<IPAddress> {
 
     @Override
     public int compareTo(IPAddress o) {
-        return Integer.compare(this.address, checkNotNull(o).asInt());
+        return Integer.compare(this.address, java.util.Objects.requireNonNull(o).asInt());
     }
 
     @Override

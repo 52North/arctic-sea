@@ -51,7 +51,7 @@ public abstract class AbstractSimilarityKeyRepository<K extends Similar<K>, C ex
     protected void setProducers(Collection<Provider<C>> providers) {
         this.components = new HashSet<>(providers);
         this.componentsByKey = providers.stream()
-                .flatMap(p -> keys(p).map(k -> Maps.immutableEntry(k, p)))
+                .flatMap(p -> keysOf(p).map(k -> Maps.immutableEntry(k, p)))
                 .collect(groupingBy(Entry::getKey, HashMap::new, mapping(Entry::getValue, toSet())));
     }
 
@@ -66,11 +66,11 @@ public abstract class AbstractSimilarityKeyRepository<K extends Similar<K>, C ex
 
     private Set<Provider<C>> findProviders(K key) {
         return this.components.stream()
-                .filter(p -> keys(p).anyMatch(k -> k.getSimilarity(key) >= 0))
+                .filter(p -> keysOf(p).anyMatch(k -> k.getSimilarity(key) >= 0))
                 .collect(toSet());
     }
 
-    private static <K extends Similar<K>, C extends Component<K>> Stream<K> keys(Provider<C> p) {
+    private static <K extends Similar<K>, C extends Component<K>> Stream<K> keysOf(Provider<C> p) {
         return p.get().getKeys().stream();
     }
 

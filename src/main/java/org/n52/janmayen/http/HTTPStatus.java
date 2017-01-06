@@ -69,7 +69,7 @@ public enum HTTPStatus {
 
     private final int code;
 
-    private HTTPStatus(final int code) {
+    HTTPStatus(final int code) {
         this.code = code;
     }
 

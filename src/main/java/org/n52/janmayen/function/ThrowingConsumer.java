@@ -39,7 +39,7 @@ public interface ThrowingConsumer<A, X extends Exception> {
      *
      * @param t the input argument
      *
-     * @throws X
+     * @throws X if an error occurs
      */
     void accept(A t)
             throws X;
