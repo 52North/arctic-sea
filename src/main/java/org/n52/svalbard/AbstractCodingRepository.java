@@ -41,6 +41,8 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -49,6 +51,7 @@ import com.google.common.collect.Sets;
  * @param <C> the component type
  * @param <F> the factory type
  */
+@SuppressWarnings("checkstyle:linelength")
 public abstract class AbstractCodingRepository<K extends Similar<K>, C extends Component<K>, F extends ComponentFactory<K, C>>
         extends AbstractComponentRepository<K, C, F> {
 
@@ -164,8 +167,10 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
         return ImmutableList.<K>builder().add(key).add(keys).build();
     }
 
+    @SuppressFBWarnings("SE_COMPARATOR_SHOULD_BE_SERIALIZABLE")
     private static class ComponentSimilarityComparator<K extends Similar<K>, C extends Component<K>>
             extends ProxySimilarityComparator<C, K> {
+
         ComponentSimilarityComparator(K key) {
             super(key);
         }
@@ -177,7 +182,7 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
 
     }
 
-    protected abstract class CompositeKey extends CompositeSimilar<K>{
+    protected abstract class CompositeKey extends CompositeSimilar<K> {
 
         protected CompositeKey(Iterable<K> keys) {
             super(keys);

@@ -20,7 +20,7 @@ import org.n52.janmayen.exception.LocationHintException;
 
 /**
  *
- * @author Matthes Rieke <m.rieke@52north.org>
+ * @author Matthes Rieke
  */
 public class DecodingException extends LocationHintException {
     private static final long serialVersionUID = 1864784275478310843L;

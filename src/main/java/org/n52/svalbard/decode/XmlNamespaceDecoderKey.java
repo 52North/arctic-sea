@@ -20,7 +20,6 @@ import org.n52.janmayen.ClassHelper;
 
 import com.google.common.base.Objects;
 
-
 /**
  * {@link NamespaceDecoderKey} implementation for XML namespace and {@link Class}.
  *
@@ -38,13 +37,8 @@ public class XmlNamespaceDecoderKey extends NamespaceDecoderKey<Class<?>> {
     }
 
     @Override
-    public int getSimilarity(DecoderKey key) {
-        return getSimilarity(key, Object.class);
-    }
-
-    @Override
     public Class<?> getType() {
-        return type;
+        return this.type;
     }
 
     @Override
@@ -58,12 +52,17 @@ public class XmlNamespaceDecoderKey extends NamespaceDecoderKey<Class<?>> {
     }
 
     @Override
-    protected int getSimilarity(DecoderKey key, Class<?> type) {
+    public int getSimilarity(DecoderKey key) {
+        return getSimilarity(key, Object.class);
+    }
+
+    @Override
+    protected int getSimilarity(DecoderKey key, Class<?> t) {
         if (key != null && key.getClass() == getClass()) {
             NamespaceDecoderKey<?> xmlKey = (NamespaceDecoderKey<?>) key;
             if (Objects.equal(getNamespace(), xmlKey.getNamespace()) && xmlKey.getType() instanceof Class<?>) {
-                return ClassHelper.getSimiliarity(getType() != null ? getType() : type,
-                        xmlKey.getType() != null ? (Class<?>)xmlKey.getType() : type);
+                return ClassHelper.getSimiliarity(getType() != null ? getType() : t,
+                                                  xmlKey.getType() != null ? (Class<?>) xmlKey.getType() : t);
             } else {
                 return -1;
             }

@@ -33,7 +33,7 @@ public interface SchemaAwareEncoder<T, S> extends Encoder<T, S> {
      * Add the namespace prefix of this {@linkplain Encoder} instance to the
      * given {@linkplain Map}.
      *
-     * @param nameSpacePrefixMap
+     * @param nameSpacePrefixMap the map
      */
     default void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap) {
         // do nothing

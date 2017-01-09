@@ -16,12 +16,10 @@
  */
 package org.n52.svalbard.decode;
 
-
-import com.google.common.base.Objects;
-
+import java.util.Objects;
 
 /**
- * Abstract {@link DecoderKey} class for namespace decoder
+ * Abstract {@link DecoderKey} class for namespace decoder.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -37,14 +35,14 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
     }
 
     /**
-     * Set the tpye
+     * Set the type.
      *
-     * @param type
+     * @param type the type
      */
     protected abstract void setType(T type);
 
     /**
-     * Get the type
+     * Get the type.
      *
      * @return the type
      */
@@ -60,10 +58,9 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
     /**
      * Check for similarity
      *
-     * @param key
-     *            {@link DecoderKey} to check
-     * @param type
-     *            Type to check
+     * @param key {@link DecoderKey} to check
+     * @param type Type to check
+     *
      * @return 0 for equality, -1 for non equality
      */
     protected abstract int getSimilarity(DecoderKey key, T type);
@@ -74,7 +71,7 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(3, 79, getNamespace(), getType());
+        return Objects.hash(getNamespace(), getType());
     }
 
     @Override
@@ -86,7 +83,8 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final NamespaceDecoderKey<?> o = (NamespaceDecoderKey<?>) obj;
-            return Objects.equal(getType(), o.getType()) && Objects.equal(getNamespace(), o.getNamespace());
+            return Objects.equals(getType(), o.getType()) &&
+                   Objects.equals(getNamespace(), o.getNamespace());
         }
         return false;
     }
