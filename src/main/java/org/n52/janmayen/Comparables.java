@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Ordering;
 
 public final class Comparables {
     public static final int LESS = -1;
@@ -85,11 +86,11 @@ public final class Comparables {
         return ComparisonChain.start();
     }
 
-    public static <T> Comparator<T> inheritance() {
+    public static <T> Ordering<T> inheritance() {
         return InheritanceComparator.instance();
     }
 
-    public static Comparator<String> version() {
+    public static Ordering<String> version() {
         return VersionComparator.instance();
     }
 
@@ -97,7 +98,7 @@ public final class Comparables {
         return QNAME_COMPARATOR;
     }
 
-    private static final class VersionComparator implements Comparator<String> {
+    private static final class VersionComparator extends Ordering<String> {
         private static final VersionComparator INSTANCE = new VersionComparator();
         private static final Pattern DELIMITER = Pattern.compile("[._-]");
         private static final Pattern EOF = Pattern.compile("\\z");
@@ -108,7 +109,7 @@ public final class Comparables {
         @Override
         public int compare(String a, String b) {
             if (a == null) {
-                return LESS;
+                return b == null ? EQUAL : LESS;
             } else if (b == null) {
                 return GREATER;
             }
@@ -144,7 +145,7 @@ public final class Comparables {
         }
     }
 
-    private static final class InheritanceComparator<T> implements Comparator<T> {
+    private static final class InheritanceComparator<T> extends Ordering<T> {
         private static final InheritanceComparator<Object> INSTANCE
                 = new InheritanceComparator<>();
 
@@ -152,21 +153,20 @@ public final class Comparables {
         }
 
         @Override
-        public int compare(T o1, T o2) {
-            if (o1 == null) {
-                return LESS;
-            } else if (o2 == null) {
+        public int compare(T a, T b) {
+             if (a == null) {
+                return b == null ? EQUAL : LESS;
+            } else if (b == null) {
                 return GREATER;
+            }
+            Class<?> c1 = a.getClass();
+            Class<?> c2 = b.getClass();
+            if (c1.isAssignableFrom(c2)) {
+                return GREATER;
+            } else if (c2.isAssignableFrom(c1)) {
+                return LESS;
             } else {
-                Class<?> c1 = o1.getClass();
-                Class<?> c2 = o2.getClass();
-                if (c1.isAssignableFrom(c2)) {
-                    return GREATER;
-                } else if (c2.isAssignableFrom(c1)) {
-                    return LESS;
-                } else {
-                    return EQUAL;
-                }
+                return EQUAL;
             }
         }
 
