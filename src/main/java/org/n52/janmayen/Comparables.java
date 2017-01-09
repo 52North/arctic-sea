@@ -25,7 +25,6 @@ import java.util.regex.Pattern;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.Ordering;
 
 public final class Comparables {
     public static final int LESS = -1;
@@ -80,16 +79,17 @@ public final class Comparables {
         return Comparator.nullsFirst(delegate);
     }
 
+    @Deprecated
     public static ComparisonChain chain(Object o) {
         Objects.requireNonNull(o);
         return ComparisonChain.start();
     }
 
-    public static <T> Ordering<T> inheritance() {
+    public static <T> Comparator<T> inheritance() {
         return InheritanceComparator.instance();
     }
 
-    public static Ordering<String> version() {
+    public static Comparator<String> version() {
         return VersionComparator.instance();
     }
 
@@ -97,7 +97,7 @@ public final class Comparables {
         return QNAME_COMPARATOR;
     }
 
-    private static final class VersionComparator extends Ordering<String> {
+    private static final class VersionComparator implements Comparator<String> {
         private static final VersionComparator INSTANCE = new VersionComparator();
         private static final Pattern DELIMITER = Pattern.compile("[._-]");
         private static final Pattern EOF = Pattern.compile("\\z");
@@ -107,6 +107,11 @@ public final class Comparables {
 
         @Override
         public int compare(String a, String b) {
+            if (a == null) {
+                return LESS;
+            } else if (b == null) {
+                return GREATER;
+            }
             Scanner as = new Scanner(a).useDelimiter(DELIMITER);
             Scanner bs = new Scanner(b).useDelimiter(DELIMITER);
             while (as.hasNextInt() && bs.hasNextInt()) {
@@ -139,7 +144,7 @@ public final class Comparables {
         }
     }
 
-    private static final class InheritanceComparator<T> extends Ordering<T> {
+    private static final class InheritanceComparator<T> implements Comparator<T> {
         private static final InheritanceComparator<Object> INSTANCE
                 = new InheritanceComparator<>();
 

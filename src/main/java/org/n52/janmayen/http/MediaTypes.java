@@ -16,7 +16,6 @@
  */
 package org.n52.janmayen.http;
 
-
 import com.google.common.collect.ImmutableSetMultimap;
 
 /**
@@ -27,49 +26,69 @@ import com.google.common.collect.ImmutableSetMultimap;
  *
  * @since 1.0.0
  */
-public interface MediaTypes {
+public final class MediaTypes {
 
-    MediaType APPLICATION_X_GEOTIFF = MediaType.application("x-geotiff");
-    MediaType APPLICATION_GEOTIFF = MediaType.application("geotiff");
-    MediaType APPLICATION_X_NETCDF = MediaType.application("x-netcdf");
-    MediaType TEXT_HTML = MediaType.text("html");
-    MediaType TEXT_CSV = MediaType.text("csv");
-    MediaType TEXT_PLAIN = MediaType.text("plain");
-    MediaType TEXT_XML = MediaType.text("xml");
-    MediaType APPLICATION_XML = MediaType.application("xml");
-    MediaType APPLICATION_ZIP = MediaType.application("zip");
-    MediaType APPLICATION_JSON = MediaType.application("json");
-    MediaType APPLICATION_EXI = MediaType.application("exi");
-    MediaType APPLICATION_KVP = MediaType.application("x-kvp");
-    MediaType APPLICATION_SOAP_XML = MediaType.application("soap+xml");
-    MediaType APPLICATION_NETCDF = MediaType.application("netcdf");
-    MediaType APPLICATION_GML_32 = MediaType.application("gml+xml", "version", "3.2");
-    MediaType APPLICATION_OM_20 = MediaType.application("om+xml", "version", "2.0");
-    MediaType APPLICATION_RDATA = MediaType.application("rData");
-    MediaType APPLICATION_X_RDATA = MediaType.application("x-rData");
-    MediaType APPLICATION_X_ZIPPED_SHP = MediaType.application("x-zipped-shp");
+    @Deprecated
+    public static final MediaType WILD_CARD = MediaType.any();
+    @Deprecated
+    public static final String APPLICATION = MediaType.APPLICATION_TYPE;
+    @Deprecated
+    public static final String TEXT = MediaType.TEXT_TYPE;
+    private static final String SUBTYPE_XML = "xml";
+    private static final String SUBTYPE_PLAIN = "plain";
+    private static final String SUBTYPE_ZIP = "zip";
+    private static final String SUBTYPE_JSON = "json";
+    private static final String SUBTYPE_EXI = "exi";
+    private static final String SUBTYPE_KVP = "x-kvp";
+    private static final String SUBTYPE_SOAP = "soap+xml";
+    private static final String SUBTYPE_NETCDF = "netcdf";
+    private static final String SUBTYPE_CSV = "csv";
+    private static final String SUBTYPE_RDATA = "rData";
+    private static final String SUBTYPE_X_RDATA = "x-rData";
+    private static final String SUBTYPE_GML = "gml+xml";
+    private static final String SUBTYPE_OM = "om+xml";
+    private static final String SUBTYPE_HTML = "html";
+    private static final String SUBTYPE_GEOTIFF = "geotiff";
+    private static final String SUBTYPE_X_GEOTIFF = "x-geotiff";
+    private static final String SUBTYPE_X_NETCDF = "x-netcdf";
+    private static final String SUBTYPE_X_ZIPPED_SHAPE = "x-zipped-shp";
+    private static final String PARAM_VERSION = "version";
+    @Deprecated
+    public static final String XML = SUBTYPE_XML;
 
-    ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES
+
+    public static final MediaType APPLICATION_X_GEOTIFF = MediaType.application(SUBTYPE_X_GEOTIFF);
+    public static final MediaType APPLICATION_GEOTIFF = MediaType.application(SUBTYPE_GEOTIFF);
+    public static final MediaType APPLICATION_X_NETCDF = MediaType.application(SUBTYPE_X_NETCDF);
+    public static final MediaType TEXT_HTML = MediaType.text(SUBTYPE_HTML);
+    public static final MediaType TEXT_CSV = MediaType.text(SUBTYPE_CSV);
+    public static final MediaType TEXT_PLAIN = MediaType.text(SUBTYPE_PLAIN);
+    public static final MediaType TEXT_XML = MediaType.text(SUBTYPE_XML);
+    public static final MediaType APPLICATION_XML = MediaType.application(SUBTYPE_XML);
+    public static final MediaType APPLICATION_ZIP = MediaType.application(SUBTYPE_ZIP);
+    public static final MediaType APPLICATION_JSON = MediaType.application(SUBTYPE_JSON);
+    public static final MediaType APPLICATION_EXI = MediaType.application(SUBTYPE_EXI);
+    public static final MediaType APPLICATION_KVP = MediaType.application(SUBTYPE_KVP);
+    public static final MediaType APPLICATION_SOAP_XML = MediaType.application(SUBTYPE_SOAP);
+    public static final MediaType APPLICATION_NETCDF = MediaType.application(SUBTYPE_NETCDF);
+    public static final MediaType APPLICATION_GML_32 = MediaType.application(SUBTYPE_GML, PARAM_VERSION, "3.2");
+    public static final MediaType APPLICATION_OM_20 = MediaType.application(SUBTYPE_OM, PARAM_VERSION, "2.0");
+    public static final MediaType APPLICATION_RDATA = MediaType.application(SUBTYPE_RDATA);
+    public static final MediaType APPLICATION_X_RDATA = MediaType.application(SUBTYPE_X_RDATA);
+    public static final MediaType APPLICATION_X_ZIPPED_SHP = MediaType.application(SUBTYPE_X_ZIPPED_SHAPE);
+
+    public static final ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES
             = new ImmutableSetMultimap.Builder<MediaType, MediaType>()
-            .putAll(TEXT_XML, TEXT_XML, APPLICATION_XML)
-            .putAll(APPLICATION_XML, APPLICATION_XML, TEXT_XML)
+                    .putAll(TEXT_XML, TEXT_XML, APPLICATION_XML)
+                    .putAll(APPLICATION_XML, APPLICATION_XML, TEXT_XML)
+                    .putAll(APPLICATION_GEOTIFF, APPLICATION_GEOTIFF, APPLICATION_X_GEOTIFF)
+                    .putAll(APPLICATION_X_GEOTIFF, APPLICATION_X_GEOTIFF, APPLICATION_GEOTIFF)
+                    .putAll(APPLICATION_NETCDF, APPLICATION_NETCDF, APPLICATION_X_NETCDF)
+                    .putAll(APPLICATION_X_NETCDF, APPLICATION_X_NETCDF, APPLICATION_NETCDF)
+                    .putAll(APPLICATION_RDATA, APPLICATION_RDATA, APPLICATION_X_RDATA)
+                    .putAll(APPLICATION_X_RDATA, APPLICATION_X_RDATA, APPLICATION_RDATA)
+                    .build();
 
-            .putAll(APPLICATION_GEOTIFF, APPLICATION_GEOTIFF, APPLICATION_X_GEOTIFF)
-            .putAll(APPLICATION_X_GEOTIFF, APPLICATION_X_GEOTIFF, APPLICATION_GEOTIFF)
-
-            .putAll(APPLICATION_NETCDF, APPLICATION_NETCDF, APPLICATION_X_NETCDF)
-            .putAll(APPLICATION_X_NETCDF, APPLICATION_X_NETCDF, APPLICATION_NETCDF)
-
-            .putAll(APPLICATION_RDATA, APPLICATION_RDATA, APPLICATION_X_RDATA)
-            .putAll(APPLICATION_X_RDATA, APPLICATION_X_RDATA, APPLICATION_RDATA)
-
-            .build();
-
-
-
-    @Deprecated String XML = "xml";
-    @Deprecated MediaType WILD_CARD = MediaType.any();
-    @Deprecated String APPLICATION = MediaType.APPLICATION_TYPE;
-    @Deprecated String TEXT = MediaType.TEXT_TYPE;
-
+    private MediaTypes() {
+    }
 }

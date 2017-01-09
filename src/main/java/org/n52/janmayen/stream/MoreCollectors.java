@@ -62,11 +62,11 @@ public final class MoreCollectors {
         BiConsumer<A, ? super U> downstreamAccumulator = downstream
                 .accumulator();
         return Collector.of(
-                downstream.supplier(),
-                (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
-                downstream.combiner(),
-                downstream.finisher(),
-                downstream.characteristics().stream().toArray(Characteristics[]::new));
+            downstream.supplier(),
+            (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
+            downstream.combiner(),
+            downstream.finisher(),
+            downstream.characteristics().stream().toArray(Characteristics[]::new));
     }
 
     public static <X, T> Collector<X, ?, Map<Chain<T>, BigInteger>> toCardinalities(
