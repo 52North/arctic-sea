@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.svalbard.encode.EncoderKey;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.janmayen.http.MediaType;
+import org.n52.svalbard.encode.EncoderKey;
 
 import com.google.common.base.Objects;
 
@@ -67,7 +67,6 @@ public abstract class OperationEncoderKey extends OperationKey implements Encode
 
     @Override
     public boolean equals(Object obj) {
-        super.equals(obj);
         if (obj != null && getClass() == obj.getClass()) {
             final OperationEncoderKey other = (OperationEncoderKey) obj;
             return super.equals(obj) && Objects.equal(this.getContentType(), other.getContentType());

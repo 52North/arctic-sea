@@ -437,8 +437,8 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Override
     public void reconfigure() {
-        this.configurableObjectsLock.readLock().lock();
         LOG.trace("Reconfiguring all objects");
+        this.configurableObjectsLock.readLock().lock();
         try {
             configurableObjects.values().stream()
                     .map(this::getNotNullSettingValue)

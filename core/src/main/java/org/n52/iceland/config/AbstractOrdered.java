@@ -60,4 +60,26 @@ public abstract class AbstractOrdered<T extends Ordered<T>> implements Ordered<T
     }
 
     protected abstract String getSuborder();
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 17 * hash + Float.floatToIntBits(this.order);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractOrdered<?> other = (AbstractOrdered<?>) obj;
+        return Float.floatToIntBits(this.order) == Float.floatToIntBits(other.order);
+    }
 }

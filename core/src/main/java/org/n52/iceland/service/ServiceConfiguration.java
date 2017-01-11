@@ -30,8 +30,8 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
-import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.iceland.util.Validation;
+import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.util.CRSHelper;
 
 /**
@@ -88,12 +88,6 @@ public class ServiceConfiguration implements Constructable {
      * prefix URN for the spatial reference system.
      */
     private String srsNamePrefixSosV2;
-
-    /**
-     * boolean indicates, whether SOS supports quality information in
-     * observations.
-     */
-    private final boolean supportsQuality = true;
 
     /**
      * token separator for result element.
@@ -224,7 +218,7 @@ public class ServiceConfiguration implements Constructable {
      */
     // HibernateObservationUtilities
     public boolean isSupportsQuality() {
-        return supportsQuality;
+        return true;
     }
 
     public boolean isUseHttpStatusCodesInKvpAndPoxBinding() {
