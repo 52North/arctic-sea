@@ -29,8 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class Debouncer {
 
-    private final ScheduledExecutorService executor = Executors
-            .newScheduledThreadPool(1);
+    private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
     private final Object lock = new Object();
     private final Runnable runnable;
     private final int interval;
@@ -78,7 +77,7 @@ public class Debouncer {
      */
     private class DelayedTask implements Runnable {
         private final Object lock = new Object();
-        private long dueTime = 0;
+        private long dueTime;
 
         DelayedTask() {
             postpone();

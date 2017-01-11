@@ -16,7 +16,6 @@
  */
 package org.n52.janmayen;
 
-
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Scanner;
@@ -154,7 +153,7 @@ public final class Comparables {
 
         @Override
         public int compare(T a, T b) {
-             if (a == null) {
+            if (a == null) {
                 return b == null ? EQUAL : LESS;
             } else if (b == null) {
                 return GREATER;
