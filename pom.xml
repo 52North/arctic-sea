@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    
-    
-    
+
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
         <version>6</version>
     </parent>
-    
+
     <groupId>org.n52.faroe</groupId>
     <artifactId>faroe</artifactId>
     <version>1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    
+
+    <name>52°North Faroe</name>
     <inceptionYear>2017</inceptionYear>
-    
+
     <developers>
         <developer>
             <id>autermann</id>
@@ -27,7 +26,7 @@
             <timezone>GMT+1</timezone>
         </developer>
     </developers>
-    
+
     <scm>
         <url>https://github.com/52North/faroe</url>
         <connection>scm:git:https://github.com/52North/faroe.git</connection>
@@ -56,6 +55,7 @@
 
     <properties>
         <version.java>1.8</version.java>
+        <version.slf4j>1.7.21</version.slf4j>
     </properties>
 
     <dependencies>
@@ -77,7 +77,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
+            <version>${version.slf4j}</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
@@ -115,7 +115,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
-            <version>1.7.21</version>
+            <version>${version.slf4j}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
