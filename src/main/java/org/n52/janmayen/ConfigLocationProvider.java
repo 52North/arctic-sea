@@ -16,8 +16,6 @@
  */
 package org.n52.janmayen;
 
-import org.n52.janmayen.Producer;
-
 /**
  * TODO JavaDoc
  *
