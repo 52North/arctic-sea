@@ -102,6 +102,12 @@ public class ObservationProcess extends AbstractFeature {
         super(featureIdentifier, gmlId);
     }
 
+    @Override
+    public ObservationProcess setIdentifier(final String procedureIdentifier) {
+        super.setIdentifier(procedureIdentifier);
+        return this;
+    }
+
     public ReferenceType getProcessType() {
         return processType;
     }
