@@ -21,15 +21,15 @@ import java.util.Locale;
 import java.util.Map.Entry;
 
 import org.n52.iceland.exception.JSONException;
-import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.iceland.i18n.metadata.I18NFeatureMetadata;
 import org.n52.iceland.i18n.metadata.I18NObservablePropertyMetadata;
 import org.n52.iceland.i18n.metadata.I18NOfferingMetadata;
 import org.n52.iceland.i18n.metadata.I18NProcedureMetadata;
-import org.n52.iceland.util.JSONUtils;
-import org.n52.shetland.i18n.LocalizedString;
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.Json;
+import org.n52.janmayen.i18n.LocaleHelper;
+import org.n52.janmayen.i18n.LocalizedString;
+import org.n52.janmayen.i18n.MultilingualString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -54,7 +54,7 @@ public class I18NJsonEncoder {
     private static final String TYPE_PROCEDURE = "procedure";
     private static final String TYPE_OBSERVABLE_PROPERTY = "observableProperty";
     private static final String I18N = "i18n";
-    private final JsonNodeFactory nodeFactory = JSONUtils.nodeFactory();
+    private final JsonNodeFactory nodeFactory = Json.nodeFactory();
 
     private ObjectNode encodeInternal(AbstractI18NMetadata i18n) {
         ObjectNode node = nodeFactory.objectNode();
@@ -68,7 +68,7 @@ public class I18NJsonEncoder {
         ObjectNode json = nodeFactory.objectNode();
         if (mls != null) {
             for (LocalizedString ls : mls) {
-                json.put(LocaleHelper.toString(ls.getLang()), ls.getText());
+                json.put(LocaleHelper.encode(ls.getLang()), ls.getText());
             }
         }
         return json;
@@ -99,7 +99,7 @@ public class I18NJsonEncoder {
         ObjectNode node = nodeFactory.objectNode();
         ArrayNode array = node.putArray(I18N);
         for (AbstractI18NMetadata i18n : i18ns) {
-            array.add(I18NJsonEncoder.this.encode(i18n));
+            array.add(encode(i18n));
         }
         return node;
     }
@@ -107,17 +107,13 @@ public class I18NJsonEncoder {
     public ObjectNode encode(AbstractI18NMetadata i18n)
             throws JSONException {
         if (i18n instanceof I18NFeatureMetadata) {
-            return I18NJsonEncoder.this
-                    .encode((I18NFeatureMetadata) i18n);
+            return encode((I18NFeatureMetadata) i18n);
         } else if (i18n instanceof I18NOfferingMetadata) {
-            return I18NJsonEncoder.this
-                    .encode((I18NOfferingMetadata) i18n);
+            return encode((I18NOfferingMetadata) i18n);
         } else if (i18n instanceof I18NProcedureMetadata) {
-            return I18NJsonEncoder.this
-                    .encode((I18NProcedureMetadata) i18n);
+            return encode((I18NProcedureMetadata) i18n);
         } else if (i18n instanceof I18NObservablePropertyMetadata) {
-            return I18NJsonEncoder.this
-                    .encode((I18NObservablePropertyMetadata) i18n);
+            return encode((I18NObservablePropertyMetadata) i18n);
         } else {
             throw new JSONException("Unknown type: " + i18n);
         }
@@ -134,7 +130,7 @@ public class I18NJsonEncoder {
         Iterator<Entry<String, JsonNode>> it = json.fields();
         while (it.hasNext()) {
             Entry<String, JsonNode> e = it.next();
-            Locale locale = LocaleHelper.fromString(e.getKey());
+            Locale locale = LocaleHelper.decode(e.getKey());
             mls.addLocalization(locale, e.getValue().asText());
         }
     }

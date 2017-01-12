@@ -23,7 +23,7 @@ import java.util.Properties;
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.ConfigurationError;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
 

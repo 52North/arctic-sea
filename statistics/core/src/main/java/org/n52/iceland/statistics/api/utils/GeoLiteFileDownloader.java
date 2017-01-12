@@ -21,7 +21,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.n52.iceland.config.annotation.Configurable;
+
+import org.n52.faroe.annotation.Configurable;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

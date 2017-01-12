@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.convert.RequestResponseModifier;
 import org.n52.iceland.convert.RequestResponseModifierRepository;
-import org.n52.iceland.event.ServiceEventBus;
+import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.RequestEvent;
 import org.n52.iceland.event.events.ResponseEvent;
 import org.n52.iceland.request.handler.GenericOperationHandler;
@@ -59,7 +59,7 @@ public class GenericRequestOperator<
     private OperationHandlerRepository operationHandlerRepository;
     private RequestResponseModifierRepository modifierRepository;
     private ServiceOperatorRepository serviceOperatorRepository;
-    private ServiceEventBus serviceEventBus;
+    private EventBus serviceEventBus;
 
     public GenericRequestOperator(String service,
                                  String version,
@@ -114,11 +114,11 @@ public class GenericRequestOperator<
     }
 
     @Inject
-    public void setServiceEventBus(ServiceEventBus serviceEventBus) {
+    public void setServiceEventBus(EventBus serviceEventBus) {
         this.serviceEventBus = serviceEventBus;
     }
 
-    public ServiceEventBus getServiceEventBus() {
+    public EventBus getServiceEventBus() {
         return serviceEventBus;
     }
 

@@ -26,9 +26,9 @@ import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 import java.net.URI;
 import java.util.Locale;
 
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.util.Validation;
 import org.n52.janmayen.lifecycle.Constructable;

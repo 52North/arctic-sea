@@ -31,8 +31,8 @@ import org.elasticsearch.common.geo.GeoPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;

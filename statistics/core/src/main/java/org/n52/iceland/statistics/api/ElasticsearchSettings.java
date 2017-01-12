@@ -23,12 +23,12 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.config.SettingType;
-import org.n52.iceland.config.SettingsService;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.config.json.JsonSettingValue;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.SettingType;
+import org.n52.faroe.SettingsService;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.faroe.json.JsonSettingValue;
+import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
 import org.n52.iceland.util.Validation;
 

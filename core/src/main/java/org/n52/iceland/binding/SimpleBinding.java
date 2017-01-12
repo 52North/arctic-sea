@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.coding.encode.OwsEncodingException;
-import org.n52.iceland.event.ServiceEventBus;
+import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
@@ -75,7 +75,7 @@ public abstract class SimpleBinding extends Binding {
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);
     public static final String HTTP_MEDIA_TYPE_QUALITY_PARAM = "q";
 
-    private ServiceEventBus eventBus;
+    private EventBus eventBus;
     private ServiceOperatorRepository serviceOperatorRepository;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
@@ -91,11 +91,11 @@ public abstract class SimpleBinding extends Binding {
     }
 
     @Inject
-    public void setEventBus(ServiceEventBus eventBus) {
+    public void setEventBus(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 
-    public ServiceEventBus getEventBus() {
+    public EventBus getEventBus() {
         return eventBus;
     }
 

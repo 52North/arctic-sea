@@ -18,7 +18,8 @@ package org.n52.iceland.statistics.api;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.iceland.exception.ConfigurationError;
+
+import org.n52.faroe.ConfigurationError;
 
 public class ElasticsearchSettingsTest {
 

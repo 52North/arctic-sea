@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.config.json;
 
+import org.n52.faroe.json.AbstractJsonDao;
+
 import java.util.HashSet;
 import java.util.Set;
 

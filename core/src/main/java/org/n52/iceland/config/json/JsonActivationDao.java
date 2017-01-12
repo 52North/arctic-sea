@@ -32,8 +32,8 @@ import org.n52.iceland.config.ActivationDao;
 import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
 import org.n52.iceland.ogc.swes.OfferingExtensionKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
-import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;

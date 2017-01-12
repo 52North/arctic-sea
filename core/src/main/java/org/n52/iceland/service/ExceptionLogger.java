@@ -22,10 +22,10 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.event.ServiceEvent;
-import org.n52.iceland.event.ServiceEventListener;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.janmayen.event.Event;
+import org.n52.janmayen.event.EventListener;
 
 /**
  * Single point of exception logging.
@@ -36,19 +36,19 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
  *
  * @since 1.0.0
  */
-public class ExceptionLogger implements ServiceEventListener {
+public class ExceptionLogger implements EventListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionLogger.class);
 
-    public static final Set<Class<? extends ServiceEvent>> EVENTS = Collections
-            .<Class<? extends ServiceEvent>> singleton(ExceptionEvent.class);
+    public static final Set<Class<? extends Event>> EVENTS = Collections
+            .<Class<? extends Event>> singleton(ExceptionEvent.class);
 
     @Override
-    public Set<Class<? extends ServiceEvent>> getTypes() {
+    public Set<Class<? extends Event>> getTypes() {
         return EVENTS;
     }
 
     @Override
-    public void handle(final ServiceEvent event) {
+    public void handle(final Event event) {
         final ExceptionEvent ee = (ExceptionEvent) event;
 
         // TODO review logging of exceptions. Stacktrace only on debug level?

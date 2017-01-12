@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.service;
 
+import org.n52.janmayen.ConfigLocationProvider;
+
 import java.io.File;
 
 import javax.inject.Inject;

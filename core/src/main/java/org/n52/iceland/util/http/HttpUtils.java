@@ -35,9 +35,9 @@ import org.n52.iceland.binding.EncodingExceptionHandler;
 import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterRepository;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.event.ServiceEventBus;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.response.ServiceResponse;
@@ -65,14 +65,14 @@ public class HttpUtils {
 
     private Boolean isCountingOutputStream = false;
 
-    private ServiceEventBus eventBus;
+    private EventBus eventBus;
 
-    public ServiceEventBus getEventBus() {
+    public EventBus getEventBus() {
         return eventBus;
     }
 
     @Inject
-    public void setEventBus(ServiceEventBus eventBus) {
+    public void setEventBus(EventBus eventBus) {
         this.eventBus = eventBus;
     }
 

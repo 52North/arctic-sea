@@ -18,7 +18,7 @@ package org.n52.iceland.event.events;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.n52.iceland.event.ServiceEvent;
+import org.n52.janmayen.event.Event;
 
 /**
  * Event is thrown if a new {@link HttpServletRequest} arrives.
@@ -27,7 +27,7 @@ import org.n52.iceland.event.ServiceEvent;
  * @since 1.0.0
  *
  */
-public class IncomingRequestEvent implements ServiceEvent {
+public class IncomingRequestEvent implements Event {
 
     private final HttpServletRequest request;
 

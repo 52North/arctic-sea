@@ -19,11 +19,11 @@ package org.n52.iceland.statistics.mock;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.iceland.config.SettingDefinition;
-import org.n52.iceland.config.SettingValue;
-import org.n52.iceland.config.SettingValueFactory;
-import org.n52.iceland.config.SettingsService;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingValue;
+import org.n52.faroe.SettingValueFactory;
+import org.n52.faroe.SettingsService;
 
 public class MockSettingsService implements SettingsService {
 
@@ -40,11 +40,11 @@ public class MockSettingsService implements SettingsService {
     }
 
     @Override
-    public void deleteSetting(SettingDefinition<?, ?> setting) throws ConfigurationError {
+    public void deleteSetting(SettingDefinition<?> setting) throws ConfigurationError {
     }
 
     @Override
-    public SettingDefinition<?, ?> getDefinitionByKey(String key) {
+    public SettingDefinition<?> getDefinitionByKey(String key) {
         throw new UnsupportedOperationException();
     }
 
@@ -54,7 +54,7 @@ public class MockSettingsService implements SettingsService {
     }
 
     @Override
-    public <T> SettingValue<T> getSetting(SettingDefinition<?, T> key) {
+    public <T> SettingValue<T> getSetting(SettingDefinition<T> key) {
         throw new UnsupportedOperationException();
     }
 
@@ -64,7 +64,7 @@ public class MockSettingsService implements SettingsService {
     }
 
     @Override
-    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
+    public Set<SettingDefinition<?>> getSettingDefinitions() {
         throw new UnsupportedOperationException();
     }
 
@@ -74,7 +74,7 @@ public class MockSettingsService implements SettingsService {
     }
 
     @Override
-    public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() {
+    public Map<SettingDefinition<?>, SettingValue<?>> getSettings() {
         throw new UnsupportedOperationException();
     }
 

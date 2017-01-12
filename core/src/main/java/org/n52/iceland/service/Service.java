@@ -38,7 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
-import org.n52.iceland.event.ServiceEventBus;
+import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.event.events.IncomingRequestEvent;
 import org.n52.iceland.event.events.OutgoingResponseEvent;
@@ -75,7 +75,7 @@ public class Service extends HttpServlet {
     private transient BindingRepository bindingRepository;
 
     @Inject
-    private transient ServiceEventBus serviceEventBus;
+    private transient EventBus serviceEventBus;
 
     private long logRequest(HttpServletRequest request) {
         long count = counter.incrementAndGet();

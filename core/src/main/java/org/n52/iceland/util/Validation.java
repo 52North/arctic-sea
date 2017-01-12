@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.util;
 
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.ConfigurationError;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

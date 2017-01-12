@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.i18n.metadata;
 
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.MultilingualString;
 
 /**
  * I18N object class for offering

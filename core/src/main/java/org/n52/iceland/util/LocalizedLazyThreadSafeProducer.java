@@ -18,7 +18,7 @@ package org.n52.iceland.util;
 
 import java.util.Locale;
 
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.ConfigurationError;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;

@@ -29,7 +29,8 @@ import org.elasticsearch.client.IndicesAdminClient;
 import org.hamcrest.CoreMatchers;
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.iceland.exception.ConfigurationError;
+
+import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;

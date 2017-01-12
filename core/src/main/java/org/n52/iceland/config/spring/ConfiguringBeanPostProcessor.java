@@ -16,13 +16,15 @@
  */
 package org.n52.iceland.config.spring;
 
+import javax.inject.Inject;
+
 import org.springframework.beans.factory.BeanInitializationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 
-import org.n52.iceland.config.SettingsService;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.SettingsService;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 
 /**
  * Bean post processor, that
@@ -49,7 +51,7 @@ public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
      *
      * @param settingsService the settings service
      */
-    @Autowired
+    @Inject
     public void setSettingsManager(SettingsService settingsService) {
         this.settingsService = settingsService;
     }
@@ -68,7 +70,7 @@ public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
         try {
             this.settingsService.configure(bean);
-        } catch (Throwable t) {
+        } catch (ConfigurationError t) {
             throw new BeanInitializationException("Couldn't set settings on bean " + beanName, t);
         }
         return bean;
