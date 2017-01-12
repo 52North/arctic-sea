@@ -18,6 +18,7 @@ package org.n52.shetland.util;
 
 import java.io.Serializable;
 
+import com.google.common.base.Joiner;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
@@ -100,6 +101,23 @@ public class ReferencedEnvelope implements Serializable {
     public ReferencedEnvelope setEnvelope(Envelope envelope) {
         this.envelope = envelope;
         return this;
+    }
+
+    /**
+     * Creates the minimum and maximum values of this envelope in the default
+     * EPSG.
+     *
+     * @param envelope
+     *            the envelope
+     * @return the {@code MinMax} describing the envelope
+     */
+    public MinMax<String> getMinMaxFromEnvelope() {
+        if (isSetEnvelope()) {
+            return new MinMax<String>()
+                    .setMaximum(Joiner.on(' ').join(envelope.getMaxX(), envelope.getMaxY()))
+                    .setMinimum(Joiner.on(' ').join(envelope.getMinX(), envelope.getMinY()));
+        }
+        return new MinMax<String>();
     }
 
     /**

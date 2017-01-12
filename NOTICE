@@ -20,8 +20,12 @@ This project includes:
   Apache Commons Codec under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
+  FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest All under New BSD License
+  Jackson-annotations under The Apache Software License, Version 2.0
+  Jackson-core under The Apache Software License, Version 2.0
+  jackson-databind under The Apache Software License, Version 2.0
   Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   javax.inject under The Apache Software License, Version 2.0
   JCL 1.1.1 implemented over SLF4J under MIT License
