@@ -292,11 +292,13 @@ public interface FilterConstants {
     }
 
     interface LogicOperator {
+    }
 
-        public static final Set<LogicOperator> ALL = Sets.newHashSet(BinaryLogicOperator.And,
-                                                                     BinaryLogicOperator.Or,
-                                                                     UnaryLogicOperator.Not);
-
+    interface LogicOperators {
+        BinaryLogicOperator AND = BinaryLogicOperator.And;
+        BinaryLogicOperator OR = BinaryLogicOperator.Or;
+        UnaryLogicOperator NOT = UnaryLogicOperator.Not;
+        Set<LogicOperator> ALL = Sets.newHashSet(AND, OR, NOT);
     }
 
     /**
@@ -327,7 +329,6 @@ public interface FilterConstants {
      *
      */
     enum AdHocQueryParams {
-
         TypeNames,
         Aliases,
         PropertyName,
@@ -352,19 +353,16 @@ public interface FilterConstants {
      *
      */
     enum SortOrder {
-
         ASC,
         DESC
     }
 
     enum Expression {
-
         ValueReference,
         Function
     }
 
     enum SimpleArithmeticOperator {
-
         Add,
         Sub,
         Mul,
@@ -372,7 +370,6 @@ public interface FilterConstants {
     }
 
     enum Id {
-
         EID,
         FID
     }

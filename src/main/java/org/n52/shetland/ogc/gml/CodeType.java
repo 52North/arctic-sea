@@ -19,6 +19,8 @@ package org.n52.shetland.ogc.gml;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.n52.janmayen.Copyable;
+import org.n52.janmayen.i18n.LocalizedString;
 import org.n52.shetland.ogc.AbstractCodeType;
 
 import com.google.common.base.MoreObjects;
@@ -30,23 +32,27 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  *
  */
-public class CodeType extends AbstractCodeType implements Cloneable {
+public class CodeType extends AbstractCodeType implements Copyable<CodeType> {
 
     public CodeType(final String value) {
         super(value);
     }
 
     @Deprecated
-    public CodeType(final String value, final String codespace) throws URISyntaxException {
+    public CodeType(String value, String codespace) throws URISyntaxException {
         super(value, new URI(codespace));
     }
 
-    public CodeType(final String value, final URI codespace) {
+    public CodeType(String value, URI codespace) {
         super(value, codespace);
     }
 
+    public CodeType(LocalizedString s) {
+        this(s.getText(), URI.create(s.getLangString()));
+    }
+
     @Override
-    public CodeType clone() throws CloneNotSupportedException {
+    public CodeType copy() {
         return new CodeType(getValue(), getCodeSpace());
     }
 

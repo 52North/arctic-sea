@@ -65,16 +65,16 @@ public class SweBoolean extends SweAbstractSimpleType<Boolean> {
     }
 
     @Override
-    public SweBoolean clone() {
-        SweBoolean clone = new SweBoolean();
-        copyValueTo(clone);
+    public SweBoolean copy() {
+        SweBoolean copy = new SweBoolean();
+        copyValueTo(copy);
         if (isSetQuality()) {
-            clone.setQuality(cloneQuality());
+            copy.setQuality(cloneQuality());
         }
         if (isSetValue()) {
-            clone.setValue(getValue());
+            copy.setValue(getValue());
         }
-        return clone;
+        return copy;
     }
 
 }

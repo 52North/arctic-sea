@@ -21,6 +21,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 import org.n52.janmayen.Optionals;
+import org.n52.janmayen.i18n.LocalizedString;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
@@ -41,6 +42,10 @@ public class OwsLanguageString implements Comparable<OwsLanguageString> {
     public OwsLanguageString(String lang, String value) {
         this.lang = Strings.emptyToNull(lang);
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
+    }
+
+    public OwsLanguageString(LocalizedString s) {
+        this(s.getLangString(), s.getText());
     }
 
     public OwsLanguageString(String value) {

@@ -62,12 +62,10 @@ public class SweSimpleDataRecord extends SweAbstractDataRecord {
     }
 
     @Override
-    public SweAbstractDataComponent clone() throws CloneNotSupportedException {
+    public SweSimpleDataRecord copy() {
         SweSimpleDataRecord clone = new SweSimpleDataRecord();
         copyValueTo(clone);
-        for (SweField field : getFields()) {
-            clone.addField(field.clone());
-        }
+        getFields().stream().map(SweField::copy).forEach(clone::addField);
         return clone;
     }
 }

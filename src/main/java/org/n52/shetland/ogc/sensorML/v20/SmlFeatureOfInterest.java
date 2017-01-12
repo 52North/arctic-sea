@@ -17,6 +17,8 @@
 package org.n52.shetland.ogc.sensorML.v20;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -108,14 +110,14 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     @Override
-    public SmlFeatureOfInterest clone() throws CloneNotSupportedException {
+    public SmlFeatureOfInterest copy() {
         SmlFeatureOfInterest clone = new SmlFeatureOfInterest();
         copyValueTo(clone);
         if (isSetFeaturesOfInterest()) {
-            clone.addFeaturesOfInterest(Sets.newHashSet(getFeaturesOfInterest()));
+            clone.addFeaturesOfInterest(new HashSet<>(getFeaturesOfInterest()));
         }
         if (isSetFeaturesOfInterestMap()) {
-            clone.addFeaturesOfInterest(Maps.newHashMap(getFeaturesOfInterestMap()));
+            clone.addFeaturesOfInterest(new HashMap<>(getFeaturesOfInterestMap()));
         }
         return clone;
     }

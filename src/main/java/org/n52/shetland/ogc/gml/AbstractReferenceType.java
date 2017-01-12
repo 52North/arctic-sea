@@ -16,10 +16,9 @@
  */
 package org.n52.shetland.ogc.gml;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import java.util.Objects;
 
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
 public class AbstractReferenceType implements Comparable<AbstractReferenceType> {
@@ -167,11 +166,8 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
 
     @Override
     public int compareTo(AbstractReferenceType o) {
-        return checkNotNull(o) == this ? 0
-                       : getHref() == o.getHref() ? 0
-                                 : getHref() == null ? -1
-                                           : o.getHref() == null ? 1
-                                                     : getHref().compareTo(o.getHref());
+        Objects.requireNonNull(o);
+        return Comparables.compare(getHref(), o.getHref());
     }
 
     @Override

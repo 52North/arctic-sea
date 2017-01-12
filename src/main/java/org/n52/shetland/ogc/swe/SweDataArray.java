@@ -211,17 +211,17 @@ public class SweDataArray extends SweAbstractDataComponent {
     }
 
     @Override
-    public SweDataArray clone() throws CloneNotSupportedException {
+    public SweDataArray copy() {
         SweDataArray clone = new SweDataArray();
         copyValueTo(clone);
         if (isSetElementTyp()) {
-            clone.setElementType(getElementType().clone());
+            clone.setElementType(getElementType().copy());
         }
         if (isSetElementCount()) {
-            clone.setElementCount(getElementCount().clone());
+            clone.setElementCount(getElementCount().copy());
         }
         if (isSetEncoding()) {
-            clone.setEncoding(getEncoding().clone());
+            clone.setEncoding(getEncoding().copy());
         }
         if (isSetValues()) {
             clone.setValues(Lists.newArrayList(getValues()));

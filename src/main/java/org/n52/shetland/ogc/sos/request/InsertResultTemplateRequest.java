@@ -33,7 +33,7 @@ import org.n52.shetland.util.JavaHelper;
 public class InsertResultTemplateRequest extends OwsServiceRequest {
 
     private OmObservationConstellation observationTemplate;
-    private SosResultTemplate resultTemplate;
+    private final SosResultTemplate resultTemplate = new SosResultTemplate();
 
     public InsertResultTemplateRequest() {
         super(null, null, Sos2Constants.Operations.InsertResultTemplate.name());

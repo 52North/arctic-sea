@@ -23,7 +23,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.util.CollectionHelper;
 
 /**

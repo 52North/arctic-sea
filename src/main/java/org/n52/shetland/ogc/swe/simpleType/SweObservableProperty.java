@@ -75,10 +75,10 @@ public class SweObservableProperty extends SweAbstractSimpleType<String> {
     }
 
     @Override
-    public SweObservableProperty clone() {
-        SweObservableProperty clone = new SweObservableProperty();
-        copyValueTo(clone);
-        clone.setValue(getValue());
-        return clone;
+    public SweObservableProperty copy() {
+        SweObservableProperty copy = new SweObservableProperty();
+        copyValueTo(copy);
+        copy.setValue(getValue());
+        return copy;
     }
 }

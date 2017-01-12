@@ -26,8 +26,8 @@ import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.ISODateTimeFormat;
-import org.joda.time.format.ISOPeriodFormat;
 
+import org.n52.janmayen.Times;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -59,7 +59,6 @@ public final class DateTimeHelper {
     private static final int YEAR_MONTH_DAY_HOUR_MINUTE = 16;
     private static final int YEAR_MONTH_DAY_HOUR_MINUTE_SECOND = 19;
     private static final String Z = "Z";
-    private static final String UTC_OFFSET = "+00:00";
     private static final double SECONDS_OF_DAY = 86400;
 
     /**
@@ -86,8 +85,7 @@ public final class DateTimeHelper {
             return null;
         }
         try {
-            if (timeString.contains("+") || Pattern.matches("-\\d", timeString) || timeString.contains(Z)
-                    || timeString.contains("z")) {
+            if (timeString.contains("+") || Pattern.matches("-\\d", timeString) || timeString.contains(Z) || timeString.contains("z")) {
                 return ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(timeString);
             } else {
                 return ISODateTimeFormat.dateOptionalTimeParser().withZone(DateTimeZone.UTC).parseDateTime(timeString);
@@ -152,10 +150,7 @@ public final class DateTimeHelper {
      * @return ISO-8601 formatted time String
      */
     public static String formatDateTime2IsoString(DateTime dateTime) {
-        if (dateTime == null) {
-            return getZeroUtcDateTime().toString().replace(Z, UTC_OFFSET);
-        }
-        return dateTime.toString();
+        return Times.encodeDateTime(dateTime);
     }
 
     /**
@@ -235,16 +230,10 @@ public final class DateTimeHelper {
      */
     public static String formatDateTime2FormattedString(DateTime dateTime, String dateFormat)
             throws DateTimeFormatException {
-        if (Strings.isNullOrEmpty(dateFormat)) {
-            return formatDateTime2IsoString(dateTime);
-        } else if (dateTime == null) {
-            return getZeroUtcDateTime().toString(DateTimeFormat.forPattern(dateFormat));
-        } else {
-            try {
-               return dateTime.toString(DateTimeFormat.forPattern(dateFormat)).replace(Z, UTC_OFFSET);
-            } catch (IllegalArgumentException iae) {
-                throw new DateTimeFormatException(dateTime, iae);
-            }
+        try {
+            return Times.encodeDateTime(dateTime, dateFormat);
+        } catch (IllegalArgumentException e) {
+            throw new DateTimeFormatException(e);
         }
     }
 
@@ -307,10 +296,6 @@ public final class DateTimeHelper {
         return Optional.ofNullable(dateTime).map(dt -> dt.withZone(DateTimeZone.UTC)).orElse(ZERO);
     }
 
-    private static DateTime getZeroUtcDateTime() {
-        return ZERO;
-    }
-
     public static int getTimeLengthBeforeTimeZone(String time) {
         String valueSplit = null;
         if (time.contains("Z")) {
@@ -364,7 +349,7 @@ public final class DateTimeHelper {
      * @return Period object of duration
      */
     public static Period parseDuration(String duration) {
-        return ISOPeriodFormat.standard().parsePeriod(duration);
+        return Times.decodePeriod(duration);
     }
 
     /**
@@ -425,14 +410,7 @@ public final class DateTimeHelper {
      * @return Max of two dates
      */
     public static DateTime max(DateTime dt1, DateTime dt2) {
-        if (dt2 == null) {
-            return dt1;
-        } else if (dt1 == null) {
-            return dt2;
-        } else if (dt2.isAfter(dt1)) {
-            return dt2;
-        }
-        return dt1;
+        return Times.max(dt1, dt2);
     }
 
     /**

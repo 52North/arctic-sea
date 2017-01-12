@@ -106,14 +106,14 @@ public class SweTextEncoding extends SweAbstractEncoding {
     }
 
     @Override
-    public SweTextEncoding clone() {
-        SweTextEncoding clone = new SweTextEncoding();
-        clone.setBlockSeparator(getBlockSeparator());
-        clone.setCollapseWhiteSpaces(isCollapseWhiteSpaces());
-        clone.setDecimalSeparator(getDecimalSeparator());
-        clone.setTokenSeparator(getTokenSeparator());
-        clone.setXml(getXml());
-        return clone;
+    public SweTextEncoding copy() {
+        SweTextEncoding copy = new SweTextEncoding();
+        copy.setBlockSeparator(getBlockSeparator());
+        copy.setCollapseWhiteSpaces(isCollapseWhiteSpaces());
+        copy.setDecimalSeparator(getDecimalSeparator());
+        copy.setTokenSeparator(getTokenSeparator());
+        copy.setXml(getXml());
+        return copy;
     }
 
 }

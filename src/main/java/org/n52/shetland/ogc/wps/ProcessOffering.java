@@ -92,4 +92,32 @@ public class ProcessOffering implements Comparable<ProcessOffering> {
     public int compareTo(ProcessOffering o) {
         return getProcessDescription().compareTo(o.getProcessDescription());
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 47 * hash + Objects.hashCode(this.processDescription);
+        hash = 47 * hash + Objects.hashCode(this.jobControlOptions);
+        hash = 47 * hash + Objects.hashCode(this.outputTransmissionModes);
+        hash = 47 * hash + Objects.hashCode(this.processModel);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProcessOffering other = (ProcessOffering) obj;
+        return Objects.equals(this.getProcessModel(), other.getProcessModel()) &&
+               Objects.equals(this.getProcessDescription(), other.getProcessDescription()) &&
+               Objects.equals(this.getJobControlOptions(), other.getJobControlOptions()) &&
+               Objects.equals(this.getOutputTransmissionModes(), other.getOutputTransmissionModes());
+    }
 }

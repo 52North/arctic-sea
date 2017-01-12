@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
@@ -128,7 +129,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      * {@code featureOfInterest}, {@code observedProperty} and {@code procedure}
      * .
      */
-    public static class DataAvailability {
+    public static class DataAvailability implements Copyable<DataAvailability> {
 
         private final ReferenceType featureOfInterest;
 
@@ -365,16 +366,16 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         @Override
-        public DataAvailability clone() {
-            DataAvailability dataAvailability
+        public DataAvailability copy() {
+            DataAvailability copy
                     = new DataAvailability(procedure, observedProperty, featureOfInterest, offering,
                                            new TimePeriod(phenomenonTime.getStart(), phenomenonTime.getEnd()));
-            dataAvailability.setOffering(offering);
-            dataAvailability.setCount(getCount());
-            dataAvailability.setFormatDescriptor(getFormatDescriptor().clone());
-            dataAvailability.setMetadata(getMetadata());
-            dataAvailability.setResultTimes(getResultTimes());
-            return dataAvailability;
+            copy.setOffering(offering);
+            copy.setCount(getCount());
+            copy.setFormatDescriptor(getFormatDescriptor().copy());
+            copy.setMetadata(getMetadata());
+            copy.setResultTimes(getResultTimes());
+            return copy;
         }
 
         public boolean merge(DataAvailability toMerge, boolean differentOfferings) {
@@ -404,7 +405,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      * @since 4.4.0
      *
      */
-    public static class FormatDescriptor {
+    public static class FormatDescriptor implements Copyable<FormatDescriptor> {
         private ProcedureDescriptionFormatDescriptor procedureDescriptionFormatDescriptor;
 
         private final Set<ObservationFormatDescriptor> observationFormatDescriptors;
@@ -453,7 +454,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         @Override
-        public FormatDescriptor clone() {
+        public FormatDescriptor copy() {
             return new FormatDescriptor(procedureDescriptionFormatDescriptor,
                                         Sets.newHashSet(observationFormatDescriptors));
         }
@@ -464,7 +465,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      * @since 4.4.0
      *
      */
-    public static class ObservationFormatDescriptor {
+    public static class ObservationFormatDescriptor implements Copyable<ObservationFormatDescriptor> {
         private String responseFormat;
 
         private final Set<String> observationTypes;
@@ -511,7 +512,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         @Override
-        public ObservationFormatDescriptor clone() {
+        public ObservationFormatDescriptor copy() {
             return new ObservationFormatDescriptor(responseFormat, Sets.newHashSet(observationTypes));
         }
     }
@@ -521,7 +522,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      * @since 4.4.0
      *
      */
-    public static class ProcedureDescriptionFormatDescriptor {
+    public static class ProcedureDescriptionFormatDescriptor implements Copyable<ProcedureDescriptionFormatDescriptor> {
 
         private String procedureDescriptionFormat;
 
@@ -549,7 +550,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         @Override
-        public ProcedureDescriptionFormatDescriptor clone() {
+        public ProcedureDescriptionFormatDescriptor copy() {
             return new ProcedureDescriptionFormatDescriptor(procedureDescriptionFormat);
         }
     }

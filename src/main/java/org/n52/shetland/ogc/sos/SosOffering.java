@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.sos;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Map;
@@ -25,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
@@ -133,11 +133,8 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     @Override
     public int compareTo(SosOffering o) {
-        return checkNotNull(o) == this ? 0
-                : getIdentifier() == o.getIdentifier() ? 0
-                        : getIdentifier() == null ? -1
-                                : o.getIdentifier() == null ? 1
-                                        : getIdentifier().compareTo(o.getIdentifier());
+        Objects.requireNonNull(o);
+        return Comparables.compare(getIdentifier(), o.getIdentifier());
     }
 
     @Override

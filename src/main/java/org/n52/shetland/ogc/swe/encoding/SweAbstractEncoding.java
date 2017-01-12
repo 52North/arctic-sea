@@ -16,11 +16,13 @@
  */
 package org.n52.shetland.ogc.swe.encoding;
 
+import org.n52.janmayen.Copyable;
+
 /**
  * @since 4.0.0
  *
  */
-public abstract class SweAbstractEncoding implements Cloneable {
+public abstract class SweAbstractEncoding implements Copyable<SweAbstractEncoding> {
 
     private String xml;
 
@@ -41,6 +43,4 @@ public abstract class SweAbstractEncoding implements Cloneable {
     public boolean isSetXml() {
         return xml != null && !xml.isEmpty();
     }
-
-    public abstract SweAbstractEncoding clone();
 }

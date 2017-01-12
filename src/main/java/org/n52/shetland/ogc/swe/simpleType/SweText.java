@@ -16,8 +16,9 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import java.util.Objects;
 
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
@@ -69,11 +70,8 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
 
     @Override
     public int compareTo(SweText o) {
-        return checkNotNull(o) == this ? 0
-                : getValue() == o.getValue() ? 0
-                    : getValue() == null ? -1
-                       : o.getValue() == null ? 1
-                          : getValue().compareTo(o.getValue());
+        Objects.requireNonNull(o);
+        return Comparables.compare(getValue(), o.getValue());
     }
 
     @Override
@@ -87,13 +85,13 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
     }
 
     @Override
-    public SweText clone() {
-        SweText clone = new SweText();
-        copyValueTo(clone);
+    public SweText copy() {
+        SweText copy = new SweText();
+        copyValueTo(copy);
         if (isSetValue()) {
-            clone.setValue(getValue());
+            copy.setValue(getValue());
         }
-        return clone;
+        return copy;
     }
 
 }

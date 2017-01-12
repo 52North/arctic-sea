@@ -16,13 +16,14 @@
  */
 package org.n52.shetland.ogc.swe;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Arrays;
 import java.util.List;
 
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.Lists;
 
 /**
  * @since 4.0.0
@@ -129,15 +130,11 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     @Override
-    public SweVector clone() throws CloneNotSupportedException {
+    public SweVector copy() {
         SweVector clone = new SweVector();
         copyValueTo(clone);
         if (isSetCoordinates()) {
-            List<SweCoordinate<?>> clonedList = Lists.newArrayListWithCapacity(getCoordinates().size());
-            for (SweCoordinate<?> sweCoordinate : getCoordinates()) {
-                clonedList.add(sweCoordinate.clone());
-            }
-            clone.setCoordinates(coordinates);
+            clone.setCoordinates(getCoordinates().stream().map(c -> c.copy()).collect(toList()));
         }
         return clone;
     }
