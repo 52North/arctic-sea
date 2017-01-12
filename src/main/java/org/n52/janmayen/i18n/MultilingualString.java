@@ -27,15 +27,14 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 import org.n52.janmayen.Optionals;
+import org.n52.janmayen.stream.StreamingIterable;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 
-public class MultilingualString implements Iterable<LocalizedString>, Serializable {
+public class MultilingualString implements Serializable, StreamingIterable<LocalizedString> {
     private static final long serialVersionUID = -1120455418520277338L;
     private final Map<Locale, LocalizedString> localizations = new HashMap<>();
 
@@ -138,10 +137,6 @@ public class MultilingualString implements Iterable<LocalizedString>, Serializab
             }
         }
         return mls;
-    }
-
-    public Stream<LocalizedString> stream() {
-        return StreamSupport.stream(spliterator(), false);
     }
 
 }

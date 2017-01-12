@@ -15,11 +15,18 @@ limitations under the License.
 
 This project includes:
 
+  "Java Concurrency in Practice" book annotations under Creative Commons Attribution License, http://creativecommons.org/licenses/by/2.5
   52°North Jan Mayen under The Apache Software License, Version 2.0
+  FindBugs-Annotations under GNU Lesser Public License
+  FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest All under New BSD License
+  Jackson-annotations under The Apache Software License, Version 2.0
+  Jackson-core under The Apache Software License, Version 2.0
+  jackson-databind under The Apache Software License, Version 2.0
   Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   javax.inject under The Apache Software License, Version 2.0
+  Joda-Time under Apache 2
   JUnit under Eclipse Public License 1.0
   SLF4J API Module under MIT License
   SLF4J Simple Binding under MIT License
