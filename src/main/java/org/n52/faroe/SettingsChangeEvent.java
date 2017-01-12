@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,17 +28,17 @@ import org.n52.janmayen.event.Event;
  */
 public class SettingsChangeEvent implements Event {
 
-    private final SettingDefinition<?, ?> setting;
+    private final SettingDefinition<?> setting;
     private final SettingValue<?> oldValue;
     private final SettingValue<?> newValue;
 
-    public SettingsChangeEvent(SettingDefinition<?, ?> setting, SettingValue<?> oldValue, SettingValue<?> newValue) {
+    public SettingsChangeEvent(SettingDefinition<?> setting, SettingValue<?> oldValue, SettingValue<?> newValue) {
         this.setting = setting;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
-    public SettingDefinition<?, ?> getSetting() {
+    public SettingDefinition<?> getSetting() {
         return setting;
     }
 

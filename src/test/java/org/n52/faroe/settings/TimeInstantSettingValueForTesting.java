@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,20 +33,18 @@ public class TimeInstantSettingValueForTesting implements SettingValue<DateTime>
     }
 
     @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
     public DateTime getValue() {
         return value;
     }
 
     @Override
-    public SettingValue<DateTime> setKey(String key) {
-        this.key = key;
-        return this;
-    }
-
-    @Override
-    public SettingValue<DateTime> setValue(DateTime value) {
+    public void setValue(DateTime value) {
         this.value = value;
-        return this;
     }
 
     @Override

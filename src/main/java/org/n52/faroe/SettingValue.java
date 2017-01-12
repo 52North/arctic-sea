@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,17 +38,13 @@ public interface SettingValue<T> {
 
     /**
      * @param key the key of this setting
-     *
-     * @return {@code this}
      */
-    SettingValue<T> setKey(String key);
+    void setKey(String key);
 
     /**
      * @param value the value of this setting
-     *
-     * @return {@code this}
      */
-    SettingValue<T> setValue(T value);
+    void setValue(T value);
 
     /**
      * @return the {@code SettingType} of this value

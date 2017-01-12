@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -60,15 +60,13 @@ public class JsonSettingValue<T> implements SettingValue<T> {
     }
 
     @Override
-    public SettingValue<T> setKey(String key) {
+    public void setKey(String key) {
         this.key = key;
-        return this;
     }
 
     @Override
-    public SettingValue<T> setValue(T value) {
+    public void setValue(T value) {
         this.value = value;
-        return this;
     }
 
     @Override

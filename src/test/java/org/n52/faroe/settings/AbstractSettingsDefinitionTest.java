@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,11 +22,8 @@ import static org.junit.Assert.assertThat;
 import org.junit.Test;
 
 import org.n52.faroe.SettingDefinitionGroup;
-import org.n52.faroe.SettingDefinitionGroup;
-import org.n52.faroe.settings.BooleanSettingDefinition;
 
 public class AbstractSettingsDefinitionTest {
-
 
     @Test
     public void isNotEquals() {
@@ -34,26 +31,35 @@ public class AbstractSettingsDefinitionTest {
     }
 
     private BooleanSettingDefinition getBooleanSettingOne() {
-        return getDefaultBooleanSetting().setKey("key.one")
-         .setTitle("Test setting one")
-            .setDescription("Test setting one");
+        BooleanSettingDefinition def = getDefaultBooleanSetting();
+        def.setKey("key.one");
+        def.setTitle("Test setting one");
+        def.setDescription("Test setting one");
+        return def;
     }
 
     private BooleanSettingDefinition getBooleanSettingTwo() {
-        return getDefaultBooleanSetting().setKey("key.two")
-                 .setTitle("Test setting two")
-                    .setDescription("Test setting two");
-
+        BooleanSettingDefinition def = getDefaultBooleanSetting();
+        def.setKey("key.two");
+        def.setTitle("Test setting two");
+        def.setDescription("Test setting two");
+        return def;
     }
 
     private BooleanSettingDefinition getDefaultBooleanSetting() {
-        return new BooleanSettingDefinition()
-        .setGroup(getGroup()).setOrder(1).setDefaultValue(false).setOptional(true);
-
+        BooleanSettingDefinition def = new BooleanSettingDefinition();
+        def.setGroup(getGroup());
+        def.setOrder(1);
+        def.setDefaultValue(false);
+        def.setOptional(true);
+        return def;
     }
 
     private SettingDefinitionGroup getGroup() {
-        return new SettingDefinitionGroup().setTitle("Test").setOrder(2);
+        SettingDefinitionGroup group = new SettingDefinitionGroup();
+        group.setTitle("Test");
+        group.setOrder(2);
+        return group;
     }
 
 }

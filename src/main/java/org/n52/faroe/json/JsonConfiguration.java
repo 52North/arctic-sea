@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -51,24 +51,20 @@ public class JsonConfiguration implements Destroyable,
                                           Producer<ObjectNode>,
                                           FileSettingsConfiguration {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(JsonConfiguration.class);
-
-    public static final String DEFAULT_FILE_NAME = "configuration.json";
-    public static final int DEFAULT_WRITE_TIMEOUT = 1000;
-
-    private final ReadWriteLock lock = new ReentrantReadWriteLock();
-    private final JsonNodeFactory nodeFactory = Json.nodeFactory();
+    private static final Logger LOG = LoggerFactory.getLogger(JsonConfiguration.class);
+    private static final String DEFAULT_FILE_NAME = "configuration.json";
+    private static final int DEFAULT_WRITE_TIMEOUT = 1000;
     private String fileName = DEFAULT_FILE_NAME;
     private int writeTimeout = DEFAULT_WRITE_TIMEOUT;
+    private final ReadWriteLock lock = new ReentrantReadWriteLock();
+    private final JsonNodeFactory nodeFactory = Json.nodeFactory();
     private ObjectNode configuration;
     private File file;
     private ConfigLocationProvider configLocationProvider;
     private Debouncer debouncer;
 
     /**
-     * Initializes this configuration by initializing a {@link Debouncer} for
-     * writes and reading the configuration file.
+     * Initializes this configuration by initializing a {@link Debouncer} for writes and reading the configuration file.
      */
     public void init() {
         writeLock().lock();
@@ -135,8 +131,7 @@ public class JsonConfiguration implements Destroyable,
     }
 
     /**
-     * Sets the time to wait for additional changes before the configuration is
-     * persisted.
+     * Sets the time to wait for additional changes before the configuration is persisted.
      *
      * @param writeTimeout the time out in milliseconds
      */
@@ -181,9 +176,8 @@ public class JsonConfiguration implements Destroyable,
     }
 
     /**
-     * Schedule a write. This will be executed after the configured
-     * {@link #setWriteTimeout timeout} if no further writes are scheduled, else
-     * it will postponed until their are no further requests for {@code timeout}
+     * Schedule a write. This will be executed after the configured {@link #setWriteTimeout timeout} if no further
+     * writes are scheduled, else it will postponed until their are no further requests for {@code timeout}
      * milliseconds.
      *
      * @see Debouncer#call()
@@ -192,6 +186,7 @@ public class JsonConfiguration implements Destroyable,
 //        LOG.debug("Scheduling write");
         this.debouncer.call();
     }
+
     /**
      * Do not wait, but persist the settings right now.
      */
@@ -219,32 +214,28 @@ public class JsonConfiguration implements Destroyable,
     /**
      * Reads the configuration, if the file exists.
      *
-     * @param file the file holding the configuration
+     * @param f the file holding the configuration
      *
      * @return the decoded JSON object
      */
-    private Optional<ObjectNode> readConfiguration(File file) {
-        if (!file.exists()) {
+    private Optional<ObjectNode> readConfiguration(File f) {
+        if (!f.exists()) {
             return Optional.empty();
         }
-        if (!file.isFile()) {
-            throw new ConfigurationError("%s is not a file", file
-                                         .getAbsolutePath());
+        if (!f.isFile()) {
+            throw new ConfigurationError("%s is not a file", f.getAbsolutePath());
         }
-        if (!file.canRead()) {
-            throw new ConfigurationError("%s is not a readable file", file
-                                         .getAbsolutePath());
+        if (!f.canRead()) {
+            throw new ConfigurationError("%s is not a readable file", f.getAbsolutePath());
         }
         try {
-            JsonNode node = Json.loadFile(file);
+            JsonNode node = Json.loadFile(f);
             if (!node.isObject()) {
-                throw new ConfigurationError("%s does not contain a JSON object", file
-                                             .getAbsolutePath());
+                throw new ConfigurationError("%s does not contain a JSON object", f.getAbsolutePath());
             }
             return Optional.of((ObjectNode) node);
         } catch (IOException ex) {
-            throw new ConfigurationError("Could not read " + file
-                                         .getAbsolutePath(), ex);
+            throw new ConfigurationError("Could not read " + f.getAbsolutePath(), ex);
         }
     }
 
@@ -257,6 +248,5 @@ public class JsonConfiguration implements Destroyable,
     public String toString() {
         return "JsonConfiguration{" + "file=" + file + '}';
     }
-
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,6 @@ package org.n52.faroe.settings;
 import java.io.File;
 
 import org.n52.faroe.SettingType;
-import org.n52.faroe.SettingType;
-import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingValue;
 
 /**
@@ -39,20 +37,18 @@ public class FileSettingValueForTesting implements SettingValue<File> {
     }
 
     @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
     public File getValue() {
         return value;
     }
 
     @Override
-    public SettingValue<File> setKey(String key) {
-        this.key = key;
-        return this;
-    }
-
-    @Override
-    public SettingValue<File> setValue(File value) {
+    public void setValue(File value) {
         this.value = value;
-        return this;
     }
 
     @Override

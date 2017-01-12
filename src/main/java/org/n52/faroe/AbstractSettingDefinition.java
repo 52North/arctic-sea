@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,16 +19,14 @@ package org.n52.faroe;
 /**
  * Generic implementation of <code>SettingDefinition</code>.
  *
- * @param <S> the type of the class extending this class
  * @param <T> the type of the value
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinition<S, T>, T> extends AbstractOrdered<S>
-        implements SettingDefinition<S, T> {
+public abstract class AbstractSettingDefinition<T> extends AbstractOrdered implements SettingDefinition<T> {
 
-    private boolean optional = false;
+    private boolean optional;
     private String identifier;
     private String title;
     private String description;
@@ -49,10 +47,8 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S setKey(String key) {
-        this.identifier = key;
-        return (S) this;
+    public void setKey(String k) {
+        this.identifier = k;
     }
 
     @Override
@@ -61,15 +57,13 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     }
 
     @Override
-    public boolean hasDescription() {
-        return hasStringProperty(getDescription());
+    public void setDescription(String d) {
+        this.description = d;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S setDescription(String description) {
-        this.description = description;
-        return (S) this;
+    public boolean hasDescription() {
+        return hasStringProperty(getDescription());
     }
 
     @Override
@@ -78,15 +72,13 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     }
 
     @Override
-    public boolean hasTitle() {
-        return hasStringProperty(getTitle());
+    public void setTitle(String t) {
+        this.title = t;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S setTitle(String title) {
-        this.title = title;
-        return (S) this;
+    public boolean hasTitle() {
+        return hasStringProperty(getTitle());
     }
 
     @Override
@@ -95,10 +87,8 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S setOptional(boolean optional) {
-        this.optional = optional;
-        return (S) this;
+    public void setOptional(boolean o) {
+        this.optional = o;
     }
 
     @Override
@@ -107,15 +97,13 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     }
 
     @Override
-    public boolean hasGroup() {
-        return getGroup() != null;
+    public void setGroup(SettingDefinitionGroup g) {
+        this.group = g;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S setGroup(SettingDefinitionGroup group) {
-        this.group = group;
-        return (S) this;
+    public boolean hasGroup() {
+        return getGroup() != null;
     }
 
     @Override
@@ -124,15 +112,13 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     }
 
     @Override
-    public boolean hasDefaultValue() {
-        return getDefaultValue() != null;
+    public void setDefaultValue(T d) {
+        this.defaultValue = d;
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public S setDefaultValue(T defaultValue) {
-        this.defaultValue = defaultValue;
-        return (S) this;
+    public boolean hasDefaultValue() {
+        return getDefaultValue() != null;
     }
 
     protected boolean hasStringProperty(String s) {
@@ -147,16 +133,16 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof AbstractSettingDefinition) {
-            AbstractSettingDefinition<?, ?> o = (AbstractSettingDefinition<?, ?>) obj;
+            AbstractSettingDefinition<?> o = (AbstractSettingDefinition<?>) obj;
             return (getKey() == null ? o.getKey() == null : getKey().equals(o.getKey())) &&
-                     (getTitle() == null ? o.getTitle() == null : getTitle().equals(o.getTitle())) &&
-                     (getDescription() == null ? o.getDescription() == null : getDescription()
+                   (getTitle() == null ? o.getTitle() == null : getTitle().equals(o.getTitle())) &&
+                   (getDescription() == null ? o.getDescription() == null : getDescription()
                            .equals(o.getDescription())) &&
-                     (getGroup() == null ? o.getGroup() == null : getGroup().equals(o.getGroup())) &&
-                     (getDefaultValue() == null ? o.getDefaultValue() == null : getDefaultValue().equals(o
+                   (getGroup() == null ? o.getGroup() == null : getGroup().equals(o.getGroup())) &&
+                   (getDefaultValue() == null ? o.getDefaultValue() == null : getDefaultValue().equals(o
                            .getDefaultValue())) &&
-                     (getType() == o.getType()) &&
-                     (isOptional() == o.isOptional());
+                   (getType() == o.getType()) &&
+                   (isOptional() == o.isOptional());
         }
         return false;
     }
@@ -171,10 +157,8 @@ public abstract class AbstractSettingDefinition<S extends AbstractSettingDefinit
         return this.type;
     }
 
-    @SuppressWarnings("unchecked")
-    S setType(SettingType type) {
+    void setType(SettingType type) {
         this.type = type;
-        return (S) this;
     }
 
     @Override

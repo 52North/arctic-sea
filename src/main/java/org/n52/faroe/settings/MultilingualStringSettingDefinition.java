@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,7 @@ import org.n52.faroe.AbstractSettingDefinition;
 import org.n52.faroe.SettingType;
 import org.n52.janmayen.i18n.MultilingualString;
 
-public class MultilingualStringSettingDefinition
-        extends AbstractSettingDefinition<MultilingualStringSettingDefinition, MultilingualString> {
+public class MultilingualStringSettingDefinition extends AbstractSettingDefinition<MultilingualString> {
 
     public MultilingualStringSettingDefinition() {
         super(SettingType.MULTILINGUAL_STRING);

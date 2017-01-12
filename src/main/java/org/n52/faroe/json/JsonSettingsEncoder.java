@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,6 @@ package org.n52.faroe.json;
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
 
-import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -46,15 +45,14 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
 
-
 public class JsonSettingsEncoder {
     private final JsonNodeFactory nodeFactory = Json.nodeFactory();
 
-    public Map<SettingDefinitionGroup, Set<SettingDefinition<?, ?>>> sortByGroup(Set<SettingDefinition<?, ?>> defs) {
+    public Map<SettingDefinitionGroup, Set<SettingDefinition<?>>> sortByGroup(Set<SettingDefinition<?>> defs) {
         return defs.stream().collect(groupingBy(SettingDefinition::getGroup, toSet()));
     }
 
-    public ObjectNode encode(Map<SettingDefinitionGroup, Set<SettingDefinition<?,?>>> grouped) {
+    public ObjectNode encode(Map<SettingDefinitionGroup, Set<SettingDefinition<?>>> grouped) {
         ObjectNode json = nodeFactory.objectNode();
         ArrayNode sections = json.putArray(JSONSettingConstants.SECTIONS_KEY);
         grouped.keySet().stream().sorted().forEach(group -> {
@@ -66,21 +64,20 @@ public class JsonSettingsEncoder {
         return json;
     }
 
-    public ObjectNode encode(Set<SettingDefinition<?,?>> settings) {
+    public ObjectNode encode(Set<SettingDefinition<?>> settings) {
         return settings.stream().sorted()
                 .collect(nodeFactory::objectNode,
                          (j, def) -> j.set(def.getKey(), encode(def)),
                          ObjectNode::setAll);
     }
 
-    public ObjectNode encode(SettingDefinition<?,?> def) {
+    public ObjectNode encode(SettingDefinition<?> def) {
         ObjectNode j = nodeFactory.objectNode();
         j.put(JSONSettingConstants.TITLE_KEY, def.getTitle());
         j.put(JSONSettingConstants.DESCRIPTION_KEY, def.getDescription());
         j.put(JSONSettingConstants.TYPE_KEY, getType(def));
         j.put(JSONSettingConstants.REQUIRED_KEY, !def.isOptional());
-        j.set(JSONSettingConstants.DEFAULT_KEY, def.hasDefaultValue() ?
-                                     encodeDefaultValue(def): null);
+        j.set(JSONSettingConstants.DEFAULT_KEY, def.hasDefaultValue() ? encodeDefaultValue(def) : null);
 
         if (def instanceof IntegerSettingDefinition) {
             IntegerSettingDefinition iDef = (IntegerSettingDefinition) def;
@@ -102,48 +99,23 @@ public class JsonSettingsEncoder {
         return j;
     }
 
-    protected String getType(SettingDefinition<?,?> def) {
-        return getType(def.getType());
+    protected String getType(SettingDefinition<?> def) {
+        return def.getType().toString();
     }
 
-    protected String getType(SettingType type)
-            throws IllegalArgumentException {
-        switch (type) {
-            case INTEGER:
-                return JSONSettingConstants.INTEGER_TYPE;
-            case NUMERIC:
-                return JSONSettingConstants.NUMBER_TYPE;
-            case BOOLEAN:
-                return JSONSettingConstants.BOOLEAN_TYPE;
-            case TIMEINSTANT:
-                return JSONSettingConstants.STRING_TYPE;
-            case FILE:
-                return JSONSettingConstants.STRING_TYPE;
-            case STRING:
-                return JSONSettingConstants.STRING_TYPE;
-            case URI:
-                return JSONSettingConstants.STRING_TYPE;
-            case MULTILINGUAL_STRING:
-                return JSONSettingConstants.MULTILINGUAL_TYPE;
-            case CHOICE:
-                return JSONSettingConstants.CHOICE_TYPE;
-            default:
-                throw new IllegalArgumentException(String.format("Unknown Type %s", type));
-        }
-    }
 
-    public JsonNode encodeDefaultValue(SettingDefinition<?,?> def) {
+    public JsonNode encodeDefaultValue(SettingDefinition<?> def) {
         if (def == null) {
             return nodeFactory.nullNode();
         }
-        return encodeValue(def.getType(), def.getDefaultValue());
+        return JsonSettingsEncoder.this.encodeValue(def.getType(), def.getDefaultValue());
     }
 
     public JsonNode encodeValue(SettingValue<?> def) {
         if (def == null) {
             return nodeFactory.nullNode();
         }
-        return encodeValue(def.getType(), def.getValue());
+        return JsonSettingsEncoder.this.encodeValue(def.getType(), def.getValue());
     }
 
     public JsonNode encodeValue(SettingType type, Object value) {
@@ -180,20 +152,22 @@ public class JsonSettingsEncoder {
         }
     }
 
-    public JsonNode encodeValues(Map<SettingDefinition<?, ?>, SettingValue<?>> settings) {
+    public JsonNode encodeValues(Map<SettingDefinition<?>, SettingValue<?>> settings) {
         return settings.entrySet().stream()
-                .sorted(Comparator.comparing(Entry::getKey))
-                .collect(nodeFactory::objectNode, (o, e) -> {
-                     SettingDefinition<?, ?> def = e.getKey();
-                     Object value = Optional.ofNullable(e.getValue())
-                             .map(v -> (Object) v.getValue())
-                             .orElseGet(def::getDefaultValue);
-                     o.set(def.getKey(), encodeValue(def.getType(), value));
-                 }, ObjectNode::setAll);
+                .sorted(Entry.comparingByKey())
+                .collect(nodeFactory::objectNode, this::encodeValue, ObjectNode::setAll);
     }
 
     private TextNode textNode(Object value) {
         return nodeFactory.textNode(String.valueOf(value));
+    }
+
+    private void encodeValue(ObjectNode o, Entry<SettingDefinition<?>, SettingValue<?>> e) {
+        SettingDefinition<?> def = e.getKey();
+        Object value = Optional.ofNullable(e.getValue())
+                .map(v -> (Object) v.getValue())
+                .orElseGet(def::getDefaultValue);
+        o.set(def.getKey(), encodeValue(def.getType(), value));
     }
 
 }

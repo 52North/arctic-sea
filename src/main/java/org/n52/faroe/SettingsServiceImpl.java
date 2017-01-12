@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,7 +52,6 @@ import org.n52.janmayen.function.Functions;
  * classes have to call {@code configure(java.lang.Object)} manually.
  *
  *
- * @see AdministratorUser
  * @see SettingDefinition
  * @see SettingValue
  * @see Configurable
@@ -64,8 +63,8 @@ public class SettingsServiceImpl implements SettingsService {
     private static final Logger LOG = LoggerFactory.getLogger(SettingsServiceImpl.class);
     private final Map<String, Set<ConfigurableObject>> configurableObjects = new HashMap<>();
     private final ReadWriteLock configurableObjectsLock = new ReentrantReadWriteLock();
-    private Set<SettingDefinition<?, ?>> definitions;
-    private Map<String, SettingDefinition<?, ?>> definitionByKey;
+    private Set<SettingDefinition<?>> definitions;
+    private Map<String, SettingDefinition<?>> definitionByKey;
     private SettingsDao settingsManagerDao;
     private SettingValueFactory settingValueFactory;
     private EventBus serviceEventBus;
@@ -86,11 +85,10 @@ public class SettingsServiceImpl implements SettingsService {
     }
 
     @Inject
-    public void setSettingDefinitions(
-            Collection<SettingDefinition<?, ?>> definitions) {
-        this.definitions = new HashSet<>(definitions.size());
-        this.definitionByKey = new HashMap<>(definitions.size());
-        definitions.forEach(definition -> {
+    public void setSettingDefinitions(Collection<SettingDefinition<?>> def) {
+        this.definitions = new HashSet<>(def.size());
+        this.definitionByKey = new HashMap<>(def.size());
+        def.forEach(definition -> {
             this.definitions.add(definition);
             if (this.definitionByKey.put(definition.getKey(), definition) != null) {
                 LOG.warn("Duplicate setting definition for key {}", definition.getKey());
@@ -104,7 +102,7 @@ public class SettingsServiceImpl implements SettingsService {
      * @return the definitions
      */
     @Override
-    public Set<SettingDefinition<?, ?>> getSettingDefinitions() {
+    public Set<SettingDefinition<?>> getSettingDefinitions() {
         return Collections.unmodifiableSet(this.definitions);
     }
 
@@ -127,7 +125,7 @@ public class SettingsServiceImpl implements SettingsService {
             return;
         }
 
-        LOG.debug("Configuring {}", object);
+        LOG.debug("Configuring object {}", object);
 
         for (Method method : clazz.getMethods()) {
             Setting s = method.getAnnotation(Setting.class);
@@ -136,7 +134,7 @@ public class SettingsServiceImpl implements SettingsService {
                 if (key == null || key.isEmpty()) {
                     throw new ConfigurationError(String.format("Invalid value for @Setting: '%s'", key));
                 } else if (getDefinitionByKey(key) == null) {
-                    throw new ConfigurationError(String.format("No SettingDefinition found for key %s", key));
+                    throw noSettingDefinitionFound(key);
                 } else if (method.getParameterTypes().length != 1) {
                     throw new ConfigurationError(String.format(
                             "Method %s annotated with @Setting in %s has a invalid method signature", method, clazz));
@@ -150,6 +148,22 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
 
+    private void configure(ConfigurableObject co) {
+        LOG.debug("Configuring {}", co);
+        this.configurableObjectsLock.writeLock().lock();
+        try {
+            this.configurableObjects.computeIfAbsent(co.getKey(), Functions.forSupplier(HashSet::new)).add(co);
+        } finally {
+            this.configurableObjectsLock.writeLock().unlock();
+        }
+        try {
+            co.configure(getNotNullSettingValue(co));
+        } catch (RuntimeException cpe) {
+            throw new ConfigurationError("Exception configuring " + co
+                                         .getKey(), cpe);
+        }
+    }
+
     /**
      * Get the definition that is defined with the specified key.
      *
@@ -158,7 +172,7 @@ public class SettingsServiceImpl implements SettingsService {
      * @return the definition or {@code null} if there is no definition for the key
      */
     @Override
-    public SettingDefinition<?, ?> getDefinitionByKey(String key) {
+    public SettingDefinition<?> getDefinitionByKey(String key) {
         return this.definitionByKey.get(key);
     }
 
@@ -172,7 +186,7 @@ public class SettingsServiceImpl implements SettingsService {
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> SettingValue<T> getSetting(SettingDefinition<?, T> key) {
+    public <T> SettingValue<T> getSetting(SettingDefinition<T> key) {
         return (SettingValue<T>) this.settingsManagerDao.getSettingValue(key.getKey());
     }
 
@@ -187,7 +201,7 @@ public class SettingsServiceImpl implements SettingsService {
     @SuppressWarnings("unchecked")
     @Override
     public <T> SettingValue<T> getSetting(String key) {
-        SettingDefinition<?, ?> def = getDefinitionByKey(key);
+        SettingDefinition<?> def = getDefinitionByKey(key);
         if (def == null) {
             return null;
         }
@@ -200,18 +214,18 @@ public class SettingsServiceImpl implements SettingsService {
      * @return all values by definition
      */
     @Override
-    public Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings() {
+    public Map<SettingDefinition<?>, SettingValue<?>> getSettings() {
         Set<SettingValue<?>> values = this.settingsManagerDao.getSettingValues();
-        Map<SettingDefinition<?, ?>, SettingValue<?>> settingsByDefinition = new HashMap<>(values.size());
+        Map<SettingDefinition<?>, SettingValue<?>> settingsByDefinition = new HashMap<>(values.size());
         values.forEach(value -> {
-            final SettingDefinition<?, ?> definition = getDefinitionByKey(value.getKey());
+            final SettingDefinition<?> definition = getDefinitionByKey(value.getKey());
             if (definition == null) {
                 LOG.warn("No definition for '{}' found.", value.getKey());
             } else {
                 settingsByDefinition.put(definition, value);
             }
         });
-        HashSet<SettingDefinition<?, ?>> nullValues = new HashSet<>(getSettingDefinitions());
+        HashSet<SettingDefinition<?>> nullValues = new HashSet<>(getSettingDefinitions());
         nullValues.removeAll(settingsByDefinition.keySet());
         nullValues.forEach(s -> settingsByDefinition.put(s, null));
         return settingsByDefinition;
@@ -225,7 +239,7 @@ public class SettingsServiceImpl implements SettingsService {
      * @throws ConfigurationError if there is a problem deleting the setting
      */
     @Override
-    public void deleteSetting(SettingDefinition<?, ?> setting)
+    public void deleteSetting(SettingDefinition<?> setting)
             throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting.getKey());
         if (oldValue != null) {
@@ -246,13 +260,13 @@ public class SettingsServiceImpl implements SettingsService {
     /**
      * Applies the a new setting to all {@code ConfiguredObject}s. If an error occurs the the old value is reapplied.
      *
-     * @param setting the definition
+     * @param setting  the definition
      * @param oldValue the old value (or {@code null} if there is none)
      * @param newValue the new value (or {@code null} if there is none)
      *
      * @throws ConfigurationError if there is a error configuring the objects
      */
-    private void applySetting(SettingDefinition<?, ?> setting, SettingValue<?> oldValue, SettingValue<?> newValue)
+    private void applySetting(SettingDefinition<?> setting, SettingValue<?> oldValue, SettingValue<?> newValue)
             throws ConfigurationError {
         List<ConfigurableObject> changed = new LinkedList<>();
         ConfigurationError e = null;
@@ -288,22 +302,6 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
 
-    private void configure(ConfigurableObject co) {
-        LOG.debug("Configuring {}", co);
-        this.configurableObjectsLock.writeLock().lock();
-        try {
-            this.configurableObjects.computeIfAbsent(co.getKey(), Functions.forSupplier(HashSet::new)).add(co);
-        } finally {
-            this.configurableObjectsLock.writeLock().unlock();
-        }
-        try {
-            co.configure(getNotNullSettingValue(co));
-        } catch (RuntimeException cpe) {
-            throw new ConfigurationError("Exception configuring " + co
-                                         .getKey(), cpe);
-        }
-    }
-
     @SuppressWarnings("unchecked")
     private SettingValue<Object> getNotNullSettingValue(ConfigurableObject co) {
         return getNotNullSettingValue(co.getKey());
@@ -313,9 +311,9 @@ public class SettingsServiceImpl implements SettingsService {
     private SettingValue<Object> getNotNullSettingValue(String key) {
         SettingValue<Object> val = (SettingValue<Object>) this.settingsManagerDao.getSettingValue(key);
         if (val == null) {
-            SettingDefinition<?, ?> def = getDefinitionByKey(key);
+            SettingDefinition<?> def = getDefinitionByKey(key);
             if (def == null) {
-                throw new ConfigurationError(String.format("No SettingDefinition found for key %s", key));
+                throw noSettingDefinitionFound(key);
             }
             val = (SettingValue<Object>) getSettingFactory().newSettingValue(def, null);
             if (def.isOptional()) {
@@ -323,9 +321,11 @@ public class SettingsServiceImpl implements SettingsService {
                 this.settingsManagerDao.saveSettingValue(val);
             } else if (def.hasDefaultValue()) {
                 LOG.debug("Using default value '{}' for required setting {}", def.getDefaultValue(), key);
-                this.settingsManagerDao.saveSettingValue(val.setValue(def.getDefaultValue()));
+                val.setValue(def.getDefaultValue());
+                this.settingsManagerDao.saveSettingValue(val);
             } else {
-                throw new ConfigurationError(String.format("No value found for required Setting '%s' with no default value.", key));
+                throw new ConfigurationError(String.format(
+                        "No value found for required Setting '%s' with no default value.", key));
             }
         }
         return val;
@@ -348,7 +348,7 @@ public class SettingsServiceImpl implements SettingsService {
         if (newValue.getKey() == null) {
             throw new NullPointerException("newValue.key can not be null");
         }
-        SettingDefinition<?, ?> def = getDefinitionByKey(newValue.getKey());
+        SettingDefinition<?> def = getDefinitionByKey(newValue.getKey());
 
         if (def == null) {
             throw new IllegalArgumentException("newValue.key is invalid");
@@ -400,6 +400,10 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
 
+    private static ConfigurationError noSettingDefinitionFound(String key) {
+        return new ConfigurationError(String.format("No SettingDefinition found for key %s", key));
+    }
+
     private static class ConfigurableObject {
 
         private final Method method;
@@ -411,7 +415,7 @@ public class SettingsServiceImpl implements SettingsService {
          *
          * @param method the method of the target
          * @param target the target object
-         * @param key the settings key
+         * @param key    the settings key
          */
         ConfigurableObject(Method method, Object target, String key) {
             this.method = method;
@@ -503,18 +507,13 @@ public class SettingsServiceImpl implements SettingsService {
                 return false;
             }
             final ConfigurableObject other = (ConfigurableObject) obj;
-            if (getMethod() != other.getMethod() && (getMethod() == null ||
-                 !getMethod().equals(other
-                                                             .getMethod()))) {
+            if (getMethod() != other.getMethod() && (getMethod() == null || !getMethod().equals(other.getMethod()))) {
                 return false;
             }
-            if (getTarget() != other.getTarget() && (getTarget() == null ||
-                 !getTarget().equals(other
-                                                             .getTarget()))) {
+            if (getTarget() != other.getTarget() && (getTarget() == null || !getTarget().equals(other.getTarget()))) {
                 return false;
             }
-            return !((getKey() == null) ? (other.getKey() != null) : !getKey()
-                    .equals(other.getKey()));
+            return !((getKey() == null) ? (other.getKey() != null) : !getKey().equals(other.getKey()));
         }
     }
 

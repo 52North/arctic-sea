@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +16,7 @@
  */
 package org.n52.faroe.settings;
 
-
 import org.n52.faroe.SettingType;
-import org.n52.faroe.SettingType;
-import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingValue;
 import org.n52.janmayen.i18n.MultilingualString;
 
@@ -39,20 +36,18 @@ public class MultilingualStringValueForTesting implements
     }
 
     @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
     public MultilingualString getValue() {
         return this.value;
     }
 
     @Override
-    public SettingValue<MultilingualString> setKey(String key) {
-        this.key = key;
-        return this;
-    }
-
-    @Override
-    public SettingValue<MultilingualString> setValue(MultilingualString value) {
+    public void setValue(MultilingualString value) {
         this.value = value;
-        return this;
     }
 
     @Override

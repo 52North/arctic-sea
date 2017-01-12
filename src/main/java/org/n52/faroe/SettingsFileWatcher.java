@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,6 @@
  */
 package org.n52.faroe;
 
-import static java.nio.file.StandardWatchEventKinds.OVERFLOW;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;
@@ -52,7 +51,8 @@ import com.google.common.base.MoreObjects;
  * <pre><bean class="org.n52.iceland.config.settings.BooleanSettingDefinition">
  *       <property name="key" value="filewatcher.enabled" />
  *       <property name="title" value="Enable configuration file watcher" />
- *       <property name="description" value="If enabled, the configuration file will be reloaded when changed on the disk." />
+ *       <property name="description"
+ *                 value="If enabled, the configuration file will be reloaded when changed on the disk." />
  *       <property name="order" value="1.0" />
  *       <property name="group" ref="watcherSettingDefinitionGroup" />
  *       <property name="defaultValue" value="false" />
@@ -64,17 +64,11 @@ import com.google.common.base.MoreObjects;
 public class SettingsFileWatcher implements Constructable, Destroyable {
 
     private static final String FILE_WATCHER_ENABLED = "filewatcher.enabled";
-
     private static final Logger LOG = LoggerFactory.getLogger(SettingsFileWatcher.class);
-
     private SettingsService settingsService;
-
     private FileSettingsConfiguration fileConfiguration;
-
     private boolean enabled;
-
     private WatchService watchService;
-
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     public SettingsFileWatcher() {
@@ -109,7 +103,11 @@ public class SettingsFileWatcher implements Constructable, Destroyable {
 
         try {
             this.watchService = FileSystems.getDefault().newWatchService();
-            configFilePath.getParent().register(this.watchService, StandardWatchEventKinds.ENTRY_MODIFY);
+            Path parent = configFilePath.getParent();
+            if (parent == null) {
+                throw new ConfigurationError("Can not get parent directory of config file");
+            }
+            parent.register(this.watchService, StandardWatchEventKinds.ENTRY_MODIFY);
         } catch (IOException e) {
             throw new ConfigurationError("Error creating and registering watch service", e);
         }
@@ -141,16 +139,14 @@ public class SettingsFileWatcher implements Constructable, Destroyable {
                 .toString();
     }
 
-    private static class Watcher implements Runnable {
+    private static final class Watcher implements Runnable {
 
-        private WatchService service;
-
+        private final WatchService service;
         private final SettingsService settings;
-
         private final FileSettingsConfiguration fileConfiguration;
 
         private Watcher(WatchService watchService, SettingsService settingsService,
-                                                   FileSettingsConfiguration fileConfiguration) {
+                        FileSettingsConfiguration fileConfiguration) {
             this.service = watchService;
             this.settings = settingsService;
             this.fileConfiguration = fileConfiguration;
@@ -161,12 +157,10 @@ public class SettingsFileWatcher implements Constructable, Destroyable {
             LOG.debug("Starting watcher thread.");
 
             for (;;) {
-
                 // wait for key to be signaled
                 WatchKey key;
                 try {
-                    key = service.take(); // instant
-//                    key = service.poll(intervalSeconds, TimeUnit.SECONDS);
+                    key = service.take();
                 } catch (InterruptedException e) {
                     LOG.error("Could not take key from watcher", e);
                     return;
@@ -174,7 +168,7 @@ public class SettingsFileWatcher implements Constructable, Destroyable {
 
                 key.pollEvents().forEach(event -> {
                     WatchEvent.Kind<?> kind = event.kind();
-                    if (kind != OVERFLOW) {
+                    if (kind != StandardWatchEventKinds.OVERFLOW) {
                         LOG.trace("Received {} event for file: {}",
                                   event.kind(), event.context());
 

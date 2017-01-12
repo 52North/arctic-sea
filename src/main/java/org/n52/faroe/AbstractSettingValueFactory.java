@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -43,7 +43,6 @@ import org.n52.janmayen.i18n.MultilingualString;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -54,22 +53,40 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     private static final Set<String> VALID_FALSE_VALUES = new HashSet<>(Arrays.asList("false", "no", "off", "0"));
     private static final Set<String> VALID_TRUE_VALUES = new HashSet<>(Arrays.asList("true", "yes", "on", "1"));
 
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<Boolean> newBooleanSettingValue(String key, Boolean value);
+
     @Override
     public SettingValue<Boolean> newBooleanSettingValue(BooleanSettingDefinition setting, String stringValue) {
         return newBooleanSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Boolean> newBooleanSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newBooleanSettingValue().setValue(parseBoolean(stringValue)).setKey(setting.getKey());
+    private SettingValue<Boolean> newBooleanSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                              String stringValue) {
+        return newBooleanSettingValue(setting.getKey(), parseBoolean(stringValue));
     }
+
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<Integer> newIntegerSettingValue(String key, Integer value);
 
     @Override
     public SettingValue<Integer> newIntegerSettingValue(IntegerSettingDefinition setting, String stringValue) {
         return newIntegerSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Integer> newIntegerSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newIntegerSettingValue().setValue(parseInteger(stringValue)).setKey(setting.getKey());
+    private SettingValue<Integer> newIntegerSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                              String stringValue) {
+        return newIntegerSettingValue(setting.getKey(), parseInteger(stringValue));
     }
 
     @Override
@@ -77,105 +94,170 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         return newNumericSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<Double> newNumericSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newNumericSettingValue().setValue(parseDouble(stringValue)).setKey(setting.getKey());
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<Double> newNumericSettingValue(String key, Double value);
+
+    private SettingValue<Double> newNumericSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                             String stringValue) {
+        return newNumericSettingValue(setting.getKey(), parseDouble(stringValue));
     }
+
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<String> newStringSettingValue(String key, String value);
 
     @Override
     public SettingValue<String> newStringSettingValue(StringSettingDefinition setting, String stringValue) {
         return newStringSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<String> newStringSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newStringSettingValue().setValue(parseString(stringValue)).setKey(setting.getKey());
+    private SettingValue<String> newStringSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                            String stringValue) {
+        return newStringSettingValue(setting.getKey(), parseString(stringValue));
     }
+
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<File> newFileSettingValue(String key, File value);
 
     @Override
     public SettingValue<File> newFileSettingValue(FileSettingDefinition setting, String stringValue) {
         return newFileSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<File> newFileSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newFileSettingValue().setValue(parseFile(stringValue)).setKey(setting.getKey());
+    private SettingValue<File> newFileSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                        String stringValue) {
+        return newFileSettingValue(setting.getKey(), parseFile(stringValue));
     }
+
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<URI> newUriSettingValue(String key, URI value);
 
     @Override
     public SettingValue<URI> newUriSettingValue(UriSettingDefinition setting, String stringValue) {
         return newUriSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<URI> newUriSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newUriSettingValue().setValue(parseUri(stringValue)).setKey(setting.getKey());
+    private SettingValue<URI> newUriSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                      String stringValue) {
+        return newUriSettingValue(setting.getKey(), parseUri(stringValue));
     }
+
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<DateTime> newDateTimeSettingValue(String key, DateTime value);
 
     @Override
     public SettingValue<DateTime> newDateTimeSettingValue(DateTimeSettingDefinition setting, String stringValue) {
         return newDateTimeSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<DateTime> newDateTimeSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-        return newDateTimeSettingValue().setValue(DateTime(stringValue)).setKey(setting.getKey());
+    private SettingValue<DateTime> newDateTimeSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                                String stringValue) {
+        return newDateTimeSettingValue(setting.getKey(), parseDateTime(stringValue));
     }
 
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<MultilingualString> newMultiLingualStringSettingValue(String key,
+                                                                                          MultilingualString value);
+
     @Override
-    public SettingValue<MultilingualString> newMultiLingualStringValue(MultilingualStringSettingDefinition setting, String stringValue) {
+    public SettingValue<MultilingualString> newMultiLingualStringValue(MultilingualStringSettingDefinition setting,
+                                                                       String stringValue) {
         return newMultiLingualStringSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<MultilingualString> newMultiLingualStringSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
-       return newMultiLingualStringSettingValue().setValue(parseMultilingualString(stringValue)).setKey(setting.getKey());
+    private SettingValue<MultilingualString> newMultiLingualStringSettingValueFromGenericDefinition(
+            SettingDefinition<?> setting, String stringValue) {
+        return newMultiLingualStringSettingValue(setting.getKey(), parseMultilingualString(stringValue));
     }
+
+    /**
+     * @param key   the key
+     * @param value the value
+     *
+     * @return a implementation specific instance
+     */
+    protected abstract SettingValue<String> newChoiceSettingValue(String key, String value);
 
     @Override
     public SettingValue<String> newChoiceSettingValue(ChoiceSettingDefinition setting, String stringValue) {
         return newChoiceSettingValueFromGenericDefinition(setting, stringValue);
     }
 
-    private SettingValue<String> newChoiceSettingValueFromGenericDefinition(SettingDefinition<?, ?> setting, String stringValue) {
+    private SettingValue<String> newChoiceSettingValueFromGenericDefinition(SettingDefinition<?> setting,
+                                                                            String stringValue) {
         ChoiceSettingDefinition def = (ChoiceSettingDefinition) setting;
         if (!def.hasOption(stringValue)) {
             if (def.hasDefaultValue()) {
-                return newChoiceSettingValue().setValue(def.getDefaultValue()).setKey(setting.getKey());
+                return newChoiceSettingValue(def.getKey(), def.getDefaultValue());
             }
             throw new ConfigurationError("Invalid choice value");
         }
-       return newChoiceSettingValue().setValue(stringValue).setKey(setting.getKey());
+        return newChoiceSettingValue(setting.getKey(), stringValue);
     }
 
     @Override
-    public SettingValue<?> newSettingValue(SettingDefinition<?, ?> setting, String value) {
+    public SettingValue<?> newSettingValue(SettingDefinition<?> setting, String value) {
         switch (setting.getType()) {
-        case BOOLEAN:
-            return newBooleanSettingValueFromGenericDefinition(setting, value);
-        case FILE:
-            return newFileSettingValueFromGenericDefinition(setting, value);
-        case INTEGER:
-            return newIntegerSettingValueFromGenericDefinition(setting, value);
-        case NUMERIC:
-            return newNumericSettingValueFromGenericDefinition(setting, value);
-        case STRING:
-            return newStringSettingValueFromGenericDefinition(setting, value);
-        case URI:
-            return newUriSettingValueFromGenericDefinition(setting, value);
-        case TIMEINSTANT:
-            return newDateTimeSettingValueFromGenericDefinition(setting, value);
-        case MULTILINGUAL_STRING:
-            return newMultiLingualStringSettingValueFromGenericDefinition(setting, value);
-        case CHOICE:
-            return newChoiceSettingValueFromGenericDefinition(setting, value);
-        default:
-            throw new IllegalArgumentException(String.format("Type %s not supported", setting.getType()));
+            case BOOLEAN:
+                return newBooleanSettingValueFromGenericDefinition(setting, value);
+            case FILE:
+                return newFileSettingValueFromGenericDefinition(setting, value);
+            case INTEGER:
+                return newIntegerSettingValueFromGenericDefinition(setting, value);
+            case NUMERIC:
+                return newNumericSettingValueFromGenericDefinition(setting, value);
+            case STRING:
+                return newStringSettingValueFromGenericDefinition(setting, value);
+            case URI:
+                return newUriSettingValueFromGenericDefinition(setting, value);
+            case TIMEINSTANT:
+                return newDateTimeSettingValueFromGenericDefinition(setting, value);
+            case MULTILINGUAL_STRING:
+                return newMultiLingualStringSettingValueFromGenericDefinition(setting, value);
+            case CHOICE:
+                return newChoiceSettingValueFromGenericDefinition(setting, value);
+            default:
+                throw new IllegalArgumentException(String.format("Type %s not supported", setting.getType()));
         }
     }
 
     /**
      * Parses the a string to a {@code Boolean}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
     public Boolean parseBoolean(String stringValue) throws IllegalArgumentException {
         if (nullOrEmpty(stringValue)) {
@@ -194,11 +276,11 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     /**
      * Parses the a string to a {@code File}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
     public File parseFile(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : new File(stringValue);
@@ -207,11 +289,11 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     /**
      * Parses the a string to a {@code Integer}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
     public Integer parseInteger(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : Integer.valueOf(stringValue, 10);
@@ -220,11 +302,11 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     /**
      * Parses the a string to a {@code Double}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
     public Double parseDouble(String stringValue) throws IllegalArgumentException {
         return nullOrEmpty(stringValue) ? null : Double.parseDouble(stringValue);
@@ -233,11 +315,11 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     /**
      * Parses the a string to a {@code URI}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
     public URI parseUri(String stringValue) throws IllegalArgumentException {
         if (nullOrEmpty(stringValue)) {
@@ -253,11 +335,11 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     /**
      * Parses the a string to a {@code String}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
     public String parseString(String stringValue) {
         return nullOrEmpty(stringValue) ? null : stringValue;
@@ -266,13 +348,13 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     /**
      * Parses the a string to a {@code String}.
      *
-     * @param stringValue
-     *            the string value
+     * @param stringValue the string value
+     *
      * @return the parsed value
-     * @throws IllegalArgumentException
-     *             if the string value is invalid
+     *
+     * @throws IllegalArgumentException if the string value is invalid
      */
-    public DateTime DateTime(String stringValue) {
+    public DateTime parseDateTime(String stringValue) {
         if (nullOrEmpty(stringValue)) {
             return null;
         } else {
@@ -285,7 +367,7 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
         if (!nullOrEmpty(stringValue)) {
             JsonNode json = Json.loadString(stringValue);
             Iterator<String> it = json.fieldNames();
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 String key = it.next();
                 String value = json.path(key).asText();
                 ms.addLocalization(LocaleHelper.decode(key), value);
@@ -295,51 +377,6 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     }
 
     /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<Boolean> newBooleanSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<Integer> newIntegerSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<String> newStringSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<String> newChoiceSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<File> newFileSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<URI> newUriSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<Double> newNumericSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<DateTime> newDateTimeSettingValue();
-
-    /**
-     * @return a implementation specific instance
-     */
-    protected abstract SettingValue<MultilingualString> newMultiLingualStringSettingValue();
-
-    /**
      * @param stringValue
      *
      * @return <code>stringValue == null || stringValue.trim().isEmpty()</code>
@@ -347,6 +384,5 @@ public abstract class AbstractSettingValueFactory implements SettingValueFactory
     protected boolean nullOrEmpty(String stringValue) {
         return stringValue == null || stringValue.trim().isEmpty();
     }
-
 
 }

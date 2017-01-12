@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -62,7 +62,7 @@ public interface SettingsService {
      *
      * @throws ConfigurationError if there is a problem deleting the setting
      */
-    void deleteSetting(SettingDefinition<?, ?> setting)
+    void deleteSetting(SettingDefinition<?> setting)
             throws ConfigurationError;
 
     /**
@@ -72,7 +72,7 @@ public interface SettingsService {
      *
      * @return the definition or {@code null} if there is no definition for the key
      */
-    SettingDefinition<?, ?> getDefinitionByKey(String key);
+    SettingDefinition<?> getDefinitionByKey(String key);
 
     /**
      * @return the keys for all definitions
@@ -88,7 +88,7 @@ public interface SettingsService {
      * @return the value of the setting
      */
     @SuppressWarnings(value = "unchecked")
-    <T> SettingValue<T> getSetting(SettingDefinition<?, T> key);
+    <T> SettingValue<T> getSetting(SettingDefinition<T> key);
 
     /**
      * Gets the value of the setting defined by {@code key}.
@@ -106,7 +106,7 @@ public interface SettingsService {
      *
      * @return the definitions
      */
-    Set<SettingDefinition<?, ?>> getSettingDefinitions();
+    Set<SettingDefinition<?>> getSettingDefinitions();
 
     /**
      * @return the {@link SettingValueFactory} to produce values
@@ -118,7 +118,7 @@ public interface SettingsService {
      *
      * @return all values by definition
      */
-    Map<SettingDefinition<?, ?>, SettingValue<?>> getSettings();
+    Map<SettingDefinition<?>, SettingValue<?>> getSettings();
 
     /**
      * Gets all values for all definitions and udpates (changes or configures) all configured objets.

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +24,7 @@ import org.joda.time.DateTime;
 import org.n52.janmayen.i18n.LocalizedString;
 
 /**
- * Enum to describe the type of a {@code SettingDefinition} and
- * {@code SettingValue}.
+ * Enum to describe the type of a {@code SettingDefinition} and {@code SettingValue}.
  *
  * @see SettingDefinition
  * @see SettingValue
@@ -71,8 +70,7 @@ public enum SettingType {
      */
     CHOICE;
 
-
-     public static SettingType fromString(String type) {
+    public static SettingType fromString(String type) {
         switch (type) {
             case JSONSettingConstants.INTEGER_TYPE:
                 return SettingType.INTEGER;
@@ -93,7 +91,7 @@ public enum SettingType {
             case JSONSettingConstants.CHOICE_TYPE:
                 return SettingType.CHOICE;
             default:
-                throw new ConfigurationError(String.format("Unknown Type %s", type));
+                throw unknownType(type);
         }
     }
 
@@ -118,13 +116,17 @@ public enum SettingType {
             case CHOICE:
                 return JSONSettingConstants.CHOICE_TYPE;
             default:
-                throw new IllegalArgumentException(String.format("Unknown Type %s", type));
+                throw unknownType(type);
         }
     }
 
     @Override
     public String toString() {
         return toString(this);
+    }
+
+    private static IllegalArgumentException unknownType(Object type) {
+        return new IllegalArgumentException(String.format("Unknown Type %s", type));
     }
 
 }

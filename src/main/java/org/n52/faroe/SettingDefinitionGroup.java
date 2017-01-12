@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,17 +26,48 @@ import com.google.common.base.MoreObjects;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGroup> {
+public class SettingDefinitionGroup extends AbstractOrdered {
 
     private String title;
     private String description;
     private boolean showInDefaultSetting = true;
+
+    public SettingDefinitionGroup(String title, String description, float order) {
+        super(order);
+        this.title = title;
+        this.description = description;
+    }
+
+    public SettingDefinitionGroup(String title, String description) {
+        this(title, description, 0.0f);
+    }
+
+    public SettingDefinitionGroup(String title, float order) {
+        this(title, null, order);
+    }
+
+    public SettingDefinitionGroup(String title) {
+        this(title, null, 0.0f);
+    }
+
+    public SettingDefinitionGroup() {
+        this(null, null, 0.0f);
+    }
 
     /**
      * @return the title of this group
      */
     public String getTitle() {
         return title;
+    }
+
+    /**
+     * Sets the title of this group.
+     *
+     * @param title the title
+     */
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     /**
@@ -47,22 +78,19 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
     }
 
     /**
-     * Sets the title of this group.
-     *
-     * @param title the title
-     *
-     * @return this
-     */
-    public SettingDefinitionGroup setTitle(String title) {
-        this.title = title;
-        return this;
-    }
-
-    /**
      * @return the description for this group
      */
     public String getDescription() {
         return description;
+    }
+
+    /**
+     * Sets the description for this group.
+     *
+     * @param description the description
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     /**
@@ -73,28 +101,12 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
     }
 
     /**
-     * Sets the description for this group.
-     *
-     * @param description the description
-     *
-     * @return this
-     */
-    public SettingDefinitionGroup setDescription(String description) {
-        this.description = description;
-        return this;
-    }
-
-    /**
      * Set if this settings group should be displayed in default settings
      *
-     * @param showInDefaultSetting Display in default settings
-     *
-     * @return this
+     * @param show Display in default settings
      */
-    public SettingDefinitionGroup setShowInDefaultSettings(
-            boolean showInDefaultSetting) {
-        this.showInDefaultSetting = showInDefaultSetting;
-        return this;
+    public void setShowInDefaultSettings(boolean show) {
+        this.showInDefaultSetting = show;
     }
 
     /**
@@ -147,4 +159,5 @@ public class SettingDefinitionGroup extends AbstractOrdered<SettingDefinitionGro
     protected String getSuborder() {
         return getTitle();
     }
+
 }

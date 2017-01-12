@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +17,6 @@
 package org.n52.faroe.settings;
 
 import org.n52.faroe.SettingType;
-import org.n52.faroe.SettingType;
-import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingValue;
 
 /**
@@ -37,20 +35,18 @@ public class IntegerSettingValueForTesting implements SettingValue<Integer> {
     }
 
     @Override
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
     public Integer getValue() {
         return value;
     }
 
     @Override
-    public SettingValue<Integer> setKey(String key) {
-        this.key = key;
-        return this;
-    }
-
-    @Override
-    public SettingValue<Integer> setValue(Integer value) {
+    public void setValue(Integer value) {
         this.value = value;
-        return this;
     }
 
     @Override

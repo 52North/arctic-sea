@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,9 +23,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingsService;
+
 /**
  * Annotation that should be applied to a method that takes a single Setting as a parameter. The parameter of this
- * method should be of the same type as the type of the associated {@link org.n52.iceland.config.SettingDefinition}.
+ * method should be of the same type as the type of the associated {@link SettingDefinition}.
  *
  * It is needed to apply the {@code Configurable} annotation to a class with a method annotated with this annotations
  * for the {@code SettingsManager} to recognize it.
@@ -40,8 +43,8 @@ import java.lang.annotation.Target;
  * </pre>
  *
  * @see Configurable
- * @see org.n52.iceland.config.SettingDefinition
- * @see org.n52.iceland.config.SettingsService
+ * @see SettingDefinition
+ * @see SettingsService
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0

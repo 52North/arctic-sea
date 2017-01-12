@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,10 @@
  */
 package org.n52.faroe.settings;
 
-import org.n52.faroe.AbstractSettingDefinition;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.n52.faroe.AbstractSettingDefinition;
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingType;
 
@@ -30,7 +29,7 @@ import org.n52.faroe.SettingType;
  * @since 1.0.0
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
-public class UriSettingDefinition extends AbstractSettingDefinition<UriSettingDefinition, URI> {
+public class UriSettingDefinition extends AbstractSettingDefinition<URI> {
 
     /**
      * Constructs a new {@code UriSettingDefinition}.

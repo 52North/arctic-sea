@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -121,7 +121,7 @@ public class JsonSettingsDao extends AbstractJsonDao
     protected SettingValue<?> createSettingValue(String key, JsonNode node) {
         SettingType type = SettingType.fromString(node.path(JSONSettingConstants.TYPE_KEY).asText(null));
         Object value = decodeValue(type, node.path(JSONSettingConstants.VALUE_KEY));
-        return new JsonSettingValue<>(type).setKey(key).setValue(value);
+        return new JsonSettingValue<>(type, key, value);
     }
 
     protected Object decodeValue(SettingType type, JsonNode node) {
@@ -139,7 +139,7 @@ public class JsonSettingsDao extends AbstractJsonDao
             case BOOLEAN:
                 return node.booleanValue();
             case TIMEINSTANT:
-                return this.settingValueFactory.DateTime(node.textValue());
+                return this.settingValueFactory.parseDateTime(node.textValue());
             case FILE:
                 return this.settingValueFactory.parseFile(node.textValue());
             case STRING:
@@ -165,7 +165,8 @@ public class JsonSettingsDao extends AbstractJsonDao
     }
 
     private void numberDecodeError(SettingType type, JsonNode node) {
-        throw new ConfigurationError(String.format("Cannot decode setting to %s type: node type = %s, value = >%s<", type, node.getNodeType(), node.toString()));
+        throw new ConfigurationError(String.format("Cannot decode setting to %s type: node type = %s, value = >%s<",
+                                                   type, node.getNodeType(), node.toString()));
     }
 
 }

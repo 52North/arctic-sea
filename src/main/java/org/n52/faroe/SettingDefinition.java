@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,13 +31,12 @@ import java.util.Optional;
  * @see org.n52.faroe.settings.NumericSettingDefinition
  * @see org.n52.faroe.settings.StringSettingDefinition
  * @see org.n52.faroe.settings.UriSettingDefinition
- * @param <S> The type of the implementing class
  * @param <T> The type of the value
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends Ordered<S> {
+public interface SettingDefinition<T> extends Ordered {
     /**
      * @return the unique key of this definition
      */
@@ -104,57 +103,46 @@ public interface SettingDefinition<S extends SettingDefinition<S, T>, T> extends
      * Sets the unique identifier of this setting definition, which can be referenced by configurable classes.
      *
      * @param key the <b>unique</b> key
-     *
-     * @return this (for method chaining)
      */
-    S setKey(String key);
+    void setKey(String key);
 
     /**
      * Sets the title of this setting definition, which will be presented to the user.
      *
      * @param title the title
-     *
-     * @return this (for method chaining)
      */
-    S setTitle(String title);
+    void setTitle(String title);
 
     /**
      * Sets the description of this setting definition, which should further describe the purpose of this setting. Can
      * contain XHTML markup.
      *
      * @param description the description
-     *
-     * @return this (for method chaining)
      */
-    S setDescription(String description);
+    void setDescription(String description);
 
     /**
      * Sets whether this setting is optional or can be null. By default all settings are required.
      *
      * @param optional if this setting is optional
      *
-     * @return this (for method chaining)
      */
-    S setOptional(boolean optional);
+    void setOptional(boolean optional);
 
     /**
      * Sets the default value of this setting. All required settings should have a default setting to allow a smoother
      * integration of new settings in old configurations.
      *
      * @param defaultValue the default value
-     *
-     * @return this (for method chaining)
      */
-    S setDefaultValue(T defaultValue);
+    void setDefaultValue(T defaultValue);
 
     /**
      * Sets the group of this definition. If no group is set, the setting will be moved to a default group.
      *
      * @param group the group
-     *
-     * @return this (for method chaining)
      */
-    S setGroup(SettingDefinitionGroup group);
+    void setGroup(SettingDefinitionGroup group);
 
     /**
      * @return the type of the value of this definition

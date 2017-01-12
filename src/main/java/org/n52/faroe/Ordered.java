@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,10 @@ package org.n52.faroe;
 /**
  * Generic class to implement a Order based on floating point numbers.
  *
- * @param <T> the type of the extending class
- *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public interface Ordered<T extends Ordered<T>> extends Comparable<Ordered<?>> {
+public interface Ordered extends Comparable<Ordered> {
 
     /**
      * @return the order of this clas represented as a <code>float</code>
@@ -33,8 +31,6 @@ public interface Ordered<T extends Ordered<T>> extends Comparable<Ordered<?>> {
 
     /**
      * @param order the order
-     *
-     * @return <code>this</code>
      */
-    T setOrder(float order);
+    void setOrder(float order);
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,47 +33,47 @@ import org.n52.janmayen.i18n.MultilingualString;
  */
 public class JsonSettingValueFactory extends AbstractSettingValueFactory {
     @Override
-    protected SettingValue<Boolean> newBooleanSettingValue() {
-        return new JsonSettingValue<>(SettingType.BOOLEAN);
+    protected SettingValue<Boolean> newBooleanSettingValue(String key, Boolean value) {
+        return new JsonSettingValue<>(SettingType.BOOLEAN, key, value);
     }
 
     @Override
-    protected SettingValue<Integer> newIntegerSettingValue() {
-        return new JsonSettingValue<>(SettingType.INTEGER);
+    protected SettingValue<Integer> newIntegerSettingValue(String key, Integer value) {
+        return new JsonSettingValue<>(SettingType.INTEGER, key, value);
     }
 
     @Override
-    protected SettingValue<String> newStringSettingValue() {
-        return new JsonSettingValue<>(SettingType.STRING);
+    protected SettingValue<String> newStringSettingValue(String key, String value) {
+        return new JsonSettingValue<>(SettingType.STRING, key, value);
     }
 
     @Override
-    protected SettingValue<String> newChoiceSettingValue() {
-        return new JsonSettingValue<>(SettingType.CHOICE);
+    protected SettingValue<String> newChoiceSettingValue(String key, String value) {
+        return new JsonSettingValue<>(SettingType.CHOICE, key, value);
     }
 
     @Override
-    protected SettingValue<File> newFileSettingValue() {
-        return new JsonSettingValue<>(SettingType.FILE);
+    protected SettingValue<File> newFileSettingValue(String key, File value) {
+        return new JsonSettingValue<>(SettingType.FILE, key, value);
     }
 
     @Override
-    protected SettingValue<URI> newUriSettingValue() {
-        return new JsonSettingValue<>(SettingType.URI);
+    protected SettingValue<URI> newUriSettingValue(String key, URI value) {
+        return new JsonSettingValue<>(SettingType.URI, key, value);
     }
 
     @Override
-    protected SettingValue<Double> newNumericSettingValue() {
-        return new JsonSettingValue<>(SettingType.NUMERIC);
+    protected SettingValue<Double> newNumericSettingValue(String key, Double value) {
+        return new JsonSettingValue<>(SettingType.NUMERIC, key, value);
     }
 
     @Override
-    protected SettingValue<DateTime> newDateTimeSettingValue() {
-        return new JsonSettingValue<>(SettingType.TIMEINSTANT);
+    protected SettingValue<DateTime> newDateTimeSettingValue(String key, DateTime value) {
+        return new JsonSettingValue<>(SettingType.TIMEINSTANT, key, value);
     }
 
     @Override
-    protected SettingValue<MultilingualString> newMultiLingualStringSettingValue() {
-        return new JsonSettingValue<>(SettingType.MULTILINGUAL_STRING);
+    protected SettingValue<MultilingualString> newMultiLingualStringSettingValue(String key, MultilingualString value) {
+        return new JsonSettingValue<>(SettingType.MULTILINGUAL_STRING, key, value);
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,7 +27,7 @@ import org.n52.faroe.SettingType;
  * @since 1.0.0
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
-public class BooleanSettingDefinition extends AbstractSettingDefinition<BooleanSettingDefinition, Boolean> {
+public class BooleanSettingDefinition extends AbstractSettingDefinition<Boolean> {
 
     /**
      * Constructs a new {@code BooleanSettingDefinition}.
