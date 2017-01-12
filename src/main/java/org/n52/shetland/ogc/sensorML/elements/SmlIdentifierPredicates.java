@@ -16,8 +16,8 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
+import java.util.function.Predicate;
+
 
 /**
  * TODO JavaDoc
@@ -38,12 +38,12 @@ public class SmlIdentifierPredicates {
 
     public static Predicate<SmlIdentifier> nameOrDefinition(String name,
                                                             String definition) {
-        return Predicates.or(name(name), definition(definition));
+        return name(name).or(definition(definition));
     }
 
     public static Predicate<SmlIdentifier> nameAndDefinition(String name,
                                                              String definition) {
-        return Predicates.and(name(name), definition(definition));
+        return name(name).and(definition(definition));
     }
 
     private static class DefinitionPredicate implements Predicate<SmlIdentifier> {
@@ -54,7 +54,7 @@ public class SmlIdentifierPredicates {
         }
 
         @Override
-        public boolean apply(SmlIdentifier input) {
+        public boolean test(SmlIdentifier input) {
             return input.isSetDefinition() &&
                    input.getDefinition().equalsIgnoreCase(definition);
         }
@@ -68,7 +68,7 @@ public class SmlIdentifierPredicates {
         }
 
         @Override
-        public boolean apply(SmlIdentifier input) {
+        public boolean test(SmlIdentifier input) {
             return input.isSetName() &&
                    input.getName().equalsIgnoreCase(name);
         }

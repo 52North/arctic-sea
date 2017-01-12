@@ -36,7 +36,7 @@ public class PhysicalSystem extends AbstractPhysicalProcess implements HasCompon
 
     private final List<SmlComponent> components = new ArrayList<>(0);
 
-    private Object connections;
+//    private Object connections;
 
     public PhysicalSystem() {
         setGmlId(ID_PREFIX + JavaHelper.generateID(ID_PREFIX));

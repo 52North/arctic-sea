@@ -18,6 +18,8 @@ package org.n52.shetland.ogc.sos.response;
 
 import org.n52.janmayen.http.MediaType;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 /**
  * Simple response class for binary data to be included as a response attachment (for download)
@@ -26,6 +28,7 @@ import org.n52.janmayen.http.MediaType;
  *
  * @since 4.1.0
  */
+@SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 public class BinaryAttachmentResponse {
     private byte[] bytes;
     private MediaType contentType;

@@ -85,16 +85,16 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
     }
 
     @Override
-    public SweCategory clone() {
-        SweCategory clone = new SweCategory();
-        copyValueTo(clone);
+    public SweCategory copy() {
+        SweCategory copy = new SweCategory();
+        copyValueTo(copy);
         if (isSetQuality()) {
-            clone.setQuality(cloneQuality());
+            copy.setQuality(cloneQuality());
         }
         if (isSetValue()) {
-            clone.setValue(getValue());
+            copy.setValue(getValue());
         }
-        return clone;
+        return copy;
     }
 
 }

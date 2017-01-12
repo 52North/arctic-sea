@@ -148,4 +148,9 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
         }
         return Collections.emptySet();
     }
+
+    @Override
+    public abstract SweAbstractDataRecord copy();
+
+
 }

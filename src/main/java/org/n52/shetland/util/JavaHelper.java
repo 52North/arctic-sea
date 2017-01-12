@@ -28,6 +28,8 @@ import org.joda.time.DateTime;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 
 /**
  * Helper class for Java objects.
@@ -35,6 +37,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
+@SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
 public final class JavaHelper {
 
     /**

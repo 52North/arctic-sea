@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.ows;
 import java.util.Optional;
 import java.util.Set;
 
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.MultilingualString;
 
 /**
  * TODO JavaDoc

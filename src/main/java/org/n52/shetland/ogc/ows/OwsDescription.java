@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Optional;
 import java.util.SortedSet;
 
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.util.CollectionHelper;
 
 /**

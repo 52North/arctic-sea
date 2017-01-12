@@ -23,10 +23,9 @@ import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.wps.Format;
+import org.n52.shetland.ogc.wps.data.ValueProcessData;
 
 import com.google.common.base.MoreObjects;
-
-import org.n52.shetland.ogc.wps.data.ValueProcessData;
 
 /**
  * TODO JavaDoc
@@ -48,10 +47,6 @@ public class StringValueProcessData extends ValueProcessData {
 
     public StringValueProcessData(String string) {
         this(null, null, string);
-    }
-
-    public StringValueProcessData() {
-        this(null, null, null);
     }
 
     @Override

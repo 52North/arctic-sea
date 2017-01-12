@@ -47,8 +47,10 @@ public class OwsBoundingBox {
             throw new IllegalArgumentException(String.format("upperCorner has wrong dimension (%s vs %s)",
                                                              upperCorner.length, dimension));
         }
-        this.lowerCorner = lowerCorner;
-        this.upperCorner = upperCorner;
+
+        ;
+        this.lowerCorner = Arrays.copyOf(lowerCorner, lowerCorner.length);
+        this.upperCorner = Arrays.copyOf(upperCorner, upperCorner.length);
         this.dimension = dimension;
         this.crs = Optional.ofNullable(crs);
     }
@@ -74,11 +76,11 @@ public class OwsBoundingBox {
     }
 
     public double[] getLowerCorner() {
-        return lowerCorner;
+        return Arrays.copyOf(lowerCorner, lowerCorner.length);
     }
 
     public double[] getUpperCorner() {
-        return upperCorner;
+        return Arrays.copyOf(upperCorner, upperCorner.length);
     }
 
     @Override

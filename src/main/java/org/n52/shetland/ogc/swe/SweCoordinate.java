@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.swe;
 
+import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
 
@@ -25,7 +26,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
  * @param <T>
  * @since 4.0.0
  */
-public class SweCoordinate<T extends Number> implements Cloneable {
+public class SweCoordinate<T extends Number> implements Copyable<SweCoordinate<T>> {
 
     /**
      * Coordinate name
@@ -46,7 +47,7 @@ public class SweCoordinate<T extends Number> implements Cloneable {
      * @param value
      *            Coordinate value
      */
-    public SweCoordinate(final String name, final SweAbstractSimpleType<T> value) {
+    public SweCoordinate(String name, SweAbstractSimpleType<T> value) {
         super();
         this.name = name;
         this.value = value;
@@ -63,7 +64,7 @@ public class SweCoordinate<T extends Number> implements Cloneable {
      * @param name
      *            the name to set
      */
-    public void setName(final String name) {
+    public void setName(String name) {
         this.name = name;
     }
 
@@ -78,7 +79,7 @@ public class SweCoordinate<T extends Number> implements Cloneable {
      * @param value
      *            the value to set
      */
-    public void setValue(final SweAbstractSimpleType<T> value) {
+    public void setValue(SweAbstractSimpleType<T> value) {
         this.value = value;
     }
 
@@ -87,9 +88,9 @@ public class SweCoordinate<T extends Number> implements Cloneable {
         return String.format("SosSweCoordinate[name=%s, value=%s]", getName(), getValue());
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
-    protected SweCoordinate clone() throws CloneNotSupportedException {
-        return new SweCoordinate(getName(), (SweAbstractSimpleType<?>)getValue().clone());
+    @SuppressWarnings("unchecked")
+    public SweCoordinate<T> copy() {
+        return new SweCoordinate<>(getName(), (SweAbstractSimpleType<T>) getValue().copy());
     }
 }

@@ -62,4 +62,12 @@ public class ProcessMethod extends AbstractReferenceType {
     public boolean isSetRulesDefinition() {
         return getRulesDefinition() != null;
     }
+
+    public AbstractAlgorithm getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(AbstractAlgorithm algorithm) {
+        this.algorithm = algorithm;
+    }
 }

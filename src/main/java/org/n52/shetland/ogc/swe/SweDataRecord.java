@@ -62,12 +62,11 @@ public class SweDataRecord extends SweAbstractDataRecord {
         visitor.visit(this);
     }
 
-    public SweDataRecord clone() throws CloneNotSupportedException {
-        SweDataRecord clone = new SweDataRecord();
-        copyValueTo(clone);
-        for (SweField field : getFields()) {
-            clone.addField(field.clone());
-        }
-        return clone;
+    @Override
+    public SweDataRecord copy() {
+        SweDataRecord copy = new SweDataRecord();
+        copyValueTo(copy);
+        getFields().stream().map(SweField::copy).forEach(copy::addField);
+        return copy;
     }
 }

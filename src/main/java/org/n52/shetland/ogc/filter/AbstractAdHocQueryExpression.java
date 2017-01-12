@@ -17,16 +17,12 @@
 package org.n52.shetland.ogc.filter;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-
-import org.n52.shetland.ogc.ows.OwsDomain;
-import org.n52.shetland.util.CollectionHelper;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 /**
  * class for FES 2.0 AbstractAdHocQueryExpression
@@ -38,16 +34,11 @@ import com.google.common.collect.Sets;
  */
 public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpression {
 
-    private Set<AbstractProjectionClause> projectionClauses;
-
+    private Set<AbstractProjectionClause> projectionClauses = new HashSet<>(0);
     private AbstractSelectionClause selectionClause;
-
     private AbstractSortingClause sortingClause;
-
-    private Set<QName> typeNames;
-
-    private Set<String> aliases;
-    public List<OwsDomain> conformance = Lists.newArrayList();
+    private Set<QName> typeNames = new HashSet<>(0);
+    private Set<String> aliases = new HashSet<>(0);
 
     public AbstractAdHocQueryExpression(Collection<QName> typeNames) {
         setTypeNames(typeNames);
@@ -57,35 +48,41 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
      * @return the projectionClauses
      */
     public Set<AbstractProjectionClause> getProjectionClauses() {
-        return projectionClauses;
+        return Collections.unmodifiableSet(this.projectionClauses);
     }
 
     /**
      * @param projectionClause the projectionClause to add
+     *
+     * @return this
      */
     public AbstractAdHocQueryExpression addProjectionClause(AbstractProjectionClause projectionClause) {
-        getProjectionClauses().add(projectionClause);
+        this.projectionClauses.add(projectionClause);
         return this;
     }
 
     /**
      * @param projectionClauses the projectionClauses to add
+     *
+     * @return this
      */
     public AbstractAdHocQueryExpression addProjectionClauses(Set<AbstractProjectionClause> projectionClauses) {
-        getProjectionClauses().addAll(projectionClauses);
+        this.projectionClauses.addAll(projectionClauses);
         return this;
     }
 
     /**
      * @param projectionClauses the projectionClauses to set
+     *
+     * @return this
      */
     public AbstractAdHocQueryExpression setProjectionClauses(Set<AbstractProjectionClause> projectionClauses) {
-        this.projectionClauses = projectionClauses;
+        this.projectionClauses = Optional.ofNullable(projectionClauses).orElseGet(HashSet::new);
         return this;
     }
 
     public boolean isSetProjectionClauses() {
-        return CollectionHelper.isNotEmpty(getProjectionClauses());
+        return this.projectionClauses != null && !this.projectionClauses.isEmpty();
     }
 
     /**
@@ -97,6 +94,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
 
     /**
      * @param selectionClause the selectionClause to set
+     *
+     * @return this
      */
     public AbstractAdHocQueryExpression setSelectionClause(AbstractSelectionClause selectionClause) {
         this.selectionClause = selectionClause;
@@ -104,7 +103,7 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     public boolean isSetSelectionClause() {
-        return getSelectionClause() != null;
+        return this.selectionClause != null;
     }
 
     /**
@@ -116,6 +115,8 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
 
     /**
      * @param sortingClause the sortingClause to set
+     *
+     * @return this
      */
     public AbstractAdHocQueryExpression setSortingClause(AbstractSortingClause sortingClause) {
         this.sortingClause = sortingClause;
@@ -123,39 +124,41 @@ public abstract class AbstractAdHocQueryExpression extends AbstractQueryExpressi
     }
 
     public boolean isSetSortingClause() {
-        return getSortingClause() != null;
+        return this.sortingClause != null;
     }
 
     /**
      * @return the typeNames
      */
     public Set<QName> getTypeNames() {
-        return typeNames;
+        return Collections.unmodifiableSet(typeNames);
     }
 
     /**
      * @param typeNames the typeNames to set
      */
     private void setTypeNames(Collection<QName> typeNames) {
-        this.typeNames = Sets.newHashSet(typeNames);
+        this.typeNames = Optional.ofNullable(typeNames).map(HashSet::new).orElseGet(HashSet::new);
     }
 
     /**
      * @return the aliases
      */
     public Set<String> getAliases() {
-        return aliases;
+        return Collections.unmodifiableSet(aliases);
     }
 
     /**
      * @param aliases the aliases to set
+     *
+     * @return this
      */
     public AbstractAdHocQueryExpression setAliases(Collection<String> aliases) {
-        this.aliases = Sets.newHashSet(aliases);
+        this.aliases = Optional.ofNullable(aliases).map(HashSet::new).orElseGet(HashSet::new);
         return this;
     }
 
     public boolean isSetAliases() {
-        return CollectionHelper.isNotEmpty(getAliases());
+        return this.aliases != null && !this.aliases.isEmpty();
     }
 }

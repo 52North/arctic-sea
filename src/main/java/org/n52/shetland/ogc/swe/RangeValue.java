@@ -19,12 +19,14 @@ package org.n52.shetland.ogc.swe;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.n52.janmayen.Copyable;
+
 /**
  * @since 4.0.0
  *
  * @param <T>
  */
-public class RangeValue<T> {
+public class RangeValue<T> implements Copyable<RangeValue<T>> {
 
     private T rangeStart;
 
@@ -131,7 +133,7 @@ public class RangeValue<T> {
     }
 
     @Override
-    public RangeValue<?> clone() {
-        return new RangeValue<T>(getRangeStart(), getRangeStart());
+    public RangeValue<T> copy() {
+        return new RangeValue<>(getRangeStart(), getRangeEnd());
     }
 }

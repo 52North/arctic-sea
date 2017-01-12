@@ -70,14 +70,14 @@ public class SmlDataInterface extends SweAbstractDataComponent {
     }
 
     @Override
-    public SmlDataInterface clone() throws CloneNotSupportedException {
-        SmlDataInterface clone = new SmlDataInterface();
-        copyValueTo(clone);
-        clone.setData(getData());
+    public SmlDataInterface copy() {
+        SmlDataInterface copy = new SmlDataInterface();
+        copyValueTo(copy);
+        copy.setData(getData());
         if (isSetInterfaceParameters()) {
-            clone.setInputParameters(getInterfaceParameters().clone());
+            copy.setInputParameters(getInterfaceParameters().copy());
         }
-        return clone;
+        return copy;
     }
 
 }

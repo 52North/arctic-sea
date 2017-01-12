@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 import com.google.common.base.Objects;
@@ -27,7 +28,7 @@ import com.google.common.base.Objects;
 /**
  * @since 4.0.0
  */
-public class OmObservationConstellation implements Cloneable {
+public class OmObservationConstellation implements Copyable<OmObservationConstellation> {
 
     /** Identifier of the procedure by which the observation is made */
     private AbstractFeature procedure;
@@ -279,14 +280,14 @@ public class OmObservationConstellation implements Cloneable {
     }
 
     @Override
-    public OmObservationConstellation clone() throws CloneNotSupportedException {
-        OmObservationConstellation clone = new OmObservationConstellation();
-        clone.setFeatureOfInterest(this.getFeatureOfInterest());
-        clone.setObservableProperty(this.getObservableProperty());
-        clone.setObservationType(this.getObservationType());
-        clone.setOfferings(new HashSet<>(this.getOfferings()));
-        clone.setProcedure(this.getProcedure());
-        return clone;
+    public OmObservationConstellation copy() {
+        OmObservationConstellation copy = new OmObservationConstellation();
+        copy.setFeatureOfInterest(getFeatureOfInterest());
+        copy.setObservableProperty(getObservableProperty());
+        copy.setObservationType(getObservationType());
+        copy.setOfferings(new HashSet<>(getOfferings()));
+        copy.setProcedure(getProcedure());
+        return copy;
     }
 
     public boolean isEmpty() {

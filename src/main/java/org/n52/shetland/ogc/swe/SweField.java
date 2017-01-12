@@ -117,9 +117,9 @@ public class SweField extends SweAbstractDataComponent {
     }
 
     @Override
-    public SweField clone() throws CloneNotSupportedException {
-        SweField clone = new SweField(getName().clone(), getElement().clone());
-        copyValueTo(clone);
-        return clone;
+    public SweField copy() {
+        SweField copy = new SweField(getName().copy(), getElement().copy());
+        copyValueTo(copy);
+        return copy;
     }
 }

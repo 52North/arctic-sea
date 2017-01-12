@@ -16,8 +16,9 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
+import java.util.Objects;
+import java.util.function.Predicate;
+
 
 /**
  * TODO JavaDoc
@@ -36,11 +37,11 @@ public class SmlCapabilitiesPredicates {
         private final String name;
 
         NamePredicate(String name) {
-            this.name = Preconditions.checkNotNull(name);
+            this.name = Objects.requireNonNull(name);
         }
 
         @Override
-        public boolean apply(SmlCapabilities input) {
+        public boolean test(SmlCapabilities input) {
             return name.equals(input.getName());
         }
     }

@@ -75,12 +75,12 @@ public class SweTime extends SweAbstractUomType<DateTime> {
     }
 
     @Override
-    public SweTime clone() {
-        SweTime clone = new SweTime();
-        copyValueTo(clone);
+    public SweTime copy() {
+        SweTime copy = new SweTime();
+        copyValueTo(copy);
         if (isSetValue()) {
-            clone.setValue(getValue());
+            copy.setValue(getValue());
         }
-        return clone;
+        return copy;
     }
 }

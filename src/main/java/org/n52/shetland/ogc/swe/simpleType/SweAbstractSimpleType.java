@@ -33,7 +33,8 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.0.0
  */
-public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent implements Value<T, SweAbstractSimpleType<T>> {
+public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent
+        implements Value<T, SweAbstractSimpleType<T>> {
 
     // TODO quality needs to be a collection
     private Collection<SweQuality> quality;

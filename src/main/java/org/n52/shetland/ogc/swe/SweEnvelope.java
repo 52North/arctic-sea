@@ -215,15 +215,15 @@ public class SweEnvelope extends SweAbstractDataComponent {
     }
 
     @Override
-    public SweEnvelope clone() throws CloneNotSupportedException {
+    public SweEnvelope copy() {
         SweEnvelope clone = new SweEnvelope(this.northingFirst);
         copyValueTo(clone);
         clone.setReferenceFrame(getReferenceFrame());
         if (isLowerCornerSet()) {
-            clone.setLowerCorner(getLowerCorner().clone());
+            clone.setLowerCorner(getLowerCorner().copy());
         }
         if (isUpperCornerSet()) {
-            clone.setUpperCorner(getUpperCorner().clone());
+            clone.setUpperCorner(getUpperCorner().copy());
         }
         return clone;
     }
@@ -234,6 +234,7 @@ public class SweEnvelope extends SweAbstractDataComponent {
             return createSweVector(env.getEnvelope().getMinX(), env.getEnvelope().getMinY(), uom);
         }
     }
+
     private static SweVector createUpperCorner(ReferencedEnvelope env, String uom, boolean northingFirst) {
         if (northingFirst) {
             return createSweVector(env.getEnvelope().getMaxY(), env.getEnvelope().getMaxX(), uom);
@@ -241,6 +242,7 @@ public class SweEnvelope extends SweAbstractDataComponent {
             return createSweVector(env.getEnvelope().getMaxX(), env.getEnvelope().getMaxY(), uom);
         }
     }
+
     private static SweVector createSweVector(double x, double y, String uom) {
         SweQuantity xCoord = new SweQuantity().setAxisID(SweConstants.X_AXIS).setValue(x).setUom(uom);
         SweQuantity yCoord = new SweQuantity().setAxisID(SweConstants.Y_AXIS).setValue(y).setUom(uom);

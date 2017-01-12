@@ -27,6 +27,8 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.vividsolutions.jts.geom.Geometry;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Abstract streaming value class
  *
@@ -43,7 +45,7 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     private Time validTime;
     private String unit;
     private boolean unitQueried = false;
-    protected OmObservation observationTemplate;
+    private OmObservation observationTemplate;
 
     /**
      * Get the next entity
@@ -81,6 +83,13 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
      */
     public void setObservationTemplate(OmObservation observationTemplate) {
         this.observationTemplate = observationTemplate;
+    }
+
+    /**
+     * @return the observationTemplate
+     */
+    public OmObservation getObservationTemplate() {
+        return observationTemplate;
     }
 
     @Override
@@ -158,11 +167,12 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     }
 
     @SuppressWarnings("unchecked")
+    @SuppressFBWarnings("DLS_DEAD_LOCAL_STORE")
     @Override
     protected void checkForModifications(OmObservation observation) throws OwsExceptionReport {
         if (isSetAdditionalRequestParams() && contains(AdditionalRequestParams.crs)) {
             Object additionalRequestParam = getAdditionalRequestParams(AdditionalRequestParams.crs);
-            int targetCRS = -1;
+            int targetCRS;
             if (additionalRequestParam instanceof Integer) {
                 targetCRS = (Integer) additionalRequestParam;
             } else if (additionalRequestParam instanceof String) {

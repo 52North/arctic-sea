@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.swe;
 import java.util.Collection;
 import java.util.List;
 
+import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.util.CollectionHelper;
@@ -30,7 +31,7 @@ import com.google.common.collect.Lists;
  * @since 4.0.0
  *
  */
-public abstract class SweAbstractDataComponent implements Cloneable {
+public abstract class SweAbstractDataComponent implements Copyable<SweAbstractDataComponent>{
 
     private String definition;
 
@@ -218,9 +219,6 @@ public abstract class SweAbstractDataComponent implements Cloneable {
     public abstract <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X;
 
     public abstract <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) throws X;
-
-    @Override
-    public abstract SweAbstractDataComponent clone() throws CloneNotSupportedException;
 
     /**
      * Copies all values from this {@link SweAbstractDataComponent} to the

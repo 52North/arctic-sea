@@ -22,10 +22,11 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.sensorML.elements.AbstractSmlDocumentation;
 import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
 import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
@@ -36,9 +37,6 @@ import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 
-import com.google.common.base.Optional;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
 
 /**
@@ -140,9 +138,9 @@ public abstract class AbstractSensorML extends AbstractFeature {
 
     public Optional<SmlIdentifier> findIdentification(Predicate<SmlIdentifier> predicate) {
         if (isSetIdentifications()) {
-            return Iterables.tryFind(getIdentifications(), predicate);
+            return getIdentifications().stream().filter(predicate).findFirst();
         }
-        return Optional.absent();
+        return Optional.empty();
     }
 
     public boolean isIdentificationSet(Predicate<SmlIdentifier> predicate) {
@@ -169,9 +167,9 @@ public abstract class AbstractSensorML extends AbstractFeature {
 
     public Optional<SmlClassifier> findClassifier(Predicate<SmlClassifier> predicate) {
         if (isSetClassifications()) {
-            return Iterables.tryFind(this.classifications, predicate);
+            return getClassifications().stream().filter(predicate).findFirst();
         } else {
-            return Optional.absent();
+            return Optional.empty();
         }
     }
 
@@ -195,9 +193,9 @@ public abstract class AbstractSensorML extends AbstractFeature {
 
     public Optional<SmlCharacteristics> findCharacteristics(Predicate<SmlCharacteristics> predicate) {
         if (isSetCharacteristics()) {
-            return Iterables.tryFind(this.characteristics, predicate);
+            return getCharacteristics().stream().filter(predicate).findFirst();
         } else {
-            return Optional.absent();
+            return Optional.empty();
         }
     }
 
@@ -219,9 +217,9 @@ public abstract class AbstractSensorML extends AbstractFeature {
 
     public Optional<SmlCapabilities> findCapabilities(Predicate<SmlCapabilities> predicate) {
         if (this.capabilities != null) {
-            return Iterables.tryFind(this.capabilities, predicate);
+            return getCapabilities().stream().filter(predicate).findFirst();
         } else {
-            return Optional.absent();
+            return Optional.empty();
         }
     }
 

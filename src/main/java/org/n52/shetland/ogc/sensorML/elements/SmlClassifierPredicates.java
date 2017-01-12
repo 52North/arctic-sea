@@ -16,7 +16,8 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
-import com.google.common.base.Predicate;
+import java.util.function.Predicate;
+
 
 /**
  * TODO JavaDoc
@@ -43,7 +44,7 @@ public class SmlClassifierPredicates {
         }
 
         @Override
-        public boolean apply(SmlClassifier input) {
+        public boolean test(SmlClassifier input) {
             return name.equals(input.getName());
         }
     }
@@ -56,7 +57,7 @@ public class SmlClassifierPredicates {
         }
 
         @Override
-        public boolean apply(SmlClassifier input) {
+        public boolean test(SmlClassifier input) {
             return definition.equals(input.getDefinition());
         }
     }

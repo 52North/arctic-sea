@@ -243,19 +243,19 @@ public class SmlPosition extends SweAbstractDataComponent {
 
 
     @Override
-    public SmlPosition clone() throws CloneNotSupportedException {
-        SmlPosition clone = new SmlPosition();
-        copyValueTo(clone);
+    public SmlPosition copy() {
+        SmlPosition copy = new SmlPosition();
+        copyValueTo(copy);
         if (isSetPosition()) {
-            clone.setPosition(getPosition());
+            copy.setPosition(getPosition());
         }
         if (isSetVector()) {
-            clone.setVector(getVector().clone());
+            copy.setVector(getVector().copy());
         } else if (isSetAbstractDataComponent()) {
-            clone.setAbstractDataComponent(getAbstractDataComponent().clone());
+            copy.setAbstractDataComponent(getAbstractDataComponent().copy());
         }
-        copyValueTo(clone);
-        return clone;
+        copyValueTo(copy);
+        return copy;
     }
 
     @Override

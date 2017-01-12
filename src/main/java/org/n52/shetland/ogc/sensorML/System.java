@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.sensorML;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.n52.shetland.ogc.gml.EngineeringCRS;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 
 /**
@@ -28,7 +27,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
  */
 public class System extends AbstractComponent implements HasComponents<System> {
 
-    private EngineeringCRS spatialReferenceFrame;
+//    private EngineeringCRS spatialReferenceFrame;
 
     private final List<SmlComponent> components = new ArrayList<SmlComponent>(0);
 
