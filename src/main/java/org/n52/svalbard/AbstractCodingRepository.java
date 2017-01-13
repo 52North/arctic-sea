@@ -21,9 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
 import org.n52.janmayen.component.AbstractComponentRepository;
@@ -32,6 +29,8 @@ import org.n52.janmayen.component.ComponentFactory;
 import org.n52.janmayen.similar.CompositeSimilar;
 import org.n52.janmayen.similar.ProxySimilarityComparator;
 import org.n52.janmayen.similar.Similar;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.HashMultimap;
