@@ -8,7 +8,7 @@
 
 **52°North's backbone for OGC services, clients and middlewares**
 
-*52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding, decoding of different formats and encodings, workflows and configuration**
+*52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding, decoding of different formats and encodings, workflows and configuration*
 
 The arctic sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases development of OGC related services (like the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middlewares. It compromises the following modules: 
 
@@ -58,27 +58,27 @@ All projects are available on Maven Central once they are released. For the time
 <dependencies>
   <dependency>
     <groupId>org.n52.iceland</groupId>
-    </artifactId>iceland</artifactId>
+    <artifactId>iceland</artifactId>
     <version>2-SNAPSHOT</version>
   </dependency>
   <dependency>
     <groupId>org.n52.faroe</groupId>
-    </artifactId>faroe</artifactId>
+    <artifactId>faroe</artifactId>
     <version>1-SNAPSHOT</version>
   </dependency>
   <dependency>
     <groupId>org.n52.svalbard</groupId>
-    </artifactId>svalbard</artifactId>
+    <artifactId>svalbard</artifactId>
     <version>1-SNAPSHOT</version>
   </dependency>
   <dependency>
     <groupId>org.n52.shetland</groupId>
-    </artifactId>shetland</artifactId>
+    <artifactId>shetland</artifactId>
     <version>1-SNAPSHOT</version>
   </dependency>
   <dependency>
     <groupId>org.n52.janmayen</groupId>
-    </artifactId>janmayen</artifactId>
+    <artifactId>janmayen</artifactId>
     <version>1-SNAPSHOT</version>
   </dependency>
 </dependencies>
