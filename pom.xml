@@ -179,7 +179,6 @@
                         <exclude>**/webapp/static/lib/*</exclude>
                         <exclude>**/webapp/WEB-INF/web.xml</exclude>
                         <exclude>**/buildNumber.properties</exclude>
-                        <exclude>**/NcNameResolver.java</exclude>
                     </excludes>
                     <includes>
                         <include>**/*.java</include>
