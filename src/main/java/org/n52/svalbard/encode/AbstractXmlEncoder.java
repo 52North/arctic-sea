@@ -36,8 +36,7 @@ import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
  *
  * @param <S>
  */
-public abstract class AbstractXmlEncoder<T, S>
-        extends AbstractDelegatingEncoder<T, S>
+public abstract class AbstractXmlEncoder<T, S> extends AbstractDelegatingEncoder<T, S>
         implements SchemaAwareEncoder<T, S> {
 
     private Producer<XmlOptions> xmlOptions;
@@ -87,14 +86,16 @@ public abstract class AbstractXmlEncoder<T, S>
 
     public <T> XmlObject encodeObjectToXml(String namespace, T object, EncodingContext helperValues)
             throws EncodingException {
-        return getEncoder(namespace, object).encode(object, helperValues == null ? EncodingContext.empty() : helperValues);
+        return getEncoder(namespace, object).encode(object,
+                helperValues == null ? EncodingContext.empty() : helperValues);
     }
 
     public XmlObject encodeObjectToXml(String namespace, Object object) throws EncodingException {
         return encodeObjectToXml(namespace, object, null);
     }
 
-    public String encodeObjectToXmlText(String namespace, Object object, EncodingContext helperValues) throws EncodingException {
+    public String encodeObjectToXmlText(String namespace, Object object, EncodingContext helperValues)
+            throws EncodingException {
         return encodeObjectToXml(namespace, object, helperValues).xmlText(getXmlOptions());
     }
 

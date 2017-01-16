@@ -72,36 +72,42 @@ import com.google.common.collect.Sets;
 public final class XmlHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XmlHelper.class);
+
     private static final Set<String> GML_NAMESPACES = Sets.newHashSet(GmlConstants.NS_GML, GmlConstants.NS_GML_32);
+
     private XmlHelper() {
     }
 
-//    /**
-//     * Parse XML document from HTTP-Post request.
-//     *
-//     * @param request
-//     *                HTTP-Post request
-//     *
-//     * @return XML document
-//     *
-//     * @throws DecodingException
-//     *                           If an error occurs
-//     */
-//    public static XmlObject parseXmlRequest(final HttpServletRequest request) throws DecodingException {
-//        try {
-//            if (request.getParameterMap().isEmpty()) {
-//                String requestContent = StringHelper.convertStreamToString(HttpUtils.getInputStream(request),
-//                                                                           request.getCharacterEncoding());
-//                return parseXmlString(requestContent);
-//            } else {
-//                return XmlObject.Factory.parse(parseHttpPostBodyWithParameter(request.getParameterMap()));
-//            }
-//        } catch (XmlException e) {
-//            throw new DecodingException("An xml error occured when parsing the request!", e);
-//        } catch (IOException e) {
-//            throw new DecodingException("Error while reading request!", e);
-//        }
-//    }
+    // /**
+    // * Parse XML document from HTTP-Post request.
+    // *
+    // * @param request
+    // * HTTP-Post request
+    // *
+    // * @return XML document
+    // *
+    // * @throws DecodingException
+    // * If an error occurs
+    // */
+    // public static XmlObject parseXmlRequest(final HttpServletRequest request)
+    // throws DecodingException {
+    // try {
+    // if (request.getParameterMap().isEmpty()) {
+    // String requestContent =
+    // StringHelper.convertStreamToString(HttpUtils.getInputStream(request),
+    // request.getCharacterEncoding());
+    // return parseXmlString(requestContent);
+    // } else {
+    // return
+    // XmlObject.Factory.parse(parseHttpPostBodyWithParameter(request.getParameterMap()));
+    // }
+    // } catch (XmlException e) {
+    // throw new DecodingException("An xml error occured when parsing the
+    // request!", e);
+    // } catch (IOException e) {
+    // throw new DecodingException("Error while reading request!", e);
+    // }
+    // }
 
     /**
      * Parses the HTTP-Post body with a parameter
@@ -113,8 +119,7 @@ public final class XmlHelper {
      * @throws DecodingException
      *             * If the parameter is not supported by this SOS.
      */
-    public static String parseHttpPostBodyWithParameter(Map<String, String[]> parameterMap)
-            throws DecodingException {
+    public static String parseHttpPostBodyWithParameter(Map<String, String[]> parameterMap) throws DecodingException {
         for (Entry<String, String[]> e : parameterMap.entrySet()) {
             String paramName = e.getKey();
             if (RequestParams.request.name().equalsIgnoreCase(paramName)) {
@@ -122,10 +127,13 @@ public final class XmlHelper {
                 if (paramValues.length == 1) {
                     return paramValues[0];
                 } else {
-                    throw new DecodingException("The parameter '%s' has more than one value or is empty for HTTP-Post requests by this SOS!", paramName);
+                    throw new DecodingException(
+                            "The parameter '%s' has more than one value or is empty for HTTP-Post requests by this SOS!",
+                            paramName);
                 }
             } else {
-                throw new DecodingException("The parameter '%s' is not supported for HTTP-Post requests by this SOS!", paramName);
+                throw new DecodingException("The parameter '%s' is not supported for HTTP-Post requests by this SOS!",
+                        paramName);
             }
         }
         // FIXME: valid exception
@@ -168,15 +176,16 @@ public final class XmlHelper {
      *             * if the Document is not valid
      */
     /*
-     * TODO Replace this version with a method that uses LaxValidationCases and provides means to access the errors after validating the document
+     * TODO Replace this version with a method that uses LaxValidationCases and
+     * provides means to access the errors after validating the document
      */
 
-    public static <X extends XmlObject, T extends Throwable> X validateDocument(X doc, Function<Throwable, T> supplier) throws T {
+    public static <X extends XmlObject, T extends Throwable> X validateDocument(X doc, Function<Throwable, T> supplier)
+            throws T {
         // Create an XmlOptions instance and set the error listener.
         LinkedList<XmlError> validationErrors = new LinkedList<>();
-        XmlOptions validationOptions = new XmlOptions()
-            .setErrorListener(validationErrors)
-            .setLoadLineNumbers(XmlOptions.LOAD_LINE_NUMBERS_END_ELEMENT);
+        XmlOptions validationOptions = new XmlOptions().setErrorListener(validationErrors)
+                .setLoadLineNumbers(XmlOptions.LOAD_LINE_NUMBERS_END_ELEMENT);
 
         // Create Exception with error message if the xml document is invalid
         if (!doc.validate(validationOptions)) {
@@ -235,8 +244,8 @@ public final class XmlHelper {
         try (InputStream is = new FileInputStream(file)) {
             return XmlObject.Factory.parse(is);
         } catch (XmlException | IOException xmle) {
-            throw new NoApplicableCodeException().causedBy(xmle)
-                    .withMessage("Error while parsing file %s!", file.getName());
+            throw new NoApplicableCodeException().causedBy(xmle).withMessage("Error while parsing file %s!",
+                    file.getName());
         }
     }
 
@@ -305,7 +314,7 @@ public final class XmlHelper {
                         if (checkAttributeForGmlId(attr, nodeNamespace)) {
                             if (oldGmlID == null) {
                                 oldGmlID = attr.getValue();
-                                attr.setValue((gmlID));
+                                attr.setValue(gmlID);
                             } else {
                                 String helperString = attr.getValue();
                                 helperString = helperString.replace(oldGmlID, gmlID);
@@ -380,9 +389,8 @@ public final class XmlHelper {
          * if document starts with a comment, get next sibling (and ignore
          * initial comment)
          */
-        if (namespaceURI == null &&
-            domNode.getFirstChild() != null &&
-            domNode.getFirstChild().getNextSibling() != null) {
+        if (namespaceURI == null && domNode.getFirstChild() != null
+                && domNode.getFirstChild().getNextSibling() != null) {
             namespaceURI = domNode.getFirstChild().getNextSibling().getNamespaceURI();
         }
         // check with schemaType namespace, necessary for anyType elements
@@ -413,7 +421,8 @@ public final class XmlHelper {
         return null;
     }
 
-    public static XmlObject substituteElement(final XmlObject elementToSubstitute, final XmlObject substitutionElement) {
+    public static XmlObject substituteElement(final XmlObject elementToSubstitute,
+            final XmlObject substitutionElement) {
         final Node domNode = substitutionElement.getDomNode();
         QName name;
         if (domNode.getNamespaceURI() != null && domNode.getLocalName() != null) {
@@ -426,7 +435,8 @@ public final class XmlHelper {
         } else {
             final QName nameOfElement = substitutionElement.schemaType().getName();
             final String localPart = nameOfElement.getLocalPart().replace(GmlConstants.EN_PART_TYPE, "");
-            name = new QName(nameOfElement.getNamespaceURI(), localPart, getPrefixForNamespace(elementToSubstitute, nameOfElement.getNamespaceURI()));
+            name = new QName(nameOfElement.getNamespaceURI(), localPart,
+                    getPrefixForNamespace(elementToSubstitute, nameOfElement.getNamespaceURI()));
         }
         return substituteElement(elementToSubstitute, substitutionElement.schemaType(), name);
     }
@@ -451,9 +461,11 @@ public final class XmlHelper {
      * Interface for providing exceptional cases in XML validation (e.g.
      * substitution groups).
      *
-     * FIXME Review code and use new procedure from OX-F to validate offending content!
+     * FIXME Review code and use new procedure from OX-F to validate offending
+     * content!
      */
-    public enum LaxValidationCase { // FIXME make private again
+    public enum LaxValidationCase { 
+        // FIXME make private again
         ABSTRACT_OFFERING {
             @SuppressWarnings("unchecked")
             @Override
@@ -473,8 +485,8 @@ public final class XmlHelper {
             @SuppressWarnings("unchecked")
             @Override
             public boolean shouldPass(final XmlValidationError xve) {
-                return checkExpectedQNamesContainsQNames(xve.getExpectedQNames(), Lists.newArrayList(
-                        GmlConstants.QN_ABSTRACT_FEATURE_GML, GmlConstants.QN_ABSTRACT_FEATURE_GML_32));
+                return checkExpectedQNamesContainsQNames(xve.getExpectedQNames(), Lists
+                        .newArrayList(GmlConstants.QN_ABSTRACT_FEATURE_GML, GmlConstants.QN_ABSTRACT_FEATURE_GML_32));
             }
         },
         ABSTRACT_TIME_GML_3_2_1 {
@@ -641,10 +653,8 @@ public final class XmlHelper {
                         localName = toks[0];
                     }
                     if (localName.equals(value.getLocalPart())) {
-                        cursor.setAttributeText(
-                                W3CConstants.QN_XSI_TYPE,
-                                Joiner.on(":").join(
-                                        XmlHelper.getPrefixForNamespace(object, value.getNamespaceURI()),
+                        cursor.setAttributeText(W3CConstants.QN_XSI_TYPE,
+                                Joiner.on(":").join(XmlHelper.getPrefixForNamespace(object, value.getNamespaceURI()),
                                         value.getLocalPart()));
                     }
                 }
@@ -654,17 +664,17 @@ public final class XmlHelper {
     }
 
     public static Map<?, ?> getNamespaces(XmlObject xmlObject) {
-      XmlCursor cursor = xmlObject.newCursor();
-      Map<?,?> nsMap = Maps.newHashMap();
-      cursor.getAllNamespaces(nsMap);
-      cursor.dispose();
-      return nsMap;
+        XmlCursor cursor = xmlObject.newCursor();
+        Map<?, ?> nsMap = Maps.newHashMap();
+        cursor.getAllNamespaces(nsMap);
+        cursor.dispose();
+        return nsMap;
     }
 
     /**
-     * @param prefix
-     * @param namespace
-     * @return
+     * @param prefix The prefix
+     * @param namespace The namespace
+     * @return The path
      */
     public static String getXPathPrefix(String prefix, String namespace) {
         return String.format("declare namespace %s='%s';", prefix, namespace);

@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-
 import static java.util.stream.Collectors.groupingBy;
 
 import java.util.Collections;
@@ -32,6 +31,8 @@ import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -42,6 +43,7 @@ public class SchemaRepository implements Constructable {
     private static SchemaRepository instance;
 
     private final Map<String, Set<SchemaLocation>> schemaLocations = Maps.newHashMap();
+
     private EncoderRepository encoderRepository;
 
     @Inject
@@ -50,19 +52,18 @@ public class SchemaRepository implements Constructable {
     }
 
     @Override
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void init() {
         SchemaRepository.instance = this;
         this.schemaLocations.clear();
-        this.schemaLocations.putAll(this.encoderRepository.getEncoders().stream()
-                .filter(e -> e instanceof SchemaAwareEncoder)
-                .map(e -> (SchemaAwareEncoder<?,?>) e)
-                .map(SchemaAwareEncoder::getSchemaLocations)
-                .filter(Objects::nonNull)
-                .flatMap(Set<SchemaLocation>::stream)
-                .collect(groupingBy(SchemaLocation::getNamespace, Collectors.toSet())));
+        this.schemaLocations
+                .putAll(this.encoderRepository.getEncoders().stream().filter(e -> e instanceof SchemaAwareEncoder)
+                        .map(e -> (SchemaAwareEncoder<?, ?>) e).map(SchemaAwareEncoder::getSchemaLocations)
+                        .filter(Objects::nonNull).flatMap(Set<SchemaLocation>::stream)
+                        .collect(groupingBy(SchemaLocation::getNamespace, Collectors.toSet())));
     }
 
-     public Set<SchemaLocation> getSchemaLocation(String namespace) {
+    public Set<SchemaLocation> getSchemaLocation(String namespace) {
         if (this.schemaLocations.containsKey(namespace)) {
             return this.schemaLocations.get(namespace);
         }
@@ -85,12 +86,12 @@ public class SchemaRepository implements Constructable {
 
     private Map<String, String> getPrefixNamspaceMap() {
         Map<String, String> prefixMap = Maps.newHashMap();
-        this.encoderRepository.getEncoders().stream()
-                .filter(encoder -> encoder instanceof SchemaAwareEncoder)
-                .map(encoder -> (SchemaAwareEncoder<?,?>) encoder)
+        this.encoderRepository.getEncoders().stream().filter(encoder -> encoder instanceof SchemaAwareEncoder)
+                .map(encoder -> (SchemaAwareEncoder<?, ?>) encoder)
                 .forEach(encoder -> encoder.addNamespacePrefixToMap(prefixMap));
         return prefixMap;
     }
+
     @Deprecated
     public static SchemaRepository getInstance() {
         return instance;

@@ -32,11 +32,12 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * @param <S>
  *            the input type, the "Source"
  */
-public interface StreamingEncoder<T,S> extends Encoder<T, S> {
+public interface StreamingEncoder<T, S> extends Encoder<T, S> {
 
     public void encode(S objectToEncode, OutputStream outputStream) throws EncodingException;
 
-    public void encode(S objectToEncode, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException;
+    public void encode(S objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+            throws EncodingException;
 
     public boolean forceStreaming();
 

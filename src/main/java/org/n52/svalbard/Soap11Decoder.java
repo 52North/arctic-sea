@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 4.0.0
  */
 public class Soap11Decoder extends AbstractSoapDecoder {
@@ -45,8 +45,7 @@ public class Soap11Decoder extends AbstractSoapDecoder {
 
     public Soap11Decoder() {
         super(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE);
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(getKeys()));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(getKeys()));
     }
 
     /**
@@ -72,11 +71,11 @@ public class Soap11Decoder extends AbstractSoapDecoder {
                 soapMessageRequest =
                         SoapHelper.getSoapMessageForProtocol(SOAPConstants.SOAP_1_1_PROTOCOL, doc.newInputStream());
             } catch (IOException ioe) {
-                throw new NoApplicableCodeException().causedBy(ioe).withMessage(
-                        "Error while parsing SOAPMessage from request string!");
+                throw new NoApplicableCodeException().causedBy(ioe)
+                        .withMessage("Error while parsing SOAPMessage from request string!");
             } catch (SOAPException soape) {
-                throw new NoApplicableCodeException().causedBy(soape).withMessage(
-                        "Error while parsing SOAPMessage from request string!");
+                throw new NoApplicableCodeException().causedBy(soape)
+                        .withMessage("Error while parsing SOAPMessage from request string!");
             }
             // if SOAPAction is not spec conform, create SOAPFault
             if (soapAction.isEmpty() || !soapAction.startsWith("SOAPAction:")) {

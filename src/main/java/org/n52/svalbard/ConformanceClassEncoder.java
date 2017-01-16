@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import org.n52.svalbard.encode.Encoder;
 
 /**

@@ -38,8 +38,9 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
 /**
- * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic COmmon (GCO) extensible
- * markup language.
+ * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic COmmon (GCO)
+ * extensible markup language.
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.2.0
  *
@@ -51,8 +52,8 @@ public class Iso19139GcoEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     private static final Set<EncoderKey> ENCODER_KEYS = encoderKeysForElements(GcoConstants.NS_GCO, Role.class);
 
     public Iso19139GcoEncoder() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -71,8 +72,8 @@ public class Iso19139GcoEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException,
-            UnsupportedEncoderInputException {
+    public XmlObject encode(Object element, EncodingContext additionalValues)
+            throws EncodingException, UnsupportedEncoderInputException {
         XmlObject encodedObject = null;
         if (element instanceof Role) {
             encodedObject = encodeRole((Role) element);
@@ -84,8 +85,7 @@ public class Iso19139GcoEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private XmlObject encodeRole(Role role) {
-        CodeListValueType circ =
-                CodeListValueType.Factory.newInstance(getXmlOptions());
+        CodeListValueType circ = CodeListValueType.Factory.newInstance(getXmlOptions());
         circ.setStringValue(role.getValue());
         circ.setCodeList(role.getCodeList());
         circ.setCodeListValue(role.getCodeListValue());

@@ -30,11 +30,12 @@ import org.n52.svalbard.AbstractCodingRepository;
  *
  * @author Christian Autermann
  */
-public class DecoderRepository
-        extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory> implements Constructable {
+public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory>
+        implements Constructable {
 
     @Autowired(required = false)
     private Collection<Decoder<?, ?>> decoders;
+
     @Autowired(required = false)
     private Collection<DecoderFactory> decoderFactories;
 

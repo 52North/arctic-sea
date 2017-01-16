@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -49,8 +48,11 @@ import com.google.common.collect.Sets;
  *
  */
 public final class N52XmlHelper {
-    public static final SchemaLocation SCHEMA_LOCATION_OM_100 = new SchemaLocation(OmConstants.NS_OM, OmConstants.SCHEMA_LOCATION_URL_OM_CONSTRAINT);
-    public static final SchemaLocation SCHEMA_LOCATION_SOAP_12 = new SchemaLocation(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
+    public static final SchemaLocation SCHEMA_LOCATION_OM_100 =
+            new SchemaLocation(OmConstants.NS_OM, OmConstants.SCHEMA_LOCATION_URL_OM_CONSTRAINT);
+
+    public static final SchemaLocation SCHEMA_LOCATION_SOAP_12 =
+            new SchemaLocation(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
 
     /**
      * Sets the schema location to a XmlObject
@@ -86,7 +88,7 @@ public final class N52XmlHelper {
             if (it.hasNext()) {
                 StringBuilder builder = new StringBuilder();
                 builder.append(it.next().getSchemaLocationString());
-                while(it.hasNext()) {
+                while (it.hasNext()) {
                     builder.append(" ").append(it.next().getSchemaLocationString());
                 }
                 return builder.toString();

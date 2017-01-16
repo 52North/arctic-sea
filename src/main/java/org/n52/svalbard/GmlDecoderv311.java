@@ -63,12 +63,14 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
             TimePeriodDocument.class, CodeType.class, PointType.class);
 
     private static final String CS = ",";
+
     private static final String DECIMAL = ".";
+
     private static final String TS = " ";
 
     public GmlDecoderv311() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                     Joiner.on(", ").join(DECODER_KEYS));
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -114,7 +116,8 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
         if (xbBeginTPT != null) {
             begin = parseTimePosition(xbBeginTPT);
         } else {
-            throw new DecodingException("gml:TimePeriod must contain gml:beginPosition Element with valid ISO:8601 String!");
+            throw new DecodingException(
+                    "gml:TimePeriod must contain gml:beginPosition Element with valid ISO:8601 String!");
         }
 
         // end position
@@ -123,7 +126,8 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
         if (xbEndTPT != null) {
             end = parseTimePosition(xbEndTPT);
         } else {
-            throw new DecodingException("gml:TimePeriod must contain gml:endPosition Element with valid ISO:8601 String!");
+            throw new DecodingException(
+                    "gml:TimePeriod must contain gml:endPosition Element with valid ISO:8601 String!");
         }
         TimePeriod timePeriod = new TimePeriod(begin, end);
         timePeriod.setGmlId(xbTimePeriod.getId());
@@ -141,7 +145,8 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
         String timeString = xbTimePosition.getStringValue();
         if (timeString != null && !timeString.isEmpty()) {
             try {
-                // TODO better differnetiate between ISO8601 and an indeterminate value
+                // TODO better differnetiate between ISO8601 and an
+                // indeterminate value
                 DateTime dateTime = DateTimeHelper.parseIsoString2DateTime(timeString);
                 ti.setValue(dateTime);
                 ti.setRequestedTimeLength(DateTimeHelper.getTimeLengthBeforeTimeZone(timeString));
@@ -187,7 +192,8 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
             String directPosition = getString4Coordinates(xbCoords);
             geomWKT = JTSHelper.createWKTPointFromCoordinateString(directPosition);
         } else {
-            throw new DecodingException("For geometry type 'gml:Point' only elements 'gml:pos' and 'gml:coordinates' are allowed");
+            throw new DecodingException(
+                    "For geometry type 'gml:Point' only elements 'gml:pos' and 'gml:coordinates' are allowed");
         }
 
         checkSrid(srid);

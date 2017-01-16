@@ -64,10 +64,12 @@ import net.opengis.om.x20.OMObservationType;
 public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObservation> {
 
     private OmObservation observation;
+
     private EncoderRepository encoderRepository;
 
     /**
-     * @param encoderRepository the encoderRepository to set
+     * @param encoderRepository
+     *            the encoderRepository to set
      */
     @Inject
     public void setEncoderRepository(EncoderRepository encoderRepository) {
@@ -155,7 +157,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         writeNewLine();
         writeResultTime();
         writeNewLine();
-        if (observation.isSetValidTime()){
+        if (observation.isSetValidTime()) {
             writeValidTime(observation.getValidTime());
             writeNewLine();
         }
@@ -187,8 +189,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      */
     protected void writeIdentifier(CodeWithAuthority identifier) throws EncodingException, XMLStreamException {
         Encoder<?, CodeWithAuthority> encoder =
-                encoderRepository.getEncoder(
-                        CodingHelper.getEncoderKey(GmlConstants.NS_GML_32, identifier));
+                encoderRepository.getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32, identifier));
         if (encoder != null) {
             writeXmlObject((XmlObject) encoder.encode(identifier), GmlConstants.QN_IDENTIFIER_32);
         } else {
@@ -300,57 +301,62 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      */
     @SuppressWarnings("unchecked")
     protected void writeProcedure(EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-//        if (encodingValues.isSetEncoder() && checkEncodProcedureForEncoderKeys(encodingValues.getEncoder())) {
-//            SosProcedureDescription procedureToEncode = observation
-//                    .getObservationConstellation().getProcedure();
-//            // should the procedure be converted
-//            if (procedureToEncode.getDescriptionFormat().equals(anObject)) {
-//                Converter<SosProcedureDescription, SosProcedureDescription> converter =
-//                        ConverterRepository.getInstance().getConverter(procedureDescription.getDescriptionFormat(),
-//                                getDefaultProcedureEncodingNamspace());
-//                if (converter != null) {
-//                    try {
-//                        procedureToEncode = converter.convert(procedureDescription);
-//                    } catch (ConverterException e) {
-//                        throw new NoApplicableCodeException().causedBy(e).withMessage(
-//                                "Error while converting procedureDescription!");
-//                    }
-//                } else {
-//                    throw new NoApplicableCodeException().withMessage("No converter (%s -> %s) found!",
-//                            procedureDescription.getDescriptionFormat(), getDefaultProcedureEncodingNamspace());
-//                }
-//            } else {
-//                procedureToEncode = procedureDescription;
-//            }
-//            // encode procedure or add reference
-//            XmlObject encodedProcedure =
-//                    CodingHelper.encodeObjectToXml(procedureToEncode.getDescriptionFormat(), procedureToEncode);
-//            if (encodedProcedure != null) {
-//                writeXmlObject(encodedProcedure, OmConstants.QN_OM_20_PROCEDURE);
-//            } else {
-//                empty(OmConstants.QN_OM_20_PROCEDURE);
-//                addXlinkHrefAttr(observation.getObservationConstellation().getProcedure().getIdentifier());
-//            }
-//        } else {
+        // if (encodingValues.isSetEncoder() &&
+        // checkEncodProcedureForEncoderKeys(encodingValues.getEncoder())) {
+        // SosProcedureDescription procedureToEncode = observation
+        // .getObservationConstellation().getProcedure();
+        // // should the procedure be converted
+        // if (procedureToEncode.getDescriptionFormat().equals(anObject)) {
+        // Converter<SosProcedureDescription, SosProcedureDescription> converter
+        // =
+        // ConverterRepository.getInstance().getConverter(procedureDescription.getDescriptionFormat(),
+        // getDefaultProcedureEncodingNamspace());
+        // if (converter != null) {
+        // try {
+        // procedureToEncode = converter.convert(procedureDescription);
+        // } catch (ConverterException e) {
+        // throw new NoApplicableCodeException().causedBy(e).withMessage(
+        // "Error while converting procedureDescription!");
+        // }
+        // } else {
+        // throw new NoApplicableCodeException().withMessage("No converter (%s
+        // -> %s) found!",
+        // procedureDescription.getDescriptionFormat(),
+        // getDefaultProcedureEncodingNamspace());
+        // }
+        // } else {
+        // procedureToEncode = procedureDescription;
+        // }
+        // // encode procedure or add reference
+        // XmlObject encodedProcedure =
+        // CodingHelper.encodeObjectToXml(procedureToEncode.getDescriptionFormat(),
+        // procedureToEncode);
+        // if (encodedProcedure != null) {
+        // writeXmlObject(encodedProcedure, OmConstants.QN_OM_20_PROCEDURE);
+        // } else {
+        // empty(OmConstants.QN_OM_20_PROCEDURE);
+        // addXlinkHrefAttr(observation.getObservationConstellation().getProcedure().getIdentifier());
+        // }
+        // } else {
         empty(OmConstants.QN_OM_20_PROCEDURE);
         addXlinkHrefAttr(observation.getObservationConstellation().getProcedure().getIdentifier());
         if (observation.getObservationConstellation().getProcedure().isSetName()
                 && observation.getObservationConstellation().getProcedure().getFirstName().isSetValue()) {
             addXlinkTitleAttr(observation.getObservationConstellation().getProcedure().getFirstName().getValue());
         }
-//        }
+        // }
 
-
-
-//        if (encodingValues.isSetEncoder() && encodingValues.getEncoder() instanceof ObservationEncoder) {
-//            XmlObject xmlObject =
-//                    ((ObservationEncoder<XmlObject, Object>) encodingValues.getEncoder()).encode(observation
-//                            .getObservationConstellation().getProcedure(), null);
-//            writeXmlObject(xmlObject, OmConstants.QN_OM_20_PROCEDURE);
-//        } else {
-//            empty(OmConstants.QN_OM_20_PROCEDURE);
-//            addXlinkHrefAttr(observation.getObservationConstellation().getProcedure().getIdentifier());
-//        }
+        // if (encodingValues.isSetEncoder() && encodingValues.getEncoder()
+        // instanceof ObservationEncoder) {
+        // XmlObject xmlObject =
+        // ((ObservationEncoder<XmlObject, Object>)
+        // encodingValues.getEncoder()).encode(observation
+        // .getObservationConstellation().getProcedure(), null);
+        // writeXmlObject(xmlObject, OmConstants.QN_OM_20_PROCEDURE);
+        // } else {
+        // empty(OmConstants.QN_OM_20_PROCEDURE);
+        // addXlinkHrefAttr(observation.getObservationConstellation().getProcedure().getIdentifier());
+        // }
     }
 
     /**
@@ -392,8 +398,8 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         addXlinkHrefAttr(observation.getObservationConstellation().getObservableProperty().getIdentifier());
         if (observation.getObservationConstellation().getObservableProperty().isSetName()
                 && observation.getObservationConstellation().getObservableProperty().getFirstName().isSetValue()) {
-            addXlinkTitleAttr(observation.getObservationConstellation().getObservableProperty().getFirstName()
-                    .getValue());
+            addXlinkTitleAttr(
+                    observation.getObservationConstellation().getObservableProperty().getFirstName().getValue());
         }
     }
 
@@ -407,8 +413,8 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      * @throws EncodingException
      *             If an error occurs when creating elements to be written
      */
-    protected void writeFeatureOfIntererst(EncodingValues encodingValues) throws XMLStreamException,
-            EncodingException {
+    protected void writeFeatureOfIntererst(EncodingValues encodingValues)
+            throws XMLStreamException, EncodingException {
         if (encodingValues.isSetEncoder() && encodingValues.getEncoder() instanceof AbstractOmEncoderv20) {
             AbstractOmEncoderv20 encoder = (AbstractOmEncoderv20) encodingValues.getEncoder();
             Object namespace = encoder.getDefaultFeatureEncodingNamespace();
@@ -423,8 +429,8 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
             addXlinkHrefAttr(observation.getObservationConstellation().getFeatureOfInterest().getIdentifier());
             if (observation.getObservationConstellation().getFeatureOfInterest().isSetName()
                     && observation.getObservationConstellation().getFeatureOfInterest().getFirstName().isSetValue()) {
-                addXlinkTitleAttr(observation.getObservationConstellation().getFeatureOfInterest().getFirstName()
-                        .getValue());
+                addXlinkTitleAttr(
+                        observation.getObservationConstellation().getFeatureOfInterest().getFirstName().getValue());
             }
         }
     }
@@ -441,20 +447,18 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      * @throws EncodingException
      *             If an error occurs when creating elements to be written
      */
-    protected void writeResult(OmObservation observation, EncodingValues encodingValues) throws XMLStreamException,
-            EncodingException {
+    protected void writeResult(OmObservation observation, EncodingValues encodingValues)
+            throws XMLStreamException, EncodingException {
         if (observation.getValue() instanceof AbstractObservationValue<?>) {
             ((AbstractObservationValue<?>) observation.getValue()).setValuesForResultEncoding(observation);
         }
         XmlObject createResult = (XmlObject) encoderRepository
-                .getEncoder(CodingHelper.getEncoderKey(encodingValues.getEncodingNamespace(),
-                        observation.getValue()))
+                .getEncoder(CodingHelper.getEncoderKey(encodingValues.getEncodingNamespace(), observation.getValue()))
                 .encode(observation.getValue());
         if (createResult != null) {
             if (createResult.xmlText().contains(XML_FRAGMENT)) {
-                XmlObject set =
-                        OMObservationType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions())
-                                .addNewResult().set(createResult);
+                XmlObject set = OMObservationType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions())
+                        .addNewResult().set(createResult);
                 writeXmlObject(set, OmConstants.QN_OM_20_RESULT);
             } else {
                 if (checkResult(createResult)) {
@@ -517,7 +521,8 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
             SchemaType schemaType = result.schemaType();
             if (schemaType.getName() != null) {
                 QName name = schemaType.getName();
-                if (name.getLocalPart() != null && name.getLocalPart().toLowerCase(Locale.ROOT).contains("propertytype")) {
+                if (name.getLocalPart() != null
+                        && name.getLocalPart().toLowerCase(Locale.ROOT).contains("propertytype")) {
                     return true;
                 }
             }
@@ -556,10 +561,9 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      *             If an error occurs when writing to stream
      */
     private void writeTimeContent(Time time) throws EncodingException, XMLStreamException {
-        XmlObject xmlObject = (XmlObject) encoderRepository
-                .getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32,
-                        time))
-                .encode(time, getDocumentAdditionalHelperValues());
+        XmlObject xmlObject =
+                (XmlObject) encoderRepository.getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32, time))
+                        .encode(time, getDocumentAdditionalHelperValues());
         writeXmlObject(xmlObject, GmlHelper.getGml321QnameForITime(time));
     }
 
@@ -576,10 +580,9 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
     private void addResultTime(TimeInstant time) throws EncodingException, XMLStreamException {
         start(OmConstants.QN_OM_20_RESULT_TIME);
         writeNewLine();
-        XmlObject xmlObject = (XmlObject) encoderRepository
-                .getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32,
-                        time))
-                .encode(time, getDocumentAdditionalHelperValues());
+        XmlObject xmlObject =
+                (XmlObject) encoderRepository.getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32, time))
+                        .encode(time, getDocumentAdditionalHelperValues());
         writeXmlObject(xmlObject, GmlConstants.QN_TIME_INSTANT_32);
         writeNewLine();
         indent--;

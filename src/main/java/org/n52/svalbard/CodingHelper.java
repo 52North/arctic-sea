@@ -30,13 +30,16 @@ import org.n52.svalbard.decode.exception.XmlDecodingException;
 import org.n52.svalbard.encode.EncoderKey;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org> TODO implement
- *         encodeToXml(Object o) using a Map from o.getClass().getName() ->
- *         namespaces
+ * TODO implement encodeToXml(Object o) using a Map from o.getClass().getName()
+ * -> namespaces
+ *
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
+ *
  * @since 4.0.0
  *
  */
 public final class CodingHelper {
+
     private CodingHelper() {
     }
 
@@ -66,7 +69,8 @@ public final class CodingHelper {
         return set;
     }
 
-    public static Set<DecoderKey> xmlStringDecoderKeysForOperationAndMediaType(String service, String version, Enum<?>... operations) {
+    public static Set<DecoderKey> xmlStringDecoderKeysForOperationAndMediaType(String service, String version,
+            Enum<?>... operations) {
         final HashSet<DecoderKey> set = new HashSet<>(operations.length);
         for (final Enum<?> o : operations) {
             set.add(new XmlStringOperationDecoderKey(service, version, o, MediaTypes.TEXT_XML));
@@ -75,7 +79,8 @@ public final class CodingHelper {
         return set;
     }
 
-    public static Set<DecoderKey> xmlStringDecoderKeysForOperationAndMediaType(String service, String version, String... operations) {
+    public static Set<DecoderKey> xmlStringDecoderKeysForOperationAndMediaType(String service, String version,
+            String... operations) {
         HashSet<DecoderKey> set = new HashSet<>(operations.length);
         for (String o : operations) {
             set.add(new XmlStringOperationDecoderKey(service, version, o, MediaTypes.TEXT_XML));

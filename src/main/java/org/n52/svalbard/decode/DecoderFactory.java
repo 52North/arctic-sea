@@ -22,7 +22,6 @@ import org.n52.janmayen.component.ComponentFactory;
  *
  * @author Christian Autermann
  */
-public interface DecoderFactory extends
-        ComponentFactory<DecoderKey, Decoder<?, ?>> {
+public interface DecoderFactory extends ComponentFactory<DecoderKey, Decoder<?, ?>> {
 
 }

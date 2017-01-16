@@ -139,7 +139,8 @@ public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object
             return namedValue;
         } else if (value instanceof SweCategory) {
             NamedValue<String> namedValue = new NamedValue<>();
-            namedValue.setValue(new CategoryValue(((SweCategory) value).getValue(), ((SweCategory) value).getCodeSpace()));
+            namedValue.setValue(
+                    new CategoryValue(((SweCategory) value).getValue(), ((SweCategory) value).getCodeSpace()));
             return namedValue;
         } else if (value instanceof CountValue) {
             NamedValue<Integer> namedValue = new NamedValue<>();
@@ -147,7 +148,7 @@ public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object
             return namedValue;
         } else if (value instanceof SweCount) {
             NamedValue<Integer> namedValue = new NamedValue<>();
-            namedValue.setValue(new CountValue(((CountValue) value).getValue()));
+            namedValue.setValue(new CountValue(((SweCount) value).getValue()));
             return namedValue;
         } else if (value instanceof Integer) {
             NamedValue<Integer> namedValue = new NamedValue<>();
@@ -163,7 +164,8 @@ public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object
             return namedValue;
         } else if (value instanceof GmlMeasureType) {
             NamedValue<Double> namedValue = new NamedValue<>();
-            namedValue.setValue(new QuantityValue(((GmlMeasureType) value).getValue(), ((GmlMeasureType) value).getUnit()));
+            namedValue.setValue(
+                    new QuantityValue(((GmlMeasureType) value).getValue(), ((GmlMeasureType) value).getUnit()));
             return namedValue;
         } else if (value instanceof SweQuantity) {
             NamedValue<Double> namedValue = new NamedValue<>();
@@ -187,15 +189,15 @@ public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object
             return namedValue;
         } else if (value instanceof AbstractGeometry) {
             NamedValue<Geometry> namedValue = new NamedValue<>();
-            namedValue.setValue(new GeometryValue((AbstractGeometry)value));
+            namedValue.setValue(new GeometryValue((AbstractGeometry) value));
             return namedValue;
         } else if (value instanceof ReferenceType) {
             NamedValue<ReferenceType> namedValue = new NamedValue<>();
-            namedValue.setValue(new ReferenceValue((ReferenceType)value));
+            namedValue.setValue(new ReferenceValue((ReferenceType) value));
             return namedValue;
         } else if (value instanceof W3CHrefAttribute) {
             NamedValue<W3CHrefAttribute> namedValue = new NamedValue<>();
-            namedValue.setValue(new HrefAttributeValue((W3CHrefAttribute)value));
+            namedValue.setValue(new HrefAttributeValue((W3CHrefAttribute) value));
             return namedValue;
         } else {
             throw new UnsupportedDecoderInputException(this, xmlObject);

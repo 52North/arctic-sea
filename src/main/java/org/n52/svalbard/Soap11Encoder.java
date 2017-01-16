@@ -18,6 +18,7 @@ package org.n52.svalbard;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
@@ -40,8 +41,10 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 4.0.0
  */
 public class Soap11Encoder extends AbstractSoapEncoder<SOAPMessage, SoapResponse> {
@@ -50,13 +53,12 @@ public class Soap11Encoder extends AbstractSoapEncoder<SOAPMessage, SoapResponse
 
     public Soap11Encoder() {
         super(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE);
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(getKeys()));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(getKeys()));
     }
 
     @Override
-    public SOAPMessage encode(SoapResponse soapResponse, EncodingContext additionalValues)
-            throws EncodingException {
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
+    public SOAPMessage encode(SoapResponse soapResponse, EncodingContext additionalValues) throws EncodingException {
         if (soapResponse == null) {
             throw new UnsupportedEncoderInputException(this, soapResponse);
         }
@@ -69,14 +71,11 @@ public class Soap11Encoder extends AbstractSoapEncoder<SOAPMessage, SoapResponse
                 createSOAPFault(soapResponseMessage.getSOAPBody().addFault(), soapResponse.getSoapFault());
             } else {
                 if (soapResponse.getException() != null) {
-                    action =
-                            createSOAPFaultFromExceptionResponse(soapResponseMessage.getSOAPBody().addFault(),
-                                    soapResponse.getException());
+                    action = createSOAPFaultFromExceptionResponse(soapResponseMessage.getSOAPBody().addFault(),
+                            soapResponse.getException());
                     addSchemaLocationForExceptionToSOAPMessage(soapResponseMessage);
                 } else {
-                    action =
-                            createSOAPBody(soapResponseMessage, soapResponse,
-                                    soapResponse.getSoapAction());
+                    action = createSOAPBody(soapResponseMessage, soapResponse, soapResponse.getSoapAction());
                 }
             }
             if (soapResponse.getHeader() != null) {
@@ -86,11 +85,11 @@ public class Soap11Encoder extends AbstractSoapEncoder<SOAPMessage, SoapResponse
                         ((WsaHeader) header).setValue(action);
                     }
                     Encoder<Map<QName, String>, SoapHeader> encoder =
-                            getEncoder(
-                                    CodingHelper.getEncoderKey(header.getNamespace(), header));
+                            getEncoder(CodingHelper.getEncoderKey(header.getNamespace(), header));
                     if (encoder != null) {
                         Map<QName, String> headerElements = encoder.encode(header);
-                        for (QName qName : headerElements.keySet()) {
+                        for (Entry<QName, String> entry : headerElements.entrySet()) {
+                            QName qName = entry.getKey();
                             soapResponseMessage.getSOAPHeader().addChildElement(qName)
                                     .setTextContent(headerElements.get(qName));
                         }

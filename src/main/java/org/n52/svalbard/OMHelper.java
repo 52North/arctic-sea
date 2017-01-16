@@ -60,7 +60,10 @@ import org.slf4j.LoggerFactory;
  */
 public final class OMHelper {
     private static final Logger log = LoggerFactory.getLogger(OMHelper.class);
-    private static final ValueVisitor<String, RuntimeException> OBSERVATION_TYPE_VISITOR = new ObservationTypeVisitor();
+
+    private static final ValueVisitor<String, RuntimeException> OBSERVATION_TYPE_VISITOR =
+            new ObservationTypeVisitor();
+
     private OMHelper() {
     }
 
@@ -69,8 +72,7 @@ public final class OMHelper {
                 || SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE.equals(featureType)
                 || SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE.equals(featureType)) {
             return SfConstants.NS_SAMS;
-        } else if (SfConstants.FT_SAMPLINGPOINT.equals(featureType)
-                || SfConstants.FT_SAMPLINGCURVE.equals(featureType)
+        } else if (SfConstants.FT_SAMPLINGPOINT.equals(featureType) || SfConstants.FT_SAMPLINGCURVE.equals(featureType)
                 || SfConstants.FT_SAMPLINGSURFACE.equals(featureType)) {
             return SfConstants.NS_SA;
         }
@@ -92,8 +94,9 @@ public final class OMHelper {
             return OmConstants.OBS_TYPE_COMPLEX_OBSERVATION;
         }
         // TODO Check for missing types
-        throw new NoApplicableCodeException().withMessage(
-                "Not able to derive observation type from swe:AbstractDataComponent element '{}'.", component)
+        throw new NoApplicableCodeException()
+                .withMessage("Not able to derive observation type from swe:AbstractDataComponent element '{}'.",
+                        component)
                 .setStatus(HTTPStatus.BAD_REQUEST);
     }
 
@@ -138,23 +141,23 @@ public final class OMHelper {
     public static QName getQNameFor(final String observationType) {
         if (null != observationType) {
             switch (observationType) {
-                case OmConstants.OBS_TYPE_MEASUREMENT:
-                    return OmConstants.RESULT_MODEL_MEASUREMENT;
-                case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
-                    return OmConstants.RESULT_MODEL_CATEGORY_OBSERVATION;
-                case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
-                    return OmConstants.RESULT_MODEL_GEOMETRY_OBSERVATION;
-                case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
-                    return OmConstants.RESULT_MODEL_COUNT_OBSERVATION;
-                case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
-                    return OmConstants.RESULT_MODEL_TRUTH_OBSERVATION;
-                case OmConstants.OBS_TYPE_TEXT_OBSERVATION:
-                    return OmConstants.RESULT_MODEL_TEXT_OBSERVATION;
-                case OmConstants.OBS_TYPE_COMPLEX_OBSERVATION:
-                    return OmConstants.RESULT_MODEL_COMPLEX_OBSERVATION;
-                default:
-                    log.trace("Not supported observationType '{}'", observationType);
-                    break;
+            case OmConstants.OBS_TYPE_MEASUREMENT:
+                return OmConstants.RESULT_MODEL_MEASUREMENT;
+            case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
+                return OmConstants.RESULT_MODEL_CATEGORY_OBSERVATION;
+            case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
+                return OmConstants.RESULT_MODEL_GEOMETRY_OBSERVATION;
+            case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
+                return OmConstants.RESULT_MODEL_COUNT_OBSERVATION;
+            case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
+                return OmConstants.RESULT_MODEL_TRUTH_OBSERVATION;
+            case OmConstants.OBS_TYPE_TEXT_OBSERVATION:
+                return OmConstants.RESULT_MODEL_TEXT_OBSERVATION;
+            case OmConstants.OBS_TYPE_COMPLEX_OBSERVATION:
+                return OmConstants.RESULT_MODEL_COMPLEX_OBSERVATION;
+            default:
+                log.trace("Not supported observationType '{}'", observationType);
+                break;
             }
         }
         return OmConstants.RESULT_MODEL_OBSERVATION;

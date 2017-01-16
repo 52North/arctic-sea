@@ -57,8 +57,8 @@ public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServi
             OwsServiceRequest.class, GetResultTemplateRequest.class, GetResultRequest.class);
 
     public SosRequestEncoderv20() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -82,8 +82,7 @@ public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServi
     }
 
     @Override
-    public XmlObject encode(OwsServiceRequest request, EncodingContext additionalValues)
-            throws EncodingException {
+    public XmlObject encode(OwsServiceRequest request, EncodingContext additionalValues) throws EncodingException {
         XmlObject encodedObject = encodeRequests(request);
         XmlHelper.validateDocument(encodedObject, EncodingException::new);
         return encodedObject;
@@ -110,8 +109,7 @@ public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServi
     }
 
     private XmlObject createGetResultRequest(final GetResultRequest request) throws EncodingException {
-        final GetResultDocument getResultDoc =
-                GetResultDocument.Factory.newInstance(getXmlOptions());
+        final GetResultDocument getResultDoc = GetResultDocument.Factory.newInstance(getXmlOptions());
         final GetResultType getResult = getResultDoc.addNewGetResult();
         getResult.setService(request.getService());
         getResult.setVersion(request.getVersion());
@@ -134,8 +132,7 @@ public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServi
 
     private void createTemporalFilter(final net.opengis.sos.x20.GetResultType.TemporalFilter temporalFilter,
             final TemporalFilter sosTemporalFilter) throws EncodingException {
-        final Encoder<XmlObject, TemporalFilter> encoder =
-                getEncoder(FilterConstants.NS_FES_2, sosTemporalFilter);
+        final Encoder<XmlObject, TemporalFilter> encoder = getEncoder(FilterConstants.NS_FES_2, sosTemporalFilter);
         final XmlObject encodedObject = encoder.encode(sosTemporalFilter);
         temporalFilter.set(encodedObject);
     }

@@ -52,7 +52,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.2.0
  */
-public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object>{
+public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GmdDecoder.class);
 
@@ -60,8 +60,8 @@ public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object>{
             CIResponsiblePartyDocument.class, CIResponsiblePartyPropertyType.class, CIResponsiblePartyType.class);
 
     public Iso19139GmdDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -82,7 +82,8 @@ public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object>{
         }
     }
 
-    private Object decodeCIResponsiblePartyPropertyType(CIResponsiblePartyPropertyType element) throws DecodingException {
+    private Object decodeCIResponsiblePartyPropertyType(CIResponsiblePartyPropertyType element)
+            throws DecodingException {
         if (element.isSetCIResponsibleParty()) {
             return decodeCIResponsibleParty(element.getCIResponsibleParty());
         } else if (element.isSetHref()) {

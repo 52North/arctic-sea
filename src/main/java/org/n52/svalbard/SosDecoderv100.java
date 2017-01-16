@@ -73,9 +73,10 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
     private static final Logger LOGGER = LoggerFactory.getLogger(SosDecoderv100.class);
 
     @SuppressWarnings("unchecked")
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            Sos1Constants.NS_SOS, GetCapabilitiesDocument.class, DescribeSensorDocument.class,
-            GetObservationDocument.class, GetFeatureOfInterestDocument.class, GetObservationByIdDocument.class),
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(Sos1Constants.NS_SOS, GetCapabilitiesDocument.class,
+                    DescribeSensorDocument.class, GetObservationDocument.class, GetFeatureOfInterestDocument.class,
+                    GetObservationByIdDocument.class),
             CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos1Constants.SERVICEVERSION,
                     SosConstants.Operations.GetCapabilities, SosConstants.Operations.GetObservation,
                     SosConstants.Operations.GetFeatureOfInterest, SosConstants.Operations.GetObservationById,
@@ -111,37 +112,27 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         // validate document
         XmlHelper.validateDocument(xmlObject);
 
-        // getCapabilities request
         if (xmlObject instanceof GetCapabilitiesDocument) {
+            // getCapabilities request
             GetCapabilitiesDocument getCapsDoc = (GetCapabilitiesDocument) xmlObject;
             request = parseGetCapabilities(getCapsDoc);
-        }
-
-        // DescribeSensor request (still SOS 1.0 NS_URI
-        else if (xmlObject instanceof DescribeSensorDocument) {
+        } else if (xmlObject instanceof DescribeSensorDocument) {
+            // DescribeSensor request (still SOS 1.0 NS_URI
             DescribeSensorDocument descSensorDoc = (DescribeSensorDocument) xmlObject;
             request = parseDescribeSensor(descSensorDoc);
-        }
-
-        // getObservation request
-        else if (xmlObject instanceof GetObservationDocument) {
+        } else if (xmlObject instanceof GetObservationDocument) {
+            // getObservation request
             GetObservationDocument getObsDoc = (GetObservationDocument) xmlObject;
             request = parseGetObservation(getObsDoc);
-        }
-
-        // getFeatureOfInterest request
-        else if (xmlObject instanceof GetFeatureOfInterestDocument) {
+        } else if (xmlObject instanceof GetFeatureOfInterestDocument) {
+            // getFeatureOfInterest request
             GetFeatureOfInterestDocument getFoiDoc = (GetFeatureOfInterestDocument) xmlObject;
             request = parseGetFeatureOfInterest(getFoiDoc);
-        }
-
-        // getObservationById request
-        else if (xmlObject instanceof GetObservationByIdDocument) {
+        } else if (xmlObject instanceof GetObservationByIdDocument) {
+            // getObservationById request
             GetObservationByIdDocument getObsByIdDoc = (GetObservationByIdDocument) xmlObject;
             request = parseGetObservationById(getObsByIdDoc);
-        }
-
-        else {
+        } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
         return request;
@@ -156,7 +147,7 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
      * @return Returns SosGetCapabilitiesRequest representing the request
      *
      */
-    private OwsServiceRequest parseGetCapabilities(GetCapabilitiesDocument getCapsDoc)  {
+    private OwsServiceRequest parseGetCapabilities(GetCapabilitiesDocument getCapsDoc) {
 
         GetCapabilities getCaps = getCapsDoc.getGetCapabilities();
         GetCapabilitiesRequest request = new GetCapabilitiesRequest(getCaps.getService());
@@ -190,7 +181,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         DescribeSensor descSensor = descSensorDoc.getDescribeSensor();
         request.setService(descSensor.getService());
         request.setVersion(descSensor.getVersion());
-        //parse outputFormat through MediaType to ensure it's a mime type and eliminate whitespace variations
+        // parse outputFormat through MediaType to ensure it's a mime type and
+        // eliminate whitespace variations
         request.setProcedureDescriptionFormat(MediaType.normalizeString(descSensor.getOutputFormat()));
         request.setProcedure(descSensor.getProcedure());
         return request;
@@ -231,7 +223,7 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
             } else if (featureOfInterest.getObjectIDArray() != null) {
                 Set<String> featureIdentifiers = Sets.newHashSet();
                 for (String string : featureOfInterest.getObjectIDArray()) {
-                   featureIdentifiers.add(string);
+                    featureIdentifiers.add(string);
                 }
                 getObsRequest.setFeatureIdentifiers(Lists.newArrayList(featureIdentifiers));
             }
@@ -246,7 +238,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         if (getObs.isSetResponseFormat()) {
             try {
                 String responseFormat = URLDecoder.decode(getObs.getResponseFormat(), "UTF-8");
-                // parse responseFormat through MediaType to ensure it's a mime type and eliminate whitespace variations
+                // parse responseFormat through MediaType to ensure it's a mime
+                // type and eliminate whitespace variations
                 getObsRequest.setResponseFormat(MediaType.normalizeString(responseFormat));
             } catch (UnsupportedEncodingException e) {
                 throw new DecodingException("Error while decoding response format!", e);
@@ -275,7 +268,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
      * @throws DecodingException
      *             * if validation of the request failed
      */
-    private OwsServiceRequest parseGetFeatureOfInterest(GetFeatureOfInterestDocument getFoiDoc) throws DecodingException  {
+    private OwsServiceRequest parseGetFeatureOfInterest(GetFeatureOfInterestDocument getFoiDoc)
+            throws DecodingException {
 
         GetFeatureOfInterestRequest getFoiRequest = new GetFeatureOfInterestRequest();
         GetFeatureOfInterest getFoi = getFoiDoc.getGetFeatureOfInterest();
@@ -296,7 +290,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         if (getObsById.isSetResponseFormat()) {
             try {
                 String responseFormat = URLDecoder.decode(getObsById.getResponseFormat(), "UTF-8");
-                // parse responseFormat through MediaType to ensure it's a mime type and eliminate whitespace variations
+                // parse responseFormat through MediaType to ensure it's a mime
+                // type and eliminate whitespace variations
                 getObsByIdRequest.setResponseFormat(MediaType.normalizeString(responseFormat));
             } catch (UnsupportedEncodingException e) {
                 throw new DecodingException("Error while decoding response format!", e);

@@ -37,7 +37,8 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
     /**
      * Set the type.
      *
-     * @param type the type
+     * @param type
+     *            the type
      */
     protected abstract void setType(T type);
 
@@ -58,8 +59,10 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
     /**
      * Check for similarity
      *
-     * @param key {@link DecoderKey} to check
-     * @param type Type to check
+     * @param key
+     *            {@link DecoderKey} to check
+     * @param type
+     *            Type to check
      *
      * @return 0 for equality, -1 for non equality
      */
@@ -83,8 +86,7 @@ public abstract class NamespaceDecoderKey<T> implements DecoderKey {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final NamespaceDecoderKey<?> o = (NamespaceDecoderKey<?>) obj;
-            return Objects.equals(getType(), o.getType()) &&
-                   Objects.equals(getNamespace(), o.getNamespace());
+            return Objects.equals(getType(), o.getType()) && Objects.equals(getNamespace(), o.getNamespace());
         }
         return false;
     }

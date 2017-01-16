@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import java.util.Collections;
 import java.util.Set;
 
@@ -35,6 +34,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
 import net.opengis.sos.x20.GetFeatureOfInterestResponseType;
@@ -46,17 +46,18 @@ import net.opengis.sos.x20.GetFeatureOfInterestResponseType;
  * @since 5.0.0
  *
  */
-public class GetFeatureOfInterestResponseDocumentDecoder extends AbstractXmlDecoder<GetFeatureOfInterestResponseDocument,GetFeatureOfInterestResponse> implements SosResponseDecoder {
+public class GetFeatureOfInterestResponseDocumentDecoder
+        extends AbstractXmlDecoder<GetFeatureOfInterestResponseDocument, GetFeatureOfInterestResponse>
+        implements SosResponseDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetFeatureOfInterestResponseDocumentDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            Sos2Constants.NS_SOS_20,
-            GetFeatureOfInterestResponseDocument.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, GetFeatureOfInterestResponseDocument.class);
 
     public GetFeatureOfInterestResponseDocumentDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -65,9 +66,9 @@ public class GetFeatureOfInterestResponseDocumentDecoder extends AbstractXmlDeco
     }
 
     @Override
-    public GetFeatureOfInterestResponse decode(GetFeatureOfInterestResponseDocument gfoird)
-            throws DecodingException {
-        if (gfoird != null)  {
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
+    public GetFeatureOfInterestResponse decode(GetFeatureOfInterestResponseDocument gfoird) throws DecodingException {
+        if (gfoird != null) {
             GetFeatureOfInterestResponse response = new GetFeatureOfInterestResponse();
             setService(response);
             setVersions(response);
@@ -82,11 +83,11 @@ public class GetFeatureOfInterestResponseDocumentDecoder extends AbstractXmlDeco
     private AbstractFeature parseFeatures(GetFeatureOfInterestResponseType gfoirt) throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(gfoirt.getFeatureMemberArray())) {
             if (gfoirt.getFeatureMemberArray().length == 1) {
-                return (AbstractFeature)decodeXmlObject(gfoirt.getFeatureMemberArray()[0]);
+                return (AbstractFeature) decodeXmlObject(gfoirt.getFeatureMemberArray()[0]);
             } else {
                 FeatureCollection featureCollection = new FeatureCollection();
                 for (FeaturePropertyType fpt : gfoirt.getFeatureMemberArray()) {
-                    featureCollection.addMember((AbstractFeature)decodeXmlObject(fpt));
+                    featureCollection.addMember((AbstractFeature) decodeXmlObject(fpt));
                 }
                 return featureCollection;
             }

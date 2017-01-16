@@ -59,7 +59,7 @@ import net.opengis.swes.x20.FeatureRelationshipType;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
@@ -122,17 +122,13 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     private XmlObject createInsertionCapabilities(SosInsertionCapabilities caps) {
         InsertionCapabilitiesDocument doc = InsertionCapabilitiesDocument.Factory.newInstance(getXmlOptions());
         InsertionCapabilitiesType xbCaps = doc.addNewInsertionCapabilities();
-        caps.getFeatureOfInterestTypes().stream()
-                .filter(foiType -> !foiType.equals(SosConstants.NOT_DEFINED))
+        caps.getFeatureOfInterestTypes().stream().filter(foiType -> !foiType.equals(SosConstants.NOT_DEFINED))
                 .forEachOrdered(foiType -> xbCaps.addFeatureOfInterestType(foiType));
-        caps.getObservationTypes().stream()
-                .filter(oType -> !oType.equals(SosConstants.NOT_DEFINED))
+        caps.getObservationTypes().stream().filter(oType -> !oType.equals(SosConstants.NOT_DEFINED))
                 .forEachOrdered(oType -> xbCaps.addObservationType(oType));
-        caps.getProcedureDescriptionFormats().stream()
-                .filter(pdf -> !pdf.equals(SosConstants.NOT_DEFINED))
+        caps.getProcedureDescriptionFormats().stream().filter(pdf -> !pdf.equals(SosConstants.NOT_DEFINED))
                 .forEachOrdered(pdf -> xbCaps.addProcedureDescriptionFormat(pdf));
-        caps.getSupportedEncodings().stream()
-                .filter(se -> !se.equals(SosConstants.NOT_DEFINED))
+        caps.getSupportedEncodings().stream().filter(se -> !se.equals(SosConstants.NOT_DEFINED))
                 .forEachOrdered(se -> xbCaps.addSupportedEncoding(se));
         return doc;
     }
@@ -141,11 +137,11 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
      * Sets the content section to the Capabilities document.
      *
      * @param xbContents
-     *                   SOS 2.0 contents section
+     *            SOS 2.0 contents section
      * @param offerings
-     *                   SOS offerings for contents
+     *            SOS offerings for contents
      * @param version
-     *                   SOS response version
+     *            SOS response version
      *
      *
      * @throws EncodingException
@@ -174,14 +170,14 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
      * Creates a XML FeatureRelationship for the relatedFeature
      *
      * @param featureRelationship
-     *                             XML feature relationship
+     *            XML feature relationship
      * @param relatedFeatureTarget
-     *                             Feature target identifier
+     *            Feature target identifier
      * @param roles
-     *                             Features role
+     *            Features role
      */
     private void createRelatedFeature(final FeatureRelationshipType featureRelationship,
-                                      final String relatedFeatureTarget, final Collection<String> roles) {
+            final String relatedFeatureTarget, final Collection<String> roles) {
         featureRelationship.addNewTarget().setHref(relatedFeatureTarget);
         if (roles != null) {
             roles.forEach(featureRelationship::setRole);
@@ -234,7 +230,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
         return Sets.newHashSet(Sos2Constants.SOS_GET_CAPABILITIES_SCHEMA_LOCATION);
     }
 
-    private void encodeServiceIdentification(OwsCapabilities caps, CapabilitiesType xbCaps) throws EncodingException  {
+    private void encodeServiceIdentification(OwsCapabilities caps, CapabilitiesType xbCaps) throws EncodingException {
         if (caps.getServiceIdentification().isPresent()) {
             xbCaps.addNewServiceIdentification().set(encodeOws(caps.getServiceIdentification().get()));
         }
@@ -247,14 +243,16 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     }
 
     private void encodeOperationsMetadata(OwsCapabilities caps, CapabilitiesType xbCaps) throws EncodingException {
-        if (caps.getOperationsMetadata().map(OwsOperationsMetadata::getOperations).filter(x -> !x.isEmpty()).isPresent()) {
+        if (caps.getOperationsMetadata().map(OwsOperationsMetadata::getOperations).filter(x -> !x.isEmpty())
+                .isPresent()) {
             xbCaps.addNewOperationsMetadata().set(encodeOws(caps.getOperationsMetadata().get()));
         }
     }
 
     private void encodeFilterCapabilities(SosCapabilities caps, CapabilitiesType xbCaps) throws EncodingException {
         if (caps.getFilterCapabilities().isPresent()) {
-            xbCaps.addNewFilterCapabilities().addNewFilterCapabilities().set(encodeFes(caps.getFilterCapabilities().get()));
+            xbCaps.addNewFilterCapabilities().addNewFilterCapabilities()
+                    .set(encodeFes(caps.getFilterCapabilities().get()));
         }
     }
 
@@ -272,7 +270,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     }
 
     private void encodeObservationOffering(SosObservationOffering offering, int offeringCounter,
-                                           ContentsType xbContType) throws EncodingException {
+            ContentsType xbContType) throws EncodingException {
         final ObservationOfferingType xbObsOff = ObservationOfferingType.Factory.newInstance(getXmlOptions());
 
         SosOffering sosOffering = offering.getOffering();
@@ -306,7 +304,8 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
          */
     }
 
-    private void encodeOfferingExtension(SosObservationOffering sosOffering, ObservationOfferingType xbObsOff) throws EncodingException {
+    private void encodeOfferingExtension(SosObservationOffering sosOffering, ObservationOfferingType xbObsOff)
+            throws EncodingException {
         for (Extension<?> extention : sosOffering.getExtensions().getExtensions()) {
             if (extention.getValue() instanceof SosObservationOfferingExtension) {
                 SosObservationOfferingExtension extension = (SosObservationOfferingExtension) extention.getValue();
@@ -331,23 +330,23 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     private void encodeRelatedFeatures(SosObservationOffering offering, ObservationOfferingType xbObsOff) {
         // set relatedFeatures [0..*]
         if (offering.isSetRelatedFeature()) {
-            offering.getRelatedFeatures().forEach((target, roles) ->
-                        createRelatedFeature(xbObsOff.addNewRelatedFeature().addNewFeatureRelationship(), target, roles));
+            offering.getRelatedFeatures().forEach((target, roles) -> createRelatedFeature(
+                    xbObsOff.addNewRelatedFeature().addNewFeatureRelationship(), target, roles));
         }
     }
 
     private void encodeObservedArea(SosObservationOffering offering, ObservationOfferingType xbObsOff)
             throws EncodingException {
         // set observed area [0..1]
-        if (offering.isSetObservedArea() && offering.getObservedArea().isSetEnvelope() &&
-            offering.getObservedArea().isSetSrid()) {
+        if (offering.isSetObservedArea() && offering.getObservedArea().isSetEnvelope()
+                && offering.getObservedArea().isSetSrid()) {
             XmlObject encodeObjectToXml = encodeGml(offering.getObservedArea());
             xbObsOff.addNewObservedArea().addNewEnvelope().set(encodeObjectToXml);
         }
     }
 
     private void encodePhenomenonTime(SosObservationOffering offering, int offeringCounter,
-                                      ObservationOfferingType xbObsOff) throws EncodingException {
+            ObservationOfferingType xbObsOff) throws EncodingException {
         // set up phenomenon time [0..1]
         if (offering.getPhenomenonTime() instanceof TimePeriod) {
             TimePeriod tp = (TimePeriod) offering.getPhenomenonTime();
@@ -356,13 +355,13 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
                 XmlObject xmlObject = encodeGml(tp);
                 xbObsOff.addNewPhenomenonTime().addNewTimePeriod().set(xmlObject);
                 xbObsOff.getPhenomenonTime().substitute(Sos2Constants.QN_SOS_PHENOMENON_TIME,
-                                                        xbObsOff.getPhenomenonTime().schemaType());
+                        xbObsOff.getPhenomenonTime().schemaType());
             }
         }
     }
 
     private void encodeResultTime(SosObservationOffering offering, int offeringCounter,
-                                  ObservationOfferingType xbObsOff) throws EncodingException {
+            ObservationOfferingType xbObsOff) throws EncodingException {
         // set resultTime [0..1]
         if (offering.getResultTime() instanceof TimePeriod) {
             TimePeriod tp = (TimePeriod) offering.getResultTime();
@@ -371,7 +370,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
                 XmlObject xmlObject = encodeGml(tp);
                 xbObsOff.addNewResultTime().addNewTimePeriod().set(xmlObject);
                 xbObsOff.getResultTime().substitute(Sos2Constants.QN_SOS_RESULT_TIME,
-                                                    xbObsOff.getResultTime().schemaType());
+                        xbObsOff.getResultTime().schemaType());
             }
         }
     }

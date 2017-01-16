@@ -28,7 +28,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
@@ -70,7 +70,8 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
      *            the response format
      *
      * @return the encoder
-     * @throws org.n52.svalbard.encode.exception.EncodingException if no encoder is found
+     * @throws org.n52.svalbard.encode.exception.EncodingException
+     *             if no encoder is found
      */
     private Encoder<XmlObject, T> findResponseEncoder(String responseFormat) throws EncodingException {
         return getEncoder(responseFormat, getResponseType());
@@ -91,7 +92,8 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     }
 
     @Override
-    protected void create(T response, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
+    protected void create(T response, OutputStream outputStream, EncodingValues encodingValues)
+            throws EncodingException {
         final String responseFormat = response.getResponseFormat();
         // search for an O&M2 encoder for this response format
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(responseFormat);
@@ -127,8 +129,8 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
      * @param encodingValues
      * @throws EncodingException
      */
-    protected void createResponse(ObservationEncoder<XmlObject, OmObservation> encoder, T response, OutputStream outputStream,  EncodingValues encodingValues)
-            throws EncodingException {
+    protected void createResponse(ObservationEncoder<XmlObject, OmObservation> encoder, T response,
+            OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
         super.create(response, outputStream, encodingValues);
     }
 

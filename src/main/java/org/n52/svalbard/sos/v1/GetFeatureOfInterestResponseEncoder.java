@@ -26,7 +26,7 @@ import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
@@ -37,8 +37,7 @@ public class GetFeatureOfInterestResponseEncoder extends AbstractSosResponseEnco
 
     @Override
     protected XmlObject create(GetFeatureOfInterestResponse response) throws EncodingException {
-        return getEncoder(GmlConstants.NS_GML, response.getAbstractFeature())
-                .encode(response.getAbstractFeature());
+        return getEncoder(GmlConstants.NS_GML, response.getAbstractFeature()).encode(response.getAbstractFeature());
 
     }
 }

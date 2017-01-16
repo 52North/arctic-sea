@@ -83,16 +83,16 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
     private static final Logger LOGGER = LoggerFactory.getLogger(SwesDecoderv20.class);
 
     @SuppressWarnings("unchecked")
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            SwesConstants.NS_SWES_20, DescribeSensorDocument.class, InsertSensorDocument.class,
-            UpdateSensorDescriptionDocument.class, DeleteSensorDocument.class), CodingHelper
-            .xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(SwesConstants.NS_SWES_20, DescribeSensorDocument.class,
+                    InsertSensorDocument.class, UpdateSensorDescriptionDocument.class, DeleteSensorDocument.class),
+            CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
                     SosConstants.Operations.DescribeSensor, Sos2Constants.Operations.InsertSensor,
                     Sos2Constants.Operations.UpdateSensorDescription, Sos2Constants.Operations.DeleteSensor));
 
     public SwesDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -129,8 +129,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
      * @throws DecodingException
      *             * if validation of the request failed
      */
-    private OwsServiceRequest parseDescribeSensor(final DescribeSensorDocument xbDescSenDoc)
-            throws DecodingException {
+    private OwsServiceRequest parseDescribeSensor(final DescribeSensorDocument xbDescSenDoc) throws DecodingException {
         final DescribeSensorRequest descSensorRequest = new DescribeSensorRequest();
         final DescribeSensorType xbDescSensor = xbDescSenDoc.getDescribeSensor();
         descSensorRequest.setService(xbDescSensor.getService());
@@ -140,13 +139,12 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         if (xbDescSensor.isSetValidTime()) {
             descSensorRequest.setValidTime(getValidTime(xbDescSensor.getValidTime()));
         }
-     // extensions
+        // extensions
         descSensorRequest.setExtensions(parseExtensibleRequest(xbDescSensor));
         return descSensorRequest;
     }
 
-    private OwsServiceRequest parseInsertSensor(final InsertSensorDocument xbInsSensDoc)
-            throws DecodingException {
+    private OwsServiceRequest parseInsertSensor(final InsertSensorDocument xbInsSensDoc) throws DecodingException {
         final InsertSensorRequest request = new InsertSensorRequest();
         final InsertSensorType xbInsertSensor = xbInsSensDoc.getInsertSensor();
         request.setService(xbInsertSensor.getService());
@@ -168,20 +166,19 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         // extensions
         request.setExtensions(parseExtensibleRequest(xbInsertSensor));
         try {
-            final XmlObject xbProcedureDescription =
-                    XmlObject.Factory.parse(getNodeFromNodeList(xbInsertSensor.getProcedureDescription().getDomNode()
-                            .getChildNodes()));
+            final XmlObject xbProcedureDescription = XmlObject.Factory
+                    .parse(getNodeFromNodeList(xbInsertSensor.getProcedureDescription().getDomNode().getChildNodes()));
 
             final Decoder<?, XmlObject> decoder =
-                    getDecoder(
-                            new XmlNamespaceDecoderKey(xbInsertSensor.getProcedureDescriptionFormat(),
-                                    xbProcedureDescription.getClass()));
+                    getDecoder(new XmlNamespaceDecoderKey(xbInsertSensor.getProcedureDescriptionFormat(),
+                            xbProcedureDescription.getClass()));
             if (decoder != null) {
                 final Object decodedProcedureDescription = decoder.decode(xbProcedureDescription);
                 if (decodedProcedureDescription instanceof SosProcedureDescription) {
                     request.setProcedureDescription((SosProcedureDescription) decodedProcedureDescription);
                 } else if (decodedProcedureDescription instanceof AbstractFeature) {
-                    request.setProcedureDescription(new SosProcedureDescription<AbstractFeature>((AbstractFeature)decodedProcedureDescription));
+                    request.setProcedureDescription(new SosProcedureDescription<AbstractFeature>(
+                            (AbstractFeature) decodedProcedureDescription));
                 }
             }
         } catch (final XmlException xmle) {
@@ -196,7 +193,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         request.setService(deleteSensor.getService());
         request.setVersion(deleteSensor.getVersion());
         request.setProcedureIdentifier(deleteSensor.getProcedure());
-     // extensions
+        // extensions
         request.setExtensions(parseExtensibleRequest(deleteSensor));
         return request;
     }
@@ -220,16 +217,15 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         request.setVersion(xbUpdateSensor.getVersion());
         request.setProcedureIdentifier(xbUpdateSensor.getProcedure());
         request.setProcedureDescriptionFormat(xbUpdateSensor.getProcedureDescriptionFormat());
-     // extensions
+        // extensions
         request.setExtensions(parseExtensibleRequest(xbUpdateSensor));
         for (final Description description : xbUpdateSensor.getDescriptionArray()) {
             SensorDescriptionType sensorDescription = description.getSensorDescription();
 
             try {
                 // TODO exception if valid time is set
-                final XmlObject xmlObject =
-                        XmlObject.Factory.parse(getNodeFromNodeList(sensorDescription.getData().getDomNode()
-                                .getChildNodes()));
+                final XmlObject xmlObject = XmlObject.Factory
+                        .parse(getNodeFromNodeList(sensorDescription.getData().getDomNode().getChildNodes()));
                 Decoder<?, XmlObject> decoder = getDecoder(getDecoderKey(xmlObject));
                 if (decoder == null) {
                     throw new DecodingException(UpdateSensorDescriptionParams.procedureDescriptionFormat,
@@ -241,8 +237,9 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 SosProcedureDescription<?> sosProcedureDescription = null;
                 if (decodedObject instanceof SosProcedureDescription) {
                     sosProcedureDescription = (SosProcedureDescription) decodedObject;
-                } else if (decodedObject instanceof AbstractFeature){
-                    sosProcedureDescription = new SosProcedureDescription<AbstractFeature>((AbstractFeature)decodedObject);
+                } else if (decodedObject instanceof AbstractFeature) {
+                    sosProcedureDescription =
+                            new SosProcedureDescription<AbstractFeature>((AbstractFeature) decodedObject);
                 }
 
                 if (sensorDescription.isSetValidTime()) {
@@ -250,7 +247,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 }
                 request.addProcedureDescriptionString(sosProcedureDescription);
             } catch (final XmlException xmle) {
-                throw new DecodingException("Error while parsing procedure description of UpdateSensor request!", xmle);
+                throw new DecodingException("Error while parsing procedure description of UpdateSensor request!",
+                        xmle);
             }
         }
         return request;
@@ -276,8 +274,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 if (xbSosInsertionMetadata != null) {
                     // featureOfInterest types
                     if (xbSosInsertionMetadata.getFeatureOfInterestTypeArray() != null) {
-                        sosMetadata.setFeatureOfInterestTypes(Arrays.asList(xbSosInsertionMetadata
-                                .getFeatureOfInterestTypeArray()));
+                        sosMetadata.setFeatureOfInterestTypes(
+                                Arrays.asList(xbSosInsertionMetadata.getFeatureOfInterestTypeArray()));
                     }
                     // observation types
                     if (xbSosInsertionMetadata.getObservationTypeArray() != null) {
@@ -357,8 +355,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
             return (Time) decodeXmlElement;
         } else {
             throw new DecodingException(Sos2Constants.UpdateSensorDescriptionParams.validTime,
-                                        "The validTime element ({}) is not supported",
-                                        validTime.getAbstractTimeGeometricPrimitive().schemaType());
+                    "The validTime element ({}) is not supported",
+                    validTime.getAbstractTimeGeometricPrimitive().schemaType());
         }
     }
 }

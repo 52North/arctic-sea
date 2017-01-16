@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import java.util.Collections;
 import java.util.Set;
 
@@ -32,13 +31,12 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.AbstractRequestEncoder;
 import org.n52.svalbard.encode.exception.EncodingException;
 
-
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 5.0.0
  *
- * @param <T> the request type
+ * @param <T>
+ *            the request type
  */
 public abstract class AbstractSosRequestEncoder<T extends OwsServiceRequest> extends AbstractRequestEncoder<T> {
 

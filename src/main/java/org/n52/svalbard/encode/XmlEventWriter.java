@@ -37,8 +37,10 @@ import com.google.common.xml.XmlEscapers;
  *
  */
 public abstract class XmlEventWriter<S> extends XmlWriter<XMLEventWriter, S> {
-    private final Map<String,String> prefixes = new HashMap<>();
+    private final Map<String, String> prefixes = new HashMap<>();
+
     private XMLEventWriter w;
+
     private final XMLEventFactory eventFactory = XMLEventFactory.newInstance();
 
     @Override
@@ -76,17 +78,15 @@ public abstract class XmlEventWriter<S> extends XmlWriter<XMLEventWriter, S> {
             prefixes.put(prefix, namespace);
         } else {
             if (!ns.equals(namespace)) {
-                throw new XMLStreamException(
-                        "Prefix <" + prefix + "> is already bound to <" + ns + ">");
+                throw new XMLStreamException("Prefix <" + prefix + "> is already bound to <" + ns + ">");
             }
         }
     }
 
     @Override
     protected void start(QName name) throws XMLStreamException {
-        getXmlWriter()
-                .add(getXmlEventFactory().createStartElement(name.getPrefix(), name.getNamespaceURI(),
-                        name.getLocalPart()));
+        getXmlWriter().add(getXmlEventFactory().createStartElement(name.getPrefix(), name.getNamespaceURI(),
+                name.getLocalPart()));
     }
 
     @Override

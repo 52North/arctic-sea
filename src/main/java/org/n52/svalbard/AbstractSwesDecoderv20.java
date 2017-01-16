@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesExtension;
@@ -29,7 +28,8 @@ import net.opengis.swes.x20.ExtensibleRequestType;
 
 public abstract class AbstractSwesDecoderv20<S> extends AbstractXmlDecoder<XmlObject, S> {
 
-    protected SwesExtensions parseExtensibleRequest(ExtensibleRequestType extensibleRequestType) throws DecodingException {
+    protected SwesExtensions parseExtensibleRequest(ExtensibleRequestType extensibleRequestType)
+            throws DecodingException {
         return parseExtensibleRequestExtension(extensibleRequestType.getExtensionArray());
     }
 

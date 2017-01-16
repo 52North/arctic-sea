@@ -121,7 +121,7 @@ public abstract class AbstractGmlDecoderv321<T, S> extends AbstractXmlDecoder<T,
             try {
                 codeType.setCodeSpace(new URI(element.getCodeSpace()));
             } catch (URISyntaxException e) {
-               throw new DecodingException(e, "Error while creating URI from '{}'", element.getCodeSpace());
+                throw new DecodingException(e, "Error while creating URI from '{}'", element.getCodeSpace());
             }
         }
         return codeType;
@@ -140,7 +140,6 @@ public abstract class AbstractGmlDecoderv321<T, S> extends AbstractXmlDecoder<T,
         }
         return referenceType;
     }
-
 
     protected List<org.n52.shetland.ogc.gml.ReferenceType> parseReferenceType(ReferenceType[] referenceTypes) {
         List<org.n52.shetland.ogc.gml.ReferenceType> list = Lists.newArrayList();

@@ -18,7 +18,6 @@ package org.n52.svalbard.decode;
 
 import javax.inject.Inject;
 
-
 /**
  * TODO JavaDoc
  *

@@ -60,7 +60,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object> implements ObservationEncoder<XmlObject, Object> {
+public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
+        implements ObservationEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AqdEncoder.class);
 
@@ -68,6 +69,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object> implements
             GetObservationResponse.class, OmObservation.class, EReportingHeader.class);
 
     private AqdHelper aqdHelper;
+
     private EReportObligationRepository reportObligationRepository;
 
     public AqdEncoder() {
@@ -108,14 +110,14 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object> implements
     @Override
     public Set<String> getSupportedResponseFormats(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos1Constants.VERSION.equals(version)) {
-          return Sets.newHashSet(AqdConstants.AQD_CONTENT_TYPE.toString());
+            return Sets.newHashSet(AqdConstants.AQD_CONTENT_TYPE.toString());
         }
         return Sets.newHashSet(AqdConstants.NS_AQD);
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException,
-            UnsupportedEncoderInputException {
+    public XmlObject encode(Object element, EncodingContext additionalValues)
+            throws EncodingException, UnsupportedEncoderInputException {
         if (element instanceof GetObservationResponse) {
             return encodeGetObservationResponse((GetObservationResponse) element);
         } else if (element instanceof OmObservation) {
@@ -142,25 +144,24 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object> implements
                     if (value instanceof StreamingValue) {
                         for (OmObservation omObservation : value.mergeObservation()) {
                             getAqdHelper().processObservation(omObservation, timePeriod, resultTime, featureCollection,
-                                                                                                 eReportingHeader, counter++);
+                                    eReportingHeader, counter++);
                         }
                     } else {
                         while (value.hasNextValue()) {
                             getAqdHelper().processObservation(value.nextSingleObservation(), timePeriod, resultTime,
-                                                                                                     featureCollection, eReportingHeader, counter++);
+                                    featureCollection, eReportingHeader, counter++);
                         }
                     }
                 } else {
                     getAqdHelper().processObservation(observation, timePeriod, resultTime, featureCollection,
-                                                                                       eReportingHeader, counter++);
+                            eReportingHeader, counter++);
                 }
             }
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
-            EncodingContext ctx = EncodingContext.empty()
-                            .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                            .with(SosHelperValues.DOCUMENT, null);
+            EncodingContext ctx = EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                    .with(SosHelperValues.DOCUMENT, null);
             return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, ctx);
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
@@ -182,8 +183,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object> implements
 
     }
 
-    private ReportObligationType getReportObligationType(GetObservationResponse response)
-            throws EncodingException {
+    private ReportObligationType getReportObligationType(GetObservationResponse response) throws EncodingException {
         try {
             return getAqdHelper().getFlow(response.getExtensions());
         } catch (OwsExceptionReport ex) {

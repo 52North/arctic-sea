@@ -26,7 +26,7 @@ import org.n52.svalbard.OperationKey;
  *
  * @since 1.0.0
  */
-public class OperationRequestEncoderKey extends OperationEncoderKey  {
+public class OperationRequestEncoderKey extends OperationEncoderKey {
 
     public OperationRequestEncoderKey(String service, String version, String operation, MediaType contentType) {
         super(service, version, operation, contentType);

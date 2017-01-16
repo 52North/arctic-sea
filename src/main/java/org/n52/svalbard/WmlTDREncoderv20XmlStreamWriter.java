@@ -42,15 +42,15 @@ public class WmlTDREncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * constructor
      *
      * @param observation
-     *                    {@link OmObservation} to write to stream
+     *            {@link OmObservation} to write to stream
      */
     public WmlTDREncoderv20XmlStreamWriter(OmObservation observation) {
         super(observation);
     }
 
     @Override
-    protected void writeResult(OmObservation observation, EncodingValues encodingValues) throws EncodingException,
-                                                                                                XMLStreamException {
+    protected void writeResult(OmObservation observation, EncodingValues encodingValues)
+            throws EncodingException, XMLStreamException {
         // TODO Auto-generated method stub
         super.writeResult(observation, encodingValues);
 

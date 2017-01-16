@@ -21,7 +21,6 @@ import org.n52.svalbard.OperationKey;
 
 import com.google.common.base.Objects;
 
-
 /**
  * @since 1.0.0
  *
@@ -68,10 +67,9 @@ public class OperationDecoderKey extends OperationKey implements DecoderKey {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final OperationDecoderKey o = (OperationDecoderKey) obj;
-            return Objects.equal(getService(), o.getService()) &&
-                   Objects.equal(getVersion(), o.getVersion()) &&
-                   Objects.equal(getOperation(), o.getOperation())
-                   && getContentType() != null && getContentType().isCompatible(o.getContentType());
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
+                    && Objects.equal(getOperation(), o.getOperation()) && getContentType() != null
+                    && getContentType().isCompatible(o.getContentType());
         }
         return false;
     }

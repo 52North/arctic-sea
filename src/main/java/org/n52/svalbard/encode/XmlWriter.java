@@ -55,10 +55,13 @@ import com.google.common.base.Strings;
 public abstract class XmlWriter<T, S> {
 
     protected static final String XML_VERSION = "1.0";
+
     protected static final String ENCODING = "UTF-8";
+
     protected static final String XML_FRAGMENT = "xml-fragment";
 
     protected int indent = 0;
+
     protected OutputStream out;
 
     private final XMLOutputFactory outputFactory = XMLOutputFactory.newInstance();
@@ -87,8 +90,8 @@ public abstract class XmlWriter<T, S> {
      * @throws EncodingException
      *             If an encoding error occurs
      */
-    public abstract void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException,
-            EncodingException;
+    public abstract void write(OutputStream out, EncodingValues encodingValues)
+            throws XMLStreamException, EncodingException;
 
     /**
      * Encode and write the elementToStream to the {@link OutputStream}
@@ -239,7 +242,8 @@ public abstract class XmlWriter<T, S> {
      *
      * @param chars
      *            Characters to write
-     * @param escape if the chars should be XML escaped
+     * @param escape
+     *            if the chars should be XML escaped
      * @throws XMLStreamException
      *             If an error occurs when writing to {@link OutputStream}
      */

@@ -38,6 +38,8 @@ import org.n52.shetland.util.JavaHelper;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 //@Configurable
 public class AqdHelper implements Constructable {
 
@@ -53,6 +55,7 @@ public class AqdHelper implements Constructable {
     private Set<Integer> verificationFlags;
 
     @Override
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void init() {
         AqdHelper.instance = this;
     }
@@ -65,15 +68,16 @@ public class AqdHelper implements Constructable {
     }
 
     /**
-     * @param validityFlags the validityFlags to set
+     * @param validityFlags
+     *            the validityFlags to set
      */
-//    @Setting(EReportingSetting.EREPORTING_VALIDITY_FLAGS)
+    // @Setting(EReportingSetting.EREPORTING_VALIDITY_FLAGS)
     public void setValidityFlags(String validityFlags) {
         this.validityFlags = JavaHelper.getIntegerSetFromString(validityFlags);
     }
 
-//    @Setting(EReportingSetting.EREPORTING_NAMESPACE)
-    public void setEReportingNamespace(final String namespace) {
+    // @Setting(EReportingSetting.EREPORTING_NAMESPACE)
+    public void setEReportingNamespace(String namespace) {
         this.namespace = namespace;
     }
 
@@ -85,8 +89,8 @@ public class AqdHelper implements Constructable {
         return !Strings.isNullOrEmpty(getEReportingNamespace());
     }
 
-//    @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
-    public void setEReportingObservationPrefix(final String observationPrefix) {
+    // @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
+    public void setEReportingObservationPrefix(String observationPrefix) {
         this.observationPrefix = observationPrefix;
     }
 
@@ -110,9 +114,10 @@ public class AqdHelper implements Constructable {
     }
 
     /**
-     * @param verificationFlags the verificationFlags to set
+     * @param verificationFlags
+     *            the verificationFlags to set
      */
-//    @Setting(EReportingSetting.EREPORTING_VERIFICATION_FLAGS)
+    // @Setting(EReportingSetting.EREPORTING_VERIFICATION_FLAGS)
     public void setVerificationFlags(String verificationFlags) {
         this.verificationFlags = JavaHelper.getIntegerSetFromString(verificationFlags);
     }
@@ -129,17 +134,13 @@ public class AqdHelper implements Constructable {
     }
 
     public ReportObligationType getFlow(Extensions extensions) throws OwsExceptionReport {
-        return extensions.getExtension(AqdConstants.EXTENSION_FLOW)
-                .map(Extension::getValue)
-                .flatMap(Functions.castIfInstanceOf(SweText.class))
-                .map(SweText::getValue)
-                .map(ReportObligationType::from)
-                .orElse(ReportObligationType.E2A);
+        return extensions.getExtension(AqdConstants.EXTENSION_FLOW).map(Extension::getValue)
+                .flatMap(Functions.castIfInstanceOf(SweText.class)).map(SweText::getValue)
+                .map(ReportObligationType::from).orElse(ReportObligationType.E2A);
     }
 
     public void processObservation(OmObservation observation, TimePeriod timePeriod, TimeInstant resultTime,
-                                   FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader,
-                                   int counter) {
+            FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader, int counter) {
         if (observation.isSetPhenomenonTime()) {
             // generate gml:id
             observation.setGmlId(getObservationId(counter));
@@ -174,6 +175,7 @@ public class AqdHelper implements Constructable {
 
     /**
      * @return Returns a singleton instance of the AqdHelper.
+     * @deprecated TODO
      */
     @Deprecated
     public static AqdHelper getInstance() {

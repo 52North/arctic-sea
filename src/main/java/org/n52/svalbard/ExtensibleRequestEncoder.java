@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;

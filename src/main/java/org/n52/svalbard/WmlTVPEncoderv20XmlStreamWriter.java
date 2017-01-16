@@ -69,8 +69,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     }
 
     @Override
-    protected void writeResult(OmObservation observation, EncodingValues encodingValues) throws XMLStreamException,
-                                                                                                EncodingException {
+    protected void writeResult(OmObservation observation, EncodingValues encodingValues)
+            throws XMLStreamException, EncodingException {
         start(OmConstants.QN_OM_20_RESULT);
         namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
         writeNewLine();

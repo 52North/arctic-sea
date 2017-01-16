@@ -38,7 +38,9 @@ import com.vividsolutions.jts.io.WKTReader;
 public class JTSHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JTSHelper.class);
+
     public static final String WKT_POLYGON = "Polygon";
+
     public static final String WKT_POINT = "Point";
 
     public static final CoordinateFilter COORDINATE_SWITCHING_FILTER = coord -> {
@@ -149,13 +151,8 @@ public class JTSHelper {
 
     public static Geometry createPolygonFromEnvelope(double minx, double miny, double maxx, double maxy, int srid) {
         GeometryFactory fac = getGeometryFactoryForSRID(srid);
-        return fac.createPolygon(new Coordinate[] {
-            new Coordinate(minx, miny),
-            new Coordinate(minx, maxy),
-            new Coordinate(maxx, maxy),
-            new Coordinate(maxx, miny),
-            new Coordinate(minx, miny)
-        });
+        return fac.createPolygon(new Coordinate[] { new Coordinate(minx, miny), new Coordinate(minx, maxy),
+                new Coordinate(maxx, maxy), new Coordinate(maxx, miny), new Coordinate(minx, miny) });
     }
 
     /**

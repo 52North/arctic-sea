@@ -19,7 +19,6 @@ package org.n52.svalbard.decode;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
-
 /**
  * {@link NamespaceDecoderKey} implementation for XML namespace and operation
  * name {@link String}.

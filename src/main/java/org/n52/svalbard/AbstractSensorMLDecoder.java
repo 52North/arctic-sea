@@ -38,20 +38,20 @@ import com.google.common.collect.Sets;
 public abstract class AbstractSensorMLDecoder extends AbstractXmlDecoder<XmlObject, AbstractSensorML>
         implements ProcedureDecoder<AbstractSensorML, XmlObject> {
 
-    private static final Set<String> DEFINITION_VALUES = Sets.newHashSet(OGCConstants.URN_UNIQUE_IDENTIFIER,
-                                                                         OGCConstants.URN_IDENTIFIER_IDENTIFICATION);
+    private static final Set<String> DEFINITION_VALUES =
+            Sets.newHashSet(OGCConstants.URN_UNIQUE_IDENTIFIER, OGCConstants.URN_IDENTIFIER_IDENTIFICATION);
 
     /**
      * Determine if an SosSMLIdentifier is the unique identifier for a procedure
      *
      * @param identifier
-     *                   SosSMLIdentifier to example for unique identifier
+     *            SosSMLIdentifier to example for unique identifier
      *
      * @return whether the SosSMLIdentifier contains the unique identifier
      */
     protected boolean isIdentificationProcedureIdentifier(SmlIdentifier identifier) {
-        return checkIdentificationNameForProcedureIdentifier(identifier.getName()) ||
-               checkIdentificationDefinitionForProcedureIdentifier(identifier.getDefinition());
+        return checkIdentificationNameForProcedureIdentifier(identifier.getName())
+                || checkIdentificationDefinitionForProcedureIdentifier(identifier.getDefinition());
     }
 
     private boolean checkIdentificationNameForProcedureIdentifier(final String name) {
@@ -67,8 +67,8 @@ public abstract class AbstractSensorMLDecoder extends AbstractXmlDecoder<XmlObje
     }
 
     private boolean checkDefinitionStartsWithAndContains(final String definition) {
-        return definition.startsWith(OGCConstants.URN_UNIQUE_IDENTIFIER_START) &&
-               definition.contains(OGCConstants.URN_UNIQUE_IDENTIFIER_END);
+        return definition.startsWith(OGCConstants.URN_UNIQUE_IDENTIFIER_START)
+                && definition.contains(OGCConstants.URN_UNIQUE_IDENTIFIER_END);
     }
 
 }

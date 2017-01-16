@@ -62,26 +62,25 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SamplingDecoderv20.class);
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet
-            .<SupportedType>builder()
-            .add(new FeatureType(OGCConstants.UNKNOWN))
-            .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT))
-            .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE))
-            .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE))
-            .build();
+    private static final Set<SupportedType> SUPPORTED_TYPES =
+            ImmutableSet.<SupportedType> builder().add(new FeatureType(OGCConstants.UNKNOWN))
+                    .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT))
+                    .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE))
+                    .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE)).build();
 
-    private static final Set<String> CONFORMANCE_CLASSES = Sets.newHashSet(ConformanceClasses.OM_V2_SPATIAL_SAMPLING,
-            ConformanceClasses.OM_V2_SAMPLING_POINT, ConformanceClasses.OM_V2_SAMPLING_CURVE,
-            ConformanceClasses.OM_V2_SAMPLING_SURFACE);
+    private static final Set<String> CONFORMANCE_CLASSES =
+            Sets.newHashSet(ConformanceClasses.OM_V2_SPATIAL_SAMPLING, ConformanceClasses.OM_V2_SAMPLING_POINT,
+                    ConformanceClasses.OM_V2_SAMPLING_CURVE, ConformanceClasses.OM_V2_SAMPLING_SURFACE);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            SfConstants.NS_SF, SFSpatialSamplingFeatureDocument.class, SFSpatialSamplingFeatureType.class),
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(SfConstants.NS_SF, SFSpatialSamplingFeatureDocument.class,
+                    SFSpatialSamplingFeatureType.class),
             CodingHelper.decoderKeysForElements(SfConstants.NS_SAMS, SFSpatialSamplingFeatureDocument.class,
                     SFSpatialSamplingFeatureType.class));
 
     public SamplingDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -96,7 +95,7 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
-        if(SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
@@ -108,8 +107,8 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
         // validate XmlObject
         XmlHelper.validateDocument(element);
         if (element instanceof SFSpatialSamplingFeatureDocument) {
-            return parseSpatialSamplingFeature(((SFSpatialSamplingFeatureDocument) element)
-                    .getSFSpatialSamplingFeature());
+            return parseSpatialSamplingFeature(
+                    ((SFSpatialSamplingFeatureDocument) element).getSFSpatialSamplingFeature());
         } else if (element instanceof SFSpatialSamplingFeatureType) {
             return parseSpatialSamplingFeature(((SFSpatialSamplingFeatureType) element));
         }
@@ -145,10 +144,14 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
     }
 
     /**
-     *  Parse {@link FeaturePropertyType} sampledFeatures to {@link AbstractFeature} list.
-     * @param sampledFeatureArray SampledFeatures to parse
+     * Parse {@link FeaturePropertyType} sampledFeatures to
+     * {@link AbstractFeature} list.
+     *
+     * @param sampledFeatureArray
+     *            SampledFeatures to parse
      * @return List with the parsed sampledFeatures
-     * @throws DecodingException If an error occurs
+     * @throws DecodingException
+     *             If an error occurs
      */
     private List<AbstractFeature> getSampledFeatures(FeaturePropertyType[] sampledFeatureArray)
             throws DecodingException {
@@ -160,11 +163,14 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
     }
 
     /**
-     * Parse {@link FeaturePropertyType} sampledFeature to {@link AbstractFeature} list.
+     * Parse {@link FeaturePropertyType} sampledFeature to
+     * {@link AbstractFeature} list.
      *
-     * @param sampledFeature SampledFeature to parse
+     * @param sampledFeature
+     *            SampledFeature to parse
      * @return List with the parsed sampledFeature
-     * @throws DecodingException If an error occurs
+     * @throws DecodingException
+     *             If an error occurs
      */
     private List<AbstractFeature> getSampledFeatures(final FeaturePropertyType sampledFeature)
             throws DecodingException {
@@ -188,7 +194,8 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
                     abstractFeature = sampledFeature.getAbstractFeature();
                 } else if (sampledFeature.getDomNode().hasChildNodes()) {
                     try {
-                        abstractFeature = XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(sampledFeature.getDomNode().getChildNodes()));
+                        abstractFeature = XmlObject.Factory
+                                .parse(XmlHelper.getNodeFromNodeList(sampledFeature.getDomNode().getChildNodes()));
                     } catch (XmlException xmle) {
                         throw new DecodingException("Error while parsing feature request!", xmle);
                     }
@@ -222,9 +229,8 @@ public class SamplingDecoderv20 extends AbstractGmlDecoderv321<XmlObject, Abstra
         } else {
             if (!featTypeForGeometry.equals(sosFeat.getFeatureType())) {
 
-                throw new DecodingException(
-                        "The requested observation is invalid! The featureOfInterest type "
-                                + "does not comply with the defined type (%s)!", sosFeat.getFeatureType());
+                throw new DecodingException("The requested observation is invalid! The featureOfInterest type "
+                        + "does not comply with the defined type (%s)!", sosFeat.getFeatureType());
             }
         }
 

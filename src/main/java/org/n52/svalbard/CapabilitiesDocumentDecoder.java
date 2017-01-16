@@ -31,20 +31,19 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.sos.x20.CapabilitiesDocument;
 
 public class CapabilitiesDocumentDecoder extends AbstractXmlDecoder<CapabilitiesDocument, GetCapabilitiesResponse> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetObservationResponseDocumentDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            Sos2Constants.NS_SOS_20,
-            CapabilitiesDocument.class);
-
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, CapabilitiesDocument.class);
 
     public CapabilitiesDocumentDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -53,11 +52,11 @@ public class CapabilitiesDocumentDecoder extends AbstractXmlDecoder<Capabilities
     }
 
     @Override
-    public GetCapabilitiesResponse decode(CapabilitiesDocument cd)
-            throws DecodingException {
-        if (cd != null)  {
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
+    public GetCapabilitiesResponse decode(CapabilitiesDocument cd) throws DecodingException {
+        if (cd != null) {
             GetCapabilitiesResponse response = new GetCapabilitiesResponse();
-            OwsCapabilities capabilities = (OwsCapabilities)decodeXmlObject(cd.getCapabilities());
+            OwsCapabilities capabilities = (OwsCapabilities) decodeXmlObject(cd.getCapabilities());
             response.setCapabilities(capabilities);
             return response;
         }

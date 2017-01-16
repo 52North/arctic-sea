@@ -40,17 +40,14 @@ public class SwesStringDecoderv20 extends AbstractStringRequestDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SwesStringDecoderv20.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper
-            .xmlStringDecoderKeysForOperationAndMediaType(
-                    SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-                    SosConstants.Operations.DescribeSensor,
-                    Sos2Constants.Operations.InsertSensor,
-                    Sos2Constants.Operations.UpdateSensorDescription,
-                    Sos2Constants.Operations.DeleteSensor);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                    SosConstants.Operations.DescribeSensor, Sos2Constants.Operations.InsertSensor,
+                    Sos2Constants.Operations.UpdateSensorDescription, Sos2Constants.Operations.DeleteSensor);
 
     public SwesStringDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override

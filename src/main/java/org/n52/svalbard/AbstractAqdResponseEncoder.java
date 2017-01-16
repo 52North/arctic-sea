@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -45,12 +44,12 @@ import com.google.common.collect.Sets;
 public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse> extends AbstractResponseEncoder<T> {
 
     private EReportObligationRepository reportObligationRepository;
+
     private AqdHelper aqdHelper;
 
-
     public AbstractAqdResponseEncoder(String operation, Class<T> responseType) {
-        super(AqdConstants.AQD, AqdConstants.VERSION, operation, AqdConstants.NS_AQD,
-                AqdConstants.NS_AQD_PREFIX, responseType);
+        super(AqdConstants.AQD, AqdConstants.VERSION, operation, AqdConstants.NS_AQD, AqdConstants.NS_AQD_PREFIX,
+                responseType);
     }
 
     @Inject
@@ -72,8 +71,7 @@ public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse> e
         return Sets.newHashSet(AqdConstants.NS_AQD_SCHEMA_LOCATION);
     }
 
-    protected EReportingHeader getEReportingHeader(ReportObligationType type)
-            throws OwsExceptionReport {
+    protected EReportingHeader getEReportingHeader(ReportObligationType type) throws OwsExceptionReport {
         return reportObligationRepository.createHeader(type);
     }
 
@@ -137,7 +135,7 @@ public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse> e
         if (encoder != null) {
             Object encode = encoder.encode(response);
             if (encode != null && encode instanceof XmlObject) {
-                return (XmlObject)encode;
+                return (XmlObject) encode;
             }
         }
         return null;

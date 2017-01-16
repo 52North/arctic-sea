@@ -34,6 +34,8 @@ import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * XML utility class
  *
@@ -44,10 +46,15 @@ import org.n52.svalbard.encode.SchemaAwareEncoder;
 public final class XmlOptionsHelper implements Constructable, Destroyable, Producer<XmlOptions> {
     @Deprecated
     private static XmlOptionsHelper instance;
+
     private EncoderRepository encoderRepository;
+
     private final ReentrantLock lock = new ReentrantLock();
+
     private XmlOptions xmlOptions;
+
     private String characterEncoding = "UTF-8";
+
     private boolean prettyPrint = true;
 
     @Inject
@@ -56,6 +63,7 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
     }
 
     @Override
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void init() {
         XmlOptionsHelper.instance = this;
     }
@@ -65,16 +73,14 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
     private Map<String, String> getPrefixMap() {
         final Map<String, String> prefixMap = new HashMap<>();
         prefixMap.put(OGCConstants.NS_OGC, OGCConstants.NS_OGC_PREFIX);
-//        prefixMap.put(OmConstants.NS_OM, OmConstants.NS_OM_PREFIX);
-//        prefixMap.put(SfConstants.NS_SA, SfConstants.NS_SA_PREFIX);
-//        prefixMap.put(Sos1Constants.NS_SOS, SosConstants.NS_SOS_PREFIX);
+        // prefixMap.put(OmConstants.NS_OM, OmConstants.NS_OM_PREFIX);
+        // prefixMap.put(SfConstants.NS_SA, SfConstants.NS_SA_PREFIX);
+        // prefixMap.put(Sos1Constants.NS_SOS, SosConstants.NS_SOS_PREFIX);
         prefixMap.put(W3CConstants.NS_XLINK, W3CConstants.NS_XLINK_PREFIX);
         prefixMap.put(W3CConstants.NS_XSI, W3CConstants.NS_XSI_PREFIX);
         prefixMap.put(W3CConstants.NS_XS, W3CConstants.NS_XS_PREFIX);
-        encoderRepository.getEncoders().stream()
-                .filter(Functions.instanceOf(SchemaAwareEncoder.class))
-                .map(Functions.cast(SchemaAwareEncoder.class))
-                .forEach(e -> e.addNamespacePrefixToMap(prefixMap));
+        encoderRepository.getEncoders().stream().filter(Functions.instanceOf(SchemaAwareEncoder.class))
+                .map(Functions.cast(SchemaAwareEncoder.class)).forEach(e -> e.addNamespacePrefixToMap(prefixMap));
         return prefixMap;
     }
 
@@ -160,12 +166,13 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
      * @return INSTANCE
      *
      * @deprecated Use injection:
-     * <pre>
+     *
+     *             <pre>
      * &#064;Inject
      * private Provider&lt;XmlOptioon&gt; xmloptions;
      * ...
      * XmlOptions options = this.xmlOptions.get();
-     * </pre>
+     *             </pre>
      */
     @Deprecated
     public static XmlOptionsHelper getInstance() {

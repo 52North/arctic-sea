@@ -32,6 +32,6 @@ public interface EReportObligationRepository {
 
     void saveReportObligation(ReportObligationType type, ReportObligation obligation);
 
-    EReportingHeader createHeader(ReportObligationType type) throws OwsExceptionReport ;
+    EReportingHeader createHeader(ReportObligationType type) throws OwsExceptionReport;
 
 }

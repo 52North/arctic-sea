@@ -35,6 +35,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.base.Joiner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 5.0.0
@@ -65,13 +67,15 @@ public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extend
      * @param validate
      *            Indicator if the created/encoded object should be validated
      */
-    public AbstractRequestEncoder(String service, String version, String operation, String namespace, String prefix, Class<T> responseType, boolean validate) {
+    public AbstractRequestEncoder(String service, String version, String operation, String namespace, String prefix,
+            Class<T> responseType, boolean validate) {
         super(service, version, operation, namespace, prefix, responseType, validate);
         OperationKey key = new OperationKey(service, version, operation);
         this.encoderKeys = new HashSet<>(Arrays.asList(new XmlEncoderKey(namespace, responseType),
-                                                       new OperationRequestEncoderKey(key, MediaTypes.TEXT_XML),
-                                                       new OperationRequestEncoderKey(key, MediaTypes.APPLICATION_XML)));
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(encoderKeys));
+                new OperationRequestEncoderKey(key, MediaTypes.TEXT_XML),
+                new OperationRequestEncoderKey(key, MediaTypes.APPLICATION_XML)));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(encoderKeys));
     }
 
     /**
@@ -90,7 +94,8 @@ public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extend
      * @param responseType
      *            Response type
      */
-    public AbstractRequestEncoder(String service, String version, String operation, String namespace, String prefix, Class<T> responseType) {
+    public AbstractRequestEncoder(String service, String version, String operation, String namespace, String prefix,
+            Class<T> responseType) {
         this(service, version, operation, namespace, prefix, responseType, false);
     }
 
@@ -105,6 +110,7 @@ public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extend
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public void encode(T response, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, response);

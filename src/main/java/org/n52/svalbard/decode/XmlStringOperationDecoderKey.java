@@ -21,7 +21,6 @@ import org.n52.svalbard.OperationKey;
 
 import com.google.common.base.Objects;
 
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -70,10 +69,9 @@ public class XmlStringOperationDecoderKey extends OperationKey implements Decode
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final XmlStringOperationDecoderKey o = (XmlStringOperationDecoderKey) obj;
-            return Objects.equal(getService(), o.getService()) &&
-                   Objects.equal(getVersion(), o.getVersion()) &&
-                   Objects.equal(getOperation(), o.getOperation())
-                   && getContentType() != null && getContentType().isCompatible(o.getContentType());
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
+                    && Objects.equal(getOperation(), o.getOperation()) && getContentType() != null
+                    && getContentType().isCompatible(o.getContentType());
         }
         return false;
     }

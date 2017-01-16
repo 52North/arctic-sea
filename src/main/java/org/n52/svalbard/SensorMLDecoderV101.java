@@ -71,6 +71,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Point;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.sensorML.x101.AbstractComponentType;
 import net.opengis.sensorML.x101.AbstractDerivableComponentType;
 import net.opengis.sensorML.x101.AbstractProcessType;
@@ -121,28 +122,23 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
     private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(SensorMLConstants.NS_SML,
             SensorMLDocument.class, SystemDocument.class, SystemType.class, ProcessModelType.class);
 
-    private static final Set<String> REMOVABLE_CAPABILITIES_NAMES = Sets.newHashSet(
-            SensorMLConstants.ELEMENT_NAME_PARENT_PROCEDURES, SensorMLConstants.ELEMENT_NAME_OFFERINGS);
+    private static final Set<String> REMOVABLE_CAPABILITIES_NAMES = Sets
+            .newHashSet(SensorMLConstants.ELEMENT_NAME_PARENT_PROCEDURES, SensorMLConstants.ELEMENT_NAME_OFFERINGS);
 
-    private static final Set<String> REMOVABLE_COMPONENTS_ROLES = Collections
-            .singleton(SensorMLConstants.ELEMENT_NAME_CHILD_PROCEDURES);
+    private static final Set<String> REMOVABLE_COMPONENTS_ROLES =
+            Collections.singleton(SensorMLConstants.ELEMENT_NAME_CHILD_PROCEDURES);
 
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS =
-            ImmutableMap.of(
-                    SosConstants.SOS,
-                    ImmutableMap
-                            .<String, Set<String>> builder()
-                            .put(Sos2Constants.SERVICEVERSION,
-                                    ImmutableSet.of(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL)).build());
+            ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>> builder()
+                    .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
+                    .build());
 
-    private static final ImmutableSet<SupportedType> SUPPORTED_TYPES
-            = ImmutableSet.<SupportedType>builder()
-            .add(new ProcedureDescriptionFormat(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
-            .build();
+    private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
+            .add(new ProcedureDescriptionFormat(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL)).build();
 
     public SensorMLDecoderV101() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -181,6 +177,7 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         }
     }
 
+    @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
     private SensorML parseSensorML(final SensorMLDocument xbSensorML) throws DecodingException {
         final SensorML sensorML = new SensorML();
         // get member process
@@ -381,14 +378,14 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
      * @param identificationArray
      *            XML identification
      */
-    private void parseIdentifications(final AbstractProcess abstractProcess, final Identification[] identificationArray) {
+    private void parseIdentifications(final AbstractProcess abstractProcess,
+            final Identification[] identificationArray) {
         for (final Identification xbIdentification : identificationArray) {
             if (xbIdentification.getIdentifierList() != null) {
                 for (final Identifier xbIdentifier : xbIdentification.getIdentifierList().getIdentifierArray()) {
                     if (xbIdentifier.getName() != null && xbIdentifier.getTerm() != null) {
-                        final SmlIdentifier identifier =
-                                new SmlIdentifier(xbIdentifier.getName(), xbIdentifier.getTerm().getDefinition(),
-                                        xbIdentifier.getTerm().getValue());
+                        final SmlIdentifier identifier = new SmlIdentifier(xbIdentifier.getName(),
+                                xbIdentifier.getTerm().getDefinition(), xbIdentifier.getTerm().getValue());
                         abstractProcess.addIdentifier(identifier);
                         if (isIdentificationProcedureIdentifier(identifier)) {
                             abstractProcess.setIdentifier(identifier.getValue());
@@ -407,18 +404,14 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
      * @return SOS classification
      */
     private List<SmlClassifier> parseClassification(Classification[] classificationArray) {
-        return Arrays.stream(classificationArray)
-                .map(Classification::getClassifierList)
-                .map(ClassifierList::getClassifierArray)
-                .flatMap(Arrays::stream)
-                .map(c -> {
+        return Arrays.stream(classificationArray).map(Classification::getClassifierList)
+                .map(ClassifierList::getClassifierArray).flatMap(Arrays::stream).map(c -> {
                     net.opengis.sensorML.x101.TermDocument.Term term = c.getTerm();
                     String definition = term.isSetDefinition() ? term.getDefinition() : null;
                     String codespace = term.isSetCodeSpace() ? term.getCodeSpace().getHref() : null;
                     String value = term.getValue();
                     return new SmlClassifier(c.getName(), definition, codespace, value);
-                })
-                .collect(Collectors.toList());
+                }).collect(Collectors.toList());
     }
 
     /**
@@ -434,8 +427,7 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
      */
     private List<SmlCharacteristics> parseCharacteristics(final Characteristics[] characteristicsArray)
             throws DecodingException {
-        final List<SmlCharacteristics> sosCharacteristicsList =
-                new ArrayList<>(characteristicsArray.length);
+        final List<SmlCharacteristics> sosCharacteristicsList = new ArrayList<>(characteristicsArray.length);
         for (final Characteristics xbCharacteristics : characteristicsArray) {
             final SmlCharacteristics sosCharacteristics = new SmlCharacteristics();
             if (xbCharacteristics.isSetName()) {
@@ -447,14 +439,14 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
                     sosCharacteristics.setDataRecord((DataRecord) decodedObject);
                 } else {
                     throw new DecodingException(XmlHelper.getLocalName(xbCharacteristics),
-                                    "Error while parsing the characteristics of the SensorML (the characteristics' data record is not of type DataRecordPropertyType)!");
+                            "Error while parsing the characteristics of the SensorML (the characteristics' data record is not of type DataRecordPropertyType)!");
                 }
             } else if (xbCharacteristics.isSetHref()) {
                 sosCharacteristics.setHref(xbCharacteristics.getHref());
                 if (xbCharacteristics.isSetTitle()) {
                     sosCharacteristics.setTitle(xbCharacteristics.getTitle());
                 }
-             }
+            }
             if (sosCharacteristics.isSetName()) {
                 sosCharacteristicsList.add(sosCharacteristics);
             }
@@ -484,15 +476,15 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
                 caps.setName(xbcaps.getName());
             }
             if (xbcaps.isSetAbstractDataRecord()) {
-                 final Object o = decodeXmlElement(xbcaps.getAbstractDataRecord());
-                 if (o instanceof DataRecord) {
-                     final DataRecord record = (DataRecord) o;
-                     caps.setDataRecord(record).setName(xbcaps.getName());
-                 } else {
-                     throw new DecodingException(XmlHelper.getLocalName(xbcaps),
-                             "Error while parsing the capabilities of the SensorML (the capabilities data record "
-                                     + "is not of type DataRecordPropertyType)!");
-                 }
+                final Object o = decodeXmlElement(xbcaps.getAbstractDataRecord());
+                if (o instanceof DataRecord) {
+                    final DataRecord record = (DataRecord) o;
+                    caps.setDataRecord(record).setName(xbcaps.getName());
+                } else {
+                    throw new DecodingException(XmlHelper.getLocalName(xbcaps),
+                            "Error while parsing the capabilities of the SensorML (the capabilities data record "
+                                    + "is not of type DataRecordPropertyType)!");
+                }
             } else if (xbcaps.isSetHref()) {
                 caps.setHref(xbcaps.getHref());
                 if (xbcaps.isSetTitle()) {
@@ -539,7 +531,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
      * @throws DecodingException
      *             * if an error occurs
      */
-    private org.n52.shetland.ogc.sensorML.elements.SmlLocation parseLocation(final SmlLocation2 location) throws DecodingException {
+    private org.n52.shetland.ogc.sensorML.elements.SmlLocation parseLocation(final SmlLocation2 location)
+            throws DecodingException {
         if (!location.isSetPoint()) {
             throw new DecodingException(XmlHelper.getLocalName(location),
                     "Error while parsing the sml:location of the SensorML (point is not set, only point is supported)!");
@@ -573,7 +566,7 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
                     smlContacts.add(parsePerson(contact.getPerson()));
                 } else if (contact.isSetResponsibleParty()) {
                     smlContacts.add(parseResponsibleParty(contact.getResponsibleParty()));
-                }else if (contact.isSetHref()) {
+                } else if (contact.isSetHref()) {
                     SmlReferencedContact thisSmlContact = new SmlReferencedContact();
                     thisSmlContact.setHref(contact.getHref());
                     if (contact.isSetTitle()) {
@@ -865,14 +858,12 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
     }
 
     private String addSensorMLWrapperForXmlDescription(final AbstractProcessType xbProcessType) {
-        final SensorMLDocument xbSensorMLDoc =
-                SensorMLDocument.Factory.newInstance(getXmlOptions());
+        final SensorMLDocument xbSensorMLDoc = SensorMLDocument.Factory.newInstance(getXmlOptions());
         final net.opengis.sensorML.x101.SensorMLDocument.SensorML xbSensorML = xbSensorMLDoc.addNewSensorML();
         xbSensorML.setVersion(SensorMLConstants.VERSION_V101);
         final Member member = xbSensorML.addNewMember();
-        final AbstractProcessType xbAbstractProcessType =
-                (AbstractProcessType) member.addNewProcess().substitute(getQnameForType(xbProcessType.schemaType()),
-                        xbProcessType.schemaType());
+        final AbstractProcessType xbAbstractProcessType = (AbstractProcessType) member.addNewProcess()
+                .substitute(getQnameForType(xbProcessType.schemaType()), xbProcessType.schemaType());
         xbAbstractProcessType.set(xbProcessType);
         return xbSensorMLDoc.xmlText(getXmlOptions());
     }
@@ -922,8 +913,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
             if (components.getComponentList() == null) {
                 removeComponents = true;
             } else if (components.getComponentList().getComponentArray() == null
-                    || ((components.getComponentList().getComponentArray() != null && components.getComponentList()
-                            .getComponentArray().length == 0))) {
+                    || ((components.getComponentList().getComponentArray() != null
+                            && components.getComponentList().getComponentArray().length == 0))) {
                 removeComponents = true;
             }
         }

@@ -35,22 +35,23 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.fes.x20.FilterCapabilitiesDocument;
 import net.opengis.sos.x20.CapabilitiesType;
 import net.opengis.sos.x20.CapabilitiesType.Contents;
 import net.opengis.sos.x20.ContentsType;
 
-public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder implements
-        Decoder<SosCapabilities, CapabilitiesType> {
+public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
+        implements Decoder<SosCapabilities, CapabilitiesType> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CapabilitiesTypeDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper
-            .decoderKeysForElements(Sos2Constants.NS_SOS_20, CapabilitiesType.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, CapabilitiesType.class);
 
     public CapabilitiesTypeDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                     .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -59,6 +60,7 @@ public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public SosCapabilities decode(CapabilitiesType ct) throws DecodingException {
         if (ct != null) {
             OwsCapabilities owsCapabilities = parseCapabilitiesBaseType(SosConstants.SOS, ct);
@@ -77,7 +79,7 @@ public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
     }
 
     private Collection<SosObservationOffering> parseContents(ContentsType contents) {
-        //TODO parse contents
+        // TODO parse contents
         return null;
     }
 
@@ -88,7 +90,8 @@ public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
         return parseFilterCapabilities(filterCapabilities.getFilterCapabilities());
     }
 
-    private FilterCapabilities parseFilterCapabilities(FilterCapabilitiesDocument.FilterCapabilities filterCapabilities) {
+    private FilterCapabilities parseFilterCapabilities(
+            FilterCapabilitiesDocument.FilterCapabilities filterCapabilities) {
         // TOOD parse filter capabilities
         return null;
     }

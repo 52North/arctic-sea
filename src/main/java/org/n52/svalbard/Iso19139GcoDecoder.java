@@ -43,12 +43,12 @@ public class Iso19139GcoDecoder implements Decoder<Object, XmlObject> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GcoDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(GcoConstants.NS_GCO,
-            CodeListValueType.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(GcoConstants.NS_GCO, CodeListValueType.class);
 
     public Iso19139GcoDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override

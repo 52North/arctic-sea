@@ -42,24 +42,24 @@ import net.opengis.waterml.x20.ObservationProcessDocument;
 import net.opengis.waterml.x20.ObservationProcessPropertyType;
 import net.opengis.waterml.x20.ObservationProcessType;
 
-public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20 implements ProcedureDecoder<Object, Object> {
+public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20
+        implements ProcedureDecoder<Object, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WmlObservationProcessDecoderv20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
             CodingHelper.decoderKeysForElements(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING,
-                                                ObservationProcessDocument.class,
-                                                ObservationProcessPropertyType.class,
-                                                ObservationProcessType.class),
-            CodingHelper.decoderKeysForElements(WaterMLConstants.NS_WML_20,
-                                                ObservationProcessDocument.class,
-                                                ObservationProcessPropertyType.class,
-                                                ObservationProcessType.class));
+                    ObservationProcessDocument.class, ObservationProcessPropertyType.class,
+                    ObservationProcessType.class),
+            CodingHelper.decoderKeysForElements(WaterMLConstants.NS_WML_20, ObservationProcessDocument.class,
+                    ObservationProcessPropertyType.class, ObservationProcessType.class));
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS =
-            ImmutableMap.of(SosConstants.SOS, ImmutableMap.of(Sos2Constants.SERVICEVERSION, ImmutableSet.of(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING)));
+            ImmutableMap.of(SosConstants.SOS, ImmutableMap.of(Sos2Constants.SERVICEVERSION,
+                    ImmutableSet.of(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING)));
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.of(new ProcedureDescriptionFormat(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING));
+    private static final Set<SupportedType> SUPPORTED_TYPES =
+            ImmutableSet.of(new ProcedureDescriptionFormat(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING));
 
     public WmlObservationProcessDecoderv20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -78,8 +78,7 @@ public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20 imple
 
     @Override
     public Set<String> getSupportedProcedureDescriptionFormats(String service, String version) {
-        return SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS
-                .getOrDefault(service, Collections.emptyMap())
+        return SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS.getOrDefault(service, Collections.emptyMap())
                 .getOrDefault(version, Collections.emptySet());
     }
 
@@ -113,8 +112,7 @@ public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20 imple
     }
 
     private void setDescriptionXml(ObservationProcessType opt, ObservationProcess observationProcess) {
-        ObservationProcessDocument doc =
-                ObservationProcessDocument.Factory.newInstance(getXmlOptions());
+        ObservationProcessDocument doc = ObservationProcessDocument.Factory.newInstance(getXmlOptions());
         doc.setObservationProcess(opt);
         observationProcess.setXml(doc.xmlText(getXmlOptions()));
     }
@@ -164,7 +162,8 @@ public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20 imple
         }
     }
 
-    private void parseParameter(ObservationProcessType opt, ObservationProcess observationProcess) throws DecodingException  {
+    private void parseParameter(ObservationProcessType opt, ObservationProcess observationProcess)
+            throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(opt.getParameterArray())) {
             observationProcess.setParameters(parseNamedValueTypeArray(opt.getParameterArray()));
         }

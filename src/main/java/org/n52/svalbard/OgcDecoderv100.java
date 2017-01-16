@@ -65,8 +65,8 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
             BinaryTemporalOpType.class, BBOXType.class, PropertyNameDocument.class);
 
     public OgcDecoderv100() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -161,7 +161,7 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
                             operator = TimeOperator.TM_Before;
                         } else {
                             throw new DecodingException(Sos1Constants.GetObservationParams.eventTime,
-                                            "The requested temporal filter operand is not supported by this SOS!");
+                                    "The requested temporal filter operand is not supported by this SOS!");
                         }
                         temporalFilter.setOperator(operator);
                         temporalFilter.setTime(time);
@@ -202,8 +202,7 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
             spatialFilter.setOperator(FilterConstants.SpatialOperator.BBOX);
             XmlCursor geometryCursor = xbBBOX.newCursor();
             if (geometryCursor.toChild(GmlConstants.QN_ENVELOPE)) {
-                Object sosGeometry =
-                        decodeXmlElement(XmlObject.Factory.parse(geometryCursor.getDomNode()));
+                Object sosGeometry = decodeXmlElement(XmlObject.Factory.parse(geometryCursor.getDomNode()));
 
                 if (sosGeometry instanceof PropertyNameType) {
                     PropertyNameType propType = (PropertyNameType) sosGeometry;

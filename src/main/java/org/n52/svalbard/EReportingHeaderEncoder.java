@@ -62,8 +62,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
     }
 
     @Override
-    public void write(OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
+    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
         write(this.header, out, encodingValues);
     }
 
@@ -74,14 +73,12 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
     }
 
     @Override
-    public void write(OutputStream out)
-            throws XMLStreamException, EncodingException {
+    public void write(OutputStream out) throws XMLStreamException, EncodingException {
         write(this.header, out, new EncodingValues());
     }
 
     @Override
-    public void write(EReportingHeader elementToStream, OutputStream out,
-                      EncodingValues encodingValues)
+    public void write(EReportingHeader elementToStream, OutputStream out, EncodingValues encodingValues)
             throws XMLStreamException, EncodingException {
         this.init(out, encodingValues);
         this.encodeReportingHeader(elementToStream, encodingValues);
@@ -121,8 +118,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         return NcNameResolver.fixNcName(gmlId);
     }
 
-    private void encodeReportingPeriod(Referenceable<? extends Time> v)
-            throws XMLStreamException, EncodingException {
+    private void encodeReportingPeriod(Referenceable<? extends Time> v) throws XMLStreamException, EncodingException {
         if (!v.isAbsent()) {
             if (v.isReference()) {
                 empty(AqdConstants.QN_AQD_REPORTING_PERIOD);
@@ -140,15 +136,13 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeReportingAuthority(RelatedParty v)
-            throws XMLStreamException {
+    private void encodeReportingAuthority(RelatedParty v) throws XMLStreamException {
         start(AqdConstants.QN_AQD_REPORTING_AUTHORITY);
         encodeRelatedParty(v);
         end(AqdConstants.QN_AQD_REPORTING_AUTHORITY);
     }
 
-    private void encodeInpireID(InspireID v)
-            throws XMLStreamException {
+    private void encodeInpireID(InspireID v) throws XMLStreamException {
         start(AqdConstants.QN_AQD_INSPIRE_ID);
         start(AqdConstants.QN_BASE_IDENTIFIER);
         encodeString(AqdConstants.QN_BASE_LOCAL_ID, v.getLocalId());
@@ -158,8 +152,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(AqdConstants.QN_AQD_INSPIRE_ID);
     }
 
-    private void encodeChange(EReportingChange v)
-            throws XMLStreamException {
+    private void encodeChange(EReportingChange v) throws XMLStreamException {
         start(AqdConstants.QN_AQD_CHANGE);
         chars(Boolean.toString(v.isChange()));
         endInline(AqdConstants.QN_AQD_CHANGE);
@@ -170,8 +163,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeRelatedParty(RelatedParty v)
-            throws XMLStreamException {
+    private void encodeRelatedParty(RelatedParty v) throws XMLStreamException {
         start(AqdConstants.QN_BASE2_RELATED_PARTY);
 
         encodeNillableFreeText(AqdConstants.QN_BASE2_INDIVIDUAL_NAME, v.getIndividualName());
@@ -196,8 +188,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeReferenceAttr(Reference v)
-            throws XMLStreamException {
+    private void encodeReferenceAttr(Reference v) throws XMLStreamException {
         attr(W3CConstants.QN_XLINK_HREF, v.getHref().toString());
         attr(W3CConstants.QN_XLINK_ACTUATE, v.getActuate());
         attr(W3CConstants.QN_XLINK_ARCROLE, v.getArcrole());
@@ -208,15 +199,13 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         attr(GmlConstants.QN_REMOTE_SCHEMA, v.getRemoteSchema());
     }
 
-    protected void attr(QName qn, Optional<?> v)
-            throws XMLStreamException {
+    protected void attr(QName qn, Optional<?> v) throws XMLStreamException {
         if (v.isPresent()) {
             attr(qn, v.get().toString());
         }
     }
 
-    protected void encodeNillableString(QName qn, Nillable<?> v)
-            throws XMLStreamException {
+    protected void encodeNillableString(QName qn, Nillable<?> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(qn);
@@ -229,23 +218,20 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeString(QName qn, String v)
-            throws XMLStreamException {
+    protected void encodeString(QName qn, String v) throws XMLStreamException {
         start(qn);
         chars(v);
         endInline(qn);
     }
 
-    private void encodeNilAttr(Optional<String> reason)
-            throws XMLStreamException {
+    private void encodeNilAttr(Optional<String> reason) throws XMLStreamException {
         attr(W3CConstants.QN_XSI_NIL, Boolean.toString(true));
         if (reason.isPresent()) {
             attr(AqdConstants.AN_NIL_REASON, reason.get());
         }
     }
 
-    private void encodeGCONilAttr(Nillable<?> v)
-            throws XMLStreamException {
+    private void encodeGCONilAttr(Nillable<?> v) throws XMLStreamException {
         if (v.isNil()) {
             attr(W3CConstants.QN_XSI_NIL, Boolean.toString(true));
             if (v.getNilReason().isPresent()) {
@@ -254,8 +240,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeNillableFreeText(QName qn, Nillable<String> v)
-            throws XMLStreamException {
+    protected void encodeNillableFreeText(QName qn, Nillable<String> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(qn);
@@ -270,8 +255,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeContact(Nillable<Contact> v)
-            throws XMLStreamException {
+    private void encodeContact(Nillable<Contact> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(AqdConstants.QN_BASE2_CONTACT);
@@ -284,16 +268,12 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeContact(Contact c)
-            throws XMLStreamException {
+    protected void encodeContact(Contact c) throws XMLStreamException {
         start(AqdConstants.QN_BASE2_C_ONTACT);
         encodeAddress(c.getAddress());
-        encodeNillableFreeText(AqdConstants.QN_BASE2_CONTACT_INSTRUCTIONS,
-                               c.getContactInstructions());
-        encodeNillableString(AqdConstants.QN_BASE2_ELECTRONIC_MAIL_ADDRESS,
-                             c.getElectronicMailAddress());
-        encodeNillableFreeText(AqdConstants.QN_BASE2_HOURS_OF_SERVICE,
-                               c.getHoursOfService());
+        encodeNillableFreeText(AqdConstants.QN_BASE2_CONTACT_INSTRUCTIONS, c.getContactInstructions());
+        encodeNillableString(AqdConstants.QN_BASE2_ELECTRONIC_MAIL_ADDRESS, c.getElectronicMailAddress());
+        encodeNillableFreeText(AqdConstants.QN_BASE2_HOURS_OF_SERVICE, c.getHoursOfService());
         for (Nillable<String> value : c.getTelephoneFacsimile()) {
             encodeNillableString(AqdConstants.QN_BASE2_TELEPHONE_FACSIMILE, value);
         }
@@ -304,8 +284,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(AqdConstants.QN_BASE2_C_ONTACT);
     }
 
-    private void encodeAddress(Nillable<Address> v)
-            throws XMLStreamException {
+    private void encodeAddress(Nillable<Address> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(AqdConstants.QN_BASE2_ADDRESS);
@@ -318,8 +297,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeAddress(Address v)
-            throws XMLStreamException {
+    private void encodeAddress(Address v) throws XMLStreamException {
         start(AqdConstants.QN_AD_ADDRESS_REPRESENTATION);
 
         for (GeographicalName value : v.getAdminUnits()) {
@@ -352,11 +330,9 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(AqdConstants.QN_AD_ADDRESS_REPRESENTATION);
     }
 
-    protected void encodeNillableGeographicalName(QName qn,
-                                                  Nillable<GeographicalName> v)
-            throws XMLStreamException {
+    protected void encodeNillableGeographicalName(QName qn, Nillable<GeographicalName> v) throws XMLStreamException {
         if (!v.isAbsent()) {
-            if (v.isNil()){
+            if (v.isNil()) {
                 empty(qn);
                 encodeNilAttr(v.getNilReason());
             } else {
@@ -367,8 +343,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeNillableReference(QName qn, Nillable<Reference> v)
-            throws XMLStreamException {
+    protected void encodeNillableReference(QName qn, Nillable<Reference> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             empty(qn);
             if (v.isNil()) {
@@ -379,8 +354,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeGeographicalName(GeographicalName v)
-            throws XMLStreamException {
+    private void encodeGeographicalName(GeographicalName v) throws XMLStreamException {
         start(AqdConstants.QN_GN_GEOGRAPHICAL_NAME);
         encodeNillableString(AqdConstants.QN_GN_LANGUAGE, v.getLanguage());
         encodeNillableCodeType(AqdConstants.QN_GN_NATIVENESS, v.getNativeness());
@@ -397,8 +371,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(AqdConstants.QN_GN_GEOGRAPHICAL_NAME);
     }
 
-    protected void encodeNillableCodeType(QName qn, Nillable<CodeType> v)
-            throws XMLStreamException {
+    protected void encodeNillableCodeType(QName qn, Nillable<CodeType> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(qn);
@@ -414,9 +387,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeNillablePronunciation(QName qn,
-                                               Nillable<Pronunciation> v)
-            throws XMLStreamException {
+    protected void encodeNillablePronunciation(QName qn, Nillable<Pronunciation> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(qn);
@@ -429,17 +400,14 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodePronunciationOfName(Pronunciation pronunciation)
-            throws XMLStreamException {
+    protected void encodePronunciationOfName(Pronunciation pronunciation) throws XMLStreamException {
         start(AqdConstants.QN_GN_PRONUNCIATION_OF_NAME);
-        encodeNillableString(AqdConstants.QN_GN_PRONUNCIATION_SOUND_LINK, pronunciation
-                             .getSoundLink());
+        encodeNillableString(AqdConstants.QN_GN_PRONUNCIATION_SOUND_LINK, pronunciation.getSoundLink());
         encodeNillableString(AqdConstants.QN_GN_PRONUNCIATION_IPA, pronunciation.getIPA());
         end(AqdConstants.QN_GN_PRONUNCIATION_OF_NAME);
     }
 
-    protected void encodeNillableSpelling(QName qn, Nillable<Spelling> v)
-            throws XMLStreamException {
+    protected void encodeNillableSpelling(QName qn, Nillable<Spelling> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(qn);
@@ -452,13 +420,11 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeSpellingOfName(Spelling spelling)
-            throws XMLStreamException {
+    protected void encodeSpellingOfName(Spelling spelling) throws XMLStreamException {
         start(AqdConstants.QN_GN_SPELLING_OF_NAME);
         encodeString(AqdConstants.QN_GN_TEXT, spelling.getText());
         encodeNillableString(AqdConstants.QN_GN_SCRIPT, spelling.getScript());
-        encodeNillableString(AqdConstants.QN_GN_TRANSLITERATION_SCHEME, spelling
-                             .getTransliterationScheme());
+        encodeNillableString(AqdConstants.QN_GN_TRANSLITERATION_SCHEME, spelling.getTransliterationScheme());
         end(AqdConstants.QN_GN_SPELLING_OF_NAME);
     }
 
@@ -470,8 +436,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeTimeInstant(TimeInstant ti)
-            throws XMLStreamException, EncodingException {
+    private void encodeTimeInstant(TimeInstant ti) throws XMLStreamException, EncodingException {
         start(GmlConstants.QN_TIME_INSTANT_32);
         attr(GmlConstants.QN_ID_32, getGMLId(ti));
         start(GmlConstants.QN_TIME_POSITION_32);
@@ -480,8 +445,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(GmlConstants.QN_TIME_INSTANT_32);
     }
 
-    private void encodeTimePeriod(TimePeriod tp)
-            throws XMLStreamException, EncodingException {
+    private void encodeTimePeriod(TimePeriod tp) throws XMLStreamException, EncodingException {
         start(GmlConstants.QN_TIME_PERIOD_32);
         attr(GmlConstants.QN_ID_32, getGMLId(tp));
         start(GmlConstants.QN_BEGIN_POSITION_32);
@@ -493,8 +457,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(GmlConstants.QN_TIME_PERIOD_32);
     }
 
-    protected void encodeTimeString(DateTime time, TimeFormat format)
-            throws XMLStreamException, EncodingException {
+    protected void encodeTimeString(DateTime time, TimeFormat format) throws XMLStreamException, EncodingException {
         chars(DateTimeHelper.formatDateTime2String(time, format));
     }
 

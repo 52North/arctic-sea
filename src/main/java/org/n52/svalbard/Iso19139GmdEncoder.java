@@ -87,14 +87,14 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final QName QN_GCO_DATE = new QName(GcoConstants.NS_GCO, "Date", GcoConstants.NS_GCO_PREFIX);
 
-    private static final QName QN_GMD_CONFORMANCE_RESULT = new QName(GmdConstants.NS_GMD, "DQ_ConformanceResult",
-            GmdConstants.NS_GMD_PREFIX);
+    private static final QName QN_GMD_CONFORMANCE_RESULT =
+            new QName(GmdConstants.NS_GMD, "DQ_ConformanceResult", GmdConstants.NS_GMD_PREFIX);
 
-    private static final QName QN_GMD_QUANTITATIVE_RESULT = new QName(GmdConstants.NS_GMD, "DQ_QuantitativeResult",
-            GmdConstants.NS_GMD_PREFIX);
+    private static final QName QN_GMD_QUANTITATIVE_RESULT =
+            new QName(GmdConstants.NS_GMD, "DQ_QuantitativeResult", GmdConstants.NS_GMD_PREFIX);
 
-    private static final QName QN_GML_BASE_UNIT = new QName(GmlConstants.NS_GML_32, "BaseUnit",
-            GmlConstants.NS_GML_PREFIX);
+    private static final QName QN_GML_BASE_UNIT =
+            new QName(GmlConstants.NS_GML_32, "BaseUnit", GmlConstants.NS_GML_PREFIX);
 
     private static final Set<EncoderKey> ENCODER_KEYS = union(
             encoderKeysForElements(GmdConstants.NS_GMD, SmlResponsibleParty.class, GmdQuantitativeResult.class,
@@ -102,8 +102,8 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
             encoderKeysForElements(null, GmdQuantitativeResult.class, GmdConformanceResult.class));
 
     public Iso19139GmdEncoder() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -127,15 +127,15 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException,
-            UnsupportedEncoderInputException {
+    public XmlObject encode(Object element, EncodingContext additionalValues)
+            throws EncodingException, UnsupportedEncoderInputException {
         XmlObject encodedObject = null;
         // try {
         if (element instanceof SmlResponsibleParty) {
             encodedObject = encodeResponsibleParty((SmlResponsibleParty) element, additionalValues);
         } else {
             if (element instanceof GmdDomainConsistency) {
-                encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency)element, additionalValues);
+                encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency) element, additionalValues);
             } else {
                 throw new UnsupportedEncoderInputException(this, element);
             }
@@ -149,8 +149,8 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         return encodedObject;
     }
 
-    private XmlObject encodeResponsibleParty(SmlResponsibleParty responsibleParty,
-            EncodingContext additionalValues) throws EncodingException {
+    private XmlObject encodeResponsibleParty(SmlResponsibleParty responsibleParty, EncodingContext additionalValues)
+            throws EncodingException {
         if (responsibleParty.isSetHref()) {
             CIResponsiblePartyPropertyType cirppt =
                     CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
@@ -163,8 +163,7 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
             }
             return cirppt;
         }
-        CIResponsiblePartyType cirpt =
-                CIResponsiblePartyType.Factory.newInstance(getXmlOptions());
+        CIResponsiblePartyType cirpt = CIResponsiblePartyType.Factory.newInstance(getXmlOptions());
         if (responsibleParty.isSetIndividualName()) {
             cirpt.addNewIndividualName().setCharacterString(responsibleParty.getIndividualName());
         }
@@ -184,8 +183,7 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
             cirppt.setCIResponsibleParty(cirpt);
             return cirppt;
         } else if (additionalValues.has(SosHelperValues.DOCUMENT)) {
-            CIResponsiblePartyDocument cirpd =
-                    CIResponsiblePartyDocument.Factory.newInstance(getXmlOptions());
+            CIResponsiblePartyDocument cirpd = CIResponsiblePartyDocument.Factory.newInstance(getXmlOptions());
             cirpd.setCIResponsibleParty(cirpt);
         }
         return cirpt;
@@ -228,8 +226,8 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
         }
         if (responsibleParty.isSetEmail()) {
-            ciat.setElectronicMailAddressArray(listToCharacterStringPropertyTypeArray(Lists
-                    .newArrayList(responsibleParty.getEmail())));
+            ciat.setElectronicMailAddressArray(
+                    listToCharacterStringPropertyTypeArray(Lists.newArrayList(responsibleParty.getEmail())));
         }
     }
 
@@ -249,10 +247,10 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         }
     }
 
-    private XmlObject encodeGmdDomainConsistency(GmdDomainConsistency element, EncodingContext additionalValues) throws EncodingException {
+    private XmlObject encodeGmdDomainConsistency(GmdDomainConsistency element, EncodingContext additionalValues)
+            throws EncodingException {
         if (additionalValues.has(SosHelperValues.DOCUMENT)) {
-            DQDomainConsistencyDocument document =
-                    DQDomainConsistencyDocument.Factory.newInstance(getXmlOptions());
+            DQDomainConsistencyDocument document = DQDomainConsistencyDocument.Factory.newInstance(getXmlOptions());
             DQResultPropertyType addNewResult = document.addNewDQDomainConsistency().addNewResult();
             encodeGmdDomainConsistency(addNewResult, element);
             return document;
@@ -282,16 +280,15 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private void encodeGmdConformanceResult(DQResultPropertyType xbResult, GmdConformanceResult gmdConformanceResult) {
-        DQConformanceResultType dqConformanceResultType =
-                (DQConformanceResultType) xbResult.addNewAbstractDQResult().substitute(QN_GMD_CONFORMANCE_RESULT,
-                        DQConformanceResultType.type);
+        DQConformanceResultType dqConformanceResultType = (DQConformanceResultType) xbResult.addNewAbstractDQResult()
+                .substitute(QN_GMD_CONFORMANCE_RESULT, DQConformanceResultType.type);
         if (gmdConformanceResult.isSetPassNilReason()) {
             dqConformanceResultType.addNewPass().setNilReason(gmdConformanceResult.getPassNilReason().name());
         } else {
             dqConformanceResultType.addNewPass().setBoolean(gmdConformanceResult.isPass());
         }
-        dqConformanceResultType.addNewExplanation().setCharacterString(
-                gmdConformanceResult.getSpecification().getExplanation());
+        dqConformanceResultType.addNewExplanation()
+                .setCharacterString(gmdConformanceResult.getSpecification().getExplanation());
         CICitationType xbCitation = dqConformanceResultType.addNewSpecification().addNewCICitation();
         xbCitation.addNewTitle().setCharacterString(gmdConformanceResult.getSpecification().getCitation().getTitle());
         CIDateType xbCiDate = xbCitation.addNewDate().addNewCIDate();
@@ -311,10 +308,10 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         newCursor.dispose();
     }
 
-    private void encodeGmdQuantitativeResult(DQResultPropertyType xbResult, GmdQuantitativeResult gmdQuantitativeResult) {
-        DQQuantitativeResultType dqQuantitativeResultType =
-                (DQQuantitativeResultType) xbResult.addNewAbstractDQResult().substitute(QN_GMD_QUANTITATIVE_RESULT,
-                        DQQuantitativeResultType.type);
+    private void encodeGmdQuantitativeResult(DQResultPropertyType xbResult,
+            GmdQuantitativeResult gmdQuantitativeResult) {
+        DQQuantitativeResultType dqQuantitativeResultType = (DQQuantitativeResultType) xbResult
+                .addNewAbstractDQResult().substitute(QN_GMD_QUANTITATIVE_RESULT, DQQuantitativeResultType.type);
         GmlBaseUnit unit = gmdQuantitativeResult.getUnit();
         UnitOfMeasurePropertyType valueUnit = dqQuantitativeResultType.addNewValueUnit();
         BaseUnitType xbBaseUnit =

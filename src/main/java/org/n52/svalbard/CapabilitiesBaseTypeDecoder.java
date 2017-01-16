@@ -41,13 +41,12 @@ public class CapabilitiesBaseTypeDecoder extends AbstractCapabilitiesBaseTypeDec
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CapabilitiesBaseTypeDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            OWSConstants.NS_OWS,
-            CapabilitiesBaseType.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(OWSConstants.NS_OWS, CapabilitiesBaseType.class);
 
     public CapabilitiesBaseTypeDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -56,10 +55,9 @@ public class CapabilitiesBaseTypeDecoder extends AbstractCapabilitiesBaseTypeDec
     }
 
     @Override
-    public OwsCapabilities decode(CapabilitiesBaseType cbt)
-            throws DecodingException {
+    public OwsCapabilities decode(CapabilitiesBaseType cbt) throws DecodingException {
         if (cbt != null) {
-           return parseCapabilitiesBaseType(null, cbt);
+            return parseCapabilitiesBaseType(null, cbt);
         }
         return null;
     }

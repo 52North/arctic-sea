@@ -39,6 +39,7 @@ import com.google.common.xml.XmlEscapers;
 public abstract class XmlStreamWriter<S> extends XmlWriter<XMLStreamWriter, S> {
 
     private final Map<String, String> prefixes = new HashMap<>();
+
     private XMLStreamWriter w;
 
     @Override

@@ -81,37 +81,24 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OmDecoderv20.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper
-            .decoderKeysForElements(OmConstants.NS_OM_2,
-                                    OMObservationType.class,
-                                    NamedValuePropertyType.class,
-                                    OMObservationDocument.class,
-                                    NamedValuePropertyType[].class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(OmConstants.NS_OM_2, OMObservationType.class,
+                    NamedValuePropertyType.class, OMObservationDocument.class, NamedValuePropertyType[].class);
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet
-            .<SupportedType>builder()
-            .add(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_MEASUREMENT_TYPE)
-            .add(OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE)
-            .build();
+    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
+            .add(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION_TYPE)
+            .add(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE)
+            .add(OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_MEASUREMENT_TYPE)
+            .add(OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE).build();
 
-    private static final Set<String> CONFORMANCE_CLASSES = ImmutableSet.of(
-            ConformanceClasses.OM_V2_MEASUREMENT,
-            ConformanceClasses.OM_V2_CATEGORY_OBSERVATION,
-            ConformanceClasses.OM_V2_COUNT_OBSERVATION,
-            ConformanceClasses.OM_V2_TRUTH_OBSERVATION,
-            ConformanceClasses.OM_V2_GEOMETRY_OBSERVATION,
-            ConformanceClasses.OM_V2_COMPLEX_OBSERVATION,
-            ConformanceClasses.OM_V2_TEXT_OBSERVATION);
+    private static final Set<String> CONFORMANCE_CLASSES = ImmutableSet.of(ConformanceClasses.OM_V2_MEASUREMENT,
+            ConformanceClasses.OM_V2_CATEGORY_OBSERVATION, ConformanceClasses.OM_V2_COUNT_OBSERVATION,
+            ConformanceClasses.OM_V2_TRUTH_OBSERVATION, ConformanceClasses.OM_V2_GEOMETRY_OBSERVATION,
+            ConformanceClasses.OM_V2_COMPLEX_OBSERVATION, ConformanceClasses.OM_V2_TEXT_OBSERVATION);
 
     public OmDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                     .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -206,9 +193,8 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
             TimeInstant timeInstant = new TimeInstant();
             timeInstant.setGmlId(phenomenonTime.getHref());
             return timeInstant;
-        } else if (phenomenonTime.isSetNilReason() &&
-                   phenomenonTime.getNilReason() instanceof String &&
-                 ((String) phenomenonTime.getNilReason()).equals(IndeterminateValue.TEMPLATE.getValue())) {
+        } else if (phenomenonTime.isSetNilReason() && phenomenonTime.getNilReason() instanceof String
+                && ((String) phenomenonTime.getNilReason()).equals(IndeterminateValue.TEMPLATE.getValue())) {
             return new TimeInstant(IndeterminateValue.TEMPLATE);
         } else if (phenomenonTime.isSetAbstractTimeObject()) {
             Object decodedObject = decodeXmlObject(phenomenonTime.getAbstractTimeObject());
@@ -233,10 +219,9 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
                 timeInstant.setReference(omObservation.getResultTime().getHref());
             }
             return timeInstant;
-        } else if (omObservation.getResultTime().isSetNilReason() &&
-                 omObservation.getResultTime().getNilReason() instanceof String &&
-                 NilReason.template.equals(NilReason.getEnumForString((String) omObservation.getResultTime()
-                           .getNilReason()))) {
+        } else if (omObservation.getResultTime().isSetNilReason()
+                && omObservation.getResultTime().getNilReason() instanceof String && NilReason.template
+                        .equals(NilReason.getEnumForString((String) omObservation.getResultTime().getNilReason()))) {
             TimeInstant timeInstant = new TimeInstant();
             timeInstant
                     .setNilReason(NilReason.getEnumForString((String) omObservation.getResultTime().getNilReason()));
@@ -269,8 +254,8 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
     private ObservationValue<?> getObservationValue(OMObservationType omObservation) throws DecodingException {
         Time phenomenonTime = getPhenomenonTime(omObservation);
         ObservationValue<?> observationValue;
-        if (!omObservation.getResult().getDomNode().hasChildNodes() && phenomenonTime.isSetNilReason() &&
-                 phenomenonTime.getNilReason().equals(NilReason.template)) {
+        if (!omObservation.getResult().getDomNode().hasChildNodes() && phenomenonTime.isSetNilReason()
+                && phenomenonTime.getNilReason().equals(NilReason.template)) {
             observationValue = new SingleObservationValue<>(new NilTemplateValue());
         } else {
             observationValue = getResult(omObservation);
@@ -337,12 +322,13 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
                 return new SingleObservationValue<>(new ComplexValue((SweDataRecord) decodedObject));
             }
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                    "The requested result type '{}' is not supported by this service!", decodedObject.getClass().getSimpleName());
+                    "The requested result type '{}' is not supported by this service!",
+                    decodedObject.getClass().getSimpleName());
         }
     }
 
     private AbstractFeature checkFeatureWithMap(AbstractFeature featureOfInterest,
-                                                Map<String, AbstractFeature> featureMap) {
+            Map<String, AbstractFeature> featureMap) {
         if (featureOfInterest.getGmlId() != null && !featureOfInterest.getGmlId().isEmpty()) {
             if (featureMap.containsKey(featureOfInterest.getGmlId())) {
                 return featureMap.get(featureOfInterest.getGmlId());

@@ -40,14 +40,13 @@ public interface Decoder<T, S> extends Component<DecoderKey> {
      * Decode a object to another representation.
      *
      * @param objectToDecode
-     *                       the object to encode
+     *            the object to encode
      *
      * @return the encoded object
      * @throws DecodingException
      *             if an error occurs
      */
-    T decode(S objectToDecode)
-            throws DecodingException;
+    T decode(S objectToDecode) throws DecodingException;
 
     /**
      * Gets the supported types of this decoder.

@@ -43,11 +43,12 @@ import net.opengis.sos.x20.GetObservationResponseType;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
-public class GetObservationResponseEncoder extends AbstractObservationResponseEncoder<GetObservationResponse> implements StreamingDataEncoder {
+public class GetObservationResponseEncoder extends AbstractObservationResponseEncoder<GetObservationResponse>
+        implements StreamingDataEncoder {
     public GetObservationResponseEncoder() {
         super(SosConstants.Operations.GetObservation.name(), GetObservationResponse.class);
     }
@@ -68,16 +69,16 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
         // TODO iterate over observation collection and remove processed
         // observation
         for (OmObservation o : response.getObservationCollection()) {
-             if (encoder instanceof StreamingDataEncoder) {
-                 xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(o));
-             } else {
-                 if (o.getValue() instanceof AbstractStreaming) {
-                     processAbstractStreaming(xbResponse, (AbstractStreaming) o.getValue(), encoder,
-                             response.isSetMergeObservation());
-                 } else {
-                     xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(o));
-                 }
-             }
+            if (encoder instanceof StreamingDataEncoder) {
+                xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(o));
+            } else {
+                if (o.getValue() instanceof AbstractStreaming) {
+                    processAbstractStreaming(xbResponse, (AbstractStreaming) o.getValue(), encoder,
+                            response.isSetMergeObservation());
+                } else {
+                    xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(o));
+                }
+            }
         }
         // in a single observation the gml:ids must be unique
         if (response.getObservationCollection().size() > 1) {
@@ -89,16 +90,14 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
     private void processAbstractStreaming(GetObservationResponseType xbResponse, AbstractStreaming value,
             ObservationEncoder<XmlObject, OmObservation> encoder, boolean merge) throws EncodingException {
         if (value instanceof StreamingValue) {
-            processStreamingValue(xbResponse, (StreamingValue<?>) value, encoder,
-                    merge);
+            processStreamingValue(xbResponse, (StreamingValue<?>) value, encoder, merge);
         } else {
             throw new UnsupportedEncoderInputException(this, value);
         }
     }
 
     private void processStreamingValue(GetObservationResponseType xbResponse, StreamingValue<?> streamingValue,
-            ObservationEncoder<XmlObject, OmObservation> encoder, boolean merge)
-            throws EncodingException {
+            ObservationEncoder<XmlObject, OmObservation> encoder, boolean merge) throws EncodingException {
         try {
             if (streamingValue.hasNextValue()) {
                 if (merge) {
@@ -116,7 +115,7 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
                         .set(encoder.encode(streamingValue.getValue().getValue()));
             }
         } catch (OwsExceptionReport owse) {
-           throw new EncodingException(owse);
+            throw new EncodingException(owse);
         }
     }
 

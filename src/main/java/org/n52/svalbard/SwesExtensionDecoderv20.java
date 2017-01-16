@@ -47,13 +47,13 @@ public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, SwesE
     private static final Logger LOGGER = LoggerFactory.getLogger(SwesDecoderv20.class);
 
     @SuppressWarnings("unchecked")
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            W3CConstants.NS_XS , XmlAnyTypeImpl.class), CodingHelper.decoderKeysForElements(
-            SwesConstants.NS_SWES_20, XmlAnyTypeImpl.class));
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CollectionHelper.union(CodingHelper.decoderKeysForElements(W3CConstants.NS_XS, XmlAnyTypeImpl.class),
+                    CodingHelper.decoderKeysForElements(SwesConstants.NS_SWES_20, XmlAnyTypeImpl.class));
 
     public SwesExtensionDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -62,8 +62,7 @@ public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, SwesE
     }
 
     @Override
-    public SwesExtension<?> decode(XmlObject xmlObject) throws DecodingException,
-            UnsupportedDecoderInputException {
+    public SwesExtension<?> decode(XmlObject xmlObject) throws DecodingException, UnsupportedDecoderInputException {
 
         if (isSwesExtension(xmlObject)) {
             XmlObject[] children = xmlObject.selectPath("./*");
@@ -82,8 +81,8 @@ public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, SwesE
 
     private boolean isSwesExtension(XmlObject xmlObject) {
         Node node = xmlObject.getDomNode();
-        return node.getNamespaceURI().equalsIgnoreCase(SwesConstants.NS_SWES_20) &&
-               node.getLocalName().equalsIgnoreCase(SwesConstants.EN_EXTENSION);
+        return node.getNamespaceURI().equalsIgnoreCase(SwesConstants.NS_SWES_20)
+                && node.getLocalName().equalsIgnoreCase(SwesConstants.EN_EXTENSION);
     }
 
 }

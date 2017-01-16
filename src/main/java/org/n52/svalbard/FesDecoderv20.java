@@ -78,11 +78,12 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(FesDecoderv20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(FilterConstants.NS_FES_2,
-            SpatialOpsType.class, TemporalOpsType.class, ComparisonOpsType.class, LogicOpsType.class,
-            FilterType.class, FilterDocument.class, TemporalOpsDocument.class);
+            SpatialOpsType.class, TemporalOpsType.class, ComparisonOpsType.class, LogicOpsType.class, FilterType.class,
+            FilterDocument.class, TemporalOpsDocument.class);
 
     public FesDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -392,11 +393,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
      *             If an error occurs of the filter is not supported
      */
     private ComparisonFilter parsePropertyIsNullFilter(PropertyIsNullType comparisonOpsType) throws DecodingException {
-        ComparisonFilter comparisonFilter = new ComparisonFilter();
-        comparisonFilter.setOperator(ComparisonOperator.PropertyIsNull);
         throw new UnsupportedDecoderXmlInputException(this, comparisonOpsType);
-        // TODO get values
-        // return comparisonFilter;
     }
 
     /**
@@ -409,11 +406,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
      *             If an error occurs of the filter is not supported
      */
     private ComparisonFilter parsePropertyIsNilFilter(PropertyIsNilType comparisonOpsType) throws DecodingException {
-        ComparisonFilter comparisonFilter = new ComparisonFilter();
-        comparisonFilter.setOperator(ComparisonOperator.PropertyIsNil);
         throw new UnsupportedDecoderXmlInputException(this, comparisonOpsType);
-        // TODO get values
-        // return comparisonFilter;
     }
 
     /**
@@ -427,11 +420,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
      */
     private ComparisonFilter parsePropertyIsBetweenFilter(PropertyIsBetweenType comparisonOpsType)
             throws DecodingException {
-        ComparisonFilter comparisonFilter = new ComparisonFilter();
-        comparisonFilter.setOperator(ComparisonOperator.PropertyIsBetween);
         throw new UnsupportedDecoderXmlInputException(this, comparisonOpsType);
-        // TODO get values
-        // return comparisonFilter;
     }
 
     /**

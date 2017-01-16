@@ -90,20 +90,16 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
 
     private static final Set<EncoderKey> ENCODER_KEYS = createEncoderKeys();
 
-    private static final ImmutableSet<SupportedType> SUPPORTED_TYPES
-            = ImmutableSet.<SupportedType>builder()
-                    .add(new ObservationType(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR))
-                    .build();
+    private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
+            .add(new ObservationType(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)).build();
 
-
-    private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections.singletonMap(
-            SosConstants.SOS,
-            Collections.singletonMap(Sos2Constants.SERVICEVERSION,
+    private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS =
+            Collections.singletonMap(SosConstants.SOS, Collections.singletonMap(Sos2Constants.SERVICEVERSION,
                     Collections.singleton(WaterMLConstants.NS_WML_20_DR)));
 
     public WmlTDREncoderv20() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -118,8 +114,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
-        if (SosConstants.SOS.equals(service) &&
-            Sos2Constants.SERVICEVERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
@@ -212,9 +207,10 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
      */
     private XmlObject createMeasurementDomainRange(OmObservation sosObservation) throws EncodingException {
         if (!sosObservation.getObservationConstellation().isSetObservationType()
-                || (sosObservation.getObservationConstellation().isSetObservationType() && isInvalidObservationType(sosObservation
-                        .getObservationConstellation().getObservationType()))) {
-            throw new UnsupportedEncoderInputException(this, sosObservation.getObservationConstellation().isSetObservationType());
+                || (sosObservation.getObservationConstellation().isSetObservationType() && isInvalidObservationType(
+                        sosObservation.getObservationConstellation().getObservationType()))) {
+            throw new UnsupportedEncoderInputException(this,
+                    sosObservation.getObservationConstellation().isSetObservationType());
         }
         MeasurementTimeseriesDomainRangeDocument xbMearuementTimeseriesDomainRangeDoc =
                 MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
@@ -226,7 +222,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         xbMeasurementTimeseriesDomainRange.addNewDomainSet().set(getTimePositionList(sosObservation));
         // initialize unit
         AbstractPhenomenon observableProperty = sosObservation.getObservationConstellation().getObservableProperty();
-        String unit = "";
+        String unit = null;
         // create quantity list from values
         QuantityListDocument quantityListDoc = QuantityListDocument.Factory.newInstance();
         MeasureOrNilReasonListType quantityList = quantityListDoc.addNewQuantityList();
@@ -282,7 +278,8 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         }
         SweField field = new SweField("observed_value", quantity);
         dataRecord.addField(field);
-        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord, EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
+                EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
     }
 
     /**
@@ -299,7 +296,8 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
         timePositionList.setId("timepositionList_" + sosObservation.getObservationID());
         if (sosObservation.getValue() instanceof SingleObservationValue<?>) {
-            timePositionList.setTimePositionList(Lists.newArrayList(getTimeString(sosObservation.getValue().getPhenomenonTime())));
+            timePositionList.setTimePositionList(
+                    Lists.newArrayList(getTimeString(sosObservation.getValue().getPhenomenonTime())));
         } else if (sosObservation.getValue() instanceof MultiObservationValues<?>) {
             timePositionList.setTimePositionList(getTimeArray((MultiObservationValues<?>) sosObservation.getValue()));
         }
@@ -316,8 +314,8 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
      *             If an error occurs
      */
     private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues) throws EncodingException {
-        return ((TVPValue) sosObservationValues.getValue()).getValue().stream()
-                .map(TimeValuePair::getTime).map(this::getTimeString).collect(toList());
+        return ((TVPValue) sosObservationValues.getValue()).getValue().stream().map(TimeValuePair::getTime)
+                .map(this::getTimeString).collect(toList());
     }
 
     /**
@@ -330,9 +328,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
      *             If an error occurs
      */
     private List<Object> getValueList(List<TimeValuePair> timeValuePairs) throws EncodingException {
-        return timeValuePairs.stream()
-                .map(TimeValuePair::getValue)
-                .map(value -> {
+        return timeValuePairs.stream().map(TimeValuePair::getValue).map(value -> {
             if (value != null && (value instanceof CountValue || value instanceof QuantityValue)) {
                 return value.getValue();
             } else {
@@ -343,9 +339,8 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
 
     private XmlObject createMeasurementDomainRange(AbstractObservationValue<?> observationValue)
             throws EncodingException {
-        if (!observationValue.isSetObservationType()
-                || (observationValue.isSetObservationType() && isInvalidObservationType(observationValue
-                        .getObservationType()))) {
+        if (!observationValue.isSetObservationType() || (observationValue.isSetObservationType()
+                && isInvalidObservationType(observationValue.getObservationType()))) {
             return null;
         }
 
@@ -360,7 +355,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         // initialize unit
         // AbstractPhenomenon observableProperty =
         // observationValue.getObservableProperty();
-        String unit = "";
+        String unit = null;
         // create quantity list from values
         QuantityListDocument quantityListDoc = QuantityListDocument.Factory.newInstance();
         MeasureOrNilReasonListType quantityList = quantityListDoc.addNewQuantityList();
@@ -409,7 +404,8 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         quantity.setUom(unit);
         SweField field = new SweField("observed_value", quantity);
         dataRecord.addField(field);
-        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord, EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
+                EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
     }
 
     private TimePositionListDocument getTimePositionList(AbstractObservationValue<?> observationValue)
@@ -420,9 +416,11 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         timePositionList.setTimePositionList(getTimeArray((MultiObservationValues<?>) observationValue));
         return timePositionListDoc;
     }
+
     private static Set<EncoderKey> createEncoderKeys() {
-        return CollectionHelper.union(getDefaultEncoderKeys(), CodingHelper.encoderKeysForElements(
-                WaterMLConstants.NS_WML_20_DR, GetObservationResponse.class, OmObservation.class,
-                                                                             AbstractFeature.class, SingleObservationValue.class, MultiObservationValues.class));
+        return CollectionHelper.union(getDefaultEncoderKeys(),
+                CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20_DR, GetObservationResponse.class,
+                        OmObservation.class, AbstractFeature.class, SingleObservationValue.class,
+                        MultiObservationValues.class));
     }
 }

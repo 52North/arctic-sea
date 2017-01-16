@@ -83,14 +83,14 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlDecoderv321.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            GmlConstants.NS_GML_32, EnvelopeDocument.class, TimeInstantType.class, TimePeriodType.class,
-            TimeInstantDocument.class, TimePeriodDocument.class, ReferenceType.class, MeasureType.class,
-            PointType.class, PointDocument.class, LineStringType.class, PolygonType.class, CompositeSurfaceType.class,
-            CodeWithAuthorityType.class, CodeType.class, FeaturePropertyType.class, GeometryPropertyType.class,
-            VerticalDatumPropertyType.class
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CollectionHelper.union(CodingHelper.decoderKeysForElements(GmlConstants.NS_GML_32, EnvelopeDocument.class,
+                    TimeInstantType.class, TimePeriodType.class, TimeInstantDocument.class, TimePeriodDocument.class,
+                    ReferenceType.class, MeasureType.class, PointType.class, PointDocument.class, LineStringType.class,
+                    PolygonType.class, CompositeSurfaceType.class, CodeWithAuthorityType.class, CodeType.class,
+                    FeaturePropertyType.class, GeometryPropertyType.class, VerticalDatumPropertyType.class
 
-    ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
+            ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
 
     private static final String CS = ",";
 
@@ -99,8 +99,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     private static final String TS = " ";
 
     public GmlDecoderv321() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -170,9 +170,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 abstractFeature = featurePropertyType.getAbstractFeature();
             } else if (featurePropertyType.getDomNode().hasChildNodes()) {
                 try {
-                    abstractFeature =
-                            XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(featurePropertyType.getDomNode()
-                                    .getChildNodes()));
+                    abstractFeature = XmlObject.Factory
+                            .parse(XmlHelper.getNodeFromNodeList(featurePropertyType.getDomNode().getChildNodes()));
                 } catch (XmlException xmle) {
                     throw new DecodingException("Error while parsing feature request!", xmle);
                 }
@@ -248,7 +247,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         if (xbBeginTPT != null) {
             begin = parseTimePosition(xbBeginTPT);
         } else {
-            throw new DecodingException("gml:TimePeriod must contain gml:beginPosition Element with valid ISO:8601 String!");
+            throw new DecodingException(
+                    "gml:TimePeriod must contain gml:beginPosition Element with valid ISO:8601 String!");
         }
 
         // end position
@@ -257,7 +257,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         if (xbEndTPT != null) {
             end = parseTimePosition(xbEndTPT);
         } else {
-            throw new DecodingException("gml:TimePeriod must contain gml:endPosition Element with valid ISO:8601 String!");
+            throw new DecodingException(
+                    "gml:TimePeriod must contain gml:endPosition Element with valid ISO:8601 String!");
         }
         TimePeriod timePeriod = new TimePeriod(begin, end);
         timePeriod.setGmlId(xbTimePeriod.getId());
@@ -269,7 +270,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         String timeString = xbTimePosition.getStringValue();
         if (timeString != null && !timeString.isEmpty()) {
             try {
-                // TODO better differentiate between ISO8601 and indeterminate value
+                // TODO better differentiate between ISO8601 and indeterminate
+                // value
                 ti.setValue(DateTimeHelper.parseIsoString2DateTime(timeString));
                 ti.setRequestedTimeLength(DateTimeHelper.getTimeLengthBeforeTimeZone(timeString));
             } catch (DateTimeParseException ex) {
@@ -297,7 +299,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     private AbstractGeometry parseAbstractGeometryType(AbstractGeometryType agt) throws DecodingException {
         AbstractGeometry abstractGeometry = new AbstractGeometry(agt.getId());
         parseAbstractGMLType(agt, abstractGeometry);
-        abstractGeometry.setGeometry((Geometry)decode(agt));
+        abstractGeometry.setGeometry((Geometry) decode(agt));
         return abstractGeometry;
     }
 
@@ -413,7 +415,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             if (xbAbstractSurface instanceof PolygonType) {
                 polygons.add((Polygon) parsePolygonType((PolygonType) xbAbstractSurface));
             } else {
-                throw new DecodingException("The FeatureType %s is not supportted! Only PolygonType", xbAbstractSurface);
+                throw new DecodingException("The FeatureType %s is not supportted! Only PolygonType",
+                        xbAbstractSurface);
             }
         }
         if (polygons.isEmpty()) {

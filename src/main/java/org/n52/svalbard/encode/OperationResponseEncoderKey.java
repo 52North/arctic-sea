@@ -40,5 +40,4 @@ public class OperationResponseEncoderKey extends OperationEncoderKey {
         super(key, contentType);
     }
 
-
 }

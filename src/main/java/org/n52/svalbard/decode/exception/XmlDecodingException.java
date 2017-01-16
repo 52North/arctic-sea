@@ -19,9 +19,9 @@ package org.n52.svalbard.decode.exception;
 import org.apache.xmlbeans.XmlException;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- * J&uuml;rrens</a>
+ *         J&uuml;rrens</a>
  *
  * @since 4.0.0
  */
@@ -29,7 +29,7 @@ public class XmlDecodingException extends DecodingException {
     private static final long serialVersionUID = -495706406337738990L;
 
     public XmlDecodingException(String name, String xml, XmlException e) {
-        super(String.format("Error while decoding %s:\n%s", name, xml), e);
+        super(String.format("Error while decoding %s:%n%s", name, xml), e);
     }
 
     public XmlDecodingException(String name, XmlException e) {

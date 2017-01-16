@@ -33,7 +33,7 @@ import net.opengis.swes.x20.InsertSensorResponseType;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
@@ -45,8 +45,7 @@ public class InsertSensorResponseEncoder extends AbstractSwesResponseEncoder<Ins
 
     @Override
     protected XmlObject create(InsertSensorResponse response) throws EncodingException {
-        InsertSensorResponseDocument document =
-                InsertSensorResponseDocument.Factory.newInstance(getXmlOptions());
+        InsertSensorResponseDocument document = InsertSensorResponseDocument.Factory.newInstance(getXmlOptions());
         InsertSensorResponseType isr = document.addNewInsertSensorResponse();
         isr.setAssignedProcedure(response.getAssignedProcedure());
         isr.setAssignedOffering(response.getAssignedOffering());

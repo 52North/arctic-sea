@@ -44,6 +44,8 @@ import org.w3.x2005.x08.addressing.ToDocument;
 
 import com.google.common.base.Joiner;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 4.0.0
  *
@@ -52,12 +54,12 @@ public class WsaEncoder implements Encoder<XmlObject, WsaHeader> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WsaEncoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(WsaConstants.NS_WSA,
-            WsaHeader.class);
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            CodingHelper.encoderKeysForElements(WsaConstants.NS_WSA, WsaHeader.class);
 
     public WsaEncoder() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -76,6 +78,7 @@ public class WsaEncoder implements Encoder<XmlObject, WsaHeader> {
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public XmlObject encode(WsaHeader wsaHeader, EncodingContext additionalValues) throws EncodingException {
         if (wsaHeader == null) {
             throw new UnsupportedEncoderInputException(this, wsaHeader);
@@ -99,22 +102,19 @@ public class WsaEncoder implements Encoder<XmlObject, WsaHeader> {
     }
 
     private XmlObject encodeReplyToHeader(WsaReplyToHeader wsaHeader) {
-        ReplyToDocument replyToDoc =
-                ReplyToDocument.Factory.newInstance(getXmlOptions());
+        ReplyToDocument replyToDoc = ReplyToDocument.Factory.newInstance(getXmlOptions());
         replyToDoc.addNewReplyTo().addNewAddress().setStringValue(wsaHeader.getValue());
         return replyToDoc;
     }
 
     private XmlObject encodeRelatesToHeader(WsaRelatesToHeader wsaHeader) {
-        RelatesToDocument relatesToDoc =
-                RelatesToDocument.Factory.newInstance(getXmlOptions());
+        RelatesToDocument relatesToDoc = RelatesToDocument.Factory.newInstance(getXmlOptions());
         relatesToDoc.addNewRelatesTo().setStringValue(wsaHeader.getValue());
         return relatesToDoc;
     }
 
     private XmlObject encodeMessageIDHeader(WsaMessageIDHeader wsaHeader) {
-        MessageIDDocument messageIDDoc =
-                MessageIDDocument.Factory.newInstance(getXmlOptions());
+        MessageIDDocument messageIDDoc = MessageIDDocument.Factory.newInstance(getXmlOptions());
         messageIDDoc.addNewMessageID().setStringValue(wsaHeader.getValue());
         return null;
     }

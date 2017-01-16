@@ -26,6 +26,7 @@ import org.n52.svalbard.decode.DecoderKey;
 
 /**
  * {@link String} decoder for AQD e-Reporting requests
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 5.0.0
  *
@@ -33,15 +34,11 @@ import org.n52.svalbard.decode.DecoderKey;
 public class AqdStringDecoderv10 extends AbstractStringRequestDecoder {
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(
-                    AqdConstants.AQD, AqdConstants.VERSION,
-                    AqdConstants.Operations.GetCapabilities,
-                    AqdConstants.Operations.GetObservation,
+            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(AqdConstants.AQD, AqdConstants.VERSION,
+                    AqdConstants.Operations.GetCapabilities, AqdConstants.Operations.GetObservation,
                     AqdConstants.Operations.DescribeSensor),
-            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(
-                    AqdConstants.AQD, null,
+            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(AqdConstants.AQD, null,
                     AqdConstants.Operations.GetCapabilities));
-
 
     @Override
     public Set<DecoderKey> getKeys() {

@@ -38,36 +38,32 @@ import com.google.common.collect.Sets;
  * @param <T>
  *            the response type
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
 public abstract class AbstractSosResponseEncoder<T extends OwsServiceResponse> extends AbstractResponseEncoder<T> {
 
-//    private ProfileHandler profileHandler;
+    // private ProfileHandler profileHandler;
 
     public AbstractSosResponseEncoder(String operation, Class<T> responseType) {
-        super(SosConstants.SOS,
-              Sos2Constants.SERVICEVERSION,
-              operation,
-              Sos2Constants.NS_SOS_20,
-              SosConstants.NS_SOS_PREFIX,
-              responseType);
+        super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, operation, Sos2Constants.NS_SOS_20,
+                SosConstants.NS_SOS_PREFIX, responseType);
     }
 
-//    @Inject
-//    public void setProfileHandler(ProfileHandler profileHandler) {
-//        this.profileHandler = profileHandler;
-//    }
+    // @Inject
+    // public void setProfileHandler(ProfileHandler profileHandler) {
+    // this.profileHandler = profileHandler;
+    // }
 
     @Override
     public Set<SchemaLocation> getSchemaLocations() {
         return Sets.newHashSet(Sos2Constants.SOS_SCHEMA_LOCATION);
     }
 
-//    protected Profile getActiveProfile() {
-//        return this.profileHandler.getActiveProfile();
-//    }
+    // protected Profile getActiveProfile() {
+    // return this.profileHandler.getActiveProfile();
+    // }
 
     protected XmlObject encodeGml(Object o) throws EncodingException {
         return encodeObjectToXml(GmlConstants.NS_GML_32, o);

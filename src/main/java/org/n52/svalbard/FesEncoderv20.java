@@ -77,8 +77,8 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
             TemporalFilter.class, org.n52.shetland.ogc.filter.FilterCapabilities.class, SpatialFilter.class);
 
     public FesEncoderv20() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -99,8 +99,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         XmlObject encodedObject = null;
         if (element instanceof org.n52.shetland.ogc.filter.FilterCapabilities) {
             encodedObject = encodeFilterCapabilities((org.n52.shetland.ogc.filter.FilterCapabilities) element);
@@ -120,21 +119,21 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
 
     private XmlObject encodeTemporalFilter(TemporalFilter temporalFilter) throws EncodingException {
         switch (temporalFilter.getOperator()) {
-            case TM_During:
-                return encodeTemporalFilterDuring(temporalFilter);
-            case TM_Equals:
-                return encodeTemporalFilterEquals(temporalFilter);
-            default:
-                throw new UnsupportedEncoderInputException(this, temporalFilter);
+        case TM_During:
+            return encodeTemporalFilterDuring(temporalFilter);
+        case TM_Equals:
+            return encodeTemporalFilterEquals(temporalFilter);
+        default:
+            throw new UnsupportedEncoderInputException(this, temporalFilter);
         }
     }
 
     private XmlObject encodeTemporalFilterDuring(TemporalFilter temporalFilter) throws EncodingException {
-        final DuringDocument duringDoc =
-                DuringDocument.Factory.newInstance(getXmlOptions());
+        final DuringDocument duringDoc = DuringDocument.Factory.newInstance(getXmlOptions());
         final BinaryTemporalOpType during = duringDoc.addNewDuring();
         if (temporalFilter.getTime() instanceof TimePeriod) {
-            during.set(encodeObjectToXml(GmlConstants.NS_GML_32, temporalFilter.getTime(), EncodingContext.of(SosHelperValues.DOCUMENT)));
+            during.set(encodeObjectToXml(GmlConstants.NS_GML_32, temporalFilter.getTime(),
+                    EncodingContext.of(SosHelperValues.DOCUMENT)));
         } else {
             throw new EncodingException("The temporal filter value is not a TimePeriod!");
         }
@@ -143,11 +142,11 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     }
 
     private XmlObject encodeTemporalFilterEquals(TemporalFilter temporalFilter) throws EncodingException {
-        final TEqualsDocument equalsDoc =
-                TEqualsDocument.Factory.newInstance(getXmlOptions());
+        final TEqualsDocument equalsDoc = TEqualsDocument.Factory.newInstance(getXmlOptions());
         final BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
         if (temporalFilter.getTime() instanceof TimeInstant) {
-            equals.set(encodeObjectToXml(GmlConstants.NS_GML_32, temporalFilter.getTime(), EncodingContext.of(SosHelperValues.DOCUMENT)));
+            equals.set(encodeObjectToXml(GmlConstants.NS_GML_32, temporalFilter.getTime(),
+                    EncodingContext.of(SosHelperValues.DOCUMENT)));
         } else {
             throw new EncodingException("The temporal filter value is not a TimeInstant!");
         }
@@ -178,20 +177,18 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     }
 
     private XmlObject encodeReferenceValue(String sosValueReference) {
-        final ValueReferenceDocument valueReferenceDoc =
-                ValueReferenceDocument.Factory.newInstance(getXmlOptions());
+        final ValueReferenceDocument valueReferenceDoc = ValueReferenceDocument.Factory.newInstance(getXmlOptions());
         valueReferenceDoc.setValueReference(sosValueReference);
         return valueReferenceDoc;
     }
 
     private XmlObject encodeFilterCapabilities(org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps)
             throws EncodingException {
-        final FilterCapabilities filterCapabilities =
-                FilterCapabilities.Factory.newInstance(getXmlOptions());
+        final FilterCapabilities filterCapabilities = FilterCapabilities.Factory.newInstance(getXmlOptions());
         if (sosFilterCaps.isSetCoinformance()) {
             setConformance(filterCapabilities.addNewConformance(), sosFilterCaps.getConformance());
-//        } else {
-//            setConformance(filterCapabilities.addNewConformance());
+            // } else {
+            // setConformance(filterCapabilities.addNewConformance());
         }
         if (sosFilterCaps.getComparisonOperators() != null && !sosFilterCaps.getComparisonOperators().isEmpty()) {
             setScalarFilterCapabilities(filterCapabilities.addNewScalarCapabilities(), sosFilterCaps);
@@ -278,7 +275,8 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
         // set TemporalOperands
         if (sosFilterCaps.getTemporalOperands() != null && !sosFilterCaps.getTemporalOperands().isEmpty()) {
             TemporalOperandsType tempOperands = temporalCapabilitiesType.addNewTemporalOperands();
-            sosFilterCaps.getTemporalOperands().forEach(operand -> tempOperands.addNewTemporalOperand().setName(operand));
+            sosFilterCaps.getTemporalOperands()
+                    .forEach(operand -> tempOperands.addNewTemporalOperand().setName(operand));
         }
 
         // set TemporalOperators
@@ -317,8 +315,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
         }
     }
 
-    private String getEnum4SpatialOperator(final SpatialOperator spatialOperator)
-            throws EncodingException {
+    private String getEnum4SpatialOperator(final SpatialOperator spatialOperator) throws EncodingException {
         switch (spatialOperator) {
         case BBOX:
             return SpatialOperatorNameTypeImpl.BBOX.toString();
@@ -347,8 +344,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
         }
     }
 
-    private String getEnum4TemporalOperator(final TimeOperator temporalOperator)
-            throws EncodingException {
+    private String getEnum4TemporalOperator(final TimeOperator temporalOperator) throws EncodingException {
         switch (temporalOperator) {
         case TM_After:
             return TemporalOperatorNameTypeImpl.AFTER.toString();
@@ -381,8 +377,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
         }
     }
 
-    private String getEnum4ComparisonOperator(final ComparisonOperator comparisonOperator)
-            throws EncodingException {
+    private String getEnum4ComparisonOperator(final ComparisonOperator comparisonOperator) throws EncodingException {
         switch (comparisonOperator) {
         case PropertyIsBetween:
             return ComparisonOperatorNameTypeImpl.PROPERTY_IS_BETWEEN.toString();

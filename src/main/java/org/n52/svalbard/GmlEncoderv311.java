@@ -16,10 +16,10 @@
  */
 package org.n52.svalbard;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -66,6 +66,7 @@ import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.util.PolygonExtracter;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.gml.AbstractFeatureCollectionType;
 import net.opengis.gml.AbstractRingPropertyType;
 import net.opengis.gml.AbstractRingType;
@@ -100,19 +101,14 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     private String srsNamePrefix;
 
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(GmlConstants.NS_GML,
-            org.n52.shetland.ogc.gml.time.Time.class,
-            com.vividsolutions.jts.geom.Geometry.class,
-            org.n52.shetland.ogc.om.values.CategoryValue.class,
-            org.n52.shetland.ogc.gml.ReferenceType.class,
-            org.n52.shetland.ogc.om.values.QuantityValue.class,
-            org.n52.shetland.ogc.gml.CodeWithAuthority.class,
-            org.n52.shetland.ogc.gml.CodeType.class,
-            AbstractFeature.class,
-            ReferencedEnvelope.class);
+            org.n52.shetland.ogc.gml.time.Time.class, com.vividsolutions.jts.geom.Geometry.class,
+            org.n52.shetland.ogc.om.values.CategoryValue.class, org.n52.shetland.ogc.gml.ReferenceType.class,
+            org.n52.shetland.ogc.om.values.QuantityValue.class, org.n52.shetland.ogc.gml.CodeWithAuthority.class,
+            org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class, ReferencedEnvelope.class);
 
     public GmlEncoderv311() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Setting(CodingSettings.SRS_NAME_PREFIX_URN)
@@ -185,8 +181,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private XmlObject createTimePeriodDocument(TimePeriod time) throws EncodingException {
-        TimePeriodDocument timePeriodDoc =
-                TimePeriodDocument.Factory.newInstance(getXmlOptions());
+        TimePeriodDocument timePeriodDoc = TimePeriodDocument.Factory.newInstance(getXmlOptions());
         createTimePeriodType(time, timePeriodDoc.addNewTimePeriod());
         return timePeriodDoc;
     }
@@ -222,8 +217,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private XmlObject createTimeInstantDocument(TimeInstant time) {
-        TimeInstantDocument timeInstantDoc =
-                TimeInstantDocument.Factory.newInstance(getXmlOptions());
+        TimeInstantDocument timeInstantDoc = TimeInstantDocument.Factory.newInstance(getXmlOptions());
         createTimeInstantType(time, timeInstantDoc.addNewTimeInstant());
         return timeInstantDoc;
     }
@@ -253,9 +247,11 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         final TimePositionType xbTimePosition = TimePositionType.Factory.newInstance();
         if (!timePosition.isSetTime()) {
             if (timePosition.isSetIndeterminateValue()) {
-                xbTimePosition.setIndeterminatePosition(TimeIndeterminateValueType.Enum.forString(timePosition.getIndeterminateValue().getValue()));
+                xbTimePosition.setIndeterminatePosition(
+                        TimeIndeterminateValueType.Enum.forString(timePosition.getIndeterminateValue().getValue()));
             } else {
-                xbTimePosition.setIndeterminatePosition(TimeIndeterminateValueType.Enum.forString(IndeterminateValue.UNKNOWN.getValue()));
+                xbTimePosition.setIndeterminatePosition(
+                        TimeIndeterminateValueType.Enum.forString(IndeterminateValue.UNKNOWN.getValue()));
             }
         } else {
             final String endString =
@@ -279,8 +275,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
             createPointFromJtsGeometry((Point) geom, xbPoint);
             return xbPoint;
         } else if (geom instanceof LineString) {
-            LineStringType xbLineString =
-                    LineStringType.Factory.newInstance(getXmlOptions());
+            LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
             if (foiId != null) {
                 xbLineString.setId("lineString_" + foiId);
             }
@@ -400,8 +395,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private XmlObject createReferencType(org.n52.shetland.ogc.gml.ReferenceType sosReferenceType) {
         if (sosReferenceType.isSetHref()) {
-            ReferenceType referenceType =
-                    ReferenceType.Factory.newInstance(getXmlOptions());
+            ReferenceType referenceType = ReferenceType.Factory.newInstance(getXmlOptions());
             referenceType.setHref(sosReferenceType.getHref());
             if (sosReferenceType.isSetTitle()) {
                 referenceType.setTitle(sosReferenceType.getTitle());
@@ -452,14 +446,12 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         if (sosAbstractFeature instanceof SamplingFeature) {
             SamplingFeature sampFeat = (SamplingFeature) sosAbstractFeature;
             if (sosAbstractFeature.isSetGmlID()) {
-                FeaturePropertyType featureProperty =
-                        FeaturePropertyType.Factory.newInstance(getXmlOptions());
+                FeaturePropertyType featureProperty = FeaturePropertyType.Factory.newInstance(getXmlOptions());
                 featureProperty.setHref("#" + sosAbstractFeature.getGmlId());
                 return featureProperty;
             } else {
                 if (!sampFeat.isSetGeometry()) {
-                    FeaturePropertyType featureProperty =
-                            FeaturePropertyType.Factory.newInstance(getXmlOptions());
+                    FeaturePropertyType featureProperty = FeaturePropertyType.Factory.newInstance(getXmlOptions());
                     featureProperty.setHref(sosAbstractFeature.getIdentifierCodeWithAuthority().getValue());
                     if (sampFeat.isSetName()) {
                         featureProperty.setTitle(sampFeat.getFirstName().getValue());
@@ -471,17 +463,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                 builder.append(JavaHelper.generateID(sosAbstractFeature.getIdentifierCodeWithAuthority().getValue()));
                 sosAbstractFeature.setGmlId(builder.toString());
                 Encoder<XmlObject, SamplingFeature> encoder = getEncoder(SfConstants.NS_SA, sampFeat);
-                if (encoder != null) {
-                    return encoder.encode(sampFeat);
-                } else {
-                    FeaturePropertyType featureProperty =
-                            FeaturePropertyType.Factory.newInstance(getXmlOptions());
-                    featureProperty.setHref(sampFeat.getIdentifierCodeWithAuthority().getValue());
-                    if (sampFeat.isSetName()) {
-                        featureProperty.setTitle(sampFeat.getFirstName().getValue());
-                    }
-                    return featureProperty;
-                }
+                return encoder.encode(sampFeat);
             }
         } else if (sosAbstractFeature instanceof FeatureCollection) {
             return createFeatureCollection((FeatureCollection) sosAbstractFeature);
@@ -489,12 +471,14 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         throw new UnsupportedEncoderInputException(this, sosAbstractFeature);
     }
 
+    @SuppressFBWarnings("NP_NULL_ON_SOME_PATH")
     private XmlObject createFeatureCollection(FeatureCollection sosFeatureCollection) throws EncodingException {
         Map<String, AbstractFeature> members = sosFeatureCollection.getMembers();
         XmlObject xmlObject = null;
         if (sosFeatureCollection.isSetMembers()) {
             if (members.size() == 1) {
-                for (String member : members.keySet()) {
+                for (Entry<String, AbstractFeature> entry : members.entrySet()) {
+                    String member = entry.getKey();
                     if (members.get(member) instanceof SamplingFeature) {
                         return createFeature((SamplingFeature) members.get(member));
                     } else {
@@ -509,7 +493,8 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                 builder.append("sfc_");
                 builder.append(JavaHelper.generateID(Long.toString(System.currentTimeMillis())));
                 xbFeatCol.setId(builder.toString());
-                for (String member : members.keySet()) {
+                for (Entry<String, AbstractFeature> entry : members.entrySet()) {
+                    String member = entry.getKey();
                     if (members.get(member) instanceof SamplingFeature) {
                         XmlObject xmlFeature = createFeature((SamplingFeature) members.get(member));
                         xbFeatCol.addNewFeatureMember().set(xmlFeature);
@@ -520,8 +505,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                 xmlObject = xbFeatureColllectionDoc;
             }
         } else {
-            FeatureCollectionDocument2 xbFeatColDoc =
-                    FeatureCollectionDocument2.Factory.newInstance(getXmlOptions());
+            FeatureCollectionDocument2 xbFeatColDoc = FeatureCollectionDocument2.Factory.newInstance(getXmlOptions());
             xbFeatColDoc.addNewFeatureCollection();
             xmlObject = xbFeatColDoc;
         }

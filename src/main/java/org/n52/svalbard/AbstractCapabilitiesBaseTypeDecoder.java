@@ -111,12 +111,12 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         Collection<String> languages = null;
         Collection<OwsCapabilitiesExtension> extensions = null;
         return new OwsCapabilities(service, cbt.getVersion(), cbt.getUpdateSequence(), serviceIdentification,
-                                   serviceProvider, operationsMetadata, languages, extensions);
+                serviceProvider, operationsMetadata, languages, extensions);
     }
 
     private List<OwsOperation> parseOperations(Operation[] operations) {
-        return Optional.ofNullable(operations).map(Arrays::stream)
-                .orElseGet(Stream::empty).map(this::parseOperation).collect(toList());
+        return Optional.ofNullable(operations).map(Arrays::stream).orElseGet(Stream::empty).map(this::parseOperation)
+                .collect(toList());
     }
 
     private OwsOperation parseOperation(Operation operation) {
@@ -156,8 +156,8 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         if (metadata == null) {
             return null;
         }
-        URI reference = Optional.ofNullable(metadata.getReference()).map(Strings::emptyToNull).map(URI::create)
-                .orElse(null);
+        URI reference =
+                Optional.ofNullable(metadata.getReference()).map(Strings::emptyToNull).map(URI::create).orElse(null);
         String value = metadata.getStringValue();
         return fun.apply(reference, value);
     }
@@ -166,10 +166,12 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         return parse(OwsDomainMetadata::new, metadata);
     }
 
-    private Set<OwsDomainMetadata> parseDomainMetadata(DomainMetadataType[] metadata) {
-        return Optional.ofNullable(metadata).map(Arrays::stream).orElseGet(Stream::empty).map(this::parseDomainMetadata)
-                .filter(Objects::nonNull).collect(toSet());
-    }
+    // private Set<OwsDomainMetadata> parseDomainMetadata(DomainMetadataType[]
+    // metadata) {
+    // return
+    // Optional.ofNullable(metadata).map(Arrays::stream).orElseGet(Stream::empty).map(this::parseDomainMetadata)
+    // .filter(Objects::nonNull).collect(toSet());
+    // }
 
     private OwsMetadata parseMetadata(MetadataType metadata) {
         if (metadata == null) {
@@ -177,12 +179,13 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         }
         URI href = Optional.ofNullable(metadata.getHref()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
         URI role = Optional.ofNullable(metadata.getRole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
-        URI arcrole = Optional.ofNullable(metadata.getArcrole()).map(Strings::emptyToNull).map(URI::create)
-                .orElseGet(null);
+        URI arcrole =
+                Optional.ofNullable(metadata.getArcrole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
         Show show = Optional.ofNullable(metadata.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
-        Actuate actuate = Optional.ofNullable(metadata.getActuate()).map(Object::toString).map(Actuate::valueOf)
-                .orElse(null);
-        URI about = Optional.ofNullable(metadata.getAbout()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
+        Actuate actuate =
+                Optional.ofNullable(metadata.getActuate()).map(Object::toString).map(Actuate::valueOf).orElse(null);
+        URI about =
+                Optional.ofNullable(metadata.getAbout()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
         String title = metadata.getTitle();
         return new OwsMetadata(href, role, arcrole, title, show, actuate, about);
     }
@@ -244,13 +247,12 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         Collection<OwsMetadata> metadata = parseMetadata(domain.getMetadataArray());
         OwsDomainMetadata meaning = parseDomainMetadata(domain.getMeaning());
         OwsDomainMetadata dataType = parseDomainMetadata(domain.getDataType());
-        OwsValuesUnit valuesUnit = Stream.of(parseUom(domain.getUOM()),
-                                             parseReferenceSystem(domain.getReferenceSystem()))
-                .filter(Objects::nonNull).findFirst().orElse(null);
-        OwsPossibleValues possibleValues = Stream.of(parseAnyValue(domain.getAnyValue()),
-                                                     parseAllowedValues(domain.getAllowedValues()),
-                                                     parseValuesReference(domain.getValuesReference()),
-                                                     parseNoValues(domain.getNoValues()))
+        OwsValuesUnit valuesUnit =
+                Stream.of(parseUom(domain.getUOM()), parseReferenceSystem(domain.getReferenceSystem()))
+                        .filter(Objects::nonNull).findFirst().orElse(null);
+        OwsPossibleValues possibleValues = Stream
+                .of(parseAnyValue(domain.getAnyValue()), parseAllowedValues(domain.getAllowedValues()),
+                        parseValuesReference(domain.getValuesReference()), parseNoValues(domain.getNoValues()))
                 .filter(Objects::nonNull).findFirst().orElse(null);
 
         return new OwsDomain(domain.getName(), possibleValues, defaultValue, meaning, dataType, valuesUnit, metadata);
@@ -282,8 +284,7 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
                         .map(this::parseGetRequestMethod),
                 Optional.ofNullable(http.getPostArray()).map(Arrays::stream).orElseGet(Stream::empty)
                         .map(this::parsePostRequestMethod))
-                .filter(Objects::nonNull)
-                .collect(toList()));
+                .filter(Objects::nonNull).collect(toList()));
     }
 
     private OwsRequestMethod parseGetRequestMethod(RequestMethodType method) {
@@ -300,11 +301,11 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         }
         URI href = Optional.ofNullable(method.getHref()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
         URI role = Optional.ofNullable(method.getRole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
-        URI arcrole = Optional.ofNullable(method.getArcrole()).map(Strings::emptyToNull).map(URI::create)
-                .orElseGet(null);
+        URI arcrole =
+                Optional.ofNullable(method.getArcrole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
         Show show = Optional.ofNullable(method.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
-        Actuate actuate = Optional.ofNullable(method.getActuate()).map(Object::toString).map(Actuate::valueOf)
-                .orElse(null);
+        Actuate actuate =
+                Optional.ofNullable(method.getActuate()).map(Object::toString).map(Actuate::valueOf).orElse(null);
         String title = method.getTitle();
         List<OwsDomain> constraints = parseDomains(method.getConstraintArray());
         return new OwsRequestMethod(href, constraints, httpMethod, role, arcrole, title, show, actuate);
@@ -317,8 +318,8 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         List<OwsOperation> operations = parseOperations(operationsMetadata.getOperationArray());
         List<OwsDomain> parameters = parseDomains(operationsMetadata.getParameterArray());
         List<OwsDomain> constraints = parseDomains(operationsMetadata.getConstraintArray());
-        OwsOperationMetadataExtension extension = parseOperationsMetadataExtension(operationsMetadata
-                .getExtendedCapabilities());
+        OwsOperationMetadataExtension extension =
+                parseOperationsMetadataExtension(operationsMetadata.getExtendedCapabilities());
         return new OwsOperationsMetadata(operations, parameters, constraints, extension);
     }
 
@@ -340,7 +341,8 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
                 .map(this::parseLanguageString).forEach(abstrakt::addLocalization);
         Set<OwsKeyword> keywords = Optional.ofNullable(serviceIdentification.getKeywordsArray()).map(Arrays::stream)
                 .orElseGet(Stream::empty).flatMap(this::parseKeyword).filter(Objects::nonNull).collect(toSet());
-        return new OwsServiceIdentification(serviceType, serviceTypeVersion, profiles, fees, accessConstraints, title, abstrakt, keywords);
+        return new OwsServiceIdentification(serviceType, serviceTypeVersion, profiles, fees, accessConstraints, title,
+                abstrakt, keywords);
     }
 
     private Stream<OwsKeyword> parseKeyword(KeywordsType keyword) {
@@ -374,7 +376,8 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
                 .orElseGet(null);
         URI arcrole = Optional.ofNullable(onlineResource.getArcrole()).map(Strings::emptyToNull).map(URI::create)
                 .orElseGet(null);
-        Show show = Optional.ofNullable(onlineResource.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
+        Show show =
+                Optional.ofNullable(onlineResource.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
         Actuate actuate = Optional.ofNullable(onlineResource.getActuate()).map(Object::toString).map(Actuate::valueOf)
                 .orElse(null);
         String title = onlineResource.getTitle();
@@ -410,8 +413,8 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         if (code == null) {
             return null;
         }
-        return new OwsCode(code.getStringValue(), Optional.ofNullable(code.getCodeSpace()).map(Strings::emptyToNull)
-                           .map(URI::create).orElse(null));
+        return new OwsCode(code.getStringValue(),
+                Optional.ofNullable(code.getCodeSpace()).map(Strings::emptyToNull).map(URI::create).orElse(null));
     }
 
     private OwsPhone parsePhone(TelephoneType phone) {
@@ -431,9 +434,9 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         }
         List<String> deliveryPoint = Optional.ofNullable(address.getDeliveryPointArray()).map(Arrays::stream)
                 .orElseGet(Stream::empty).map(Strings::emptyToNull).filter(Objects::nonNull).collect(toList());
-        List<String> electronicMailAddress = Optional.ofNullable(address.getElectronicMailAddressArray())
-                .map(Arrays::stream).orElseGet(Stream::empty).map(Strings::emptyToNull).filter(Objects::nonNull)
-                .collect(toList());
+        List<String> electronicMailAddress =
+                Optional.ofNullable(address.getElectronicMailAddressArray()).map(Arrays::stream)
+                        .orElseGet(Stream::empty).map(Strings::emptyToNull).filter(Objects::nonNull).collect(toList());
         String city = address.getCity();
         String administrativeArea = address.getAdministrativeArea();
         String postalCode = address.getPostalCode();
@@ -442,7 +445,11 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
     }
 
     private OwsOperationMetadataExtension parseOperationsMetadataExtension(XmlObject extendedCapabilities) {
-        /* TODO implement org.n52.sos.decode.AbstractCapabilitiesBaseTypeDecoder.parseOperationsMetadataExtension() */
+        /*
+         * TODO implement
+         * org.n52.sos.decode.AbstractCapabilitiesBaseTypeDecoder.
+         * parseOperationsMetadataExtension()
+         */
         return null;
     }
 

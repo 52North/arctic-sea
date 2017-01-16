@@ -67,31 +67,28 @@ import net.opengis.sampling.x10.SamplingSurfaceType;
  * @since 4.0.0
  *
  */
-public class SamplingEncoderv100 extends AbstractXmlEncoder<XmlObject, AbstractFeature> implements  ConformanceClass {
+public class SamplingEncoderv100 extends AbstractXmlEncoder<XmlObject, AbstractFeature> implements ConformanceClass {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SamplingEncoderv100.class);
 
     @SuppressWarnings("unchecked")
-    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(CodingHelper.encoderKeysForElements(
-            SfConstants.NS_SA, AbstractFeature.class));
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            CollectionHelper.union(CodingHelper.encoderKeysForElements(SfConstants.NS_SA, AbstractFeature.class));
 
     // TODO here also the question, sa:samplingPoint sampling/1.0 vs 2.0 mapping
     // or not and where and how to handle
-    private static final Set<SupportedType> SUPPORTED_TYPES
-            = ImmutableSet.<SupportedType>builder()
-            .add(new FeatureType(OGCConstants.UNKNOWN))
-            .add(new FeatureType(SfConstants.EN_SAMPLINGPOINT))
-            .add(new FeatureType(SfConstants.EN_SAMPLINGSURFACE))
-            .add(new FeatureType(SfConstants.EN_SAMPLINGCURVE))
+    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
+            .add(new FeatureType(OGCConstants.UNKNOWN)).add(new FeatureType(SfConstants.EN_SAMPLINGPOINT))
+            .add(new FeatureType(SfConstants.EN_SAMPLINGSURFACE)).add(new FeatureType(SfConstants.EN_SAMPLINGCURVE))
             .build();
 
-    private static final Set<String> CONFORMANCE_CLASSES = ImmutableSet.of(ConformanceClasses.OM_V2_SPATIAL_SAMPLING,
-            ConformanceClasses.OM_V2_SAMPLING_POINT, ConformanceClasses.OM_V2_SAMPLING_CURVE,
-            ConformanceClasses.OM_V2_SAMPLING_SURFACE);
+    private static final Set<String> CONFORMANCE_CLASSES =
+            ImmutableSet.of(ConformanceClasses.OM_V2_SPATIAL_SAMPLING, ConformanceClasses.OM_V2_SAMPLING_POINT,
+                    ConformanceClasses.OM_V2_SAMPLING_CURVE, ConformanceClasses.OM_V2_SAMPLING_SURFACE);
 
     public SamplingEncoderv100() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -134,8 +131,7 @@ public class SamplingEncoderv100 extends AbstractXmlEncoder<XmlObject, AbstractF
             if (sampFeat.getFeatureType().equals(SfConstants.FT_SAMPLINGPOINT)
                     || sampFeat.getFeatureType().equals(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT)
                     || sampFeat.getGeometry() instanceof Point) {
-                SamplingPointDocument xbSamplingPointDoc =
-                        SamplingPointDocument.Factory.newInstance(getXmlOptions());
+                SamplingPointDocument xbSamplingPointDoc = SamplingPointDocument.Factory.newInstance(getXmlOptions());
                 SamplingPointType xbSamplingPoint = xbSamplingPointDoc.addNewSamplingPoint();
                 addValuesToFeature(xbSamplingPoint, sampFeat);
                 XmlObject xbGeomety = getEncodedGeometry(sampFeat.getGeometry(), absFeature.getGmlId());
@@ -144,8 +140,7 @@ public class SamplingEncoderv100 extends AbstractXmlEncoder<XmlObject, AbstractF
             } else if (sampFeat.getFeatureType().equals(SfConstants.FT_SAMPLINGCURVE)
                     || sampFeat.getFeatureType().equals(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE)
                     || sampFeat.getGeometry() instanceof LineString) {
-                SamplingCurveDocument xbSamplingCurveDoc =
-                        SamplingCurveDocument.Factory.newInstance(getXmlOptions());
+                SamplingCurveDocument xbSamplingCurveDoc = SamplingCurveDocument.Factory.newInstance(getXmlOptions());
                 SamplingCurveType xbSamplingCurve = xbSamplingCurveDoc.addNewSamplingCurve();
                 addValuesToFeature(xbSamplingCurve, sampFeat);
                 XmlObject xbGeomety = getEncodedGeometry(sampFeat.getGeometry(), absFeature.getGmlId());
@@ -182,7 +177,8 @@ public class SamplingEncoderv100 extends AbstractXmlEncoder<XmlObject, AbstractF
             throws EncodingException {
         xbSamplingFeature.setId(sampFeat.getGmlId());
         if (sampFeat.isSetIdentifier()) {
-            xbSamplingFeature.addNewName().set(encodeObjectToXml(GmlConstants.NS_GML, sampFeat.getIdentifierCodeWithAuthority()));
+            xbSamplingFeature.addNewName()
+                    .set(encodeObjectToXml(GmlConstants.NS_GML, sampFeat.getIdentifierCodeWithAuthority()));
         }
 
         if (sampFeat.isSetName()) {
@@ -194,13 +190,11 @@ public class SamplingEncoderv100 extends AbstractXmlEncoder<XmlObject, AbstractF
         // set sampledFeatures
         // TODO: CHECK
         if (sampFeat.getSampledFeatures() != null && !sampFeat.getSampledFeatures().isEmpty()) {
-            sampFeat.getSampledFeatures().stream()
-                    .map(sampledFeature -> {
-                        FeaturePropertyType sp = xbSamplingFeature.addNewSampledFeature();
-                        sp.setHref(sampledFeature.getIdentifier());
-                        return sp;
-                        })
-                    .filter(sp -> sampFeat.isSetName() && sampFeat.getFirstName().isSetValue())
+            sampFeat.getSampledFeatures().stream().map(sampledFeature -> {
+                FeaturePropertyType sp = xbSamplingFeature.addNewSampledFeature();
+                sp.setHref(sampledFeature.getIdentifier());
+                return sp;
+            }).filter(sp -> sampFeat.isSetName() && sampFeat.getFirstName().isSetValue())
                     .forEachOrdered(sp -> sp.setTitle(sampFeat.getFirstName().getValue()));
         } else {
             xbSamplingFeature.addNewSampledFeature().setHref(GmlConstants.NIL_UNKNOWN);

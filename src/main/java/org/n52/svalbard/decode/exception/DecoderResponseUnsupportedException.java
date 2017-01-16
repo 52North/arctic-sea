@@ -19,7 +19,7 @@ package org.n52.svalbard.decode.exception;
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- * J&uuml;rrens</a>
+ *         J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -28,6 +28,6 @@ public class DecoderResponseUnsupportedException extends DecodingException {
 
     public DecoderResponseUnsupportedException(String valueToDecode, Object decodedValue) {
         super(String.format("Decoding of string \"%s\" failed. Returned type is \"%s\".", valueToDecode,
-                            decodedValue == null ? null : decodedValue.getClass().getName()));
+                decodedValue == null ? null : decodedValue.getClass().getName()));
     }
 }

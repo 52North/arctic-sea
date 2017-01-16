@@ -45,11 +45,9 @@ public abstract class AbstractSoapStringDecoder extends AbstractXmlDecoder<Strin
     private final Set<DecoderKey> decoderKeys;
 
     public AbstractSoapStringDecoder(String namespace) {
-        this.decoderKeys =
-                Collections.<DecoderKey> singleton(new XmlNamespaceOperationDecoderKey(namespace,
-                        SoapConstants.EN_SOAP_ENVELOPE));
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(getKeys()));
+        this.decoderKeys = Collections.<DecoderKey> singleton(
+                new XmlNamespaceOperationDecoderKey(namespace, SoapConstants.EN_SOAP_ENVELOPE));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(getKeys()));
     }
 
     @Override

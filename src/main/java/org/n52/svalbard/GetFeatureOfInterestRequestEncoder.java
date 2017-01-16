@@ -40,7 +40,8 @@ import net.opengis.sos.x20.GetFeatureOfInterestType;
  * @since 5.0.0
  *
  */
-public class GetFeatureOfInterestRequestEncoder extends AbstractSosRequestEncoder<GetFeatureOfInterestRequest> implements ExtensibleRequestEncoder {
+public class GetFeatureOfInterestRequestEncoder extends AbstractSosRequestEncoder<GetFeatureOfInterestRequest>
+        implements ExtensibleRequestEncoder {
 
     public GetFeatureOfInterestRequestEncoder() {
         super(SosConstants.Operations.GetFeatureOfInterest.name(), GetFeatureOfInterestRequest.class);
@@ -70,6 +71,7 @@ public class GetFeatureOfInterestRequestEncoder extends AbstractSosRequestEncode
             request.getProcedures().forEach(gfoit::addProcedure);
         }
     }
+
     private void addObservedProperty(GetFeatureOfInterestType gfoit, GetFeatureOfInterestRequest request) {
         if (request.isSetObservableProperties()) {
             request.getObservedProperties().forEach(gfoit::addObservedProperty);
@@ -82,13 +84,15 @@ public class GetFeatureOfInterestRequestEncoder extends AbstractSosRequestEncode
         }
     }
 
-    private void addSpatialFilters(GetFeatureOfInterestType got, GetFeatureOfInterestRequest request) throws EncodingException {
+    private void addSpatialFilters(GetFeatureOfInterestType got, GetFeatureOfInterestRequest request)
+            throws EncodingException {
         if (request.isSetSpatialFilters()) {
             for (SpatialFilter spatialFilter : request.getSpatialFilters()) {
                 // TODO fixme
                 XmlObject encodeFes = encodeFes(spatialFilter);
                 if (encodeFes instanceof SpatialOpsDocument) {
-                    substitute(got.addNewSpatialFilter().getSpatialOps(), ((SpatialOpsDocument) encodeFes).getSpatialOps());
+                    substitute(got.addNewSpatialFilter().getSpatialOps(),
+                            ((SpatialOpsDocument) encodeFes).getSpatialOps());
                 }
             }
         }

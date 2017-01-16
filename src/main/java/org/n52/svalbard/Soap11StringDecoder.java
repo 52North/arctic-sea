@@ -37,8 +37,7 @@ public class Soap11StringDecoder extends AbstractSoapStringDecoder {
 
     public Soap11StringDecoder() {
         super(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE);
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(getKeys()));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(getKeys()));
     }
 
 }

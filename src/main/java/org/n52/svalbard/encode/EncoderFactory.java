@@ -22,7 +22,6 @@ import org.n52.janmayen.component.ComponentFactory;
  *
  * @author Christian Autermann
  */
-public interface EncoderFactory extends
-        ComponentFactory<EncoderKey, Encoder<?, ?>> {
+public interface EncoderFactory extends ComponentFactory<EncoderKey, Encoder<?, ?>> {
 
 }

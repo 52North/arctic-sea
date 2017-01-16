@@ -42,6 +42,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Implementatio of {@link XmlStreamWriter} for {@link GetObservationResponse}
  *
@@ -49,9 +51,11 @@ import com.google.common.collect.Sets;
  * @since 4.1.0
  *
  */
-public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetObservationResponse> implements StreamingDataEncoder {
+public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetObservationResponse>
+        implements StreamingDataEncoder {
 
     private GetObservationResponse response;
+
     private EncoderRepository encoderRepository;
 
     /**
@@ -70,10 +74,9 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         setResponse(response);
     }
 
-
-
     /**
-     * @param encoderRepository the encoderRepository to set
+     * @param encoderRepository
+     *            the encoderRepository to set
      */
     @Inject
     public void setEncoderRepository(EncoderRepository encoderRepository) {
@@ -128,6 +131,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         return response;
     }
 
+    @SuppressFBWarnings("RV_RETURN_VALUE_IGNORED")
     private void writeGetObservationResponseDoc(GetObservationResponse response, EncodingValues encodingValues)
             throws XMLStreamException, EncodingException {
         start(Sos2StreamingConstants.GET_OBSERVATION_RESPONSE);
@@ -144,7 +148,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
             response.setMergeObservations(encoder.shouldObservationsWithSameXBeMerged());
         }
         for (OmObservation o : response.getObservationCollection()) {
-           if (o.getValue() instanceof StreamingValue) {
+            if (o.getValue() instanceof StreamingValue) {
                 StreamingValue<?> streamingValue = (StreamingValue<?>) o.getValue();
                 try {
                     if (streamingValue.hasNextValue()) {
@@ -184,14 +188,13 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
             ObservationEncoder<XmlObject, OmObservation> encoder) {
         Set<SchemaLocation> schemaLocations = Sets.newHashSet();
 
-
         if (encodingValue.isSetEncoder() && encodingValue.getEncoder() instanceof SchemaAwareEncoder) {
-            schemaLocations.addAll(((SchemaAwareEncoder<?,?>) encodingValue.getEncoder()).getSchemaLocations());
+            schemaLocations.addAll(((SchemaAwareEncoder<?, ?>) encodingValue.getEncoder()).getSchemaLocations());
         } else {
             schemaLocations.add(Sos2Constants.SOS_GET_OBSERVATION_SCHEMA_LOCATION);
         }
-        if (encoder != null &&  encoder instanceof SchemaAwareEncoder) {
-            schemaLocations.addAll(((SchemaAwareEncoder<?,?>) encoder).getSchemaLocations());
+        if (encoder != null && encoder instanceof SchemaAwareEncoder) {
+            schemaLocations.addAll(((SchemaAwareEncoder<?, ?>) encoder).getSchemaLocations());
         }
         return schemaLocations;
     }

@@ -42,23 +42,18 @@ public class SosStringDecoderv20 extends AbstractStringRequestDecoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(SosStringDecoderv20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(
-                    SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-                    SosConstants.Operations.GetCapabilities,
-                    SosConstants.Operations.GetObservation,
-                    SosConstants.Operations.GetFeatureOfInterest,
-                    SosConstants.Operations.GetObservationById,
-                    SosConstants.Operations.InsertObservation,
-                    Sos2Constants.Operations.InsertResultTemplate,
-                    Sos2Constants.Operations.InsertResult,
-                    Sos2Constants.Operations.GetResultTemplate,
+            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                    SosConstants.Operations.GetCapabilities, SosConstants.Operations.GetObservation,
+                    SosConstants.Operations.GetFeatureOfInterest, SosConstants.Operations.GetObservationById,
+                    SosConstants.Operations.InsertObservation, Sos2Constants.Operations.InsertResultTemplate,
+                    Sos2Constants.Operations.InsertResult, Sos2Constants.Operations.GetResultTemplate,
                     SosConstants.Operations.GetResult),
-            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(
-                    SosConstants.SOS, null,
+            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(SosConstants.SOS, null,
                     SosConstants.Operations.GetCapabilities));
 
     public SosStringDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override

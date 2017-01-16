@@ -74,8 +74,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Soap12Encoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper.encoderKeysForElements(
-            SoapConstants.NS_SOAP_12, SoapFault.class, OwsExceptionReport.class);
+    private static final Set<EncoderKey> ENCODER_KEY_TYPES =
+            CodingHelper.encoderKeysForElements(SoapConstants.NS_SOAP_12, SoapFault.class, OwsExceptionReport.class);
 
     public Soap12Encoder() {
         super(SoapConstants.NS_SOAP_12);
@@ -95,8 +95,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     }
 
     @Override
-    public XmlObject encode(final Object element, EncodingContext additionalValues)
-            throws EncodingException {
+    public XmlObject encode(final Object element, EncodingContext additionalValues) throws EncodingException {
         if (element instanceof SoapResponse) {
             return createSOAP12Envelope((SoapResponse) element, additionalValues);
         } else if (element instanceof SoapFault) {
@@ -127,7 +126,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         }
     }
 
-    private XmlObject createSOAP12Envelope(final SoapResponse response, EncodingContext additionalValues) throws EncodingException {
+    private XmlObject createSOAP12Envelope(final SoapResponse response, EncodingContext additionalValues)
+            throws EncodingException {
         String action = null;
         final EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();
         final Envelope envelope = envelopeDoc.addNewEnvelope();
@@ -141,8 +141,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
                     action = getExceptionActionURI(firstException.getCode());
                 }
                 body.set(createSOAP12FaultFromExceptionResponse(response.getException()));
-                N52XmlHelper.setSchemaLocationsToDocument(
-                        envelopeDoc,
+                N52XmlHelper.setSchemaLocationsToDocument(envelopeDoc,
                         Sets.newHashSet(N52XmlHelper.getSchemaLocationForSOAP12(),
                                 N52XmlHelper.getSchemaLocationForOWS110Exception()));
             } else {
@@ -176,7 +175,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         }
 
         if (response.getHeader() != null) {
-            createSOAP12Header(envelope, response.getHeader(),action);
+            createSOAP12Header(envelope, response.getHeader(), action);
         } else {
             envelope.addNewHeader();
         }
@@ -187,7 +186,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         return envelopeDoc;
     }
 
-    private void createSOAP12Header(Envelope envelope, List<SoapHeader> headers, String action) throws EncodingException {
+    private void createSOAP12Header(Envelope envelope, List<SoapHeader> headers, String action)
+            throws EncodingException {
         Node headerDomNode = envelope.addNewHeader().getDomNode();
         for (SoapHeader header : headers) {
             if (WsaConstants.NS_WSA.equals(header.getNamespace()) && header instanceof WsaActionHeader) {
@@ -195,7 +195,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
             }
             XmlObject xmObject = encodeObjectToXml(header.getNamespace(), header);
             if (xmObject != null) {
-                Node ownerDoc = headerDomNode.getOwnerDocument().importNode(xmObject.getDomNode().getFirstChild(), true);
+                Node ownerDoc =
+                        headerDomNode.getOwnerDocument().importNode(xmObject.getDomNode().getFirstChild(), true);
                 headerDomNode.insertBefore(ownerDoc, null);
             }
         }
@@ -243,7 +244,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
             addNewText.setLang(Locale.ENGLISH.getLanguage());
             addNewText.setStringValue(SoapHelper.getSoapFaultReasonText(firstException.getCode()));
 
-            fault.addNewDetail().set(encodeObjectToXml(OWSConstants.NS_OWS, firstException, EncodingContext.of(SosHelperValues.ENCODE_OWS_EXCEPTION_ONLY)));
+            fault.addNewDetail().set(encodeObjectToXml(OWSConstants.NS_OWS, firstException,
+                    EncodingContext.of(SosHelperValues.ENCODE_OWS_EXCEPTION_ONLY)));
         }
         return faultDoc;
     }

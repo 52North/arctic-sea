@@ -25,7 +25,7 @@ import org.n52.faroe.ConfigurationError;
  */
 public final class Validation {
 
-    private  Validation() {
+    private Validation() {
     }
 
     public static <T> T notNull(String name, T val) throws ConfigurationError {

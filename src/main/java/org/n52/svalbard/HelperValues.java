@@ -22,6 +22,4 @@ package org.n52.svalbard;
  */
 public interface HelperValues {
 
-
-
 }

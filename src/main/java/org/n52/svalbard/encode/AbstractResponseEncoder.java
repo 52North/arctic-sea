@@ -34,12 +34,14 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
  * @param <T>
  *            the response type
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
@@ -67,13 +69,15 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
      * @param validate
      *            Indicator if the created/encoded object should be validated
      */
-    public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix, Class<T> responseType, boolean validate) {
+    public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix,
+            Class<T> responseType, boolean validate) {
         super(service, version, operation, namespace, prefix, responseType, validate);
         OperationKey key = new OperationKey(service, version, operation);
-        this.encoderKeys =
-                Sets.newHashSet(new XmlEncoderKey(namespace, responseType), new OperationResponseEncoderKey(key,
-                        MediaTypes.TEXT_XML), new OperationResponseEncoderKey(key, MediaTypes.APPLICATION_XML));
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(encoderKeys));
+        this.encoderKeys = Sets.newHashSet(new XmlEncoderKey(namespace, responseType),
+                new OperationResponseEncoderKey(key, MediaTypes.TEXT_XML),
+                new OperationResponseEncoderKey(key, MediaTypes.APPLICATION_XML));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(encoderKeys));
     }
 
     /**
@@ -92,7 +96,8 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
      * @param responseType
      *            Response type
      */
-    public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix, Class<T> responseType) {
+    public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix,
+            Class<T> responseType) {
         this(service, version, operation, namespace, prefix, responseType, false);
     }
 
@@ -107,6 +112,7 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public void encode(T response, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, response);

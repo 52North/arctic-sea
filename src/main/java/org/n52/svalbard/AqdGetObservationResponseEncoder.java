@@ -78,24 +78,23 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
                     if (value instanceof StreamingValue) {
                         for (OmObservation omObservation : value.mergeObservation()) {
                             getAqdHelper().processObservation(omObservation, timePeriod, resultTime, featureCollection,
-                                                                                                 eReportingHeader, counter++);
+                                    eReportingHeader, counter++);
                         }
                     } else {
                         while (value.hasNextValue()) {
                             getAqdHelper().processObservation(value.nextSingleObservation(), timePeriod, resultTime,
-                                                                                                     featureCollection, eReportingHeader, counter++);
+                                    featureCollection, eReportingHeader, counter++);
                         }
                     }
                 } else {
                     getAqdHelper().processObservation(observation, timePeriod, resultTime, featureCollection,
-                                                                                       eReportingHeader, counter++);
+                            eReportingHeader, counter++);
                 }
             }
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
-            EncodingContext ctx = EncodingContext.empty()
-                    .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+            EncodingContext ctx = EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
                     .with(SosHelperValues.DOCUMENT);
             return encodeGml(ctx, featureCollection);
         } catch (OwsExceptionReport ex) {
@@ -119,7 +118,8 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
             eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
         }
         encodingValues.setEncodingNamespace(OmConstants.NS_OM_2);
-        encodingValues.setAdditionalValues(encodingValues.getAdditionalValues().with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2).with(SosHelperValues.DOCUMENT));
+        encodingValues.setAdditionalValues(encodingValues.getAdditionalValues()
+                .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2).with(SosHelperValues.DOCUMENT));
         try {
             new AqdGetObservationResponseXmlStreamWriter().write(featureCollection, outputStream, encodingValues);
         } catch (XMLStreamException xmlse) {
@@ -127,8 +127,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
         }
     }
 
-    private ReportObligationType getReportObligationType(GetObservationResponse response)
-            throws OwsExceptionReport {
+    private ReportObligationType getReportObligationType(GetObservationResponse response) throws OwsExceptionReport {
         return getAqdHelper().getFlow(response.getExtensions());
     }
 
@@ -138,8 +137,8 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
         TimePeriod timePeriod = new TimePeriod();
         int counter = 1;
         for (OmObservation observation : response.getObservationCollection()) {
-            getAqdHelper().processObservation(observation, timePeriod, resultTime, featureCollection,
-                    eReportingHeader, counter++);
+            getAqdHelper().processObservation(observation, timePeriod, resultTime, featureCollection, eReportingHeader,
+                    counter++);
 
         }
         return timePeriod;

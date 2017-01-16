@@ -17,12 +17,11 @@
 package org.n52.svalbard;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
 public interface OwsEncoderSettings {
-    String INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT
-            = "misc.includeStackTraceInExceptionReport";
+    String INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT = "misc.includeStackTraceInExceptionReport";
 
 }

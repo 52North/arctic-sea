@@ -18,5 +18,4 @@ package org.n52.svalbard;
 
 public abstract class AbstractWmlDecoderv20 extends AbstractOmDecoderv20 {
 
-
 }

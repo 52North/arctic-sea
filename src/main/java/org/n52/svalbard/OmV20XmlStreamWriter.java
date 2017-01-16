@@ -22,8 +22,8 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
- * Implementation of {@link AbstractOmV20XmlStreamWriter} to write O&M 2.0 encoded
- * {@link OmObservation}s to stream
+ * Implementation of {@link AbstractOmV20XmlStreamWriter} to write O&M 2.0
+ * encoded {@link OmObservation}s to stream
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.1.0
@@ -40,15 +40,17 @@ public class OmV20XmlStreamWriter extends AbstractOmV20XmlStreamWriter {
 
     /**
      * constructor
-     * @param observation {@link OmObservation} to write to stream
+     *
+     * @param observation
+     *            {@link OmObservation} to write to stream
      */
     public OmV20XmlStreamWriter(OmObservation observation) {
         super(observation);
     }
 
     @Override
-    protected void writeResult(OmObservation observation, EncodingValues encodingValues) throws XMLStreamException,
-            EncodingException {
+    protected void writeResult(OmObservation observation, EncodingValues encodingValues)
+            throws XMLStreamException, EncodingException {
         super.writeResult(observation, encodingValues);
     }
 }

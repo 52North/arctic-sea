@@ -36,14 +36,13 @@ import com.google.common.base.Joiner;
 public class XlinkEncoderv1999 extends AbstractXmlEncoder<XmlObject, Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(XlinkEncoderv1999.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(W3CConstants.NS_XLINK,
-            W3CHrefAttribute.class);
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            CodingHelper.encoderKeysForElements(W3CConstants.NS_XLINK, W3CHrefAttribute.class);
 
     public XlinkEncoderv1999() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
-
 
     @Override
     public Set<EncoderKey> getKeys() {
@@ -51,8 +50,7 @@ public class XlinkEncoderv1999 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         XmlObject encodedObject = null;
         if (element instanceof W3CHrefAttribute) {
             encodedObject = encodeHrefAttribute((W3CHrefAttribute) element);

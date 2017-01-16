@@ -20,7 +20,8 @@ import com.google.common.base.Joiner;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -36,7 +37,7 @@ public class NotYetSupportedEncodingException extends EncodingException {
     }
 
     public NotYetSupportedEncodingException(String type, Object feature, Object... supportedFeatures) {
-        super("The %s %s is not yet supported. Currently supported: %s",
-              type, feature, Joiner.on(", ").join(supportedFeatures));
+        super("The %s %s is not yet supported. Currently supported: %s", type, feature,
+                Joiner.on(", ").join(supportedFeatures));
     }
 }

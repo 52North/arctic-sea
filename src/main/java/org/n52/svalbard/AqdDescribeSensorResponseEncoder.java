@@ -28,7 +28,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 public class AqdDescribeSensorResponseEncoder extends AbstractAqdResponseEncoder<DescribeSensorResponse> {
 
     public AqdDescribeSensorResponseEncoder() {
-          super(SosConstants.Operations.DescribeSensor.name(), DescribeSensorResponse.class);
+        super(SosConstants.Operations.DescribeSensor.name(), DescribeSensorResponse.class);
     }
 
     @Override
@@ -37,8 +37,7 @@ public class AqdDescribeSensorResponseEncoder extends AbstractAqdResponseEncoder
     }
 
     @Override
-    protected XmlObject create(DescribeSensorResponse response)
-            throws EncodingException {
+    protected XmlObject create(DescribeSensorResponse response) throws EncodingException {
         return encodeWithSosEncoder(response);
     }
 }

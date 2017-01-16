@@ -60,8 +60,7 @@ public class Soap12Decoder extends AbstractSoapDecoder {
 
     public Soap12Decoder() {
         super(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(getKeys()));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(getKeys()));
     }
 
     @Inject
@@ -91,8 +90,8 @@ public class Soap12Decoder extends AbstractSoapDecoder {
             try {
                 message = SoapHelper.getSoapMessageForProtocol(SOAPConstants.SOAP_1_2_PROTOCOL, doc.newInputStream());
             } catch (IOException | SOAPException ioe) {
-                throw new NoApplicableCodeException().causedBy(ioe).withMessage(
-                        "Error while parsing SOAPMessage from request string!");
+                throw new NoApplicableCodeException().causedBy(ioe)
+                        .withMessage("Error while parsing SOAPMessage from request string!");
             }
             try {
                 if (message.getSOAPHeader() != null) {
@@ -131,7 +130,8 @@ public class Soap12Decoder extends AbstractSoapDecoder {
                     if (node.getNodeType() == Node.ELEMENT_NODE) {
                         XmlObject content = XmlObject.Factory.parse(node);
                         // fix problem with invalid prefix in xsi:type value for
-                        // om:result, e.g. OM_SWEArrayObservation or gml:ReferenceType
+                        // om:result, e.g. OM_SWEArrayObservation or
+                        // gml:ReferenceType
                         Map<?, ?> namespaces = XmlHelper.getNamespaces(doc.getEnvelope());
                         fixNamespaceForXsiType(content, namespaces);
                         XmlHelper.fixNamespaceForXsiType(content, SweConstants.QN_DATA_ARRAY_PROPERTY_TYPE_SWE_200);
@@ -155,15 +155,14 @@ public class Soap12Decoder extends AbstractSoapDecoder {
                     if (toks.length > 1) {
                         String prefix = toks[0];
                         String localName = toks[1];
-                        String namespace =(String) namespaces.get(prefix);
+                        String namespace = (String) namespaces.get(prefix);
                         if (Strings.isNullOrEmpty(namespace)) {
                             namespace = schemaRepository.getNamespaceFor(prefix);
                         }
                         if (!Strings.isNullOrEmpty(namespace)) {
-                            cursor.setAttributeText(
-                                    W3CConstants.QN_XSI_TYPE,
+                            cursor.setAttributeText(W3CConstants.QN_XSI_TYPE,
                                     Joiner.on(":").join(
-                                            XmlHelper.getPrefixForNamespace(content, (String)namespaces.get(prefix)),
+                                            XmlHelper.getPrefixForNamespace(content, (String) namespaces.get(prefix)),
                                             localName));
                         }
                     }

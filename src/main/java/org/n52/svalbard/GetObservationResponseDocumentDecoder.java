@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -35,22 +34,22 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.sos.x20.GetObservationResponseDocument;
 import net.opengis.sos.x20.GetObservationResponseType;
 import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
 
-public class GetObservationResponseDocumentDecoder extends AbstractXmlDecoder<GetObservationResponseDocument, GetObservationResponse>
-        implements SosResponseDecoder {
+public class GetObservationResponseDocumentDecoder extends
+        AbstractXmlDecoder<GetObservationResponseDocument, GetObservationResponse> implements SosResponseDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetObservationResponseDocumentDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            Sos2Constants.NS_SOS_20,
-            GetObservationResponseDocument.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, GetObservationResponseDocument.class);
 
     public GetObservationResponseDocumentDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -59,16 +58,15 @@ public class GetObservationResponseDocumentDecoder extends AbstractXmlDecoder<Ge
     }
 
     @Override
-    public GetObservationResponse decode(GetObservationResponseDocument gord)
-            throws DecodingException {
-        if (gord != null)  {
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
+    public GetObservationResponse decode(GetObservationResponseDocument gord) throws DecodingException {
+        if (gord != null) {
             GetObservationResponse response = new GetObservationResponse();
             setService(response);
             setVersions(response);
             GetObservationResponseType gort = gord.getGetObservationResponse();
             response.setExtensions(parseExtensibleResponse(gort));
             response.setObservationCollection(parseObservtions(gort));
-
 
             return response;
         }
@@ -79,7 +77,7 @@ public class GetObservationResponseDocumentDecoder extends AbstractXmlDecoder<Ge
         if (CollectionHelper.isNotNullOrEmpty(gort.getObservationDataArray())) {
             List<OmObservation> observations = Lists.newArrayList();
             for (ObservationData od : gort.getObservationDataArray()) {
-                observations.add((OmObservation)decodeXmlObject(od.getOMObservation()));
+                observations.add((OmObservation) decodeXmlObject(od.getOMObservation()));
             }
             return observations;
         }

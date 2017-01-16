@@ -46,18 +46,21 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * TODO JavaDoc
  *
  * @author Christian Autermann
- * @param <K> the key type
- * @param <C> the component type
- * @param <F> the factory type
+ * @param <K>
+ *            the key type
+ * @param <C>
+ *            the component type
+ * @param <F>
+ *            the factory type
  */
 @SuppressWarnings("checkstyle:linelength")
 public abstract class AbstractCodingRepository<K extends Similar<K>, C extends Component<K>, F extends ComponentFactory<K, C>>
         extends AbstractComponentRepository<K, C, F> {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(AbstractCodingRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractCodingRepository.class);
 
     private final Set<Producer<C>> components = Sets.newHashSet();
+
     private final SetMultimap<K, Producer<C>> componentsByKey = HashMultimap.create();
 
     public Set<Producer<C>> getComponentProviders() {
@@ -87,11 +90,10 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
     }
 
     private C chooseFrom(Set<C> matches, K key) {
-        ComponentSimilarityComparator<K, C> comparator
-                = new ComponentSimilarityComparator<>(key);
+        ComponentSimilarityComparator<K, C> comparator = new ComponentSimilarityComparator<>(key);
         C component = Collections.min(matches, comparator);
-        LOG.debug("Requested ambiguous implementations for {}: Found {}; Choosing {}.",
-                       key, Joiner.on(", ").join(matches), component);
+        LOG.debug("Requested ambiguous implementations for {}: Found {}; Choosing {}.", key,
+                Joiner.on(", ").join(matches), component);
         return component;
     }
 
@@ -124,8 +126,7 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
                     instances.add(component);
                 }
             }
-            LOG.debug("Found {} components for composite key: {}",
-                      instances.size(), Joiner.on(", ").join(instances));
+            LOG.debug("Found {} components for composite key: {}", instances.size(), Joiner.on(", ").join(instances));
             return instances;
         } else {
             return Producers.produce(componentsByKey.get(key));
@@ -163,7 +164,7 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
     protected abstract CompositeKey createCompositeKey(List<K> keys);
 
     private List<K> asList(K key, K[] keys) {
-        return ImmutableList.<K>builder().add(key).add(keys).build();
+        return ImmutableList.<K> builder().add(key).add(keys).build();
     }
 
     @SuppressFBWarnings("SE_COMPARATOR_SHOULD_BE_SERIALIZABLE")

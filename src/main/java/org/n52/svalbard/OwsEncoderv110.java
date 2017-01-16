@@ -89,6 +89,7 @@ import org.w3.x1999.xlink.ShowType;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.ows.x11.AcceptVersionsType;
 import net.opengis.ows.x11.AddressType;
 import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
@@ -125,21 +126,18 @@ import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
 public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(OwsEncoderv110.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(Sets.<EncoderKey>newHashSet(
-            new ExceptionEncoderKey(MediaTypes.TEXT_XML), new ExceptionEncoderKey(MediaTypes.APPLICATION_XML)),
-                                                                               CodingHelper
-                                                                               .encoderKeysForElements(OWSConstants.NS_OWS,
-                                                                                                       OwsServiceIdentification.class,
-                                                                                                       OwsServiceProvider.class,
-                                                                                                       OwsOperationsMetadata.class,
-                                                                                                       OwsExceptionReport.class,
-                                                                                                       OwsMetadata.class,
-                                                                                                       OwsDomain.class));
+    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
+            Sets.<EncoderKey> newHashSet(new ExceptionEncoderKey(MediaTypes.TEXT_XML),
+                    new ExceptionEncoderKey(MediaTypes.APPLICATION_XML)),
+            CodingHelper.encoderKeysForElements(OWSConstants.NS_OWS, OwsServiceIdentification.class,
+                    OwsServiceProvider.class, OwsOperationsMetadata.class, OwsExceptionReport.class, OwsMetadata.class,
+                    OwsDomain.class));
 
     private boolean includeStackTraceInExceptionReport = false;
 
     public OwsEncoderv110() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Setting(OwsEncoderSettings.INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT)
@@ -163,8 +161,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         if (element instanceof OwsServiceIdentification) {
             return encodeServiceIdentification((OwsServiceIdentification) element);
         } else if (element instanceof OwsServiceProvider) {
@@ -172,7 +169,8 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         } else if (element instanceof OwsOperationsMetadata) {
             return encodeOperationsMetadata((OwsOperationsMetadata) element);
         } else if (element instanceof OwsExceptionReport) {
-            if (isEncodeExceptionsOnly(additionalValues) && !((OwsExceptionReport) element).getExceptions().isEmpty()) {
+            if (isEncodeExceptionsOnly(additionalValues)
+                    && !((OwsExceptionReport) element).getExceptions().isEmpty()) {
                 return encodeOwsException(((OwsExceptionReport) element).getExceptions().get(0));
             }
             return encodeOwsExceptionReport((OwsExceptionReport) element);
@@ -224,11 +222,9 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private void encodeMultilingualString(Optional<MultilingualString> string,
-                                          Supplier<? extends LanguageStringType> supplier) {
-        string.map(MultilingualString::stream)
-                .orElseGet(Stream::empty)
-                .map(this::encodeOwsLanguageString)
-                .forEach(t ->  supplier.get().set(t));
+            Supplier<? extends LanguageStringType> supplier) {
+        string.map(MultilingualString::stream).orElseGet(Stream::empty).map(this::encodeOwsLanguageString)
+                .forEach(t -> supplier.get().set(t));
     }
 
     private ServiceProvider encodeServiceProvider(OwsServiceProvider osp) {
@@ -240,8 +236,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         return serviceProvider;
     }
 
-    private OperationsMetadata encodeOperationsMetadata(OwsOperationsMetadata om)
-            throws EncodingException {
+    private OperationsMetadata encodeOperationsMetadata(OwsOperationsMetadata om) throws EncodingException {
         OperationsMetadata xom = OperationsMetadata.Factory.newInstance(getXmlOptions());
 
         om.getOperations().forEach(x -> encodeOwsOperation(x, xom.addNewOperation()));
@@ -254,9 +249,9 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         return xom;
     }
 
+    @SuppressFBWarnings("DM_DEFAULT_ENCODING")
     private ExceptionDocument encodeOwsException(CodedException owsException) {
-        ExceptionDocument exceptionDoc =
-                ExceptionDocument.Factory.newInstance(getXmlOptions());
+        ExceptionDocument exceptionDoc = ExceptionDocument.Factory.newInstance(getXmlOptions());
         ExceptionType exceptionType = exceptionDoc.addNewException();
         String exceptionCode;
         if (owsException.getCode() == null) {
@@ -302,23 +297,23 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         final String localizedMessage = exception.getLocalizedMessage();
         final String message = exception.getMessage();
         if (localizedMessage != null && message != null) {
-                if (!message.equals(localizedMessage)) {
-                    exceptionText.append(message).append('\n');
-                }
-                exceptionText.append(localizedMessage).append('\n');
-            } else if (localizedMessage != null) {
-                exceptionText.append(localizedMessage).append('\n');
-            } else if (message != null) {
+            if (!message.equals(localizedMessage)) {
                 exceptionText.append(message).append('\n');
             }
+            exceptionText.append(localizedMessage).append('\n');
+        } else if (localizedMessage != null) {
+            exceptionText.append(localizedMessage).append('\n');
+        } else if (message != null) {
+            exceptionText.append(message).append('\n');
+        }
 
-        //recurse cause if necessary
+        // recurse cause if necessary
         if (exception.getCause() != null) {
             exceptionText.append("[CAUSED BY]\n");
             addExceptionMessages(exceptionText, exception.getCause());
         }
 
-        //recurse SQLException if necessary
+        // recurse SQLException if necessary
         if (exception instanceof SQLException) {
             SQLException sqlException = (SQLException) exception;
             if (sqlException.getNextException() != null) {
@@ -334,9 +329,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         // er.setLanguage("en");
         er.setVersion(owsExceptionReport.getVersion());
         List<ExceptionType> exceptionTypes = new ArrayList<>(owsExceptionReport.getExceptions().size());
-        owsExceptionReport.getExceptions().stream()
-                .map(this::encodeOwsException)
-                .map(ExceptionDocument::getException)
+        owsExceptionReport.getExceptions().stream().map(this::encodeOwsException).map(ExceptionDocument::getException)
                 .forEach(exceptionTypes::add);
         er.setExceptionArray(exceptionTypes.toArray(new ExceptionType[exceptionTypes.size()]));
         N52XmlHelper.setSchemaLocationsToDocument(erd,
@@ -375,8 +368,10 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
     private void encodeOwsDomain(OwsDomain domain, DomainType xdomain) {
         xdomain.setName(domain.getName());
         domain.getDefaultValue().ifPresent(value -> xdomain.addNewDefaultValue().setStringValue(value.getValue()));
-        domain.getDataType().ifPresent(domainMetadata -> encodeOwsDomainMetadata(domainMetadata, xdomain.addNewDataType()));
-        domain.getMeaning().ifPresent(domainMetadata -> encodeOwsDomainMetadata(domainMetadata, xdomain.addNewMeaning()));
+        domain.getDataType()
+                .ifPresent(domainMetadata -> encodeOwsDomainMetadata(domainMetadata, xdomain.addNewDataType()));
+        domain.getMeaning()
+                .ifPresent(domainMetadata -> encodeOwsDomainMetadata(domainMetadata, xdomain.addNewMeaning()));
         domain.getMetadata().forEach(metadata -> encodeOwsMetadata(metadata, xdomain.addNewMetadata()));
         domain.getMetadata().forEach(metadata -> encodeOwsMetadata(metadata, xdomain.addNewMetadata()));
         domain.getValuesUnit().ifPresent(x -> {
@@ -387,7 +382,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
             }
         });
         encodeOwsPossibleValues(domain.getPossibleValues(), xdomain);
-     }
+    }
 
     private void encodeOwsMetadata(OwsMetadata metadata, MetadataType xmetadata) {
         metadata.getHref().map(URI::toString).ifPresent(xmetadata::setHref);
@@ -439,7 +434,8 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         contact.getAddress().ifPresent(x -> encodeOwsAddress(x, xcontact.addNewAddress()));
     }
 
-    private void encodeOwsResponsibleParty(OwsResponsibleParty responsibleParty, ResponsiblePartySubsetType xresponsibleParty) {
+    private void encodeOwsResponsibleParty(OwsResponsibleParty responsibleParty,
+            ResponsiblePartySubsetType xresponsibleParty) {
         responsibleParty.getIndividualName().ifPresent(xresponsibleParty::setIndividualName);
         responsibleParty.getPositionName().ifPresent(xresponsibleParty::setPositionName);
         responsibleParty.getContactInfo().ifPresent(x -> encodeOwsContact(x, xresponsibleParty.addNewContactInfo()));
@@ -455,14 +451,14 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
             requestMethods.forEach(method -> {
                 RequestMethodType xmethod;
                 switch (method.getHttpMethod()) {
-                    case HTTPMethods.GET:
-                        xmethod = xhttp.addNewGet();
-                        break;
-                    case HTTPMethods.POST:
-                        xmethod = xhttp.addNewPost();
-                        break;
-                    default:
-                        return;
+                case HTTPMethods.GET:
+                    xmethod = xhttp.addNewGet();
+                    break;
+                case HTTPMethods.POST:
+                    xmethod = xhttp.addNewPost();
+                    break;
+                default:
+                    return;
                 }
                 encodeOnlineResource(method, xmethod);
                 method.getConstraints().forEach(x -> encodeOwsDomain(x, xmethod.addNewConstraint()));
@@ -477,7 +473,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private void encodeOwsKeywords(Optional<OwsCode> type, List<OwsLanguageString> keywords, KeywordsType xkeywords) {
         type.ifPresent(x -> encodeOwsCode(x, xkeywords.addNewType()));
-        keywords.forEach(x ->  encodeOwsLanguageString(x, xkeywords.addNewKeyword()));
+        keywords.forEach(x -> encodeOwsLanguageString(x, xkeywords.addNewKeyword()));
     }
 
     private void encodeOwsPossibleValues(OwsPossibleValues possibleValues, DomainType xdomain) {
@@ -497,9 +493,12 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
                 if (restriction.isRange()) {
                     OwsRange range = restriction.asRange();
                     RangeType xrange = xav.addNewRange();
-                    range.getLowerBound().map(OwsValue::getValue).ifPresent(v -> xrange.addNewMinimumValue().setStringValue(v));
-                    range.getUpperBound().map(OwsValue::getValue).ifPresent(v -> xrange.addNewMaximumValue().setStringValue(v));
-                    range.getSpacing().map(OwsValue::getValue).ifPresent(v -> xrange.addNewSpacing().setStringValue(v));
+                    range.getLowerBound().map(OwsValue::getValue)
+                            .ifPresent(v -> xrange.addNewMinimumValue().setStringValue(v));
+                    range.getUpperBound().map(OwsValue::getValue)
+                            .ifPresent(v -> xrange.addNewMaximumValue().setStringValue(v));
+                    range.getSpacing().map(OwsValue::getValue)
+                            .ifPresent(v -> xrange.addNewSpacing().setStringValue(v));
                     xrange.setRangeClosure(Collections.singletonList(range.getType()));
                 } else if (restriction.isValue()) {
                     xav.addNewValue().setStringValue(restriction.asValue().getValue());
@@ -508,7 +507,8 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         }
     }
 
-    private XmlObject encodeOwsOperationsMetadataExtension(OwsOperationMetadataExtension extension) throws EncodingException {
+    private XmlObject encodeOwsOperationsMetadataExtension(OwsOperationMetadataExtension extension)
+            throws EncodingException {
         return encodeObjectToXml(extension.getNamespace(), extension);
     }
 }

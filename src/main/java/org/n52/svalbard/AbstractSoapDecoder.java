@@ -23,6 +23,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import javax.xml.soap.SOAPException;
@@ -51,7 +52,7 @@ import org.w3c.dom.Document;
 import com.google.common.collect.Lists;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 4.0.0
  */
 public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, SoapRequest> {
@@ -108,10 +109,12 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
         Iterator<?> headerElements = soapHeader.extractAllHeaderElements();
         while (headerElements.hasNext()) {
             SOAPHeaderElement element = (SOAPHeaderElement) headerElements.next();
-            headersByNamespace.computeIfAbsent(element.getNamespaceURI(), Functions.forSupplier(LinkedList::new)).add(element);
+            headersByNamespace.computeIfAbsent(element.getNamespaceURI(), Functions.forSupplier(LinkedList::new))
+                    .add(element);
         }
         List<SoapHeader> soapHeaders = Lists.newArrayList();
-        for (String namespace : headersByNamespace.keySet()) {
+        for (Entry<String, List<SOAPHeaderElement>> key : headersByNamespace.entrySet()) {
+            String namespace = key.getKey();
             try {
                 Decoder<?, List<SOAPHeaderElement>> decoder =
                         getDecoder(new XmlNamespaceDecoderKey(namespace, SOAPHeaderElement.class));
@@ -120,7 +123,7 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
                     if (object instanceof SoapHeader) {
                         soapHeaders.add((SoapHeader) object);
                     } else if (object instanceof List<?>) {
-                        for (Object o : (List<?>)object) {
+                        for (Object o : (List<?>) object) {
                             if (o instanceof SoapHeader) {
                                 soapHeaders.add((SoapHeader) o);
                             }
@@ -143,7 +146,7 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
         } else if (CollectionHelper.isNotEmpty(soapHeaders)) {
             for (SoapHeader soapHeader : soapHeaders) {
                 if (WsaConstants.NS_WSA.equals(soapHeader.getNamespace()) && soapHeader instanceof WsaActionHeader) {
-                    return ((WsaActionHeader)soapHeader).getValue();
+                    return ((WsaActionHeader) soapHeader).getValue();
                 }
             }
         }

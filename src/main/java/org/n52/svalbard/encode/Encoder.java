@@ -42,12 +42,12 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      * Encodes the specified object.
      *
      * @param objectToEncode
-     *                       the object to encode
+     *            the object to encode
      *
      * @return the encoded object
      *
      * @throws EncodingException
-     *                           if an error occurs
+     *             if an error occurs
      */
     T encode(S objectToEncode) throws EncodingException;
 
@@ -56,14 +56,14 @@ public interface Encoder<T, S> extends Component<EncoderKey> {
      * .
      *
      * @param objectToEncode
-     *                         the object to encode
+     *            the object to encode
      * @param additionalValues
-     *                         the helper values
+     *            the helper values
      *
      * @return the encoded object
      *
      * @throws EncodingException
-     *                           if an error occurs
+     *             if an error occurs
      */
     T encode(S objectToEncode, EncodingContext additionalValues) throws EncodingException;
 

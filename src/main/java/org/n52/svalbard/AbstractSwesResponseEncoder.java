@@ -33,12 +33,11 @@ import com.google.common.collect.Sets;
  * @param <T>
  *            the response type
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
-public abstract class AbstractSwesResponseEncoder<T extends OwsServiceResponse>
-        extends AbstractResponseEncoder<T> {
+public abstract class AbstractSwesResponseEncoder<T extends OwsServiceResponse> extends AbstractResponseEncoder<T> {
     public AbstractSwesResponseEncoder(String operation, Class<T> responseType) {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, operation, SwesConstants.NS_SWES_20,
                 SwesConstants.NS_SWES_PREFIX, responseType);

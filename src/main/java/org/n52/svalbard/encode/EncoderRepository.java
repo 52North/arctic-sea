@@ -35,6 +35,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
 
     @Autowired(required = false)
     private Collection<Encoder<?, ?>> encoders;
+
     @Autowired(required = false)
     private Collection<EncoderFactory> encoderFactories;
 
@@ -61,8 +62,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
         return new CompositeEncoderKey(keys);
     }
 
-    private class CompositeEncoderKey extends CompositeKey
-            implements EncoderKey {
+    private class CompositeEncoderKey extends CompositeKey implements EncoderKey {
         CompositeEncoderKey(Iterable<EncoderKey> keys) {
             super(keys);
         }

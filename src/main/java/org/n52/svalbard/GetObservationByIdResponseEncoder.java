@@ -39,7 +39,7 @@ import net.opengis.sos.x20.GetObservationByIdResponseType;
 /**
  * TODO JavaDoc
  *
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 4.0.0
  */
@@ -52,7 +52,7 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
 
     @Override
     protected XmlObject createResponse(ObservationEncoder<XmlObject, OmObservation> encoder,
-                                       GetObservationByIdResponse response) throws EncodingException {
+            GetObservationByIdResponse response) throws EncodingException {
         GetObservationByIdResponseDocument doc =
                 GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
         GetObservationByIdResponseType xbResponse = doc.addNewGetObservationByIdResponse();
@@ -60,9 +60,9 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
         HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>(oc.size());
         for (OmObservation observation : oc) {
             EncodingContext codingContext = EncodingContext.empty();
-            Map<HelperValues, String> foiHelper = new HashMap<>(2);
             final String gmlId;
-            CodeWithAuthority foiId = observation.getObservationConstellation().getFeatureOfInterest().getIdentifierCodeWithAuthority();
+            CodeWithAuthority foiId =
+                    observation.getObservationConstellation().getFeatureOfInterest().getIdentifierCodeWithAuthority();
             if (gmlID4sfIdentifier.containsKey(foiId)) {
                 gmlId = gmlID4sfIdentifier.get(foiId);
                 codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, true);

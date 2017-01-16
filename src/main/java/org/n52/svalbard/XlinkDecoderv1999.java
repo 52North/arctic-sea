@@ -33,8 +33,8 @@ public class XlinkDecoderv1999 implements Decoder<Object, XmlObject> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(XlinkDecoderv1999.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(W3CConstants.NS_XLINK,
-            HrefAttribute.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(W3CConstants.NS_XLINK, HrefAttribute.class);
 
     public XlinkDecoderv1999() {
         StringBuilder builder = new StringBuilder();

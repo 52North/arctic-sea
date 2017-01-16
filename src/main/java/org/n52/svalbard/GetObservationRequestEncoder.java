@@ -38,7 +38,8 @@ import net.opengis.sos.x20.GetObservationType;
  * @since 5.0.0
  *
  */
-public class GetObservationRequestEncoder extends AbstractSosRequestEncoder<GetObservationRequest> implements ExtensibleRequestEncoder {
+public class GetObservationRequestEncoder extends AbstractSosRequestEncoder<GetObservationRequest>
+        implements ExtensibleRequestEncoder {
 
     public GetObservationRequestEncoder() {
         super(SosConstants.Operations.GetObservation.name(), GetObservationRequest.class);
@@ -90,7 +91,8 @@ public class GetObservationRequestEncoder extends AbstractSosRequestEncoder<GetO
                 // TODO fixme
                 XmlObject encodeFes = encodeFes(temporalFilter);
                 if (encodeFes instanceof TemporalOpsDocument) {
-                    substitute(got.addNewTemporalFilter().addNewTemporalOps(), ((TemporalOpsDocument) encodeFes).getTemporalOps());
+                    substitute(got.addNewTemporalFilter().addNewTemporalOps(),
+                            ((TemporalOpsDocument) encodeFes).getTemporalOps());
                 }
             }
         }
@@ -107,7 +109,8 @@ public class GetObservationRequestEncoder extends AbstractSosRequestEncoder<GetO
             // TODO fixme
             XmlObject encodeFes = encodeFes(request.getSpatialFilter());
             if (encodeFes instanceof SpatialOpsDocument) {
-                substitute(got.addNewSpatialFilter().getSpatialOps(), ((SpatialOpsDocument) encodeFes).getSpatialOps());
+                substitute(got.addNewSpatialFilter().getSpatialOps(),
+                        ((SpatialOpsDocument) encodeFes).getSpatialOps());
             }
         }
     }

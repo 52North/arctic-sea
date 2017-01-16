@@ -29,9 +29,9 @@ public interface ProcedureCoder {
      * {@linkplain ProcedureCoder} and the specified service and version.
      *
      * @param service
-     *                the service
+     *            the service
      * @param version
-     *                the version
+     *            the version
      *
      * @return the procedure description formats
      */

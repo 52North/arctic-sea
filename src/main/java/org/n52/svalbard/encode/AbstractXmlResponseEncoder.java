@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toMap;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -43,6 +44,8 @@ import org.n52.svalbard.XmlHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 5.0.0
@@ -50,16 +53,19 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
  *
  * @param <T>
  */
-public abstract class AbstractXmlResponseEncoder<T>
-        extends AbstractXmlEncoder<XmlObject, T>
-        implements StreamingEncoder<XmlObject, T>,
-                   ConformanceClass {
+public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<XmlObject, T>
+        implements StreamingEncoder<XmlObject, T>, ConformanceClass {
 
     private final String namespace;
+
     private final String prefix;
+
     private final String version;
+
     private final Class<T> responseType;
+
     private boolean validate;
+
     private SchemaRepository schemaRepository;
 
     /**
@@ -80,7 +86,8 @@ public abstract class AbstractXmlResponseEncoder<T>
      * @param validate
      *            Indicator if the created/encoded object should be validated
      */
-    public AbstractXmlResponseEncoder(String service, String version, String operation, String namespace, String prefix, Class<T> responseType, boolean validate) {
+    public AbstractXmlResponseEncoder(String service, String version, String operation, String namespace,
+            String prefix, Class<T> responseType, boolean validate) {
         this.namespace = namespace;
         this.prefix = prefix;
         this.version = version;
@@ -104,7 +111,8 @@ public abstract class AbstractXmlResponseEncoder<T>
      * @param responseType
      *            Response type
      */
-    public AbstractXmlResponseEncoder(String service, String version, String operation, String namespace, String prefix, Class<T> responseType) {
+    public AbstractXmlResponseEncoder(String service, String version, String operation, String namespace,
+            String prefix, Class<T> responseType) {
         this(service, version, operation, namespace, prefix, responseType, false);
     }
 
@@ -130,6 +138,7 @@ public abstract class AbstractXmlResponseEncoder<T>
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public XmlObject encode(T response) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, response);
@@ -138,6 +147,7 @@ public abstract class AbstractXmlResponseEncoder<T>
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public XmlObject encode(T response, EncodingContext additionalValues) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, response);
@@ -151,29 +161,29 @@ public abstract class AbstractXmlResponseEncoder<T>
     }
 
     private void setSchemaLocations(XmlObject document) {
-        Map<String, SchemaLocation> schemaLocations = getSchemaLocations(document).collect(toMap(SchemaLocation::getNamespace, identity()));
+        Map<String, SchemaLocation> schemaLocations =
+                getSchemaLocations(document).collect(toMap(SchemaLocation::getNamespace, identity()));
         schemaLocations.putAll(getSchemaLocations().stream().collect(toMap(SchemaLocation::getNamespace, identity())));
-        schemaLocations.putAll(getConcreteSchemaLocations().stream().collect(toMap(SchemaLocation::getNamespace, identity())));
+        schemaLocations.putAll(
+                getConcreteSchemaLocations().stream().collect(toMap(SchemaLocation::getNamespace, identity())));
         N52XmlHelper.setSchemaLocationsToDocument(document, schemaLocations.values());
     }
 
     private Stream<SchemaLocation> getSchemaLocations(XmlObject document) {
-        return N52XmlHelper.getNamespaces(document).stream()
-                .map(this.schemaRepository::getSchemaLocation)
+        return N52XmlHelper.getNamespaces(document).stream().map(this.schemaRepository::getSchemaLocation)
                 .filter(Objects::nonNull).flatMap(Set::stream);
     }
 
     /**
-     * Get the concrete schema locations for this
-     * {@link OwsServiceResponse} encoder
+     * Get the concrete schema locations for this {@link OwsServiceResponse}
+     * encoder
      *
      * @return the concrete schema locations
      */
     protected abstract Set<SchemaLocation> getConcreteSchemaLocations();
 
     /**
-     * Create an {@link XmlObject} from the {@link OwsServiceResponse}
-     * object
+     * Create an {@link XmlObject} from the {@link OwsServiceResponse} object
      *
      * @param response
      *            {@link OwsServiceResponse} to encode
@@ -223,7 +233,7 @@ public abstract class AbstractXmlResponseEncoder<T>
      *             If an error occurs when writing to stream
      */
     protected void writeIndent(int level, OutputStream outputStream) throws IOException {
-        byte[] indent = "  ".getBytes();
+        byte[] indent = "  ".getBytes(Charset.forName("UTF-8"));
         for (int i = 0; i < level; i++) {
             outputStream.write(indent);
         }

@@ -28,17 +28,16 @@ import org.n52.shetland.w3c.SchemaLocation;
  */
 public interface SchemaAwareEncoder<T, S> extends Encoder<T, S> {
 
-
     /**
      * Add the namespace prefix of this {@linkplain Encoder} instance to the
      * given {@linkplain Map}.
      *
-     * @param nameSpacePrefixMap the map
+     * @param nameSpacePrefixMap
+     *            the map
      */
     default void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap) {
         // do nothing
     }
-
 
     default Set<SchemaLocation> getSchemaLocations() {
         return Collections.emptySet();

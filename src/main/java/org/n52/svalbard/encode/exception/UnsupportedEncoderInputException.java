@@ -21,7 +21,7 @@ import org.n52.svalbard.encode.Encoder;
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- * J&uuml;rrens</a>
+ *         J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -33,7 +33,7 @@ public class UnsupportedEncoderInputException extends EncodingException {
     }
 
     public UnsupportedEncoderInputException(Encoder<?, ?> decoder, String o) {
-        super(String
-                .format("Encoder %s can not encode '%s'", decoder.getClass().getSimpleName(), o == null ? "null" : o));
+        super(String.format("Encoder %s can not encode '%s'", decoder.getClass().getSimpleName(),
+                o == null ? "null" : o));
     }
 }

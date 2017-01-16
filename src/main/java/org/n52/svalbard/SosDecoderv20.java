@@ -100,35 +100,27 @@ import net.opengis.sos.x20.ResultTemplateType.ObservationTemplate;
  * @since 4.0.0
  *
  */
-public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicationObject> implements Decoder<OwsServiceCommunicationObject, XmlObject> {
+public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicationObject>
+        implements Decoder<OwsServiceCommunicationObject, XmlObject> {
 
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(SosDecoderv20.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SosDecoderv20.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-                            Sos2Constants.NS_SOS_20,
-                            GetCapabilitiesDocument.class,
-                            GetObservationDocument.class,
-                            GetFeatureOfInterestDocument.class,
-                            GetObservationByIdDocument.class,
-                            InsertObservationDocument.class,
-                            InsertResultTemplateDocument.class,
-                            InsertResultDocument.class,
-                            GetResultTemplateDocument.class,
-                            GetResultDocument.class,
-                            GetResultTemplateResponseDocument.class,
-                            GetResultResponseDocument.class),
-                   CodingHelper
-                   .xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-                                               SosConstants.Operations.GetCapabilities, SosConstants.Operations.GetObservation,
-                                               SosConstants.Operations.GetFeatureOfInterest, SosConstants.Operations.GetObservationById,
-                                               SosConstants.Operations.InsertObservation, Sos2Constants.Operations.InsertResultTemplate,
-                                               Sos2Constants.Operations.InsertResult, Sos2Constants.Operations.GetResultTemplate,
-                                               SosConstants.Operations.GetResult));
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, GetCapabilitiesDocument.class,
+                    GetObservationDocument.class, GetFeatureOfInterestDocument.class, GetObservationByIdDocument.class,
+                    InsertObservationDocument.class, InsertResultTemplateDocument.class, InsertResultDocument.class,
+                    GetResultTemplateDocument.class, GetResultDocument.class, GetResultTemplateResponseDocument.class,
+                    GetResultResponseDocument.class),
+            CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                    SosConstants.Operations.GetCapabilities, SosConstants.Operations.GetObservation,
+                    SosConstants.Operations.GetFeatureOfInterest, SosConstants.Operations.GetObservationById,
+                    SosConstants.Operations.InsertObservation, Sos2Constants.Operations.InsertResultTemplate,
+                    Sos2Constants.Operations.InsertResult, Sos2Constants.Operations.GetResultTemplate,
+                    SosConstants.Operations.GetResult));
 
     public SosDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -180,8 +172,7 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
      * @throws DecodingException
      *             * If parsing the XmlBean failed
      */
-    private OwsServiceRequest parseGetCapabilities(final GetCapabilitiesDocument getCapsDoc)
-            throws DecodingException {
+    private OwsServiceRequest parseGetCapabilities(final GetCapabilitiesDocument getCapsDoc) throws DecodingException {
 
         final GetCapabilitiesType getCapsType = getCapsDoc.getGetCapabilities2();
         final GetCapabilitiesRequest request = new GetCapabilitiesRequest(getCapsType.getService());
@@ -217,8 +208,7 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
      * @throws DecodingException
      *             * If parsing the XmlBean failed
      */
-    private OwsServiceRequest parseGetObservation(final GetObservationDocument getObsDoc)
-            throws DecodingException {
+    private OwsServiceRequest parseGetObservation(final GetObservationDocument getObsDoc) throws DecodingException {
         final GetObservationRequest getObsRequest = new GetObservationRequest();
         final GetObservationType getObsType = getObsDoc.getGetObservation();
         // TODO: check
@@ -244,18 +234,19 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
         return getObsRequest;
     }
 
-//    private SwesExtensions parseSwesExtensions(final XmlObject[] extensionArray) throws OwsExceptionReport
-//    {
-//        final SwesExtensions extensions = new SwesExtensions();
-//        for (final XmlObject xbSwesExtension : extensionArray) {
-//
-//            final Object obj = CodingHelper.decodeXmlElement(xbSwesExtension);
-//            if (obj instanceof SwesExtension<?>) {
-//                extensions.addSwesExtension((SwesExtension<?>) obj);
-//            }
-//        }
-//        return extensions;
-//    }
+    // private SwesExtensions parseSwesExtensions(final XmlObject[]
+    // extensionArray) throws OwsExceptionReport
+    // {
+    // final SwesExtensions extensions = new SwesExtensions();
+    // for (final XmlObject xbSwesExtension : extensionArray) {
+    //
+    // final Object obj = CodingHelper.decodeXmlElement(xbSwesExtension);
+    // if (obj instanceof SwesExtension<?>) {
+    // extensions.addSwesExtension((SwesExtension<?>) obj);
+    // }
+    // }
+    // return extensions;
+    // }
 
     /**
      * parses the passes XmlBeans document and creates a SOS
@@ -333,11 +324,12 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
                     insertObservationRequest.addObservation(sosObservation);
                 } else {
                     exceptions.add(new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                                                "The requested observation type (%s) is not supported by this server!",
-                                                observation.getOMObservation().getDomNode().getNodeName()));
+                            "The requested observation type (%s) is not supported by this server!",
+                            observation.getOMObservation().getDomNode().getNodeName()));
                 }
             }
-            checkReferencedElements(insertObservationRequest.getObservations(), phenomenonTimes, resultTimes, features);
+            checkReferencedElements(insertObservationRequest.getObservations(), phenomenonTimes, resultTimes,
+                    features);
             try {
                 exceptions.throwIfNotEmpty();
             } catch (CompositeException ex) {
@@ -346,7 +338,7 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
         } else {
             // TODO MissingMandatoryParameterException?
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                                        "The request does not contain an observation");
+                    "The request does not contain an observation");
         }
         return insertObservationRequest;
 
@@ -360,17 +352,19 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
         sosInsertResultTemplate.setVersion(insertResultTemplate.getVersion());
         ResultTemplateType resultTemplate = insertResultTemplate.getProposedTemplate().getResultTemplate();
         sosInsertResultTemplate.setIdentifier(resultTemplate.getIdentifier());
-        OmObservationConstellation sosObservationConstellation = parseObservationTemplate(resultTemplate.getObservationTemplate());
+        OmObservationConstellation sosObservationConstellation =
+                parseObservationTemplate(resultTemplate.getObservationTemplate());
         sosObservationConstellation.addOffering(resultTemplate.getOffering());
         sosInsertResultTemplate.setObservationTemplate(sosObservationConstellation);
-        sosInsertResultTemplate.setResultStructure(parseResultStructure(resultTemplate.getResultStructure().getAbstractDataComponent()));
-        sosInsertResultTemplate.setResultEncoding(parseResultEncoding(resultTemplate.getResultEncoding().getAbstractEncoding()));
+        sosInsertResultTemplate.setResultStructure(
+                parseResultStructure(resultTemplate.getResultStructure().getAbstractDataComponent()));
+        sosInsertResultTemplate
+                .setResultEncoding(parseResultEncoding(resultTemplate.getResultEncoding().getAbstractEncoding()));
         sosInsertResultTemplate.setExtensions(parseExtensibleRequest(insertResultTemplate));
         return sosInsertResultTemplate;
     }
 
-    private OwsServiceRequest parseInsertResult(final InsertResultDocument insertResultDoc)
-            throws DecodingException {
+    private OwsServiceRequest parseInsertResult(final InsertResultDocument insertResultDoc) throws DecodingException {
         final InsertResultType insertResult = insertResultDoc.getInsertResult();
         final InsertResultRequest sosInsertResultRequest = new InsertResultRequest();
         sosInsertResultRequest.setService(insertResult.getService());
@@ -429,7 +423,7 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
         final GetResultResponse sosGetResultResponse = new GetResultResponse();
         final GetResultResponseType getResultResponse = getResultResponseDoc.getGetResultResponse();
         final String resultValues = parseResultValues(getResultResponse.getResultValues());
-        // sosGetResultResponse.setResultValues(resultValues);
+        sosGetResultResponse.setResultValues(resultValues);
         return sosGetResultResponse;
     }
 
@@ -548,8 +542,8 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
             return new SosResultStructure(sosSweData);
         } else {
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                                        "The requested result structure (%s) is not supported by this server!",
-                                        resultStructure.getDomNode().getNodeName());
+                    "The requested result structure (%s) is not supported by this server!",
+                    resultStructure.getDomNode().getNodeName());
         }
     }
 
@@ -560,8 +554,8 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
             return new SosResultEncoding(sosSweEncoding);
         } else {
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                                        "The requested result encoding (%s) is not supported by this server!",
-                                        resultEncoding.getDomNode().getNodeName());
+                    "The requested result encoding (%s) is not supported by this server!",
+                    resultEncoding.getDomNode().getNodeName());
         }
     }
 
@@ -580,8 +574,8 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
                 }
             }
             throw new DecodingException(Sos2Constants.InsertResultParams.resultValues,
-                                        "The value for the parameter '%s' is missing in the request!",
-                                        Sos2Constants.InsertResultParams.resultValues);
+                    "The value for the parameter '%s' is missing in the request!",
+                    Sos2Constants.InsertResultParams.resultValues);
         } else {
             throw new DecodingException("The requested resultValue type is not supported");
         }
@@ -636,8 +630,8 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
             // featureOfInterest
             final AbstractFeature featureOfInterest = observation.getObservationConstellation().getFeatureOfInterest();
             if (featureOfInterest.isReferenced()) {
-                observation.getObservationConstellation().setFeatureOfInterest(
-                        features.get(featureOfInterest.getGmlId()));
+                observation.getObservationConstellation()
+                        .setFeatureOfInterest(features.get(featureOfInterest.getGmlId()));
             }
 
         }

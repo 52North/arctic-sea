@@ -39,7 +39,6 @@ import net.opengis.sos.x20.GetCapabilitiesType;
  */
 public class GetCapabilitiesRequestEncoder extends AbstractSosRequestEncoder<GetCapabilitiesRequest> {
 
-
     public GetCapabilitiesRequestEncoder() {
         super(SosConstants.Operations.GetCapabilities.name(), GetCapabilitiesRequest.class);
     }
@@ -51,12 +50,12 @@ public class GetCapabilitiesRequestEncoder extends AbstractSosRequestEncoder<Get
 
     @Override
     protected XmlObject create(GetCapabilitiesRequest request) throws EncodingException {
-       GetCapabilitiesDocument doc = GetCapabilitiesDocument.Factory.newInstance(getXmlOptions());
-       GetCapabilitiesType gct = doc.addNewGetCapabilities2();
-       addService(gct, request);
-       addAcceptVersion(gct, request);
-       addSections(gct, request);
-       return doc;
+        GetCapabilitiesDocument doc = GetCapabilitiesDocument.Factory.newInstance(getXmlOptions());
+        GetCapabilitiesType gct = doc.addNewGetCapabilities2();
+        addService(gct, request);
+        addAcceptVersion(gct, request);
+        addSections(gct, request);
+        return doc;
     }
 
     private void addService(GetCapabilitiesType gct, GetCapabilitiesRequest request) {
@@ -68,19 +67,20 @@ public class GetCapabilitiesRequestEncoder extends AbstractSosRequestEncoder<Get
     }
 
     private void addAcceptVersion(GetCapabilitiesType gct, GetCapabilitiesRequest request) throws EncodingException {
-       if (request.isSetAcceptVersions()) {
-           gct.addNewAcceptVersions().set(encodeOws(new OwsAcceptVersions().setAcceptVersions(request.getAcceptVersions())));
-       } else if (request.isSetVersion()) {
-           gct.addNewAcceptVersions().addVersion(request.getVersion());
-       } else {
-           gct.addNewAcceptVersions().addVersion(Sos2Constants.SERVICEVERSION);
-       }
+        if (request.isSetAcceptVersions()) {
+            gct.addNewAcceptVersions()
+                    .set(encodeOws(new OwsAcceptVersions().setAcceptVersions(request.getAcceptVersions())));
+        } else if (request.isSetVersion()) {
+            gct.addNewAcceptVersions().addVersion(request.getVersion());
+        } else {
+            gct.addNewAcceptVersions().addVersion(Sos2Constants.SERVICEVERSION);
+        }
     }
 
     private void addSections(GetCapabilitiesType gct, GetCapabilitiesRequest request) throws EncodingException {
-       if (request.isSetSections()) {
-           gct.addNewSections().set(encodeOws(new OwsSections().setSections(request.getSections())));
-       }
+        if (request.isSetSections()) {
+            gct.addNewSections().set(encodeOws(new OwsSections().setSections(request.getSections())));
+        }
     }
 
 }

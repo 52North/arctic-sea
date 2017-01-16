@@ -58,7 +58,7 @@ import org.w3c.dom.Node;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * @author Christian Autermann <c.autermann@52north.org>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 4.0.0
  */
 public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S> {
@@ -156,8 +156,8 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
      *             supported or an error occurs during the encoding
      */
     protected XmlObject getBodyContent(SoapResponse response) throws EncodingException {
-        OperationResponseEncoderKey key =
-                new OperationResponseEncoderKey(new OperationKey(response.getBodyContent()), MediaTypes.APPLICATION_XML);
+        OperationResponseEncoderKey key = new OperationResponseEncoderKey(new OperationKey(response.getBodyContent()),
+                MediaTypes.APPLICATION_XML);
         Encoder<Object, OwsServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);

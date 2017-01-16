@@ -60,29 +60,27 @@ import net.opengis.samplingSpatial.x20.ShapeType;
  * @since 4.0.0
  *
  */
-public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFeature>
-        implements ConformanceClass {
+public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFeature> implements ConformanceClass {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SamplingEncoderv20.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(CodingHelper
-            .encoderKeysForElements(SfConstants.NS_SAMS, AbstractFeature.class),
-                                                                               CodingHelper
-                                                                               .encoderKeysForElements(SfConstants.NS_SF, AbstractFeature.class));
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            CollectionHelper.union(CodingHelper.encoderKeysForElements(SfConstants.NS_SAMS, AbstractFeature.class),
+                    CodingHelper.encoderKeysForElements(SfConstants.NS_SF, AbstractFeature.class));
 
-    private static final Set<String> CONFORMANCE_CLASSES = Sets
-            .newHashSet(ConformanceClasses.OM_V2_SPATIAL_SAMPLING, ConformanceClasses.OM_V2_SAMPLING_POINT,
-                        ConformanceClasses.OM_V2_SAMPLING_CURVE, ConformanceClasses.OM_V2_SAMPLING_SURFACE);
+    private static final Set<String> CONFORMANCE_CLASSES =
+            Sets.newHashSet(ConformanceClasses.OM_V2_SPATIAL_SAMPLING, ConformanceClasses.OM_V2_SAMPLING_POINT,
+                    ConformanceClasses.OM_V2_SAMPLING_CURVE, ConformanceClasses.OM_V2_SAMPLING_SURFACE);
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType>builder()
-            .add(new FeatureType(OGCConstants.UNKNOWN))
-            .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT))
-            .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE))
-            .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE)).build();
+    private static final Set<SupportedType> SUPPORTED_TYPES =
+            ImmutableSet.<SupportedType> builder().add(new FeatureType(OGCConstants.UNKNOWN))
+                    .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT))
+                    .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE))
+                    .add(new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE)).build();
 
     public SamplingEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                     Joiner.on(", ").join(ENCODER_KEYS));
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -132,25 +130,28 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
             builder.append(JavaHelper.generateID(absFeature.getIdentifierCodeWithAuthority().getValue()));
             absFeature.setGmlId(builder.toString());
 
-            SFSpatialSamplingFeatureDocument xbSampFeatDoc = SFSpatialSamplingFeatureDocument.Factory.newInstance(getXmlOptions());
+            SFSpatialSamplingFeatureDocument xbSampFeatDoc =
+                    SFSpatialSamplingFeatureDocument.Factory.newInstance(getXmlOptions());
             if (sampFeat.isSetXml()) {
                 try {
                     final XmlObject feature = XmlObject.Factory.parse(sampFeat.getXml(), getXmlOptions());
                     XmlHelper.updateGmlIDs(feature.getDomNode().getFirstChild(), absFeature.getGmlId(), null);
-                    if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SAMS) &&
-                             feature instanceof SFSpatialSamplingFeatureType) {
+                    if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SAMS)
+                            && feature instanceof SFSpatialSamplingFeatureType) {
                         xbSampFeatDoc.setSFSpatialSamplingFeature((SFSpatialSamplingFeatureType) feature);
                         encodeShape(xbSampFeatDoc.getSFSpatialSamplingFeature().getShape(), sampFeat);
                         addNameDescription(xbSampFeatDoc.getSFSpatialSamplingFeature(), sampFeat);
                         return xbSampFeatDoc;
                     }
                     encodeShape(((SFSpatialSamplingFeatureDocument) feature).getSFSpatialSamplingFeature().getShape(),
-                                sampFeat);
+                            sampFeat);
                     addNameDescription(((SFSpatialSamplingFeatureDocument) feature).getSFSpatialSamplingFeature(),
-                                       sampFeat);
+                            sampFeat);
                     return feature;
                 } catch (final XmlException xmle) {
-                    throw new EncodingException("Error while encoding GetFeatureOfInterest response, invalid samplingFeature description!", xmle);
+                    throw new EncodingException(
+                            "Error while encoding GetFeatureOfInterest response, invalid samplingFeature description!",
+                            xmle);
                 }
             }
             final SFSpatialSamplingFeatureType xbSampFeature = xbSampFeatDoc.addNewSFSpatialSamplingFeature();
@@ -158,7 +159,8 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
             xbSampFeature.setId(absFeature.getGmlId());
 
             if (sampFeat.isSetIdentifier()) {
-                xbSampFeature.addNewIdentifier().set(encodeObjectToXml(GmlConstants.NS_GML_32, sampFeat.getIdentifierCodeWithAuthority()));
+                xbSampFeature.addNewIdentifier()
+                        .set(encodeObjectToXml(GmlConstants.NS_GML_32, sampFeat.getIdentifierCodeWithAuthority()));
             }
 
             // set type
@@ -229,7 +231,8 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
     private void encodeShape(ShapeType xbShape, SamplingFeature sampFeat) throws EncodingException {
         Encoder<XmlObject, Geometry> encoder = getEncoder(GmlConstants.NS_GML_32, sampFeat.getGeometry());
         if (encoder != null) {
-            XmlObject xmlObject = encoder.encode(sampFeat.getGeometry(), EncodingContext.of(SosHelperValues.GMLID, sampFeat.getGmlId()));
+            XmlObject xmlObject = encoder.encode(sampFeat.getGeometry(),
+                    EncodingContext.of(SosHelperValues.GMLID, sampFeat.getGmlId()));
             if (xbShape.isSetAbstractGeometry()) {
                 xbShape.getAbstractGeometry().set(xmlObject);
             } else {

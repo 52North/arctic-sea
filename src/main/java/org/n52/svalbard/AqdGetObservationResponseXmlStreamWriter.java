@@ -61,8 +61,7 @@ import com.google.common.collect.Sets;
  * @since 4.3.0
  *
  */
-public class AqdGetObservationResponseXmlStreamWriter
-        extends XmlStreamWriter<FeatureCollection>
+public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<FeatureCollection>
         implements StreamingDataEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AqdGetObservationResponseXmlStreamWriter.class);
@@ -78,7 +77,8 @@ public class AqdGetObservationResponseXmlStreamWriter
     private EncoderRepository encoderRepository;
 
     /**
-     * @param encoderRepository the encoderRepository to set
+     * @param encoderRepository
+     *            the encoderRepository to set
      */
     @Inject
     public void setEncoderRepository(EncoderRepository encoderRepository) {
@@ -131,8 +131,8 @@ public class AqdGetObservationResponseXmlStreamWriter
     }
 
     @Override
-    public void write(FeatureCollection featureCollection, OutputStream out) throws XMLStreamException,
-            EncodingException {
+    public void write(FeatureCollection featureCollection, OutputStream out)
+            throws XMLStreamException, EncodingException {
         write(featureCollection, out, new EncodingValues());
 
     }
@@ -152,8 +152,8 @@ public class AqdGetObservationResponseXmlStreamWriter
         }
     }
 
-    private void writeFeatureCollectionDoc(EncodingValues encodingValues) throws XMLStreamException,
-            EncodingException {
+    private void writeFeatureCollectionDoc(EncodingValues encodingValues)
+            throws XMLStreamException, EncodingException {
         start(GmlConstants.QN_FEATURE_COLLECTION_32);
         addNamespaces();
         addSchemaLocations();
@@ -181,8 +181,8 @@ public class AqdGetObservationResponseXmlStreamWriter
                             count++;
                         }
                         omObservation.setResultTime(resultTime);
-                        String xmlTextObservation = prepareObservation(omObservation, getEncoder(abstractFeature, encodingValues.getAdditionalValues()),
-                                                                                  encodingValues);
+                        String xmlTextObservation = prepareObservation(omObservation,
+                                getEncoder(abstractFeature, encodingValues.getAdditionalValues()), encodingValues);
                         // stop the timer task
                         stopTimer();
                         writeMember(xmlTextObservation);
@@ -261,7 +261,8 @@ public class AqdGetObservationResponseXmlStreamWriter
     private String prepareObservation(OmObservation omObservation, Encoder<XmlObject, AbstractFeature> encoder,
             EncodingValues encodingValues) throws EncodingException, XMLStreamException {
 
-        String xmlText = (encoder.encode(omObservation, encodingValues.getAdditionalValues())).xmlText(getXmlOptions());
+        String xmlText =
+                (encoder.encode(omObservation, encodingValues.getAdditionalValues())).xmlText(getXmlOptions());
         // TODO check for better solutions
         xmlText = xmlText.replace("ns:ReferenceType", "gml:ReferenceType");
         xmlText = xmlText.replace(":ns=\"http://www.opengis.net/gml/3.2\"", ":gml=\"http://www.opengis.net/gml/3.2\"");
@@ -285,11 +286,14 @@ public class AqdGetObservationResponseXmlStreamWriter
         indent++;
     }
 
-    private Encoder<XmlObject, AbstractFeature> getEncoder(AbstractFeature feature, EncodingContext additionalValues) throws EncodingException {
-        if (feature instanceof AbstractFeature && feature.isSetDefaultElementEncoding()) {
-            return encoderRepository.getEncoder(CodingHelper.getEncoderKey(feature.getDefaultElementEncoding(), feature));
-        } else if (feature instanceof AbstractFeature && additionalValues.has(SosHelperValues.ENCODE_NAMESPACE)) {
-            return encoderRepository.getEncoder(CodingHelper.getEncoderKey(additionalValues.get(SosHelperValues.ENCODE_NAMESPACE), feature));
+    private Encoder<XmlObject, AbstractFeature> getEncoder(AbstractFeature feature, EncodingContext additionalValues)
+            throws EncodingException {
+        if (feature.isSetDefaultElementEncoding()) {
+            return encoderRepository
+                    .getEncoder(CodingHelper.getEncoderKey(feature.getDefaultElementEncoding(), feature));
+        } else if (additionalValues.has(SosHelperValues.ENCODE_NAMESPACE)) {
+            return encoderRepository.getEncoder(
+                    CodingHelper.getEncoderKey(additionalValues.get(SosHelperValues.ENCODE_NAMESPACE), feature));
         }
         return null;
     }
@@ -338,8 +342,7 @@ public class AqdGetObservationResponseXmlStreamWriter
     }
 
     private static XmlOptions getXmlOptions() {
-        return XmlOptionsHelper
-                .getInstance().getXmlOptions();
+        return XmlOptionsHelper.getInstance().getXmlOptions();
     }
 
     /**

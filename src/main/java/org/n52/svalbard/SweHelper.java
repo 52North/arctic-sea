@@ -67,6 +67,8 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * SWE helper class.
  *
@@ -78,7 +80,9 @@ public final class SweHelper {
     private final Logger LOGGER = LoggerFactory.getLogger(SweHelper.class);
 
     private String tokenSeparator;
+
     private String tupleSeparator;
+
     private String decimalSeparator;
 
     @Setting(CodingSettings.TOKEN_SEPARATOR)
@@ -98,12 +102,12 @@ public final class SweHelper {
         Validation.notNullOrEmpty("Decimal separator", separator);
         decimalSeparator = separator;
     }
+
     /**
      * Create {@link SweDataArray} from {@link OmObservation}
      *
      * @param sosObservation
-     *            The {@link OmObservation} to create
-     *            {@link SweDataArray} from
+     *            The {@link OmObservation} to create {@link SweDataArray} from
      * @return Created {@link SweDataArray}
      * @throws EncodingException
      *             If the service does not support the {@link SweDataArray}
@@ -133,12 +137,10 @@ public final class SweHelper {
                 TVPValue tvpValues = (TVPValue) multiValue.getValue();
                 for (TimeValuePair timeValuePair : tvpValues.getValue()) {
                     if (!dataArray.isSetElementTyp()) {
-                        dataArray.setElementType(createElementType(timeValuePair,
-                                observablePropertyIdentifier));
+                        dataArray.setElementType(createElementType(timeValuePair, observablePropertyIdentifier));
                     }
-                    List<String> newBlock =
-                            createBlock(dataArray.getElementType(), timeValuePair.getTime(),
-                                    observablePropertyIdentifier, timeValuePair.getValue());
+                    List<String> newBlock = createBlock(dataArray.getElementType(), timeValuePair.getTime(),
+                            observablePropertyIdentifier, timeValuePair.getValue());
                     dataArrayValue.addBlock(newBlock);
                 }
             }
@@ -180,12 +182,10 @@ public final class SweHelper {
                 TVPValue tvpValues = (TVPValue) multiValue.getValue();
                 for (TimeValuePair timeValuePair : tvpValues.getValue()) {
                     if (!dataArray.isSetElementTyp()) {
-                        dataArray.setElementType(createElementType(timeValuePair,
-                                observablePropertyIdentifier));
+                        dataArray.setElementType(createElementType(timeValuePair, observablePropertyIdentifier));
                     }
-                    List<String> newBlock =
-                            createBlock(dataArray.getElementType(), timeValuePair.getTime(),
-                                    observablePropertyIdentifier, timeValuePair.getValue());
+                    List<String> newBlock = createBlock(dataArray.getElementType(), timeValuePair.getTime(),
+                            observablePropertyIdentifier, timeValuePair.getValue());
                     dataArrayValue.addBlock(newBlock);
                 }
             }
@@ -200,7 +200,8 @@ public final class SweHelper {
         return dataRecord;
     }
 
-    private SweAbstractDataComponent createElementType(SingleObservationValue<?> sov, String name) throws EncodingException {
+    private SweAbstractDataComponent createElementType(SingleObservationValue<?> sov, String name)
+            throws EncodingException {
         SweDataRecord dataRecord = new SweDataRecord();
         dataRecord.addField(getPhenomenonTimeField(sov.getPhenomenonTime()));
         dataRecord.addField(getFieldForValue(sov.getValue(), name));
@@ -265,7 +266,7 @@ public final class SweHelper {
             @Override
             public SweAbstractDataComponent visit(ComplexValue value) throws EncodingException {
                 throw new EncodingException("The merging of '%s' is not yet supported!",
-                                            OmConstants.OBS_TYPE_COMPLEX_OBSERVATION);
+                        OmConstants.OBS_TYPE_COMPLEX_OBSERVATION);
             }
 
             @Override
@@ -300,7 +301,7 @@ public final class SweHelper {
 
             private EncodingException notSupported() {
                 return new EncodingException("The merging of value type '%s' is not yet supported!",
-                                             iValue.getClass().getName());
+                        iValue.getClass().getName());
             }
         });
     }
@@ -315,18 +316,9 @@ public final class SweHelper {
      * @return TextEncoding
      */
     public SweAbstractEncoding createTextEncoding(OmObservation sosObservation) {
-        String tupleSeparator = this.tupleSeparator;
-        String tokenSeparator = this.tokenSeparator;
-        String decimalSeparator = this.decimalSeparator;
-        if (sosObservation.isSetTupleSeparator()) {
-            tupleSeparator = sosObservation.getTupleSeparator();
-        }
-        if (sosObservation.isSetTokenSeparator()) {
-            tokenSeparator = sosObservation.getTokenSeparator();
-        }
-        if (sosObservation.isSetDecimalSeparator()) {
-            decimalSeparator = sosObservation.getDecimalSeparator();
-        }
+        String tupleSeparator = sosObservation.isSetTupleSeparator() ? sosObservation.getTupleSeparator() : this.tupleSeparator;
+        String tokenSeparator = sosObservation.isSetTokenSeparator() ? sosObservation.getTokenSeparator() : this.tokenSeparator;
+        String decimalSeparator = sosObservation.isSetDecimalSeparator() ? sosObservation.getDecimalSeparator() : this.decimalSeparator;
         return createTextEncoding(tupleSeparator, tokenSeparator, decimalSeparator);
     }
 
@@ -340,18 +332,9 @@ public final class SweHelper {
      * @return TextEncoding
      */
     private SweAbstractEncoding createTextEncoding(AbstractObservationValue<?> observationValue) {
-        String tupleSeparator = this.tupleSeparator;
-        String tokenSeparator = this.tokenSeparator;
-        String decimalSeparator = this.decimalSeparator;
-        if (observationValue.isSetTupleSeparator()) {
-            tupleSeparator = observationValue.getTupleSeparator();
-        }
-        if (observationValue.isSetTokenSeparator()) {
-            tokenSeparator = observationValue.getTokenSeparator();
-        }
-        if (observationValue.isSetDecimalSeparator()) {
-            decimalSeparator = observationValue.getDecimalSeparator();
-        }
+        String tupleSeparator = observationValue.isSetTupleSeparator() ? observationValue.getTupleSeparator() : this.tupleSeparator;
+        String tokenSeparator = observationValue.isSetTokenSeparator() ? observationValue.getTokenSeparator() : this.tokenSeparator;
+        String decimalSeparator = observationValue.isSetDecimalSeparator() ? observationValue.getDecimalSeparator() : this.decimalSeparator;
         return createTextEncoding(tupleSeparator, tokenSeparator, decimalSeparator);
     }
 
@@ -366,7 +349,8 @@ public final class SweHelper {
      *            Decimal separator
      * @return TextEncoding
      */
-    private SweAbstractEncoding createTextEncoding(String tupleSeparator, String tokenSeparator, String decimalSeparator) {
+    private SweAbstractEncoding createTextEncoding(String tupleSeparator, String tokenSeparator,
+            String decimalSeparator) {
         SweTextEncoding sosTextEncoding = new SweTextEncoding();
         sosTextEncoding.setBlockSeparator(tupleSeparator);
         sosTextEncoding.setTokenSeparator(tokenSeparator);
@@ -376,6 +360,7 @@ public final class SweHelper {
         return sosTextEncoding;
     }
 
+    @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
     private List<String> createBlock(SweAbstractDataComponent elementType, Time phenomenonTime, String phenID,
             Value<?> value) {
         if (elementType instanceof SweDataRecord) {
@@ -395,9 +380,8 @@ public final class SweHelper {
             }
             return block;
         }
-        String exceptionMsg =
-                String.format("Type of ElementType is not supported: %s", elementType != null ? elementType.getClass()
-                        .getName() : "null");
+        String exceptionMsg = String.format("Type of ElementType is not supported: %s",
+                elementType != null ? elementType.getClass().getName() : "null");
         LOGGER.debug(exceptionMsg);
         throw new IllegalArgumentException(exceptionMsg);
     }

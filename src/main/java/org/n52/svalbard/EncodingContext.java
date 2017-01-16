@@ -35,6 +35,7 @@ import javax.annotation.concurrent.Immutable;
 public class EncodingContext {
 
     private static final EncodingContext EMTPY = new EncodingContext();
+
     private static final Object NONE = new Object();
 
     private final Map<String, Object> properties;
