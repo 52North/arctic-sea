@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.sos;
 
-import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 /**
