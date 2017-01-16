@@ -33,8 +33,8 @@ import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.decode.OwsDecodingException;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
@@ -151,10 +151,6 @@ public class KvpBinding extends SimpleBinding {
         return hasDecoder(k, MediaTypes.APPLICATION_KVP);
     }
 
-    private String normalizeParameterName(String name) {
-        return name.replace("amp;", "").toLowerCase(Locale.ROOT);
-    }
-
     protected OwsServiceRequest parseRequest(HttpServletRequest req) throws OwsExceptionReport {
 
         if (req.getParameterMap() == null || req.getParameterMap().isEmpty()) {
@@ -162,7 +158,7 @@ public class KvpBinding extends SimpleBinding {
         }
 
         Map<String, String> parameters = Streams.stream(req.getParameterNames())
-                .collect(toMap(this::normalizeParameterName, req::getParameter));
+                .collect(toMap(name -> name.replace("amp;", "").toLowerCase(Locale.ROOT), req::getParameter));
 
         String service = parameters.get(RequestParams.service.name());
         String version = parameters.get(RequestParams.version.name());

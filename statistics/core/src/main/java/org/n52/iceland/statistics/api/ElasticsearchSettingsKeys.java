@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.statistics.api;
 
-import org.n52.iceland.config.SettingDefinitionGroup;
+import org.n52.faroe.SettingDefinitionGroup;
 
 /**
  * Keys for the {@link SettingDefinitionGroup} for the elasticsearch

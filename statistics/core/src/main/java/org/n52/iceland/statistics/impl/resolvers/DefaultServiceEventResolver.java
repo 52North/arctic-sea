@@ -18,16 +18,16 @@ package org.n52.iceland.statistics.impl.resolvers;
 
 import java.util.Map;
 
-import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventResolver;
 import org.n52.iceland.statistics.api.utils.EventHandlerFinder;
+import org.n52.janmayen.event.Event;
 
-public class DefaultServiceEventResolver implements StatisticsServiceEventResolver<ServiceEvent> {
+public class DefaultServiceEventResolver implements StatisticsServiceEventResolver<Event> {
 
     // private static final Logger logger =
     // LoggerFactory.getLogger(DefaultServiceEventResolver.class);
-    private ServiceEvent event;
+    private Event event;
     private Map<String, StatisticsServiceEventHandler<?>> handlers;
 
     @Override
@@ -35,18 +35,18 @@ public class DefaultServiceEventResolver implements StatisticsServiceEventResolv
         if (event == null) {
             return null;
         }
-        StatisticsServiceEventHandler<ServiceEvent> handler = EventHandlerFinder.findHandler(event, handlers);
+        StatisticsServiceEventHandler<Event> handler = EventHandlerFinder.findHandler(event, handlers);
 
         return handler.resolveAsMap(event);
     }
 
     @Override
-    public void setEvent(ServiceEvent payload) {
+    public void setEvent(Event payload) {
         this.event = payload;
     }
 
     @Override
-    public ServiceEvent getEvent() {
+    public Event getEvent() {
         return event;
     }
 

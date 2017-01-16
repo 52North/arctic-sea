@@ -25,6 +25,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.n52.faroe.json.AbstractJsonDao;
 import org.n52.iceland.ogc.AbstractComparableServiceVersionDomainKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 

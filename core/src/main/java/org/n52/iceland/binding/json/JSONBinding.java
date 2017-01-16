@@ -30,7 +30,7 @@ import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.util.JSONUtils;
+import org.n52.janmayen.Json;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
@@ -119,9 +119,9 @@ public class JSONBinding extends SimpleBinding {
     private OwsServiceRequest parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
         try {
-            JsonNode json = JSONUtils.loadReader(request.getReader());
+            JsonNode json = Json.loadReader(request.getReader());
             if (LOG.isDebugEnabled()) {
-                LOG.debug("JSON-REQUEST: {}", JSONUtils.print(json));
+                LOG.debug("JSON-REQUEST: {}", Json.print(json));
             }
             OperationDecoderKey key = new OperationDecoderKey(
                     json.path(SERVICE).textValue(),

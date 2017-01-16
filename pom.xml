@@ -120,6 +120,7 @@
         <version.guava>20.0</version.guava>
         <version.java>1.8</version.java>
         <version.jackson>2.8.5</version.jackson>
+        <version.xmlbeans>2.6.0</version.xmlbeans>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -131,6 +132,11 @@
             <dependency>
                 <groupId>org.n52.svalbard</groupId>
                 <artifactId>svalbard</artifactId>
+                <version>1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe</artifactId>
                 <version>1-SNAPSHOT</version>
             </dependency>
             <dependency>
@@ -314,6 +320,11 @@
                 <groupId>com.maxmind.db</groupId>
                 <artifactId>maxmind-db</artifactId>
                 <version>1.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.xmlbeans</groupId>
+                <artifactId>xmlbeans</artifactId>
+                <version>${version.xmlbeans}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

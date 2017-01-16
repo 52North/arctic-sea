@@ -18,9 +18,9 @@ package org.n52.iceland.statistics.api.interfaces;
 
 import java.util.Map;
 
-import org.n52.iceland.event.ServiceEvent;
+import org.n52.janmayen.event.Event;
 
-public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
+public interface StatisticsServiceEventResolver<T extends Event> {
     /**
      * Resolves the the request to Elasticsearch format
      *

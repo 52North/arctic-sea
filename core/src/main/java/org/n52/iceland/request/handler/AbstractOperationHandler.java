@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,12 +33,14 @@ import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.HTTPException;
+import org.n52.iceland.i18n.I18NSettings;
+import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.iceland.service.ServiceSettings;
 import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.HTTPMethods;
@@ -52,6 +55,7 @@ import org.n52.shetland.ogc.ows.OwsRequestMethod;
 import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.Validation;
 
@@ -64,6 +68,8 @@ import org.n52.svalbard.Validation;
 public abstract class AbstractOperationHandler implements OperationHandler {
     private URI serviceURL;
     private BindingRepository bindingRepository;
+    private Locale defaultLanguage;
+    private boolean showAllLanguages;
 
     @Inject
     public void setBindingRepository(BindingRepository bindingRepository) {
@@ -74,6 +80,29 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     public void setServiceURL(final URI serviceURL)
             throws ConfigurationError {
         this.serviceURL = Validation.notNull("Service URL", serviceURL);
+    }
+
+
+    @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
+    public void setDefaultLanguage(String defaultLanguage) {
+        this.defaultLanguage = new Locale(defaultLanguage);
+    }
+
+    public Locale getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    @Setting(I18NSettings.I18N_SHOW_ALL_LANGUAGE_VALUES)
+    public void setShowAllLanguages(boolean showAllLanguages) {
+        this.showAllLanguages = showAllLanguages;
+    }
+
+    public boolean isShowAllLanguages() {
+        return this.showAllLanguages;
+    }
+
+    protected Locale getRequestedLocale(OwsServiceRequest request) {
+        return LocaleHelper.decode(request.getRequestedLanguage(), defaultLanguage);
     }
 
     private Set<OwsDCP> getDCP(String service, String version)

@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.event.ServiceEvent;
+import org.n52.janmayen.event.Event;
 
-public class AbstractFlowEvent implements ServiceEvent {
+public class AbstractFlowEvent implements Event {
     private final Long eventsGroupId;
 
     public AbstractFlowEvent(Long eventsGroupId) {

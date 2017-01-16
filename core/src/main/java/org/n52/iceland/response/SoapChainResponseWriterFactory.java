@@ -19,6 +19,7 @@ package org.n52.iceland.response;
 import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlOptions;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterFactory;
 import org.n52.iceland.coding.encode.ResponseWriterKey;

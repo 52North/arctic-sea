@@ -21,9 +21,9 @@ import java.util.TimerTask;
 
 import org.joda.time.DateTime;
 import org.n52.iceland.cache.ContentCacheController;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.faroe.ConfigurationError;
 import org.n52.janmayen.lifecycle.Destroyable;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.svalbard.Validation;

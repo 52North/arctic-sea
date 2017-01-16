@@ -37,7 +37,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  *
  * @author Christian Autermann
  */
-public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory {
+public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory implements Serializable {
     private static final long serialVersionUID = -6826027137321052707L;
 
     public ProviderAwareListableBeanFactory() {
@@ -99,8 +99,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
         }
 
         @Override
-        public Object get()
-                throws BeansException {
+        public Object get() throws BeansException {
             return getObject();
         }
     }

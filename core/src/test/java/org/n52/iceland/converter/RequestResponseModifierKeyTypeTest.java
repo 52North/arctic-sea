@@ -25,14 +25,14 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
 import org.n52.iceland.convert.RequestResponseModifierKey;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 public class RequestResponseModifierKeyTypeTest {
     private static final String service = "SOS";
     private static final String version = "2.0.0";
-    private final OwsServiceRequest request = new OwsServiceRequest() {};
-    private final OwsServiceResponse response = new OwsServiceResponse() {};
+    private final OwsServiceRequest request = new RequestImpl();
+    private final OwsServiceResponse response = new ResponseImpl();
 
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
@@ -57,15 +57,18 @@ public class RequestResponseModifierKeyTypeTest {
     }
 
     private OwsServiceRequest getModifiedRequest() {
-        OwsServiceRequest request = new OwsServiceRequest() {};
+        OwsServiceRequest request = new RequestImpl();
         request.setService(service).setVersion(version);
         return request;
     }
 
     private OwsServiceResponse getModifiedResponse() {
-        OwsServiceResponse response = new OwsServiceResponse() {};
+        OwsServiceResponse response = new ResponseImpl();
         response.setService(service).setVersion(version);
         return response;
     }
+
+    private static class RequestImpl extends OwsServiceRequest {};
+    private static class ResponseImpl extends OwsServiceResponse {};
 
 }

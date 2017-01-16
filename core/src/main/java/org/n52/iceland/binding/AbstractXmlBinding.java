@@ -161,7 +161,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             namespace = element.getAttribute(name);
             return new XmlNamespaceOperationDecoderKey(namespace, elementName);
         } else {
-            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(":") + 1));
+            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(':') + 1));
         }
     }
 
@@ -174,7 +174,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             version = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.version.name()));
             if (!Strings.isNullOrEmpty(service)) {
                 String nodeName = element.getNodeName();
-                operation = nodeName.substring(nodeName.indexOf(":") + 1);
+                operation = nodeName.substring(nodeName.indexOf(':') + 1);
             }
         }
         return new OperationKey(service, version, operation);

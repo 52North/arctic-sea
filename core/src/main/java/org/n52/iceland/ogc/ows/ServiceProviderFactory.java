@@ -41,9 +41,9 @@ import java.util.Locale;
 import java.util.Optional;
 import java.util.Set;
 
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.shetland.ogc.ows.OwsAddress;
 import org.n52.shetland.ogc.ows.OwsCode;

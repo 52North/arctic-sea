@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
+import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.iceland.ogc.ows.ServiceMetadataRepository;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
@@ -267,7 +268,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
             throws OwsExceptionReport {
 
         Set<CapabilitiesSection> sections = getRequestedSections(request);
-        Locale requestedLocale = LocaleHelper.decode(request.getRequestedLanguage());
+        Locale requestedLocale = getRequestedLocale(request);
 
         String updateSequence = null;
 

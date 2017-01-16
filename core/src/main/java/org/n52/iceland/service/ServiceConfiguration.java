@@ -22,13 +22,13 @@ import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
 import java.net.URI;
 import java.util.Locale;
 
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
+import org.n52.svalbard.Validation;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.CodingSettings;
-import org.n52.svalbard.Validation;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -83,12 +83,6 @@ public class ServiceConfiguration implements Constructable {
      * prefix URN for the spatial reference system.
      */
     private String srsNamePrefixSosV2;
-
-    /**
-     * boolean indicates, whether SOS supports quality information in
-     * observations.
-     */
-    private final boolean supportsQuality = true;
 
     /**
      * token separator for result element.
@@ -172,7 +166,7 @@ public class ServiceConfiguration implements Constructable {
      */
     // HibernateObservationUtilities
     public boolean isSupportsQuality() {
-        return supportsQuality;
+        return true;
     }
 
     public boolean isUseHttpStatusCodesInKvpAndPoxBinding() {

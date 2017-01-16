@@ -16,12 +16,13 @@
  */
 package org.n52.iceland.i18n;
 
+import org.n52.janmayen.i18n.LocaleHelper;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Iterator;
 
-import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.janmayen.i18n.LocalizedString;
 import org.n52.janmayen.i18n.MultilingualString;
 
