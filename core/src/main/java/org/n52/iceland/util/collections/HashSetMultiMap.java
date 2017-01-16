@@ -16,9 +16,6 @@
  */
 package org.n52.iceland.util.collections;
 
-import org.n52.iceland.util.collections.AbstractMultiHashMap;
-import org.n52.iceland.util.collections.SetMultiMap;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;

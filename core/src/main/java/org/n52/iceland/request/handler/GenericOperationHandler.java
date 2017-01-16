@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.request.handler;
 
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 public interface GenericOperationHandler<
             Q extends OwsServiceRequest,

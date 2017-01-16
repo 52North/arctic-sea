@@ -18,8 +18,8 @@ package org.n52.iceland.cache.ctrl.persistence;
 
 import java.util.Optional;
 
-import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCache;
+import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
 
 /**

@@ -30,7 +30,7 @@ import org.n52.faroe.annotation.Setting;
 import org.n52.faroe.json.JsonSettingValue;
 import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
-import org.n52.iceland.util.Validation;
+import org.n52.svalbard.Validation;
 
 @Configurable
 public class ElasticsearchSettings {

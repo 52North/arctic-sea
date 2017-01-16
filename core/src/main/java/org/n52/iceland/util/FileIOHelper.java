@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.GenericThrowableWrapperException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Utility class for file handling
@@ -56,6 +56,7 @@ public final class FileIOHelper {
      * @throws OwsExceptionReport
      *             If and error occurs;
      */
+    @Deprecated
     public static InputStream loadInputStreamFromFile(File file) throws OwsExceptionReport {
         InputStream is;
         try {

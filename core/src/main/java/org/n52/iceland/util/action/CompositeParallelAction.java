@@ -26,7 +26,6 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.GroupedAndNamedThreadFactory;
 
-
 /**
  * @param <A>
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>

@@ -38,12 +38,10 @@ import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
-import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.iceland.service.ServiceSettings;
-import org.n52.iceland.util.Validation;
 import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.HTTPMethods;
 import org.n52.janmayen.http.MediaType;
@@ -58,6 +56,8 @@ import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.svalbard.OperationKey;
+import org.n52.svalbard.Validation;
 
 /**
  * TODO JavaDoc
@@ -75,6 +75,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     public void setBindingRepository(BindingRepository bindingRepository) {
         this.bindingRepository = Objects.requireNonNull(bindingRepository);
     }
+
     @Setting(ServiceSettings.SERVICE_URL)
     public void setServiceURL(final URI serviceURL)
             throws ConfigurationError {

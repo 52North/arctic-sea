@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.janmayen.event.Event;
 

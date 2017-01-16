@@ -112,6 +112,10 @@
             <groupId>stax</groupId>
             <artifactId>stax-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+        </dependency>
 
         <!-- Testing dependencies -->
         <dependency>

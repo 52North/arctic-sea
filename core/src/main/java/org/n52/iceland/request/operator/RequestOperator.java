@@ -19,11 +19,11 @@ package org.n52.iceland.request.operator;
 import java.util.Set;
 
 import org.n52.janmayen.component.Component;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.iceland.service.ConformanceClass;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.svalbard.ConformanceClass;
 
 /**
  * Interface for SOS request operator implementations

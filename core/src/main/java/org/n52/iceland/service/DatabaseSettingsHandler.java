@@ -24,8 +24,8 @@ import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
 import org.n52.faroe.ConfigurationError;
-import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
+import org.n52.janmayen.lifecycle.Constructable;
 
 /**
  * @since 1.0.0

@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.config.spring;
 
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.lifecycle.Destroyable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanInitializationException;
@@ -23,9 +25,6 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
-
-import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.janmayen.lifecycle.Destroyable;
 
 /**
  * Bean post processor that calls {@link Constructable#init() } and

@@ -25,11 +25,6 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -53,6 +48,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.DecoderRepository;
@@ -61,8 +57,11 @@ import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.ExceptionEncoderKey;
+import org.n52.svalbard.encode.OperationResponseEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc

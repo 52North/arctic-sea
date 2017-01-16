@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.janmayen.http.HTTPStatus;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 
 import com.google.common.base.Joiner;
 

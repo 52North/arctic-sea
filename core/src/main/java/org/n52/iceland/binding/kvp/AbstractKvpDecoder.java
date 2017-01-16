@@ -29,13 +29,13 @@ import java.util.TreeMap;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.function.ThrowingBiConsumer;
 import org.n52.janmayen.function.ThrowingTriConsumer;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.StringHelper;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;

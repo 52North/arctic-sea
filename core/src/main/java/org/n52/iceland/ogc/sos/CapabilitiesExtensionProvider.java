@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.ogc.sos;
 
-import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 
 import com.google.common.collect.Iterables;
 

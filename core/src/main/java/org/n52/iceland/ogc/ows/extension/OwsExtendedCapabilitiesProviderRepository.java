@@ -29,8 +29,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationListeners;
@@ -43,6 +41,7 @@ import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Repository for {@link OwsOperationMetadataExtension}. Loads all implemented

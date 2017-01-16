@@ -20,12 +20,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.n52.janmayen.component.AbstractComponentRepository;
-import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 /**

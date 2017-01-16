@@ -39,6 +39,7 @@ import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.janmayen.Comparables;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OWSConstants.CapabilitiesSection;
 import org.n52.shetland.ogc.ows.OWSConstants.GetCapabilitiesParams;
