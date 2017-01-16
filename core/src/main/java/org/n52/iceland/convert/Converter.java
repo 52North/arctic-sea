@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.convert;
 
-import java.util.List;
-
 import org.n52.janmayen.component.Component;
 
 /**

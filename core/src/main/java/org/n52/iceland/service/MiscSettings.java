@@ -24,19 +24,6 @@ package org.n52.iceland.service;
  * @since 1.0.0
  */
 public interface MiscSettings {
-    String TOKEN_SEPARATOR = "misc.tokenSeparator";
-
-    String TUPLE_SEPARATOR = "misc.tupleSeparator";
-
-    String DECIMAL_SEPARATOR = "misc.decimalSeparator";
-
-    String CHARACTER_ENCODING = "misc.characterEncoding";
-
-    @Deprecated
-    String SRS_NAME_PREFIX_SOS_V1 = "misc.srsNamePrefixSosV1";
-
-    @Deprecated
-    String SRS_NAME_PREFIX_SOS_V2 = "misc.srsNamePrefixSosV2";
 
     @Deprecated
     String DEFAULT_OFFERING_PREFIX = "misc.defaultOfferingPrefix";

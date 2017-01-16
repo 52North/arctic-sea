@@ -32,15 +32,13 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
-import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.ogc.ows.ServiceMetadataRepository;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.janmayen.Comparables;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OWSConstants.CapabilitiesSection;
 import org.n52.shetland.ogc.ows.OWSConstants.GetCapabilitiesParams;
@@ -58,6 +56,8 @@ import org.n52.shetland.ogc.ows.OwsServiceProvider;
 import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.exception.VersionNegotiationFailedException;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 
@@ -253,13 +253,13 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
 
     private OwsDomain getAcceptLanguagesDomain() {
         Set<Locale> availableLocales = serviceMetadataRepository.getAvailableLocales();
-        OwsPossibleValues possibleValues = new OwsAllowedValues(availableLocales.stream().map(LocaleHelper::toString).map(OwsValue::new));
+        OwsPossibleValues possibleValues = new OwsAllowedValues(availableLocales.stream().map(LocaleHelper::encode).map(OwsValue::new));
         return new OwsDomain(GetCapabilitiesParams.AcceptLanguages, possibleValues);
     }
 
     private Set<String> getLanguages() {
         Set<Locale> availableLocales = serviceMetadataRepository.getAvailableLocales();
-        return availableLocales.stream().map(LocaleHelper::toString).collect(toSet());
+        return availableLocales.stream().map(LocaleHelper::encode).collect(toSet());
     }
 
     private OwsCapabilities createCapabilities(GetCapabilitiesRequest request,
@@ -267,7 +267,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
             throws OwsExceptionReport {
 
         Set<CapabilitiesSection> sections = getRequestedSections(request);
-        Locale requestedLocale = LocaleHelper.fromString(request.getRequestedLanguage());
+        Locale requestedLocale = LocaleHelper.decode(request.getRequestedLanguage());
 
         String updateSequence = null;
 

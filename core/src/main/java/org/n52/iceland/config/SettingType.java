@@ -21,7 +21,7 @@ import java.net.URI;
 
 import org.n52.iceland.config.json.JsonConstants;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.shetland.i18n.LocalizedString;
+import org.n52.janmayen.i18n.LocalizedString;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 
 /**

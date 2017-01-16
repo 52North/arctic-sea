@@ -20,12 +20,11 @@ package org.n52.iceland.util;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.lifecycle.Destroyable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
 

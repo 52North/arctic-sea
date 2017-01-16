@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 /**
  * Event should be fired when a new {@link OwsServiceRequest} arrives in

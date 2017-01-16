@@ -20,9 +20,9 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.janmayen.Comparables;
 
 import com.google.common.base.Strings;
 

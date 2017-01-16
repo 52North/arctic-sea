@@ -28,7 +28,7 @@ import org.n52.iceland.config.settings.NumericSettingDefinition;
 import org.n52.iceland.config.settings.StringSettingDefinition;
 import org.n52.iceland.config.settings.TimeInstantSettingDefinition;
 import org.n52.iceland.config.settings.UriSettingDefinition;
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 
 /**

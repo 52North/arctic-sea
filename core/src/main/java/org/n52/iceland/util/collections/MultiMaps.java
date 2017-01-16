@@ -22,6 +22,7 @@ package org.n52.iceland.util.collections;
  * @since 1.0.0
  *
  */
+@Deprecated
 public final class MultiMaps {
     public static <K, V> SetMultiMap<K, V> newSetMultiMap() {
         return new HashSetMultiMap<K, V>();

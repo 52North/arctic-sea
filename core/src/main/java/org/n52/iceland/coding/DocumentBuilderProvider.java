@@ -20,10 +20,9 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.n52.janmayen.lifecycle.Constructable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.n52.janmayen.lifecycle.Constructable;
 
 /**
  *

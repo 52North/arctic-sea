@@ -16,12 +16,8 @@
  */
 package org.n52.iceland.service;
 
-import static org.n52.iceland.service.MiscSettings.CHARACTER_ENCODING;
 import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
-import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V1;
-import static org.n52.iceland.service.MiscSettings.SRS_NAME_PREFIX_SOS_V2;
 import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
-import static org.n52.iceland.service.ServiceSettings.VALIDATE_RESPONSE;
 
 import java.net.URI;
 import java.util.Locale;
@@ -31,8 +27,8 @@ import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.iceland.util.Validation;
-import org.n52.shetland.util.CRSHelper;
+import org.n52.svalbard.CodingSettings;
+import org.n52.svalbard.Validation;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -49,7 +45,6 @@ public class ServiceConfiguration implements Constructable {
     /**
      * character encoding for responses.
      */
-    private String characterEncoding;
     private boolean encodeFullChildrenInDescribeSensor;
     private boolean addOutputsToSensorML;
     private boolean strictSpatialFilteringProfile;
@@ -124,53 +119,6 @@ public class ServiceConfiguration implements Constructable {
 
     private boolean streamingEncoding = true;
 
-    /**
-     * Returns the default token seperator for results.
-     * <p/>
-     *
-     * @return the tokenSeperator.
-     */
-    public String getTokenSeparator() {
-        return tokenSeparator;
-    }
-
-    @Setting(MiscSettings.TOKEN_SEPARATOR)
-    public void setTokenSeparator(final String separator) throws ConfigurationError {
-        Validation.notNullOrEmpty("Token separator", separator);
-        tokenSeparator = separator;
-    }
-
-    public String getTupleSeparator() {
-        return tupleSeparator;
-    }
-
-    @Setting(MiscSettings.TUPLE_SEPARATOR)
-    public void setTupleSeparator(final String separator) throws ConfigurationError {
-        Validation.notNullOrEmpty("Tuple separator", separator);
-        tupleSeparator = separator;
-    }
-
-
-    public String getDecimalSeparator() {
-        return decimalSeparator;
-    }
-
-    @Setting(MiscSettings.DECIMAL_SEPARATOR)
-    public void setDecimalSeparator(final String separator) throws ConfigurationError {
-        Validation.notNullOrEmpty("Decimal separator", separator);
-        decimalSeparator = separator;
-    }
-
-    @Setting(CHARACTER_ENCODING)
-    public void setCharacterEncoding(final String encoding) throws ConfigurationError {
-        Validation.notNullOrEmpty("Character Encoding", encoding);
-        characterEncoding = encoding;
-//        XmlOptionsHelper.getInstance().setCharacterEncoding(characterEncoding);
-    }
-
-    public String getCharacterEncoding() {
-        return characterEncoding;
-    }
 
     @Deprecated
     public String getDefaultOfferingPrefix() {
@@ -214,7 +162,7 @@ public class ServiceConfiguration implements Constructable {
         return validateResponse;
     }
 
-    @Setting(VALIDATE_RESPONSE)
+    @Setting(CodingSettings.VALIDATE_RESPONSE)
     public void setValidateResponse(final boolean validateResponse) {
         this.validateResponse = validateResponse;
     }
@@ -269,36 +217,6 @@ public class ServiceConfiguration implements Constructable {
             url = url.split("[?]")[0];
         }
         this.serviceURL = url;
-    }
-
-    /**
-     * @return prefix URN for the spatial reference system
-     */
-    public String getSrsNamePrefix() {
-        return srsNamePrefix;
-    }
-
-    @Deprecated // SOS-specific
-    @Setting(SRS_NAME_PREFIX_SOS_V1)
-    public void setSrsNamePrefixForSosV1(String prefix) {
-        srsNamePrefix = CRSHelper.asUrnPrefix(prefix);
-    }
-
-    /**
-     * @return prefix URN for the spatial reference system
-     */
-    /*
-     * SosHelper GmlEncoderv321 AbstractKvpDecoder SosEncoderv100
-     */
-    @Deprecated // SOS-specific
-    public String getSrsNamePrefixSosV2() {
-        return srsNamePrefixSosV2;
-    }
-
-    @Deprecated // SOS-specific
-    @Setting(SRS_NAME_PREFIX_SOS_V2)
-    public void setSrsNamePrefixForSosV2(String prefix) {
-        srsNamePrefixSosV2 = CRSHelper.asHttpPrefix(prefix);
     }
 
 //    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)

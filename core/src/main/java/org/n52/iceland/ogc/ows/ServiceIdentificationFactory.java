@@ -37,15 +37,15 @@ import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
-import org.n52.iceland.i18n.LocaleHelper;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
-import org.n52.iceland.util.Validation;
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.LocaleHelper;
+import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
 import org.n52.shetland.ogc.ows.OwsServiceIdentification;
 import org.n52.shetland.util.StringHelper;
+import org.n52.svalbard.Validation;
 
 @Configurable
 public class ServiceIdentificationFactory
@@ -75,7 +75,7 @@ public class ServiceIdentificationFactory
 
     @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
     public void setDefaultLanguage(String lang) {
-        this.defaultLocale = LocaleHelper.fromString(lang);
+        this.defaultLocale = LocaleHelper.decode(lang);
     }
 
     public void setKeywords(String[] keywords) {

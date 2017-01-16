@@ -18,8 +18,8 @@ package org.n52.iceland.exception.ows.concrete;
 
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.exception.VersionNegotiationFailedException;
 import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.exception.VersionNegotiationFailedException;
 
 import com.google.common.base.Joiner;
 

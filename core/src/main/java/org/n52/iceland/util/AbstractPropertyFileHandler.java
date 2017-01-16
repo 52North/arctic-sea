@@ -25,10 +25,9 @@ import java.io.OutputStream;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.n52.iceland.exception.ConfigurationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.n52.iceland.exception.ConfigurationError;
 
 /**
  * @since 1.0.0

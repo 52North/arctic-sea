@@ -34,13 +34,14 @@ import javax.inject.Inject;
 
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
-import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.config.annotation.Configurable;
 import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.iceland.service.ServiceSettings;
+import org.n52.janmayen.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPMethods;
+import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.ows.OwsAllowedValues;
 import org.n52.shetland.ogc.ows.OwsDCP;
 import org.n52.shetland.ogc.ows.OwsDomain;
@@ -49,11 +50,10 @@ import org.n52.shetland.ogc.ows.OwsMetadata;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.OwsRequestMethod;
 import org.n52.shetland.ogc.ows.OwsValue;
-import org.n52.iceland.service.ServiceSettings;
-import org.n52.iceland.util.Validation;
-import org.n52.janmayen.http.HTTPHeaders;
-import org.n52.janmayen.http.HTTPMethods;
-import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.OperationKey;
+import org.n52.svalbard.Validation;
 
 /**
  * TODO JavaDoc

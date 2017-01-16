@@ -25,16 +25,15 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.config.FileSettingsConfiguration;
 import org.n52.iceland.exception.ConfigurationError;
-import org.n52.janmayen.lifecycle.Destroyable;
 import org.n52.iceland.service.ConfigLocationProvider;
 import org.n52.iceland.util.Debouncer;
 import org.n52.iceland.util.JSONUtils;
 import org.n52.janmayen.Producer;
+import org.n52.janmayen.lifecycle.Destroyable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;

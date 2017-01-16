@@ -16,10 +16,10 @@
  */
 package org.n52.iceland.util;
 
-import org.n52.janmayen.Producer;
-
 import java.util.Locale;
 import java.util.Set;
+
+import org.n52.janmayen.Producer;
 
 /**
  * Generic Factory interface.

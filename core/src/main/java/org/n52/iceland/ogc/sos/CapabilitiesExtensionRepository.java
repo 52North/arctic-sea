@@ -24,15 +24,14 @@ import java.util.Map.Entry;
 
 import javax.inject.Inject;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.janmayen.Producer;
-import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;

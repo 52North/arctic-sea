@@ -33,11 +33,11 @@ import org.n52.iceland.config.SettingValue;
 import org.n52.iceland.config.settings.ChoiceSettingDefinition;
 import org.n52.iceland.config.settings.IntegerSettingDefinition;
 import org.n52.iceland.ds.Datasource;
-import org.n52.shetland.i18n.MultilingualString;
 import org.n52.iceland.i18n.json.I18NJsonEncoder;
+import org.n52.iceland.util.JSONUtils;
+import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.util.DateTimeHelper;
-import org.n52.iceland.util.JSONUtils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;

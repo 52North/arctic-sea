@@ -16,19 +16,18 @@
  */
 package org.n52.iceland.service.operator;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceKey;
-
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
+import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 import com.google.common.base.MoreObjects;

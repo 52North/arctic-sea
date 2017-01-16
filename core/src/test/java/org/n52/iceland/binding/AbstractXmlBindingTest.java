@@ -20,9 +20,8 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
-
-import org.n52.iceland.w3c.soap.SoapConstants;
 import org.n52.shetland.ogc.ows.exception.CodedException;
+import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;

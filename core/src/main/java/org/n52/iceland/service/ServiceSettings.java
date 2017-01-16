@@ -49,6 +49,4 @@ public interface ServiceSettings {
     String STRICT_SPATIAL_FILTERING_PROFILE
             = "service.strictSpatialFilteringProfile";
 
-    String VALIDATE_RESPONSE = "service.response.validate";
-
 }

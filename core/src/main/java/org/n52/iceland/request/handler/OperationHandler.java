@@ -17,9 +17,9 @@
 package org.n52.iceland.request.handler;
 
 import org.n52.janmayen.component.Component;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.OwsOperation;
-import org.n52.iceland.service.ConformanceClass;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.ConformanceClass;
 
 /**
  * Interface for all operation Handlers.
