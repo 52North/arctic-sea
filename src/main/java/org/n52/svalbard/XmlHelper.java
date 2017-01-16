@@ -464,7 +464,7 @@ public final class XmlHelper {
      * FIXME Review code and use new procedure from OX-F to validate offending
      * content!
      */
-    public enum LaxValidationCase { 
+    public enum LaxValidationCase {
         // FIXME make private again
         ABSTRACT_OFFERING {
             @SuppressWarnings("unchecked")
