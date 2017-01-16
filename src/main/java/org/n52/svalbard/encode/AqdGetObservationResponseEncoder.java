@@ -43,6 +43,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.ReportObligations;
 import org.n52.svalbard.write.AqdGetObservationResponseXmlStreamWriter;
 
 public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder<GetObservationResponse>
@@ -129,7 +130,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
     }
 
     private ReportObligationType getReportObligationType(GetObservationResponse response) throws OwsExceptionReport {
-        return getAqdHelper().getFlow(response.getExtensions());
+        return ReportObligations.getFlow(response.getExtensions());
     }
 
     private TimePeriod addToFeatureCollectionAndGetTimePeriod(FeatureCollection featureCollection,

@@ -18,47 +18,29 @@ package org.n52.svalbard.util;
 
 import java.util.Set;
 
-import org.n52.janmayen.function.Functions;
-import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.aqd.AbstractEReportingHeader;
-import org.n52.shetland.aqd.AqdConstants;
-import org.n52.shetland.aqd.ReportObligationType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.ows.extension.Extension;
-import org.n52.shetland.ogc.ows.extension.Extensions;
-import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JavaHelper;
+import org.n52.svalbard.EReportingSetting;
 
 import com.google.common.base.Strings;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
-//@Configurable
-public class AqdHelper implements Constructable {
-
-    @Deprecated
-    private static AqdHelper instance;
+@Configurable
+public class AqdHelper {
 
     private String namespace;
-
     private String observationPrefix;
-
     private Set<Integer> validityFlags;
-
     private Set<Integer> verificationFlags;
-
-    @Override
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    public void init() {
-        AqdHelper.instance = this;
-    }
 
     /**
      * @return the validityFlags
@@ -68,29 +50,28 @@ public class AqdHelper implements Constructable {
     }
 
     /**
-     * @param validityFlags
-     *            the validityFlags to set
+     * @param validityFlags the validityFlags to set
      */
-    // @Setting(EReportingSetting.EREPORTING_VALIDITY_FLAGS)
+    @Setting(EReportingSetting.EREPORTING_VALIDITY_FLAGS)
     public void setValidityFlags(String validityFlags) {
         this.validityFlags = JavaHelper.getIntegerSetFromString(validityFlags);
-    }
-
-    // @Setting(EReportingSetting.EREPORTING_NAMESPACE)
-    public void setEReportingNamespace(String namespace) {
-        this.namespace = namespace;
     }
 
     public String getEReportingNamespace() {
         return namespace;
     }
 
+    @Setting(EReportingSetting.EREPORTING_NAMESPACE)
+    public void setEReportingNamespace(String namespace) throws ConfigurationError {
+        this.namespace = namespace;
+    }
+
     public boolean isSetEReportingNamespace() {
         return !Strings.isNullOrEmpty(getEReportingNamespace());
     }
 
-    // @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
-    public void setEReportingObservationPrefix(String observationPrefix) {
+    @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
+    public void setEReportingObservationPrefix(String observationPrefix) throws ConfigurationError {
         this.observationPrefix = observationPrefix;
     }
 
@@ -114,10 +95,9 @@ public class AqdHelper implements Constructable {
     }
 
     /**
-     * @param verificationFlags
-     *            the verificationFlags to set
+     * @param verificationFlags the verificationFlags to set
      */
-    // @Setting(EReportingSetting.EREPORTING_VERIFICATION_FLAGS)
+    @Setting(EReportingSetting.EREPORTING_VERIFICATION_FLAGS)
     public void setVerificationFlags(String verificationFlags) {
         this.verificationFlags = JavaHelper.getIntegerSetFromString(verificationFlags);
     }
@@ -126,21 +106,9 @@ public class AqdHelper implements Constructable {
         return CollectionHelper.isNotEmpty(getVerificationFlags());
     }
 
-    public boolean hasFlowExtension(Extensions extensions) {
-        if (extensions != null) {
-            return extensions.containsExtension(AqdConstants.EXTENSION_FLOW);
-        }
-        return false;
-    }
-
-    public ReportObligationType getFlow(Extensions extensions) throws OwsExceptionReport {
-        return extensions.getExtension(AqdConstants.EXTENSION_FLOW).map(Extension::getValue)
-                .flatMap(Functions.castIfInstanceOf(SweText.class)).map(SweText::getValue)
-                .map(ReportObligationType::from).orElse(ReportObligationType.E2A);
-    }
-
     public void processObservation(OmObservation observation, TimePeriod timePeriod, TimeInstant resultTime,
-            FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader, int counter) {
+                                   FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader,
+                                   int counter) {
         if (observation.isSetPhenomenonTime()) {
             // generate gml:id
             observation.setGmlId(getObservationId(counter));
@@ -172,14 +140,4 @@ public class AqdHelper implements Constructable {
         return (isSetEReportingObservationPrefix() ? getEReportingObservationPrefix() : "o_")
                 .concat(Integer.toString(counter));
     }
-
-    /**
-     * @return Returns a singleton instance of the AqdHelper.
-     * @deprecated TODO
-     */
-    @Deprecated
-    public static AqdHelper getInstance() {
-        return instance;
-    }
-
 }

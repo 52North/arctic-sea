@@ -55,6 +55,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.AqdHelper;
 import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.ReportObligations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -186,7 +187,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
 
     private ReportObligationType getReportObligationType(GetObservationResponse response) throws EncodingException {
         try {
-            return getAqdHelper().getFlow(response.getExtensions());
+            return ReportObligations.getFlow(response.getExtensions());
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
         }
