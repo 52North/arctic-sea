@@ -18,7 +18,6 @@ package org.n52.svalbard.encode;
 
 import java.io.OutputStream;
 
-import org.n52.svalbard.EncodingValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**

@@ -22,7 +22,6 @@ import java.util.Set;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-@Deprecated // SOS-specific
 public interface ProcedureCoder {
     /**
      * Get the supported procedure description formats for this

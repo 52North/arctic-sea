@@ -25,7 +25,6 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.EncodingValues;
 
 import com.google.common.xml.XmlEscapers;
 

@@ -25,8 +25,6 @@ import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
 
-import org.n52.svalbard.EncodingValues;
-
 import com.google.common.xml.XmlEscapers;
 
 /**

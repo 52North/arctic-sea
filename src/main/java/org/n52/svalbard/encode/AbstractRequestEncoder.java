@@ -28,9 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.janmayen.http.MediaTypes;
-import org.n52.svalbard.EncodingValues;
 import org.n52.svalbard.OperationKey;
-import org.n52.svalbard.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.base.Joiner;

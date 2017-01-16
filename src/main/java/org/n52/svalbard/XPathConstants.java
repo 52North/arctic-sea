@@ -19,6 +19,7 @@ package org.n52.svalbard;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swes.SwesConstants;
+import org.n52.svalbard.util.XmlHelper;
 
 public interface XPathConstants {
 
