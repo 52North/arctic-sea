@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -139,7 +140,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         namespace(Sos2StreamingConstants.NS_SOS_PREFIX, Sos2StreamingConstants.NS_SOS_20);
         // get observation encoder
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(response.getResponseFormat());
-        encodingValues.getAdditionalValues().with(SosHelperValues.DOCUMENT, null);
+        encodingValues.getAdditionalValues().with(XmlBeansEncodingFlags.DOCUMENT, null);
         encodingValues.setEncodingNamespace(response.getResponseFormat());
         // write schemaLocation
         schemaLocation(getSchemaLocation(encodingValues, encoder));

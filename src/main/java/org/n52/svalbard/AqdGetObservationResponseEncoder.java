@@ -25,6 +25,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -119,7 +120,8 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
         }
         encodingValues.setEncodingNamespace(OmConstants.NS_OM_2);
         encodingValues.setAdditionalValues(encodingValues.getAdditionalValues()
-                .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2).with(SosHelperValues.DOCUMENT));
+                .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                .with(XmlBeansEncodingFlags.DOCUMENT));
         try {
             new AqdGetObservationResponseXmlStreamWriter().write(featureCollection, outputStream, encodingValues);
         } catch (XMLStreamException xmlse) {

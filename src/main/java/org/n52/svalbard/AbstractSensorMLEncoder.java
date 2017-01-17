@@ -22,11 +22,12 @@ import java.util.Set;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.custommonkey.xmlunit.Diff;
-import org.n52.janmayen.NcNameResolver;
-import org.n52.svalbard.encode.AbstractXmlEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
+
+import org.n52.janmayen.NcName;
+import org.n52.svalbard.encode.AbstractXmlEncoder;
 
 /**
  * Abstract {@link AbstractXmlEncoder} class to encode OGC SensorML
@@ -473,7 +474,7 @@ public abstract class AbstractSensorMLEncoder extends AbstractXmlEncoder<XmlObje
         while (outputNames.contains(outputName)) {
             outputName = OUTPUT_PREFIX + (counter + 1);
         }
-        return NcNameResolver.fixNcName(outputName);
+        return NcName.makeValid(outputName);
     }
 
 }

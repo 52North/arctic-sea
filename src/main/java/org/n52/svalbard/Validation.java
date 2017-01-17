@@ -23,6 +23,7 @@ import org.n52.faroe.ConfigurationError;
  * @since 1.0.0
  *
  */
+//TODO move to faroe
 public final class Validation {
 
     private Validation() {

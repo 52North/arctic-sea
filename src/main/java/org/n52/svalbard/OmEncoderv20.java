@@ -25,10 +25,15 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.om.x20.OMObservationType;
+
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
@@ -61,15 +66,11 @@ import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import net.opengis.om.x20.OMObservationType;
 
 /**
  * @since 4.0.0
@@ -241,9 +242,8 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         // TODO create SosSweDataArray
         SweDataArray dataArray = new SweHelper().createSosSweDataArray(observationValue);
 
-        XmlObject encodedObj = encodeObjectToXml(SweConstants.NS_SWE_20, dataArray,
-                EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
-        return (XmlObject) encodedObj;
+        return encodeObjectToXml(SweConstants.NS_SWE_20, dataArray,
+                                 EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
     }
 
     protected XmlString createXmlString() {
@@ -335,7 +335,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
                     return encodeGML(value.getValue(),
                             EncodingContext.empty()
                                     .with(SosHelperValues.GMLID, SosConstants.OBS_ID_PREFIX + this.observationId)
-                                    .with(SosHelperValues.PROPERTY_TYPE));
+                                    .with(XmlBeansEncodingFlags.PROPERTY_TYPE));
                 } else {
                     return null;
                 }

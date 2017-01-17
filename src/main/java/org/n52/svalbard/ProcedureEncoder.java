@@ -24,7 +24,6 @@ import java.util.Set;
  * @param <S>
  * @param <T>
  */
-@Deprecated // SOS-specific
 public interface ProcedureEncoder<S, T> extends ConformanceClassEncoder<S, T>, ProcedureCoder {
 
     /**

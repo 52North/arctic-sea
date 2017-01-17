@@ -25,7 +25,6 @@ import org.n52.svalbard.decode.Decoder;
  * @param <S>
  * @param <T>
  */
-@Deprecated // SOS-specific
 public interface ProcedureDecoder<T, S> extends Decoder<T, S>, ConformanceClass, ProcedureCoder {
 
 }

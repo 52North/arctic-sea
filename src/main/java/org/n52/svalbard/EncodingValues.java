@@ -34,12 +34,6 @@ public class EncodingValues {
 
     private String version;
 
-    private String type;
-
-    private boolean asDocument = false;
-
-    private boolean asPropertyType = false;
-
     private boolean encode = false;
 
     private String encodingNamespace;
@@ -70,8 +64,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param additionalValues
-     *            the additionalValues to set
+     * @param additionalValues the additionalValues to set
      */
     public EncodingValues setAdditionalValues(EncodingContext additionalValues) {
         this.additionalValues = additionalValues;
@@ -90,8 +83,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param gmlId
-     *            the gmlId to set
+     * @param gmlId the gmlId to set
      */
     public EncodingValues setGmlId(String gmlId) {
         this.gmlId = gmlId;
@@ -110,8 +102,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param existFoiInDoc
-     *            the existFoiInDoc to set
+     * @param existFoiInDoc the existFoiInDoc to set
      */
     public EncodingValues setExistFoiInDoc(boolean existFoiInDoc) {
         this.existFoiInDoc = existFoiInDoc;
@@ -126,8 +117,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param version
-     *            the version to set
+     * @param version the version to set
      */
     public EncodingValues setVersion(String version) {
         this.version = version;
@@ -139,38 +129,17 @@ public class EncodingValues {
     }
 
     /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * @param type
-     *            the type to set
-     */
-    public EncodingValues setType(String type) {
-        this.type = type;
-        return this;
-    }
-
-    public boolean isSetType() {
-        return !Strings.isNullOrEmpty(getType());
-    }
-
-    /**
      * @return the asDocument
      */
     public boolean isAsDocument() {
-        return asDocument;
+        return this.additionalValues.has(XmlBeansEncodingFlags.DOCUMENT);
     }
 
     /**
-     * @param asDocument
-     *            the asDocument to set
+     * @param asDocument the asDocument to set
      */
     public EncodingValues setAsDocument(boolean asDocument) {
-        this.asDocument = asDocument;
+        this.additionalValues = this.additionalValues.with(XmlBeansEncodingFlags.DOCUMENT);
         return this;
     }
 
@@ -178,15 +147,14 @@ public class EncodingValues {
      * @return the asPropertyType
      */
     public boolean isAsPropertyType() {
-        return asPropertyType;
+        return this.additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE);
     }
 
     /**
-     * @param asPropertyType
-     *            the asPropertyType to set
+     * @param asPropertyType the asPropertyType to set
      */
     public EncodingValues setAsPropertyType(boolean asPropertyType) {
-        this.asPropertyType = asPropertyType;
+        this.additionalValues = this.additionalValues.with(XmlBeansEncodingFlags.PROPERTY_TYPE);
         return this;
     }
 
@@ -198,8 +166,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param encode
-     *            the encode to set
+     * @param encode the encode to set
      */
     public EncodingValues setEncode(boolean encode) {
         this.encode = encode;
@@ -210,8 +177,8 @@ public class EncodingValues {
      * @return the encodingNamespace
      */
     public String getEncodingNamespace() {
-        if (encodingNamespace == null && hasAddtitionalValues()
-                && getAdditionalValues().has(SosHelperValues.ENCODE_NAMESPACE)) {
+        if (encodingNamespace == null && hasAddtitionalValues() &&
+                 getAdditionalValues().has(SosHelperValues.ENCODE_NAMESPACE)) {
             setEncodingNamespace(getAdditionalValues().get(SosHelperValues.ENCODE_NAMESPACE));
         }
         return encodingNamespace;
@@ -222,8 +189,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param encodingNamespace
-     *            the encodingNamespace to set
+     * @param encodingNamespace the encodingNamespace to set
      */
     public EncodingValues setEncodingNamespace(String encodingNamespace) {
         this.encodingNamespace = encodingNamespace;
@@ -238,8 +204,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param encodeOwsExceptionOnly
-     *            the encodeOwsExceptionOnly to set
+     * @param encodeOwsExceptionOnly the encodeOwsExceptionOnly to set
      */
     public EncodingValues setEncodeOwsExceptionOnly(boolean encodeOwsExceptionOnly) {
         this.encodeOwsExceptionOnly = encodeOwsExceptionOnly;
@@ -254,8 +219,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param addSchemaLocation
-     *            the addSchemaLocation to set
+     * @param addSchemaLocation the addSchemaLocation to set
      */
     public void setAddSchemaLocation(boolean addSchemaLocation) {
         this.addSchemaLocation = addSchemaLocation;
@@ -269,8 +233,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param indent
-     *            the indent to set
+     * @param indent the indent to set
      */
     public EncodingValues setIndent(int indent) {
         if (indent >= 0) {
@@ -287,8 +250,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param embedded
-     *            the embedded to set
+     * @param embedded the embedded to set
      */
     public EncodingValues setEmbedded(boolean embedded) {
         this.embedded = embedded;
@@ -303,8 +265,7 @@ public class EncodingValues {
     }
 
     /**
-     * @param encoder
-     *            the encoder to set
+     * @param encoder the encoder to set
      */
     public void setEncoder(Encoder<?, ?> encoder) {
         this.encoder = encoder;
