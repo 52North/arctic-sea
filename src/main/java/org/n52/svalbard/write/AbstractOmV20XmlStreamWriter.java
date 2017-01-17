@@ -49,7 +49,6 @@ import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.EncodingValues;
 import org.n52.svalbard.encode.ObservationEncoder;
-import org.n52.svalbard.encode.XmlStreamWriter;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
@@ -496,7 +495,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
     /**
      * Get additional values map with document helper value
      *
-     * @return
+     * @return The encoding context
      */
     protected EncodingContext getDocumentAdditionalHelperValues() {
         return EncodingContext.of(SosHelperValues.DOCUMENT);

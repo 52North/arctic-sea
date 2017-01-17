@@ -50,6 +50,7 @@ import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.write.XmlStreamWriter;
 
 import com.google.common.base.Optional;
 

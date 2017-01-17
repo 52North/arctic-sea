@@ -40,7 +40,6 @@ import org.n52.svalbard.encode.SchemaAwareEncoder;
 import org.n52.svalbard.encode.StreamingDataEncoder;
 import org.n52.svalbard.encode.StreamingEncoder;
 import org.n52.svalbard.encode.XmlEncoderKey;
-import org.n52.svalbard.encode.XmlStreamWriter;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlOptionsHelper;
 

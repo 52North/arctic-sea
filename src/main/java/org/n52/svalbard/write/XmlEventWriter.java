@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode;
+package org.n52.svalbard.write;
 
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -24,6 +24,8 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLEventFactory;
 import javax.xml.stream.XMLEventWriter;
 import javax.xml.stream.XMLStreamException;
+
+import org.n52.svalbard.encode.EncodingValues;
 
 import com.google.common.xml.XmlEscapers;
 

@@ -17,11 +17,10 @@
 package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
-
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * TODO JavaDoc

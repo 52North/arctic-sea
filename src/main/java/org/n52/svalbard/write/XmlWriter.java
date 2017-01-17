@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode;
+package org.n52.svalbard.write;
 
 import java.io.OutputStream;
 import java.util.Set;
@@ -32,6 +32,7 @@ import org.n52.shetland.ogc.gml.time.TimePosition;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.encode.EncodingValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlOptionsHelper;

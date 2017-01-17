@@ -18,7 +18,6 @@ package org.n52.svalbard.encode;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;

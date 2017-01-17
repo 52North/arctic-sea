@@ -17,7 +17,6 @@
 package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.svalbard.encode.exception.EncodingException;

@@ -40,7 +40,6 @@ import org.n52.shetland.ogc.sensorML.AbstractProcess;
 import org.n52.shetland.ogc.sensorML.AbstractSensorML;
 import org.n52.shetland.ogc.sensorML.HasComponents;
 import org.n52.shetland.ogc.sensorML.HasProcessMethod;
-import org.n52.shetland.ogc.sensorML.ProcessMethod;
 import org.n52.shetland.ogc.sensorML.SensorML20Constants;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sensorML.SmlContact;

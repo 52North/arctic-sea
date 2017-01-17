@@ -18,9 +18,9 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Sets;

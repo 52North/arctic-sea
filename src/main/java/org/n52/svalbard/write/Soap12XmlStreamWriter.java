@@ -42,7 +42,6 @@ import org.n52.svalbard.encode.OperationResponseEncoderKey;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
 import org.n52.svalbard.encode.StreamingEncoder;
 import org.n52.svalbard.encode.XmlEncoderKey;
-import org.n52.svalbard.encode.XmlStreamWriter;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
