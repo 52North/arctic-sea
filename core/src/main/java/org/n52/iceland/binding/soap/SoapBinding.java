@@ -58,9 +58,9 @@ import org.n52.shetland.w3c.wsa.WsaReplyToHeader;
 import org.n52.shetland.w3c.wsa.WsaToHeader;
 import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.OperationKey;
-import org.n52.svalbard.XmlEncoderKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 

@@ -32,13 +32,13 @@ import org.n52.iceland.coding.encode.ResponseWriterKey;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.w3c.soap.SoapChain;
 import org.n52.shetland.w3c.soap.SoapResponse;
-import org.n52.svalbard.CodingHelper;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.StreamingEncoder;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
+import org.n52.svalbard.util.CodingHelper;
 
 
 /**
