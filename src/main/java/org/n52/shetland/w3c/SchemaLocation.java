@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.w3c;
 
-import org.n52.janmayen.Comparables;
+import java.util.Comparator;
 
 import com.google.common.base.Objects;
 
@@ -27,6 +27,9 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  */
 public class SchemaLocation implements Comparable<SchemaLocation> {
+    private static final Comparator<SchemaLocation> COMPARATOR
+            = Comparator.comparing(SchemaLocation::getNamespace)
+                    .thenComparing(SchemaLocation::getSchemaFileUrl);
     private final String namespace;
     private final String schemaFileUrl;
     private final String schemaLocationString;
@@ -34,10 +37,8 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
     /**
      * Constructor
      *
-     * @param namespace
-     *            Namespace
-     * @param schemaFileUrl
-     *            Schema file URL
+     * @param namespace Namespace
+     * @param schemaFileUrl Schema file URL
      */
     public SchemaLocation(String namespace, String schemaFileUrl) {
         this.namespace = namespace;
@@ -71,11 +72,8 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
     }
 
     @Override
-    public int compareTo(SchemaLocation o) {
-        return Comparables.chain(o)
-                .compare(getNamespace(), o.getNamespace())
-                .compare(getSchemaFileUrl(), o.getSchemaFileUrl())
-                .result();
+    public int compareTo(SchemaLocation other) {
+        return COMPARATOR.compare(this, other);
     }
 
     @Override
@@ -87,8 +85,8 @@ public class SchemaLocation implements Comparable<SchemaLocation> {
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             SchemaLocation other = (SchemaLocation) obj;
-            return Objects.equal(getNamespace(), other.getNamespace())
-                    && Objects.equal(getSchemaFileUrl(), other.getSchemaFileUrl());
+            return Objects.equal(getNamespace(), other.getNamespace()) &&
+                     Objects.equal(getSchemaFileUrl(), other.getSchemaFileUrl());
         }
         return false;
     }

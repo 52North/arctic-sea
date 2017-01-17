@@ -18,8 +18,8 @@ package org.n52.shetland.w3c.soap;
 
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.service.Request;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.Request;
 
 /**
  * Representation of a SOAP request
