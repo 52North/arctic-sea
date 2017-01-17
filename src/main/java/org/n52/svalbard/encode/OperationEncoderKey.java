@@ -16,8 +16,8 @@
  */
 package org.n52.svalbard.encode;
 
-import org.n52.svalbard.OperationKey;
 import org.n52.janmayen.http.MediaType;
+import org.n52.svalbard.OperationKey;
 
 import com.google.common.base.Objects;
 

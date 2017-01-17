@@ -36,13 +36,11 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.ConformanceClass;
-import org.n52.svalbard.EncodingContext;
-import org.n52.svalbard.EncodingValues;
-import org.n52.svalbard.N52XmlHelper;
 import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.XmlHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.N52XmlHelper;
+import org.n52.svalbard.util.XmlHelper;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 

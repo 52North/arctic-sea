@@ -19,10 +19,10 @@ package org.n52.svalbard.decode;
 import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
-import org.n52.svalbard.CodingHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
+import org.n52.svalbard.util.CodingHelper;
 
 public abstract class AbstractStringRequestDecoder implements Decoder<OwsServiceCommunicationObject, String> {
 

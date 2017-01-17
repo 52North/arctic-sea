@@ -23,11 +23,9 @@ import org.apache.xmlbeans.XmlOptions;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
-import org.n52.svalbard.EncodingContext;
-import org.n52.svalbard.XmlEncoderKey;
-import org.n52.svalbard.XmlHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
+import org.n52.svalbard.util.XmlHelper;
 
 /**
  * @param <T>
