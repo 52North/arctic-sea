@@ -25,8 +25,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.coding.encode.OwsEncodingException;
-import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidAcceptVersionsParameterException;
@@ -37,6 +39,8 @@ import org.n52.iceland.service.operator.ServiceOperator;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.janmayen.Comparables;
+import org.n52.janmayen.event.EventBus;
+import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
@@ -60,8 +64,6 @@ import org.n52.svalbard.encode.ExceptionEncoderKey;
 import org.n52.svalbard.encode.OperationResponseEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * TODO JavaDoc
@@ -138,7 +140,7 @@ public abstract class SimpleBinding extends Binding {
             }
             eventBus.submit(new ExceptionEvent(oer));
             MediaType contentType =
-                    chooseResponseContentTypeForExceptionReport(HttpUtils.getAcceptHeader(request),
+                    chooseResponseContentTypeForExceptionReport(HTTPHeaders.getAcceptHeader(request),
                             getDefaultContentType());
             Object encoded = encodeOwsExceptionReport(oer, contentType);
             if (isUseHttpResponseCodes() && oer.hasStatus()) {
@@ -305,7 +307,7 @@ public abstract class SimpleBinding extends Binding {
     protected void writeResponse(HttpServletRequest request,
             HttpServletResponse response,
             OwsServiceResponse serviceResponse) throws HTTPException, IOException {
-        MediaType contentType = chooseResponseContentType(serviceResponse, HttpUtils.getAcceptHeader(request), getDefaultContentType());
+        MediaType contentType = chooseResponseContentType(serviceResponse, HTTPHeaders.getAcceptHeader(request), getDefaultContentType());
         if (!serviceResponse.isSetContentType()) {
             serviceResponse.setContentType(contentType);
         }
@@ -332,7 +334,7 @@ public abstract class SimpleBinding extends Binding {
             OwsExceptionReport oer) throws HTTPException {
         try {
             this.eventBus.submit(new ExceptionEvent(oer));
-            MediaType contentType = chooseResponseContentTypeForExceptionReport(HttpUtils.getAcceptHeader(request), getDefaultContentType());
+            MediaType contentType = chooseResponseContentTypeForExceptionReport(HTTPHeaders.getAcceptHeader(request), getDefaultContentType());
             Object encoded = encodeOwsExceptionReport(oer, contentType);
             if (isUseHttpResponseCodes() && oer.hasStatus()) {
                 response.setStatus(oer.getStatus().getCode());

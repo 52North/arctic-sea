@@ -37,6 +37,7 @@ import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
 import org.n52.iceland.util.http.HttpUtils;
+import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -229,9 +230,8 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void writeResponse(SoapChain chain) throws IOException, HTTPException {
-        HttpUtils.getAcceptHeader(chain.getHttpRequest());
         MediaType contentType =
-                chooseResponseContentType(chain.getBodyResponse(), HttpUtils.getAcceptHeader(chain.getHttpRequest()),
+                chooseResponseContentType(chain.getBodyResponse(), HTTPHeaders.getAcceptHeader(chain.getHttpRequest()),
                         getDefaultContentType());
         // TODO allow other bindings to encode response as soap messages
         if (contentType.isCompatible(getDefaultContentType())) {

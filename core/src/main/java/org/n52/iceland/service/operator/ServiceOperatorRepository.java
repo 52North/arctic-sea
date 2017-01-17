@@ -16,21 +16,24 @@
  */
 package org.n52.iceland.service.operator;
 
+import static java.util.stream.Collectors.toMap;
+
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.n52.iceland.util.collections.MultiMaps;
-import org.n52.iceland.util.collections.SetMultiMap;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Maps;
 
@@ -48,7 +51,7 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
     private final Map<OwsServiceKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
 
     /** supported service versions */
-    private final SetMultiMap<String, String> supportedVersions = MultiMaps.newSetMultiMap();
+    private final Map<String, Set<String>> supportedVersions = Maps.newHashMap();
 
 
     @Autowired(required = false)
@@ -69,7 +72,8 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
             OwsServiceKey key = entry.getKey();
             Producer<ServiceOperator> producer = entry.getValue();
             this.serviceOperators.put(key, producer);
-            this.supportedVersions.add(key.getService(), key.getVersion());
+            this.supportedVersions.computeIfAbsent(key.getService(), Functions.forSupplier(HashSet::new))
+                    .add(key.getVersion());
         }
     }
 
@@ -77,13 +81,7 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
      * @return the implemented request listener
      */
     public Map<OwsServiceKey, ServiceOperator> getServiceOperators() {
-        Map<OwsServiceKey, ServiceOperator> result = Maps.newHashMap();
-        for (Entry<OwsServiceKey, Producer<ServiceOperator>> entrySet : this.serviceOperators.entrySet()) {
-            OwsServiceKey key = entrySet.getKey();
-            Producer<ServiceOperator> value = entrySet.getValue();
-            result.put(key, value.get());
-        }
-        return result;
+        return this.serviceOperators.entrySet().stream().collect(toMap(Entry::getKey, e -> e.getValue().get()));
     }
 
     @Deprecated
@@ -115,9 +113,7 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
     }
 
     public Set<String> getAllSupportedVersions() {
-        return this.supportedVersions.values().stream()
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+        return this.supportedVersions.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
     }
 
     /**

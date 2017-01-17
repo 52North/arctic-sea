@@ -19,8 +19,7 @@ package org.n52.iceland.config;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.ogc.ows.extension.OwsOperationMetadataExtensionProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 
 /**
@@ -75,26 +74,10 @@ public interface ActivationDao {
      * @return if the extended capabilities is active
      */
     public abstract boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsExtendedCapabilitiesProviderKey key);
+            OwsOperationMetadataExtensionProviderKey key);
 
-    void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey key,
+    void setOwsExtendedCapabilitiesStatus(OwsOperationMetadataExtensionProviderKey key,
                                           boolean active);
 
-    Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys();
-
-
-    /**
-     * Checks if the offering extension is active.
-     *
-     * @param key
-     *            the offering extension key
-     *
-     * @return if the offering extension is active
-     */
-    boolean isOfferingExtensionActive(OfferingExtensionKey key);
-
-    void setOfferingExtensionStatus(OfferingExtensionKey key, boolean active);
-
-    Set<OfferingExtensionKey> getOfferingExtensionKeys();
-
+    Set<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabilitiesProviderKeys();
 }

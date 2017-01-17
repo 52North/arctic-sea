@@ -21,8 +21,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.ogc.ows.extension.OwsOperationMetadataExtensionProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.util.activation.ActivationInitializer;
 import org.n52.iceland.util.activation.ActivationSource;
@@ -39,8 +38,15 @@ public class ActivationService {
     private ActivationDao dao;
 
     @Inject
-    public void setPersistingActivationManagerDao(ActivationDao dao) {
+    public void setActivationDao(ActivationDao dao) {
         this.dao = dao;
+    }
+
+      /**
+     * @return the dao
+     */
+    protected ActivationDao getActivationDao() {
+        return dao;
     }
 
     /**
@@ -52,7 +58,7 @@ public class ActivationService {
      * @return if the binding is active
      */
     public boolean isBindingActive(BindingKey key) {
-        return this.dao.isBindingActive(key);
+        return this.getActivationDao().isBindingActive(key);
     }
 
     /**
@@ -65,8 +71,8 @@ public class ActivationService {
      *
      */
     public boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsExtendedCapabilitiesProviderKey key) {
-        return this.dao.isOwsExtendedCapabilitiesProviderActive(key);
+            OwsOperationMetadataExtensionProviderKey key) {
+        return this.getActivationDao().isOwsExtendedCapabilitiesProviderActive(key);
     }
 
     /**
@@ -78,11 +84,11 @@ public class ActivationService {
      * @return {@code true} if the operation is active in this service
      */
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
-        return this.dao.isRequestOperatorActive(key);
+        return this.getActivationDao().isRequestOperatorActive(key);
     }
 
     public FunctionalActivationListener<RequestOperatorKey> getRequestOperatorListener() {
-        return this.dao::setOperationStatus;
+        return this.getActivationDao()::setOperationStatus;
     }
 
     public ActivationSource<RequestOperatorKey> getRequestOperatorSource() {
@@ -91,7 +97,7 @@ public class ActivationService {
     }
 
     public Set<RequestOperatorKey> getRequestOperatorKeys() {
-        return this.dao.getRequestOperatorKeys();
+        return this.getActivationDao().getRequestOperatorKeys();
     }
 
     public ActivationInitializer<RequestOperatorKey> getRequestOperatorInitializer() {
@@ -99,7 +105,7 @@ public class ActivationService {
     }
 
     public FunctionalActivationListener<BindingKey> getBindingListener() {
-        return this.dao::setBindingStatus;
+        return this.getActivationDao()::setBindingStatus;
     }
 
     public ActivationSource<BindingKey> getBindingSource() {
@@ -108,57 +114,29 @@ public class ActivationService {
     }
 
     public Set<BindingKey> getBindingKeys() {
-        return this.dao.getBindingKeys();
+        return this.getActivationDao().getBindingKeys();
     }
 
     public ActivationInitializer<BindingKey> getBindingInitializer() {
         return new DefaultActivationInitializer<>(getBindingSource());
     }
 
-    public FunctionalActivationListener<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesListener() {
-        return this.dao::setOwsExtendedCapabilitiesStatus;
+    public FunctionalActivationListener<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabiltiesListener() {
+        return this.getActivationDao()::setOwsExtendedCapabilitiesStatus;
     }
 
-    public ActivationSource<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesSource() {
+    public ActivationSource<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabiltiesSource() {
         return ActivationSource
                 .create(this::isOwsExtendedCapabilitiesProviderActive,
                         this::getOwsExtendedCapabilitiesProviderKeys);
     }
 
-    public Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys() {
-        return this.dao.getOwsExtendedCapabilitiesProviderKeys();
+    public Set<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabilitiesProviderKeys() {
+        return this.getActivationDao().getOwsExtendedCapabilitiesProviderKeys();
     }
 
-    public ActivationInitializer<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesInitializer() {
+    public ActivationInitializer<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabiltiesInitializer() {
         return new DefaultActivationInitializer<>(getOwsExtendedCapabiltiesSource());
     }
 
-    /**
-     * Checks if the offering extension is active.
-     *
-     * @param key
-     *            the offering extension key
-     *
-     * @return if the offering extension is active
-     */
-    public boolean isOfferingExtensionActive(OfferingExtensionKey key) {
-        return this.dao.isOfferingExtensionActive(key);
-    }
-
-    public FunctionalActivationListener<OfferingExtensionKey> getOfferingExtensionListener() {
-        return this.dao::setOfferingExtensionStatus;
-    }
-
-    public ActivationSource<OfferingExtensionKey> getOfferingExtensionSource() {
-        return ActivationSource.create(this::isOfferingExtensionActive,
-                                       this::getOfferingExtensionKeys);
-    }
-
-    protected Set<OfferingExtensionKey> getOfferingExtensionKeys() {
-        return this.dao.getOfferingExtensionKeys();
-    }
-
-    public ActivationInitializer<OfferingExtensionKey> getOfferingExtensionInitializer() {
-        return new DefaultActivationInitializer<>(getOfferingExtensionSource());
-    }
 }

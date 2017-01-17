@@ -16,21 +16,19 @@
  */
 package org.n52.iceland.ogc;
 
+import java.util.Comparator;
+import java.util.Objects;
+
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ComparisonChain;
 
 /**
- * Abstract class for comparable keys with parameters service, version and
- * domain
+ * Abstract class for comparable keys with parameters service, version and domain
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
- *            implementation of this class
+ * @param <T> implementation of this class
  */
 public abstract class AbstractComparableServiceVersionDomainKey<T extends AbstractComparableServiceVersionDomainKey<T>>
         implements Comparable<T> {
@@ -41,10 +39,8 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * constructor
      *
-     * @param sok
-     *            the {@link OwsServiceKey} to set
-     * @param domain
-     *            the domain to set
+     * @param sok the {@link OwsServiceKey} to set
+     * @param domain the domain to set
      */
     public AbstractComparableServiceVersionDomainKey(OwsServiceKey sok, String domain) {
         setServiceOperatorKey(sok);
@@ -54,12 +50,9 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * constructor
      *
-     * @param service
-     *            the service to set
-     * @param version
-     *            the version to set
-     * @param domain
-     *            the domain to set
+     * @param service the service to set
+     * @param version the version to set
+     * @param domain the domain to set
      */
     public AbstractComparableServiceVersionDomainKey(String service, String version, String domain) {
         this(new OwsServiceKey(service, version), domain);
@@ -68,8 +61,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * Set the {@link OwsServiceKey} to set
      *
-     * @param sok
-     *            the {@link OwsServiceKey} to set
+     * @param sok the {@link OwsServiceKey} to set
      */
     private void setServiceOperatorKey(OwsServiceKey sok) {
         this.sok = sok;
@@ -114,18 +106,18 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * Set the domain
      *
-     * @param domain
-     *            the domain to set
+     * @param domain the domain to set
      */
     private void setDomain(String domain) {
         this.domain = domain;
     }
 
     @Override
-    public int compareTo(T o) {
-        Preconditions.checkNotNull(o);
-        return ComparisonChain.start().compare(getServiceOperatorKey(), o.getServiceOperatorKey())
-                .compare(getDomain(), o.getDomain()).result();
+    @SuppressWarnings("unchecked")
+    public int compareTo(T other) {
+        return Comparator.comparing(T::getServiceOperatorKey)
+                .thenComparing(T::getDomain)
+                .compare((T)this, other);
     }
 
     @SuppressWarnings("unchecked")
@@ -133,20 +125,20 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             T o = (T) obj;
-            return Objects.equal(getServiceOperatorKey(), o.getServiceOperatorKey())
-                    && Objects.equal(getDomain(), o.getDomain());
+            return Objects.equals(getServiceOperatorKey(), o.getServiceOperatorKey()) &&
+                     Objects.equals(getDomain(), o.getDomain());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getServiceOperatorKey(), getDomain());
+        return Objects.hash(getServiceOperatorKey(), getDomain());
     }
 
     @Override
     public String toString() {
         return String.format("%s[serviceOperatorKeyType=%s, domain=%s]", getClass().getSimpleName(),
-                getServiceOperatorKey(), getDomain());
+                             getServiceOperatorKey(), getDomain());
     }
 }
