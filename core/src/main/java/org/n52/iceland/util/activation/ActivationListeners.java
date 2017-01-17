@@ -39,7 +39,7 @@ public class ActivationListeners<K> implements ActivationManager<K> {
 
     public ActivationListeners(boolean stateForMissingKey) {
         this.listeners = new ArrayList<>();
-        this.actives = Collections.synchronizedMap(new HashMap<K, Boolean>());
+        this.actives = Collections.synchronizedMap(new HashMap<>());
         this.stateForMissingKey = stateForMissingKey;
     }
 

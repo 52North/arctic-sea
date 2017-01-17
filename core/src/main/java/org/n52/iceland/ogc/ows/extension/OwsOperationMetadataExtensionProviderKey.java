@@ -14,20 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.swes;
+package org.n52.iceland.ogc.ows.extension;
 
 import org.n52.iceland.ogc.AbstractComparableServiceVersionDomainKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 /**
- * Key class to identify {@link OfferingExtensionProvider}.
+ * Key class to identify {@link OwsExtendedCapabilitiesProvider}.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-@Deprecated // SOS-specific
-public class OfferingExtensionKey extends AbstractComparableServiceVersionDomainKey<OfferingExtensionKey> {
+public class OwsOperationMetadataExtensionProviderKey extends AbstractComparableServiceVersionDomainKey<OwsOperationMetadataExtensionProviderKey>  {
 
     /**
      * constructor
@@ -37,7 +36,7 @@ public class OfferingExtensionKey extends AbstractComparableServiceVersionDomain
      * @param domain
      *            the domain to set
      */
-    public OfferingExtensionKey(OwsServiceKey sok, String domain) {
+    public OwsOperationMetadataExtensionProviderKey(OwsServiceKey sok, String domain) {
         super(sok, domain);
     }
 
@@ -51,8 +50,7 @@ public class OfferingExtensionKey extends AbstractComparableServiceVersionDomain
      * @param domain
      *            the domain to set
      */
-    public OfferingExtensionKey(String service, String version, String domain) {
+    public OwsOperationMetadataExtensionProviderKey(String service, String version, String domain) {
         super(service, version, domain);
     }
-
 }

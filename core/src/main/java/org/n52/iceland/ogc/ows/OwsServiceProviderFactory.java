@@ -16,23 +16,23 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ADDRESS;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CITY;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.CONTACT_INSTRUCTIONS;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.COUNTRY;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.EMAIL;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.FACSIMILE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.HOURS_OF_SERVICE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.INDIVIDUAL_NAME;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.NAME;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ONLINE_RESOURCE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.PHONE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.POSITION_NAME;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.POSTAL_CODE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_CODESPACE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.ROLE_VALUE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.SITE;
-import static org.n52.iceland.ogc.ows.ServiceProviderFactorySettings.STATE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ADDRESS;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.CITY;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.CONTACT_INSTRUCTIONS;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.COUNTRY;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.EMAIL;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.FACSIMILE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.HOURS_OF_SERVICE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.INDIVIDUAL_NAME;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.NAME;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ONLINE_RESOURCE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.PHONE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.POSITION_NAME;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.POSTAL_CODE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ROLE_CODESPACE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ROLE_VALUE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.SITE;
+import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.STATE;
 
 import java.net.URI;
 import java.util.Collections;
@@ -61,7 +61,7 @@ import com.google.common.base.Splitter;
  * @since 1.0.0
  */
 @Configurable
-public class ServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsServiceProvider> {
+public class OwsServiceProviderFactory extends LocalizedLazyThreadSafeProducer<OwsServiceProvider> {
 
     private String name;
     private URI site;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.sos;
+package org.n52.iceland.ogc.ows.extension;
 
 import org.n52.janmayen.component.Component;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
@@ -29,15 +29,15 @@ import com.google.common.collect.Iterables;
  * @since 1.0.0
  *
  */
-public interface CapabilitiesExtensionProvider extends Component<CapabilitiesExtensionKey> {
+public interface OwsCapabilitiesExtensionProvider extends Component<OwsCapabilitiesExtensionKey> {
 
     /**
-     * Get the {@link CapabilitiesExtensionKey} for this provider
+     * Get the {@link OwsCapabilitiesExtensionKey} for this provider
      *
      * @return CapabilitiesExtensionKey
      */
     @Deprecated
-    default CapabilitiesExtensionKey getCapabilitiesExtensionKey() {
+    default OwsCapabilitiesExtensionKey getCapabilitiesExtensionKey() {
         return Iterables.getFirst(getKeys(), null);
     }
 

@@ -73,11 +73,9 @@ public interface ActivationDao {
      *
      * @return if the extended capabilities is active
      */
-    public abstract boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsOperationMetadataExtensionProviderKey key);
+    boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key);
 
-    void setOwsExtendedCapabilitiesStatus(OwsOperationMetadataExtensionProviderKey key,
-                                          boolean active);
+    void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key, boolean active);
 
-    Set<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabilitiesProviderKeys();
+    Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys();
 }

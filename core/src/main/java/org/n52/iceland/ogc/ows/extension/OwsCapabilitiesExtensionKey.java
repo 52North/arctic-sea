@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.sos;
+package org.n52.iceland.ogc.ows.extension;
 
 import java.util.Objects;
 
@@ -29,7 +29,7 @@ import com.google.common.collect.ComparisonChain;
  * @since 1.0.0
  *
  */
-public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensionKey> {
+public class OwsCapabilitiesExtensionKey implements Comparable<OwsCapabilitiesExtensionKey> {
     private String service;
 
     private String version;
@@ -37,7 +37,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
     /**
      * Default constructor
      */
-    public CapabilitiesExtensionKey() {
+    public OwsCapabilitiesExtensionKey() {
         this(null, null);
     }
 
@@ -49,7 +49,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
      * @param version
      *            Related version
      */
-    public CapabilitiesExtensionKey(String service, String version) {
+    public OwsCapabilitiesExtensionKey(String service, String version) {
         this.service = service;
         this.version = version;
     }
@@ -93,7 +93,7 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
     }
 
     @Override
-    public int compareTo(CapabilitiesExtensionKey o) {
+    public int compareTo(OwsCapabilitiesExtensionKey o) {
         return ComparisonChain.start()
                 .compare(getService(), o.getService())
                 .compare(getVersion(), o.getVersion())
@@ -107,8 +107,8 @@ public class CapabilitiesExtensionKey implements Comparable<CapabilitiesExtensio
      */
     @Override
     public boolean equals(Object paramObject) {
-        if (service != null && version != null && paramObject instanceof CapabilitiesExtensionKey) {
-            CapabilitiesExtensionKey toCheck = (CapabilitiesExtensionKey) paramObject;
+        if (service != null && version != null && paramObject instanceof OwsCapabilitiesExtensionKey) {
+            OwsCapabilitiesExtensionKey toCheck = (OwsCapabilitiesExtensionKey) paramObject;
             return Objects.equals(getService(), toCheck.getService()) &&
                    Objects.equals(getVersion(), toCheck.getVersion());
         }

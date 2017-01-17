@@ -14,15 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.sos;
-
+package org.n52.iceland.ogc.ows.extension;
 
 import org.n52.janmayen.component.ComponentFactory;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
-public interface CapabilitiesExtensionProviderFactory extends ComponentFactory<CapabilitiesExtensionKey, CapabilitiesExtensionProvider> {
+public interface OwsOperationMetadataExtensionProviderFactory extends
+        ComponentFactory<OwsOperationMetadataExtensionProviderKey, OwsOperationMetadataExtensionProvider> {
 
 }

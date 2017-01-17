@@ -23,7 +23,5 @@ package org.n52.iceland.util.activation;
  * @author Christian Autermann
  */
 public interface ActivationManager<K>
-        extends ActivationListenable<K>,
-                ActivationProvider<K>,
-                ActivationSink<K> {
+        extends ActivationListenable<K>, ActivationProvider<K>, ActivationSink<K> {
 }

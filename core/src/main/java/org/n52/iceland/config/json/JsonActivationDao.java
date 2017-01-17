@@ -41,8 +41,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * TODO JavaDoc
  * @author Christian Autermann
  */
-public class JsonActivationDao extends AbstractJsonActivationDao
-        implements ActivationDao {
+public class JsonActivationDao extends AbstractJsonActivationDao implements ActivationDao {
 
   @Override
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
@@ -112,17 +111,17 @@ public class JsonActivationDao extends AbstractJsonActivationDao
 
 
     @Override
-    public boolean isOwsExtendedCapabilitiesProviderActive(OwsOperationMetadataExtensionProviderKey key) {
+    public boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key) {
         return isActive(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, matches(key), true);
     }
 
     @Override
-    public void setOwsExtendedCapabilitiesStatus(OwsOperationMetadataExtensionProviderKey key, boolean active) {
+    public void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key, boolean active) {
         setStatus(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, matches(key), s -> encode(s, key), active);
     }
 
     @Override
-    public Set<OwsOperationMetadataExtensionProviderKey> getOwsExtendedCapabilitiesProviderKeys() {
+    public Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys() {
         return getKeys(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, decodeOwsExtendedCapabilitiesProviderKey());
     }
 

@@ -23,7 +23,7 @@ package org.n52.iceland.ogc.ows;
  *
  * @since 1.0.0
  */
-public interface ServiceIdentificationFactorySettings {
+public interface OwsServiceIdentificationFactorySettings {
     @Deprecated
     String SERVICE_TYPE = "serviceIdentification.serviceType";
 

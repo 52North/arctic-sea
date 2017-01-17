@@ -36,7 +36,7 @@ import org.n52.shetland.ogc.ows.OwsServiceProvider;
  *
  * @author Christian Autermann
  */
-public class ServiceMetadataRepositoryImpl implements ServiceMetadataRepository {
+public class OwsServiceMetadataRepositoryImpl implements OwsServiceMetadataRepository {
 
     private final Map<String, LocalizedProducer<OwsServiceProvider>> serviceProviders;
     private final Map<String, LocalizedProducer<OwsServiceIdentification>> serviceIdentifications;
@@ -44,7 +44,7 @@ public class ServiceMetadataRepositoryImpl implements ServiceMetadataRepository 
     private SettingsService settingsService;
     private ServiceOperatorRepository serviceOperatorRepository;
 
-    public ServiceMetadataRepositoryImpl() {
+    public OwsServiceMetadataRepositoryImpl() {
         this.serviceProviders = Collections.synchronizedMap(new HashMap<>());
         this.serviceIdentifications = Collections.synchronizedMap(new HashMap<>());
     }
@@ -70,13 +70,13 @@ public class ServiceMetadataRepositoryImpl implements ServiceMetadataRepository 
     }
 
     private LocalizedProducer<OwsServiceProvider> createServiceProviderFactory(String service) {
-        ServiceProviderFactory factory = new ServiceProviderFactory();
+        OwsServiceProviderFactory factory = new OwsServiceProviderFactory();
         this.settingsService.configure(factory);
         return factory;
     }
 
     private LocalizedProducer<OwsServiceIdentification> createServiceIdentificationFactory(String service) {
-        ServiceIdentificationFactory factory = new ServiceIdentificationFactory(service, this.serviceOperatorRepository);
+        OwsServiceIdentificationFactory factory = new OwsServiceIdentificationFactory(service, this.serviceOperatorRepository);
         this.settingsService.configure(factory);
         return factory;
     }

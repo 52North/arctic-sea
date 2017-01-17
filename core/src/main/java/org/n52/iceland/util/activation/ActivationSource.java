@@ -28,8 +28,7 @@ public interface ActivationSource<K> extends ActivationProvider<K> {
 
     Set<K> getKeys();
 
-    static <K> ActivationSource<K> create(Predicate<? super K> isActive,
-                                          Supplier<? extends Set<K>> getKeys) {
+    static <K> ActivationSource<K> create(Predicate<? super K> isActive, Supplier<? extends Set<K>> getKeys) {
         return new ActivationSource<K>() {
             @Override
             public Set<K> getKeys() {

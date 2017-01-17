@@ -45,140 +45,140 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Repository for {@link OwsOperationMetadataExtension}. Loads all implemented
- * {@link OwsExtendedCapabilitiesProvider} and adds to this repository.
+ * {@link OwsOperationMetadataExtensionProvider} and adds to this repository.
  *
  * @since 1.0.0
  *
  */
-public class OwsExtendedCapabilitiesProviderRepository
-        extends AbstractComponentRepository<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider, OwsExtendedCapabilitiesProviderFactory>
-        implements ActivationManager<OwsExtendedCapabilitiesProviderKey>,
-                   ActivationSource<OwsExtendedCapabilitiesProviderKey>,
+public class OwsOperationMetadataExtensionProviderRepository
+        extends AbstractComponentRepository<OwsOperationMetadataExtensionProviderKey, OwsOperationMetadataExtensionProvider, OwsOperationMetadataExtensionProviderFactory>
+        implements ActivationManager<OwsOperationMetadataExtensionProviderKey>,
+                   ActivationSource<OwsOperationMetadataExtensionProviderKey>,
                    Constructable {
     @Deprecated
-    private static OwsExtendedCapabilitiesProviderRepository instance;
+    private static OwsOperationMetadataExtensionProviderRepository instance;
 
-    private final Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> extendedCapabilitiesProvider = new HashMap<>();
-
-    @Autowired(required = false)
-    private Collection<OwsExtendedCapabilitiesProvider> components;
+    private final Map<OwsOperationMetadataExtensionProviderKey, Producer<OwsOperationMetadataExtensionProvider>> extendedCapabilitiesProvider = new HashMap<>();
 
     @Autowired(required = false)
-    private Collection<OwsExtendedCapabilitiesProviderFactory> componentFactories;
+    private Collection<OwsOperationMetadataExtensionProvider> components;
 
-    private final ActivationListeners<OwsExtendedCapabilitiesProviderKey> activations = new ActivationListeners<>(true);
+    @Autowired(required = false)
+    private Collection<OwsOperationMetadataExtensionProviderFactory> componentFactories;
+
+    private final ActivationListeners<OwsOperationMetadataExtensionProviderKey> activations = new ActivationListeners<>(true);
 
     @Override
     public void init() {
-        OwsExtendedCapabilitiesProviderRepository.instance = this;
-        Map<OwsExtendedCapabilitiesProviderKey, Producer<OwsExtendedCapabilitiesProvider>> implemtations
+        OwsOperationMetadataExtensionProviderRepository.instance = this;
+        Map<OwsOperationMetadataExtensionProviderKey, Producer<OwsOperationMetadataExtensionProvider>> implemtations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.extendedCapabilitiesProvider.clear();
         this.extendedCapabilitiesProvider.putAll(implemtations);
     }
 
     @Override
-    public Set<OwsExtendedCapabilitiesProviderKey> getKeys() {
+    public Set<OwsOperationMetadataExtensionProviderKey> getKeys() {
         return Collections.unmodifiableSet(this.extendedCapabilitiesProvider.keySet());
     }
 
     @Override
-    public void registerListener(ActivationListener<OwsExtendedCapabilitiesProviderKey> listener) {
+    public void registerListener(ActivationListener<OwsOperationMetadataExtensionProviderKey> listener) {
         this.activations.registerListener(listener);
     }
 
     @Override
-    public void deregisterListener(ActivationListener<OwsExtendedCapabilitiesProviderKey> listener) {
+    public void deregisterListener(ActivationListener<OwsOperationMetadataExtensionProviderKey> listener) {
         this.activations.deregisterListener(listener);
     }
 
     @Override
-    public boolean isActive(OwsExtendedCapabilitiesProviderKey key) {
+    public boolean isActive(OwsOperationMetadataExtensionProviderKey key) {
         return this.activations.isActive(key);
     }
 
     @Override
-    public void activate(OwsExtendedCapabilitiesProviderKey key) {
+    public void activate(OwsOperationMetadataExtensionProviderKey key) {
         this.activations.activate(key);
     }
 
     @Override
-    public void deactivate(OwsExtendedCapabilitiesProviderKey key) {
+    public void deactivate(OwsOperationMetadataExtensionProviderKey key) {
         this.activations.deactivate(key);
     }
 
     /**
      * Get map of all, active and inactive,
-     * {@link OwsExtendedCapabilitiesProvider}s
+     * {@link OwsOperationMetadataExtensionProvider}s
      *
-     * @return the map with all {@link OwsExtendedCapabilitiesProvider}s
+     * @return the map with all {@link OwsOperationMetadataExtensionProvider}s
      */
-    public Map<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider> getAllExtendedCapabilitiesProviders() {
+    public Map<OwsOperationMetadataExtensionProviderKey, OwsOperationMetadataExtensionProvider> getAllExtendedCapabilitiesProviders() {
         return Producers.produce(this.extendedCapabilitiesProvider);
     }
 
     /**
-     * Get map of all active {@link OwsExtendedCapabilitiesProvider}s
+     * Get map of all active {@link OwsOperationMetadataExtensionProvider}s
      *
-     * @return the map with all active {@link OwsExtendedCapabilitiesProvider}s
+     * @return the map with all active {@link OwsOperationMetadataExtensionProvider}s
      */
-    public Map<OwsExtendedCapabilitiesProviderKey, OwsExtendedCapabilitiesProvider> getExtendedCapabilitiesProviders() {
+    public Map<OwsOperationMetadataExtensionProviderKey, OwsOperationMetadataExtensionProvider> getExtendedCapabilitiesProviders() {
         return Producers.produce(Activatables.activatedMap(this.extendedCapabilitiesProvider, this.activations));
     }
 
     /**
-     * Get the loaded {@link OwsExtendedCapabilitiesProvider} implementation for
+     * Get the loaded {@link OwsOperationMetadataExtensionProvider} implementation for
      * the specific service and version
      *
      * @param serviceCommunicationObject
      *            The {@link OwsServiceCommunicationObject} with service
      *            and version
-     * @return loaded {@link OwsExtendedCapabilitiesProvider} implementation
+     * @return loaded {@link OwsOperationMetadataExtensionProvider} implementation
      */
-    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(OwsServiceCommunicationObject serviceCommunicationObject) {
+    public OwsOperationMetadataExtensionProvider getExtendedCapabilitiesProvider(OwsServiceCommunicationObject serviceCommunicationObject) {
         String service = serviceCommunicationObject.getService();
         String version = serviceCommunicationObject.getVersion();
         return getExtendedCapabilitiesProvider(service, version);
     }
 
     /**
-     * Get the loaded {@link OwsExtendedCapabilitiesProvider} implementation for
+     * Get the loaded {@link OwsOperationMetadataExtensionProvider} implementation for
      * the specific service and version
      *
      * @param service the service
      * @param version the version
      *
-     * @return loaded {@link OwsExtendedCapabilitiesProvider} implementation
+     * @return loaded {@link OwsOperationMetadataExtensionProvider} implementation
      */
-    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(String service, String version) {
+    public OwsOperationMetadataExtensionProvider getExtendedCapabilitiesProvider(String service, String version) {
         return getDomains().stream()
-                .map(domain -> new OwsExtendedCapabilitiesProviderKey(service, version, domain))
+                .map(domain -> new OwsOperationMetadataExtensionProviderKey(service, version, domain))
                 .map(this::getExtendedCapabilitiesProvider)
                 .filter(Objects::nonNull)
                 .findFirst().orElse(null);
     }
 
     /**
-     * Get the loaded {@link OwsExtendedCapabilitiesProvider} implementation for
-     * the specific {@link OwsExtendedCapabilitiesProviderKey}
+     * Get the loaded {@link OwsOperationMetadataExtensionProvider} implementation for
+     * the specific {@link OwsOperationMetadataExtensionProviderKey}
      *
      * @param key
-     *            The related {@link OwsExtendedCapabilitiesProviderKey}
-     * @return loaded {@link OwsExtendedCapabilitiesProvider} implementation
+     *            The related {@link OwsOperationMetadataExtensionProviderKey}
+     * @return loaded {@link OwsOperationMetadataExtensionProvider} implementation
      */
-    public OwsExtendedCapabilitiesProvider getExtendedCapabilitiesProvider(
-            OwsExtendedCapabilitiesProviderKey key) {
+    public OwsOperationMetadataExtensionProvider getExtendedCapabilitiesProvider(
+            OwsOperationMetadataExtensionProviderKey key) {
         return getExtendedCapabilitiesProviders().get(key);
     }
 
     /**
-     * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
+     * Check if a {@link OwsOperationMetadataExtensionProvider} implementation is
      * loaded for the specific {@link OwsServiceCommunicationObject}
      *
      * @param serviceCommunicationObject
      *            The {@link OwsServiceCommunicationObject} with service
      *            and version
-     * @return <code>true</code>, if a {@link OwsExtendedCapabilitiesProvider}
+     * @return <code>true</code>, if a {@link OwsOperationMetadataExtensionProvider}
      *         implementation is loaded for the specific
      *         {@link OwsServiceCommunicationObject}
      */
@@ -189,48 +189,48 @@ public class OwsExtendedCapabilitiesProviderRepository
     }
 
     /**
-     * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
+     * Check if a {@link OwsOperationMetadataExtensionProvider} implementation is
      * loaded for the specific {@code service} and {@code version}.
      *
      * @param service the service
      * @param version the version
      *
-     * @return {@code true}, if a {@link OwsExtendedCapabilitiesProvider}
+     * @return {@code true}, if a {@link OwsOperationMetadataExtensionProvider}
      *         implementation is loaded for the specific {@code service} and
      *         {@code version}
      */
     public boolean hasExtendedCapabilitiesProvider(String service, String version) {
         return getDomains().stream()
-                .map(domain -> new OwsExtendedCapabilitiesProviderKey(service, version, domain))
+                .map(domain -> new OwsOperationMetadataExtensionProviderKey(service, version, domain))
                 .anyMatch(this::hasExtendedCapabilitiesProvider);
     }
 
     /**
-     * Check if a {@link OwsExtendedCapabilitiesProvider} implementation is
-     * loaded for the specific {@link OwsExtendedCapabilitiesProviderKey}
+     * Check if a {@link OwsOperationMetadataExtensionProvider} implementation is
+     * loaded for the specific {@link OwsOperationMetadataExtensionProviderKey}
      *
      * @param key
-     *            The related {@link OwsExtendedCapabilitiesProviderKey} to check for
-     * @return <code>true</code>, if a {@link OwsExtendedCapabilitiesProvider}
+     *            The related {@link OwsOperationMetadataExtensionProviderKey} to check for
+     * @return <code>true</code>, if a {@link OwsOperationMetadataExtensionProvider}
      *         implementation is loaded for the specific
-     *         {@link OwsExtendedCapabilitiesProviderKey}
+     *         {@link OwsOperationMetadataExtensionProviderKey}
      */
-    public boolean hasExtendedCapabilitiesProvider(OwsExtendedCapabilitiesProviderKey key) {
+    public boolean hasExtendedCapabilitiesProvider(OwsOperationMetadataExtensionProviderKey key) {
         return getExtendedCapabilitiesProviders().containsKey(key);
     }
 
     /**
-     * Change the status of the {@link OwsExtendedCapabilitiesProvider} which
-     * relates to the requested {@link OwsExtendedCapabilitiesProviderKey}
+     * Change the status of the {@link OwsOperationMetadataExtensionProvider} which
+     * relates to the requested {@link OwsOperationMetadataExtensionProviderKey}
      *
      * @param oeckt
-     *            the {@link OwsExtendedCapabilitiesProviderKey} to change the status
+     *            the {@link OwsOperationMetadataExtensionProviderKey} to change the status
      *            for
      * @param active
      *            the new status
      */
     @Override
-    public void setActive(OwsExtendedCapabilitiesProviderKey oeckt, boolean active) {
+    public void setActive(OwsOperationMetadataExtensionProviderKey oeckt, boolean active) {
         if (this.extendedCapabilitiesProvider.containsKey(oeckt)) {
             this.activations.activate(oeckt);
             if (!active) {
@@ -251,19 +251,19 @@ public class OwsExtendedCapabilitiesProviderRepository
      */
     public Map<OwsServiceKey, Collection<String>> getAllDomains() {
         return this.extendedCapabilitiesProvider.keySet().stream()
-                .collect(groupingBy(OwsExtendedCapabilitiesProviderKey::getServiceOperatorKey,
-                            mapping(OwsExtendedCapabilitiesProviderKey::getDomain, toCollection(LinkedList::new))));
+                .collect(groupingBy(OwsOperationMetadataExtensionProviderKey::getServiceOperatorKey,
+                            mapping(OwsOperationMetadataExtensionProviderKey::getDomain, toCollection(LinkedList::new))));
     }
 
     /**
-     * Get all domain values from {@link OwsExtendedCapabilitiesProviderKey}
+     * Get all domain values from {@link OwsOperationMetadataExtensionProviderKey}
      *
      * @return the domain values
      */
     private Set<String> getDomains() {
         return Activatables.activatedKeys(extendedCapabilitiesProvider, activations)
                 .stream()
-                .map(OwsExtendedCapabilitiesProviderKey::getDomain)
+                .map(OwsOperationMetadataExtensionProviderKey::getDomain)
                 .collect(toSet());
     }
 
@@ -273,8 +273,8 @@ public class OwsExtendedCapabilitiesProviderRepository
      * @return The single instance
      */
     @Deprecated
-    public static OwsExtendedCapabilitiesProviderRepository getInstance() {
-        return OwsExtendedCapabilitiesProviderRepository.instance;
+    public static OwsOperationMetadataExtensionProviderRepository getInstance() {
+        return OwsOperationMetadataExtensionProviderRepository.instance;
     }
 
 }

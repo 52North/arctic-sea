@@ -18,6 +18,7 @@ package org.n52.iceland.util.activation;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public abstract class AbstractActivationInitializer<K> implements ActivationInitializer<K> {
@@ -26,13 +27,13 @@ public abstract class AbstractActivationInitializer<K> implements ActivationInit
 
     @Override
     public void initialize(ActivationSink<K> sink) {
-        for (K key : getSource().getKeys()) {
+        getSource().getKeys().forEach(key -> {
             if (getSource().isActive(key)) {
                 sink.activate(key);
             } else {
                 sink.deactivate(key);
             }
-        }
+        });
     }
 
 }

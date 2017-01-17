@@ -23,7 +23,7 @@ package org.n52.iceland.ogc.ows;
  *
  * @since 1.0.0
  */
-public interface ServiceProviderFactorySettings {
+public interface OwsServiceProviderFactorySettings {
 
     @Deprecated
     String FILE = "serviceProvider.file";

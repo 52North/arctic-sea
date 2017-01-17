@@ -30,7 +30,7 @@ import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
  * @since 1.0.0
  *
  */
-public interface OwsExtendedCapabilitiesProvider extends Component<OwsExtendedCapabilitiesProviderKey> {
+public interface OwsOperationMetadataExtensionProvider extends Component<OwsOperationMetadataExtensionProviderKey> {
 
     /**
      * Get the {@link OwsOperationMetadataExtension} for the
@@ -47,7 +47,7 @@ public interface OwsExtendedCapabilitiesProvider extends Component<OwsExtendedCa
     boolean hasExtendedCapabilitiesFor(GetCapabilitiesRequest request);
 
     @Deprecated
-    default Set<OwsExtendedCapabilitiesProviderKey> getExtendedCapabilitiesKeyType() {
+    default Set<OwsOperationMetadataExtensionProviderKey> getExtendedCapabilitiesKeyType() {
         return getKeys();
     }
 

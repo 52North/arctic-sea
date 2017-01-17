@@ -14,24 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.ogc.ows;
+package org.n52.iceland.ogc.ows.extension;
 
-import java.util.Locale;
-import java.util.Set;
 
-import org.n52.iceland.util.LocalizedProducer;
-import org.n52.shetland.ogc.ows.OwsServiceIdentification;
-import org.n52.shetland.ogc.ows.OwsServiceProvider;
+import org.n52.janmayen.component.ComponentFactory;
 
 /**
+ * TODO JavaDoc
  * @author Christian Autermann
  */
-public interface ServiceMetadataRepository {
-
-    LocalizedProducer<OwsServiceIdentification> getServiceIdentificationFactory(String service);
-
-    LocalizedProducer<OwsServiceProvider> getServiceProviderFactory(String service);
-
-    Set<Locale> getAvailableLocales();
+public interface OwsCapabilitiesExtensionProviderFactory extends ComponentFactory<OwsCapabilitiesExtensionKey, OwsCapabilitiesExtensionProvider> {
 
 }

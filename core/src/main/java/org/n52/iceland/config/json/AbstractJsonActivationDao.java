@@ -41,13 +41,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  */
 public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
 
-    protected boolean isActive(String path,
-                               Predicate<JsonNode> matcher,
-                               boolean defaultValue) {
+    protected boolean isActive(String path, Predicate<JsonNode> matcher, boolean defaultValue) {
         readLock().lock();
         try {
-            JsonNode array = getConfiguration().path(JsonConstants.ACTIVATION)
-                    .path(path);
+            JsonNode array = getConfiguration().path(JsonConstants.ACTIVATION).path(path);
             return createStream(array).filter(matcher)
                     .findAny().orElseGet(MissingNode::getInstance)
                     .path(JsonConstants.ACTIVE).asBoolean(defaultValue);
@@ -56,16 +53,13 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
         }
     }
 
-    protected void setStatus(String path,
-                             Predicate<JsonNode> matcher,
+    protected void setStatus(String path, Predicate<JsonNode> matcher,
                              Function<Supplier<ObjectNode>, Supplier<ObjectNode>> encoder,
                              boolean active) {
         writeLock().lock();
         try {
-            ArrayNode array = getConfiguration().with(JsonConstants.ACTIVATION)
-                    .withArray(path);
-            ObjectNode node = (ObjectNode) createStream(array)
-                    .filter(matcher).findAny()
+            ArrayNode array = getConfiguration().with(JsonConstants.ACTIVATION).withArray(path);
+            ObjectNode node = (ObjectNode) createStream(array).filter(matcher).findAny()
                     .orElseGet(encoder.apply(array::addObject));
             node.put(JsonConstants.ACTIVE, active);
         } finally {
@@ -74,22 +68,18 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
         configuration().scheduleWrite();
     }
 
-    protected <K> Set<K> getKeys(String path,
-                                 Function<JsonNode, K> decoder) {
+    protected <K> Set<K> getKeys(String path,Function<JsonNode, K> decoder) {
         readLock().lock();
         try {
-            JsonNode array = getConfiguration().path(JsonConstants.ACTIVATION)
-                    .path(path);
+            JsonNode array = getConfiguration().path(JsonConstants.ACTIVATION).path(path);
             return createStream(array).map(decoder).collect(toSet());
         } finally {
             readLock().unlock();
         }
     }
 
-    protected Predicate<JsonNode> matches(
-            AbstractComparableServiceVersionDomainKey<?> key) {
-        OwsServiceKey sok = key == null ? null : key
-                .getServiceOperatorKey();
+    protected Predicate<JsonNode> matches(AbstractComparableServiceVersionDomainKey<?> key) {
+        OwsServiceKey sok = key == null ? null : key.getServiceOperatorKey();
         String domain = key == null ? null : key.getDomain();
         return matches(sok).and(matchesDomain(domain));
     }

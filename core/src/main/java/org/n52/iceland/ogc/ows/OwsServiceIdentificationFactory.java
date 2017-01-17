@@ -17,11 +17,11 @@
 package org.n52.iceland.ogc.ows;
 
 import static java.util.stream.Collectors.toSet;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.ABSTRACT;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.ACCESS_CONSTRAINTS;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.FEES;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.KEYWORDS;
-import static org.n52.iceland.ogc.ows.ServiceIdentificationFactorySettings.TITLE;
+import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.ABSTRACT;
+import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.ACCESS_CONSTRAINTS;
+import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.FEES;
+import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.KEYWORDS;
+import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.TITLE;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ import org.n52.shetland.util.StringHelper;
 import org.n52.svalbard.Validation;
 
 @Configurable
-public class ServiceIdentificationFactory
+public class OwsServiceIdentificationFactory
         extends LocalizedLazyThreadSafeProducer<OwsServiceIdentification> {
 
     private static final String[] EMPTY_STRING_ARRAY = new String[0];
@@ -62,7 +62,7 @@ public class ServiceIdentificationFactory
     private Locale defaultLocale = Locale.ENGLISH;
     private boolean showAllLanguageValues;
 
-    public ServiceIdentificationFactory(String service, ServiceOperatorRepository repository) {
+    public OwsServiceIdentificationFactory(String service, ServiceOperatorRepository repository) {
         this.service = service;
         this.serviceOperatorRepository = repository;
     }
