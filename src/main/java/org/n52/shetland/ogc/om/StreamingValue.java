@@ -18,6 +18,10 @@ package org.n52.shetland.ogc.om;
 
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.response.AbstractStreaming;
+import org.n52.shetland.util.GeometryTransformer;
+
+import javax.inject.Inject;
+
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.om.values.Value;
@@ -46,6 +50,7 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     private String unit;
     private boolean unitQueried = false;
     private OmObservation observationTemplate;
+    private GeometryTransformer geometryTransformer;
 
     /**
      * Get the next entity
@@ -74,6 +79,18 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
      *             If an error occurs
      */
     public abstract TimeValuePair nextValue() throws OwsExceptionReport;
+
+    protected GeometryTransformer getGeometryTransformer() {
+        return geometryTransformer;
+    }
+
+    /**
+     * @param geometryTransformer the geometryTransformer to set
+     */
+    @Inject
+    public void setGeometryTransformer(GeometryTransformer geometryTransformer) {
+        this.geometryTransformer = geometryTransformer;
+    }
 
     /**
      * Set the observation template which contains all metadata
@@ -172,7 +189,7 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     protected void checkForModifications(OmObservation observation) throws OwsExceptionReport {
         if (isSetAdditionalRequestParams() && contains(AdditionalRequestParams.crs)) {
             Object additionalRequestParam = getAdditionalRequestParams(AdditionalRequestParams.crs);
-            int targetCRS;
+            int targetCRS = -1;
             if (additionalRequestParam instanceof Integer) {
                 targetCRS = (Integer) additionalRequestParam;
             } else if (additionalRequestParam instanceof String) {
@@ -180,12 +197,11 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
             }
             if (observation.isSetParameter()) {
                 for (NamedValue<?> namedValue : observation.getParameter()) {
-                    if (Sos2Constants.HREF_PARAMETER_SPATIAL_FILTERING_PROFILE.equals(namedValue.getName().getHref())) {
+                    if (getGeometryTransformer() != null && Sos2Constants.HREF_PARAMETER_SPATIAL_FILTERING_PROFILE.equals(namedValue.getName().getHref())) {
                         NamedValue<Geometry> spatialFilteringProfileParameter = (NamedValue<Geometry>) namedValue;
-//                        spatialFilteringProfileParameter.getValue().setValue(
-//                                GeometryHandler.getInstance().transform(
-//                                        spatialFilteringProfileParameter.getValue().getValue(), targetCRS));
-                        // TODO use another solution!!!
+                        spatialFilteringProfileParameter.getValue().setValue(
+                                getGeometryTransformer().transform(
+                                        spatialFilteringProfileParameter.getValue().getValue(), targetCRS));
                     }
                 }
             }
