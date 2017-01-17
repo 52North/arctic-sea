@@ -16,6 +16,8 @@
  */
 package org.n52.janmayen;
 
+import java.util.Objects;
+
 /**
  * TODO JavaDoc
  *
@@ -161,6 +163,24 @@ public class NcName {
                                                                           CharacterClasses.DIGIT_NON_ASCII);
     private static final CharacterClass NC_NAME = CharacterClass.forClasses(LETTER, DIGIT, COMBINING, EXTENDER,
                                                                             CharacterClass.forChars('.', '-', '_'));
+
+    private String name;
+
+    public NcName(String name) {
+        this.name = Objects.requireNonNull(name);
+    }
+
+    public boolean isValid() {
+        return isValid(this.name);
+    }
+
+    public void makeValid(char replacement) {
+        this.name = makeValid(name, replacement);
+    }
+
+    public void makeValid() {
+        this.name = makeValid(name);
+    }
 
     /**
      * Checks if {@code name} is a valid NCName.
