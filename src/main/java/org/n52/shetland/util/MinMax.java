@@ -25,6 +25,7 @@ import java.util.Comparator;
  * @since 1.0.0
  *
  */
+//TODO move to janmayen
 public class MinMax<T> {
 
     private T minimum;

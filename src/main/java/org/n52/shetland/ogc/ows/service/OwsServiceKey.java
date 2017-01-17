@@ -16,28 +16,27 @@
  */
 package org.n52.shetland.ogc.ows.service;
 
-import org.n52.janmayen.Comparables;
-
-import com.google.common.base.Objects;
+import java.util.Comparator;
+import java.util.Objects;
 
 /**
- * This class defines a key for OWS services which contains the
- * service name and the service version.
+ * This class defines a key for OWS services which contains the service name and the service version.
  *
  * @since 1.0.0
  *
  */
 public class OwsServiceKey implements Comparable<OwsServiceKey> {
+    private static final Comparator<OwsServiceKey> COMPARATOR
+            = Comparator.comparing(OwsServiceKey::getService)
+                    .thenComparing(OwsServiceKey::getVersion);
     private final String service;
     private final String version;
 
     /**
      * Constructor
      *
-     * @param service
-     *            Service name
-     * @param version
-     *            Service version
+     * @param service Service name
+     * @param version Service version
      */
     public OwsServiceKey(String service, String version) {
         this.service = service;
@@ -82,25 +81,22 @@ public class OwsServiceKey implements Comparable<OwsServiceKey> {
 
     @Override
     public int compareTo(OwsServiceKey other) {
-        return Comparables.chain(other)
-                .compare(getService(), other.getService())
-                .compare(getVersion(), other.getVersion())
-                .result();
+        return COMPARATOR.compare(this, other);
     }
 
     @Override
     public boolean equals(Object o) {
         if (o != null && o.getClass() == getClass()) {
             OwsServiceKey other = (OwsServiceKey) o;
-            return Objects.equal(getService(), other.getService()) &&
-                   Objects.equal(getVersion(), other.getVersion());
+            return Objects.equals(getService(), other.getService()) &&
+                   Objects.equals(getVersion(), other.getVersion());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getService(), getVersion());
+        return Objects.hash(getService(), getVersion());
     }
 
     @Override
