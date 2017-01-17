@@ -28,25 +28,15 @@ import com.google.common.base.Strings;
 public class EncodingValues {
 
     private EncodingContext additionalValues = EncodingContext.empty();
-
     private String gmlId;
-
     private boolean existFoiInDoc = false;
-
     private String version;
-
     private boolean encode = false;
-
     private String encodingNamespace;
-
     private boolean encodeOwsExceptionOnly = false;
-
     private boolean addSchemaLocation = false;
-
     private int indent = 0;
-
     private boolean embedded = false;
-
     private Encoder<?, ?> encoder;
 
     public EncodingValues() {
