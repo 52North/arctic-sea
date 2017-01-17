@@ -18,25 +18,26 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosResultEncoding;
-import org.n52.shetland.ogc.sos.SosResultStructure;
-import org.n52.shetland.ogc.sos.response.GetResultTemplateResponse;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.XmlHelper;
-
-import com.google.common.collect.Sets;
-
 import net.opengis.sos.x20.GetResultTemplateResponseDocument;
 import net.opengis.sos.x20.GetResultTemplateResponseType;
 import net.opengis.sos.x20.GetResultTemplateResponseType.ResultEncoding;
 import net.opengis.sos.x20.GetResultTemplateResponseType.ResultStructure;
 import net.opengis.swe.x20.DataRecordDocument;
 import net.opengis.swe.x20.TextEncodingDocument;
+
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosResultEncoding;
+import org.n52.shetland.ogc.sos.SosResultStructure;
+import org.n52.shetland.ogc.sos.response.GetResultTemplateResponse;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.XmlBeansEncodingFlags;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
+
+import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
@@ -70,7 +71,7 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
                 throw new EncodingException("ResultEncoding element encoding is not supported!", ex);
             }
         } else {
-            XmlObject xml = encodeSwe(EncodingContext.of(SosHelperValues.DOCUMENT), resultEncoding.get().get());
+            XmlObject xml = encodeSwe(EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT), resultEncoding.get().get());
             if (xml instanceof TextEncodingDocument) {
                 xbEncoding = (TextEncodingDocument) xml;
             } else {
@@ -94,7 +95,7 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
                 throw new EncodingException("ResultStructure element encoding is not supported!", ex);
             }
         } else {
-            XmlObject xml = encodeSwe(EncodingContext.of(SosHelperValues.DOCUMENT), resultStructure.get().get());
+            XmlObject xml = encodeSwe(EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT), resultStructure.get().get());
             if (xml instanceof DataRecordDocument) {
                 dataRecordDoc = (DataRecordDocument) xml;
             } else {

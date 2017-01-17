@@ -23,12 +23,13 @@ import javax.inject.Inject;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.om.x20.OMObservationType;
+
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
-import org.n52.faroe.ConfigurationError;
-import org.n52.janmayen.function.Functions;
+
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -43,6 +44,7 @@ import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.AbstractOmEncoderv20;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderRepository;
@@ -56,8 +58,6 @@ import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlOptionsHelper;
 
 import com.google.common.base.Strings;
-
-import net.opengis.om.x20.OMObservationType;
 
 /**
  * Abstract implementation of {@link XmlStreamWriter} for writing
@@ -74,15 +74,6 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
     private EncoderRepository encoderRepository;
 
     /**
-     * @param encoderRepository
-     *            the encoderRepository to set
-     */
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    /**
      * constructor
      */
     public AbstractOmV20XmlStreamWriter() {
@@ -96,6 +87,15 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      */
     public AbstractOmV20XmlStreamWriter(OmObservation observation) {
         setOmObservation(observation);
+    }
+
+    /**
+     * @param encoderRepository
+     *            the encoderRepository to set
+     */
+    @Inject
+    public void setEncoderRepository(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
     }
 
     @Override
@@ -498,7 +498,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      * @return The encoding context
      */
     protected EncodingContext getDocumentAdditionalHelperValues() {
-        return EncodingContext.of(SosHelperValues.DOCUMENT);
+        return EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT);
     }
 
     /**

@@ -22,6 +22,13 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.om.x20.NamedValueType;
+import net.opengis.om.x20.OMObservationDocument;
+import net.opengis.om.x20.OMObservationPropertyType;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.om.x20.OMProcessPropertyType;
+import net.opengis.om.x20.TimeObjectPropertyType;
+
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
@@ -29,6 +36,9 @@ import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
 import org.isotc211.x2005.gmd.AbstractDQElementDocument;
 import org.isotc211.x2005.gmd.DQElementPropertyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -62,19 +72,11 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.opengis.om.x20.NamedValueType;
-import net.opengis.om.x20.OMObservationDocument;
-import net.opengis.om.x20.OMObservationPropertyType;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.om.x20.OMProcessPropertyType;
-import net.opengis.om.x20.TimeObjectPropertyType;
 
 public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject, Object>
         implements ObservationEncoder<XmlObject, Object>, StreamingEncoder<XmlObject, Object> {
@@ -216,9 +218,9 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         setResultQualities(xbObservation, sosObservation);
         setResult(sosObservation, xbObservation);
 
-        if (context.has(SosHelperValues.PROPERTY_TYPE)) {
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             return createObservationPropertyType(xbObservation);
-        } else if (context.has(SosHelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             return createObservationDocument(xbObservation);
         } else {
             return xbObservation;
@@ -499,7 +501,7 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
             throws EncodingException {
         for (OmResultQuality quality : resultQuality) {
             AbstractDQElementDocument encodedQuality = (AbstractDQElementDocument) encodeObjectToXml(null, quality,
-                    EncodingContext.of(SosHelperValues.DOCUMENT));
+                    EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
             DQElementPropertyType addNewResultQuality = xbObservation.addNewResultQuality();
             addNewResultQuality.setAbstractDQElement(encodedQuality.getAbstractDQElement());
             XmlHelper.substituteElement(addNewResultQuality.getAbstractDQElement(),
@@ -621,7 +623,7 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         }
 
         private EncodingContext createHelperValues(Value<?> value) {
-            return EncodingContext.of(SosHelperValues.PROPERTY_TYPE).with(SosHelperValues.GMLID,
+            return EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE).with(SosHelperValues.GMLID,
                     JavaHelper.generateID(value.toString()));
         }
 

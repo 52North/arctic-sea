@@ -28,11 +28,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.om.x10.CategoryObservationDocument;
+import net.opengis.om.x10.CategoryObservationType;
+import net.opengis.om.x10.CountObservationDocument;
+import net.opengis.om.x10.CountObservationType;
+import net.opengis.om.x10.GeometryObservationDocument;
+import net.opengis.om.x10.GeometryObservationType;
+import net.opengis.om.x10.MeasurementDocument;
+import net.opengis.om.x10.MeasurementType;
+import net.opengis.om.x10.ObservationCollectionDocument;
+import net.opengis.om.x10.ObservationCollectionType;
+import net.opengis.om.x10.ObservationDocument;
+import net.opengis.om.x10.ObservationPropertyType;
+import net.opengis.om.x10.ObservationType;
+import net.opengis.om.x10.TruthObservationDocument;
+import net.opengis.om.x10.TruthObservationType;
+
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -73,29 +92,11 @@ import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.OMHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import net.opengis.om.x10.CategoryObservationDocument;
-import net.opengis.om.x10.CategoryObservationType;
-import net.opengis.om.x10.CountObservationDocument;
-import net.opengis.om.x10.CountObservationType;
-import net.opengis.om.x10.GeometryObservationDocument;
-import net.opengis.om.x10.GeometryObservationType;
-import net.opengis.om.x10.MeasurementDocument;
-import net.opengis.om.x10.MeasurementType;
-import net.opengis.om.x10.ObservationCollectionDocument;
-import net.opengis.om.x10.ObservationCollectionType;
-import net.opengis.om.x10.ObservationDocument;
-import net.opengis.om.x10.ObservationPropertyType;
-import net.opengis.om.x10.ObservationType;
-import net.opengis.om.x10.TruthObservationDocument;
-import net.opengis.om.x10.TruthObservationType;
 
 /**
  * @since 4.0.0
@@ -264,7 +265,7 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
                 if (Strings.isNullOrEmpty(resultModel)
                         || (!Strings.isNullOrEmpty(resultModel) && observationType.equals(resultModel))) {
                     if (sosObservation.getValue() instanceof StreamingValue) {
-                        StreamingValue streamingValue = (StreamingValue) sosObservation.getValue();
+                        StreamingValue<?> streamingValue = (StreamingValue) sosObservation.getValue();
                         try {
                             while (streamingValue.hasNextValue()) {
                                 xbObservationCollection.addNewMember()

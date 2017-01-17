@@ -17,25 +17,12 @@
 package org.n52.svalbard;
 
 /**
- * @author Matthes Rieke
+ * TODO JavaDoc
+ *
+ * @author Christian Autermann
  */
-public enum SosHelperValues implements HelperValues {
-    @Deprecated
-    GMLID,
-    @Deprecated
-    EXIST_FOI_IN_DOC,
-    VERSION,
-    /**
-     * Encode the given 'object to encode' in a <tt>*Document</tt> object and not <tt>*Type</tt>.
-     */
-    @Deprecated
-    FOR_OBSERVATION,
-    ENCODE,
-    ENCODE_NAMESPACE,
-    REFERENCED,
-    /**
-     * Encode the given <tt>OwsExceptionReport</tt> not into an
-     * <tt>ows:ExceptionReport</tt> but one <tt>ows:Exception</tt>.
-     */
-    ENCODE_OWS_EXCEPTION_ONLY;
+public enum XmlBeansEncodingFlags {
+    DOCUMENT,
+    PROPERTY_TYPE,
+    TYPE
 }

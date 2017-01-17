@@ -24,7 +24,8 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.joda.time.DateTime;
-import org.n52.janmayen.NcNameResolver;
+
+import org.n52.janmayen.NcName;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
@@ -115,7 +116,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
 
     protected String getGMLId(Object h) {
         String gmlId = JavaHelper.generateID(h.toString() + System.currentTimeMillis());
-        return NcNameResolver.fixNcName(gmlId);
+        return NcName.makeValid(gmlId);
     }
 
     private void encodeReportingPeriod(Referenceable<? extends Time> v) throws XMLStreamException, EncodingException {

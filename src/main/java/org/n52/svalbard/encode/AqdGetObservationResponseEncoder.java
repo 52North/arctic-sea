@@ -25,6 +25,7 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -42,6 +43,7 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.ReportObligations;
 import org.n52.svalbard.write.AqdGetObservationResponseXmlStreamWriter;
@@ -97,7 +99,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
             EncodingContext ctx = EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                    .with(SosHelperValues.DOCUMENT);
+                    .with(XmlBeansEncodingFlags.DOCUMENT);
             return encodeGml(ctx, featureCollection);
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
@@ -121,7 +123,8 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
         }
         encodingValues.setEncodingNamespace(OmConstants.NS_OM_2);
         encodingValues.setAdditionalValues(encodingValues.getAdditionalValues()
-                .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2).with(SosHelperValues.DOCUMENT));
+                .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                .with(XmlBeansEncodingFlags.DOCUMENT));
         try {
             new AqdGetObservationResponseXmlStreamWriter().write(featureCollection, outputStream, encodingValues);
         } catch (XMLStreamException xmlse) {

@@ -16,7 +16,8 @@
  */
 package org.n52.svalbard;
 
-import org.n52.janmayen.Comparables;
+import java.util.Comparator;
+
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 
 import com.google.common.base.MoreObjects;
@@ -30,6 +31,10 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  */
 public class OperationKey implements Comparable<OperationKey> {
+    private static final Comparator<OperationKey> COMPARATOR
+            = Comparator.comparing(OperationKey::getService)
+                    .thenComparing(OperationKey::getVersion)
+                    .thenComparing(OperationKey::getOperation);
     private final String service;
 
     private final String version; // TODO should be optional because
@@ -94,7 +99,6 @@ public class OperationKey implements Comparable<OperationKey> {
 
     @Override
     public int compareTo(OperationKey other) {
-        return Comparables.chain(other).compare(getService(), other.getService())
-                .compare(getVersion(), other.getVersion()).compare(getOperation(), other.getOperation()).result();
+        return COMPARATOR.compare(this, other);
     }
 }

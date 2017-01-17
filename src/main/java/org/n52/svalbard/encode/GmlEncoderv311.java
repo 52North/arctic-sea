@@ -24,10 +24,35 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import net.opengis.gml.AbstractFeatureCollectionType;
+import net.opengis.gml.AbstractRingPropertyType;
+import net.opengis.gml.AbstractRingType;
+import net.opengis.gml.CodeType;
+import net.opengis.gml.DirectPositionListType;
+import net.opengis.gml.DirectPositionType;
+import net.opengis.gml.EnvelopeType;
+import net.opengis.gml.FeatureCollectionDocument2;
+import net.opengis.gml.FeaturePropertyType;
+import net.opengis.gml.LineStringType;
+import net.opengis.gml.LinearRingType;
+import net.opengis.gml.MeasureType;
+import net.opengis.gml.PointType;
+import net.opengis.gml.PolygonType;
+import net.opengis.gml.ReferenceType;
+import net.opengis.gml.TimeIndeterminateValueType;
+import net.opengis.gml.TimeInstantDocument;
+import net.opengis.gml.TimeInstantType;
+import net.opengis.gml.TimePeriodDocument;
+import net.opengis.gml.TimePeriodType;
+import net.opengis.gml.TimePositionType;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlRuntimeException;
 import org.apache.xmlbeans.impl.values.XmlValueDisconnectedException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -52,13 +77,12 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.JTSHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -69,27 +93,6 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.util.PolygonExtracter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import net.opengis.gml.AbstractFeatureCollectionType;
-import net.opengis.gml.AbstractRingPropertyType;
-import net.opengis.gml.AbstractRingType;
-import net.opengis.gml.CodeType;
-import net.opengis.gml.DirectPositionListType;
-import net.opengis.gml.DirectPositionType;
-import net.opengis.gml.EnvelopeType;
-import net.opengis.gml.FeatureCollectionDocument2;
-import net.opengis.gml.FeaturePropertyType;
-import net.opengis.gml.LineStringType;
-import net.opengis.gml.LinearRingType;
-import net.opengis.gml.MeasureType;
-import net.opengis.gml.PointType;
-import net.opengis.gml.PolygonType;
-import net.opengis.gml.ReferenceType;
-import net.opengis.gml.TimeIndeterminateValueType;
-import net.opengis.gml.TimeInstantDocument;
-import net.opengis.gml.TimeInstantType;
-import net.opengis.gml.TimePeriodDocument;
-import net.opengis.gml.TimePeriodType;
-import net.opengis.gml.TimePositionType;
 
 /**
  * @since 4.0.0
@@ -164,13 +167,13 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     private XmlObject createTime(Time time, EncodingContext additionalValues) throws EncodingException {
         if (time != null) {
             if (time instanceof TimeInstant) {
-                if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+                if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                     return createTimeInstantDocument((TimeInstant) time);
                 } else {
                     return createTimeInstantType((TimeInstant) time, null);
                 }
             } else if (time instanceof TimePeriod) {
-                if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+                if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                     return createTimePeriodDocument((TimePeriod) time);
                 } else {
                     return createTimePeriodType((TimePeriod) time, null);

@@ -26,6 +26,9 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import net.opengis.gml.x32.BaseUnitType;
+import net.opengis.gml.x32.CodeType;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gco.CharacterStringPropertyType;
@@ -46,6 +49,9 @@ import org.isotc211.x2005.gmd.DQDomainConsistencyPropertyType;
 import org.isotc211.x2005.gmd.DQDomainConsistencyType;
 import org.isotc211.x2005.gmd.DQQuantitativeResultType;
 import org.isotc211.x2005.gmd.DQResultPropertyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.iso.gmd.GmdCitationDate;
 import org.n52.shetland.iso.gmd.GmdConformanceResult;
@@ -59,19 +65,14 @@ import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import net.opengis.gml.x32.BaseUnitType;
-import net.opengis.gml.x32.CodeType;
 
 /**
  * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic MetaData
@@ -177,12 +178,12 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         encodeContact(cirpt.addNewContactInfo().addNewCIContact(), responsibleParty);
         // set role
         encodeRole(cirpt.addNewRole(), responsibleParty.getRoleObject());
-        if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+        if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             CIResponsiblePartyPropertyType cirppt =
                     CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
             cirppt.setCIResponsibleParty(cirpt);
             return cirppt;
-        } else if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+        } else if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
             CIResponsiblePartyDocument cirpd = CIResponsiblePartyDocument.Factory.newInstance(getXmlOptions());
             cirpd.setCIResponsibleParty(cirpt);
         }
@@ -249,12 +250,12 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
     private XmlObject encodeGmdDomainConsistency(GmdDomainConsistency element, EncodingContext additionalValues)
             throws EncodingException {
-        if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+        if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
             DQDomainConsistencyDocument document = DQDomainConsistencyDocument.Factory.newInstance(getXmlOptions());
             DQResultPropertyType addNewResult = document.addNewDQDomainConsistency().addNewResult();
             encodeGmdDomainConsistency(addNewResult, element);
             return document;
-        } else if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+        } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             DQDomainConsistencyPropertyType propertyType =
                     DQDomainConsistencyPropertyType.Factory.newInstance(getXmlOptions());
             DQResultPropertyType addNewResult = propertyType.addNewDQDomainConsistency().addNewResult();
@@ -334,11 +335,11 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
     private CharacterStringPropertyType[] listToCharacterStringPropertyTypeArray(List<String> list) {
         List<CharacterStringPropertyType> values = Lists.newArrayList();
-        for (String string : list) {
-            CharacterStringPropertyType cspt = CharacterStringPropertyType.Factory.newInstance();
+
+
+
+        return list.stream().map(string -> {CharacterStringPropertyType cspt = CharacterStringPropertyType.Factory.newInstance();
             cspt.setCharacterString(string);
-            values.add(cspt);
-        }
-        return values.toArray(new CharacterStringPropertyType[0]);
+        return string;}).toArray(CharacterStringPropertyType[]::new);
     }
 }

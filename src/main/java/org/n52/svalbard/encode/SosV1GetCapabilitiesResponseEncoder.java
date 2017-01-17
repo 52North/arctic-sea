@@ -19,27 +19,6 @@ package org.n52.svalbard.encode;
 import java.util.Collection;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
-import org.n52.janmayen.NcNameResolver;
-import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
-import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
-import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
-import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.ows.OWSConstants;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
-import org.n52.shetland.ogc.sos.Sos1Constants;
-import org.n52.shetland.ogc.sos.SosCapabilities;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.SosObservationOffering;
-import org.n52.shetland.ogc.swe.SweConstants;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.N52XmlHelper;
-
-import com.google.common.collect.Sets;
-
 import net.opengis.ogc.ComparisonOperatorType;
 import net.opengis.ogc.GeometryOperandsType;
 import net.opengis.ogc.IdCapabilitiesType;
@@ -59,6 +38,28 @@ import net.opengis.sos.x10.ContentsDocument.Contents;
 import net.opengis.sos.x10.ContentsDocument.Contents.ObservationOfferingList;
 import net.opengis.sos.x10.FilterCapabilitiesDocument.FilterCapabilities;
 import net.opengis.sos.x10.ObservationOfferingType;
+
+import org.apache.xmlbeans.XmlObject;
+
+import org.n52.janmayen.NcName;
+import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
+import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
+import org.n52.shetland.ogc.sos.Sos1Constants;
+import org.n52.shetland.ogc.sos.SosCapabilities;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.SosObservationOffering;
+import org.n52.shetland.ogc.swe.SweConstants;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.N52XmlHelper;
+
+import com.google.common.collect.Sets;
 
 /**
  * @since 4.0.0
@@ -152,7 +153,7 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
 
             ObservationOfferingType xbObservationOffering = xbObservationOfferings.addNewObservationOffering();
             // TODO check NAme or ID
-            xbObservationOffering.setId(NcNameResolver.fixNcName(offering.getOffering().getIdentifier()));
+            xbObservationOffering.setId(NcName.makeValid(offering.getOffering().getIdentifier()));
 
             // only if fois are contained for the offering set the values of the
             // envelope

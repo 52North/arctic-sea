@@ -30,6 +30,9 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
@@ -51,13 +54,12 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.EReportObligationRepository;
 import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.AqdHelper;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.ReportObligations;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -163,7 +165,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
             EncodingContext ctx = EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                    .with(SosHelperValues.DOCUMENT, null);
+                    .with(XmlBeansEncodingFlags.DOCUMENT, null);
             return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, ctx);
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);

@@ -22,51 +22,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-import org.n52.faroe.annotation.Setting;
-import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.AbstractGeometry;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.time.IndeterminateValue;
-import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.gml.time.TimePosition;
-import org.n52.shetland.ogc.om.features.FeatureCollection;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.om.values.CategoryValue;
-import org.n52.shetland.ogc.om.values.GeometryValue;
-import org.n52.shetland.ogc.om.values.QuantityValue;
-import org.n52.shetland.util.CRSHelper;
-import org.n52.shetland.util.DateTimeFormatException;
-import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.JavaHelper;
-import org.n52.shetland.util.MinMax;
-import org.n52.shetland.util.ReferencedEnvelope;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.CodingSettings;
-import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.JTSHelper;
-import org.n52.svalbard.util.OMHelper;
-import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.util.PolygonExtracter;
-
 import net.opengis.gml.x32.AbstractGeometryType;
 import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
@@ -96,6 +51,53 @@ import net.opengis.gml.x32.TimePeriodDocument;
 import net.opengis.gml.x32.TimePeriodPropertyType;
 import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
+
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.faroe.annotation.Setting;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.AbstractGeometry;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.time.IndeterminateValue;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.gml.time.TimePosition;
+import org.n52.shetland.ogc.om.features.FeatureCollection;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.om.values.CategoryValue;
+import org.n52.shetland.ogc.om.values.GeometryValue;
+import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.util.CRSHelper;
+import org.n52.shetland.util.DateTimeFormatException;
+import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.MinMax;
+import org.n52.shetland.util.ReferencedEnvelope;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.CodingSettings;
+import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.JTSHelper;
+import org.n52.svalbard.util.OMHelper;
+import org.n52.svalbard.util.XmlHelper;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.util.PolygonExtracter;
 
 /**
  * @since 4.0.0
@@ -193,8 +195,9 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
                 FeatureCollectionDocument.Factory.newInstance(getXmlOptions());
         final FeatureCollectionType featureCollection = featureCollectionDoc.addNewFeatureCollection();
         featureCollection.setId(element.getGmlId());
-        boolean document = additionalValues.has(SosHelperValues.DOCUMENT);
-        EncodingContext ctx = additionalValues.with(SosHelperValues.PROPERTY_TYPE).without(SosHelperValues.DOCUMENT);
+        boolean document = additionalValues.has(XmlBeansEncodingFlags.DOCUMENT);
+        EncodingContext ctx = additionalValues.with(XmlBeansEncodingFlags.PROPERTY_TYPE)
+                .without(XmlBeansEncodingFlags.DOCUMENT);
 
         if (element.isSetMembers()) {
             for (final AbstractFeature abstractFeature : element.getMembers().values()) {
@@ -298,11 +301,11 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
         if (time instanceof TimeInstant) {
             TimeInstant instant = (TimeInstant) time;
 
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 return createTimeInstantDocument(instant);
             }
 
-            if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
                 return createTimeInstantPropertyType(instant);
             }
 
@@ -312,11 +315,11 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
         if (time instanceof TimePeriod) {
             TimePeriod period = (TimePeriod) time;
 
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 return createTimePeriodDocument(period);
             }
 
-            if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
                 return createTimePeriodPropertyType(period);
             }
 
@@ -468,11 +471,11 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             final PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
             xbPoint.setId("point_" + foiId);
             createPointFromJtsGeometry((Point) geom, xbPoint);
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 PointDocument xbPointDoc = PointDocument.Factory.newInstance(getXmlOptions());
                 xbPointDoc.setPoint(xbPoint);
                 return xbPointDoc;
-            } else if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+            } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
                 GeometryPropertyType geometryPropertyType = GeometryPropertyType.Factory.newInstance(getXmlOptions());
                 geometryPropertyType.setAbstractGeometry(xbPoint);
                 geometryPropertyType.getAbstractGeometry().substitute(GmlConstants.QN_POINT_32, PointType.type);
@@ -485,11 +488,11 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             final LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
             xbLineString.setId("lineString_" + foiId);
             createLineStringFromJtsGeometry((LineString) geom, xbLineString);
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 LineStringDocument xbLineStringDoc = LineStringDocument.Factory.newInstance(getXmlOptions());
                 xbLineStringDoc.setLineString(xbLineString);
                 return xbLineStringDoc;
-            } else if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+            } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
                 GeometryPropertyType geometryPropertyType = GeometryPropertyType.Factory.newInstance(getXmlOptions());
                 geometryPropertyType.setAbstractGeometry(xbLineString);
                 geometryPropertyType.getAbstractGeometry().substitute(GmlConstants.QN_LINESTRING_32,
@@ -503,11 +506,11 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             final PolygonType xbPolygon = PolygonType.Factory.newInstance(getXmlOptions());
             xbPolygon.setId("polygon_" + foiId);
             createPolygonFromJtsGeometry((Polygon) geom, xbPolygon);
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 PolygonDocument xbPolygonDoc = PolygonDocument.Factory.newInstance(getXmlOptions());
                 xbPolygonDoc.setPolygon(xbPolygon);
                 return xbPolygonDoc;
-            } else if (additionalValues.has(SosHelperValues.PROPERTY_TYPE)) {
+            } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
                 GeometryPropertyType geometryPropertyType = GeometryPropertyType.Factory.newInstance(getXmlOptions());
                 geometryPropertyType.setAbstractGeometry(xbPolygon);
                 geometryPropertyType.getAbstractGeometry().substitute(GmlConstants.QN_POLYGON_32, PolygonType.type);

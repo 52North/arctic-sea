@@ -25,11 +25,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.swe.x20.AbstractDataComponentType;
+import net.opengis.swe.x20.AbstractEncodingDocument;
+import net.opengis.swe.x20.AbstractEncodingType;
+import net.opengis.swe.x20.BooleanType;
+import net.opengis.swe.x20.CategoryType;
+import net.opengis.swe.x20.CountType;
+import net.opengis.swe.x20.DataArrayDocument;
+import net.opengis.swe.x20.DataArrayPropertyType;
+import net.opengis.swe.x20.DataArrayType;
+import net.opengis.swe.x20.DataArrayType.Encoding;
+import net.opengis.swe.x20.DataRecordDocument;
+import net.opengis.swe.x20.DataRecordPropertyType;
+import net.opengis.swe.x20.DataRecordType;
+import net.opengis.swe.x20.DataRecordType.Field;
+import net.opengis.swe.x20.QuantityRangeType;
+import net.opengis.swe.x20.QuantityType;
+import net.opengis.swe.x20.Reference;
+import net.opengis.swe.x20.TextEncodingDocument;
+import net.opengis.swe.x20.TextEncodingType;
+import net.opengis.swe.x20.TextType;
+import net.opengis.swe.x20.TimeRangeType;
+import net.opengis.swe.x20.TimeType;
+import net.opengis.swe.x20.UnitReference;
+import net.opengis.swe.x20.VectorType;
+import net.opengis.swe.x20.VectorType.Coordinate;
+
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
-import org.n52.janmayen.NcNameResolver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.janmayen.NcName;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -57,43 +86,17 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClass;
 import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NotYetSupportedEncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import net.opengis.swe.x20.AbstractDataComponentType;
-import net.opengis.swe.x20.AbstractEncodingDocument;
-import net.opengis.swe.x20.AbstractEncodingType;
-import net.opengis.swe.x20.BooleanType;
-import net.opengis.swe.x20.CategoryType;
-import net.opengis.swe.x20.CountType;
-import net.opengis.swe.x20.DataArrayDocument;
-import net.opengis.swe.x20.DataArrayPropertyType;
-import net.opengis.swe.x20.DataArrayType;
-import net.opengis.swe.x20.DataArrayType.Encoding;
-import net.opengis.swe.x20.DataRecordDocument;
-import net.opengis.swe.x20.DataRecordPropertyType;
-import net.opengis.swe.x20.DataRecordType;
-import net.opengis.swe.x20.DataRecordType.Field;
-import net.opengis.swe.x20.QuantityRangeType;
-import net.opengis.swe.x20.QuantityType;
-import net.opengis.swe.x20.Reference;
-import net.opengis.swe.x20.TextEncodingDocument;
-import net.opengis.swe.x20.TextEncodingType;
-import net.opengis.swe.x20.TextType;
-import net.opengis.swe.x20.TimeRangeType;
-import net.opengis.swe.x20.TimeType;
-import net.opengis.swe.x20.UnitReference;
-import net.opengis.swe.x20.VectorType;
-import net.opengis.swe.x20.VectorType.Coordinate;
 
 public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> implements ConformanceClass {
     private static final Logger LOGGER = LoggerFactory.getLogger(SweCommonEncoderv20.class);
@@ -144,7 +147,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             encodedObject = createCoordinate((SweCoordinate) sosSweType);
         } else if (sosSweType instanceof SweAbstractEncoding) {
             encodedObject = createAbstractEncoding((SweAbstractEncoding) sosSweType);
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 if (encodedObject instanceof TextEncodingType) {
                     final TextEncodingDocument textEncodingDoc =
                             TextEncodingDocument.Factory.newInstance(getXmlOptions());
@@ -227,7 +230,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                 dataRecordProperty.setDataRecord((DataRecordType) abstractDataComponentType);
                 return dataRecordProperty;
             }
-            if (additionalValues.has(SosHelperValues.DOCUMENT)) {
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 final DataRecordDocument dataRecordDoc = DataRecordDocument.Factory.newInstance(getXmlOptions());
                 dataRecordDoc.setDataRecord((DataRecordType) abstractDataComponentType);
                 return dataRecordDoc;
@@ -322,7 +325,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         LOGGER.trace("sweField: {}, sosElement: {}", sweField, sosElement);
         final DataRecordType.Field xbField = DataRecordType.Field.Factory.newInstance(getXmlOptions());
         if (sweField.isSetName()) {
-            xbField.setName(NcNameResolver.fixNcName(sweField.getName().getValue()));
+            xbField.setName(NcName.makeValid(sweField.getName().getValue()));
         }
 
         final XmlObject encodeObjectToXml = createAbstractDataComponent(sosElement, EncodingContext.empty());

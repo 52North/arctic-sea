@@ -23,6 +23,7 @@ import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -31,7 +32,6 @@ import org.n52.shetland.ogc.sos.Sos2StreamingConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingValues;
@@ -74,7 +74,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
      *            {@link GetObservationResponse} to write to stream
      */
     public GetObservationResponseXmlStreamWriter(GetObservationResponse response) {
-        setResponse(response);
+        this.response = response;
     }
 
     /**
@@ -142,7 +142,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         namespace(Sos2StreamingConstants.NS_SOS_PREFIX, Sos2StreamingConstants.NS_SOS_20);
         // get observation encoder
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(response.getResponseFormat());
-        encodingValues.getAdditionalValues().with(SosHelperValues.DOCUMENT, null);
+        encodingValues.setAsDocument(true);
         encodingValues.setEncodingNamespace(response.getResponseFormat());
         // write schemaLocation
         schemaLocation(getSchemaLocation(encodingValues, encoder));
