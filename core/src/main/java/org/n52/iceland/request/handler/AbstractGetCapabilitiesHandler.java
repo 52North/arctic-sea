@@ -32,7 +32,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
-import org.n52.janmayen.i18n.LocaleHelper;
+import org.n52.iceland.ogc.ows.ServiceMetadataRepository;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
@@ -59,7 +59,6 @@ import org.n52.shetland.ogc.ows.exception.VersionNegotiationFailedException;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
-import org.n52.iceland.ogc.ows.OwsServiceMetadataRepository;
 
 
 /**
@@ -70,7 +69,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
         implements GenericOperationHandler<GetCapabilitiesRequest, GetCapabilitiesResponse> {
 
     private final OperationHandlerKey key;
-    private OwsServiceMetadataRepository serviceMetadataRepository;
+    private ServiceMetadataRepository serviceMetadataRepository;
     private RequestOperatorRepository requestOperatorRepository;
     private ServiceOperatorRepository serviceOperatorRepository;
 
@@ -79,7 +78,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
     }
 
     @Inject
-    public void setServiceMetadataRepository(OwsServiceMetadataRepository serviceMetadataRepository) {
+    public void setServiceMetadataRepository(ServiceMetadataRepository serviceMetadataRepository) {
         this.serviceMetadataRepository = serviceMetadataRepository;
     }
 
