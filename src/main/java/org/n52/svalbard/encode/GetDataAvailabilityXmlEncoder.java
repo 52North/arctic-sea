@@ -29,10 +29,10 @@ import org.slf4j.LoggerFactory;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 import org.n52.svalbard.write.GetDataAvailabilityStreamWriter;
-import org.n52.shetland.ogc.sos.GetDataAvailabilityConstants;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.response.GetDataAvailabilityResponse;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Sets;
