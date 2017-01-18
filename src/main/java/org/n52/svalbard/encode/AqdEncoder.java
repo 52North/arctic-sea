@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
+import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -120,8 +121,8 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     }
 
     @Override
-    public Map<String, Set<String>> getSupportedResponseFormatObservationTypes() {
-        return Maps.newHashMap();
+    public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
+        return Collections.emptyMap();
     }
 
     @Override
