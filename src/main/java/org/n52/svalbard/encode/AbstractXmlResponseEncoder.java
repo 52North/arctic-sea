@@ -31,6 +31,8 @@ import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+
+import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.w3c.SchemaLocation;
@@ -51,6 +53,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @param <T>
  */
+@Configurable
 public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<XmlObject, T>
         implements StreamingEncoder<XmlObject, T>, ConformanceClass {
 
