@@ -32,19 +32,27 @@ public class SosProcedureDescriptionUnknownType extends SosProcedureDescription<
         super(new UnknownGMLDescription(identifier, null, null));
     }
 
-    private static class UnknownGMLDescription extends AbstractFeature {
-        private final String description;
+    @Override
+    public boolean isSetXml() {
+        return getProcedureDescription().isSetXml();
+    }
 
+    @Override
+    public String getXml() {
+        return getProcedureDescription().getXml();
+    }
+
+    @Override
+    public AbstractFeature setXml(String xml) {
+        getProcedureDescription().setXml(xml);
+        return this;
+    }
+
+    private static class UnknownGMLDescription extends AbstractFeature {
         public UnknownGMLDescription(String identifier, String procedureDescriptionFormat, String xmlDescription) {
             super(identifier);
             setDefaultElementEncoding(procedureDescriptionFormat);
-            this.description = xmlDescription;
+            setXml(xmlDescription);
         }
-
-        public String getXmlDescription() {
-            return this.description;
-        }
-
     }
-
 }
