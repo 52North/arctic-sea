@@ -19,16 +19,17 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
+import net.opengis.ows.x11.CapabilitiesBaseType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-
-import net.opengis.ows.x11.CapabilitiesBaseType;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
