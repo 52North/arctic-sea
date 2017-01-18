@@ -30,7 +30,9 @@ import com.google.common.base.Objects;
  */
 public class OmObservationConstellation implements Copyable<OmObservationConstellation> {
 
-    /** Identifier of the procedure by which the observation is made */
+    /**
+     * Identifier of the procedure by which the observation is made
+     */
     private AbstractFeature procedure;
 
     /**
@@ -38,58 +40,67 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
      */
     private AbstractPhenomenon observableProperty;
 
-    /** Identifiers of the offerings to which this observation belongs */
+    /**
+     * Identifiers of the offerings to which this observation belongs
+     */
     private Set<String> offerings;
 
-    /** Identifier of the featureOfInterest to which this observation belongs */
+    /**
+     * Identifier of the featureOfInterest to which this observation belongs
+     */
     private AbstractFeature featureOfInterest;
 
-    /** type of the observation */
+    /**
+     * type of the observation
+     */
     private String observationType;
 
     // private SosResultTemplate sosResultTemplate;
-
     /**
      * default constructor
      */
     public OmObservationConstellation() {
-        super();
     }
 
     /**
      * constructor
      *
-     * @param procedure
-     *            Procedure by which the observation is made
-     * @param observableProperty
-     *            observableProperty to which the observation accords to
-     * @param featureOfInterest
-     *            featureOfInterest to which this observation belongs
+     * @param procedure Procedure by which the observation is made
+     * @param observableProperty observableProperty to which the observation accords to
+     * @param featureOfInterest featureOfInterest to which this observation belongs
      */
-    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
-            AbstractFeature featureOfInterest) {
-        super();
-        this.procedure = procedure;
-        this.observableProperty = observableProperty;
-        this.featureOfInterest = featureOfInterest;
+    public OmObservationConstellation(AbstractFeature procedure,
+                                      AbstractPhenomenon observableProperty,
+                                      AbstractFeature featureOfInterest) {
+        this(procedure, observableProperty, null, featureOfInterest, null);
     }
 
     /**
      * constructor
      *
-     * @param procedure
-     *            Procedure by which the observation is made
-     * @param observableProperty
-     *            observableProperty to which the observation accords to
-     * @param offerings
-     *            offering to which this observation belongs
-     * @param featureOfInterest
-     *            featureOfInterest to which this observation belongs
-     * @param observationType
-     *            Observation type
+     * @param procedure Procedure by which the observation is made
+     * @param observableProperty observableProperty to which the observation accords to
+     * @param featureOfInterest featureOfInterest to which this observation belongs
+     * @param observationType    the observation type
+     */
+    public OmObservationConstellation(AbstractFeature procedure,
+                                      AbstractPhenomenon observableProperty,
+                                      AbstractFeature featureOfInterest,
+                                      String observationType) {
+        this(procedure, observableProperty, null, featureOfInterest, observationType);
+    }
+
+    /**
+     * constructor
+     *
+     * @param procedure Procedure by which the observation is made
+     * @param observableProperty observableProperty to which the observation accords to
+     * @param offerings offering to which this observation belongs
+     * @param featureOfInterest featureOfInterest to which this observation belongs
+     * @param observationType the observation type
      */
     public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
-            Set<String> offerings, AbstractFeature featureOfInterest, String observationType) {
+                                      Set<String> offerings, AbstractFeature featureOfInterest, String observationType) {
         super();
         this.procedure = procedure;
         this.observableProperty = observableProperty;
@@ -114,8 +125,8 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
     /**
      * Set the procedure
      *
-     * @param procedure
-     *            the procedure to set
+     * @param procedure the procedure to set
+     *
      * @return this
      */
     public OmObservationConstellation setProcedure(AbstractFeature procedure) {
@@ -135,8 +146,8 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
     /**
      * Set observableProperty
      *
-     * @param observableProperty
-     *            the observableProperty to set
+     * @param observableProperty the observableProperty to set
+     *
      * @return this
      */
     public OmObservationConstellation setObservableProperty(AbstractPhenomenon observableProperty) {
@@ -160,8 +171,8 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
     /**
      * Set offering
      *
-     * @param offerings
-     *            the offering to set
+     * @param offerings the offering to set
+     *
      * @return this
      */
     public OmObservationConstellation setOfferings(Set<String> offerings) {
@@ -197,8 +208,8 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
     /**
      * Set featureOfInterest
      *
-     * @param featureOfInterest
-     *            the featureOfInterest to set
+     * @param featureOfInterest the featureOfInterest to set
+     *
      * @return this
      */
     public OmObservationConstellation setFeatureOfInterest(AbstractFeature featureOfInterest) {
@@ -222,8 +233,8 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
     /**
      * Set observation type
      *
-     * @param observationType
-     *            the observationType to set
+     * @param observationType the observationType to set
+     *
      * @return this
      */
     public OmObservationConstellation setObservationType(String observationType) {
@@ -247,15 +258,15 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
     /**
      * Check if constellations are equal excluding observableProperty
      *
-     * @param toCheckObsConst
-     *            Observation constellation to chek
+     * @param toCheckObsConst Observation constellation to chek
+     *
      * @return true if equals
      */
     @Deprecated
     public boolean equalsExcludingObsProp(OmObservationConstellation toCheckObsConst) {
-        return (procedure.equals(toCheckObsConst.getProcedure())
-                && featureOfInterest.equals(toCheckObsConst.getFeatureOfInterest())
-                && observationType.equals(toCheckObsConst.getObservationType()) && checkObservationTypeForMerging());
+        return (procedure.equals(toCheckObsConst.getProcedure()) &&
+                 featureOfInterest.equals(toCheckObsConst.getFeatureOfInterest()) &&
+                 observationType.equals(toCheckObsConst.getObservationType()) && checkObservationTypeForMerging());
 
     }
 
@@ -265,10 +276,10 @@ public class OmObservationConstellation implements Copyable<OmObservationConstel
      * @return <code>true</code>, if the observation can be merged
      */
     public boolean checkObservationTypeForMerging() {
-        return (isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType)
-                && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(observationType)
-                && !OmConstants.OBS_TYPE_OBSERVATION.equals(observationType)
-                && !OmConstants.OBS_TYPE_UNKNOWN.equals(observationType));
+        return (isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType) &&
+                 !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(observationType) &&
+                 !OmConstants.OBS_TYPE_OBSERVATION.equals(observationType) &&
+                 !OmConstants.OBS_TYPE_UNKNOWN.equals(observationType));
     }
 
     public boolean isSetObservationType() {

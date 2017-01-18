@@ -36,9 +36,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.n52.janmayen.function.Predicates;
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.janmayen.stream.Streams;
 
@@ -104,6 +107,18 @@ public final class CollectionHelper {
 
     public static <T> Set<T> union(Iterable<Set<T>> elements) {
         return Streams.stream(elements).flatMap(Set<T>::stream).collect(toSet());
+    }
+
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    public static <T> Set<T> intersection(Set<T>... elements) {
+        return intersection(Arrays.asList(elements));
+    }
+
+    public static <T> Set<T> intersection(Iterable<Set<T>> sets) {
+        Function<Set<T>, Predicate<T>> f = set -> set::contains;
+        Predicate<T> predicate = Streams.stream(sets).map(f).reduce(Predicates.alwaysFalse(), Predicate::and);
+        return Streams.stream(sets).flatMap(Set::stream).filter(predicate).collect(toSet());
     }
 
     /**
