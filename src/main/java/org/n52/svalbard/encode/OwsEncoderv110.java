@@ -34,7 +34,40 @@ import java.util.SortedSet;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import net.opengis.ows.x11.AcceptVersionsType;
+import net.opengis.ows.x11.AddressType;
+import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
+import net.opengis.ows.x11.CodeType;
+import net.opengis.ows.x11.ContactType;
+import net.opengis.ows.x11.DCPDocument.DCP;
+import net.opengis.ows.x11.DomainMetadataType;
+import net.opengis.ows.x11.DomainType;
+import net.opengis.ows.x11.ExceptionDocument;
+import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ExceptionReportDocument.ExceptionReport;
+import net.opengis.ows.x11.ExceptionType;
+import net.opengis.ows.x11.HTTPDocument.HTTP;
+import net.opengis.ows.x11.KeywordsType;
+import net.opengis.ows.x11.LanguageStringType;
+import net.opengis.ows.x11.MetadataType;
+import net.opengis.ows.x11.OnlineResourceType;
+import net.opengis.ows.x11.OperationDocument.Operation;
+import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
+import net.opengis.ows.x11.RangeType;
+import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.ResponsiblePartySubsetType;
+import net.opengis.ows.x11.SectionsType;
+import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
+import net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider;
+import net.opengis.ows.x11.TelephoneType;
+import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
+
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.janmayen.http.HTTPMethods;
@@ -82,42 +115,11 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.N52XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-import net.opengis.ows.x11.AcceptVersionsType;
-import net.opengis.ows.x11.AddressType;
-import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
-import net.opengis.ows.x11.CodeType;
-import net.opengis.ows.x11.ContactType;
-import net.opengis.ows.x11.DCPDocument.DCP;
-import net.opengis.ows.x11.DomainMetadataType;
-import net.opengis.ows.x11.DomainType;
-import net.opengis.ows.x11.ExceptionDocument;
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ExceptionReportDocument.ExceptionReport;
-import net.opengis.ows.x11.ExceptionType;
-import net.opengis.ows.x11.HTTPDocument.HTTP;
-import net.opengis.ows.x11.KeywordsType;
-import net.opengis.ows.x11.LanguageStringType;
-import net.opengis.ows.x11.MetadataType;
-import net.opengis.ows.x11.OnlineResourceType;
-import net.opengis.ows.x11.OperationDocument.Operation;
-import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
-import net.opengis.ows.x11.RangeType;
-import net.opengis.ows.x11.RequestMethodType;
-import net.opengis.ows.x11.ResponsiblePartySubsetType;
-import net.opengis.ows.x11.SectionsType;
-import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
-import net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider;
-import net.opengis.ows.x11.TelephoneType;
-import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
 
 /**
  * @since 4.0.0

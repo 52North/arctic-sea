@@ -19,7 +19,11 @@ package org.n52.svalbard.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
@@ -64,8 +68,6 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.Validation;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
@@ -77,6 +79,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 4.0.0
  *
  */
+@Configurable
 public final class SweHelper {
 
     private final Logger LOGGER = LoggerFactory.getLogger(SweHelper.class);

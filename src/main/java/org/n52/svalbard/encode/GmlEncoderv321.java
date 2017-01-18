@@ -58,6 +58,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -103,6 +104,7 @@ import com.vividsolutions.jts.geom.util.PolygonExtracter;
  * @since 4.0.0
  *
  */
+@Configurable
 public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlEncoderv321.class);
