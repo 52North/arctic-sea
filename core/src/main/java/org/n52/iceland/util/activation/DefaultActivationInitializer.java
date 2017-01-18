@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.util.activation;
 
-public class DefaultActivationInitializer<K> extends AbstractActivationInitializer<K> {
+public class DefaultActivationInitializer<K> implements SourceActivationInitializer<K> {
 
     private ActivationSource<K> source;
 

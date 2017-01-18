@@ -22,6 +22,6 @@ package org.n52.iceland.util.activation;
  */
 public interface ActivationInitializer<K> {
 
-    void initialize(ActivationSink<K> manager);
+    void initialize(ActivationSink<K> sink);
 
 }

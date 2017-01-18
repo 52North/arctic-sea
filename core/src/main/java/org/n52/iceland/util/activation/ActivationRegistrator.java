@@ -34,9 +34,7 @@ import com.google.common.collect.Maps;
  */
 @SuppressWarnings("rawtypes")
 public class ActivationRegistrator implements Constructable {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ActivationRegistrator.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(ActivationRegistrator.class);
     private final Map<ActivationListenable, ActivationListener> listeners;
     private final Map<ActivationSink, ActivationInitializer> initializers;
 
@@ -74,7 +72,7 @@ public class ActivationRegistrator implements Constructable {
     }
 
     private static <T, U> BiConsumer<T,U> logger() {
-        return (a, b) -> LOG.debug("Registrating {} for {}", a, b);
+        return (a, b) -> LOG.debug("Registering {} for {}", a, b);
     }
 
     private static <T, U> BiConsumer<T, U> chain(BiConsumer<T, U> first, BiConsumer<T, U> second) {

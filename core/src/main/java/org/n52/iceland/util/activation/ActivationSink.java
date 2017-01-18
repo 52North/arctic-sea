@@ -20,6 +20,7 @@ package org.n52.iceland.util.activation;
  * TODO JavaDoc
  *
  * @author Christian Autermann
+ * @param <K>
  */
 public interface ActivationSink<K> {
 

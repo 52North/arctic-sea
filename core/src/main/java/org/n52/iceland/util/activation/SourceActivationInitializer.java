@@ -16,23 +16,23 @@
  */
 package org.n52.iceland.util.activation;
 
+import java.util.Objects;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public abstract class AbstractActivationInitializer<K> implements ActivationInitializer<K> {
+public interface SourceActivationInitializer<K> extends ActivationInitializer<K> {
 
-    public abstract ActivationSource<K> getSource();
+    ActivationSource<K> getSource();
 
     @Override
-    public void initialize(ActivationSink<K> sink) {
-        getSource().getKeys().forEach(key -> {
-            if (getSource().isActive(key)) {
-                sink.activate(key);
-            } else {
-                sink.deactivate(key);
-            }
+    default void initialize(ActivationSink<K> sink) {
+        Objects.requireNonNull(sink);
+        ActivationSource<K> source = getSource();
+        source.getKeys().forEach(key -> {
+            sink.setActive(key, source.isActive(key));
         });
     }
 
