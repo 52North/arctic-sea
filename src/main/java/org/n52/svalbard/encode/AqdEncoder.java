@@ -120,6 +120,11 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     }
 
     @Override
+    public Map<String, Set<String>> getSupportedResponseFormatObservationTypes() {
+        return Maps.newHashMap();
+    }
+
+    @Override
     public XmlObject encode(Object element, EncodingContext additionalValues)
             throws EncodingException, UnsupportedEncoderInputException {
         if (element instanceof GetObservationResponse) {

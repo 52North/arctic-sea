@@ -16,8 +16,10 @@
  */
 package org.n52.svalbard.encode;
 
+import java.util.Map;
 import java.util.Set;
 
+import org.n52.shetland.ogc.SupportedType;
 import org.n52.svalbard.ConformanceClass;
 
 /**
@@ -59,6 +61,8 @@ public interface ObservationEncoder<S, T> extends ConformanceClass, Encoder<S, T
      * @return the response formats
      */
     Set<String> getSupportedResponseFormats(String service, String version);
+
+    Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes();
 
     /**
      * Indicator whether the procedure is to be encoded
