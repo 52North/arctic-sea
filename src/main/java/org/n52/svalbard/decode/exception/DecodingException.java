@@ -34,7 +34,7 @@ public class DecodingException extends LocationHintException {
     }
 
     public DecodingException(Throwable cause) {
-        super(cause);
+        super(cause.getMessage(), cause);
     }
 
     public DecodingException(String location, String message, Object... args) {

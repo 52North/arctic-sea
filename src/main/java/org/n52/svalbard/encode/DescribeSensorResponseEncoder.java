@@ -18,8 +18,12 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
+import net.opengis.swes.x20.DescribeSensorResponseDocument;
+import net.opengis.swes.x20.DescribeSensorResponseType;
+import net.opengis.swes.x20.SensorDescriptionType;
+
 import org.apache.xmlbeans.XmlObject;
-import org.n52.shetland.ogc.gml.AbstractFeature;
+
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
@@ -33,10 +37,6 @@ import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Sets;
-
-import net.opengis.swes.x20.DescribeSensorResponseDocument;
-import net.opengis.swes.x20.DescribeSensorResponseType;
-import net.opengis.swes.x20.SensorDescriptionType;
 
 /**
  * TODO JavaDoc
@@ -57,15 +57,12 @@ public class DescribeSensorResponseEncoder extends AbstractSwesResponseEncoder<D
         dsr.setProcedureDescriptionFormat(response.getOutputFormat());
         for (SosProcedureDescription<?> sosProcedureDescription : response.getProcedureDescriptions()) {
             SensorDescriptionType sensorDescription = dsr.addNewDescription().addNewSensorDescription();
-            sensorDescription.addNewData()
-                    .set(getSensorDescription(response, sosProcedureDescription.getProcedureDescription()));
+            sensorDescription.addNewData().set(getSensorDescription(response, sosProcedureDescription));
             if (sosProcedureDescription.isSetValidTime()) {
-                XmlObject xmlObjectValidtime =
-                        encodeObjectToXml(GmlConstants.NS_GML_32, sosProcedureDescription.getValidTime());
+                XmlObject xoValidTime = encodeObjectToXml(GmlConstants.NS_GML_32, sosProcedureDescription.getValidTime());
                 XmlObject substitution = sensorDescription.addNewValidTime().addNewAbstractTimeGeometricPrimitive()
-                        .substitute(GmlHelper.getGml321QnameForITime(sosProcedureDescription.getValidTime()),
-                                xmlObjectValidtime.schemaType());
-                substitution.set(xmlObjectValidtime);
+                        .substitute(GmlHelper.getGml321QnameForITime(sosProcedureDescription.getValidTime()), xoValidTime.schemaType());
+                substitution.set(xoValidTime);
             }
         }
         // in a single observation the gml:ids must be unique
@@ -75,7 +72,7 @@ public class DescribeSensorResponseEncoder extends AbstractSwesResponseEncoder<D
         return doc;
     }
 
-    private XmlObject getSensorDescription(DescribeSensorResponse response, AbstractFeature abstractFeature)
+    private XmlObject getSensorDescription(DescribeSensorResponse response, SosProcedureDescription<?> abstractFeature)
             throws EncodingException {
         if (abstractFeature instanceof SosProcedureDescriptionUnknownType && abstractFeature.isSetXml()) {
             try {
@@ -84,7 +81,7 @@ public class DescribeSensorResponseEncoder extends AbstractSwesResponseEncoder<D
                 throw new EncodingException("An xml error occured when parsing the request!", de);
             }
         }
-        return encodeObjectToXml(response.getOutputFormat(), abstractFeature);
+        return encodeObjectToXml(response.getOutputFormat(), abstractFeature.getProcedureDescription());
     }
 
     @Override

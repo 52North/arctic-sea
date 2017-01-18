@@ -109,12 +109,19 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlEncoderv321.class);
 
-    private static final Set<EncoderKey> ENCODER_KEY_TYPES =
-            CodingHelper.encoderKeysForElements(GmlConstants.NS_GML_32, org.n52.shetland.ogc.gml.time.Time.class,
-                    com.vividsolutions.jts.geom.Geometry.class, org.n52.shetland.ogc.om.values.CategoryValue.class,
-                    org.n52.shetland.ogc.gml.ReferenceType.class, org.n52.shetland.ogc.om.values.QuantityValue.class,
-                    org.n52.shetland.ogc.gml.CodeWithAuthority.class, org.n52.shetland.ogc.gml.CodeType.class,
-                    SamplingFeature.class, ReferencedEnvelope.class, FeatureCollection.class, AbstractGeometry.class);
+    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper
+            .encoderKeysForElements(GmlConstants.NS_GML_32,
+                                    org.n52.shetland.ogc.gml.time.Time.class,
+                                    com.vividsolutions.jts.geom.Geometry.class,
+                                    org.n52.shetland.ogc.om.values.CategoryValue.class,
+                                    org.n52.shetland.ogc.gml.ReferenceType.class,
+                                    org.n52.shetland.ogc.om.values.QuantityValue.class,
+                                    org.n52.shetland.ogc.gml.CodeWithAuthority.class,
+                                    org.n52.shetland.ogc.gml.CodeType.class,
+                                    org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature.class,
+                                    org.n52.shetland.util.ReferencedEnvelope.class,
+                                    org.n52.shetland.ogc.om.features.FeatureCollection.class,
+                                    org.n52.shetland.ogc.gml.AbstractGeometry.class);
 
     private String srsNamePrefix;
 
