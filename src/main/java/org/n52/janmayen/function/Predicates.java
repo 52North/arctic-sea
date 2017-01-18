@@ -14,27 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.janmayen.http;
+package org.n52.janmayen.function;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * TODO JavaDoc
  *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
- * @since 1.0.0
+ * @author Christian Autermann
  */
-public interface HTTPMethods {
-    String GET = "GET";
-    String HEAD = "HEAD";
-    String POST = "POST";
-    String PUT = "PUT";
-    String DELETE = "DELETE";
-    String TRACE = "TRACE";
-    String OPTIONS = "OPTIONS";
+public final class Predicates {
 
-    List<String> METHODS = Collections.unmodifiableList(Arrays.asList(GET, POST, PUT, DELETE, TRACE, HEAD, OPTIONS));
+    private Predicates() {
+    }
+
+    public static <T> Predicate<T> not(Predicate<T> predicate) {
+        return predicate.negate();
+    }
+
+    public static <T> Predicate<T> of(Predicate<T> predicate) {
+        return predicate;
+    }
+
+    public static <T> Predicate<T> alwaysFalse() {
+        return t -> false;
+    }
+
+    public static <T> Predicate<T> alwaysTrue() {
+        return t -> true;
+    }
 }

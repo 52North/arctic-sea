@@ -14,27 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.janmayen.http;
+package org.n52.janmayen.function;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.function.Supplier;
+
 
 /**
  * TODO JavaDoc
  *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
- * @since 1.0.0
+ * @author Christian Autermann
  */
-public interface HTTPMethods {
-    String GET = "GET";
-    String HEAD = "HEAD";
-    String POST = "POST";
-    String PUT = "PUT";
-    String DELETE = "DELETE";
-    String TRACE = "TRACE";
-    String OPTIONS = "OPTIONS";
+public final class Suppliers {
+    private Suppliers() {
 
-    List<String> METHODS = Collections.unmodifiableList(Arrays.asList(GET, POST, PUT, DELETE, TRACE, HEAD, OPTIONS));
+    }
+
+    public static <T> Supplier<T> constant(T t) {
+        return () -> t;
+    }
+
 }

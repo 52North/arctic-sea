@@ -55,6 +55,21 @@ public final class MoreCollectors {
     private MoreCollectors() {
     }
 
+    public static <T, A, R> Collector<T, A, R> filtering(Predicate<T> filter, Collector<T, A, R> downstream) {
+        Objects.requireNonNull(filter);
+        BiConsumer<A, T> accumulator = downstream.accumulator();
+        return Collector.of(downstream.supplier(),
+                            (a, t) -> {
+                                if (filter.test(t)) {
+                                    accumulator.accept(a, t);
+                                }
+                            },
+                            downstream.combiner(),
+                            downstream.finisher(),
+                            downstream.characteristics().stream().toArray(Characteristics[]::new));
+
+    }
+
     public static <T, U, A, R> Collector<T, ?, R> flatMapping(
             Function<? super T, ? extends Stream<? extends U>> mapper,
             Collector<? super U, A, R> downstream) {

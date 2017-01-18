@@ -23,18 +23,18 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Function;
 
 import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.stream.Streams;
 
-import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -42,10 +42,10 @@ import com.google.common.base.Joiner;
  * @author Christian Autermann
  */
 public class QueryBuilder {
-    private static final Joiner COMMA_JOINER = Joiner.on(",");
     private final URL url;
     private final Charset charset;
     private final Map<String, List<String>> query = new LinkedHashMap<>();
+    private String listSeperator = ",";
 
     public QueryBuilder(URL url) {
         this(url, StandardCharsets.UTF_8);
@@ -56,8 +56,36 @@ public class QueryBuilder {
         this.url = Objects.requireNonNull(url);
     }
 
+    public QueryBuilder(QueryBuilder builder) {
+        this.url = builder.getURL();
+        this.charset = builder.getCharset();
+        this.listSeperator = builder.getListSeperator();
+        builder.getQuery().forEach((name, list) -> add(name, list));
+    }
+
     public QueryBuilder(String url) throws MalformedURLException {
         this(new URL(url));
+    }
+
+    private String getListSeperator() {
+        return this.listSeperator;
+    }
+
+    private Charset getCharset() {
+        return this.charset;
+    }
+
+    private Map<String, List<String>> getQuery() {
+        return Collections.unmodifiableMap(this.query);
+    }
+
+    private URL getURL() {
+        return this.url;
+    }
+
+    public QueryBuilder setListSeperator(String seperator) {
+        this.listSeperator = Objects.requireNonNull(Strings.emptyToNull(seperator));
+        return this;
     }
 
     public QueryBuilder add(String name, Object... value) {
@@ -84,8 +112,13 @@ public class QueryBuilder {
             builder.append(this.url.getPath()).append('?');
             this.query.forEach((name, values) -> {
                 builder.append(name).append('=');
-
-                COMMA_JOINER.appendTo(builder, new MappingIterator<>(values.iterator(), this::encodeValue));
+                Iterator<String> iter = values.iterator();
+                if (iter.hasNext()) {
+                    builder.append(encodeValue(iter.next()));
+                    while (iter.hasNext()) {
+                        builder.append(this.listSeperator).append(encodeValue(iter.next()));
+                    }
+                }
             });
         }
 
@@ -96,7 +129,7 @@ public class QueryBuilder {
         }
     }
 
-    private String encodeValue(Object s)  {
+    private String encodeValue(Object s) {
         try {
             if (s == null) {
                 return "";
@@ -104,26 +137,6 @@ public class QueryBuilder {
             return URLEncoder.encode(s.toString(), charset.name());
         } catch (UnsupportedEncodingException ex) {
             throw new Error(ex);
-        }
-    }
-
-    private static final class MappingIterator<S, T> implements Iterator<T> {
-        private final Iterator<S> iter;
-        private final Function<? super S, ? extends T> mapper;
-
-        private MappingIterator(Iterator<S> iter, Function<? super S, ? extends T> mapper) {
-            this.iter = Objects.requireNonNull(iter);
-            this.mapper = Objects.requireNonNull(mapper);
-        }
-
-        @Override
-        public boolean hasNext() {
-            return this.iter.hasNext();
-        }
-
-        @Override
-        public T next() {
-            return this.mapper.apply(this.iter.next());
         }
     }
 }
