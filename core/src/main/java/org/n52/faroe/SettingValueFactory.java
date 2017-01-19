@@ -402,7 +402,7 @@ public interface SettingValueFactory {
         URI uri;
         if (nullOrEmpty(stringValue)) {
             uri = null;
-        }else {
+        } else {
             try {
                 uri = new URI(stringValue);
             } catch (URISyntaxException e) {

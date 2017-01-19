@@ -19,6 +19,7 @@ package org.n52.faroe;
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
+ * @deprecated use {@link SettingValueFactory} directly
  *
  */
 @Deprecated
