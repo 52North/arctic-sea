@@ -42,12 +42,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
 
     private JsonSettingsEncoder settingsEncoder;
-    private JsonSettingValueFactory settingValueFactory;
-
-    @Inject
-    public void setSettingValueFactory(JsonSettingValueFactory settingValueFactory) {
-        this.settingValueFactory = settingValueFactory;
-    }
 
     @Inject
     public void setSettingsEncoder(JsonSettingsEncoder settingsEncoder) {
