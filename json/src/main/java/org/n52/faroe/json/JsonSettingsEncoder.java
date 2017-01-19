@@ -65,10 +65,10 @@ public class JsonSettingsEncoder {
     }
 
     public ObjectNode encode(Set<SettingDefinition<?>> settings) {
-        return settings.stream().sorted()
-                .collect(nodeFactory::objectNode,
-                         (j, def) -> j.set(def.getKey(), encode(def)),
-                         ObjectNode::setAll);
+        return settings.stream().sorted().collect(
+                nodeFactory::objectNode,
+                (j, def) -> j.set(def.getKey(), encode(def)),
+                ObjectNode::setAll);
     }
 
     public ObjectNode encode(SettingDefinition<?> def) {
@@ -152,6 +152,14 @@ public class JsonSettingsEncoder {
         }
     }
 
+    private void encodeValue(ObjectNode o, Entry<SettingDefinition<?>, SettingValue<?>> e) {
+        SettingDefinition<?> def = e.getKey();
+        Object value = Optional.ofNullable(e.getValue())
+                .map(v -> (Object) v.getValue())
+                .orElseGet(def::getDefaultValue);
+        o.set(def.getKey(), encodeValue(def.getType(), value));
+    }
+
     public JsonNode encodeValues(Map<SettingDefinition<?>, SettingValue<?>> settings) {
         return settings.entrySet().stream()
                 .sorted(Entry.comparingByKey())
@@ -161,13 +169,4 @@ public class JsonSettingsEncoder {
     private TextNode textNode(Object value) {
         return nodeFactory.textNode(String.valueOf(value));
     }
-
-    private void encodeValue(ObjectNode o, Entry<SettingDefinition<?>, SettingValue<?>> e) {
-        SettingDefinition<?> def = e.getKey();
-        Object value = Optional.ofNullable(e.getValue())
-                .map(v -> (Object) v.getValue())
-                .orElseGet(def::getDefaultValue);
-        o.set(def.getKey(), encodeValue(def.getType(), value));
-    }
-
 }

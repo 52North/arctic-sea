@@ -23,30 +23,31 @@ import org.n52.janmayen.event.Event;
  * {@link SettingDefinition} was deleted.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
+ * @param <T> the settings type
  *
  * @since 1.0.0
  */
-public class SettingsChangeEvent implements Event {
+public class SettingsChangeEvent<T> implements Event {
 
-    private final SettingDefinition<?> setting;
-    private final SettingValue<?> oldValue;
-    private final SettingValue<?> newValue;
+    private final SettingDefinition<T> setting;
+    private final SettingValue<T> oldValue;
+    private final SettingValue<T> newValue;
 
-    public SettingsChangeEvent(SettingDefinition<?> setting, SettingValue<?> oldValue, SettingValue<?> newValue) {
+    public SettingsChangeEvent(SettingDefinition<T> setting, SettingValue<T> oldValue, SettingValue<T> newValue) {
         this.setting = setting;
         this.oldValue = oldValue;
         this.newValue = newValue;
     }
 
-    public SettingDefinition<?> getSetting() {
+    public SettingDefinition<T> getSetting() {
         return setting;
     }
 
-    public SettingValue<?> getOldValue() {
+    public SettingValue<T> getOldValue() {
         return oldValue;
     }
 
-    public SettingValue<?> getNewValue() {
+    public SettingValue<T> getNewValue() {
         return newValue;
     }
 

@@ -61,4 +61,11 @@ public @interface Setting {
      * @return the key
      */
     String value();
+
+    /**
+     * If this setting is required.
+     *
+     * @return if it is required
+     */
+    boolean required() default true;
 }

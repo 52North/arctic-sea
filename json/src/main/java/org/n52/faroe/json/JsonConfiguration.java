@@ -183,7 +183,6 @@ public class JsonConfiguration implements Destroyable,
      * @see Debouncer#call()
      */
     public void scheduleWrite() {
-//        LOG.debug("Scheduling write");
         this.debouncer.call();
     }
 

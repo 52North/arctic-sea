@@ -133,7 +133,7 @@ public class SettingsServiceImpl implements SettingsService {
                 String key = s.value();
                 if (key == null || key.isEmpty()) {
                     throw new ConfigurationError(String.format("Invalid value for @Setting: '%s'", key));
-                } else if (getDefinitionByKey(key) == null) {
+                } else if (getDefinitionByKey(key) == null && s.required()) {
                     throw noSettingDefinitionFound(key);
                 } else if (method.getParameterTypes().length != 1) {
                     throw new ConfigurationError(String.format(
@@ -142,7 +142,7 @@ public class SettingsServiceImpl implements SettingsService {
                     throw new ConfigurationError(String.format(
                             "Non-public method %s annotated with @Setting in %s", method, clazz));
                 } else {
-                    configure(new ConfigurableObject(method, object, key));
+                    configure(new ConfigurableObject(method, object, key, s.required()));
                 }
             }
         }
@@ -157,7 +157,7 @@ public class SettingsServiceImpl implements SettingsService {
             this.configurableObjectsLock.writeLock().unlock();
         }
         try {
-            co.configure(getNotNullSettingValue(co));
+            co.configure(getSettingValue(co));
         } catch (RuntimeException cpe) {
             throw new ConfigurationError("Exception configuring " + co
                                          .getKey(), cpe);
@@ -302,19 +302,24 @@ public class SettingsServiceImpl implements SettingsService {
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private SettingValue<Object> getNotNullSettingValue(ConfigurableObject co) {
-        return getNotNullSettingValue(co.getKey());
+    private SettingValue<Object> getSettingValue(ConfigurableObject co) {
+        return getSettingValue(co.getKey(), co.isRequired());
     }
 
     @SuppressWarnings("unchecked")
-    private SettingValue<Object> getNotNullSettingValue(String key) {
+    private SettingValue<Object> getSettingValue(String key, boolean required) {
         SettingValue<Object> val = (SettingValue<Object>) this.settingsManagerDao.getSettingValue(key);
-        if (val == null) {
-            SettingDefinition<?> def = getDefinitionByKey(key);
-            if (def == null) {
+        if (val != null) {
+            return val;
+        }
+        SettingDefinition<?> def = getDefinitionByKey(key);
+        if (def == null) {
+            if (required) {
                 throw noSettingDefinitionFound(key);
+            } else {
+                return new NullSettingValue<>(key);
             }
+        } else {
             val = (SettingValue<Object>) getSettingFactory().newSettingValue(def, null);
             if (def.isOptional()) {
                 LOG.debug("No value found for optional setting {}", key);
@@ -327,8 +332,8 @@ public class SettingsServiceImpl implements SettingsService {
                 throw new ConfigurationError(String.format(
                         "No value found for required Setting '%s' with no default value.", key));
             }
+            return val;
         }
-        return val;
     }
 
     /**
@@ -392,7 +397,8 @@ public class SettingsServiceImpl implements SettingsService {
         this.configurableObjectsLock.readLock().lock();
         try {
             configurableObjects.forEach((key, objects) -> {
-                SettingValue<Object> v = getNotNullSettingValue(key);
+                boolean required = objects.stream().anyMatch(ConfigurableObject::isRequired);
+                SettingValue<Object> v = SettingsServiceImpl.this.getSettingValue(key, required);
                 objects.forEach(co -> co.configure(v));
             });
         } finally {
@@ -404,23 +410,61 @@ public class SettingsServiceImpl implements SettingsService {
         return new ConfigurationError(String.format("No SettingDefinition found for key %s", key));
     }
 
+    private static final class NullSettingValue<T> implements SettingValue<T> {
+
+        private final String key;
+
+        NullSettingValue(String key) {
+            this.key = key;
+        }
+
+        @Override
+        public String getKey() {
+            return this.key;
+        }
+
+        @Override
+        public void setKey(String key) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public T getValue() {
+            return null;
+        }
+
+        @Override
+        public void setValue(T value) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public SettingType getType() {
+            throw new UnsupportedOperationException();
+        }
+
+    }
+
     private static class ConfigurableObject {
 
         private final Method method;
         private final WeakReference<Object> target;
         private final String key;
+        private final boolean required;
 
         /**
          * Constructs a new {@code ConfigurableObject}.
          *
-         * @param method the method of the target
-         * @param target the target object
-         * @param key    the settings key
+         * @param method   the method of the target
+         * @param target   the target object
+         * @param key      the settings key
+         * @param required if the setting is required
          */
-        ConfigurableObject(Method method, Object target, String key) {
+        ConfigurableObject(Method method, Object target, String key, boolean required) {
             this.method = method;
             this.target = new WeakReference<>(target);
             this.key = key;
+            this.required = required;
         }
 
         /**
@@ -514,6 +558,13 @@ public class SettingsServiceImpl implements SettingsService {
                 return false;
             }
             return !((getKey() == null) ? (other.getKey() != null) : !getKey().equals(other.getKey()));
+        }
+
+        /**
+         * @return if this setting is required
+         */
+        public boolean isRequired() {
+            return required;
         }
     }
 

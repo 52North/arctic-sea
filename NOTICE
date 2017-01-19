@@ -16,6 +16,8 @@ limitations under the License.
 This project includes:
 
   52°North Faroe under The Apache Software License, Version 2.0
+  52°North Faroe JSON Backend under The Apache Software License, Version 2.0
+  52°North Faroe Parent under The Apache Software License, Version 2.0
   52°North Jan Mayen under The Apache Software License, Version 2.0
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0

@@ -21,9 +21,9 @@ import java.net.URI;
 
 import org.joda.time.DateTime;
 
-import org.n52.faroe.AbstractSettingValueFactory;
 import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
+import org.n52.faroe.SettingValueFactory;
 import org.n52.janmayen.i18n.MultilingualString;
 
 /**
@@ -31,49 +31,49 @@ import org.n52.janmayen.i18n.MultilingualString;
  *
  * @author Christian Autermann
  */
-public class JsonSettingValueFactory extends AbstractSettingValueFactory {
+public class JsonSettingValueFactory implements SettingValueFactory {
     @Override
-    protected SettingValue<Boolean> newBooleanSettingValue(String key, Boolean value) {
+    public SettingValue<Boolean> newBooleanSettingValue(String key, Boolean value) {
         return new JsonSettingValue<>(SettingType.BOOLEAN, key, value);
     }
 
     @Override
-    protected SettingValue<Integer> newIntegerSettingValue(String key, Integer value) {
+    public SettingValue<Integer> newIntegerSettingValue(String key, Integer value) {
         return new JsonSettingValue<>(SettingType.INTEGER, key, value);
     }
 
     @Override
-    protected SettingValue<String> newStringSettingValue(String key, String value) {
+    public SettingValue<String> newStringSettingValue(String key, String value) {
         return new JsonSettingValue<>(SettingType.STRING, key, value);
     }
 
     @Override
-    protected SettingValue<String> newChoiceSettingValue(String key, String value) {
+    public SettingValue<String> newChoiceSettingValue(String key, String value) {
         return new JsonSettingValue<>(SettingType.CHOICE, key, value);
     }
 
     @Override
-    protected SettingValue<File> newFileSettingValue(String key, File value) {
+    public SettingValue<File> newFileSettingValue(String key, File value) {
         return new JsonSettingValue<>(SettingType.FILE, key, value);
     }
 
     @Override
-    protected SettingValue<URI> newUriSettingValue(String key, URI value) {
+    public SettingValue<URI> newUriSettingValue(String key, URI value) {
         return new JsonSettingValue<>(SettingType.URI, key, value);
     }
 
     @Override
-    protected SettingValue<Double> newNumericSettingValue(String key, Double value) {
+    public SettingValue<Double> newNumericSettingValue(String key, Double value) {
         return new JsonSettingValue<>(SettingType.NUMERIC, key, value);
     }
 
     @Override
-    protected SettingValue<DateTime> newDateTimeSettingValue(String key, DateTime value) {
+    public SettingValue<DateTime> newDateTimeSettingValue(String key, DateTime value) {
         return new JsonSettingValue<>(SettingType.TIMEINSTANT, key, value);
     }
 
     @Override
-    protected SettingValue<MultilingualString> newMultiLingualStringSettingValue(String key, MultilingualString value) {
+    public SettingValue<MultilingualString> newMultiLingualStringSettingValue(String key, MultilingualString value) {
         return new JsonSettingValue<>(SettingType.MULTILINGUAL_STRING, key, value);
     }
 }

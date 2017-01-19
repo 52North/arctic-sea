@@ -27,6 +27,7 @@ import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.JSONSettingConstants;
 import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
+import org.n52.faroe.SettingValueFactory;
 import org.n52.faroe.SettingsDao;
 import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.janmayen.i18n.MultilingualString;
@@ -38,11 +39,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  *
  * @author Christian Autermann, Daniel Nüst
  */
-public class JsonSettingsDao extends AbstractJsonDao
-        implements SettingsDao {
+public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
 
     private JsonSettingsEncoder settingsEncoder;
-
     private JsonSettingValueFactory settingValueFactory;
 
     @Inject
@@ -139,13 +138,13 @@ public class JsonSettingsDao extends AbstractJsonDao
             case BOOLEAN:
                 return node.booleanValue();
             case TIMEINSTANT:
-                return this.settingValueFactory.parseDateTime(node.textValue());
+                return SettingValueFactory.decodeDateTimeValue(node.textValue());
             case FILE:
-                return this.settingValueFactory.parseFile(node.textValue());
+                return SettingValueFactory.decodeFileValue(node.textValue());
             case STRING:
                 return node.textValue();
             case URI:
-                return this.settingValueFactory.parseUri(node.textValue());
+                return SettingValueFactory.decodeUriValue(node.textValue());
             case MULTILINGUAL_STRING:
                 return decodeMultilingualString(node);
             case CHOICE:
