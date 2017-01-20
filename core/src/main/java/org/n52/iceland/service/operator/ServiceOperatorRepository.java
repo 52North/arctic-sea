@@ -16,11 +16,13 @@
  */
 package org.n52.iceland.service.operator;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -30,7 +32,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
-import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
@@ -42,17 +43,13 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class ServiceOperatorRepository extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory> implements Constructable{
+public class ServiceOperatorRepository extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory>
+        implements Constructable {
+
     @Deprecated
     private static ServiceOperatorRepository instance;
-    /**
-     * Implemented ServiceOperator
-     */
     private final Map<OwsServiceKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
-
-    /** supported service versions */
     private final Map<String, Set<String>> supportedVersions = Maps.newHashMap();
-
 
     @Autowired(required = false)
     private Collection<ServiceOperator> components;
@@ -64,17 +61,11 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
         ServiceOperatorRepository.instance = this;
         Map<OwsServiceKey, Producer<ServiceOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
-
         this.serviceOperators.clear();
         this.supportedVersions.clear();
-
-        for (Entry<OwsServiceKey, Producer<ServiceOperator>> entry: implementations.entrySet()) {
-            OwsServiceKey key = entry.getKey();
-            Producer<ServiceOperator> producer = entry.getValue();
-            this.serviceOperators.put(key, producer);
-            this.supportedVersions.computeIfAbsent(key.getService(), Functions.forSupplier(HashSet::new))
-                    .add(key.getVersion());
-        }
+        this.serviceOperators.putAll(implementations);
+        this.supportedVersions.putAll(implementations.keySet().stream()
+                .collect(groupingBy(OwsServiceKey::getService, mapping(OwsServiceKey::getVersion, toSet()))));
     }
 
     /**

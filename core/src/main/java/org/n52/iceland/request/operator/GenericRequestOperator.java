@@ -25,32 +25,30 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.convert.RequestResponseModifier;
 import org.n52.iceland.convert.RequestResponseModifierRepository;
-import org.n52.janmayen.event.EventBus;
 import org.n52.iceland.event.events.RequestEvent;
 import org.n52.iceland.event.events.ResponseEvent;
 import org.n52.iceland.request.handler.GenericOperationHandler;
 import org.n52.iceland.request.handler.OperationHandlerRepository;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
+import org.n52.janmayen.event.EventBus;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.svalbard.OperationKey;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.MoreObjects;
 
-public class GenericRequestOperator<
-            Q extends OwsServiceRequest,
-            A extends OwsServiceResponse>
+public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsServiceResponse>
         implements RequestOperator {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(GenericRequestOperator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GenericRequestOperator.class);
 
     private ParameterValidator<Q> validator;
     private RequestOperatorKey requestOperatorKey;
@@ -58,27 +56,21 @@ public class GenericRequestOperator<
     private OperationHandlerRepository operationHandlerRepository;
     private RequestResponseModifierRepository modifierRepository;
     private ServiceOperatorRepository serviceOperatorRepository;
-    private EventBus serviceEventBus;
+    private EventBus eventBus;
 
-    public GenericRequestOperator(String service,
-                                 String version,
-                                 String operation,
-                                 Class<Q> requestType,
-                                 ParameterValidator<Q> validator) {
+    public GenericRequestOperator(String service, String version, String operation, Class<Q> requestType,
+                                  ParameterValidator<Q> validator) {
         this(new OperationKey(service, version, operation), true, requestType, validator);
     }
 
-    public GenericRequestOperator(OperationKey operation,
-                                 Class<Q> requestType,
-                                 ParameterValidator<Q> validator) {
+    public GenericRequestOperator(OperationKey operation, Class<Q> requestType, ParameterValidator<Q> validator) {
         this(operation, true, requestType, validator);
     }
 
-    public GenericRequestOperator(OperationKey operation,
-                                   boolean defaultActive,
-                                   Class<Q> requestType,
-                                   ParameterValidator<Q> validator) {
-        this.requestOperatorKey = new RequestOperatorKey(operation.getService(), operation.getVersion(), operation.getOperation(), defaultActive);
+    public GenericRequestOperator(OperationKey operation, boolean defaultActive, Class<Q> requestType,
+                                  ParameterValidator<Q> validator) {
+        this.requestOperatorKey = new RequestOperatorKey(operation.getService(), operation.getVersion(), operation
+                                                         .getOperation(), defaultActive);
         this.requestType = Objects.requireNonNull(requestType, "requestType");
         this.validator = Objects.requireNonNull(validator, "checker");
         LOG.info("{} initialized successfully for {}!", getClass().getSimpleName(), this.requestOperatorKey);
@@ -94,8 +86,7 @@ public class GenericRequestOperator<
     }
 
     @Inject
-    public void setRequestResponseModifierRepository(
-            RequestResponseModifierRepository repo) {
+    public void setRequestResponseModifierRepository(RequestResponseModifierRepository repo) {
         this.modifierRepository = repo;
     }
 
@@ -113,12 +104,12 @@ public class GenericRequestOperator<
     }
 
     @Inject
-    public void setServiceEventBus(EventBus serviceEventBus) {
-        this.serviceEventBus = serviceEventBus;
+    public void setEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
     }
 
-    public EventBus getServiceEventBus() {
-        return serviceEventBus;
+    public EventBus getEventBus() {
+        return eventBus;
     }
 
     private void checkForModifierAndProcess(OwsServiceRequest request)
@@ -194,18 +185,17 @@ public class GenericRequestOperator<
     public OwsServiceResponse receiveRequest(
             final OwsServiceRequest abstractRequest)
             throws OwsExceptionReport {
-        this.serviceEventBus.submit(new RequestEvent(abstractRequest));
+        this.eventBus.submit(new RequestEvent(abstractRequest));
         if (requestType.isAssignableFrom(abstractRequest.getClass())) {
             Q request = requestType.cast(abstractRequest);
             checkForModifierAndProcess(request);
             this.validator.validate(request);
             A response = receive(request);
-            this.serviceEventBus.submit(new ResponseEvent(response));
+            this.eventBus.submit(new ResponseEvent(response));
             checkForModifierAndProcess(request, response);
             return response;
         } else {
-            throw new OperationNotSupportedException(abstractRequest
-                    .getOperationName());
+            throw new OperationNotSupportedException(abstractRequest.getOperationName());
         }
     }
 
@@ -252,8 +242,7 @@ public class GenericRequestOperator<
         return Collections.singleton(requestOperatorKey);
     }
 
-    protected A receive(Q request)
-            throws OwsExceptionReport {
+    protected A receive(Q request) throws OwsExceptionReport {
         return getOperationHandler().handle(request);
     }
 

@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.inject.Provider;
 
@@ -57,8 +58,9 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
 
         DependencyDescriptor providedDescriptor = new DependencyDescriptor(descriptor);
         providedDescriptor.increaseNestingLevel();
-        return findAutowireCandidates(beanName, providedDescriptor.getDependencyType(), providedDescriptor)
-                .keySet().stream().collect(toMap(identity(), name -> new DependencyProvider(descriptor, name)));
+        Class<?> type = providedDescriptor.getDependencyType();
+        Set<String> candidates = findAutowireCandidates(beanName, type, providedDescriptor).keySet();
+        return candidates.stream().collect(toMap(identity(), name -> new DependencyProvider(descriptor, name)));
 
     }
 
@@ -67,7 +69,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
 
         OptionalDependencyDescriptor(DependencyDescriptor original) {
             super(original);
-            increaseNestingLevel();
+            super.increaseNestingLevel();
         }
 
         @Override
@@ -95,7 +97,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
                 throws BeansException {
             Object resolved = getBean(beanName);
             //Object resolved = doResolveDependency(this.descriptor, beanName, null, null);
-            return (this.optional) ? Optional.ofNullable(resolved) : Objects.requireNonNull(resolved);
+            return this.optional ? Optional.ofNullable(resolved) : Objects.requireNonNull(resolved);
         }
 
         @Override

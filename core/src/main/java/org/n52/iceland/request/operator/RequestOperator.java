@@ -31,7 +31,7 @@ import org.n52.svalbard.ConformanceClass;
  *
  * @since 1.0.0
  */
-public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey>{
+public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey> {
 
     /**
      * Receives and processes the incoming {@link OwsServiceRequest} and
