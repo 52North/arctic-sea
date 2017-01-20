@@ -40,7 +40,7 @@ public final class ReportObligations {
     }
 
     public static ReportObligationType getFlow(Extensions extensions) throws OwsExceptionReport {
-        Function<Extension<?>, ?> name = Extension::getValue;
+        Function<Extension<? extends Object>, Object> name = Extension::getValue;
         return extensions.getExtension(AqdConstants.EXTENSION_FLOW)
                 .map(name)
                 .flatMap(Functions.castIfInstanceOf(SweText.class))
