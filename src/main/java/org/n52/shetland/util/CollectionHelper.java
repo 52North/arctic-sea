@@ -117,7 +117,7 @@ public final class CollectionHelper {
 
     public static <T> Set<T> intersection(Iterable<Set<T>> sets) {
         Function<Set<T>, Predicate<T>> f = set -> set::contains;
-        Predicate<T> predicate = Streams.stream(sets).map(f).reduce(Predicates.alwaysFalse(), Predicate::and);
+        Predicate<T> predicate = Streams.stream(sets).map(f).reduce(Predicates.alwaysTrue(), Predicate::and);
         return Streams.stream(sets).flatMap(Set::stream).filter(predicate).collect(toSet());
     }
 
