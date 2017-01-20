@@ -16,13 +16,11 @@
  */
 package org.n52.svalbard.util;
 
-import java.util.function.Function;
 
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.ReportObligationType;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 
@@ -40,9 +38,8 @@ public final class ReportObligations {
     }
 
     public static ReportObligationType getFlow(Extensions extensions) throws OwsExceptionReport {
-        Function<Extension<? extends Object>, Object> name = Extension::getValue;
         return extensions.getExtension(AqdConstants.EXTENSION_FLOW)
-                .map(name)
+                .map(x -> x.getValue())
                 .flatMap(Functions.castIfInstanceOf(SweText.class))
                 .map(SweText::getValue)
                 .map(ReportObligationType::from)
