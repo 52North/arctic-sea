@@ -315,7 +315,7 @@ public interface SettingValueFactory {
      * @return the implementation specific {@code SettingValue}
      */
     default SettingValue<MultilingualString> newMultiLingualStringSettingValue(String key, String stringValue) {
-        return newMultiLingualStringSettingValue(key, decodeMultiLingualStringValue(stringValue, key));
+        return newMultiLingualStringSettingValue(key, decodeMultiLingualStringValue(stringValue));
     }
 
     /**
@@ -420,14 +420,14 @@ public interface SettingValueFactory {
         return nullOrEmpty(stringValue) ? null : Times.decodeDateTime(stringValue);
     }
 
-    static MultilingualString decodeMultiLingualStringValue(String stringValue, String key) {
+    static MultilingualString decodeMultiLingualStringValue(String stringValue) {
         MultilingualString ms = new MultilingualString();
         if (!nullOrEmpty(stringValue)) {
             JsonNode json = Json.loadString(stringValue);
             Iterator<String> it = json.fieldNames();
             while (it.hasNext()) {
                 String lang = it.next();
-                String value = json.path(key).asText();
+                String value = json.path(lang).asText();
                 ms.addLocalization(LocaleHelper.decode(lang), value);
             }
         }
