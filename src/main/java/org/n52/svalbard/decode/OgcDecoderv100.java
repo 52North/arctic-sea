@@ -19,9 +19,22 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
+import net.opengis.ogc.BBOXType;
+import net.opengis.ogc.BinarySpatialOpType;
+import net.opengis.ogc.BinaryTemporalOpType;
+import net.opengis.ogc.PropertyNameDocument;
+import net.opengis.ogc.PropertyNameType;
+import net.opengis.ogc.SpatialOperatorType;
+import net.opengis.ogc.TemporalOperatorType;
+import net.opengis.ogc.impl.BBOXTypeImpl;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
+
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
@@ -37,21 +50,9 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.NodeList;
 
 import com.google.common.base.Joiner;
 import com.vividsolutions.jts.geom.Geometry;
-
-import net.opengis.ogc.BBOXType;
-import net.opengis.ogc.BinarySpatialOpType;
-import net.opengis.ogc.BinaryTemporalOpType;
-import net.opengis.ogc.PropertyNameDocument;
-import net.opengis.ogc.PropertyNameType;
-import net.opengis.ogc.SpatialOperatorType;
-import net.opengis.ogc.TemporalOperatorType;
-import net.opengis.ogc.impl.BBOXTypeImpl;
 
 /**
  * @since 4.0.0
@@ -205,14 +206,14 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
             if (geometryCursor.toChild(GmlConstants.QN_ENVELOPE)) {
                 Object sosGeometry = decodeXmlElement(XmlObject.Factory.parse(geometryCursor.getDomNode()));
 
-                if (sosGeometry instanceof PropertyNameType) {
-                    PropertyNameType propType = (PropertyNameType) sosGeometry;
+//                if (sosGeometry instanceof PropertyNameType) {
+//                    PropertyNameType propType = (PropertyNameType) sosGeometry;
 
                     // TODO here apply logic for ogc property
                     // urn:ogc:data:location etc
                     // valueRef = propType.getDomNode().getNodeValue();
 
-                }
+//                }
 
                 if (sosGeometry instanceof Geometry) {
                     spatialFilter.setGeometry((Geometry) sosGeometry);
