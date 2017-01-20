@@ -121,6 +121,11 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Override
+    public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
+        return Collections.singletonMap(OmConstants.NS_OM_2, getSupportedTypes());
+    }
+
+    @Override
     public Set<String> getConformanceClasses(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
