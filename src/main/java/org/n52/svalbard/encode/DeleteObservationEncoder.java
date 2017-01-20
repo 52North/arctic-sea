@@ -23,13 +23,14 @@ import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
 import net.opengis.sosdo.x10.DeleteObservationResponseType;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
 import org.n52.shetland.ogc.sos.response.DeleteObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Sets;
 
@@ -62,7 +63,7 @@ public class DeleteObservationEncoder extends AbstractResponseEncoder<DeleteObse
     @Override
     protected XmlObject create(DeleteObservationResponse dor) throws EncodingException {
         if (dor == null) {
-            throw new UnsupportedEncoderInputException(this, dor);
+            throw new UnsupportedEncoderInputException(this, null);
         }
 
         String observationId = dor.getObservationId();

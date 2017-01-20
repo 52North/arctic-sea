@@ -334,12 +334,10 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private CharacterStringPropertyType[] listToCharacterStringPropertyTypeArray(List<String> list) {
-        List<CharacterStringPropertyType> values = Lists.newArrayList();
-
-
-
-        return list.stream().map(string -> {CharacterStringPropertyType cspt = CharacterStringPropertyType.Factory.newInstance();
+        return list.stream().map(string -> {
+            CharacterStringPropertyType cspt = CharacterStringPropertyType.Factory.newInstance();
             cspt.setCharacterString(string);
-        return string;}).toArray(CharacterStringPropertyType[]::new);
+            return string;
+        }).toArray(CharacterStringPropertyType[]::new);
     }
 }
