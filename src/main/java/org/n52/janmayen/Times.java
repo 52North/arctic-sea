@@ -34,16 +34,29 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class Times {
+public final class Times {
     private static final DateTime ZERO = new DateTime(0, 1, 1, 0, 0, 0, 0, DateTimeZone.UTC);
     private static final String UTC_OFFSET = "+00:00";
     private static final String Z = "Z";
+
+    private Times() {
+    }
 
     public static String encodeDateTime(DateTime dt) {
         if (dt == null) {
             return ZERO.toString().replace(Z, UTC_OFFSET);
         }
         return dt.toString();
+    }
+
+    public static String encodeDateTime(DateTime dateTime, String dateFormat) {
+        if (Strings.isNullOrEmpty(dateFormat)) {
+            return encodeDateTime(dateTime);
+        } else if (dateTime == null) {
+            return ZERO.toString(DateTimeFormat.forPattern(dateFormat));
+        } else {
+            return dateTime.toString(DateTimeFormat.forPattern(dateFormat)).replace(Z, UTC_OFFSET);
+        }
     }
 
     public static DateTime decodeDateTime(String string) {
@@ -54,16 +67,6 @@ public class Times {
             return ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(string);
         } else {
             return ISODateTimeFormat.dateOptionalTimeParser().withZone(DateTimeZone.UTC).parseDateTime(string);
-        }
-    }
-
-    public static String encodeDateTime(DateTime dateTime, String dateFormat) {
-        if (Strings.isNullOrEmpty(dateFormat)) {
-            return encodeDateTime(dateTime);
-        } else if (dateTime == null) {
-            return ZERO.toString(DateTimeFormat.forPattern(dateFormat));
-        } else {
-            return dateTime.toString(DateTimeFormat.forPattern(dateFormat)).replace(Z, UTC_OFFSET);
         }
     }
 
@@ -119,4 +122,5 @@ public class Times {
         }
         return dt1;
     }
+
 }

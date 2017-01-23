@@ -19,12 +19,8 @@ package org.n52.janmayen.function;
 import java.util.Objects;
 
 /**
- * Represents an operation that accepts a single input argument and returns no
- * result. Unlike most other functional interfaces, {@code Consumer} is expected
- * to operate via side-effects.
- *
- * <p>
- * This is a functional interface whose functional method is {@link #accept(Object)}.
+ * Represents an operation that accepts a single input argument and returns no result. Unlike most other functional
+ * interfaces, {@code Consumer} is expected to operate via side-effects.
  *
  * @param <A> the type of the input to the operation
  * @param <X> the type of the exception the operation might throw
@@ -45,17 +41,15 @@ public interface ThrowingConsumer<A, X extends Exception> {
             throws X;
 
     /**
-     * Returns a composed {@code Consumer} that performs, in sequence, this
-     * operation followed by the {@code after} operation. If performing either
-     * operation throws an exception, it is relayed to the caller of the
-     * composed operation. If performing this operation throws an exception,
-     * the {@code after} operation will not be performed.
+     * Returns a composed {@code Consumer} that performs, in sequence, this operation followed by the {@code after}
+     * operation. If performing either operation throws an exception, it is relayed to the caller of the composed
+     * operation. If performing this operation throws an exception, the {@code after} operation will not be performed.
      * <p>
      *
      * @param after the operation to perform after this operation
      *
-     * @return a composed {@code Consumer} that performs in sequence this
-     *         operation followed by the {@code after} operation
+     * @return a composed {@code Consumer} that performs in sequence this operation followed by the {@code after}
+     *         operation
      *
      * @throws NullPointerException if {@code after} is null
      */
@@ -67,10 +61,25 @@ public interface ThrowingConsumer<A, X extends Exception> {
         };
     }
 
+    /**
+     * Create a {@link ThrowingRunnable} by currying the parameter.
+     *
+     * @param t the constant parameter
+     *
+     * @return the runnable
+     */
     default ThrowingRunnable<X> curry(A t) {
         return () -> accept(t);
     }
 
+    /**
+     * Change the type of the parameter using the supplied mapper
+     *
+     * @param <T> the new input type of the operation
+     * @param fun the mapper
+     *
+     * @return the consumer
+     */
     default <T> ThrowingConsumer<T, X> map(ThrowingFunction<? super T, ? extends A, X> fun) {
         return t -> accept(fun.apply(t));
     }

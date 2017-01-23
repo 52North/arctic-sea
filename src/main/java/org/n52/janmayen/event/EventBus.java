@@ -33,7 +33,7 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.janmayen.ClassHelper;
+import org.n52.janmayen.Classes;
 import org.n52.janmayen.GroupedAndNamedThreadFactory;
 import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.lifecycle.Constructable;
@@ -229,7 +229,7 @@ public class EventBus implements Constructable {
         }
 
         private Set<Class<? extends Event>> flatten(Class<? extends Event> eventClass) {
-            return ClassHelper.flattenPartialHierachy(Event.class, eventClass);
+            return Classes.flattenPartialHierachy(Event.class, eventClass);
         }
     }
 

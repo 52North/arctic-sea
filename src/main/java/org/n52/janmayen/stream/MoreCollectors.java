@@ -57,51 +57,42 @@ public final class MoreCollectors {
 
     public static <T, A, R> Collector<T, A, R> filtering(Predicate<T> filter, Collector<T, A, R> downstream) {
         Objects.requireNonNull(filter);
-        BiConsumer<A, T> accumulator = downstream.accumulator();
-        return Collector.of(downstream.supplier(),
-                            (a, t) -> {
-                                if (filter.test(t)) {
-                                    accumulator.accept(a, t);
-                                }
-                            },
-                            downstream.combiner(),
-                            downstream.finisher(),
-                            downstream.characteristics().stream().toArray(Characteristics[]::new));
+        BiConsumer<A, T> downstreamAccumulator = downstream.accumulator();
+        BiConsumer<A, T> accumulator = (a, t) -> {
+            if (filter.test(t)) {
+                downstreamAccumulator.accept(a, t);
+            }
+        };
+        return Collector.of(downstream.supplier(), accumulator, downstream.combiner(), downstream.finisher(),
+                            getCharacteristics(downstream));
 
     }
 
-    public static <T, U, A, R> Collector<T, ?, R> flatMapping(
-            Function<? super T, ? extends Stream<? extends U>> mapper,
-            Collector<? super U, A, R> downstream) {
+    public static <T, U, A, R> Collector<T, ?, R> flatMapping(Function<? super T, ? extends Stream<? extends U>> mapper,
+                                                              Collector<? super U, A, R> downstream) {
         Objects.requireNonNull(mapper);
-        BiConsumer<A, ? super U> downstreamAccumulator = downstream
-                .accumulator();
-        return Collector.of(
-            downstream.supplier(),
-            (r, t) -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u)),
-            downstream.combiner(),
-            downstream.finisher(),
-            downstream.characteristics().stream().toArray(Characteristics[]::new));
+        BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
+        BiConsumer<A, T> accumulator = (r, t)
+                -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u));
+        return Collector.of(downstream.supplier(), accumulator, downstream.combiner(), downstream.finisher(),
+                            getCharacteristics(downstream));
     }
 
     public static <X, T> Collector<X, ?, Map<Chain<T>, BigInteger>> toCardinalities(
-            Function<X, T> id, Predicate<X> hasSubElements,
-            Function<X, Stream<X>> subElements) {
-        return new CardinalityCalculator<>(id, hasSubElements, subElements)
-                .countCollector();
+            Function<X, T> id, Predicate<X> hasSubElements, Function<X, Stream<X>> subElements) {
+        return new CardinalityCalculator<>(id, hasSubElements, subElements).countCollector();
     }
 
-    public static <X, T> Collector<X, ?, Map<Chain<T>, X>> toChain(
-            Function<X, T> id, Predicate<X> hasSubElements,
-            Function<X, Stream<X>> subElements) {
+    public static <X, T> Collector<X, ?, Map<Chain<T>, X>> toChain(Function<X, T> id,
+                                                                   Predicate<X> hasSubElements,
+                                                                   Function<X, Stream<X>> subElements) {
         return toChain(id, hasSubElements, subElements, Function.identity());
     }
 
-    public static <X, T, U> Collector<X, ?, Map<Chain<T>, U>> toChain(
-            Function<X, T> id, Predicate<X> hasSubElements,
-            Function<X, Stream<X>> subElements, Function<X, U> finisher) {
-        return new ChainCollector<>(id, hasSubElements, subElements)
-                .collector(finisher);
+    public static <X, T, U> Collector<X, ?, Map<Chain<T>, U>> toChain(Function<X, T> id, Predicate<X> hasSubElements,
+                                                                      Function<X, Stream<X>> subElements,
+                                                                      Function<X, U> finisher) {
+        return new ChainCollector<>(id, hasSubElements, subElements).collector(finisher);
     }
 
     public static <X> Collector<X, ?, Set<X>> toDuplicateSet() {
@@ -113,14 +104,10 @@ public final class MoreCollectors {
             throw new IllegalArgumentException();
         }
         Supplier<Map<X, Integer>> supplier = HashMap::new;
-        BiConsumer<Map<X, Integer>, X> accumulator
-                = (map, key) -> map.merge(key, 1, Integer::sum);
-        BinaryOperator<Map<X, Integer>> combiner
-                = Functions.mergeToLeftMap(Integer::sum);
-        Function<Map<X, Integer>, Set<X>> finisher
-                = Functions.keySetWhereValues(v -> v >= min);
-        return Collector.of(supplier, accumulator, combiner, finisher,
-                            Characteristics.UNORDERED);
+        BiConsumer<Map<X, Integer>, X> accumulator = (map, key) -> map.merge(key, 1, Integer::sum);
+        BinaryOperator<Map<X, Integer>> combiner = Functions.mergeToLeftMap(Integer::sum);
+        Function<Map<X, Integer>, Set<X>> finisher = Functions.keySetWhereValues(v -> v >= min);
+        return Collector.of(supplier, accumulator, combiner, finisher, Characteristics.UNORDERED);
     }
 
     public static <X> Collector<X, ?, Stream<X>> toDuplicateStream() {
@@ -142,8 +129,7 @@ public final class MoreCollectors {
         return toSingleResult(IllegalStateException::new);
     }
 
-    public static <T> Collector<T, ?, T> toSingleResult(
-            Supplier<? extends RuntimeException> exceptionSupplier) {
+    public static <T> Collector<T, ?, T> toSingleResult(Supplier<? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);
         Supplier<List<T>> supplier = LinkedList<T>::new;
         BiConsumer<List<T>, T> accumulator = List<T>::add;
@@ -154,8 +140,7 @@ public final class MoreCollectors {
             }
             return list.get(0);
         };
-        return Collector
-                .of(supplier, accumulator, combiner, finisher, Characteristics.UNORDERED);
+        return Collector.of(supplier, accumulator, combiner, finisher, Characteristics.UNORDERED);
     }
 
     public static <K, V> Collector<Entry<K, V>, ?, Map<V, K>> toValueMap() {
@@ -163,11 +148,7 @@ public final class MoreCollectors {
     }
 
     public static <K, V> Collector<Entry<K, V>, ?, LinkedHashMap<K, V>> toLinkedHashMap() {
-        Function<Entry<K, V>, K> getKey = Entry::getKey;
-        Function<Entry<K, V>, V> getValue = Entry::getValue;
-        BinaryOperator<V> merger = Streams.throwingMerger();
-        Supplier<LinkedHashMap<K, V>> supplier = LinkedHashMap::new;
-        return toMap(getKey, getValue, merger, supplier);
+        return toMap(Entry::getKey, Entry::getValue, Streams.throwingMerger(), LinkedHashMap::new);
     }
 
     @Deprecated
@@ -219,6 +200,10 @@ public final class MoreCollectors {
         return collector(supplier, accumulator, combiner);
     }
 
+    private static <T, A, R> Characteristics[] getCharacteristics(Collector<T, A, R> downstream) {
+        return downstream.characteristics().stream().toArray(Characteristics[]::new);
+    }
+
     /**
      *
      * @param <X> The object type
@@ -237,8 +222,8 @@ public final class MoreCollectors {
          * @param getChildren   a function to get the children
          */
         protected ChainCollector(Function<X, T> getIdentifier,
-                               Predicate<X> hasChildren,
-                               Function<X, Stream<X>> getChildren) {
+                                 Predicate<X> hasChildren,
+                                 Function<X, Stream<X>> getChildren) {
             this.getIdentifier = Objects.requireNonNull(getIdentifier);
             this.hasChildren = Objects.requireNonNull(hasChildren);
             this.getChildren = Objects.requireNonNull(getChildren);

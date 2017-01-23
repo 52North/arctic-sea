@@ -87,7 +87,6 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
                 .orElseGet(Stream::empty)
                 .peek(t -> LOG.info("Creating provider for {}", t))
                 .flatMap(mapper);
-
     }
 
     /**
@@ -104,13 +103,12 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
                                                      Collection<? extends F> factories) {
 
         Map<K, Producer<C>> uniqueKeyImplementations = new HashMap<>();
-        createProviders(factories, components)
-                .forEach(provider -> {
-                    Supplier<C> old = uniqueKeyImplementations.put(provider.getKey(), provider);
-                    if (old != null) {
-                        LOG.warn("Duplicate component for key {}: {} vs. {}", provider.getKey(), old, provider);
-                    }
-                });
+        createProviders(factories, components).forEach(provider -> {
+            Supplier<C> old = uniqueKeyImplementations.put(provider.getKey(), provider);
+            if (old != null) {
+                LOG.warn("Duplicate component for key {}: {} vs. {}", provider.getKey(), old, provider);
+            }
+        });
         return uniqueKeyImplementations;
     }
 
@@ -119,8 +117,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      * @param <K> the key type
      * @param <C> the component type
      */
-    private abstract static class KeyedProducer<K, C extends Component<K>>
-            implements Producer<C> {
+    private abstract static class KeyedProducer<K, C extends Component<K>> implements Producer<C> {
         private final K key;
 
         /**
@@ -178,8 +175,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      * @param <K> the component key type
      * @param <C> the component type
      */
-    private static class InstanceProducer<K, C extends Component<K>>
-              extends KeyedProducer<K, C> {
+    private static class InstanceProducer<K, C extends Component<K>> extends KeyedProducer<K, C> {
 
         private final C component;
 

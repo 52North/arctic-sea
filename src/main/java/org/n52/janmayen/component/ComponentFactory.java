@@ -49,9 +49,7 @@ public interface ComponentFactory<K, C extends Component<K>> extends Keyed<K> {
      * @return the components
      */
     default Set<C> createAll() {
-        return getKeys().stream()
-                .map(this::create)
-                .collect(toSet());
+        return getKeys().stream().map(this::create).collect(toSet());
     }
 
     /**

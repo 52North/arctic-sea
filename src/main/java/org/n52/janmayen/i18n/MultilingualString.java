@@ -23,7 +23,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -91,9 +90,7 @@ public class MultilingualString implements Serializable, StreamingIterable<Local
     @Override
     public String toString() {
         ToStringHelper h = MoreObjects.toStringHelper(this).omitNullValues();
-        for (Entry<Locale, LocalizedString> e : getLocalizations().entrySet()) {
-            h.add(e.getKey().toString(), e.getValue().getText());
-        }
+        getLocalizations().forEach((key, value) -> h.add(key.toString(), value.getText()));
         return h.toString();
     }
 
@@ -118,9 +115,7 @@ public class MultilingualString implements Serializable, StreamingIterable<Local
 
     public MultilingualString setLocalizations(Map<String, String> localizations) {
         this.localizations.clear();
-        for (Entry<String, String> localization : localizations.entrySet()) {
-            addLocalization(localization.getKey(), localization.getValue());
-        }
+        localizations.forEach(this::addLocalization);
         return this;
     }
 

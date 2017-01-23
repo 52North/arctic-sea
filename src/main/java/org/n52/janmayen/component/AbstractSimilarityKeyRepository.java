@@ -42,7 +42,6 @@ import com.google.common.collect.Maps;
  * @param <K> the key type
  * @param <C> the component type
  */
-// TODO move to iceland
 public abstract class AbstractSimilarityKeyRepository<K extends Similar<K>, C extends Component<K>> {
 
     private Set<Provider<C>> components = Collections.emptySet();

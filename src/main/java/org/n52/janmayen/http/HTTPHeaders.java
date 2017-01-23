@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -30,12 +29,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.janmayen.stream.Streams;
+
 import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
  *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
+ * @author Christian Autermann
  *
  * @since 1.0.0
  */
@@ -64,6 +65,9 @@ public abstract class HTTPHeaders {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(HTTPHeaders.class);
 
+    private HTTPHeaders() {
+    }
+
     public static boolean supportsGzipEncoding(HttpServletRequest req) {
         return checkHeader(req, HTTPHeaders.ACCEPT_ENCODING, HTTPConstants.GZIP_ENCODING);
     }
@@ -73,19 +77,13 @@ public abstract class HTTPHeaders {
     }
 
     private static boolean checkHeader(HttpServletRequest req, String headerName, String value) {
-        Enumeration<?> headers = req.getHeaders(headerName);
-        while (headers.hasMoreElements()) {
-            String header = (String) headers.nextElement();
-            if ((header != null) && !header.isEmpty()) {
-                String[] split = header.split(",");
-                for (String string : split) {
-                    if (string.equalsIgnoreCase(value)) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+        return Streams.stream(Optional.ofNullable(req.getHeaders(headerName))
+                .orElseGet(Collections::emptyEnumeration))
+                .map(Strings::emptyToNull)
+                .filter(Objects::nonNull)
+                .map(h -> h.split(","))
+                .flatMap(Arrays::stream)
+                .anyMatch(value::equalsIgnoreCase);
     }
 
     public static List<MediaType> getAcceptHeader(HttpServletRequest req) {
@@ -93,9 +91,7 @@ public abstract class HTTPHeaders {
                 .map(Strings::emptyToNull)
                 .map(h -> h.split(","))
                 .map(Arrays::stream)
-                .map(s -> s.map(HTTPHeaders::parseMediaType))
-                .map(s -> s.filter(Objects::nonNull))
-                .map(s -> s.collect(toList()))
+                .map(s -> s.map(HTTPHeaders::parseMediaType).filter(Objects::nonNull).collect(toList()))
                 .filter(l -> !l.isEmpty())
                 .orElseGet(() -> Collections.singletonList(MediaType.any()));
     }
@@ -108,4 +104,5 @@ public abstract class HTTPHeaders {
             return null;
         }
     }
+
 }

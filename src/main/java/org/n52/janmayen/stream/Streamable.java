@@ -19,9 +19,16 @@ package org.n52.janmayen.stream;
 import java.util.stream.Stream;
 
 /**
+ * Interface for classes that have a {@code stream()} method.
  *
+ * @see Stream
  * @author Christian Autermann
  */
 public interface Streamable<T> {
+    /**
+     * Create a new stream.
+     *
+     * @return the stream
+     */
     Stream<T> stream();
 }

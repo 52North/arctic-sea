@@ -20,9 +20,14 @@ import java.util.stream.Stream;
 
 /**
  *
+ * Interface for classes implementing both {@link Streamable} and {@link Iterable}.
+ *
+ * @param <T> the element type
+ *
  * @author Christian Autermann
  */
 public interface StreamingIterable<T> extends Streamable<T>, Iterable<T> {
+
     @Override
     default Stream<T> stream() {
         return Streams.stream(this);

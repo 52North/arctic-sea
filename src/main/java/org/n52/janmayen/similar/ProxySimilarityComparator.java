@@ -26,17 +26,14 @@ import org.n52.janmayen.component.Keyed;
 /**
  * TODO JavaDoc
  *
- * @param <T>
- *            the type to compare
- * @param <K>
- *            the similarity type of {@code T}
+ * @param <T> the type to compare
+ * @param <K> the similarity type of {@code T}
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  */
-public abstract class ProxySimilarityComparator<T, K extends Similar<K>>
-        implements Comparator<T> {
+public abstract class ProxySimilarityComparator<T, K extends Similar<K>> implements Comparator<T> {
 
     private final Comparator<T> comparator;
 
@@ -62,21 +59,22 @@ public abstract class ProxySimilarityComparator<T, K extends Similar<K>>
     }
 
     private static Comparator<Class<?>> classComparator() {
-        return (a, b) -> a.isAssignableFrom(b) ? 1 : b .isAssignableFrom(a) ? -1 : 0;
+        return (a, b) -> a.isAssignableFrom(b) ? 1 : b.isAssignableFrom(a) ? -1 : 0;
     }
 
     public static <C extends Keyed<K>, K extends Similar<K>> Comparator<C> create(K ref) {
         return new ProxySimilarityComparator<C, K>(ref) {
-            @Override protected Collection<K> getSimilars(C t) {
+            @Override
+            protected Collection<K> getSimilars(C t) {
                 return t.getKeys();
             }
         };
     }
 
-    public static <T, K extends Similar<K>> Comparator<T> create(
-            K ref, Function<T, Collection<K>> similars) {
+    public static <T, K extends Similar<K>> Comparator<T> create(K ref, Function<T, Collection<K>> similars) {
         return new ProxySimilarityComparator<T, K>(ref) {
-            @Override protected Collection<K> getSimilars(T t) {
+            @Override
+            protected Collection<K> getSimilars(T t) {
                 return similars.apply(t);
             }
         };

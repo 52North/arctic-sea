@@ -46,7 +46,6 @@ import org.n52.janmayen.function.ThrowingTriConsumer;
 import org.n52.janmayen.function.ThrowingUnaryOperator;
 import org.n52.janmayen.function.TriConsumer;
 
-import com.google.common.collect.Iterators;
 
 /**
  * TODO JavaDoc
@@ -112,6 +111,32 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         if (hasExceptions()) {
             throw factory.apply(this);
         }
+    }
+
+    @Override
+    public Iterator<Throwable> iterator() {
+        return new Iterator<Throwable>() {
+            private final Iterator<Throwable> iter = exceptions.iterator();
+            @Override
+            public boolean hasNext() {
+                return iter.hasNext();
+            }
+
+            @Override
+            public Throwable next() {
+                return iter.next();
+            }
+        };
+    }
+
+    @Override
+    public void forEach(Consumer<? super Throwable> action) {
+        this.exceptions.forEach(action);
+    }
+
+    @Override
+    public Spliterator<Throwable> spliterator() {
+        return this.exceptions.spliterator();
     }
 
     public <X extends Exception> Runnable wrap(ThrowingRunnable<X> runnable) {
@@ -264,20 +289,5 @@ public class CompositeException extends Exception implements Iterable<Throwable>
             add((X) ex);
             return defaultValue;
         }
-    }
-
-    @Override
-    public Iterator<Throwable> iterator() {
-        return Iterators.unmodifiableIterator(this.exceptions.iterator());
-    }
-
-    @Override
-    public void forEach(Consumer<? super Throwable> action) {
-        this.exceptions.forEach(action);
-    }
-
-    @Override
-    public Spliterator<Throwable> spliterator() {
-        return this.exceptions.spliterator();
     }
 }

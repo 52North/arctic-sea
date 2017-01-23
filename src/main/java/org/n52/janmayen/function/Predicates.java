@@ -19,7 +19,7 @@ package org.n52.janmayen.function;
 import java.util.function.Predicate;
 
 /**
- * TODO JavaDoc
+ * Utility functions for {@link Predicate}.
  *
  * @author Christian Autermann
  */
@@ -28,19 +28,61 @@ public final class Predicates {
     private Predicates() {
     }
 
+    /**
+     * Negates the predicate.
+     *
+     * @param <T>       the type of the input to the predicate
+     * @param predicate the predicate to negate
+     *
+     * @return the negated predicate
+     */
     public static <T> Predicate<T> not(Predicate<T> predicate) {
         return predicate.negate();
     }
 
+    /**
+     * Creates a predicate.
+     *
+     * @param <T>       the type of the input to the predicate
+     * @param predicate the predicate
+     *
+     * @return the predicate
+     */
     public static <T> Predicate<T> of(Predicate<T> predicate) {
         return predicate;
     }
 
+    /**
+     * Creates a predicate that is always {@code false}.
+     *
+     * @param <T> the type of the input to the predicate
+     *
+     * @return the predicate
+     */
     public static <T> Predicate<T> alwaysFalse() {
-        return t -> false;
+        return constant(false);
     }
 
+    /**
+     * Creates a predicate that is always {@code true}.
+     *
+     * @param <T> the type of the input to the predicate
+     *
+     * @return the predicate
+     */
     public static <T> Predicate<T> alwaysTrue() {
-        return t -> true;
+        return constant(true);
+    }
+
+    /**
+     * Creates a predicate that returns a constant value.
+     *
+     * @param <T>   the type of the input to the predicate
+     * @param value the constant value
+     *
+     * @return the predicate
+     */
+    public static <T> Predicate<T> constant(boolean value) {
+        return t -> value;
     }
 }

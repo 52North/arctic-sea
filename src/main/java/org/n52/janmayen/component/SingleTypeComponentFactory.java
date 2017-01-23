@@ -20,8 +20,7 @@ import java.util.Collections;
 import java.util.Set;
 
 /**
- * Convenience interface for a {@link ComponentFactory} that supports only a
- * single key.
+ * Convenience interface for a {@link ComponentFactory} that supports only a single key.
  *
  * @param <K> the component key
  * @param <C> the component type
@@ -34,9 +33,8 @@ public interface SingleTypeComponentFactory<K, C extends Component<K>>
         extends ComponentFactory<K, C> {
 
     /**
-     * Creates the single {@link Component} supported by this factory. Whether
-     * this method will always return the same instance or a fresh instance for
-     * each call is implementation dependent.
+     * Creates the single {@link Component} supported by this factory. Whether this method will always return the same
+     * instance or a fresh instance for each call is implementation dependent.
      *
      * @return the component
      */
@@ -45,8 +43,7 @@ public interface SingleTypeComponentFactory<K, C extends Component<K>>
     /**
      * {@inheritDoc}
      *
-     * @throws IllegalArgumentException if {@code key} does not equal the
-     *                                  {@linkplain #getKey() key of this factory}.
+     * @throws IllegalArgumentException if {@code key} does not equal the {@linkplain #getKey() key of this factory}.
      */
     @Override
     default C create(K key) {
@@ -57,8 +54,7 @@ public interface SingleTypeComponentFactory<K, C extends Component<K>>
     }
 
     /**
-     * Creates a singleton set of the {@link Component} supported by this
-     * factory.
+     * Creates a singleton set of the {@link Component} supported by this factory.
      *
      * @return the component
      */

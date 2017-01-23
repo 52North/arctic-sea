@@ -18,9 +18,8 @@ package org.n52.janmayen.function;
 
 import java.util.function.Supplier;
 
-
 /**
- * TODO JavaDoc
+ * Utility functions for {@link Supplier}.
  *
  * @author Christian Autermann
  */
@@ -29,6 +28,14 @@ public final class Suppliers {
 
     }
 
+    /**
+     * Returns a constant supplier.
+     *
+     * @param <T> the type of the supplied value
+     * @param t   the constant
+     *
+     * @return the constant supplier
+     */
     public static <T> Supplier<T> constant(T t) {
         return () -> t;
     }

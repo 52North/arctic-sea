@@ -25,7 +25,6 @@ package org.n52.janmayen.function;
 @FunctionalInterface
 public interface ThrowingRunnable<X extends Exception> {
 
-    void run()
-            throws X;
+    void run() throws X;
 
 }

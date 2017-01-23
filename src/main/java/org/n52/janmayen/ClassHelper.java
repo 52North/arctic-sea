@@ -16,22 +16,10 @@
  */
 package org.n52.janmayen;
 
-import java.util.HashSet;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Joiner;
-
-/**
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @since 1.0.0
- *
- */
 public final class ClassHelper {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ClassHelper.class);
 
     private ClassHelper() {
     }
@@ -45,72 +33,11 @@ public final class ClassHelper {
      *         more similiar
      */
     public static int getSimiliarity(Class<?> superClass, Class<?> clazz) {
-        if (clazz.isArray()) {
-            if (!superClass.isArray()) {
-                return -1;
-            } else {
-                return getSimiliarity(superClass.getComponentType(), clazz.getComponentType());
-            }
-        }
-        if (superClass == clazz) {
-            return 0;
-        } else {
-
-            int difference = -1;
-            if (clazz.getSuperclass() != null) {
-                difference = getSimiliarity1(superClass, clazz.getSuperclass(), -1);
-            }
-            if (difference != 0 && superClass.isInterface()) {
-                for (Class<?> i : clazz.getInterfaces()) {
-                    difference = getSimiliarity1(superClass, i, difference);
-                    if (difference == 0) {
-                        break;
-                    }
-                }
-            }
-            return difference < 0 ? -1 : 1 + difference;
-        }
-    }
-
-    private static int getSimiliarity1(Class<?> superClass, Class<?> clazz, int difference) {
-        if (superClass.isAssignableFrom(clazz)) {
-            int cd = getSimiliarity(superClass, clazz);
-            return (cd >= 0) ? ((difference < 0) ? cd : Math.min(difference, cd)) : difference;
-        } else {
-            return difference;
-        }
-    }
-
-    @SuppressWarnings("unchecked")
-    protected static <T> Set<Class<? extends T>> flattenPartialHierachy(Set<Class<? extends T>> alreadyFoundClasses,
-            Class<T> limitingClass, Class<?> currentClass) {
-        if (limitingClass.isAssignableFrom(currentClass)) {
-            alreadyFoundClasses.add((Class<? extends T>) currentClass);
-            if (limitingClass.isInterface()) {
-                for (Class<?> c : currentClass.getInterfaces()) {
-                    if (limitingClass.isAssignableFrom(c)) {
-                        alreadyFoundClasses.add((Class<? extends T>) c);
-                    }
-                }
-            }
-            Class<?> superClass = currentClass.getSuperclass();
-            if (superClass != null) {
-                return flattenPartialHierachy(alreadyFoundClasses, limitingClass,
-                        (Class<?>) currentClass.getSuperclass());
-            } else {
-                return alreadyFoundClasses;
-            }
-        } else {
-            return alreadyFoundClasses;
-        }
+        return Classes.getSimiliarity(superClass, clazz);
     }
 
     public static <T> Set<Class<? extends T>> flattenPartialHierachy(Class<T> limitingClass,
-            Class<? extends T> actualClass) {
-        Set<Class<? extends T>> classes =
-                flattenPartialHierachy(new HashSet<Class<? extends T>>(), limitingClass, actualClass);
-        LOG.debug("Flatten class hierarchy for {} extending/implementing {}; Found: {}", actualClass, limitingClass,
-                Joiner.on(", ").join(classes));
-        return classes;
+                                                                     Class<? extends T> actualClass) {
+        return Classes.flattenPartialHierachy(limitingClass, actualClass);
     }
 }

@@ -32,8 +32,11 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+
 /**
- * TODO JavaDoc
+ * Utility functions for {@link Function}.
  *
  * @author Christian Autermann
  */
@@ -50,7 +53,7 @@ public final class Functions {
      *
      * @return The predicate.
      */
-    public static <T, U extends T> Predicate<T> instanceOf(Class<? extends U> clazz) {
+    public static <T, U extends T> Predicate<T> instanceOf(@Nonnull Class<? extends U> clazz) {
         Objects.requireNonNull(clazz);
         return x -> clazz.isAssignableFrom(x.getClass());
     }
@@ -83,7 +86,8 @@ public final class Functions {
      * @see #cast(java.lang.Object)
      *
      */
-    public static <T, U extends T> Function<T, U> cast(Class<? extends U> clazz) {
+    public static <T, U extends T> Function<T, U> cast(@Nonnull Class<? extends U> clazz) {
+        Objects.requireNonNull(clazz);
         return Functions::cast;
     }
 
@@ -97,41 +101,60 @@ public final class Functions {
      *
      * @return An {@link Optional} containing the input
      */
-    public static <T, U extends T> Function<T, Optional<U>> castIfInstanceOf(Class<? extends U> clazz) {
-        Objects.requireNonNull(clazz);
-        return t -> Optional.ofNullable(t).filter(instanceOf(clazz)).map(cast(clazz));
+    public static <T, U extends T> Function<T, Optional<U>> castIfInstanceOf(@Nonnull Class<? extends U> clazz) {
+        Predicate<Object> filter = instanceOf(clazz);
+        Function<Object, U> mapper = cast(clazz);
+        return t -> Optional.ofNullable(t).filter(filter).map(mapper);
     }
 
-    public static <T, U> Function<T, U> forSupplier(Supplier<U> supplier) {
+    /**
+     * Create a function for the the supplier, ignoring any supplied input.
+     *
+     * @param <T>      the type of the input to the function
+     * @param <U>      the type of the result to the function
+     * @param supplier the supplier
+     *
+     * @return the function wrapping the supplier
+     */
+    public static <T, U> Function<T, U> forSupplier(@Nonnull Supplier<U> supplier) {
         Objects.requireNonNull(supplier);
         return t -> supplier.get();
     }
 
-    public static <X, T> Function<X, T> constant(T t) {
-        return x -> t;
+    /**
+     * Creates a function returning the same result for each invocation.
+     *
+     * @param <T> the type of the input to the function
+     * @param <U> the type of the result to the function
+     * @param u   the constant result
+     *
+     * @return the function
+     */
+    public static <T, U> Function<T, U> constant(@Nullable U u) {
+        return t -> u;
     }
 
-    public static <T, R> Supplier<R> curry(Function<? super T, ? extends R> function, T t) {
+    public static <T, R> Supplier<R> curry(@Nonnull Function<? super T, ? extends R> function, T t) {
         Objects.requireNonNull(function);
         return () -> function.apply(t);
     }
 
-    public static <T1, T2, R> Function<T2, R> curryFirst(BiFunction<T1, T2, R> bifunction, T1 t1) {
+    public static <T1, T2, R> Function<T2, R> curryFirst(@Nonnull BiFunction<T1, T2, R> bifunction, T1 t1) {
         Objects.requireNonNull(bifunction);
         return t2 -> bifunction.apply(t1, t2);
     }
 
-    public static <T1, T2, R> Function<T1, R> currySecond(BiFunction<T1, T2, R> bifunction, T2 t2) {
+    public static <T1, T2, R> Function<T1, R> currySecond(@Nonnull BiFunction<T1, T2, R> bifunction, T2 t2) {
         Objects.requireNonNull(bifunction);
         return t1 -> bifunction.apply(t1, t2);
     }
 
-    public static <A, B> BiConsumer<B, A> reverse(BiConsumer<A, B> consumer) {
+    public static <A, B> BiConsumer<B, A> reverse(@Nonnull BiConsumer<A, B> consumer) {
         Objects.requireNonNull(consumer);
         return (a, b) -> consumer.accept(b, a);
     }
 
-    public static <T> BinaryOperator<T> mergeLeft(BiConsumer<T, T> merger) {
+    public static <T> BinaryOperator<T> mergeLeft(@Nonnull BiConsumer<T, T> merger) {
         Objects.requireNonNull(merger);
         return (a, b) -> {
             merger.accept(a, b);
@@ -139,7 +162,7 @@ public final class Functions {
         };
     }
 
-    public static <T> BinaryOperator<T> mergeRight(BiConsumer<T, T> merger) {
+    public static <T> BinaryOperator<T> mergeRight(@Nonnull BiConsumer<T, T> merger) {
         Objects.requireNonNull(merger);
         return (a, b) -> {
             merger.accept(a, b);
@@ -147,15 +170,18 @@ public final class Functions {
         };
     }
 
-    public static <K, V> BinaryOperator<Map<K, V>> mergeToLeftMap(
-            BiFunction<? super V, ? super V, ? extends V> valueMerger) {
-        Objects.requireNonNull(valueMerger);
-        return mergeLeft((a, b) -> b.forEach((key, value) -> a.merge(key, value, valueMerger)));
+    public static <K, V> BinaryOperator<Map<K, V>> mergeToLeftMap(@Nonnull BinaryOperator<V> valueMerger) {
+        return mergeLeft(mapMerger(valueMerger));
     }
 
-    public static <K, V> BinaryOperator<Map<K, V>> mergeToRightMap(
-            BiFunction<? super V, ? super V, ? extends V> valueMerger) {
-        return mergeRight((a, b) -> b.forEach((key, value) -> a.merge(key, value, valueMerger)));
+    public static <K, V> BinaryOperator<Map<K, V>> mergeToRightMap(@Nonnull BinaryOperator<V> valueMerger) {
+        return mergeRight(mapMerger(valueMerger));
+    }
+
+    private static <K, V> BiConsumer<Map<K, V>, Map<K, V>> mapMerger(@Nonnull BinaryOperator<V> valueMerger) {
+        Objects.requireNonNull(valueMerger);
+        BiFunction<? super V, ? super V, ? extends V> m = (a, b) -> valueMerger.apply(a, b);
+        return (a, b) -> b.forEach((key, value) -> a.merge(key, value, m));
     }
 
     public static <K, V> Function<Map<K, V>, Set<K>> keySetWhereValues(Predicate<? super V> predicate) {
@@ -186,16 +212,15 @@ public final class Functions {
     }
 
     /**
-     *
      * Wraps an {@link ThrowingFunction} into an {@link Function} that throws an {@link Error} if the function throws an
      * {@link Exception}.
      *
-     * @param <S> The function's input type.
-     * @param <T> The function's output type.
-     * @param <X> The type of the the exception that might be thrown.
-     * @param fun The function.
+     * @param <S> the function's input type.
+     * @param <T> the function's output type.
+     * @param <X> the type of the the exception that might be thrown.
+     * @param fun the function.
      *
-     * @return The wrapped function.
+     * @return the wrapped function.
      */
     public static <S, T, X extends Exception> Function<S, T> errorWrapper(ThrowingFunction<S, T, X> fun) {
         return s -> {
