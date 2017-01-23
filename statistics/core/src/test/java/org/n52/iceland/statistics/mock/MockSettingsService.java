@@ -82,4 +82,8 @@ public class MockSettingsService implements SettingsService {
     public void reconfigure() {
     }
 
+    @Override
+    public void configureOnce(Object object) throws ConfigurationError {
+    }
+
 }
