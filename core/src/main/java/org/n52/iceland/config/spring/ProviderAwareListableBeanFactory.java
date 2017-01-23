@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.inject.Provider;
 
@@ -37,7 +38,7 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  *
  * @author Christian Autermann
  */
-public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory {
+public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory implements Serializable {
     private static final long serialVersionUID = -6826027137321052707L;
 
     public ProviderAwareListableBeanFactory() {
@@ -57,8 +58,9 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
 
         DependencyDescriptor providedDescriptor = new DependencyDescriptor(descriptor);
         providedDescriptor.increaseNestingLevel();
-        return findAutowireCandidates(beanName, providedDescriptor.getDependencyType(), providedDescriptor)
-                .keySet().stream().collect(toMap(identity(), name -> new DependencyProvider(descriptor, name)));
+        Class<?> type = providedDescriptor.getDependencyType();
+        Set<String> candidates = findAutowireCandidates(beanName, type, providedDescriptor).keySet();
+        return candidates.stream().collect(toMap(identity(), name -> new DependencyProvider(descriptor, name)));
 
     }
 
@@ -67,7 +69,7 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
 
         OptionalDependencyDescriptor(DependencyDescriptor original) {
             super(original);
-            increaseNestingLevel();
+            super.increaseNestingLevel();
         }
 
         @Override
@@ -95,12 +97,11 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
                 throws BeansException {
             Object resolved = getBean(beanName);
             //Object resolved = doResolveDependency(this.descriptor, beanName, null, null);
-            return (this.optional) ? Optional.ofNullable(resolved) : Objects.requireNonNull(resolved);
+            return this.optional ? Optional.ofNullable(resolved) : Objects.requireNonNull(resolved);
         }
 
         @Override
-        public Object get()
-                throws BeansException {
+        public Object get() throws BeansException {
             return getObject();
         }
     }

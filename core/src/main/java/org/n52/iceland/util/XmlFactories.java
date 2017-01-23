@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +35,8 @@ import javax.xml.transform.TransformerFactory;
  * @author Christian Autermann
  */
 public class XmlFactories {
+    private static final String XML_VERSION = "1.0";
+    private static final String INDENT_AMOUNT = "{http://xml.apache.org/xslt}indent-amount";
 
     private final TransformerFactory transformerFactory;
     private final XMLEventFactory eventFactory;
@@ -42,8 +44,6 @@ public class XmlFactories {
     private final XMLInputFactory inputFactory;
 
     private final Charset DOCUMENT_ENCODING = StandardCharsets.UTF_8;
-    private final String XML_VERSION = "1.0";
-    private final String INDENT_AMOUNT = "{http://xml.apache.org/xslt}indent-amount";
 
     public XmlFactories() {
         this.inputFactory = createInputFactory();

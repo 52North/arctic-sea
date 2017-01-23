@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,9 @@
  */
 package org.n52.iceland.coding;
 
+import static java.util.stream.Collectors.toSet;
+
+import java.util.Objects;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -34,8 +37,6 @@ import org.n52.svalbard.encode.EncoderRepository;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 /**
@@ -47,7 +48,6 @@ public class SupportedTypeRepository implements Constructable {
     @Deprecated
     private static SupportedTypeRepository instance;
     private final Set<Activatable<SupportedType>> supportedTypes = Sets.newHashSet();
-    private final SetMultimap<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> typeMap = HashMultimap.create();
     private final LoadingCache<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> cache;
 
     private EncoderRepository encoderRepository;
@@ -72,19 +72,17 @@ public class SupportedTypeRepository implements Constructable {
         SupportedTypeRepository.instance = this;
         this.supportedTypes.clear();
 
-        for (Decoder<?, ?> decoder : this.decoderRepository.getDecoders()) {
-            Set<SupportedType> set = decoder.getSupportedTypes();
-            if (set != null) {
-                this.supportedTypes.addAll(Activatable.from(set));
-            }
-        }
+        this.decoderRepository.getDecoders().stream()
+                .map(Decoder::getSupportedTypes)
+                .filter(Objects::nonNull)
+                .map(Activatable::from)
+                .forEachOrdered(this.supportedTypes::addAll);
 
-        for (Encoder<?, ?> encoder : this.encoderRepository.getEncoders()) {
-            Set<SupportedType> set = encoder.getSupportedTypes();
-            if (set != null) {
-                this.supportedTypes.addAll(Activatable.from(set));
-            }
-        }
+        this.encoderRepository.getEncoders().stream()
+                .map(Encoder::getSupportedTypes)
+                .filter(Objects::nonNull)
+                .map(Activatable::from)
+                .forEachOrdered(this.supportedTypes::addAll);
     }
 
     private Set<? extends SupportedType> typesFor(Class<? extends SupportedType> key) {
@@ -98,27 +96,21 @@ public class SupportedTypeRepository implements Constructable {
 
     @SuppressWarnings("unchecked")
     public Set<String> getFeatureOfInterestTypesAsString() {
-        return getSupportedTypeAsString((Set<AbstractSupportedStringType>)
-                typesFor(FeatureType.class));
+        return getSupportedTypeAsString((Set<AbstractSupportedStringType>) typesFor(FeatureType.class));
     }
 
     @SuppressWarnings("unchecked")
     public Set<ObservationType> getObservationTypes() {
         return (Set<ObservationType>) typesFor(ObservationType.class);
     }
+
     @SuppressWarnings("unchecked")
     public Set<String> getObservationTypesAsString() {
-        return getSupportedTypeAsString((Set<AbstractSupportedStringType>)
-                typesFor(ObservationType.class));
+        return getSupportedTypeAsString((Set<AbstractSupportedStringType>) typesFor(ObservationType.class));
     }
 
-    private Set<String> getSupportedTypeAsString(
-            Set<? extends AbstractSupportedStringType> types) {
-        Set<String> strings = Sets.newHashSetWithExpectedSize(types.size());
-        for (AbstractSupportedStringType type : types) {
-            strings.add(type.getValue());
-        }
-        return strings;
+    private Set<String> getSupportedTypeAsString(Set<? extends AbstractSupportedStringType> types) {
+        return types.stream().map(AbstractSupportedStringType::getValue).collect(toSet());
     }
 
     @Deprecated
@@ -128,14 +120,10 @@ public class SupportedTypeRepository implements Constructable {
 
     private class CacheLoaderImpl extends CacheLoader<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> {
         @Override
-        public Set<Activatable<SupportedType>> load( Class<? extends SupportedType> key){
-            Set<Activatable<SupportedType>> set = Sets.newHashSet();
-            for (Activatable<SupportedType> activatable : supportedTypes) {
-                if (activatable.getInternal().getClass().isAssignableFrom(key)) {
-                    set.add(activatable);
-                }
-            }
-            return set;
+        public Set<Activatable<SupportedType>> load(Class<? extends SupportedType> key) {
+            return supportedTypes.stream()
+                    .filter(activatable -> activatable.getInternal().getClass().isAssignableFrom(key))
+                    .collect(toSet());
         }
     }
 }

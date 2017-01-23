@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,14 +26,13 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
+import org.n52.janmayen.ConfigLocationProvider;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.iceland.service.ConfigLocationProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractPersistingCachePersistenceStrategy
         implements ContentCachePersistenceStrategy, Constructable {
@@ -64,20 +63,19 @@ public abstract class AbstractPersistingCachePersistenceStrategy
     public Optional<WritableContentCache> load() {
         File file = getCacheFile();
         if (file.exists() && file.canRead()) {
-            LOGGER.debug("Reading cache from temp file '{}'",
-                         file.getAbsolutePath());
+            LOGGER.debug("Reading cache from temp file '{}'", file.getAbsolutePath());
 
             try (FileInputStream fis = new FileInputStream(file);
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
                 return Optional.of((WritableContentCache) ois.readObject());
             } catch (IOException | ClassNotFoundException ex) {
-                LOGGER.error(String.format("Error reading cache file '%s'", file
-                                           .getAbsolutePath()), ex);
+                LOGGER.error(String.format("Error reading cache file '%s'", file.getAbsolutePath()), ex);
             }
-            file.delete();
+            if (!file.delete()) {
+                LOGGER.error("Error deleting cache file '{}'", file.getAbsolutePath());
+            }
         } else {
-            LOGGER.debug("No cache temp file found at '{}'",
-                         file.getAbsolutePath());
+            LOGGER.debug("No cache temp file found at '{}'", file.getAbsolutePath());
         }
         return Optional.empty();
     }
@@ -112,7 +110,9 @@ public abstract class AbstractPersistingCachePersistenceStrategy
     public void remove() {
         File f = getCacheFile();
         if (f != null && f.exists()) {
-            f.delete();
+            if (!f.delete()) {
+                LOGGER.error("Error deleting cache file '{}'", f.getAbsolutePath());
+            }
         }
     }
 }

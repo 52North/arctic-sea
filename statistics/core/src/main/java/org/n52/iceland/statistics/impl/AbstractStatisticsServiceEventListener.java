@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +28,6 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.event.ServiceEvent;
-import org.n52.iceland.event.ServiceEventListener;
 import org.n52.iceland.event.events.AbstractFlowEvent;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -41,19 +39,23 @@ import org.n52.iceland.statistics.impl.resolvers.CountingOutputStreamEventResolv
 import org.n52.iceland.statistics.impl.resolvers.DefaultServiceEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.ExceptionEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.OutgoingResponseEventResolver;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
 
-public abstract class AbstractStatisticsServiceEventListener implements ServiceEventListener {
+import org.n52.janmayen.event.Event;
+import org.n52.janmayen.event.EventListener;
+
+public abstract class AbstractStatisticsServiceEventListener implements EventListener {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
     private static final int DEFAULT_THREAD_POOL_SIZE = 2;
     private static final int EVENTS_ARR_SIZE = 4;
     private final ExecutorService executorService;
     @SuppressWarnings("unchecked")
-    private final Set<Class<? extends ServiceEvent>> eventTypes =
+    private final Set<Class<? extends Event>> eventTypes =
             Sets.newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputStreamEvent.class);
     private ConcurrentMap<Long, List<AbstractFlowEvent>> eventsCache = new ConcurrentHashMap<>();
 
@@ -72,12 +74,12 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     }
 
     @Override
-    public Set<Class<? extends ServiceEvent>> getTypes() {
+    public Set<Class<? extends Event>> getTypes() {
         return eventTypes;
     }
 
     @Override
-    public void handle(ServiceEvent serviceEvent) {
+    public void handle(Event serviceEvent) {
         logger.debug("Event received: {}", serviceEvent);
         if (!dataHandler.isLoggingEnabled()) {
             return;
@@ -123,7 +125,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
         }
     }
 
-    private void addEventToResolver(BatchResolver resolver, ServiceEvent event) {
+    private void addEventToResolver(BatchResolver resolver, Event event) {
         StatisticsServiceEventResolver<?> evtResolver = null;
 
         if (event instanceof ExceptionEvent) {
@@ -160,7 +162,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
      * @param types
      *            additional ServiceEvent to listener for
      */
-    protected void registerEventType(Set<Class<? extends ServiceEvent>> types) {
+    protected void registerEventType(Set<Class<? extends Event>> types) {
         eventTypes.addAll(types);
     }
 
@@ -173,15 +175,15 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
 
     /**
      * Returns the application specific resolver
-     * {@link StatisticsServiceEventResolver} based on the {@link ServiceEvent}
+     * {@link StatisticsServiceEventResolver} based on the {@link Event}
      *
      * @param serviceEvent
      * @return the concrete service event resolver
      */
-    protected abstract StatisticsServiceEventResolver<?> findResolver(ServiceEvent serviceEvent);
+    protected abstract StatisticsServiceEventResolver<?> findResolver(Event serviceEvent);
 
     /**
-     * Custom class for persisting the resolved {@link ServiceEvent}s
+     * Custom class for persisting the resolved {@link Event}s
      */
     private static class BatchResolver implements Runnable {
         private static final Logger logger = LoggerFactory.getLogger(BatchResolver.class);

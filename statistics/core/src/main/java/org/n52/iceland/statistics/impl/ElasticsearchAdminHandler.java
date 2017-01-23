@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +38,8 @@ import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.joda.time.DateTimeZone;
-import org.n52.iceland.exception.ConfigurationError;
+
+import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
 import org.n52.iceland.statistics.api.interfaces.datahandler.IAdminDataHandler;
@@ -46,14 +47,17 @@ import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
 import org.n52.iceland.statistics.api.utils.KibanaImporter;
 import org.n52.iceland.statistics.impl.schemabuilders.DefaultElasticsearchSchemas;
 import org.n52.iceland.statistics.impl.server.EmbeddedElasticsearch;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.google.common.base.Joiner;
+
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.common.settings.Settings;
 

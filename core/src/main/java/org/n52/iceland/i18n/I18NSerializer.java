@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +16,15 @@
  */
 package org.n52.iceland.i18n;
 
-import org.n52.shetland.i18n.LocalizedString;
-import org.n52.shetland.i18n.MultilingualString;
+import org.n52.janmayen.i18n.LocaleHelper;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Iterator;
+
+import org.n52.janmayen.i18n.LocalizedString;
+import org.n52.janmayen.i18n.MultilingualString;
 
 
 public class I18NSerializer {
@@ -44,7 +46,7 @@ public class I18NSerializer {
     }
 
     private StringBuilder encode(StringBuilder builder, LocalizedString loc) {
-        return builder.append(LocaleHelper.toString(loc.getLang()))
+        return builder.append(LocaleHelper.encode(loc.getLang()))
                 .append(TOKEN_SEPERATOR)
                 .append(encodeText(loc.getText()));
     }
@@ -53,7 +55,7 @@ public class I18NSerializer {
         MultilingualString mls = new MultilingualString();
         for (String s : string.split(TUPLE_SEPERATOR)) {
             String[] kvp = s.split(TOKEN_SEPERATOR);
-            mls.addLocalization(LocaleHelper.fromString(kvp[0]), decodeText(kvp[1]));
+            mls.addLocalization(LocaleHelper.decode(kvp[0]), decodeText(kvp[1]));
         }
         return mls;
     }

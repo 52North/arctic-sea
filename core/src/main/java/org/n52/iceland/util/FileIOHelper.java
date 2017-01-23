@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.iceland.exception.ows.concrete.GenericThrowableWrapperException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Utility class for file handling
@@ -56,6 +56,7 @@ public final class FileIOHelper {
      * @throws OwsExceptionReport
      *             If and error occurs;
      */
+    @Deprecated
     public static InputStream loadInputStreamFromFile(File file) throws OwsExceptionReport {
         InputStream is;
         try {

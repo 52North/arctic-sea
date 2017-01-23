@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,23 +27,18 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
-import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.OwsDecodingException;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
-import org.n52.iceland.ogc.sos.ConformanceClasses;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -57,9 +52,13 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.svalbard.ConformanceClasses;
+import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -152,10 +151,6 @@ public class KvpBinding extends SimpleBinding {
         return hasDecoder(k, MediaTypes.APPLICATION_KVP);
     }
 
-    private String normalizeParameterName(String name) {
-        return name.replace("amp;", "").toLowerCase(Locale.ROOT);
-    }
-
     protected OwsServiceRequest parseRequest(HttpServletRequest req) throws OwsExceptionReport {
 
         if (req.getParameterMap() == null || req.getParameterMap().isEmpty()) {
@@ -163,7 +158,7 @@ public class KvpBinding extends SimpleBinding {
         }
 
         Map<String, String> parameters = Streams.stream(req.getParameterNames())
-                .collect(toMap(this::normalizeParameterName, req::getParameter));
+                .collect(toMap(name -> name.replace("amp;", "").toLowerCase(Locale.ROOT), req::getParameter));
 
         String service = parameters.get(RequestParams.service.name());
         String version = parameters.get(RequestParams.version.name());

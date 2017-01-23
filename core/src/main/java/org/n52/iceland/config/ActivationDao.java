@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,7 @@ package org.n52.iceland.config;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.extension.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.ogc.ows.extension.OwsOperationMetadataExtensionProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 
 /**
@@ -74,27 +73,9 @@ public interface ActivationDao {
      *
      * @return if the extended capabilities is active
      */
-    public abstract boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsExtendedCapabilitiesProviderKey key);
+    boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key);
 
-    void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey key,
-                                          boolean active);
+    void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key, boolean active);
 
-    Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys();
-
-
-    /**
-     * Checks if the offering extension is active.
-     *
-     * @param key
-     *            the offering extension key
-     *
-     * @return if the offering extension is active
-     */
-    boolean isOfferingExtensionActive(OfferingExtensionKey key);
-
-    void setOfferingExtensionStatus(OfferingExtensionKey key, boolean active);
-
-    Set<OfferingExtensionKey> getOfferingExtensionKeys();
-
+    Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys();
 }

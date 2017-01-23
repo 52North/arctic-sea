@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,36 +32,37 @@ import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
-import org.n52.iceland.coding.OperationKey;
-import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.iceland.coding.encode.OwsEncodingException;
-import org.n52.iceland.coding.encode.XmlEncoderKey;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.ogc.sos.ConformanceClasses;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.w3c.soap.SoapChain;
-import org.n52.iceland.w3c.soap.SoapHeader;
-import org.n52.iceland.w3c.soap.SoapHelper;
-import org.n52.iceland.w3c.soap.SoapRequest;
-import org.n52.iceland.w3c.soap.SoapResponse;
-import org.n52.iceland.w3c.wsa.WsaMessageIDHeader;
-import org.n52.iceland.w3c.wsa.WsaReplyToHeader;
-import org.n52.iceland.w3c.wsa.WsaToHeader;
+import org.n52.janmayen.http.HTTPHeaders;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.soap.SoapChain;
+import org.n52.shetland.w3c.soap.SoapHeader;
+import org.n52.shetland.w3c.soap.SoapHelper;
+import org.n52.shetland.w3c.soap.SoapRequest;
+import org.n52.shetland.w3c.soap.SoapResponse;
+import org.n52.shetland.w3c.wsa.WsaMessageIDHeader;
+import org.n52.shetland.w3c.wsa.WsaReplyToHeader;
+import org.n52.shetland.w3c.wsa.WsaToHeader;
+import org.n52.svalbard.ConformanceClasses;
+import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
@@ -229,9 +230,8 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void writeResponse(SoapChain chain) throws IOException, HTTPException {
-        HttpUtils.getAcceptHeader(chain.getHttpRequest());
         MediaType contentType =
-                chooseResponseContentType(chain.getBodyResponse(), HttpUtils.getAcceptHeader(chain.getHttpRequest()),
+                chooseResponseContentType(chain.getBodyResponse(), HTTPHeaders.getAcceptHeader(chain.getHttpRequest()),
                         getDefaultContentType());
         // TODO allow other bindings to encode response as soap messages
         if (contentType.isCompatible(getDefaultContentType())) {

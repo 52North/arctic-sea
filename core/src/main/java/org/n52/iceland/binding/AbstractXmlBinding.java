@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,17 +25,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
 import org.n52.iceland.coding.DocumentBuilderProvider;
-import org.n52.iceland.coding.OperationKey;
 import org.n52.iceland.coding.decode.OwsDecodingException;
-import org.n52.shetland.ogc.ows.service.Request;
 import org.n52.iceland.util.http.HttpUtils;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
@@ -45,13 +36,21 @@ import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.Request;
 import org.n52.shetland.util.StringHelper;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -162,7 +161,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             namespace = element.getAttribute(name);
             return new XmlNamespaceOperationDecoderKey(namespace, elementName);
         } else {
-            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(":") + 1));
+            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(':') + 1));
         }
     }
 
@@ -175,7 +174,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             version = Strings.emptyToNull(element.getAttribute(OWSConstants.RequestParams.version.name()));
             if (!Strings.isNullOrEmpty(service)) {
                 String nodeName = element.getNodeName();
-                operation = nodeName.substring(nodeName.indexOf(":") + 1);
+                operation = nodeName.substring(nodeName.indexOf(':') + 1);
             }
         }
         return new OperationKey(service, version, operation);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,7 @@ package org.n52.iceland.service;
 
 import java.util.List;
 
-import org.n52.iceland.w3c.soap.SoapHeader;
+import org.n52.shetland.w3c.soap.SoapHeader;
 
 /**
  * Interface to provide SOAP Header support in Request and Response objects.

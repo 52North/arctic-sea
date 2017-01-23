@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,11 +17,11 @@
 package org.n52.iceland.util.activation;
 
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 
 /**
  * @param <T>
@@ -51,7 +51,7 @@ public class Activatable<T> {
     }
 
     public Optional<T> getOptional() {
-        return Optional.fromNullable(get());
+        return Optional.ofNullable(get());
     }
 
     public T getInternal() {
@@ -69,15 +69,14 @@ public class Activatable<T> {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getInternal(), isActive());
+        return Objects.hash(getInternal(), isActive());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Activatable) {
             Activatable<?> a = (Activatable<?>) obj;
-            return Objects.equal(isActive(), a.isActive()) && Objects.equal(getInternal(), a.getInternal());
-
+            return Objects.equals(isActive(), a.isActive()) && Objects.equals(getInternal(), a.getInternal());
         }
         return false;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,20 +23,21 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.config.SettingType;
-import org.n52.iceland.config.SettingsService;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.config.json.JsonSettingValue;
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.SettingValueFactory;
+import org.n52.faroe.SettingsService;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
-import org.n52.iceland.util.Validation;
+import org.n52.svalbard.Validation;
 
 @Configurable
 public class ElasticsearchSettings {
 
     @Inject
     private SettingsService settingsService;
+    @Inject
+    private SettingValueFactory settingValueFactory;
 
     /**
      * Is statistics collection enable
@@ -206,14 +207,12 @@ public class ElasticsearchSettings {
      *            value to save under the key
      */
     public void saveStringValueToConfigFile(String key, String value) {
-        JsonSettingValue<String> newValue = new JsonSettingValue<String>(SettingType.STRING, key, value);
-        settingsService.changeSetting(newValue);
+        settingsService.changeSetting(this.settingValueFactory.newStringSettingValue(key, value));
 
     }
 
     public void saveBooleanValueToConfigFile(String key, Boolean value) {
-        JsonSettingValue<Boolean> newValue = new JsonSettingValue<Boolean>(SettingType.BOOLEAN, key, value);
-        settingsService.changeSetting(newValue);
+        settingsService.changeSetting(this.settingValueFactory.newBooleanSettingValue(key, value));
 
     }
 

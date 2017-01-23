@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,11 @@
  */
 package org.n52.iceland.service.operator;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.mapping;
+import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -25,8 +30,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.util.collections.MultiMaps;
-import org.n52.iceland.util.collections.SetMultiMap;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
@@ -40,17 +43,13 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class ServiceOperatorRepository extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory> implements Constructable{
+public class ServiceOperatorRepository extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory>
+        implements Constructable {
+
     @Deprecated
     private static ServiceOperatorRepository instance;
-    /**
-     * Implemented ServiceOperator
-     */
     private final Map<OwsServiceKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
-
-    /** supported service versions */
-    private final SetMultiMap<String, String> supportedVersions = MultiMaps.newSetMultiMap();
-
+    private final Map<String, Set<String>> supportedVersions = Maps.newHashMap();
 
     @Autowired(required = false)
     private Collection<ServiceOperator> components;
@@ -62,29 +61,18 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
         ServiceOperatorRepository.instance = this;
         Map<OwsServiceKey, Producer<ServiceOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
-
         this.serviceOperators.clear();
         this.supportedVersions.clear();
-
-        for (Entry<OwsServiceKey, Producer<ServiceOperator>> entry: implementations.entrySet()) {
-            OwsServiceKey key = entry.getKey();
-            Producer<ServiceOperator> producer = entry.getValue();
-            this.serviceOperators.put(key, producer);
-            this.supportedVersions.add(key.getService(), key.getVersion());
-        }
+        this.serviceOperators.putAll(implementations);
+        this.supportedVersions.putAll(implementations.keySet().stream()
+                .collect(groupingBy(OwsServiceKey::getService, mapping(OwsServiceKey::getVersion, toSet()))));
     }
 
     /**
      * @return the implemented request listener
      */
     public Map<OwsServiceKey, ServiceOperator> getServiceOperators() {
-        Map<OwsServiceKey, ServiceOperator> result = Maps.newHashMap();
-        for (Entry<OwsServiceKey, Producer<ServiceOperator>> entrySet : this.serviceOperators.entrySet()) {
-            OwsServiceKey key = entrySet.getKey();
-            Producer<ServiceOperator> value = entrySet.getValue();
-            result.put(key, value.get());
-        }
-        return result;
+        return this.serviceOperators.entrySet().stream().collect(toMap(Entry::getKey, e -> e.getValue().get()));
     }
 
     @Deprecated
@@ -116,9 +104,7 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
     }
 
     public Set<String> getAllSupportedVersions() {
-        return this.supportedVersions.values().stream()
-                .flatMap(Set::stream)
-                .collect(Collectors.toSet());
+        return this.supportedVersions.values().stream().flatMap(Set::stream).collect(Collectors.toSet());
     }
 
     /**

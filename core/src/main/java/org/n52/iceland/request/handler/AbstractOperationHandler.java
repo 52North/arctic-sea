@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -32,15 +33,19 @@ import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.iceland.i18n.I18NSettings;
+import org.n52.iceland.service.ServiceSettings;
+import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPMethods;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.shetland.ogc.ows.OwsAllowedValues;
 import org.n52.shetland.ogc.ows.OwsDCP;
 import org.n52.shetland.ogc.ows.OwsDomain;
@@ -49,11 +54,10 @@ import org.n52.shetland.ogc.ows.OwsMetadata;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.OwsRequestMethod;
 import org.n52.shetland.ogc.ows.OwsValue;
-import org.n52.iceland.service.ServiceSettings;
-import org.n52.iceland.util.Validation;
-import org.n52.janmayen.http.HTTPHeaders;
-import org.n52.janmayen.http.HTTPMethods;
-import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.svalbard.OperationKey;
+import org.n52.svalbard.Validation;
 
 /**
  * TODO JavaDoc
@@ -64,6 +68,8 @@ import org.n52.janmayen.http.MediaType;
 public abstract class AbstractOperationHandler implements OperationHandler {
     private URI serviceURL;
     private BindingRepository bindingRepository;
+    private Locale defaultLanguage;
+    private boolean showAllLanguages;
 
     @Inject
     public void setBindingRepository(BindingRepository bindingRepository) {
@@ -76,52 +82,79 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         this.serviceURL = Validation.notNull("Service URL", serviceURL);
     }
 
-    private Set<OwsDCP> getDCP(String service, String version)
-            throws OwsExceptionReport {
+    protected URI getServiceURL() {
+        return this.serviceURL;
+    }
+
+    @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
+    public void setDefaultLanguage(String defaultLanguage) {
+        this.defaultLanguage = new Locale(defaultLanguage);
+    }
+
+    protected Locale getDefaultLanguage() {
+        return defaultLanguage;
+    }
+
+    @Setting(I18NSettings.I18N_SHOW_ALL_LANGUAGE_VALUES)
+    public void setShowAllLanguages(boolean showAllLanguages) {
+        this.showAllLanguages = showAllLanguages;
+    }
+
+    protected boolean isShowAllLanguages() {
+        return this.showAllLanguages;
+    }
+
+    protected Locale getRequestedLocale(OwsServiceRequest request) {
+        return LocaleHelper.decode(request.getRequestedLanguage(), defaultLanguage);
+    }
+
+    private Set<OwsDCP> getDCP(String service, String version) {
         return Collections.singleton(getDCP(new OperationKey(service, version, getOperationName())));
     }
 
-    private OwsDCP getDCP(OperationKey operation)
-            throws OwsExceptionReport {
-        try {
-            Set<OwsRequestMethod> methods = Stream
-                    .concat(getRequestMethodsForServiceURL(operation),
-                            getRequestMethodsForBindingURL(operation))
-                    .collect(toSet());
+    private OwsDCP getDCP(OperationKey operation) {
+        Set<OwsRequestMethod> methods = Stream
+                .concat(getRequestMethodsForServiceURL(operation),
+                        getRequestMethodsForBindingURL(operation))
+                .collect(toSet());
+        return new OwsHttp(methods);
+    }
 
-            return new OwsHttp(methods);
-        } catch (Exception e) {
-            // FIXME valid exception
-            throw new NoApplicableCodeException().causedBy(e);
-        }
+    private Stream<OwsRequestMethod> getRequestMethodsForBindingURL(OperationKey operation) {
+        return this.bindingRepository.getBindings().values().stream()
+                .flatMap(binding -> getRequestMethods(binding, operation));
     }
 
     private Stream<OwsRequestMethod> getRequestMethodsForServiceURL(OperationKey operation) {
-        Collection<Binding> bindings = bindingRepository.getBindings().values();
         Map<String, Set<OwsValue>> mediaTypesByMethod = new HashMap<>();
-        bindings.stream().forEach(binding
+        this.bindingRepository.getBindings().values().stream().forEach(binding
                 -> HTTPMethods.METHODS.stream()
-                .filter(method -> isMethodSupported(binding, method, operation))
-                .forEach(method -> mediaTypesByMethod.computeIfAbsent(method, (m) -> new HashSet<>())
-                        .addAll(Optional.ofNullable(binding.getSupportedEncodings())
-                                .filter(x -> !x.isEmpty()).map(Collection::stream)
-                                .map(x -> x.map(MediaType::toString).map(OwsValue::new).collect(toSet()))
-                                .orElseGet(Collections::emptySet))
-                )
-        );
-
+                        .filter(isMethodSupported(binding, operation))
+                        .forEach(method -> mediaTypesByMethod.computeIfAbsent(method, Functions.forSupplier(HashSet::new))
+                                .addAll(getMediaTypes(binding))));
         return mediaTypesByMethod.entrySet().stream()
-                .map(e -> new OwsRequestMethod(serviceURL, e.getKey(),
-                                               Collections
-                                               .singleton(new OwsDomain(HTTPHeaders.CONTENT_TYPE, new OwsAllowedValues(e
-                                                                        .getValue())))));
+                .map(e -> new OwsRequestMethod(this.serviceURL, e.getKey(), createContentTypeDomains(e.getValue())));
+    }
+
+    private Set<OwsValue> getMediaTypes(Binding binding) {
+        return Optional.ofNullable(binding.getSupportedEncodings())
+                .map(Collection::stream).orElseGet(Stream::empty)
+                .map(MediaType::toString).map(OwsValue::new)
+                .collect(toSet());
+    }
+
+    private Set<OwsDomain> createContentTypeDomains(Set<OwsValue> value) {
+        return Collections.singleton(createContentTypeDomain(value));
+    }
+
+    private OwsDomain createContentTypeDomain(Set<OwsValue> value) {
+        return new OwsDomain(HTTPHeaders.CONTENT_TYPE, new OwsAllowedValues(value));
     }
 
     private Stream<OwsRequestMethod> getRequestMethods(Binding binding, OperationKey operation) {
         URI patternURI = URI.create(this.serviceURL + binding.getUrlPattern());
-        Set<OwsDomain> constraints = getConstraints(binding);
-        return HTTPMethods.METHODS.stream()
-                .filter(isMethodSupported(binding, operation))
+        Set<OwsDomain> constraints = createContentTypeDomains(getMediaTypes(binding));
+        return HTTPMethods.METHODS.stream().filter(isMethodSupported(binding, operation))
                 .map(method -> new OwsRequestMethod(patternURI, method, constraints));
     }
 
@@ -143,25 +176,13 @@ public abstract class AbstractOperationHandler implements OperationHandler {
                 default:
                     return false;
             }
-        } catch (HTTPException ex) {
+        } catch (HTTPException ignored) {
             return false;
         }
     }
 
-    private Set<OwsDomain> getConstraints(Binding binding) {
-        return Optional
-                .ofNullable(binding.getSupportedEncodings())
-                .filter(x -> !x.isEmpty())
-                .map(Collection::stream)
-                .map(x -> x.map(MediaType::toString).map(OwsValue::new))
-                .map(OwsAllowedValues::new)
-                .map(x -> new OwsDomain(HTTPHeaders.CONTENT_TYPE, x))
-                .map(Collections::singleton).orElseGet(Collections::emptySet);
-    }
-
     @Override
-    public OwsOperation getOperationsMetadata(String service, String version)
-            throws OwsExceptionReport {
+    public OwsOperation getOperationsMetadata(String service, String version) throws OwsExceptionReport {
         String name = getOperationName();
         Set<OwsDomain> parameters = getOperationParameters(service, version);
         Set<OwsDomain> constraints = getOperationConstraints(service, version);
@@ -182,9 +203,5 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         return null;
     }
 
-    private Stream<OwsRequestMethod> getRequestMethodsForBindingURL(OperationKey operation) {
-        return bindingRepository.getBindings().values().stream()
-                .flatMap(binding -> getRequestMethods(binding, operation));
-    }
 
 }

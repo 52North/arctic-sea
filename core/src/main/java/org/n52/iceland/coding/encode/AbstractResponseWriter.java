@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,6 @@
  */
 package org.n52.iceland.coding.encode;
 
-import java.util.Objects;
-
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -29,6 +23,8 @@ import org.n52.shetland.ogc.ows.service.ResponseFormat;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.EncoderRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract {@link ResponseWriter} class for response streaming
@@ -42,11 +38,10 @@ import org.n52.svalbard.encode.EncoderRepository;
 public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractResponseWriter.class);
     private MediaType contentType;
-    private EncoderRepository encoderRepository;
+    private final EncoderRepository encoderRepository;
 
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = Objects.requireNonNull(encoderRepository);
+    public AbstractResponseWriter(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
     }
 
     @Override
@@ -89,5 +84,9 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
             }
         }
         return getContentType();
+    }
+
+    protected EncoderRepository getEncoderRepository() {
+        return encoderRepository;
     }
 }

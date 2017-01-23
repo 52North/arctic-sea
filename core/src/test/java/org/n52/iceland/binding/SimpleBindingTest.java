@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,15 +27,14 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
-
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.response.TestResponse;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.OperationResponseEncoderKey;
 
 /**
  * @since 1.0.0

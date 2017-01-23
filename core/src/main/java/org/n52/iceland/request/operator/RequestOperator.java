@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2016 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,11 +19,11 @@ package org.n52.iceland.request.operator;
 import java.util.Set;
 
 import org.n52.janmayen.component.Component;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.iceland.service.ConformanceClass;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.svalbard.ConformanceClass;
 
 /**
  * Interface for SOS request operator implementations
@@ -31,7 +31,7 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
  *
  * @since 1.0.0
  */
-public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey>{
+public interface RequestOperator extends ConformanceClass, Component<RequestOperatorKey> {
 
     /**
      * Receives and processes the incoming {@link OwsServiceRequest} and
