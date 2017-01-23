@@ -30,7 +30,34 @@ import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.stream.Stream;
 
+import net.opengis.ows.x11.AddressType;
+import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
+import net.opengis.ows.x11.AnyValueDocument.AnyValue;
+import net.opengis.ows.x11.CapabilitiesBaseType;
+import net.opengis.ows.x11.CodeType;
+import net.opengis.ows.x11.ContactType;
+import net.opengis.ows.x11.DCPDocument.DCP;
+import net.opengis.ows.x11.DomainMetadataType;
+import net.opengis.ows.x11.DomainType;
+import net.opengis.ows.x11.HTTPDocument.HTTP;
+import net.opengis.ows.x11.KeywordsType;
+import net.opengis.ows.x11.LanguageStringType;
+import net.opengis.ows.x11.MetadataType;
+import net.opengis.ows.x11.NoValuesDocument.NoValues;
+import net.opengis.ows.x11.OnlineResourceType;
+import net.opengis.ows.x11.OperationDocument.Operation;
+import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
+import net.opengis.ows.x11.RangeType;
+import net.opengis.ows.x11.RequestMethodType;
+import net.opengis.ows.x11.ResponsiblePartySubsetType;
+import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
+import net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider;
+import net.opengis.ows.x11.TelephoneType;
+import net.opengis.ows.x11.ValueType;
+import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
+
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.janmayen.http.HTTPMethods;
 import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.janmayen.i18n.LocalizedString;
@@ -71,32 +98,6 @@ import org.n52.shetland.w3c.xlink.Show;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.base.Strings;
-
-import net.opengis.ows.x11.AddressType;
-import net.opengis.ows.x11.AllowedValuesDocument.AllowedValues;
-import net.opengis.ows.x11.AnyValueDocument.AnyValue;
-import net.opengis.ows.x11.CapabilitiesBaseType;
-import net.opengis.ows.x11.CodeType;
-import net.opengis.ows.x11.ContactType;
-import net.opengis.ows.x11.DCPDocument.DCP;
-import net.opengis.ows.x11.DomainMetadataType;
-import net.opengis.ows.x11.DomainType;
-import net.opengis.ows.x11.HTTPDocument.HTTP;
-import net.opengis.ows.x11.KeywordsType;
-import net.opengis.ows.x11.LanguageStringType;
-import net.opengis.ows.x11.MetadataType;
-import net.opengis.ows.x11.NoValuesDocument.NoValues;
-import net.opengis.ows.x11.OnlineResourceType;
-import net.opengis.ows.x11.OperationDocument.Operation;
-import net.opengis.ows.x11.OperationsMetadataDocument.OperationsMetadata;
-import net.opengis.ows.x11.RangeType;
-import net.opengis.ows.x11.RequestMethodType;
-import net.opengis.ows.x11.ResponsiblePartySubsetType;
-import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
-import net.opengis.ows.x11.ServiceProviderDocument.ServiceProvider;
-import net.opengis.ows.x11.TelephoneType;
-import net.opengis.ows.x11.ValueType;
-import net.opengis.ows.x11.ValuesReferenceDocument.ValuesReference;
 
 public abstract class AbstractCapabilitiesBaseTypeDecoder {
 
@@ -177,15 +178,15 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         if (metadata == null) {
             return null;
         }
-        URI href = Optional.ofNullable(metadata.getHref()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
-        URI role = Optional.ofNullable(metadata.getRole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
+        URI href = Optional.ofNullable(metadata.getHref()).map(Strings::emptyToNull).map(URI::create).orElse(null);
+        URI role = Optional.ofNullable(metadata.getRole()).map(Strings::emptyToNull).map(URI::create).orElse(null);
         URI arcrole =
-                Optional.ofNullable(metadata.getArcrole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
+                Optional.ofNullable(metadata.getArcrole()).map(Strings::emptyToNull).map(URI::create).orElse(null);
         Show show = Optional.ofNullable(metadata.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
         Actuate actuate =
                 Optional.ofNullable(metadata.getActuate()).map(Object::toString).map(Actuate::valueOf).orElse(null);
         URI about =
-                Optional.ofNullable(metadata.getAbout()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
+                Optional.ofNullable(metadata.getAbout()).map(Strings::emptyToNull).map(URI::create).orElse(null);
         String title = metadata.getTitle();
         return new OwsMetadata(href, role, arcrole, title, show, actuate, about);
     }
@@ -299,10 +300,10 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
         if (method == null) {
             return null;
         }
-        URI href = Optional.ofNullable(method.getHref()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
-        URI role = Optional.ofNullable(method.getRole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
+        URI href = Optional.ofNullable(method.getHref()).map(Strings::emptyToNull).map(URI::create).orElse(null);
+        URI role = Optional.ofNullable(method.getRole()).map(Strings::emptyToNull).map(URI::create).orElse(null);
         URI arcrole =
-                Optional.ofNullable(method.getArcrole()).map(Strings::emptyToNull).map(URI::create).orElseGet(null);
+                Optional.ofNullable(method.getArcrole()).map(Strings::emptyToNull).map(URI::create).orElse(null);
         Show show = Optional.ofNullable(method.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
         Actuate actuate =
                 Optional.ofNullable(method.getActuate()).map(Object::toString).map(Actuate::valueOf).orElse(null);
@@ -371,11 +372,11 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder {
             return null;
         }
         URI href = Optional.ofNullable(onlineResource.getHref()).map(Strings::emptyToNull).map(URI::create)
-                .orElseGet(null);
+                .orElse(null);
         URI role = Optional.ofNullable(onlineResource.getRole()).map(Strings::emptyToNull).map(URI::create)
-                .orElseGet(null);
+                .orElse(null);
         URI arcrole = Optional.ofNullable(onlineResource.getArcrole()).map(Strings::emptyToNull).map(URI::create)
-                .orElseGet(null);
+                .orElse(null);
         Show show =
                 Optional.ofNullable(onlineResource.getShow()).map(Object::toString).map(Show::valueOf).orElse(null);
         Actuate actuate = Optional.ofNullable(onlineResource.getActuate()).map(Object::toString).map(Actuate::valueOf)
