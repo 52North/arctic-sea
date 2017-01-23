@@ -34,7 +34,7 @@
     <name>52°North Faroe Parent</name>
     <description>Arctic Sea Configuration API</description>
     <inceptionYear>2017</inceptionYear>
-    
+
     <modules>
         <module>json</module>
         <module>core</module>
@@ -96,7 +96,7 @@
             <dependency>
                 <groupId>org.n52.janmayen</groupId>
                 <artifactId>janmayen</artifactId>
-                <version>1-SNAPSHOT</version>
+                <version>1.0.0</version>
             </dependency>
             <!--        <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
