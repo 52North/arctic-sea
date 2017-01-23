@@ -35,8 +35,7 @@ public interface SettingsService {
      *
      * @throws ConfigurationError if there is a problem changing the setting.
      */
-    void changeSetting(SettingValue<?> newValue)
-            throws ConfigurationError;
+    void changeSetting(SettingValue<?> newValue) throws ConfigurationError;
 
     /**
      * Configure {@code o} with the required settings. All changes to a setting required by the object will be applied.
@@ -47,8 +46,17 @@ public interface SettingsService {
      * @see Configurable
      * @see Setting
      */
-    void configure(Object object)
-            throws ConfigurationError;
+    void configure(Object object) throws ConfigurationError;
+
+    /**
+     * Configure {@code o} with the required settings. Future changes to settings will not be propagated to the object.
+     *
+     * @param object the object to configure
+     *
+     * @throws ConfigurationError if there is a problem configuring the object
+     * @see #configure(java.lang.Object)
+     */
+    void configureOnce(Object object) throws ConfigurationError;
 
     /**
      * Deletes all settings and users.
@@ -62,8 +70,7 @@ public interface SettingsService {
      *
      * @throws ConfigurationError if there is a problem deleting the setting
      */
-    void deleteSetting(SettingDefinition<?> setting)
-            throws ConfigurationError;
+    void deleteSetting(SettingDefinition<?> setting) throws ConfigurationError;
 
     /**
      * Get the definition that is defined with the specified key.

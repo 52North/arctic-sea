@@ -116,17 +116,21 @@ public class SettingsServiceImpl implements SettingsService {
      * @see Setting
      */
     @Override
-    public void configure(Object object)
-            throws ConfigurationError {
+    public void configure(Object object) throws ConfigurationError {
+        configure(object, true);
+    }
 
+    @Override
+    public void configureOnce(Object object) throws ConfigurationError {
+        configure(object, false);
+    }
+
+    private void configure(Object object, boolean persist) throws ConfigurationError {
         Class<?> clazz = object.getClass();
-
         if (clazz.getAnnotation(Configurable.class) == null) {
             return;
         }
-
         LOG.debug("Configuring object {}", object);
-
         for (Method method : clazz.getMethods()) {
             Setting s = method.getAnnotation(Setting.class);
             if (s != null) {
@@ -142,25 +146,26 @@ public class SettingsServiceImpl implements SettingsService {
                     throw new ConfigurationError(String.format(
                             "Non-public method %s annotated with @Setting in %s", method, clazz));
                 } else {
-                    configure(new ConfigurableObject(method, object, key, s.required()));
+                    configure(new ConfigurableObject(method, object, key, s.required()), persist);
                 }
             }
         }
     }
 
-    private void configure(ConfigurableObject co) {
+    private void configure(ConfigurableObject co, boolean persist) {
         LOG.debug("Configuring {}", co);
-        this.configurableObjectsLock.writeLock().lock();
-        try {
-            this.configurableObjects.computeIfAbsent(co.getKey(), Functions.forSupplier(HashSet::new)).add(co);
-        } finally {
-            this.configurableObjectsLock.writeLock().unlock();
+        if (persist) {
+            this.configurableObjectsLock.writeLock().lock();
+            try {
+                this.configurableObjects.computeIfAbsent(co.getKey(), Functions.forSupplier(HashSet::new)).add(co);
+            } finally {
+                this.configurableObjectsLock.writeLock().unlock();
+            }
         }
         try {
             co.configure(getSettingValue(co));
         } catch (RuntimeException cpe) {
-            throw new ConfigurationError("Exception configuring " + co
-                                         .getKey(), cpe);
+            throw new ConfigurationError("Exception configuring " + co.getKey(), cpe);
         }
     }
 
