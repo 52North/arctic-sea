@@ -131,7 +131,7 @@ public class JTSHelper {
 
         return createWKTPolygonFromEnvelope(minx, miny, maxx, maxy);
     }
-    
+
     public static Envelope createEnvelopeFromLowerUpperCorner(String lowerCorner, String upperCorner) {
         final String[] splittedLowerCorner = lowerCorner.split(" ");
         final String[] splittedUpperCorner = upperCorner.split(" ");
