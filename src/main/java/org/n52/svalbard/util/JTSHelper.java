@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
+import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.PrecisionModel;
@@ -129,6 +130,16 @@ public class JTSHelper {
         String maxy = splittedUpperCorner[1];
 
         return createWKTPolygonFromEnvelope(minx, miny, maxx, maxy);
+    }
+
+    public static Envelope createEnvelopeFromLowerUpperCorner(String lowerCorner, String upperCorner) {
+        final String[] splittedLowerCorner = lowerCorner.split(" ");
+        final String[] splittedUpperCorner = upperCorner.split(" ");
+        double minx = Double.parseDouble(splittedLowerCorner[0]);
+        double miny = Double.parseDouble(splittedLowerCorner[1]);
+        double maxx = Double.parseDouble(splittedUpperCorner[0]);
+        double maxy = Double.parseDouble(splittedUpperCorner[1]);
+        return new Envelope(minx, maxx, miny, maxy);
     }
 
     private static String createWKTPolygonFromEnvelope(String minx, String miny, String maxx, String maxy) {

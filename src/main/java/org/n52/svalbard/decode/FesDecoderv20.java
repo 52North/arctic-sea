@@ -39,9 +39,11 @@ import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.JTSHelper;
 import org.n52.svalbard.util.XmlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +51,11 @@ import org.w3c.dom.NodeList;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
+import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.operation.overlay.PolygonBuilder;
 
 import net.opengis.fes.x20.BBOXType;
 import net.opengis.fes.x20.BinaryComparisonOpType;
@@ -167,6 +173,17 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                     Object sosGeometry = decodeXmlObject(Factory.parse(geometryCursor.getDomNode()));
                     if (sosGeometry instanceof Geometry) {
                         spatialFilter.setGeometry((Geometry) sosGeometry);
+                    } else if (sosGeometry instanceof ReferencedEnvelope) {
+                        ReferencedEnvelope referencedEnvelope = (ReferencedEnvelope)sosGeometry;
+                        if (referencedEnvelope.isSetEnvelope()) {
+                            GeometryFactory geomFactory = null;
+                            if (referencedEnvelope.isSetSrid()) {
+                                geomFactory = JTSHelper.getGeometryFactoryForSRID(referencedEnvelope.getSrid());
+                            } else {
+                                geomFactory = new GeometryFactory();
+                            }
+                            spatialFilter.setGeometry(geomFactory.toGeometry(referencedEnvelope.getEnvelope()));
+                        }
                     } else {
                         throw new UnsupportedDecoderXmlInputException(this, xbSpatialOpsType);
                     }

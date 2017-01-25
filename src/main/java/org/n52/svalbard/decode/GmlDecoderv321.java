@@ -36,6 +36,7 @@ import org.n52.shetland.util.CRSHelper;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.util.DateTimeParseException;
+import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
@@ -203,19 +204,18 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
      *
      * @param envelopeDocument
      *            XmlBean representing the BBOX-element in the request
-     * @return Returns WKT-String representing the BBOX as Multipoint with two
-     *         elements
+     * @return Returns the BBOX as ReferencedEnvelope.
      *
      *
      * @throws DecodingException
      *             * if parsing the BBOX element failed
      */
-    private Geometry parseEnvelope(EnvelopeDocument envelopeDocument) throws DecodingException {
+    private ReferencedEnvelope parseEnvelope(EnvelopeDocument envelopeDocument) throws DecodingException {
         EnvelopeType envelopeType = envelopeDocument.getEnvelope();
         int srid = CRSHelper.parseSrsName(envelopeType.getSrsName());
         String lowerCorner = envelopeType.getLowerCorner().getStringValue();
         String upperCorner = envelopeType.getUpperCorner().getStringValue();
-        return JTSHelper.createGeometryFromWKT(JTSHelper.createWKTPolygonFromEnvelope(lowerCorner, upperCorner), srid);
+        return new ReferencedEnvelope(JTSHelper.createEnvelopeFromLowerUpperCorner(lowerCorner, upperCorner), srid);
     }
 
     /**
