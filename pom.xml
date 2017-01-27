@@ -28,7 +28,7 @@
 
     <groupId>org.n52.faroe</groupId>
     <artifactId>faroe-parent</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <name>52°North Faroe Parent</name>
@@ -57,7 +57,7 @@
         <url>https://github.com/52North/faroe</url>
         <connection>scm:git:https://github.com/52North/faroe.git</connection>
         <developerConnection>scm:git:https://github.com/52North/faroe.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v1.1.0</tag>
     </scm>
 
     <issueManagement>
