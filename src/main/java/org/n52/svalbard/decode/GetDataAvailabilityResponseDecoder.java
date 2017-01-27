@@ -82,11 +82,6 @@ public class GetDataAvailabilityResponseDecoder
             GetDataAvailabilityResponseType response) throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(response.getDataAvailabilityMemberArray())) {
             List<GetDataAvailabilityResponse.DataAvailability> availabilities = Lists.newArrayList();
-<<<<<<< HEAD
-
-=======
-            
->>>>>>> 8a9070fb4b4a053e88f3c4f2f04a2d7b22a8e479
             Map<String, TimePeriod> periods = Maps.newHashMap();
             // iterate once to get the phenomenonTime entries
             for (DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
@@ -95,11 +90,6 @@ public class GetDataAvailabilityResponseDecoder
                     periods.put(phenomenonTime.getGmlId(), phenomenonTime);
                 }
             }
-<<<<<<< HEAD
-
-=======
-            
->>>>>>> 8a9070fb4b4a053e88f3c4f2f04a2d7b22a8e479
             for (DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
                 ReferenceType procedure = decodeXmlElement(damt.getProcedure());
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
