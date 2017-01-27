@@ -38,6 +38,8 @@
     <modules>
         <module>json</module>
         <module>core</module>
+        <module>annotations</module>
+        <module>utils</module>
     </modules>
 
     <developers>
@@ -91,6 +93,16 @@
             <dependency>
                 <groupId>org.n52.faroe</groupId>
                 <artifactId>faroe-json</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-annotations</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

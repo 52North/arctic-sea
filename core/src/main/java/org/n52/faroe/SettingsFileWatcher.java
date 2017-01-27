@@ -16,7 +16,6 @@
  */
 package org.n52.faroe;
 
-
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
