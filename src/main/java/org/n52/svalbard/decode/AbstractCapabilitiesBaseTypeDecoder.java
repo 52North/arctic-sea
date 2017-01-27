@@ -99,7 +99,7 @@ import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.base.Strings;
 
-public abstract class AbstractCapabilitiesBaseTypeDecoder {
+public abstract class AbstractCapabilitiesBaseTypeDecoder<T, S> extends AbstractXmlDecoder<T, S> {
 
     protected OwsCapabilities parseCapabilitiesBaseType(String service, CapabilitiesBaseType cbt)
             throws DecodingException {

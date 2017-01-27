@@ -89,10 +89,10 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     private static final Set<DecoderKey> DECODER_KEYS =
             CollectionHelper.union(CodingHelper.decoderKeysForElements(GmlConstants.NS_GML_32, EnvelopeDocument.class,
-                    TimeInstantType.class, TimePeriodType.class, TimeInstantDocument.class, TimePeriodDocument.class,
-                    ReferenceType.class, MeasureType.class, PointType.class, PointDocument.class, LineStringType.class,
-                    PolygonType.class, CompositeSurfaceType.class, CodeWithAuthorityType.class, CodeType.class,
-                    FeaturePropertyType.class, GeometryPropertyType.class, VerticalDatumPropertyType.class
+                    EnvelopeType.class, TimeInstantType.class, TimePeriodType.class, TimeInstantDocument.class,
+                    TimePeriodDocument.class, ReferenceType.class, MeasureType.class, PointType.class, PointDocument.class,
+                    LineStringType.class, PolygonType.class, CompositeSurfaceType.class, CodeWithAuthorityType.class,
+                    CodeType.class, FeaturePropertyType.class, GeometryPropertyType.class, VerticalDatumPropertyType.class
 
             ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
 
@@ -117,7 +117,9 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         if (xmlObject instanceof FeaturePropertyType) {
             return parseFeaturePropertyType((FeaturePropertyType) xmlObject);
         } else if (xmlObject instanceof EnvelopeDocument) {
-            return parseEnvelope((EnvelopeDocument) xmlObject);
+            return parseEnvelope(((EnvelopeDocument) xmlObject).getEnvelope());
+        } else if (xmlObject instanceof EnvelopeType) {
+            return parseEnvelope((EnvelopeType) xmlObject);
         } else if (xmlObject instanceof TimeInstantType) {
             return parseTimeInstant((TimeInstantType) xmlObject);
         } else if (xmlObject instanceof TimePeriodType) {
@@ -202,16 +204,14 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
      * GetObservation request and returns a String representing the BOX in
      * Well-Known-Text format
      *
-     * @param envelopeDocument
+     * @param envelopeType
      *            XmlBean representing the BBOX-element in the request
      * @return Returns the BBOX as ReferencedEnvelope.
-     *
      *
      * @throws DecodingException
      *             * if parsing the BBOX element failed
      */
-    private ReferencedEnvelope parseEnvelope(EnvelopeDocument envelopeDocument) throws DecodingException {
-        EnvelopeType envelopeType = envelopeDocument.getEnvelope();
+    private ReferencedEnvelope parseEnvelope(EnvelopeType envelopeType) throws DecodingException {
         int srid = CRSHelper.parseSrsName(envelopeType.getSrsName());
         String lowerCorner = envelopeType.getLowerCorner().getStringValue();
         String upperCorner = envelopeType.getUpperCorner().getStringValue();
