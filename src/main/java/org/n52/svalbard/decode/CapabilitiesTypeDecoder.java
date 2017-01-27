@@ -35,18 +35,35 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import static java.util.stream.Collectors.toSet;
+import java.util.stream.Stream;
 import net.opengis.fes.x20.FilterCapabilitiesDocument;
+import net.opengis.gml.x32.EnvelopeType;
 import net.opengis.sos.x20.CapabilitiesType;
 import net.opengis.sos.x20.CapabilitiesType.Contents;
 import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.ObservationOfferingPropertyType;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.swes.x20.AbstractContentsType;
+import org.apache.xmlbeans.XmlException;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.util.ReferencedEnvelope;
+import org.n52.svalbard.util.XmlHelper;
+import org.w3c.dom.Node;
 
-public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
-        implements Decoder<SosCapabilities, CapabilitiesType> {
+public class CapabilitiesTypeDecoder extends
+        AbstractCapabilitiesBaseTypeDecoder<CapabilitiesType, SosCapabilities> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CapabilitiesTypeDecoder.class);
+    private static final Logger LOGGER
+            = LoggerFactory.getLogger(CapabilitiesTypeDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS =
-            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, CapabilitiesType.class);
+    private static final Set<DecoderKey> DECODER_KEYS
+            = CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, CapabilitiesType.class);
 
     public CapabilitiesTypeDecoder() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -78,8 +95,39 @@ public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
     }
 
     private Collection<SosObservationOffering> parseContents(ContentsType contents) {
-        // TODO parse contents
-        return null;
+        AbstractContentsType.Offering[] offeringArray = contents.getOfferingArray();
+        Optional<AbstractContentsType.Offering[]> optional = Optional.ofNullable(offeringArray);
+        Optional<Stream<AbstractContentsType.Offering>> stream = optional.map(Arrays::stream);
+        Stream<AbstractContentsType.Offering> orElseGet = stream.orElseGet(Stream::empty);
+        Stream<SosObservationOffering> map = orElseGet.map(this::parseOffering);
+        Stream<SosObservationOffering> filter = map.filter(Objects::nonNull);
+        Set<SosObservationOffering> collect = filter.collect(toSet());
+        return collect;
+    }
+
+    private SosObservationOffering parseOffering(AbstractContentsType.Offering offering) {
+        SosObservationOffering observationOffering = new SosObservationOffering();
+        if (offering.getDomNode().hasChildNodes()) {
+            final Node node = XmlHelper.getNodeFromNodeList(offering.getDomNode().getChildNodes());
+            try {
+                ObservationOfferingPropertyType offeringType = ObservationOfferingPropertyType.Factory.parse(node);
+                ObservationOfferingType obsOffPropType = offeringType.getObservationOffering();
+                observationOffering.setOffering(obsOffPropType.getIdentifier());
+                observationOffering.setProcedures(parseProcedure(obsOffPropType));
+                observationOffering.setProcedureDescriptionFormat(parseProcedureDescriptionFormat(obsOffPropType));
+                observationOffering.setObservableProperties(parseObservableProperties(obsOffPropType));
+                observationOffering.setRelatedFeatures(parseRelatedFeatures(obsOffPropType));
+                observationOffering.setObservedArea(parseObservedArea(obsOffPropType));
+                observationOffering.setPhenomenonTime(parsePhenomenonTime(obsOffPropType));
+                observationOffering.setResultTime(parseResultTime(obsOffPropType));
+                observationOffering.setResponseFormats(parseResponseFormats(obsOffPropType));
+                observationOffering.setObservationTypes(parseObservationTypes(obsOffPropType));
+                observationOffering.setFeatureOfInterestTypes(parseFeatureOfInterestTypes(obsOffPropType));
+            } catch (XmlException ex) {
+                LOGGER.error(ex.getLocalizedMessage(), ex);
+            }
+        }
+        return observationOffering;
     }
 
     private FilterCapabilities parseFilterCapabilities(CapabilitiesType.FilterCapabilities filterCapabilities) {
@@ -94,4 +142,88 @@ public class CapabilitiesTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
         // TOOD parse filter capabilities
         return null;
     }
+
+    private Collection<String> parseProcedure(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getProcedure()).map(Collections::singleton).get();
+    }
+
+    private Collection<String> parseProcedureDescriptionFormat(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getProcedureDescriptionFormatArray())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .collect(toSet());
+    }
+
+    private Collection<String> parseObservableProperties(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getObservablePropertyArray())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .collect(toSet());
+    }
+
+    private Time parsePhenomenonTime(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getPhenomenonTime())
+                .map((phenTime) -> {
+                    try {
+                        return (Time) decodeXmlElement(phenTime.getTimePeriod());
+                    } catch (DecodingException ex) {
+                        LOGGER.error(ex.getLocalizedMessage(), ex);
+                    }
+                    return null;
+                })
+                .orElse(null);
+    }
+
+    private ReferencedEnvelope parseObservedArea(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getObservedArea()).map((obsArea) -> {
+            try {
+                EnvelopeType envelope = obsArea.getEnvelope();
+                Object decodeXmlElement = decodeXmlElement(envelope);
+                return (ReferencedEnvelope) decodeXmlElement;
+            } catch (DecodingException ex) {
+                LOGGER.error(ex.getLocalizedMessage(), ex);
+            }
+            return null;
+        }).orElse(null);
+    }
+
+    private Map<String, Set<String>> parseRelatedFeatures(ObservationOfferingType obsOff) {
+        LOGGER.warn("parseRelatedFeatures needs to be implemented");
+        return new HashMap<String, Set<String>>();
+    }
+
+    private Time parseResultTime(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getResultTime())
+                .map((resultTime) -> {
+                    try {
+                        return (Time) decodeXmlElement(resultTime.getTimePeriod());
+                    } catch (DecodingException ex) {
+                        LOGGER.error(ex.getLocalizedMessage(), ex);
+                    }
+                    return null;
+                })
+                .orElse(null);
+    }
+
+    private Collection<String> parseResponseFormats(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getResponseFormatArray())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .collect(toSet());
+    }
+
+    private Collection<String> parseObservationTypes(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getObservationTypeArray())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .collect(toSet());
+    }
+
+    private Collection<String> parseFeatureOfInterestTypes(ObservationOfferingType obsOff) {
+        return Optional.ofNullable(obsOff.getFeatureOfInterestTypeArray())
+                .map(Arrays::stream)
+                .orElseGet(Stream::empty)
+                .collect(toSet());
+    }
+
 }

@@ -36,8 +36,7 @@ import com.google.common.base.Joiner;
  * @since 5.0.0
  *
  */
-public class CapabilitiesBaseTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder
-        implements Decoder<OwsCapabilities, CapabilitiesBaseType> {
+public class CapabilitiesBaseTypeDecoder extends AbstractCapabilitiesBaseTypeDecoder<CapabilitiesBaseType, OwsCapabilities> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CapabilitiesBaseTypeDecoder.class);
 
