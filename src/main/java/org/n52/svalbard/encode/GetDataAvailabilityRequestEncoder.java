@@ -28,11 +28,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
- * TODO JavaDoc
- *
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
- *
- * @since 4.0.0
  */
 public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder<GetDataAvailabilityRequest> {
 
@@ -51,6 +47,7 @@ public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder
         GetDataAvailabilityType gdat = document.addNewGetDataAvailability();
         addService(gdat, request);
         addVersion(gdat, request);
+        addOffering(gdat, request);
         addProcedures(gdat, request);
         addFeatureOfInterests(gdat, request);
         addObservedProperties(gdat, request);
@@ -72,6 +69,12 @@ public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder
     private void addProcedures(GetDataAvailabilityType availabilityType, GetDataAvailabilityRequest request) {
         request.getProcedures().forEach((procedure) -> {
             availabilityType.addProcedure(procedure);
+        });
+    }
+
+    private void addOffering(GetDataAvailabilityType availabilityType, GetDataAvailabilityRequest request) {
+        request.getOfferings().forEach((offering) -> {
+            availabilityType.addOffering(offering);
         });
     }
 
