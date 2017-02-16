@@ -20,6 +20,7 @@ import com.google.common.collect.Sets;
 import java.util.Set;
 import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
 import net.opengis.sosgda.x10.GetDataAvailabilityType;
+import net.opengis.swes.x20.ExtensibleRequestType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -43,6 +44,14 @@ public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder
 
     @Override
     protected XmlObject create(GetDataAvailabilityRequest request) throws EncodingException {
+        if (request.getNamespace().equals(GetDataAvailabilityConstants.NS_GDA_20)) {
+            return createGDAv20(request);
+        } else {
+            return createGDAv10(request);
+        }
+    }
+
+    private XmlObject createGDAv10(GetDataAvailabilityRequest request) {
         GetDataAvailabilityDocument document = GetDataAvailabilityDocument.Factory.newInstance();
         GetDataAvailabilityType gdat = document.addNewGetDataAvailability();
         addService(gdat, request);
@@ -54,35 +63,23 @@ public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder
         return document;
     }
 
-    private void addObservedProperties(GetDataAvailabilityType availabilityType, GetDataAvailabilityRequest request) {
-        request.getObservedProperties().forEach((obsProp) -> {
-            availabilityType.addObservedProperty(obsProp);
-        });
+    private XmlObject createGDAv20(GetDataAvailabilityRequest request) {
+        net.opengis.sosgda.x20.GetDataAvailabilityDocument document = net.opengis.sosgda.x20.GetDataAvailabilityDocument.Factory.newInstance();
+        net.opengis.sosgda.x20.GetDataAvailabilityType gdat = document.addNewGetDataAvailability();
+        addService(gdat, request);
+        addVersion(gdat, request);
+        addOfferingV20(gdat, request);
+        addProceduresV20(gdat, request);
+        addFeatureOfInterestsV20(gdat, request);
+        addObservedPropertiesV20(gdat, request);
+        return document;
     }
 
-    private void addFeatureOfInterests(GetDataAvailabilityType availabilityType, GetDataAvailabilityRequest request) {
-        request.getFeaturesOfInterest().forEach((foi) -> {
-            availabilityType.addFeatureOfInterest(foi);
-        });
-    }
-
-    private void addProcedures(GetDataAvailabilityType availabilityType, GetDataAvailabilityRequest request) {
-        request.getProcedures().forEach((procedure) -> {
-            availabilityType.addProcedure(procedure);
-        });
-    }
-
-    private void addOffering(GetDataAvailabilityType availabilityType, GetDataAvailabilityRequest request) {
-        request.getOfferings().forEach((offering) -> {
-            availabilityType.addOffering(offering);
-        });
-    }
-
-    private void addVersion(GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+    private void addVersion(ExtensibleRequestType gdat, GetDataAvailabilityRequest request) {
         gdat.setVersion(request.getVersion());
     }
 
-    private void addService(GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+    private void addService(ExtensibleRequestType gdat, GetDataAvailabilityRequest request) {
         if (request.isSetService()) {
             gdat.setService(request.getService());
         } else {
@@ -90,4 +87,51 @@ public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder
         }
     }
 
+    private void addObservedProperties(GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getObservedProperties().forEach((obsProp) -> {
+            gdat.addObservedProperty(obsProp);
+        });
+    }
+
+    private void addFeatureOfInterests(GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getFeaturesOfInterest().forEach((foi) -> {
+            gdat.addFeatureOfInterest(foi);
+        });
+    }
+
+    private void addProcedures(GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getProcedures().forEach((proc) -> {
+            gdat.addProcedure(proc);
+        });
+    }
+
+    private void addOffering(GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getOfferings().forEach((off) -> {
+            gdat.addOffering(off);
+        });
+    }
+
+    private void addOfferingV20(net.opengis.sosgda.x20.GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getOfferings().forEach((off) -> {
+            gdat.addOffering(off);
+        });
+    }
+
+    private void addProceduresV20(net.opengis.sosgda.x20.GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getProcedures().forEach((proc) -> {
+            gdat.addProcedure(proc);
+        });
+    }
+
+    private void addFeatureOfInterestsV20(net.opengis.sosgda.x20.GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getFeaturesOfInterest().forEach((foi) -> {
+            gdat.addFeatureOfInterest(foi);
+        });
+    }
+
+    private void addObservedPropertiesV20(net.opengis.sosgda.x20.GetDataAvailabilityType gdat, GetDataAvailabilityRequest request) {
+        request.getObservedProperties().forEach((obsProp) -> {
+            gdat.addObservedProperty(obsProp);
+        });
+    }
 }

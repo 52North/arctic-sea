@@ -270,6 +270,22 @@
             </dependency>
             <dependency>
                 <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-sosgda-v20</artifactId>
+                <version>2.2.1-SNAPSHOT</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.n52.sensorweb</groupId>
+                        <artifactId>52n-xml-swes-v20</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.n52.sensorweb</groupId>
+                        <artifactId>52n-xml-gml-v321</artifactId>
+                    </exclusion>
+                </exclusions>
+                  <type>jar</type>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-om-v100</artifactId>
                 <version>${n52.common.xml.version}</version>
             </dependency>
