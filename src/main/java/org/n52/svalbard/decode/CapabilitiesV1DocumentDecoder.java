@@ -17,6 +17,7 @@
 package org.n52.svalbard.decode;
 
 import com.google.common.base.Joiner;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Collections;
 import java.util.Set;
 import net.opengis.sos.x10.CapabilitiesDocument;
@@ -45,6 +46,7 @@ public class CapabilitiesV1DocumentDecoder extends AbstractXmlDecoder<Capabiliti
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public GetCapabilitiesResponse decode(CapabilitiesDocument cd) throws DecodingException {
         if (cd != null) {
             GetCapabilitiesResponse response = new GetCapabilitiesResponse();

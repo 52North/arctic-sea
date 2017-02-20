@@ -17,6 +17,7 @@
 package org.n52.svalbard.decode;
 
 import com.google.common.base.Joiner;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -66,6 +67,7 @@ public class CapabilitiesDecoder extends AbstractCapabilitiesBaseTypeDecoder<Cap
     }
 
     @Override
+    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public SosCapabilities decode(Capabilities c) throws DecodingException {
         if (c != null) {
             OwsCapabilities owsCapabilities = parseCapabilitiesBaseType(SosConstants.SOS, c);
