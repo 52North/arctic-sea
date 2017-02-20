@@ -239,7 +239,7 @@ public class CapabilitiesTypeDecoder extends
             CodeType codeType = decodeXmlElement(obsOffPropType.getNameArray(0));
             return new SosOffering(offeringId, codeType);
         }
-        return new SosOffering(offeringId);
+        return new SosOffering(offeringId, "");
     }
 
 }
