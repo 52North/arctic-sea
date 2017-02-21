@@ -112,12 +112,12 @@ public class GetDataAvailabilityResponseDecoder
             List<DataAvailability> availabilities = Lists.newArrayList();
             Map<String, TimePeriod> periods = Maps.newHashMap();
             for (DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
-                
+
                 ReferenceType procedure = decodeXmlElement(damt.getProcedure());
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
                 TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(), damt.getPhenomenonTime().getHref(), periods);
-                
+
                 availabilities.add(new DataAvailability(procedure, observedProperty, featureOfInterest, null, phenomenonTime));
             }
             return availabilities;
@@ -131,12 +131,12 @@ public class GetDataAvailabilityResponseDecoder
             List<DataAvailability> availabilities = Lists.newArrayList();
             Map<String, TimePeriod> periods = Maps.newHashMap();
             for (net.opengis.sosgda.x20.DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
-                
+
                 ReferenceType procedure = decodeXmlElement(damt.getProcedure());
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
                 TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(), damt.getPhenomenonTime().getHref(), periods);
-                
+
                 DataAvailability dataAvailability = new DataAvailability(procedure, observedProperty, featureOfInterest, null, phenomenonTime);
                 FormatDescriptor formatDescriptor = createFormatDescriptor(damt.getFormatDescriptor());
                 if (formatDescriptor != null) {
