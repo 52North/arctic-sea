@@ -411,7 +411,7 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder<T, S> extends Abstract
     }
 
     private OwsCode parseCode(CodeType code) {
-        if (code == null) {
+        if (code == null || Strings.isNullOrEmpty(code.getStringValue())) {
             return null;
         }
         return new OwsCode(code.getStringValue(),
@@ -455,7 +455,11 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder<T, S> extends Abstract
     }
 
     private LocalizedString parseLanguageString(LanguageStringType lst) {
-        return new LocalizedString(LocaleHelper.decode(lst.getLang()), lst.getStringValue());
+        if (lst.getLang() == null) {
+            return new LocalizedString(null, lst.getStringValue());
+        } else {
+            return new LocalizedString(LocaleHelper.decode(lst.getLang()), lst.getStringValue());
+        }
     }
 
 }

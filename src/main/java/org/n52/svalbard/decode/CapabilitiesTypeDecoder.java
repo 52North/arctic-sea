@@ -16,30 +16,16 @@
  */
 package org.n52.svalbard.decode;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
-
-import org.n52.shetland.ogc.filter.FilterCapabilities;
-import org.n52.shetland.ogc.ows.OwsCapabilities;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosCapabilities;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.SosObservationOffering;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
 import net.opengis.fes.x20.FilterCapabilitiesDocument;
@@ -51,11 +37,27 @@ import net.opengis.sos.x20.ObservationOfferingPropertyType;
 import net.opengis.sos.x20.ObservationOfferingType;
 import net.opengis.swes.x20.AbstractContentsType;
 import org.apache.xmlbeans.XmlException;
+import org.n52.shetland.ogc.filter.FilterCapabilities;
+import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.ows.OwsCapabilities;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosCapabilities;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.SosObservationOffering;
+import org.n52.shetland.ogc.sos.SosOffering;
 import org.n52.shetland.util.ReferencedEnvelope;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Node;
 
+/**
+ * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
+ */
 public class CapabilitiesTypeDecoder extends
         AbstractCapabilitiesBaseTypeDecoder<CapabilitiesType, SosCapabilities> {
 
@@ -112,7 +114,7 @@ public class CapabilitiesTypeDecoder extends
             try {
                 ObservationOfferingPropertyType offeringType = ObservationOfferingPropertyType.Factory.parse(node);
                 ObservationOfferingType obsOffPropType = offeringType.getObservationOffering();
-                observationOffering.setOffering(obsOffPropType.getIdentifier());
+                observationOffering.setOffering(parseOffering(obsOffPropType));
                 observationOffering.setProcedures(parseProcedure(obsOffPropType));
                 observationOffering.setProcedureDescriptionFormat(parseProcedureDescriptionFormat(obsOffPropType));
                 observationOffering.setObservableProperties(parseObservableProperties(obsOffPropType));
@@ -123,7 +125,7 @@ public class CapabilitiesTypeDecoder extends
                 observationOffering.setResponseFormats(parseResponseFormats(obsOffPropType));
                 observationOffering.setObservationTypes(parseObservationTypes(obsOffPropType));
                 observationOffering.setFeatureOfInterestTypes(parseFeatureOfInterestTypes(obsOffPropType));
-            } catch (XmlException ex) {
+            } catch (XmlException | DecodingException ex) {
                 LOGGER.error(ex.getLocalizedMessage(), ex);
             }
         }
@@ -224,6 +226,20 @@ public class CapabilitiesTypeDecoder extends
                 .map(Arrays::stream)
                 .orElseGet(Stream::empty)
                 .collect(toSet());
+    }
+
+    private SosOffering parseOffering(ObservationOfferingType obsOffPropType) throws DecodingException {
+        String offeringId;
+        if (obsOffPropType.getIdentifier() != null) {
+            offeringId = obsOffPropType.getIdentifier();
+        } else {
+            offeringId = obsOffPropType.getId();
+        }
+        if (obsOffPropType.getNameArray() != null && obsOffPropType.getNameArray().length > 0) {
+            CodeType codeType = decodeXmlElement(obsOffPropType.getNameArray(0));
+            return new SosOffering(offeringId, codeType);
+        }
+        return new SosOffering(offeringId, "");
     }
 
 }

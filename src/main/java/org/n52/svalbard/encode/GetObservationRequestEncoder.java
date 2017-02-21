@@ -63,6 +63,7 @@ public class GetObservationRequestEncoder extends AbstractSosRequestEncoder<GetO
         addTemporalFilter(got, request);
         addFeatureOfInterest(got, request);
         addSpatialFilter(got, request);
+        addResponseFormat(got, request);
         return doc;
     }
 
@@ -112,6 +113,12 @@ public class GetObservationRequestEncoder extends AbstractSosRequestEncoder<GetO
                 substitute(got.addNewSpatialFilter().getSpatialOps(),
                         ((SpatialOpsDocument) encodeFes).getSpatialOps());
             }
+        }
+    }
+
+    private void addResponseFormat(GetObservationType got, GetObservationRequest request) {
+        if (request.isSetResponseFormat()) {
+            got.setResponseFormat(request.getResponseFormat());
         }
     }
 
