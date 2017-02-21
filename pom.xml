@@ -103,6 +103,13 @@
         <saxon.version>9.1.0.8</saxon.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
     </properties>
+    
+    <repositories>
+        <repository>
+            <id>sonatype-nexus-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
