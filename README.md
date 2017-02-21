@@ -15,6 +15,7 @@ The Arctic Sea is stack of projects (all named after islands that are more or le
 #### [Iceland](https://github.com/52North/iceland)
 
 Iceland is a service framework that allows the development of OGC RPC based services. It features bindings for KVP, POX, SOAP and JSON based bindings and allows the rapid development of modular services that are easily configured using 52°North Faroe. 52°North Svalbard is used for request parsing and response generation. 
+Download [Iceland](https://github.com/52North/iceland/releases)
 
 #### [Svalbard](https://github.com/52North/svalbard)
 
@@ -31,6 +32,7 @@ Shetland compromises classes for OGC models like [SensorML](http://www.opengeosp
 #### [Jan Mayen](https://github.com/52North/janmayen)
 
 Jan Mayen contains various utility classes shared accross the Arctic Sea.
+Download [Jan Mayen](https://github.com/52North/janmayen/releases)
 
 ### Features [Marketing features]
 
