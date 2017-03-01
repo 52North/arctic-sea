@@ -54,9 +54,9 @@ public class RelatedOfferingTypeDecoder extends AbstractXmlDecoder<RelatedOfferi
     @Override
     public RelatedOfferings decode(RelatedOfferingsPropertyType rot) throws DecodingException {
         RelatedOfferings relatedOfferings = new RelatedOfferings();
-        relatedOfferings.setNamespace(RelatedOfferingConstants.NS_RO);
-        relatedOfferings.setDefinition(RelatedOfferingConstants.RELATED_OFFERINGS);
-        relatedOfferings.setIdentifier(RelatedOfferingConstants.RELATED_OFFERINGS);
+        relatedOfferings.setNamespace(RelatedOfferingConstants.NS_RO)
+                .setDefinition(RelatedOfferingConstants.RELATED_OFFERINGS)
+                .setIdentifier(RelatedOfferingConstants.RELATED_OFFERINGS);
         for (RelatedOffering relatedOffering : rot.getRelatedOfferings().getRelatedOfferingArray()) {
             relatedOfferings.getValue().add(parseRelatedOffering(relatedOffering));
         }
