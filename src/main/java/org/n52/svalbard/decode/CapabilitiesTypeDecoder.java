@@ -37,10 +37,13 @@ import net.opengis.sos.x20.ObservationOfferingPropertyType;
 import net.opengis.sos.x20.ObservationOfferingType;
 import net.opengis.swes.x20.AbstractContentsType;
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.filter.FilterCapabilities;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
+import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosCapabilities;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -125,6 +128,7 @@ public class CapabilitiesTypeDecoder extends
                 observationOffering.setResponseFormats(parseResponseFormats(obsOffPropType));
                 observationOffering.setObservationTypes(parseObservationTypes(obsOffPropType));
                 observationOffering.setFeatureOfInterestTypes(parseFeatureOfInterestTypes(obsOffPropType));
+                observationOffering.setExtensions(parseOfferingExtension(obsOffPropType));
             } catch (XmlException | DecodingException ex) {
                 LOGGER.error(ex.getLocalizedMessage(), ex);
             }
@@ -174,6 +178,19 @@ public class CapabilitiesTypeDecoder extends
                     return null;
                 })
                 .orElse(null);
+    }
+
+    private Extensions parseOfferingExtension(ObservationOfferingType obsOff) throws DecodingException {
+        Extensions extensions = new Extensions();
+        for (XmlObject xmlObject : obsOff.getExtensionArray()) {
+            try {
+                Extension extension = (Extension) decodeXmlElement(xmlObject);
+                extensions.addExtension(extension);
+            } catch (DecodingException ex) {
+                LOGGER.warn(ex.getLocalizedMessage());
+            }
+        }
+        return extensions;
     }
 
     private ReferencedEnvelope parseObservedArea(ObservationOfferingType obsOff) {
