@@ -31,7 +31,6 @@ import net.opengis.sosgda.x10.GetDataAvailabilityResponseDocument;
 import net.opengis.sosgda.x10.GetDataAvailabilityResponseType;
 import net.opengis.sosgda.x20.FormatDescriptorType;
 import net.opengis.sosgda.x20.ObservationFormatDescriptorType;
-import net.opengis.sosgda.x20.TimeObjectPropertyType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
@@ -62,7 +61,8 @@ public class GetDataAvailabilityResponseDecoder
     private static final Logger LOGGER = LoggerFactory.getLogger(GetDataAvailabilityResponseDecoder.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA, GetDataAvailabilityResponseDocument.class),
+            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA,
+                    GetDataAvailabilityResponseDocument.class),
             CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20,
                     net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument.class));
 
@@ -108,45 +108,48 @@ public class GetDataAvailabilityResponseDecoder
 
     private Collection<DataAvailability> parseDataAvalabilities(
             GetDataAvailabilityResponseType response) throws DecodingException {
+        List<DataAvailability> availabilities = Lists.newArrayList();
         if (CollectionHelper.isNotNullOrEmpty(response.getDataAvailabilityMemberArray())) {
-            List<DataAvailability> availabilities = Lists.newArrayList();
             Map<String, TimePeriod> periods = Maps.newHashMap();
             for (DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
 
                 ReferenceType procedure = decodeXmlElement(damt.getProcedure());
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
-                TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(), damt.getPhenomenonTime().getHref(), periods);
+                TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(),
+                        damt.getPhenomenonTime().getHref(), periods);
 
-                availabilities.add(new DataAvailability(procedure, observedProperty, featureOfInterest, null, phenomenonTime));
+                availabilities.add(new DataAvailability(procedure, observedProperty, featureOfInterest, null,
+                        phenomenonTime));
             }
-            return availabilities;
         }
-        return null;
+        return availabilities;
     }
 
     private Collection<DataAvailability> parseDataAvalabilities(
             net.opengis.sosgda.x20.GetDataAvailabilityResponseType response) throws DecodingException {
+        List<DataAvailability> availabilities = Lists.newArrayList();
         if (CollectionHelper.isNotNullOrEmpty(response.getDataAvailabilityMemberArray())) {
-            List<DataAvailability> availabilities = Lists.newArrayList();
             Map<String, TimePeriod> periods = Maps.newHashMap();
             for (net.opengis.sosgda.x20.DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
 
                 ReferenceType procedure = decodeXmlElement(damt.getProcedure());
+                ReferenceType offering = decodeXmlElement(damt.getOffering());
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
-                TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(), damt.getPhenomenonTime().getHref(), periods);
+                TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(),
+                        damt.getPhenomenonTime().getHref(), periods);
 
-                DataAvailability dataAvailability = new DataAvailability(procedure, observedProperty, featureOfInterest, null, phenomenonTime);
+                DataAvailability dataAvailability = new DataAvailability(procedure, observedProperty, featureOfInterest,
+                        offering, phenomenonTime);
                 FormatDescriptor formatDescriptor = createFormatDescriptor(damt.getFormatDescriptor());
                 if (formatDescriptor != null) {
                     dataAvailability.setFormatDescriptor(formatDescriptor);
                 }
                 availabilities.add(dataAvailability);
             }
-            return availabilities;
         }
-        return null;
+        return availabilities;
     }
 
     private TimePeriod getPhenomenonTime(AbstractTimeObjectType atot, String href, Map<String, TimePeriod> periods) throws DecodingException {
