@@ -29,12 +29,17 @@ import org.n52.shetland.ogc.om.values.BooleanValue;
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.ComplexValue;
 import org.n52.shetland.ogc.om.values.CountValue;
+import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.HrefAttributeValue;
+import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
+import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
+import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
@@ -240,6 +245,31 @@ public final class OMHelper {
 
         private static String defaultValue() {
             return OmConstants.OBS_TYPE_OBSERVATION;
+        }
+
+        @Override
+        public String visit(TLVTValue value) throws RuntimeException {
+            return defaultValue();
+        }
+
+        @Override
+        public String visit(CvDiscretePointCoverage value) throws RuntimeException {
+            return defaultValue();
+        }
+
+        @Override
+        public String visit(MultiPointCoverage value) throws RuntimeException {
+            return defaultValue();
+        }
+
+        @Override
+        public String visit(RectifiedGridCoverage value) throws RuntimeException {
+            return defaultValue();
+        }
+
+        @Override
+        public String visit(ProfileValue value) throws RuntimeException {
+            return defaultValue();
         }
     }
 }
