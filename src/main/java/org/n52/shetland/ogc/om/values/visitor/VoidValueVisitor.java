@@ -26,6 +26,7 @@ import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
+import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
@@ -36,107 +37,154 @@ import org.n52.shetland.ogc.om.values.UnknownValue;
  * @author Christian Autermann
  */
 public abstract class VoidValueVisitor<E extends Exception> implements ValueVisitor<Void, E> {
+
     @Override
-    public Void visit(BooleanValue value) throws E {
+    public Void visit(BooleanValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(CategoryValue value) throws E {
+    public Void visit(CategoryValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(ComplexValue value) throws E {
+    public Void visit(ComplexValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(CountValue value) throws E {
+    public Void visit(CountValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(GeometryValue value) throws E {
+    public Void visit(GeometryValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(HrefAttributeValue value) throws E {
+    public Void visit(HrefAttributeValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(NilTemplateValue value) throws E {
+    public Void visit(NilTemplateValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(QuantityValue value) throws E {
+    public Void visit(QuantityValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(ReferenceValue value) throws E {
+    public Void visit(ReferenceValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(SweDataArrayValue value) throws E {
+    public Void visit(SweDataArrayValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(TVPValue value) throws E {
+    public Void visit(TVPValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(TextValue value) throws E {
+    public Void visit(TLVTValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
     @Override
-    public Void visit(UnknownValue value) throws E {
+    public Void visit(TextValue value)
+            throws E {
         _visit(value);
         return null;
     }
 
-    protected abstract void _visit(BooleanValue value) throws E;
+    @Override
+    public Void visit(UnknownValue value)
+            throws E {
+        _visit(value);
+        return null;
+    }
 
-    protected abstract void _visit(CategoryValue value) throws E;
+//    @Override
+//    public Void visit(XmlValue value)
+//            throws E {
+//        _visit(value);
+//        return null;
+//    }
 
-    protected abstract void _visit(ComplexValue value) throws E;
+    protected abstract void _visit(BooleanValue value)
+            throws E;
 
-    protected abstract void _visit(CountValue value) throws E;
+    protected abstract void _visit(CategoryValue value)
+            throws E;
 
-    protected abstract void _visit(GeometryValue value) throws E;
+    protected abstract void _visit(ComplexValue value)
+            throws E;
 
-    protected abstract void _visit(HrefAttributeValue value) throws E;
+    protected abstract void _visit(CountValue value)
+            throws E;
 
-    protected abstract void _visit(NilTemplateValue value) throws E;
+    protected abstract void _visit(GeometryValue value)
+            throws E;
 
-    protected abstract void _visit(QuantityValue value) throws E;
+    protected abstract void _visit(HrefAttributeValue value)
+            throws E;
 
-    protected abstract void _visit(ReferenceValue value) throws E;
+    protected abstract void _visit(NilTemplateValue value)
+            throws E;
 
-    protected abstract void _visit(SweDataArrayValue value) throws E;
+    protected abstract void _visit(QuantityValue value)
+            throws E;
 
-    protected abstract void _visit(TVPValue value) throws E;
+    protected abstract void _visit(ReferenceValue value)
+            throws E;
 
-    protected abstract void _visit(TextValue value) throws E;
+    protected abstract void _visit(SweDataArrayValue value)
+            throws E;
 
-    protected abstract void _visit(UnknownValue value) throws E;
+    protected abstract void _visit(TVPValue value)
+            throws E;
+
+    protected abstract void _visit(TLVTValue value)
+            throws E;
+
+    protected abstract void _visit(TextValue value)
+            throws E;
+
+    protected abstract void _visit(UnknownValue value)
+            throws E;
+
+//    protected abstract void _visit(XmlValue value)
+//            throws E;
 }

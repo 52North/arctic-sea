@@ -20,10 +20,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
 
 /**
@@ -37,16 +40,18 @@ public class TVPValue implements MultiValue<List<TimeValuePair>> {
     /**
      * Mesurement values
      */
-    private List<TimeValuePair> value = new ArrayList<>(0);
+    private List<TimeValuePair> value = new ArrayList<TimeValuePair>(0);
 
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     @Override
-    public void setValue(List<TimeValuePair> value) {
-        this.value = value;
+    public TVPValue setValue(List<TimeValuePair> value) {
+        this.value.clear();
+        this.value.addAll(value);
+        return this;
     }
 
     @Override
@@ -77,12 +82,26 @@ public class TVPValue implements MultiValue<List<TimeValuePair>> {
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
         return this.unit;
+    }
+
+    @Override
+    public TVPValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override

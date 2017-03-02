@@ -31,7 +31,7 @@ public interface RelatedOfferingConstants {
     String ROLE = "sub-offering";
 
     String RELATED_OFFERINGS = "relatedOfferings";
-    
+
     String EN_RO_RELATED_OFFERINGS = "RelatedOfferings";
 
     String EN_RO_OFFERING_CONTEXT = "OfferingContext";

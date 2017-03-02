@@ -16,7 +16,11 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 
 /**
  * Category measurement representation for observation
@@ -24,69 +28,78 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @since 4.0.0
  *
  */
-public class CategoryValue implements Value<String> {
-
-    /**
-     * Measurement value
-     */
-    private String value;
-
-    /**
-     * Unit of measure
-     */
-    private String unit;
+public class CategoryValue extends SweCategory implements Value<String> {
 
     /**
      * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      */
     public CategoryValue(String value) {
-        this(value, null);
+        super();
+        super.setValue(value);
     }
 
     /**
      * * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      * @param unit
-     *              Unit of measure
+     *            Unit of measure
      */
     public CategoryValue(String value, String unit) {
-        this.value = value;
-        this.unit = unit;
+        super(value, unit);
+    }
+
+    /**
+     * * constructor
+     *
+     * @param value
+     *            Measurement value
+     * @param unit
+     *            Unit of measure
+     */
+    public CategoryValue(String value, UoM unit) {
+       super(value, unit);
     }
 
     @Override
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    @Override
-    public String getValue() {
-        return value;
+    public CategoryValue setValue(final String value) {
+        super.setValue(value);
+        return this;
     }
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        super.setUom(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        return super.getUom();
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return super.getUomObject();
+    }
+
+    @Override
+    public CategoryValue setUnit(UoM unit) {
+       super.setUom(unit);
+       return this;
+    }
+
+    @Override
+    public boolean isSetUnit() {
+        return super.isSetUom();
     }
 
     @Override
     public String toString() {
         return String.format("CategoryValue [value=%s, unit=%s]", getValue(), getUnit());
-    }
-
-    @Override
-    public boolean isSetValue() {
-        return this.value != null && !this.value.isEmpty();
     }
 
     @Override

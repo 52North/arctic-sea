@@ -17,7 +17,10 @@
 package org.n52.shetland.ogc.om.values;
 
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Interface for measurement value representation for observation
@@ -35,7 +38,7 @@ public interface Value<T> {
      * @param value
      *              Value to set
      */
-    void setValue(T value);
+    Value<T> setValue(T value);
 
     /**
      * Get the measurement value
@@ -48,9 +51,24 @@ public interface Value<T> {
      * Set the unit of measure
      *
      * @param unit
-     *             Unit of measure
+     *            Unit of measure
      */
     void setUnit(String unit);
+
+    /**
+     * Get the unit of measure object
+     *
+     * @return Unit of measure
+     */
+    UoM getUnitObject();
+
+    /**
+     * Set the unit of measure object
+     *
+     * @param unit
+     *            Unit of measure
+     */
+    Value<T> setUnit(UoM unit);
 
     /**
      * Get the unit of measure
@@ -74,8 +92,9 @@ public interface Value<T> {
      * @return <code>true</code>, if unit of measure is set
      */
     default boolean isSetUnit() {
-        return getUnit() != null && !getUnit().isEmpty();
+        return getUnitObject() != null && !getUnitObject().isEmpty();
     }
 
     <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E;
+
 }

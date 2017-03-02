@@ -16,8 +16,12 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.util.JavaHelper;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -31,13 +35,14 @@ public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     public GeometryValue(AbstractGeometry abstractGeometry) {
         setDescription(abstractGeometry.getDescription());
         setGeometry(abstractGeometry.getGeometry());
         setIdentifier(abstractGeometry.getIdentifierCodeWithAuthority());
         setName(abstractGeometry.getName());
+        setGmlId("sp_" + JavaHelper.generateID(toString()));
     }
 
     /**
@@ -47,11 +52,13 @@ public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
      */
     public GeometryValue(Geometry value) {
         setValue(value);
+        setGmlId("sp_" + JavaHelper.generateID(toString()));
     }
 
     @Override
-    public void setValue(Geometry value) {
+    public GeometryValue setValue(Geometry value) {
         setGeometry(value);
+        return this;
     }
 
     @Override
@@ -61,18 +68,37 @@ public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return this.unit;
+    }
+
+    @Override
+    public GeometryValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override
     public String toString() {
         return String
                 .format("GeometryValue [value=%s, unit=%s]", getValue(), getUnit());
+    }
+
+    @Override
+    public boolean isSetValue() {
+        return isSetGeometry();
     }
 
     @Override

@@ -16,7 +16,10 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 
 import com.google.common.base.MoreObjects;
@@ -24,7 +27,7 @@ import com.google.common.base.Objects;
 
 public class ComplexValue implements Value<SweAbstractDataRecord> {
     private SweAbstractDataRecord value;
-    private String unit;
+    private UoM unit;
 
     public ComplexValue() {
         this(null);
@@ -35,8 +38,9 @@ public class ComplexValue implements Value<SweAbstractDataRecord> {
     }
 
     @Override
-    public void setValue(SweAbstractDataRecord value) {
+    public ComplexValue setValue(SweAbstractDataRecord value) {
         this.value = value;
+        return this;
     }
 
     @Override
@@ -45,13 +49,32 @@ public class ComplexValue implements Value<SweAbstractDataRecord> {
     }
 
     @Override
+    public boolean isSetValue() {
+        return this.value != null;
+    }
+
+    @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
         return this.unit;
+    }
+
+    @Override
+    public ComplexValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override
@@ -65,16 +88,6 @@ public class ComplexValue implements Value<SweAbstractDataRecord> {
     @Override
     public int hashCode() {
         return Objects.hashCode(this.value, this.unit);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof ComplexValue) {
-            ComplexValue that = (ComplexValue) obj;
-            return Objects.equal(this.getValue(), that.getValue()) &&
-                   Objects.equal(this.getUnit(), that.getUnit());
-        }
-        return false;
     }
 
     @Override

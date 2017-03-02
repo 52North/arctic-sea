@@ -16,7 +16,10 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Nil template value for observation
@@ -29,10 +32,11 @@ public class NilTemplateValue implements Value<String> {
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     @Override
-    public void setValue(String value) {
+    public NilTemplateValue setValue(String value) {
+        return this;
     }
 
     @Override
@@ -42,12 +46,26 @@ public class NilTemplateValue implements Value<String> {
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return this.unit;
+    }
+
+    @Override
+    public NilTemplateValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override
@@ -62,13 +80,7 @@ public class NilTemplateValue implements Value<String> {
     }
 
     @Override
-    public boolean isSetUnit() {
-        return false;
-    }
-
-    @Override
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
-
 }

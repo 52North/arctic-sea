@@ -16,7 +16,11 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.swe.simpleType.SweCount;
 
 /**
  * Count measurement representation for observation
@@ -24,45 +28,51 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @since 4.0.0
  *
  */
-public class CountValue implements Value<Integer> {
-    /**
-     * Measurement value
-     */
-    private Integer value;
-
+public class CountValue extends SweCount implements Value<Integer> {
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     /**
      * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      */
     public CountValue(Integer value) {
-        this.value = value;
+        super();
+        super.setValue(value);
     }
 
     @Override
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    @Override
-    public Integer getValue() {
-        return value;
+    public CountValue setValue(Integer value) {
+        super.setValue(value);
+        return this;
     }
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return this.unit;
+    }
+
+    @Override
+    public CountValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override

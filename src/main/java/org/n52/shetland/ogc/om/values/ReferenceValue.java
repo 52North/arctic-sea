@@ -16,8 +16,11 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 public class ReferenceValue implements Value<ReferenceType> {
 
@@ -26,7 +29,7 @@ public class ReferenceValue implements Value<ReferenceType> {
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     public ReferenceValue() {
     }
@@ -36,8 +39,9 @@ public class ReferenceValue implements Value<ReferenceType> {
     }
 
     @Override
-    public void setValue(ReferenceType value) {
+    public ReferenceValue setValue(ReferenceType value) {
         this.value = value;
+        return this;
     }
 
     @Override
@@ -47,12 +51,26 @@ public class ReferenceValue implements Value<ReferenceType> {
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return this.unit;
+    }
+
+    @Override
+    public ReferenceValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override
@@ -70,4 +88,5 @@ public class ReferenceValue implements Value<ReferenceType> {
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
+
 }

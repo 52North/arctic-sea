@@ -16,26 +16,13 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-import org.n52.shetland.ogc.gml.time.Time;
-
 /**
- * Interface for observation values with more than one value
+ * Class that represents a referencable grid coverage
  *
- * @since 4.0.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 4.4.0
  *
- * @param <T>
- *            type of the multi value
  */
-public interface MultiValue<T> extends Value<T> {
-
-    /**
-     * Get the phenomenon time for the multiple values
-     *
-     * @return Phenomenon time
-     */
-    Time getPhenomenonTime();
-
-    @Override
-    MultiValue<T> setValue(T value);
+public class ReferencableGridCoverage {
 
 }

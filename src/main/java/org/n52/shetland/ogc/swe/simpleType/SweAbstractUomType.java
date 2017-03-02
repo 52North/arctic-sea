@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
 /**
@@ -29,7 +30,7 @@ public abstract class SweAbstractUomType<T> extends SweAbstractSimpleType<T> {
     /**
      * unit of measurement
      */
-    private String uom;
+    private UoM uom;
 
     /**
      * Get unit of measurement
@@ -37,6 +38,18 @@ public abstract class SweAbstractUomType<T> extends SweAbstractSimpleType<T> {
      * @return the uom
      */
     public String getUom() {
+        if (uom != null) {
+            return uom.getUom();
+        }
+        return "";
+    }
+
+    /**
+     * Get unit of measurement object
+     *
+     * @return the uom
+     */
+    public UoM getUomObject() {
         return uom;
     }
 
@@ -48,6 +61,18 @@ public abstract class SweAbstractUomType<T> extends SweAbstractSimpleType<T> {
      * @return This SweAbstractUomType
      */
     public SweAbstractUomType<T> setUom(final String uom) {
+        this.uom = new UoM(uom);
+        return this;
+    }
+
+    /**
+     * Set unit of measurement
+     *
+     * @param uom
+     *            the uom to set
+     * @return This SweAbstractUomType
+     */
+    public SweAbstractUomType<T> setUom(final UoM uom) {
         this.uom = uom;
         return this;
     }
