@@ -337,7 +337,7 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         return list.stream().map(string -> {
             CharacterStringPropertyType cspt = CharacterStringPropertyType.Factory.newInstance();
             cspt.setCharacterString(string);
-            return string;
+            return cspt;
         }).toArray(CharacterStringPropertyType[]::new);
     }
 }
