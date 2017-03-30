@@ -21,7 +21,6 @@ import static java.util.Collections.unmodifiableSet;
 import java.util.Set;
 
 import org.n52.janmayen.http.MediaTypes;
-import org.n52.shetland.ogc.ows.OWSConstants;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -33,7 +32,7 @@ import com.google.common.collect.Sets;
  *
  * @since 1.0.0
  */
-public interface SosConstants extends OWSConstants {
+public interface SosConstants {
 
     String NS_SOS_PREFIX = "sos";
 

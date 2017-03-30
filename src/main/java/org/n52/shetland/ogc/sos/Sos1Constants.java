@@ -30,7 +30,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
-public interface Sos1Constants extends SosConstants {
+public interface Sos1Constants {
 
     String NS_SOS = "http://www.opengis.net/sos/1.0";
 

@@ -16,14 +16,12 @@
  */
 package org.n52.shetland.ogc.sos;
 
-import org.n52.shetland.ogc.sos.SosConstants;
-
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.ImmutableSet;
@@ -34,7 +32,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
-public interface Sos2Constants extends SosConstants {
+public interface Sos2Constants {
 
     String NS_SOS_20 = "http://www.opengis.net/sos/2.0";
 

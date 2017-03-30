@@ -18,15 +18,15 @@ package org.n52.shetland.ogc.sos;
 
 import javax.xml.namespace.QName;
 
-import org.n52.shetland.ogc.sos.Sos2Constants;
-
-public interface Sos2StreamingConstants extends Sos2Constants {
+public interface Sos2StreamingConstants {
 
     public static final String EN_GET_OBSERVATION_RESPONSE = "GetObservationResponse";
 
     public static final String EN_OBSERVATION_DATA = "observationData";
 
-    public static final QName GET_OBSERVATION_RESPONSE = new QName(NS_SOS_20, EN_GET_OBSERVATION_RESPONSE, NS_SOS_PREFIX);
+    public static final QName GET_OBSERVATION_RESPONSE
+            = new QName(Sos2Constants.NS_SOS_20, EN_GET_OBSERVATION_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
-    public static final QName OBSERVATION_DATA = new QName(NS_SOS_20, EN_OBSERVATION_DATA, NS_SOS_PREFIX);
+    public static final QName OBSERVATION_DATA
+            = new QName(Sos2Constants.NS_SOS_20, EN_OBSERVATION_DATA, SosConstants.NS_SOS_PREFIX);
 }
