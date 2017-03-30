@@ -35,6 +35,7 @@ This project includes:
   Apache Commons IO under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
+  Commons Lang under The Apache Software License, Version 2.0
   Compress-LZF under Apache License 2.0
   Elasticsearch SecureSM under The Apache Software License, Version 2.0
   Elasticsearch: Core under The Apache Software License, Version 2.0
