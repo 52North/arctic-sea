@@ -68,8 +68,9 @@ This project includes:
   OGC WaterML DR schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC WaterML schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC XML schemas under The Apache Software License, Version 2.0
-  SaxonB under Mozilla Public License Version 1.0
+  Saxon-HE under Mozilla Public License Version 2.0
   SLF4J API Module under MIT License
+  SLF4J Simple Binding under MIT License
   Spring Beans under The Apache Software License, Version 2.0
   Spring Core under The Apache Software License, Version 2.0
   StAX API under The Apache Software License, Version 2.0
