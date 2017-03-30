@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -23,8 +25,6 @@ import java.util.List;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.PointValuePair;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JavaHelper;
 
@@ -45,12 +45,12 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  */
 public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>> {
 
-    private String gmlId;
+    private final String gmlId;
 
     /**
      * Mesurement values
      */
-    private List<PointValuePair> value = new ArrayList<PointValuePair>(0);
+    private final List<PointValuePair> value = new ArrayList<PointValuePair>(0);
 
     /**
      * Unit of measure
@@ -59,13 +59,15 @@ public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>
 
     public MultiPointCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            gmlId = JavaHelper.generateID(toString());
+            this.gmlId = JavaHelper.generateID(toString());
         } else if (!gmlId.startsWith("mpc_")) {
-            gmlId = "mpc_" + gmlId;
+            this.gmlId = "mpc_" + gmlId;
+        }else {
+            this.gmlId = gmlId;
         }
-        this.gmlId = gmlId;
     }
 
+    @Override
     public String getGmlId() {
         return gmlId;
     }
@@ -181,36 +183,26 @@ public class MultiPointCoverage implements DiscreteCoverage<List<PointValuePair>
      *
      */
     public static class PointValueLists {
-
-        private List<Point> points;
-
-        private List<Value<?>> values;
+        private final List<Point> points;
+        private final List<Value<?>> values;
 
         public PointValueLists(List<PointValuePair> pointValuePairs) {
-            points = Lists.newArrayListWithCapacity(pointValuePairs.size());
-            values = Lists.newArrayListWithCapacity(pointValuePairs.size());
-            fillListsWithValues(pointValuePairs);
-        }
-
-        private void fillListsWithValues(List<PointValuePair> pointValuePairs) {
-            for (PointValuePair pointValuePair : pointValuePairs) {
-                points.add(pointValuePair.getPoint());
-                values.add(pointValuePair.getValue());
-            }
+            this.points = pointValuePairs.stream().map(PointValuePair::getPoint).collect(toList());
+            this.values = pointValuePairs.stream().map(PointValuePair::getValue).collect(toList());
         }
 
         /**
          * @return the points
          */
         public List<Point> getPoints() {
-            return points;
+            return Collections.unmodifiableList(points);
         }
 
         /**
          * @return the values
          */
         public List<Value<?>> getValues() {
-            return values;
+            return Collections.unmodifiableList(values);
         }
 
     }

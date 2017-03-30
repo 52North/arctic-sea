@@ -22,8 +22,6 @@ import java.util.SortedMap;
 
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JavaHelper;
 
@@ -40,21 +38,21 @@ import com.google.common.collect.Maps;
  */
 public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double, Value<?>>> {
 
-    private String gmlId;
-
-    private SortedMap<Double, Value<?>> value = Maps.newTreeMap();
-
+    private final String gmlId;
+    private final SortedMap<Double, Value<?>> value = Maps.newTreeMap();
     private UoM unit;
 
     public RectifiedGridCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            gmlId = JavaHelper.generateID(toString());
+            this.gmlId = JavaHelper.generateID(toString());
         } else if (!gmlId.startsWith("rgc_")) {
-            gmlId = "rgc_" + gmlId;
+            this.gmlId = "rgc_" + gmlId;
+        } else {
+            this.gmlId = gmlId;
         }
-        this.gmlId = gmlId;
     }
 
+    @Override
     public String getGmlId() {
         return gmlId;
     }
@@ -127,6 +125,7 @@ public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double,
         return Lists.newArrayList(getValue().keySet());
     }
 
+    @Override
     public Collection<Value<?>> getRangeSet() {
         return getValue().values();
     }

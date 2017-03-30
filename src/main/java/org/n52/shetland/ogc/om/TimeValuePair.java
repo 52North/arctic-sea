@@ -115,13 +115,8 @@ public class TimeValuePair implements Comparable<TimeValuePair> {
             return false;
         }
         final TimeValuePair other = (TimeValuePair) obj;
-        if (!Objects.equals(this.time, other.time)) {
-            return false;
-        }
-        if (!Objects.equals(this.value, other.value)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.time, other.time) &&
+               Objects.equals(this.value, other.value);
     }
 
 }

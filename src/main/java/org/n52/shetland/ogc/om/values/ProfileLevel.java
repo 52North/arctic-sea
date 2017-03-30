@@ -52,8 +52,8 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
      *
      * @param levelStart
      *            the levelStart value
-     * @param toDepth
-     *            the toDepth value
+     * @param levelEnd
+     *            the levelEnd value
      * @param value
      *            the values
      */
@@ -74,6 +74,7 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     /**
      * @param levelStart
      *            the levelStart to set
+     * @return {@code this}
      */
     public ProfileLevel setLevelStart(QuantityValue levelStart) {
         this.levelStart = levelStart;
@@ -94,6 +95,7 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     /**
      * @param levelEnd
      *            the levelEnd to set
+     * @return {@code this}
      */
     public ProfileLevel setLevelEnd(QuantityValue levelEnd) {
         this.levelEnd = levelEnd;
@@ -114,6 +116,7 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     /**
      * @param value
      *            the value to set
+     * @return {@code this}
      */
     public ProfileLevel setValue(List<Value<?>> value) {
         this.value.clear();
@@ -124,6 +127,7 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     /**
      * @param value
      *            the value to set
+     * @return {@code this}
      */
     public ProfileLevel addValue(Value<?> value) {
         this.value.add(value);
@@ -151,6 +155,7 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     /**
      * @param location
      *            the location to set
+     * @return {@code this}
      */
     public ProfileLevel setLocation(Geometry location) {
         this.location = location;

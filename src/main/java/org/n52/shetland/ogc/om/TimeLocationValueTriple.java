@@ -20,6 +20,7 @@ package org.n52.shetland.ogc.om;
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
+
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
@@ -41,7 +42,7 @@ public class TimeLocationValueTriple extends TimeValuePair {
 
     public TimeLocationValueTriple(Time time, Value<?> value, Geometry location) {
         super(time, value);
-        setLocation(location);
+        this.location = location;
     }
 
     /**
@@ -73,14 +74,12 @@ public class TimeLocationValueTriple extends TimeValuePair {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return super.equals(obj);
+    public int hashCode() {
+        return 37 * super.hashCode() + Objects.hashCode(this.getLocation());
     }
 
     @Override
-    public int hashCode() {
-        int hash = super.hashCode();
-        hash = 37 * hash + Objects.hashCode(this.getLocation());
-        return hash;
+    public boolean equals(Object obj) {
+        return super.equals(obj) && Objects.equals(this.location, ((TimeLocationValueTriple) obj).location);
     }
 }

@@ -20,10 +20,9 @@ package org.n52.shetland.ogc.om;
 import java.util.Objects;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.n52.shetland.ogc.om.values.Value;
-import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 
-import com.google.common.base.MoreObjects;
+import org.n52.shetland.ogc.om.values.Value;
+
 import com.vividsolutions.jts.geom.Point;
 
 public class PointValuePair implements Comparable<PointValuePair> {

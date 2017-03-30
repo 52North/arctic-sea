@@ -22,8 +22,6 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.PointValuePair;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.JavaHelper;
 
 import com.google.common.base.Strings;
@@ -37,23 +35,20 @@ import com.google.common.base.Strings;
  */
 public class CvDiscretePointCoverage implements Value<PointValuePair> {
 
-    private String gmlId;
-
+    private final String gmlId;
     private String domainExtent;
-
     private ReferenceType rangeType;
-
     private PointValuePair value;
-
     private UoM unit;
 
     public CvDiscretePointCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            gmlId = JavaHelper.generateID(toString());
+            this.gmlId = JavaHelper.generateID(toString());
         } else if (!gmlId.startsWith("dpc_")) {
-            gmlId = "dpc_" + gmlId;
+            this.gmlId = "dpc_" + gmlId;
+        } else {
+            this.gmlId = gmlId;
         }
-        this.gmlId = gmlId;
     }
 
     public String getGmlId() {
