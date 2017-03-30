@@ -16,8 +16,8 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
