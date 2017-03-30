@@ -16,7 +16,10 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Unknown value for observation if type is unknown
@@ -34,7 +37,7 @@ public class UnknownValue implements Value<Object> {
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     /**
      * Constructor
@@ -47,8 +50,9 @@ public class UnknownValue implements Value<Object> {
     }
 
     @Override
-    public void setValue(Object value) {
+    public UnknownValue setValue(Object value) {
         this.value = value;
+        return this;
     }
 
     @Override
@@ -58,12 +62,26 @@ public class UnknownValue implements Value<Object> {
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return this.unit;
+    }
+
+    @Override
+    public UnknownValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
     }
 
     @Override
@@ -76,5 +94,4 @@ public class UnknownValue implements Value<Object> {
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
-
 }

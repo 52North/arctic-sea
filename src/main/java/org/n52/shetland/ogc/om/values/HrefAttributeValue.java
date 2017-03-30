@@ -16,7 +16,10 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
 public class HrefAttributeValue implements Value<W3CHrefAttribute> {
@@ -26,7 +29,7 @@ public class HrefAttributeValue implements Value<W3CHrefAttribute> {
     /**
      * Unit of measure
      */
-    private String unit;
+    private UoM unit;
 
     public HrefAttributeValue() {
     }
@@ -36,8 +39,9 @@ public class HrefAttributeValue implements Value<W3CHrefAttribute> {
     }
 
     @Override
-    public void setValue(W3CHrefAttribute value) {
+    public HrefAttributeValue setValue(W3CHrefAttribute value) {
         this.value = value;
+        return this;
     }
 
     @Override
@@ -47,13 +51,28 @@ public class HrefAttributeValue implements Value<W3CHrefAttribute> {
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        this.unit = new UoM(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        if (isSetUnit()) {
+            return unit.getUom();
+        }
+        return null;
     }
+
+    @Override
+    public UoM getUnitObject() {
+        return this.unit;
+    }
+
+    @Override
+    public HrefAttributeValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
 
     @Override
     public boolean isSetValue() {
@@ -62,10 +81,11 @@ public class HrefAttributeValue implements Value<W3CHrefAttribute> {
 
     @Override
     public String toString() {
-        return String.format("HrefAttributeValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String
+                .format("HrefAttributeValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
-   @Override
+    @Override
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }

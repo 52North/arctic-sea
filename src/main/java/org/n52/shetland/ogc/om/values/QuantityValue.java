@@ -16,7 +16,11 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 
 /**
  * Quantity measurement representation for observation
@@ -24,17 +28,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @since 4.0.0
  *
  */
-public class QuantityValue implements Value<Double> {
-
-    /**
-     * Measurement value
-     */
-    private Double value;
-
-    /**
-     * Unit of measure
-     */
-    private String unit;
+public class QuantityValue extends SweQuantity implements Value<Double>, Comparable<QuantityValue> {
 
     /**
      * constructor
@@ -43,7 +37,8 @@ public class QuantityValue implements Value<Double> {
      *              Measurement value
      */
     public QuantityValue(Double value) {
-        this(value, null);
+        super();
+        super.setValue(value);
     }
 
     /**
@@ -55,28 +50,51 @@ public class QuantityValue implements Value<Double> {
      *              Unit of measure
      */
     public QuantityValue(Double value, String unit) {
-        this.value = value;
-        this.unit = unit;
+        super(value, unit);
+    }
+
+    /**
+     * constructor
+     *
+     * @param value
+     *              Measurement value
+     * @param unit
+     *              Unit of measure
+     */
+    public QuantityValue(Double value, UoM unit) {
+        super(value, unit);
     }
 
     @Override
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    @Override
-    public Double getValue() {
-        return value;
+    public QuantityValue setValue(final Double value) {
+        super.setValue(value);
+        return this;
     }
 
     @Override
     public void setUnit(String unit) {
-        this.unit = unit;
+        super.setUom(unit);
     }
 
     @Override
     public String getUnit() {
-        return unit;
+        return super.getUom();
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return super.getUomObject();
+    }
+
+    @Override
+    public QuantityValue setUnit(UoM unit) {
+       super.setUom(unit);
+       return this;
+    }
+
+    @Override
+    public boolean isSetUnit() {
+        return super.isSetUom();
     }
 
     @Override
@@ -86,12 +104,21 @@ public class QuantityValue implements Value<Double> {
     }
 
     @Override
-    public boolean isSetValue() {
-        return value != null;
+    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+        return visitor.visit(this);
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
-        return visitor.visit(this);
+    public int compareTo(QuantityValue o) {
+        if (o == null) {
+            throw new NullPointerException();
+        }
+        if (getValue() == null ^ o.getValue() == null) {
+            return (getValue() == null) ? -1 : 1;
+        }
+        if (getValue() == null && o.getValue() == null) {
+            return 0;
+        }
+        return getValue().compareTo(o.getValue());
     }
 }

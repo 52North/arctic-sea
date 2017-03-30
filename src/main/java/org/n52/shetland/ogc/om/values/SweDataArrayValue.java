@@ -23,16 +23,19 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeHelper;
 
 import com.google.common.collect.Sets;
@@ -44,7 +47,8 @@ import com.google.common.collect.Sets;
  *
  */
 public class SweDataArrayValue implements MultiValue<SweDataArray> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(SweDataArrayValue.class);
+    private static final Logger LOGGER = LoggerFactory
+            .getLogger(SweDataArrayValue.class);
 
     /**
      * Measurement values
@@ -60,8 +64,9 @@ public class SweDataArrayValue implements MultiValue<SweDataArray> {
     }
 
     @Override
-    public void setValue(SweDataArray value) {
+    public SweDataArrayValue setValue(final SweDataArray value) {
         this.value = value;
+        return this;
     }
 
     @Override
@@ -70,13 +75,23 @@ public class SweDataArrayValue implements MultiValue<SweDataArray> {
     }
 
     @Override
-    public void setUnit(String unit) {
+    public void setUnit(final String unit) {
         // do nothing
     }
 
     @Override
     public String getUnit() {
         return null;
+    }
+
+    @Override
+    public UoM getUnitObject() {
+        return null;
+    }
+
+    @Override
+    public SweDataArrayValue setUnit(UoM unit) {
+        return this;
     }
 
     /**
@@ -88,7 +103,7 @@ public class SweDataArrayValue implements MultiValue<SweDataArray> {
      * @return <tt>true</tt> (as specified by {@link Collection#add}) <br />
      * <tt>false</tt> if block could not be added
      */
-    public boolean addBlock(List<String> blockOfTokensToAddAtTheEnd) {
+    public boolean addBlock(final List<String> blockOfTokensToAddAtTheEnd) {
         if (value != null) {
             return value.add(blockOfTokensToAddAtTheEnd);
         }
@@ -103,51 +118,62 @@ public class SweDataArrayValue implements MultiValue<SweDataArray> {
 
     @Override
     public Time getPhenomenonTime() {
-        TimePeriod timePeriod = new TimePeriod();
+        final TimePeriod timePeriod = new TimePeriod();
         Set<Integer> dateTokenIndizes = Sets.newHashSet();
-        if (getValue() == null || getValue().getElementType() == null || getValue().getEncoding() == null) {
-            LOGGER.error("Value of type \"{}\" not set correct.", SweDataArrayValue.class.getName());
-        } else {
+        if (getValue() != null && getValue().getElementType() != null &&
+            getValue().getEncoding() != null) {
             // get index of time token from elementtype
             if (getValue().getElementType() instanceof SweDataRecord) {
-                List<SweField> fields = ((SweDataRecord) getValue().getElementType()).getFields();
+                final SweDataRecord elementType = (SweDataRecord) getValue()
+                        .getElementType();
+                final List<SweField> fields = elementType.getFields();
                 for (int i = 0; i < fields.size(); i++) {
                     final SweField sweField = fields.get(i);
-                    if (sweField.getElement() instanceof SweTime || sweField.getElement() instanceof SweTimeRange && checkFieldNameAndElementDefinition(sweField)) {
-                        dateTokenIndizes.add(i);
+                    if (sweField.getElement() instanceof SweTime || sweField.getElement() instanceof SweTimeRange) {
+                        if (checkFieldNameAndElementDefinition(sweField)) {
+                                dateTokenIndizes.add(i);
+                        }
                     }
                 }
 
             }
-            if (dateTokenIndizes.isEmpty()) {
-                LOGGER.error("PhenomenonTime field could not be found in ElementType");
-            } else {
-                for (List<String> block : value.getValues()) {
+            if (CollectionHelper.isNotEmpty(dateTokenIndizes)) {
+                for (final List<String> block : getValue().getValues()) {
                     // check for "/" to identify time periods (Is
                     // conform with ISO8601 (see WP))
                     // datetimehelper to DateTime from joda time
                     for (Integer index : dateTokenIndizes) {
                         String token = null;
                         try {
-                            token = block.get(index);
-                            timePeriod.extendToContain(DateTimeHelper.parseIsoString2DateTime2Time(token));
-                        } catch (final DateTimeParseException dte) {
-                            LOGGER.error(String.format("Could not parse ISO8601 string \"%s\"", token), dte);
-                            // FIXME throw exception here?
-                        }
-                    }
+                                token = block.get(index);
+                                final Time time = DateTimeHelper.parseIsoString2DateTime2Time(token);
+                                timePeriod.extendToContain(time);
+                            } catch (final DateTimeParseException dte) {
+                                 LOGGER.error(String.format("Could not parse ISO8601 string \"%s\"", token), dte);
+                                 // FIXME throw exception here?
+                                 continue; // try next block;
+                             }
+                                        }
                 }
+            } else {
+                final String errorMsg
+                        = "PhenomenonTime field could not be found in ElementType";
+                LOGGER.error(errorMsg);
             }
+        } else {
+            final String errorMsg = String
+                    .format("Value of type \"%s\" not set correct.", SweDataArrayValue.class
+                            .getName());
+            LOGGER.error(errorMsg);
         }
         return timePeriod;
     }
 
     private boolean checkFieldNameAndElementDefinition(SweField sweField) {
-        return "StartTime".equals(sweField.getName().getValue()) ||
-               "EndTime".equals(sweField.getName().getValue()) ||
-               OmConstants.PHENOMENON_TIME.equals(sweField.getElement().getDefinition());
+                return "StartTime".equals(sweField.getName().getValue()) || "EndTime".equals(sweField.getName().getValue())
+                                || OmConstants.PHENOMENON_TIME.equals(sweField.getElement().getDefinition());
 
-    }
+        }
 
     @Override
     public boolean isSetValue() {
@@ -158,4 +184,5 @@ public class SweDataArrayValue implements MultiValue<SweDataArray> {
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
+
 }

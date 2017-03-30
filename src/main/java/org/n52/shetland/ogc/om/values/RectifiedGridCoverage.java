@@ -16,41 +16,67 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.SortedMap;
+
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.util.JavaHelper;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 /**
- * Text measurement representation for observation
+ * Class that represents a rectified grid coverage
  *
- * @since 4.0.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 4.4.0
  *
  */
-public class TextValue extends SweText implements Value<String> {
-    /**
-     * Unit of measure
-     */
+public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double, Value<?>>> {
+
+    private String gmlId;
+
+    private SortedMap<Double, Value<?>> value = Maps.newTreeMap();
+
     private UoM unit;
 
-    /**
-     * constructor
-     *
-     * @param value
-     *              Measurement value
-     */
-    public TextValue(String value) {
-        super();
-        super.setValue(value);
+    public RectifiedGridCoverage(String gmlId) {
+        if (Strings.isNullOrEmpty(gmlId)) {
+            gmlId = JavaHelper.generateID(toString());
+        } else if (!gmlId.startsWith("rgc_")) {
+            gmlId = "rgc_" + gmlId;
+        }
+        this.gmlId = gmlId;
+    }
+
+    public String getGmlId() {
+        return gmlId;
     }
 
     @Override
-    public TextValue setValue(String value) {
-        super.setValue(value);
+    public RectifiedGridCoverage setValue(SortedMap<Double, Value<?>> value) {
+        this.value.clear();
+        addValue(value);
         return this;
+    }
+
+    public void addValue(Double key, Value<?> value) {
+        this.value.put(key, value);
+    }
+
+    public void addValue(SortedMap<Double, Value<?>> value) {
+        this.value.putAll(value);
+    }
+
+    @Override
+    public SortedMap<Double, Value<?>> getValue() {
+        return value;
     }
 
     @Override
@@ -72,7 +98,7 @@ public class TextValue extends SweText implements Value<String> {
     }
 
     @Override
-    public TextValue setUnit(UoM unit) {
+    public RectifiedGridCoverage setUnit(UoM unit) {
         this.unit = unit;
         return this;
     }
@@ -83,19 +109,26 @@ public class TextValue extends SweText implements Value<String> {
     }
 
     @Override
-    public String toString() {
-        return String
-                .format("TextValue [value=%s, unit=%s]", getValue(), getUnit());
-    }
-
-    @Override
     public boolean isSetValue() {
-        return !Strings.isNullOrEmpty(getValue());
+        return CollectionHelper.isNotEmpty(value);
     }
 
     @Override
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
+    }
+
+    /**
+     * Get the domainSet
+     *
+     * @return The domainSet as {@link Double} {@link List}
+     */
+    public List<Double> getDomainSet() {
+        return Lists.newArrayList(getValue().keySet());
+    }
+
+    public Collection<Value<?>> getRangeSet() {
+        return getValue().values();
     }
 
 }

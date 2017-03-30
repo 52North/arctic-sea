@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import java.util.Collection;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
@@ -44,6 +45,22 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
      * constructor
      */
     public SweQuantity() {
+    }
+
+    /**
+     * constructor
+     */
+    public SweQuantity(Double value, String uom) {
+        this.value = value;
+        setUom(uom);
+    }
+
+    /**
+     * constructor
+     */
+    public SweQuantity(Double value, UoM uom) {
+        this.value = value;
+        setUom(uom);
     }
 
     /**

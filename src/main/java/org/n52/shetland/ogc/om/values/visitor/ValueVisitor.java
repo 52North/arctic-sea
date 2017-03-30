@@ -20,12 +20,17 @@ import org.n52.shetland.ogc.om.values.BooleanValue;
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.ComplexValue;
 import org.n52.shetland.ogc.om.values.CountValue;
+import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.HrefAttributeValue;
+import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
+import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
+import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
@@ -38,29 +43,60 @@ import org.n52.shetland.ogc.om.values.UnknownValue;
  * @param <X> the exception type
  */
 public interface ValueVisitor<T, X extends Exception> {
-    T visit(BooleanValue value) throws X;
+    T visit(BooleanValue value)
+            throws X;
 
-    T visit(CategoryValue value) throws X;
+    T visit(CategoryValue value)
+            throws X;
 
-    T visit(ComplexValue value) throws X;
+    T visit(ComplexValue value)
+            throws X;
 
-    T visit(CountValue value) throws X;
+    T visit(CountValue value)
+            throws X;
 
-    T visit(GeometryValue value) throws X;
+    T visit(GeometryValue value)
+            throws X;
 
-    T visit(HrefAttributeValue value) throws X;
+    T visit(HrefAttributeValue value)
+            throws X;
 
-    T visit(NilTemplateValue value) throws X;
+    T visit(NilTemplateValue value)
+            throws X;
 
-    T visit(QuantityValue value) throws X;
+    T visit(QuantityValue value)
+            throws X;
 
-    T visit(ReferenceValue value) throws X;
+    T visit(ReferenceValue value)
+            throws X;
 
-    T visit(SweDataArrayValue value) throws X;
+    T visit(SweDataArrayValue value)
+            throws X;
 
-    T visit(TVPValue value) throws X;
+    T visit(TVPValue value)
+            throws X;
 
-    T visit(TextValue value) throws X;
+    T visit(TLVTValue value)
+            throws X;
 
-    T visit(UnknownValue value) throws X;
+    T visit(TextValue value)
+            throws X;
+
+    T visit(CvDiscretePointCoverage value)
+            throws X;
+
+    T visit(MultiPointCoverage value)
+            throws X;
+
+    T visit(RectifiedGridCoverage value)
+            throws X;
+
+    T visit(ProfileValue value)
+            throws X;
+
+    T visit(UnknownValue value)
+            throws X;
+
+//    T visit(XmlValue value)
+//            throws X;
 }

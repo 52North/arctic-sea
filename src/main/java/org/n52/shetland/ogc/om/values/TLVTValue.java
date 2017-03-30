@@ -16,50 +16,69 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.n52.shetland.ogc.UoM;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.om.TimeLocationValueTriple;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.util.CollectionHelper;
 
-import com.fasterxml.jackson.databind.util.ArrayBuilders.BooleanBuilder;
 
 /**
- * Boolean measurement representation for observation
+ * {@link MultiValue} representing a time location value triple for observations
  *
- * @since 4.0.0
+ * @since 4.4.0
  *
  */
-public class BooleanValue implements Value<Boolean> {
+public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
 
     /**
-     * Measurement value
+     * Mesurement values
      */
-    private Boolean value;
+    private List<TimeLocationValueTriple> value = new ArrayList<TimeLocationValueTriple>(0);
 
     /**
      * Unit of measure
      */
     private UoM unit;
 
-    /**
-     * constructor
-     *
-     * @param value
-     *              Measurement value
-     */
-    public BooleanValue(Boolean value) {
-        this.value = value;
-    }
-
     @Override
-    public BooleanValue setValue(Boolean value) {
-        this.value = value;
+    public TLVTValue setValue(List<TimeLocationValueTriple> value) {
+        this.value.clear();
+        this.value.addAll(value);
         return this;
     }
 
     @Override
-    public Boolean getValue() {
+    public List<TimeLocationValueTriple> getValue() {
+        Collections.sort(value);
         return value;
+    }
+
+    /**
+     * Add time value pair value
+     *
+     * @param value
+     *            Time value pair value to add
+     */
+    public void addValue(TimeLocationValueTriple value) {
+        this.value.add(value);
+    }
+
+    /**
+     * Add time value pair values
+     *
+     * @param values
+     *            Time value pair values to add
+     */
+    public void addValues(List<TimeLocationValueTriple> values) {
+        this.value.addAll(values);
     }
 
     @Override
@@ -81,20 +100,25 @@ public class BooleanValue implements Value<Boolean> {
     }
 
     @Override
-    public BooleanValue setUnit(UoM unit) {
+    public TLVTValue setUnit(UoM unit) {
         this.unit = unit;
         return this;
     }
 
     @Override
-    public String toString() {
-        return String
-                .format("BooleanValue [value=%s, unit=%s]", getValue(), getUnit());
+    public Time getPhenomenonTime() {
+        TimePeriod timePeriod = new TimePeriod();
+        if (isSetValue()) {
+            for (TimeLocationValueTriple timeValuePair : getValue()) {
+                timePeriod.extendToContain(timeValuePair.getTime());
+            }
+        }
+        return timePeriod;
     }
 
     @Override
     public boolean isSetValue() {
-        return value != null;
+        return CollectionHelper.isNotEmpty(getValue());
     }
 
     @Override

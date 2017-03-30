@@ -16,26 +16,20 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-import org.n52.shetland.ogc.gml.time.Time;
+import java.util.Collection;
 
 /**
- * Interface for observation values with more than one value
+ * Interface for discrete coverages
  *
- * @since 4.0.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 4.4.0
  *
  * @param <T>
- *            type of the multi value
  */
-public interface MultiValue<T> extends Value<T> {
+public interface DiscreteCoverage<T> extends Value<T> {
 
-    /**
-     * Get the phenomenon time for the multiple values
-     *
-     * @return Phenomenon time
-     */
-    Time getPhenomenonTime();
+    String getGmlId();
 
-    @Override
-    MultiValue<T> setValue(T value);
+    Collection<Value<?>> getRangeSet();
 
 }
