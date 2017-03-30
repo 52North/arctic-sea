@@ -34,6 +34,7 @@ import java.util.stream.Stream;
 import javax.inject.Inject;
 
 import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.Binding;
@@ -57,7 +58,6 @@ import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.svalbard.OperationKey;
-import org.n52.svalbard.Validation;
 
 /**
  * TODO JavaDoc

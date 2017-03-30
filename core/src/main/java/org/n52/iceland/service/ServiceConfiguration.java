@@ -23,12 +23,12 @@ import java.net.URI;
 import java.util.Locale;
 
 import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.CodingSettings;
-import org.n52.svalbard.Validation;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

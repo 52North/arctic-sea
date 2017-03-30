@@ -26,10 +26,10 @@ import javax.inject.Inject;
 import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.SettingValueFactory;
 import org.n52.faroe.SettingsService;
+import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
-import org.n52.svalbard.Validation;
 
 @Configurable
 public class ElasticsearchSettings {

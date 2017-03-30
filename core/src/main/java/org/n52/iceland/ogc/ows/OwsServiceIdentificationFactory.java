@@ -33,9 +33,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
-import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
@@ -44,7 +45,6 @@ import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
 import org.n52.shetland.ogc.ows.OwsServiceIdentification;
 import org.n52.shetland.util.StringHelper;
-import org.n52.svalbard.Validation;
 
 @Configurable
 public class OwsServiceIdentificationFactory
