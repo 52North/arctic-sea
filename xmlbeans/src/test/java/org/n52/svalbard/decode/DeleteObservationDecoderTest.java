@@ -35,7 +35,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
@@ -101,12 +100,12 @@ public class DeleteObservationDecoderTest {
         assertEquals("Supported Types size ", 0, instance.getSupportedTypes().size());
     }
 
-    @Test(expected = OwsExceptionReport.class)
+    @Test(expected = DecodingException.class)
     public void decodeNullThrowsOwsExceptionReport() throws DecodingException {
         instance.decode(null);
     }
 
-    @Test(expected = OwsExceptionReport.class)
+    @Test(expected = DecodingException.class)
     public void decodingIncorrectXmlObjectThrowsOwsExceptionReport() throws DecodingException {
         instance.decode(incorrectXmlObject);
     }
@@ -120,7 +119,7 @@ public class DeleteObservationDecoderTest {
                 .getObservationIdentifier());
     }
 
-    @Test(expected = OwsExceptionReport.class)
+    @Test(expected = DecodingException.class)
     public void should_throw_OwsExceptionReport_when_receving_invalid_DeleteObservationDocument()
             throws DecodingException {
         correctXmlObject = DeleteObservationDocument.Factory.newInstance();

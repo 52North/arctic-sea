@@ -319,8 +319,8 @@ public class SweCommonEncoderv101Test {
         final String field1Value = "field-1-value";
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField(field1Name,
-                        new SweText().setValue(field1Value))));
+                new SweCommonEncoderv101()
+                        .encode(new SweSimpleDataRecord().addField(new SweField(field1Name, new SweText().setValue(field1Value))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
 

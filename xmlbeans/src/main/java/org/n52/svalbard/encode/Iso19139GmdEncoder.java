@@ -134,12 +134,10 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         // try {
         if (element instanceof SmlResponsibleParty) {
             encodedObject = encodeResponsibleParty((SmlResponsibleParty) element, additionalValues);
+        } else if (element instanceof GmdDomainConsistency) {
+            encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency) element, additionalValues);
         } else {
-            if (element instanceof GmdDomainConsistency) {
-                encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency) element, additionalValues);
-            } else {
-                throw new UnsupportedEncoderInputException(this, element);
-            }
+            throw new UnsupportedEncoderInputException(this, element);
         }
         // } catch (final XmlException xmle) {
         // throw new NoApplicableCodeException().causedBy(xmle);

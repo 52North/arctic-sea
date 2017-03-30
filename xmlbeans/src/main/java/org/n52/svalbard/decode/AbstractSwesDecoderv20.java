@@ -16,6 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
+import net.opengis.swes.x20.ExtensibleRequestType;
+
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
@@ -23,8 +25,6 @@ import org.n52.shetland.ogc.swes.SwesExtension;
 import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
-
-import net.opengis.swes.x20.ExtensibleRequestType;
 
 public abstract class AbstractSwesDecoderv20<S> extends AbstractXmlDecoder<XmlObject, S> {
 
@@ -36,9 +36,9 @@ public abstract class AbstractSwesDecoderv20<S> extends AbstractXmlDecoder<XmlOb
     protected SwesExtensions parseExtensibleRequestExtension(XmlObject[] extensionArray) throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
             final SwesExtensions extensions = new SwesExtensions();
-            for (final XmlObject xbSwesExtension : extensionArray) {
+            for (XmlObject xbSwesExtension : extensionArray) {
 
-                final Object obj = decodeXmlElement(xbSwesExtension);
+                Object obj = decodeXmlElement(xbSwesExtension);
                 if (obj instanceof SwesExtension<?>) {
                     extensions.addExtension((SwesExtension<?>) obj);
                 } else {

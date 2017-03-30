@@ -23,9 +23,11 @@ import static org.hamcrest.Matchers.startsWith;
 
 import javax.xml.namespace.NamespaceContext;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.isotc211.x2005.gmd.DQDomainConsistencyDocument;
 import org.isotc211.x2005.gmd.DQDomainConsistencyPropertyType;
 import org.isotc211.x2005.gmd.DQDomainConsistencyType;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -61,6 +63,12 @@ public class Iso19139GmdEncoderTest {
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
     private final Iso19139GmdEncoder encoder = new Iso19139GmdEncoder();
+
+
+    @Before
+    public void setup() {
+        encoder.setXmlOptions(() -> new XmlOptions());
+    }
 
     @Test
     public void checkReturnType() throws Exception {

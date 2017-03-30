@@ -22,12 +22,12 @@ import javax.inject.Inject;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.w3c.dom.Node;
 
 import org.n52.janmayen.Producer;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 import org.n52.svalbard.decode.exception.XmlDecodingException;
-import org.n52.svalbard.util.XmlHelper;
 
 /**
  * TODO JavaDoc
@@ -55,12 +55,27 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
     }
 
     public DecoderKey getDecoderKey(XmlObject doc) {
-        return new XmlNamespaceDecoderKey(XmlHelper.getNamespace(doc), doc.getClass());
+
+        Node domNode = doc.getDomNode();
+        String namespaceURI = domNode.getNamespaceURI();
+        if (namespaceURI == null && domNode.getFirstChild() != null) {
+            namespaceURI = domNode.getFirstChild().getNamespaceURI();
+        }
+        /*
+         * if document starts with a comment, get next sibling (and ignore
+         * initial comment)
+         */
+        if (namespaceURI == null && domNode.getFirstChild() != null
+                && domNode.getFirstChild().getNextSibling() != null) {
+            namespaceURI = domNode.getFirstChild().getNextSibling().getNamespaceURI();
+        }
+
+        return new XmlNamespaceDecoderKey(namespaceURI, doc.getClass());
     }
 
     public <T> T decodeXmlObject(XmlObject xbObject) throws DecodingException {
-        final DecoderKey key = getDecoderKey(xbObject);
-        final Decoder<T, XmlObject> decoder = getDecoderRepository().getDecoder(key);
+        DecoderKey key = getDecoderKey(xbObject);
+        Decoder<T, XmlObject> decoder = getDecoderRepository().getDecoder(key);
         if (decoder == null) {
             throw new NoDecoderForKeyException(key);
         }

@@ -26,6 +26,7 @@ import static org.n52.shetland.ogc.sos.SosConstants.SOS;
 import static org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants.NS_SOSDO_1_0;
 import static org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants.NS_SOSDO_1_0_PREFIX;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -33,9 +34,12 @@ import java.util.Set;
 
 import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
 
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -73,6 +77,20 @@ public class DeleteObservationEncoderTest {
     @BeforeClass
     public static void initInstance() {
         instance = new DeleteObservationEncoder();
+        Producer<XmlOptions> options = () -> new XmlOptions();
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoderRepository.setEncoders(Arrays.asList(instance));
+        encoderRepository.init();
+
+        SchemaRepository schemaRepository = new SchemaRepository();
+        schemaRepository.setEncoderRepository(encoderRepository);
+        schemaRepository.init();
+
+        instance.setSchemaRepository(schemaRepository);
+        instance.setEncoderRepository(encoderRepository);
+        instance.setXmlOptions(options);
+
         incorrectCoreResponseMissingAttributes = new DeleteObservationResponse();
         correctCoreResponse = new DeleteObservationResponse();
         correctCoreResponse.setObservationId(observationId);
@@ -124,11 +142,6 @@ public class DeleteObservationEncoderTest {
         instance.encode(null);
     }
 
-    @Test(expected = EncodingException.class)
-    public void encodingCoreResponseWithMissingAttributesReturnsNull() throws EncodingException {
-        instance.encode(incorrectCoreResponseMissingAttributes);
-    }
-
     @Test
     public void encodeCorrectCoreResponse() throws EncodingException {
         final DeleteObservationResponse correctCoreResponse = new DeleteObservationResponse();
@@ -142,12 +155,10 @@ public class DeleteObservationEncoderTest {
 
     @Test
     public void encodingCorrectXmlObjectReturnsCorrectServiceRequest() throws EncodingException {
-        assertNotNull("Decoding of correct XmlObject returned null", instance.encode(correctCoreResponse));
-        assertTrue("Class of Result ",
-                instance.encode(correctCoreResponse) instanceof DeleteObservationResponseDocument);
-        assertEquals("Id of observation to delete", observationId,
-                ((DeleteObservationResponseDocument) instance.encode(correctCoreResponse))
-                        .getDeleteObservationResponse().getDeletedObservation());
+        XmlObject encoded = instance.encode(correctCoreResponse);
+        assertNotNull("Decoding of correct XmlObject returned null", encoded);
+        assertTrue("Class of Result ", encoded instanceof DeleteObservationResponseDocument);
+        assertEquals("Id of observation to delete", observationId, ((DeleteObservationResponseDocument) encoded).getDeleteObservationResponse().getDeletedObservation());
     }
 
     @Test

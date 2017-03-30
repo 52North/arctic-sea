@@ -20,10 +20,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.AbstractCodingRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.google.common.annotations.VisibleForTesting;
 
 /**
  * TODO JavaDoc
@@ -48,6 +50,11 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
         return getComponents();
     }
 
+    @VisibleForTesting
+    void setEncoders(Collection<Encoder<?, ?>> encoders) {
+        this.encoders = encoders;
+    }
+
     public boolean hasEncoder(EncoderKey key, EncoderKey... keys) {
         return hasComponent(key, keys);
     }
@@ -60,6 +67,11 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
     @Override
     protected CompositeKey createCompositeKey(List<EncoderKey> keys) {
         return new CompositeEncoderKey(keys);
+    }
+
+    @VisibleForTesting
+    void setEncoderFactories(Collection<EncoderFactory> encoderFactories) {
+        this.encoderFactories = encoderFactories;
     }
 
     private class CompositeEncoderKey extends CompositeKey implements EncoderKey {

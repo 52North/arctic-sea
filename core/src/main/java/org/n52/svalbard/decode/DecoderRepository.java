@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.AbstractCodingRepository;
 
+import com.google.common.annotations.VisibleForTesting;
+
 /**
  * TODO JavaDoc
  *
@@ -38,6 +40,16 @@ public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Deco
 
     @Autowired(required = false)
     private Collection<DecoderFactory> decoderFactories;
+
+    @VisibleForTesting
+    void setDecoders(Collection<Decoder<?, ?>> decoders) {
+        this.decoders = decoders;
+    }
+
+    @VisibleForTesting
+    void setDecoderFactories(Collection<DecoderFactory> decoderFactories) {
+        this.decoderFactories = decoderFactories;
+    }
 
     @Override
     public void init() {
