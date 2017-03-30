@@ -29,6 +29,7 @@ import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.Sos2StreamingConstants;
+import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
@@ -139,7 +140,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
             throws XMLStreamException, EncodingException {
         start(Sos2StreamingConstants.GET_OBSERVATION_RESPONSE);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
-        namespace(Sos2StreamingConstants.NS_SOS_PREFIX, Sos2StreamingConstants.NS_SOS_20);
+        namespace(SosConstants.NS_SOS_PREFIX, Sos2Constants.NS_SOS_20);
         // get observation encoder
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(response.getResponseFormat());
         encodingValues.setAsDocument(true);

@@ -16,33 +16,40 @@
  */
 package org.n52.svalbard.decode;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.gml.x32.AbstractTimeObjectType;
 import net.opengis.sosgda.x10.DataAvailabilityMemberType;
 import net.opengis.sosgda.x10.GetDataAvailabilityResponseDocument;
 import net.opengis.sosgda.x10.GetDataAvailabilityResponseType;
+import net.opengis.sosgda.x20.FormatDescriptorType;
+import net.opengis.sosgda.x20.ObservationFormatDescriptorType;
+
+import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.FormatDescriptor;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ObservationFormatDescriptor;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ProcedureDescriptionFormatDescriptor;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 /**
  * XML {@link Decoder} for {@link GetDataAvailabilityResponse}
@@ -52,13 +59,16 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class GetDataAvailabilityResponseDecoder
-        extends AbstractXmlDecoder<GetDataAvailabilityResponseDocument, GetDataAvailabilityResponse>
+        extends AbstractXmlDecoder<XmlObject, GetDataAvailabilityResponse>
         implements SosResponseDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetDataAvailabilityResponseDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS
-            = CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA, GetDataAvailabilityResponseDocument.class);
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA,
+                    GetDataAvailabilityResponseDocument.class),
+            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20,
+                    net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument.class));
 
     public GetDataAvailabilityResponseDecoder() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -71,49 +81,107 @@ public class GetDataAvailabilityResponseDecoder
     }
 
     @Override
-    public GetDataAvailabilityResponse decode(GetDataAvailabilityResponseDocument document) throws DecodingException {
+    public GetDataAvailabilityResponse decode(XmlObject document) throws DecodingException {
         if (document != null) {
-            GetDataAvailabilityResponse response = new GetDataAvailabilityResponse();
-            setService(response);
-            setVersions(response);
-            response.setDataAvailabilities(parseDataAvalabilities(document.getGetDataAvailabilityResponse()));
-            return response;
+            if (document instanceof GetDataAvailabilityResponseDocument) {
+                return decodeV10((GetDataAvailabilityResponseDocument) document);
+            } else if (document instanceof net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) {
+                return decodeV20((net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) document);
+            }
         }
         throw new UnsupportedDecoderInputException(this, document);
     }
 
-    private Collection<? extends GetDataAvailabilityResponse.DataAvailability> parseDataAvalabilities(
+    private GetDataAvailabilityResponse decodeV10(GetDataAvailabilityResponseDocument document) throws DecodingException {
+        GetDataAvailabilityResponse response = new GetDataAvailabilityResponse();
+        setService(response);
+        setVersions(response);
+        response.setNamespace(GetDataAvailabilityConstants.NS_GDA);
+        response.setDataAvailabilities(parseDataAvalabilities(document.getGetDataAvailabilityResponse()));
+        return response;
+    }
+
+    private GetDataAvailabilityResponse decodeV20(net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument document) throws DecodingException {
+        GetDataAvailabilityResponse response = new GetDataAvailabilityResponse();
+        setService(response);
+        setVersions(response);
+        response.setNamespace(GetDataAvailabilityConstants.NS_GDA_20);
+        response.setDataAvailabilities(parseDataAvalabilities(document.getGetDataAvailabilityResponse()));
+        return response;
+    }
+
+    private Collection<DataAvailability> parseDataAvalabilities(
             GetDataAvailabilityResponseType response) throws DecodingException {
+        List<DataAvailability> availabilities = Lists.newArrayList();
         if (CollectionHelper.isNotNullOrEmpty(response.getDataAvailabilityMemberArray())) {
-            List<GetDataAvailabilityResponse.DataAvailability> availabilities = Lists.newArrayList();
             Map<String, TimePeriod> periods = Maps.newHashMap();
-            // iterate once to get the phenomenonTime entries
             for (DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
-                if (damt.getPhenomenonTime().getAbstractTimeObject() != null) {
-                    TimePeriod phenomenonTime = decodeXmlElement(damt.getPhenomenonTime().getAbstractTimeObject());
-                    periods.put(phenomenonTime.getGmlId(), phenomenonTime);
-                }
-            }
-            for (DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
+
                 ReferenceType procedure = decodeXmlElement(damt.getProcedure());
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
-                ReferenceType offering = null;
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
-                TimePeriod phenomenonTime;
-                if (damt.getPhenomenonTime().getAbstractTimeObject() != null) {
-                    phenomenonTime = decodeXmlElement(damt.getPhenomenonTime().getAbstractTimeObject());
-                } else {
-                    String href = damt.getPhenomenonTime().getHref();
-                    if (href.startsWith("#")) {
-                        href = href.substring(1);
-                    }
-                    phenomenonTime = periods.get(href);
-                }
-                availabilities.add(new GetDataAvailabilityResponse.DataAvailability(procedure, observedProperty, featureOfInterest, offering, phenomenonTime));
+                TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(),
+                        damt.getPhenomenonTime().getHref(), periods);
+
+                availabilities.add(new DataAvailability(procedure, observedProperty, featureOfInterest, null,
+                        phenomenonTime));
             }
-            return availabilities;
+        }
+        return availabilities;
+    }
+
+    private Collection<DataAvailability> parseDataAvalabilities(
+            net.opengis.sosgda.x20.GetDataAvailabilityResponseType response) throws DecodingException {
+        List<DataAvailability> availabilities = Lists.newArrayList();
+        if (CollectionHelper.isNotNullOrEmpty(response.getDataAvailabilityMemberArray())) {
+            Map<String, TimePeriod> periods = Maps.newHashMap();
+            for (net.opengis.sosgda.x20.DataAvailabilityMemberType damt : response.getDataAvailabilityMemberArray()) {
+
+                ReferenceType procedure = decodeXmlElement(damt.getProcedure());
+                ReferenceType offering = decodeXmlElement(damt.getOffering());
+                ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
+                ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
+                TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(),
+                        damt.getPhenomenonTime().getHref(), periods);
+
+                DataAvailability dataAvailability = new DataAvailability(procedure, observedProperty, featureOfInterest,
+                        offering, phenomenonTime);
+                FormatDescriptor formatDescriptor = createFormatDescriptor(damt.getFormatDescriptor());
+                if (formatDescriptor != null) {
+                    dataAvailability.setFormatDescriptor(formatDescriptor);
+                }
+                availabilities.add(dataAvailability);
+            }
+        }
+        return availabilities;
+    }
+
+    private TimePeriod getPhenomenonTime(AbstractTimeObjectType atot, String href, Map<String, TimePeriod> periods) throws DecodingException {
+        TimePeriod phenomenonTime;
+        if (atot != null) {
+            phenomenonTime = decodeXmlElement(atot);
+            periods.put(phenomenonTime.getGmlId(), phenomenonTime);
+        } else {
+            if (href.startsWith("#")) {
+                href = href.substring(1);
+            }
+            phenomenonTime = periods.get(href);
+        }
+        return phenomenonTime;
+    }
+
+    private FormatDescriptor createFormatDescriptor(FormatDescriptorType fdt) {
+        if (fdt != null) {
+            String procDescFormatDescriptor = fdt.getProcedureDescriptionFormatDescriptor().getProcedureDescriptionFormat();
+            Set<ObservationFormatDescriptor> obsFormDescs = Sets.newHashSet();
+            for (ObservationFormatDescriptorType obsFormatDescriptor : fdt.getObservationFormatDescriptorArray()) {
+                obsFormDescs.add(new ObservationFormatDescriptor(
+                        obsFormatDescriptor.getResponseFormat(),
+                        Sets.newHashSet(obsFormatDescriptor.getObservationTypeArray())
+                ));
+            }
+            return new FormatDescriptor(new ProcedureDescriptionFormatDescriptor(procDescFormatDescriptor), obsFormDescs);
         }
         return null;
     }
-
 }

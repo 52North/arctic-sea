@@ -34,8 +34,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.aqd.AqdConstants;
+import org.n52.shetland.aqd.EReportObligationRepository;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
+import org.n52.shetland.aqd.ReportObligations;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -50,17 +52,15 @@ import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
+import org.n52.shetland.util.AqdHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.shetland.aqd.EReportObligationRepository;
 import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.n52.shetland.util.AqdHelper;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.shetland.aqd.ReportObligations;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -114,7 +114,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
 
     @Override
     public Set<String> getSupportedResponseFormats(String service, String version) {
-        if (SosConstants.SOS.equals(service) && Sos1Constants.VERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos1Constants.SERVICEVERSION.equals(version)) {
             return Sets.newHashSet(AqdConstants.AQD_CONTENT_TYPE.toString());
         }
         return Sets.newHashSet(AqdConstants.NS_AQD);

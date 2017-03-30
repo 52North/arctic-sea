@@ -420,8 +420,12 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     private TimePositionType createTimePositionType(final TimePosition timePosition) throws DateTimeFormatException {
         TimePositionType xbTimePosition = TimePositionType.Factory.newInstance();
         if (!timePosition.isSetTime()) {
-            xbTimePosition.setIndeterminatePosition(TimeIndeterminateValueType.Enum.forString(Optional
-                    .ofNullable(timePosition.getIndeterminateValue()).orElse(IndeterminateValue.UNKNOWN).getValue()));
+            String indeterminateValue = Optional.ofNullable(timePosition.getIndeterminateValue()).orElse(IndeterminateValue.UNKNOWN).getValue();
+            if (TimeIndeterminateValueType.Enum.forString(indeterminateValue) != null) {
+                xbTimePosition.setIndeterminatePosition(TimeIndeterminateValueType.Enum.forString(indeterminateValue));
+            } else {
+                xbTimePosition.setStringValue(indeterminateValue);
+            }
         } else {
             final String endString = DateTimeHelper.formatDateTime2String(timePosition);
 
