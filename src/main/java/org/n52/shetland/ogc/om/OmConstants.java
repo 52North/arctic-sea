@@ -20,8 +20,8 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.n52.shetland.ogc.OGCConstants;
 import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.ImmutableSet;

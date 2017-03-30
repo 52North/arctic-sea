@@ -24,6 +24,7 @@ import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
  *
  * @since 4.0.0
  */
+//FIXME this is not a AbstractDataComponent according to the SWE standard
 public class SweField extends SweAbstractDataComponent {
 
     /**
