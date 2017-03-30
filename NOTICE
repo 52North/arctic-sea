@@ -15,18 +15,21 @@ limitations under the License.
 
 This project includes:
 
-  "Java Concurrency in Practice" book annotations under Creative Commons Attribution License, http://creativecommons.org/licenses/by/2.5
-  52°North Faroe under The Apache Software License, Version 2.0
+  52°North Faroe Annotations under The Apache Software License, Version 2.0
+  52°North Faroe Utilities under The Apache Software License, Version 2.0
   52°North Jan Mayen under The Apache Software License, Version 2.0
   52°North Shetland under The Apache Software License, Version 2.0
-  52°North Svalbard under The Apache Software License, Version 2.0
+  52°North Svalbard Core under The Apache Software License, Version 2.0
+  52°North Svalbard Parent under The Apache Software License, Version 2.0
+  52°North Svalbard XML Stream under The Apache Software License, Version 2.0
+  52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Logging under The Apache Software License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
-  FindBugs-Annotations under GNU Lesser Public License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
+  FindBugs-Native-Annotations under GNU Lesser Public License
   Geographic Common (GCO) schema (version 2012-07-13) under The Apache Software License, Version 2.0
   Geographic MetaData (GMD) schema (version 2012-07-13) under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0

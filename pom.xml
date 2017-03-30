@@ -27,16 +27,22 @@
     </parent>
 
     <groupId>org.n52.svalbard</groupId>
-    <artifactId>svalbard</artifactId>
+    <artifactId>svalbard-parent</artifactId>
     <version>1-SNAPSHOT</version>
 
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
-    <name>52°North Svalbard</name>
+    <name>52°North Svalbard Parent</name>
     <description>52°North OWS Framework</description>
     <url>https://github.com/52North/svalbard</url>
 
     <inceptionYear>2016</inceptionYear>
+
+    <modules>
+        <module>core</module>
+        <module>xmlbeans</module>
+        <module>xmlstream</module>
+    </modules>
 
     <developers>
         <developer>
@@ -103,104 +109,127 @@
         <saxon.version>9.1.0.8</saxon.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.1</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
-            <version>4.2.3.RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.n52.janmayen</groupId>
-            <artifactId>janmayen</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.n52.faroe</groupId>
-            <artifactId>faroe</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.n52.shetland</groupId>
-            <artifactId>shetland</artifactId>
-            <version>1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>20.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>1.7.21</version>
-        </dependency>
-        <dependency>
-            <groupId>com.vividsolutions</groupId>
-            <artifactId>jts</artifactId>
-            <version>1.13</version>
-        </dependency>
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.9.4</version>
-        </dependency>
-        <dependency>
-            <groupId>javax.inject</groupId>
-            <artifactId>javax.inject</artifactId>
-            <version>1</version>
-        </dependency>
-        <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <version>1.0.1</version>
-        </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard-xmlbeans</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard-xmlstream</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
-        <!-- Testing dependencies -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.12</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>1.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.10.19</version>
-            <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.hamcrest</groupId>
-                    <artifactId>hamcrest-core</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
-        <!-- XML -->
-        <dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>jsr305</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.code.findbugs</groupId>
+                <artifactId>findbugs-annotations</artifactId>
+                <version>3.0.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>4.2.3.RELEASE</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.janmayen</groupId>
+                <artifactId>janmayen</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-annotations</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-utils</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.shetland</groupId>
+                <artifactId>shetland</artifactId>
+                <version>1-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>20.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.21</version>
+            </dependency>
+            <dependency>
+                <groupId>com.vividsolutions</groupId>
+                <artifactId>jts</artifactId>
+                <version>1.13</version>
+            </dependency>
+            <dependency>
+                <groupId>joda-time</groupId>
+                <artifactId>joda-time</artifactId>
+                <version>2.9.4</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.inject</groupId>
+                <artifactId>javax.inject</artifactId>
+                <version>1</version>
+            </dependency>
+            <dependency>
+                <groupId>stax</groupId>
+                <artifactId>stax-api</artifactId>
+                <version>1.0.1</version>
+            </dependency>
+
+            <!-- Testing dependencies -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.12</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hamcrest</groupId>
+                        <artifactId>hamcrest-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>1.10.19</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hamcrest</groupId>
+                        <artifactId>hamcrest-core</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!-- XML -->
+            <dependency>
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-gml-v311</artifactId>
                 <version>${n52.common.xml.version}</version>
@@ -229,7 +258,6 @@
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-ogc-schema</artifactId>
                 <version>${n52.common.xml.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.n52.sensorweb</groupId>
@@ -250,7 +278,6 @@
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-gmd-v20120713</artifactId>
                 <version>${n52.common.xml.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.n52.sensorweb</groupId>
@@ -261,7 +288,6 @@
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-gco-v20120713</artifactId>
                 <version>${n52.common.xml.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>org.n52.sensorweb</groupId>
@@ -328,13 +354,13 @@
                 <artifactId>52n-xml-sosdo-v10</artifactId>
                 <version>${n52.common.xml.version}</version>
             </dependency>
-            <!-- 
-            <dependency>
-                <groupId>org.n52.sensorweb</groupId>
-                <artifactId>52n-xml-sosdo-v20</artifactId>
-                <version>${n52.common.xml.version}</version>
-            </dependency>
-             -->
+            <!--
+           <dependency>
+               <groupId>org.n52.sensorweb</groupId>
+               <artifactId>52n-xml-sosdo-v20</artifactId>
+               <version>${n52.common.xml.version}</version>
+           </dependency>
+            -->
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans</artifactId>
@@ -344,7 +370,6 @@
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans-xpath</artifactId>
                 <version>${xmlbeans.version}</version>
-                <scope>runtime</scope>
                 <exclusions>
                     <exclusion>
                         <groupId>net.sf.saxon</groupId>
@@ -360,21 +385,18 @@
                 <groupId>net.sourceforge.saxon</groupId>
                 <artifactId>saxon</artifactId>
                 <version>${saxon.version}</version>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.saxon</groupId>
                 <artifactId>saxon</artifactId>
                 <version>${saxon.version}</version>
                 <classifier>xpath</classifier>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>net.sourceforge.saxon</groupId>
                 <artifactId>saxon</artifactId>
                 <version>${saxon.version}</version>
                 <classifier>dom</classifier>
-                <scope>runtime</scope>
             </dependency>
             <dependency>
                 <groupId>xmlunit</groupId>
@@ -386,8 +408,8 @@
                 <artifactId>commons-lang</artifactId>
                 <version>2.6</version>
             </dependency>
-    </dependencies>
-
+        </dependencies>
+    </dependencyManagement>
     <build>
         <defaultGoal>install</defaultGoal>
 
@@ -480,7 +502,7 @@
                     <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>
             </plugin>
-            
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-checkstyle-plugin</artifactId>
