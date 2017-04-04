@@ -22,6 +22,7 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
+import java.util.function.Function;
 
 import net.opengis.sos.x20.GetObservationDocument;
 
@@ -128,10 +129,13 @@ public class SosDecoderv20Test {
         assertThat(decodedObject, instanceOf(GetObservationRequest.class));
 
         final GetObservationRequest request = (GetObservationRequest) decodedObject;
+        Function<Extension<?>, ?> getExtensionValue = Extension::getValue;
+        Function<Object, SweText> castToText = Functions.cast(SweText.class);
+        Function<SweText, String> getTextValue = SweText::getValue;
         assertThat(request.getExtension("my-text-extension")
-                .map(Extension::getValue)
-                .map(Functions.cast(SweText.class))
-                .map(SweText::getValue).orElse(null), is("true"));
+                .map(getExtensionValue)
+                .map(castToText)
+                .map(getTextValue).orElse(null), is("true"));
 
     }
 
