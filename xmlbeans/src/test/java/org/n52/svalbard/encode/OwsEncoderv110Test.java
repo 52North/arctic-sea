@@ -22,12 +22,14 @@ import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.net.URI;
+import java.util.Arrays;
 
 import net.opengis.ows.x11.ExceptionDocument;
 import net.opengis.ows.x11.ExceptionReportDocument;
 import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -37,9 +39,6 @@ import org.n52.shetland.ogc.ows.OwsServiceIdentification;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.encode.EncoderRepository;
-import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.OwsEncoderv110;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 
@@ -58,6 +57,9 @@ public class OwsEncoderv110Test {
 
     @Before
     public void init() {
+        encoder.setXmlOptions(XmlOptions::new);
+        encoder.setEncoderRepository(encoderRepository);
+        encoderRepository.setEncoders(Arrays.asList(encoder));
         encoderRepository.init();
     }
 

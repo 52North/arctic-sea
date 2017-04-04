@@ -18,20 +18,24 @@ package org.n52.svalbard.encode;
 
 import static org.hamcrest.Matchers.containsString;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 import javax.xml.namespace.NamespaceContext;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.w3c.dom.Node;
 
+import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -44,7 +48,7 @@ import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.values.ComplexValue;
-import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
+import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
@@ -54,11 +58,8 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.encode.EncodingContext;
+import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterators;
@@ -86,17 +87,41 @@ public class OmEncoderv20Test {
 
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
+    private OmEncoderv20 omEncoderv20;
+
+    @Before
+    public void setup() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+
+        omEncoderv20 = new OmEncoderv20();
+        omEncoderv20.setXmlOptions(XmlOptions::new);
+        omEncoderv20.setEncoderRepository(encoderRepository);
+
+        GmlEncoderv321 gmlEncoderv321 = new GmlEncoderv321();
+        gmlEncoderv321.setEncoderRepository(encoderRepository);
+        gmlEncoderv321.setXmlOptions(XmlOptions::new);
+
+        SensorMLEncoderv20 sensorMLEncoderv20 = new SensorMLEncoderv20();
+        sensorMLEncoderv20.setXmlOptions(XmlOptions::new);
+        sensorMLEncoderv20.setEncoderRepository(encoderRepository);
+
+        SweCommonEncoderv20 sweCommonEncoderv20 = new SweCommonEncoderv20();
+        sweCommonEncoderv20.setEncoderRepository(encoderRepository);
+        sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
+
+        encoderRepository.setEncoders(Arrays.asList(omEncoderv20, gmlEncoderv321, sensorMLEncoderv20, sweCommonEncoderv20));
+        encoderRepository.init();
+
+    }
 
     @Test
     public void testComplexObservation()
             throws EncodingException {
         OmObservation observation = createComplexObservation();
-        // FIXME
-//        XmlObject xb = CodingHelper.encodeObjectToXml(OmConstants.NS_OM_2, observation, EncodingContext.of(SosHelperValues.DOCUMENT));
-        XmlObject xb = XmlObject.Factory.newInstance();
+        XmlObject xb = omEncoderv20.encode(observation, EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
         Node node = xb.getDomNode();
         Checker checker = new Checker(new NamespaceContextImpl());
-        System.out.println(xb.xmlText(XmlOptionsHelper.getInstance().getXmlOptions()));
+        System.out.println(xb.xmlText());
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:observedProperty[@xlink:href='http://example.tld/phenomenon/parent']"));
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/@xsi:type", containsString("DataRecordPropertyType")));
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/swe:DataRecord/swe:field[@name='child1']/swe:Quantity[@definition='http://example.tld/phenomenon/child/1']"));
@@ -123,8 +148,8 @@ public class OmEncoderv20Test {
         observationConstellation.setObservableProperty(observableProperty);
         observationConstellation.setObservationType(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION);
         observationConstellation.addOffering(OFFERING);
-        PhysicalComponent procedure = new PhysicalComponent();
-        procedure.setIdentifier(new CodeWithAuthority(PROCEDURE, CODE_SPACE));
+        AbstractFeature procedure = new SosProcedureDescriptionUnknownType(PROCEDURE);
+//        procedure.setIdentifier(new CodeWithAuthority(PROCEDURE, CODE_SPACE));
         observationConstellation.setProcedure(procedure);
         observation.setObservationConstellation(observationConstellation);
         observation.setParameter(null);

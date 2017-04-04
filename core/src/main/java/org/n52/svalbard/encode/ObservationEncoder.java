@@ -26,23 +26,21 @@ import org.n52.svalbard.ConformanceClass;
 /**
  * @since 4.0.0
  *
- * @param <S>
- * @param <T>
+ * @param <T> the resulting type, the "Target"
+ * @param <S> the input type, the "Source"
  */
 public interface ObservationEncoder<S, T> extends ConformanceClass, Encoder<S, T> {
 
     /**
-     * Indicator whether the ObservationEncoder of type or subtype
-     * Observation&Measurement 2.0
+     * Indicator whether the ObservationEncoder of type or subtype Observation&Measurement 2.0
      *
      * @return Of type or not
      */
     boolean isObservationAndMeasurmentV20Type();
 
     /**
-     * Indicator whether the single observations with the same procedure,
-     * observableProperty and featureOfInterest should be merged to one
-     * observation.
+     * Indicator whether the single observations with the same procedure, observableProperty and featureOfInterest
+     * should be merged to one observation.
      *
      * @return Merge or not
      */
@@ -51,13 +49,11 @@ public interface ObservationEncoder<S, T> extends ConformanceClass, Encoder<S, T
     boolean supportsResultStreamingForMergedValues();
 
     /**
-     * Get the supported response formats for this
-     * {@linkplain ObservationEncoder} and the specified service and version.
+     * Get the supported response formats for this {@linkplain ObservationEncoder} and the specified service and
+     * version.
      *
-     * @param service
-     *            the service
-     * @param version
-     *            the version
+     * @param service the service
+     * @param version the version
      *
      * @return the response formats
      */

@@ -22,8 +22,12 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
+
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -104,6 +108,28 @@ public class OmDecoderV20Test {
     public final ErrorCollector errors = new ErrorCollector();
 
 
+    private OmDecoderv20 omDecoderv20;
+
+    @Before
+    public void setup() {
+        DecoderRepository decoderRepository = new DecoderRepository();
+
+        omDecoderv20 = new OmDecoderv20();
+        omDecoderv20.setDecoderRepository(decoderRepository);
+        omDecoderv20.setXmlOptions(XmlOptions::new);
+
+        GmlDecoderv321 gmlDecoderv321 = new GmlDecoderv321();
+        gmlDecoderv321.setXmlOptions(XmlOptions::new);
+        gmlDecoderv321.setDecoderRepository(decoderRepository);
+
+        SweCommonDecoderV20 sweCommonDecoderV20 = new SweCommonDecoderV20();
+        sweCommonDecoderV20.setXmlOptions(XmlOptions::new);
+        sweCommonDecoderV20.setDecoderRepository(decoderRepository);
+
+        decoderRepository.setDecoders(Arrays.asList(omDecoderv20, sweCommonDecoderV20, gmlDecoderv321));
+        decoderRepository.init();
+    }
+
     @Test
     public void testComplexObservation()
             throws XmlException, DecodingException {
@@ -111,7 +137,7 @@ public class OmDecoderV20Test {
 
         // FIXME
 //        Object decoded = CodingHelper.decodeXmlObject(xml);
-        Object decoded = xml;
+        Object decoded = omDecoderv20.decode(xml);
 
         assertThat(decoded, is(instanceOf(OmObservation.class)));
 

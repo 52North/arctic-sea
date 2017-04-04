@@ -26,18 +26,16 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.1.0
  *
- * @param <T>
- *            the resulting type, the "Target"
- * @param <S>
- *            the input type, the "Source"
+ * @param <T> the resulting type, the "Target"
+ * @param <S> the input type, the "Source"
  */
 public interface StreamingEncoder<T, S> extends Encoder<T, S> {
 
-    public void encode(S objectToEncode, OutputStream outputStream) throws EncodingException;
+    void encode(S objectToEncode, OutputStream outputStream) throws EncodingException;
 
-    public void encode(S objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    void encode(S objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
             throws EncodingException;
 
-    public boolean forceStreaming();
+    boolean forceStreaming();
 
 }

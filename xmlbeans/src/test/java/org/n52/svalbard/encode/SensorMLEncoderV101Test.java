@@ -22,7 +22,9 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
 import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo;
@@ -40,21 +42,21 @@ import net.opengis.swe.x101.AnyScalarPropertyType;
 import net.opengis.swe.x101.SimpleDataRecordType;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.sensorML.SensorML;
-import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sensorML.SmlPerson;
 import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
 import org.n52.shetland.ogc.sensorML.System;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 import com.google.common.collect.Lists;
+
 
 /**
  * @author Shane StClair
@@ -64,14 +66,25 @@ import com.google.common.collect.Lists;
 public class SensorMLEncoderV101Test {
 
     private static final String TEST_ID_1 = "test-id-1";
-
     private static final String TEST_NAME_1 = "test-name-1";
-
     private static final String TEST_ID_2 = "test-id-2";
-
     private static final String TEST_NAME_2 = "test-name-2";
-
     private static final String TEST_CHILD_1 = "test-id-child-1";
+    private SensorMLEncoderv101 sensorMLEncoderv101 = new SensorMLEncoderv101();
+
+    @Before
+    public void setup() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+        SchemaRepository schemaRepository = new SchemaRepository();
+        sensorMLEncoderv101.setXmlOptions(XmlOptions::new);
+        sensorMLEncoderv101.setEncoderRepository(encoderRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(sensorMLEncoderv101));
+        encoderRepository.init();
+
+        schemaRepository.setEncoderRepository(encoderRepository);
+        schemaRepository.init();
+    }
 
     @Test
     public void should_set_identifier() throws EncodingException {
@@ -90,9 +103,7 @@ public class SensorMLEncoderV101Test {
     }
 
     private SystemType encodeSystem(final SensorML sensorMl) throws EncodingException {
-        // FIXME
-//        final XmlObject encodedSml = CodingHelper.encodeObjectToXml(SensorMLConstants.NS_SML, sensorMl);
-        final XmlObject encodedSml = XmlObject.Factory.newInstance();
+        final XmlObject encodedSml = sensorMLEncoderv101.encode(sensorMl);
         assertThat(encodedSml, instanceOf(SensorMLDocument.class));
         final net.opengis.sensorML.x101.SensorMLDocument.SensorML xbSml = ((SensorMLDocument) encodedSml).getSensorML();
         assertThat(xbSml.getMemberArray().length, is(1));
@@ -291,7 +302,7 @@ public class SensorMLEncoderV101Test {
         final XmlObject xbProcess = xbSensorML.addNewSensorML().addNewMember().addNewProcess().set(xbSystem);
         XmlHelper.substituteElement(xbProcess, xbSystem);
         xbSensorML.getSensorML().setVersion("1.0.1");
-        sensorML.setXml(xbSensorML.xmlText(XmlOptionsHelper.getInstance().getXmlOptions()));
+        sensorML.setXml(xbSensorML.xmlText());
         final SystemType xbEncodedSystem = encodeSystem(sensorML);
 
         assertThat(xbEncodedSystem.sizeOfContactArray(), is(1));
@@ -361,7 +372,7 @@ public class SensorMLEncoderV101Test {
         final XmlObject xbProcess = xbSensorML.addNewSensorML().addNewMember().addNewProcess().set(xbSystem);
         XmlHelper.substituteElement(xbProcess, xbSystem);
         xbSensorML.getSensorML().setVersion("1.0.1");
-        sensorML.setXml(xbSensorML.xmlText(XmlOptionsHelper.getInstance().getXmlOptions()));
+        sensorML.setXml(xbSensorML.xmlText());
         final SystemType xbEncodedSystem = encodeSystem(sensorML);
 
         assertThat(xbEncodedSystem.sizeOfContactArray(), is(1));
@@ -384,7 +395,7 @@ public class SensorMLEncoderV101Test {
         final XmlObject xbProcess = xbSensorML.addNewSensorML().addNewMember().addNewProcess().set(xbSystem);
         XmlHelper.substituteElement(xbProcess, xbSystem);
         xbSensorML.getSensorML().setVersion("1.0.1");
-        sensorML.setXml(xbSensorML.xmlText(XmlOptionsHelper.getInstance().getXmlOptions()));
+        sensorML.setXml(xbSensorML.xmlText());
         final SystemType xbEncodedSystem = encodeSystem(sensorML);
 
         assertThat(xbEncodedSystem.sizeOfContactArray(), is(1));
@@ -434,15 +445,13 @@ public class SensorMLEncoderV101Test {
     }
 
     private SmlPerson createPerson(String postfix) {
-        if (postfix == null) {
-            postfix = "";
-        }
-        final String surname = "surname" + postfix;
-        final String name = "name" + postfix;
-        final String userID = "userID" + postfix;
-        final String affiliation = "affiliation" + postfix;
-        final String phoneNumber = "phoneNumber" + postfix;
-        final String email = "email" + postfix;
+        String pf = Optional.ofNullable(postfix).orElse("");
+        final String surname = "surname" + pf;
+        final String name = "name" + pf;
+        final String userID = "userID" + pf;
+        final String affiliation = "affiliation" + pf;
+        final String phoneNumber = "phoneNumber" + pf;
+        final String email = "email" + pf;
         return new SmlPerson(surname, name, userID, affiliation, phoneNumber, email);
     }
 

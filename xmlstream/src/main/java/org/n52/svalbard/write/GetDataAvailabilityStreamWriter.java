@@ -31,8 +31,8 @@ import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.OmConstants;
-import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.util.DateTimeHelper;
@@ -49,26 +49,18 @@ import org.n52.svalbard.encode.exception.EncodingException;
  */
 public class GetDataAvailabilityStreamWriter extends XmlEventWriter<List<DataAvailability>> {
     private static final String TIME_PERIOD_PREFIX = "tp_";
-
     private static final String DATA_AVAILABILITY_PREFIX = "dam_";
-
     private static final String RESULT_TIME = "resultTime";
-
     private List<DataAvailability> gdas;
-
     private final Map<TimePeriod, String> times;
-
     private final String version;
-
     private int dataAvailabilityCount = 1;
-
     private int timePeriodCount = 1;
-
     private int resultTimeCount = 1;
 
     public GetDataAvailabilityStreamWriter(String version, List<DataAvailability> gdas) {
         this.gdas = gdas == null ? Collections.<DataAvailability> emptyList() : gdas;
-        this.times = new HashMap<TimePeriod, String>(this.gdas.size());
+        this.times = new HashMap<>(this.gdas.size());
         this.version = version == null ? Sos2Constants.SERVICEVERSION : version;
     }
 
@@ -87,10 +79,10 @@ public class GetDataAvailabilityStreamWriter extends XmlEventWriter<List<DataAva
     }
 
     @Override
-    public void write(List<DataAvailability> elementToStream, OutputStream out) throws XMLStreamException,
-            EncodingException {
-       this.gdas = elementToStream;
-       write(out);
+    public void write(List<DataAvailability> elementToStream, OutputStream out)
+            throws XMLStreamException, EncodingException {
+        this.gdas = elementToStream;
+        write(out);
     }
 
     @Override

@@ -482,6 +482,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                         return unsupported(component);
                     }
 
+                    @SuppressFBWarnings("VA_FORMAT_STRING_USES_NEWLINE")
                     private AbstractDataComponentType unsupported(SweAbstractDataComponent component)
                             throws EncodingException {
 

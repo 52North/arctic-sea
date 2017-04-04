@@ -316,104 +316,103 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
      */
     protected net.opengis.ogc.SpatialOperatorNameType.Enum getEnum4SpatialOperator(SpatialOperator spatialOperator) {
         switch (spatialOperator) {
-        case BBOX:
-            return SpatialOperatorNameType.BBOX;
-        case Beyond:
-            return SpatialOperatorNameType.BEYOND;
-        case Contains:
-            return SpatialOperatorNameType.CONTAINS;
-        case Crosses:
-            return SpatialOperatorNameType.CROSSES;
-        case Disjoint:
-            return SpatialOperatorNameType.DISJOINT;
-        case DWithin:
-            return SpatialOperatorNameType.D_WITHIN;
-        case Equals:
-            return SpatialOperatorNameType.EQUALS;
-        case Intersects:
-            return SpatialOperatorNameType.INTERSECTS;
-        case Overlaps:
-            return SpatialOperatorNameType.OVERLAPS;
-        case Touches:
-            return SpatialOperatorNameType.TOUCHES;
-        case Within:
-            return SpatialOperatorNameType.WITHIN;
-        default:
-            return null;
+            case BBOX:
+                return SpatialOperatorNameType.BBOX;
+            case Beyond:
+                return SpatialOperatorNameType.BEYOND;
+            case Contains:
+                return SpatialOperatorNameType.CONTAINS;
+            case Crosses:
+                return SpatialOperatorNameType.CROSSES;
+            case Disjoint:
+                return SpatialOperatorNameType.DISJOINT;
+            case DWithin:
+                return SpatialOperatorNameType.D_WITHIN;
+            case Equals:
+                return SpatialOperatorNameType.EQUALS;
+            case Intersects:
+                return SpatialOperatorNameType.INTERSECTS;
+            case Overlaps:
+                return SpatialOperatorNameType.OVERLAPS;
+            case Touches:
+                return SpatialOperatorNameType.TOUCHES;
+            case Within:
+                return SpatialOperatorNameType.WITHIN;
+            default:
+                return null;
         }
     }
 
     /**
      * Get the Enum for the temporal operator.
      *
-     * @param temporalOperator
-     *            Supported temporal operator
+     * @param temporalOperator Supported temporal operator
+     *
      * @return Enum
      */
     protected net.opengis.ogc.TemporalOperatorNameType.Enum getEnum4TemporalOperator(TimeOperator temporalOperator) {
         switch (temporalOperator) {
-        case TM_After:
-            return TemporalOperatorNameType.TM_AFTER;
-        case TM_Before:
-            return TemporalOperatorNameType.TM_BEFORE;
-        case TM_Begins:
-            return TemporalOperatorNameType.TM_BEGINS;
-        case TM_BegunBy:
-            return TemporalOperatorNameType.TM_BEGUN_BY;
-        case TM_Contains:
-            return TemporalOperatorNameType.TM_CONTAINS;
-        case TM_During:
-            return TemporalOperatorNameType.TM_DURING;
-        case TM_EndedBy:
-            return TemporalOperatorNameType.TM_ENDED_BY;
-        case TM_Ends:
-            return TemporalOperatorNameType.TM_ENDS;
-        case TM_Equals:
-            return TemporalOperatorNameType.TM_EQUALS;
-        case TM_Meets:
-            return TemporalOperatorNameType.TM_MEETS;
-        case TM_MetBy:
-            return TemporalOperatorNameType.TM_MET_BY;
-        case TM_OverlappedBy:
-            return TemporalOperatorNameType.TM_OVERLAPPED_BY;
-        case TM_Overlaps:
-            return TemporalOperatorNameType.TM_OVERLAPS;
-        default:
-            return null;
+            case TM_After:
+                return TemporalOperatorNameType.TM_AFTER;
+            case TM_Before:
+                return TemporalOperatorNameType.TM_BEFORE;
+            case TM_Begins:
+                return TemporalOperatorNameType.TM_BEGINS;
+            case TM_BegunBy:
+                return TemporalOperatorNameType.TM_BEGUN_BY;
+            case TM_Contains:
+                return TemporalOperatorNameType.TM_CONTAINS;
+            case TM_During:
+                return TemporalOperatorNameType.TM_DURING;
+            case TM_EndedBy:
+                return TemporalOperatorNameType.TM_ENDED_BY;
+            case TM_Ends:
+                return TemporalOperatorNameType.TM_ENDS;
+            case TM_Equals:
+                return TemporalOperatorNameType.TM_EQUALS;
+            case TM_Meets:
+                return TemporalOperatorNameType.TM_MEETS;
+            case TM_MetBy:
+                return TemporalOperatorNameType.TM_MET_BY;
+            case TM_OverlappedBy:
+                return TemporalOperatorNameType.TM_OVERLAPPED_BY;
+            case TM_Overlaps:
+                return TemporalOperatorNameType.TM_OVERLAPS;
+            default:
+                return null;
         }
     }
 
     /**
      * Get the Enum for the comparison operator.
      *
-     * @param comparisonOperator
-     *            Supported comparison operator
+     * @param comparisonOperator Supported comparison operator
+     *
      * @return Enum
      */
     protected net.opengis.ogc.ComparisonOperatorType.Enum getEnum4ComparisonOperator(
             ComparisonOperator comparisonOperator) {
         switch (comparisonOperator) {
-        case PropertyIsBetween:
-            return ComparisonOperatorType.BETWEEN;
-        case PropertyIsEqualTo:
-            return ComparisonOperatorType.EQUAL_TO;
-        case PropertyIsGreaterThan:
-            return ComparisonOperatorType.GREATER_THAN;
-        case PropertyIsGreaterThanOrEqualTo:
-            return ComparisonOperatorType.GREATER_THAN_EQUAL_TO;
-        case PropertyIsLessThan:
-            return ComparisonOperatorType.LESS_THAN;
-        case PropertyIsLessThanOrEqualTo:
-            return ComparisonOperatorType.LESS_THAN_EQUAL_TO;
-        case PropertyIsLike:
-            return ComparisonOperatorType.LIKE;
-        case PropertyIsNotEqualTo:
-            return ComparisonOperatorType.NOT_EQUAL_TO;
-        case PropertyIsNull:
-            return ComparisonOperatorType.NULL_CHECK;
-        default:
-            return null;
+            case PropertyIsBetween:
+                return ComparisonOperatorType.BETWEEN;
+            case PropertyIsEqualTo:
+                return ComparisonOperatorType.EQUAL_TO;
+            case PropertyIsGreaterThan:
+                return ComparisonOperatorType.GREATER_THAN;
+            case PropertyIsGreaterThanOrEqualTo:
+                return ComparisonOperatorType.GREATER_THAN_EQUAL_TO;
+            case PropertyIsLessThan:
+                return ComparisonOperatorType.LESS_THAN;
+            case PropertyIsLessThanOrEqualTo:
+                return ComparisonOperatorType.LESS_THAN_EQUAL_TO;
+            case PropertyIsLike:
+                return ComparisonOperatorType.LIKE;
+            case PropertyIsNotEqualTo:
+                return ComparisonOperatorType.NOT_EQUAL_TO;
+            case PropertyIsNull:
+                return ComparisonOperatorType.NULL_CHECK;
+            default:
+                return null;
         }
-
     }
 }

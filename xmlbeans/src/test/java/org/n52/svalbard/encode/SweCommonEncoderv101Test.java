@@ -24,6 +24,7 @@ import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import net.opengis.swe.x101.AnyScalarPropertyType;
 import net.opengis.swe.x101.CountDocument.Count;
@@ -35,13 +36,14 @@ import net.opengis.swe.x101.VectorType.Coordinate;
 
 import org.apache.xmlbeans.XmlCalendar;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
@@ -75,10 +77,24 @@ import com.vividsolutions.jts.geom.Envelope;
 public class SweCommonEncoderv101Test {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+    private SweCommonEncoderv101 sweCommonEncoderv101;
+
+    @Before
+    public void setup() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+
+        sweCommonEncoderv101 = new SweCommonEncoderv101();
+        sweCommonEncoderv101.setXmlOptions(XmlOptions::new);
+        sweCommonEncoderv101.setEncoderRepository(encoderRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(sweCommonEncoderv101));
+        encoderRepository.init();
+    }
+
 
     @Test
     public void should_encode_simpleDataRecord() throws EncodingException {
-        final XmlObject encode = new SweCommonEncoderv101().encode(new SweSimpleDataRecord());
+        final XmlObject encode = sweCommonEncoderv101.encode(new SweSimpleDataRecord());
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
     }
@@ -91,7 +107,7 @@ public class SweCommonEncoderv101Test {
         final Boolean field1Value = Boolean.TRUE;
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(
                         new SweField(field0Name, new SweText().setValue(field0Value))).addField(
                         new SweField(field1Name, new SweBoolean().setValue(field1Value))));
 
@@ -116,7 +132,7 @@ public class SweCommonEncoderv101Test {
         final Boolean field1Value = Boolean.TRUE;
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField(field1Name,
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField(field1Name,
                         new SweBoolean().setValue(field1Value))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
@@ -136,7 +152,7 @@ public class SweCommonEncoderv101Test {
         final String field1Name = "test-name";
         final String field1Value = "test-value";
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name, new SweText()
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name, new SweText()
                         .setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -155,7 +171,7 @@ public class SweCommonEncoderv101Test {
         final String field1Name = "test-name";
         final boolean field1Value = true;
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name,
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name,
                         new SweBoolean().setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -175,7 +191,7 @@ public class SweCommonEncoderv101Test {
         final String field1Value = "test-value";
         final String codeSpace = "test-codespace";
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name,
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name,
                         new SweCategory().setCodeSpace(codeSpace).setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -195,7 +211,7 @@ public class SweCommonEncoderv101Test {
         final String field1Name = "test-name";
         final int field1Value = 52;
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name, new SweCount()
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name, new SweCount()
                         .setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -214,7 +230,7 @@ public class SweCommonEncoderv101Test {
         final String field1Name = "test-name";
         final double field1Value = 52.0;
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name,
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name,
                         new SweQuantity().setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -238,7 +254,7 @@ public class SweCommonEncoderv101Test {
         field1Value.setRangeStart(rangeStart);
         field1Value.setRangeEnd(rangeEnd);
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name,
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name,
                         new SweTimeRange().setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -266,7 +282,7 @@ public class SweCommonEncoderv101Test {
         final String field1Name = "test-name";
         final DateTime field1Value = new DateTime(System.currentTimeMillis());
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField(field1Name, new SweTime()
+                sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField(field1Name, new SweTime()
                         .setValue(field1Value))));
         assertThat(encode, is(instanceOf(DataRecordType.class)));
 
@@ -285,11 +301,11 @@ public class SweCommonEncoderv101Test {
     @Test
     public void should_throw_NoApplicableCodeException_with_DataRecord_and_field_with_not_supported_element()
             throws EncodingException {
-        thrown.expect(NoApplicableCodeException.class);
-        thrown.expectMessage("The element type 'org.n52.sos.encode.SweCommonEncoderv101Test$1' "
+        thrown.expect(EncodingException.class);
+        thrown.expectMessage("The element type '"+getClass().getName()+"$1' "
                 + "of the received '"+ SweField.class.getName() + "' is not supported"
-                + " by this encoder 'org.n52.sos.encode.SweCommonEncoderv101'.");
-        new SweCommonEncoderv101().encode(new SweDataRecord().addField(new SweField("test",
+                + " by this encoder '"+SweCommonEncoderv101.class.getName()+"'.");
+        sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField("test",
                 new SweAbstractDataComponent() {
 
                     @Override
@@ -319,7 +335,7 @@ public class SweCommonEncoderv101Test {
         final String field1Value = "field-1-value";
 
         final XmlObject encode =
-                new SweCommonEncoderv101()
+                sweCommonEncoderv101
                         .encode(new SweSimpleDataRecord().addField(new SweField(field1Name, new SweText().setValue(field1Value))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
@@ -340,7 +356,7 @@ public class SweCommonEncoderv101Test {
 
         final String codeSpace = "field-1-codespace";
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField(name,
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField(name,
                         new SweCategory().setValue(value).setCodeSpace(codeSpace))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
@@ -362,7 +378,7 @@ public class SweCommonEncoderv101Test {
         final int value = 42;
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField(name, new SweCount()
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField(name, new SweCount()
                         .setValue(value))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
@@ -382,7 +398,7 @@ public class SweCommonEncoderv101Test {
         final double value = 42.5;
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField(name,
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField(name,
                         new SweQuantity().setValue(value))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
@@ -402,7 +418,7 @@ public class SweCommonEncoderv101Test {
         final DateTime value = new DateTime(DateTimeZone.UTC);
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField(name, new SweTime()
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField(name, new SweTime()
                         .setValue(value))));
 
         assertThat(encode, instanceOf(SimpleDataRecordType.class));
@@ -426,7 +442,7 @@ public class SweCommonEncoderv101Test {
         final Double value2 = 1.2;
 
         final XmlObject encode =
-                new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(
+                sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(
                         new SweField(name, new SweQuantity().setUom(unit).setValue(value))).addField(
                         new SweField(name2, new SweQuantity().setUom(unit2).setValue(value2))));
 
@@ -450,10 +466,10 @@ public class SweCommonEncoderv101Test {
         assertThat(field2.getQuantity().getUom().getHref(), is(unit2));
     }
 
-    @Test(expected = NoApplicableCodeException.class)
+    @Test(expected = EncodingException.class)
     public void should_throw_exception_if_received_simpleDataRecord_with_field_with_null_element()
             throws EncodingException {
-        new SweCommonEncoderv101().encode(new SweSimpleDataRecord().addField(new SweField("field-name", null)));
+        sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField("field-name", null)));
     }
 
     @Test public void
@@ -463,7 +479,7 @@ public class SweCommonEncoderv101Test {
         final SweCount sosCount = (SweCount) new SweCount().setQuality(Lists.newArrayList((SweQuality)new SweText().setValue(qualityTextValue)));
 
 
-        final XmlObject encode = new SweCommonEncoderv101().encode(sosCount);
+        final XmlObject encode = sweCommonEncoderv101.encode(sosCount);
 
         assertThat(encode, instanceOf(Count.class));
 
@@ -481,7 +497,7 @@ public class SweCommonEncoderv101Test {
         final SweCount sosCount = (SweCount) new SweCount().setQuality(Lists.newArrayList((SweQuality)new SweCategory().setValue(qualityCategoryValue)));
 
 
-        final XmlObject encode = new SweCommonEncoderv101().encode(sosCount);
+        final XmlObject encode = sweCommonEncoderv101.encode(sosCount);
 
         assertThat(encode, instanceOf(Count.class));
 
@@ -499,7 +515,7 @@ public class SweCommonEncoderv101Test {
         final SweCount sosCount = (SweCount) new SweCount().setQuality(Lists.newArrayList((SweQuality)new SweQuantity().setValue(qualityQuantityValue)));
 
 
-        final XmlObject encode = new SweCommonEncoderv101().encode(sosCount);
+        final XmlObject encode = sweCommonEncoderv101.encode(sosCount);
 
         assertThat(encode, instanceOf(Count.class));
 
@@ -517,7 +533,7 @@ public class SweCommonEncoderv101Test {
         final SweCount sosCount = (SweCount) new SweCount().setQuality(Lists.newArrayList((SweQuality)new SweQuantityRange().setValue(qualityQuantityRangeValue)));
 
 
-        final XmlObject encode = new SweCommonEncoderv101().encode(sosCount);
+        final XmlObject encode = sweCommonEncoderv101.encode(sosCount);
 
         assertThat(encode, instanceOf(Count.class));
 
@@ -545,7 +561,7 @@ public class SweCommonEncoderv101Test {
         final String easting = "easting";
         sweEnvelope.setDefinition(definition);
 
-        final XmlObject encode = new SweCommonEncoderv101().encode(sweEnvelope);
+        final XmlObject encode = sweCommonEncoderv101.encode(sweEnvelope);
 
         assertThat(encode, instanceOf(EnvelopeType.class));
 

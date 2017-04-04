@@ -129,7 +129,8 @@ public final class XmlHelper {
                     return paramValues[0];
                 } else {
                     throw new DecodingException(
-                            "The parameter '%s' has more than one value or is empty for HTTP-Post requests by this SOS!",
+                            "The parameter '%s' has more than one value " +
+                            "or is empty for HTTP-Post requests by this SOS!",
                             paramName);
                 }
             } else {
@@ -263,9 +264,8 @@ public final class XmlHelper {
     /**
      * Recurse through a node and its children and make all gml:ids unique
      *
-     * @param node
-     *            The node to examine
-     * @param foundIds
+     * @param node The node to examine
+     * @param foundIds the already found ids
      */
     public static void makeGmlIdsUnique(Node node, Map<String, Integer> foundIds) {
         // check this node's attributes
@@ -408,7 +408,7 @@ public final class XmlHelper {
 
     }
 
-    private static String getSchemaTypeNamespace(final XmlObject doc) {
+    private static String getSchemaTypeNamespace(XmlObject doc) {
         QName name;
         if (doc.schemaType().isAttributeType()) {
             name = doc.schemaType().getAttributeTypeAttributeName();
@@ -422,8 +422,7 @@ public final class XmlHelper {
         return null;
     }
 
-    public static XmlObject substituteElement(final XmlObject elementToSubstitute,
-            final XmlObject substitutionElement) {
+    public static XmlObject substituteElement(XmlObject elementToSubstitute, XmlObject substitutionElement) {
         final Node domNode = substitutionElement.getDomNode();
         QName name;
         if (domNode.getNamespaceURI() != null && domNode.getLocalName() != null) {
@@ -442,19 +441,20 @@ public final class XmlHelper {
         return substituteElement(elementToSubstitute, substitutionElement.schemaType(), name);
     }
 
-    public static String getPrefixForNamespace(final XmlObject element, final String namespace) {
+    public static XmlObject substituteElement(XmlObject elementToSubstitute, SchemaType schemaType, QName name) {
+        return elementToSubstitute.substitute(name, schemaType);
+    }
+
+    public static String getPrefixForNamespace(XmlObject element, String namespace) {
         final XmlCursor cursor = element.newCursor();
         final String prefix = cursor.prefixForNamespace(namespace);
         cursor.dispose();
         return prefix;
     }
 
-    public static XmlObject substituteElement(final XmlObject elementToSubstitute, final SchemaType schemaType,
-            final QName name) {
-        return elementToSubstitute.substitute(name, schemaType);
-    }
 
-    public static String getLocalName(final XmlObject element) {
+
+    public static String getLocalName(XmlObject element) {
         return (element == null) ? null : element.getDomNode().getLocalName();
     }
 

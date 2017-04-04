@@ -23,6 +23,7 @@ import javax.xml.namespace.NamespaceContext;
 
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.ImmutableBiMap.Builder;
 import com.google.common.collect.Iterators;
 
 /**
@@ -32,24 +33,27 @@ import com.google.common.collect.Iterators;
  */
 public class NamespaceContextBuilder {
 
-    private final ImmutableBiMap.Builder<String, String> bimap = ImmutableBiMap
-            .builder();
+    private final ImmutableBiMap.Builder<String, String> bimap = ImmutableBiMap.builder();
+
+    private Builder<String, String> getNamespaces() {
+        return this.bimap;
+    }
 
     public NamespaceContextBuilder add(String namespace, String prefix) {
-        this.bimap.put(namespace, prefix);
+        getNamespaces().put(namespace, prefix);
         return this;
     }
 
     public NamespaceContextBuilder add(NamespaceContextBuilder other) {
-        this.bimap.putAll(other.bimap.build());
+        getNamespaces().putAll(other.getNamespaces().build());
         return this;
     }
 
     public NamespaceContext build() {
-        return new BiMapNamespaceContext(this.bimap.build());
+        return new BiMapNamespaceContext(getNamespaces().build());
     }
 
-    private class BiMapNamespaceContext implements NamespaceContext {
+    private static class BiMapNamespaceContext implements NamespaceContext {
         private final BiMap<String, String> namespaces;
 
         BiMapNamespaceContext(BiMap<String, String> namespaces) {
@@ -69,8 +73,11 @@ public class NamespaceContextBuilder {
         @Override
         public Iterator<String> getPrefixes(String namespaceURI) {
             String prefix = this.namespaces.get(namespaceURI);
-            return prefix == null ? Collections.<String>emptyIterator()
-                                  : Iterators.singletonIterator(prefix);
+            if (prefix == null) {
+                return Collections.emptyIterator();
+            } else {
+                return Iterators.singletonIterator(prefix);
+            }
         }
     }
 

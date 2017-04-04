@@ -20,12 +20,19 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.om.x20.NamedValuePropertyType;
+import net.opengis.om.x20.OMObservationDocument;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.om.x20.TimeObjectPropertyType;
+
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -63,18 +70,10 @@ import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.vividsolutions.jts.geom.Geometry;
-
-import net.opengis.om.x20.NamedValuePropertyType;
-import net.opengis.om.x20.OMObservationDocument;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.om.x20.TimeObjectPropertyType;
 
 /**
  * @since 4.0.0
@@ -84,20 +83,30 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OmDecoderv20.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS =
-            CodingHelper.decoderKeysForElements(OmConstants.NS_OM_2, OMObservationType.class,
-                    NamedValuePropertyType.class, OMObservationDocument.class, NamedValuePropertyType[].class);
+    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper
+            .decoderKeysForElements(OmConstants.NS_OM_2, OMObservationType.class,
+                                    NamedValuePropertyType.class,
+                                    OMObservationDocument.class,
+                                    NamedValuePropertyType[].class);
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
-            .add(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_MEASUREMENT_TYPE)
-            .add(OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE).build();
+    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.of(
+            OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_COMPLEX_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_MEASUREMENT_TYPE,
+            OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE);
 
-    private static final Set<String> CONFORMANCE_CLASSES = ImmutableSet.of(ConformanceClasses.OM_V2_MEASUREMENT,
-            ConformanceClasses.OM_V2_CATEGORY_OBSERVATION, ConformanceClasses.OM_V2_COUNT_OBSERVATION,
-            ConformanceClasses.OM_V2_TRUTH_OBSERVATION, ConformanceClasses.OM_V2_GEOMETRY_OBSERVATION,
-            ConformanceClasses.OM_V2_COMPLEX_OBSERVATION, ConformanceClasses.OM_V2_TEXT_OBSERVATION);
+    private static final Set<String> CONFORMANCE_CLASSES = ImmutableSet.of(
+            ConformanceClasses.OM_V2_MEASUREMENT,
+            ConformanceClasses.OM_V2_CATEGORY_OBSERVATION,
+            ConformanceClasses.OM_V2_COUNT_OBSERVATION,
+            ConformanceClasses.OM_V2_TRUTH_OBSERVATION,
+            ConformanceClasses.OM_V2_GEOMETRY_OBSERVATION,
+            ConformanceClasses.OM_V2_COMPLEX_OBSERVATION,
+            ConformanceClasses.OM_V2_TEXT_OBSERVATION);
 
     public OmDecoderv20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",

@@ -319,90 +319,90 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
 
     private String getEnum4SpatialOperator(final SpatialOperator spatialOperator) throws EncodingException {
         switch (spatialOperator) {
-        case BBOX:
-            return SpatialOperatorNameTypeImpl.BBOX.toString();
-        case Beyond:
-            return SpatialOperatorNameTypeImpl.BEYOND.toString();
-        case Contains:
-            return SpatialOperatorNameTypeImpl.CONTAINS.toString();
-        case Crosses:
-            return SpatialOperatorNameTypeImpl.CROSSES.toString();
-        case Disjoint:
-            return SpatialOperatorNameTypeImpl.DISJOINT.toString();
-        case DWithin:
-            return SpatialOperatorNameTypeImpl.D_WITHIN.toString();
-        case Equals:
-            return SpatialOperatorNameTypeImpl.EQUALS.toString();
-        case Intersects:
-            return SpatialOperatorNameTypeImpl.INTERSECTS.toString();
-        case Overlaps:
-            return SpatialOperatorNameTypeImpl.OVERLAPS.toString();
-        case Touches:
-            return SpatialOperatorNameTypeImpl.TOUCHES.toString();
-        case Within:
-            return SpatialOperatorNameTypeImpl.WITHIN.toString();
-        default:
-            throw new UnsupportedEncoderInputException(this, spatialOperator);
+            case BBOX:
+                return SpatialOperatorNameTypeImpl.BBOX.toString();
+            case Beyond:
+                return SpatialOperatorNameTypeImpl.BEYOND.toString();
+            case Contains:
+                return SpatialOperatorNameTypeImpl.CONTAINS.toString();
+            case Crosses:
+                return SpatialOperatorNameTypeImpl.CROSSES.toString();
+            case Disjoint:
+                return SpatialOperatorNameTypeImpl.DISJOINT.toString();
+            case DWithin:
+                return SpatialOperatorNameTypeImpl.D_WITHIN.toString();
+            case Equals:
+                return SpatialOperatorNameTypeImpl.EQUALS.toString();
+            case Intersects:
+                return SpatialOperatorNameTypeImpl.INTERSECTS.toString();
+            case Overlaps:
+                return SpatialOperatorNameTypeImpl.OVERLAPS.toString();
+            case Touches:
+                return SpatialOperatorNameTypeImpl.TOUCHES.toString();
+            case Within:
+                return SpatialOperatorNameTypeImpl.WITHIN.toString();
+            default:
+                throw new UnsupportedEncoderInputException(this, spatialOperator);
         }
     }
 
     private String getEnum4TemporalOperator(final TimeOperator temporalOperator) throws EncodingException {
         switch (temporalOperator) {
-        case TM_After:
-            return TemporalOperatorNameTypeImpl.AFTER.toString();
-        case TM_Before:
-            return TemporalOperatorNameTypeImpl.BEFORE.toString();
-        case TM_Begins:
-            return TemporalOperatorNameTypeImpl.BEGINS.toString();
-        case TM_BegunBy:
-            return TemporalOperatorNameTypeImpl.BEGUN_BY.toString();
-        case TM_Contains:
-            return TemporalOperatorNameTypeImpl.T_CONTAINS.toString();
-        case TM_During:
-            return TemporalOperatorNameTypeImpl.DURING.toString();
-        case TM_EndedBy:
-            return TemporalOperatorNameTypeImpl.ENDED_BY.toString();
-        case TM_Ends:
-            return TemporalOperatorNameTypeImpl.ENDS.toString();
-        case TM_Equals:
-            return TemporalOperatorNameTypeImpl.T_EQUALS.toString();
-        case TM_Meets:
-            return TemporalOperatorNameTypeImpl.MEETS.toString();
-        case TM_MetBy:
-            return TemporalOperatorNameTypeImpl.MET_BY.toString();
-        case TM_OverlappedBy:
-            return TemporalOperatorNameTypeImpl.OVERLAPPED_BY.toString();
-        case TM_Overlaps:
-            return TemporalOperatorNameTypeImpl.T_OVERLAPS.toString();
-        default:
-            throw new UnsupportedEncoderInputException(this, temporalOperator);
+            case TM_After:
+                return TemporalOperatorNameTypeImpl.AFTER.toString();
+            case TM_Before:
+                return TemporalOperatorNameTypeImpl.BEFORE.toString();
+            case TM_Begins:
+                return TemporalOperatorNameTypeImpl.BEGINS.toString();
+            case TM_BegunBy:
+                return TemporalOperatorNameTypeImpl.BEGUN_BY.toString();
+            case TM_Contains:
+                return TemporalOperatorNameTypeImpl.T_CONTAINS.toString();
+            case TM_During:
+                return TemporalOperatorNameTypeImpl.DURING.toString();
+            case TM_EndedBy:
+                return TemporalOperatorNameTypeImpl.ENDED_BY.toString();
+            case TM_Ends:
+                return TemporalOperatorNameTypeImpl.ENDS.toString();
+            case TM_Equals:
+                return TemporalOperatorNameTypeImpl.T_EQUALS.toString();
+            case TM_Meets:
+                return TemporalOperatorNameTypeImpl.MEETS.toString();
+            case TM_MetBy:
+                return TemporalOperatorNameTypeImpl.MET_BY.toString();
+            case TM_OverlappedBy:
+                return TemporalOperatorNameTypeImpl.OVERLAPPED_BY.toString();
+            case TM_Overlaps:
+                return TemporalOperatorNameTypeImpl.T_OVERLAPS.toString();
+            default:
+                throw new UnsupportedEncoderInputException(this, temporalOperator);
         }
     }
 
     private String getEnum4ComparisonOperator(final ComparisonOperator comparisonOperator) throws EncodingException {
         switch (comparisonOperator) {
-        case PropertyIsBetween:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_BETWEEN.toString();
-        case PropertyIsEqualTo:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_EQUAL_TO.toString();
-        case PropertyIsGreaterThan:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_GREATER_THAN.toString();
-        case PropertyIsGreaterThanOrEqualTo:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_GREATER_THAN_OR_EQUAL_TO.toString();
-        case PropertyIsLessThan:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_LESS_THAN.toString();
-        case PropertyIsLessThanOrEqualTo:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_LESS_THAN_OR_EQUAL_TO.toString();
-        case PropertyIsLike:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_LIKE.toString();
-        case PropertyIsNil:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_NIL.toString();
-        case PropertyIsNotEqualTo:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_NOT_EQUAL_TO.toString();
-        case PropertyIsNull:
-            return ComparisonOperatorNameTypeImpl.PROPERTY_IS_NULL.toString();
-        default:
-            throw new UnsupportedEncoderInputException(this, comparisonOperator);
+            case PropertyIsBetween:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_BETWEEN.toString();
+            case PropertyIsEqualTo:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_EQUAL_TO.toString();
+            case PropertyIsGreaterThan:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_GREATER_THAN.toString();
+            case PropertyIsGreaterThanOrEqualTo:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_GREATER_THAN_OR_EQUAL_TO.toString();
+            case PropertyIsLessThan:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_LESS_THAN.toString();
+            case PropertyIsLessThanOrEqualTo:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_LESS_THAN_OR_EQUAL_TO.toString();
+            case PropertyIsLike:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_LIKE.toString();
+            case PropertyIsNil:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_NIL.toString();
+            case PropertyIsNotEqualTo:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_NOT_EQUAL_TO.toString();
+            case PropertyIsNull:
+                return ComparisonOperatorNameTypeImpl.PROPERTY_IS_NULL.toString();
+            default:
+                throw new UnsupportedEncoderInputException(this, comparisonOperator);
         }
     }
 

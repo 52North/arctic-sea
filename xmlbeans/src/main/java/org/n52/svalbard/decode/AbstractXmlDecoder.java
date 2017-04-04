@@ -65,8 +65,9 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
          * if document starts with a comment, get next sibling (and ignore
          * initial comment)
          */
-        if (namespaceURI == null && domNode.getFirstChild() != null
-                && domNode.getFirstChild().getNextSibling() != null) {
+        if (namespaceURI == null &&
+            domNode.getFirstChild() != null &&
+            domNode.getFirstChild().getNextSibling() != null) {
             namespaceURI = domNode.getFirstChild().getNextSibling().getNamespaceURI();
         }
 
@@ -76,6 +77,11 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
     public <T> T decodeXmlObject(XmlObject xbObject) throws DecodingException {
         DecoderKey key = getDecoderKey(xbObject);
         Decoder<T, XmlObject> decoder = getDecoderRepository().getDecoder(key);
+        if (decoder == null) {
+            DecoderKey schemaTypeKey = new XmlNamespaceDecoderKey(xbObject.schemaType().getName().getNamespaceURI(),
+                                                                  xbObject.getClass());
+            decoder = getDecoderRepository().getDecoder(schemaTypeKey);
+        }
         if (decoder == null) {
             throw new NoDecoderForKeyException(key);
         }

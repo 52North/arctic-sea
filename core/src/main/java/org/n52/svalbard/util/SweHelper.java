@@ -308,11 +308,6 @@ public final class SweHelper {
                 throw notSupported();
             }
 
-            private EncodingException notSupported() {
-                return new EncodingException("The merging of value type '%s' is not yet supported!",
-                                             iValue.getClass().getName());
-            }
-
             @Override
             public SweAbstractDataComponent visit(TLVTValue value) throws EncodingException {
                 throw notSupported();
@@ -337,6 +332,11 @@ public final class SweHelper {
             public SweAbstractDataComponent visit(ProfileValue value) throws EncodingException {
                 throw notSupported();
             }
+
+            private EncodingException notSupported() {
+                return new EncodingException("The merging of value type '%s' is not yet supported!",
+                                             iValue.getClass().getName());
+            }
         });
     }
 
@@ -344,48 +344,47 @@ public final class SweHelper {
      * Create a TextEncoding object for token and tuple separators from SosObservation. If separators not set,
      * definitions from Configurator are used.
      *
-     * @param sosObservation SosObservation with token and tuple separator
+     * @param o SosObservation with token and tuple separator
      *
      * @return TextEncoding
      */
     public SweAbstractEncoding createTextEncoding(OmObservation o) {
-        String tupleSeparator = o.isSetTupleSeparator() ? o.getTupleSeparator() : this.tupleSeparator;
-        String tokenSeparator = o.isSetTokenSeparator() ? o.getTokenSeparator() : this.tokenSeparator;
-        String decimalSeparator = o.isSetDecimalSeparator() ? o.getDecimalSeparator() : this.decimalSeparator;
-        return createTextEncoding(tupleSeparator, tokenSeparator, decimalSeparator);
+        String tuple = o.isSetTupleSeparator() ? o.getTupleSeparator() : this.tupleSeparator;
+        String token = o.isSetTokenSeparator() ? o.getTokenSeparator() : this.tokenSeparator;
+        String decimal = o.isSetDecimalSeparator() ? o.getDecimalSeparator() : this.decimalSeparator;
+        return createTextEncoding(tuple, token, decimal);
     }
 
     /**
      * Create a TextEncoding object for token and tuple separators from SosObservation. If separators not set,
      * definitions from Configurator are used.
      *
-     * @param observationValue AbstractObservationValue with token and tuple separator
+     * @param v AbstractObservationValue with token and tuple separator
      *
      * @return TextEncoding
      */
     private SweAbstractEncoding createTextEncoding(AbstractObservationValue<?> v) {
-        String tupleSeparator = v.isSetTupleSeparator() ? v.getTupleSeparator() : this.tupleSeparator;
-        String tokenSeparator = v.isSetTokenSeparator() ? v.getTokenSeparator() : this.tokenSeparator;
-        String decimalSeparator = v.isSetDecimalSeparator() ? v.getDecimalSeparator() : this.decimalSeparator;
-        return createTextEncoding(tupleSeparator, tokenSeparator, decimalSeparator);
+        String tuple = v.isSetTupleSeparator() ? v.getTupleSeparator() : this.tupleSeparator;
+        String token = v.isSetTokenSeparator() ? v.getTokenSeparator() : this.tokenSeparator;
+        String decimal = v.isSetDecimalSeparator() ? v.getDecimalSeparator() : this.decimalSeparator;
+        return createTextEncoding(tuple, token, decimal);
     }
 
     /**
      * Create a TextEncoding object for token and tuple separators.
      *
-     * @param tupleSeparator Token separator
-     * @param tokenSeparator Tuple separator
-     * @param decimalSeparator Decimal separator
+     * @param tuple   Token separator
+     * @param token   Tuple separator
+     * @param decimal Decimal separator
      *
      * @return TextEncoding
      */
-    private SweAbstractEncoding createTextEncoding(String tupleSeparator, String tokenSeparator,
-                                                   String decimalSeparator) {
+    private SweAbstractEncoding createTextEncoding(String tuple, String token, String decimal) {
         SweTextEncoding sosTextEncoding = new SweTextEncoding();
-        sosTextEncoding.setBlockSeparator(tupleSeparator);
-        sosTextEncoding.setTokenSeparator(tokenSeparator);
-        if (!Strings.isNullOrEmpty(decimalSeparator)) {
-            sosTextEncoding.setDecimalSeparator(decimalSeparator);
+        sosTextEncoding.setBlockSeparator(tuple);
+        sosTextEncoding.setTokenSeparator(token);
+        if (!Strings.isNullOrEmpty(decimal)) {
+            sosTextEncoding.setDecimalSeparator(decimal);
         }
         return sosTextEncoding;
     }
@@ -396,17 +395,17 @@ public final class SweHelper {
         if (elementType instanceof SweDataRecord) {
             SweDataRecord elementTypeRecord = (SweDataRecord) elementType;
             List<String> block = new ArrayList<>(elementTypeRecord.getFields().size());
-            for (SweField sweField : elementTypeRecord.getFields()) {
-                if (!(value instanceof NilTemplateValue)) {
-                    if (sweField.getElement() instanceof SweTime || sweField.getElement() instanceof SweTimeRange) {
+            if (!(value instanceof NilTemplateValue)) {
+                elementTypeRecord.getFields().forEach(field -> {
+                    if (field.getElement() instanceof SweTime || field.getElement() instanceof SweTimeRange) {
                         block.add(DateTimeHelper.format(phenomenonTime));
-                    } else if (sweField.getElement() instanceof SweAbstractDataComponent &&
-                             sweField.getElement().getDefinition().equals(phenID)) {
+                    } else if (field.getElement() instanceof SweAbstractDataComponent &&
+                               field.getElement().getDefinition().equals(phenID)) {
                         block.add(value.getValue().toString());
-                    } else if (sweField.getElement() instanceof SweObservableProperty) {
+                    } else if (field.getElement() instanceof SweObservableProperty) {
                         block.add(phenID);
                     }
-                }
+                });
             }
             return block;
         }
@@ -420,8 +419,8 @@ public final class SweHelper {
      * Create a {@link SweQuantity} from parameter
      *
      * @param value the {@link SweQuantity} value
-     * @param axis the {@link SweQuantity} axis id
-     * @param uom the {@link SweQuantity} unit of measure
+     * @param axis  the {@link SweQuantity} axis id
+     * @param uom   the {@link SweQuantity} unit of measure
      *
      * @return the {@link SweQuantity} from parameter
      */

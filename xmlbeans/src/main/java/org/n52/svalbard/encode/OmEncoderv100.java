@@ -82,6 +82,7 @@ import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.SosHelperValues;
@@ -89,7 +90,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.N52XmlHelper;
-import org.n52.shetland.util.OMHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.util.XmlHelper;
 
@@ -227,18 +227,18 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
         String observationType = checkObservationType(sosObservation);
         if (null != observationType) {
             switch (observationType) {
-            case OmConstants.OBS_TYPE_MEASUREMENT:
-                return createMeasurement(sosObservation, additionalValues);
-            case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
-                return createCategoryObservation(sosObservation, additionalValues);
-            case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
-                return createCountObservation(sosObservation, additionalValues);
-            case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
-                return createTruthObservation(sosObservation, additionalValues);
-            case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
-                return createGeometryObservation(sosObservation, additionalValues);
-            default:
-                return createOmObservation(sosObservation, additionalValues);
+                case OmConstants.OBS_TYPE_MEASUREMENT:
+                    return createMeasurement(sosObservation, additionalValues);
+                case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
+                    return createCategoryObservation(sosObservation, additionalValues);
+                case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
+                    return createCountObservation(sosObservation, additionalValues);
+                case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
+                    return createTruthObservation(sosObservation, additionalValues);
+                case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
+                    return createGeometryObservation(sosObservation, additionalValues);
+                default:
+                    return createOmObservation(sosObservation, additionalValues);
             }
         } else {
             return createOmObservation(sosObservation, additionalValues);

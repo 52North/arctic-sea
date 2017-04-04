@@ -23,19 +23,17 @@ import org.n52.svalbard.ProcedureCoder;
 /**
  * @since 1.0.0
  *
- * @param <S>
- * @param <T>
+ * @param <T> the resulting type, the "Target"
+ * @param <S> the input type, the "Source"
  */
 public interface ProcedureEncoder<S, T> extends ConformanceClassEncoder<S, T>, ProcedureCoder {
 
     /**
-     * Get the supported procedure description formats for this
-     * {@linkplain ProcedureEncoder} and the specified service and version.
+     * Get the supported procedure description formats for this {@linkplain ProcedureEncoder} and the specified service
+     * and version.
      *
-     * @param service
-     *            the service
-     * @param version
-     *            the version
+     * @param service the service
+     * @param version the version
      *
      * @return the procedure description formats
      */

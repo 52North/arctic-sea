@@ -18,15 +18,17 @@ package org.n52.svalbard.encode;
 
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.Before;
 import org.junit.Test;
-import org.n52.svalbard.encode.SweCommonEncoderv20;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.XmlHelper;
+
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -35,6 +37,13 @@ import org.n52.shetland.ogc.swe.simpleType.SweText;
  * @since 4.0.0
  */
 public class SweCommonEncoderv20Test {
+    private SweCommonEncoderv20 sweCommonEncoderv20;
+
+    @Before
+    public void setup() {
+        sweCommonEncoderv20 = new SweCommonEncoderv20();
+        sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
+    }
 
     @Test
     public void should_encode_DataRecord_with_sweText_field() throws OwsExceptionReport, EncodingException {
@@ -42,7 +51,7 @@ public class SweCommonEncoderv20Test {
         record.addField(new SweField("text", new SweText().setValue("textValue").setDefinition("textDef")));
         record.addField(new SweField("count", new SweCount().setValue(2).setDefinition("countDef")));
 
-        final XmlObject encoded = new SweCommonEncoderv20().encode(record);
+        final XmlObject encoded = sweCommonEncoderv20.encode(record);
 
         XmlHelper.validateDocument(encoded, EncodingException::new);
     }

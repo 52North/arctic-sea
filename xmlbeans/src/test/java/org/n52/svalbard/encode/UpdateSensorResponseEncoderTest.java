@@ -26,12 +26,15 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
 import net.opengis.swes.x20.UpdateSensorDescriptionResponseDocument;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.n52.janmayen.http.MediaTypes;
@@ -40,11 +43,6 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.UpdateSensorResponse;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.encode.EncoderKey;
-import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.OperationResponseEncoderKey;
-import org.n52.svalbard.encode.UpdateSensorResponseEncoder;
-import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
@@ -59,9 +57,28 @@ import com.google.common.collect.Maps;
  */
 public class UpdateSensorResponseEncoderTest {
 
+    private UpdateSensorResponseEncoder encoder;
+    @Before
+    public void setup() {
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+
+        SchemaRepository schemaRepository = new SchemaRepository();
+        schemaRepository.setEncoderRepository(encoderRepository);
+
+        encoder = new UpdateSensorResponseEncoder();
+        encoder.setEncoderRepository(encoderRepository);
+        encoder.setXmlOptions(XmlOptions::new);
+        encoder.setSchemaRepository(schemaRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(encoder));
+        encoderRepository.init();
+        schemaRepository.init();
+    }
+
     @Test
     public void should_return_correct_encoder_keys() {
-        Set<EncoderKey> returnedKeySet = new UpdateSensorResponseEncoder().getKeys();
+        Set<EncoderKey> returnedKeySet = encoder.getKeys();
         assertThat(returnedKeySet.size(), is(3));
         assertThat(returnedKeySet, hasItem(new XmlEncoderKey(SwesConstants.NS_SWES_20, UpdateSensorResponse.class)));
         assertThat(returnedKeySet, hasItem(new OperationResponseEncoderKey(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
@@ -73,20 +90,20 @@ public class UpdateSensorResponseEncoderTest {
 
     @Test
     public void should_return_emptyMap_for_supportedTypes() {
-        assertThat(new UpdateSensorResponseEncoder().getSupportedTypes(), is(not(nullValue())));
-        assertThat(new UpdateSensorResponseEncoder().getSupportedTypes().isEmpty(), is(TRUE));
+        assertThat(encoder.getSupportedTypes(), is(not(nullValue())));
+        assertThat(encoder.getSupportedTypes().isEmpty(), is(TRUE));
     }
 
     @Test
     public void should_return_emptySet_for_conformanceClasses() {
-        assertThat(new UpdateSensorResponseEncoder().getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION), is(not(nullValue())));
-        assertThat(new UpdateSensorResponseEncoder().getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).isEmpty(), is(TRUE));
+        assertThat(encoder.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION), is(not(nullValue())));
+        assertThat(encoder.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).isEmpty(), is(TRUE));
     }
 
     @Test
     public void should_add_own_prefix_to_prefixMap() {
         Map<String, String> prefixMap = Maps.newHashMap();
-        new UpdateSensorResponseEncoder().addNamespacePrefixToMap(prefixMap);
+        encoder.addNamespacePrefixToMap(prefixMap);
         assertThat(prefixMap.isEmpty(), is(FALSE));
         assertThat(prefixMap.containsKey(SwesConstants.NS_SWES_20), is(TRUE));
         assertThat(prefixMap.containsValue(SwesConstants.NS_SWES_PREFIX), is(TRUE));
@@ -94,35 +111,39 @@ public class UpdateSensorResponseEncoderTest {
 
     @Test
     public void should_not_fail_if_prefixMap_is_null() {
-        new UpdateSensorResponseEncoder().addNamespacePrefixToMap(null);
+        encoder.addNamespacePrefixToMap(null);
     }
 
     @Test
     public void should_return_contentType_xml() {
-        assertThat(new UpdateSensorResponseEncoder().getContentType(), is(MediaTypes.TEXT_XML));
+        assertThat(encoder.getContentType(), is(MediaTypes.TEXT_XML));
     }
 
     @Test
     public void should_return_correct_schema_location() {
-        assertThat(new UpdateSensorResponseEncoder().getSchemaLocations().size(), is(1));
-        SchemaLocation schemLoc = new UpdateSensorResponseEncoder().getSchemaLocations().iterator().next();
+        assertThat(encoder.getSchemaLocations().size(), is(1));
+        SchemaLocation schemLoc = encoder.getSchemaLocations().iterator().next();
         assertThat(schemLoc.getNamespace(), is("http://www.opengis.net/swes/2.0"));
         assertThat(schemLoc.getSchemaFileUrl(), is("http://schemas.opengis.net/swes/2.0/swes.xsd"));
     }
 
     @Test(expected = UnsupportedEncoderInputException.class)
     public void should_return_exception_if_received_null() throws EncodingException {
-        new UpdateSensorResponseEncoder().encode(null);
-        new UpdateSensorResponseEncoder().encode(null, new ByteArrayOutputStream());
-        new UpdateSensorResponseEncoder().encode(null, EncodingContext.empty());
+        encoder.encode(null);
+        encoder.encode(null, new ByteArrayOutputStream());
+        encoder.encode(null, EncodingContext.empty());
     }
 
     @Test
-    public final void should_encode_UpdateSensor_response() throws EncodingException {
+    public void should_encode_UpdateSensor_response() throws EncodingException {
         final UpdateSensorResponse response = new UpdateSensorResponse();
         final String updatedProcedure = "updatedProcedure";
         response.setUpdatedProcedure(updatedProcedure);
-        final XmlObject encodedResponse = new UpdateSensorResponseEncoder().encode(response);
+
+
+
+        final XmlObject encodedResponse = encoder.encode(response);
+
         assertThat(encodedResponse, is(instanceOf(UpdateSensorDescriptionResponseDocument.class)));
         final UpdateSensorDescriptionResponseDocument doc = (UpdateSensorDescriptionResponseDocument) encodedResponse;
         assertThat(doc.isNil(), is(FALSE));

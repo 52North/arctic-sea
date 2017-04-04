@@ -19,51 +19,55 @@ package org.n52.svalbard.encode;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
-import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.custommonkey.xmlunit.Diff;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.xml.sax.SAXException;
-import org.n52.svalbard.decode.exception.XmlDecodingException;
-import org.n52.svalbard.encode.GetCapabilitiesResponseEncoder;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 public class GetCapabilitiesResponseEncoderTest {
 
     private GetCapabilitiesResponseEncoder encoder;
+    @Rule
+    public final ExpectedException expectedEx = ExpectedException.none();
 
     @Before
-    public void setUp(){
+    public void setUp() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+        SchemaRepository schemaRepository = new SchemaRepository();
+
         encoder = new GetCapabilitiesResponseEncoder();
+        encoder.setXmlOptions(XmlOptions::new);
+        encoder.setEncoderRepository(encoderRepository);
+        encoder.setSchemaRepository(schemaRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(encoder));
+        encoderRepository.init();
+        schemaRepository.setEncoderRepository(encoderRepository);
+        schemaRepository.init();
     }
 
-    @Test public void
-    should_create_static_capabilities()
-            throws OwsExceptionReport, SAXException, IOException, EncodingException {
+    @Test
+    public void should_create_static_capabilities() throws Exception {
         XmlObject encodedResponse = encoder.encode(minimalCapabilities());
 
-        Diff d = new Diff (encodedResponse.xmlText(), minimalCapabilities().getXmlString());
+        Diff d = new Diff(encodedResponse.xmlText(), minimalCapabilities().getXmlString());
 
         assertThat(d.identical(), is(true));
         assertThat(d.similar(), is(true));
     }
 
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
-
-    @Test public void
-    should_throw_Exception_when_static_content_is_invalid()
-        throws OwsExceptionReport, EncodingException {
-        expectedEx.expect(XmlDecodingException.class);
-        expectedEx.expectMessage("Error while decoding Static Capabilities:\nBAD XML STRING");
-
+    @Test
+    public void should_throw_Exception_when_static_content_is_invalid() throws Exception {
+        expectedEx.expect(EncodingException.class);
+        expectedEx.expectMessage("Error encoding static capabilities");
         encoder.encode(badCapabilities());
     }
 
@@ -72,8 +76,8 @@ public class GetCapabilitiesResponseEncoderTest {
         response.setService("SOS");
         response.setVersion("2.0.0");
         response.setXmlString("<sos:Capabilities version=\"2.0.0\" xmlns:sos=\"http://www.opengis.net/sos/2.0\" " +
-                "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
-                "xsi:schemaLocation=\"http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetCapabilities.xsd\"/>");
+                              "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+                              "xsi:schemaLocation=\"http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetCapabilities.xsd\"/>");
         return response;
     }
 

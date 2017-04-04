@@ -16,8 +16,11 @@
  */
 package org.n52.svalbard;
 
+import org.n52.svalbard.encode.EncodingContext;
+
 /**
  * @author Matthes Rieke
+ * @deprecated use {@link EncodingContext} with any enum (e.g. {@link XmlBeansEncodingFlags})
  */
 public enum SosHelperValues implements HelperValues {
     @Deprecated
@@ -27,6 +30,8 @@ public enum SosHelperValues implements HelperValues {
     VERSION,
     /**
      * Encode the given 'object to encode' in a <tt>*Document</tt> object and not <tt>*Type</tt>.
+     *
+     * @deprecated use {@link XmlBeansEncodingFlags#PROPERTY_TYPE}.
      */
     @Deprecated
     FOR_OBSERVATION,

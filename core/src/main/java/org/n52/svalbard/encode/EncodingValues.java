@@ -29,14 +29,14 @@ public class EncodingValues {
 
     private EncodingContext additionalValues = EncodingContext.empty();
     private String gmlId;
-    private boolean existFoiInDoc = false;
+    private boolean existFoiInDoc;
     private String version;
-    private boolean encode = false;
+    private boolean encode;
     private String encodingNamespace;
-    private boolean encodeOwsExceptionOnly = false;
-    private boolean addSchemaLocation = false;
-    private int indent = 0;
-    private boolean embedded = false;
+    private boolean encodeOwsExceptionOnly;
+    private boolean addSchemaLocation;
+    private int indent;
+    private boolean embedded;
     private Encoder<?, ?> encoder;
 
     public EncodingValues() {

@@ -20,8 +20,6 @@ import org.n52.janmayen.ClassHelper;
 
 import com.google.common.base.Objects;
 
-import org.n52.svalbard.decode.DecoderKey;
-
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *

@@ -18,6 +18,9 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
+import net.opengis.swes.x20.DeleteSensorResponseDocument;
+import net.opengis.swes.x20.DeleteSensorResponseType;
+
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -25,12 +28,8 @@ import org.n52.shetland.ogc.sos.response.DeleteSensorResponse;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 import com.google.common.collect.Sets;
-
-import net.opengis.swes.x20.DeleteSensorResponseDocument;
-import net.opengis.swes.x20.DeleteSensorResponseType;
 
 /**
  * TODO JavaDoc
@@ -47,7 +46,7 @@ public class DeleteSensorResponseEncoder extends AbstractSwesResponseEncoder<Del
     @Override
     protected XmlObject create(DeleteSensorResponse response) throws EncodingException {
         DeleteSensorResponseDocument document =
-                DeleteSensorResponseDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                DeleteSensorResponseDocument.Factory.newInstance(getXmlOptions());
         DeleteSensorResponseType dsr = document.addNewDeleteSensorResponse();
         dsr.setDeletedProcedure(response.getDeletedProcedure());
         return document;

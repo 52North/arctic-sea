@@ -18,13 +18,17 @@ package org.n52.svalbard.encode;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.Before;
 import org.junit.Test;
-import org.n52.svalbard.encode.GmlEncoderv321;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 /**
  * @since 4.0.0
@@ -32,10 +36,21 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
  */
 public class GmlEncoderTest {
 
-    private GmlEncoderv321 encoder = new GmlEncoderv321();
+    private GmlEncoderv321 encoder;
 
-    @Test(expected = OwsExceptionReport.class)
-    public void throwIAEForEncodeNullTest() throws OwsExceptionReport, EncodingException {
+    @Before
+    public void setup() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoder = new GmlEncoderv321();
+        encoder.setXmlOptions(XmlOptions::new);
+        encoder.setEncoderRepository(encoderRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(encoder));
+        encoderRepository.init();
+    }
+
+    @Test(expected = EncodingException.class)
+    public void throwIAEForEncodeNullTest() throws EncodingException {
         encoder.encode(null);
     }
 
@@ -44,8 +59,8 @@ public class GmlEncoderTest {
         encoder.encode(5);
     }
 
-    @Test(expected = OwsExceptionReport.class)
-    public void throwsIllegalArgumentExceptionWhenConstructorValueNullTest() throws OwsExceptionReport, EncodingException {
+    @Test(expected = EncodingException.class)
+    public void throwsIllegalArgumentExceptionWhenConstructorValueNullTest() throws EncodingException {
         QuantityValue quantity = new QuantityValue(null);
         encoder.encode(quantity);
     }

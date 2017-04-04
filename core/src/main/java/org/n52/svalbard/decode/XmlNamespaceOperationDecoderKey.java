@@ -20,8 +20,7 @@ import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
 /**
- * {@link NamespaceDecoderKey} implementation for XML namespace and operation
- * name {@link String}.
+ * {@link NamespaceDecoderKey} implementation for XML namespace and operation name {@link String}.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -33,11 +32,6 @@ public class XmlNamespaceOperationDecoderKey extends NamespaceDecoderKey<String>
 
     public XmlNamespaceOperationDecoderKey(String namespace, String type) {
         super(namespace, type);
-    }
-
-    @Override
-    public int getSimilarity(DecoderKey key) {
-        return getSimilarity(key, getType());
     }
 
     @Override
@@ -56,23 +50,23 @@ public class XmlNamespaceOperationDecoderKey extends NamespaceDecoderKey<String>
     }
 
     @Override
+    public int getSimilarity(DecoderKey key) {
+        return getSimilarity(key, getType());
+    }
+
+    @Override
     protected int getSimilarity(DecoderKey key, String type) {
         if (key != null && key.getClass() == getClass()) {
             NamespaceDecoderKey<?> xmlKey = (NamespaceDecoderKey<?>) key;
-            if (Objects.equal(getNamespace(), xmlKey.getNamespace()) && xmlKey.getType() instanceof String) {
-                if (!Strings.isNullOrEmpty(type) && xmlKey.getType() instanceof String
-                        && !Strings.isNullOrEmpty((String) xmlKey.getType())
-                        && type.equalsIgnoreCase((String) xmlKey.getType())) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            } else {
-                return -1;
+            if (Objects.equal(getNamespace(), xmlKey.getNamespace()) &&
+                xmlKey.getType() instanceof String &&
+                !Strings.isNullOrEmpty(type) && xmlKey.getType() instanceof String &&
+                !Strings.isNullOrEmpty((String) xmlKey.getType()) &&
+                type.equalsIgnoreCase((String) xmlKey.getType())) {
+                return 0;
             }
-        } else {
-            return -1;
         }
+        return -1;
     }
 
 }

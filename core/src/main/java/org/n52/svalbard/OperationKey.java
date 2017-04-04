@@ -36,10 +36,8 @@ public class OperationKey implements Comparable<OperationKey> {
                     .thenComparing(OperationKey::getVersion)
                     .thenComparing(OperationKey::getOperation);
     private final String service;
-
-    private final String version; // TODO should be optional because
-                                  // GetCapabilities does not need to have it
-
+    // TODO should be optional because GetCapabilities does not need to have it
+    private final String version;
     private final String operation;
 
     public OperationKey(OwsServiceCommunicationObject asco) {
@@ -76,8 +74,8 @@ public class OperationKey implements Comparable<OperationKey> {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final OperationKey o = (OperationKey) obj;
-            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
-                    && Objects.equal(getOperation(), o.getOperation());
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion()) &&
+                     Objects.equal(getOperation(), o.getOperation());
         }
         return false;
     }

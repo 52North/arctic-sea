@@ -26,10 +26,8 @@ import org.n52.svalbard.decode.exception.DecodingException;
 /**
  * Generic interface for decoders.
  *
- * @param <T>
- *            the result of the decoding process, the "Target"
- * @param <S>
- *            the input which is decoded, the "Source"
+ * @param <T> the result of the decoding process, the "Target"
+ * @param <S> the input which is decoded, the "Source"
  *
  * @since 1.0.0
  */

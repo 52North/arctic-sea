@@ -49,8 +49,9 @@ public class OperationDecoderKey extends OperationKey implements DecoderKey {
 
     @Override
     public String toString() {
-        return String.format("%s[service=%s, version=%s, operation=%s, contentType=%s]", getClass().getSimpleName(),
-                getService(), getVersion(), getOperation(), getContentType());
+        return String.format("%s[service=%s, version=%s, operation=%s, contentType=%s]",
+                             getClass().getSimpleName(), getService(), getVersion(),
+                             getOperation(), getContentType());
     }
 
     @Override
@@ -67,9 +68,9 @@ public class OperationDecoderKey extends OperationKey implements DecoderKey {
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final OperationDecoderKey o = (OperationDecoderKey) obj;
-            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
-                    && Objects.equal(getOperation(), o.getOperation()) && getContentType() != null
-                    && getContentType().isCompatible(o.getContentType());
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion()) &&
+                   Objects.equal(getOperation(), o.getOperation()) && getContentType() != null &&
+                   getContentType().isCompatible(o.getContentType());
         }
         return false;
     }

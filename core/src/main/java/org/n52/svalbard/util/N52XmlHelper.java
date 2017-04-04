@@ -55,6 +55,9 @@ public final class N52XmlHelper {
     public static final SchemaLocation SCHEMA_LOCATION_SOAP_12 =
             new SchemaLocation(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
 
+    private N52XmlHelper() {
+    }
+
     /**
      * Sets the schema location to a XmlObject
      *
@@ -288,6 +291,4 @@ public final class N52XmlHelper {
         return SCHEMA_LOCATION_SOAP_12;
     }
 
-    private N52XmlHelper() {
-    }
 }

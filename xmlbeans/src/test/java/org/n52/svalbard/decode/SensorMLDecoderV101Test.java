@@ -22,6 +22,7 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
 import net.opengis.sensorML.x101.ComponentsDocument.Components.ComponentList;
@@ -45,7 +46,8 @@ import net.opengis.swe.x101.DataComponentPropertyType;
 import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.SimpleDataRecordType;
 
-import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.Before;
 import org.junit.Test;
 
 import org.n52.shetland.ogc.OGCConstants;
@@ -58,9 +60,7 @@ import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 /**
  * @author Shane StClair
@@ -69,12 +69,27 @@ import org.n52.svalbard.util.XmlOptionsHelper;
  */
 public class SensorMLDecoderV101Test {
     private static final String TEST_ID_1 = "test-id-1";
-
     private static final String TEST_NAME_1 = "test-name-1";
-
     private static final String TEST_ID_2 = "test-id-2";
-
     private static final String TEST_NAME_2 = "test-name-2";
+
+    private SensorMLDecoderV101 sensorMLDecoderV101;
+
+    @Before
+    public void setup() {
+        DecoderRepository decoderRepository = new DecoderRepository();
+
+        sensorMLDecoderV101 = new SensorMLDecoderV101();
+        sensorMLDecoderV101.setDecoderRepository(decoderRepository);
+        sensorMLDecoderV101.setXmlOptions(XmlOptions::new);
+
+        SweCommonDecoderV101 sweCommonDecoderV101 = new SweCommonDecoderV101();
+        sweCommonDecoderV101.setDecoderRepository(decoderRepository);
+        sweCommonDecoderV101.setXmlOptions(XmlOptions::new);
+
+        decoderRepository.setDecoders(Arrays.asList(sensorMLDecoderV101, sweCommonDecoderV101));
+        decoderRepository.init();
+    }
 
     @Test
     public void should_set_identifier_by_identifier_name() throws DecodingException {
@@ -92,7 +107,7 @@ public class SensorMLDecoderV101Test {
 
     private SensorMLDocument getSensorMLDoc() {
         SensorMLDocument xbSmlDoc =
-                SensorMLDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                SensorMLDocument.Factory.newInstance();
         net.opengis.sensorML.x101.SensorMLDocument.SensorML xbSensorML = xbSmlDoc.addNewSensorML();
         xbSensorML.setVersion(SensorMLConstants.VERSION_V101);
         return xbSmlDoc;
@@ -214,7 +229,9 @@ public class SensorMLDecoderV101Test {
     private AbstractProcess decodeAbstractProcess(SensorMLDocument xbSmlDoc) throws DecodingException {
         // FIXME
 //        Object decoded = CodingHelper.decodeXmlObject(xbSmlDoc);
-        Object decoded = XmlObject.Factory.newInstance();
+
+
+        Object decoded = sensorMLDecoderV101.decode(xbSmlDoc);
         assertThat(decoded, instanceOf(SensorML.class));
         SensorML sml = (SensorML) decoded;
         assertThat(sml.getMembers().size(), is(1));

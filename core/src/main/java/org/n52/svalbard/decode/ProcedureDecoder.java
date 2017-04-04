@@ -22,9 +22,8 @@ import org.n52.svalbard.ProcedureCoder;
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
- * @param <S>
- * @param <T>
+ * @param <T> the result of the decoding process, the "Target"
+ * @param <S> the input which is decoded, the "Source"
  */
 public interface ProcedureDecoder<T, S> extends Decoder<T, S>, ConformanceClass, ProcedureCoder {
 
