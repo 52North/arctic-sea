@@ -22,8 +22,6 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
-import java.util.Optional;
-import java.util.function.Function;
 
 import net.opengis.sos.x20.GetObservationDocument;
 
@@ -34,9 +32,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.n52.janmayen.Producer;
-import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.sos.request.GetObservationRequest;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
@@ -130,15 +126,7 @@ public class SosDecoderv20Test {
         assertThat(decodedObject, instanceOf(GetObservationRequest.class));
 
         final GetObservationRequest request = (GetObservationRequest) decodedObject;
-        Optional<Extension<?>> extension = request.getExtension("my-text-extension");
-        Function<Extension<?>, Object> getExtensionValue = Extension::getValue;
-        Function<Object, SweText> castToText = Functions.cast(SweText.class);
-        Function<SweText, String> getTextValue = SweText::getValue;
-
-        assertThat(extension
-                .map(getExtensionValue)
-                .map(castToText)
-                .map(getTextValue).orElse(null), is("true"));
+        assertThat(request.getExtension("my-text-extension").map(e -> e.getValue()).map(v -> (SweText)v).map(v -> v.getValue()).orElse(null), is("true"));
 
     }
 
