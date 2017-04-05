@@ -23,27 +23,34 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collector;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.decode.OwsDecodingException;
-import org.n52.faroe.annotation.Configurable;
-import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
 import org.n52.iceland.exception.ows.concrete.MissingRequestParameterException;
 import org.n52.iceland.exception.ows.concrete.VersionNotSupportedException;
 import org.n52.iceland.service.MiscSettings;
+import org.n52.janmayen.exception.CompositeException;
+import org.n52.janmayen.exception.LocationHintException;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
 import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
 import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
@@ -57,8 +64,6 @@ import org.n52.svalbard.OperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
@@ -193,13 +198,48 @@ public class KvpBinding extends SimpleBinding {
         } catch (OwsDecodingException ex) {
             throw ex.getCause();
         } catch (DecodingException ex) {
-            throw new InvalidParameterValueException().withMessage(ex.getMessage())
-                    .causedBy(ex).at(ex.getLocation().orElse(null));
+            throw toOwsExceptionReport(ex);
         }
         if (this.includeOriginal) {
             request.setOriginalRequest(String.join("?", req.getRequestURL(), req.getQueryString()));
         }
 
         return request;
+    }
+
+    private OwsExceptionReport toOwsExceptionReport(CompositeException ex) {
+        return ex.getExceptions().stream().map(this::toOwsExceptionReport)
+                .collect(Collector.of(CompositeOwsException::new,
+                                      CompositeOwsException::add,
+                                      CompositeOwsException::addAllOf));
+    }
+
+    private OwsExceptionReport toOwsExceptionReport(Throwable ex) {
+        if (ex instanceof OwsExceptionReport) {
+            return (OwsExceptionReport) ex;
+        }
+
+        Throwable cause = ex.getCause();
+
+        if (cause instanceof OwsExceptionReport) {
+            return (OwsExceptionReport) cause;
+        }
+
+        if (ex instanceof CompositeException) {
+            return toOwsExceptionReport((CompositeException) ex);
+        }
+
+        if (cause instanceof CompositeException) {
+            return toOwsExceptionReport((CompositeException) cause);
+        }
+
+        String location = null;
+        if (ex instanceof LocationHintException) {
+            location = ((LocationHintException) ex).getLocation().orElse(null);
+        } else if (cause instanceof LocationHintException) {
+            location = ((LocationHintException) cause).getLocation().orElse(null);
+        }
+
+        return new InvalidParameterValueException().withMessage(ex.getMessage()).causedBy(ex).at(location);
     }
 }
