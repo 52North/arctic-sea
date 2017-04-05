@@ -37,12 +37,9 @@ public class OwsResponsibleParty {
     public OwsResponsibleParty(String individualName, String organisationName,
                                String positionName, OwsContact contactInfo,
                                OwsCode role) {
-        this.individualName
-                = Optional.ofNullable(Strings.emptyToNull(individualName));
-        this.organisationName
-                = Optional.ofNullable(Strings.emptyToNull(organisationName));
-        this.positionName
-                = Optional.ofNullable(Strings.emptyToNull(positionName));
+        this.individualName = Optional.ofNullable(Strings.emptyToNull(individualName));
+        this.organisationName = Optional.ofNullable(Strings.emptyToNull(organisationName));
+        this.positionName = Optional.ofNullable(Strings.emptyToNull(positionName));
         this.contactInfo = Optional.ofNullable(contactInfo);
         this.role = Optional.ofNullable(role);
     }

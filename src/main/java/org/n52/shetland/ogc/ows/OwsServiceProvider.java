@@ -35,8 +35,7 @@ public class OwsServiceProvider {
     public OwsServiceProvider(String providerName,
                               OwsOnlineResource providerSite,
                               OwsResponsibleParty serviceContact) {
-        this.providerName = Objects.requireNonNull(Strings
-                .emptyToNull(providerName));
+        this.providerName = Objects.requireNonNull(Strings.emptyToNull(providerName));
         this.providerSite = Optional.ofNullable(providerSite);
         this.serviceContact = Objects.requireNonNull(serviceContact);
     }
