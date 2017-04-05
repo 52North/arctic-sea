@@ -53,11 +53,9 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     private String namespace = GetDataAvailabilityConstants.NS_GDA_20;
 
     /**
-     * Creates a new {@code GetDataAvailabilityResponse} consisting of zero or
-     * more {@code DataAvailability} objects.
+     * Creates a new {@code GetDataAvailabilityResponse} consisting of zero or more {@code DataAvailability} objects.
      *
-     * @param dataAvailabilities
-     *                           the data availabilities
+     * @param dataAvailabilities the data availabilities
      */
     public GetDataAvailabilityResponse(DataAvailability... dataAvailabilities) {
         super(null, null, GetDataAvailabilityConstants.OPERATION_NAME);
@@ -86,8 +84,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     /**
      * Sets the {@code DataAvailabilities} of the response.
      *
-     * @param dataAvailabilities
-     *                           the {@code DataAvailabilities}
+     * @param dataAvailabilities the {@code DataAvailabilities}
      */
     public void setDataAvailabilities(Collection<? extends DataAvailability> dataAvailabilities) {
         this.dataAvailabilities.clear();
@@ -97,8 +94,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     /**
      * Adds a new {@code DataAvailability} to the response.
      *
-     * @param dataAvailability
-     *                         the {@code DataAvailability}.
+     * @param dataAvailability the {@code DataAvailability}.
      */
     public void addDataAvailability(DataAvailability dataAvailability) {
         this.dataAvailabilities.add(dataAvailability);
@@ -125,43 +121,29 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     }
 
     /**
-     * Describes the availability of observation with a specified combination of
-     * {@code featureOfInterest}, {@code observedProperty} and {@code procedure}
-     * .
+     * Describes the availability of observation with a specified combination of {@code featureOfInterest},
+     * {@code observedProperty} and {@code procedure} .
      */
     public static class DataAvailability implements Copyable<DataAvailability> {
 
         private final ReferenceType featureOfInterest;
-
         private final ReferenceType observedProperty;
-
         private final ReferenceType procedure;
-
         private final TimePeriod phenomenonTime;
-
         private long count = -1;
-
         private List<TimeInstant> resultTimes = Lists.newArrayList();
-
         private ReferenceType offering;
-
         private FormatDescriptor formatDescriptor;
-
         private Map<String, NamedValue<?>> metadata = Maps.newHashMap();
 
         /**
          * Creates a new {@code DataAvailability}.
          *
-         * @param procedure
-         *                          the {@code procedure}
-         * @param observedProperty
-         *                          the {@code observedProperty}
-         * @param featureOfInterest
-         *                          the {@code featureOfInterest}
-         * @param offering
-         *                          the {@code offering}
-         * @param phenomenonTime
-         *                          the {@code phenomenonTime} for which data is available.
+         * @param procedure         the {@code procedure}
+         * @param observedProperty  the {@code observedProperty}
+         * @param featureOfInterest the {@code featureOfInterest}
+         * @param offering          the {@code offering}
+         * @param phenomenonTime    the {@code phenomenonTime} for which data is available.
          */
         public DataAvailability(ReferenceType procedure, ReferenceType observedProperty,
                                 ReferenceType featureOfInterest, ReferenceType offering, TimePeriod phenomenonTime) {
@@ -175,18 +157,12 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         /**
          * Creates a new {@code DataAvailability}.
          *
-         * @param procedure
-         *                          the {@code procedure}
-         * @param observedProperty
-         *                          the {@code observedProperty}
-         * @param featureOfInterest
-         *                          the {@code featureOfInterest}
-         * @param offering
-         *                          the {@code offering}
-         * @param phenomenonTime
-         *                          the {@code phenomenonTime} for which data is available.
-         * @param valueCount
-         *                          the {@code valueCount} for this combination.
+         * @param procedure         the {@code procedure}
+         * @param observedProperty  the {@code observedProperty}
+         * @param featureOfInterest the {@code featureOfInterest}
+         * @param offering          the {@code offering}
+         * @param phenomenonTime    the {@code phenomenonTime} for which data is available.
+         * @param valueCount        the {@code valueCount} for this combination.
          */
         public DataAvailability(ReferenceType procedure, ReferenceType observedProperty,
                                 ReferenceType featureOfInterest, ReferenceType offering, TimePeriod phenomenonTime,
@@ -278,8 +254,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param offering
-         *                 the offering to set
+         * @param offering the offering to set
          */
         public void setOffering(ReferenceType offering) {
             this.offering = offering;
@@ -319,8 +294,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param metadata
-         *                 the metadata to set
+         * @param metadata the metadata to set
          */
         public void setMetadata(Map<String, NamedValue<?>> metadata) {
             this.metadata.clear();
@@ -328,9 +302,8 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param key the key of the metadata
-         * @param metadata
-         *                 the metadata to add
+         * @param key      the key of the metadata
+         * @param metadata the metadata to add
          */
         public void addMetadata(String key, NamedValue<?> metadata) {
             this.metadata.put(key, metadata);
@@ -429,8 +402,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param procedureDescriptionFormatDescriptor
-         *                                             the procedureDescriptionFormatDescriptor to set
+         * @param procedureDescriptionFormatDescriptor the procedureDescriptionFormatDescriptor to set
          */
         public void setProcedureDescriptionFormatDescriptor(
                 ProcedureDescriptionFormatDescriptor procedureDescriptionFormatDescriptor) {
@@ -445,8 +417,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param observationFormatDescriptors
-         *                                     the observationFormatDescriptors to set
+         * @param observationFormatDescriptors the observationFormatDescriptors to set
          */
         public void setObservationFormatDescriptors(Set<ObservationFormatDescriptor> observationFormatDescriptors) {
             this.observationFormatDescriptors.clear();
@@ -488,8 +459,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param responseFormat
-         *                       the responseFormat to set
+         * @param responseFormat the responseFormat to set
          */
         public void setResponseFormat(String responseFormat) {
             this.responseFormat = responseFormat;
@@ -503,8 +473,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param observationTypes
-         *                         the observationTypes to set
+         * @param observationTypes the observationTypes to set
          */
         public void setObservationTypes(Set<String> observationTypes) {
             this.observationTypes.clear();
@@ -522,6 +491,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
      * @since 4.4.0
      *
      */
+    //FIXME: replace with org.n52.shetland.ogc.sos.ProcedureDescriptionFormat
     public static class ProcedureDescriptionFormatDescriptor implements Copyable<ProcedureDescriptionFormatDescriptor> {
 
         private String procedureDescriptionFormat;
@@ -542,8 +512,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         }
 
         /**
-         * @param procedureDescriptionFormat
-         *                                   the procedureDescriptionFormat to set
+         * @param procedureDescriptionFormat the procedureDescriptionFormat to set
          */
         public void setProcedureDescriptionFormat(String procedureDescriptionFormat) {
             this.procedureDescriptionFormat = procedureDescriptionFormat;

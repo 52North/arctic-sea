@@ -18,8 +18,6 @@ package org.n52.shetland.ogc;
 
 import java.util.Objects;
 
-import org.n52.shetland.ogc.SupportedType;
-
 import com.google.common.base.MoreObjects;
 
 /**
