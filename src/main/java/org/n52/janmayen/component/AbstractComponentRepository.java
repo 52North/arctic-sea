@@ -85,7 +85,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         return Optional.ofNullable(objects)
                 .map(Collection::stream)
                 .orElseGet(Stream::empty)
-                .peek(t -> LOG.info("Creating provider for {}", t))
+                .peek(t -> LOG.trace("Creating provider for {}", t))
                 .flatMap(mapper);
     }
 
