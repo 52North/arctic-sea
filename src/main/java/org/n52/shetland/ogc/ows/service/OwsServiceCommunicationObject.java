@@ -121,6 +121,10 @@ public abstract class OwsServiceCommunicationObject {
         return !Strings.isNullOrEmpty(this.operationName);
     }
 
+    public OwsOperationKey getKey() {
+        return new OwsOperationKey(this.service, this.version, this.operationName);
+    }
+
     @Override
     public String toString() {
         return String.format("%s[service=%s, version=%s]", getClass().getName(), getService(), getVersion());
