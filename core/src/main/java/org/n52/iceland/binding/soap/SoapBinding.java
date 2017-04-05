@@ -57,7 +57,7 @@ import org.n52.shetland.w3c.wsa.WsaMessageIDHeader;
 import org.n52.shetland.w3c.wsa.WsaReplyToHeader;
 import org.n52.shetland.w3c.wsa.WsaToHeader;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.XmlEncoderKey;
@@ -97,7 +97,7 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     @Override
-    public boolean checkOperationHttpPostSupported(OperationKey k) {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey k) {
         return hasDecoder(k, MediaTypes.TEXT_XML) ||
                hasDecoder(k, MediaTypes.APPLICATION_XML);
     }

@@ -57,7 +57,7 @@ import org.n52.shetland.ogc.ows.OwsRequestMethod;
 import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 /**
  * TODO JavaDoc
@@ -109,10 +109,10 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     }
 
     private Set<OwsDCP> getDCP(String service, String version) {
-        return Collections.singleton(getDCP(new OperationKey(service, version, getOperationName())));
+        return Collections.singleton(getDCP(new OwsOperationKey(service, version, getOperationName())));
     }
 
-    private OwsDCP getDCP(OperationKey operation) {
+    private OwsDCP getDCP(OwsOperationKey operation) {
         Set<OwsRequestMethod> methods = Stream
                 .concat(getRequestMethodsForServiceURL(operation),
                         getRequestMethodsForBindingURL(operation))
@@ -120,12 +120,12 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         return new OwsHttp(methods);
     }
 
-    private Stream<OwsRequestMethod> getRequestMethodsForBindingURL(OperationKey operation) {
+    private Stream<OwsRequestMethod> getRequestMethodsForBindingURL(OwsOperationKey operation) {
         return this.bindingRepository.getBindings().values().stream()
                 .flatMap(binding -> getRequestMethods(binding, operation));
     }
 
-    private Stream<OwsRequestMethod> getRequestMethodsForServiceURL(OperationKey operation) {
+    private Stream<OwsRequestMethod> getRequestMethodsForServiceURL(OwsOperationKey operation) {
         Map<String, Set<OwsValue>> mediaTypesByMethod = new HashMap<>();
         this.bindingRepository.getBindings().values().stream().forEach(binding
                 -> HTTPMethods.METHODS.stream()
@@ -151,18 +151,18 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         return new OwsDomain(HTTPHeaders.CONTENT_TYPE, new OwsAllowedValues(value));
     }
 
-    private Stream<OwsRequestMethod> getRequestMethods(Binding binding, OperationKey operation) {
+    private Stream<OwsRequestMethod> getRequestMethods(Binding binding, OwsOperationKey operation) {
         URI patternURI = URI.create(this.serviceURL + binding.getUrlPattern());
         Set<OwsDomain> constraints = createContentTypeDomains(getMediaTypes(binding));
         return HTTPMethods.METHODS.stream().filter(isMethodSupported(binding, operation))
                 .map(method -> new OwsRequestMethod(patternURI, method, constraints));
     }
 
-    private Predicate<String> isMethodSupported(Binding binding, OperationKey operation) {
+    private Predicate<String> isMethodSupported(Binding binding, OwsOperationKey operation) {
         return method -> isMethodSupported(binding, method, operation);
     }
 
-    private boolean isMethodSupported(Binding binding, String method, OperationKey decoderKey) {
+    private boolean isMethodSupported(Binding binding, String method, OwsOperationKey decoderKey) {
         try {
             switch (method) {
                 case HTTPMethods.GET:

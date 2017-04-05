@@ -39,11 +39,12 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,7 +97,7 @@ public class JSONBinding extends SimpleBinding {
     }
 
     @Override
-    public boolean checkOperationHttpPostSupported(OperationKey k) throws HTTPException {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey k) throws HTTPException {
         return getDecoder(new OperationDecoderKey(k, MediaTypes.APPLICATION_JSON)) != null;
     }
 

@@ -41,7 +41,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,7 +117,7 @@ public class PoxBinding extends AbstractXmlBinding {
     }
 
     @Override
-    public boolean checkOperationHttpPostSupported(OperationKey k) {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey k) {
         return hasDecoder(k, MediaTypes.TEXT_XML) ||
                hasDecoder(k, MediaTypes.APPLICATION_XML);
     }

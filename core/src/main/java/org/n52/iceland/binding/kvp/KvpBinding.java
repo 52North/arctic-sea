@@ -60,7 +60,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -152,7 +152,7 @@ public class KvpBinding extends SimpleBinding {
     }
 
     @Override
-    public boolean checkOperationHttpGetSupported(OperationKey k) {
+    public boolean checkOperationHttpGetSupported(OwsOperationKey k) {
         return hasDecoder(k, MediaTypes.APPLICATION_KVP);
     }
 
