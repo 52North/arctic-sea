@@ -34,7 +34,7 @@ import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapResponse;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.EncoderRepository;
@@ -214,8 +214,7 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
     protected void writeBodyContent(OwsServiceResponse bodyResponse) throws XMLStreamException, EncodingException {
-        Encoder<Object, OwsServiceResponse> encoder = getEncoder(
-                new OperationResponseEncoderKey(new OperationKey(bodyResponse), MediaTypes.APPLICATION_XML));
+        Encoder<Object, OwsServiceResponse> encoder = getEncoder(new OperationResponseEncoderKey(new OwsOperationKey(bodyResponse), MediaTypes.APPLICATION_XML));
         if (encoder instanceof StreamingEncoder<?, ?>) {
             ((StreamingEncoder) encoder).encode(bodyResponse, getOutputStream(),
                     new EncodingValues().setAsDocument(true).setEmbedded(true).setIndent(indent));
@@ -279,7 +278,7 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
 
     protected Encoder<Object, OwsServiceResponse> getEncoder(OwsServiceResponse abstractServiceResponse)
             throws NoEncoderForKeyException {
-        return getEncoder(new OperationResponseEncoderKey(new OperationKey(abstractServiceResponse),
+        return getEncoder(new OperationResponseEncoderKey(new OwsOperationKey(abstractServiceResponse),
                 MediaTypes.APPLICATION_XML));
     }
 

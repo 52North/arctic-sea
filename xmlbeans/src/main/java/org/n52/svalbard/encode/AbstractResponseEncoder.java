@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
@@ -71,7 +71,7 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix,
             Class<T> responseType, boolean validate) {
         super(service, version, operation, namespace, prefix, responseType, validate);
-        OperationKey key = new OperationKey(service, version, operation);
+        OwsOperationKey key = new OwsOperationKey(service, version, operation);
         this.encoderKeys = Sets.newHashSet(new XmlEncoderKey(namespace, responseType),
                 new OperationResponseEncoderKey(key, MediaTypes.TEXT_XML),
                 new OperationResponseEncoderKey(key, MediaTypes.APPLICATION_XML));

@@ -17,7 +17,7 @@
 package org.n52.svalbard.encode;
 
 import org.n52.janmayen.http.MediaType;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 /**
  * TODO JavaDoc
@@ -36,7 +36,7 @@ public class OperationRequestEncoderKey extends OperationEncoderKey {
         super(service, version, operation, contentType);
     }
 
-    public OperationRequestEncoderKey(OperationKey key, MediaType contentType) {
+    public OperationRequestEncoderKey(OwsOperationKey key, MediaType contentType) {
         super(key, contentType);
     }
 }

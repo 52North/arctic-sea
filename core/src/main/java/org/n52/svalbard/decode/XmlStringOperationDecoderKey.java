@@ -17,7 +17,7 @@
 package org.n52.svalbard.decode;
 
 import org.n52.janmayen.http.MediaType;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 import com.google.common.base.Objects;
 
@@ -26,7 +26,7 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  *
  */
-public class XmlStringOperationDecoderKey extends OperationKey implements DecoderKey {
+public class XmlStringOperationDecoderKey extends OwsOperationKey implements DecoderKey {
 
     private final MediaType contentType;
 
@@ -40,7 +40,7 @@ public class XmlStringOperationDecoderKey extends OperationKey implements Decode
         this.contentType = contentType;
     }
 
-    public XmlStringOperationDecoderKey(OperationKey key, MediaType contentType) {
+    public XmlStringOperationDecoderKey(OwsOperationKey key, MediaType contentType) {
         super(key);
         this.contentType = contentType;
     }

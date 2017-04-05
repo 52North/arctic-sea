@@ -35,7 +35,7 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.aqd.EReportObligationRepository;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.shetland.util.AqdHelper;
@@ -123,7 +123,7 @@ public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse> e
      * @return {@link Encoder} for the {@link OwsServiceResponse}
      */
     protected Encoder<Object, OwsServiceResponse> getEncoder(OwsServiceResponse asr) {
-        OperationResponseEncoderKey key = new OperationResponseEncoderKey(new OperationKey(asr), getContentType());
+        OperationResponseEncoderKey key = new OperationResponseEncoderKey(new OwsOperationKey(asr), getContentType());
         Encoder<Object, OwsServiceResponse> encoder = getEncoder(key);
         if (encoder == null) {
             throw new RuntimeException(new NoEncoderForKeyException(key));
