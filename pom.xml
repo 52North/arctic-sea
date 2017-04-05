@@ -119,6 +119,7 @@
         <version.slf4j>1.7.21</version.slf4j>
         <version.guava>20.0</version.guava>
         <version.java>1.8</version.java>
+        <version.faroe>1.1.0</version.faroe>
         <version.jackson>2.8.5</version.jackson>
         <version.xmlbeans>2.6.0</version.xmlbeans>
     </properties>
@@ -130,20 +131,30 @@
                 <version>1.0.0</version>
             </dependency>
             <dependency>
-                <groupId>org.n52.faroe</groupId>
-                <artifactId>faroe</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-             <dependency>
-                <groupId>org.n52.faroe</groupId>
-                <artifactId>faroe-json</artifactId>
-                <version>1.0.0</version>
-            </dependency>
-            <dependency>
                 <groupId>org.n52.svalbard</groupId>
                 <artifactId>svalbard</artifactId>
                 <version>1-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe</artifactId>
+                <version>${version.faroe}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-json</artifactId>
+                <version>${version.faroe}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-utils</artifactId>
+                <version>${version.faroe}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.faroe</groupId>
+                <artifactId>faroe-annotations</artifactId>
+                <version>${version.faroe}</version>
+            </dependency>    
             <dependency>
                 <groupId>org.n52.iceland</groupId>
                 <artifactId>iceland</artifactId>

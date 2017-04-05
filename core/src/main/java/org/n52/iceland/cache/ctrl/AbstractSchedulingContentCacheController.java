@@ -24,12 +24,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.cache.ContentCacheController;
 import org.n52.janmayen.lifecycle.Destroyable;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.Validation;
 
 /**
  * Abstract class for capabilities cache controller implementations that

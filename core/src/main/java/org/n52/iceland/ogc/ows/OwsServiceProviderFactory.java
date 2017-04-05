@@ -16,34 +16,18 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ADDRESS;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.CITY;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.CONTACT_INSTRUCTIONS;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.COUNTRY;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.EMAIL;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.FACSIMILE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.HOURS_OF_SERVICE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.INDIVIDUAL_NAME;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.NAME;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ONLINE_RESOURCE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.PHONE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.POSITION_NAME;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.POSTAL_CODE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ROLE_CODESPACE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.ROLE_VALUE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.SITE;
-import static org.n52.iceland.ogc.ows.OwsServiceProviderFactorySettings.STATE;
-
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
+import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
-import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.shetland.ogc.ows.OwsAddress;
 import org.n52.shetland.ogc.ows.OwsCode;
@@ -82,92 +66,91 @@ public class OwsServiceProviderFactory extends LocalizedLazyThreadSafeProducer<O
     private String role;
     private URI roleCodespace;
 
-
-    @Setting(NAME)
+    @Setting(OwsServiceProviderFactorySettings.NAME)
     public void setName(String name) throws ConfigurationError {
         this.name = name;
         setRecreate();
     }
 
-    @Setting(SITE)
+    @Setting(OwsServiceProviderFactorySettings.SITE)
     public void setSite(URI site) {
         this.site = site;
         setRecreate();
     }
 
-    @Setting(INDIVIDUAL_NAME)
+    @Setting(OwsServiceProviderFactorySettings.INDIVIDUAL_NAME)
     public void setIndividualName(String individualName) {
         this.individualName = individualName;
         setRecreate();
     }
 
-    @Setting(POSITION_NAME)
+    @Setting(OwsServiceProviderFactorySettings.POSITION_NAME)
     public void setPositionName(String positionName) {
         this.positionName = positionName;
         setRecreate();
     }
 
-    @Setting(PHONE)
+    @Setting(OwsServiceProviderFactorySettings.PHONE)
     public void setPhone(String phone) {
         this.phone = phone;
         setRecreate();
     }
 
-    @Setting(FACSIMILE)
+    @Setting(OwsServiceProviderFactorySettings.FACSIMILE)
     public void setFacsimile(String facsimile) {
         this.facsimile = facsimile;
         setRecreate();
     }
 
-    @Setting(ADDRESS)
+    @Setting(OwsServiceProviderFactorySettings.ADDRESS)
     public void setDeliveryPoint(String deliveryPoint) {
         this.deliveryPoint = deliveryPoint;
         setRecreate();
     }
 
-    @Setting(CITY)
+    @Setting(OwsServiceProviderFactorySettings.CITY)
     public void setCity(String city) {
         this.city = city;
         setRecreate();
     }
 
-    @Setting(POSTAL_CODE)
+    @Setting(OwsServiceProviderFactorySettings.POSTAL_CODE)
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
         setRecreate();
     }
 
-    @Setting(COUNTRY)
+    @Setting(OwsServiceProviderFactorySettings.COUNTRY)
     public void setCountry(String country) {
         this.country = country;
         setRecreate();
     }
 
-    @Setting(EMAIL)
+    @Setting(OwsServiceProviderFactorySettings.EMAIL)
     public void setMailAddress(String mailAddress) {
         this.electronicMailAddress = mailAddress;
         setRecreate();
     }
 
-    @Setting(STATE)
+    @Setting(OwsServiceProviderFactorySettings.STATE)
     public void setAdministrativeArea(String administrativeArea) {
         this.administrativeArea = administrativeArea;
         setRecreate();
     }
 
-    @Setting(HOURS_OF_SERVICE)
+    @Setting(OwsServiceProviderFactorySettings.HOURS_OF_SERVICE)
     public void setHours(String hours) {
         this.hoursOfService = hours;
         setRecreate();
     }
 
-    @Setting(CONTACT_INSTRUCTIONS)
+    @Setting(OwsServiceProviderFactorySettings.CONTACT_INSTRUCTIONS)
     public void setContactInstructions(String contactInstructions) {
         this.contactInstructions = contactInstructions;
         setRecreate();
     }
 
-    @Setting(ONLINE_RESOURCE)
+    @Setting(OwsServiceProviderFactorySettings.ONLINE_RESOURCE)
     public void setOnlineResource(String onlineResource) {
         if (Optional.ofNullable(onlineResource).isPresent()) {
             Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
@@ -178,13 +161,13 @@ public class OwsServiceProviderFactory extends LocalizedLazyThreadSafeProducer<O
         }
     }
 
-    @Setting(ROLE_VALUE)
+    @Setting(OwsServiceProviderFactorySettings.ROLE_VALUE)
     public void setRole(String role) {
         this.role = role;
         setRecreate();
     }
 
-    @Setting(ROLE_CODESPACE)
+    @Setting(OwsServiceProviderFactorySettings.ROLE_CODESPACE)
     public void setRoleCodespace(URI roleCodespace) {
         this.roleCodespace = roleCodespace;
         setRecreate();
@@ -192,18 +175,49 @@ public class OwsServiceProviderFactory extends LocalizedLazyThreadSafeProducer<O
 
     @Override
     protected OwsServiceProvider create(Locale language) throws ConfigurationError {
-        OwsOnlineResource providerSite = new OwsOnlineResource(onlineResoureHref, onlineResoureTitle);
-        OwsAddress address = new OwsAddress(deliveryPoint, city, administrativeArea, postalCode, country, electronicMailAddress);
-        OwsContact contactInfo =new OwsContact(new OwsPhone(phone, facsimile), address, new OwsOnlineResource(site), hoursOfService, contactInstructions);
         // TODO organisation name is missing
-        OwsResponsibleParty serviceContact = new OwsResponsibleParty(individualName, null, positionName, contactInfo, new OwsCode(role, roleCodespace));
-        OwsServiceProvider serviceProvider = new OwsServiceProvider(name, providerSite, serviceContact);
-        return serviceProvider;
+        String organisationName = null;
+        OwsOnlineResource onlineResource = null;
+        if (site != null) {
+            onlineResource = new OwsOnlineResource(site);
+        }
+        OwsCode roleCode = null;
+        if (role != null) {
+            roleCode = new OwsCode(role, roleCodespace);
+        }
+        OwsOnlineResource providerSite = null;
+        if (onlineResoureHref != null) {
+            providerSite = new OwsOnlineResource(onlineResoureHref, onlineResoureTitle);
+        }
+
+        OwsAddress address = null;
+        if (anyNonNull(deliveryPoint, city, administrativeArea, postalCode, country, electronicMailAddress)) {
+            address = new OwsAddress(deliveryPoint, city, administrativeArea,
+                                     postalCode, country, electronicMailAddress);
+        }
+
+        OwsPhone owsPhone = null;
+        if (anyNonNull(phone, facsimile)) {
+            owsPhone = new OwsPhone(phone, facsimile);
+        }
+
+        OwsContact contactInfo = null;
+        if (anyNonNull(owsPhone, address, onlineResource, hoursOfService, contactInstructions)) {
+            contactInfo = new OwsContact(owsPhone, address, onlineResource, hoursOfService, contactInstructions);
+        }
+
+        OwsResponsibleParty serviceContact = new OwsResponsibleParty(individualName, organisationName,
+                                                                     positionName, contactInfo, roleCode);
+        return new OwsServiceProvider(name, providerSite, serviceContact);
 
     }
 
     @Override
     public Set<Locale> getAvailableLocales() {
         return Collections.emptySet();
+    }
+
+    private static boolean anyNonNull(Object... values) {
+        return Arrays.stream(values).anyMatch(Objects::nonNull);
     }
 }
