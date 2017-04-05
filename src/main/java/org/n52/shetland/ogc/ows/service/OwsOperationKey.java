@@ -18,8 +18,6 @@ package org.n52.shetland.ogc.ows.service;
 
 import java.util.Comparator;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
