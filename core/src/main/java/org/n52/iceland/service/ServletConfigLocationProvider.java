@@ -16,14 +16,12 @@
  */
 package org.n52.iceland.service;
 
-import org.n52.janmayen.ConfigLocationProvider;
-
 import java.io.File;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-
+import org.n52.janmayen.ConfigLocationProvider;
 
 public class ServletConfigLocationProvider implements ConfigLocationProvider {
     private static final String RELATIVE_PATH = "/";
