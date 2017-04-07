@@ -83,6 +83,7 @@ import net.opengis.gml.x32.VerticalDatumPropertyType;
 
 import com.vividsolutions.jts.io.ParseException;
 import net.opengis.gml.x32.FeatureCollectionDocument;
+import net.opengis.gml.x32.FeatureCollectionType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 
@@ -100,7 +101,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                     TimePeriodDocument.class, ReferenceType.class, MeasureType.class, PointType.class, PointDocument.class,
                     LineStringType.class, PolygonType.class, CompositeSurfaceType.class, CodeWithAuthorityType.class,
                     CodeType.class, FeaturePropertyType.class, GeometryPropertyType.class, VerticalDatumPropertyType.class,
-                    FeatureCollectionDocument.class
+                    FeatureCollectionDocument.class, FeatureCollectionType.class
             ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
 
     private static final String CS = ",";
@@ -158,7 +159,9 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         } else if (xmlObject instanceof VerticalDatumPropertyType) {
             return parseVerticalDatumPropertyType((VerticalDatumPropertyType) xmlObject);
         } else if (xmlObject instanceof FeatureCollectionDocument) {
-            return parseFeatureCollection((FeatureCollectionDocument) xmlObject);
+            return parseFeatureCollectionDocument((FeatureCollectionDocument) xmlObject);
+        } else if (xmlObject instanceof FeatureCollectionType) {
+            return parseFeatureCollectionType((FeatureCollectionType) xmlObject);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
@@ -208,9 +211,13 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         return feature;
     }
 
-    private FeatureCollection parseFeatureCollection(FeatureCollectionDocument featureCollectionDocument) throws DecodingException {
+    private FeatureCollection parseFeatureCollectionDocument(FeatureCollectionDocument featureCollectionDocument) throws DecodingException {
+        return parseFeatureCollectionType(featureCollectionDocument.getFeatureCollection());
+    }
+    
+    private FeatureCollection parseFeatureCollectionType(FeatureCollectionType featureCollectionType) throws DecodingException {
         final FeatureCollection feaColl = new FeatureCollection();
-        for (FeaturePropertyType feaPropType : featureCollectionDocument.getFeatureCollection().getFeatureMemberArray()) {
+        for (FeaturePropertyType feaPropType : featureCollectionType.getFeatureMemberArray()) {
             Object decoded = decodeXmlElement(feaPropType);
             feaColl.addMember((AbstractFeature) decoded);
         }

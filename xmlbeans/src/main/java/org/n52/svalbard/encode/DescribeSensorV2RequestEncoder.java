@@ -16,7 +16,7 @@
  */
 package org.n52.svalbard.encode;
 
-import com.google.common.collect.Sets;
+import java.util.Collections;
 import java.util.Set;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
@@ -38,7 +38,7 @@ public class DescribeSensorV2RequestEncoder extends AbstractSwesRequestEncoder<D
 
     @Override
     protected Set<SchemaLocation> getConcreteSchemaLocations() {
-        return Sets.newHashSet();
+        return Collections.emptySet();
     }
 
     @Override
