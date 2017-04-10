@@ -27,11 +27,12 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.response.TestResponse;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.OperationResponseEncoderKey;
@@ -68,7 +69,7 @@ public class SimpleBindingTest {
     @SuppressWarnings({"rawtypes", "unchecked"})
     private EncoderRepository mockEncoderRepository() {
         EncoderRepository encoderRepository = mock(EncoderRepository.class);
-        OperationKey operationKey = new OperationKey(response);
+        OwsOperationKey operationKey = new OwsOperationKey(response);
         OperationResponseEncoderKey operationEncoderKey =
                 new OperationResponseEncoderKey(operationKey, MediaTypes.APPLICATION_JSON);
         Encoder encoder = Mockito.mock(Encoder.class);

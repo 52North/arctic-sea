@@ -39,12 +39,13 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.Request;
 import org.n52.shetland.util.StringHelper;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,7 +126,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             Element element = document.getDocumentElement();
             element.normalize();// TODO is this REALLY needed!?
             if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
-                OperationKey operationKey = getOperationKey(element);
+                OwsOperationKey operationKey = getOperationKey(element);
                 XmlStringOperationDecoderKey decoderKey = new XmlStringOperationDecoderKey(operationKey, getDefaultContentType());
                 return decoderKey;
             } else {
@@ -165,7 +166,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         }
     }
 
-    protected OperationKey getOperationKey(Element element) {
+    protected OwsOperationKey getOperationKey(Element element) {
         String service = null;
         String version = null;
         String operation = null;
@@ -177,7 +178,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
                 operation = nodeName.substring(nodeName.indexOf(':') + 1);
             }
         }
-        return new OperationKey(service, version, operation);
+        return new OwsOperationKey(service, version, operation);
     }
 
     protected String xmlToString(HttpServletRequest request, String characterEncoding) throws OwsExceptionReport {

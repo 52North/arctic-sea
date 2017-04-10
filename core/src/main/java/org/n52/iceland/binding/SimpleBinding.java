@@ -52,7 +52,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.DecoderRepository;
@@ -182,19 +182,19 @@ public abstract class SimpleBinding extends Binding {
         return this.encoderRepository.hasEncoder(key);
     }
 
-    protected boolean hasDecoder(OperationKey key,
+    protected boolean hasDecoder(OwsOperationKey key,
             MediaType mediaType) {
         return hasDecoder(new OperationDecoderKey(key, mediaType));
     }
 
-    protected boolean hasEncoder(OperationKey key,
+    protected boolean hasEncoder(OwsOperationKey key,
             MediaType mediaType) {
         return hasEncoder(new OperationResponseEncoderKey(key, mediaType));
     }
 
     protected boolean hasEncoder(OwsServiceResponse response,
             MediaType mediaType) {
-        return hasEncoder(new OperationKey(response), mediaType);
+        return hasEncoder(new OwsOperationKey(response), mediaType);
     }
 
     protected MediaType chooseResponseContentType(OwsServiceResponse response,
@@ -318,7 +318,7 @@ public abstract class SimpleBinding extends Binding {
             MediaType contentType) throws OwsExceptionReport {
 
         try {
-            OperationResponseEncoderKey key = new OperationResponseEncoderKey(new OperationKey(response), contentType);
+            OperationResponseEncoderKey key = new OperationResponseEncoderKey(new OwsOperationKey(response), contentType);
             Encoder<Object, OwsServiceResponse> encoder = getEncoder(key);
             if (encoder == null) {
                 throw new NoEncoderForKeyException(key);

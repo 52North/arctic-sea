@@ -28,7 +28,7 @@ import org.n52.janmayen.component.Component;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.janmayen.http.MediaType;
 import org.n52.svalbard.ConformanceClass;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 /**
  * Abstract Super class for binding implementations<br />
@@ -167,7 +167,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException
      */
-    public boolean checkOperationHttpDeleteSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpDeleteSupported(OwsOperationKey decoderKey) throws HTTPException {
         return false;
     }
 
@@ -184,7 +184,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException
      */
-    public boolean checkOperationHttpGetSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpGetSupported(OwsOperationKey decoderKey) throws HTTPException {
         return false;
     }
 
@@ -201,7 +201,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException
      */
-    public boolean checkOperationHttpPostSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey decoderKey) throws HTTPException {
         return false;
     }
 
@@ -218,7 +218,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException
      */
-    public boolean checkOperationHttpOptionsSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpOptionsSupported(OwsOperationKey decoderKey) throws HTTPException {
         return false;
     }
 
@@ -235,7 +235,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException
      */
-    public boolean checkOperationHttpPutSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpPutSupported(OwsOperationKey decoderKey) throws HTTPException {
         return false;
     }
 

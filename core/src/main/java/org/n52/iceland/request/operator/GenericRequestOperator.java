@@ -41,7 +41,7 @@ import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.svalbard.OperationKey;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 import com.google.common.base.MoreObjects;
 
@@ -60,14 +60,14 @@ public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsSe
 
     public GenericRequestOperator(String service, String version, String operation, Class<Q> requestType,
                                   ParameterValidator<Q> validator) {
-        this(new OperationKey(service, version, operation), true, requestType, validator);
+        this(new OwsOperationKey(service, version, operation), true, requestType, validator);
     }
 
-    public GenericRequestOperator(OperationKey operation, Class<Q> requestType, ParameterValidator<Q> validator) {
+    public GenericRequestOperator(OwsOperationKey operation, Class<Q> requestType, ParameterValidator<Q> validator) {
         this(operation, true, requestType, validator);
     }
 
-    public GenericRequestOperator(OperationKey operation, boolean defaultActive, Class<Q> requestType,
+    public GenericRequestOperator(OwsOperationKey operation, boolean defaultActive, Class<Q> requestType,
                                   ParameterValidator<Q> validator) {
         this.requestOperatorKey = new RequestOperatorKey(operation.getService(), operation.getVersion(), operation
                                                          .getOperation(), defaultActive);
