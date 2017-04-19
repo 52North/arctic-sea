@@ -350,7 +350,6 @@ public class OmObservation extends AbstractFeature {
     public void mergeWithObservation(final OmObservation sosObservation) {
         mergeValues(sosObservation.getValue());
         mergeResultTimes(sosObservation);
-        setObservationTypeToSweArrayObservation();
     }
 
     /**
@@ -360,17 +359,8 @@ public class OmObservation extends AbstractFeature {
      */
     public void mergeWithObservation(ObservationValue<?> observationValue) {
         mergeValues(observationValue);
-        // mergeResultTimes(sosObservation);
-        setObservationTypeToSweArrayObservation();
     }
 
-    /**
-     * Set the observation type to
-     * {@link OmConstants#OBS_TYPE_SWE_ARRAY_OBSERVATION}
-     */
-    private void setObservationTypeToSweArrayObservation() {
-        observationConstellation.setObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION);
-    }
 
     /**
      * Merge result time with passed observation result time.
