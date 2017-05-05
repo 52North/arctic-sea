@@ -33,6 +33,8 @@ import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.EnvelopeDocument;
 import net.opengis.gml.x32.EnvelopeType;
+import net.opengis.gml.x32.FeatureCollectionDocument;
+import net.opengis.gml.x32.FeatureCollectionType;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gml.x32.GeometryPropertyType;
 import net.opengis.gml.x32.LineStringType;
@@ -55,6 +57,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.GmlConstants;
@@ -62,6 +65,7 @@ import org.n52.shetland.ogc.gml.GmlMeasureType;
 import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.util.CRSHelper;
@@ -108,8 +112,10 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                                     CodeType.class,
                                     FeaturePropertyType.class,
                                     GeometryPropertyType.class,
-                                    VerticalDatumPropertyType.class
-            ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
+                                    VerticalDatumPropertyType.class,
+                                    FeatureCollectionDocument.class,
+                                    FeatureCollectionType.class
+    ), CodingHelper.decoderKeysForElements (MeasureType.type.toString(), MeasureType.class));
 
     private static final String CS = ",";
 
@@ -165,6 +171,10 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             return parseGeometryPropertyType((GeometryPropertyType) xmlObject);
         } else if (xmlObject instanceof VerticalDatumPropertyType) {
             return parseVerticalDatumPropertyType((VerticalDatumPropertyType) xmlObject);
+        } else if (xmlObject instanceof FeatureCollectionDocument) {
+            return parseFeatureCollectionDocument((FeatureCollectionDocument) xmlObject);
+        } else if (xmlObject instanceof FeatureCollectionType) {
+            return parseFeatureCollectionType((FeatureCollectionType) xmlObject);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
@@ -212,6 +222,19 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                     "The requested featurePropertyType type is not supported by this service!");
         }
         return feature;
+    }
+
+    private FeatureCollection parseFeatureCollectionDocument(FeatureCollectionDocument featureCollectionDocument) throws DecodingException {
+        return parseFeatureCollectionType(featureCollectionDocument.getFeatureCollection());
+    }
+
+    private FeatureCollection parseFeatureCollectionType(FeatureCollectionType featureCollectionType) throws DecodingException {
+        final FeatureCollection feaColl = new FeatureCollection();
+        for (FeaturePropertyType feaPropType : featureCollectionType.getFeatureMemberArray()) {
+            Object decoded = decodeXmlElement(feaPropType);
+            feaColl.addMember((AbstractFeature) decoded);
+        }
+        return feaColl;
     }
 
     /**
@@ -345,10 +368,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                     + "'gml:pos' and 'gml:coordinates' are allowed " + "in the feature of interest parameter!");
         }
 
-        checkSrid(srid);
-        if (srid == -1) {
-            throw new DecodingException("No SrsName ist specified for geometry!");
-        }
+        srid = setDefaultForUnsetSrid(srid);
 
         try {
             return JTSHelper.createGeometryFromWKT(geomWKT, srid);
@@ -374,7 +394,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         }
         String geomWKT = "LINESTRING" + positions.toString() + "";
 
-        checkSrid(srid);
+        srid = setDefaultForUnsetSrid(srid);
 
         try {
             return JTSHelper.createGeometryFromWKT(geomWKT, srid);
@@ -422,7 +442,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         geomWKT.append(interiorCoordString);
         geomWKT.append(")");
 
-        checkSrid(srid);
+        srid = setDefaultForUnsetSrid(srid);
         try {
             return JTSHelper.createGeometryFromWKT(geomWKT.toString(), srid);
         } catch (ParseException ex) {
@@ -452,7 +472,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         if (polygons.isEmpty()) {
             throw new DecodingException("The FeatureType: %s does not contain any member!", xbCompositeSurface);
         }
-        checkSrid(srid);
+        srid = setDefaultForUnsetSrid(srid);
         GeometryFactory factory = new GeometryFactory();
         Geometry geom = factory.createMultiPolygon(polygons.toArray(new Polygon[polygons.size()]));
         geom.setSRID(srid);
@@ -595,9 +615,11 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         return coordinateString;
     }
 
-    private void checkSrid(int srid) throws DecodingException {
+    private int setDefaultForUnsetSrid(int srid) throws DecodingException {
         if (srid == 0 || srid == -1) {
-            throw new DecodingException("No SrsName is specified for geometry!");
+            srid = 4326;
+            LOGGER.warn("No SrsName is specified for geometry, instead the default 4326 is taken!");
         }
+        return srid;
     }
 }
