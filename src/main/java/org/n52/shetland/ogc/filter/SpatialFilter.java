@@ -17,6 +17,8 @@
 package org.n52.shetland.ogc.filter;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
+import org.n52.shetland.util.EnvelopeOrGeometry;
+import org.n52.shetland.util.ReferencedEnvelope;
 
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -30,26 +32,36 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     private SpatialOperator operator;
 
-    private Geometry geometry;
+    private EnvelopeOrGeometry geometry;
 
     public SpatialFilter() {
-        this(null, null, null);
+        this(null, (Geometry) null, null);
     }
 
     /**
      * constructor
      *
-     * @param operator
-     *            Spatial operator
-     * @param geometry
-     *            Filter geometry
-     * @param valueReference
-     *            Filter valueReference
+     * @param operator       Spatial operator
+     * @param geometry       Filter geometry
+     * @param valueReference Filter valueReference
      */
     public SpatialFilter(SpatialOperator operator, Geometry geometry, String valueReference) {
         super(valueReference);
         this.operator = operator;
-        this.geometry = geometry;
+        this.geometry = new EnvelopeOrGeometry(geometry);
+    }
+
+    /**
+     * constructor
+     *
+     * @param operator       Spatial operator
+     * @param geometry       Filter geometry
+     * @param valueReference Filter valueReference
+     */
+    public SpatialFilter(SpatialOperator operator, ReferencedEnvelope geometry, String valueReference) {
+        super(valueReference);
+        this.operator = operator;
+        this.geometry = new EnvelopeOrGeometry(geometry);
     }
 
     @Override
@@ -77,20 +89,32 @@ public class SpatialFilter extends Filter<SpatialOperator> {
      *
      * @return filter geometry
      */
-    public Geometry getGeometry() {
+    public EnvelopeOrGeometry getGeometry() {
         return geometry;
     }
 
     /**
      * Set filter geometry
      *
-     * @param geometry
-     *            filter geometry
+     * @param geometry filter geometry
+     *
      * @return This filter
      */
     public SpatialFilter setGeometry(Geometry geometry) {
-        this.geometry = geometry;
-       return this;
+        this.geometry = new EnvelopeOrGeometry(geometry);
+        return this;
+    }
+
+    /**
+     * Set filter geometry
+     *
+     * @param geometry filter geometry
+     *
+     * @return This filter
+     */
+    public SpatialFilter setGeometry(ReferencedEnvelope geometry) {
+        this.geometry = new EnvelopeOrGeometry(geometry);
+        return this;
     }
 
     @Override

@@ -19,7 +19,10 @@ package org.n52.shetland.util;
 import java.io.Serializable;
 
 import com.google.common.base.Joiner;
+import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Class for internal Envelope representation TODO should this class offer
@@ -44,6 +47,11 @@ public class ReferencedEnvelope implements Serializable {
     public ReferencedEnvelope() {
     }
 
+
+    public ReferencedEnvelope(Geometry geometry) {
+        this(geometry.getEnvelopeInternal(), geometry.getSRID());
+    }
+
     /**
      * constructor
      *
@@ -53,8 +61,8 @@ public class ReferencedEnvelope implements Serializable {
      *            SRID
      */
     public ReferencedEnvelope(Envelope envelope, int srid) {
-        setEnvelope(envelope);
-        setSrid(srid);
+        this.envelope = envelope;
+        this.srid = srid;
     }
 
     /**
@@ -107,15 +115,14 @@ public class ReferencedEnvelope implements Serializable {
      * Creates the minimum and maximum values of this envelope in the default
      * EPSG.
      *
-     * @param envelope
-     *            the envelope
      * @return the {@code MinMax} describing the envelope
      */
     public MinMax<String> getMinMaxFromEnvelope() {
         if (isSetEnvelope()) {
+            Joiner joiner = Joiner.on(' ');
             return new MinMax<String>()
-                    .setMaximum(Joiner.on(' ').join(envelope.getMaxX(), envelope.getMaxY()))
-                    .setMinimum(Joiner.on(' ').join(envelope.getMinX(), envelope.getMinY()));
+                    .setMaximum(joiner.join(envelope.getMaxX(), envelope.getMaxY()))
+                    .setMinimum(joiner.join(envelope.getMinX(), envelope.getMinY()));
         }
         return new MinMax<String>();
     }
@@ -187,6 +194,34 @@ public class ReferencedEnvelope implements Serializable {
         return String.format("SosEnvelope[envelope=%s, srid=%s]", getEnvelope(), getSrid());
     }
 
+    public double getMinX() {
+        return envelope.getMinX();
+    }
+
+    public double getMaxX() {
+        return envelope.getMaxX();
+    }
+
+    public double getMinY() {
+        return envelope.getMinY();
+    }
+
+    public double getMaxY() {
+        return envelope.getMaxY();
+    }
+
+    public Coordinate[] getCoordinates() {
+        return toGeometry().getCoordinates();
+    }
+
+    public Coordinate getCoordinate() {
+        return toGeometry().getCoordinate();
+    }
+
+    public Geometry toGeometry() {
+        GeometryFactory factory = JTSHelper.getGeometryFactoryForSRID(srid);
+        return factory.toGeometry(this.envelope);
+    }
     /**
      * Static method to check if an SosEnvelope is not null and is not empty
      *
