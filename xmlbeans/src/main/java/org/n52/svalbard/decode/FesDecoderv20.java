@@ -20,10 +20,32 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
+import net.opengis.fes.x20.BBOXType;
+import net.opengis.fes.x20.BinaryComparisonOpType;
+import net.opengis.fes.x20.BinaryLogicOpType;
+import net.opengis.fes.x20.BinaryTemporalOpType;
+import net.opengis.fes.x20.ComparisonOpsType;
+import net.opengis.fes.x20.FilterDocument;
+import net.opengis.fes.x20.FilterType;
+import net.opengis.fes.x20.LiteralType;
+import net.opengis.fes.x20.LogicOpsType;
+import net.opengis.fes.x20.PropertyIsBetweenType;
+import net.opengis.fes.x20.PropertyIsLikeType;
+import net.opengis.fes.x20.PropertyIsNilType;
+import net.opengis.fes.x20.PropertyIsNullType;
+import net.opengis.fes.x20.SpatialOpsType;
+import net.opengis.fes.x20.TemporalOpsDocument;
+import net.opengis.fes.x20.TemporalOpsType;
+import net.opengis.fes.x20.UnaryLogicOpType;
+import net.opengis.fes.x20.ValueReferenceDocument;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlObject.Factory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
 
 import org.n52.shetland.ogc.filter.BinaryLogicFilter;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
@@ -44,39 +66,11 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.util.XmlHelper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.NodeList;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.operation.overlay.PolygonBuilder;
-
-import net.opengis.fes.x20.BBOXType;
-import net.opengis.fes.x20.BinaryComparisonOpType;
-import net.opengis.fes.x20.BinaryLogicOpType;
-import net.opengis.fes.x20.BinaryTemporalOpType;
-import net.opengis.fes.x20.ComparisonOpsType;
-import net.opengis.fes.x20.FilterDocument;
-import net.opengis.fes.x20.FilterType;
-import net.opengis.fes.x20.LiteralType;
-import net.opengis.fes.x20.LogicOpsType;
-import net.opengis.fes.x20.PropertyIsBetweenType;
-import net.opengis.fes.x20.PropertyIsLikeType;
-import net.opengis.fes.x20.PropertyIsNilType;
-import net.opengis.fes.x20.PropertyIsNullType;
-import net.opengis.fes.x20.SpatialOpsType;
-import net.opengis.fes.x20.TemporalOpsDocument;
-import net.opengis.fes.x20.TemporalOpsType;
-import net.opengis.fes.x20.UnaryLogicOpType;
-import net.opengis.fes.x20.ValueReferenceDocument;
 
 /**
  * @since 4.0.0
@@ -87,8 +81,13 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(FesDecoderv20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(FilterConstants.NS_FES_2,
-            SpatialOpsType.class, TemporalOpsType.class, ComparisonOpsType.class, LogicOpsType.class, FilterType.class,
-            FilterDocument.class, TemporalOpsDocument.class);
+                                                                                            SpatialOpsType.class,
+                                                                                            TemporalOpsType.class,
+                                                                                            ComparisonOpsType.class,
+                                                                                            LogicOpsType.class,
+                                                                                            FilterType.class,
+                                                                                            FilterDocument.class,
+                                                                                            TemporalOpsDocument.class);
 
     public FesDecoderv20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -176,16 +175,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                     if (sosGeometry instanceof Geometry) {
                         spatialFilter.setGeometry((Geometry) sosGeometry);
                     } else if (sosGeometry instanceof ReferencedEnvelope) {
-                        ReferencedEnvelope referencedEnvelope = (ReferencedEnvelope)sosGeometry;
-                        if (referencedEnvelope.isSetEnvelope()) {
-                            GeometryFactory geomFactory = null;
-                            if (referencedEnvelope.isSetSrid()) {
-                                geomFactory = JTSHelper.getGeometryFactoryForSRID(referencedEnvelope.getSrid());
-                            } else {
-                                geomFactory = new GeometryFactory();
-                            }
-                            spatialFilter.setGeometry(geomFactory.toGeometry(referencedEnvelope.getEnvelope()));
-                        }
+                        spatialFilter.setGeometry((ReferencedEnvelope)sosGeometry);
                     } else {
                         throw new UnsupportedDecoderXmlInputException(this, xbSpatialOpsType);
                     }

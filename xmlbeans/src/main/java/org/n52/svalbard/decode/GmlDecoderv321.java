@@ -21,37 +21,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-
-import org.n52.shetland.ogc.gml.AbstractGeometry;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.GmlMeasureType;
-import org.n52.shetland.ogc.gml.time.IndeterminateValue;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.util.CRSHelper;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.DateTimeParseException;
-import org.n52.shetland.util.ReferencedEnvelope;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.shetland.util.JTSHelper;
-import org.n52.svalbard.util.XmlHelper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.base.Joiner;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Polygon;
-
 import net.opengis.gml.x32.AbstractGeometryType;
 import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
@@ -81,6 +50,35 @@ import net.opengis.gml.x32.TimePeriodType;
 import net.opengis.gml.x32.TimePositionType;
 import net.opengis.gml.x32.VerticalDatumPropertyType;
 
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.shetland.ogc.gml.AbstractGeometry;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.GmlMeasureType;
+import org.n52.shetland.ogc.gml.time.IndeterminateValue;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.util.CRSHelper;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.DateTimeParseException;
+import org.n52.shetland.util.JTSHelper;
+import org.n52.shetland.util.ReferencedEnvelope;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
+
+import com.google.common.base.Joiner;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.GeometryFactory;
+import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 
 /**
@@ -91,13 +89,26 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlDecoderv321.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS =
-            CollectionHelper.union(CodingHelper.decoderKeysForElements(GmlConstants.NS_GML_32, EnvelopeDocument.class,
-                    EnvelopeType.class, TimeInstantType.class, TimePeriodType.class, TimeInstantDocument.class,
-                    TimePeriodDocument.class, ReferenceType.class, MeasureType.class, PointType.class, PointDocument.class,
-                    LineStringType.class, PolygonType.class, CompositeSurfaceType.class, CodeWithAuthorityType.class,
-                    CodeType.class, FeaturePropertyType.class, GeometryPropertyType.class, VerticalDatumPropertyType.class
-
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper
+            .decoderKeysForElements(GmlConstants.NS_GML_32,
+                                    EnvelopeDocument.class,
+                                    EnvelopeType.class,
+                                    TimeInstantType.class,
+                                    TimePeriodType.class,
+                                    TimeInstantDocument.class,
+                                    TimePeriodDocument.class,
+                                    ReferenceType.class,
+                                    MeasureType.class,
+                                    PointType.class,
+                                    PointDocument.class,
+                                    LineStringType.class,
+                                    PolygonType.class,
+                                    CompositeSurfaceType.class,
+                                    CodeWithAuthorityType.class,
+                                    CodeType.class,
+                                    FeaturePropertyType.class,
+                                    GeometryPropertyType.class,
+                                    VerticalDatumPropertyType.class
             ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
 
     private static final String CS = ",";

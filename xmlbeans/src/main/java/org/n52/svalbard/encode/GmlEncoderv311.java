@@ -71,6 +71,8 @@ import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.util.CRSHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.EnvelopeOrGeometry;
+import org.n52.shetland.util.JTSHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.util.MinMax;
 import org.n52.shetland.util.ReferencedEnvelope;
@@ -81,7 +83,6 @@ import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.base.Joiner;
@@ -106,10 +107,16 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     private String srsNamePrefix;
 
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(GmlConstants.NS_GML,
-            org.n52.shetland.ogc.gml.time.Time.class, com.vividsolutions.jts.geom.Geometry.class,
-            org.n52.shetland.ogc.om.values.CategoryValue.class, org.n52.shetland.ogc.gml.ReferenceType.class,
-            org.n52.shetland.ogc.om.values.QuantityValue.class, org.n52.shetland.ogc.gml.CodeWithAuthority.class,
-            org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class, ReferencedEnvelope.class);
+            org.n52.shetland.ogc.gml.time.Time.class,
+            com.vividsolutions.jts.geom.Geometry.class,
+            org.n52.shetland.ogc.om.values.CategoryValue.class,
+            org.n52.shetland.ogc.gml.ReferenceType.class,
+            org.n52.shetland.ogc.om.values.QuantityValue.class,
+            org.n52.shetland.ogc.gml.CodeWithAuthority.class,
+            org.n52.shetland.ogc.gml.CodeType.class,
+            AbstractFeature.class,
+            org.n52.shetland.util.ReferencedEnvelope.class,
+            org.n52.shetland.util.EnvelopeOrGeometry.class);
 
     public GmlEncoderv311() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -157,6 +164,15 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
             encodedObject = createFeature((AbstractFeature) element);
         } else if (element instanceof ReferencedEnvelope) {
             encodedObject = createEnvelope((ReferencedEnvelope) element);
+        } else if (element instanceof EnvelopeOrGeometry) {
+            EnvelopeOrGeometry geom = (EnvelopeOrGeometry) element;
+            if (geom.getGeometry().isPresent()) {
+                encodedObject = createPosition(geom.getGeometry().get(), additionalValues.get(SosHelperValues.GMLID));
+            } else if (geom.getEnvelope().isPresent()) {
+                encodedObject = createEnvelope(geom.getEnvelope().get());
+            } else {
+                throw new UnsupportedEncoderInputException(this, element);
+            }
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }

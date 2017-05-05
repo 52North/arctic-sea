@@ -76,7 +76,9 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     private static final Logger LOGGER = LoggerFactory.getLogger(FesEncoderv20.class);
 
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(FilterConstants.NS_FES_2,
-            TemporalFilter.class, org.n52.shetland.ogc.filter.FilterCapabilities.class, SpatialFilter.class);
+            TemporalFilter.class,
+            org.n52.shetland.ogc.filter.FilterCapabilities.class,
+            SpatialFilter.class);
 
     public FesEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",

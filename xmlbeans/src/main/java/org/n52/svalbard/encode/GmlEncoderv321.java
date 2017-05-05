@@ -61,6 +61,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -78,8 +79,10 @@ import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.util.CRSHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.JTSHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.util.MinMax;
+import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.CodingSettings;
@@ -88,8 +91,6 @@ import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.shetland.util.JTSHelper;
-import org.n52.shetland.util.OMHelper;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.base.Joiner;
@@ -120,6 +121,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
                                     org.n52.shetland.ogc.gml.CodeType.class,
                                     org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature.class,
                                     org.n52.shetland.util.ReferencedEnvelope.class,
+                                    org.n52.shetland.util.EnvelopeOrGeometry.class,
                                     org.n52.shetland.ogc.om.features.FeatureCollection.class,
                                     org.n52.shetland.ogc.gml.AbstractGeometry.class);
 
@@ -173,6 +175,14 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             encodedObject = createGeomteryPropertyType((AbstractGeometry) element, additionalValues);
         } else if (element instanceof ReferencedEnvelope) {
             encodedObject = createEnvelope((ReferencedEnvelope) element);
+        } else if (element instanceof EnvelopeOrGeometry) {
+            if (((EnvelopeOrGeometry) element).isEnvelope()) {
+                encodedObject = createEnvelope(((EnvelopeOrGeometry) element).getEnvelope().get());
+            } else if (((EnvelopeOrGeometry) element).isGeometry()) {
+                encodedObject = createPosition(((EnvelopeOrGeometry) element).getGeometry().get(), additionalValues);
+            } else {
+                throw new UnsupportedEncoderInputException(this, element);
+            }
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
