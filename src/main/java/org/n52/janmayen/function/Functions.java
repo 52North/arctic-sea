@@ -52,10 +52,12 @@ public final class Functions {
      * @param clazz The class of which the input has to be an instance of.
      *
      * @return The predicate.
+     *
+     * @deprecated use {@link Predicates#instanceOf(java.lang.Class)}
      */
+    @Deprecated
     public static <T, U extends T> Predicate<T> instanceOf(@Nonnull Class<? extends U> clazz) {
-        Objects.requireNonNull(clazz);
-        return x -> clazz.isAssignableFrom(x.getClass());
+        return Predicates.instanceOf(clazz);
     }
 
     /**
@@ -102,7 +104,7 @@ public final class Functions {
      * @return An {@link Optional} containing the input
      */
     public static <T, U extends T> Function<T, Optional<U>> castIfInstanceOf(@Nonnull Class<? extends U> clazz) {
-        Predicate<Object> filter = instanceOf(clazz);
+        Predicate<Object> filter = Predicates.instanceOf(clazz);
         Function<Object, U> mapper = cast(clazz);
         return t -> Optional.ofNullable(t).filter(filter).map(mapper);
     }
@@ -134,24 +136,67 @@ public final class Functions {
         return t -> u;
     }
 
+    /**
+     * Curries the parameter of the {@code Function} and creates a {@code Consumer}.
+     *
+     * @param <T>      the parameter type
+     * @param <R>      the return type
+     * @param function the function
+     * @param t        the curried parameter
+     *
+     * @return the curried function
+     */
     public static <T, R> Supplier<R> curry(@Nonnull Function<? super T, ? extends R> function, T t) {
         Objects.requireNonNull(function);
         return () -> function.apply(t);
     }
 
+    /**
+     * Curries the first parameter of the {@code BiFunction} and creates a {@code Function}.
+     *
+     * @param <T1>       the first parameter type
+     * @param <T2>       the second parameter type
+     * @param <R>        the return type
+     * @param bifunction the function
+     * @param t1         the curried parameter
+     *
+     * @return the curried function
+     */
     public static <T1, T2, R> Function<T2, R> curryFirst(@Nonnull BiFunction<T1, T2, R> bifunction, T1 t1) {
         Objects.requireNonNull(bifunction);
         return t2 -> bifunction.apply(t1, t2);
     }
 
+    /**
+     * Curries the second parameter of the {@code BiFunction} and creates a {@code Function}.
+     *
+     * @param <T1>       the first parameter type
+     * @param <T2>       the second parameter type
+     * @param <R>        the return type
+     * @param bifunction the function
+     * @param t2         the curried parameter
+     *
+     * @return the curried function
+     */
     public static <T1, T2, R> Function<T1, R> currySecond(@Nonnull BiFunction<T1, T2, R> bifunction, T2 t2) {
         Objects.requireNonNull(bifunction);
         return t1 -> bifunction.apply(t1, t2);
     }
 
+    /**
+     * Reverses the parameter order of the BiConsumer
+     *
+     * @param <A>      the first parameter type
+     * @param <B>      the second parameter type
+     * @param consumer the consumer
+     *
+     * @return the consumer with switched parameters
+     *
+     * @deprecated use {@link Consumers#reverse(java.util.function.BiConsumer)}
+     */
+    @Deprecated
     public static <A, B> BiConsumer<B, A> reverse(@Nonnull BiConsumer<A, B> consumer) {
-        Objects.requireNonNull(consumer);
-        return (a, b) -> consumer.accept(b, a);
+        return Consumers.reverse(consumer);
     }
 
     public static <T> BinaryOperator<T> mergeLeft(@Nonnull BiConsumer<T, T> merger) {
@@ -203,7 +248,7 @@ public final class Functions {
      *
      * @return A function that applies the consumer and returns it's input.
      */
-    public static <T> Function<T, T> mutate(Consumer<? super T> action) {
+    public static <T> Function<T, T> mutate(@Nonnull Consumer<? super T> action) {
         Objects.requireNonNull(action);
         return (T t) -> {
             action.accept(t);
@@ -222,7 +267,8 @@ public final class Functions {
      *
      * @return the wrapped function.
      */
-    public static <S, T, X extends Exception> Function<S, T> errorWrapper(ThrowingFunction<S, T, X> fun) {
+    public static <S, T, X extends Exception> Function<S, T> errorWrapper(@Nonnull ThrowingFunction<S, T, X> fun) {
+        Objects.requireNonNull(fun);
         return s -> {
             try {
                 return fun.apply(s);

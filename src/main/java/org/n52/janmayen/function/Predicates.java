@@ -16,7 +16,11 @@
  */
 package org.n52.janmayen.function;
 
+import java.util.Objects;
+import java.util.function.BiPredicate;
 import java.util.function.Predicate;
+
+import javax.annotation.Nonnull;
 
 /**
  * Utility functions for {@link Predicate}.
@@ -84,5 +88,49 @@ public final class Predicates {
      */
     public static <T> Predicate<T> constant(boolean value) {
         return t -> value;
+    }
+
+    /**
+     * Creates a {@link Predicate} that checks if it's input is an instance of {@code clazz}.
+     *
+     * @param <T>   The input type.
+     * @param <U>   The type of which the input has to be an instance of.
+     * @param clazz The class of which the input has to be an instance of.
+     *
+     * @return The predicate.
+     */
+    public static <T, U extends T> Predicate<T> instanceOf(@Nonnull Class<? extends U> clazz) {
+        Objects.requireNonNull(clazz);
+        return x -> clazz.isAssignableFrom(x.getClass());
+    }
+
+    /**
+     * Curries the first parameter of the {@code BiPredicate} and creates a {@code Predicate}.
+     *
+     * @param <T>       the first parameter type
+     * @param <U>       the second parameter type
+     * @param predicate the predicate
+     * @param t         the curried parameter
+     *
+     * @return the curried predicate
+     */
+    public static <T, U> Predicate<U> curryFirst(@Nonnull BiPredicate<T, U> predicate, T t) {
+        Objects.requireNonNull(predicate);
+        return (u) -> predicate.test(t, u);
+    }
+
+    /**
+     * Curries the second parameter of the {@code BiPredicate} and creates a {@code Predicate}.
+     *
+     * @param <T>       the first parameter type
+     * @param <U>       the second parameter type
+     * @param predicate the predicate
+     * @param u         the curried parameter
+     *
+     * @return the curried predicate
+     */
+    public static <T, U> Predicate<T> currySecond(@Nonnull BiPredicate<T, U> predicate, U u) {
+        Objects.requireNonNull(predicate);
+        return (t) -> predicate.test(t, u);
     }
 }
