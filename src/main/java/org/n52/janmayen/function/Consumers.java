@@ -27,7 +27,7 @@ import javax.annotation.Nonnull;
  *
  * @author Christian Autermann
  */
-public class Consumers {
+public final class Consumers {
 
     private Consumers() {
     }

@@ -174,14 +174,6 @@ public class NcName {
         return isValid(this.name);
     }
 
-    public void makeValid(char replacement) {
-        this.name = makeValid(name, replacement);
-    }
-
-    public void makeValid() {
-        this.name = makeValid(name);
-    }
-
     /**
      * Checks if {@code name} is a valid NCName.
      *
@@ -199,6 +191,14 @@ public class NcName {
             }
         }
         return true;
+    }
+
+    public void makeValid(char replacement) {
+        this.name = makeValid(name, replacement);
+    }
+
+    public void makeValid() {
+        this.name = makeValid(name);
     }
 
     /**
