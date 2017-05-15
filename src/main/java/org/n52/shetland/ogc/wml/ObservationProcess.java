@@ -226,7 +226,7 @@ public class ObservationProcess extends AbstractFeature {
     public boolean isSetParameters() {
         return parameters != null && !parameters.isEmpty();
     }
-    
+
     @Override
     public String getDefaultElementEncoding() {
         return WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING;

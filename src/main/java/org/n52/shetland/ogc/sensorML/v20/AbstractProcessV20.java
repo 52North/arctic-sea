@@ -111,7 +111,7 @@ public class AbstractProcessV20 extends AbstractProcess {
     public boolean isSetTypeOf() {
         return getTypeOf() != null;
     }
-    
+
     @Override
     public String getDefaultElementEncoding() {
         return SensorML20Constants.NS_SML_20;
