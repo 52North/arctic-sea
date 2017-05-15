@@ -335,9 +335,16 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
     private void addProcedure(OMProcessPropertyType procedure, AbstractFeature procedureDescription)
             throws EncodingException {
         if (!(procedureDescription instanceof SosProcedureDescriptionUnknownType)) {
+            XmlObject encodedProcedure = null;
+            if (procedureDescription instanceof SosProcedureDescription<?>) {
+                encodedProcedure =
+                        encodeObjectToXml(procedureDescription.getDefaultElementEncoding(), ((SosProcedureDescription)procedureDescription).getProcedureDescription());
+            } else {
+                encodedProcedure =
+                        encodeObjectToXml(procedureDescription.getDefaultElementEncoding(), procedureDescription);
+            }
             // encode procedure or add reference
-            XmlObject encodedProcedure =
-                    encodeObjectToXml(procedureDescription.getDefaultElementEncoding(), procedureDescription);
+
             if (encodedProcedure != null) {
                 procedure.set(encodedProcedure);
             } else {
