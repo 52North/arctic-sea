@@ -449,13 +449,13 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
      *             If an error occurs.
      */
     private XmlObject encodeFeatureOfInterest(AbstractFeature feature) throws EncodingException {
-        EncodingContext additionalValues = EncodingContext.empty();
+        String namespace = null;
         if (!Strings.isNullOrEmpty(getDefaultFeatureEncodingNamespace())) {
-            additionalValues.with(SosHelperValues.ENCODE_NAMESPACE, getDefaultFeatureEncodingNamespace());
+            namespace = getDefaultFeatureEncodingNamespace();
         } else {
-            additionalValues.with(SosHelperValues.ENCODE_NAMESPACE, feature.getDefaultElementEncoding());
+            namespace = feature.getDefaultElementEncoding();
         }
-        return encodeGML(feature, additionalValues);
+        return encodeGML(feature, EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, namespace));
     }
 
     /**

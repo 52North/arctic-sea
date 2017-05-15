@@ -37,7 +37,6 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.values.CountValue;
-import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.ows.exception.CodedException;
@@ -263,16 +262,16 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
                 if (countValue.getValue() != null) {
                     value = Integer.toString(countValue.getValue().intValue());
                 }
-            } else if (observationValue instanceof ProfileValue) {
-                ProfileValue profileValue = (ProfileValue)observationValue;
-                if (profileValue.isSetValue()) {
-                    if (profileValue.getValue().iterator().next().getSimpleValue() instanceof QuantityValue) {
-                        QuantityValue quantityValue = (QuantityValue)profileValue.getValue().iterator().next().getSimpleValue();
-                        if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
-                            value = Double.toString(quantityValue.getValue().doubleValue());
-                        }
-                    }
-                }
+//            } else if (observationValue instanceof ProfileValue) {
+//                ProfileValue profileValue = (ProfileValue)observationValue;
+//                if (profileValue.isSetValue()) {
+//                    if (profileValue.getValue().iterator().next().getSimpleValue() instanceof QuantityValue) {
+//                        QuantityValue quantityValue = (QuantityValue)profileValue.getValue().iterator().next().getSimpleValue();
+//                        if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
+//                            value = Double.toString(quantityValue.getValue().doubleValue());
+//                        }
+//                    }
+//                }
             }
             addValuesToMeasurementTVP(measurementTimeseries.addNewPoint().addNewMeasurementTVP(), time,
                     value);
