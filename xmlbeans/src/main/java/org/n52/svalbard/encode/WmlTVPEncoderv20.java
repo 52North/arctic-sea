@@ -27,7 +27,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
 import org.n52.shetland.ogc.om.MultiObservationValues;
 import org.n52.shetland.ogc.om.ObservationType;
@@ -290,16 +289,16 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
                     if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
                         value = Double.toString(quantityValue.getValue().doubleValue());
                     }
-                } else if (timeValuePair.getValue() instanceof ProfileValue) {
-                    ProfileValue profileValue = (ProfileValue)timeValuePair.getValue();
-                    if (profileValue.isSetValue()) {
-                        if (profileValue.getValue().iterator().next().getSimpleValue() instanceof QuantityValue) {
-                            QuantityValue quantityValue = (QuantityValue)profileValue.getValue().iterator().next().getSimpleValue();
-                            if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
-                                value = Double.toString(quantityValue.getValue().doubleValue());
-                            }
-                        }
-                    }
+//                } else if (timeValuePair.getValue() instanceof ProfileValue) {
+//                    ProfileValue profileValue = (ProfileValue)timeValuePair.getValue();
+//                    if (profileValue.isSetValue()) {
+//                        if (profileValue.getValue().iterator().next().getSimpleValue() instanceof QuantityValue) {
+//                            QuantityValue quantityValue = (QuantityValue)profileValue.getValue().iterator().next().getSimpleValue();
+//                            if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
+//                                value = Double.toString(quantityValue.getValue().doubleValue());
+//                            }
+//                        }
+//                    }
                 } else if (timeValuePair.getValue() instanceof CountValue) {
                     CountValue countValue = (CountValue) timeValuePair.getValue();
                     if (countValue.isSetValue()) {

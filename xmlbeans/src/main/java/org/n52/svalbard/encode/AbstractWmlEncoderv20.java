@@ -158,6 +158,11 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
         return WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING;
     }
 
+    @Override
+    public String getDefaultFeatureEncodingNamespace() {
+        return WaterMLConstants.NS_WML_20;
+    }
+
     /**
      * Encodes a SOS GetObservationResponse to a single WaterML 2.0 observation
      * or to a WaterML 1.0 ObservationCollection

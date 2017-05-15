@@ -159,8 +159,12 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     @Override
     public boolean supportsResultStreamingForMergedValues() {
-        // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public String getDefaultFeatureEncodingNamespace() {
+        return null;
     }
 
     @Override
