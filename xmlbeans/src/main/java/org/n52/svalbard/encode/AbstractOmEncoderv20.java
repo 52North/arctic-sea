@@ -256,7 +256,7 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         if (result != null) {
             xb.addNewResult().set(result);
         } else {
-            xb.addNewResult().setNil();
+            xb.addNewResult();
         }
     }
 
