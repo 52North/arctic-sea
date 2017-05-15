@@ -67,6 +67,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
+import org.n52.shetland.ogc.wml.WaterMLConstants;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClasses;
@@ -371,11 +372,14 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(QuantityValue value) throws EncodingException {
-            if (observationType.equals(OmConstants.OBS_TYPE_MEASUREMENT)) {
-                return encodeGML(value);
-            } else {
-                return null;
+            if (observationType.equals(OmConstants.OBS_TYPE_MEASUREMENT)
+                    || observationType.equals(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TVP)
+                    || observationType.equals(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)) {
+                if (value.isSetValue()) {
+                    return encodeGML(value);
+                }
             }
+            return null;
         }
 
         @Override
