@@ -41,11 +41,11 @@ public class ExecuteRequest extends OwsServiceRequest {
     private final List<OutputDefinition> outputs = new LinkedList<>();
 
     public ExecuteRequest() {
-        super(null, null, WPSConstants.Operations.Dismiss.name());
+        super(null, null, WPSConstants.Operations.Execute.name());
     }
 
     public ExecuteRequest(String service, String version) {
-        super(service, version, WPSConstants.Operations.Dismiss.name());
+        super(service, version, WPSConstants.Operations.Execute.name());
     }
 
     public ExecuteRequest(String service, String version, String operationName) {
