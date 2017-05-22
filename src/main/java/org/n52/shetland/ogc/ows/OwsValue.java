@@ -20,7 +20,6 @@ import java.util.Comparator;
 import java.util.Objects;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 
 /**
  * A single value, encoded as a string. This type can be used for one value, for
@@ -33,7 +32,7 @@ public class OwsValue implements OwsValueRestriction {
     private final String value;
 
     public OwsValue(String value) {
-        this.value = Objects.requireNonNull(Strings.emptyToNull(value));
+        this.value = Objects.requireNonNull(value);
     }
 
     public String getValue() {
