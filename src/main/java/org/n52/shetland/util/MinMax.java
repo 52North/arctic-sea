@@ -106,6 +106,7 @@ public class MinMax<T> {
      * Extend this {@code MinMax} to include {@code minmax}.
      *
      * @param minmax the {@code MinMax} to include
+     * @param c the comparator
      *
      * @return this
      */
