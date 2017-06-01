@@ -28,6 +28,7 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.AbstractPhenomenon;
 import org.n52.shetland.ogc.sensorML.AbstractSensorML;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 /**
@@ -283,5 +284,18 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     public SosProcedureDescription<T> setIsAggregation(boolean aggregation) {
         this.aggregation = aggregation;
         return this;
+    }
+
+    @Override
+    public String getDefaultElementEncoding() {
+        if (getProcedureDescription() != null && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding())) {
+            return getProcedureDescription().getDefaultElementEncoding();
+        }
+        return super.getDefaultElementEncoding();
+    }
+
+    @Override
+    public boolean isSetDefaultElementEncoding() {
+        return super.isSetDefaultElementEncoding() || (getProcedureDescription() != null && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding()));
     }
 }

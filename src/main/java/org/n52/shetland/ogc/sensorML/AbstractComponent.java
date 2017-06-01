@@ -52,4 +52,9 @@ public class AbstractComponent extends AbstractProcess {
     public boolean isSetLocation() {
         return location != null;
     }
+
+    @Override
+    public String getDefaultElementEncoding() {
+        return SensorMLConstants.NS_SML;
+    }
 }

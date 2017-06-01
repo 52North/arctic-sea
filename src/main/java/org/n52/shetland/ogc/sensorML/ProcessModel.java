@@ -36,4 +36,9 @@ public class ProcessModel extends AbstractProcess implements HasProcessMethod {
     public boolean isSetMethod() {
         return method != null;
     }
+
+    @Override
+    public String getDefaultElementEncoding() {
+        return SensorMLConstants.NS_SML;
+    }
 }

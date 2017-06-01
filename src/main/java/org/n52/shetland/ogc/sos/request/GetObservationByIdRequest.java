@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.sos.request;
 import java.util.List;
 
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.SosConstants;
 
 /**
  * SOS GetObservationById request
@@ -52,6 +51,10 @@ public class GetObservationByIdRequest extends AbstractObservationRequest {
      */
     public List<String> getObservationIdentifier() {
         return observationIdentifier;
+    }
+
+    public boolean isSetObservationIdentifier() {
+        return observationIdentifier != null && !observationIdentifier.isEmpty();
     }
 
     /**

@@ -62,4 +62,9 @@ public class System extends AbstractComponent implements HasComponents<System> {
         return true;
     }
 
+    @Override
+    public String getDefaultElementEncoding() {
+        return SensorMLConstants.NS_SML;
+    }
+
 }
