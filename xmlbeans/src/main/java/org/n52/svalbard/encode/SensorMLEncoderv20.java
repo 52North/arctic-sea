@@ -155,7 +155,7 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
             .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL))
             .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_CONTENT_TYPE.toString())).build();
 
-    private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
+    private static final Map<String, Map<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS,
                     ImmutableMap.<String, Set<String>> builder()
                             .put(Sos2Constants.SERVICEVERSION,
