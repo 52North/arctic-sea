@@ -39,6 +39,8 @@ import org.isotc211.x2005.gmd.DQElementPropertyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.Strings;
+
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -113,12 +115,12 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
      */
     protected abstract void addObservationType(OMObservationType xbObservation, String observationType);
 
-//    /**
-//     * Get the default encoding Namespace for FeatureOfInterest
-//     *
-//     * @return Encoding namespace
-//     */
-//    public abstract String getDefaultFeatureEncodingNamespace();
+    /**
+     * Get the default encoding Namespace for FeatureOfInterest
+     *
+     * @return Encoding namespace
+     */
+    public abstract String getDefaultFeatureEncodingNamespace();
 
     /**
      * Get the default encoding Namespace for Procedures
@@ -256,7 +258,7 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         if (result != null) {
             xb.addNewResult().set(result);
         } else {
-            xb.addNewResult().setNil();
+            xb.addNewResult();
         }
     }
 
@@ -447,9 +449,13 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
      *             If an error occurs.
      */
     private XmlObject encodeFeatureOfInterest(AbstractFeature feature) throws EncodingException {
-        EncodingContext additionalValues =
-                EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, feature.getDefaultElementEncoding());
-        return encodeGML(feature, additionalValues);
+        String namespace = null;
+        if (!Strings.isNullOrEmpty(getDefaultFeatureEncodingNamespace())) {
+            namespace = getDefaultFeatureEncodingNamespace();
+        } else {
+            namespace = feature.getDefaultElementEncoding();
+        }
+        return encodeGML(feature, EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, namespace));
     }
 
     /**

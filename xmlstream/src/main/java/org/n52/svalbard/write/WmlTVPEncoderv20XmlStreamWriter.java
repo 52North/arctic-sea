@@ -215,16 +215,18 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * @return {@link String} representation of {@link Value}
      */
     private String getValue(Value<?> value) {
-        if (value instanceof QuantityValue) {
-            QuantityValue quantityValue = (QuantityValue) value;
-            return Double.toString(quantityValue.getValue().doubleValue());
-        } else if (value instanceof CountValue) {
-            CountValue countValue = (CountValue) value;
-            return Integer.toString(countValue.getValue().intValue());
-        } else if (value instanceof TextValue) {
-            TextValue textValue = (TextValue) value;
-            String nonXmlEscapedText = textValue.getValue();
-            return StringEscapeUtils.escapeXml(nonXmlEscapedText);
+        if (value.isSetValue()) {
+            if (value instanceof QuantityValue) {
+                QuantityValue quantityValue = (QuantityValue) value;
+                return Double.toString(quantityValue.getValue().doubleValue());
+            } else if (value instanceof CountValue) {
+                CountValue countValue = (CountValue) value;
+                return Integer.toString(countValue.getValue().intValue());
+            } else if (value instanceof TextValue) {
+                TextValue textValue = (TextValue) value;
+                String nonXmlEscapedText = textValue.getValue();
+                return StringEscapeUtils.escapeXml(nonXmlEscapedText);
+            }
         }
         return null;
     }
