@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.faroe</groupId>
         <artifactId>faroe-parent</artifactId>
-        <version>1.2.0-SNAPSHOT</version>
+        <version>1.2.0</version>
     </parent>
     <artifactId>faroe-annotations</artifactId>
     <name>52°North Faroe Annotations</name>
