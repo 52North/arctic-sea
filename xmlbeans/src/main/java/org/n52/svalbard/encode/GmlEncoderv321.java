@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import net.opengis.gml.x32.AbstractGeometryType;
+import net.opengis.gml.x32.AbstractCurveType;
 import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
 import net.opengis.gml.x32.CodeType;
@@ -38,6 +38,8 @@ import net.opengis.gml.x32.LineStringDocument;
 import net.opengis.gml.x32.LineStringType;
 import net.opengis.gml.x32.LinearRingType;
 import net.opengis.gml.x32.MeasureType;
+import net.opengis.gml.x32.MultiCurveDocument;
+import net.opengis.gml.x32.MultiCurveType;
 import net.opengis.gml.x32.PointDocument;
 import net.opengis.gml.x32.PointType;
 import net.opengis.gml.x32.PolygonDocument;
@@ -61,7 +63,6 @@ import org.slf4j.LoggerFactory;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -79,6 +80,7 @@ import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.util.CRSHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.util.JTSHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.util.MinMax;
@@ -97,6 +99,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.geom.util.PolygonExtracter;
@@ -129,7 +132,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
 
     public GmlEncoderv321() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(ENCODER_KEY_TYPES));
+                     Joiner.on(", ").join(ENCODER_KEY_TYPES));
     }
 
     @Setting(CodingSettings.SRS_NAME_PREFIX_URL)
@@ -202,7 +205,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             return encodeObjectToXml(feature.getDefaultElementEncoding(), feature);
         } else if (additionalValues.has(SosHelperValues.ENCODE_NAMESPACE)) {
             return encodeObjectToXml(additionalValues.get(SosHelperValues.ENCODE_NAMESPACE), feature,
-                    additionalValues);
+                                     additionalValues);
         } else {
             throw new UnsupportedEncoderInputException(this, feature);
         }
@@ -210,8 +213,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private XmlObject createFeatureCollection(FeatureCollection element, EncodingContext additionalValues)
             throws EncodingException {
-        final FeatureCollectionDocument featureCollectionDoc =
-                FeatureCollectionDocument.Factory.newInstance(getXmlOptions());
+        final FeatureCollectionDocument featureCollectionDoc = FeatureCollectionDocument.Factory
+                .newInstance(getXmlOptions());
         final FeatureCollectionType featureCollection = featureCollectionDoc.addNewFeatureCollection();
         featureCollection.setId(element.getGmlId());
         boolean document = additionalValues.has(XmlBeansEncodingFlags.DOCUMENT);
@@ -244,8 +247,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
                 featurePropertyType.setHref("#" + samplingFeature.getGmlId());
                 return featurePropertyType;
             } else {
-                if (additionalValues.has(SosHelperValues.ENCODE)
-                        && !additionalValues.getBoolean(SosHelperValues.ENCODE) || !samplingFeature.isEncode()) {
+                if (additionalValues.has(SosHelperValues.ENCODE) &&
+                         !additionalValues.getBoolean(SosHelperValues.ENCODE) || !samplingFeature.isEncode()) {
                     featurePropertyType.setHref(feature.getIdentifierCodeWithAuthority().getValue());
                     if (feature instanceof SamplingFeature && samplingFeature.isSetName()) {
                         featurePropertyType.setTitle(samplingFeature.getFirstName().getValue());
@@ -363,12 +366,10 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     /**
      * Creates a XML TimePeriod from the SOS time object.
      *
-     * @param timePeriod
-     *            SOS time object
+     * @param timePeriod SOS time object
      * @param timePeriodType
      *
-     * @throws EncodingException
-     *             * if an error occurs.
+     * @throws EncodingException * if an error occurs.
      */
     private void createTimePeriodType(TimePeriod timePeriod, TimePeriodType timePeriodType) throws EncodingException {
         if (timePeriod.getGmlId() != null && !timePeriod.getGmlId().isEmpty()) {
@@ -401,13 +402,11 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     /**
      * Creates a XML TimeInstant from the SOS time object.
      *
-     * @param timeInstant
-     *            SOS time object
+     * @param timeInstant SOS time object
      * @param timeInstantType
      *
      *
-     * @throws EncodingException
-     *             if an error occurs.
+     * @throws EncodingException if an error occurs.
      */
     private void createTimeInstantType(final TimeInstant timeInstant, TimeInstantType timeInstantType)
             throws EncodingException {
@@ -430,7 +429,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     private TimePositionType createTimePositionType(final TimePosition timePosition) throws DateTimeFormatException {
         TimePositionType xbTimePosition = TimePositionType.Factory.newInstance();
         if (!timePosition.isSetTime()) {
-            String indeterminateValue = Optional.ofNullable(timePosition.getIndeterminateValue()).orElse(IndeterminateValue.UNKNOWN).getValue();
+            String indeterminateValue = Optional.ofNullable(timePosition.getIndeterminateValue())
+                    .orElse(IndeterminateValue.UNKNOWN).getValue();
             if (TimeIndeterminateValueType.Enum.forString(indeterminateValue) != null) {
                 xbTimePosition.setIndeterminatePosition(TimeIndeterminateValueType.Enum.forString(indeterminateValue));
             } else {
@@ -505,9 +505,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
                 return geometryPropertyType;
             }
             return xbPoint;
-        }
-
-        else if (geom instanceof LineString) {
+        } else if (geom instanceof LineString) {
             final LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
             xbLineString.setId("lineString_" + foiId);
             createLineStringFromJtsGeometry((LineString) geom, xbLineString);
@@ -519,13 +517,36 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
                 GeometryPropertyType geometryPropertyType = GeometryPropertyType.Factory.newInstance(getXmlOptions());
                 geometryPropertyType.setAbstractGeometry(xbLineString);
                 geometryPropertyType.getAbstractGeometry().substitute(GmlConstants.QN_LINESTRING_32,
-                        LineStringType.type);
+                                                                      LineStringType.type);
                 return geometryPropertyType;
             }
             return xbLineString;
-        }
-
-        else if (geom instanceof Polygon) {
+        } else if (geom instanceof MultiLineString) {
+            MultiCurveType xbMultiCurve = MultiCurveType.Factory.newInstance();
+            xbMultiCurve.setId("multiCurve_" + foiId);
+            xbMultiCurve.setSrsName(getSrsName(geom));
+            for (int i = 0; i < geom.getNumGeometries(); ++i) {
+                Geometry lineString = geom.getGeometryN(i);
+                AbstractCurveType xbCurve = xbMultiCurve.addNewCurveMember().addNewAbstractCurve();
+                LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
+                xbLineString.setId("multiCurve_" + foiId + "_lineString_" + i);
+                xbLineString.addNewPosList().setStringValue(JTSHelper.getCoordinatesString(lineString));
+                xbCurve.substitute(GmlConstants.QN_LINESTRING_32, LineStringType.type);
+            }
+            if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
+                MultiCurveDocument xbMultiCurveDoc = MultiCurveDocument.Factory.newInstance(getXmlOptions());
+                xbMultiCurveDoc.setMultiCurve(xbMultiCurve);
+                return xbMultiCurveDoc;
+            } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
+                GeometryPropertyType xbGeometryProperty = GeometryPropertyType.Factory.newInstance(getXmlOptions());
+                xbGeometryProperty.setAbstractGeometry(xbMultiCurve);
+                xbGeometryProperty.getAbstractGeometry()
+                        .substitute(GmlConstants.QN_MULTI_CURVE_32, MultiCurveType.type);
+                return xbGeometryProperty;
+            } else {
+                return xbMultiCurve;
+            }
+        } else if (geom instanceof Polygon) {
             final PolygonType xbPolygon = PolygonType.Factory.newInstance(getXmlOptions());
             xbPolygon.setId("polygon_" + foiId);
             createPolygonFromJtsGeometry((Polygon) geom, xbPolygon);
@@ -548,10 +569,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     /**
      * Creates a XML Point from a SOS Point.
      *
-     * @param jtsPoint
-     *            SOS Point
-     * @param xbPoint
-     *            XML Point
+     * @param jtsPoint SOS Point
+     * @param xbPoint XML Point
      */
     private void createPointFromJtsGeometry(final Point jtsPoint, final PointType xbPoint) {
         final DirectPositionType xbPos = xbPoint.addNewPos();
@@ -562,10 +581,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     /**
      * Creates a XML LineString from a SOS LineString.
      *
-     * @param jtsLineString
-     *            SOS LineString
-     * @param xbLst
-     *            XML LinetSring
+     * @param jtsLineString SOS LineString
+     * @param xbLst XML LinetSring
      */
     private void createLineStringFromJtsGeometry(final LineString jtsLineString, final LineStringType xbLst) {
         final String srsName = getSrsName(jtsLineString);
@@ -579,10 +596,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     /**
      * Creates a XML Polygon from a SOS Polygon.
      *
-     * @param jtsPolygon
-     *            SOS Polygon
-     * @param xbPolType
-     *            XML Polygon
+     * @param jtsPolygon SOS Polygon
+     * @param xbPolType XML Polygon
      */
     private void createPolygonFromJtsGeometry(final Polygon jtsPolygon, final PolygonType xbPolType) {
         final List<?> jtsPolygons = PolygonExtracter.getPolygons(jtsPolygon);
@@ -655,7 +670,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     private ReferenceType createReferencType(final org.n52.shetland.ogc.gml.ReferenceType sosReferenceType) {
         if (!sosReferenceType.isSetHref()) {
             final String exceptionText = String.format("The required 'href' parameter is empty for encoding %s!",
-                    ReferenceType.class.getName());
+                                                       ReferenceType.class.getName());
             LOGGER.error(exceptionText);
             throw new IllegalArgumentException(exceptionText);
         }
@@ -673,7 +688,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     private CodeWithAuthorityType createCodeWithAuthorityType(final CodeWithAuthority sosCodeWithAuthority) {
         if (!sosCodeWithAuthority.isSetValue()) {
             final String exceptionText = String.format("The required 'value' parameter is empty for encoding %s!",
-                    CodeWithAuthorityType.class.getName());
+                                                       CodeWithAuthorityType.class.getName());
             LOGGER.error(exceptionText);
             throw new IllegalArgumentException(exceptionText);
         }
@@ -690,7 +705,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     private CodeType createCodeType(final org.n52.shetland.ogc.gml.CodeType sosCodeType) {
         if (!sosCodeType.isSetValue()) {
             final String exceptionText = String.format("The required 'value' parameter is empty for encoding %s!",
-                    CodeType.class.getName());
+                                                       CodeType.class.getName());
             LOGGER.error(exceptionText);
             throw new IllegalArgumentException(exceptionText);
         }
@@ -707,7 +722,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     protected MeasureType createMeasureType(final QuantityValue quantityValue) throws EncodingException {
         if (!quantityValue.isSetValue()) {
             throw new EncodingException("The required 'value' parameter is empty for encoding %s!",
-                    MeasureType.class.getName());
+                                        MeasureType.class.getName());
         }
         final MeasureType measureType = MeasureType.Factory.newInstance(getXmlOptions());
         measureType.setDoubleValue(quantityValue.getValue());
