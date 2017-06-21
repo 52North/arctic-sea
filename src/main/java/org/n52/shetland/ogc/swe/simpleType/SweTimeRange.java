@@ -18,20 +18,37 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.joda.time.DateTime;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- * J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 4.0.0
  */
 public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
 
     private RangeValue<DateTime> value;
+
+    public SweTimeRange() {
+    }
+
+    public SweTimeRange(RangeValue<DateTime> value) {
+        this.value = value;
+    }
+
+    public SweTimeRange(RangeValue<DateTime> value, String uom) {
+        this.value = value;
+        setUom(uom);
+    }
+
+    public SweTimeRange(RangeValue<DateTime> value, UoM uom) {
+        this.value = value;
+        setUom(uom);
+    }
 
     @Override
     public RangeValue<DateTime> getValue() {

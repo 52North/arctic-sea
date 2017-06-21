@@ -19,8 +19,8 @@ package org.n52.shetland.util;
 import java.util.Comparator;
 
 /**
- * @param <T>
- *            the type
+ * @param <T> the type
+ *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  *
@@ -34,6 +34,11 @@ public class MinMax<T> {
     public MinMax(T minimum, T maximum) {
         this.minimum = minimum;
         this.maximum = maximum;
+        if (this.maximum == null && this.minimum != null) {
+            this.maximum = this.minimum;
+        } else if (this.minimum == null && this.maximum != null) {
+            this.minimum = this.maximum;
+        }
     }
 
     public MinMax() {
@@ -51,12 +56,15 @@ public class MinMax<T> {
     /**
      * Set the value of minimum
      *
-     * @param minimum
-     *            new value of minimum
+     * @param minimum new value of minimum
+     *
      * @return this
      */
     public MinMax<T> setMinimum(T minimum) {
         this.minimum = minimum;
+        if (this.maximum == null) {
+            this.maximum = minimum;
+        }
         return this;
     }
 
@@ -72,12 +80,15 @@ public class MinMax<T> {
     /**
      * Set the value of maximum
      *
-     * @param maximum
-     *            new value of maximum
+     * @param maximum new value of maximum
+     *
      * @return this
      */
     public MinMax<T> setMaximum(T maximum) {
         this.maximum = maximum;
+        if (this.minimum == null) {
+            this.minimum = maximum;
+        }
         return this;
     }
 
@@ -91,10 +102,10 @@ public class MinMax<T> {
      */
     public MinMax<T> extend(T t, Comparator<? super T> c) {
         if (t != null) {
-            if (this.maximum == null || c.compare(t, this.maximum) > 0)  {
+            if (this.maximum == null || c.compare(t, this.maximum) > 0) {
                 this.maximum = t;
             }
-            if (this.minimum == null || c.compare(t, this.minimum) < 0)  {
+            if (this.minimum == null || c.compare(t, this.minimum) < 0) {
                 this.minimum = t;
             }
         }
@@ -106,7 +117,7 @@ public class MinMax<T> {
      * Extend this {@code MinMax} to include {@code minmax}.
      *
      * @param minmax the {@code MinMax} to include
-     * @param c the comparator
+     * @param c      the comparator
      *
      * @return this
      */
@@ -114,13 +125,22 @@ public class MinMax<T> {
         return extend(minmax.getMinimum(), c).extend(minmax.getMaximum(), c);
     }
 
+    /**
+     * Checks if this MinMax is empty
+     *
+     * @return if it is empty
+     */
+    public boolean isEmpty() {
+        return this.minimum == null && this.maximum == null;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             final MinMax<T> other = (MinMax<T>) obj;
-            return (getMinimum() == null ? other.getMinimum() == null : other.getMinimum().equals(getMinimum()))
-                    && (getMaximum() == null ? other.getMaximum() == null : other.getMaximum().equals(getMaximum()));
+            return (getMinimum() == null ? other.getMinimum() == null : other.getMinimum().equals(getMinimum())) &&
+                   (getMaximum() == null ? other.getMaximum() == null : other.getMaximum().equals(getMaximum()));
         }
         return false;
     }

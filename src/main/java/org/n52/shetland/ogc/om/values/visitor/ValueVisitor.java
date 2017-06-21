@@ -33,6 +33,7 @@ import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 
 /**
@@ -95,6 +96,9 @@ public interface ValueVisitor<T, X extends Exception> {
             throws X;
 
     T visit(UnknownValue value)
+            throws X;
+
+    T visit(TimeRangeValue value)
             throws X;
 
 //    T visit(XmlValue value)
