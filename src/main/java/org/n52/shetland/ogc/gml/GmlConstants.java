@@ -129,6 +129,8 @@ public interface GmlConstants {
 
     String EN_IDENTIFIER = "identifier";
 
+    String EN_MULTI_CURVE = "MultiCurve";
+
     /* attribute names in GML */
 
     String AN_ID = "id";
@@ -154,6 +156,8 @@ public interface GmlConstants {
     QName QN_POINT_32 = new QName(NS_GML_32, EN_POINT, NS_GML_PREFIX);
 
     QName QN_LINESTRING_32 = new QName(NS_GML_32, EN_LINE_STRING, NS_GML_PREFIX);
+
+    QName QN_MULTI_CURVE_32 = new QName(NS_GML_32, EN_MULTI_CURVE, NS_GML_PREFIX);
 
     QName QN_POLYGON_32 = new QName(NS_GML_32, EN_POLYGON, NS_GML_PREFIX);
 
