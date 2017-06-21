@@ -27,6 +27,7 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.function.Predicates;
 import org.n52.shetland.ogc.filter.Filter;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.filter.TemporalFilter;
@@ -327,7 +328,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     public boolean hasFirstLatestTemporalFilter() {
         return temporalFilters.stream()
                 .map(TemporalFilter::getTime)
-                .filter(Functions.instanceOf(TimeInstant.class))
+                .filter(Predicates.instanceOf(TimeInstant.class))
                 .map(Functions.cast(TimeInstant.class))
                 .map(TimeInstant::getIndeterminateValue)
                 .anyMatch(this::isFirstLatest);
@@ -336,7 +337,7 @@ public class GetObservationRequest extends AbstractObservationRequest implements
     public List<IndeterminateValue> getFirstLatestTemporalFilter() {
         return temporalFilters.stream()
                 .map(TemporalFilter::getTime)
-                .filter(Functions.instanceOf(TimeInstant.class))
+                .filter(Predicates.instanceOf(TimeInstant.class))
                 .map(Functions.cast(TimeInstant.class))
                 .map(TimeInstant::getIndeterminateValue)
                 .filter(Objects::nonNull)
