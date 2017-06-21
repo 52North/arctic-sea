@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Set;
 
 import net.opengis.gml.x32.AbstractCurveType;
+import net.opengis.gml.x32.AbstractGeometryType;
 import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
 import net.opengis.gml.x32.CodeType;
