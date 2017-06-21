@@ -28,7 +28,9 @@ import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.janmayen.Producer;
+import org.n52.janmayen.function.Consumers;
 import org.n52.janmayen.function.Functions;
+import org.n52.janmayen.function.Predicates;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.janmayen.lifecycle.Destroyable;
 import org.n52.shetland.ogc.OGCConstants;
@@ -74,7 +76,7 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
     // TODO: To be used by other encoders to have common prefixes
     @SuppressWarnings("unchecked")
     private Map<String, String> getPrefixMap() {
-        final Map<String, String> prefixMap = new HashMap<>();
+        Map<String, String> prefixMap = new HashMap<>();
         prefixMap.put(OGCConstants.NS_OGC, OGCConstants.NS_OGC_PREFIX);
         // prefixMap.put(OmConstants.NS_OM, OmConstants.NS_OM_PREFIX);
         // prefixMap.put(SfConstants.NS_SA, SfConstants.NS_SA_PREFIX);
@@ -82,8 +84,10 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
         prefixMap.put(W3CConstants.NS_XLINK, W3CConstants.NS_XLINK_PREFIX);
         prefixMap.put(W3CConstants.NS_XSI, W3CConstants.NS_XSI_PREFIX);
         prefixMap.put(W3CConstants.NS_XS, W3CConstants.NS_XS_PREFIX);
-        encoderRepository.getEncoders().stream().filter(Functions.instanceOf(SchemaAwareEncoder.class))
-                .map(Functions.cast(SchemaAwareEncoder.class)).forEach(e -> e.addNamespacePrefixToMap(prefixMap));
+        encoderRepository.getEncoders().stream()
+                .filter(Predicates.instanceOf(SchemaAwareEncoder.class))
+                .map(Functions.cast(SchemaAwareEncoder.class))
+                .forEach(Consumers.currySecond(SchemaAwareEncoder<?, ?>::addNamespacePrefixToMap, prefixMap));
         return prefixMap;
     }
 
@@ -170,12 +174,12 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
      *
      * @deprecated Use injection:
      *
-     *             <pre>
+     * <pre>
      * &#064;Inject
      * private Provider&lt;XmlOptioon&gt; xmloptions;
      * ...
      * XmlOptions options = this.xmlOptions.get();
-     *             </pre>
+     * </pre>
      */
     @Deprecated
     public static XmlOptionsHelper getInstance() {

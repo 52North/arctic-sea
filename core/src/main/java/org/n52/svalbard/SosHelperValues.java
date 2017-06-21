@@ -22,6 +22,7 @@ import org.n52.svalbard.encode.EncodingContext;
  * @author Matthes Rieke
  * @deprecated use {@link EncodingContext} with any enum (e.g. {@link XmlBeansEncodingFlags})
  */
+@Deprecated
 public enum SosHelperValues implements HelperValues {
     @Deprecated
     GMLID,
