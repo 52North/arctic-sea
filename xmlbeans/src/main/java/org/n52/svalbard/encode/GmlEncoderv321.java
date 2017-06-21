@@ -22,12 +22,12 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import net.opengis.gml.x32.AbstractCurveType;
 import net.opengis.gml.x32.AbstractGeometryType;
 import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
 import net.opengis.gml.x32.CodeType;
 import net.opengis.gml.x32.CodeWithAuthorityType;
+import net.opengis.gml.x32.CurvePropertyType;
 import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.EnvelopeType;
@@ -523,16 +523,18 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             }
             return xbLineString;
         } else if (geom instanceof MultiLineString) {
-            MultiCurveType xbMultiCurve = MultiCurveType.Factory.newInstance();
+            MultiCurveType xbMultiCurve = MultiCurveType.Factory.newInstance(getXmlOptions());
             xbMultiCurve.setId("multiCurve_" + foiId);
             xbMultiCurve.setSrsName(getSrsName(geom));
             for (int i = 0; i < geom.getNumGeometries(); ++i) {
                 Geometry lineString = geom.getGeometryN(i);
-                AbstractCurveType xbCurve = xbMultiCurve.addNewCurveMember().addNewAbstractCurve();
                 LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
                 xbLineString.setId("multiCurve_" + foiId + "_lineString_" + i);
                 xbLineString.addNewPosList().setStringValue(JTSHelper.getCoordinatesString(lineString));
-                xbCurve.substitute(GmlConstants.QN_LINESTRING_32, LineStringType.type);
+                CurvePropertyType xbCurveMember = xbMultiCurve.addNewCurveMember();
+                xbCurveMember.setAbstractCurve(xbLineString);
+                xbCurveMember.getAbstractCurve().substitute(GmlConstants.QN_LINESTRING_32,
+                                                            LineStringType.type);
             }
             if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
                 MultiCurveDocument xbMultiCurveDoc = MultiCurveDocument.Factory.newInstance(getXmlOptions());
@@ -541,8 +543,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
             } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
                 GeometryPropertyType xbGeometryProperty = GeometryPropertyType.Factory.newInstance(getXmlOptions());
                 xbGeometryProperty.setAbstractGeometry(xbMultiCurve);
-                xbGeometryProperty.getAbstractGeometry()
-                        .substitute(GmlConstants.QN_MULTI_CURVE_32, MultiCurveType.type);
+                xbGeometryProperty.getAbstractGeometry().substitute(GmlConstants.QN_MULTI_CURVE_32,
+                                                                    MultiCurveType.type);
                 return xbGeometryProperty;
             } else {
                 return xbMultiCurve;

@@ -20,8 +20,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
+import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
+import net.opengis.samplingSpatial.x20.ShapeType;
+
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
@@ -45,20 +51,16 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
-
-import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
-import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
-import net.opengis.samplingSpatial.x20.ShapeType;
 
 /**
  * @since 4.0.0
@@ -223,12 +225,18 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
     }
 
     private void addFeatureTypeForGeometry(SFSpatialSamplingFeatureType xbSampFeature, Geometry geometry) {
-        if (geometry instanceof Point) {
-            xbSampFeature.addNewType().setHref(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT);
-        } else if (geometry instanceof LineString) {
-            xbSampFeature.addNewType().setHref(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE);
-        } else if (geometry instanceof Polygon) {
-            xbSampFeature.addNewType().setHref(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE);
+        xbSampFeature.addNewType().setHref(getFeatureType(geometry));
+    }
+
+    private String getFeatureType(Geometry geometry) {
+        if (geometry instanceof Point || geometry instanceof MultiPoint) {
+            return SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT;
+        } else if (geometry instanceof LineString || geometry instanceof MultiLineString) {
+            return SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE;
+        } else if (geometry instanceof Polygon || geometry instanceof MultiPolygon) {
+            return SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE;
+        } else {
+            return SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_FEATURE;
         }
     }
 
