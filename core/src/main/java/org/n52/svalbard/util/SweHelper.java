@@ -51,6 +51,7 @@ import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
@@ -336,6 +337,13 @@ public final class SweHelper {
             private EncodingException notSupported() {
                 return new EncodingException("The merging of value type '%s' is not yet supported!",
                                              iValue.getClass().getName());
+            }
+
+            @Override
+            public SweAbstractDataComponent visit(TimeRangeValue value) throws EncodingException {
+                SweTimeRange sweTimeRange = new SweTimeRange();
+                sweTimeRange.setUom(value.getUnit());
+                return sweTimeRange;
             }
         });
     }

@@ -23,6 +23,7 @@ import org.n52.svalbard.encode.EncodingContext;
  * @author Christian Autermann
  * @deprecated use {@link EncodingContext} with any enum.
  */
+@Deprecated
 public interface HelperValues {
 
 }

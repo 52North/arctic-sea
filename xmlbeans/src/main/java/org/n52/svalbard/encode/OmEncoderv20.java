@@ -60,6 +60,7 @@ import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
@@ -288,7 +289,6 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     private class ResultValueVisitor implements ValueVisitor<XmlObject, EncodingException> {
         private final String observationType;
-
         private final String observationId;
 
         ResultValueVisitor(String observationType, String observationId) {
@@ -447,6 +447,12 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
+        @Override
+        public XmlObject visit(TimeRangeValue value) throws EncodingException {
             // TODO Auto-generated method stub
             return null;
         }

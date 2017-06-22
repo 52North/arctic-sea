@@ -39,8 +39,6 @@ import org.isotc211.x2005.gmd.DQElementPropertyType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Strings;
-
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -70,6 +68,7 @@ import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
@@ -84,6 +83,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
+
+import com.google.common.base.Strings;
 
 public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject, Object>
         implements ObservationEncoder<XmlObject, Object>, StreamingEncoder<XmlObject, Object> {
@@ -652,32 +653,32 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
 
         @Override
         public XmlObject visit(TLVTValue value) throws EncodingException {
-            // TODO Auto-generated method stub
-            return null;
+            return defaultValue(value);
         }
 
         @Override
         public XmlObject visit(CvDiscretePointCoverage value) throws EncodingException {
-            // TODO Auto-generated method stub
-            return null;
+            return defaultValue(value);
         }
 
         @Override
         public XmlObject visit(MultiPointCoverage value) throws EncodingException {
-            // TODO Auto-generated method stub
-            return null;
+            return defaultValue(value);
         }
 
         @Override
         public XmlObject visit(RectifiedGridCoverage value) throws EncodingException {
-            // TODO Auto-generated method stub
-            return null;
+            return defaultValue(value);
         }
 
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
-            // TODO Auto-generated method stub
-            return null;
+            return defaultValue(value);
+        }
+
+        @Override
+        public XmlObject visit(TimeRangeValue value) throws EncodingException {
+            return encodeObjectToXml(SweConstants.NS_SWE_20, value);
         }
     }
 }
