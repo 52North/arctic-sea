@@ -24,6 +24,7 @@ import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
+import org.n52.shetland.ogc.swe.simpleType.SweCategoryRange;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweCountRange;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
@@ -78,6 +79,11 @@ public class AbstractThrowingVoidSweDataComponentVisitor<X extends Throwable> ex
     }
 
     @Override
+    protected void _visit(SweCategoryRange component) throws X {
+        throw this.exceptionSupplier.get();
+    }
+
+    @Override
     protected void _visit(SweObservableProperty component) throws X {
         throw this.exceptionSupplier.get();
     }
@@ -128,12 +134,12 @@ public class AbstractThrowingVoidSweDataComponentVisitor<X extends Throwable> ex
     }
 
     @Override
-    public void _visit(SmlDataInterface component) throws X {
+    protected void _visit(SmlDataInterface component) throws X {
         throw this.exceptionSupplier.get();
     }
 
     @Override
-    public void _visit(SmlFeatureOfInterest component) throws X {
+    protected void _visit(SmlFeatureOfInterest component) throws X {
         throw this.exceptionSupplier.get();
     }
 

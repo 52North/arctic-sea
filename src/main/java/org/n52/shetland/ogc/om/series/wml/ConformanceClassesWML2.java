@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wml;
+package org.n52.shetland.ogc.om.series.wml;
 
 /**
  * @since 4.0.0

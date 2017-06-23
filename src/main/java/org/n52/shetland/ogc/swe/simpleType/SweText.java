@@ -22,6 +22,7 @@ import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType text
@@ -35,6 +36,7 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
      * value
      */
     private String value;
+    private Referenceable<SweAllowedTokens> constraint;
 
     /**
      * constructor
@@ -61,6 +63,31 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
     @Override
     public boolean isSetValue() {
         return value != null && !value.isEmpty();
+    }
+
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedTokens> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedTokens constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
+        this.constraint = constraint;
     }
 
     @Override
@@ -90,6 +117,9 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
         copyValueTo(copy);
         if (isSetValue()) {
             copy.setValue(getValue());
+        }
+        if (isSetContstraint()) {
+            copy.setConstraint(getConstraint());
         }
         return copy;
     }

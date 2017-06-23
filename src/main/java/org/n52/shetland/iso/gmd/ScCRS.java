@@ -14,12 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wml;
+package org.n52.shetland.iso.gmd;
 
-/**
- * @since 4.0.0
- *
- */
-public class ConformanceClassesWML2DR {
+import org.n52.shetland.ogc.gml.AbstractCRS;
+
+public class ScCRS {
+
+    private AbstractCRS abstractCrs;
+
+    /**
+     * @return the abstractCrs
+     */
+    public AbstractCRS getAbstractCrs() {
+        return abstractCrs;
+    }
+
+    /**
+     * @param abstractCrs the abstractCrs to set
+     * @return
+     */
+    public ScCRS setAbstractCrs(AbstractCRS abstractCrs) {
+        this.abstractCrs = abstractCrs;
+        return this;
+    }
 
 }

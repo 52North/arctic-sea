@@ -17,6 +17,7 @@
 package org.n52.shetland.ogc.sensorML.v20;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.sensorML.HasPosition;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 
 /**
@@ -26,7 +27,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
  * @since 4.2.0
  *
  */
-public class AbstractPhysicalProcess extends DescribedObject {
+public class AbstractPhysicalProcess extends DescribedObject implements HasPosition<AbstractPhysicalProcess> {
 
     private ReferenceType attachedTo;
     private SpatialFrame localReferenceFrame;
@@ -99,8 +100,9 @@ public class AbstractPhysicalProcess extends DescribedObject {
      * @param position
      *                 the position to set
      */
-    public void setPosition(SmlPosition position) {
+    public AbstractPhysicalProcess setPosition(SmlPosition position) {
         this.position = position;
+        return this;
     }
 
     /**
@@ -116,10 +118,6 @@ public class AbstractPhysicalProcess extends DescribedObject {
      */
     public void setTimePosition(Object timePosition) {
         this.timePosition = timePosition;
-    }
-
-    public boolean isSetPosition() {
-        return getPosition() != null;
     }
 
 }

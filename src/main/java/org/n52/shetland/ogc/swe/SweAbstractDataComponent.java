@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.n52.janmayen.Copyable;
+import org.n52.shetland.ogc.DefaultEncoding;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.util.CollectionHelper;
@@ -31,7 +32,7 @@ import com.google.common.collect.Lists;
  * @since 4.0.0
  *
  */
-public abstract class SweAbstractDataComponent implements Copyable<SweAbstractDataComponent>{
+public abstract class SweAbstractDataComponent implements DefaultEncoding<SweAbstractDataComponent>, Copyable<SweAbstractDataComponent>{
 
     private String definition;
 
@@ -59,6 +60,8 @@ public abstract class SweAbstractDataComponent implements Copyable<SweAbstractDa
      * pre-set XML representation
      */
     private String xml;
+
+    private String defaultEncoding = SweConstants.NS_SWE_20;
 
     public String getDefinition() {
         return definition;
@@ -165,8 +168,7 @@ public abstract class SweAbstractDataComponent implements Copyable<SweAbstractDa
     }
 
     public boolean isSetLabel() {
-        String l = getLabel();
-        return l != null && !l.isEmpty();
+        return getLabel() != null && !getLabel().isEmpty();
     }
 
     public boolean isSetName() {
@@ -183,6 +185,17 @@ public abstract class SweAbstractDataComponent implements Copyable<SweAbstractDa
 
     public boolean isSetXml() {
         return xml != null && !xml.isEmpty();
+    }
+
+    @Override
+    public String getDefaultElementEncoding() {
+        return defaultEncoding;
+    }
+
+    @Override
+    public SweAbstractDataComponent setDefaultElementEncoding(String defaultEncoding) {
+        this.defaultEncoding = defaultEncoding;
+        return this;
     }
 
     @Override

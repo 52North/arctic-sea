@@ -20,6 +20,7 @@ import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * @since 4.0.0
@@ -28,6 +29,7 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
 
     private RangeValue<Integer> value;
+    private Referenceable<SweAllowedValues> constraint;
 
     @Override
     public RangeValue<Integer> getValue() {
@@ -50,6 +52,31 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
         return value.toString();
     }
 
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedValues> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedValues constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedValues> constraint) {
+        this.constraint = constraint;
+    }
+
     @Override
     public SweDataComponentType getDataComponentType() {
         return SweDataComponentType.CountRange;
@@ -65,7 +92,6 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
         visitor.visit(this);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public SweCountRange copy() {
         SweCountRange copy = new SweCountRange();
@@ -75,6 +101,9 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
         }
         if (isSetValue()) {
             copy.setValue(getValue().copy());
+        }
+        if (isSetContstraint()) {
+            copy.setConstraint(getConstraint());
         }
         return copy;
     }

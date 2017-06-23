@@ -14,12 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.inspire;
+package org.n52.shetland.inspire.ad;
 
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.n52.shetland.inspire.GeographicalName;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Reference;
@@ -28,13 +29,41 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
-/**
- * TODO JavaDoc
- *
- * @author Christian Autermann
- */
-public class Address {
-
+public class AddressRepresentation {
+//    /**
+//     * 1..*
+//     */
+//    private GeographicalName adminUnit;
+//    /**
+//     * 0..*
+//     */
+//    private String locatorDesignator;
+//
+//    /**
+//     * 0..*
+//     */
+//    private GeographicalName locatorName;
+//    /**
+//     * 0..*
+//     */
+//    private GeographicalName addressArea;
+//    /**
+//     * 0..*
+//     */
+//    private GeographicalName postName;
+//
+//    /**
+//     * 0..1
+//     */
+//    private String postCode;
+//    /**
+//     * 0..*
+//     */
+//    private GeographicalName thoroughfare;
+//    /**
+//     * 0..1
+//     */
+//    private ReferenceType addressFeature;
     private final List<GeographicalName> adminUnits = new LinkedList<>();
     private final List<String> locatorDesignators = new LinkedList<>();
     private final List<GeographicalName> locatorNames = new LinkedList<>();
@@ -51,7 +80,7 @@ public class Address {
         return Collections.unmodifiableList(adminUnits);
     }
 
-    public Address addAdminUnit(GeographicalName adminUnit) {
+    public AddressRepresentation addAdminUnit(GeographicalName adminUnit) {
         this.adminUnits.add(Preconditions.checkNotNull(adminUnit));
         return this;
     }
@@ -60,7 +89,7 @@ public class Address {
         return Collections.unmodifiableList(locatorDesignators);
     }
 
-    public Address addLocatorDesignator(String locatorDesignator) {
+    public AddressRepresentation addLocatorDesignator(String locatorDesignator) {
         this.locatorDesignators.add(Preconditions
                 .checkNotNull(locatorDesignator));
         return this;
@@ -70,7 +99,7 @@ public class Address {
         return Collections.unmodifiableList(locatorNames);
     }
 
-    public Address addLocatorName(GeographicalName locatorName) {
+    public AddressRepresentation addLocatorName(GeographicalName locatorName) {
         this.locatorNames.add(Preconditions.checkNotNull(locatorName));
         return this;
     }
@@ -79,12 +108,12 @@ public class Address {
         return Collections.unmodifiableList(addressAreas);
     }
 
-    public Address addAddressArea(Nillable<GeographicalName> addressArea) {
+    public AddressRepresentation addAddressArea(Nillable<GeographicalName> addressArea) {
         this.addressAreas.add(Preconditions.checkNotNull(addressArea));
         return this;
     }
 
-    public Address addAddressArea(GeographicalName addressArea) {
+    public AddressRepresentation addAddressArea(GeographicalName addressArea) {
         return addAddressArea(Nillable.of(addressArea));
     }
 
@@ -92,12 +121,12 @@ public class Address {
         return Collections.unmodifiableList(postNames);
     }
 
-    public Address addPostName(Nillable<GeographicalName> postName) {
+    public AddressRepresentation addPostName(Nillable<GeographicalName> postName) {
         this.postNames.add(Preconditions.checkNotNull(postName));
         return this;
     }
 
-    public Address addPostName(GeographicalName postName) {
+    public AddressRepresentation addPostName(GeographicalName postName) {
         return addPostName(Nillable.of(postName));
     }
 
@@ -105,12 +134,12 @@ public class Address {
         return postCode;
     }
 
-    public Address setPostCode(Nillable<String> postCode) {
+    public AddressRepresentation setPostCode(Nillable<String> postCode) {
         this.postCode = postCode;
         return this;
     }
 
-    public Address setPostCode(String postCode) {
+    public AddressRepresentation setPostCode(String postCode) {
         return setPostCode(Nillable.of(postCode));
     }
 
@@ -118,12 +147,12 @@ public class Address {
         return Collections.unmodifiableList(thoroughfares);
     }
 
-    public Address addThoroughfare(Nillable<GeographicalName> thoroughfare) {
+    public AddressRepresentation addThoroughfare(Nillable<GeographicalName> thoroughfare) {
         this.thoroughfares.add(Preconditions.checkNotNull(thoroughfare));
         return this;
     }
 
-    public Address addThoroughfare(GeographicalName thoroughfare) {
+    public AddressRepresentation addThoroughfare(GeographicalName thoroughfare) {
         return addThoroughfare(Nillable.of(thoroughfare));
     }
 
@@ -131,12 +160,12 @@ public class Address {
         return addressFeature;
     }
 
-    public Address setAddressFeature(Nillable<Reference> addressFeature) {
+    public AddressRepresentation setAddressFeature(Nillable<Reference> addressFeature) {
         this.addressFeature = Preconditions.checkNotNull(addressFeature);
         return this;
     }
 
-    public Address setAddressFeature(Reference addressFeature) {
+    public AddressRepresentation setAddressFeature(Reference addressFeature) {
         return setAddressFeature(Nillable.of(addressFeature));
     }
 
@@ -150,8 +179,8 @@ public class Address {
 
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Address) {
-            Address that = (Address) obj;
+        if (obj instanceof AddressRepresentation) {
+            AddressRepresentation that = (AddressRepresentation) obj;
             return Objects.equal(getAdminUnits(), that.getAdminUnits()) &&
                    Objects.equal(getLocatorDesignators(), that.getLocatorDesignators()) &&
                    Objects.equal(getLocatorNames(), that.getLocatorNames()) &&
@@ -177,8 +206,4 @@ public class Address {
                 .add("addressFeature", getAddressFeature())
                 .toString();
     }
-
-
-
-
 }

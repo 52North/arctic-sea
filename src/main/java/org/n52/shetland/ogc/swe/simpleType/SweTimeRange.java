@@ -23,6 +23,7 @@ import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
@@ -32,6 +33,7 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
 
     private RangeValue<DateTime> value;
+    private Referenceable<SweAllowedTimes> constraint;
 
     public SweTimeRange() {
     }
@@ -71,6 +73,31 @@ public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
         return this;
     }
 
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedTimes> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedTimes constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedTimes> constraint) {
+        this.constraint = constraint;
+    }
+
     @Override
     public SweDataComponentType getDataComponentType() {
         return SweDataComponentType.TimeRange;
@@ -88,14 +115,17 @@ public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
 
     @Override
     public SweTimeRange copy() {
-        SweTimeRange clone = new SweTimeRange();
-        copyValueTo(clone);
+        SweTimeRange copy = new SweTimeRange();
+        copyValueTo(copy);
         if (isSetQuality()) {
-            clone.setQuality(cloneQuality());
+            copy.setQuality(cloneQuality());
         }
         if (isSetValue()) {
-            clone.setValue(getValue().copy());
+            copy.setValue(getValue().copy());
         }
-        return clone;
+        if (isSetContstraint()) {
+            copy.setConstraint(getConstraint());
+        }
+        return copy;
     }
 }

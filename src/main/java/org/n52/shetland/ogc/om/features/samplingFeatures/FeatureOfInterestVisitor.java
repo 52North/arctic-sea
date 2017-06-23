@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.om.features.samplingFeatures;
 
+import org.n52.shetland.ogc.om.series.wml.WmlMonitoringPoint;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 public interface FeatureOfInterestVisitor<T> {
@@ -24,6 +25,9 @@ public interface FeatureOfInterestVisitor<T> {
             throws OwsExceptionReport;
 
     T visit(SfSpecimen value)
+            throws OwsExceptionReport;
+
+    T visit(WmlMonitoringPoint value)
             throws OwsExceptionReport;
 
 }

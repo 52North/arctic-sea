@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.n52.shetland.ogc.sensorML.HasComponents;
+import org.n52.shetland.ogc.sensorML.HasConnections;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 import org.n52.shetland.util.JavaHelper;
 
 /**
@@ -30,13 +32,13 @@ import org.n52.shetland.util.JavaHelper;
  * @since 4.2.0
  *
  */
-public class PhysicalSystem extends AbstractPhysicalProcess implements HasComponents<PhysicalSystem> {
+public class PhysicalSystem extends AbstractPhysicalProcess implements HasComponents<PhysicalSystem>, HasConnections<PhysicalSystem> {
 
     public static final String ID_PREFIX = "ps_";
 
     private final List<SmlComponent> components = new ArrayList<>(0);
 
-//    private Object connections;
+    private SmlConnection connections;
 
     public PhysicalSystem() {
         setGmlId(ID_PREFIX + JavaHelper.generateID(ID_PREFIX));
@@ -64,13 +66,17 @@ public class PhysicalSystem extends AbstractPhysicalProcess implements HasCompon
     }
 
     @Override
-    public boolean isSetComponents() {
-        return components != null && !components.isEmpty();
-    }
-
-    @Override
     public boolean isAggragation() {
         return true;
+    }
+
+    public SmlConnection getConnections() {
+        return connections;
+    }
+
+    public PhysicalSystem setConnections(SmlConnection connections) {
+        this.connections = connections;
+        return this;
     }
 
 }

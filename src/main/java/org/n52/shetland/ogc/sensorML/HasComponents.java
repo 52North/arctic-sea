@@ -31,12 +31,14 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
  */
 public interface HasComponents<T> {
 
-    public List<SmlComponent> getComponents();
+    List<SmlComponent> getComponents();
 
-    public T addComponents(final List<SmlComponent> components);
+    T addComponents(final List<SmlComponent> components);
 
-    public T addComponent(final SmlComponent component);
+    T addComponent(final SmlComponent component);
 
-    public boolean isSetComponents();
+    default boolean isSetComponents() {
+        return getComponents() != null && !getComponents().isEmpty();
+    }
 
 }

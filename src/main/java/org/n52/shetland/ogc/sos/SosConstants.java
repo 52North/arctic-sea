@@ -159,6 +159,7 @@ public interface SosConstants {
     }
 
     enum Filter {
+        ValueReference,
         TimePeriod,
         TimeInstant;
     }

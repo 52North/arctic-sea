@@ -47,9 +47,4 @@ public class PhysicalComponent extends AbstractPhysicalProcess implements HasPro
       this.method = method;
     }
 
-    @Override
-    public boolean isSetMethod() {
-        return getMethod() != null;
-    }
-
 }

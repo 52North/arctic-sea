@@ -26,14 +26,11 @@ import org.n52.shetland.util.JavaHelper;
  *
  * @author Christian Autermann
  */
-public class GmlBaseUnit {
+public class GmlBaseUnit extends AbtractGmd {
 
     private String id;
-
     private final String identifier;
-
     private final CodeType catalogSymbol;
-
     private final String unitSystem;
 
     public GmlBaseUnit(String id, String identifier, CodeType catalogSymbol, String unitSystem) {

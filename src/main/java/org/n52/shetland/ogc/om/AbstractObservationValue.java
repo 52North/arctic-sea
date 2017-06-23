@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.om;
 
+import org.n52.shetland.ogc.om.series.wml.DefaultPointMetadata;
+import org.n52.shetland.ogc.om.series.wml.Metadata;
 import org.n52.shetland.ogc.om.values.Value;
 
 public abstract class AbstractObservationValue<T extends Value<?>> implements ObservationValue<T> {
@@ -25,8 +27,9 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     private String tokenSeparator;
     private String tupleSeparator;
     private String decimalSeparator;
-
     private String unit;
+    private DefaultPointMetadata defaultPointMetadata;
+    private Metadata metadata;
 
     public void setValuesForResultEncoding(OmObservation observation) {
         setObservationID(observation.getObservationID());
@@ -47,7 +50,7 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     /**
      * @param observationID the observationID to set
      */
-    private void setObservationID(String observationID) {
+    public void setObservationID(String observationID) {
         this.observationID = observationID;
     }
 
@@ -174,4 +177,27 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
         return getUnit()!= null && !getUnit().isEmpty();
     }
 
+    public boolean isSetDefaultPointMetadata() {
+        return defaultPointMetadata != null;
+    }
+
+    public DefaultPointMetadata getDefaultPointMetadata() {
+        return defaultPointMetadata;
+    }
+
+    public void setDefaultPointMetadata(DefaultPointMetadata defaultPointMetadata) {
+        this.defaultPointMetadata = defaultPointMetadata;
+    }
+
+    public boolean isSetMetadata() {
+        return metadata != null;
+    }
+
+    public Metadata getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Metadata metadata) {
+        this.metadata = metadata;
+    }
 }

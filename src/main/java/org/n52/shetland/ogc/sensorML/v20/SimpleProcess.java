@@ -47,8 +47,4 @@ public class SimpleProcess extends DescribedObject implements HasProcessMethod {
       this.method = method;
     }
 
-    @Override
-    public boolean isSetMethod() {
-        return getMethod() != null;
-    }
 }

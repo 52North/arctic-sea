@@ -19,6 +19,8 @@ package org.n52.shetland.ogc.sensorML;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.n52.shetland.ogc.SupportsObservablePropertyNames;
+
 /**
  * SOS internal representation of a sensor description
  *

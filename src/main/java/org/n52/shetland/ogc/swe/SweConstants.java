@@ -264,6 +264,7 @@ public interface SweConstants {
         Position,
         Boolean,
         Category,
+        CategoryRange,
         Count,
         CountRange,
         Quantity,
