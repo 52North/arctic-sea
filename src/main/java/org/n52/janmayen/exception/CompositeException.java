@@ -48,7 +48,6 @@ import org.n52.janmayen.function.TriConsumer;
 
 import com.google.common.base.Throwables;
 
-
 /**
  * TODO JavaDoc
  *
@@ -127,6 +126,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
     public Iterator<Throwable> iterator() {
         return new Iterator<Throwable>() {
             private final Iterator<Throwable> iter = exceptions.iterator();
+
             @Override
             public boolean hasNext() {
                 return iter.hasNext();
@@ -210,7 +210,6 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         return wrapPredicate(predicate, defaultValue);
     }
 
-
     public <X extends Exception> Runnable wrapRunnable(ThrowingRunnable<X> runnable) {
         return () -> run(runnable);
     }
@@ -239,7 +238,8 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         return t -> apply(function, t);
     }
 
-    public <T, U, R, X extends Exception> BiFunction<T, U, Optional<R>> wrapFunction(ThrowingBiFunction<T, U, R, X> function) {
+    public <T, U, R, X extends Exception> BiFunction<T, U, Optional<R>> wrapFunction(
+            ThrowingBiFunction<T, U, R, X> function) {
         return (t, u) -> apply(function, t, u);
     }
 
@@ -251,12 +251,13 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         return () -> get(supplier);
     }
 
-    public <T, X extends Exception> Predicate<T> wrapPredicate(ThrowingPredicate<T, X> predicate, boolean defaultValue) {
+    public <T, X extends Exception> Predicate<T> wrapPredicate(
+            ThrowingPredicate<T, X> predicate, boolean defaultValue) {
         return t -> test(predicate, defaultValue, t);
     }
 
-    public <T, U, X extends Exception> BiPredicate<T, U> wrapPredicate(ThrowingBiPredicate<T, U, X> predicate,
-                                                              boolean defaultValue) {
+    public <T, U, X extends Exception> BiPredicate<T, U> wrapPredicate(
+            ThrowingBiPredicate<T, U, X> predicate, boolean defaultValue) {
         return (t, u) -> test(predicate, defaultValue, t, u);
     }
 
