@@ -16,9 +16,14 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
@@ -243,5 +248,16 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
             }
         }
         return dataRecord;
+    }
+
+    public Collection<NamedValue<?>> getLevelStartEndAsParameter() {
+        SortedSet<NamedValue<?>> parameter = new TreeSet<NamedValue<?>>();
+        if (isSetLevelStart() && getLevelStart().isSetDefinition()) {
+            parameter.add(new NamedValue(new ReferenceType(getLevelStart().getDefinition()), getLevelStart()));
+        }
+        if (isSetLevelEnd() && getLevelEnd().isSetDefinition()) {
+            parameter.add(new NamedValue(new ReferenceType(getLevelEnd().getDefinition()), getLevelEnd()));
+        }
+        return parameter;
     }
 }

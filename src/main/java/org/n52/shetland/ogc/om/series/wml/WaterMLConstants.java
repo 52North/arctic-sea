@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wml;
+package org.n52.shetland.ogc.om.series.wml;
 
 import javax.xml.namespace.QName;
 
@@ -24,7 +24,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @since 4.0.0
- *
+ * @see http://www.opengeospatial.org/standards/waterml
  */
 public interface WaterMLConstants {
     String NS_WML_20 = "http://www.opengis.net/waterml/2.0";
@@ -70,11 +70,15 @@ public interface WaterMLConstants {
 
     String SCHEMA_LOCATION_URL_WML_20_TS = "http://schemas.opengis.net/waterml/2.0/timeseries.xsd";
 
+    String SCHEMA_LOCATION_URL_WML_20_MP = "http://schemas.opengis.net/waterml/2.0/monitoringPoint.xsd";
+
     SchemaLocation WML_20_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20, SCHEMA_LOCATION_URL_WML_20);
 
     SchemaLocation WML_20_TS_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20, SCHEMA_LOCATION_URL_WML_20_TS);
 
     SchemaLocation WML_20_DR_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20_DR, SCHEMA_LOCATION_URL_WML_20_DR);
+
+    SchemaLocation WML_20_MP_SCHEMA_LOCATION = new SchemaLocation(NS_WML_20, SCHEMA_LOCATION_URL_WML_20_MP);
 
     String EN_POINT = "point";
 
@@ -94,6 +98,8 @@ public interface WaterMLConstants {
 
     String EN_TIMESERIES_METADATA = "TimeseriesMetadata";
 
+    String EN_MEASUREMENT_TIMESERIES_METADATA = "MeasurementTimeseriesMetadata";
+
     String EN_TEMPORAL_EXTENT = "temporalExtent";
 
     String EN_DEFAULT_POINT_METADATA = "defaultPointMetadata";
@@ -101,6 +107,8 @@ public interface WaterMLConstants {
     String EN_DEFAULT_TVP_MEASUREMENT_METADATA = "DefaultTVPMeasurementMetadata";
 
     String EN_INTERPOLATION_TYPE = "interpolationType";
+
+    String EN_CUMULATIVE = "cumulative";
 
     String EN_UOM = "uom";
 
@@ -122,6 +130,8 @@ public interface WaterMLConstants {
 
     QName QN_TIMESERIES_METADATA = new QName(NS_WML_20, EN_TIMESERIES_METADATA, NS_WML_20_PREFIX);
 
+    QName QN_MEASUREMENT_TIMESERIES_METADATA = new QName(NS_WML_20, EN_MEASUREMENT_TIMESERIES_METADATA, NS_WML_20_PREFIX);
+
     QName QN_TEMPORAL_EXTENT = new QName(NS_WML_20, EN_TEMPORAL_EXTENT, NS_WML_20_PREFIX);
 
     QName QN_DEFAULT_POINT_METADATA = new QName(NS_WML_20, EN_DEFAULT_POINT_METADATA, NS_WML_20_PREFIX);
@@ -130,6 +140,107 @@ public interface WaterMLConstants {
 
     QName QN_INTERPOLATION_TYPE = new QName(NS_WML_20, EN_INTERPOLATION_TYPE, NS_WML_20_PREFIX);
 
+    QName QN_CUMULATIVE = new QName(NS_WML_20, EN_CUMULATIVE, NS_WML_20_PREFIX);
+
     QName UOM =  new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
 
+    /**
+     * @see MeasurementTimeseriesMetadata#isCumulative()
+     */
+    String SERIES_METADATA_CUMULATIVE = NS_WML_20 + "/cumulative";
+
+    String INTERPOLATION_TYPE = "http://www.opengis.net/def/waterml/2.0/interpolationType";
+
+    /**
+     * Hold allowed values for element <code>interpolationType</code>.
+     *
+     * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
+     *
+     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+     * @since 4.4.0
+     */
+    public enum InterpolationType {
+
+        /**
+         * Continuous/Instantaneous
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous
+         */
+        Continuous,
+        /**
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/Discontinuous
+         */
+        Discontinuous,
+        /**
+         * Instantaneous total
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/InstantTotal
+         */
+        InstantTotal,
+        /**
+         * Average in preceding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/AveragePrec
+         */
+        AveragePrec,
+        /**
+         * Maximum in preceding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxPrec
+         */
+        MaxPrec,
+        /**
+         * Minimum in preceding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec
+         */
+        MinPrec,
+        /**
+         * Preceding total
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalPrec
+         */
+        TotalPrec,
+        /**
+         * Average in succeeding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/AverageSucc
+         */
+        AverageSucc,
+        /**
+         * Succeeding total
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/TotalSucc
+         */
+        TotalSucc,
+        /**
+         * Minimum in succeeding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/MinSucc
+         */
+        MinSucc,
+        /**
+         * Maximum in succeeding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/MaxSucc
+         */
+        MaxSucc,
+        /**
+         * Constant in preceding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstPrec
+         */
+        ConstPrec,
+        /**
+         * Constant in succeeding interval
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/ConstSucc
+         */
+        ConstSucc,
+        /**
+         * Statistical
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/Statistical
+         */
+        Statistical;
+
+        public String getIdentifier() {
+            return INTERPOLATION_TYPE + "/" + this.toString();
+        }
+
+        public String getTitle() {
+            return this.toString();
+        }
+
+        public static InterpolationType from(String v) {
+            return valueOf(v.replace(INTERPOLATION_TYPE + "/", ""));
+        }
+    }
 }

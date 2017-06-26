@@ -17,6 +17,8 @@
 package org.n52.shetland.ogc.om;
 
 import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.om.series.wml.DefaultPointMetadata;
+import org.n52.shetland.ogc.om.series.wml.Metadata;
 import org.n52.shetland.ogc.om.values.Value;
 
 /**
@@ -60,5 +62,17 @@ public interface ObservationValue<T extends Value<?>> {
     void setValue(T value);
 
     boolean isSetValue();
+
+    boolean isSetDefaultPointMetadata();
+
+    void setDefaultPointMetadata(DefaultPointMetadata defaultPointMetadata);
+
+    DefaultPointMetadata getDefaultPointMetadata();
+
+    boolean isSetMetadata();
+
+    void setMetadata(Metadata metadata);
+
+    Metadata getMetadata();
 
 }

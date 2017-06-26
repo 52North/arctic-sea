@@ -135,6 +135,9 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
         if (isSetValue()) {
             copy.setValue(getValue());
         }
+        if (isSetContstraint()) {
+            copy.setConstraint(getConstraint());
+        }
         return copy;
     }
 

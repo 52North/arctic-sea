@@ -28,16 +28,18 @@ public interface HasProcessMethod {
     /**
      * @return the method
      */
-    public ProcessMethod getMethod();
+    ProcessMethod getMethod();
 
     /**
      * @param method
      *            the method to set
      */
-    public void setMethod(ProcessMethod method);
+    void setMethod(ProcessMethod method);
 
     /**
      * @return <code>true</code>, if method is not null
      */
-    public boolean isSetMethod();
+    default boolean isSetMethod() {
+        return getMethod() != null;
+    }
 }

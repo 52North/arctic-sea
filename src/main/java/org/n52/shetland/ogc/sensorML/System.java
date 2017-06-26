@@ -53,11 +53,6 @@ public class System extends AbstractComponent implements HasComponents<System> {
     }
 
     @Override
-    public boolean isSetComponents() {
-        return components != null && !components.isEmpty();
-    }
-
-    @Override
     public boolean isAggragation() {
         return true;
     }

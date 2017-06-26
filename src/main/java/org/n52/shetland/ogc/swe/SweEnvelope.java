@@ -198,7 +198,7 @@ public class SweEnvelope extends SweAbstractDataComponent {
     }
 
     private Double extractDouble(SweCoordinate<?> coord) {
-        if (coord != null && coord.getValue() != null) {
+        if (coord != null && coord.getValue() != null && coord.getValue().getValue() instanceof Number) {
             return coord.getValue().getValue().doubleValue();
         }
         return null;

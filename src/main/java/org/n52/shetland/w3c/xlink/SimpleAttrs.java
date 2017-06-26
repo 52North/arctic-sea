@@ -22,8 +22,10 @@ package org.n52.shetland.w3c.xlink;
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
+
+ * @deprecated Change to usage of {@link Reference}
  */
+@Deprecated
 public abstract class SimpleAttrs {
 
     private String href;

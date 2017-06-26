@@ -62,6 +62,8 @@ public abstract class AbstractGML {
      */
     private String description;
 
+    private List<AbstractMetaData> metaDataProperty = new LinkedList<>();
+
     /**
      * GML id
      */
@@ -444,6 +446,39 @@ public abstract class AbstractGML {
     }
 
     /**
+     * @return the metaDataProperty
+     */
+    public List<AbstractMetaData> getMetaDataProperty() {
+        return metaDataProperty;
+    }
+
+    /**
+     * @param metaDataProperty the metaDataProperty to set
+     */
+    public void setMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
+        this.metaDataProperty.clear();
+        this.metaDataProperty.addAll(metaDataProperty);
+    }
+
+    /**
+     * @param metaDataProperty the metaDataProperty to add
+     */
+    public void addMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
+        this.metaDataProperty.addAll(metaDataProperty);
+    }
+
+    /**
+     * @param metaDataProperty the metaDataProperty to add
+     */
+    public void addMetaDataProperty(AbstractMetaData metaDataProperty) {
+        this.metaDataProperty.add(metaDataProperty);
+    }
+
+    public boolean isSetMetaDataProperty() {
+        return CollectionHelper.isNotEmpty(getMetaDataProperty());
+}
+
+    /**
      * Copies values of this {@link AbstractGML} to the committed
      * {@link AbstractGML}
      *
@@ -455,5 +490,6 @@ public abstract class AbstractGML {
         copyOf.setGmlId(getGmlId());
         copyOf.setIdentifier(getIdentifierCodeWithAuthority());
         copyOf.setName(getName());
+        copyOf.setMetaDataProperty(getMetaDataProperty());;
     }
 }

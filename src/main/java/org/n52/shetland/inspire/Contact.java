@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.w3c.Nillable;
+import org.n52.shetland.inspire.ad.AddressRepresentation;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
@@ -33,25 +34,25 @@ import com.google.common.base.Preconditions;
  */
 public class Contact {
 
-    private Nillable<Address> address = Nillable.missing();
+    private Nillable<AddressRepresentation> AddressRepresentation = Nillable.missing();
     private Nillable<String> contactInstructions = Nillable.missing();
-    private Nillable<String> electronicMailAddress = Nillable.missing();
+    private Nillable<String> electronicMailAddressRepresentation = Nillable.missing();
     private Nillable<String> hoursOfService = Nillable.missing();
     private final List<Nillable<String>> telephoneFacsimile = new LinkedList<>();
     private final List<Nillable<String>> telephoneVoice = new LinkedList<>();
     private Nillable<String> website = Nillable.missing();
 
-    public Nillable<Address> getAddress() {
-        return address;
+    public Nillable<AddressRepresentation> getAddressRepresentation() {
+        return AddressRepresentation;
     }
 
-    public Contact setAddress(Nillable<Address> address) {
-        this.address = Preconditions.checkNotNull(address);
+    public Contact setAddressRepresentation(Nillable<AddressRepresentation> AddressRepresentation) {
+        this.AddressRepresentation = Preconditions.checkNotNull(AddressRepresentation);
         return this;
     }
 
-    public Contact setAddress(Address address) {
-        return setAddress(Nillable.of(address));
+    public Contact setAddressRepresentation(AddressRepresentation AddressRepresentation) {
+        return setAddressRepresentation(Nillable.of(AddressRepresentation));
     }
 
     public Nillable<String> getContactInstructions() {
@@ -68,19 +69,19 @@ public class Contact {
         return setContactInstructions(Nillable.of(contactInstructions));
     }
 
-    public Nillable<String> getElectronicMailAddress() {
-        return electronicMailAddress;
+    public Nillable<String> getElectronicMailAddressRepresentation() {
+        return electronicMailAddressRepresentation;
     }
 
-    public Contact setElectronicMailAddress(
-            Nillable<String> electronicMailAddress) {
-        this.electronicMailAddress = Preconditions
-                .checkNotNull(electronicMailAddress);
+    public Contact setElectronicMailAddressRepresentation(
+            Nillable<String> electronicMailAddressRepresentation) {
+        this.electronicMailAddressRepresentation = Preconditions
+                .checkNotNull(electronicMailAddressRepresentation);
         return this;
     }
 
-    public Contact setElectronicMailAddress(String electronicMailAddress) {
-        return setElectronicMailAddress(Nillable.of(electronicMailAddress));
+    public Contact setElectronicMailAddressRepresentation(String electronicMailAddressRepresentation) {
+        return setElectronicMailAddressRepresentation(Nillable.of(electronicMailAddressRepresentation));
     }
 
     public Nillable<String> getHoursOfService() {
@@ -138,8 +139,8 @@ public class Contact {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getAddress(), getContactInstructions(),
-                                getElectronicMailAddress(), getHoursOfService(),
+        return Objects.hashCode(getAddressRepresentation(), getContactInstructions(),
+                                getElectronicMailAddressRepresentation(), getHoursOfService(),
                                 getTelephoneFacsimile(), getTelephoneVoice(),
                                 getWebsite());
     }
@@ -148,9 +149,9 @@ public class Contact {
     public boolean equals(Object obj) {
         if (obj instanceof Contact) {
             Contact that = (Contact) obj;
-            return Objects.equal(getAddress(), that.getAddress()) &&
+            return Objects.equal(getAddressRepresentation(), that.getAddressRepresentation()) &&
                    Objects.equal(getContactInstructions(), that.getContactInstructions()) &&
-                   Objects.equal(getElectronicMailAddress(), that.getElectronicMailAddress()) &&
+                   Objects.equal(getElectronicMailAddressRepresentation(), that.getElectronicMailAddressRepresentation()) &&
                    Objects.equal(getHoursOfService(), that.getHoursOfService()) &&
                    Objects.equal(getTelephoneFacsimile(), that.getTelephoneFacsimile()) &&
                    Objects.equal(getTelephoneVoice(), that.getTelephoneVoice()) &&
@@ -162,9 +163,9 @@ public class Contact {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .add("address", getAddress())
+                .add("AddressRepresentation", getAddressRepresentation())
                 .add("contactInstructions", getContactInstructions())
-                .add("electronicMailAddress", getElectronicMailAddress())
+                .add("electronicMailAddressRepresentation", getElectronicMailAddressRepresentation())
                 .add("hoursOfService", getHoursOfService())
                 .add("telephoneFacsimile", getTelephoneFacsimile())
                 .add("telephoneVoice", getTelephoneVoice())

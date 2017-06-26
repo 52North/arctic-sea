@@ -22,6 +22,7 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType quantity
@@ -40,6 +41,9 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
      * value
      */
     private Double value;
+
+    private Referenceable<SweAllowedValues> constraint;
+
 
     /**
      * constructor
@@ -116,6 +120,9 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
         if ((getAxisID() == null) ? (other.getAxisID() != null) : !getAxisID().equals(other.getAxisID())) {
             return false;
         }
+        if ((getValue() == null) ? (other.getValue() != null) : !getValue().equals(other.getValue())) {
+            return false;
+        }
         return super.equals(obj);
     }
 
@@ -151,6 +158,31 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
         return (SweQuantity) super.setQuality(quality);
     }
 
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedValues> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedValues constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedValues> constraint) {
+        this.constraint = constraint;
+    }
+
     @Override
     public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
@@ -170,6 +202,9 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
         }
         if (isSetValue()) {
             copy.setValue(getValue());
+        }
+        if (isSetContstraint()) {
+            copy.setConstraint(getConstraint());
         }
         return copy;
     }

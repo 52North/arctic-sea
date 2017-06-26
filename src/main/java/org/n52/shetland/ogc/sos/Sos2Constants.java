@@ -32,7 +32,7 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
-public interface Sos2Constants {
+public interface Sos2Constants extends SosConstants {
 
     String NS_SOS_20 = "http://www.opengis.net/sos/2.0";
 
@@ -225,7 +225,8 @@ public interface Sos2Constants {
     enum Extensions {
         SplitDataArrayIntoObservations,
         MergeObservationsIntoDataArray,
-        Language;
+        Language,
+        SeriesType;
     }
 
     /**

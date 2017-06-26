@@ -116,4 +116,5 @@ public interface FeatureWith {
          */
         boolean isEncode();
     }
+
 }

@@ -20,10 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 
-public class ProcessChain extends AbstractProcess implements HasComponents<ProcessChain> {
+public class ProcessChain extends AbstractProcess implements HasComponents<ProcessChain>, HasConnections<ProcessChain> {
 
     private final List<SmlComponent> components = new ArrayList<>(0);
+    private SmlConnection connections;
 
     @Override
     public List<SmlComponent> getComponents() {
@@ -46,9 +48,13 @@ public class ProcessChain extends AbstractProcess implements HasComponents<Proce
         return this;
     }
 
-    @Override
-    public boolean isSetComponents() {
-        return components != null && !components.isEmpty();
+    public SmlConnection getConnections() {
+        return connections;
+    }
+
+    public ProcessChain setConnections(SmlConnection connections) {
+        this.connections = connections;
+        return this;
     }
 
     @Override

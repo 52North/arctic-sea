@@ -68,6 +68,11 @@ public class ProfileValue extends AbstractFeature implements Value<List<ProfileL
         return this;
     }
 
+    public ProfileValue addValues(List<ProfileLevel> value) {
+        this.values.addAll(value);
+        return this;
+    }
+
     @Override
     public List<ProfileLevel> getValue() {
         return values;
