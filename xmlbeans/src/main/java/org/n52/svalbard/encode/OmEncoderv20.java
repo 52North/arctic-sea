@@ -68,7 +68,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
-import org.n52.shetland.ogc.wml.WaterMLConstants;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClasses;

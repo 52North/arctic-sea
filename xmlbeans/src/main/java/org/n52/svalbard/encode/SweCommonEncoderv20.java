@@ -109,6 +109,7 @@ import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
+import org.n52.shetland.ogc.swe.simpleType.SweCategoryRange;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweCountRange;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
@@ -350,6 +351,11 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                             xbCategory.setValue(component.getValue());
                         }
                         return xbCategory;
+                    }
+
+                    @Override
+                    public AbstractDataComponentType visit(SweCategoryRange component) throws EncodingException {
+                        return unsupported(component);
                     }
 
                     @Override

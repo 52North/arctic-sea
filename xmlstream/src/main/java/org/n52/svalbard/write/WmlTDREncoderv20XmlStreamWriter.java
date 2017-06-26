@@ -19,7 +19,7 @@ package org.n52.svalbard.write;
 import java.util.Optional;
 
 import org.n52.shetland.ogc.om.OmObservation;
-import org.n52.shetland.ogc.wml.WaterMLConstants;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 
 /**
  * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0
