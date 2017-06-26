@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.om;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -29,11 +28,8 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
-import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
-import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
-import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
@@ -428,7 +424,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
      */
     public TVPValue convertSingleValueToMultiValue(final SingleObservationValue<?> singleValue) {
         MultiObservationValues<List<TimeValuePair>> multiValue =
-                new MultiObservationValues<List<TimeValuePair>>();
+                new MultiObservationValues<>();
         TVPValue tvpValue = new TVPValue();
         if (singleValue.isSetUnit()) {
             tvpValue.setUnit(singleValue.getUnit());
@@ -786,8 +782,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Add a related observation
      *
-     * @param relatedObservations
-     *            the relatedObservations to set
+     * @param relatedObservation
+     *            the relatedObservation to add
      */
     public void addRelatedObservation(OmObservationContext relatedObservation) {
         this.relatedObservations.add(relatedObservation);
