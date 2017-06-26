@@ -313,6 +313,10 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         AbstractPhenomenon observableProperty = observation.getObservationConstellation().getObservableProperty();
         xb.addNewObservedProperty().setHref(observableProperty.getIdentifier());
 
+        if (observableProperty.isSetName() && observableProperty.getFirstName().isSetValue()) {
+            xb.getObservedProperty().setTitle(observableProperty.getFirstName().getValue());
+        }
+
     }
 
     private XmlObject encodeProcedureDescription(SosProcedureDescription<?> procedureDescription)
