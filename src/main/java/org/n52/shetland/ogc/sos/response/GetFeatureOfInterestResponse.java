@@ -40,6 +40,20 @@ public class GetFeatureOfInterestResponse extends OwsServiceResponse {
         super(service, version, operationName);
     }
 
+    public GetFeatureOfInterestResponse(AbstractFeature abstractFeature) {
+        this.abstractFeature = abstractFeature;
+    }
+
+    public GetFeatureOfInterestResponse(String service, String version, AbstractFeature abstractFeature) {
+        super(service, version);
+        this.abstractFeature = abstractFeature;
+    }
+
+    public GetFeatureOfInterestResponse(String service, String version, String operationName, AbstractFeature abstractFeature) {
+        super(service, version, operationName);
+        this.abstractFeature = abstractFeature;
+    }
+
     public AbstractFeature getAbstractFeature() {
         return abstractFeature;
     }
