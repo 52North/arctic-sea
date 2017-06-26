@@ -29,13 +29,13 @@ import org.n52.janmayen.NcName;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
-import org.n52.shetland.inspire.Address;
 import org.n52.shetland.inspire.Contact;
 import org.n52.shetland.inspire.GeographicalName;
 import org.n52.shetland.inspire.InspireID;
 import org.n52.shetland.inspire.Pronunciation;
 import org.n52.shetland.inspire.RelatedParty;
 import org.n52.shetland.inspire.Spelling;
+import org.n52.shetland.inspire.ad.AddressRepresentation;
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -271,9 +271,9 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
 
     protected void encodeContact(Contact c) throws XMLStreamException {
         start(AqdConstants.QN_BASE2_C_ONTACT);
-        encodeAddress(c.getAddress());
+        encodeAddress(c.getAddressRepresentation());
         encodeNillableFreeText(AqdConstants.QN_BASE2_CONTACT_INSTRUCTIONS, c.getContactInstructions());
-        encodeNillableString(AqdConstants.QN_BASE2_ELECTRONIC_MAIL_ADDRESS, c.getElectronicMailAddress());
+        encodeNillableString(AqdConstants.QN_BASE2_ELECTRONIC_MAIL_ADDRESS, c.getElectronicMailAddressRepresentation());
         encodeNillableFreeText(AqdConstants.QN_BASE2_HOURS_OF_SERVICE, c.getHoursOfService());
         for (Nillable<String> value : c.getTelephoneFacsimile()) {
             encodeNillableString(AqdConstants.QN_BASE2_TELEPHONE_FACSIMILE, value);
@@ -285,7 +285,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(AqdConstants.QN_BASE2_C_ONTACT);
     }
 
-    private void encodeAddress(Nillable<Address> v) throws XMLStreamException {
+    private void encodeAddress(Nillable<AddressRepresentation> v) throws XMLStreamException {
         if (!v.isAbsent()) {
             if (v.isNil()) {
                 empty(AqdConstants.QN_BASE2_ADDRESS);
@@ -298,7 +298,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    private void encodeAddress(Address v) throws XMLStreamException {
+    private void encodeAddress(AddressRepresentation v) throws XMLStreamException {
         start(AqdConstants.QN_AD_ADDRESS_REPRESENTATION);
 
         for (GeographicalName value : v.getAdminUnits()) {
