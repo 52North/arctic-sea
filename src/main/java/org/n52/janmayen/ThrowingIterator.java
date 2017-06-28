@@ -63,7 +63,7 @@ public interface ThrowingIterator<T, X extends Exception> {
      * @see Iterator#next()
      */
     @CheckReturnValue
-    public T next() throws NoSuchElementException, X;
+    T next() throws NoSuchElementException, X;
 
     /**
      * Returns {@code true} if the iteration has more elements. (In other words, returns {@code true} if {@link #next}
@@ -75,7 +75,7 @@ public interface ThrowingIterator<T, X extends Exception> {
      * @see Iterator#hasNext()
      */
     @CheckReturnValue
-    public boolean hasNext() throws X;
+    boolean hasNext() throws X;
 
     /**
      * Removes from the underlying collection the last element returned by this iterator (optional operation). This
