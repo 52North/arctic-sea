@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>4</version>
+        <version>7</version>
     </parent>
 
     <groupId>org.n52.iceland</groupId>
@@ -128,7 +128,7 @@
             <dependency>
                 <groupId>org.n52.janmayen</groupId>
                 <artifactId>janmayen</artifactId>
-                <version>1.1.0</version>
+                <version>1.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.n52.svalbard</groupId>
@@ -341,6 +341,12 @@
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans</artifactId>
                 <version>${version.xmlbeans}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>stax</groupId>
+                        <artifactId>stax-api</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

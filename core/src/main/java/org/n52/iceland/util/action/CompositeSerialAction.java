@@ -24,10 +24,9 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 /**
- * @param <A>
+ * @param <A> the action type
+ *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 1.0.0

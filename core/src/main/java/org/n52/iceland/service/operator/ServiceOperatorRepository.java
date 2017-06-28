@@ -33,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.collect.Maps;
@@ -43,7 +42,8 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class ServiceOperatorRepository extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory>
+public class ServiceOperatorRepository
+        extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory>
         implements Constructable {
 
     @Deprecated
@@ -90,16 +90,13 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
     }
 
     /**
-     * @param service
-     *            the service
-     * @param version
-     *            the version
+     * @param service the service
+     * @param version the version
+     *
      * @return the implemented request listener
      *
-     *
-     * @throws OwsExceptionReport
      */
-    public ServiceOperator getServiceOperator(final String service, final String version) throws OwsExceptionReport {
+    public ServiceOperator getServiceOperator(final String service, final String version) {
         return getServiceOperator(new OwsServiceKey(service, version));
     }
 
@@ -108,8 +105,8 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
     }
 
     /**
-     * @param service
-     *            the service
+     * @param service the service
+     *
      * @return the supportedVersions
      *
      */
@@ -118,10 +115,9 @@ public class ServiceOperatorRepository extends AbstractComponentRepository<OwsSe
     }
 
     /**
-     * @param service
-     *            the service
-     * @param version
-     *            the version
+     * @param service the service
+     * @param version the version
+     *
      * @return the supportedVersions
      *
      */

@@ -19,26 +19,24 @@ package org.n52.iceland.util;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.n52.janmayen.Producer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.faroe.ConfigurationError;
+import org.n52.janmayen.Producer;
 
 /**
-
-@author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
-*/
+ *
+ * @author <a href="mailto:d.nuest@52north.org">Daniel Nüst</a>
+ */
 public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
 
-    private static final Logger log = LoggerFactory.getLogger(LocalizedLazyThreadSafeProducer.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(LocalizedLazyThreadSafeProducer.class);
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
-    private T t = null;
+    private T t;
 
     protected void setRecreate() {
-        log.trace("Removing internal object to recreate it. Old object: {}", this.t);
+        LOG.trace("Removing internal object to recreate it. Old object: {}", this.t);
         this.lock.writeLock().lock();
         try {
             this.t = null;
@@ -65,7 +63,7 @@ public abstract class LazyThreadSafeProducer<T> implements Producer<T> {
             if (this.t == null) {
                 // create it
                 this.t = create();
-                log.trace("Created a new object: {}", this.t);
+                LOG.trace("Created a new object: {}", this.t);
             }
             // downgrade to read lock
             this.lock.readLock().lock();

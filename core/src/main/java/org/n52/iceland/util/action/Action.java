@@ -24,9 +24,10 @@ package org.n52.iceland.util.action;
  *
  * @see <a href=
  *      "http://www.sfgate.com/politics/article/THE-CALIFORNIA-TRANSITION-Incoming-governor-s-2581330.php"
- *      >[...]Incoming governor's mantra: 'Action'[...]</a>
+ * >[...]Incoming governor's mantra: 'Action'[...]</a>
  */
 @FunctionalInterface
 public interface Action {
+
     void execute();
 }

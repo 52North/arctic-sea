@@ -43,25 +43,25 @@ public final class FileIOHelper {
 
     private static final String READ_MODE = "r";
 
+    private FileIOHelper() {
+    }
+
     /**
      * Loads a file and returns an InputStream
      *
      *
      *
-     * @param file
-     *            File to load
+     * @param file File to load
      *
      * @return InputStream of the file
      *
-     * @throws OwsExceptionReport
-     *             If and error occurs;
+     * @throws OwsExceptionReport If and error occurs;
+     * @deprecated use {@link FileInputStream}
      */
     @Deprecated
     public static InputStream loadInputStreamFromFile(File file) throws OwsExceptionReport {
-        InputStream is;
         try {
-            is = new FileInputStream(file);
-            return is;
+            return new FileInputStream(file);
         } catch (FileNotFoundException fnfe) {
             throw new GenericThrowableWrapperException(fnfe);
         }
@@ -106,6 +106,4 @@ public final class FileIOHelper {
         }
     }
 
-    private FileIOHelper() {
-    }
 }

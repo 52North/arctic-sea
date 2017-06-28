@@ -35,7 +35,7 @@ public interface ActivationDao {
      *
      * @return {@code true} if the operation is active in this service
      */
-    public abstract boolean isRequestOperatorActive(RequestOperatorKey key);
+    boolean isRequestOperatorActive(RequestOperatorKey key);
 
     /**
      * Sets the status of an operation.
@@ -54,7 +54,7 @@ public interface ActivationDao {
      *
      * @return if the binding is active
      */
-    public abstract boolean isBindingActive(BindingKey key);
+    boolean isBindingActive(BindingKey key);
 
     /**
      * Sets the status of a binding.

@@ -55,12 +55,12 @@ import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
 import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -78,7 +78,7 @@ public class KvpBinding extends SimpleBinding {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);
 
-    @Deprecated // SOS-specific
+    @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_KVP_CORE_BINDING);
 
@@ -89,7 +89,7 @@ public class KvpBinding extends SimpleBinding {
 
     private boolean useHttpResponseCodes;
 
-    private boolean includeOriginal = false;
+    private boolean includeOriginalRequest;
 
     @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
     public void setUseHttpResponseCodes(boolean useHttpResponseCodes) {
@@ -102,8 +102,8 @@ public class KvpBinding extends SimpleBinding {
     }
 
     @Setting(MiscSettings.INCLUDE_ORIGINAL_REQUEST)
-    public void setIncludeOriginalRequest(boolean includeOriginal) {
-        this.includeOriginal = includeOriginal;
+    public void setIncludeOriginalRequest(boolean includeOriginalRequest) {
+        this.includeOriginalRequest = includeOriginalRequest;
     }
 
     @Override
@@ -120,7 +120,6 @@ public class KvpBinding extends SimpleBinding {
     public String getUrlPattern() {
         return BindingConstants.KVP_BINDING_ENDPOINT;
     }
-
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
@@ -200,7 +199,7 @@ public class KvpBinding extends SimpleBinding {
         } catch (DecodingException ex) {
             throw toOwsExceptionReport(ex);
         }
-        if (this.includeOriginal) {
+        if (this.includeOriginalRequest) {
             request.setOriginalRequest(String.join("?", req.getRequestURL(), req.getQueryString()));
         }
 

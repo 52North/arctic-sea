@@ -39,13 +39,15 @@ public class KibanaExporter {
     private static String statisticsIndex;
     private static TransportClient client;
 
+    //CHECKSTYLE:OFF
     public static void main(String args[]) throws Exception {
         if (args.length != 2) {
             System.out.printf("Usage: java KibanaExporter.jar %s %s\n", "localhost:9300", "my-cluster-name");
             System.exit(0);
         }
         if (!args[0].contains(":")) {
-            throw new IllegalArgumentException(String.format("%s not a valid format. Expected <hostname>:<port>.", args[0]));
+            throw new IllegalArgumentException(String
+                    .format("%s not a valid format. Expected <hostname>:<port>.", args[0]));
         }
 
         // set ES address
@@ -87,6 +89,7 @@ public class KibanaExporter {
         client.close();
 
     }
+    //CHECKSTYLE:ON
 
     private static void searchIndexPattern()
             throws Exception {
@@ -94,8 +97,8 @@ public class KibanaExporter {
         System.out.println("Searching index pattern name for index-needle");
         SearchResponse indexPatternResp = client.prepareSearch(".kibana").setTypes("index-pattern").get();
         if (indexPatternResp.getHits().getHits().length != 1) {
-            throw new Exception("The .kibana/index-pattern type has multiple elements or none. Only one element is legal. "
-                    + "Set your kibana settings with only one index-pattern");
+            throw new Exception("The .kibana/index-pattern type has multiple elements or none. " +
+                                "Only one element is legal. Set your kibana settings with only one index-pattern");
         }
 
         statisticsIndex = indexPatternResp.getHits().getHits()[0].getId();

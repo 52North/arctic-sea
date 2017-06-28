@@ -76,7 +76,8 @@ public class OwsServiceMetadataRepositoryImpl implements OwsServiceMetadataRepos
     }
 
     private LocalizedProducer<OwsServiceIdentification> createServiceIdentificationFactory(String service) {
-        OwsServiceIdentificationFactory factory = new OwsServiceIdentificationFactory(service, this.serviceOperatorRepository);
+        OwsServiceIdentificationFactory factory = new OwsServiceIdentificationFactory(service,
+                                                                                      this.serviceOperatorRepository);
         this.settingsService.configure(factory);
         return factory;
     }

@@ -16,8 +16,7 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import static org.n52.janmayen.http.HTTPStatus.INTERNAL_SERVER_ERROR;
-
+import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
@@ -38,7 +37,7 @@ public class ServiceOperatorNotFoundException extends NoApplicableCodeException 
     public ServiceOperatorNotFoundException(final OwsServiceRequest request) {
         withMessage("Submission of core request '%s' failed. Could not get request operator for request type.",
                 request != null ? request.getClass().getName() : null);
-        setStatus(INTERNAL_SERVER_ERROR);
+        setStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

@@ -68,7 +68,7 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
         configuration().scheduleWrite();
     }
 
-    protected <K> Set<K> getKeys(String path,Function<JsonNode, K> decoder) {
+    protected <K> Set<K> getKeys(String path, Function<JsonNode, K> decoder) {
         readLock().lock();
         try {
             JsonNode array = getConfiguration().path(JsonConstants.ACTIVATION).path(path);

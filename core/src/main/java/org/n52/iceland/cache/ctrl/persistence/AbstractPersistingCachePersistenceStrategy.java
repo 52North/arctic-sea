@@ -26,19 +26,20 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
 import org.n52.janmayen.ConfigLocationProvider;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public abstract class AbstractPersistingCachePersistenceStrategy
         implements ContentCachePersistenceStrategy, Constructable {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbstractPersistingCachePersistenceStrategy.class);
-    public static final String CACHE_FILE = "cache.tmp";
+    private static final String CACHE_FILE = "cache.tmp";
     private String cacheFile;
 
     private ConfigLocationProvider configLocationProvider;
@@ -69,10 +70,10 @@ public abstract class AbstractPersistingCachePersistenceStrategy
                  ObjectInputStream ois = new ObjectInputStream(fis)) {
                 return Optional.of((WritableContentCache) ois.readObject());
             } catch (IOException | ClassNotFoundException ex) {
-                LOGGER.error(String.format("Error reading cache file '%s'", file.getAbsolutePath()), ex);
+                logErrorReading(file, ex);
             }
             if (!file.delete()) {
-                LOGGER.error("Error deleting cache file '{}'", file.getAbsolutePath());
+                logErrorDeleting(file);
             }
         } else {
             LOGGER.debug("No cache temp file found at '{}'", file.getAbsolutePath());
@@ -89,11 +90,11 @@ public abstract class AbstractPersistingCachePersistenceStrategy
 
             try {
                 if (!file.createNewFile()) {
-                    LOGGER.error("Can not create writable file {}", file.getAbsolutePath());
+                    logErroWriting(file);
                     return;
                 }
             } catch (IOException ex) {
-                LOGGER.error(String.format("Error serializing cache to '%s'", file.getAbsolutePath()), ex);
+                logErrorSerializing(file, ex);
             }
 
             try (FileOutputStream fos = new FileOutputStream(file);
@@ -101,7 +102,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
                 LOGGER.debug("Serializing cache to {}", file.getAbsolutePath());
                 oos.writeObject(cache);
             } catch (IOException t) {
-                LOGGER.error(String.format("Error serializing cache to '%s'", file.getAbsolutePath()), t);
+                logErrorSerializing(file, t);
             }
         }
     }
@@ -111,8 +112,24 @@ public abstract class AbstractPersistingCachePersistenceStrategy
         File f = getCacheFile();
         if (f != null && f.exists()) {
             if (!f.delete()) {
-                LOGGER.error("Error deleting cache file '{}'", f.getAbsolutePath());
+                logErrorDeleting(f);
             }
         }
+    }
+
+    private void logErrorSerializing(File file, IOException ex) {
+        LOGGER.error(String.format("Error serializing cache to '%s'", file.getAbsolutePath()), ex);
+    }
+
+    private void logErrorDeleting(File f) {
+        LOGGER.error("Error deleting cache file '{}'", f.getAbsolutePath());
+    }
+
+    private void logErroWriting(File file) {
+        LOGGER.error("Can not create writable file {}", file.getAbsolutePath());
+    }
+
+    private void logErrorReading(File file, Exception ex) {
+        LOGGER.error(String.format("Error reading cache file '%s'", file.getAbsolutePath()), ex);
     }
 }

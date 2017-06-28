@@ -16,9 +16,6 @@
  */
 package org.n52.iceland.service;
 
-import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
-import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
-
 import java.net.URI;
 import java.util.Locale;
 
@@ -32,8 +29,8 @@ import org.n52.svalbard.CodingSettings;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @deprecated inject settings in classes that actually use the setting
  *
  * @since 1.0.0
  */
@@ -52,19 +49,6 @@ public class ServiceConfiguration implements Constructable {
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
 
     /**
-     * @return Returns a singleton instance of the ServiceConfiguration.
-     */
-    @Deprecated
-    public static synchronized ServiceConfiguration getInstance() {
-        return ServiceConfiguration.instance;
-    }
-
-    @Override
-    public void init() {
-        ServiceConfiguration.instance = this;
-    }
-
-    /**
      * URL of this service.
      */
     private String serviceURL;
@@ -73,46 +57,18 @@ public class ServiceConfiguration implements Constructable {
      * directory of sensor descriptions in SensorML format.
      */
     private String sensorDirectory;
-
-    /**
-     * Prefix URN for the spatial reference system.
-     */
-    private String srsNamePrefix;
-
-    /**
-     * prefix URN for the spatial reference system.
-     */
-    private String srsNamePrefixSosV2;
-
-    /**
-     * token separator for result element.
-     */
-    private String tokenSeparator;
-
-    /**
-     * tuple separator for result element.
-     */
-    private String tupleSeparator;
-
-    /**
-     * decimal separator for result element.
-     */
-    private String decimalSeparator;
-
     private boolean deregisterJdbcDriver;
-
     private Locale defaultLanguage;
-
     private boolean showAllLanguageValues;
-
     private int maxNumberOfReturnedTimeSeries = Integer.MAX_VALUE;
-
     private int maxNumberOfReturnedValues = Integer.MAX_VALUE;
-
     private boolean overallExtrema = true;
-
     private boolean streamingEncoding = true;
 
+    @Override
+    public void init() {
+        ServiceConfiguration.instance = this;
+    }
 
     @Deprecated
     public String getDefaultOfferingPrefix() {
@@ -124,7 +80,6 @@ public class ServiceConfiguration implements Constructable {
         return encodeFullChildrenInDescribeSensor;
     }
 
-//    @Setting(ENCODE_FULL_CHILDREN_IN_DESCRIBE_SENSOR)
     @Deprecated
     public void setEncodeFullChildrenInDescribeSensor(final boolean encodeFullChildrenInDescribeSensor) {
         this.encodeFullChildrenInDescribeSensor = encodeFullChildrenInDescribeSensor;
@@ -135,7 +90,6 @@ public class ServiceConfiguration implements Constructable {
         return addOutputsToSensorML;
     }
 
-//    @Setting(ADD_OUTPUTS_TO_SENSOR_ML)
     @Deprecated
     public void setAddOutputsToSensorML(final boolean addOutputsToSensorML) {
         this.addOutputsToSensorML = addOutputsToSensorML;
@@ -146,7 +100,6 @@ public class ServiceConfiguration implements Constructable {
         return strictSpatialFilteringProfile;
     }
 
-//    @Setting(STRICT_SPATIAL_FILTERING_PROFILE)
     @Deprecated
     public void setStrictSpatialFilteringProfile(final boolean strictSpatialFilteringProfile) {
         this.strictSpatialFilteringProfile = strictSpatialFilteringProfile;
@@ -161,10 +114,7 @@ public class ServiceConfiguration implements Constructable {
         this.validateResponse = validateResponse;
     }
 
-    /**
-     * @return the supportsQuality
-     */
-    // HibernateObservationUtilities
+    @Deprecated
     public boolean isSupportsQuality() {
         return true;
     }
@@ -173,22 +123,17 @@ public class ServiceConfiguration implements Constructable {
         return useHttpStatusCodesInKvpAndPoxBinding;
     }
 
-    @Setting(HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
+    @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
     public void setUseHttpStatusCodesInKvpAndPoxBinding(final boolean useHttpStatusCodesInKvpAndPoxBinding) {
-        Validation.notNull(HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING, useHttpStatusCodesInKvpAndPoxBinding);
+        Validation.notNull(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING, useHttpStatusCodesInKvpAndPoxBinding);
         this.useHttpStatusCodesInKvpAndPoxBinding = useHttpStatusCodesInKvpAndPoxBinding;
     }
 
-    /**
-     * @return Returns the sensor description directory
-     */
-    // HibernateProcedureUtilities
     @Deprecated
     public String getSensorDir() {
         return sensorDirectory;
     }
 
-//    @Setting(SENSOR_DIRECTORY)
     @Deprecated
     public void setSensorDirectory(final String sensorDirectory) {
         this.sensorDirectory = sensorDirectory;
@@ -203,7 +148,7 @@ public class ServiceConfiguration implements Constructable {
         return serviceURL;
     }
 
-    @Setting(SERVICE_URL)
+    @Setting(ServiceSettings.SERVICE_URL)
     public void setServiceURL(final URI serviceURL) throws ConfigurationError {
         Validation.notNull("Service URL", serviceURL);
         String url = serviceURL.toString();
@@ -213,13 +158,12 @@ public class ServiceConfiguration implements Constructable {
         this.serviceURL = url;
     }
 
-//    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)
-    @Deprecated // SOS-specific?!
+    @Deprecated
     public void setDeregisterJdbcDriver(final boolean deregisterJdbcDriver) {
         this.deregisterJdbcDriver = deregisterJdbcDriver;
     }
 
-    @Deprecated // SOS-specific
+    @Deprecated
     public boolean isDeregisterJdbcDriver() {
         return deregisterJdbcDriver;
     }
@@ -267,7 +211,7 @@ public class ServiceConfiguration implements Constructable {
 
     @Setting(MiscSettings.RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST)
     public void setOverallExtrema(boolean overallExtrema) {
-        this.overallExtrema  = overallExtrema;
+        this.overallExtrema = overallExtrema;
     }
 
     public boolean isOverallExtrema() {
@@ -275,11 +219,21 @@ public class ServiceConfiguration implements Constructable {
     }
 
     @Setting(StreamingSettings.FORCE_STREAMING_ENCODING)
-    public void setForceStreamingEncoding(boolean streamingEncoding) {
-        this.streamingEncoding  = streamingEncoding;
+    public void setStreamingEncoding(boolean streamingEncoding) {
+        this.streamingEncoding = streamingEncoding;
     }
 
     public boolean isForceStreamingEncoding() {
         return streamingEncoding;
+    }
+
+    /**
+     * @return Returns a singleton instance of the ServiceConfiguration.
+     *
+     * @deprecated use injection
+     */
+    @Deprecated
+    public static synchronized ServiceConfiguration getInstance() {
+        return ServiceConfiguration.instance;
     }
 }

@@ -25,17 +25,17 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 
-public abstract class LocalizedLazyThreadSafeProducer<T> extends LazyThreadSafeProducer<T> implements LocalizedProducer<T> {
+public abstract class LocalizedLazyThreadSafeProducer<T> extends LazyThreadSafeProducer<T>
+        implements LocalizedProducer<T> {
 
-    private final LoadingCache<Locale, T> cache = CacheBuilder.newBuilder()
-            .build(new CacheLoader<Locale, T>() {
-                @Override
-                public T load(Locale key) {
-                    return create(key);
-                }
-            });
+    private final LoadingCache<Locale, T> cache = CacheBuilder.newBuilder().build(new CacheLoader<Locale, T>() {
+        @Override
+        public T load(Locale key) {
+            return create(key);
+        }
+    });
 
-    protected T t = null;
+    private T t;
 
     @Override
     protected void setRecreate() {

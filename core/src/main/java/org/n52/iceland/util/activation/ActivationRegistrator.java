@@ -66,12 +66,12 @@ public class ActivationRegistrator implements Constructable {
     }
 
     @SuppressWarnings("unchecked")
-    private  void registerListeners() {
+    private void registerListeners() {
         LOG.debug("Registering listeners");
         this.listeners.forEach(chain(logger(), ActivationListenable::registerListener));
     }
 
-    private static <T, U> BiConsumer<T,U> logger() {
+    private static <T, U> BiConsumer<T, U> logger() {
         return (a, b) -> LOG.debug("Registering {} for {}", a, b);
     }
 

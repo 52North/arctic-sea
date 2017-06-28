@@ -28,7 +28,7 @@ import java.nio.file.attribute.BasicFileAttributes;
  *
  * @author Christian Autermann
  */
-public class MoreFiles {
+public final class MoreFiles {
     private MoreFiles() {
     }
 

@@ -33,7 +33,8 @@ public class CountingOutputStreamEventResolver implements StatisticsServiceEvent
         if (event == null) {
             return null;
         }
-        StatisticsServiceEventHandler<CountingOutputStreamEvent> handler = EventHandlerFinder.findHandler(event, handlers);
+        StatisticsServiceEventHandler<CountingOutputStreamEvent> handler = EventHandlerFinder
+                .findHandler(event, handlers);
 
         return handler.resolveAsMap(event);
     }

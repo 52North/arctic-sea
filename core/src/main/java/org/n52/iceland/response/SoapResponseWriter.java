@@ -51,7 +51,8 @@ public class SoapResponseWriter extends AbstractResponseWriter<SOAPMessage> {
     }
 
     @Override
-    public void write(SOAPMessage t, OutputStream out, ResponseProxy responseProxy) throws IOException, EncodingException {
+    public void write(SOAPMessage t, OutputStream out, ResponseProxy responseProxy)
+            throws IOException, EncodingException {
         try {
             t.writeTo(out);
         } catch (SOAPException soapex) {

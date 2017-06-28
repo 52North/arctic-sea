@@ -25,11 +25,11 @@ import org.n52.janmayen.lifecycle.Constructable;
 
 public interface IAdminDataHandler extends Constructable, Destroyable {
 
-    public void deleteIndex(String index);
+    void deleteIndex(String index);
 
-    public void createSchema();
+    void createSchema();
 
-    public Client getElasticsearchClient();
+    Client getElasticsearchClient();
 
-    public ElasticsearchSettings getElasticsearchSettings();
+    ElasticsearchSettings getElasticsearchSettings();
 }

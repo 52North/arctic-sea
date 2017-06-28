@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.n52.iceland.binding.kvp.AbstractKvpDecoder;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
@@ -37,6 +38,7 @@ import com.google.common.base.Strings;
  * Utility class for Key-Value-Pair (KVP) requests
  *
  * @since 1.0.0
+ * @deprecated use {@link AbstractKvpDecoder}
  *
  */
 @Deprecated
@@ -114,9 +116,9 @@ public final class KvpHelper {
 
     private static String getParameterValue(String name, Map<String, String> map) {
         return map.computeIfAbsent(name, key
-                -> map.entrySet().stream()
-                .filter(e -> e.getKey().equalsIgnoreCase(key))
-                .findFirst().map(Entry::getValue).orElse(null)
+                                   -> map.entrySet().stream()
+                        .filter(e -> e.getKey().equalsIgnoreCase(key))
+                        .findFirst().map(Entry::getValue).orElse(null)
         );
     }
 
@@ -127,8 +129,10 @@ public final class KvpHelper {
     /**
      * Perform a sanity check on the request parameter without considering version.
      *
-     * @param value
-     * @throws OwsExceptionReport
+     * @param value the value
+     *
+     * @throws OwsExceptionReport if the operation could not be found
+     * @deprecated use injection to get the {@link RequestOperatorRepository}.
      */
     @Deprecated
     public static void checkRequestParameter(String value) throws OwsExceptionReport {

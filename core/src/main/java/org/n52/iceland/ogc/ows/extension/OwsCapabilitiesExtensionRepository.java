@@ -16,11 +16,14 @@
  */
 package org.n52.iceland.ogc.ows.extension;
 
-import static org.n52.janmayen.Producers.produce;
+import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map.Entry;
+import java.util.Map;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -30,14 +33,9 @@ import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.function.Suppliers;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.SetMultimap;
 
 /**
  * Repository for {@link OwsCapabilitiesExtension} implementations
@@ -45,8 +43,11 @@ import com.google.common.collect.SetMultimap;
  * @since 1.0.0
  *
  */
-public class OwsCapabilitiesExtensionRepository extends
-        AbstractComponentRepository<OwsCapabilitiesExtensionKey, OwsCapabilitiesExtensionProvider, OwsCapabilitiesExtensionProviderFactory> implements Constructable{
+public class OwsCapabilitiesExtensionRepository
+        extends AbstractComponentRepository<OwsCapabilitiesExtensionKey,
+                                            OwsCapabilitiesExtensionProvider,
+                                            OwsCapabilitiesExtensionProviderFactory>
+        implements Constructable {
     @Deprecated
     private static OwsCapabilitiesExtensionRepository instance;
     @Inject
@@ -55,8 +56,8 @@ public class OwsCapabilitiesExtensionRepository extends
     /**
      * Implemented {@link OwsCapabilitiesExtensionProvider}
      */
-    private final ListMultimap<OwsCapabilitiesExtensionKey, Producer<OwsCapabilitiesExtensionProvider>> providers
-            = LinkedListMultimap.create();
+    private final Map<OwsCapabilitiesExtensionKey, Set<Producer<OwsCapabilitiesExtensionProvider>>> providers
+            = new HashMap<>();
 
     @Autowired(required = false)
     private Collection<OwsCapabilitiesExtensionProvider> components;
@@ -67,41 +68,33 @@ public class OwsCapabilitiesExtensionRepository extends
     public void init() {
         OwsCapabilitiesExtensionRepository.instance = this;
 
-        SetMultimap<OwsCapabilitiesExtensionKey, Producer<OwsCapabilitiesExtensionProvider>> implementations
+        Map<OwsCapabilitiesExtensionKey, Set<Producer<OwsCapabilitiesExtensionProvider>>> implementations
                 = getProviders(this.components, this.componentFactories);
         this.providers.clear();
-        for (Entry<OwsCapabilitiesExtensionKey, Producer<OwsCapabilitiesExtensionProvider>> entry: implementations.entries()) {
-            OwsCapabilitiesExtensionKey key = entry.getKey();
-            Producer<OwsCapabilitiesExtensionProvider> value = entry.getValue();
-            OwsCapabilitiesExtensionProvider provider = value.get();
-            if (!provider.hasRelatedOperation() ||
-                checkIfRelatedOperationIsActivated(key, provider
-                                                   .getRelatedOperation())) {
-                this.providers.put(key, value);
-            }
-        }
+        implementations.forEach((key, values) -> {
+            values.stream().filter(value -> {
+                OwsCapabilitiesExtensionProvider provider = value.get();
+                return !provider.hasRelatedOperation() ||
+                       checkIfRelatedOperationIsActivated(key, provider.getRelatedOperation());
+            }).forEach(value -> this.providers.computeIfAbsent(key, Suppliers.asFunction(HashSet::new)).add(value));
+
+        });
     }
 
-    public List<OwsCapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(OwsCapabilitiesExtensionKey key) throws OwsExceptionReport {
+    public List<OwsCapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(OwsCapabilitiesExtensionKey key) {
         return getAllValidCapabilitiesExtensionProvider(key, providers.get(key));
     }
 
     /**
-     * Get the implemented {@link OwsCapabilitiesExtensionProvider} for service and
-     * version
+     * Get the implemented {@link OwsCapabilitiesExtensionProvider} for service and version
      *
-     * @param service
-     *                Specific service
-     * @param version
-     *                Specific version
+     * @param service Specific service
+     * @param version Specific version
      *
      * @return the implemented Capabilities extension provider
-     *
-     * @throws OwsExceptionReport
      */
     public List<OwsCapabilitiesExtensionProvider> getCapabilitiesExtensionProvider(
-            String service, String version)
-            throws OwsExceptionReport {
+            String service, String version) {
         return getCapabilitiesExtensionProvider(new OwsCapabilitiesExtensionKey(service, version));
     }
 
@@ -109,26 +102,20 @@ public class OwsCapabilitiesExtensionRepository extends
      * Get all valid {@link OwsCapabilitiesExtensionProvider}
      *
      * @param key  the key
-     * @param list
-     *             Loaded CapabilitiesExtensionProvider
+     * @param list Loaded CapabilitiesExtensionProvider
      *
      * @return Valid CapabilitiesExtensionProvider
      */
     private List<OwsCapabilitiesExtensionProvider> getAllValidCapabilitiesExtensionProvider(
-            OwsCapabilitiesExtensionKey key, List<Producer<OwsCapabilitiesExtensionProvider>> list) {
-        List<OwsCapabilitiesExtensionProvider> activated = Lists.newLinkedList();
-        for (OwsCapabilitiesExtensionProvider provider : produce(list)) {
-            if (!provider.hasRelatedOperation() ||
-                checkIfRelatedOperationIsActivated(key, provider.getRelatedOperation())) {
-                activated.add(provider);
-            }
-        }
-        return activated;
+            OwsCapabilitiesExtensionKey key, Collection<Producer<OwsCapabilitiesExtensionProvider>> list) {
+        return list.stream().map(Producer::get)
+                .filter(provider -> !provider.hasRelatedOperation() ||
+                                    checkIfRelatedOperationIsActivated(key, provider.getRelatedOperation()))
+                .collect(toList());
     }
 
     /**
-     * Check if the related operation for the loaded
-     * {@link OwsCapabilitiesExtensionProvider} is active
+     * Check if the related operation for the loaded {@link OwsCapabilitiesExtensionProvider} is active
      *
      * @param key              the key
      * @param relatedOperation the operation
@@ -138,14 +125,13 @@ public class OwsCapabilitiesExtensionRepository extends
     private boolean checkIfRelatedOperationIsActivated(
             OwsCapabilitiesExtensionKey key, String relatedOperation) {
         RequestOperatorKey rok = new RequestOperatorKey(key.getService(),
-                key.getVersion(),
-                relatedOperation);
+                                                        key.getVersion(),
+                                                        relatedOperation);
         return this.requestOperatorRepository.isActive(rok);
     }
 
     @Deprecated
-    public static OwsCapabilitiesExtensionRepository getInstance(
-    ) {
+    public static OwsCapabilitiesExtensionRepository getInstance() {
         return OwsCapabilitiesExtensionRepository.instance;
     }
 

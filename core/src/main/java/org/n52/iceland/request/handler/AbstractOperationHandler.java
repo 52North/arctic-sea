@@ -56,8 +56,8 @@ import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.OwsRequestMethod;
 import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 /**
  * TODO JavaDoc
@@ -130,8 +130,9 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         this.bindingRepository.getBindings().values().stream().forEach(binding
                 -> HTTPMethods.METHODS.stream()
                         .filter(isMethodSupported(binding, operation))
-                        .forEach(method -> mediaTypesByMethod.computeIfAbsent(method, Functions.forSupplier(HashSet::new))
-                                .addAll(getMediaTypes(binding))));
+                        .forEach(method -> mediaTypesByMethod.computeIfAbsent(method,
+                                                                              Functions.forSupplier(HashSet::new))
+                        .addAll(getMediaTypes(binding))));
         return mediaTypesByMethod.entrySet().stream()
                 .map(e -> new OwsRequestMethod(this.serviceURL, e.getKey(), createContentTypeDomains(e.getValue())));
     }
@@ -202,6 +203,5 @@ public abstract class AbstractOperationHandler implements OperationHandler {
     protected Set<OwsMetadata> getOperationMetadata(String service, String version) throws OwsExceptionReport {
         return null;
     }
-
 
 }

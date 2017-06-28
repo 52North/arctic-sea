@@ -23,7 +23,8 @@ import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-public class OwsExceptionEventHandler extends AbstractElasticSearchDataHolder implements StatisticsServiceEventHandler<Exception> {
+public class OwsExceptionEventHandler extends AbstractElasticSearchDataHolder
+        implements StatisticsServiceEventHandler<Exception> {
 
     @Override
     public Map<String, Object> resolveAsMap(Exception rawException) {

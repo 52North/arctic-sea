@@ -25,8 +25,8 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ComparisonChain;
 
 /**
- * Key to identify a {@link RequestOperator}. The {@link RequestOperatorKey}
- * consists of service, version and operation name.
+ * Key to identify a {@link RequestOperator}. The {@link RequestOperatorKey} consists of service, version and operation
+ * name.
  *
  * @since 1.0.0
  */
@@ -38,21 +38,21 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
     private final boolean defaultActive;
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param sok
-     * @param operationName
+     * @param sok           the service operator key
+     * @param operationName the operation name
      */
     public RequestOperatorKey(OwsServiceKey sok, String operationName) {
         this(sok, operationName, true);
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param sok
-     * @param operationName
-     * @param defaultActive
+     * @param sok           the service key
+     * @param operationName the operation name
+     * @param defaultActive if this operation should be active by default
      */
     public RequestOperatorKey(OwsServiceKey sok, String operationName, boolean defaultActive) {
         this.sok = sok;
@@ -61,67 +61,67 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param service
-     * @param version
-     * @param operationName
+     * @param service       the service
+     * @param version       the version
+     * @param operationName the operation name
      */
     public RequestOperatorKey(String service, String version, String operationName) {
         this(new OwsServiceKey(service, version), operationName, true);
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param service
-     * @param version
-     * @param operationName
-     * @param defaultActive
+     * @param service       the service
+     * @param version       the version
+     * @param operationName the operation name
+     * @param defaultActive if this operation should be active by default
      */
     public RequestOperatorKey(String service, String version, String operationName, boolean defaultActive) {
         this(new OwsServiceKey(service, version), operationName, defaultActive);
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param sok
-     * @param operationName
+     * @param sok           the service key
+     * @param operationName the operation name
      */
     public RequestOperatorKey(OwsServiceKey sok, Enum<?> operationName) {
         this(sok, operationName.name());
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param sok
-     * @param operationName
-     * @param defaultActive
+     * @param sok           the service key
+     * @param operationName the operation name
+     * @param defaultActive if this operation should be active by default
      */
     public RequestOperatorKey(OwsServiceKey sok, Enum<?> operationName, boolean defaultActive) {
         this(sok, operationName.name(), defaultActive);
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param service
-     * @param version
-     * @param operationName
+     * @param service       the service
+     * @param version       the version
+     * @param operationName the operation name
      */
     public RequestOperatorKey(String service, String version, Enum<?> operationName) {
         this(service, version, operationName.name());
     }
 
     /**
-     * Constructor
+     * Create a new {@code RequestOperatorKey}.
      *
-     * @param service
-     * @param version
-     * @param operationName
-     * @param defaultActive
+     * @param service       the service
+     * @param version       the version
+     * @param operationName the operation name
+     * @param defaultActive if this operation should be active by default
      */
     public RequestOperatorKey(String service, String version, Enum<?> operationName, boolean defaultActive) {
         this(service, version, operationName.name(), defaultActive);
@@ -171,8 +171,8 @@ public class RequestOperatorKey implements Comparable<RequestOperatorKey>, Defau
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             RequestOperatorKey o = (RequestOperatorKey) obj;
-            return Objects.equal(getServiceOperatorKey(), o.getServiceOperatorKey())
-                    && Objects.equal(getOperationName(), o.getOperationName());
+            return Objects.equal(getServiceOperatorKey(), o.getServiceOperatorKey()) &&
+                   Objects.equal(getOperationName(), o.getOperationName());
         }
         return false;
     }

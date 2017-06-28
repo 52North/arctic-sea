@@ -20,7 +20,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 /**
  *
- * @author Matthes Rieke <m.rieke@52north.org>
+ * @author Matthes Rieke
  */
 public class NoContentResponse extends OwsServiceResponse {
 

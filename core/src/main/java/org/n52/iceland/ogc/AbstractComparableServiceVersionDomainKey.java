@@ -21,7 +21,6 @@ import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
-
 /**
  * Abstract class for comparable keys with parameters service, version and domain
  *
@@ -32,14 +31,14 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
  */
 public abstract class AbstractComparableServiceVersionDomainKey<T extends AbstractComparableServiceVersionDomainKey<T>>
         implements Comparable<T> {
-    private OwsServiceKey sok;
+    private OwsServiceKey serviceKey;
 
     private String domain;
 
     /**
      * constructor
      *
-     * @param sok the {@link OwsServiceKey} to set
+     * @param sok    the {@link OwsServiceKey} to set
      * @param domain the domain to set
      */
     public AbstractComparableServiceVersionDomainKey(OwsServiceKey sok, String domain) {
@@ -52,7 +51,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      *
      * @param service the service to set
      * @param version the version to set
-     * @param domain the domain to set
+     * @param domain  the domain to set
      */
     public AbstractComparableServiceVersionDomainKey(String service, String version, String domain) {
         this(new OwsServiceKey(service, version), domain);
@@ -61,10 +60,10 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * Set the {@link OwsServiceKey} to set
      *
-     * @param sok the {@link OwsServiceKey} to set
+     * @param key the {@link OwsServiceKey} to set
      */
-    private void setServiceOperatorKey(OwsServiceKey sok) {
-        this.sok = sok;
+    private void setServiceOperatorKey(OwsServiceKey key) {
+        this.serviceKey = key;
     }
 
     /**
@@ -73,7 +72,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      * @return the {@link OwsServiceKey}
      */
     public OwsServiceKey getServiceOperatorKey() {
-        return sok;
+        return serviceKey;
     }
 
     /**
@@ -82,7 +81,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      * @return the service
      */
     public String getService() {
-        return sok == null ? null : sok.getService();
+        return serviceKey == null ? null : serviceKey.getService();
     }
 
     /**
@@ -91,7 +90,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      * @return the version
      */
     public String getVersion() {
-        return sok == null ? null : sok.getVersion();
+        return serviceKey == null ? null : serviceKey.getVersion();
     }
 
     /**
@@ -117,7 +116,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     public int compareTo(T other) {
         return Comparator.comparing(T::getServiceOperatorKey)
                 .thenComparing(T::getDomain)
-                .compare((T)this, other);
+                .compare((T) this, other);
     }
 
     @SuppressWarnings("unchecked")
@@ -126,7 +125,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
         if (obj != null && obj.getClass() == getClass()) {
             T o = (T) obj;
             return Objects.equals(getServiceOperatorKey(), o.getServiceOperatorKey()) &&
-                     Objects.equals(getDomain(), o.getDomain());
+                   Objects.equals(getDomain(), o.getDomain());
         }
         return false;
     }

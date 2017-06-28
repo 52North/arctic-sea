@@ -30,30 +30,30 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.binding.Binding;
-import org.n52.iceland.binding.BindingRepository;
-import org.n52.janmayen.event.EventBus;
-import org.n52.iceland.event.events.ExceptionEvent;
-import org.n52.iceland.event.events.IncomingRequestEvent;
-import org.n52.iceland.event.events.OutgoingResponseEvent;
-import org.n52.iceland.exception.HTTPException;
-import org.n52.janmayen.http.HTTPHeaders;
-import org.n52.janmayen.http.HTTPMethods;
-import org.n52.janmayen.http.HTTPStatus;
-import org.n52.janmayen.http.MediaType;
-import org.n52.janmayen.http.MediaTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import org.n52.iceland.binding.Binding;
+import org.n52.iceland.binding.BindingRepository;
+import org.n52.iceland.event.events.ExceptionEvent;
+import org.n52.iceland.event.events.IncomingRequestEvent;
+import org.n52.iceland.event.events.OutgoingResponseEvent;
+import org.n52.iceland.exception.HTTPException;
+import org.n52.janmayen.event.EventBus;
+import org.n52.janmayen.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPMethods;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+
 import com.google.common.base.Stopwatch;
 
 /**
- * The servlet of the Service which receives the incoming HttpPost and HttpGet
- * requests and sends the operation result documents to the client TODO review
- * exception handling
+ * The servlet of the Service which receives the incoming HttpPost and HttpGet requests and sends the operation result
+ * documents to the client TODO review exception handling
  *
  * @since 1.0.0
  */
@@ -61,14 +61,12 @@ import com.google.common.base.Stopwatch;
 @RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")
 public class Service extends HttpServlet {
     private static final long serialVersionUID = -2103692310137045855L;
+    private static final String BINDING_DELETE_METHOD = "doDeleteOperation";
+    private static final String BINDING_PUT_METHOD = "doPutOperation";
+    private static final String BINDING_POST_METHOD = "doPostOperation";
+    private static final String BINDING_GET_METHOD = "doGetOperation";
+    private static final AtomicLong COUNTER = new AtomicLong(0);
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
-
-    public static final String BINDING_DELETE_METHOD = "doDeleteOperation";
-    public static final String BINDING_PUT_METHOD = "doPutOperation";
-    public static final String BINDING_POST_METHOD = "doPostOperation";
-    public static final String BINDING_GET_METHOD = "doGetOperation";
-
-    private static final AtomicLong counter = new AtomicLong(0);
 
     @Inject
     private transient BindingRepository bindingRepository;
@@ -77,7 +75,7 @@ public class Service extends HttpServlet {
     private transient EventBus serviceEventBus;
 
     private long logRequest(HttpServletRequest request) {
-        long count = counter.incrementAndGet();
+        long count = COUNTER.incrementAndGet();
         this.serviceEventBus.submit(new IncomingRequestEvent(request, count));
 
         if (LOGGER.isDebugEnabled()) {
@@ -87,17 +85,19 @@ public class Service extends HttpServlet {
                 String name = (String) headerNames.nextElement();
                 headers.append("> ").append(name).append(": ").append(request.getHeader(name)).append("\n");
             }
-            LOGGER.debug("Incoming request No. {}:\n> [{} {} {}] from {} {}\n{}", count, request.getMethod(),
-                    request.getRequestURI(), request.getProtocol(), request.getRemoteAddr(), request.getRemoteHost(),
-                    headers);
+            LOGGER.debug("Incoming request No. {}:\n> [{} {} {}] from {} {}\n{}",
+                         count, request.getMethod(), request.getRequestURI(), request.getProtocol(),
+                         request.getRemoteAddr(), request.getRemoteHost(), headers);
         }
         return count;
     }
 
-    private void logResponse(HttpServletRequest request, HttpServletResponse response, long count, Stopwatch stopwatch) {
+    private void logResponse(HttpServletRequest request, HttpServletResponse response,
+                             long count, Stopwatch stopwatch) {
         long elapsed = stopwatch.stop().elapsed(TimeUnit.MILLISECONDS);
         this.serviceEventBus.submit(new OutgoingResponseEvent(request, response, count, elapsed));
-        LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)", count, response.isCommitted(), elapsed);
+        LOGGER.debug("Outgoing response for request No. {} is committed = {} (took {} ms)",
+                     count, response.isCommitted(), elapsed);
     }
 
     @Override
@@ -107,8 +107,7 @@ public class Service extends HttpServlet {
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    public void delete(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
         try {
@@ -122,8 +121,8 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         get(request, response);
     }
 
@@ -143,8 +142,8 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         post(request, response);
     }
 
@@ -164,8 +163,8 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    public void doPut(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         put(request, response);
     }
 
@@ -185,7 +184,8 @@ public class Service extends HttpServlet {
 
     @Deprecated
     @Override
-    public void doOptions(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doOptions(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         options(request, response);
     }
 
@@ -211,18 +211,14 @@ public class Service extends HttpServlet {
     }
 
     /**
-     * Get the implementation of {@link Binding} that is registered for the
-     * given <code>request</code>.
+     * Get the implementation of {@link Binding} that is registered for the given <code>request</code>.
      *
-     * @param request
-     *            URL pattern from request URL
+     * @param request URL pattern from request URL
      *
-     * @return The implementation of {@link Binding} that is registered for the
-     *         given <code>urlPattern</code>.
+     * @return The implementation of {@link Binding} that is registered for the given <code>urlPattern</code>.
      *
      *
-     * @throws HTTPException If the URL pattern or ContentType is not supported
-     *                       by this service.
+     * @throws HTTPException If the URL pattern or ContentType is not supported by this service.
      */
     private Binding getBinding(HttpServletRequest request) throws HTTPException {
         final String requestURI = request.getPathInfo();

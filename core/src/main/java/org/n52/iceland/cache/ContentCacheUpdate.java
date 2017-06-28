@@ -39,13 +39,13 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * Marks this cache update as failed.
      *
-     * @param exceptionReport
+     * @param cause
      *            the cause
      *
      * @return this
      */
-    protected ContentCacheUpdate fail(OwsExceptionReport exceptionReport) {
-        this.exceptionReport = exceptionReport;
+    protected ContentCacheUpdate fail(OwsExceptionReport cause) {
+        this.exceptionReport = cause;
         return this;
     }
 

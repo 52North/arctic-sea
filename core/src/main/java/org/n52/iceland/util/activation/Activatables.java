@@ -35,9 +35,9 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann
  */
-public class Activatables {
+public final class Activatables {
 
-    private  Activatables() {
+    private Activatables() {
     }
 
     public static <K, V> Map<K, V> filter(Map<K, Activatable<V>> map) {

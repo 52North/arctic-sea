@@ -21,19 +21,29 @@ import java.util.Map;
 import com.google.common.collect.ImmutableMap;
 
 public class ElasticsearchTypeRegistry {
-    public final static ElasticsearchType stringField =
-            new ElasticsearchType(ImmutableMap.<String, Object> of("type", "string", "index", "not_analyzed"));
-    public final static ElasticsearchType stringAnalyzedField =
-            new ElasticsearchType(ImmutableMap.<String, Object> of("type", "string", "index", "analyzed"));
-    public final static ElasticsearchType dateField = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "date"));
-    public final static ElasticsearchType integerField = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "integer"));
-    public final static ElasticsearchType longField = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "long"));
-    public final static ElasticsearchType doubleField = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "double"));
-    public final static ElasticsearchType booleanField = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "boolean"));
-    public final static ElasticsearchType ipv4Field = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "ip"));
-    public final static ElasticsearchType geoPointField = new ElasticsearchType(ImmutableMap.<String, Object> of("type", "geo_point"));
-    public final static ElasticsearchType geoShapeField =
-            new ElasticsearchType(ImmutableMap.<String, Object> of("type", "geo_shape", "precision", "1km"));
+    private static final String TYPE = "type";
+    private static final String INDEX = "index";
+    private static final String STRING_TYPE = "string";
+    public static final ElasticsearchType STRING_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, STRING_TYPE, INDEX, "not_analyzed"));
+    public static final ElasticsearchType STRING_ANALYZED_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, STRING_TYPE, INDEX, "analyzed"));
+    public static final ElasticsearchType DATE_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "date"));
+    public static final ElasticsearchType INTEGER_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "integer"));
+    public static final ElasticsearchType LONG_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "long"));
+    public static final ElasticsearchType DOUBLE_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "double"));
+    public static final ElasticsearchType BOOLEAN_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "boolean"));
+    public static final ElasticsearchType IPV4_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "ip"));
+    public static final ElasticsearchType GEO_POINT_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "geo_point"));
+    public static final ElasticsearchType GEO_SHAPE_FIELD = new ElasticsearchType(ImmutableMap
+            .<String, Object>of(TYPE, "geo_shape", "precision", "1km"));
 
     public static class ElasticsearchType {
         private final Map<String, Object> type;
@@ -77,7 +87,7 @@ public class ElasticsearchTypeRegistry {
         }
 
         public String humanReadableType() {
-            return type.get("type").toString();
+            return type.get(TYPE).toString();
         }
     }
 

@@ -28,6 +28,9 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.event.events.AbstractFlowEvent;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -39,28 +42,23 @@ import org.n52.iceland.statistics.impl.resolvers.CountingOutputStreamEventResolv
 import org.n52.iceland.statistics.impl.resolvers.DefaultServiceEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.ExceptionEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.OutgoingResponseEventResolver;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Sets;
-
 import org.n52.janmayen.event.Event;
 import org.n52.janmayen.event.EventListener;
 
-public abstract class AbstractStatisticsServiceEventListener implements EventListener {
+import com.google.common.collect.Sets;
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public abstract class AbstractStatisticsServiceEventListener implements EventListener {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractStatisticsServiceEventListener.class);
     private static final int DEFAULT_THREAD_POOL_SIZE = 2;
     private static final int EVENTS_ARR_SIZE = 4;
     private final ExecutorService executorService;
     @SuppressWarnings("unchecked")
-    private final Set<Class<? extends Event>> eventTypes =
-            Sets.newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputStreamEvent.class);
-    private ConcurrentMap<Long, List<AbstractFlowEvent>> eventsCache = new ConcurrentHashMap<>();
+    private final Set<Class<? extends Event>> eventTypes = Sets
+            .newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputStreamEvent.class);
+    private final ConcurrentMap<Long, List<AbstractFlowEvent>> eventsCache = new ConcurrentHashMap<>();
 
     @Inject
-    protected IStatisticsDataHandler dataHandler;
+    private IStatisticsDataHandler dataHandler;
 
     @Inject
     private StatisticsResolverFactory resolverFactory;
@@ -80,7 +78,7 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
 
     @Override
     public void handle(Event serviceEvent) {
-        logger.debug("Event received: {}", serviceEvent);
+        LOG.debug("Event received: {}", serviceEvent);
         if (!dataHandler.isLoggingEnabled()) {
             return;
         }
@@ -111,7 +109,7 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
                 }
 
             } else {
-                logger.trace("Unssupported type of event: {}", serviceEvent.getClass());
+                LOG.trace("Unssupported type of event: {}", serviceEvent.getClass());
 
                 BatchResolver singleOp = new BatchResolver(dataHandler);
                 addEventToResolver(singleOp, serviceEvent);
@@ -119,9 +117,7 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
             }
 
         } catch (Throwable e) {
-            logger.error("Can't handle event for statistics logging: {}", serviceEvent, e);
-        } finally {
-
+            LOG.error("Can't handle event for statistics logging: {}", serviceEvent, e);
         }
     }
 
@@ -133,11 +129,13 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
             sosExceptionEventResolver.setEvent((ExceptionEvent) event);
             evtResolver = sosExceptionEventResolver;
         } else if (event instanceof OutgoingResponseEvent) {
-            OutgoingResponseEventResolver outgoingResponseEventResolver = resolverFactory.getOutgoingResponseEventResolver();
+            OutgoingResponseEventResolver outgoingResponseEventResolver = resolverFactory
+                    .getOutgoingResponseEventResolver();
             outgoingResponseEventResolver.setEvent((OutgoingResponseEvent) event);
             evtResolver = outgoingResponseEventResolver;
         } else if (event instanceof CountingOutputStreamEvent) {
-            CountingOutputStreamEventResolver countingOutputstreamEventResolver = resolverFactory.getCountingOutputstreamEventResolver();
+            CountingOutputStreamEventResolver countingOutputstreamEventResolver = resolverFactory
+                    .getCountingOutputstreamEventResolver();
             countingOutputstreamEventResolver.setEvent((CountingOutputStreamEvent) event);
             evtResolver = countingOutputstreamEventResolver;
         } else {
@@ -156,11 +154,10 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
     }
 
     /**
-     * Call this method in the constructor or before listener registration
-     * starts to register additional event types to your listener
+     * Call this method in the constructor or before listener registration starts to register additional event types to
+     * your listener
      *
-     * @param types
-     *            additional ServiceEvent to listener for
+     * @param types additional ServiceEvent to listener for
      */
     protected void registerEventType(Set<Class<? extends Event>> types) {
         eventTypes.addAll(types);
@@ -168,19 +165,26 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
 
     @Override
     protected void finalize() throws Throwable {
-        this.executorService.shutdown();
+        try {
+            this.executorService.shutdown();
+        } finally {
+            super.finalize();
+        }
     }
 
     // ---------- ABSTRACT METHODS ------------ //
-
     /**
-     * Returns the application specific resolver
-     * {@link StatisticsServiceEventResolver} based on the {@link Event}
+     * Returns the application specific resolver {@link StatisticsServiceEventResolver} based on the {@link Event}
      *
      * @param serviceEvent
+     *
      * @return the concrete service event resolver
      */
     protected abstract StatisticsServiceEventResolver<?> findResolver(Event serviceEvent);
+
+    public IStatisticsDataHandler getDataHandler() {
+        return dataHandler;
+    }
 
     /**
      * Custom class for persisting the resolved {@link Event}s
@@ -190,7 +194,7 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
         private final List<StatisticsServiceEventResolver<?>> eventsResolvers;
         private final IStatisticsDataHandler dataHandler;
 
-        public BatchResolver(IStatisticsDataHandler dataHandler) {
+        BatchResolver(IStatisticsDataHandler dataHandler) {
             eventsResolvers = new ArrayList<>(EVENTS_ARR_SIZE);
             this.dataHandler = dataHandler;
         }

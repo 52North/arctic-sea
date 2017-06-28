@@ -28,31 +28,35 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.settings.Settings.Builder;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
-import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.statistics.api.utils.FileDownloader;
+
 import com.google.common.collect.ImmutableList;
-import org.elasticsearch.common.settings.Settings.Builder;
 
 public class EmbeddedElasticsearch {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmbeddedElasticsearch.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EmbeddedElasticsearch.class);
+    private static final String RESOURCE_BASE = "/statistics/embedded";
+    private static final List<String> SCRIPT_FILE_NAMES = ImmutableList
+            .<String>of("getcapabilities_sections_concat.groovy",
+                        "most_requested_observedproperties.groovy", "most_requested_procedures.groovy");
+    private static final String LOGGING_CONFIG_PATH = "/config/logging.yml";
+    private static final String CONFIG_PATH = "/elasticsearch_embedded.yml";
 
     private String homePath;
     private Node embeddedNode;
     private Client client;
-    private static final String resourceBase = "/statistics/embedded";
-    private static final List<String> scriptsFileNames = ImmutableList.<String>of("getcapabilities_sections_concat.groovy",
-            "most_requested_observedproperties.groovy", "most_requested_procedures.groovy");
 
     public void destroy() {
         if (client != null) {
             client.close();
         }
-        logger.info("Closing embedded elasticsearch node");
+        LOG.info("Closing embedded elasticsearch node");
         if (embeddedNode != null) {
             embeddedNode.close();
         }
@@ -61,9 +65,9 @@ public class EmbeddedElasticsearch {
     public void init() {
         Objects.requireNonNull(homePath);
 
-        logger.info("Home path for Embedded Elasticsearch: {}", homePath);
+        LOG.info("Home path for Embedded Elasticsearch: {}", homePath);
 
-        logger.info("Starting embedded elasticsearch node");
+        LOG.info("Starting embedded elasticsearch node");
         try {
             if (!new File(homePath).exists()) {
                 FileUtils.forceMkdir(new File(homePath));
@@ -71,15 +75,15 @@ public class EmbeddedElasticsearch {
                 // copyLoggingFile();
                 downlaodGroovyLibrary();
             } else {
-                logger.info("Path " + homePath + " for embedded elasticsearch is exsits. Continue.");
+                LOG.info("Path " + homePath + " for embedded elasticsearch is exsits. Continue.");
             }
         } catch (IOException e) {
-            logger.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
 
-        String resource = resourceBase + "/elasticsearch_embedded.yml";
+        String resource = RESOURCE_BASE + CONFIG_PATH;
         Builder setting = Settings.settingsBuilder()
-                .loadFromStream(resource, getClass().getResourceAsStream(resourceBase + "/elasticsearch_embedded.yml"));
+                .loadFromStream(resource, getClass().getResourceAsStream(RESOURCE_BASE + CONFIG_PATH));
         setting.put("cluster.name", "elasticsearch");
         setting.put("node.name", "Embedded Server");
         setting.put("path.home", homePath);
@@ -90,17 +94,17 @@ public class EmbeddedElasticsearch {
         embeddedNode = NodeBuilder.nodeBuilder().settings(esSettings).build();
         embeddedNode.start();
         try {
-            logger.info("Waiting 8 seconds to startup the Elasticsearch");
+            LOG.info("Waiting 8 seconds to startup the Elasticsearch");
             Thread.sleep(8000);
         } catch (InterruptedException e) {
-            logger.error(e.getMessage(), e);
+            LOG.error(e.getMessage(), e);
         }
-        logger.info("Started embedded elasticsearch node");
+        LOG.info("Started embedded elasticsearch node");
     }
 
     private void copyLoggingFile() throws FileNotFoundException, IOException {
-        InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream(resourceBase + "/logging.yml");
-        FileOutputStream out = new FileOutputStream(new File(homePath + "/config/logging.yml"));
+        InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/logging.yml");
+        FileOutputStream out = new FileOutputStream(new File(homePath + LOGGING_CONFIG_PATH));
         IOUtils.copy(inputLogigng, out);
         out.close();
     }
@@ -108,7 +112,8 @@ public class EmbeddedElasticsearch {
     private void downlaodGroovyLibrary() throws IOException {
         String groovyDir = homePath + "/plugins/groovy";
         FileUtils.forceMkdir(new File(groovyDir));
-        FileDownloader.downloadFile("http://central.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.4/groovy-all-2.4.4.jar",
+        FileDownloader.downloadFile(
+                "http://central.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.4/groovy-all-2.4.4.jar",
                 groovyDir + "/groovy-all-2.4.4.jar");
     }
 
@@ -117,8 +122,9 @@ public class EmbeddedElasticsearch {
         FileUtils.forceMkdir(scripts);
 
         // read the files list at least on windows works
-        for (String line : scriptsFileNames) {
-            InputStream scriptFile = EmbeddedElasticsearch.class.getResourceAsStream(resourceBase + "/scripts/" + line);
+        for (String line : SCRIPT_FILE_NAMES) {
+            InputStream scriptFile = EmbeddedElasticsearch.class
+                    .getResourceAsStream(RESOURCE_BASE + "/scripts/" + line);
             FileOutputStream scriptFileOut = new FileOutputStream(scripts.getAbsolutePath() + "/" + line);
             IOUtils.copy(scriptFile, scriptFileOut);
             scriptFileOut.close();

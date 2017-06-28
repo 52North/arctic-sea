@@ -19,14 +19,14 @@ package org.n52.iceland.i18n;
 import java.util.Collection;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Maps;
-
 
 /**
  * I18N DAO repository
@@ -35,7 +35,8 @@ import com.google.common.collect.Maps;
  * @since 1.0.0
  */
 @SuppressWarnings("rawtypes")
-public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> implements Constructable {
+public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory>
+        implements Constructable {
     @Deprecated
     private static I18NDAORepository instance;
     private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
@@ -56,7 +57,8 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
      * Get the available DAO
      *
      * @param <T> the meta data type
-     * @param c the meta data class
+     * @param c   the meta data class
+     *
      * @return the loaded DAO
      */
     @SuppressWarnings("unchecked")
@@ -71,6 +73,8 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
      * Get the singleton instance of the I18NDAORepository.
      *
      * @return Returns a singleton instance of the I18NDAORepository.
+     *
+     * @deprecated use injection
      */
     @Deprecated
     public static I18NDAORepository getInstance() {

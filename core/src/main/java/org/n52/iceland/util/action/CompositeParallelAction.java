@@ -27,7 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.n52.janmayen.GroupedAndNamedThreadFactory;
 
 /**
- * @param <A>
+ * @param <A> the action type
+ *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 1.0.0
  *
@@ -55,15 +56,15 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
             countDownLatch = new CountDownLatch(getActions().size());
 
             //preprocess and submit actions
-            for (A action : getActions()){
+            getActions().stream().forEachOrdered((action) -> {
                 action.setParentCountDownLatch(countDownLatch);
                 pre(action);
                 executor.submit(action);
-            }
+            });
             long latchSize = this.countDownLatch.getCount();
 
-            //execute actions in parallel
-            executor.shutdown(); // <-- will finish all submitted tasks
+            // execute actions in parallel
+            executor.shutdown();
             // wait for all threads to finish
             try {
                 LOGGER.debug("{}: waiting for {} threads to finish", threadGroupName, latchSize);

@@ -22,10 +22,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Sets;
 
@@ -36,7 +37,9 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  */
 @SuppressWarnings("rawtypes")
-public class ConverterRepository extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory> implements Constructable {
+public class ConverterRepository
+        extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory>
+        implements Constructable {
     @Deprecated
     private static ConverterRepository instance;
 
@@ -66,7 +69,6 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
         this.converter.putAll(implementations);
     }
 
-
     public <T, F> Converter<T, F> getConverter(final String fromNamespace, final String toNamespace) {
         return getConverter(new ConverterKey(fromNamespace, toNamespace));
     }
@@ -81,11 +83,9 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
     }
 
     /**
-     * Get all namespaces for which a converter is available to convert from
-     * requested format to default format
+     * Get all namespaces for which a converter is available to convert from requested format to default format
      *
-     * @param toNamespace
-     *                    Requested format
+     * @param toNamespace Requested format
      *
      * @return Swt with all possible formats
      */
@@ -100,13 +100,10 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
     }
 
     /**
-     * Checks if a converter is available to convert the stored object from the
-     * default format to the requested format
+     * Checks if a converter is available to convert the stored object from the default format to the requested format
      *
-     * @param fromNamespace
-     *                      Default format
-     * @param toNamespace
-     *                      Requested fromat
+     * @param fromNamespace Default format
+     * @param toNamespace   Requested fromat
      *
      * @return If a converter is available
      */

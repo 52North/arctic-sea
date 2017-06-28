@@ -25,6 +25,13 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.util.http.HttpUtils;
@@ -35,23 +42,16 @@ import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.Request;
 import org.n52.shetland.util.StringHelper;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -66,7 +66,6 @@ import com.google.common.base.Strings;
 public abstract class AbstractXmlBinding extends SimpleBinding {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXmlBinding.class);
-
 
     private DocumentBuilderProvider documentFactory;
 
@@ -103,8 +102,9 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
                             .withMessage("The parameter '%s' is missing.", OWSConstants.GetCapabilitiesParams.service);
                 }
             } else {
-                throw new InvalidParameterValueException().withMessage(
-                        "No decoder found for incoming message based on derived decoder key: %s\nMessage: %s", key, xmlString);
+                throw new InvalidParameterValueException()
+                        .withMessage("No decoder found for incoming message " +
+                                "based on derived decoder key: %s\nMessage: %s", key, xmlString);
             }
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
@@ -124,18 +124,20 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             // FIXME do not parse the complete request, if we only need the first element
             Document document = documentFactory.newDocumentBuilder().parse(stream);
             Element element = document.getDocumentElement();
-            element.normalize();// TODO is this REALLY needed!?
+            // TODO is this REALLY needed!?
+            element.normalize();
             if (element.hasAttributes() && element.hasAttribute(OWSConstants.RequestParams.service.name())) {
                 OwsOperationKey operationKey = getOperationKey(element);
-                XmlStringOperationDecoderKey decoderKey = new XmlStringOperationDecoderKey(operationKey, getDefaultContentType());
+                XmlStringOperationDecoderKey decoderKey
+                        = new XmlStringOperationDecoderKey(operationKey, getDefaultContentType());
                 return decoderKey;
             } else {
                 return getNamespaceOperationDecoderKey(element);
             }
 
         } catch (SAXException | IOException | ParserConfigurationException e) {
-            throw new NoApplicableCodeException().causedBy(e).withMessage(
-                    "An error occured when parsing the request! Message: %s", e.getMessage());
+            throw new NoApplicableCodeException().causedBy(e)
+                    .withMessage("An error occured when parsing the request! Message: %s", e.getMessage());
         }
     }
 
@@ -162,7 +164,8 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             namespace = element.getAttribute(name);
             return new XmlNamespaceOperationDecoderKey(namespace, elementName);
         } else {
-            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName.indexOf(':') + 1));
+            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName
+                                                       .indexOf(':') + 1));
         }
     }
 
@@ -189,8 +192,8 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
                 return parseHttpPostBodyWithParameter(request.getParameterNames(), request.getParameterMap());
             }
         } catch (final IOException ioe) {
-            throw new NoApplicableCodeException().causedBy(ioe).withMessage(
-                    "Error while reading request! Message: %s", ioe.getMessage());
+            throw new NoApplicableCodeException().causedBy(ioe)
+                    .withMessage("Error while reading request! Message: %s", ioe.getMessage());
         }
     }
 
@@ -201,14 +204,12 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
     /**
      * Parses the HTTP-Post body with a parameter
      *
-     * @param paramNames
-     *            Parameter names
-     * @param parameterMap
-     *            Parameter map
+     * @param paramNames   Parameter names
+     * @param parameterMap Parameter map
+     *
      * @return Value of the parameter
      *
-     * @throws OwsExceptionReport
-     *             * If the parameter is not supported by this service.
+     * @throws OwsExceptionReport * If the parameter is not supported by this service.
      */
     private String parseHttpPostBodyWithParameter(final Enumeration<?> paramNames, final Map<?, ?> parameterMap)
             throws OwsExceptionReport {
@@ -219,14 +220,14 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
                 if (paramValues.length == 1) {
                     return paramValues[0];
                 } else {
-                    throw new NoApplicableCodeException()
-                            .withMessage(
-                                    "The parameter '%s' has more than one value or is empty for HTTP-Post requests to this service!",
-                                    paramName);
+                    String message = "The parameter '%s' has more than one value or " +
+                                     "is empty for HTTP-Post requests to this service!";
+                    throw new NoApplicableCodeException().withMessage(message, paramName);
                 }
             } else {
-                throw new NoApplicableCodeException().withMessage(
-                        "The parameter '%s' is not supported for HTTP-Post requests to this service!", paramName);
+                throw new NoApplicableCodeException()
+                        .withMessage("The parameter '%s' is not supported for " +
+                                     "HTTP-Post requests to this service!", paramName);
             }
         }
         // FIXME: valid exception

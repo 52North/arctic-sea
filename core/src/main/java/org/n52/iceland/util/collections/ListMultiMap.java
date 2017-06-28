@@ -22,14 +22,13 @@ import java.util.List;
 /**
  * Interface for {@link List} based {@link MultiMap}s.
  *
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
- *
+ * @deprecated use either guava or plain java maps
  */
+@Deprecated
 public interface ListMultiMap<K, V> extends MultiMap<K, V, List<V>>, Serializable {
 }

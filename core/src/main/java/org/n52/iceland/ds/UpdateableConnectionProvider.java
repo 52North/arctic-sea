@@ -18,6 +18,7 @@ package org.n52.iceland.ds;
 
 /**
  * Identify updateable {@link ConnectionProvider}
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
@@ -28,7 +29,8 @@ public interface UpdateableConnectionProvider extends ConnectionProvider {
      * Get update script
      *
      * @return Update script
-     * @throws ConnectionProviderException
+     *
+     * @throws ConnectionProviderException if the generation fails
      */
     String getUpdateScript() throws ConnectionProviderException;
 

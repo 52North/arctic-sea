@@ -43,7 +43,8 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class RequestOperatorRepository extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
+public class RequestOperatorRepository
+        extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
         implements ActivationManager<RequestOperatorKey>,
                    ActivationSource<RequestOperatorKey>,
                    Constructable {
@@ -79,7 +80,7 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
 
     public Set<RequestOperator> getRequestOperators() {
         return this.requestOperators.entrySet().stream()
-                .filter(e ->  this.activation.isActive(e.getKey()))
+                .filter(e -> this.activation.isActive(e.getKey()))
                 .map(Entry::getValue)
                 .map(Producer::get)
                 .collect(Collectors.toSet());
@@ -111,7 +112,8 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
                 .collect(Collectors.toSet());
     }
 
-    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(OwsServiceKey sok) {
+    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(
+            OwsServiceKey sok) {
         return this.requestOperators.entrySet().stream()
                 .filter(e -> activation.isActive(e.getKey()))
                 .filter(e -> e.getKey().getServiceOperatorKey().equals(sok));
