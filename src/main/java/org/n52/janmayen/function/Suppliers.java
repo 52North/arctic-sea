@@ -54,4 +54,17 @@ public final class Suppliers {
     public static <U, V> Supplier<V> mapping(Function<? super U, ? extends V> mapper, Supplier<U> supplier) {
         return () -> mapper.apply(supplier.get());
     }
+
+    /**
+     * Creates a function ignoring it's parameter and just returning the supplier's value.
+     *
+     * @param <U>      the parameter type
+     * @param <V>      the supplier's return type
+     * @param supplier the supplier
+     *
+     * @return the function
+     */
+    public static <U, V> Function<U, V> asFunction(Supplier<V> supplier) {
+        return (u) -> supplier.get();
+    }
 }
