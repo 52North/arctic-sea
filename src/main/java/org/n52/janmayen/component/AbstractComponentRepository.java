@@ -16,11 +16,15 @@
  */
 package org.n52.janmayen.component;
 
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -33,12 +37,9 @@ import org.n52.janmayen.Producer;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.SetMultimap;
 
 /**
- * Abstract class to encapsulate the loading of implementations that are
- * registered with the ServiceLoader interface.
+ * Abstract class to encapsulate the loading of implementations that are registered with the ServiceLoader interface.
  *
  * @param <K> the component key type
  * @param <C> the component type
@@ -53,20 +54,17 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
             .getLogger(AbstractComponentRepository.class);
 
     /**
-     * Create a multi valued map with {@code Producer}s for the supplied
-     * {@code components} and {@code factories}.
+     * Create a multi valued map with {@code Producer}s for the supplied {@code components} and {@code factories}.
      *
      * @param components the component instances (may be {@code null} or empty)
      * @param factories  the component factories (may be {@code null} or empty)
      *
      * @return the producers
      */
-    protected SetMultimap<K, Producer<C>> getProviders(Collection<? extends C> components,
-                                                       Collection<? extends F> factories) {
-        return createProviders(factories, components).collect(
-                HashMultimap::create,
-                (map, provider) -> map.put(provider.getKey(), provider),
-                SetMultimap::putAll);
+    protected Map<K, Set<Producer<C>>> getProviders(Collection<? extends C> components,
+                                                    Collection<? extends F> factories) {
+        return createProviders(factories, components)
+                .collect(groupingBy(KeyedProducer::getKey, toSet()));
     }
 
     private Stream<KeyedProducer<K, C>> createProviders(Collection<? extends F> factories,
@@ -90,9 +88,8 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     }
 
     /**
-     * Create a map with {@code Producer}s for the supplied {@code components}
-     * and {@code factories}. Components or factories with the same keys are
-     * discarded.
+     * Create a map with {@code Producer}s for the supplied {@code components} and {@code factories}. Components or
+     * factories with the same keys are discarded.
      *
      * @param components the component instances (may be {@code null} or empty)
      * @param factories  the component factories (may be {@code null} or empty)
@@ -114,6 +111,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
 
     /**
      * Abstract class that holds associate a key with the producer.
+     *
      * @param <K> the key type
      * @param <C> the component type
      */
@@ -158,8 +156,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         }
 
         /**
-         * Creates a {@code ToStringHelper} filled with the attributes of this
-         * class.
+         * Creates a {@code ToStringHelper} filled with the attributes of this class.
          *
          * @return the {code ToStringHelper}
          */
