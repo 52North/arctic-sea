@@ -110,12 +110,12 @@
         <dependency>
             <groupId>org.n52.faroe</groupId>
             <artifactId>faroe-annotations</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.n52.faroe</groupId>
             <artifactId>faroe-utils</artifactId>
-            <version>1.2.0</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
