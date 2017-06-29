@@ -23,7 +23,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -108,7 +110,8 @@ public class OwsCapabilitiesExtensionRepository
      */
     private List<OwsCapabilitiesExtensionProvider> getAllValidCapabilitiesExtensionProvider(
             OwsCapabilitiesExtensionKey key, Collection<Producer<OwsCapabilitiesExtensionProvider>> list) {
-        return list.stream().map(Producer::get)
+        return Optional.ofNullable(list).map(Collection::stream).orElseGet(Stream::empty)
+                .map(Producer::get)
                 .filter(provider -> !provider.hasRelatedOperation() ||
                                     checkIfRelatedOperationIsActivated(key, provider.getRelatedOperation()))
                 .collect(toList());
