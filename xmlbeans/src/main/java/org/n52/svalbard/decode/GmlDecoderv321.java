@@ -193,9 +193,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 }
             }
             feature.setGmlId(featurePropertyType.getHref());
-        }
-        // if feature is encoded
-        else {
+        } else {
+            // if feature is encoded
             XmlObject abstractFeature = null;
             if (featurePropertyType.getAbstractFeature() != null) {
                 abstractFeature = featurePropertyType.getAbstractFeature();
@@ -212,14 +211,12 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 if (decodedObject instanceof SamplingFeature) {
                     feature = (SamplingFeature) decodedObject;
                 } else {
-                    throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                            "The requested featurePropertyType type is not supported by this service!");
+                    throw unsupportedFeaturePropertyType();
                 }
             }
         }
         if (feature == null) {
-            throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                    "The requested featurePropertyType type is not supported by this service!");
+            throw unsupportedFeaturePropertyType();
         }
         return feature;
     }
@@ -259,10 +256,11 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     /**
      * parses TimeInstant
      *
-     * @param xbTimeIntant
-     *            XmlBean representation of TimeInstant
+     * @param xbTimeIntant XmlBean representation of TimeInstant
+     *
      * @return Returns a TimeInstant created from the TimeInstantType
-     * @throws DecodingException
+     *
+     * @throws DecodingException if the time string is invalid
      */
     private Object parseTimeInstant(TimeInstantType xbTimeIntant) throws DecodingException {
         TimeInstant ti = parseTimePosition(xbTimeIntant.getTimePosition());
@@ -271,15 +269,14 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     /**
-     * creates SOS representation of time period from XMLBeans representation of
-     * time period
+     * creates SOS representation of time period from XMLBeans representation of time period
      *
-     * @param xbTimePeriod
-     *            XMLBeans representation of time period
+     * @param xbTimePeriod XMLBeans representation of time period
+     *
      * @return Returns SOS representation of time period
      *
      *
-     * @throws DecodingException
+     * @throws DecodingException if the time string is invalid
      */
     private Object parseTimePeriod(TimePeriodType xbTimePeriod) throws DecodingException {
         // begin position
@@ -621,5 +618,10 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             LOGGER.warn("No SrsName is specified for geometry, instead the default 4326 is taken!");
         }
         return srid;
+    }
+
+    private static DecodingException unsupportedFeaturePropertyType() {
+        return new DecodingException(Sos2Constants.InsertObservationParams.observation,
+                "The requested featurePropertyType type is not supported by this service!");
     }
 }

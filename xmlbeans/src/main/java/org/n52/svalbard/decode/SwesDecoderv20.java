@@ -24,8 +24,29 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import net.opengis.gml.x32.AbstractTimeGeometricPrimitiveType;
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.sos.x20.SosInsertionMetadataPropertyType;
+import net.opengis.sos.x20.SosInsertionMetadataType;
+import net.opengis.swes.x20.DeleteSensorDocument;
+import net.opengis.swes.x20.DeleteSensorType;
+import net.opengis.swes.x20.DescribeSensorDocument;
+import net.opengis.swes.x20.DescribeSensorType;
+import net.opengis.swes.x20.InsertSensorDocument;
+import net.opengis.swes.x20.InsertSensorType;
+import net.opengis.swes.x20.InsertSensorType.Metadata;
+import net.opengis.swes.x20.InsertSensorType.RelatedFeature;
+import net.opengis.swes.x20.SensorDescriptionType;
+import net.opengis.swes.x20.UpdateSensorDescriptionDocument;
+import net.opengis.swes.x20.UpdateSensorDescriptionType;
+import net.opengis.swes.x20.UpdateSensorDescriptionType.Description;
+
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -53,29 +74,8 @@ import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-
-import net.opengis.gml.x32.FeaturePropertyType;
-import net.opengis.sos.x20.SosInsertionMetadataPropertyType;
-import net.opengis.sos.x20.SosInsertionMetadataType;
-import net.opengis.swes.x20.DeleteSensorDocument;
-import net.opengis.swes.x20.DeleteSensorType;
-import net.opengis.swes.x20.DescribeSensorDocument;
-import net.opengis.swes.x20.DescribeSensorType;
-import net.opengis.swes.x20.InsertSensorDocument;
-import net.opengis.swes.x20.InsertSensorType;
-import net.opengis.swes.x20.InsertSensorType.Metadata;
-import net.opengis.swes.x20.InsertSensorType.RelatedFeature;
-import net.opengis.swes.x20.SensorDescriptionType;
-import net.opengis.swes.x20.UpdateSensorDescriptionDocument;
-import net.opengis.swes.x20.UpdateSensorDescriptionType;
-import net.opengis.swes.x20.UpdateSensorDescriptionType.Description;
 
 /**
  * @since 4.0.0
@@ -345,9 +345,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         if (decodeXmlElement instanceof Time) {
             return (Time) decodeXmlElement;
         } else {
-            throw new DecodingException(Sos2Constants.DescribeSensorParams.validTime,
-                    "The validTime element ({}) is not supported",
-                    validTime.getAbstractTimeGeometricPrimitive().schemaType());
+            throw unsupportedValidTime(Sos2Constants.DescribeSensorParams.validTime,
+                                       validTime.getAbstractTimeGeometricPrimitive());
         }
     }
 
@@ -357,9 +356,15 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         if (decodeXmlElement instanceof Time) {
             return (Time) decodeXmlElement;
         } else {
-            throw new DecodingException(Sos2Constants.UpdateSensorDescriptionParams.validTime,
-                    "The validTime element ({}) is not supported",
-                    validTime.getAbstractTimeGeometricPrimitive().schemaType());
+            throw unsupportedValidTime(Sos2Constants.UpdateSensorDescriptionParams.validTime,
+                                       validTime.getAbstractTimeGeometricPrimitive());
         }
+    }
+
+    private static DecodingException unsupportedValidTime(Enum<?> parameter,
+                                                          AbstractTimeGeometricPrimitiveType validTime) {
+        return new DecodingException(parameter,
+                                     "The validTime element ({}) is not supported",
+                                     validTime.schemaType());
     }
 }

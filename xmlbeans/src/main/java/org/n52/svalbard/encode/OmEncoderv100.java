@@ -16,9 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static java.util.Collections.singletonMap;
-import static org.n52.shetland.util.CollectionHelper.union;
-import static org.n52.svalbard.util.CodingHelper.encoderKeysForElements;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -61,6 +58,7 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.MultiObservationValues;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmCompositePhenomenon;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservableProperty;
@@ -82,12 +80,14 @@ import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.SweHelper;
@@ -97,8 +97,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import org.n52.shetland.ogc.om.ObservationStream;
 
 /**
  * @since 4.0.0
@@ -126,16 +124,21 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
                     "http://www.opengis.net/spec/OMXML/1.0/conf/geometryObservation",
                     "http://www.opengis.net/spec/OMXML/1.0/conf/textObservation");
 
-    private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS =
-            singletonMap(SosConstants.SOS, singletonMap(Sos1Constants.SERVICEVERSION,
-                    (Set<String>) ImmutableSet.of(OmConstants.CONTENT_TYPE_OM.toString())));
+    private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections
+            .singletonMap(SosConstants.SOS, Collections
+                          .singletonMap(Sos1Constants.SERVICEVERSION,
+                                        (Set<String>) ImmutableSet.of(OmConstants.CONTENT_TYPE_OM.toString())));
 
     @SuppressWarnings("unchecked")
-    private static final Set<EncoderKey> ENCODER_KEYS = union(
-            encoderKeysForElements(OmConstants.NS_OM, OmObservation.class, GetObservationResponse.class,
-                    GetObservationByIdResponse.class),
-            encoderKeysForElements(OmConstants.CONTENT_TYPE_OM.toString(), OmObservation.class,
-                    GetObservationResponse.class, GetObservationByIdResponse.class));
+    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
+            CodingHelper.encoderKeysForElements(OmConstants.NS_OM,
+                                                OmObservation.class,
+                                                GetObservationResponse.class,
+                                                GetObservationByIdResponse.class),
+            CodingHelper.encoderKeysForElements(OmConstants.CONTENT_TYPE_OM.toString(),
+                                                OmObservation.class,
+                                                GetObservationResponse.class,
+                                                GetObservationByIdResponse.class));
 
     public OmEncoderv100() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",

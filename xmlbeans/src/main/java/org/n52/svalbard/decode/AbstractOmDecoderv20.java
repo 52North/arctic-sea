@@ -18,6 +18,9 @@ package org.n52.svalbard.decode;
 
 import java.util.Set;
 
+import net.opengis.om.x20.NamedValuePropertyType;
+import net.opengis.om.x20.NamedValueType;
+
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlDouble;
 import org.apache.xmlbeans.XmlException;
@@ -26,6 +29,8 @@ import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.gml.GmlMeasureType;
@@ -48,14 +53,8 @@ import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Geometry;
-
-import net.opengis.om.x20.NamedValuePropertyType;
-import net.opengis.om.x20.NamedValueType;
 
 public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object, Object> {
 
@@ -100,10 +99,11 @@ public abstract class AbstractOmDecoderv20 extends AbstractGmlDecoderv321<Object
         }
     }
 
-    protected NamedValue<?> parseNamedValueValue(XmlObject xmlObject) throws DecodingException {
+    protected NamedValue<?> parseNamedValueValue(XmlObject xml) throws DecodingException {
+        XmlObject xmlObject = xml;
         if (xmlObject.schemaType() == XmlAnyTypeImpl.type) {
             try {
-                xmlObject = XmlObject.Factory.parse(xmlObject.xmlText().trim());
+                xmlObject = XmlObject.Factory.parse(xml.xmlText().trim());
             } catch (XmlException e) {
                 LOGGER.error("Error while parsing NamedValueValue", e);
             }

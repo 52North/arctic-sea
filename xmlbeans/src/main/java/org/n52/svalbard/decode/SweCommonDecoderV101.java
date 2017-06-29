@@ -472,8 +472,9 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
     }
 
     private DecodingException createParsingException(final Exception e) {
-        return new DecodingException(e, "QuantityRange",
-                                     "Error when parsing 'swe:QuantityRange/swe:value': It must be of type 'double double!");
+        return new DecodingException(
+                e, "QuantityRange",
+                "Error when parsing 'swe:QuantityRange/swe:value': It must be of type 'double double!");
     }
 
     private SweText parseText(Text xbText) {
@@ -549,8 +550,8 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
                 sosCoordinates
                         .add(new SweCoordinate<>(xbCoordinate.getName(), parseQuantity(xbCoordinate.getQuantity())));
             } else {
-                throw new DecodingException("Position",
-                                            "Error when parsing the Coordinates of Position: It must be of type Quantity!");
+                throw new DecodingException(
+                        "Position", "Error when parsing the Coordinates of Position: It must be of type Quantity!");
             }
         }
         return sosCoordinates;
