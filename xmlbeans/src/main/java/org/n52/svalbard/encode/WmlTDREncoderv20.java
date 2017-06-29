@@ -26,7 +26,17 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.gml.x32.MeasureOrNilReasonListType;
+import net.opengis.gml.x32.QuantityListDocument;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.watermlDr.x20.MeasurementTimeseriesCoverageType;
+import net.opengis.watermlDr.x20.MeasurementTimeseriesDomainRangeDocument;
+import net.opengis.watermlDr.x20.TimePositionListDocument;
+import net.opengis.watermlDr.x20.TimePositionListType;
+
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
@@ -42,6 +52,7 @@ import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
@@ -52,7 +63,6 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.SosHelperValues;
@@ -61,22 +71,11 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import net.opengis.gml.x32.MeasureOrNilReasonListType;
-import net.opengis.gml.x32.QuantityListDocument;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.watermlDr.x20.MeasurementTimeseriesCoverageType;
-import net.opengis.watermlDr.x20.MeasurementTimeseriesDomainRangeDocument;
-import net.opengis.watermlDr.x20.TimePositionListDocument;
-import net.opengis.watermlDr.x20.TimePositionListType;
 
 /**
  * Encoder class for WaterML 2.0 TimeseriesDomainRange (TDR)
@@ -171,8 +170,9 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                new WmlTDREncoderv20XmlStreamWriter().write((OmObservation) objectToEncode, outputStream,
-                        encodingValues);
+                WmlTDREncoderv20XmlStreamWriter writer = new WmlTDREncoderv20XmlStreamWriter();
+                writer.setEncoderRepository(getEncoderRepository());
+                writer.write((OmObservation) objectToEncode, outputStream, encodingValues);
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }

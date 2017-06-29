@@ -24,7 +24,17 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
+import net.opengis.waterml.x20.MeasureTVPType;
+import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
+import net.opengis.waterml.x20.MeasurementTimeseriesType;
+import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
+import net.opengis.waterml.x20.TVPMeasurementMetadataType;
+
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
@@ -36,6 +46,8 @@ import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
+import org.n52.shetland.ogc.om.series.wml.ConformanceClassesWML2;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
@@ -44,8 +56,6 @@ import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
-import org.n52.shetland.ogc.om.series.wml.ConformanceClassesWML2;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -53,21 +63,10 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.WmlTVPEncoderv20XmlStreamWriter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
-import net.opengis.waterml.x20.MeasureTVPType;
-import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
-import net.opengis.waterml.x20.MeasurementTimeseriesType;
-import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
-import net.opengis.waterml.x20.TVPMeasurementMetadataType;
 
 /**
  * Encoder class for WaterML 2.0 TimeseriesValuePair (TVP)
@@ -159,8 +158,9 @@ public class WmlTVPEncoderv20 extends AbstractWmlEncoderv20 {
         encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                new WmlTVPEncoderv20XmlStreamWriter().write((OmObservation) objectToEncode, outputStream,
-                        encodingValues);
+                WmlTVPEncoderv20XmlStreamWriter writer = new WmlTVPEncoderv20XmlStreamWriter();
+                writer.setEncoderRepository(getEncoderRepository());
+                writer.write((OmObservation) objectToEncode, outputStream, encodingValues);
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }

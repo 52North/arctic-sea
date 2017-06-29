@@ -192,7 +192,9 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                new OmV20XmlStreamWriter().write((OmObservation) objectToEncode, outputStream, encodingValues);
+                OmV20XmlStreamWriter writer = new OmV20XmlStreamWriter();
+                writer.setEncoderRepository(getEncoderRepository());
+                writer.write((OmObservation) objectToEncode, outputStream, encodingValues);
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
