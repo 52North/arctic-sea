@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
+import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swes.SwesExtension;
@@ -133,6 +134,29 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
      */
     default Optional<Extension<?>> getExtension(String identifier) {
         return getExtensions().getExtension(identifier);
+    }
+
+    default boolean getBooleanExtension(String identifier) {
+        return getBooleanExtension(identifier, false);
+    }
+
+    default boolean getBooleanExtension(Enum<?> identifier) {
+        return getBooleanExtension(identifier.name(), false);
+    }
+
+    default boolean getBooleanExtension(Enum<?> identifier, boolean defaultValue) {
+        return getBooleanExtension(identifier.name(), defaultValue);
+    }
+
+    default boolean getBooleanExtension(String identifier, boolean defaultValue) {
+        return getExtension(identifier).map(Extension::getValue).map(value -> {
+            if (value instanceof Boolean) {
+                return (Boolean) value;
+            } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
+                return (Boolean) ((Value) value).getValue();
+            }
+            return false;
+        }).orElse(defaultValue);
     }
 
     default <V> void addSwesExtension(String name, V value) {

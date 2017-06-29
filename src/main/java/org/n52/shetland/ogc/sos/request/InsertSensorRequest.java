@@ -200,9 +200,6 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * @return <code>true</code>, if the sensor type flag is set
      */
     public boolean isType() {
-        if (hasExtension(SENSOR_TYPE_FLAG)) {
-            return getExtensions().isBooleanExtensionSet(SENSOR_TYPE_FLAG);
-        }
-        return false;
+        return getBooleanExtension(SENSOR_TYPE_FLAG);
     }
 }

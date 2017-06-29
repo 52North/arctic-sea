@@ -16,13 +16,11 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
-
+import java.util.NoSuchElementException;
 
 import org.n52.shetland.ogc.om.AbstractObservationValue;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.ows.OWSConstants.AdditionalRequestParams;
@@ -31,75 +29,30 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.exception.ResponseExceedsSizeLimitException;
 import org.n52.shetland.util.CollectionHelper;
 
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-public abstract class AbstractStreaming extends AbstractObservationValue<Value<OmObservation>> {
+public abstract class AbstractStreaming extends AbstractObservationValue<Value<ObservationStream>>
+        implements ObservationStream {
     private final Map<AdditionalRequestParams, Object> additionalRequestParams = Maps.newHashMap();
 
     private String responseFormat;
-
     private int maxNumberOfValues = Integer.MIN_VALUE;
-
     private int currentNumberOfValues = 0;
 
-    public abstract boolean hasNextValue() throws OwsExceptionReport;
+    @Override
+    public abstract OmObservation next() throws NoSuchElementException, OwsExceptionReport;
 
-    public abstract OmObservation nextSingleObservation() throws OwsExceptionReport;
-
+    @Override
+    public abstract boolean hasNext() throws OwsExceptionReport;
 
     /**
-     * Check and modify observation for Spatial Filtering Profile and requested
-     * crs
+     * Check and modify observation for Spatial Filtering Profile and requested crs
      *
-     * @param observation
-     *            {@link OmObservation} to check
-     * @throws OwsExceptionReport
-     *             If an error occurs when modifying the {@link OmObservation}
+     * @param observation {@link OmObservation} to check
+     *
+     * @throws OwsExceptionReport If an error occurs when modifying the {@link OmObservation}
      */
     protected abstract void checkForModifications(OmObservation observation) throws OwsExceptionReport;
-
-    public Collection<OmObservation> mergeObservation() throws OwsExceptionReport {
-        List<OmObservation> observations = getObservation();
-        // TODO merge all observations with the same observationContellation
-        // FIXME Failed to set the observation type to sweArrayObservation for
-        // the merged Observations
-        // (proc, obsProp, foi)
-        if (CollectionHelper.isNotEmpty(observations)) {
-            final List<OmObservation> mergedObservations = new LinkedList<>();
-            int obsIdCounter = 1;
-            for (final OmObservation sosObservation : observations) {
-                if (mergedObservations.isEmpty()) {
-                    sosObservation.setObservationID(Integer.toString(obsIdCounter++));
-                    mergedObservations.add(sosObservation);
-                } else {
-                    boolean combined = false;
-                    for (final OmObservation combinedSosObs : mergedObservations) {
-                        if (combinedSosObs.checkForMerge(sosObservation)) {
-                            combinedSosObs.setResultTime(null);
-                            combinedSosObs.mergeWithObservation(sosObservation);
-                            combined = true;
-                            break;
-                        }
-                    }
-                    if (!combined) {
-                        mergedObservations.add(sosObservation);
-                    }
-                }
-            }
-            return mergedObservations;
-        }
-        return observations;
-    }
-
-    public List<OmObservation> getObservation() throws OwsExceptionReport {
-        List<OmObservation> observations = Lists.newArrayList();
-        do {
-            observations.add(nextSingleObservation());
-        } while (hasNextValue());
-        return observations;
-    }
 
     public void add(AdditionalRequestParams parameter, Object object) {
         additionalRequestParams.put(parameter, object);
@@ -116,8 +69,6 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
     protected Object getAdditionalRequestParams(AdditionalRequestParams parameter) {
         return additionalRequestParams.get(parameter);
     }
-
-
 
     @Override
     public boolean isSetValue() {
@@ -149,10 +100,9 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
     /**
      * Check if the max number of returned values is exceeded
      *
-     * @param size
-     *            Max number count
-     * @throws CodedException
-     *             If the size limit is exceeded
+     * @param size Max number count
+     *
+     * @throws CodedException If the size limit is exceeded
      */
     protected void checkMaxNumberOfReturnedValues(int size) throws OwsExceptionReport {
         if (getMaxNumberOfValues() > 0) {

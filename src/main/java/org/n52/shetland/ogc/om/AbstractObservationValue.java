@@ -177,26 +177,32 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
         return getUnit()!= null && !getUnit().isEmpty();
     }
 
+    @Override
     public boolean isSetDefaultPointMetadata() {
         return defaultPointMetadata != null;
     }
 
+    @Override
     public DefaultPointMetadata getDefaultPointMetadata() {
         return defaultPointMetadata;
     }
 
+    @Override
     public void setDefaultPointMetadata(DefaultPointMetadata defaultPointMetadata) {
         this.defaultPointMetadata = defaultPointMetadata;
     }
 
+    @Override
     public boolean isSetMetadata() {
         return metadata != null;
     }
 
+    @Override
     public Metadata getMetadata() {
         return metadata;
     }
 
+    @Override
     public void setMetadata(Metadata metadata) {
         this.metadata = metadata;
     }

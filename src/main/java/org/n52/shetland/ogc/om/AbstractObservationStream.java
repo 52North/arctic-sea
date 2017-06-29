@@ -14,25 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sos.response;
+package org.n52.shetland.ogc.om;
 
 
-import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.janmayen.AbstractThrowingIterator;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
-/**
- * @since 4.0.0
- *
- */
-public class GetObservationResponse extends AbstractObservationResponse {
-    public GetObservationResponse() {
-        super(null, null, SosConstants.Operations.GetObservation.name());
-    }
-
-    public GetObservationResponse(String service, String version) {
-        super(service, version, SosConstants.Operations.GetObservation.name());
-    }
-
-    public GetObservationResponse(String service, String version, String operationName) {
-        super(service, version, operationName);
-    }
+public abstract class AbstractObservationStream
+        extends AbstractThrowingIterator<OmObservation, OwsExceptionReport>
+        implements ObservationStream {
 }

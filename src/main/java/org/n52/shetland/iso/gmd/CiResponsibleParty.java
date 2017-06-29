@@ -58,7 +58,7 @@ public class CiResponsibleParty extends AbstractObject implements AttributeSimpl
 
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     @Override
@@ -114,7 +114,8 @@ public class CiResponsibleParty extends AbstractObject implements AttributeSimpl
 
     /**
      * @param contactInfo the contactInfo to set
-     * @return
+     *
+     * @return {@code this}
      */
     public CiResponsibleParty setContactInfo(CiContact contactInfo) {
         if (contactInfo != null) {
@@ -125,7 +126,8 @@ public class CiResponsibleParty extends AbstractObject implements AttributeSimpl
 
     /**
      * @param contactInfo the contactInfo to set
-     * @return
+     *
+     * @return {@code this}
      */
     public CiResponsibleParty setContactInfo(Referenceable<CiContact> contactInfo) {
         this.contactInfo = contactInfo;

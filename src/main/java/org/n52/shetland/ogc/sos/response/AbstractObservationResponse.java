@@ -16,10 +16,7 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import java.util.Collections;
-import java.util.List;
-
-import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
 
@@ -33,7 +30,7 @@ import com.google.common.base.Strings;
  * @since 4.0.0
  */
 public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
-    private List<OmObservation> observationCollection;
+    private ObservationStream observationCollection;
     private String responseFormat;
     private String resultModel;
     private boolean mergeObservation = false;
@@ -50,19 +47,12 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
         super(service, version, operationName);
     }
 
-    public List<OmObservation> getObservationCollection() {
-        return Collections.unmodifiableList(observationCollection);
+    public ObservationStream getObservationCollection() {
+        return observationCollection;
     }
 
-    public void setObservationCollection(final List<OmObservation> observationCollection) {
+    public void setObservationCollection(final ObservationStream observationCollection) {
         this.observationCollection = observationCollection;
-    }
-
-    protected OmObservation getFirstObservation() {
-        if (observationCollection != null && observationCollection.iterator().hasNext()) {
-            return observationCollection.iterator().next();
-        }
-        return null;
     }
 
     @Override
@@ -111,6 +101,11 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
 
     public boolean hasGlobalObservationValues() {
         return getGlobalObservationValues() != null && !getGlobalObservationValues().isEmpty();
+    }
+
+    @Override
+    public void close() {
+        this.observationCollection.close();
     }
 
 }
