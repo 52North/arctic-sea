@@ -119,7 +119,7 @@
         <version.slf4j>1.7.21</version.slf4j>
         <version.guava>20.0</version.guava>
         <version.java>1.8</version.java>
-        <version.faroe>1.2.0</version.faroe>
+        <version.faroe>1.3.0-SNAPSHOT</version.faroe>
         <version.jackson>2.8.5</version.jackson>
         <version.xmlbeans>2.6.0</version.xmlbeans>
     </properties>
