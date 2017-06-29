@@ -31,11 +31,10 @@ import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.ConformanceClass;
 
 /**
- * Abstract Super class for binding implementations<br />
+ * Abstract Super class for binding implementations.
  *
- * Context:<br />
- * The <code>Binding.check*()</code> methods are called during GetCapabilities processing when collecting the operations
- * metadata.
+ * Context: The <code>Binding.check*()</code> methods are called during GetCapabilities processing when collecting the
+ * operations metadata.
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -46,13 +45,13 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
     /**
      * HTTP DELETE request handling method
      *
-     * @param request HTTP DELETE request
+     * @param request  HTTP DELETE request
      *
      * @param response HTTP DELETE response
      *
      *
      * @throws HTTPException if the encoding of an exception failed
-     * @throws IOException if an IO error occurs
+     * @throws IOException   if an IO error occurs
      */
     public void doDeleteOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
                                                                                                    IOException {
@@ -62,13 +61,13 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
     /**
      * HTTP GET request handling method
      *
-     * @param request HTTP GET request
+     * @param request  HTTP GET request
      *
      * @param response HTTP GET response
      *
      *
      * @throws HTTPException if the encoding of an exception failed
-     * @throws IOException if an IO error occurs
+     * @throws IOException   if an IO error occurs
      */
     public void doGetOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
                                                                                                 IOException {
@@ -78,13 +77,13 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
     /**
      * HTTP DELETE request handling method
      *
-     * @param request HTTP DELETE request
+     * @param request  HTTP DELETE request
      *
      * @param response HTTP DELETE response
      *
      *
      * @throws HTTPException if the encoding of an exception failed
-     * @throws IOException if an IO error occurs
+     * @throws IOException   if an IO error occurs
      */
     public void doOptionsOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
                                                                                                     IOException {
@@ -94,13 +93,13 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
     /**
      * HTTP POST request handling method
      *
-     * @param request HTTP POST request
+     * @param request  HTTP POST request
      *
      * @param response HTTP POST response
      *
      *
      * @throws HTTPException if the encoding of an exception failed
-     * @throws IOException if an IO error occurs
+     * @throws IOException   if an IO error occurs
      */
     public void doPostOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
                                                                                                  IOException {
@@ -110,13 +109,13 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
     /**
      * HTTP PUT request handling method
      *
-     * @param request HTTP PUT request
+     * @param request  HTTP PUT request
      *
      * @param response HTTP PUT response
      *
      *
      * @throws HTTPException if the encoding of an exception failed
-     * @throws IOException if an IO error occurs
+     * @throws IOException   if an IO error occurs
      */
     public void doPutOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
                                                                                                 IOException {
@@ -124,10 +123,9 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
     }
 
     /**
-     * Get URL pattern for the operator.<br />
-     * The URL pattern MUST start with "/service", MUST NOT contain any additional "/", and MUST be unique over all
-     * bindings present in the service at runtime.<br />
-     * For example, a kvp binding could have the pattern "/service/kvp".
+     * Get URL pattern for the operator. The URL pattern MUST start with "/service", MUST NOT contain any additional
+     * "/", and MUST be unique over all bindings present in the service at runtime. For example, a kvp binding could
+     * have the pattern {@code "/service/kvp"}.
      *
      * @return URL pattern
      */

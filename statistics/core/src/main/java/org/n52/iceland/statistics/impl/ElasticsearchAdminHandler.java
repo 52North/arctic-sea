@@ -20,6 +20,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -115,10 +116,11 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         String json;
         if (settings.getKibanaConfPath() == null || settings.getKibanaConfPath().trim().isEmpty()) {
             logger.info("No path is defined. Use default settings values");
-            json = IOUtils.toString(this.getClass().getResourceAsStream("/kibana/kibana_config.json"));
+            json = IOUtils.toString(this.getClass().getResourceAsStream("/kibana/kibana_config.json"),
+                                    StandardCharsets.UTF_8);
         } else {
             logger.info("Use content of path {}", settings.getKibanaConfPath());
-            json = IOUtils.toString(new FileInputStream(settings.getKibanaConfPath()));
+            json = IOUtils.toString(new FileInputStream(settings.getKibanaConfPath()), StandardCharsets.UTF_8);
         }
         new KibanaImporter(client, ".kibana", settings.getIndexId()).importJson(json);
         // set to false after successful import
