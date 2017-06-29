@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 
 /**
  * Annotation that should be applied to a method that takes a single Setting as a parameter. The parameter of this
- * method should be of the same type as the type of the associated {@link org.n52.faroe.SettingDefinition}.
+ * method should be of the same type as the type of the associated {@code org.n52.faroe.SettingDefinition}.
  *
  * It is needed to apply the {@code Configurable} annotation to a class with a method annotated with this annotations
  * for the {@code SettingsManager} to recognize it.
@@ -40,8 +40,6 @@ import java.lang.annotation.Target;
  * </pre>
  *
  * @see Configurable
- * @see org.n52.faroe.SettingDefinition
- * @see org.n52.faroe.SettingsService
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
