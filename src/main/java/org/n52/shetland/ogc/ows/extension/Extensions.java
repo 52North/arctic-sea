@@ -97,7 +97,8 @@ public class Extensions {
     }
 
     public boolean getBooleanExtension(String identifier, boolean defaultValue) {
-        return getExtension(identifier).map(Extension::getValue).map(value -> {
+        Function<Extension<?>, Object> getValue = Extension::getValue;
+        return getExtension(identifier).map(getValue).map(value -> {
             if (value instanceof Boolean) {
                 return (Boolean) value;
             } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
