@@ -252,7 +252,7 @@ public final class CollectionHelper {
                 .map(Collection::stream)
                 .orElseGet(Stream::empty)
                 .filter(Objects::nonNull)
-                .flatMap(Collection<T>::stream)
+                .flatMap(c -> c.stream())
                 .filter(Objects::nonNull)
                 .collect(toSet());
     }
