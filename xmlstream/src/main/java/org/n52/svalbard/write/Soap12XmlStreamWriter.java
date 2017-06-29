@@ -153,10 +153,8 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
         namespace(SoapConstants.NS_SOAP_PREFIX, SoapConstants.NS_SOAP_12);
         schemaLocation(getSchemaLocation(response));
-        writeNewLine();
         // writeSoapHeader()
         writeSoapBody(response);
-        writeNewLine();
         end(SoapConstants.SOAP_12_ENVELOPE);
 
     }
@@ -185,9 +183,7 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
      *             If an encoding error occurs
      */
     protected void writeSoapBody(SoapResponse response) throws XMLStreamException, EncodingException {
-        int before = indent;
         start(SoapConstants.SOAP_12_BODY);
-        writeNewLine();
         if (response != null) {
             if (response.isSetSoapFault()) {
                 writeSoapFault(response.getSoapFault());
@@ -197,8 +193,6 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
                 writeBodyContent(response.getBodyContent());
             }
         }
-        indent = before;
-        writeNewLine();
         end(SoapConstants.SOAP_12_BODY);
     }
 
@@ -217,7 +211,7 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
         Encoder<Object, OwsServiceResponse> encoder = getEncoder(new OperationResponseEncoderKey(new OwsOperationKey(bodyResponse), MediaTypes.APPLICATION_XML));
         if (encoder instanceof StreamingEncoder<?, ?>) {
             ((StreamingEncoder) encoder).encode(bodyResponse, getOutputStream(),
-                    new EncodingValues().setAsDocument(true).setEmbedded(true).setIndent(indent));
+                    new EncodingValues().setAsDocument(true).setEmbedded(true).setIndent(getIndent()));
         } else {
             String soapBodyContent = ((XmlObject) encoder.encode(bodyResponse)).xmlText(this.xmlOptions.get());
             if (soapBodyContent.startsWith("<?xml")) {

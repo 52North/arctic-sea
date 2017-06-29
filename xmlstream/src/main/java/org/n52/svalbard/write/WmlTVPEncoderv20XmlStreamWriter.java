@@ -76,40 +76,31 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
             throws XMLStreamException, EncodingException {
         start(OmConstants.QN_OM_20_RESULT);
         namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
-        writeNewLine();
         start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
         attr(GmlConstants.QN_ID_32, "timeseries." + observation.getObservationID());
-        writeNewLine();
         writeMeasurementTimeseriesMetadata(observation.getPhenomenonTime().getGmlId());
-        writeNewLine();
         if (observation.getValue() instanceof SingleObservationValue) {
             SingleObservationValue<?> observationValue = (SingleObservationValue<?>) observation.getValue();
             writeDefaultPointMetadata(observationValue.getValue().getUnit());
-            writeNewLine();
             String time = getTimeString(observationValue.getPhenomenonTime());
             writePoint(time, getValue(observation.getValue().getValue()));
-            writeNewLine();
             close();
         } else if (observation.getValue() instanceof MultiObservationValues) {
             MultiObservationValues<?> observationValue = (MultiObservationValues<?>) observation.getValue();
             writeDefaultPointMetadata(observationValue.getValue().getUnit());
-            writeNewLine();
             TVPValue tvpValue = (TVPValue) observationValue.getValue();
             List<TimeValuePair> timeValuePairs = tvpValue.getValue();
             for (TimeValuePair timeValuePair : timeValuePairs) {
                 writePoint(getTimeString(timeValuePair.getTime()), getValue(timeValuePair.getValue()));
-                writeNewLine();
             }
             close();
         } else if (observation.getValue() instanceof StreamingValue) {
             StreamingValue<?> observationValue = (StreamingValue) observation.getValue();
             writeDefaultPointMetadata(observationValue.getUnit());
-            writeNewLine();
             try {
                 while (observationValue.hasNext()) {
                     TimeValuePair timeValuePair = observationValue.nextValue();
                     writePoint(getTimeString(timeValuePair.getTime()), getValue(timeValuePair.getValue()));
-                    writeNewLine();
                 }
             } catch (DateTimeFormatException | OwsExceptionReport e) {
                 throw new EncodingException(e);
@@ -127,11 +118,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      *             If an error occurs when writing to stream
      */
     private void close() throws XMLStreamException {
-        indent--;
         end(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
-        writeNewLine();
         end(OmConstants.QN_OM_20_RESULT);
-        indent++;
     }
 
     /**
@@ -144,17 +132,11 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      */
     private void writeMeasurementTimeseriesMetadata(String id) throws XMLStreamException {
         start(WaterMLConstants.QN_METADATA);
-        writeNewLine();
         start(WaterMLConstants.QN_TIMESERIES_METADATA);
-        writeNewLine();
         empty(WaterMLConstants.QN_TEMPORAL_EXTENT);
         addXlinkHrefAttr("#" + id);
-        writeNewLine();
-        indent--;
         end(WaterMLConstants.QN_TIMESERIES_METADATA);
-        writeNewLine();
         end(WaterMLConstants.QN_METADATA);
-        indent++;
     }
 
     /**
@@ -166,18 +148,11 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      */
     private void writeDefaultPointMetadata(String unit) throws XMLStreamException {
         start(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
-        writeNewLine();
         start(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
-        writeNewLine();
         writeUOM(unit);
-        writeNewLine();
         writeInterpolationType();
-        writeNewLine();
-        indent--;
         end(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
-        writeNewLine();
         end(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
-        indent++;
     }
 
     /**
@@ -218,10 +193,10 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         if (value.isSetValue()) {
             if (value instanceof QuantityValue) {
                 QuantityValue quantityValue = (QuantityValue) value;
-                return Double.toString(quantityValue.getValue().doubleValue());
+                return Double.toString(quantityValue.getValue());
             } else if (value instanceof CountValue) {
                 CountValue countValue = (CountValue) value;
-                return Integer.toString(countValue.getValue().intValue());
+                return Integer.toString(countValue.getValue());
             } else if (value instanceof TextValue) {
                 TextValue textValue = (TextValue) value;
                 String nonXmlEscapedText = textValue.getValue();
@@ -244,12 +219,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     private void writePoint(String time, String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(time)) {
             start(WaterMLConstants.QN_POINT);
-            writeNewLine();
             writeMeasurementTVP(time, value);
-            writeNewLine();
-            indent--;
             end(WaterMLConstants.QN_POINT);
-            indent++;
         }
     }
 
@@ -265,14 +236,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      */
     private void writeMeasurementTVP(String time, String value) throws XMLStreamException {
         start(WaterMLConstants.QN_MEASUREMENT_TVP);
-        writeNewLine();
         writeTime(time);
-        writeNewLine();
         writeValue(value);
-        writeNewLine();
-        indent--;
         end(WaterMLConstants.QN_MEASUREMENT_TVP);
-        indent++;
     }
 
     /**

@@ -41,6 +41,7 @@ public abstract class XmlStreamWriter<S> extends XmlWriter<XMLStreamWriter, S> {
     private final Map<String, String> prefixes = new HashMap<>();
 
     private XMLStreamWriter w;
+    private int indent = 0;
 
     @Override
     protected void init(OutputStream out, String encoding, EncodingValues encodingValues) throws XMLStreamException {
@@ -92,7 +93,6 @@ public abstract class XmlStreamWriter<S> extends XmlWriter<XMLStreamWriter, S> {
     protected void start(boolean embedded) throws XMLStreamException {
         if (!embedded) {
             getXmlWriter().writeStartDocument(ENCODING, XML_VERSION);
-            writeNewLine();
         }
     }
 
@@ -141,6 +141,11 @@ public abstract class XmlStreamWriter<S> extends XmlWriter<XMLStreamWriter, S> {
     @Override
     protected void flush() throws XMLStreamException {
         getXmlWriter().flush();
+    }
+
+    @Override
+    public int getIndent() {
+        return this.indent;
     }
 
 }

@@ -40,7 +40,7 @@ public abstract class XmlEventWriter<S> extends XmlWriter<XMLEventWriter, S> {
     private final Map<String, String> prefixes = new HashMap<>();
 
     private XMLEventWriter w;
-
+    private int indent = 0;
     private final XMLEventFactory eventFactory = XMLEventFactory.newInstance();
 
     @Override

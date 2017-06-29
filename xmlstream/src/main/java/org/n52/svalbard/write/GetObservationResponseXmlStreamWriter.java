@@ -42,7 +42,6 @@ import org.n52.svalbard.encode.StreamingDataEncoder;
 import org.n52.svalbard.encode.StreamingEncoder;
 import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 import com.google.common.collect.Sets;
 
@@ -172,7 +171,6 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         } catch (OwsExceptionReport owse) {
             throw new EncodingException(owse);
         }
-        indent--;
         end(Sos2StreamingConstants.GET_OBSERVATION_RESPONSE);
     }
 
@@ -199,15 +197,11 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         if (encoder instanceof StreamingEncoder) {
             ((StreamingEncoder<XmlObject, OmObservation>) encoder)
                     .encode(observation, getOutputStream(), encodingValues.setAsDocument(true)
-                            .setEmbedded(true).setIndent(indent));
+                            .setEmbedded(true).setIndent(getIndent()));
         } else {
-            rawText(encoder.encode(observation, encodingValues.getAdditionalValues())
-                    .xmlText(XmlOptionsHelper.getInstance().getXmlOptions()));
+            rawText(encoder.encode(observation, encodingValues.getAdditionalValues()).xmlText(getXmlOptions()));
         }
-        indent--;
-        writeNewLine();
         end(Sos2StreamingConstants.OBSERVATION_DATA);
-        indent++;
     }
 
     /**

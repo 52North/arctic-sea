@@ -25,7 +25,6 @@ import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
@@ -54,7 +53,6 @@ import org.n52.svalbard.encode.EncodingValues;
 import org.n52.svalbard.encode.StreamingDataEncoder;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 import com.google.common.collect.Sets;
 
@@ -203,7 +201,6 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
             }
             LOGGER.debug("Writing member requires {} ms", (System.currentTimeMillis() - start));
         }
-        indent--;
         end(GmlConstants.QN_FEATURE_COLLECTION_32);
     }
 
@@ -282,15 +279,13 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
 
     private void writeMember(AbstractFeature abstractFeature, Encoder<XmlObject, AbstractFeature> encoder,
             EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        writeMember((encoder.encode(abstractFeature, encodingValues.getAdditionalValues())).xmlText(getXmlOptions()));
+        writeXmlObject(encoder.encode(abstractFeature, encodingValues.getAdditionalValues()));
     }
 
     private void writeMember(String memberContent) throws XMLStreamException, EncodingException {
         start(GmlConstants.QN_FEATURE_MEMBER_32);
         rawText(memberContent);
-        indent--;
         end(GmlConstants.QN_FEATURE_MEMBER_32);
-        indent++;
     }
 
     private Encoder<XmlObject, AbstractFeature> getEncoder(AbstractFeature feature, EncodingContext additionalValues)
@@ -346,10 +341,6 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
             timer.cancel();
             timer = null;
         }
-    }
-
-    private static XmlOptions getXmlOptions() {
-        return XmlOptionsHelper.getInstance().getXmlOptions();
     }
 
     /**
