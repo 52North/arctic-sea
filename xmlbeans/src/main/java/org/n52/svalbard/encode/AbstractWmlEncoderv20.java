@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -53,11 +52,12 @@ import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
-import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
@@ -73,6 +73,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.vividsolutions.jts.geom.Geometry;
+
+import org.n52.shetland.ogc.om.ObservationStream;
 
 /**
  * Abstract encoder class for WaterML 2.0
@@ -178,49 +180,49 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
         // TODO: set schemaLocation if final
         Map<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>();
         int sfIdCounter = 1;
-        if (getObservationResonse.getObservationCollection() != null
-                && !getObservationResonse.getObservationCollection().isEmpty()) {
-            Collection<OmObservation> sosObservations = getObservationResonse.getObservationCollection();
-            if (sosObservations.size() == 1) {
-                OMObservationDocument omObservationDoc = OMObservationDocument.Factory.newInstance(getXmlOptions());
-                for (OmObservation sosObservation : sosObservations) {
-                    String gmlId = "sf_" + sfIdCounter;
-                    omObservationDoc.setOMObservation((OMObservationType) encodeOmObservation(sosObservation,
-                            EncodingContext.of(SosHelperValues.GMLID, gmlId)));
-                }
-                return omObservationDoc;
-            } else {
-                CollectionDocument xmlCollectionDoc = CollectionDocument.Factory.newInstance(getXmlOptions());
-                CollectionType wmlCollection = xmlCollectionDoc.addNewCollection();
-                for (OmObservation sosObservation : sosObservations) {
+        ObservationStream observations = getObservationResonse.getObservationCollection();
+        try {
+            if (observations != null && observations.hasNext()) {
 
-                    String gmlId;
-                    boolean exists;
-                    CodeWithAuthority cwa = sosObservation.getObservationConstellation().getFeatureOfInterest()
-                            .getIdentifierCodeWithAuthority();
+                EncodingContext encodingContext = EncodingContext.of(SosHelperValues.GMLID, "sf_" + sfIdCounter);
+                OMObservationType xbObservation = (OMObservationType) encodeOmObservation(observations.next(), encodingContext);
 
-                    // FIXME CodeWithAuthority VS. String keys
+                if (observations.hasNext()) {
 
-                    if (gmlID4sfIdentifier.containsKey(cwa)) {
-                        gmlId = gmlID4sfIdentifier.get(cwa);
-                        exists = true;
-                    } else {
-                        gmlId = "sf_" + sfIdCounter;
-                        gmlID4sfIdentifier.put(cwa, gmlId);
-                        exists = false;
+                    CollectionDocument xmlCollectionDoc = CollectionDocument.Factory.newInstance(getXmlOptions());
+                    CollectionType wmlCollection = xmlCollectionDoc.addNewCollection();
+                    wmlCollection.addNewObservationMember().setOMObservation(xbObservation);
+
+                    while(observations.hasNext()) {
+
+                        OmObservation observation = observations.next();
+                        CodeWithAuthority cwa = observation.getObservationConstellation()
+                                .getFeatureOfInterest().getIdentifierCodeWithAuthority();
+
+                        if (gmlID4sfIdentifier.containsKey(cwa)) {
+                            encodingContext = encodingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, true);
+                        } else {
+                            gmlID4sfIdentifier.put(cwa, "sf_" + sfIdCounter++);
+                            encodingContext = encodingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, false);
+                        }
+
+                        xbObservation = (OMObservationType) encodeOmObservation(observation, encodingContext
+                                    .with(SosHelperValues.GMLID, gmlID4sfIdentifier.get(cwa)));
+                        wmlCollection.addNewObservationMember().setOMObservation(xbObservation);
 
                     }
-                    EncodingContext codingContext = EncodingContext.empty().with(SosHelperValues.GMLID, gmlId)
-                            .with(SosHelperValues.EXIST_FOI_IN_DOC, exists);
-                    wmlCollection.addNewObservationMember()
-                            .setOMObservation((OMObservationType) encodeOmObservation(sosObservation, codingContext));
+                    return xmlCollectionDoc;
+                } else {
+                    OMObservationDocument omObservationDoc = OMObservationDocument.Factory.newInstance(getXmlOptions());
+                    omObservationDoc.setOMObservation(xbObservation);
+                    return omObservationDoc;
                 }
-                return xmlCollectionDoc;
+            } else {
+                // TODO: HydrologieProfile-Exception
+                throw new EncodingException("Combination does not exists!");
             }
-
-        } else {
-            // TODO: HydrologieProfile-Exception
-            throw new EncodingException("Combination does not exists!");
+        } catch (OwsExceptionReport ex) {
+            throw new EncodingException(ex);
         }
     }
 

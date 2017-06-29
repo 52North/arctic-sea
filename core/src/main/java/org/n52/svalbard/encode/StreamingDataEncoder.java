@@ -23,6 +23,7 @@ package org.n52.svalbard.encode;
  * @since 4.1.0
  *
  */
+@Deprecated
 public interface StreamingDataEncoder {
 
 }

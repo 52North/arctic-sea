@@ -131,11 +131,6 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
     protected abstract String getDefaultProcedureEncodingNamspace();
 
     @Override
-    public boolean forceStreaming() {
-        return false;
-    }
-
-    @Override
     public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         XmlObject encodedObject = null;
         if (element instanceof OmObservation) {

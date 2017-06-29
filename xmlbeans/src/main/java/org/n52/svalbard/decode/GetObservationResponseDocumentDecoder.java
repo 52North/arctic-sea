@@ -20,6 +20,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import net.opengis.sos.x20.GetObservationResponseDocument;
+import net.opengis.sos.x20.GetObservationResponseType;
+import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
@@ -28,17 +35,12 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import net.opengis.sos.x20.GetObservationResponseDocument;
-import net.opengis.sos.x20.GetObservationResponseType;
-import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
+import org.n52.shetland.ogc.om.ObservationStream;
 
 public class GetObservationResponseDocumentDecoder extends
         AbstractXmlDecoder<GetObservationResponseDocument, GetObservationResponse> implements SosResponseDecoder {
@@ -67,7 +69,7 @@ public class GetObservationResponseDocumentDecoder extends
             setVersions(response);
             GetObservationResponseType gort = gord.getGetObservationResponse();
             response.setExtensions(parseExtensibleResponse(gort));
-            response.setObservationCollection(parseObservtions(gort));
+            response.setObservationCollection(ObservationStream.of(parseObservtions(gort)));
 
             return response;
         }

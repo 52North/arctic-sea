@@ -17,13 +17,16 @@
 package org.n52.svalbard.encode;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
+
+import net.opengis.sos.x20.GetObservationByIdResponseDocument;
+import net.opengis.sos.x20.GetObservationByIdResponseType;
 
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
@@ -34,8 +37,7 @@ import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Sets;
 
-import net.opengis.sos.x20.GetObservationByIdResponseDocument;
-import net.opengis.sos.x20.GetObservationByIdResponseType;
+import org.n52.shetland.ogc.om.ObservationStream;
 
 /**
  * TODO JavaDoc
@@ -53,27 +55,30 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
 
     @Override
     protected XmlObject createResponse(ObservationEncoder<XmlObject, OmObservation> encoder,
-            GetObservationByIdResponse response) throws EncodingException {
-        GetObservationByIdResponseDocument doc =
-                GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
+                                       GetObservationByIdResponse response) throws EncodingException {
+        GetObservationByIdResponseDocument doc = GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
         GetObservationByIdResponseType xbResponse = doc.addNewGetObservationByIdResponse();
-        List<OmObservation> oc = response.getObservationCollection();
-        HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>(oc.size());
-        for (OmObservation observation : oc) {
-            EncodingContext codingContext = EncodingContext.empty();
-            final String gmlId;
-            CodeWithAuthority foiId =
-                    observation.getObservationConstellation().getFeatureOfInterest().getIdentifierCodeWithAuthority();
-            if (gmlID4sfIdentifier.containsKey(foiId)) {
-                gmlId = gmlID4sfIdentifier.get(foiId);
-                codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, true);
-            } else {
-                gmlId = GML_ID;
-                gmlID4sfIdentifier.put(foiId, gmlId);
-                codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, false);
+
+        ObservationStream observations = response.getObservationCollection();
+        HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>();
+        try {
+            while (observations.hasNext()) {
+                OmObservation observation = observations.next();
+                EncodingContext codingContext = EncodingContext.empty();
+                CodeWithAuthority foiId = observation.getObservationConstellation().getFeatureOfInterest()
+                        .getIdentifierCodeWithAuthority();
+                if (gmlID4sfIdentifier.containsKey(foiId)) {
+                    codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, true);
+                } else {
+                    gmlID4sfIdentifier.put(foiId, GML_ID);
+                    codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, false);
+                }
+                codingContext = codingContext.with(SosHelperValues.GMLID, gmlID4sfIdentifier.get(foiId));
+                xbResponse.addNewObservation().addNewOMObservation().set(encoder.encode(observation, codingContext));
+
             }
-            codingContext = codingContext.with(SosHelperValues.GMLID, gmlId);
-            xbResponse.addNewObservation().addNewOMObservation().set(encoder.encode(observation, codingContext));
+        } catch (OwsExceptionReport ex) {
+            throw new EncodingException(ex);
         }
         XmlHelper.makeGmlIdsUnique(xbResponse.getDomNode());
         return doc;

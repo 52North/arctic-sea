@@ -24,6 +24,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +82,6 @@ import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
@@ -97,6 +97,8 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import org.n52.shetland.ogc.om.ObservationStream;
 
 /**
  * @since 4.0.0
@@ -209,12 +211,10 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
             encodedObject = createObservation((OmObservation) element, additionalValues);
         } else if (element instanceof GetObservationResponse) {
             GetObservationResponse response = (GetObservationResponse) element;
-            encodedObject =
-                    createObservationCollection(response.getObservationCollection(), response.getResultModel());
+            encodedObject = createObservationCollection(response.getObservationCollection(), response.getResultModel());
         } else if (element instanceof GetObservationByIdResponse) {
             GetObservationByIdResponse response = (GetObservationByIdResponse) element;
-            encodedObject =
-                    createObservationCollection(response.getObservationCollection(), response.getResultModel());
+            encodedObject = createObservationCollection(response.getObservationCollection(), response.getResultModel());
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -255,38 +255,41 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
         return OmConstants.OBS_TYPE_OBSERVATION;
     }
 
-    private XmlObject createObservationCollection(List<OmObservation> sosObservationCollection, String resultModel)
+    private XmlObject createObservationCollection(ObservationStream sosObservationCollectionIterable, String resultModel)
             throws EncodingException {
         ObservationCollectionDocument xbObservationCollectionDoc =
                 ObservationCollectionDocument.Factory.newInstance(getXmlOptions());
         ObservationCollectionType xbObservationCollection = xbObservationCollectionDoc.addNewObservationCollection();
         xbObservationCollection.setId(SosConstants.OBS_COL_ID_PREFIX + new DateTime().getMillis());
-        if (CollectionHelper.isNotEmpty(sosObservationCollection)) {
-            ReferencedEnvelope sosEnvelope = getEnvelope(sosObservationCollection);
-            Encoder<XmlObject, ReferencedEnvelope> envEncoder = getEncoder(GmlConstants.NS_GML, sosEnvelope);
-            xbObservationCollection.addNewBoundedBy().addNewEnvelope().set(envEncoder.encode(sosEnvelope));
-            for (OmObservation sosObservation : sosObservationCollection) {
-                String observationType = checkObservationType(sosObservation);
-                if (Strings.isNullOrEmpty(resultModel)
-                        || (!Strings.isNullOrEmpty(resultModel) && observationType.equals(resultModel))) {
-                    if (sosObservation.getValue() instanceof StreamingValue) {
-                        StreamingValue<?> streamingValue = (StreamingValue) sosObservation.getValue();
-                        try {
-                            while (streamingValue.hasNextValue()) {
+        if (sosObservationCollectionIterable != null) {
+            List<OmObservation> sosObservationCollection = new LinkedList<>();
+            try {
+                sosObservationCollectionIterable.forEachRemaining(sosObservationCollection::add);
+                ReferencedEnvelope sosEnvelope = getEnvelope(sosObservationCollection);
+                Encoder<XmlObject, ReferencedEnvelope> envEncoder = getEncoder(GmlConstants.NS_GML, sosEnvelope);
+                xbObservationCollection.addNewBoundedBy().addNewEnvelope().set(envEncoder.encode(sosEnvelope));
+                for (OmObservation sosObservation : sosObservationCollection) {
+                    String observationType = checkObservationType(sosObservation);
+                    if (Strings.isNullOrEmpty(resultModel)
+                            || (!Strings.isNullOrEmpty(resultModel) && observationType.equals(resultModel))) {
+                        if (sosObservation.getValue() instanceof StreamingValue) {
+                            StreamingValue<?> streamingValue = (StreamingValue) sosObservation.getValue();
+                            while (streamingValue.hasNext()) {
                                 xbObservationCollection.addNewMember()
-                                        .set(createObservation(streamingValue.nextSingleObservation(), null));
+                                        .set(createObservation(streamingValue.next(), null));
                             }
-                        } catch (OwsExceptionReport owse) {
-                            throw new EncodingException(owse);
+
+                        } else {
+                            xbObservationCollection.addNewMember().set(createObservation(sosObservation, null));
                         }
                     } else {
-                        xbObservationCollection.addNewMember().set(createObservation(sosObservation, null));
+                        throw new EncodingException(
+                                "The requested resultModel '%s' is invalid for the resulting observations!",
+                                OMHelper.getEncodedResultModelFor(resultModel));
                     }
-                } else {
-                    throw new EncodingException(
-                            "The requested resultModel '%s' is invalid for the resulting observations!",
-                            OMHelper.getEncodedResultModelFor(resultModel));
                 }
+            } catch (OwsExceptionReport owse) {
+                throw new EncodingException(owse);
             }
         } else {
             ObservationPropertyType xbObservation = xbObservationCollection.addNewMember();

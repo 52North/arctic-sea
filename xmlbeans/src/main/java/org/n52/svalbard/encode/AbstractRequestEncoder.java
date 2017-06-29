@@ -22,20 +22,16 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.n52.janmayen.http.MediaTypes;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
-import org.n52.shetland.ogc.ows.service.OwsOperationKey;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Joiner;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
-import org.n52.svalbard.encode.AbstractXmlResponseEncoder;
-import org.n52.svalbard.encode.EncoderKey;
-import org.n52.svalbard.encode.OperationRequestEncoderKey;
+import com.google.common.base.Joiner;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -115,10 +111,5 @@ public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extend
             throw new UnsupportedEncoderInputException(this, null);
         }
         create(response, outputStream, encodingValues);
-    }
-
-    @Override
-    public boolean forceStreaming() {
-        return false;
     }
 }

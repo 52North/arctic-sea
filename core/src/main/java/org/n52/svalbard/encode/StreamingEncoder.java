@@ -36,6 +36,4 @@ public interface StreamingEncoder<T, S> extends Encoder<T, S> {
     void encode(S objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
             throws EncodingException;
 
-    boolean forceStreaming();
-
 }

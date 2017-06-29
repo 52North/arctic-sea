@@ -21,25 +21,23 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.sos.x20.GetObservationResponseDocument;
+import net.opengis.sos.x20.GetObservationResponseType;
+
 import org.apache.xmlbeans.XmlObject;
 
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
-import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
 import org.n52.svalbard.write.GetObservationResponseXmlStreamWriter;
 
 import com.google.common.collect.Sets;
-
-import net.opengis.sos.x20.GetObservationResponseDocument;
-import net.opengis.sos.x20.GetObservationResponseType;
 
 /**
  * TODO JavaDoc
@@ -48,7 +46,8 @@ import net.opengis.sos.x20.GetObservationResponseType;
  *
  * @since 4.0.0
  */
-public class GetObservationResponseEncoder extends AbstractObservationResponseEncoder<GetObservationResponse>
+public class GetObservationResponseEncoder
+        extends AbstractObservationResponseEncoder<GetObservationResponse>
         implements StreamingDataEncoder {
     public GetObservationResponseEncoder() {
         super(SosConstants.Operations.GetObservation.name(), GetObservationResponse.class);
@@ -62,61 +61,20 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
     @Override
     protected XmlObject createResponse(ObservationEncoder<XmlObject, OmObservation> encoder,
             GetObservationResponse response) throws EncodingException {
-        GetObservationResponseDocument doc = GetObservationResponseDocument.Factory.newInstance(getXmlOptions());
-        GetObservationResponseType xbResponse = doc.addNewGetObservationResponse();
-        if (!response.isSetMergeObservation()) {
-            response.setMergeObservations(encoder.shouldObservationsWithSameXBeMerged());
-        }
-        // TODO iterate over observation collection and remove processed
-        // observation
-        for (OmObservation o : response.getObservationCollection()) {
-            if (encoder instanceof StreamingDataEncoder) {
-                xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(o));
-            } else {
-                if (o.getValue() instanceof AbstractStreaming) {
-                    processAbstractStreaming(xbResponse, (AbstractStreaming) o.getValue(), encoder,
-                            response.isSetMergeObservation());
-                } else {
-                    xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(o));
-                }
-            }
-        }
-        // in a single observation the gml:ids must be unique
-        if (response.getObservationCollection().size() > 1) {
-            XmlHelper.makeGmlIdsUnique(doc.getDomNode());
-        }
-        return doc;
-    }
-
-    private void processAbstractStreaming(GetObservationResponseType xbResponse, AbstractStreaming value,
-            ObservationEncoder<XmlObject, OmObservation> encoder, boolean merge) throws EncodingException {
-        if (value instanceof StreamingValue) {
-            processStreamingValue(xbResponse, (StreamingValue<?>) value, encoder, merge);
-        } else {
-            throw new UnsupportedEncoderInputException(this, value);
-        }
-    }
-
-    private void processStreamingValue(GetObservationResponseType xbResponse, StreamingValue<?> streamingValue,
-            ObservationEncoder<XmlObject, OmObservation> encoder, boolean merge) throws EncodingException {
         try {
-            if (streamingValue.hasNextValue()) {
-                if (merge) {
-                    for (OmObservation obs : streamingValue.mergeObservation()) {
-                        xbResponse.addNewObservationData().addNewOMObservation().set(encoder.encode(obs));
-                    }
-                } else {
-                    do {
-                        xbResponse.addNewObservationData().addNewOMObservation()
-                                .set(encoder.encode(streamingValue.nextSingleObservation()));
-                    } while (streamingValue.hasNextValue());
-                }
-            } else if (streamingValue.getValue() != null) {
-                xbResponse.addNewObservationData().addNewOMObservation()
-                        .set(encoder.encode(streamingValue.getValue().getValue()));
+            GetObservationResponseDocument doc = GetObservationResponseDocument.Factory.newInstance(getXmlOptions());
+            GetObservationResponseType xbResponse = doc.addNewGetObservationResponse();
+            ObservationStream observationCollection = response.getObservationCollection();
+            while (observationCollection.hasNext()) {
+                xbResponse.addNewObservationData()
+                        .addNewOMObservation()
+                        .set(encoder.encode(observationCollection.next()));
             }
-        } catch (OwsExceptionReport owse) {
-            throw new EncodingException(owse);
+            // in a single observation the gml:ids must be unique
+            XmlHelper.makeGmlIdsUnique(doc.getDomNode());
+            return doc;
+        } catch (OwsExceptionReport ex) {
+            throw new EncodingException(ex);
         }
     }
 
@@ -126,7 +84,9 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
             throws EncodingException {
         try {
             encodingValues.setEncoder(this);
-            new GetObservationResponseXmlStreamWriter().write(response, outputStream, encodingValues);
+            GetObservationResponseXmlStreamWriter writer = new GetObservationResponseXmlStreamWriter();
+            writer.setEncoderRepository(getEncoderRepository());
+            writer.write(response, outputStream, encodingValues);
         } catch (XMLStreamException xmlse) {
             throw new EncodingException(xmlse);
         }

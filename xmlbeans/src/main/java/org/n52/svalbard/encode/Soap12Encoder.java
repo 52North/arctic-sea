@@ -28,6 +28,18 @@ import javax.xml.soap.SOAPConstants;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x2003.x05.soapEnvelope.Body;
+import org.w3.x2003.x05.soapEnvelope.Envelope;
+import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
+import org.w3.x2003.x05.soapEnvelope.Fault;
+import org.w3.x2003.x05.soapEnvelope.FaultDocument;
+import org.w3.x2003.x05.soapEnvelope.Faultcode;
+import org.w3.x2003.x05.soapEnvelope.Reasontext;
+import org.w3.x2003.x05.soapEnvelope.Subcode;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.exception.CodedException;
@@ -52,19 +64,6 @@ import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.OwsHelper;
 import org.n52.svalbard.write.Soap12XmlStreamWriter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x2003.x05.soapEnvelope.Body;
-import org.w3.x2003.x05.soapEnvelope.Envelope;
-import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
-import org.w3.x2003.x05.soapEnvelope.Fault;
-import org.w3.x2003.x05.soapEnvelope.FaultDocument;
-import org.w3.x2003.x05.soapEnvelope.Faultcode;
-import org.w3.x2003.x05.soapEnvelope.Reasontext;
-import org.w3.x2003.x05.soapEnvelope.Subcode;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
@@ -86,11 +85,6 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         super(SoapConstants.NS_SOAP_12);
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(ENCODER_KEY_TYPES));
-    }
-
-    @Override
-    public boolean forceStreaming() {
-        return false;
     }
 
     @SuppressWarnings("unchecked")

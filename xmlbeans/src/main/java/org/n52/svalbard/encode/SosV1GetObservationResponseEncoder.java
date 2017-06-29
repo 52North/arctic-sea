@@ -18,7 +18,6 @@ package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -37,15 +36,6 @@ public class SosV1GetObservationResponseEncoder extends AbstractSosV1ResponseEnc
 
     @Override
     protected XmlObject create(GetObservationResponse response) throws EncodingException {
-        String responseFormat = response.getResponseFormat();
-        Encoder<XmlObject, GetObservationResponse> encoder = getEncoder(responseFormat, response);
-        if (response.hasStreamingData()) {
-            try {
-                response.mergeStreamingData();
-            } catch (OwsExceptionReport owse) {
-                throw new EncodingException(owse);
-            }
-        }
-        return encoder.encode(response);
+        return getEncoder(response.getResponseFormat(), response).encode(response);
     }
 }

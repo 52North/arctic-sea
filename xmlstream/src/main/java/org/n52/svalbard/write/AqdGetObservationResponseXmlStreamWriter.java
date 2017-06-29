@@ -17,7 +17,6 @@
 package org.n52.svalbard.write;
 
 import java.io.OutputStream;
-import java.util.Collection;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,12 +37,12 @@ import org.n52.shetland.iso.gmd.GmdConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.om.features.SfConstants;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
@@ -166,38 +165,41 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         TimeInstant resultTime = new TimeInstant(new DateTime(DateTimeZone.UTC));
         for (AbstractFeature abstractFeature : featureCollection.getMembers().values()) {
             long start = System.currentTimeMillis();
-            if (abstractFeature instanceof OmObservation
-                    && ((OmObservation) abstractFeature).getValue() instanceof AbstractStreaming) {
-                try {
-                    // start the timer task to write blank strings to avoid
-                    // connection closing
-                    startTimer();
-                    Collection<OmObservation> mergeObservation =
-                            ((AbstractStreaming) ((OmObservation) abstractFeature).getValue()).mergeObservation();
-                    LOGGER.debug("Observation processing requires {} ms", (System.currentTimeMillis() - start));
-                    int count = 0;
-                    for (OmObservation omObservation : mergeObservation) {
-                        if (abstractFeature.isSetGmlID()) {
-                            if (count == 0) {
-                                omObservation.setGmlId(abstractFeature.getGmlId());
-                            } else {
-                                omObservation.setGmlId(abstractFeature.getGmlId() + "_" + count);
+            Encoder<XmlObject, AbstractFeature> encoder = getEncoder(abstractFeature, encodingValues.getAdditionalValues());
+            if (abstractFeature instanceof OmObservation) {
+                OmObservation observation = (OmObservation) abstractFeature;
+                if (observation.getValue() instanceof ObservationStream) {
+                    try {
+                        // start the timer task to write blank strings to avoid
+                        // connection closing
+                        startTimer();
+                        ObservationStream mergeObservation = ((ObservationStream) observation.getValue()).merge();
+                        LOGGER.debug("Observation processing requires {} ms", (System.currentTimeMillis() - start));
+                        int count = 0;
+                        while (mergeObservation.hasNext()) {
+                            OmObservation omObservation = mergeObservation.next();
+                            if (abstractFeature.isSetGmlID()) {
+                                if (count == 0) {
+                                    omObservation.setGmlId(abstractFeature.getGmlId());
+                                } else {
+                                    omObservation.setGmlId(abstractFeature.getGmlId() + "_" + count);
+                                }
+                                count++;
                             }
-                            count++;
+                            omObservation.setResultTime(resultTime);
+                            String xmlTextObservation = prepareObservation(omObservation, encoder, encodingValues);
+                            // stop the timer task
+                            stopTimer();
+                            writeMember(xmlTextObservation);
                         }
-                        omObservation.setResultTime(resultTime);
-                        String xmlTextObservation = prepareObservation(omObservation,
-                                getEncoder(abstractFeature, encodingValues.getAdditionalValues()), encodingValues);
-                        // stop the timer task
-                        stopTimer();
-                        writeMember(xmlTextObservation);
+                    } catch (OwsExceptionReport ex) {
+                        throw new EncodingException(ex);
                     }
-                } catch (OwsExceptionReport ex) {
-                    throw new EncodingException(ex);
+                } else {
+                    writeMember(abstractFeature, encoder, encodingValues);
                 }
             } else {
-                writeMember(abstractFeature, getEncoder(abstractFeature, encodingValues.getAdditionalValues()),
-                        encodingValues);
+                writeMember(abstractFeature, encoder, encodingValues);
             }
             LOGGER.debug("Writing member requires {} ms", (System.currentTimeMillis() - start));
         }

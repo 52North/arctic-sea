@@ -18,7 +18,10 @@ package org.n52.svalbard;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -29,16 +32,14 @@ import org.n52.janmayen.Producers;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.component.Component;
 import org.n52.janmayen.component.ComponentFactory;
+import org.n52.janmayen.function.Suppliers;
 import org.n52.janmayen.similar.CompositeSimilar;
 import org.n52.janmayen.similar.ProxySimilarityComparator;
 import org.n52.janmayen.similar.Similar;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Multimaps;
-import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -62,21 +63,21 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
 
     private final Set<Producer<C>> components = Sets.newHashSet();
 
-    private final SetMultimap<K, Producer<C>> componentsByKey = HashMultimap.create();
+    private final Map<K, Set<Producer<C>>> componentsByKey = new HashMap<>();
 
     public Set<Producer<C>> getComponentProviders() {
         return Collections.unmodifiableSet(this.components);
     }
 
-    public SetMultimap<K, Producer<C>> getComponentProvidersByKey() {
-        return Multimaps.unmodifiableSetMultimap(componentsByKey);
+    public Map<K, Set<Producer<C>>> getComponentProvidersByKey() {
+        return Collections.unmodifiableMap(componentsByKey);
     }
 
-    protected void setProducers(SetMultimap<K, Producer<C>> implementations) {
+    protected void setProducers(Map<K, Set<Producer<C>>> implementations) {
         this.componentsByKey.clear();
         this.componentsByKey.putAll(implementations);
         this.components.clear();
-        this.components.addAll(implementations.values());
+        implementations.values().stream().forEach(this.components::addAll);
     }
 
     protected C choose(Set<C> matches, K key) {
@@ -105,7 +106,7 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
                 C component = producer.get();
                 for (K ckey : component.getKeys()) {
                     if (ckey.getSimilarity(key) >= 0) {
-                        this.componentsByKey.put(key, producer);
+                        this.componentsByKey.computeIfAbsent(key, Suppliers.asFunction(HashSet::new)).add(producer);
                         instances.add(component);
                     }
                 }
@@ -123,7 +124,7 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
             for (Producer<C> producer : this.components) {
                 C component = producer.get();
                 if (ck.matches(component.getKeys())) {
-                    this.componentsByKey.put(key, producer);
+                    this.componentsByKey.computeIfAbsent(key, Suppliers.asFunction(HashSet::new)).add(producer);
                     instances.add(component);
                 }
             }

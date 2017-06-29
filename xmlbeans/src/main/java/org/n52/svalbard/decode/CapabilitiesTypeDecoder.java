@@ -190,7 +190,7 @@ public class CapabilitiesTypeDecoder extends
         Extensions extensions = new Extensions();
         for (XmlObject xmlObject : obsOff.getExtensionArray()) {
             try {
-                Extension extension = (Extension) decodeXmlElement(xmlObject);
+                Extension<?> extension = (Extension) decodeXmlElement(xmlObject);
                 extensions.addExtension(extension);
             } catch (DecodingException ex) {
                 LOGGER.warn(ex.getLocalizedMessage());
@@ -214,7 +214,7 @@ public class CapabilitiesTypeDecoder extends
 
     private Map<String, Set<String>> parseRelatedFeatures(ObservationOfferingType obsOff) {
         LOGGER.warn("parseRelatedFeatures needs to be implemented");
-        return new HashMap<String, Set<String>>();
+        return new HashMap<>();
     }
 
     private Time parseResultTime(ObservationOfferingType obsOff) {
