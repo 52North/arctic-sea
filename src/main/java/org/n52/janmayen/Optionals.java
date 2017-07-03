@@ -204,6 +204,7 @@ public final class Optionals {
      * @return the first present value
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <U> Optional<U> or(Optional<U>... optionals) {
         return or(Arrays.stream(optionals).map(Suppliers::constant));
     }
@@ -217,6 +218,7 @@ public final class Optionals {
      * @return the first present value
      */
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public static <U> Optional<U> or(Supplier<Optional<U>>... optionals) {
         return or(Arrays.stream(optionals));
     }

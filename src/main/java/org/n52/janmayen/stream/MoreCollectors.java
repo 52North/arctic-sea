@@ -72,8 +72,8 @@ public final class MoreCollectors {
                                                               Collector<? super U, A, R> downstream) {
         Objects.requireNonNull(mapper);
         BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
-        BiConsumer<A, T> accumulator = (r, t)
-                -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u));
+        BiConsumer<A, T> accumulator = (r, t) -> mapper.apply(t).sequential()
+                .forEach(u -> downstreamAccumulator.accept(r, u));
         return Collector.of(downstream.supplier(), accumulator, downstream.combiner(), downstream.finisher(),
                             getCharacteristics(downstream));
     }

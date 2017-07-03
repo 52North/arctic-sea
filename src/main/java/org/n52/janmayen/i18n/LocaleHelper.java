@@ -16,15 +16,19 @@
  */
 package org.n52.janmayen.i18n;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringTokenizer;
 
 import javax.annotation.Nullable;
 
+import org.n52.janmayen.function.Predicates;
+
 public final class LocaleHelper {
-    private static final Map<String, Locale> CACHE = new HashMap<>();
+    private static final Map<String, Locale> CACHE = Collections.synchronizedMap(new HashMap<>());
 
     private LocaleHelper() {
     }
@@ -40,22 +44,11 @@ public final class LocaleHelper {
     }
 
     public static Locale decode(String locale, @Nullable Locale defaultLocale) {
-        if (locale == null || locale.isEmpty()) {
-            return defaultLocale;
-        }
-        return CACHE.computeIfAbsent(
-                locale, l -> {
-                    StringTokenizer tokenizer = new StringTokenizer(l, "-_ #");
-                    int length = tokenizer.countTokens();
-                    String[] tokens = new String[length];
-                    for (int i = 0; i < length; ++i) {
-                        tokens[i] = tokenizer.nextToken();
-                    }
-                    String language = length > 0 ? tokens[0] : "";
-                    String country = length > 1 ? tokens[1] : "";
-                    String variant = length > 2 ? tokens[2] : "";
-                    return new Locale(language, country, variant);
-                });
+        return Optional.ofNullable(locale)
+                .map(String::trim)
+                .filter(Predicates.not(String::isEmpty))
+                .map(l -> CACHE.computeIfAbsent(l, LocaleHelper::decode1))
+                .orElse(defaultLocale);
     }
 
     public static String encode(Locale input) {
@@ -69,5 +62,18 @@ public final class LocaleHelper {
             sb.append("-").append(country);
         }
         return sb.toString();
+    }
+
+    private static Locale decode1(String locale) {
+        StringTokenizer tokenizer = new StringTokenizer(locale, "-_ #");
+        int length = tokenizer.countTokens();
+        String[] tokens = new String[length];
+        for (int i = 0; i < length; ++i) {
+            tokens[i] = tokenizer.nextToken();
+        }
+        String language = length > 0 ? tokens[0] : "";
+        String country = length > 1 ? tokens[1] : "";
+        String variant = length > 2 ? tokens[2] : "";
+        return new Locale(language, country, variant);
     }
 }

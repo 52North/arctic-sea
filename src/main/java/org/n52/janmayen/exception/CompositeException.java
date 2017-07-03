@@ -108,17 +108,17 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    public <X extends Throwable> void throwIfNotEmpty(Function<? super CompositeException, X> factory) throws X {
+        if (hasExceptions()) {
+            throw factory.apply(this);
+        }
+    }
+
     public <X extends Exception> void throwCause(Class<? extends X> type) throws X {
         Throwable cause = getCause();
         if (cause != null) {
             Throwables.throwIfUnchecked(cause);
             Throwables.throwIfInstanceOf(cause, type);
-        }
-    }
-
-    public <X extends Throwable> void throwIfNotEmpty(Function<? super CompositeException, X> factory) throws X {
-        if (hasExceptions()) {
-            throw factory.apply(this);
         }
     }
 
