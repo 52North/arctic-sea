@@ -48,6 +48,7 @@ import org.n52.svalbard.encode.ObservationEncoder;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
 import org.n52.svalbard.encode.StreamingEncoder;
 import org.n52.svalbard.encode.StreamingEncoderFlags;
+import org.n52.svalbard.encode.XmlEncoderFlags;
 import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -88,6 +89,15 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         // get observation encoder
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(response.getResponseFormat());
         // write schemaLocation
+        EncodingContext ctx = getContext()
+                .with(XmlEncoderFlags.ENCODE_NAMESPACE,
+                      response.getResponseFormat())
+                .with(XmlBeansEncodingFlags.DOCUMENT)
+                .with(StreamingEncoderFlags.EMBEDDED)
+                .with(EncoderFlags.INDENT, getIndent())
+                .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
+                .without(XmlBeansEncodingFlags.TYPE);
+
         schemaLocation(getSchemaLocation(encoder));
         try {
             ObservationStream stream = response.getObservationCollection();
@@ -99,15 +109,15 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
                 if (o.getValue() instanceof ObservationStream) {
                     ObservationStream value = (ObservationStream) o.getValue();
                     if (encoder.supportsResultStreamingForMergedValues()) {
-                        writeObservationData(o, encoder);
+                        writeObservationData(ctx, o, encoder);
                     } else {
                         ObservationStream merged = value.merge();
                         while (merged.hasNext()) {
-                            writeObservationData(merged.next(), encoder);
+                            writeObservationData(ctx, merged.next(), encoder);
                         }
                     }
                 } else {
-                    writeObservationData(o, encoder);
+                    writeObservationData(ctx, o, encoder);
                 }
             }
         } catch (OwsExceptionReport owse) {
@@ -116,20 +126,13 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         end(Sos2StreamingConstants.GET_OBSERVATION_RESPONSE);
     }
 
-    private void writeObservationData(OmObservation observation, ObservationEncoder<XmlObject, OmObservation> encoder)
+    private void writeObservationData(EncodingContext ctx, OmObservation observation, ObservationEncoder<XmlObject, OmObservation> encoder)
             throws XMLStreamException, EncodingException {
         start(Sos2StreamingConstants.OBSERVATION_DATA);
         if (encoder instanceof StreamingEncoder) {
-            EncodingContext ctx = getContext()
-                        .with(XmlBeansEncodingFlags.DOCUMENT)
-                        .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
-                        .without(XmlBeansEncodingFlags.TYPE)
-                        .with(StreamingEncoderFlags.EMBEDDED)
-                        .with(EncoderFlags.INDENT, getIndent());
-
             ((StreamingEncoder<XmlObject, OmObservation>) encoder).encode(observation, getOutputStream(), ctx);
         } else {
-            rawText(encoder.encode(observation, getContext()).xmlText(getXmlOptions()));
+            rawText(encoder.encode(observation, ctx).xmlText(getXmlOptions()));
         }
         end(Sos2StreamingConstants.OBSERVATION_DATA);
     }

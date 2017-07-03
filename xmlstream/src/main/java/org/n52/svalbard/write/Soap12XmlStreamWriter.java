@@ -143,7 +143,7 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
             EncodingContext ctx = getContext().with(XmlBeansEncodingFlags.DOCUMENT)
                     .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
                     .without(XmlBeansEncodingFlags.TYPE)
-                    .with(XmlWriterSettings.EMBEDDED)
+                    .with(XmlWriterSettings.EMBEDDED, true)
                     .with(XmlWriterSettings.INDENT);
             ((StreamingEncoder) encoder).encode(bodyResponse, getOutputStream(), ctx);
         } else {

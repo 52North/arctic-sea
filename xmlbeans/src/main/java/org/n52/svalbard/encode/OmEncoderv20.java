@@ -207,7 +207,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     @Override
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         ObservationValue<?> value = sosObservation.getValue();
-        // TODO if OM_SWEArrayObservation and get ResultEncoding and
+        // TODO if OM_SWEArrayObservation and get Reget(key)sultEncoding and
         // ResultStructure exists,
         if (value instanceof AbstractObservationValue) {
             AbstractObservationValue<?> abstractObservationValue = (AbstractObservationValue<?>) value;

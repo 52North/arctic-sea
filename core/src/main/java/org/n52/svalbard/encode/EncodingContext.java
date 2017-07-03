@@ -38,6 +38,8 @@ public class EncodingContext {
     private static final EncodingContext EMTPY = new EncodingContext();
 
     private static final Object NONE = new Object();
+    private static final int DEFAULT_INTEGER_VALUE = 0;
+    private static final boolean DEFAULT_BOOLEAN_VALUE = false;
 
     private final Map<String, Object> properties;
 
@@ -54,7 +56,7 @@ public class EncodingContext {
     }
 
     public boolean has(@Nonnull String key) {
-        return get(key) != null;
+        return this.properties.containsKey(key);
     }
 
     public boolean isEmpty() {
@@ -63,12 +65,16 @@ public class EncodingContext {
 
     @SuppressWarnings("unchecked")
     public <T> T get(@Nonnull String key) {
-        return (T) this.properties.get(key);
+        Object value = this.properties.get(key);
+        if (value == null || value == NONE) {
+            return null;
+        }
+        return (T) value;
     }
 
     @SuppressWarnings("unchecked")
     public <T> T get(@Nonnull String key, T defaultValue) {
-        return (T) this.properties.getOrDefault(key, defaultValue);
+        return Optional.<T>ofNullable(get(key)).orElse(defaultValue);
     }
 
     @SuppressWarnings("unchecked")
@@ -85,7 +91,15 @@ public class EncodingContext {
     }
 
     public boolean getBoolean(@Nonnull String key) {
-        return get(key, false);
+        return getBoolean(key, DEFAULT_BOOLEAN_VALUE);
+    }
+
+    public boolean getBoolean(@Nonnull Enum<?> key, boolean defaultValue) {
+        return getBoolean(key.name(), defaultValue);
+    }
+
+    public boolean getBoolean(@Nonnull String key, boolean defaultValue) {
+        return get(key, defaultValue);
     }
 
     public int getInteger(@Nonnull Enum<?> key) {
@@ -93,7 +107,7 @@ public class EncodingContext {
     }
 
     public int getInteger(@Nonnull String key) {
-        return get(key, 0);
+        return get(key, DEFAULT_INTEGER_VALUE);
     }
 
     public String getString(@Nonnull Enum<?> key) {
@@ -137,7 +151,6 @@ public class EncodingContext {
         if (!this.properties.containsKey(key)) {
             return this;
         }
-
         HashMap<String, Object> map = new HashMap<>(this.properties);
         map.remove(key);
         return map.isEmpty() ? EMTPY : new EncodingContext(map);
