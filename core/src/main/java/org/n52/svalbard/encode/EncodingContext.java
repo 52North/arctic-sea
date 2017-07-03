@@ -89,11 +89,11 @@ public class EncodingContext {
     }
 
     public int getInteger(@Nonnull Enum<?> key) {
-        return get(key.name());
+        return getInteger(key.name());
     }
 
     public int getInteger(@Nonnull String key) {
-        return get(key);
+        return get(key, 0);
     }
 
     public String getString(@Nonnull Enum<?> key) {

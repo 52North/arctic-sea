@@ -114,8 +114,9 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
             da.getPhenomenonTime().setGmlId(TIME_PERIOD_PREFIX + timePeriodCount++);
             times.put(da.getPhenomenonTime(), da.getPhenomenonTime().getGmlId());
             writeTimePeriod(da.getPhenomenonTime());
+            end(GetDataAvailabilityConstants.GDA_PHENOMENON_TIME);
         }
-        end(GetDataAvailabilityConstants.GDA_PHENOMENON_TIME);
+
     }
 
     protected void writeFeatureOfInterest(DataAvailability da) throws XMLStreamException {
@@ -126,7 +127,6 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
         } else {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getFeatureOfInterest().getTitleOrFromHref());
         }
-        end(GetDataAvailabilityConstants.GDA_FEATURE_OF_INTEREST);
     }
 
     protected void writeProcedure(DataAvailability da) throws XMLStreamException {
@@ -137,7 +137,6 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
         } else {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getProcedure().getTitleOrFromHref());
         }
-        end(GetDataAvailabilityConstants.GDA_PROCEDURE);
     }
 
     protected void writeObservedProperty(DataAvailability da) throws XMLStreamException {
@@ -148,7 +147,6 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
         } else {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getObservedProperty().getTitleOrFromHref());
         }
-        end(GetDataAvailabilityConstants.GDA_OBSERVED_PROPERTY);
     }
 
     protected void writeTimePeriod(TimePeriod tp) throws XMLStreamException, EncodingException {
@@ -166,25 +164,24 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
         } else if (tp.isSetStart()) {
             start(GmlConstants.QN_BEGIN_POSITION_32);
             writeTimeString(tp.getStart(), tp.getTimeFormat());
+            end(GmlConstants.QN_BEGIN_POSITION_32);
         } else {
             empty(GmlConstants.QN_BEGIN_POSITION_32);
         }
-        end(GmlConstants.QN_BEGIN_POSITION_32);
+
     }
 
     protected void writeEnd(TimePeriod tp) throws XMLStreamException, EncodingException {
-
         if (tp.isSetEndIndeterminateValue()) {
             empty(GmlConstants.QN_END_POSITION_32);
             attr(GmlConstants.AN_INDETERMINATE_POSITION, tp.getEndIndet().getValue());
         } else if (tp.isSetEnd()) {
             start(GmlConstants.QN_END_POSITION_32);
             writeTimeString(tp.getEnd(), tp.getTimeFormat());
+            end(GmlConstants.QN_END_POSITION_32);
         } else {
             empty(GmlConstants.QN_END_POSITION_32);
         }
-        end(GmlConstants.QN_END_POSITION_32);
-
     }
 
     protected void writeTimeString(DateTime time, TimeFormat format) throws XMLStreamException,
