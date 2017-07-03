@@ -106,6 +106,12 @@ public class SettingsServiceImpl implements SettingsService {
         return Collections.unmodifiableSet(this.definitions);
     }
 
+
+    @Override
+    public void configureOnce(Object object) throws ConfigurationError {
+        configure(object, false);
+    }
+
     /**
      * Configure {@code o} with the required settings. All changes to a setting required by the object will be applied.
      *
@@ -120,10 +126,6 @@ public class SettingsServiceImpl implements SettingsService {
         configure(object, true);
     }
 
-    @Override
-    public void configureOnce(Object object) throws ConfigurationError {
-        configure(object, false);
-    }
 
     private void configure(Object object, boolean persist) throws ConfigurationError {
         Class<?> clazz = object.getClass();
