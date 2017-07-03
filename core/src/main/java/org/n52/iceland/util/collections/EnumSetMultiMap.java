@@ -24,15 +24,15 @@ import java.util.Set;
 /**
  * {@linkplain SetMultiMap} implementation backed with a {@link EnumMap}.
  *
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use either guava or a plain java collection
  *
  */
+@Deprecated
 public class EnumSetMultiMap<K extends Enum<K>, V> extends AbstractDelegatingMultiMap<K, V, Set<V>> implements
         SetMultiMap<K, V> {
     private static final long serialVersionUID = 1343214593123842785L;

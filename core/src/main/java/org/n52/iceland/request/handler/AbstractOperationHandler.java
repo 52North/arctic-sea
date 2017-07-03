@@ -127,14 +127,15 @@ public abstract class AbstractOperationHandler implements OperationHandler {
 
     private Stream<OwsRequestMethod> getRequestMethodsForServiceURL(OwsOperationKey operation) {
         Map<String, Set<OwsValue>> mediaTypesByMethod = new HashMap<>();
-        this.bindingRepository.getBindings().values().stream().forEach(binding
-                -> HTTPMethods.METHODS.stream()
-                        .filter(isMethodSupported(binding, operation))
-                        .forEach(method -> mediaTypesByMethod.computeIfAbsent(method,
-                                                                              Functions.forSupplier(HashSet::new))
-                        .addAll(getMediaTypes(binding))));
+        this.bindingRepository.getBindings().values().stream()
+                .forEach(binding -> HTTPMethods.METHODS.stream()
+                    .filter(isMethodSupported(binding, operation))
+                    .forEach(method ->
+                            mediaTypesByMethod.computeIfAbsent(method, Functions.forSupplier(HashSet::new))
+                                    .addAll(getMediaTypes(binding))));
         return mediaTypesByMethod.entrySet().stream()
-                .map(e -> new OwsRequestMethod(this.serviceURL, e.getKey(), createContentTypeDomains(e.getValue())));
+                .map(e -> new OwsRequestMethod(this.serviceURL, e.getKey(),
+                                               createContentTypeDomains(e.getValue())));
     }
 
     private Set<OwsValue> getMediaTypes(Binding binding) {

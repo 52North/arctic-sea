@@ -76,6 +76,19 @@ public class AbstractPropertyFileHandler {
         }
     }
 
+    public void save(String m, String value) throws ConfigurationError {
+        lock.writeLock().lock();
+        try {
+            Properties p = load();
+            p.setProperty(m, value);
+            save(p);
+        } catch (IOException e) {
+            throw new ConfigurationError(ERROR_WRITING_MESSAGE, e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
     public String get(String m) throws ConfigurationError {
         lock.readLock().lock();
         try {
@@ -100,16 +113,13 @@ public class AbstractPropertyFileHandler {
         }
     }
 
-    public void save(String m, String value) throws ConfigurationError {
-        lock.writeLock().lock();
+    public boolean delete() {
         try {
-            Properties p = load();
-            p.setProperty(m, value);
-            save(p);
-        } catch (IOException e) {
-            throw new ConfigurationError(ERROR_WRITING_MESSAGE, e);
-        } finally {
-            lock.writeLock().unlock();
+            cache = null;
+            LOG.debug("Removing properties file: {}.", getFile(false));
+            return exists() ? getFile(false).delete() : true;
+        } catch (IOException ex) {
+            return false;
         }
     }
 
@@ -147,16 +157,6 @@ public class AbstractPropertyFileHandler {
         } catch (IOException ex) {
             /* won't be thrown */
             throw new RuntimeException(ex);
-        }
-    }
-
-    public boolean delete() {
-        try {
-            cache = null;
-            LOG.debug("Removing properties file: {}.", getFile(false));
-            return exists() ? getFile(false).delete() : true;
-        } catch (IOException ex) {
-            return false;
         }
     }
 

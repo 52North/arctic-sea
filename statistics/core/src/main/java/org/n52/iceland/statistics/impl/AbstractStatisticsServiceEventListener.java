@@ -176,7 +176,7 @@ public abstract class AbstractStatisticsServiceEventListener implements EventLis
     /**
      * Returns the application specific resolver {@link StatisticsServiceEventResolver} based on the {@link Event}
      *
-     * @param serviceEvent
+     * @param serviceEvent the event
      *
      * @return the concrete service event resolver
      */

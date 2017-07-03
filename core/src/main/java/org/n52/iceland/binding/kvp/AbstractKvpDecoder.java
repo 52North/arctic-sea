@@ -110,14 +110,14 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
         return (request, value) -> delegate.accept(request, decodeList(value));
     }
 
-    protected <T> ThrowingBiConsumer<R, T, DecodingException> asList(
-            ThrowingBiConsumer<? super R, ? super List<T>, DecodingException> delegate) {
-        return (request, value) -> delegate.accept(request, Collections.singletonList(value));
-    }
-
     protected ThrowingTriConsumer<R, String, String, DecodingException> decodeList(
             ThrowingTriConsumer<? super R, ? super String, ? super List<String>, DecodingException> delegate) {
         return (request, name, value) -> delegate.accept(request, name, decodeList(value));
+    }
+
+    protected <T> ThrowingBiConsumer<R, T, DecodingException> asList(
+            ThrowingBiConsumer<? super R, ? super List<T>, DecodingException> delegate) {
+        return (request, value) -> delegate.accept(request, Collections.singletonList(value));
     }
 
     protected ThrowingBiConsumer<R, String, DecodingException> normalizeMediaType(

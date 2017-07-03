@@ -23,6 +23,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationListeners;
@@ -33,9 +37,6 @@ import org.n52.janmayen.Producers;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Maps;
 
@@ -84,6 +85,14 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     @Override
     public boolean isActive(BindingKey key) {
         return this.activation.isActive(key);
+    }
+
+    public boolean isActive(String urlPattern) {
+        return isActive(new PathBindingKey(urlPattern));
+    }
+
+    public boolean isActive(MediaType mediaType) {
+        return isActive(new MediaTypeBindingKey(mediaType));
     }
 
     @Override
@@ -156,14 +165,6 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
 
     public boolean isBindingSupported(BindingKey key) {
         return isActive(key);
-    }
-
-    public boolean isActive(String urlPattern) {
-        return isActive(new PathBindingKey(urlPattern));
-    }
-
-    public boolean isActive(MediaType mediaType) {
-        return isActive(new MediaTypeBindingKey(mediaType));
     }
 
     public Map<BindingKey, Binding> getBindings() {

@@ -80,13 +80,13 @@ public class OperationHandlerRepository
     }
 
     @Deprecated
-    public Map<OperationHandlerKey, OperationHandler> getOperationDAOs() {
-        return getOperationHandlers();
+    public OperationHandler getOperationDAO(String service, String operationName) {
+        return getOperationHandler(service, operationName);
     }
 
     @Deprecated
-    public OperationHandler getOperationDAO(String service, String operationName) {
-        return getOperationHandler(service, operationName);
+    public Map<OperationHandlerKey, OperationHandler> getOperationDAOs() {
+        return getOperationHandlers();
     }
 
     @Deprecated

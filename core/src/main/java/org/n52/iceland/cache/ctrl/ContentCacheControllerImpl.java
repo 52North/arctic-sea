@@ -108,6 +108,11 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Override
+    public void update() throws OwsExceptionReport {
+        update(this.completeCacheUpdateFactory.get());
+    }
+
+    @Override
     public void update(ContentCacheUpdate update) throws OwsExceptionReport {
         if (update != null) {
             if (update.isCompleteUpdate()) {
@@ -208,11 +213,6 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     @Override
     public boolean isUpdateInProgress() {
         return current != null;
-    }
-
-    @Override
-    public void update() throws OwsExceptionReport {
-        update(this.completeCacheUpdateFactory.get());
     }
 
     @Override

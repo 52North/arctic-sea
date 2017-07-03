@@ -36,6 +36,7 @@ public abstract class CompositeAction<A extends Action> extends RunnableAction {
     private final List<A> actions;
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public CompositeAction(A... actions) {
         this.actions = Arrays.asList(actions);
     }

@@ -42,6 +42,7 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
     private CountDownLatch countDownLatch;
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public CompositeParallelAction(int threads, String threadGroupName, A... actions) {
         super(actions);
         this.threadGroupName = threadGroupName;

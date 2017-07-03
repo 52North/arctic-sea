@@ -77,6 +77,14 @@ public final class Activatables {
         return set.stream().map(Activatables::from).collect(toSet());
     }
 
+    public static <T> Activatable<T> from(T t) {
+        return from(t, true);
+    }
+
+    public static <T> Activatable<T> from(T t, boolean active) {
+        return new Activatable<>(t, active);
+    }
+
     public static <K, T> Set<K> activatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {
         return Sets.filter(map.keySet(), provider::isActive);
     }
@@ -99,14 +107,6 @@ public final class Activatables {
 
     public static <K, T> Map<K, T> deactivatedMap(Map<K, T> map, ActivationProvider<? super K> provider) {
         return Maps.filterKeys(map, Predicates.not(provider::isActive));
-    }
-
-    public static <T> Activatable<T> from(T t) {
-        return from(t, true);
-    }
-
-    public static <T> Activatable<T> from(T t, boolean active) {
-        return new Activatable<>(t, active);
     }
 
 }

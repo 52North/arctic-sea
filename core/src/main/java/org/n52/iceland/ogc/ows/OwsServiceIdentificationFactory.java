@@ -72,6 +72,11 @@ public class OwsServiceIdentificationFactory
         this.defaultLocale = new Locale(lang);
     }
 
+    @Setting(OwsServiceIdentificationFactorySettings.KEYWORDS)
+    public void setKeywords(String keywords) {
+        setKeywords(StringHelper.splitToArray(keywords));
+    }
+
     public void setKeywords(String[] keywords) {
         this.keywords = copyOf(keywords);
         setRecreate();
@@ -79,11 +84,6 @@ public class OwsServiceIdentificationFactory
 
     private Set<OwsKeyword> getKeywords() {
         return Arrays.stream(this.keywords).map(OwsKeyword::new).collect(toSet());
-    }
-
-    @Setting(OwsServiceIdentificationFactorySettings.KEYWORDS)
-    public void setKeywords(String keywords) {
-        setKeywords(StringHelper.splitToArray(keywords));
     }
 
     @Setting(OwsServiceIdentificationFactorySettings.TITLE)

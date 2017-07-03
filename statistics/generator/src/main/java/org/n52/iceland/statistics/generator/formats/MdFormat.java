@@ -68,16 +68,16 @@ public class MdFormat {
         parameter.getAllChildren().stream().forEach(l -> this.appendToOutput(l, indent + 1));
     }
 
+    private void format(SingleEsParameter parameter, int indent) {
+        output.append(formatLine(parameter, indent));
+    }
+
     private void appendToOutput(AbstractEsParameter parameter, int indent) {
         if (parameter instanceof ObjectEsParameter) {
             format((ObjectEsParameter) parameter, indent);
         } else {
             format((SingleEsParameter) parameter, indent);
         }
-    }
-
-    private void format(SingleEsParameter parameter, int indent) {
-        output.append(formatLine(parameter, indent));
     }
 
     private String formatH1(String line) {

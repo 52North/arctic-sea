@@ -177,13 +177,13 @@ public abstract class SimpleBinding extends Binding {
         return this.decoderRepository.hasDecoder(key);
     }
 
-    protected boolean hasEncoder(EncoderKey key) {
-        return this.encoderRepository.hasEncoder(key);
-    }
-
     protected boolean hasDecoder(OwsOperationKey key,
                                  MediaType mediaType) {
         return hasDecoder(new OperationDecoderKey(key, mediaType));
+    }
+
+    protected boolean hasEncoder(EncoderKey key) {
+        return this.encoderRepository.hasEncoder(key);
     }
 
     protected boolean hasEncoder(OwsOperationKey key,

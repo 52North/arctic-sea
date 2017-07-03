@@ -25,17 +25,16 @@ import java.util.Map;
 /**
  * Implementation based on {@link LinkedList}s and a {@link HashMap}.
  *
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
- *
+ * @deprecated use either guava or a plain java collection
  */
-public class LinkedListMultiMap<K, V> extends AbstractMultiHashMap<K, V, List<V>> implements ListMultiMap<K, V>,
-        Serializable {
+@Deprecated
+public class LinkedListMultiMap<K, V> extends AbstractMultiHashMap<K, V, List<V>>
+        implements ListMultiMap<K, V>, Serializable {
     private static final long serialVersionUID = 5709659568351160402L;
 
     public LinkedListMultiMap(Map<? extends K, ? extends List<V>> m) {

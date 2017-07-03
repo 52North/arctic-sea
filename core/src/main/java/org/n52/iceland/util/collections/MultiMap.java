@@ -47,7 +47,7 @@ public interface MultiMap<K, V, C extends Collection<V>> extends Map<K, C>, Seri
     /**
      * Adds the specified value to the key. If the collection for the key was {@code null} it will be created.
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value
      *
      * @return the collection the value was added to
@@ -57,7 +57,7 @@ public interface MultiMap<K, V, C extends Collection<V>> extends Map<K, C>, Seri
     /**
      * Adds the specified values to the key. If the collection for the key was {@code null} it will be created.
      *
-     * @param key the key
+     * @param key    the key
      * @param values the values
      *
      * @return the collection the values were added to
@@ -67,7 +67,7 @@ public interface MultiMap<K, V, C extends Collection<V>> extends Map<K, C>, Seri
     /**
      * Removes the value of the collection for the specified key (if it exists).
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value to remove
      *
      * @return if the map was altered
@@ -76,20 +76,9 @@ public interface MultiMap<K, V, C extends Collection<V>> extends Map<K, C>, Seri
     boolean remove(Object key, Object value);
 
     /**
-     * Removes the specified value of the collection for the specified key (if it exists). If the collection for the key
-     * is empty after the removal the key is removed from the map.
-     *
-     * @param key the key
-     * @param value the value
-     *
-     * @return if the map was altered
-     */
-    boolean removeWithKey(K key, V value);
-
-    /**
      * Removes the values of the collection for the specified key (if it exists).
      *
-     * @param key the key
+     * @param key   the key
      * @param value the values to remove
      *
      * @return if the map was altered
@@ -97,10 +86,21 @@ public interface MultiMap<K, V, C extends Collection<V>> extends Map<K, C>, Seri
     boolean remove(K key, Iterable<V> value);
 
     /**
+     * Removes the specified value of the collection for the specified key (if it exists). If the collection for the key
+     * is empty after the removal the key is removed from the map.
+     *
+     * @param key   the key
+     * @param value the value
+     *
+     * @return if the map was altered
+     */
+    boolean removeWithKey(K key, V value);
+
+    /**
      * Removes the specified values of the collection for the specified key (if it exists). If the collection for the
      * key is empty after the removal the key is removed from the map.
      *
-     * @param key the key
+     * @param key   the key
      * @param value the value
      *
      * @return if the map was altered

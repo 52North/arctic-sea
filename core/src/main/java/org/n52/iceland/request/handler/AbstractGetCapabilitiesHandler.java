@@ -312,12 +312,12 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
         return createCapabilities(capabilities, contents);
     }
 
+    protected abstract OwsCapabilities createCapabilities(OwsCapabilities owsCapabilities, T contents);
+
     protected Collection<OwsCapabilitiesExtension> getExtensions(GetCapabilitiesRequest request, String service,
                                                                  String version) {
         return Collections.emptyList();
     }
 
     protected abstract T createContents(String service, String version);
-
-    protected abstract OwsCapabilities createCapabilities(OwsCapabilities owsCapabilities, T contents);
 }

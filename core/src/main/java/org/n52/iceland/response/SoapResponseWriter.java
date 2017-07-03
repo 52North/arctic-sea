@@ -56,7 +56,7 @@ public class SoapResponseWriter extends AbstractResponseWriter<SOAPMessage> {
         try {
             t.writeTo(out);
         } catch (SOAPException soapex) {
-             throw new EncodingException(soapex);
+            throw new EncodingException(soapex);
         }
     }
 

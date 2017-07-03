@@ -36,6 +36,7 @@ public abstract class CompositeSerialAction<A extends Action> extends CompositeA
     private static final Logger LOGGER = LoggerFactory.getLogger(CompositeSerialAction.class);
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public CompositeSerialAction(A... actions) {
         super(actions);
     }

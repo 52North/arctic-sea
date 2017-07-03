@@ -31,8 +31,10 @@ import java.util.Set;
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use either guava or a plain java collection
  *
  */
+@Deprecated
 public class HashSetMultiMap<K, V> extends AbstractMultiHashMap<K, V, Set<V>>
         implements SetMultiMap<K, V>, Serializable {
     private static final long serialVersionUID = 7628009915817528370L;

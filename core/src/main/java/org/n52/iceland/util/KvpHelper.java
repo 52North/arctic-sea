@@ -115,11 +115,10 @@ public final class KvpHelper {
     }
 
     private static String getParameterValue(String name, Map<String, String> map) {
-        return map.computeIfAbsent(name, key
-                                   -> map.entrySet().stream()
-                        .filter(e -> e.getKey().equalsIgnoreCase(key))
-                        .findFirst().map(Entry::getValue).orElse(null)
-        );
+        return map.computeIfAbsent(name,
+                                   key -> map.entrySet().stream()
+                                           .filter(e -> e.getKey().equalsIgnoreCase(key))
+                                           .findFirst().map(Entry::getValue).orElse(null));
     }
 
     public static String getParameterValue(Enum<?> name, Map<String, String> map) {
