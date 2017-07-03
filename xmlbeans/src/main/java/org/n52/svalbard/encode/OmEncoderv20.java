@@ -234,10 +234,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         }
     }
 
-//    @Override
-//    public String getDefaultFeatureEncodingNamespace() {
-//        return SfConstants.NS_SAMS;
-//    }
+    //@Override
+    //public String getDefaultFeatureEncodingNamespace() {
+    //    return SfConstants.NS_SAMS;
+    //}
 
     @Override
     protected String getDefaultProcedureEncodingNamspace() {

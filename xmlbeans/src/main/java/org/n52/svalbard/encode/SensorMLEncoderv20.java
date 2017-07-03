@@ -952,8 +952,8 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
         final IdentifierListPropertyType xbIdentification = IdentifierListPropertyType.Factory
                 .newInstance(getXmlOptions());
         final IdentifierListType xbIdentifierList = xbIdentification.addNewIdentifierList();
-        identifications.forEach(
-                sosSMLIdentifier -> createTerm(xbIdentifierList.addNewIdentifier2().addNewTerm(), sosSMLIdentifier));
+        identifications.forEach(sosSMLIdentifier ->
+                createTerm(xbIdentifierList.addNewIdentifier2().addNewTerm(), sosSMLIdentifier));
         return new IdentifierListPropertyType[] { xbIdentification };
     }
 

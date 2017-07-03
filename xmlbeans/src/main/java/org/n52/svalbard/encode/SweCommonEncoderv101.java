@@ -689,6 +689,22 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         return createValues((SweTextEncoding) encoding, values);
     }
 
+    private XmlString createValues(SweTextEncoding textEncoding, List<List<String>> values) {
+        // TODO How to deal with the decimal separator - is it an issue here?
+        // textEncoding.getDecimalSeparator();
+
+        String tokenSeparator = textEncoding.getTokenSeparator();
+        String blockSeparator = textEncoding.getBlockSeparator();
+
+        String valueString = values.stream().map(block -> String.join(tokenSeparator, block))
+                .collect(joining(blockSeparator));
+
+        // create XB result object
+        final XmlString xbValueString = XmlString.Factory.newInstance();
+        xbValueString.setStringValue(valueString);
+        return xbValueString;
+    }
+
     private BlockEncodingPropertyType createBlockEncoding(final SweAbstractEncoding sosSweAbstractEncoding)
             throws EncodingException {
 
@@ -760,21 +776,5 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
             xbUom.setCode(uom);
         }
         return xbUom;
-    }
-
-    private XmlString createValues(final SweTextEncoding textEncoding, List<List<String>> values) {
-        // TODO How to deal with the decimal separator - is it an issue here?
-        // textEncoding.getDecimalSeparator();
-
-        String tokenSeparator = textEncoding.getTokenSeparator();
-        String blockSeparator = textEncoding.getBlockSeparator();
-
-        String valueString = values.stream().map(block -> String.join(tokenSeparator, block))
-                .collect(joining(blockSeparator));
-
-        // create XB result object
-        final XmlString xbValueString = XmlString.Factory.newInstance();
-        xbValueString.setStringValue(valueString);
-        return xbValueString;
     }
 }

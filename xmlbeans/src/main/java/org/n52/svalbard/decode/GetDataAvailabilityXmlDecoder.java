@@ -143,7 +143,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
                 service = roots[0].selectAttribute(GetDataAvailabilityConstants.SERVICE);
             }
             if (service != null) {
-            request.setService(parseStringValue(service));
+                request.setService(parseStringValue(service));
             }
         }
 

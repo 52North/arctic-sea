@@ -378,9 +378,9 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
                 abstractProcess.setTypeOf((ReferenceType) decodedElement);
             }
         }
-//        if (apt.isSetConfiguration()) {
-//
-//        }
+        // if (apt.isSetConfiguration()) {
+        //
+        // }
         if (apt.isSetFeaturesOfInterest()) {
             parseFeatureOfInterest(apt.getFeaturesOfInterest(), abstractProcess);
         }
@@ -390,9 +390,9 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
         if (apt.isSetOutputs()) {
             abstractProcess.setOutputs(parseOutputs(apt.getOutputs()));
         }
-//        if (CollectionHelper.isNotNullOrEmpty(apt.getModesArray())) {
-//
-//        }
+        // if (CollectionHelper.isNotNullOrEmpty(apt.getModesArray())) {
+        //
+        // }
     }
 
     private void parseAbstractPhysicalProcess(AbstractPhysicalProcessType appt,
@@ -404,12 +404,12 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
                 abstractPhysicalProcess.setAttachedTo((ReferenceType) decodeXmlElement);
             }
         }
-//        if (CollectionHelper.isNotNullOrEmpty(appt.getLocalReferenceFrameArray())) {
-//
-//        }
-//        if (CollectionHelper.isNotNullOrEmpty(appt.getLocalTimeFrameArray())) {
-//
-//        }
+    // if (CollectionHelper.isNotNullOrEmpty(appt.getLocalReferenceFrameArray())) {
+    //
+    // }
+    // if (CollectionHelper.isNotNullOrEmpty(appt.getLocalTimeFrameArray())) {
+    //
+    // }
         if (CollectionHelper.isNotNullOrEmpty(appt.getPositionArray())) {
             for (PositionUnionPropertyType pupt : appt.getPositionArray()) {
                 abstractPhysicalProcess.setPosition(parsePositionFrom(pupt));
@@ -417,9 +417,9 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
                 break;
             }
         }
-//        if (CollectionHelper.isNotNullOrEmpty(appt.getTimePositionArray())) {
-//
-//        }
+        // if (CollectionHelper.isNotNullOrEmpty(appt.getTimePositionArray())) {
+        //
+        // }
     }
 
     private List<String> parseKeywords(final KeywordListPropertyType[] keywordsArray) {

@@ -271,94 +271,6 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         return xbMearuementTimeseriesDomainRangeDoc;
     }
 
-    /**
-     * Create a SOS DataRecord object from SOS observation and encode to
-     * XmlBeans object
-     *
-     * @param sosObservation
-     *            SOS observation
-     * @return XML DataRecord object
-     * @throws EncodingException
-     *             If an error occurs
-     */
-    private XmlObject createDataRecord(OmObservation sosObservation) throws EncodingException {
-        AbstractPhenomenon observableProperty = sosObservation.getObservationConstellation().getObservableProperty();
-        SweQuantity quantity = new SweQuantity();
-        quantity.setDefinition(observableProperty.getIdentifier());
-        quantity.setDescription(observableProperty.getDescription());
-        if (observableProperty instanceof OmObservableProperty
-                && ((OmObservableProperty) observableProperty).isSetUnit()) {
-            quantity.setUom(((OmObservableProperty) observableProperty).getUnit());
-        }
-        return createDataRecord(quantity, sosObservation.getObservationID());
-    }
-
-
-    private XmlObject createDataRecord(AbstractObservationValue<?> observationValue, String unit)
-            throws EncodingException {
-        // AbstractPhenomenon observableProperty =
-        // sosObservation.getObservationConstellation().getObservableProperty();
-        SweQuantity quantity = new SweQuantity();
-        quantity.setDefinition(observationValue.getObservableProperty());
-        quantity.setUom(unit);
-        return createDataRecord(quantity, observationValue.getObservationID());
-    }
-
-    /**
-     * Create a TimePositionList XML object from time values
-     *
-     * @param sosObservation
-     *            SOS observation
-     * @return XML TimePositionList object
-     * @throws EncodingException
-     *             If an error occurs
-     */
-    private TimePositionListDocument getTimePositionList(OmObservation sosObservation) throws EncodingException {
-        TimePositionListDocument timePositionListDoc = TimePositionListDocument.Factory.newInstance();
-        TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
-        timePositionList.setId(TIME_POSITION_LIST_ID_PREFIX + sosObservation.getObservationID());
-        if (sosObservation.getValue() instanceof SingleObservationValue<?>) {
-            timePositionList.setTimePositionList(
-                    Lists.newArrayList(getTimeString(sosObservation.getValue().getPhenomenonTime())));
-        } else if (sosObservation.getValue() instanceof MultiObservationValues<?>) {
-            timePositionList.setTimePositionList(getTimeArray((MultiObservationValues<?>) sosObservation.getValue()));
-        }
-        return timePositionListDoc;
-    }
-
-    /**
-     * Create a array from time values
-     *
-     * @param sosObservationValues
-     *            SOS multi value observation object
-     * @return List with string representations of time values
-     * @throws EncodingException
-     *             If an error occurs
-     */
-    private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues) throws EncodingException {
-        return ((TVPValue) sosObservationValues.getValue()).getValue().stream().map(TimeValuePair::getTime)
-                .map(this::getTimeString).collect(toList());
-    }
-
-    /**
-     * Get a value list from SOS TimeValuePair objects
-     *
-     * @param timeValuePairs
-     *            SOS TimeValuePair objects
-     * @return List with value objects
-     * @throws EncodingException
-     *             If an error occurs
-     */
-    private List<Object> getValueList(List<TimeValuePair> timeValuePairs) throws EncodingException {
-        return timeValuePairs.stream().map(TimeValuePair::getValue).map(value -> {
-            if (value != null && (value instanceof CountValue || value instanceof QuantityValue)) {
-                return value.getValue();
-            } else {
-                return "";
-            }
-        }).collect(toList());
-    }
-
     private XmlObject createMeasurementDomainRange(AbstractObservationValue<?> observationValue)
             throws EncodingException {
         if (!observationValue.isSetObservationType() || (observationValue.isSetObservationType()
@@ -409,10 +321,68 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         return xbMearuementTimeseriesDomainRangeDoc;
     }
 
-    private boolean isInvalidObservationType(String observationType) {
-        return !(OmConstants.OBS_TYPE_COUNT_OBSERVATION.equals(observationType)
-                || OmConstants.OBS_TYPE_MEASUREMENT.equals(observationType)
-                || OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType));
+    /**
+     * Create a SOS DataRecord object from SOS observation and encode to
+     * XmlBeans object
+     *
+     * @param sosObservation
+     *            SOS observation
+     * @return XML DataRecord object
+     * @throws EncodingException
+     *             If an error occurs
+     */
+    private XmlObject createDataRecord(OmObservation sosObservation) throws EncodingException {
+        AbstractPhenomenon observableProperty = sosObservation.getObservationConstellation().getObservableProperty();
+        SweQuantity quantity = new SweQuantity();
+        quantity.setDefinition(observableProperty.getIdentifier());
+        quantity.setDescription(observableProperty.getDescription());
+        if (observableProperty instanceof OmObservableProperty
+                && ((OmObservableProperty) observableProperty).isSetUnit()) {
+            quantity.setUom(((OmObservableProperty) observableProperty).getUnit());
+        }
+        return createDataRecord(quantity, sosObservation.getObservationID());
+    }
+
+
+    private XmlObject createDataRecord(AbstractObservationValue<?> observationValue, String unit)
+            throws EncodingException {
+        // AbstractPhenomenon observableProperty =
+        // sosObservation.getObservationConstellation().getObservableProperty();
+        SweQuantity quantity = new SweQuantity();
+        quantity.setDefinition(observationValue.getObservableProperty());
+        quantity.setUom(unit);
+        return createDataRecord(quantity, observationValue.getObservationID());
+    }
+
+    private XmlObject createDataRecord(SweQuantity quantity, String observationId) throws EncodingException {
+        SweField field = new SweField("observed_value", quantity);
+        SweDataRecord dataRecord = new SweDataRecord();
+        dataRecord.setIdentifier(DATA_RECORD_ID_PREFIX + observationId);
+        dataRecord.addField(field);
+        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
+                                                         EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+    }
+
+    /**
+     * Create a TimePositionList XML object from time values
+     *
+     * @param sosObservation
+     *            SOS observation
+     * @return XML TimePositionList object
+     * @throws EncodingException
+     *             If an error occurs
+     */
+    private TimePositionListDocument getTimePositionList(OmObservation sosObservation) throws EncodingException {
+        TimePositionListDocument timePositionListDoc = TimePositionListDocument.Factory.newInstance();
+        TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
+        timePositionList.setId(TIME_POSITION_LIST_ID_PREFIX + sosObservation.getObservationID());
+        if (sosObservation.getValue() instanceof SingleObservationValue<?>) {
+            timePositionList.setTimePositionList(
+                    Lists.newArrayList(getTimeString(sosObservation.getValue().getPhenomenonTime())));
+        } else if (sosObservation.getValue() instanceof MultiObservationValues<?>) {
+            timePositionList.setTimePositionList(getTimeArray((MultiObservationValues<?>) sosObservation.getValue()));
+        }
+        return timePositionListDoc;
     }
 
     private TimePositionListDocument getTimePositionList(AbstractObservationValue<?> observationValue)
@@ -424,13 +394,43 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         return timePositionListDoc;
     }
 
-    private XmlObject createDataRecord(SweQuantity quantity, String observationId) throws EncodingException {
-        SweField field = new SweField("observed_value", quantity);
-        SweDataRecord dataRecord = new SweDataRecord();
-        dataRecord.setIdentifier(DATA_RECORD_ID_PREFIX + observationId);
-        dataRecord.addField(field);
-        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
-                                                         EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+    /**
+     * Create a array from time values
+     *
+     * @param sosObservationValues
+     *            SOS multi value observation object
+     * @return List with string representations of time values
+     * @throws EncodingException
+     *             If an error occurs
+     */
+    private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues) throws EncodingException {
+        return ((TVPValue) sosObservationValues.getValue()).getValue().stream().map(TimeValuePair::getTime)
+                .map(this::getTimeString).collect(toList());
+    }
+
+    /**
+     * Get a value list from SOS TimeValuePair objects
+     *
+     * @param timeValuePairs
+     *            SOS TimeValuePair objects
+     * @return List with value objects
+     * @throws EncodingException
+     *             If an error occurs
+     */
+    private List<Object> getValueList(List<TimeValuePair> timeValuePairs) throws EncodingException {
+        return timeValuePairs.stream().map(TimeValuePair::getValue).map(value -> {
+            if (value != null && (value instanceof CountValue || value instanceof QuantityValue)) {
+                return value.getValue();
+            } else {
+                return "";
+            }
+        }).collect(toList());
+    }
+
+    private boolean isInvalidObservationType(String observationType) {
+        return !(OmConstants.OBS_TYPE_COUNT_OBSERVATION.equals(observationType)
+                || OmConstants.OBS_TYPE_MEASUREMENT.equals(observationType)
+                || OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType));
     }
 
     private static Set<EncoderKey> createEncoderKeys() {

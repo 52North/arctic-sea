@@ -142,6 +142,20 @@ public class CapabilitiesTypeDecoder extends
         return observationOffering;
     }
 
+    private SosOffering parseOffering(ObservationOfferingType obsOffPropType) throws DecodingException {
+        String offeringId;
+        if (obsOffPropType.getIdentifier() != null) {
+            offeringId = obsOffPropType.getIdentifier();
+        } else {
+            offeringId = obsOffPropType.getId();
+        }
+        if (obsOffPropType.getNameArray() != null && obsOffPropType.getNameArray().length > 0) {
+            CodeType codeType = decodeXmlElement(obsOffPropType.getNameArray(0));
+            return new SosOffering(offeringId, codeType);
+        }
+        return new SosOffering(offeringId, "");
+    }
+
     private FilterCapabilities parseFilterCapabilities(CapabilitiesType.FilterCapabilities filterCapabilities) {
         if (filterCapabilities == null) {
             return null;
@@ -251,18 +265,5 @@ public class CapabilitiesTypeDecoder extends
                 .collect(toSet());
     }
 
-    private SosOffering parseOffering(ObservationOfferingType obsOffPropType) throws DecodingException {
-        String offeringId;
-        if (obsOffPropType.getIdentifier() != null) {
-            offeringId = obsOffPropType.getIdentifier();
-        } else {
-            offeringId = obsOffPropType.getId();
-        }
-        if (obsOffPropType.getNameArray() != null && obsOffPropType.getNameArray().length > 0) {
-            CodeType codeType = decodeXmlElement(obsOffPropType.getNameArray(0));
-            return new SosOffering(offeringId, codeType);
-        }
-        return new SosOffering(offeringId, "");
-    }
 
 }

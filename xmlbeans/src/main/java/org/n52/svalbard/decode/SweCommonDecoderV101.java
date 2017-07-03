@@ -325,13 +325,13 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
             dataArray.setEncoding(parseEncoding(xbDataArray.getEncoding()));
         }
 
-//        // parse values
-//        if (xbDataArray.isSetValues()) {
-//            // TODO implement full support
-//            // dataArray.setValues(parseValues(dataArray.getElementCount(),
-//            // dataArray.getElementType(),
-//            // dataArray.getEncoding(), xbDataArray.getValues()));
-//        }
+        // parse values
+        // if (xbDataArray.isSetValues()) {
+        //     // TODO implement full support
+        //     // dataArray.setValues(parseValues(dataArray.getElementCount(),
+        //     // dataArray.getElementType(),
+        //     // dataArray.getEncoding(), xbDataArray.getValues()));
+        // }
         DataArrayDocument xbDataArrayDoc = DataArrayDocument.Factory.newInstance(getXmlOptions());
         xbDataArrayDoc.setDataArray1(xbDataArray);
         dataArray.setXml(xbDataArrayDoc.xmlText());
@@ -393,15 +393,15 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
     private SweCountRange parseCountRange(CountRange xbCountRange) throws DecodingException {
         SweCountRange sosCountRange = new SweCountRange();
 
-//        if (xbCountRange.isSetAxisID()) {
-//            // TODO axisID
-//        }
+        // if (xbCountRange.isSetAxisID()) {
+        //     // TODO axisID
+        // }
         if (xbCountRange.getQualityArray() != null) {
             sosCountRange.setQuality(parseQuality(xbCountRange.getQualityArray()));
         }
-//        if (xbCountRange.isSetReferenceFrame()) {
-//            // TODO reference frame
-//        }
+        // if (xbCountRange.isSetReferenceFrame()) {
+        //     // TODO reference frame
+        // }
         if (xbCountRange.isSetDefinition()) {
             sosCountRange.setDefinition(xbCountRange.getDefinition());
         }

@@ -201,12 +201,12 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
             if (geometryCursor.toChild(GmlConstants.QN_ENVELOPE)) {
                 Object sosGeometry = decodeXmlElement(XmlObject.Factory.parse(geometryCursor.getDomNode()));
 
-//                if (sosGeometry instanceof PropertyNameType) {
-//                    PropertyNameType propType = (PropertyNameType) sosGeometry;
+                // if (sosGeometry instanceof PropertyNameType) {
+                // PropertyNameType propType = (PropertyNameType) sosGeometry;
                 // TODO here apply logic for ogc property
                 // urn:ogc:data:location etc
                 // valueRef = propType.getDomNode().getNodeValue();
-//                }
+                // }
                 if (sosGeometry instanceof Geometry) {
                     spatialFilter.setGeometry((Geometry) sosGeometry);
                     spatialFilter.setValueReference(valueRef);

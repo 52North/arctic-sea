@@ -188,20 +188,20 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
                         .set(encodeObjectToXml(SweConstants.NS_SWE_101, offering.getPhenomenonTime()));
             }
 
-            offering.getObservableProperties()
-                    .forEach(phenomenon -> xbObservationOffering.addNewObservedProperty().setHref(phenomenon));
-            offering.getFeatureOfInterestTypes().forEach(featureOfInterestType -> xbObservationOffering
-                    .addNewFeatureOfInterest().setHref(featureOfInterestType));
-            offering.getProcedureDescriptionFormats().forEach(procedureDescriptionFormat -> xbObservationOffering
-                    .addNewProcedure().setHref(procedureDescriptionFormat));
+            offering.getObservableProperties().forEach(phenomenon ->
+                    xbObservationOffering.addNewObservedProperty().setHref(phenomenon));
+            offering.getFeatureOfInterestTypes().forEach(featureOfInterestType ->
+                    xbObservationOffering.addNewFeatureOfInterest().setHref(featureOfInterestType));
+            offering.getProcedureDescriptionFormats().forEach(procedureDescriptionFormat ->
+                    xbObservationOffering.addNewProcedure().setHref(procedureDescriptionFormat));
             offering.getProcedures().forEach(procedure -> xbObservationOffering.addNewProcedure().setHref(procedure));
-            offering.getFeatureOfInterest().forEach(
-                    featureOfInterest -> xbObservationOffering.addNewFeatureOfInterest().setHref(featureOfInterest));
+            offering.getFeatureOfInterest().forEach(featureOfInterest ->
+                    xbObservationOffering.addNewFeatureOfInterest().setHref(featureOfInterest));
             offering.getResultModels().forEach(xbObservationOffering::addResultModel);
-            offering.getResponseFormats().forEach(
-                    responseFormat -> xbObservationOffering.addNewResponseFormat().setStringValue(responseFormat));
-            offering.getResponseModes()
-                    .forEach(responseMode -> xbObservationOffering.addNewResponseMode().setStringValue(responseMode));
+            offering.getResponseFormats().forEach(responseFormat ->
+                    xbObservationOffering.addNewResponseFormat().setStringValue(responseFormat));
+            offering.getResponseModes().forEach(responseMode ->
+                    xbObservationOffering.addNewResponseMode().setStringValue(responseMode));
         }
     }
 

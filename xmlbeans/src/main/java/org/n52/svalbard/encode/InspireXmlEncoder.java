@@ -100,10 +100,10 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private void checkIfSupported(InspireObject objectToEncode) throws EncodingException {
-        if (!(objectToEncode instanceof InspireSupportedLanguages)
-         && !(objectToEncode instanceof InspireSupportedCRS)
-         && !(objectToEncode instanceof FullInspireExtendedCapabilities)
-         && !(objectToEncode instanceof MinimalInspireExtendedCapabilities)) {
+        if (!(objectToEncode instanceof InspireSupportedLanguages) &&
+            !(objectToEncode instanceof InspireSupportedCRS) &&
+            !(objectToEncode instanceof FullInspireExtendedCapabilities) &&
+            !(objectToEncode instanceof MinimalInspireExtendedCapabilities)) {
             throw new UnsupportedEncoderInputException(this, objectToEncode);
         }
     }

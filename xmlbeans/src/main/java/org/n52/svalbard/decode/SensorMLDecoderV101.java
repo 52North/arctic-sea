@@ -411,13 +411,14 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
      */
     private List<SmlClassifier> parseClassification(Classification[] classificationArray) {
         return Arrays.stream(classificationArray).map(Classification::getClassifierList)
-                .map(ClassifierList::getClassifierArray).flatMap(Arrays::stream).map(c -> {
-            net.opengis.sensorML.x101.TermDocument.Term term = c.getTerm();
-            String definition = term.isSetDefinition() ? term.getDefinition() : null;
-            String codespace = term.isSetCodeSpace() ? term.getCodeSpace().getHref() : null;
-            String value = term.getValue();
-            return new SmlClassifier(c.getName(), definition, codespace, value);
-        }).collect(Collectors.toList());
+                .map(ClassifierList::getClassifierArray).flatMap(Arrays::stream)
+                .map(c -> {
+                    net.opengis.sensorML.x101.TermDocument.Term term = c.getTerm();
+                    String definition = term.isSetDefinition() ? term.getDefinition() : null;
+                    String codespace = term.isSetCodeSpace() ? term.getCodeSpace().getHref() : null;
+                    String value = term.getValue();
+                    return new SmlClassifier(c.getName(), definition, codespace, value);
+                }).collect(Collectors.toList());
     }
 
     /**

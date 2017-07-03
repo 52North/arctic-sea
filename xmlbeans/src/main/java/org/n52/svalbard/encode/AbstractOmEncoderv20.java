@@ -231,10 +231,18 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         return doc;
     }
 
+    private OMObservationDocument createObservationDocument() {
+        return OMObservationDocument.Factory.newInstance(getXmlOptions());
+    }
+
     private XmlObject createObservationPropertyType(OMObservationType obs) {
         OMObservationPropertyType opt = createObservationPropertyType();
         opt.setOMObservation(obs);
         return opt;
+    }
+
+    private OMObservationPropertyType createObservationPropertyType() {
+        return OMObservationPropertyType.Factory.newInstance(getXmlOptions());
     }
 
     private void setDescription(OmObservation observation, OMObservationType xb) {
@@ -404,17 +412,6 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         }
     }
 
-    private void setValidTime(OmObservation observation, OMObservationType xb) throws EncodingException {
-        Time validTime = observation.getValidTime();
-        if (validTime == null) {
-            return;
-        }
-        if (validTime.getGmlId() == null) {
-            validTime.setGmlId(OmConstants.VALID_TIME_NAME + "_" + observation.getObservationID());
-        }
-        xb.addNewValidTime().addNewTimePeriod().set(encodeGML(validTime));
-    }
-
     /**
      * Method to add the result time to the XML observation object
      *
@@ -431,6 +428,17 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         XmlObject substitution = xbObs.getResultTime().getTimeInstant()
                 .substitute(GmlHelper.getGml321QnameForITime(time), xmlObject.schemaType());
         substitution.set(xmlObject);
+    }
+
+    private void setValidTime(OmObservation observation, OMObservationType xb) throws EncodingException {
+        Time validTime = observation.getValidTime();
+        if (validTime == null) {
+            return;
+        }
+        if (validTime.getGmlId() == null) {
+            validTime.setGmlId(OmConstants.VALID_TIME_NAME + "_" + observation.getObservationID());
+        }
+        xb.addNewValidTime().addNewTimePeriod().set(encodeGML(validTime));
     }
 
     private void addParameter(OMObservationType xbObservation, Collection<NamedValue<?>> parameter)
@@ -519,14 +527,6 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
             XmlHelper.substituteElement(addNewResultQuality.getAbstractDQElement(),
                     encodedQuality.getAbstractDQElement());
         }
-    }
-
-    private OMObservationPropertyType createObservationPropertyType() {
-        return OMObservationPropertyType.Factory.newInstance(getXmlOptions());
-    }
-
-    private OMObservationDocument createObservationDocument() {
-        return OMObservationDocument.Factory.newInstance(getXmlOptions());
     }
 
     protected XmlObject encodeXLINK(Object o) throws EncodingException {
@@ -635,16 +635,6 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
             return defaultValue(value);
         }
 
-        private EncodingContext createHelperValues(Value<?> value) {
-            return EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE).with(SosHelperValues.GMLID,
-                    JavaHelper.generateID(value.toString()));
-        }
-
-        private XmlObject defaultValue(Value<?> value) {
-            LOG.warn("Can not encode named value value {}", value);
-            return null;
-        }
-
         @Override
         public XmlObject visit(TLVTValue value) throws EncodingException {
             return defaultValue(value);
@@ -673,6 +663,16 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         @Override
         public XmlObject visit(TimeRangeValue value) throws EncodingException {
             return encodeObjectToXml(SweConstants.NS_SWE_20, value);
+        }
+
+        private EncodingContext createHelperValues(Value<?> value) {
+            return EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE).with(SosHelperValues.GMLID,
+                    JavaHelper.generateID(value.toString()));
+        }
+
+        private XmlObject defaultValue(Value<?> value) {
+            LOG.warn("Can not encode named value value {}", value);
+            return null;
         }
     }
 }

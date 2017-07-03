@@ -143,10 +143,10 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
         }
     }
 
-//    @Override
-//    public String getDefaultFeatureEncodingNamespace() {
-//        return WaterMLConstants.NS_WML_20;
-//    }
+    // @Override
+    // public String getDefaultFeatureEncodingNamespace() {
+    //     return WaterMLConstants.NS_WML_20;
+    // }
 
     @Override
     protected String getDefaultProcedureEncodingNamspace() {
@@ -552,26 +552,6 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
     }
 
     /**
-     * Creates a XML ReferenceType object from SOS ReferenceType object
-     *
-     * @param sosReferenceType
-     *            SOS ReferenceType object
-     * @return XML ReferenceType object
-     * @throws EncodingException
-     *             If an error occurs
-     */
-    private XmlObject encodeReferenceType(ReferenceType sosReferenceType) throws EncodingException {
-        Encoder<XmlObject, ReferenceType> encoder =
-                getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32, sosReferenceType));
-        if (encoder != null) {
-            return encoder.encode(sosReferenceType);
-        } else {
-            throw new EncodingException("Error while encoding referenceType, needed encoder is missing!");
-        }
-
-    }
-
-    /**
      * Adds parameter values to WaterML 2.0 XML MonitoringPoint object from
      * SosSamplingFeature
      *
@@ -589,6 +569,26 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
                 monitoringPoint.addNewParameter().addNewNamedValue().set(encodeObjectToXml);
             }
         }
+    }
+
+    /**
+     * Creates a XML ReferenceType object from SOS ReferenceType object
+     *
+     * @param sosReferenceType
+     *            SOS ReferenceType object
+     * @return XML ReferenceType object
+     * @throws EncodingException
+     *             If an error occurs
+     */
+    private XmlObject encodeReferenceType(ReferenceType sosReferenceType) throws EncodingException {
+        Encoder<XmlObject, ReferenceType> encoder =
+                getEncoder(CodingHelper.getEncoderKey(GmlConstants.NS_GML_32, sosReferenceType));
+        if (encoder != null) {
+            return encoder.encode(sosReferenceType);
+        } else {
+            throw new EncodingException("Error while encoding referenceType, needed encoder is missing!");
+        }
+
     }
 
     /**
