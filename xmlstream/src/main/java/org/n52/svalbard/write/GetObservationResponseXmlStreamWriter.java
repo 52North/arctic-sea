@@ -126,7 +126,9 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         end(Sos2StreamingConstants.GET_OBSERVATION_RESPONSE);
     }
 
-    private void writeObservationData(EncodingContext ctx, OmObservation observation, ObservationEncoder<XmlObject, OmObservation> encoder)
+    private void writeObservationData(EncodingContext ctx,
+                                      OmObservation observation,
+                                      ObservationEncoder<XmlObject, OmObservation> encoder)
             throws XMLStreamException, EncodingException {
         start(Sos2StreamingConstants.OBSERVATION_DATA);
         if (encoder instanceof StreamingEncoder) {
