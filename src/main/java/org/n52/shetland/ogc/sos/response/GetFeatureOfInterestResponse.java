@@ -45,8 +45,7 @@ public class GetFeatureOfInterestResponse extends OwsServiceResponse {
     }
 
     public GetFeatureOfInterestResponse(String service, String version, AbstractFeature abstractFeature) {
-        super(service, version);
-        this.abstractFeature = abstractFeature;
+        this(service, version, SosConstants.Operations.GetFeatureOfInterest.name(), abstractFeature);
     }
 
     public GetFeatureOfInterestResponse(String service, String version, String operationName, AbstractFeature abstractFeature) {
