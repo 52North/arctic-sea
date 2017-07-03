@@ -21,23 +21,26 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.OmConstants;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncodingValues;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
@@ -51,45 +54,27 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
     private static final String TIME_PERIOD_PREFIX = "tp_";
     private static final String DATA_AVAILABILITY_PREFIX = "dam_";
     private static final String RESULT_TIME = "resultTime";
-    private List<DataAvailability> gdas;
     private final Map<TimePeriod, String> times;
-    private final String version;
     private int dataAvailabilityCount = 1;
     private int timePeriodCount = 1;
     private int resultTimeCount = 1;
 
-    public GetDataAvailabilityStreamWriter(String version, List<DataAvailability> gdas) {
-        this.gdas = gdas == null ? Collections.<DataAvailability> emptyList() : gdas;
-        this.times = new HashMap<>(this.gdas.size());
-        this.version = version == null ? Sos2Constants.SERVICEVERSION : version;
+    public GetDataAvailabilityStreamWriter(OutputStream outputStream, EncodingContext context,
+                                           EncoderRepository encoderRepository,
+                                           Producer<XmlOptions> xmlOptions,
+                                           List<DataAvailability> element)
+            throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, Optional.ofNullable(element)
+              .orElseGet(Collections::emptyList));
+        this.times = new HashMap<>(getElement().size());
     }
 
     @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        init(out);
-        start(true);
+    public void write() throws XMLStreamException, EncodingException {
+        start();
         writeGetDataAvailabilityResponse();
         end();
         finish();
-    }
-
-    @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        write(out);
-    }
-
-    @Override
-    public void write(List<DataAvailability> elementToStream, OutputStream out)
-            throws XMLStreamException, EncodingException {
-        this.gdas = elementToStream;
-        write(out);
-    }
-
-    @Override
-    public void write(List<DataAvailability> elementToStream, OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-        this.gdas = elementToStream;
-        write(out);
     }
 
     protected void writeGetDataAvailabilityResponse() throws XMLStreamException, EncodingException {
@@ -98,7 +83,7 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
         namespace(SweConstants.NS_SWE_PREFIX, SweConstants.NS_SWE_20);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
-        for (DataAvailability da : this.gdas) {
+        for (DataAvailability da : getElement()) {
             wirteDataAvailabilityMember(da);
         }
         end(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_RESPONSE);
@@ -203,7 +188,7 @@ public class GetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAv
     }
 
     protected void writeTimeString(DateTime time, TimeFormat format) throws XMLStreamException,
-            EncodingException {
+                                                                            EncodingException {
         chars(DateTimeHelper.formatDateTime2String(time, format));
     }
 

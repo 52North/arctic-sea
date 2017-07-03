@@ -16,6 +16,8 @@
  */
 package org.n52.svalbard.encode;
 
+import net.opengis.swes.x20.ExtensibleRequestType;
+
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.ows.extension.Extension;
@@ -23,8 +25,6 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
-
-import net.opengis.swes.x20.ExtensibleRequestType;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>

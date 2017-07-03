@@ -41,13 +41,12 @@ import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.write.AqdGetObservationResponseXmlStreamWriter;
+import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
-public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder<GetObservationResponse>
-        implements StreamingDataEncoder {
+public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder<GetObservationResponse> {
 
     public AqdGetObservationResponseEncoder() {
         super(SosConstants.Operations.GetObservation.name(), GetObservationResponse.class);
@@ -70,12 +69,13 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
             int counter = 1;
             while (response.getObservationCollection().hasNext()) {
                 OmObservation observation = response.getObservationCollection().next();
-                getAqdHelper().processObservation(observation, timePeriod, resultTime, featureCollection, eReportingHeader, counter++);
+                getAqdHelper().processObservation(observation, timePeriod, resultTime,
+                                                  featureCollection, eReportingHeader, counter++);
             }
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
-            EncodingContext ctx = EncodingContext.empty().with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+            EncodingContext ctx = EncodingContext.empty().with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
                     .with(XmlBeansEncodingFlags.DOCUMENT);
             return encodeGml(ctx, featureCollection);
         } catch (OwsExceptionReport ex) {
@@ -84,7 +84,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
     }
 
     @Override
-    protected void create(GetObservationResponse response, OutputStream outputStream, EncodingValues encodingValues)
+    protected void create(GetObservationResponse response, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
         FeatureCollection featureCollection = createFeatureCollection(response);
         EReportingHeader eReportingHeader;
@@ -99,12 +99,16 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
         if (!timePeriod.isEmpty()) {
             eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
         }
-        encodingValues.setEncodingNamespace(OmConstants.NS_OM_2);
-        encodingValues.setAdditionalValues(encodingValues.getAdditionalValues()
-                .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                .with(XmlBeansEncodingFlags.DOCUMENT));
         try {
-            new AqdGetObservationResponseXmlStreamWriter().write(featureCollection, outputStream, encodingValues);
+
+            new AqdGetObservationResponseXmlStreamWriter(
+                    outputStream,
+                    ctx.with(XmlWriterSettings.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                            .with(XmlBeansEncodingFlags.DOCUMENT),
+                    getEncoderRepository(),
+                    this::getXmlOptions,
+                    featureCollection)
+                    .write();
         } catch (XMLStreamException xmlse) {
             throw new EncodingException("Error while writing element to stream!", xmlse);
         }
@@ -115,13 +119,16 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
     }
 
     private TimePeriod addToFeatureCollectionAndGetTimePeriod(FeatureCollection featureCollection,
-            GetObservationResponse response, EReportingHeader eReportingHeader) throws OwsExceptionReport {
+                                                              GetObservationResponse response,
+                                                              EReportingHeader eReportingHeader)
+            throws OwsExceptionReport {
         TimeInstant resultTime = new TimeInstant(new DateTime(DateTimeZone.UTC));
         TimePeriod timePeriod = new TimePeriod();
         int counter = 1;
         while (response.getObservationCollection().hasNext()) {
-                OmObservation observation = response.getObservationCollection().next();
-                getAqdHelper().processObservation(observation, timePeriod, resultTime, featureCollection, eReportingHeader, counter++);
+            OmObservation observation = response.getObservationCollection().next();
+            getAqdHelper().processObservation(observation, timePeriod, resultTime,
+                                              featureCollection, eReportingHeader, counter++);
         }
         return timePeriod;
     }

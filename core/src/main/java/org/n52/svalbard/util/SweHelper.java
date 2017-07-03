@@ -334,16 +334,16 @@ public final class SweHelper {
                 throw notSupported();
             }
 
-            private EncodingException notSupported() {
-                return new EncodingException("The merging of value type '%s' is not yet supported!",
-                                             iValue.getClass().getName());
-            }
-
             @Override
             public SweAbstractDataComponent visit(TimeRangeValue value) throws EncodingException {
                 SweTimeRange sweTimeRange = new SweTimeRange();
                 sweTimeRange.setUom(value.getUnit());
                 return sweTimeRange;
+            }
+
+            private EncodingException notSupported() {
+                return new EncodingException("The merging of value type '%s' is not yet supported!",
+                                             iValue.getClass().getName());
             }
         });
     }

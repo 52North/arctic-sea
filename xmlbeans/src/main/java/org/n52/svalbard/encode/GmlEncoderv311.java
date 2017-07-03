@@ -103,9 +103,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlEncoderv311.class);
-
-    private String srsNamePrefix;
-
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(GmlConstants.NS_GML,
             org.n52.shetland.ogc.gml.time.Time.class,
             com.vividsolutions.jts.geom.Geometry.class,
@@ -117,6 +114,8 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
             AbstractFeature.class,
             org.n52.shetland.util.ReferencedEnvelope.class,
             org.n52.shetland.util.EnvelopeOrGeometry.class);
+
+    private String srsNamePrefix;
 
     public GmlEncoderv311() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -212,26 +211,30 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
      *
      * @param timePeriod
      *            SOS time object
-     * @param timePeriodType
+     * @param timePeriodType the xml time period (may be {@code null})
      * @return XML TimePeriod
      *
      *
      * @throws EncodingException
-     *             * if an error occurs.
+     *              if an error occurs.
      */
     private TimePeriodType createTimePeriodType(TimePeriod timePeriod, TimePeriodType timePeriodType)
             throws EncodingException {
         try {
+            TimePeriodType tpt;
+
             if (timePeriodType == null) {
-                timePeriodType = TimePeriodType.Factory.newInstance(getXmlOptions());
+                tpt = TimePeriodType.Factory.newInstance(getXmlOptions());
+            } else {
+                tpt = timePeriodType;
             }
             if (timePeriod.getGmlId() != null && !timePeriod.getGmlId().isEmpty()) {
-                timePeriodType.setId(timePeriod.getGmlId());
+                tpt.setId(timePeriod.getGmlId());
             }
-            timePeriodType.setBeginPosition(createTimePositionType(timePeriod.getStartTimePosition()));
-            timePeriodType.setEndPosition(createTimePositionType(timePeriod.getEndTimePosition()));
+            tpt.setBeginPosition(createTimePositionType(timePeriod.getStartTimePosition()));
+            tpt.setEndPosition(createTimePositionType(timePeriod.getEndTimePosition()));
 
-            return timePeriodType;
+            return tpt;
         } catch (XmlRuntimeException | XmlValueDisconnectedException x) {
             throw new EncodingException("Error while creating TimePeriod!", x);
         }
@@ -248,20 +251,23 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
      *
      * @param timeInstant
      *            SOS time object
-     * @param timeInstantType
+     * @param timeInstantType the xml time instant (may be {@code null})
      * @return XML TimeInstant
      *
      */
     private TimeInstantType createTimeInstantType(TimeInstant timeInstant, TimeInstantType timeInstantType) {
         // create time instant
+        TimeInstantType tit;
         if (timeInstantType == null) {
-            timeInstantType = TimeInstantType.Factory.newInstance(getXmlOptions());
+            tit = TimeInstantType.Factory.newInstance(getXmlOptions());
+        } else {
+            tit = timeInstantType;
         }
         if (timeInstant.isSetGmlId()) {
-            timeInstantType.setId(timeInstant.getGmlId());
+            tit.setId(timeInstant.getGmlId());
         }
-        timeInstantType.setTimePosition(createTimePositionType(timeInstant.getTimePosition()));
-        return timeInstantType;
+        tit.setTimePosition(createTimePositionType(timeInstant.getTimePosition()));
+        return tit;
     }
 
     private TimePositionType createTimePositionType(final TimePosition timePosition) throws DateTimeFormatException {
@@ -505,7 +511,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                     if (members.get(member) instanceof SamplingFeature) {
                         return createFeature((SamplingFeature) members.get(member));
                     } else {
-                        throw new EncodingException("No encoder found for featuretype");
+                        throw missingFeatureEncoder();
                     }
                 }
             } else {
@@ -522,7 +528,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                         XmlObject xmlFeature = createFeature((SamplingFeature) members.get(member));
                         xbFeatCol.addNewFeatureMember().set(xmlFeature);
                     } else {
-                        throw new EncodingException("No encoder found for featuretype");
+                        throw missingFeatureEncoder();
                     }
                 }
                 xmlObject = xbFeatureColllectionDoc;
@@ -552,5 +558,9 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
 
     protected String getSrsName(Geometry geom) {
         return srsNamePrefix + geom.getSRID();
+    }
+
+    private static EncodingException missingFeatureEncoder() {
+        return new EncodingException("No encoder found for featuretype");
     }
 }

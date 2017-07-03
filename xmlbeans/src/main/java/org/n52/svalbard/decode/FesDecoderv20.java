@@ -175,7 +175,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                     if (sosGeometry instanceof Geometry) {
                         spatialFilter.setGeometry((Geometry) sosGeometry);
                     } else if (sosGeometry instanceof ReferencedEnvelope) {
-                        spatialFilter.setGeometry((ReferencedEnvelope)sosGeometry);
+                        spatialFilter.setGeometry((ReferencedEnvelope) sosGeometry);
                     } else {
                         throw new UnsupportedDecoderXmlInputException(this, xbSpatialOpsType);
                     }
@@ -251,8 +251,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                             } else if (localName.equals(TimeOperator2.OverlappedBy.name())) {
                                 operator = TimeOperator.TM_OverlappedBy;
                             } else {
-                                throw new DecodingException(Sos2Constants.GetObservationParams.temporalFilter,
-                                        "The requested temporal filter operand is not supported by this SOS!");
+                                throw unsupportedTemporalOperator();
                             }
                             temporalFilter.setOperator(operator);
                             temporalFilter.setTime(time);
@@ -264,8 +263,7 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                     }
                 }
             } else {
-                throw new DecodingException(Sos2Constants.GetObservationParams.temporalFilter,
-                        "The requested temporal filter operand is not supported by this SOS!");
+                throw unsupportedTemporalOperator();
             }
         } catch (XmlException xmle) {
             throw new DecodingException("Error while parsing temporal filter!", xmle);
@@ -615,6 +613,11 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
             filters.add(parseTemporalFilterType(temporalOpsType));
         }
         return filters;
+    }
+
+    private static DecodingException unsupportedTemporalOperator() {
+        return new DecodingException(Sos2Constants.GetObservationParams.temporalFilter,
+                "The requested temporal filter operand is not supported by this SOS!");
     }
 
 }

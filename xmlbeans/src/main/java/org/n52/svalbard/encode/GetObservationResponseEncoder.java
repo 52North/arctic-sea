@@ -46,9 +46,7 @@ import com.google.common.collect.Sets;
  *
  * @since 4.0.0
  */
-public class GetObservationResponseEncoder
-        extends AbstractObservationResponseEncoder<GetObservationResponse>
-        implements StreamingDataEncoder {
+public class GetObservationResponseEncoder extends AbstractObservationResponseEncoder<GetObservationResponse> {
     public GetObservationResponseEncoder() {
         super(SosConstants.Operations.GetObservation.name(), GetObservationResponse.class);
     }
@@ -80,13 +78,16 @@ public class GetObservationResponseEncoder
 
     @Override
     protected void createResponse(ObservationEncoder<XmlObject, OmObservation> encoder,
-            GetObservationResponse response, OutputStream outputStream, EncodingValues encodingValues)
+                                  GetObservationResponse response, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
         try {
-            encodingValues.setEncoder(this);
-            GetObservationResponseXmlStreamWriter writer = new GetObservationResponseXmlStreamWriter();
-            writer.setEncoderRepository(getEncoderRepository());
-            writer.write(response, outputStream, encodingValues);
+            new GetObservationResponseXmlStreamWriter(
+                    outputStream,
+                    ctx.with(StreamingEncoderFlags.ENCODER, this),
+                    getEncoderRepository(),
+                    this::getXmlOptions,
+                    response
+            ).write();
         } catch (XMLStreamException xmlse) {
             throw new EncodingException(xmlse);
         }

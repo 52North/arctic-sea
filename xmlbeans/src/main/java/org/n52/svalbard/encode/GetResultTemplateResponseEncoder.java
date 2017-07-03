@@ -68,14 +68,14 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
             try {
                 xbEncoding = TextEncodingDocument.Factory.parse(resultEncoding.getXml().get());
             } catch (XmlException ex) {
-                throw new EncodingException("ResultEncoding element encoding is not supported!", ex);
+                throw unsupportedResultEncoding(ex);
             }
         } else {
             XmlObject xml = encodeSwe(EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT), resultEncoding.get().get());
             if (xml instanceof TextEncodingDocument) {
                 xbEncoding = (TextEncodingDocument) xml;
             } else {
-                throw new EncodingException("ResultEncoding element encoding is not supported!");
+                throw unsupportedResultEncoding();
             }
 
         }
@@ -92,14 +92,14 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
             try {
                 dataRecordDoc = DataRecordDocument.Factory.parse(resultStructure.getXml().get());
             } catch (XmlException ex) {
-                throw new EncodingException("ResultStructure element encoding is not supported!", ex);
+                throw unsupportedResultStructure(ex);
             }
         } else {
             XmlObject xml = encodeSwe(EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT), resultStructure.get().get());
             if (xml instanceof DataRecordDocument) {
                 dataRecordDoc = (DataRecordDocument) xml;
             } else {
-                throw new EncodingException("ResultStructure element encoding is not supported!");
+                throw unsupportedResultStructure();
             }
         }
         ResultStructure xbResultStructure = ResultStructure.Factory.newInstance(getXmlOptions());
@@ -111,5 +111,21 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
     @Override
     public Set<SchemaLocation> getConcreteSchemaLocations() {
         return Sets.newHashSet(Sos2Constants.SOS_GET_RESULT_TEMPLATE_SCHEMA_LOCATION);
+    }
+
+    private static EncodingException unsupportedResultEncoding(Throwable cause) {
+        return new EncodingException("ResultEncoding element encoding is not supported!", cause);
+    }
+
+    private static EncodingException unsupportedResultEncoding() {
+        return unsupportedResultEncoding(null);
+    }
+
+    private static EncodingException unsupportedResultStructure(Throwable cause) {
+        return new EncodingException("ResultStructure element encoding is not supported!", cause);
+    }
+
+    private static EncodingException unsupportedResultStructure() {
+        return unsupportedResultStructure(null);
     }
 }

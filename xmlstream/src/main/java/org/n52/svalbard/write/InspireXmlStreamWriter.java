@@ -21,6 +21,9 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
+
+import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.inspire.InspireCitation;
 import org.n52.shetland.inspire.InspireConformity;
@@ -52,7 +55,8 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.gml.time.TimePosition;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.encode.EncodingValues;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.html.HtmlEscapers;
@@ -65,68 +69,24 @@ import com.google.common.html.HtmlEscapers;
  *
  */
 public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> implements InspireConstants {
-
-    private InspireObject inspireObject;
-
-    /**
-     * constructor
-     *
-     * @param inspireObject
-     *            SOS internal representation of the INSPIRE object to encode
-     */
-    public InspireXmlStreamWriter(InspireObject inspireObject) {
-        this.setInspireObject(inspireObject);
+    public InspireXmlStreamWriter(OutputStream outputStream, EncodingContext context,
+                                  EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
+                                  InspireObject element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        init(out);
-        if (getInspireObject() instanceof FullInspireExtendedCapabilities) {
-            writeFullInspireExtendedCapabilities((FullInspireExtendedCapabilities) getInspireObject());
-        } else if (getInspireObject() instanceof MinimalInspireExtendedCapabilities) {
-            writeMinimlaInspireExtendedCapabilities((MinimalInspireExtendedCapabilities) getInspireObject());
-        } else if (getInspireObject() instanceof InspireSupportedLanguages) {
-            writeSupportedLanguages((InspireSupportedLanguages) getInspireObject(), true);
-        } else if (getInspireObject() instanceof InspireSupportedCRS) {
-            writeSupportedCRS((InspireSupportedCRS) getInspireObject(), true);
+    public void write() throws XMLStreamException, EncodingException {
+        if (getElement() instanceof FullInspireExtendedCapabilities) {
+            writeFullInspireExtendedCapabilities((FullInspireExtendedCapabilities) getElement());
+        } else if (getElement()instanceof MinimalInspireExtendedCapabilities) {
+            writeMinimlaInspireExtendedCapabilities((MinimalInspireExtendedCapabilities) getElement());
+        } else if (getElement() instanceof InspireSupportedLanguages) {
+            writeSupportedLanguages((InspireSupportedLanguages) getElement(), true);
+        } else if (getElement() instanceof InspireSupportedCRS) {
+            writeSupportedCRS((InspireSupportedCRS) getElement(), true);
         }
         finish();
-    }
-
-    @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-      write(out);
-    }
-
-    @Override
-    public void write(InspireObject elementToStream, OutputStream out) throws XMLStreamException, EncodingException {
-        this.inspireObject = elementToStream;
-        write(out);
-    }
-
-    @Override
-    public void write(InspireObject elementToStream, OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        this.inspireObject = elementToStream;
-        write(out);
-    }
-
-    /**
-     * Get the INSPIRE DLS ExtendedCapabilities to write
-     *
-     * @return the INSPIRE DLS ExtendedCapabilities to write
-     */
-    private InspireObject getInspireObject() {
-        return inspireObject;
-    }
-
-    /**
-     * Get the INSPIRE object to write
-     *
-     * @param inspireObject
-     *            the INSPIRE object to set
-     */
-    private void setInspireObject(InspireObject inspireObject) {
-        this.inspireObject = inspireObject;
     }
 
     /**

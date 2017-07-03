@@ -108,7 +108,7 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
         }
 
         N52XmlHelper.setSchemaLocationsToDocument(xbCapsDoc,
-                Sets.newHashSet(N52XmlHelper.getSchemaLocationForSOS100()));
+                                                  Sets.newHashSet(N52XmlHelper.getSchemaLocationForSOS100()));
 
         return xbCapsDoc;
     }
@@ -116,13 +116,11 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
     /**
      * Sets the FilterCapabilities section to the capabilities document.
      *
-     * @param filterCapabilities
-     *
-     * @param sosFilterCaps
-     *            FilterCapabilities.
+     * @param filterCapabilities the filter capabilities
+     * @param sosFilterCaps      the SOS filter capabilities
      */
     protected void setFilterCapabilities(FilterCapabilities filterCapabilities,
-            org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
+                                         org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
         setScalarFilterCapabilities(filterCapabilities.addNewScalarCapabilities(), sosFilterCaps);
         setSpatialFilterCapabilities(filterCapabilities.addNewSpatialCapabilities(), sosFilterCaps);
         setTemporalFilterCapabilities(filterCapabilities.addNewTemporalCapabilities(), sosFilterCaps);
@@ -133,16 +131,12 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
     /**
      * Sets the content section to the Capabilities document.
      *
-     * @param xbContents
-     *            SOS 2.0 contents section
-     * @param offerings
-     *            SOS offerings for contents
-     * @param version
-     *            SOS response version
+     * @param xbContents SOS 2.0 contents section
+     * @param offerings  SOS offerings for contents
+     * @param version    SOS response version
      *
      *
-     * @throws EncodingException
-     *             * if an error occurs.
+     * @throws EncodingException * if an error occurs.
      */
     protected void setContents(Contents xbContents, Collection<SosObservationOffering> offerings, String version)
             throws EncodingException {
@@ -164,7 +158,6 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
 
             // TODO: add intended application
             // xbObservationOffering.addIntendedApplication("");
-
             // set gml:name to offering's id (not ncname resolved)
             for (CodeType name : offering.getOffering().getName()) {
                 xbObservationOffering.addNewName().set(encodeObjectToXml(GmlConstants.NS_GML, name));
@@ -189,7 +182,6 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
              * .createCompositePhenomenon(compositePhenomenon, components)); } }
              * }
              */
-
             // set up time
             if (offering.getPhenomenonTime() instanceof TimePeriod) {
                 xbObservationOffering.addNewTime()
@@ -218,8 +210,7 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
      *
      * !!! Modify method addicted to your implementation !!!
      *
-     * @param idCapabilities
-     *            IdCapabilities.
+     * @param idCapabilities IdCapabilities.
      */
     protected void setIdFilterCapabilities(IdCapabilitiesType idCapabilities) {
 
@@ -232,12 +223,11 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
      *
      * !!! Modify method addicted to your implementation !!!
      *
-     * @param spatialCapabilities
-     *            SpatialCapabilities.
-     * @param sosFilterCaps
+     * @param spatialCapabilities SpatialCapabilities.
+     * @param sosFilterCaps       the SOS filter capabilities
      */
     protected void setSpatialFilterCapabilities(SpatialCapabilitiesType spatialCapabilities,
-            org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
+                                                org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
 
         // set GeometryOperands
         if (!sosFilterCaps.getSpatialOperands().isEmpty()) {
@@ -263,12 +253,11 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
      *
      * !!! Modify method addicted to your implementation !!!
      *
-     * @param temporalCapabilities
-     *            TemporalCapabilities.
-     * @param sosFilterCaps
+     * @param temporalCapabilities TemporalCapabilities.
+     * @param sosFilterCaps        the SOS filter capabilities
      */
     protected void setTemporalFilterCapabilities(TemporalCapabilitiesType temporalCapabilities,
-            org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
+                                                 org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
 
         // set TemporalOperands
         if (!sosFilterCaps.getTemporalOperands().isEmpty()) {
@@ -294,12 +283,11 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
      *
      * !!! Modify method addicted to your implementation !!!
      *
-     * @param scalarCapabilities
-     *            ScalarCapabilities.
-     * @param sosFilterCaps
+     * @param scalarCapabilities ScalarCapabilities.
+     * @param sosFilterCaps      the SOS filter capabilities
      */
     protected void setScalarFilterCapabilities(ScalarCapabilitiesType scalarCapabilities,
-            org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
+                                               org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) {
 
         if (!sosFilterCaps.getComparisonOperators().isEmpty()) {
             sosFilterCaps.getComparisonOperators().stream().map(this::getEnum4ComparisonOperator)
@@ -310,8 +298,8 @@ public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEn
     /**
      * Get the Enum for the spatial operator.
      *
-     * @param spatialOperator
-     *            Supported spatial operator
+     * @param spatialOperator Supported spatial operator
+     *
      * @return Enum
      */
     protected net.opengis.ogc.SpatialOperatorNameType.Enum getEnum4SpatialOperator(SpatialOperator spatialOperator) {

@@ -16,24 +16,22 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.n52.svalbard.util.CodingHelper.encoderKeysForElements;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gco.CodeListValueType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -50,7 +48,8 @@ public class Iso19139GcoEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GcoEncoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = encoderKeysForElements(GcoConstants.NS_GCO, Role.class);
+    private static final Set<EncoderKey> ENCODER_KEYS
+            = CodingHelper.encoderKeysForElements(GcoConstants.NS_GCO, Role.class);
 
     public Iso19139GcoEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",

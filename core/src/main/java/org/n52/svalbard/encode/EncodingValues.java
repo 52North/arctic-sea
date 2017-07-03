@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 
 import com.google.common.base.Strings;
@@ -182,8 +181,8 @@ public class EncodingValues {
      */
     public String getEncodingNamespace() {
         if (encodingNamespace == null && hasAddtitionalValues() &&
-                 getAdditionalValues().has(SosHelperValues.ENCODE_NAMESPACE)) {
-            setEncodingNamespace(getAdditionalValues().get(SosHelperValues.ENCODE_NAMESPACE));
+                 getAdditionalValues().has(XmlEncoderFlags.ENCODE_NAMESPACE)) {
+            setEncodingNamespace(getAdditionalValues().get(XmlEncoderFlags.ENCODE_NAMESPACE));
         }
         return encodingNamespace;
     }

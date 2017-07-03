@@ -104,12 +104,7 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     }
 
     @Override
-    public void encode(T element, OutputStream outputStream) throws EncodingException {
-        encode(element, outputStream, new EncodingValues());
-    }
-
-    @Override
-    public void encode(T response, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
+    public void encode(T response, OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, null);
         }

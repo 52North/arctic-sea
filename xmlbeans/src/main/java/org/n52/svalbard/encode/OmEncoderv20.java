@@ -78,6 +78,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.write.OmV20XmlStreamWriter;
+import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -187,14 +188,14 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
-        encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                OmV20XmlStreamWriter writer = new OmV20XmlStreamWriter();
-                writer.setEncoderRepository(getEncoderRepository());
-                writer.write((OmObservation) objectToEncode, outputStream, encodingValues);
+                new OmV20XmlStreamWriter(outputStream,
+                                         encodingValues.with(XmlWriterSettings.ENCODER, this),
+                                         getEncoderRepository(), this::getXmlOptions,
+                                         (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }

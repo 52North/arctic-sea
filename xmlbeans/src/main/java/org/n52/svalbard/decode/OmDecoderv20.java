@@ -243,11 +243,9 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
             if (decodedObject instanceof TimeInstant) {
                 return (TimeInstant) decodedObject;
             }
-            throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                    "The requested resultTime type is not supported by this service!");
+            throw unsupportedResultTimeType();
         } else {
-            throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                    "The requested resultTime type is not supported by this service!");
+            throw unsupportedResultTimeType();
         }
     }
 
@@ -296,23 +294,24 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
         // !omObservation.getResult().getDomNode().hasChildNodes()) {
         // return new SingleObservationValue<String>(new NilTemplateValue());
         // }
-        // TruthObservation
+
         if (xbResult.schemaType() == XmlBoolean.type) {
+            // TruthObservation
             XmlBoolean xbBoolean = (XmlBoolean) xbResult;
             BooleanValue booleanValue = new BooleanValue(xbBoolean.getBooleanValue());
             return new SingleObservationValue<>(booleanValue);
-        } // CountObservation
-        else if (xbResult.schemaType() == XmlInteger.type) {
+        } else if (xbResult.schemaType() == XmlInteger.type) {
+            // CountObservation
             XmlInteger xbInteger = (XmlInteger) xbResult;
             CountValue countValue = new CountValue(Integer.parseInt(xbInteger.getBigIntegerValue().toString()));
             return new SingleObservationValue<>(countValue);
-        } // TextObservation
-        else if (xbResult.schemaType() == XmlString.type) {
+        } else if (xbResult.schemaType() == XmlString.type) {
+            // TextObservation
             XmlString xbString = (XmlString) xbResult;
             TextValue stringValue = new TextValue(xbString.getStringValue());
             return new SingleObservationValue<>(stringValue);
-        } // result elements with other encoding like SWE_ARRAY_OBSERVATION
-        else {
+        } else {
+            // result elements with other encoding like SWE_ARRAY_OBSERVATION
             Object decodedObject = decodeXmlObject(xbResult);
             if (decodedObject instanceof ObservationValue) {
                 return (ObservationValue<?>) decodedObject;
@@ -353,6 +352,11 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
 
     private SosProcedureDescription<?> createProcedure(String procedureIdentifier) {
         return new SosProcedureDescriptionUnknownType(procedureIdentifier);
+    }
+
+    private static DecodingException unsupportedResultTimeType() {
+        return new DecodingException(Sos2Constants.InsertObservationParams.observation,
+                "The requested resultTime type is not supported by this service!");
     }
 
 }

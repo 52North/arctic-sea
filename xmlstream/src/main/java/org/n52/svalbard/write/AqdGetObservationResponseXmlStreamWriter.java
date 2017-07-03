@@ -21,15 +21,16 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.janmayen.Producer;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.iso.gmd.GmdConstants;
@@ -45,12 +46,9 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.EncodingValues;
-import org.n52.svalbard.encode.StreamingDataEncoder;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 
@@ -63,90 +61,26 @@ import com.google.common.collect.Sets;
  * @since 4.3.0
  *
  */
-public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<FeatureCollection>
-        implements StreamingDataEncoder {
+public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<FeatureCollection> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AqdGetObservationResponseXmlStreamWriter.class);
-
     private static final long TIMER_PERIOD = 250;
-
-    private FeatureCollection featureCollection;
-
     private Timer timer = new Timer(String.format("empty-string-write-task-for-%s", getClass().getSimpleName()), true);
+    private TimerTask timerTask;
 
-    private TimerTask timerTask = null;
-
-    private EncoderRepository encoderRepository;
-
-    /**
-     * @param encoderRepository
-     *            the encoderRepository to set
-     */
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    /**
-     * constructor
-     */
-    public AqdGetObservationResponseXmlStreamWriter() {
-    }
-
-    /**
-     * constructor
-     *
-     * @param featureCollection
-     *            {@link FeatureCollection} to write to stream
-     */
-    public AqdGetObservationResponseXmlStreamWriter(FeatureCollection featureCollection) {
-        setFeatureCollection(featureCollection);
-    }
-
-    /**
-     * Set {@link FeatureCollection} which should be written
-     *
-     * @param featureCollection
-     *            the {@link FeatureCollection}
-     */
-    private void setFeatureCollection(FeatureCollection featureCollection) {
-        this.featureCollection = featureCollection;
-    }
-
-    /**
-     * Get the {@link FeatureCollection} which should be written
-     *
-     * @return the {@link FeatureCollection}
-     */
-    private FeatureCollection getFeatureCollection() {
-        return featureCollection;
+    public AqdGetObservationResponseXmlStreamWriter(OutputStream outputStream,
+                                                    EncodingContext context,
+                                                    EncoderRepository encoderRepository,
+                                                    Producer<XmlOptions> xmlOptions,
+                                                    FeatureCollection element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        write(getFeatureCollection(), out);
-    }
-
-    @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        write(getFeatureCollection(), out, encodingValues);
-    }
-
-    @Override
-    public void write(FeatureCollection featureCollection, OutputStream out)
-            throws XMLStreamException, EncodingException {
-        write(featureCollection, out, new EncodingValues());
-
-    }
-
-    @Override
-    public void write(FeatureCollection featureCollection, OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
+    public void write() throws XMLStreamException, EncodingException {
         try {
-            setFeatureCollection(featureCollection);
-            init(out, encodingValues);
-            start(encodingValues.isEmbedded());
-            writeFeatureCollectionDoc(encodingValues);
+            start();
+            writeFeatureCollectionDoc();
             end();
             finish();
         } finally {
@@ -154,16 +88,17 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         }
     }
 
-    private void writeFeatureCollectionDoc(EncodingValues encodingValues)
+    private void writeFeatureCollectionDoc()
             throws XMLStreamException, EncodingException {
         start(GmlConstants.QN_FEATURE_COLLECTION_32);
         addNamespaces();
         addSchemaLocations();
+        FeatureCollection featureCollection = getElement();
         addGmlId(featureCollection.getGmlId());
         TimeInstant resultTime = new TimeInstant(new DateTime(DateTimeZone.UTC));
         for (AbstractFeature abstractFeature : featureCollection.getMembers().values()) {
             long start = System.currentTimeMillis();
-            Encoder<XmlObject, AbstractFeature> encoder = getEncoder(abstractFeature, encodingValues.getAdditionalValues());
+            Encoder<XmlObject, AbstractFeature> encoder = getEncoder(abstractFeature);
             if (abstractFeature instanceof OmObservation) {
                 OmObservation observation = (OmObservation) abstractFeature;
                 if (observation.getValue() instanceof ObservationStream) {
@@ -172,7 +107,7 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
                         // connection closing
                         startTimer();
                         ObservationStream mergeObservation = ((ObservationStream) observation.getValue()).merge();
-                        LOGGER.debug("Observation processing requires {} ms", (System.currentTimeMillis() - start));
+                        LOGGER.debug("Observation processing requires {} ms", System.currentTimeMillis() - start);
                         int count = 0;
                         while (mergeObservation.hasNext()) {
                             OmObservation omObservation = mergeObservation.next();
@@ -185,7 +120,7 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
                                 count++;
                             }
                             omObservation.setResultTime(resultTime);
-                            String xmlTextObservation = prepareObservation(omObservation, encoder, encodingValues);
+                            String xmlTextObservation = prepareObservation(omObservation, encoder);
                             // stop the timer task
                             stopTimer();
                             writeMember(xmlTextObservation);
@@ -194,12 +129,12 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
                         throw new EncodingException(ex);
                     }
                 } else {
-                    writeMember(abstractFeature, encoder, encodingValues);
+                    writeMember(abstractFeature, encoder);
                 }
             } else {
-                writeMember(abstractFeature, encoder, encodingValues);
+                writeMember(abstractFeature, encoder);
             }
-            LOGGER.debug("Writing member requires {} ms", (System.currentTimeMillis() - start));
+            LOGGER.debug("Writing member requires {} ms", System.currentTimeMillis() - start);
         }
         end(GmlConstants.QN_FEATURE_COLLECTION_32);
     }
@@ -211,39 +146,24 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         namespace("xsd", "http://www.w3.org/2001/XMLSchema");
 
         // OGC
-        // xmlns:om="http://www.opengis.net/om/2.0"
         namespace(OmConstants.NS_OM_PREFIX, OmConstants.NS_OM_2);
-        // xmlns:gml="http://www.opengis.net/gml/3.2
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
-        // xmlns:swe="http://www.opengis.net/swe/2.0"
         namespace(SweConstants.NS_SWE_PREFIX, SweConstants.NS_SWE_20);
-        // xmlns:sams="http://www.opengis.net/samplingSpatial/2.0"
         namespace(SfConstants.NS_SAMS_PREFIX, SfConstants.NS_SAMS);
-        // xmlns:sam="http://www.opengis.net/sampling/2.0"
         namespace("sam", SfConstants.NS_SF);
 
         // ISO
-        // xmlns:gmd="http://www.isotc211.org/2005/gmd"
         namespace(GmdConstants.NS_GMD_PREFIX, GmdConstants.NS_GMD);
-        // xmlns:gco="http://www.isotc211.org/2005/gco"
         namespace(GcoConstants.NS_GCO_PREFIX, GcoConstants.NS_GCO);
 
         // AQD e-Reporting
-        // xmlns:aqd="http://dd.eionet.europa.eu/schemaset/id2011850eu-1.0"
         namespace(AqdConstants.NS_AQD_PREFIX, AqdConstants.NS_AQD);
-        // xmlns:am="http://inspire.ec.europa.eu/schemas/am/3.0"
         namespace(AqdConstants.NS_AM_PREFIX, AqdConstants.NS_AM);
-        // xmlns:base="http://inspire.ec.europa.eu/schemas/base/3.3"
         namespace(AqdConstants.NS_BASE_PREFIX, AqdConstants.NS_BASE);
-        // xmlns:base2="http://inspire.ec.europa.eu/schemas/base2/1.0"
         namespace(AqdConstants.NS_BASE2_PREFIX, AqdConstants.NS_BASE2);
-        // xmlns:ompr="http://inspire.ec.europa.eu/schemas/ompr/2.0"
         namespace(AqdConstants.NS_OMPR_PREFIX, AqdConstants.NS_OMPR);
-        // xmlns:ef="http://inspire.ec.europa.eu/schemas/ef/3.0"
         namespace(AqdConstants.NS_EF_PREFIX, AqdConstants.NS_EF);
-        // xmlns:gn="urn:x-inspire:specification:gmlas:GeographicalNames:3.0"
         namespace(AqdConstants.NS_GN_PREFIX, AqdConstants.NS_GN);
-        // xmlns:ad="urn:x-inspire:specification:gmlas:Addresses:3.0"
         namespace(AqdConstants.NS_AD_PREFIX, AqdConstants.NS_AD);
     }
 
@@ -262,11 +182,10 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         return gmlId;
     }
 
-    private String prepareObservation(OmObservation omObservation, Encoder<XmlObject, AbstractFeature> encoder,
-            EncodingValues encodingValues) throws EncodingException, XMLStreamException {
+    private String prepareObservation(OmObservation omObservation, Encoder<XmlObject, AbstractFeature> encoder)
+            throws EncodingException, XMLStreamException {
 
-        String xmlText =
-                (encoder.encode(omObservation, encodingValues.getAdditionalValues())).xmlText(getXmlOptions());
+        String xmlText = encoder.encode(omObservation, getContext()).xmlText(getXmlOptions());
         // TODO check for better solutions
         xmlText = xmlText.replace("ns:ReferenceType", "gml:ReferenceType");
         xmlText = xmlText.replace(":ns=\"http://www.opengis.net/gml/3.2\"", ":gml=\"http://www.opengis.net/gml/3.2\"");
@@ -277,9 +196,9 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         return xmlText;
     }
 
-    private void writeMember(AbstractFeature abstractFeature, Encoder<XmlObject, AbstractFeature> encoder,
-            EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        writeXmlObject(encoder.encode(abstractFeature, encodingValues.getAdditionalValues()));
+    private void writeMember(AbstractFeature abstractFeature, Encoder<XmlObject, AbstractFeature> encoder)
+            throws XMLStreamException, EncodingException {
+        writeXmlObject(encoder.encode(abstractFeature, getContext()));
     }
 
     private void writeMember(String memberContent) throws XMLStreamException, EncodingException {
@@ -288,14 +207,12 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
         end(GmlConstants.QN_FEATURE_MEMBER_32);
     }
 
-    private Encoder<XmlObject, AbstractFeature> getEncoder(AbstractFeature feature, EncodingContext additionalValues)
+    private Encoder<XmlObject, AbstractFeature> getEncoder(AbstractFeature feature)
             throws EncodingException {
         if (feature.isSetDefaultElementEncoding()) {
-            return encoderRepository
-                    .getEncoder(CodingHelper.getEncoderKey(feature.getDefaultElementEncoding(), feature));
-        } else if (additionalValues.has(SosHelperValues.ENCODE_NAMESPACE)) {
-            return encoderRepository.getEncoder(
-                    CodingHelper.getEncoderKey(additionalValues.get(SosHelperValues.ENCODE_NAMESPACE), feature));
+            return getEncoder(CodingHelper.getEncoderKey(feature.getDefaultElementEncoding(), feature));
+        } else if (getEncodeNamespace().isPresent()) {
+            return getEncoder(CodingHelper.getEncoderKey(getEncodeNamespace().get(), feature));
         }
         return null;
     }
@@ -330,9 +247,8 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
     }
 
     /**
-     * Cleanup the {@link Timer} and {@link TimerTask} to avoid conncetion
-     * timeout after 1000 ms Stops the {@link WriteTimerTask}, Cancel
-     * {@link Timer} and set to <code>null</code>.
+     * Cleanup the {@link Timer} and {@link TimerTask} to avoid conncetion timeout after 1000 ms Stops the
+     * {@link WriteTimerTask}, Cancel {@link Timer} and set to <code>null</code>.
      */
     private void cleanup() {
         stopTimer();
@@ -344,8 +260,7 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
     }
 
     /**
-     * {@link TimerTask} to write blank strings to the {@link OutputStream} to
-     * avoid conncetion timeout after 1000 ms
+     * {@link TimerTask} to write blank strings to the {@link OutputStream} to avoid conncetion timeout after 1000 ms
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      * @since 4.3.0

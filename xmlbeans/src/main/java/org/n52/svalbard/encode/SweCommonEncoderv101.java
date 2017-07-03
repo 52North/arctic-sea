@@ -68,7 +68,6 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweCoordinate;
@@ -114,14 +113,15 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     private static final String URN = "urn:";
     private static final String HTTP = "http://";
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(SweConstants.NS_SWE_101,
+    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(
+            SweConstants.NS_SWE_101,
             SweBoolean.class, SweCategory.class, SweCount.class, SweObservableProperty.class, SweQuantity.class,
             SweQuantityRange.class, SweText.class, SweTime.class, SweTimeRange.class, SweEnvelope.class,
             SweCoordinate.class, SweDataArray.class, SweDataRecord.class, SweSimpleDataRecord.class, TimePeriod.class);
 
     public SweCommonEncoderv101() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(ENCODER_KEYS));
+                     Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -189,7 +189,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     }
 
     private AbstractDataComponentType createSimpleType(SweAbstractSimpleType<?> sosSimpleType,
-            EncodingContext additionalValues) throws EncodingException {
+                                                       EncodingContext additionalValues) throws EncodingException {
         AbstractDataComponentType abstractDataComponentType = null;
         if (sosSimpleType instanceof SweBoolean) {
             abstractDataComponentType = createBoolean((SweBoolean) sosSimpleType);
@@ -317,15 +317,16 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         } else {
             throw new EncodingException(
                     "The element type '%s' of the received '%s' is not supported by this encoder '%s'.",
-                    new Object[] { sosElement != null ? sosElement.getClass().getName() : null, sweField.getClass().getName(),
+                    new Object[] { sosElement != null ? sosElement.getClass().getName() : null,
+                                   sweField.getClass().getName(),
                                    getClass().getName() });
         }
         return xbField;
     }
 
     private net.opengis.swe.x101.BooleanDocument.Boolean createBoolean(SweBoolean bool) throws EncodingException {
-        final net.opengis.swe.x101.BooleanDocument.Boolean xbBoolean =
-                net.opengis.swe.x101.BooleanDocument.Boolean.Factory.newInstance(getXmlOptions());
+        final net.opengis.swe.x101.BooleanDocument.Boolean xbBoolean
+                = net.opengis.swe.x101.BooleanDocument.Boolean.Factory.newInstance(getXmlOptions());
         if (bool.isSetValue()) {
             xbBoolean.setValue(bool.getValue());
         }
@@ -335,7 +336,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         return xbBoolean;
     }
 
-    private QualityPropertyType[] createQuality(Collection<SweQuality> quality) throws EncodingException {
+    private QualityPropertyType[] createQuality(Collection<SweQuality> quality) {
         if (!quality.isEmpty()) {
             final ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.size());
             for (final SweQuality sweQuality : quality) {
@@ -353,11 +354,10 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
             }
             return xbQualities.toArray(new QualityPropertyType[xbQualities.size()]);
         }
-        final QualityPropertyType[] result = { QualityPropertyType.Factory.newInstance() };
-        return result;
+        return new QualityPropertyType[] { QualityPropertyType.Factory.newInstance() };
     }
 
-    private Category createCategory(SweCategory category) throws EncodingException {
+    private Category createCategory(SweCategory category) {
         final Category xbCategory = Category.Factory.newInstance(getXmlOptions());
         if (category.isSetValue()) {
             xbCategory.setValue(category.getValue());
@@ -402,11 +402,11 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     /**
      * Adds values to SWE quantity
      *
-     * @param quantity
-     *            SOS internal representation
-     * @throws EncodingException
+     * @param quantity SOS internal representation
+     *
+     * @return the quantity
      */
-    protected Quantity createQuantity(SweQuantity quantity) throws EncodingException {
+    protected Quantity createQuantity(SweQuantity quantity) {
         final Quantity xbQuantity = Quantity.Factory.newInstance(getXmlOptions());
         if (quantity.isSetAxisID()) {
             xbQuantity.setAxisID(quantity.getAxisID());
@@ -423,7 +423,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         return xbQuantity;
     }
 
-    protected QuantityRange createQuantityRange(SweQuantityRange quantityRange) throws EncodingException {
+    protected QuantityRange createQuantityRange(SweQuantityRange quantityRange) {
         final QuantityRange xbQuantityRange = QuantityRange.Factory.newInstance(getXmlOptions());
         if (quantityRange.isSetAxisID()) {
             xbQuantityRange.setAxisID(quantityRange.getDescription());
@@ -443,11 +443,11 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     /**
      * Adds values to SWE text
      *
-     * @param text
-     *            SOS internal representation
-     * @throws EncodingException
+     * @param text SOS internal representation
+     *
+     * @return the text
      */
-    private Text createText(SweText text) throws EncodingException {
+    private Text createText(SweText text) {
         final Text xbText = Text.Factory.newInstance(getXmlOptions());
         if (text.isSetValue()) {
             xbText.setValue(text.getValue());
@@ -531,7 +531,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     }
 
     private void addAbstractDataComponentValues(AbstractDataComponentType xbComponent,
-            final SweAbstractDataComponent component) throws EncodingException {
+                                                final SweAbstractDataComponent component) throws EncodingException {
         if (component.isSetDefinition()) {
             xbComponent.setDefinition(component.getDefinition());
         }
@@ -546,11 +546,11 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     /**
      * Adds values to SWE coordinates
      *
-     * @param coordinate
-     *            SOS internal representation
-     * @throws EncodingException
+     * @param coordinate SOS internal representation
+     *
+     * @return the coordinate
      */
-    private Coordinate createCoordinate(SweCoordinate<?> coordinate) throws EncodingException {
+    private Coordinate createCoordinate(SweCoordinate<?> coordinate) {
         final Coordinate xbCoordinate = Coordinate.Factory.newInstance(getXmlOptions());
         xbCoordinate.setName(coordinate.getName());
         xbCoordinate.setQuantity(createQuantity((SweQuantity) coordinate.getValue()));
@@ -560,23 +560,19 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     /**
      * Adds values to SWE coordinates
      *
-     * @param coordinates
-     *            SOS internal representation
-     * @throws EncodingException
+     * @param coordinates SOS internal representation
+     *
+     * @return the coordinates
      */
-    private Coordinate[] createCoordinates(List<? extends SweCoordinate<?>> coordinates) throws EncodingException {
+    private Coordinate[] createCoordinates(List<? extends SweCoordinate<?>> coordinates) {
         if (coordinates != null) {
-            final ArrayList<Coordinate> xbCoordinates = new ArrayList<>(coordinates.size());
-            for (final SweCoordinate<?> coordinate : coordinates) {
-                xbCoordinates.add(createCoordinate(coordinate));
-            }
-            return xbCoordinates.toArray(new Coordinate[xbCoordinates.size()]);
+            return coordinates.stream().map(this::createCoordinate).toArray(Coordinate[]::new);
         }
         return null;
     }
 
     // TODO check types for SWE101
-    private DataRecordType createDataRecord(final SweDataRecord sosDataRecord) throws EncodingException {
+    private DataRecordType createDataRecord(SweDataRecord sosDataRecord) throws EncodingException {
 
         final List<SweField> sosFields = sosDataRecord.getFields();
 
@@ -599,7 +595,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         return xbDataRecord;
     }
 
-    private DataArrayDocument createDataArray(final SweDataArray sosDataArray) throws EncodingException {
+    private DataArrayDocument createDataArray(SweDataArray sosDataArray) throws EncodingException {
         if (sosDataArray != null) {
             if (sosDataArray.isSetElementTyp()) {
                 final DataArrayDocument xbDataArrayDoc = DataArrayDocument.Factory.newInstance(getXmlOptions());
@@ -636,17 +632,17 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
                         xbElementType.addNewAbstractDataRecord()
                                 .set(createEnvelope((SweEnvelope) sosDataArray.getElementType()));
                         xbElementType.getAbstractDataRecord().substitute(SweConstants.QN_ENVELOPE_SWE_101,
-                                EnvelopeType.type);
+                                                                         EnvelopeType.type);
                     } else if (sosDataArray.getElementType() instanceof SweDataRecord) {
                         xbElementType.addNewAbstractDataRecord()
                                 .set(createDataRecord((SweDataRecord) sosDataArray.getElementType()));
                         xbElementType.getAbstractDataRecord().substitute(SweConstants.QN_DATA_RECORD_SWE_101,
-                                DataRecordType.type);
+                                                                         DataRecordType.type);
                     } else if (sosDataArray.getElementType() instanceof SweDataArray) {
                         xbElementType.addNewAbstractDataArray1()
                                 .set(createDataArray((SweDataArray) sosDataArray.getElementType()).getDataArray1());
                         xbElementType.getAbstractDataArray1().substitute(SweConstants.QN_DATA_RECORD_SWE_101,
-                                DataArrayType.type);
+                                                                         DataArrayType.type);
                     } else {
                         throw new UnsupportedEncoderInputException(this, sosDataArray.getElementType());
                     }
@@ -705,18 +701,18 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
                 if (xmlObject instanceof AbstractEncodingType) {
                     return (BlockEncodingPropertyType) xmlObject;
                 }
-                throw new NoApplicableCodeException().withMessage("AbstractEncoding can not be encoded!");
+                throw new EncodingException("AbstractEncoding can not be encoded!");
             }
 
-        } catch (Exception e) {
+        } catch (XmlException e) {
             throw new EncodingException("Error while encoding AbstractEncoding!", e);
         }
         return null;
     }
 
     private BlockEncodingPropertyType createTextEncoding(final SweTextEncoding sosTextEncoding) {
-        final BlockEncodingPropertyType xbTextEncodingType =
-                BlockEncodingPropertyType.Factory.newInstance(getXmlOptions());
+        final BlockEncodingPropertyType xbTextEncodingType = BlockEncodingPropertyType.Factory
+                .newInstance(getXmlOptions());
         final TextBlock xbTextEncoding = xbTextEncodingType.addNewTextBlock();
 
         if (sosTextEncoding.getBlockSeparator() != null) {
@@ -738,8 +734,8 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
     }
 
     private XmlObject createTimeGeometricPrimitivePropertyType(final TimePeriod timePeriod) throws EncodingException {
-        final TimeGeometricPrimitivePropertyType xbTimeGeometricPrimitiveProperty =
-                TimeGeometricPrimitivePropertyType.Factory.newInstance(getXmlOptions());
+        final TimeGeometricPrimitivePropertyType xbTimeGeometricPrimitiveProperty
+                = TimeGeometricPrimitivePropertyType.Factory.newInstance(getXmlOptions());
         if (timePeriod.isSetStart() && timePeriod.isSetEnd()) {
             xbTimeGeometricPrimitiveProperty.addNewTimeGeometricPrimitive()
                     .set(encodeObjectToXml(GmlConstants.NS_GML, timePeriod));
@@ -747,8 +743,8 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         // TODO check GML 311 rename nodename of geometric primitive to
         // gml:timePeriod
         final XmlCursor timeCursor = xbTimeGeometricPrimitiveProperty.newCursor();
-        final boolean hasTimePrimitive =
-                timeCursor.toChild(new QName(GmlConstants.NS_GML, GmlConstants.EN_ABSTRACT_TIME_GEOM_PRIM));
+        final boolean hasTimePrimitive = timeCursor
+                .toChild(new QName(GmlConstants.NS_GML, GmlConstants.EN_ABSTRACT_TIME_GEOM_PRIM));
         if (hasTimePrimitive) {
             timeCursor.setName(new QName(GmlConstants.NS_GML, GmlConstants.EN_TIME_PERIOD));
         }
@@ -773,8 +769,8 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         String tokenSeparator = textEncoding.getTokenSeparator();
         String blockSeparator = textEncoding.getBlockSeparator();
 
-        String valueString =
-                values.stream().map(block -> String.join(tokenSeparator, block)).collect(joining(blockSeparator));
+        String valueString = values.stream().map(block -> String.join(tokenSeparator, block))
+                .collect(joining(blockSeparator));
 
         // create XB result object
         final XmlString xbValueString = XmlString.Factory.newInstance();

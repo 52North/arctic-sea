@@ -16,11 +16,14 @@
  */
 package org.n52.svalbard.encode;
 
-import com.google.common.collect.Sets;
+import java.util.Collections;
 import java.util.Set;
+
 import net.opengis.sos.x20.GetObservationByIdDocument;
 import net.opengis.sos.x20.GetObservationByIdType;
+
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.GetObservationByIdRequest;
@@ -30,7 +33,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
  */
-public class GetObservationByIdRequestEncoder extends AbstractSosRequestEncoder<GetObservationByIdRequest> implements ExtensibleRequestEncoder {
+public class GetObservationByIdRequestEncoder extends AbstractSosRequestEncoder<GetObservationByIdRequest>
+        implements ExtensibleRequestEncoder {
 
     public GetObservationByIdRequestEncoder() {
         super(SosConstants.Operations.GetObservationById.name(), GetObservationByIdRequest.class);
@@ -38,7 +42,7 @@ public class GetObservationByIdRequestEncoder extends AbstractSosRequestEncoder<
 
     @Override
     protected Set<SchemaLocation> getConcreteSchemaLocations() {
-        return Sets.newHashSet(Sos2Constants.SOS_GET_OBSERVATION_BY_ID_SCHEMA_LOCATION);
+        return Collections.singleton(Sos2Constants.SOS_GET_OBSERVATION_BY_ID_SCHEMA_LOCATION);
     }
 
     @Override

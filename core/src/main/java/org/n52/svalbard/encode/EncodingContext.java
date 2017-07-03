@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.annotation.CheckReturnValue;
 import javax.annotation.Nonnull;
@@ -84,7 +85,7 @@ public class EncodingContext {
     }
 
     public boolean getBoolean(@Nonnull String key) {
-        return get(key);
+        return get(key, false);
     }
 
     public int getInteger(@Nonnull Enum<?> key) {
@@ -120,13 +121,14 @@ public class EncodingContext {
 
     @CheckReturnValue
     public EncodingContext with(@Nonnull String key, @Nullable Object value) {
-        Map<String, Object> map = new HashMap<>(this.properties);
-        if (value == null) {
-            map.put(key, NONE);
-        } else {
-            map.put(key, value);
+        Object nonNullValue = Optional.ofNullable(value).orElse(NONE);
+
+        if (this.properties.containsKey(key) && this.properties.get(key).equals(value)) {
+            return this;
         }
-        map.put(key, value);
+
+        Map<String, Object> map = new HashMap<>(this.properties);
+        map.put(key, nonNullValue);
         return new EncodingContext(map);
     }
 
@@ -134,11 +136,11 @@ public class EncodingContext {
     public EncodingContext without(@Nonnull String key) {
         if (!this.properties.containsKey(key)) {
             return this;
-        } else {
-            HashMap<String, Object> map = new HashMap<>(this.properties);
-            map.remove(key);
-            return map.isEmpty() ? EMTPY : new EncodingContext(map);
         }
+
+        HashMap<String, Object> map = new HashMap<>(this.properties);
+        map.remove(key);
+        return map.isEmpty() ? EMTPY : new EncodingContext(map);
     }
 
     @CheckReturnValue

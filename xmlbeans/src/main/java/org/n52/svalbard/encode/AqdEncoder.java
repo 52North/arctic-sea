@@ -56,7 +56,6 @@ import org.n52.shetland.util.AqdHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -126,14 +125,14 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues)
+    public XmlObject encode(Object element, EncodingContext ctx)
             throws EncodingException, UnsupportedEncoderInputException {
         if (element instanceof GetObservationResponse) {
             return encodeGetObservationResponse((GetObservationResponse) element);
         } else if (element instanceof OmObservation) {
             return encodeOmObservation((OmObservation) element);
         } else if (element instanceof EReportingHeader) {
-            return encodeEReportingHeader((EReportingHeader) element);
+            return encodeEReportingHeader((EReportingHeader) element, ctx);
         }
         throw new UnsupportedEncoderInputException(this, element);
     }
@@ -161,20 +160,21 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
                     }
 
                     while (value.hasNext()) {
-                        helper.processObservation(value.next(), timePeriod, resultTime, featureCollection, eReportingHeader, counter++);
+                        helper.processObservation(value.next(), timePeriod, resultTime,
+                                                  featureCollection, eReportingHeader, counter++);
                     }
 
                 } else {
-                    helper.processObservation(observation, timePeriod, resultTime, featureCollection, eReportingHeader, counter++);
+                    helper.processObservation(observation, timePeriod, resultTime,
+                                              featureCollection, eReportingHeader, counter++);
                 }
             }
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
-            EncodingContext ctx = EncodingContext.empty()
-                    .with(SosHelperValues.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                    .with(XmlBeansEncodingFlags.DOCUMENT);
-            return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, ctx);
+            return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, EncodingContext.empty()
+                    .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                    .with(XmlBeansEncodingFlags.DOCUMENT));
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
         }
@@ -184,10 +184,10 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         return encodeObjectToXml(OmConstants.NS_OM_2, element);
     }
 
-    private XmlObject encodeEReportingHeader(EReportingHeader element) throws EncodingException {
+    private XmlObject encodeEReportingHeader(EReportingHeader element, EncodingContext ctx) throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new EReportingHeaderEncoder(element).write(baos);
+            new EReportingHeaderEncoder(baos, ctx, getEncoderRepository(), this::getXmlOptions, element).write();
             return XmlObject.Factory.parse(baos.toString("UTF8"));
         } catch (XMLStreamException | XmlException | UnsupportedEncodingException xmlse) {
             throw new EncodingException("Error encoding response", xmlse);

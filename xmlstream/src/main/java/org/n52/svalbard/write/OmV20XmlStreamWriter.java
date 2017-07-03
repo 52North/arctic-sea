@@ -16,10 +16,18 @@
  */
 package org.n52.svalbard.write;
 
+import java.io.OutputStream;
 import java.util.Optional;
 
+import javax.xml.stream.XMLStreamException;
+
+import org.apache.xmlbeans.XmlOptions;
+
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.SfConstants;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 
 /**
  * Implementation of {@link AbstractOmV20XmlStreamWriter} to write O&M 2.0
@@ -30,22 +38,9 @@ import org.n52.shetland.ogc.om.features.SfConstants;
  *
  */
 public class OmV20XmlStreamWriter extends AbstractOmV20XmlStreamWriter {
-
-    /**
-     * constructor
-     */
-    public OmV20XmlStreamWriter() {
-        super();
-    }
-
-    /**
-     * constructor
-     *
-     * @param observation
-     *            {@link OmObservation} to write to stream
-     */
-    public OmV20XmlStreamWriter(OmObservation observation) {
-        super(observation);
+    public OmV20XmlStreamWriter(OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
+                                Producer<XmlOptions> xmlOptions, OmObservation element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override

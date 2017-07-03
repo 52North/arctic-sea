@@ -136,7 +136,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
                     OwsServiceProvider.class, OwsOperationsMetadata.class, OwsExceptionReport.class, OwsMetadata.class,
                     OwsDomain.class));
 
-    private boolean includeStackTraceInExceptionReport = false;
+    private boolean includeStackTraceInExceptionReport;
 
     public OwsEncoderv110() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -144,7 +144,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Setting(OwsEncoderSettings.INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT)
-    public void setIncludeStackTrace(final boolean includeStackTraceInExceptionReport) {
+    public void setIncludeStackTraceInExceptionReport(boolean includeStackTraceInExceptionReport) {
         this.includeStackTraceInExceptionReport = includeStackTraceInExceptionReport;
     }
 

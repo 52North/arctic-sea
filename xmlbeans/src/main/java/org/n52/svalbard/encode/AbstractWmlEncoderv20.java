@@ -49,6 +49,7 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.NamedValue;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
@@ -74,8 +75,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.vividsolutions.jts.geom.Geometry;
 
-import org.n52.shetland.ogc.om.ObservationStream;
-
 /**
  * Abstract encoder class for WaterML 2.0
  *
@@ -86,14 +85,19 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractWmlEncoderv20.class);
 
-    protected static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper
-            .union(CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20, AbstractFeature.class), CodingHelper
-                    .encoderKeysForElements(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING, ObservationProcess.class));
+    private static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper
+            .union(CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20,
+                                                       AbstractFeature.class),
+                   CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING,
+                                                       ObservationProcess.class));
 
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>> builder()
                     .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING))
                     .build());
+
+    private static final String PROCESS_ID_PREFIX = "process.";
+    private static final String OBSERVATION_ID_PREFIX = "sf_";
 
     @Override
     public boolean isObservationAndMeasurmentV20Type() {
@@ -184,8 +188,10 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
         try {
             if (observations != null && observations.hasNext()) {
 
-                EncodingContext encodingContext = EncodingContext.of(SosHelperValues.GMLID, "sf_" + sfIdCounter);
-                OMObservationType xbObservation = (OMObservationType) encodeOmObservation(observations.next(), encodingContext);
+                EncodingContext encodingContext = EncodingContext.of(SosHelperValues.GMLID,
+                                                                     OBSERVATION_ID_PREFIX + sfIdCounter);
+                OMObservationType xbObservation = (OMObservationType) encodeOmObservation(observations.next(),
+                                                                                          encodingContext);
 
                 if (observations.hasNext()) {
 
@@ -193,7 +199,7 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
                     CollectionType wmlCollection = xmlCollectionDoc.addNewCollection();
                     wmlCollection.addNewObservationMember().setOMObservation(xbObservation);
 
-                    while(observations.hasNext()) {
+                    while (observations.hasNext()) {
 
                         OmObservation observation = observations.next();
                         CodeWithAuthority cwa = observation.getObservationConstellation()
@@ -202,7 +208,7 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
                         if (gmlID4sfIdentifier.containsKey(cwa)) {
                             encodingContext = encodingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, true);
                         } else {
-                            gmlID4sfIdentifier.put(cwa, "sf_" + sfIdCounter++);
+                            gmlID4sfIdentifier.put(cwa, OBSERVATION_ID_PREFIX + sfIdCounter++);
                             encodingContext = encodingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, false);
                         }
 
@@ -350,9 +356,9 @@ public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
             ObservationProcessType observationProcess =
                     ((ObservationProcessDocument) encodedObject).addNewObservationProcess();
             if (additionalValues.has(SosHelperValues.GMLID)) {
-                observationProcess.setId("process." + additionalValues.get(SosHelperValues.GMLID));
+                observationProcess.setId(PROCESS_ID_PREFIX + additionalValues.get(SosHelperValues.GMLID));
             } else {
-                observationProcess.setId("process." + JavaHelper.generateID(procedure.toString()));
+                observationProcess.setId(PROCESS_ID_PREFIX + JavaHelper.generateID(procedure.toString()));
             }
 
             if (procedure.isSetName()) {

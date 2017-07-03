@@ -235,7 +235,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                             List<Field> xbFields = new ArrayList<>(sosFields.size());
                             for (SweField sosSweField : sosFields) {
                                 if (sosSweField == null) {
-                                    LOGGER.error("sosSweField is null is sosDataRecord");
+                                    LOGGER.error("sosSweField is null");
                                 } else {
                                     xbFields.add(createField(sosSweField));
                                 }
@@ -275,29 +275,12 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                             xmlDataArray.addNewElementCount().addNewCount();
                         }
                         if (component.isSetElementTyp()) {
+                            if (!component.getElementType().isSetDefinition()) {
+                                component.getElementType().setDefinition(SweCommonEncoderv20.DEFAULT_ELEMENT_TYPE_NAME);
+                            }
+
                             DataArrayType.ElementType elementType = xmlDataArray.addNewElementType();
-                            if (component.getElementType().isSetDefinition()) {
-                                elementType.setName(component.getElementType().getDefinition());
-                            } else {
-                                elementType.setName(SweCommonEncoderv20.DEFAULT_ELEMENT_TYPE_NAME);
-                            }
-                            List<SweField> sosFields = ((SweDataRecord) component.getElementType()).getFields();
-                            DataRecordType xbDataRecord = DataRecordType.Factory.newInstance(getXmlOptions());
-                            if (sosFields == null) {
-                                LOGGER.error("sosDataRecord contained no fields");
-                            } else {
-                                List<Field> xbFields = new ArrayList<>(sosFields.size());
-                                for (SweField sosSweField : sosFields) {
-                                    if (sosSweField == null) {
-                                        LOGGER.error("sosSweField is null is sosDataRecord");
-                                    } else {
-                                        xbFields.add(createField(sosSweField));
-                                    }
-                                }
-                                xbDataRecord.setFieldArray(xbFields.toArray(new Field[xbFields.size()]));
-                            }
-                            elementType.addNewAbstractDataComponent()
-                                    .set(xbDataRecord);
+                            elementType.addNewAbstractDataComponent().set(component.getElementType().accept(this));
                             elementType.getAbstractDataComponent()
                                     .substitute(SweConstants.QN_DATA_RECORD_SWE_200, DataRecordType.type);
                         }
@@ -378,8 +361,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                             xbQuantity.setUom(createUnknownUnitReference());
                         }
                         if (component.getQuality() != null) {
-                            // TODO implement
-                            LOGGER.warn("Quality encoding is not supported for {}", xbQuantity.schemaType());
+                            logQualityNotSupported(xbQuantity);
                         }
                         return xbQuantity;
                     }
@@ -400,7 +382,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                         }
                         if (component.isSetQuality()) {
                             // TODO implement
-                            LOGGER.warn("Quality encoding is not supported for {}", xbQuantityRange.schemaType());
+                            logQualityNotSupported(xbQuantityRange);
                         }
                         return xbQuantityRange;
                     }
@@ -425,7 +407,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                         }
                         if (component.getQuality() != null) {
                             // TODO implement
-                            LOGGER.warn("Quality encoding is not supported for {}", xbTime.schemaType());
+                            logQualityNotSupported(xbTime);
                         }
                         return xbTime;
                     }
@@ -441,7 +423,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                         }
                         if (component.isSetQuality()) {
                             // TODO implement
-                            LOGGER.warn("Quality encoding is not supported for {}", xbTimeRange.schemaType());
+                            logQualityNotSupported(xbTimeRange);
                         }
                         return xbTimeRange;
                     }
@@ -504,6 +486,11 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
                             }
                         }
                         throw new NotYetSupportedEncodingException(SweAbstractDataComponent.class.getName(), component);
+                    }
+
+                    private void logQualityNotSupported(XmlObject parentType) {
+                        // TODO implement
+                        LOGGER.warn("Quality encoding is not supported for {}", parentType.schemaType());
                     }
                 });
 

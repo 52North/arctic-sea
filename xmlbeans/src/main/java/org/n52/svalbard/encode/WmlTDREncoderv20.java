@@ -70,6 +70,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter;
+import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -99,6 +100,9 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS =
             Collections.singletonMap(SosConstants.SOS, Collections.singletonMap(Sos2Constants.SERVICEVERSION,
                     Collections.singleton(WaterMLConstants.NS_WML_20_DR)));
+    private static final String TIMESERIES_ID_PREFIX = "timeseries_";
+    private static final String DATA_RECORD_ID_PREFIX = "datarecord_";
+    private static final String TIME_POSITION_LIST_ID_PREFIX = "timepositionList_";
 
     public WmlTDREncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -165,14 +169,17 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
-        encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                WmlTDREncoderv20XmlStreamWriter writer = new WmlTDREncoderv20XmlStreamWriter();
-                writer.setEncoderRepository(getEncoderRepository());
-                writer.write((OmObservation) objectToEncode, outputStream, encodingValues);
+                new WmlTDREncoderv20XmlStreamWriter(
+                        outputStream,
+                        encodingValues.with(XmlWriterSettings.ENCODER, this),
+                        getEncoderRepository(),
+                        this::getXmlOptions,
+                        (OmObservation) objectToEncode)
+                        .write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -225,7 +232,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
                 MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
         MeasurementTimeseriesCoverageType xbMeasurementTimeseriesDomainRange =
                 xbMearuementTimeseriesDomainRangeDoc.addNewMeasurementTimeseriesDomainRange();
-        xbMeasurementTimeseriesDomainRange.setId("timeseries_" + sosObservation.getObservationID());
+        xbMeasurementTimeseriesDomainRange.setId(TIMESERIES_ID_PREFIX + sosObservation.getObservationID());
 
         // set time position list
         xbMeasurementTimeseriesDomainRange.addNewDomainSet().set(getTimePositionList(sosObservation));
@@ -276,8 +283,6 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
      */
     private XmlObject createDataRecord(OmObservation sosObservation) throws EncodingException {
         AbstractPhenomenon observableProperty = sosObservation.getObservationConstellation().getObservableProperty();
-        SweDataRecord dataRecord = new SweDataRecord();
-        dataRecord.setIdentifier("datarecord_" + sosObservation.getObservationID());
         SweQuantity quantity = new SweQuantity();
         quantity.setDefinition(observableProperty.getIdentifier());
         quantity.setDescription(observableProperty.getDescription());
@@ -285,10 +290,18 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
                 && ((OmObservableProperty) observableProperty).isSetUnit()) {
             quantity.setUom(((OmObservableProperty) observableProperty).getUnit());
         }
-        SweField field = new SweField("observed_value", quantity);
-        dataRecord.addField(field);
-        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
-                EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+        return createDataRecord(quantity, sosObservation.getObservationID());
+    }
+
+
+    private XmlObject createDataRecord(AbstractObservationValue<?> observationValue, String unit)
+            throws EncodingException {
+        // AbstractPhenomenon observableProperty =
+        // sosObservation.getObservationConstellation().getObservableProperty();
+        SweQuantity quantity = new SweQuantity();
+        quantity.setDefinition(observationValue.getObservableProperty());
+        quantity.setUom(unit);
+        return createDataRecord(quantity, observationValue.getObservationID());
     }
 
     /**
@@ -303,7 +316,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     private TimePositionListDocument getTimePositionList(OmObservation sosObservation) throws EncodingException {
         TimePositionListDocument timePositionListDoc = TimePositionListDocument.Factory.newInstance();
         TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
-        timePositionList.setId("timepositionList_" + sosObservation.getObservationID());
+        timePositionList.setId(TIME_POSITION_LIST_ID_PREFIX + sosObservation.getObservationID());
         if (sosObservation.getValue() instanceof SingleObservationValue<?>) {
             timePositionList.setTimePositionList(
                     Lists.newArrayList(getTimeString(sosObservation.getValue().getPhenomenonTime())));
@@ -357,7 +370,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
                 MeasurementTimeseriesDomainRangeDocument.Factory.newInstance();
         MeasurementTimeseriesCoverageType xbMeasurementTimeseriesDomainRange =
                 xbMearuementTimeseriesDomainRangeDoc.addNewMeasurementTimeseriesDomainRange();
-        xbMeasurementTimeseriesDomainRange.setId("timeseries_" + observationValue.getObservationID());
+        xbMeasurementTimeseriesDomainRange.setId(TIMESERIES_ID_PREFIX + observationValue.getObservationID());
 
         // set time position list
         xbMeasurementTimeseriesDomainRange.addNewDomainSet().set(getTimePositionList(observationValue));
@@ -402,28 +415,22 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
                 || OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType));
     }
 
-    private XmlObject createDataRecord(AbstractObservationValue<?> observationValue, String unit)
-            throws EncodingException {
-        // AbstractPhenomenon observableProperty =
-        // sosObservation.getObservationConstellation().getObservableProperty();
-        SweDataRecord dataRecord = new SweDataRecord();
-        dataRecord.setIdentifier("datarecord_" + observationValue.getObservationID());
-        SweQuantity quantity = new SweQuantity();
-        quantity.setDefinition(observationValue.getObservableProperty());
-        quantity.setUom(unit);
-        SweField field = new SweField("observed_value", quantity);
-        dataRecord.addField(field);
-        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
-                EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
-    }
-
     private TimePositionListDocument getTimePositionList(AbstractObservationValue<?> observationValue)
             throws EncodingException {
         TimePositionListDocument timePositionListDoc = TimePositionListDocument.Factory.newInstance();
         TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
-        timePositionList.setId("timepositionList_" + observationValue.getObservationID());
+        timePositionList.setId(TIME_POSITION_LIST_ID_PREFIX + observationValue.getObservationID());
         timePositionList.setTimePositionList(getTimeArray((MultiObservationValues<?>) observationValue));
         return timePositionListDoc;
+    }
+
+    private XmlObject createDataRecord(SweQuantity quantity, String observationId) throws EncodingException {
+        SweField field = new SweField("observed_value", quantity);
+        SweDataRecord dataRecord = new SweDataRecord();
+        dataRecord.setIdentifier(DATA_RECORD_ID_PREFIX + observationId);
+        dataRecord.addField(field);
+        return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
+                                                         EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
     }
 
     private static Set<EncoderKey> createEncoderKeys() {

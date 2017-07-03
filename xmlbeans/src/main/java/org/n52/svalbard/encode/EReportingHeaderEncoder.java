@@ -23,9 +23,11 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 
 import org.n52.janmayen.NcName;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
@@ -56,38 +58,15 @@ import org.n52.svalbard.write.XmlStreamWriter;
 import com.google.common.base.Optional;
 
 public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
-    private final EReportingHeader header;
-
-    public EReportingHeaderEncoder(EReportingHeader header) {
-        this.header = header;
+    public EReportingHeaderEncoder(OutputStream outputStream, EncodingContext context,
+                                   EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
+                                   EReportingHeader element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        write(this.header, out, encodingValues);
-    }
-
-    @Override
-    public void write(EReportingHeader elementToStream, OutputStream out)
-            throws XMLStreamException, EncodingException {
-        write(elementToStream, out, new EncodingValues());
-    }
-
-    @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        write(this.header, out, new EncodingValues());
-    }
-
-    @Override
-    public void write(EReportingHeader elementToStream, OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-        this.init(out, encodingValues);
-        this.encodeReportingHeader(elementToStream, encodingValues);
-    }
-
-    private void encodeReportingHeader(EReportingHeader h, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-
+    public void write() throws XMLStreamException, EncodingException {
+        EReportingHeader h = getElement();
         start(AqdConstants.QN_AQD_REPORTING_HEADER);
         namespace(AqdConstants.NS_AD_PREFIX, AqdConstants.NS_AD);
         namespace(AqdConstants.NS_AQD_PREFIX, AqdConstants.NS_AQD);
@@ -98,7 +77,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
         namespace(W3CConstants.NS_XSI_PREFIX, W3CConstants.NS_XSI);
         namespace(GcoConstants.NS_GCO_PREFIX, GcoConstants.NS_GCO);
-        if (encodingValues.isAddSchemaLocation()) {
+        if (isAddSchemaLocation()) {
             schemaLocation(Collections.singleton(AqdConstants.NS_AQD_SCHEMA_LOCATION));
         }
 

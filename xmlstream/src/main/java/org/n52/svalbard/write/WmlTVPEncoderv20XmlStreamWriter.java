@@ -16,13 +16,16 @@
  */
 package org.n52.svalbard.write;
 
+import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.xmlbeans.XmlOptions;
 
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.MultiObservationValues;
 import org.n52.shetland.ogc.om.OmConstants;
@@ -39,44 +42,33 @@ import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncodingValues;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.base.Strings;
 
 /**
- * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0
- * encoded {@link OmObservation}s to stream
+ * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0 encoded {@link OmObservation}s to stream
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.1.0
  *
  */
 public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWriter {
-
-    /**
-     * constructor
-     */
-    public WmlTVPEncoderv20XmlStreamWriter() {
-        super();
-    }
-
-    /**
-     * constructor
-     *
-     * @param observation
-     *            {@link OmObservation} to write to stream
-     */
-    public WmlTVPEncoderv20XmlStreamWriter(OmObservation observation) {
-        super(observation);
+    public WmlTVPEncoderv20XmlStreamWriter(OutputStream outputStream, EncodingContext context,
+                                           EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
+                                           OmObservation element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override
-    protected void writeResult(OmObservation observation, EncodingValues encodingValues)
+    protected void writeResult()
             throws XMLStreamException, EncodingException {
         start(OmConstants.QN_OM_20_RESULT);
         namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
         start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
+        OmObservation observation = getElement();
         attr(GmlConstants.QN_ID_32, "timeseries." + observation.getObservationID());
         writeMeasurementTimeseriesMetadata(observation.getPhenomenonTime().getGmlId());
         if (observation.getValue() instanceof SingleObservationValue) {
@@ -107,15 +99,14 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
             }
             close();
         } else {
-            super.writeResult(observation, encodingValues);
+            super.writeResult();
         }
     }
 
     /**
      * Close written wml:MeasurementTimeseries and om:result tags
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void close() throws XMLStreamException {
         end(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
@@ -125,10 +116,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write timeseries metadata to stream
      *
-     * @param id
-     *            Observation id
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param id Observation id
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeMeasurementTimeseriesMetadata(String id) throws XMLStreamException {
         start(WaterMLConstants.QN_METADATA);
@@ -142,9 +132,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write wml:defaultPointMetadata to stream
      *
-     * @param unit
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param unit the unit
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeDefaultPointMetadata(String unit) throws XMLStreamException {
         start(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
@@ -158,10 +148,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write UOM attribute to stream
      *
-     * @param code
-     *            UOM code
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param code UOM code
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeUOM(String code) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(code)) {
@@ -173,8 +162,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write wml:interpolationType to stream
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeInterpolationType() throws XMLStreamException {
         empty(WaterMLConstants.QN_INTERPOLATION_TYPE);
@@ -185,8 +173,8 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Get the {@link String} representation of {@link Value}
      *
-     * @param value
-     *            {@link Value} to get {@link String} representation from
+     * @param value {@link Value} to get {@link String} representation from
+     *
      * @return {@link String} representation of {@link Value}
      */
     private String getValue(Value<?> value) {
@@ -209,12 +197,10 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write wml:point to stream
      *
-     * @param time
-     *            time as {@link String}
-     * @param value
-     *            value as {@link String}
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param time time as {@link String}
+     * @param value value as {@link String}
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writePoint(String time, String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(time)) {
@@ -227,12 +213,10 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write wml:MeasurementTVP to stream
      *
-     * @param time
-     *            time as {@link String}
-     * @param value
-     *            value as {@link String}
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param time time as {@link String}
+     * @param value value as {@link String}
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeMeasurementTVP(String time, String value) throws XMLStreamException {
         start(WaterMLConstants.QN_MEASUREMENT_TVP);
@@ -244,10 +228,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write wml:time to stream
      *
-     * @param time
-     *            time to write
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param time time to write
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeTime(String time) throws XMLStreamException {
         start(WaterMLConstants.QN_TIME);
@@ -258,10 +241,9 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write wml:value to stream
      *
-     * @param value
-     *            value to write
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param value value to write
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeValue(String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(value)) {
@@ -278,8 +260,7 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     /**
      * Write missing value metadata to stream
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeValueMetadata() throws XMLStreamException {
         start(WaterMLConstants.QN_METADATA);

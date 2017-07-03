@@ -25,6 +25,7 @@ import net.opengis.sos.x20.GetObservationByIdResponseType;
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -36,8 +37,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Sets;
-
-import org.n52.shetland.ogc.om.ObservationStream;
 
 /**
  * TODO JavaDoc
@@ -56,7 +55,8 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
     @Override
     protected XmlObject createResponse(ObservationEncoder<XmlObject, OmObservation> encoder,
                                        GetObservationByIdResponse response) throws EncodingException {
-        GetObservationByIdResponseDocument doc = GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
+        GetObservationByIdResponseDocument doc = GetObservationByIdResponseDocument.Factory
+                .newInstance(getXmlOptions());
         GetObservationByIdResponseType xbResponse = doc.addNewGetObservationByIdResponse();
 
         ObservationStream observations = response.getObservationCollection();

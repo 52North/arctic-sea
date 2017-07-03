@@ -25,6 +25,7 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
@@ -107,25 +108,30 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     }
 
     @Override
-    public void encode(Object element, OutputStream outputStream) throws EncodingException {
-        encode(element, outputStream, new EncodingValues());
-    }
-
-    @Override
-    public void encode(Object element, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object element, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
         if (element instanceof SoapResponse) {
-            new Soap12XmlStreamWriter().write((SoapResponse) element, outputStream);
+            try {
+                new Soap12XmlStreamWriter(
+                        outputStream,
+                        encodingValues,
+                        getEncoderRepository(),
+                        this::getXmlOptions,
+                        (SoapResponse) element
+                ).write();
+            } catch (XMLStreamException ex) {
+                throw new EncodingException(ex);
+            }
         } else {
             try {
-                encode(element, encodingValues.getAdditionalValues()).save(outputStream, getXmlOptions());
+                encode(element, encodingValues).save(outputStream, getXmlOptions());
             } catch (IOException ioe) {
                 throw new EncodingException("Error while writing element to stream!", ioe);
             }
         }
     }
 
-    private XmlObject createSOAP12Envelope(final SoapResponse response, EncodingContext additionalValues)
+    private XmlObject createSOAP12Envelope(SoapResponse response, EncodingContext additionalValues)
             throws EncodingException {
         String action = null;
         final EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();

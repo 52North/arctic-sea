@@ -139,6 +139,8 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
                                                 OmObservation.class,
                                                 GetObservationResponse.class,
                                                 GetObservationByIdResponse.class));
+    private static final String RESULT_TIME_ID_PREFIX = "resultTime_";
+    private static final String OBSERVATION_ID_PREFIX = "o_";
 
     public OmEncoderv100() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -258,7 +260,8 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
         return OmConstants.OBS_TYPE_OBSERVATION;
     }
 
-    private XmlObject createObservationCollection(ObservationStream sosObservationCollectionIterable, String resultModel)
+    private XmlObject createObservationCollection(ObservationStream sosObservationCollectionIterable,
+                                                  String resultModel)
             throws EncodingException {
         ObservationCollectionDocument xbObservationCollectionDoc =
                 ObservationCollectionDocument.Factory.newInstance(getXmlOptions());
@@ -373,9 +376,9 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
 
     private List<OmObservableProperty> addValuesToObservation(ObservationType xbObs, OmObservation sosObservation,
             EncodingContext additionalValues) throws EncodingException {
-        xbObs.setId("o_" + Long.toString(System.currentTimeMillis()));
+        xbObs.setId(OBSERVATION_ID_PREFIX + Long.toString(System.currentTimeMillis()));
         if (!sosObservation.isSetObservationID()) {
-            sosObservation.setObservationID(xbObs.getId().replace("o_", ""));
+            sosObservation.setObservationID(xbObs.getId().replace(OBSERVATION_ID_PREFIX, ""));
         }
         String observationID = sosObservation.getObservationID();
         // set samplingTime
@@ -424,7 +427,7 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
             } else {
                 TimeInstant resultTime = sosObservation.getResultTime();
                 if (!resultTime.isSetGmlId()) {
-                    resultTime.setGmlId("resultTime_".concat(sosObservation.getObservationID()));
+                    resultTime.setGmlId(RESULT_TIME_ID_PREFIX.concat(sosObservation.getObservationID()));
                 }
                 addResultTime(xbObs, resultTime);
             }
@@ -433,7 +436,7 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
                 xbObs.addNewResultTime().setHref("#".concat(phenomenonTime.getGmlId()));
             } else if (phenomenonTime instanceof TimePeriod) {
                 TimeInstant resultTime = new TimeInstant(((TimePeriod) sosObservation.getPhenomenonTime()).getEnd());
-                resultTime.setGmlId("resultTime_" + sosObservation.getObservationID());
+                resultTime.setGmlId(RESULT_TIME_ID_PREFIX + sosObservation.getObservationID());
                 addResultTime(xbObs, resultTime);
             }
         }
@@ -529,16 +532,13 @@ public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>
     }
 
     /**
-     * Encodes a SosAbstractFeature to an SpatialSamplingFeature under
-     * consideration of duplicated SpatialSamplingFeature in the XML document.
+     * Encodes a SosAbstractFeature to an SpatialSamplingFeature under consideration of duplicated
+     * SpatialSamplingFeature in the XML document.
      *
-     * @param observation
-     *            XmlObject O&M observation
-     * @param feature
-     *            SOS observation
+     * @param observation XmlObject O&M observation
+     * @param feature SOS observation
      *
-     *
-     * @throws EncodingException
+     * @throws EncodingException if encoding of the feature fails
      */
     private void addFeatureOfInterest(ObservationType observation, AbstractFeature feature) throws EncodingException {
         EncodingContext ctx = EncodingContext.of(SosHelperValues.ENCODE, feature.getDefaultElementEncoding());

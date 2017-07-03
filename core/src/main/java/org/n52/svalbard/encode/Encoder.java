@@ -28,10 +28,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 /**
  * Generic interface for Encoders.
  *
- * @param <T>
- *            the resulting type, the "Target"
- * @param <S>
- *            the input type, the "Source"
+ * @param <T> the resulting type, the "Target"
+ * @param <S> the input type, the "Source"
  *
  * @since 1.0.0
  */

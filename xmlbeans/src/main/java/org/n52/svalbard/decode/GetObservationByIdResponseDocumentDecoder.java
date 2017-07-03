@@ -26,6 +26,7 @@ import net.opengis.sos.x20.GetObservationByIdResponseType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
@@ -39,10 +40,9 @@ import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import org.n52.shetland.ogc.om.ObservationStream;
-
-public class GetObservationByIdResponseDocumentDecoder extends
-        AbstractXmlDecoder<GetObservationByIdResponseDocument, GetObservationByIdResponse> implements SosResponseDecoder {
+public class GetObservationByIdResponseDocumentDecoder
+        extends AbstractXmlDecoder<GetObservationByIdResponseDocument, GetObservationByIdResponse>
+        implements SosResponseDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetObservationByIdResponseDocumentDecoder.class);
 

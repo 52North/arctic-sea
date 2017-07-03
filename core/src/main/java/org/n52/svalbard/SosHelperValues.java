@@ -37,7 +37,6 @@ public enum SosHelperValues implements HelperValues {
     @Deprecated
     FOR_OBSERVATION,
     ENCODE,
-    ENCODE_NAMESPACE,
     REFERENCED,
     /**
      * Encode the given <tt>OwsExceptionReport</tt> not into an

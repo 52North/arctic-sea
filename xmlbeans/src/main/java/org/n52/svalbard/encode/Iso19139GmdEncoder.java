@@ -16,9 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.n52.shetland.util.CollectionHelper.union;
-import static org.n52.svalbard.util.CodingHelper.encoderKeysForElements;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -64,10 +61,12 @@ import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.base.Joiner;
@@ -75,8 +74,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic MetaData
- * (GMD) extensible markup language.
+ * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic MetaData (GMD) extensible markup language.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.2.0
@@ -88,23 +86,28 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final QName QN_GCO_DATE = new QName(GcoConstants.NS_GCO, "Date", GcoConstants.NS_GCO_PREFIX);
 
-    private static final QName QN_GMD_CONFORMANCE_RESULT =
-            new QName(GmdConstants.NS_GMD, "DQ_ConformanceResult", GmdConstants.NS_GMD_PREFIX);
+    private static final QName QN_GMD_CONFORMANCE_RESULT
+            = new QName(GmdConstants.NS_GMD, "DQ_ConformanceResult", GmdConstants.NS_GMD_PREFIX);
 
-    private static final QName QN_GMD_QUANTITATIVE_RESULT =
-            new QName(GmdConstants.NS_GMD, "DQ_QuantitativeResult", GmdConstants.NS_GMD_PREFIX);
+    private static final QName QN_GMD_QUANTITATIVE_RESULT
+            = new QName(GmdConstants.NS_GMD, "DQ_QuantitativeResult", GmdConstants.NS_GMD_PREFIX);
 
-    private static final QName QN_GML_BASE_UNIT =
-            new QName(GmlConstants.NS_GML_32, "BaseUnit", GmlConstants.NS_GML_PREFIX);
+    private static final QName QN_GML_BASE_UNIT
+            = new QName(GmlConstants.NS_GML_32, "BaseUnit", GmlConstants.NS_GML_PREFIX);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = union(
-            encoderKeysForElements(GmdConstants.NS_GMD, SmlResponsibleParty.class, GmdQuantitativeResult.class,
+    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
+            CodingHelper.encoderKeysForElements(
+                    GmdConstants.NS_GMD,
+                    SmlResponsibleParty.class,
+                    GmdQuantitativeResult.class,
                     GmdConformanceResult.class),
-            encoderKeysForElements(null, GmdQuantitativeResult.class, GmdConformanceResult.class));
+            CodingHelper.encoderKeysForElements(null,
+                                                GmdQuantitativeResult.class,
+                                                GmdConformanceResult.class));
 
     public Iso19139GmdEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(ENCODER_KEYS));
+                     Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -151,8 +154,7 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     private XmlObject encodeResponsibleParty(SmlResponsibleParty responsibleParty, EncodingContext additionalValues)
             throws EncodingException {
         if (responsibleParty.isSetHref()) {
-            CIResponsiblePartyPropertyType cirppt =
-                    CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
+            CIResponsiblePartyPropertyType cirppt = CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
             cirppt.setHref(responsibleParty.getHref());
             if (responsibleParty.isSetTitle()) {
                 cirppt.setTitle(responsibleParty.getTitle());
@@ -177,8 +179,7 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         // set role
         encodeRole(cirpt.addNewRole(), responsibleParty.getRoleObject());
         if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
-            CIResponsiblePartyPropertyType cirppt =
-                    CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
+            CIResponsiblePartyPropertyType cirppt = CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
             cirppt.setCIResponsibleParty(cirpt);
             return cirppt;
         } else if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
@@ -254,8 +255,8 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
             encodeGmdDomainConsistency(addNewResult, element);
             return document;
         } else if (additionalValues.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
-            DQDomainConsistencyPropertyType propertyType =
-                    DQDomainConsistencyPropertyType.Factory.newInstance(getXmlOptions());
+            DQDomainConsistencyPropertyType propertyType = DQDomainConsistencyPropertyType.Factory
+                    .newInstance(getXmlOptions());
             DQResultPropertyType addNewResult = propertyType.addNewDQDomainConsistency().addNewResult();
             encodeGmdDomainConsistency(addNewResult, element);
             return propertyType;
@@ -308,13 +309,13 @@ public class Iso19139GmdEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private void encodeGmdQuantitativeResult(DQResultPropertyType xbResult,
-            GmdQuantitativeResult gmdQuantitativeResult) {
+                                             GmdQuantitativeResult gmdQuantitativeResult) {
         DQQuantitativeResultType dqQuantitativeResultType = (DQQuantitativeResultType) xbResult
                 .addNewAbstractDQResult().substitute(QN_GMD_QUANTITATIVE_RESULT, DQQuantitativeResultType.type);
         GmlBaseUnit unit = gmdQuantitativeResult.getUnit();
         UnitOfMeasurePropertyType valueUnit = dqQuantitativeResultType.addNewValueUnit();
-        BaseUnitType xbBaseUnit =
-                (BaseUnitType) valueUnit.addNewUnitDefinition().substitute(QN_GML_BASE_UNIT, BaseUnitType.type);
+        BaseUnitType xbBaseUnit = (BaseUnitType) valueUnit.addNewUnitDefinition()
+                .substitute(QN_GML_BASE_UNIT, BaseUnitType.type);
         CodeType xbCatalogSymbol = xbBaseUnit.addNewCatalogSymbol();
         xbCatalogSymbol.setCodeSpace(unit.getCatalogSymbol().getCodeSpace().toString());
         xbCatalogSymbol.setStringValue(unit.getCatalogSymbol().getValue());

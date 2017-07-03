@@ -37,7 +37,7 @@ import com.google.common.base.Joiner;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 5.0.0
  *
- * @param <T>
+ * @param <T> the request type
  */
 public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extends AbstractXmlResponseEncoder<T> {
 
@@ -101,12 +101,7 @@ public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extend
     }
 
     @Override
-    public void encode(T element, OutputStream outputStream) throws EncodingException {
-        encode(element, outputStream, new EncodingValues());
-    }
-
-    @Override
-    public void encode(T response, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
+    public void encode(T response, OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, null);
         }
