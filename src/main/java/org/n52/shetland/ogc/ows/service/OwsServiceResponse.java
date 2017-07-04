@@ -29,7 +29,7 @@ import org.n52.shetland.ogc.ows.extension.Extensions;
  */
 public abstract class OwsServiceResponse
         extends OwsServiceCommunicationObject
-        implements HasExtension<OwsServiceResponse> {
+        implements HasExtension<OwsServiceResponse>, AutoCloseable {
 
     private MediaType contentType;
     private Extensions extensions = new Extensions();
@@ -69,4 +69,7 @@ public abstract class OwsServiceResponse
         return getContentType() != null;
     }
 
+    @Override
+    public void close() {
+    }
 }

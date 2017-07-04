@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 import java.util.stream.Stream;
 
 import com.google.common.base.Strings;
@@ -29,28 +30,6 @@ import com.google.common.base.Strings;
 public class Extensions {
 
     private final Set<Extension<?>> extensions = new HashSet<>();
-    /**
-     * @param extensionName
-     *
-     * @return <b><tt>true</tt></b>, only if the extension with the definition
-     * <tt>extensionName</tt> is holding a {@link Boolean} and is set to
-     * <tt>true</tt>.
-     */
-    @SuppressWarnings("rawtypes")
-    public boolean isBooleanExtensionSet(final String extensionName) {
-        for (final Extension<?> extension : getExtensions()) {
-            if (isExtensionNameEquals(extensionName, (Extension<?>) extension)) {
-                final Object value = extension.getValue();
-                if (value instanceof Boolean) {
-                    return (Boolean) value;
-                } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
-                    return (Boolean) ((Value) value).getValue();
-                }
-                return false;
-            }
-        }
-        return false;
-    }
 
     public boolean addExtension(Extensions extensions) {
         return addExtension(extensions.getExtensions());
@@ -81,7 +60,7 @@ public class Extensions {
 
     public boolean containsExtension(String identifier) {
         return this.extensions.stream()
-                .filter(e -> isExtensionNameEquals(identifier, e))
+                .filter(e -> checkExtensionName(identifier, e))
                 .findAny().isPresent();
     }
 
@@ -92,7 +71,7 @@ public class Extensions {
 
     public Optional<Extension<?>> getExtension(String identifier) {
         return this.extensions.stream()
-                .filter(e -> isExtensionNameEquals(identifier, e))
+                .filter(e -> checkExtensionName(identifier, e))
                 .findFirst();
     }
 
@@ -105,23 +84,46 @@ public class Extensions {
         return String.format("Extensions [extensions=%s]", getExtensions());
     }
 
-    protected boolean isExtensionNameEquals(String extensionName, Extension<?> extension) {
-        return checkExtensionDefinition(extensionName, extension) ||
-               checkExtensionIdentifier(extensionName, extension) ||
-               checkExtensionValue(extensionName, extension);
+    public boolean getBooleanExtension(String identifier) {
+        return getBooleanExtension(identifier, false);
     }
 
-    private boolean checkExtensionValue(String extensionName, Extension<?> extension) {
-        return (extension.isSetDefinition() && extension.getDefinition().equalsIgnoreCase(extensionName)) ||
-               (extension.isSetIdentifier() && extension.getIdentifier().equalsIgnoreCase(extensionName));
+    public boolean getBooleanExtension(Enum<?> identifier) {
+        return getBooleanExtension(identifier.name(), false);
+    }
+
+    public boolean getBooleanExtension(Enum<?> identifier, boolean defaultValue) {
+        return getBooleanExtension(identifier.name(), defaultValue);
+    }
+
+    public boolean getBooleanExtension(String identifier, boolean defaultValue) {
+        return getExtension(identifier).map(e -> e.getValue()).map(value -> {
+            if (value instanceof Boolean) {
+                return (Boolean) value;
+            } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
+                return (Boolean) ((Value) value).getValue();
+            }
+            return false;
+        }).orElse(defaultValue);
+    }
+
+    private boolean check(String name, Extension<?> extension, Function<Extension<?>, String> extractor) {
+        if (Strings.emptyToNull(name) == null || extension == null) {
+            return false;
+        }
+        return Optional.ofNullable(extractor.apply(extension)).map(s -> s.equalsIgnoreCase(name)).orElseGet(() -> false);
+    }
+
+    private boolean checkExtensionName(String extensionName, Extension<?> extension) {
+        return checkExtensionIdentifier(extensionName, extension) || checkExtensionDefinition(extensionName, extension);
     }
 
     private boolean checkExtensionIdentifier(String extensionName, Extension<?> extension) {
-        return Strings.emptyToNull(extensionName) != null && extension.isSetIdentifier() && extension.getIdentifier().equalsIgnoreCase(extensionName);
+        return check(extensionName, extension, Extension::getIdentifier);
     }
 
     private boolean checkExtensionDefinition(String extensionName, Extension<?> extension) {
-        return extensionName != null && extension != null && extension.isSetDefinition() && extension.getDefinition().equalsIgnoreCase(extensionName);
+        return check(extensionName, extension, Extension::getDefinition);
     }
 
 }

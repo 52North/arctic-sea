@@ -21,7 +21,6 @@ import java.util.List;
 
 import org.n52.shetland.w3c.xlink.Referenceable;
 
-
 /**
  * Internal representation of the OGC GML AbstractCoordinateSystem.
  *
@@ -31,17 +30,18 @@ import org.n52.shetland.w3c.xlink.Referenceable;
  */
 public abstract class AbstractCoordinateSystem extends IdentifiedObject {
 
-    /* 1..* */
-    private List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis = new ArrayList<>();
+    private final List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis = new ArrayList<>();
 
     private Aggregation aggregation;
 
-    public AbstractCoordinateSystem(CodeWithAuthority identifier, Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
+    public AbstractCoordinateSystem(CodeWithAuthority identifier,
+                                    Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
         super(identifier);
         addCoordinateSystemAxis(coordinateSystemAxis);
     }
 
-    public AbstractCoordinateSystem(CodeWithAuthority identifier, List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+    public AbstractCoordinateSystem(CodeWithAuthority identifier,
+                                    List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         super(identifier);
         addCoordinateSystemAxis(coordinateSystemAxis);
     }
@@ -55,9 +55,11 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
 
     /**
      * @param coordinateSystemAxis the coordinateSystemAxis to set
-     * @return
+     *
+     * @return {@code this}
      */
-    public AbstractCoordinateSystem setCoordinateSystemAxis(List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+    public AbstractCoordinateSystem setCoordinateSystemAxis(
+            List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         this.coordinateSystemAxis.clear();
         this.coordinateSystemAxis.addAll(coordinateSystemAxis);
         return this;
@@ -65,17 +67,19 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
 
     /**
      * @param coordinateSystemAxis the coordinateSystemAxis to set
-     * @return
+     *
+     * @return {@code this}
      */
-    public AbstractCoordinateSystem addCoordinateSystemAxis(List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+    public AbstractCoordinateSystem addCoordinateSystemAxis(
+            List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         this.coordinateSystemAxis.addAll(coordinateSystemAxis);
         return this;
     }
 
-
     /**
      * @param coordinateSystemAxis the coordinateSystemAxis to set
-     * @return
+     *
+     * @return {@code this}
      */
     public AbstractCoordinateSystem addCoordinateSystemAxis(Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
         this.coordinateSystemAxis.add(coordinateSystemAxis);
@@ -91,7 +95,8 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
 
     /**
      * @param aggregation the aggregation to set
-     * @return
+     *
+     * @return {@code this}
      */
     public AbstractCoordinateSystem setAggregation(Aggregation aggregation) {
         this.aggregation = aggregation;

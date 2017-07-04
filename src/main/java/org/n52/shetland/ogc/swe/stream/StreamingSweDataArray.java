@@ -101,12 +101,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
      * @return <tt>true</tt>, if the values field is set properly
      */
     public boolean isSetValues() {
-        try {
-            return getValues() != null && getValues().hasNextValue();
-        } catch (OwsExceptionReport e) {
-            e.printStackTrace();
-        }
-        return false;
+        return getValues() != null;
     }
 
     public boolean isSetElementTyp() {

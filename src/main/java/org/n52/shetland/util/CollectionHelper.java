@@ -42,6 +42,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.n52.janmayen.function.Predicates;
+import org.n52.janmayen.function.Suppliers;
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.janmayen.stream.Streams;
 
@@ -341,7 +342,10 @@ public final class CollectionHelper {
      * @return whether the collection is null, empty, or contains only nulls
      */
     public static boolean nullEmptyOrContainsOnlyNulls(Collection<? extends Object> collection) {
-        return Optional.ofNullable(collection).map(Collection::stream).orElseGet(Stream::empty).allMatch(Objects::isNull);
+        return Optional.ofNullable(collection)
+                .map(Collection::stream)
+                .orElseGet(Stream::empty)
+                .allMatch(Objects::isNull);
     }
 
     /**
@@ -384,12 +388,14 @@ public final class CollectionHelper {
      */
     public static <K, V> void addToCollectionMap(K key, V valueToAdd, Map<K, Collection<V>> map) {
         if (key != null && valueToAdd != null && map != null) {
-            map.computeIfAbsent(key, k -> Lists.newArrayList()).add(valueToAdd);
+            map.computeIfAbsent(key, Suppliers.asFunction(ArrayList::new)).add(valueToAdd);
         }
     }
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
-        return map.entrySet().stream().sorted(comparing(Map.Entry::getValue)).collect(MoreCollectors.toLinkedHashMap());
+        return map.entrySet().stream()
+                .sorted(comparing(Map.Entry::getValue))
+                .collect(MoreCollectors.toLinkedHashMap());
     }
 
     /**
@@ -463,7 +469,7 @@ public final class CollectionHelper {
     }
 
     public static <T extends Comparable<? super T>> SortedSet<T> newSortedSet(Collection<? extends T> set) {
-        return Optional.ofNullable(set).map(c -> new TreeSet<T>(c)).orElseGet(TreeSet::new);
+        return Optional.ofNullable(set).map(TreeSet<T>::new).orElseGet(TreeSet::new);
     }
 
 }

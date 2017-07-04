@@ -135,6 +135,22 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
         return getExtensions().getExtension(identifier);
     }
 
+    default boolean getBooleanExtension(String identifier) {
+        return getExtensions().getBooleanExtension(identifier);
+    }
+
+    default boolean getBooleanExtension(Enum<?> identifier) {
+        return getExtensions().getBooleanExtension(identifier);
+    }
+
+    default boolean getBooleanExtension(Enum<?> identifier, boolean defaultValue) {
+        return getExtensions().getBooleanExtension(identifier, defaultValue);
+    }
+
+    default boolean getBooleanExtension(String identifier, boolean defaultValue) {
+        return getExtensions().getBooleanExtension(identifier, defaultValue);
+    }
+
     default <V> void addSwesExtension(String name, V value) {
         SwesExtension<V> extension = new SwesExtension<>();
         extension.setIdentifier(name);

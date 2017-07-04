@@ -58,7 +58,7 @@ public class SwesExtensionsTest {
     public void isBooleanExtensionSet_should_return_true_if_set_to_true() {
         final Extensions extensions = new Extensions();
         extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new SweBoolean().setValue(TRUE)));
-        assertThat(extensions.isBooleanExtensionSet(DEFINITION_1), is(TRUE));
+        assertThat(extensions.getBooleanExtension(DEFINITION_1), is(TRUE));
     }
 
    @Test

@@ -131,8 +131,7 @@ public class InsertObservationRequest extends OwsServiceRequest {
     }
 
     public boolean isSetExtensionSplitDataArrayIntoObservations() {
-        return getExtensions()
-                .isBooleanExtensionSet(Sos2Constants.Extensions.SplitDataArrayIntoObservations.name());
+        return getBooleanExtension(Sos2Constants.Extensions.SplitDataArrayIntoObservations);
     }
 
     /**

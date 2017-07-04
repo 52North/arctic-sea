@@ -19,6 +19,7 @@ package org.n52.shetland.inspire.omso;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
+
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.AbstractObservationValue;

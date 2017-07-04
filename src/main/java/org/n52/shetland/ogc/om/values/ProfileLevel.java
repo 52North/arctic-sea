@@ -233,10 +233,10 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
 
     public SweDataRecord valueAsDataRecord(SweDataRecord dataRecord) {
         int counter = 0;
-        for (Value<?> value : getValue()) {
-            if (value instanceof SweAbstractDataComponent) {
-                SweAbstractDataComponent adc = (SweAbstractDataComponent) value;
-                String name = "";
+        for (Value<?> v : getValue()) {
+            if (v instanceof SweAbstractDataComponent) {
+                SweAbstractDataComponent adc = (SweAbstractDataComponent) v;
+                String name;
                 if (adc.isSetName()) {
                     name = adc.getName().getValue();
                 } else if (adc.isSetDefinition()) {
@@ -251,12 +251,12 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     }
 
     public Collection<NamedValue<?>> getLevelStartEndAsParameter() {
-        SortedSet<NamedValue<?>> parameter = new TreeSet<NamedValue<?>>();
+        SortedSet<NamedValue<?>> parameter = new TreeSet<>();
         if (isSetLevelStart() && getLevelStart().isSetDefinition()) {
-            parameter.add(new NamedValue(new ReferenceType(getLevelStart().getDefinition()), getLevelStart()));
+            parameter.add(new NamedValue<>(new ReferenceType(getLevelStart().getDefinition()), getLevelStart()));
         }
         if (isSetLevelEnd() && getLevelEnd().isSetDefinition()) {
-            parameter.add(new NamedValue(new ReferenceType(getLevelEnd().getDefinition()), getLevelEnd()));
+            parameter.add(new NamedValue<>(new ReferenceType(getLevelEnd().getDefinition()), getLevelEnd()));
         }
         return parameter;
     }

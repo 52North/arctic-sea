@@ -16,18 +16,13 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.n52.shetland.ogc.om.ObservationMergeIndicator;
 import org.n52.shetland.ogc.om.ObservationMerger;
-import org.n52.shetland.ogc.om.OmObservation;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 
 /**
  * TODO JavaDoc
@@ -36,8 +31,8 @@ import com.google.common.collect.Lists;
  *
  * @since 4.0.0
  */
-public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat, StreamingDataResponse {
-    private List<OmObservation> observationCollection;
+public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
+    private ObservationStream observationCollection;
     private String responseFormat;
     private String resultModel;
     private boolean mergeObservation = false;
@@ -56,19 +51,12 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
         super(service, version, operationName);
     }
 
-    public List<OmObservation> getObservationCollection() {
-        return Collections.unmodifiableList(observationCollection);
+    public ObservationStream getObservationCollection() {
+        return observationCollection;
     }
 
-    public void setObservationCollection(final List<OmObservation> observationCollection) {
+    public void setObservationCollection(final ObservationStream observationCollection) {
         this.observationCollection = observationCollection;
-    }
-
-    protected OmObservation getFirstObservation() {
-        if (observationCollection != null && observationCollection.iterator().hasNext()) {
-            return observationCollection.iterator().next();
-        }
-        return null;
     }
 
     @Override
@@ -149,27 +137,8 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
     }
 
     @Override
-    public boolean hasStreamingData() {
-        OmObservation observation = getFirstObservation();
-        return observation != null && observation.getValue() instanceof AbstractStreaming;
-    }
-
-    @Override
-    public void mergeStreamingData() throws OwsExceptionReport {
-        List<OmObservation> observations = Lists.newArrayList();
-        if (hasStreamingData()) {
-            for (OmObservation observation : getObservationCollection()) {
-                AbstractStreaming values = (AbstractStreaming) observation.getValue();
-                if (values.hasNextValue()) {
-                    if (isSetMergeObservation()) {
-                        observations.addAll(values.mergeObservation());
-                    } else {
-                        observations.addAll(values.getObservation());
-                    }
-                }
-            }
-        }
-        setObservationCollection(observations);
+    public void close() {
+        this.observationCollection.close();
     }
 
 }

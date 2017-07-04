@@ -32,7 +32,7 @@ import com.google.common.base.Optional;
  */
 public abstract class Nillable<T> {
 
-    public Nillable() {
+    private Nillable() {
     }
 
     /**

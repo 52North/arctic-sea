@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.om;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -29,11 +28,9 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
-import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
-import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
-import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
@@ -371,6 +368,37 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
         mergeResultTimes(sosObservation);
     }
 
+
+    private void mergeObservationValues(OmObservation merged, OmObservation observation) {
+        mergeValues(merged, observation);
+        mergeResultTimes(merged, observation);
+    }
+
+    private void mergeValues(OmObservation merged, OmObservation observation) {
+        SweDataArray combinedValue = (SweDataArray) merged.getValue().getValue().getValue();
+        SweDataArray value = (SweDataArray) observation.getValue().getValue().getValue();
+        if (value.isSetValues()) {
+            combinedValue.addAll(value.getValues());
+        }
+    }
+
+    /**
+     * Merge result time with passed observation result time
+     *
+     * @param sosObservation
+     *            Observation to merge
+     * @param sosObservation
+     */
+    private void mergeResultTimes(OmObservation merged, OmObservation sosObservation) {
+        if (merged.isSetResultTime() && sosObservation.isSetResultTime()) {
+            if (merged.getResultTime().getValue().isBefore(sosObservation.getResultTime().getValue())) {
+                merged.setResultTime(sosObservation.getResultTime());
+            }
+        } else if (!merged.isSetResultTime() && sosObservation.isSetResultTime()) {
+            merged.setResultTime(sosObservation.getResultTime());
+        }
+    }
+
     /**
      * Merge this observation with passed observation.
      *
@@ -379,7 +407,6 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     public void mergeWithObservation(ObservationValue<?> observationValue) {
         mergeValues(observationValue);
     }
-
 
     /**
      * Merge result time with passed observation result time.
@@ -428,7 +455,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
      */
     public TVPValue convertSingleValueToMultiValue(final SingleObservationValue<?> singleValue) {
         MultiObservationValues<List<TimeValuePair>> multiValue =
-                new MultiObservationValues<List<TimeValuePair>>();
+                new MultiObservationValues<>();
         TVPValue tvpValue = new TVPValue();
         if (singleValue.isSetUnit()) {
             tvpValue.setUnit(singleValue.getUnit());
@@ -786,8 +813,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Add a related observation
      *
-     * @param relatedObservations
-     *            the relatedObservations to set
+     * @param relatedObservation
+     *            the relatedObservation to add
      */
     public void addRelatedObservation(OmObservationContext relatedObservation) {
         this.relatedObservations.add(relatedObservation);
@@ -821,7 +848,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
             merge = getAdditionalMergeIndicator().equals(observation.getAdditionalMergeIndicator());
         } else if ((isSetAdditionalMergeIndicator() && !observation.isSetAdditionalMergeIndicator()) ||
                    (!isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator())) {
-            merge = false;
+            return false;
         }
         return getObservationConstellation().equals(observation.getObservationConstellation()) && merge &&
                getObservationConstellation().checkObservationTypeForMerging();
