@@ -506,7 +506,7 @@ public class SettingsServiceImpl implements SettingsService {
         }
 
         /**
-         * Configures this object with the specified value. Exceptions are wrapped in a {@code ConfigurationException}.
+         * Configures this object with the specified value. Exceptions are wrapped in a {@code ConfigurationError}.
          *
          * @param val the value
          *
