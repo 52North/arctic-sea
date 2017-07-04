@@ -52,6 +52,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
@@ -79,9 +80,12 @@ public final class OMHelper {
                 || SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE.equals(featureType)
                 || SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_SURFACE.equals(featureType)) {
             return SfConstants.NS_SAMS;
-        } else if (SfConstants.FT_SAMPLINGPOINT.equals(featureType) || SfConstants.FT_SAMPLINGCURVE.equals(featureType)
+        } else if (SfConstants.FT_SAMPLINGPOINT.equals(featureType)
+                || SfConstants.FT_SAMPLINGCURVE.equals(featureType)
                 || SfConstants.FT_SAMPLINGSURFACE.equals(featureType)) {
             return SfConstants.NS_SA;
+        } else if (SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN.equals(featureType)) {
+            return SfConstants.NS_SPEC;
         }
         return SfConstants.NS_SAMS;
     }
@@ -99,6 +103,8 @@ public final class OMHelper {
             return OmConstants.OBS_TYPE_CATEGORY_OBSERVATION;
         } else if (component instanceof SweDataRecord) {
             return OmConstants.OBS_TYPE_COMPLEX_OBSERVATION;
+        } else if (component instanceof SweDataArray) {
+            return OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION;
         }
         // TODO Check for missing types
         throw new NoApplicableCodeException()
@@ -236,17 +242,17 @@ public final class OMHelper {
         }
 
         @Override
+        public String visit(TLVTValue value) {
+            return defaultValue();
+        }
+
+        @Override
         public String visit(TextValue value) {
             return OmConstants.OBS_TYPE_TEXT_OBSERVATION;
         }
 
         @Override
         public String visit(UnknownValue value) {
-            return defaultValue();
-        }
-
-        @Override
-        public String visit(TLVTValue value) {
             return defaultValue();
         }
 

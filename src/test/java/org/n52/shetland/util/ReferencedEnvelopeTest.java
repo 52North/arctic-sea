@@ -30,7 +30,7 @@ import com.vividsolutions.jts.geom.Envelope;
 /**
  * @since 4.0.0
  */
-public class SosEnvelopeTest {
+public class ReferencedEnvelopeTest {
 
     final double y12 = 0;
     final double y11 = 1;

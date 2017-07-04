@@ -30,6 +30,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 
 /**
  * TODO JavaDoc
@@ -158,6 +159,12 @@ public abstract class VoidSweDataComponentVisitor<X extends Throwable> implement
         return null;
     }
 
+    @Override
+    public Void visit(StreamingSweDataArray component) throws X {
+        _visit(component);
+        return null;
+    }
+
     protected abstract void _visit(SmlDataInterface component) throws X;
 
     protected abstract void _visit(SmlFeatureOfInterest component) throws X;
@@ -197,5 +204,7 @@ public abstract class VoidSweDataComponentVisitor<X extends Throwable> implement
     protected abstract void _visit(SweSimpleDataRecord component) throws X;
 
     protected abstract void _visit(SmlPosition component) throws X;
+
+    protected abstract void _visit(StreamingSweDataArray component) throws X;
 
 }

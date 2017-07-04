@@ -20,13 +20,21 @@ import javax.xml.namespace.QName;
 
 public interface Sos2StreamingConstants {
 
-    public static final String EN_GET_OBSERVATION_RESPONSE = "GetObservationResponse";
+    String EN_GET_OBSERVATION_RESPONSE = "GetObservationResponse";
 
-    public static final String EN_OBSERVATION_DATA = "observationData";
+    String EN_OBSERVATION_DATA = "observationData";
 
-    public static final QName GET_OBSERVATION_RESPONSE
-            = new QName(Sos2Constants.NS_SOS_20, EN_GET_OBSERVATION_RESPONSE, SosConstants.NS_SOS_PREFIX);
+    QName GET_OBSERVATION_RESPONSE =
+            new QName(Sos2Constants.NS_SOS_20, EN_GET_OBSERVATION_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
-    public static final QName OBSERVATION_DATA
-            = new QName(Sos2Constants.NS_SOS_20, EN_OBSERVATION_DATA, SosConstants.NS_SOS_PREFIX);
+    QName OBSERVATION_DATA = new QName(Sos2Constants.NS_SOS_20, EN_OBSERVATION_DATA, SosConstants.NS_SOS_PREFIX);
+
+    String EN_GET_FEATURE_OF_INTEREST_RESPONSE = "GetFeatureOfInterestResponse";
+
+    String EN_FEATURE_MEMBER = "featureMember";
+
+    QName QN_GET_FEATURE_OF_INTEREST_RESPONSE =
+            new QName(Sos2Constants.NS_SOS_20, EN_GET_FEATURE_OF_INTEREST_RESPONSE, Sos2Constants.NS_SOS_PREFIX);
+
+    QName QN_FEATURE_MEMBER = new QName(Sos2Constants.NS_SOS_20, EN_FEATURE_MEMBER, Sos2Constants.NS_SOS_PREFIX);
 }

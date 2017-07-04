@@ -16,33 +16,28 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
-/**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
- *
- * @since 1.0.0
- */
-public class DeleteObservationResponse extends OwsServiceResponse {
-    private OmObservation deletedObservation;
+import com.google.common.base.Strings;
 
-    private String observationIdentifier;
+public abstract class AbstractOperationResponse extends OwsServiceResponse {
 
-    public void setObservationId(String observationIdentifier) {
-        this.observationIdentifier = observationIdentifier;
+    private String operationVersion;
+
+    public AbstractOperationResponse(String operationVersion) {
+        setOperationVersion(operationVersion);
     }
 
-    public String getObservationId() {
-        return observationIdentifier;
+    public String getOperationVersion() {
+        return operationVersion;
     }
 
-    public void setDeletedObservation(OmObservation deletedObservation) {
-        this.deletedObservation = deletedObservation;
+    public void setOperationVersion(String operationVersion) {
+        this.operationVersion = operationVersion;
     }
 
-    public OmObservation getDeletedObservation() {
-        return deletedObservation;
+    public boolean isSetOperationVersion() {
+        return !Strings.isNullOrEmpty(getOperationVersion());
     }
+
 }

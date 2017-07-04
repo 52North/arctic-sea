@@ -33,11 +33,10 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 
 
 public class AbstractVoidSweDataComponentVisitor<X extends Throwable> extends VoidSweDataComponentVisitor<X> {
-
-    private static final Logger log = LoggerFactory.getLogger(AbstractVoidSweDataComponentVisitor.class);
 
     @Override
     protected void _visit(SmlDataInterface component) throws X {
@@ -117,6 +116,10 @@ public class AbstractVoidSweDataComponentVisitor<X extends Throwable> extends Vo
 
     @Override
     protected void _visit(SmlPosition component) throws X {
+    }
+
+    @Override
+    protected void _visit(StreamingSweDataArray component) throws X {
     }
 
 }

@@ -33,6 +33,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 
 
 public class AbstractThrowingVoidSweDataComponentVisitor<X extends Throwable> extends VoidSweDataComponentVisitor<X> {
@@ -140,6 +141,11 @@ public class AbstractThrowingVoidSweDataComponentVisitor<X extends Throwable> ex
 
     @Override
     protected void _visit(SmlFeatureOfInterest component) throws X {
+        throw this.exceptionSupplier.get();
+    }
+
+    @Override
+    protected void _visit(StreamingSweDataArray component) throws X {
         throw this.exceptionSupplier.get();
     }
 

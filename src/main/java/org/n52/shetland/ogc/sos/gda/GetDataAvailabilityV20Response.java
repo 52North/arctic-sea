@@ -14,18 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sos;
-
-import org.n52.shetland.ogc.AbstractSupportedStringType;
+package org.n52.shetland.ogc.sos.gda;
 
 /**
- * TODO JavaDoc
+ * Response of a {@link GetDataAvailabilityRequest}.
  *
  * @author Christian Autermann
+ *
+ * @since 4.0.0
  */
-public class ProcedureDescriptionFormat extends AbstractSupportedStringType {
-    public ProcedureDescriptionFormat(String value) {
-        super(value);
-    }
+public class GetDataAvailabilityV20Response extends GetDataAvailabilityResponse {
 
+    public GetDataAvailabilityV20Response(DataAvailability... dataAvailabilities) {
+        super(dataAvailabilities);
+        setNamespace(GetDataAvailabilityConstants.NS_GDA_20);
+    }
 }

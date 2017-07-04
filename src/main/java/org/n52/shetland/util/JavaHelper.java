@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
 import java.util.Set;
 
 import org.joda.time.DateTime;
@@ -44,6 +45,7 @@ public final class JavaHelper {
      * Message digest for generating single identifier
      */
     private static final MessageDigest messageDigest;
+    private static Random random;
 
     /**
      * Instantiation of the message digest
@@ -51,6 +53,7 @@ public final class JavaHelper {
     static {
         try {
             messageDigest = MessageDigest.getInstance("SHA-256");
+            random = new Random();
         } catch (final NoSuchAlgorithmException nsae) {
             throw new Error("Error while getting SHA-256 messagedigest!", nsae);
         }
@@ -69,7 +72,7 @@ public final class JavaHelper {
      */
     public static String generateID(String message) {
         final long autoGeneratredID = new DateTime().getMillis();
-        final String concate = message + Long.toString(autoGeneratredID);
+        final String concate = random.nextDouble() + message + Long.toString(autoGeneratredID);
         return bytesToHex(messageDigest.digest(concate.getBytes(StandardCharsets.UTF_8)));
     }
 

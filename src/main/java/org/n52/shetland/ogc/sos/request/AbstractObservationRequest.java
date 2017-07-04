@@ -48,7 +48,7 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
      */
     private String responseMode;
 
-    private boolean checkForDuplicity = true;
+    private boolean checkForDuplicity = false;
 
     public AbstractObservationRequest() {
     }

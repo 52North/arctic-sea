@@ -19,11 +19,15 @@ package org.n52.shetland.ogc.sos.response;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.shetland.ogc.om.ObservationMergeIndicator;
+import org.n52.shetland.ogc.om.ObservationMerger;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 /**
  * TODO JavaDoc
@@ -32,11 +36,13 @@ import com.google.common.base.Strings;
  *
  * @since 4.0.0
  */
-public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
+public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat, StreamingDataResponse {
     private List<OmObservation> observationCollection;
     private String responseFormat;
     private String resultModel;
     private boolean mergeObservation = false;
+    private ObservationMerger observationMerger;
+    private ObservationMergeIndicator observationMergeIndicator;
     private GlobalObservationResponseValues globalValues;
 
     public AbstractObservationResponse() {
@@ -100,6 +106,35 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
         return mergeObservation;
     }
 
+    /**
+     * @return the observationMerger
+     */
+    public ObservationMerger getObservationMerger() {
+        if (observationMerger == null) {
+            observationMerger = new ObservationMerger();
+        }
+        return observationMerger;
+    }
+
+    /**
+     * @param observationMerger the observationMerger to set
+     */
+    public void setObservationMerger(ObservationMerger observationMerger) {
+        this.observationMerger = observationMerger;
+        setMergeObservations(true);
+    }
+
+    public void setObservationMergeIndicator(ObservationMergeIndicator indicator) {
+        this.observationMergeIndicator = indicator;
+    }
+
+    public ObservationMergeIndicator getObservationMergeIndicator() {
+        if (this.observationMergeIndicator == null) {
+            setObservationMergeIndicator(new ObservationMergeIndicator());
+        }
+        return this.observationMergeIndicator;
+    }
+
     public AbstractObservationResponse setGlobalObservationValues(GlobalObservationResponseValues globalValues) {
         this.globalValues = globalValues;
         return this;
@@ -111,6 +146,30 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
 
     public boolean hasGlobalObservationValues() {
         return getGlobalObservationValues() != null && !getGlobalObservationValues().isEmpty();
+    }
+
+    @Override
+    public boolean hasStreamingData() {
+        OmObservation observation = getFirstObservation();
+        return observation != null && observation.getValue() instanceof AbstractStreaming;
+    }
+
+    @Override
+    public void mergeStreamingData() throws OwsExceptionReport {
+        List<OmObservation> observations = Lists.newArrayList();
+        if (hasStreamingData()) {
+            for (OmObservation observation : getObservationCollection()) {
+                AbstractStreaming values = (AbstractStreaming) observation.getValue();
+                if (values.hasNextValue()) {
+                    if (isSetMergeObservation()) {
+                        observations.addAll(values.mergeObservation());
+                    } else {
+                        observations.addAll(values.getObservation());
+                    }
+                }
+            }
+        }
+        setObservationCollection(observations);
     }
 
 }

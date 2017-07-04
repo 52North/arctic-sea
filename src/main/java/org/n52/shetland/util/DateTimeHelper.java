@@ -25,6 +25,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import org.n52.janmayen.Times;
@@ -81,16 +82,29 @@ public final class DateTimeHelper {
      *             If an error occurs.
      */
     public static DateTime parseIsoString2DateTime(final String timeString) throws DateTimeParseException {
+        return parseString2DateTime(timeString, null);
+    }
+
+    public static DateTime parseString2DateTime(final String timeString, final String dateFormat)
+            throws DateTimeParseException {
+        checkForValidity(timeString);
         if (Strings.isNullOrEmpty(timeString)) {
             return null;
         }
         try {
-            if (timeString.contains("+") || Pattern.matches("-\\d", timeString) || timeString.contains(Z) || timeString.contains("z")) {
+            if (!Strings.isNullOrEmpty(dateFormat)) {
+                if (checkOffset(timeString)) {
+                    return DateTimeFormat.forPattern(dateFormat).withOffsetParsed().parseDateTime(timeString);
+                } else {
+                    return DateTimeFormat.forPattern(dateFormat).withZone(DateTimeZone.UTC).parseDateTime(timeString);
+                }
+            }
+            if (checkOffset(timeString)) {
                 return ISODateTimeFormat.dateOptionalTimeParser().withOffsetParsed().parseDateTime(timeString);
             } else {
                 return ISODateTimeFormat.dateOptionalTimeParser().withZone(DateTimeZone.UTC).parseDateTime(timeString);
             }
-        } catch (RuntimeException uoe) {
+        } catch (final RuntimeException uoe) {
             throw new DateTimeParseException(timeString, uoe);
         }
     }
@@ -112,6 +126,18 @@ public final class DateTimeHelper {
         } else {
             return new TimeInstant(parseIsoString2DateTime(timeString));
         }
+    }
+
+    private static void checkForValidity(final String timeString) throws DateTimeParseException {
+        if (!(timeString.length() == YEAR || timeString.length() == YEAR_MONTH
+                || timeString.length() >= YEAR_MONTH_DAY)) {
+            throw new DateTimeParseException(timeString);
+        }
+    }
+
+    private static boolean checkOffset(String timeString) {
+        return timeString.contains("+") || Pattern.matches("-\\d", timeString) || timeString.contains(Z)
+                || timeString.contains("z");
     }
 
     /**

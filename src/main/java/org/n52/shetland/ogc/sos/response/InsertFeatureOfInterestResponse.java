@@ -16,30 +16,27 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
-import java.util.List;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
-import org.n52.shetland.ogc.om.OmObservation;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.sos.SosConstants;
+public class InsertFeatureOfInterestResponse extends OwsServiceResponse {
 
+    private static String OPERATION_NAME = "InsertFeatureOfInterest";
 
-import com.google.common.collect.Lists;
-
-/**
- * @since 4.0.0
- *
- */
-public class GetObservationResponse extends AbstractObservationResponse {
-    public GetObservationResponse() {
-        super(null, null, SosConstants.Operations.GetObservation.name());
+    public InsertFeatureOfInterestResponse() {
+        super(null, null, OPERATION_NAME);
     }
 
-    public GetObservationResponse(String service, String version) {
-        super(service, version, SosConstants.Operations.GetObservation.name());
+    public InsertFeatureOfInterestResponse(String service, String version) {
+        super(service, version, OPERATION_NAME);
     }
 
-    public GetObservationResponse(String service, String version, String operationName) {
+    public InsertFeatureOfInterestResponse(String service, String version, String operationName) {
         super(service, version, operationName);
+    }
+
+    @Override
+    public String getOperationName() {
+        return OPERATION_NAME;
     }
 
 }
