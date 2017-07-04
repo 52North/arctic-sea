@@ -106,6 +106,12 @@ public class SettingsServiceImpl implements SettingsService {
         return Collections.unmodifiableSet(this.definitions);
     }
 
+
+    @Override
+    public void configureOnce(Object object) throws ConfigurationError {
+        configure(object, false);
+    }
+
     /**
      * Configure {@code o} with the required settings. All changes to a setting required by the object will be applied.
      *
@@ -120,10 +126,6 @@ public class SettingsServiceImpl implements SettingsService {
         configure(object, true);
     }
 
-    @Override
-    public void configureOnce(Object object) throws ConfigurationError {
-        configure(object, false);
-    }
 
     private void configure(Object object, boolean persist) throws ConfigurationError {
         Class<?> clazz = object.getClass();
@@ -244,6 +246,7 @@ public class SettingsServiceImpl implements SettingsService {
      * @throws ConfigurationError if there is a problem deleting the setting
      */
     @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void deleteSetting(SettingDefinition<?> setting)
             throws ConfigurationError {
         SettingValue<?> oldValue = this.settingsManagerDao.getSettingValue(setting.getKey());
@@ -350,6 +353,7 @@ public class SettingsServiceImpl implements SettingsService {
      * @throws ConfigurationError if there is a problem changing the setting.
      */
     @Override
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     public void changeSetting(SettingValue<?> newValue)
             throws ConfigurationError {
         if (newValue == null) {
@@ -375,8 +379,7 @@ public class SettingsServiceImpl implements SettingsService {
         if (oldValue == null || !oldValue.equals(newValue)) {
             applySetting(def, oldValue, newValue);
             this.settingsManagerDao.saveSettingValue(newValue);
-            this.serviceEventBus
-                    .submit(new SettingsChangeEvent(def, oldValue, newValue));
+            this.serviceEventBus.submit(new SettingsChangeEvent(def, oldValue, newValue));
         }
     }
 
