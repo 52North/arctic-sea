@@ -26,7 +26,7 @@ import java.util.regex.Pattern;
  *
  * @author Christian Autermann
  */
-public class MoreIterators {
+public final class MoreIterators {
 
     private MoreIterators() {
     }
