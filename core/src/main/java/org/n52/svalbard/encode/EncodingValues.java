@@ -17,7 +17,6 @@
 package org.n52.svalbard.encode;
 
 import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 
 import com.google.common.base.Strings;
 

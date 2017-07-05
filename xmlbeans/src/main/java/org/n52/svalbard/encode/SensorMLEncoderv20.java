@@ -42,6 +42,8 @@ import net.opengis.sensorml.x20.ClassifierListType;
 import net.opengis.sensorml.x20.ComponentListPropertyType;
 import net.opengis.sensorml.x20.ComponentListType;
 import net.opengis.sensorml.x20.ComponentListType.Component;
+import net.opengis.sensorml.x20.ConnectionListPropertyType;
+import net.opengis.sensorml.x20.ConnectionListType;
 import net.opengis.sensorml.x20.ContactListType;
 import net.opengis.sensorml.x20.DataComponentOrObservablePropertyType;
 import net.opengis.sensorml.x20.DataInterfaceType;
@@ -55,6 +57,7 @@ import net.opengis.sensorml.x20.IdentifierListPropertyType;
 import net.opengis.sensorml.x20.IdentifierListType;
 import net.opengis.sensorml.x20.InputListType;
 import net.opengis.sensorml.x20.InputListType.Input;
+import net.opengis.sensorml.x20.LinkType;
 import net.opengis.sensorml.x20.ObservablePropertyType;
 import net.opengis.sensorml.x20.OutputListType;
 import net.opengis.sensorml.x20.OutputListType.Output;
@@ -102,11 +105,13 @@ import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristic;
 import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
 import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 import org.n52.shetland.ogc.sensorML.elements.SmlDocumentation;
 import org.n52.shetland.ogc.sensorML.elements.SmlDocumentationList;
 import org.n52.shetland.ogc.sensorML.elements.SmlDocumentationListMember;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
+import org.n52.shetland.ogc.sensorML.elements.SmlLink;
 import org.n52.shetland.ogc.sensorML.elements.SmlLocation;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
@@ -118,7 +123,7 @@ import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
 import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
 import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -130,7 +135,6 @@ import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
@@ -152,8 +156,8 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(SensorMLEncoderv20.class);
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
-            .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL))
-            .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_CONTENT_TYPE.toString())).build();
+            .add(new ProcedureDescriptionFormatType(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL))
+            .add(new ProcedureDescriptionFormatType(SensorML20Constants.SENSORML_20_CONTENT_TYPE.toString())).build();
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS,
@@ -507,6 +511,9 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
             }
         }
         // set connections
+        if (abstractPhysicalProcess.isSetConnections() && !pst.isSetConnections()){
+            pst.setConnections(createConnections(abstractPhysicalProcess.getConnections()));
+        }
     }
 
     private void addDescribedObjectValues(DescribedObjectType dot, DescribedObject describedObject)
@@ -620,29 +627,33 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
         // if (describedObject.isSetContact() &&
         // CollectionHelper.isNotNullOrEmpty(dot.getContactsArray())) {
         if (describedObject.isSetContact()) {
-            ContactListType cl = ContactListType.Factory.newInstance();
-            for (SmlContact contact : describedObject.getContact()) {
-                if (contact instanceof SmlResponsibleParty) {
-                    if (contact.isSetHref()) {
-                        XmlObject xml = encodeObjectToXml(GmdConstants.NS_GMD, (SmlResponsibleParty) contact,
-                                EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
-                        cl.addNewContact().set(xml);
-                    } else {
-                        XmlObject encodeObjectToXml =
-                                encodeObjectToXml(GmdConstants.NS_GMD, (SmlResponsibleParty) contact);
-                        if (encodeObjectToXml != null) {
-                            cl.addNewContact().addNewCIResponsibleParty().set(encodeObjectToXml);
+            if (CollectionHelper.isNullOrEmpty(dot.getContactsArray())) {
+                ContactListType cl = ContactListType.Factory.newInstance();
+                for (SmlContact contact : describedObject.getContact()) {
+                    if (contact instanceof SmlResponsibleParty) {
+                        if (contact.isSetHref()) {
+                            XmlObject xml = encodeObjectToXml(GmdConstants.NS_GMD, (SmlResponsibleParty) contact,
+                                    EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
+                            cl.addNewContact().set(xml);
+                        } else {
+                            XmlObject encodeObjectToXml =
+                                    encodeObjectToXml(GmdConstants.NS_GMD, (SmlResponsibleParty) contact);
+                            if (encodeObjectToXml != null) {
+                                cl.addNewContact().addNewCIResponsibleParty().set(encodeObjectToXml);
+                            }
                         }
                     }
                 }
-            }
-            if (CollectionHelper.isNotNullOrEmpty(cl.getContactArray())) {
-                dot.addNewContacts().setContactList(cl);
+                if (CollectionHelper.isNotNullOrEmpty(cl.getContactArray())) {
+                    dot.addNewContacts().setContactList(cl);
+                }
             }
         }
         // set documentation
         if (describedObject.isSetDocumentation()) {
-            dot.setDocumentationArray(createDocumentationArray(describedObject.getDocumentation()));
+            if (CollectionHelper.isNullOrEmpty(dot.getDocumentationArray())) {
+                dot.setDocumentationArray(createDocumentationArray(describedObject.getDocumentation()));
+            }
         }
         // set history
 
@@ -668,11 +679,11 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
             addFeatures(apt.getFeaturesOfInterest().getFeatureList(), abstractProcess.getSmlFeatureOfInterest());
         }
         // set inputs
-        if (abstractProcess.isSetInputs()) {
+        if (abstractProcess.isSetInputs() && !apt.isSetInputs()) {
             apt.setInputs(createInputs(abstractProcess.getInputs()));
         }
         // set outputs
-        if (abstractProcess.isSetOutputs()) {
+        if (abstractProcess.isSetOutputs() && !apt.isSetOutputs()) {
             apt.setOutputs(createOutputs(abstractProcess.getOutputs()));
         }
         // set parameters
@@ -1013,6 +1024,11 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
                 new ArrayList<>(smlCharacteristics.size());
         for (final SmlCharacteristics sosSMLCharacteristics : smlCharacteristics) {
             Characteristics xbCharacteristics = Characteristics.Factory.newInstance(getXmlOptions());
+            if (sosSMLCharacteristics.isSetName()) {
+                xbCharacteristics.setName(sosSMLCharacteristics.getName());
+            } else {
+                xbCharacteristics.setName("characteristics_" + smlCharacteristics.lastIndexOf(sosSMLCharacteristics));
+            }
             CharacteristicListType characteristicList = xbCharacteristics.addNewCharacteristicList();
             if (sosSMLCharacteristics.isSetCharacteristics()) {
                 for (SmlCharacteristic characteristic : sosSMLCharacteristics.getCharacteristic()) {
@@ -1300,6 +1316,30 @@ public class SensorMLEncoderv20 extends AbstractSensorMLEncoder {
                     // xmlObject);
                     // substituteElement.set(xmlObject);
                     substitute(component.addNewAbstractProcess(), xmlObject);
+                }
+            }
+        }
+        return clpt;
+    }
+
+    private ConnectionListPropertyType createConnections(SmlConnection connections) {
+        ConnectionListPropertyType clpt = ConnectionListPropertyType.Factory.newInstance(getXmlOptions());
+        if (!Strings.isNullOrEmpty(connections.getHref())) {
+            clpt.setHref(connections.getHref());
+            if (!Strings.isNullOrEmpty(connections.getTitle())) {
+                clpt.setTitle(connections.getTitle());
+            }
+            if (!Strings.isNullOrEmpty(connections.getRole())) {
+                clpt.setRole(connections.getRole());
+            }
+        } else {
+            ConnectionListType clt = clpt.addNewConnectionList();
+            for (SmlLink link : connections.getConnections()) {
+                LinkType lt = clt.addNewConnection().addNewLink();
+                lt.addNewDestination().setRef(link.getDestination());
+                lt.addNewSource().setRef(link.getSource());
+                if (!Strings.isNullOrEmpty(link.getId())) {
+                    lt.setId(link.getId());
                 }
             }
         }

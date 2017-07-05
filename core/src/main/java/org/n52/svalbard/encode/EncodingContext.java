@@ -70,7 +70,6 @@ public class EncodingContext {
         return (T) this.properties.getOrDefault(key, defaultValue);
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(@Nonnull Enum<?> key, T defaultValue) {
         return get(key.name(), defaultValue);
     }

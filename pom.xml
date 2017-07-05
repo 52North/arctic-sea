@@ -105,7 +105,7 @@
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
         <version.java>1.8</version.java>
-        <n52.common.xml.version>2.2.0</n52.common.xml.version>
+        <n52.common.xml.version>2.3.0</n52.common.xml.version>
         <saxon.version>9.1.0.8</saxon.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
     </properties>
@@ -139,30 +139,30 @@
                 <artifactId>findbugs-annotations</artifactId>
                 <version>3.0.1</version>
             </dependency>
-            <dependency>
+            <!-- <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-beans</artifactId>
                 <version>4.2.3.RELEASE</version>
-            </dependency>
+            </dependency> -->
             <dependency>
                 <groupId>org.n52.janmayen</groupId>
                 <artifactId>janmayen</artifactId>
-                <version>1.1.0</version>
+                <version>1.2.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.n52.faroe</groupId>
                 <artifactId>faroe</artifactId>
-                <version>1.2.0</version>
+                <version>1.3.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.n52.faroe</groupId>
                 <artifactId>faroe-annotations</artifactId>
-                <version>1.2.0</version>
+                <version>1.3.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.n52.faroe</groupId>
                 <artifactId>faroe-utils</artifactId>
-                <version>1.2.0</version>
+                <version>1.3.0-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>org.n52.shetland</groupId>
@@ -355,6 +355,62 @@
                 <artifactId>52n-xml-sosdo-v10</artifactId>
                 <version>${n52.common.xml.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-ifoi-v10</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-drt-v100</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-gwml-v22</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-cv-v022</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-gml-v33</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-gmlcov-v10</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-inspire-ompr-v30</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+           <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-inspire-base2-v20</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-inspire-base-v33</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-inspire-omso-v301</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-inspire-omor-v30</artifactId>
+                <version>${n52.common.xml.version}</version>
+            </dependency>
+            
             <dependency>
                 <groupId>org.apache.xmlbeans</groupId>
                 <artifactId>xmlbeans</artifactId>

@@ -18,9 +18,10 @@ package org.n52.svalbard.encode;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.AbstractCodingRepository;
@@ -35,15 +36,15 @@ import com.google.common.annotations.VisibleForTesting;
 public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
         implements Constructable {
 
-    @Autowired(required = false)
-    private Collection<Encoder<?, ?>> encoders;
+    @Inject
+    private Optional<Collection<Encoder<?, ?>>> encoders;
 
-    @Autowired(required = false)
-    private Collection<EncoderFactory> encoderFactories;
+    @Inject
+    private Optional<Collection<EncoderFactory>> encoderFactories;
 
     @Override
     public void init() {
-        setProducers(getProviders(encoders, encoderFactories));
+        setProducers(getProviders(encoders.get(), encoderFactories.get()));
     }
 
     public Set<Encoder<?, ?>> getEncoders() {
@@ -52,7 +53,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
 
     @VisibleForTesting
     void setEncoders(Collection<Encoder<?, ?>> encoders) {
-        this.encoders = encoders;
+        this.encoders = Optional.of(encoders);
     }
 
     public boolean hasEncoder(EncoderKey key, EncoderKey... keys) {
@@ -71,7 +72,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
 
     @VisibleForTesting
     void setEncoderFactories(Collection<EncoderFactory> encoderFactories) {
-        this.encoderFactories = encoderFactories;
+        this.encoderFactories = Optional.of(encoderFactories);
     }
 
     private class CompositeEncoderKey extends CompositeKey implements EncoderKey {

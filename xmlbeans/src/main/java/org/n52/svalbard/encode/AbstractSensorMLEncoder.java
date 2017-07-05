@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import org.n52.janmayen.NcName;
+import org.n52.shetland.ogc.sensorML.AbstractProcess;
+import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 
 /**
  * Abstract {@link AbstractXmlEncoder} class to encode OGC SensorML
@@ -475,5 +477,15 @@ public abstract class AbstractSensorMLEncoder extends AbstractXmlEncoder<XmlObje
         }
         return NcName.makeValid(outputName);
     }
-
+    
+//    protected void extendOutputs(AbstractProcess abstractProcess) {
+//        if (abstractProcess.isSetPhenomenon()) {
+//            for (SmlIo output : abstractProcess.getOutputs()) {
+//                if (abstractProcess.hasPhenomenonFor(output.getIoValue().getDefinition())) {
+//                    output.getIoValue().setName(
+//                            abstractProcess.getPhenomenonFor(output.getIoValue().getDefinition()).getName());
+//                }
+//            }
+//        }
+//    }
 }

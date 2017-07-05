@@ -14,15 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard;
+package org.n52.svalbard.read;
+
+import javax.xml.stream.XMLStreamException;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public enum XmlBeansEncodingFlags {
-    DOCUMENT,
-    PROPERTY_TYPE,
-    TYPE
+public class StringReader extends XmlReader<String> {
+
+    private String string;
+
+    @Override
+    protected void begin()
+            throws XMLStreamException {
+        string = chars();
+    }
+
+    @Override
+    protected String finish() {
+        return string;
+    }
+
 }

@@ -54,7 +54,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.DataRecord;
@@ -139,7 +139,7 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
                     .build());
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
-            .add(new ProcedureDescriptionFormat(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL)).build();
+            .add(new ProcedureDescriptionFormatType(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL)).build();
 
     public SensorMLDecoderV101() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",

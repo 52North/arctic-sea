@@ -30,8 +30,13 @@ import org.isotc211.x2005.gmd.CIResponsiblePartyDocument;
 import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
 import org.isotc211.x2005.gmd.CIResponsiblePartyType;
 import org.isotc211.x2005.gmd.CITelephoneType;
-
+import org.isotc211.x2005.gmd.LocalisedCharacterStringPropertyType;
+import org.isotc211.x2005.gmd.PTFreeTextDocument;
+import org.isotc211.x2005.gmd.PTFreeTextPropertyType;
+import org.isotc211.x2005.gmd.PTFreeTextType;
 import org.n52.shetland.iso.gmd.GmdConstants;
+import org.n52.shetland.iso.gmd.LocalisedCharacterString;
+import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
 import org.n52.shetland.util.CollectionHelper;
@@ -78,9 +83,23 @@ public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object> {
             return decodeCIResponsiblePartyPropertyType((CIResponsiblePartyPropertyType) element);
         } else if (element instanceof CIResponsiblePartyType) {
             return decodeCIResponsibleParty((CIResponsiblePartyType) element);
+        } else if (element instanceof PTFreeTextDocument) {
+            return decodePTFreeTextType(((PTFreeTextDocument)element).getPTFreeText());
+        } else if (element instanceof PTFreeTextPropertyType) {
+            return decodePTFreeTextType(((PTFreeTextPropertyType)element).getPTFreeText());
+        } else if (element instanceof PTFreeTextType) {
+            return decodePTFreeTextType((PTFreeTextType)element);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }
+    }
+    
+    private PT_FreeText decodePTFreeTextType(PTFreeTextType ptftt) {
+        PT_FreeText ptFreeText = new PT_FreeText();
+        for (LocalisedCharacterStringPropertyType lcspt : ptftt.getTextGroupArray()) {
+            ptFreeText.addTextGroup(new LocalisedCharacterString(lcspt.getLocalisedCharacterString().getStringValue()));
+        }
+        return ptFreeText;
     }
 
     private Object decodeCIResponsiblePartyPropertyType(CIResponsiblePartyPropertyType element)

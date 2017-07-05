@@ -19,6 +19,7 @@ package org.n52.svalbard;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
 
     private final Set<Producer<C>> components = Sets.newHashSet();
 
-    private final SetMultimap<K, Producer<C>> componentsByKey = HashMultimap.create();
+    private final Map<K, Producer<C>> componentsByKey = HashMultimap.create();
 
     public Set<Producer<C>> getComponentProviders() {
         return Collections.unmodifiableSet(this.components);

@@ -57,7 +57,7 @@ public class RelatedOfferingsEncoder extends AbstractXmlEncoder<XmlObject, Relat
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
             new RelatedOfferingXmlStreamWriter(objectToEncode).write(out);
-            return XmlObject.Factory.parse(out.toString("UTF8"));
+            return RelatedOfferingsPropertyType.Factory.parse(out.toString("UTF8"));
         } catch (XMLStreamException | XmlException | UnsupportedEncodingException ex) {
             throw new EncodingException(String.format("Error encoding %s", objectToEncode.getClass().getSimpleName()), ex);
         }

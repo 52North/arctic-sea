@@ -63,7 +63,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlLocation;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -162,8 +162,8 @@ public class SensorMLEncoderv101 extends AbstractSensorMLEncoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(SensorMLEncoderv101.class);
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
-            .add(new ProcedureDescriptionFormat(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
-            .add(new ProcedureDescriptionFormat(SensorMLConstants.SENSORML_CONTENT_TYPE.toString())).build();
+            .add(new ProcedureDescriptionFormatType(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
+            .add(new ProcedureDescriptionFormatType(SensorMLConstants.SENSORML_CONTENT_TYPE.toString())).build();
 
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS,
@@ -554,13 +554,12 @@ public class SensorMLEncoderv101 extends AbstractSensorMLEncoder {
             abstractProcess.setCharacteristicsArray(createCharacteristics(sosAbstractProcess.getCharacteristics()));
         }
         // set documentation
-        if (sosAbstractProcess.isSetDocumentation()) {
+        if (sosAbstractProcess.isSetDocumentation() && CollectionHelper.isNullOrEmpty(abstractProcess.getDocumentationArray())) {
             abstractProcess.setDocumentationArray(createDocumentationArray(sosAbstractProcess.getDocumentation()));
         }
         // set contacts if contacts aren't already present in the abstract
         // process
-        if (sosAbstractProcess.isSetContact()
-                && (abstractProcess.getContactArray() == null || abstractProcess.getContactArray().length == 0)) {
+        if (sosAbstractProcess.isSetContact() && CollectionHelper.isNullOrEmpty(abstractProcess.getContactArray())) {
             ContactList contactList = createContactList(sosAbstractProcess.getContact());
             if (contactList != null && contactList.getMemberArray().length > 0) {
                 abstractProcess.addNewContact().setContactList(contactList);
@@ -695,20 +694,20 @@ public class SensorMLEncoderv101 extends AbstractSensorMLEncoder {
 
     private void addSystemValues(final SystemType xbSystem, final System system) throws EncodingException {
         // set inputs
-        if (system.isSetInputs()) {
+        if (system.isSetInputs() && !xbSystem.isSetInputs()) {
             xbSystem.setInputs(createInputs(system.getInputs()));
         }
         // set position
-        if (system.isSetPosition()) {
+        if (system.isSetPosition() && !xbSystem.isSetPosition()) {
             xbSystem.setPosition(createPosition(system.getPosition()));
         }
         // set location
-        if (system.isSetLocation()) {
+        if (system.isSetLocation() && !xbSystem.isSetSmlLocation()) {
             xbSystem.setSmlLocation(createLocation(system.getLocation()));
         }
         // set components
         final List<SmlComponent> smlComponents = Lists.newArrayList();
-        if (system.isSetComponents()) {
+        if (system.isSetComponents() || system.isSetChildProcedures()) {
             if (system.isSetComponents()) {
                 smlComponents.addAll(system.getComponents());
             }
@@ -721,8 +720,12 @@ public class SensorMLEncoderv101 extends AbstractSensorMLEncoder {
             }
         }
         // set outputs
-        if (system.isSetOutputs()) {
+        if (system.isSetOutputs() && !xbSystem.isSetOutputs()) {
             xbSystem.setOutputs(createOutputs(system.getOutputs()));
+        }
+        // set connections
+        if (system.isSetConnections() && !xbSystem.isSetConnections()){
+            xbSystem.setConnections(createConnections(system.getConnections()));
         }
     }
 
@@ -1084,8 +1087,7 @@ public class SensorMLEncoderv101 extends AbstractSensorMLEncoder {
                 }
             } else if (sosSMLComponent.getProcess() != null) {
                 XmlObject xmlObject = null;
-                if (sosSMLComponent.getProcess().getXml() != null
-                        && !sosSMLComponent.getProcess().getXml().isEmpty()) {
+                if (sosSMLComponent.getProcess().isSetXml()) {
                     try {
                         xmlObject = XmlObject.Factory.parse(sosSMLComponent.getProcess().getXml());
 

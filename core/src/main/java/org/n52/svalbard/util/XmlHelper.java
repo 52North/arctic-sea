@@ -664,6 +664,33 @@ public final class XmlHelper {
         cursor.dispose();
     }
 
+
+    public static void fixNamespaceForXsiType(XmlObject content, Map<?, ?> namespaces) {
+        final XmlCursor cursor = content.newCursor();
+        while (cursor.hasNextToken()) {
+            if (cursor.toNextToken().isStart()) {
+                final String xsiType = cursor.getAttributeText(W3CConstants.QN_XSI_TYPE);
+                if (xsiType != null) {
+                    final String[] toks = xsiType.split(":");
+                    if (toks.length > 1) {
+                        String prefix = toks[0];
+                        String localName = toks[1];
+                        if (namespaces.containsKey(prefix)) {
+                            cursor.setAttributeText(
+                                    W3CConstants.QN_XSI_TYPE,
+                                    Joiner.on(":").join(
+                                            XmlHelper.getPrefixForNamespace(content, (String)namespaces.get(prefix)),
+                                            localName));
+                        }
+                    }
+
+                }
+            }
+        }
+        cursor.dispose();
+
+    }
+
     public static Map<?, ?> getNamespaces(XmlObject xmlObject) {
         XmlCursor cursor = xmlObject.newCursor();
         Map<?, ?> nsMap = Maps.newHashMap();

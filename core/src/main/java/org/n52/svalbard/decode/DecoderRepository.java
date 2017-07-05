@@ -18,9 +18,10 @@ package org.n52.svalbard.decode;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.AbstractCodingRepository;
@@ -35,25 +36,25 @@ import com.google.common.annotations.VisibleForTesting;
 public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory>
         implements Constructable {
 
-    @Autowired(required = false)
-    private Collection<Decoder<?, ?>> decoders;
+    @Inject
+    private Optional<Collection<Decoder<?, ?>>> decoders;
 
-    @Autowired(required = false)
-    private Collection<DecoderFactory> decoderFactories;
+    @Inject
+    private Optional<Collection<DecoderFactory>> decoderFactories;
 
     @VisibleForTesting
     void setDecoders(Collection<Decoder<?, ?>> decoders) {
-        this.decoders = decoders;
+        this.decoders = Optional.of(decoders);
     }
 
     @VisibleForTesting
     void setDecoderFactories(Collection<DecoderFactory> decoderFactories) {
-        this.decoderFactories = decoderFactories;
+        this.decoderFactories = Optional.of(decoderFactories);
     }
 
     @Override
     public void init() {
-        setProducers(getProviders(decoders, decoderFactories));
+        setProducers(getProviders(decoders.get(), decoderFactories.get()));
     }
 
     public Set<Decoder<?, ?>> getDecoders() {

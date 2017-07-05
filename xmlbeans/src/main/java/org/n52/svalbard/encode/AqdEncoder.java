@@ -57,10 +57,10 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.write.EReportingHeaderEncoder;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;

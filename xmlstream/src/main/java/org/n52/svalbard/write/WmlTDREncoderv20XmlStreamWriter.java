@@ -18,8 +18,10 @@ package org.n52.svalbard.write;
 
 import java.util.Optional;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.n52.shetland.ogc.om.OmObservation;
-import org.n52.shetland.ogc.wml.WaterMLConstants;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 
 /**
  * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0
@@ -51,6 +53,11 @@ public class WmlTDREncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
     @Override
     protected Optional<String> getDefaultFeatureEncodingNamespace() {
         return Optional.of(WaterMLConstants.NS_WML_20);
+    }
+
+    @Override
+    protected void writeAddtitionalNamespaces() throws XMLStreamException {
+        namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
     }
 
 }

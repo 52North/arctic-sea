@@ -22,7 +22,6 @@ import java.util.Set;
 import org.n52.janmayen.component.Component;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
-import org.n52.svalbard.HelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**

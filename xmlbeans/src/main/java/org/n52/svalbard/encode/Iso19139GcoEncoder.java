@@ -46,7 +46,7 @@ import com.google.common.collect.Sets;
  * @since 4.2.0
  *
  */
-public class Iso19139GcoEncoder extends AbstractXmlEncoder<XmlObject, Object> {
+public class Iso19139GcoEncoder extends AbstractIso19139GcoEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GcoEncoder.class);
 

@@ -32,6 +32,7 @@ import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -302,7 +303,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
             final FeaturePropertyType fpt = relatedFeature.getFeatureRelationship().getTarget();
             if (fpt.getHref() != null && !fpt.getHref().isEmpty()) {
                 final String identifier = fpt.getHref();
-                final SamplingFeature feature = new SamplingFeature(new CodeWithAuthority(identifier));
+                final AbstractSamplingFeature feature = new SamplingFeature(new CodeWithAuthority(identifier));
                 if (fpt.getTitle() != null && !fpt.getTitle().isEmpty()) {
                     feature.setName(Lists.newArrayList(new CodeType(fpt.getTitle())));
                 }
@@ -313,8 +314,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 sosFeatureRelationship.setFeature(feature);
             } else {
                 final Object decodedObject = decodeXmlElement(fpt);
-                if (decodedObject instanceof SamplingFeature) {
-                    sosFeatureRelationship.setFeature((SamplingFeature) decodedObject);
+                if (decodedObject instanceof AbstractSamplingFeature) {
+                    sosFeatureRelationship.setFeature((AbstractSamplingFeature) decodedObject);
                 } else {
                     throw new DecoderResponseUnsupportedException(fpt.xmlText(), decodedObject);
                 }

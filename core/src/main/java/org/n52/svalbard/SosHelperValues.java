@@ -17,6 +17,7 @@
 package org.n52.svalbard;
 
 import org.n52.svalbard.encode.EncodingContext;
+import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 
 /**
  * @author Matthes Rieke

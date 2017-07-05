@@ -60,7 +60,6 @@ import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OwsDomain;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClass;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;

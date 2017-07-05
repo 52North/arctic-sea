@@ -18,6 +18,8 @@ package org.n52.svalbard.write;
 
 import java.util.Optional;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.SfConstants;
 
@@ -51,5 +53,10 @@ public class OmV20XmlStreamWriter extends AbstractOmV20XmlStreamWriter {
     @Override
     protected Optional<String> getDefaultFeatureEncodingNamespace() {
         return Optional.of(SfConstants.NS_SAMS);
+    }
+
+    @Override
+    protected void writeAddtitionalNamespaces() throws XMLStreamException {
+        // nothig to add
     }
 }

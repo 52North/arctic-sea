@@ -24,14 +24,18 @@ import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.om.StreamingValue;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.opengis.sos.x20.GetObservationByIdResponseDocument;
@@ -57,8 +61,8 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
         GetObservationByIdResponseDocument doc =
                 GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
         GetObservationByIdResponseType xbResponse = doc.addNewGetObservationByIdResponse();
-        List<OmObservation> oc = response.getObservationCollection();
-        HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>(oc.size());
+        List<OmObservation> oc = getObservationsAndCheckForStreaming(response, encoder);
+        HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<CodeWithAuthority, String>(oc.size());
         for (OmObservation observation : oc) {
             EncodingContext codingContext = EncodingContext.empty();
             final String gmlId;
@@ -77,6 +81,29 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
         }
         XmlHelper.makeGmlIdsUnique(xbResponse.getDomNode());
         return doc;
+    }
+
+    private List<OmObservation> getObservationsAndCheckForStreaming(GetObservationByIdResponse response, ObservationEncoder<XmlObject, OmObservation> encoder) throws EncodingException {
+       if (response.hasStreamingData()) {
+           try {
+               if (encoder.shouldObservationsWithSameXBeMerged()) {
+                    response.mergeStreamingData();
+               } else { 
+                   List<OmObservation> observations = Lists.newArrayList();
+                   for (OmObservation observation : response.getObservationCollection()) {
+                       if (observation.getValue() instanceof StreamingValue<?>) {
+                           observations.addAll(((AbstractStreaming)observation.getValue()).getObservation());
+                       } else {
+                           observations.add(observation);
+                       }
+                   }
+                   return observations;
+               }
+           } catch (OwsExceptionReport e) {
+               throw new EncodingException(e);
+           }
+       }
+       return response.getObservationCollection();
     }
 
     @Override

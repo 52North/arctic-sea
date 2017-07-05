@@ -28,12 +28,12 @@ import org.n52.svalbard.encode.Encoder;
 public class UnsupportedEncoderInputException extends EncodingException {
     private static final long serialVersionUID = 7033551424176154646L;
 
-    public UnsupportedEncoderInputException(Encoder<?, ?> decoder, Object o) {
-        this(decoder, o == null ? null : o.getClass().getName());
+    public UnsupportedEncoderInputException(Encoder<?, ?> encoder, Object o) {
+        this(encoder, o == null ? null : o.getClass().getName());
     }
 
-    public UnsupportedEncoderInputException(Encoder<?, ?> decoder, String o) {
-        super(String.format("Encoder %s can not encode '%s'", decoder.getClass().getSimpleName(),
+    public UnsupportedEncoderInputException(Encoder<?, ?> encoder, String o) {
+        super(String.format("Encoder %s can not encode '%s'", encoder.getClass().getSimpleName(),
                 o == null ? "null" : o));
     }
 }

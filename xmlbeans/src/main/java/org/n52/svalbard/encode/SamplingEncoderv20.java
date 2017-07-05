@@ -32,10 +32,12 @@ import org.slf4j.LoggerFactory;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.AbstractMetaData;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.features.SfConstants;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.sos.FeatureType;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -129,8 +131,8 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
     }
 
     private XmlObject createFeature(final AbstractFeature absFeature) throws EncodingException {
-        if (absFeature instanceof SamplingFeature) {
-            final SamplingFeature sampFeat = (SamplingFeature) absFeature;
+        if (absFeature instanceof AbstractSamplingFeature) {
+            final AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
             final StringBuilder builder = new StringBuilder();
             builder.append("ssf_");
             builder.append(JavaHelper.generateID(absFeature.getIdentifierCodeWithAuthority().getValue()));
@@ -186,29 +188,6 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
                     XmlObject encodeObjectToXml = encodeObjectToXml(GmlConstants.NS_GML_32, sampledFeature, ctx);
                     xbSampFeature.addNewSampledFeature().set(encodeObjectToXml);
                 }
-                // // Old version before schema was fixed. Now sampledFeatures
-                // multiplicity is 1..* and not 1..1.
-                // if (sampFeat.getSampledFeatures().size() == 1) {
-                // final XmlObject encodeObjectToXml =
-                // CodingHelper.encodeObjectToXml(GmlConstants.NS_GML_32,
-                // sampFeat.getSampledFeatures()
-                // .get(0));
-                // xbSampFeature.addNewSampledFeature().set(encodeObjectToXml);
-                // } else {
-                // final FeatureCollection featureCollection = new
-                // FeatureCollection();
-                // featureCollection.setGmlId("sampledFeatures_" +
-                // absFeature.getGmlId());
-                // for (final AbstractFeature sampledFeature :
-                // sampFeat.getSampledFeatures()) {
-                // featureCollection.addMember(sampledFeature);
-                // }
-                // final XmlObject encodeObjectToXml =
-                // CodingHelper.encodeObjectToXml(GmlConstants.NS_GML_32,
-                // featureCollection);
-                // xbSampFeature.addNewSampledFeature().set(encodeObjectToXml);
-                // }
-
             } else {
                 xbSampFeature.addNewSampledFeature().setHref(OGCConstants.UNKNOWN);
             }
@@ -281,6 +260,17 @@ public class SamplingEncoderv20 extends AbstractXmlEncoder<XmlObject, AbstractFe
                     xbSamplingFeature.addNewDescription();
                 }
                 xbSamplingFeature.getDescription().setStringValue(samplingFeature.getDescription());
+            }
+        }
+    }
+    
+    private void setMetaDataProperty(SFSpatialSamplingFeatureType sfssft, AbstractSamplingFeature sampFeat) throws OwsExceptionReport {
+        if (sampFeat.isSetMetaDataProperty()) {
+            for (AbstractMetaData abstractMetaData : sampFeat.getMetaDataProperty()) {
+                XmlObject encodeObject = CodingHelper.encodeObjectToXml(GmlConstants.NS_GML_32, abstractMetaData);
+                XmlObject substituteElement = XmlHelper.substituteElement(
+                        sfssft.addNewMetaDataProperty().addNewAbstractMetaData(), encodeObject);
+                substituteElement.set(encodeObject);
             }
         }
     }

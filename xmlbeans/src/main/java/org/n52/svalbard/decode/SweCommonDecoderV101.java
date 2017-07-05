@@ -515,6 +515,176 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
         }
         return sosTimeRange;
     }
+    
+    private Referenceable<SweAllowedValues> parseConstraint(AllowedValuesPropertyType avpt) {
+        if (avpt.isSetAllowedValues()) {
+            return Referenceable.of(parseAllowedValues(avpt.getAllowedValues()));
+        } else {
+            Reference ref = new Reference();
+            if (avpt.isSetHref()) {
+                ref.setHref(URI.create(avpt.getHref()));
+            }
+            if (avpt.isSetTitle()) {
+                ref.setTitle(avpt.getTitle());
+            }
+            if (avpt.isSetActuate()) {
+                ref.setActuate(avpt.getActuate().toString());
+            }
+            if (avpt.isSetArcrole()) {
+                ref.setArcrole(avpt.getArcrole());
+            }
+            if (avpt.isSetRole()) {
+                ref.setRole(avpt.getRole());
+            }
+            if (avpt.isSetShow()) {
+                ref.setShow(avpt.getShow().toString());
+            }
+            if (avpt.isSetType()) {
+                ref.setType(avpt.getType().toString());
+            }
+            return Referenceable.of(ref);
+        }
+        
+    }
+
+    private Referenceable<SweAllowedTokens> parseConstraint(AllowedTokensPropertyType atpt) {
+        if (atpt.isSetAllowedTokens()) {
+            return Referenceable.of(parseAllowedTokens(atpt.getAllowedTokens()));
+        } else {
+            Reference ref = new Reference();
+            if (atpt.isSetHref()) {
+                ref.setHref(URI.create(atpt.getHref()));
+            }
+            if (atpt.isSetTitle()) {
+                ref.setTitle(atpt.getTitle());
+            }
+            if (atpt.isSetActuate()) {
+                ref.setActuate(atpt.getActuate().toString());
+            }
+            if (atpt.isSetArcrole()) {
+                ref.setArcrole(atpt.getArcrole());
+            }
+            if (atpt.isSetRole()) {
+                ref.setRole(atpt.getRole());
+            }
+            if (atpt.isSetShow()) {
+                ref.setShow(atpt.getShow().toString());
+            }
+            if (atpt.isSetType()) {
+                ref.setType(atpt.getType().toString());
+            }
+            return Referenceable.of(ref);
+        }
+    }
+
+    private Referenceable<SweAllowedTimes> parseConstraint(AllowedTimesPropertyType atpt) throws DateTimeParseException {
+        if (atpt.isSetAllowedTimes()) {
+            return Referenceable.of(parseAllowedTimes(atpt.getAllowedTimes()));
+        } else {
+            Reference ref = new Reference();
+            if (atpt.isSetHref()) {
+                ref.setHref(URI.create(atpt.getHref()));
+            }
+            if (atpt.isSetTitle()) {
+                ref.setTitle(atpt.getTitle());
+            }
+            if (atpt.isSetActuate()) {
+                ref.setActuate(atpt.getActuate().toString());
+            }
+            if (atpt.isSetArcrole()) {
+                ref.setArcrole(atpt.getArcrole());
+            }
+            if (atpt.isSetRole()) {
+                ref.setRole(atpt.getRole());
+            }
+            if (atpt.isSetShow()) {
+                ref.setShow(atpt.getShow().toString());
+            }
+            if (atpt.isSetType()) {
+                ref.setType(atpt.getType().toString());
+            }
+            return Referenceable.of(ref);
+        }
+        
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private SweAllowedValues parseAllowedValues(AllowedValues avt) {
+        SweAllowedValues allowedValues = new SweAllowedValues();
+        if (avt.isSetId()) {
+            allowedValues.setGmlId(avt.getId());
+        }
+        if (CollectionHelper.isNotNullOrEmpty(avt.getValueListArray())) {
+            for (List list : avt.getValueListArray()) {
+                if (CollectionHelper.isNotEmpty(list)) {
+                    for (Object value : list) {
+                        allowedValues.addValue(Double.parseDouble(value.toString()));
+                    }
+                }
+            }
+        }
+        if (CollectionHelper.isNotNullOrEmpty(avt.getIntervalArray())) {
+            for (List interval : avt.getIntervalArray()) {
+                RangeValue<Double> rangeValue = new RangeValue<Double>();
+                Iterator<Double> iterator = interval.iterator();
+                if (iterator.hasNext()) {
+                    rangeValue.setRangeStart(iterator.next());
+                }
+                if (iterator.hasNext()) {
+                    rangeValue.setRangeEnd(iterator.next());
+                }
+                allowedValues.addInterval(rangeValue);
+            }
+        }
+        return allowedValues;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private SweAllowedTokens parseAllowedTokens(AllowedTokens att) {
+        SweAllowedTokens allowedTokens = new SweAllowedTokens();
+        if (att.isSetId()) {
+            allowedTokens.setGmlId(att.getId());
+        }
+        if (CollectionHelper.isNotNullOrEmpty(att.getValueListArray())) {
+            for (List list : att.getValueListArray()) {
+                if (CollectionHelper.isNotEmpty(list)) {
+                    allowedTokens.setValue(list);
+                }
+            }
+        }
+        return allowedTokens;
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private SweAllowedTimes parseAllowedTimes(AllowedTimes att) throws DateTimeParseException {
+        SweAllowedTimes allowedTimes = new SweAllowedTimes();
+        if (att.isSetId()) {
+            allowedTimes.setGmlId(att.getId());
+        }
+        if (CollectionHelper.isNotNullOrEmpty(att.getValueListArray())) {
+            for (List list : att.getValueListArray()) {
+                if (CollectionHelper.isNotEmpty(list)) {
+                    for (Object value : list) {
+                        allowedTimes.addValue(DateTimeHelper.parseIsoString2DateTime(value.toString()));
+                    }
+                }
+            }
+        }
+        if (CollectionHelper.isNotNullOrEmpty(att.getIntervalArray())) {
+            for (List interval : att.getIntervalArray()) {
+                RangeValue<DateTime> rangeValue = new RangeValue<DateTime>();
+                Iterator iterator = interval.iterator();
+                if (iterator.hasNext()) {
+                    rangeValue.setRangeStart(DateTimeHelper.parseIsoString2DateTime(iterator.next().toString()));
+                }
+                if (iterator.hasNext()) {
+                    rangeValue.setRangeEnd(DateTimeHelper.parseIsoString2DateTime(iterator.next().toString()));
+                }
+                allowedTimes.addInterval(rangeValue);
+            }
+        }
+        return allowedTimes;
+    }
 
     private Collection<SweQuality> parseQuality(QualityPropertyType... qualityArray) throws DecodingException {
         if (qualityArray != null && qualityArray.length > 0) {

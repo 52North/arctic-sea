@@ -57,6 +57,7 @@ import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.GenericMetaData;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -79,7 +80,6 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
@@ -173,6 +173,8 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
             } else {
                 throw new UnsupportedEncoderInputException(this, element);
             }
+        } else if (element instanceof GenericMetaData) {
+            encodedObject = createGenericMetaData((GenericMetaData) element, additionalValues);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -291,21 +293,21 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         if (geom instanceof Point) {
             PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
             if (foiId != null) {
-                xbPoint.setId("point_" + foiId);
+                xbPoint.setId(geom.getGeometryType() + "_" + foiId);
             }
             createPointFromJtsGeometry((Point) geom, xbPoint);
             return xbPoint;
         } else if (geom instanceof LineString) {
             LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
             if (foiId != null) {
-                xbLineString.setId("lineString_" + foiId);
+                xbLineString.setId(geom.getGeometryType() + "_" + foiId);
             }
             createLineStringFromJtsGeometry((LineString) geom, xbLineString);
             return xbLineString;
         } else if (geom instanceof Polygon) {
             PolygonType xbPolygon = PolygonType.Factory.newInstance(getXmlOptions());
             if (foiId != null) {
-                xbPolygon.setId("polygon_" + foiId);
+                xbPolygon.setId(geom.getGeometryType() + "_" + foiId);
             }
             createPolygonFromJtsGeometry((Polygon) geom, xbPolygon);
             return xbPolygon;
@@ -552,5 +554,24 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
 
     protected String getSrsName(Geometry geom) {
         return srsNamePrefix + geom.getSRID();
+    }
+    
+    private XmlObject createGenericMetaData(GenericMetaData element, Map<HelperValues, String> additionalValues) throws EncodingException {
+        if (element.getContent() instanceof DefaultEncoding && ((DefaultEncoding)element.getContent()).isSetDefaultElementEncoding()) {
+            Map<HelperValues, String> helperValues = new EnumMap<HelperValues, String>(HelperValues.class);
+            // TODO check
+            helperValues.put(HelperValues.DOCUMENT, "true");
+            if (SweConstants.NS_SWE_20.equals(((DefaultEncoding) element.getContent()).getDefaultElementEncoding())) {
+                return CodingHelper.encodeObjectToXml(
+                        SweConstants.NS_SWE_101, element.getContent(),
+                        helperValues);
+            } else {
+                return CodingHelper.encodeObjectToXml(
+                        ((DefaultEncoding) element.getContent()).getDefaultElementEncoding(), element.getContent(),
+                        helperValues);
+            }
+
+        }
+        return null;
     }
 }

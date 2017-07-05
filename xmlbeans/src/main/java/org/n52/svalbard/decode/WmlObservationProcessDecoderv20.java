@@ -22,11 +22,11 @@ import java.util.Set;
 
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.wml.ObservationProcess;
-import org.n52.shetland.ogc.wml.WaterMLConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
@@ -60,7 +60,7 @@ public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20
                     ImmutableSet.of(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING)));
 
     private static final Set<SupportedType> SUPPORTED_TYPES =
-            ImmutableSet.of(new ProcedureDescriptionFormat(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING));
+            ImmutableSet.of(new ProcedureDescriptionFormatType(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING));
 
     public WmlObservationProcessDecoderv20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -168,5 +168,42 @@ public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20
         if (CollectionHelper.isNotNullOrEmpty(opt.getParameterArray())) {
             observationProcess.setParameters(parseNamedValueTypeArray(opt.getParameterArray()));
         }
+        checkForOffering(observationProcess);
     }
+
+    @VisibleForTesting
+    protected void checkForOffering(ObservationProcess observationProcess) {
+        if (observationProcess.isSetParameters()) {
+            for (NamedValue<?> namedValue : observationProcess.getParameters()) {
+                if (checkNameForOffering(namedValue) && namedValue.isSetValue()) {
+                    if (namedValue.getValue() instanceof TextValue) {
+                        TextValue value = (TextValue) namedValue.getValue();
+                        observationProcess.addOffering(new SosOffering(value.getValue(), true));
+                    } else if (namedValue.getValue() instanceof ReferenceValue) {
+                        ReferenceValue refValue = (ReferenceValue) namedValue.getValue();
+                        if (refValue.isSetValue()) {
+                            ReferenceType value = refValue.getValue();
+                            if (value.isSetHref()) {
+                                if (value.isSetTitle()) {
+                                    observationProcess.addOffering(new SosOffering(value.getHref(), value.getTitle()));
+                                } else {
+                                    observationProcess.addOffering(new SosOffering(value.getHref(), true));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private boolean checkNameForOffering(NamedValue<?> namedValue) {
+        if (namedValue.isSetName()) {
+            ReferenceType name = namedValue.getName();
+            return (name.isSetHref() && SensorMLConstants.ELEMENT_NAME_OFFERINGS.equals(name.getHref()))
+                    || (name.isSetTitle() && SensorMLConstants.ELEMENT_NAME_OFFERINGS.equals(name.getTitle()));
+        }
+        return false;
+    }
+
 }

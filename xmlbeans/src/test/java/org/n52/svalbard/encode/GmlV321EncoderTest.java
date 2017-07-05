@@ -34,7 +34,7 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
  * @since 4.0.0
  *
  */
-public class GmlEncoderTest {
+public class GmlV321EncoderTest {
 
     private GmlEncoderv321 encoder;
 

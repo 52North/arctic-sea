@@ -60,12 +60,14 @@ import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TextValue;
+import org.n52.shetland.ogc.sensorML.SensorML;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.w3c.Nillable;
 import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
@@ -173,21 +175,15 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
             throws DecodingException {
         OmObservationConstellation observationConstellation = new OmObservationConstellation();
         observationConstellation.setObservationType(getObservationType(omObservation));
-        observationConstellation.setProcedure(createProcedure(getProcedure(omObservation)));
+        observationConstellation.setProcedure(createProcedure(omObservation));
         observationConstellation.setObservableProperty(getObservableProperty(omObservation));
+        observationConstellation.setFeatureOfInterest(createFeatureOfInterest(omObservation));
         return observationConstellation;
     }
 
     private String getObservationType(OMObservationType omObservation) {
         if (omObservation.getType() != null) {
             return omObservation.getType().getHref();
-        }
-        return null;
-    }
-
-    private String getProcedure(OMObservationType omObservation) {
-        if (omObservation.getProcedure() != null) {
-            return omObservation.getProcedure().getHref();
         }
         return null;
     }
@@ -351,8 +347,32 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
         return featureOfInterest;
     }
 
-    private SosProcedureDescription<?> createProcedure(String procedureIdentifier) {
-        return new SosProcedureDescriptionUnknownType(procedureIdentifier);
+    private Nillable<AbstractFeature> createProcedure(OMObservationType omObservation) {
+        if (omObservation.getProcedure().isNil() || omObservation.getProcedure().isSetNilReason()) {
+            if (omObservation.getProcedure().isSetNilReason()) {
+                return Nillable.<AbstractFeature>nil(omObservation.getProcedure().getNilReason().toString());
+            }
+        } else if (omObservation.getProcedure().isSetHref()){
+            SensorML procedure = new SensorML();
+            procedure.setIdentifier(omObservation.getProcedure().getHref());
+            return Nillable.<AbstractFeature>of(procedure);
+        }
+        return Nillable.<AbstractFeature>nil();
+    }
+
+    private Nillable<AbstractFeature> createFeatureOfInterest(OMObservationType omObservation, Map<String, AbstractFeature> featureMap) throws OwsExceptionReport {
+        if (omObservation.getFeatureOfInterest().isNil() || omObservation.getFeatureOfInterest().isSetNilReason()) {
+            if (omObservation.getFeatureOfInterest().isSetNilReason()) {
+                return Nillable.<AbstractFeature>nil(omObservation.getFeatureOfInterest().getNilReason().toString());
+            }
+        } else {
+            Object decodeXmlElement = decodeXmlElement(omObservation.getFeatureOfInterest());
+            if (decodeXmlElement instanceof AbstractFeature) {
+                AbstractFeature featureOfInterest = (AbstractFeature) decodeXmlElement;
+                return Nillable.of(checkFeatureWithMap(featureOfInterest, featureMap));
+            }
+        }
+        return Nillable.<AbstractFeature>nil();
     }
 
 }

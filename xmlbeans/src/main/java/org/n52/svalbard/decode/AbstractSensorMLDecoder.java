@@ -60,7 +60,6 @@ public abstract class AbstractSensorMLDecoder extends AbstractXmlDecoder<XmlObje
         if (Strings.isNullOrEmpty(definition)) {
             return false;
         }
-
         return DEFINITION_VALUES.contains(definition) || checkDefinitionStartsWithAndContains(definition);
     }
 

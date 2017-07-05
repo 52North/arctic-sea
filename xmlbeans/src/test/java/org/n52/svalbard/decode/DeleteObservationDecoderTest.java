@@ -38,7 +38,7 @@ import org.junit.Test;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
-import org.n52.shetland.ogc.sos.request.DeleteObservationRequest;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 /**

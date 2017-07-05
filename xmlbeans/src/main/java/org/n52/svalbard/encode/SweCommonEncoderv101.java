@@ -39,6 +39,7 @@ import net.opengis.swe.x101.CountRangeDocument.CountRange;
 import net.opengis.swe.x101.DataArrayDocument;
 import net.opengis.swe.x101.DataArrayType;
 import net.opengis.swe.x101.DataComponentPropertyType;
+import net.opengis.swe.x101.DataRecordDocument;
 import net.opengis.swe.x101.DataRecordType;
 import net.opengis.swe.x101.EnvelopeType;
 import net.opengis.swe.x101.ObservablePropertyDocument.ObservableProperty;
@@ -65,7 +66,7 @@ import org.apache.xmlbeans.XmlString;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
@@ -169,7 +170,15 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         } else if (element instanceof SweDataArray) {
             encodedObject = createDataArray((SweDataArray) element);
         } else if (element instanceof SweDataRecord) {
-            encodedObject = createDataRecord((SweDataRecord) element);
+            DataRecordType drt = createDataRecord((SweDataRecord) element);
+            if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+                DataRecordDocument drd =
+                        DataRecordDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                drd.setDataRecord(drt);
+                encodedObject = drd;
+            } else {
+                encodedObject = drt;
+            }
         } else if (element instanceof SweEnvelope) {
             encodedObject = createEnvelope((SweEnvelope) element);
         } else if (element instanceof SweSimpleDataRecord) {
@@ -415,7 +424,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
             xbQuantity.setValue(quantity.getValue());
         }
         if (quantity.isSetUom()) {
-            xbQuantity.addNewUom().set(createUom(quantity.getUom()));
+            xbQuantity.addNewUom().set(createUom(quantity.getUomObject()));
         }
         if (quantity.isSetQuality()) {
             xbQuantity.setQualityArray(createQuality(quantity.getQuality()));
@@ -432,7 +441,7 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
             xbQuantityRange.setValue(quantityRange.getValue().getRangeAsList());
         }
         if (quantityRange.isSetUom()) {
-            xbQuantityRange.addNewUom().set(createUom(quantityRange.getUom()));
+            xbQuantityRange.addNewUom().set(createUom(quantityRange.getUomObject()));
         }
         if (quantityRange.isSetQuality()) {
             xbQuantityRange.setQualityArray(createQuality(quantityRange.getQuality()));
@@ -472,6 +481,157 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
             xbTime.setQuality(createQuality(time.getQuality())[0]);
         }
         return xbTime;
+    }
+    
+    private AllowedValuesPropertyType createConstraint(AllowedValuesPropertyType avpt,
+            Referenceable<SweAllowedValues> constraint) {
+        if (constraint.isInstance()) {
+            createAllowedValues(avpt.addNewAllowedValues(), constraint.getInstance());
+        } else if (constraint.isReference()) {
+            org.n52.sos.w3c.xlink.Reference ref = constraint.getReference();
+            if (ref.getHref().isPresent()) {
+                avpt.setHref(ref.getHref().get().toString());
+            }
+            if (ref.getTitle().isPresent()) {
+                avpt.setTitle(ref.getTitle().get());
+            }
+            if (ref.getActuate().isPresent()) {
+                avpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
+            }
+            if (ref.getArcrole().isPresent()) {
+                avpt.setArcrole(ref.getArcrole().get());
+            }
+            if (ref.getRole().isPresent()) {
+                avpt.setRole(ref.getRole().get());
+            }
+            if (ref.getShow().isPresent()) {
+                avpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
+            }
+            if (ref.getType().isPresent()) {
+                avpt.setType(TypeType.Enum.forString(ref.getType().get()));
+            }
+        }
+        return avpt;
+    }
+
+    private AllowedValues createAllowedValues(AllowedValues avt, Nillable<SweAllowedValues> instance) {
+        if (instance.isPresent()) {
+            if (instance.get().isSetGmlID()) {
+                avt.setId(instance.get().getGmlId());
+            }
+            if (instance.get().isSetValue()) {
+                for (Double value : instance.get().getValue()) {
+                    avt.addValueList(Lists.newArrayList(value));
+                }
+            }
+            if (instance.get().isSetInterval()) {
+                for (RangeValue<Double> interval : instance.get().getInterval()) {
+                    avt.addInterval(interval.getRangeAsList());
+                }
+            }
+        }
+        return avt;
+    }
+
+    private AllowedTokensPropertyType createConstraint(AllowedTokensPropertyType atpt,
+            Referenceable<SweAllowedTokens> constraint) {
+        if (constraint.isInstance()) {
+            createAllowedTokens(atpt.addNewAllowedTokens(), constraint.getInstance());
+        } else if (constraint.isReference()) {
+            org.n52.sos.w3c.xlink.Reference ref = constraint.getReference();
+            if (ref.getHref().isPresent()) {
+                atpt.setHref(ref.getHref().get().toString());
+            }
+            if (ref.getTitle().isPresent()) {
+                atpt.setTitle(ref.getTitle().get());
+            }
+            if (ref.getActuate().isPresent()) {
+                atpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
+            }
+            if (ref.getArcrole().isPresent()) {
+                atpt.setArcrole(ref.getArcrole().get());
+            }
+            if (ref.getRole().isPresent()) {
+                atpt.setRole(ref.getRole().get());
+            }
+            if (ref.getShow().isPresent()) {
+                atpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
+            }
+            if (ref.getType().isPresent()) {
+                atpt.setType(TypeType.Enum.forString(ref.getType().get()));
+            }
+        }
+        return atpt;
+    }
+
+    private AllowedTokens createAllowedTokens(AllowedTokens att, Nillable<SweAllowedTokens> instance) {
+        if (instance.isPresent()) {
+            if (instance.get().isSetGmlID()) {
+                att.setId(instance.get().getGmlId());
+            }
+            if (instance.get().isSetValue()) {
+                for (String value : instance.get().getValue()) {
+                    att.addValueList(Lists.newArrayList(value));
+                }
+            }
+        }
+        return att;
+    }
+
+    private AllowedTimesPropertyType createConstraint(AllowedTimesPropertyType atpt,
+            Referenceable<SweAllowedTimes> constraint) {
+        if (constraint.isInstance()) {
+            createAllowedTimes(atpt.addNewAllowedTimes(), constraint.getInstance());
+        } else if (constraint.isReference()) {
+            org.n52.sos.w3c.xlink.Reference ref = constraint.getReference();
+            if (ref.getHref().isPresent()) {
+                atpt.setHref(ref.getHref().get().toString());
+            }
+            if (ref.getTitle().isPresent()) {
+                atpt.setTitle(ref.getTitle().get());
+            }
+            if (ref.getActuate().isPresent()) {
+                atpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
+            }
+            if (ref.getArcrole().isPresent()) {
+                atpt.setArcrole(ref.getArcrole().get());
+            }
+            if (ref.getRole().isPresent()) {
+                atpt.setRole(ref.getRole().get());
+            }
+            if (ref.getShow().isPresent()) {
+                atpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
+            }
+            if (ref.getType().isPresent()) {
+                atpt.setType(TypeType.Enum.forString(ref.getType().get()));
+            }
+        }
+        return atpt;
+    }
+
+    private AllowedTimes createAllowedTimes(AllowedTimes att, Nillable<SweAllowedTimes> instance) {
+        if (instance.isPresent()) {
+            if (instance.get().isSetGmlID()) {
+                att.setId(instance.get().getGmlId());
+            }
+            if (instance.get().isSetValue()) {
+                for (DateTime value : instance.get().getValue()) {
+                    att.addNewValueList()
+                            .setListValue(Lists.newArrayList(DateTimeHelper.formatDateTime2IsoString(value)));
+                }
+            }
+            if (instance.get().isSetInterval()) {
+                for (RangeValue<DateTime> interval : instance.get().getInterval()) {
+                    List<String> list = Lists.newArrayListWithCapacity(2);
+                    list.add(DateTimeHelper.formatDateTime2IsoString(interval.getRangeStart()));
+                    if (interval.isSetEndValue()) {
+                        list.add(DateTimeHelper.formatDateTime2IsoString(interval.getRangeEnd()));
+                    }
+                    att.addInterval(list);
+                }
+            }
+        }
+        return att;
     }
 
     private XmlDateTime createDateTime(DateTime sosDateTime) {
@@ -756,6 +916,23 @@ public class SweCommonEncoderv101 extends AbstractXmlEncoder<XmlObject, Object> 
         return xbTimeGeometricPrimitiveProperty;
     }
 
+    private UomPropertyType createUom(final UoM uom) {
+        final UomPropertyType upt =
+                UomPropertyType.Factory.newInstance(getXmlOptions());
+        if (!uom.isSetLink() && (uom.getUom().startsWith(URN) || uom.getUom().startsWith(HTTP))) {
+            upt.setHref(uom.getUom());
+        } else {
+            upt.setCode(uom.getUom());
+        }
+        if (uom.isSetName()) {
+            upt.setTitle(uom.getName());
+        }
+        if (uom.isSetLink()) {
+            upt.setHref(uom.getLink());
+        }
+        return upt;
+    }
+    
     private UomPropertyType createUom(String uom) {
         final UomPropertyType xbUom = UomPropertyType.Factory.newInstance(getXmlOptions());
         if (uom.startsWith(URN) || uom.startsWith(HTTP)) {

@@ -58,7 +58,6 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.ImmutableBiMap;

@@ -43,6 +43,7 @@ import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.values.BooleanValue;
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.ComplexValue;
@@ -68,12 +69,10 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
-import org.n52.shetland.ogc.wml.WaterMLConstants;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
@@ -200,6 +199,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             super.encode(objectToEncode, outputStream, encodingValues);
         }
     }
+    
+    protected OMObservationType createOmObservationType() {
+        return OMObservationType.Factory.newInstance(getXmlOptions());
+    }
 
     @Override
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
@@ -239,6 +242,16 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     @Override
     protected String getDefaultProcedureEncodingNamspace() {
         return SensorMLConstants.NS_SML;
+    }
+    
+    @Override
+    protected boolean convertEncodedProcedure() {
+        return false;
+    }
+    
+    @Override
+    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation) throws OwsExceptionReport {
+        // do nothing
     }
 
     private XmlObject createSingleObservationToResult(final SingleObservationValue<?> observationValue)
@@ -400,7 +413,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         public XmlObject visit(TVPValue value) throws EncodingException {
             return null;
         }
-
+        
         @Override
         public XmlObject visit(TextValue value) throws EncodingException {
             if (observationType.equals(OmConstants.OBS_TYPE_TEXT_OBSERVATION)) {
@@ -429,31 +442,26 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(CvDiscretePointCoverage value) throws EncodingException {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public XmlObject visit(MultiPointCoverage value) throws EncodingException {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public XmlObject visit(RectifiedGridCoverage value) throws EncodingException {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
-            // TODO Auto-generated method stub
             return null;
         }
 
         @Override
         public XmlObject visit(TimeRangeValue value) throws EncodingException {
-            // TODO Auto-generated method stub
             return null;
         }
     }

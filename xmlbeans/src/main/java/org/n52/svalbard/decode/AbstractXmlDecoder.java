@@ -49,7 +49,6 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
         this.xmlOptions = xmlOptions;
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T decodeXmlElement(XmlObject x) throws DecodingException {
         return decodeXmlObject(x);
     }

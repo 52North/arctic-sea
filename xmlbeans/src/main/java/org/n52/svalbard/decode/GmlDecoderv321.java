@@ -66,6 +66,7 @@ import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.util.CRSHelper;
@@ -209,8 +210,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             }
             if (abstractFeature != null) {
                 Object decodedObject = decodeXmlObject(abstractFeature);
-                if (decodedObject instanceof SamplingFeature) {
-                    feature = (SamplingFeature) decodedObject;
+                if (decodedObject instanceof AbstractSamplingFeature) {
+                    feature = (AbstractSamplingFeature) decodedObject;
                 } else {
                     throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
                             "The requested featurePropertyType type is not supported by this service!");

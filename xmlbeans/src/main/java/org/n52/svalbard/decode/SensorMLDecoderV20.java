@@ -56,7 +56,7 @@ import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
 import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.sensorML.v20.SmlDataStreamPropertyType;
 import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
@@ -146,7 +146,7 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
             Collections.singleton(SensorMLConstants.ELEMENT_NAME_CHILD_PROCEDURES);
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
-            .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL)).build();
+            .add(new ProcedureDescriptionFormatType(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL)).build();
 
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>> builder()

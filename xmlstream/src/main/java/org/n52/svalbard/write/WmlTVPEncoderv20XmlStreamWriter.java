@@ -22,21 +22,26 @@ import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringEscapeUtils;
-
+import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.MultiObservationValues;
+import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmConstants;
+import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
+import org.n52.shetland.ogc.om.series.wml.MeasurementTimeseriesMetadata;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
+import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.ogc.wml.WaterMLConstants;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.EncodingValues;
@@ -80,43 +85,96 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
         start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
         attr(GmlConstants.QN_ID_32, "timeseries." + observation.getObservationID());
         writeNewLine();
-        writeMeasurementTimeseriesMetadata(observation.getPhenomenonTime().getGmlId());
+        writeMeasurementTimeseriesMetadata(observation);
         writeNewLine();
         if (observation.getValue() instanceof SingleObservationValue) {
             SingleObservationValue<?> observationValue = (SingleObservationValue<?>) observation.getValue();
-            writeDefaultPointMetadata(observationValue.getValue().getUnit());
+            writeDefaultPointMetadata(observationValue, observationValue.getValue().getUnit());
             writeNewLine();
             String time = getTimeString(observationValue.getPhenomenonTime());
             writePoint(time, getValue(observation.getValue().getValue()));
             writeNewLine();
             close();
         } else if (observation.getValue() instanceof MultiObservationValues) {
+            // XML streaming to client
             MultiObservationValues<?> observationValue = (MultiObservationValues<?>) observation.getValue();
-            writeDefaultPointMetadata(observationValue.getValue().getUnit());
+            writeDefaultPointMetadata(observationValue, observationValue.getValue().getUnit());
             writeNewLine();
             TVPValue tvpValue = (TVPValue) observationValue.getValue();
             List<TimeValuePair> timeValuePairs = tvpValue.getValue();
             for (TimeValuePair timeValuePair : timeValuePairs) {
-                writePoint(getTimeString(timeValuePair.getTime()), getValue(timeValuePair.getValue()));
-                writeNewLine();
+                if (timeValuePair != null) {
+                    writePoint(getTimeString(timeValuePair.getTime()), getValue(timeValuePair.getValue()));
+                    writeNewLine();
+                }
             }
             close();
         } else if (observation.getValue() instanceof StreamingValue) {
-            StreamingValue<?> observationValue = (StreamingValue) observation.getValue();
-            writeDefaultPointMetadata(observationValue.getUnit());
+            // Database streaming + XML streaming to client
+            StreamingValue<?> observationValue = (StreamingValue<?>) observation.getValue();
+            if (observationValue.isSetUnit()) {
+                writeDefaultPointMetadata(observationValue, observationValue.getUnit());
+            } else if (observation.getObservationConstellation().getObservableProperty() instanceof OmObservableProperty
+                && ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
+                        .isSetUnit()) {
+                writeDefaultPointMetadata(observationValue, ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
+                        .getUnit());
+            } else {
+                writeDefaultPointMetadata(observationValue, null);
+            }
             writeNewLine();
             try {
                 while (observationValue.hasNextValue()) {
                     TimeValuePair timeValuePair = observationValue.nextValue();
-                    writePoint(getTimeString(timeValuePair.getTime()), getValue(timeValuePair.getValue()));
-                    writeNewLine();
+                    if (timeValuePair != null) {
+                        writePoint(getTimeString(timeValuePair.getTime()), getValue(timeValuePair.getValue()));
+                        writeNewLine();
+                    }
                 }
             } catch (DateTimeFormatException | OwsExceptionReport e) {
-                throw new EncodingException(e);
+                // TODO Auto-generated catch block
+                e.printStackTrace();
             }
             close();
         } else {
             super.writeResult(observation, encodingValues);
+        }
+    }
+
+    @Override
+    protected void writeAddtitionalNamespaces() throws XMLStreamException {
+        namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
+    }
+
+    @Override
+    protected void checkAndWriteIdentifier() throws EncodingException, XMLStreamException {
+        if (getObservation().getObservationConstellation().isSetIdentifier()) {
+            writeIdentifier(getObservation().getObservationConstellation().getIdentifierCodeWithAuthority());
+            writeNewLine();
+        } else {
+            super.checkAndWriteIdentifier();
+        }
+    }
+
+    @Override
+    protected void checkAndWriteName() throws EncodingException, XMLStreamException {
+        if (getObservation().getObservationConstellation().isSetName()) {
+            for (CodeType name : getObservation().getObservationConstellation().getName()) {
+                writeName(name);
+                writeNewLine();
+            }
+        } else {
+            super.checkAndWriteName();
+        }
+    }
+
+    @Override
+    protected void checkAndWriteDescription() throws XMLStreamException {
+        if (getObservation().getObservationConstellation().isSetDescription()) {
+            writeDescription(getObservation().getObservationConstellation().getDescription());
+            writeNewLine();
+        } else {
+            super.checkAndWriteDescription();
         }
     }
 
@@ -142,16 +200,24 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      */
-    private void writeMeasurementTimeseriesMetadata(String id) throws XMLStreamException {
+    private void writeMeasurementTimeseriesMetadata(OmObservation o) throws XMLStreamException {
         start(WaterMLConstants.QN_METADATA);
         writeNewLine();
-        start(WaterMLConstants.QN_TIMESERIES_METADATA);
+        start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
         writeNewLine();
         empty(WaterMLConstants.QN_TEMPORAL_EXTENT);
-        addXlinkHrefAttr("#" + id);
+        addXlinkHrefAttr("#" + o.getPhenomenonTime().getGmlId());
+        if (o.isSetValue()
+                && o.getValue().isSetMetadata()
+                && o.getValue().getMetadata().isSetTimeseriesMetadata()
+                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
+            start(WaterMLConstants.QN_CUMULATIVE);
+            chars(Boolean.toString(((MeasurementTimeseriesMetadata)o.getValue().getMetadata().getTimeseriesmetadata()).isCumulative()));
+            endInline(WaterMLConstants.QN_CUMULATIVE);
+        }
         writeNewLine();
         indent--;
-        end(WaterMLConstants.QN_TIMESERIES_METADATA);
+        end(WaterMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
         writeNewLine();
         end(WaterMLConstants.QN_METADATA);
         indent++;
@@ -164,14 +230,14 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      */
-    private void writeDefaultPointMetadata(String unit) throws XMLStreamException {
+    private void writeDefaultPointMetadata(ObservationValue<?> value, String unit) throws XMLStreamException {
         start(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
         writeNewLine();
         start(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         writeNewLine();
         writeUOM(unit);
         writeNewLine();
-        writeInterpolationType();
+        writeInterpolationType(value);
         writeNewLine();
         indent--;
         end(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
@@ -201,10 +267,16 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      */
-    private void writeInterpolationType() throws XMLStreamException {
+    private void writeInterpolationType(ObservationValue<?> value) throws XMLStreamException {
         empty(WaterMLConstants.QN_INTERPOLATION_TYPE);
-        addXlinkHrefAttr("http://www.opengis.net/def/timeseriesType/WaterML/2.0/continuous");
-        addXlinkTitleAttr("Instantaneous");
+        if (value != null && value.isSetMetadata() && value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata() && value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
+            InterpolationType interpolationtype = value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().getInterpolationtype();
+            addXlinkHrefAttr(interpolationtype.getIdentifier());
+            addXlinkTitleAttr(interpolationtype.getTitle());
+        } else {
+            addXlinkHrefAttr("http://www.opengis.net/def/timeseriesType/WaterML/2.0/continuous");
+            addXlinkTitleAttr("Instantaneous");
+        }
     }
 
     /**
@@ -215,10 +287,15 @@ public class WmlTVPEncoderv20XmlStreamWriter extends AbstractOmV20XmlStreamWrite
      * @return {@link String} representation of {@link Value}
      */
     private String getValue(Value<?> value) {
-        if (value.isSetValue()) {
+        if (value != null && value.isSetValue()) {
             if (value instanceof QuantityValue) {
                 QuantityValue quantityValue = (QuantityValue) value;
                 return Double.toString(quantityValue.getValue().doubleValue());
+            } else if (value instanceof ProfileValue) {
+                ProfileValue gwglcValue = (ProfileValue)value;
+                if (gwglcValue.isSetValue()) {
+                    return getValue(gwglcValue.getValue().iterator().next().getSimpleValue());
+                }
             } else if (value instanceof CountValue) {
                 CountValue countValue = (CountValue) value;
                 return Integer.toString(countValue.getValue().intValue());

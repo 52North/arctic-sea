@@ -27,7 +27,9 @@ import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.XmlDecodingException;
 import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.XmlDocumentEncoderKey;
 import org.n52.svalbard.encode.XmlEncoderKey;
+import org.n52.svalbard.encode.XmlPropertyTypeEncoderKey;
 import org.n52.svalbard.decode.XmlNamespaceDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 
@@ -101,6 +103,14 @@ public final class CodingHelper {
 
     public static EncoderKey getEncoderKey(String namespace, Object o) {
         return new XmlEncoderKey(namespace, o.getClass());
+    }
+
+    public static EncoderKey getPropertyTypeEncoderKey(final String namespace, final Object o) {
+        return new XmlPropertyTypeEncoderKey(namespace, o.getClass());
+    }
+
+    public static EncoderKey getDocumentEncoderKey(final String namespace, final Object o) {
+        return new XmlDocumentEncoderKey(namespace, o.getClass());
     }
 
     public static DecoderKey getDecoderKey(final XmlObject doc) {

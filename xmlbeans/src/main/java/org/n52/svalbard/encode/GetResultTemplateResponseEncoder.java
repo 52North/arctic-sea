@@ -33,7 +33,6 @@ import org.n52.shetland.ogc.sos.SosResultEncoding;
 import org.n52.shetland.ogc.sos.SosResultStructure;
 import org.n52.shetland.ogc.sos.response.GetResultTemplateResponse;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 

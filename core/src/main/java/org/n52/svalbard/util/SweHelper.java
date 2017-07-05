@@ -17,7 +17,9 @@
 package org.n52.svalbard.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +71,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
+import org.n52.shetland.ogc.swe.CoordinateSettingsProvider;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.CodingSettings;
@@ -95,6 +99,12 @@ public final class SweHelper {
     private String tupleSeparator;
 
     private String decimalSeparator;
+
+    private Set<String> northingNames = Collections.emptySet();
+
+    private Set<String> eastingNames = Collections.emptySet();
+
+    private Set<String> altitudeNames = Collections.emptySet();
 
     @Setting(CodingSettings.TOKEN_SEPARATOR)
     public void setTokenSeparator(final String separator) throws ConfigurationError {
@@ -147,12 +157,16 @@ public final class SweHelper {
             } else if (multiValue.getValue() instanceof TVPValue) {
                 TVPValue tvpValues = (TVPValue) multiValue.getValue();
                 for (TimeValuePair timeValuePair : tvpValues.getValue()) {
-                    if (!dataArray.isSetElementTyp()) {
-                        dataArray.setElementType(createElementType(timeValuePair, observablePropertyIdentifier));
+                    if (timeValuePair != null && timeValuePair.getValue() != null && timeValuePair.getValue().isSetValue()) {
+                        if (!dataArray.isSetElementTyp()) {
+                            dataArray.setElementType(createElementType(timeValuePair,
+                                    observablePropertyIdentifier));
+                        }
+                        List<String> newBlock =
+                                createBlock(dataArray.getElementType(), timeValuePair.getTime(),
+                                        observablePropertyIdentifier, timeValuePair.getValue());
+                        dataArrayValue.addBlock(newBlock);
                     }
-                    List<String> newBlock = createBlock(dataArray.getElementType(), timeValuePair.getTime(),
-                                                        observablePropertyIdentifier, timeValuePair.getValue());
-                    dataArrayValue.addBlock(newBlock);
                 }
             }
         }
@@ -191,12 +205,16 @@ public final class SweHelper {
             } else if (multiValue.getValue() instanceof TVPValue) {
                 TVPValue tvpValues = (TVPValue) multiValue.getValue();
                 for (TimeValuePair timeValuePair : tvpValues.getValue()) {
-                    if (!dataArray.isSetElementTyp()) {
-                        dataArray.setElementType(createElementType(timeValuePair, observablePropertyIdentifier));
+                    if (timeValuePair != null && timeValuePair.getValue() != null && timeValuePair.getValue().isSetValue()) {
+                        if (!dataArray.isSetElementTyp()) {
+                            dataArray.setElementType(createElementType(timeValuePair,
+                                    observablePropertyIdentifier));
+                        }
+                        List<String> newBlock =
+                                createBlock(dataArray.getElementType(), timeValuePair.getTime(),
+                                        observablePropertyIdentifier, timeValuePair.getValue());
+                        dataArrayValue.addBlock(newBlock);
                     }
-                    List<String> newBlock = createBlock(dataArray.getElementType(), timeValuePair.getTime(),
-                                                        observablePropertyIdentifier, timeValuePair.getValue());
-                    dataArrayValue.addBlock(newBlock);
                 }
             }
         }
@@ -436,4 +454,101 @@ public final class SweHelper {
         return new SweQuantity().setAxisID(axis).setUom(uom).setValue(JavaHelper.asDouble(value));
     }
 
+    /**
+     * @return the northingNames
+     */
+    public Set<String> getNorthingNames() {
+        return northingNames;
+    }
+
+    /**
+     * @param northingNames
+     *            the northingNames to set
+     */
+    @Setting(CoordinateSettingsProvider.NORTHING_COORDINATE_NAME)
+    public void setNorthingNames(String northingNames) {
+        if (!Strings.isNullOrEmpty(northingNames)) {
+            this.northingNames = CollectionHelper.csvStringToSet(northingNames);
+        }
+    }
+
+    /**
+     * Check if northing names contains name
+     *
+     * @param name
+     *            Name to check
+     * @return <code>true</code>, if the name is defined.
+     */
+    public boolean hasNorthingName(String...names) {
+        return check(getNorthingNames(), names);
+    }
+
+    /**
+     * @return the eastingNames
+     */
+    public Set<String> getEastingNames() {
+        return eastingNames;
+    }
+
+    /**
+     * @param eastingNames
+     *            the eastingNames to set
+     */
+    @Setting(CoordinateSettingsProvider.EASTING_COORDINATE_NAME)
+    public void setEastingNames(String eastingNames) {
+        if (!Strings.isNullOrEmpty(eastingNames)) {
+            this.eastingNames = CollectionHelper.csvStringToSet(eastingNames);
+        }
+    }
+
+    /**
+     * Check if easting names contains name
+     *
+     * @param name
+     *            Name to check
+     * @return <code>true</code>, if the name is defined.
+     */
+    public boolean hasEastingName(String... names) {
+        return check(getEastingNames(), names);
+    }
+
+    /**
+     * @return the altitudeNames
+     */
+    public Set<String> getAltitudeNames() {
+        return altitudeNames;
+    }
+
+    /**
+     * @param altitudeNames
+     *            the altitudeNames to set
+     */
+    @Setting(CoordinateSettingsProvider.ALTITUDE_COORDINATE_NAME)
+    public void setAltitudeNames(String altitudeNames) {
+        if (!Strings.isNullOrEmpty(altitudeNames)) {
+            this.altitudeNames = CollectionHelper.csvStringToSet(altitudeNames);
+        }
+    }
+
+    /**
+     * Check if altitude names contains name
+     *
+     * @param name
+     *            Name to check
+     * @return <code>true</code>, if the name is defined.
+     */
+    public boolean hasAltitudeName(String...names) {
+        return check(getAltitudeNames(), names);
+    }
+
+    private boolean check(Set<String> set, String...names) {
+        for (String string : set) {
+            for (String name : names) {
+                if (string.equalsIgnoreCase(name)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

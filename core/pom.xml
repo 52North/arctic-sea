@@ -47,10 +47,12 @@
             <groupId>org.n52.shetland</groupId>
             <artifactId>shetland</artifactId>
         </dependency>
+        <!-- 
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
         </dependency>
+         -->
         <dependency>
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
