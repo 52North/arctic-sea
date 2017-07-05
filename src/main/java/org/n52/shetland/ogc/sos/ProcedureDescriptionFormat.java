@@ -23,8 +23,8 @@ import org.n52.shetland.ogc.AbstractSupportedStringType;
  *
  * @author Christian Autermann
  */
-public class ProcedureDescriptionFormatType extends AbstractSupportedStringType {
-    public ProcedureDescriptionFormatType(String value) {
+public class ProcedureDescriptionFormat extends AbstractSupportedStringType {
+    public ProcedureDescriptionFormat(String value) {
         super(value);
     }
 

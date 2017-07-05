@@ -17,13 +17,12 @@
 package org.n52.shetland.ogc.swe.stream;
 
 import org.n52.shetland.ogc.om.StreamingValue;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
-import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 public class StreamingSweDataArray extends SweAbstractDataComponent {
 
