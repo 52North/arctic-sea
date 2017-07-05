@@ -185,18 +185,36 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      */
     @CheckReturnValue
     default ObservationStream merge() throws OwsExceptionReport {
+        return merge(ObservationMergeIndicator.defaultObservationMergerIndicator());
+    }
+
+    /**
+     * Creates a new stream out of this stream in which observations with the same observation constellation are merged.
+     * Be aware that this method will consume this stream completely.
+     *
+     * @return the new observation stream
+     *
+     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     *
+     * @see OmObservation#checkForMerge(org.n52.shetland.ogc.om.OmObservation)
+     * @see OmObservation#mergeWithObservation(org.n52.shetland.ogc.om.OmObservation)
+     */
+    @CheckReturnValue
+    default ObservationStream merge(ObservationMergeIndicator indicator) throws OwsExceptionReport {
         List<OmObservation> mergedObservations = new LinkedList<>();
         int obsIdCounter = 1;
         try {
             while (hasNext()) {
                 OmObservation observation = next();
                 Optional<OmObservation> merge = mergedObservations.stream()
-                        .filter(Predicates.currySecond(OmObservation::checkForMerge, observation))
+                        .filter(o -> o.checkForMerge(observation, indicator))
                         .findAny();
                 if (merge.isPresent()) {
                     merge.get().mergeWithObservation(observation);
                 } else {
-                    observation.setObservationID(Integer.toString(obsIdCounter++));
+                    if (!observation.isSetGmlID()) {
+                        observation.setObservationID(Integer.toString(obsIdCounter++));
+                    }
                     mergedObservations.add(observation);
                 }
             }

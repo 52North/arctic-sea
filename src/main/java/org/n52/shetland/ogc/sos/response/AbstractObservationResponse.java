@@ -17,7 +17,6 @@
 package org.n52.shetland.ogc.sos.response;
 
 import org.n52.shetland.ogc.om.ObservationMergeIndicator;
-import org.n52.shetland.ogc.om.ObservationMerger;
 import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
@@ -36,7 +35,6 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
     private String responseFormat;
     private String resultModel;
     private boolean mergeObservation = false;
-    private ObservationMerger observationMerger;
     private ObservationMergeIndicator observationMergeIndicator;
     private GlobalObservationResponseValues globalValues;
 
@@ -92,24 +90,6 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
 
     public boolean isSetMergeObservation() {
         return mergeObservation;
-    }
-
-    /**
-     * @return the observationMerger
-     */
-    public ObservationMerger getObservationMerger() {
-        if (observationMerger == null) {
-            observationMerger = new ObservationMerger();
-        }
-        return observationMerger;
-    }
-
-    /**
-     * @param observationMerger the observationMerger to set
-     */
-    public void setObservationMerger(ObservationMerger observationMerger) {
-        this.observationMerger = observationMerger;
-        setMergeObservations(true);
     }
 
     public void setObservationMergeIndicator(ObservationMergeIndicator indicator) {

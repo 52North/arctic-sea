@@ -842,18 +842,6 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
         return getAdditionalMergeIndicator() != null && !getAdditionalMergeIndicator().isEmpty();
     }
 
-    public boolean checkForMerge(OmObservation observation) {
-        boolean merge = true;
-        if (isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator()) {
-            merge = getAdditionalMergeIndicator().equals(observation.getAdditionalMergeIndicator());
-        } else if ((isSetAdditionalMergeIndicator() && !observation.isSetAdditionalMergeIndicator()) ||
-                   (!isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator())) {
-            return false;
-        }
-        return getObservationConstellation().equals(observation.getObservationConstellation()) && merge &&
-               getObservationConstellation().checkObservationTypeForMerging();
-    }
-
     /**
      * @return the seriesType
      */
@@ -871,4 +859,92 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     public boolean isSetSeriesType() {
         return !Strings.isNullOrEmpty(getSeriesType());
     }
+
+    public boolean checkForMerge(OmObservation observation) {
+        return checkForMerge(observation, ObservationMergeIndicator.defaultObservationMergerIndicator());
+    }
+
+    public boolean checkForMerge(OmObservation observation, ObservationMergeIndicator observationMergeIndicator) {
+        boolean merge = true;
+        if (isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator()) {
+            merge = getAdditionalMergeIndicator().equals(observation.getAdditionalMergeIndicator());
+        } else if ((isSetAdditionalMergeIndicator() && !observation.isSetAdditionalMergeIndicator())
+                || (!isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator())) {
+            merge = false;
+        }
+        merge = merge && checkObservationTypeForMerging(observation.getObservationConstellation());
+        if (observationMergeIndicator.sameObservationConstellation()) {
+            merge = merge && getObservationConstellation().equals(observation.getObservationConstellation());
+        } else {
+            if (observationMergeIndicator.isProcedure()) {
+                merge = merge && checkForProcedure(observation);
+            }
+            if (observationMergeIndicator.isObservableProperty()) {
+                merge = merge && checkForObservableProperty(observation);
+            }
+            if (observationMergeIndicator.isFeatureOfInterest()) {
+                merge = merge && checkForFeatureOfInterest(observation);
+            }
+            if (observationMergeIndicator.isOfferings()) {
+                merge = merge && checkForOfferings(observation);
+            }
+        }
+
+        if (observationMergeIndicator.isPhenomenonTime()) {
+            merge = merge && checkForPhenomenonTime(observation);
+        }
+        if (observationMergeIndicator.isSetResultTime()) {
+            merge = merge && checkForResultTime(observation);
+        }
+        if (observationMergeIndicator.isSamplingGeometry()) {
+            merge = merge && checkForSamplingGeometry(observation);
+        }
+        return merge;
+
+    }
+
+    private boolean checkForProcedure(OmObservation observation) {
+        return getObservationConstellation().getProcedure().equals(observation.getObservationConstellation().getProcedure());
+    }
+
+    private boolean checkForObservableProperty(OmObservation observation) {
+        return getObservationConstellation().getObservableProperty().equals(observation.getObservationConstellation().getObservableProperty());
+    }
+
+    private boolean checkForFeatureOfInterest(OmObservation observation) {
+        return getObservationConstellation().getFeatureOfInterest().equals(observation.getObservationConstellation().getFeatureOfInterest());
+    }
+
+    private boolean checkForOfferings(OmObservation observation) {
+        return getObservationConstellation().getOfferings().equals(observation.getObservationConstellation().getOfferings());
+    }
+
+    private boolean checkForPhenomenonTime(OmObservation observation) {
+        return getPhenomenonTime().equals(observation.getPhenomenonTime());
+    }
+
+    private boolean checkForResultTime(OmObservation observation) {
+        return getResultTime().equals(observation.getResultTime());
+    }
+
+    private boolean checkForSamplingGeometry(OmObservation observation) {
+        if (isSetSpatialFilteringProfileParameter() && observation.isSetSpatialFilteringProfileParameter()) {
+            // TODO check for NULL
+            return getSpatialFilteringProfileParameter().getValue().getValue().equals(observation.getSpatialFilteringProfileParameter().getValue().getValue());
+        }
+        return false;
+    }
+
+    /**
+     * TODO change if currently not supported types could be merged.
+     *
+     * @return <code>true</code>, if the observation can be merged
+     */
+    private boolean checkObservationTypeForMerging(OmObservationConstellation observationConstellation) {
+        return (observationConstellation.isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationConstellation.getObservationType())
+                && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(observationConstellation.getObservationType())
+                && !OmConstants.OBS_TYPE_OBSERVATION.equals(observationConstellation.getObservationType())
+                && !OmConstants.OBS_TYPE_UNKNOWN.equals(observationConstellation.getObservationType()));
+    }
+
 }
