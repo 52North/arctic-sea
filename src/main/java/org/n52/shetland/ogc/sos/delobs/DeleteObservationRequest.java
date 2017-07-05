@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sos.request;
+package org.n52.shetland.ogc.sos.delobs;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -23,7 +23,6 @@ import java.util.Set;
 import org.n52.shetland.ogc.filter.TemporalFilter;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
-import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
 import org.n52.shetland.util.CollectionHelper;
 
 /**
