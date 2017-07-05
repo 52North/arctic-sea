@@ -14,17 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode;
+package org.n52.svalbard.write.util;
+
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
 
 /**
- * Generic interface for StreamingDataEncoder.
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
- * @deprecated marker interface
- *
+ * @author Christian Autermann
  */
-@Deprecated
-public interface StreamingDataEncoder {
+public interface ExtendedXMLStreamWriter extends XMLStreamWriter {
 
+    void writeXML(String xml) throws XMLStreamException;
 }

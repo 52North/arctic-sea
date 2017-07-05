@@ -23,11 +23,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 
 import org.n52.janmayen.NcName;
-import org.n52.janmayen.Producer;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
@@ -58,10 +56,9 @@ import org.n52.svalbard.write.XmlStreamWriter;
 import com.google.common.base.Optional;
 
 public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
-    public EReportingHeaderEncoder(OutputStream outputStream, EncodingContext context,
-                                   EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
-                                   EReportingHeader element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+    public EReportingHeaderEncoder(EncodingContext context, OutputStream outputStream, EReportingHeader element)
+            throws XMLStreamException {
+        super(context, outputStream, element);
     }
 
     @Override

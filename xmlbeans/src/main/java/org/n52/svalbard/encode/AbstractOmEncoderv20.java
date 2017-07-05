@@ -152,14 +152,14 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
-            throws EncodingException {
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
         try {
             XmlOptions xmlOptions = getXmlOptions();
             if (ctx.has(StreamingEncoderFlags.EMBEDDED)) {
                 xmlOptions.setSaveNoXmlDecl();
             }
-            encode(objectToEncode, ctx.with(StreamingEncoderFlags.ENCODER, this)).save(outputStream, xmlOptions);
+            encode(objectToEncode, ctx.with(StreamingEncoderFlags.ENCODER, this))
+                    .save(outputStream, xmlOptions);
         } catch (IOException ioe) {
             throw new EncodingException("Error while writing element to stream!", ioe);
         } finally {
@@ -666,8 +666,8 @@ public abstract class AbstractOmEncoderv20 extends AbstractXmlEncoder<XmlObject,
         }
 
         private EncodingContext createHelperValues(Value<?> value) {
-            return EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE).with(SosHelperValues.GMLID,
-                    JavaHelper.generateID(value.toString()));
+            return EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE)
+                    .with(SosHelperValues.GMLID, JavaHelper.generateID(value.toString()));
         }
 
         private XmlObject defaultValue(Value<?> value) {

@@ -24,13 +24,11 @@ import java.util.TimerTask;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.janmayen.Producer;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.iso.gmd.GmdConstants;
@@ -47,7 +45,6 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.Encoder;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
@@ -68,12 +65,9 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
     private Timer timer = new Timer(String.format("empty-string-write-task-for-%s", getClass().getSimpleName()), true);
     private TimerTask timerTask;
 
-    public AqdGetObservationResponseXmlStreamWriter(OutputStream outputStream,
-                                                    EncodingContext context,
-                                                    EncoderRepository encoderRepository,
-                                                    Producer<XmlOptions> xmlOptions,
+    public AqdGetObservationResponseXmlStreamWriter(EncodingContext context, OutputStream outputStream,
                                                     FeatureCollection element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+        super(context, outputStream, element);
     }
 
     @Override

@@ -36,8 +36,6 @@ import org.apache.xmlbeans.GDuration;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -82,8 +80,6 @@ import com.vividsolutions.jts.geom.Geometry;
  */
 public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
         implements ProcedureEncoder<XmlObject, Object> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractWmlEncoderv20.class);
 
     private static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper
             .union(CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20,

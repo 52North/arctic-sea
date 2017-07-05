@@ -19,10 +19,12 @@ package org.n52.svalbard.encode;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -44,7 +46,6 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.write.AqdGetObservationResponseXmlStreamWriter;
-import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
 public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder<GetObservationResponse> {
 
@@ -100,15 +101,11 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
             eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
         }
         try {
-
-            new AqdGetObservationResponseXmlStreamWriter(
-                    outputStream,
-                    ctx.with(XmlWriterSettings.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                            .with(XmlBeansEncodingFlags.DOCUMENT),
-                    getEncoderRepository(),
-                    this::getXmlOptions,
-                    featureCollection)
-                    .write();
+            EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                    .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions)
+                    .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                    .with(XmlBeansEncodingFlags.DOCUMENT);
+            new AqdGetObservationResponseXmlStreamWriter(context, outputStream, featureCollection).write();
         } catch (XMLStreamException xmlse) {
             throw new EncodingException("Error while writing element to stream!", xmlse);
         }

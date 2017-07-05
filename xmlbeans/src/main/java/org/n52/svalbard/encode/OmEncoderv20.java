@@ -18,6 +18,7 @@ package org.n52.svalbard.encode;
 
 import java.io.OutputStream;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -78,11 +79,9 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.write.OmV20XmlStreamWriter;
-import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
@@ -93,20 +92,29 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OmEncoderv20.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(OmConstants.NS_OM_2,
+    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(
+            OmConstants.NS_OM_2,
             OmObservation.class, NamedValue.class, SingleObservationValue.class, MultiObservationValues.class);
 
     // TODO: change to correct conformance class
-    private static final Set<String> CONFORMANCE_CLASSES = Sets.newHashSet(ConformanceClasses.OM_V2_MEASUREMENT,
-            ConformanceClasses.OM_V2_CATEGORY_OBSERVATION, ConformanceClasses.OM_V2_COUNT_OBSERVATION,
-            ConformanceClasses.OM_V2_TRUTH_OBSERVATION, ConformanceClasses.OM_V2_GEOMETRY_OBSERVATION,
-            ConformanceClasses.OM_V2_TEXT_OBSERVATION, ConformanceClasses.OM_V2_COMPLEX_OBSERVATION);
+    private static final Set<String> CONFORMANCE_CLASSES = new HashSet<>(Arrays.asList(
+            ConformanceClasses.OM_V2_MEASUREMENT,
+            ConformanceClasses.OM_V2_CATEGORY_OBSERVATION,
+            ConformanceClasses.OM_V2_COUNT_OBSERVATION,
+            ConformanceClasses.OM_V2_TRUTH_OBSERVATION,
+            ConformanceClasses.OM_V2_GEOMETRY_OBSERVATION,
+            ConformanceClasses.OM_V2_TEXT_OBSERVATION,
+            ConformanceClasses.OM_V2_COMPLEX_OBSERVATION));
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
-            .add(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE)
-            .add(OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_MEASUREMENT_TYPE)
-            .add(OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE).build();
+    private static final Set<SupportedType> SUPPORTED_TYPES = new HashSet<>(Arrays.asList(
+            OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_COMPLEX_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_MEASUREMENT_TYPE,
+            OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE,
+            OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE));
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections.singletonMap(
             SosConstants.SOS,
@@ -114,7 +122,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     public OmEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(ENCODER_KEYS));
+                     Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -147,11 +155,11 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     @Override
     public Set<String> getSupportedResponseFormats(String service, String version) {
-        if (SUPPORTED_RESPONSE_FORMATS.get(service) != null
-                && SUPPORTED_RESPONSE_FORMATS.get(service).get(version) != null) {
+        if (SUPPORTED_RESPONSE_FORMATS.get(service) != null &&
+            SUPPORTED_RESPONSE_FORMATS.get(service).get(version) != null) {
             return SUPPORTED_RESPONSE_FORMATS.get(service).get(version);
         }
-        return new HashSet<>(0);
+        return Collections.emptySet();
     }
 
     @Override
@@ -188,19 +196,17 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext encodingValues)
-            throws EncodingException {
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new OmV20XmlStreamWriter(outputStream,
-                                         encodingValues.with(XmlWriterSettings.ENCODER, this),
-                                         getEncoderRepository(), this::getXmlOptions,
-                                         (OmObservation) objectToEncode).write();
-            } catch (XMLStreamException xmlse) {
-                throw new EncodingException("Error while writing element to stream!", xmlse);
+                new OmV20XmlStreamWriter(ctx.with(StreamingEncoderFlags.ENCODER, this),
+                                         outputStream, (OmObservation) objectToEncode)
+                        .write();
+            } catch (XMLStreamException ex) {
+                throw new EncodingException("Error while writing element to stream!", ex);
             }
         } else {
-            super.encode(objectToEncode, outputStream, encodingValues);
+            super.encode(objectToEncode, ctx);
         }
     }
 
@@ -238,7 +244,6 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     //public String getDefaultFeatureEncodingNamespace() {
     //    return SfConstants.NS_SAMS;
     //}
-
     @Override
     protected String getDefaultProcedureEncodingNamspace() {
         return SensorMLConstants.NS_SML;
@@ -319,7 +324,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             if (observationType.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION)) {
                 if (value.isSetValue() && !value.getValue().isEmpty()) {
                     return encodeGML(value, EncodingContext.of(SosHelperValues.GMLID,
-                            SosConstants.OBS_ID_PREFIX + this.observationId));
+                                                               SosConstants.OBS_ID_PREFIX + this.observationId));
                 }
             }
             return null;
@@ -327,7 +332,6 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(ComplexValue value) throws EncodingException {
-
             if (observationType.equals(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION)) {
                 if (value.isSetValue()) {
                     return encodeSWE(value.getValue(), EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
@@ -356,9 +360,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             if (observationType.equals(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION)) {
                 if (value.isSetValue()) {
                     return encodeGML(value.getValue(),
-                            EncodingContext.empty()
-                                    .with(SosHelperValues.GMLID, SosConstants.OBS_ID_PREFIX + this.observationId)
-                                    .with(XmlBeansEncodingFlags.PROPERTY_TYPE));
+                                     EncodingContext.empty()
+                                             .with(SosHelperValues.GMLID,
+                                                   SosConstants.OBS_ID_PREFIX + this.observationId)
+                                             .with(XmlBeansEncodingFlags.PROPERTY_TYPE));
                 } else {
                     return null;
                 }
@@ -379,9 +384,9 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(QuantityValue value) throws EncodingException {
-            if (observationType.equals(OmConstants.OBS_TYPE_MEASUREMENT)
-                    || observationType.equals(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TVP)
-                    || observationType.equals(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)) {
+            if (observationType.equals(OmConstants.OBS_TYPE_MEASUREMENT) ||
+                observationType.equals(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TVP) ||
+                observationType.equals(WaterMLConstants.OBSERVATION_TYPE_MEASURMENT_TDR)) {
                 if (value.isSetValue()) {
                     return encodeGML(value);
                 }

@@ -20,28 +20,28 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.util.CodingHelper;
+import net.opengis.waterml.x20.ObservationProcessDocument;
+import net.opengis.waterml.x20.ObservationProcessPropertyType;
+import net.opengis.waterml.x20.ObservationProcessType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.util.CodingHelper;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
-
-import net.opengis.waterml.x20.ObservationProcessDocument;
-import net.opengis.waterml.x20.ObservationProcessPropertyType;
-import net.opengis.waterml.x20.ObservationProcessType;
 
 public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20
         implements ProcedureDecoder<Object, Object> {

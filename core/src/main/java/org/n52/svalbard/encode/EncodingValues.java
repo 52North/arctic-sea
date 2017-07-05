@@ -180,9 +180,8 @@ public class EncodingValues {
      * @return the encodingNamespace
      */
     public String getEncodingNamespace() {
-        if (encodingNamespace == null && hasAddtitionalValues() &&
-                 getAdditionalValues().has(XmlEncoderFlags.ENCODE_NAMESPACE)) {
-            setEncodingNamespace(getAdditionalValues().get(XmlEncoderFlags.ENCODE_NAMESPACE));
+        if (encodingNamespace == null && getAdditionalValues().has(XmlEncoderFlags.ENCODE_NAMESPACE)) {
+            encodingNamespace = getAdditionalValues().require(XmlEncoderFlags.ENCODE_NAMESPACE);
         }
         return encodingNamespace;
     }
@@ -230,7 +229,9 @@ public class EncodingValues {
 
     /**
      * @return the indent
+     * @deprecated do not use it... Svalbard's {@code IndentingXMLStreamWriter} should handle it
      */
+    @Deprecated
     public int getIndent() {
         return indent;
     }

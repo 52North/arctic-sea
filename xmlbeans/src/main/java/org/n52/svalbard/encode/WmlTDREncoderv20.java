@@ -70,7 +70,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter;
-import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -169,24 +168,22 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext encodingValues)
-            throws EncodingException {
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
                 new WmlTDREncoderv20XmlStreamWriter(
+                        ctx.with(StreamingEncoderFlags.ENCODER, this),
                         outputStream,
-                        encodingValues.with(XmlWriterSettings.ENCODER, this),
-                        getEncoderRepository(),
-                        this::getXmlOptions,
-                        (OmObservation) objectToEncode)
+                         (OmObservation) objectToEncode)
                         .write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
         } else {
-            super.encode(objectToEncode, outputStream, encodingValues);
+            super.encode(objectToEncode, ctx);
         }
     }
+
 
     @Override
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {

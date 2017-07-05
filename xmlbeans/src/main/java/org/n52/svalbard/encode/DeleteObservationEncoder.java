@@ -27,7 +27,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
-import org.n52.shetland.ogc.sos.response.DeleteObservationResponse;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -48,7 +48,7 @@ public class DeleteObservationEncoder extends AbstractResponseEncoder<DeleteObse
               Sos2Constants.SERVICEVERSION,
               DeleteObservationConstants.Operations.DeleteObservation.name(),
               DeleteObservationConstants.NS_SOSDO_1_0,
-              DeleteObservationConstants.NS_SOSDO_1_0_PREFIX,
+              DeleteObservationConstants.NS_SOSDO_PREFIX,
               DeleteObservationResponse.class);
     }
 

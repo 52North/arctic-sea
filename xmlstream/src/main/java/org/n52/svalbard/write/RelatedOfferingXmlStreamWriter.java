@@ -16,20 +16,17 @@
  */
 package org.n52.svalbard.write;
 
+
 import java.io.OutputStream;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.xmlbeans.XmlOptions;
-
-import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sos.ro.OfferingContext;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferingConstants;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -39,10 +36,10 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  */
 public class RelatedOfferingXmlStreamWriter extends XmlStreamWriter<RelatedOfferings> {
-    public RelatedOfferingXmlStreamWriter(OutputStream outputStream, EncodingContext context,
-                                          EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
-                                          RelatedOfferings element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+
+    public RelatedOfferingXmlStreamWriter(EncodingContext context, OutputStream outputStream, RelatedOfferings element)
+            throws XMLStreamException {
+        super(context, outputStream, element);
     }
 
     @Override

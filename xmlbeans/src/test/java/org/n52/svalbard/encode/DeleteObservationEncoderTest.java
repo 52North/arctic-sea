@@ -24,7 +24,6 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.n52.shetland.ogc.sos.SosConstants.SOS;
 import static org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants.NS_SOSDO_1_0;
-import static org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants.NS_SOSDO_1_0_PREFIX;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,7 +43,7 @@ import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
-import org.n52.shetland.ogc.sos.response.DeleteObservationResponse;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -57,11 +56,8 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 public class DeleteObservationEncoderTest {
 
     private static final String observationId = "test_observation_id";
-
     private static DeleteObservationEncoder instance;
-
     private static DeleteObservationResponse incorrectCoreResponse;
-
     private static DeleteObservationResponse incorrectCoreResponseMissingAttributes;
 
     /*
@@ -91,8 +87,8 @@ public class DeleteObservationEncoderTest {
         instance.setEncoderRepository(encoderRepository);
         instance.setXmlOptions(options);
 
-        incorrectCoreResponseMissingAttributes = new DeleteObservationResponse();
-        correctCoreResponse = new DeleteObservationResponse();
+        incorrectCoreResponseMissingAttributes = new DeleteObservationResponse(DeleteObservationConstants.NS_SOSDO_1_0);
+        correctCoreResponse = new DeleteObservationResponse(DeleteObservationConstants.NS_SOSDO_1_0);
         correctCoreResponse.setObservationId(observationId);
         correctCoreResponse.setService(SOS);
         correctCoreResponse.setVersion(Sos2Constants.SERVICEVERSION);
@@ -124,11 +120,14 @@ public class DeleteObservationEncoderTest {
     @Test
     public void testGetConformanceClasses() {
         final Set<String> conformanceClasses = new HashSet<String>(1);
-        conformanceClasses.add(DeleteObservationConstants.CONFORMANCE_CLASS);
+        conformanceClasses.add(DeleteObservationConstants.CONFORMANCE_CLASS_10);
+        conformanceClasses.add(DeleteObservationConstants.CONFORMANCE_CLASS_20);
         assertNotNull("ConformanceClasses is null", instance.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION));
         assertEquals("ConformanceClasses size", conformanceClasses.size(), instance.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).size());
-        assertTrue("ConformanceClasses contains " + DeleteObservationConstants.CONFORMANCE_CLASS, instance
-                .getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).contains(DeleteObservationConstants.CONFORMANCE_CLASS));
+        assertTrue("ConformanceClasses contains " + DeleteObservationConstants.CONFORMANCE_CLASS_10, instance
+                .getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).contains(DeleteObservationConstants.CONFORMANCE_CLASS_10));
+        assertTrue("ConformanceClasses contains " + DeleteObservationConstants.CONFORMANCE_CLASS_20, instance
+                .getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).contains(DeleteObservationConstants.CONFORMANCE_CLASS_20));
     }
 
     @Test
@@ -144,7 +143,7 @@ public class DeleteObservationEncoderTest {
 
     @Test
     public void encodeCorrectCoreResponse() throws EncodingException {
-        final DeleteObservationResponse correctCoreResponse = new DeleteObservationResponse();
+        final DeleteObservationResponse correctCoreResponse = new DeleteObservationResponse(Sos2Constants.SERVICEVERSION);
         correctCoreResponse.setService("SOS");
         correctCoreResponse.setVersion("2.0.0");
         correctCoreResponse.setObservationId(observationId);
@@ -173,8 +172,8 @@ public class DeleteObservationEncoderTest {
         instance.addNamespacePrefixToMap(givenMap);
 
         assertThat(givenMap.containsKey(NS_SOSDO_1_0), is(TRUE));
-        assertThat(givenMap.containsValue(NS_SOSDO_1_0_PREFIX), is(TRUE));
-        assertThat(givenMap.get(NS_SOSDO_1_0), is(NS_SOSDO_1_0_PREFIX));
+        assertThat(givenMap.containsValue(DeleteObservationConstants.NS_SOSDO_PREFIX), is(TRUE));
+        assertThat(givenMap.get(NS_SOSDO_1_0), is(DeleteObservationConstants.NS_SOSDO_PREFIX));
     }
 
     @Test
@@ -186,10 +185,8 @@ public class DeleteObservationEncoderTest {
     public void should_return_correct_schema_location() {
         assertThat(instance.getSchemaLocations().size(), is(1));
         final SchemaLocation schemLoc = instance.getSchemaLocations().iterator().next();
-        assertThat(schemLoc.getNamespace(), is("http://www.opengis.net/sosdo/1.0"));
-        assertThat(
-                schemLoc.getSchemaFileUrl(),
-                is("https://raw.githubusercontent.com/52North/SOS/master/extensions/do/xml/src/main/xsd/sosdo.xsd"));
+        assertThat(schemLoc.getNamespace(), is(DeleteObservationConstants.NS_SOSDO_1_0));
+        assertThat(schemLoc.getSchemaFileUrl(), is(DeleteObservationConstants.NS_SOSDO_1_0_SCHEMA_LOCATION));
     }
 
 }

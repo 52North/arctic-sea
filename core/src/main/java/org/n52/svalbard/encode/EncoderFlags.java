@@ -23,5 +23,5 @@ package org.n52.svalbard.encode;
  */
 public enum EncoderFlags {
     ENCODING,
-    INDENT
+    ENCODER_REPOSITORY
 }

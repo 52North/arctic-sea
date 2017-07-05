@@ -209,8 +209,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
         } else if (feature.isSetDefaultElementEncoding()) {
             return encodeObjectToXml(feature.getDefaultElementEncoding(), feature);
         } else if (additionalValues.has(XmlEncoderFlags.ENCODE_NAMESPACE)) {
-            return encodeObjectToXml(additionalValues.get(XmlEncoderFlags.ENCODE_NAMESPACE), feature,
-                                     additionalValues);
+            String namespace = additionalValues.require(XmlEncoderFlags.ENCODE_NAMESPACE);
+            return encodeObjectToXml(namespace, feature, additionalValues);
         } else {
             throw new UnsupportedEncoderInputException(this, feature);
         }
@@ -218,8 +218,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
 
     private XmlObject createFeatureCollection(FeatureCollection element, EncodingContext additionalValues)
             throws EncodingException {
-        FeatureCollectionDocument featureCollectionDoc = FeatureCollectionDocument.Factory
-                .newInstance(getXmlOptions());
+        FeatureCollectionDocument featureCollectionDoc = FeatureCollectionDocument.Factory.newInstance(getXmlOptions());
         FeatureCollectionType featureCollection = featureCollectionDoc.addNewFeatureCollection();
         featureCollection.setId(element.getGmlId());
         EncodingContext ctx = additionalValues.with(XmlBeansEncodingFlags.PROPERTY_TYPE)
@@ -273,12 +272,8 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
                     }
                     return featurePropertyType;
                 } else {
-                    String namespace;
-                    if (additionalValues.has(XmlEncoderFlags.ENCODE_NAMESPACE)) {
-                        namespace = additionalValues.get(XmlEncoderFlags.ENCODE_NAMESPACE);
-                    } else {
-                        namespace = OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType());
-                    }
+                    String namespace = additionalValues.getString(XmlEncoderFlags.ENCODE_NAMESPACE)
+                            .orElseGet(() -> OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType()));
                     final XmlObject encodedXmlObject = encodeObjectToXml(namespace, samplingFeature);
 
                     if (encodedXmlObject != null) {
@@ -493,7 +488,7 @@ public class GmlEncoderv321 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private XmlObject createPosition(Geometry geom, EncodingContext additionalValues) throws EncodingException {
-        String foiId = additionalValues.get(SosHelperValues.GMLID);
+        String foiId = additionalValues.require(SosHelperValues.GMLID);
         if (geom instanceof Point) {
             final PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
             xbPoint.setId(POINT_ID_PREFIX + foiId);

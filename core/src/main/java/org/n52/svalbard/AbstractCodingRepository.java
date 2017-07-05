@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.slf4j.Logger;
@@ -161,6 +162,13 @@ public abstract class AbstractCodingRepository<K extends Similar<K>, C extends C
         } else {
             return getComponentForCompositeKey(createCompositeKey(asList(key, keys)));
         }
+    }
+
+    @SafeVarargs
+    @SuppressWarnings("varargs")
+    protected final Optional<C> tryGetComponent(K key, K... keys) {
+        C component = getComponent(key, keys);
+        return Optional.ofNullable(component);
     }
 
     protected abstract CompositeKey createCompositeKey(List<K> keys);

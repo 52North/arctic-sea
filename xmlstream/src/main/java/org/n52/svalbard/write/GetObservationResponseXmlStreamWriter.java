@@ -27,9 +27,7 @@ import java.util.stream.Stream;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 
-import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -41,8 +39,6 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.Encoder;
-import org.n52.svalbard.encode.EncoderFlags;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.ObservationEncoder;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
@@ -60,11 +56,9 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  */
 public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetObservationResponse> {
-
-    public GetObservationResponseXmlStreamWriter(OutputStream outputStream, EncodingContext context,
-                                                 EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
+    public GetObservationResponseXmlStreamWriter(EncodingContext context, OutputStream outputStream,
                                                  GetObservationResponse element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+        super(context, outputStream, element);
     }
 
     @Override
@@ -89,16 +83,13 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         // get observation encoder
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(response.getResponseFormat());
         // write schemaLocation
+        schemaLocation(getSchemaLocation(encoder));
         EncodingContext ctx = getContext()
-                .with(XmlEncoderFlags.ENCODE_NAMESPACE,
-                      response.getResponseFormat())
+                .with(XmlEncoderFlags.ENCODE_NAMESPACE, response.getResponseFormat())
                 .with(XmlBeansEncodingFlags.DOCUMENT)
                 .with(StreamingEncoderFlags.EMBEDDED)
-                .with(EncoderFlags.INDENT, getIndent())
                 .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
                 .without(XmlBeansEncodingFlags.TYPE);
-
-        schemaLocation(getSchemaLocation(encoder));
         try {
             ObservationStream stream = response.getObservationCollection();
             if (encoder.shouldObservationsWithSameXBeMerged()) {
@@ -134,7 +125,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         if (encoder instanceof StreamingEncoder) {
             ((StreamingEncoder<XmlObject, OmObservation>) encoder).encode(observation, getOutputStream(), ctx);
         } else {
-            rawText(encoder.encode(observation, ctx).xmlText(getXmlOptions()));
+            rawText(encoder.encode(observation, ctx).xmlText(getXmlOptions().setSaveNoXmlDecl()));
         }
         end(Sos2StreamingConstants.OBSERVATION_DATA);
     }
@@ -164,12 +155,13 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
      */
     private ObservationEncoder<XmlObject, OmObservation> findObservationEncoder(String responseFormat)
             throws EncodingException {
-        Encoder<XmlObject, OmObservation> encoder = getEncoderRepository()
-                .getEncoder(new XmlEncoderKey(responseFormat, OmObservation.class));
-        if (encoder == null) {
+        Optional<Encoder<XmlObject, OmObservation>> encoder = this
+                .<XmlObject, OmObservation>tryGetEncoder(new XmlEncoderKey(responseFormat, OmObservation.class));
+        if (!encoder.isPresent()) {
             return null;
-        } else if (encoder instanceof ObservationEncoder) {
-            ObservationEncoder<XmlObject, OmObservation> oe = (ObservationEncoder<XmlObject, OmObservation>) encoder;
+        } else if (encoder.get() instanceof ObservationEncoder) {
+            ObservationEncoder<XmlObject, OmObservation> oe = (ObservationEncoder<XmlObject, OmObservation>) encoder
+                    .get();
             return oe.isObservationAndMeasurmentV20Type() ? oe : null;
         } else {
             throw new EncodingException("Error while encoding response, encoder is not of type ObservationEncoder!");

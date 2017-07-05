@@ -38,7 +38,7 @@ import org.junit.Test;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
-import org.n52.shetland.ogc.sos.request.DeleteObservationRequest;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
@@ -115,8 +115,10 @@ public class DeleteObservationDecoderTest {
         String className = DeleteObservationRequest.class.getName();
         assertNotNull("Decoding of correct XmlObject returned null", instance.decode(correctXmlObject));
         assertEquals("Class of Result ", className, instance.decode(correctXmlObject).getClass().getName());
+        assertEquals("Id of observation to delete", 1, instance.decode(correctXmlObject)
+                .getObservationIdentifiers().size());
         assertEquals("Id of observation to delete", observationId, instance.decode(correctXmlObject)
-                .getObservationIdentifier());
+                .getObservationIdentifiers().iterator().next());
     }
 
     @Test(expected = DecodingException.class)

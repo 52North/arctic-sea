@@ -118,6 +118,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClass;
@@ -467,6 +468,11 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
 
                     @Override
                     public AbstractDataComponentType visit(SmlFeatureOfInterest component) throws EncodingException {
+                        return unsupported(component);
+                    }
+
+                    @Override
+                    public AbstractDataComponentType visit(StreamingSweDataArray component) throws EncodingException {
                         return unsupported(component);
                     }
 

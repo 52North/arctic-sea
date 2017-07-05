@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
-import org.n52.shetland.ogc.sos.request.DeleteObservationRequest;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
@@ -83,10 +83,10 @@ public class DeleteObservationDecoder implements Decoder<DeleteObservationReques
         DeleteObservationType xbDelObsType = xbDelObsDoc.getDeleteObservation();
 
         if (xbDelObsType != null) {
-            delObsRequest = new DeleteObservationRequest();
+            delObsRequest = new DeleteObservationRequest(DeleteObservationConstants.NS_SOSDO_1_0);
             delObsRequest.setVersion(xbDelObsType.getVersion());
             delObsRequest.setService(xbDelObsType.getService());
-            delObsRequest.setObservationIdentifier(xbDelObsType.getObservation());
+            delObsRequest.addObservationIdentifier(xbDelObsType.getObservation());
         } else {
             throw new DecodingException(
                     "Received XML document is not valid. Set log level to debug to get more details");

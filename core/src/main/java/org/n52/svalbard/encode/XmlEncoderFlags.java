@@ -22,5 +22,8 @@ package org.n52.svalbard.encode;
  * @author Christian Autermann
  */
 public enum XmlEncoderFlags {
-    ENCODE_NAMESPACE
+    ENCODE_NAMESPACE,
+    ADD_SCHEMA_LOCATION,
+    XML_VERSION,
+    XML_OPTIONS
 }

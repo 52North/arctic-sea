@@ -21,11 +21,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
@@ -91,7 +93,9 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
         try {
             checkIfSupported(objectToEncode);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            new InspireXmlStreamWriter(out, ctx, getEncoderRepository(), this::getXmlOptions, objectToEncode).write();
+            EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                    .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
+            new InspireXmlStreamWriter(context, out, objectToEncode).write();
             String s = out.toString("UTF8");
             return XmlObject.Factory.parse(s);
         } catch (XMLStreamException | DateTimeFormatException | XmlException | UnsupportedEncodingException ex) {
@@ -541,5 +545,4 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     // languageElementISO6392B.setLanguage(sosLanguage.value());
     // return languageElementISO6392B;
     // }
-
 }

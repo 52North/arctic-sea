@@ -35,7 +35,7 @@ public interface StreamingEncoder<T, S> extends Encoder<T, S> {
         encode(objectToEncode, outputStream, EncodingContext.empty());
     }
 
-    void encode(S objectToEncode, OutputStream outputStream, EncodingContext encodingValues)
+    void encode(S objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException;
 
 }

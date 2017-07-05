@@ -18,6 +18,7 @@ package org.n52.svalbard.encode;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,12 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
     @SuppressWarnings("unchecked")
     public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
         return (Encoder<F, T>) getComponent(key, keys);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <F, T> Optional<Encoder<F, T>> tryGetEncoder(EncoderKey key, EncoderKey... keys) {
+        Optional<Encoder<?, ?>> tryGetComponent = tryGetComponent(key, keys);
+        return tryGetComponent.map(e -> (Encoder<F, T>) e);
     }
 
     @Override

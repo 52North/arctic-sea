@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.encode;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -63,27 +64,37 @@ public class EncodingContext {
         return this == EMTPY;
     }
 
-    @SuppressWarnings("unchecked")
-    public <T> T get(@Nonnull String key) {
-        Object value = this.properties.get(key);
-        if (value == null || value == NONE) {
-            return null;
-        }
-        return (T) value;
+    public <T> T require(@Nonnull Enum<?> key) {
+        return require(key.name());
+    }
+
+    public <T> T require(@Nonnull String key) {
+        return this.<T>get(key).get();
     }
 
     @SuppressWarnings("unchecked")
+    public <T> Optional<T> get(@Nonnull String key) {
+        return Optional.ofNullable(this.properties.get(key)).filter(v -> v != NONE).map(v -> (T) v);
+    }
+
     public <T> T get(@Nonnull String key, T defaultValue) {
-        return Optional.<T>ofNullable(get(key)).orElse(defaultValue);
+        return this.<T>get(key).orElse(defaultValue);
     }
 
-    @SuppressWarnings("unchecked")
     public <T> T get(@Nonnull Enum<?> key, T defaultValue) {
         return get(key.name(), defaultValue);
     }
 
-    public <T> T get(@Nonnull Enum<?> key) {
+    public <T> Optional<T> get(@Nonnull Enum<?> key) {
         return get(key.name());
+    }
+
+    public Optional<String> getString(@Nonnull Enum<?> key) {
+        return get(key.name());
+    }
+
+    public Optional<String> getString(@Nonnull String key) {
+        return get(key);
     }
 
     public boolean getBoolean(@Nonnull Enum<?> key) {
@@ -99,7 +110,14 @@ public class EncodingContext {
     }
 
     public boolean getBoolean(@Nonnull String key, boolean defaultValue) {
-        return get(key, defaultValue);
+        Object value = this.properties.get(key);
+        if (value == null) {
+            return defaultValue;
+        }
+        if (value == NONE) {
+            return true;
+        }
+        return (boolean) value;
     }
 
     public int getInteger(@Nonnull Enum<?> key) {
@@ -110,17 +128,9 @@ public class EncodingContext {
         return get(key, DEFAULT_INTEGER_VALUE);
     }
 
-    public String getString(@Nonnull Enum<?> key) {
-        return get(key.name());
-    }
-
-    public String getString(@Nonnull String key) {
-        return get(key);
-    }
-
     @CheckReturnValue
     public EncodingContext with(@Nonnull String key) {
-        return with(key, NONE);
+        return with(key, null);
     }
 
     @CheckReturnValue
@@ -159,6 +169,10 @@ public class EncodingContext {
     @CheckReturnValue
     public EncodingContext without(@Nonnull Enum<?> key) {
         return without(key.name());
+    }
+
+    public String getEncoding() {
+        return get(EncoderFlags.ENCODING, StandardCharsets.UTF_8.name());
     }
 
     @Override
@@ -200,4 +214,5 @@ public class EncodingContext {
     public static EncodingContext empty() {
         return EMTPY;
     }
+
 }

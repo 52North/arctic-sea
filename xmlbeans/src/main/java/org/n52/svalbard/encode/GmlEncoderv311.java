@@ -143,12 +143,12 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ctx) throws EncodingException {
         XmlObject encodedObject = null;
         if (element instanceof Time) {
-            encodedObject = createTime((Time) element, additionalValues);
+            encodedObject = createTime((Time) element, ctx);
         } else if (element instanceof Geometry) {
-            encodedObject = createPosition((Geometry) element, additionalValues.get(SosHelperValues.GMLID));
+            encodedObject = createPosition((Geometry) element, ctx.require(SosHelperValues.GMLID));
         } else if (element instanceof CategoryValue) {
             encodedObject = createReferenceTypeForCategroyValue((CategoryValue) element);
         } else if (element instanceof org.n52.shetland.ogc.gml.ReferenceType) {
@@ -166,7 +166,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         } else if (element instanceof EnvelopeOrGeometry) {
             EnvelopeOrGeometry geom = (EnvelopeOrGeometry) element;
             if (geom.getGeometry().isPresent()) {
-                encodedObject = createPosition(geom.getGeometry().get(), additionalValues.get(SosHelperValues.GMLID));
+                encodedObject = createPosition(geom.getGeometry().get(), ctx.require(SosHelperValues.GMLID));
             } else if (geom.getEnvelope().isPresent()) {
                 encodedObject = createEnvelope(geom.getEnvelope().get());
             } else {

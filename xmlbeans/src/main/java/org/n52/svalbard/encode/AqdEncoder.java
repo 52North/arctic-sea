@@ -22,12 +22,14 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
@@ -69,7 +71,8 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AqdEncoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper.encoderKeysForElements(AqdConstants.NS_AQD,
+    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper.encoderKeysForElements(
+            AqdConstants.NS_AQD,
             GetObservationResponse.class, OmObservation.class, EReportingHeader.class);
 
     private AqdHelper aqdHelper;
@@ -78,7 +81,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
 
     public AqdEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(ENCODER_KEY_TYPES));
+                     Joiner.on(", ").join(ENCODER_KEY_TYPES));
     }
 
     @Override
@@ -173,8 +176,8 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
             return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, EncodingContext.empty()
-                    .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                    .with(XmlBeansEncodingFlags.DOCUMENT));
+                                     .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+                                     .with(XmlBeansEncodingFlags.DOCUMENT));
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
         }
@@ -187,7 +190,9 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     private XmlObject encodeEReportingHeader(EReportingHeader element, EncodingContext ctx) throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new EReportingHeaderEncoder(baos, ctx, getEncoderRepository(), this::getXmlOptions, element).write();
+            EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                    .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
+            new EReportingHeaderEncoder(context, baos, element).write();
             return XmlObject.Factory.parse(baos.toString("UTF8"));
         } catch (XMLStreamException | XmlException | UnsupportedEncodingException xmlse) {
             throw new EncodingException("Error encoding response", xmlse);

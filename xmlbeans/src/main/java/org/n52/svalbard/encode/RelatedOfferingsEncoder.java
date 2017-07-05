@@ -21,11 +21,13 @@ import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 
 import org.n52.shetland.ogc.sos.ro.RelatedOfferingConstants;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
@@ -55,17 +57,14 @@ public class RelatedOfferingsEncoder extends AbstractXmlEncoder<XmlObject, Relat
     }
 
     @Override
-    public XmlObject encode(RelatedOfferings objectToEncode, EncodingContext additionalValues)
+    public XmlObject encode(RelatedOfferings objectToEncode, EncodingContext ctx)
             throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new RelatedOfferingXmlStreamWriter(
-                    baos,
-                    additionalValues,
-                    getEncoderRepository(),
-                    this::getXmlOptions,
-                    objectToEncode
-            ).write();
+            EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                    .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
+
+            new RelatedOfferingXmlStreamWriter(context, baos, objectToEncode).write();
             return XmlObject.Factory.parse(baos.toString("UTF8"));
         } catch (XMLStreamException | XmlException | UnsupportedEncodingException ex) {
             String message = String.format("Error encoding %s", objectToEncode.getClass().getSimpleName());
