@@ -58,12 +58,12 @@ public class Contact {
     /**
      * 0..*
      */
-    private Nillable<List<String>> telephoneFacsimile = Nillable.missing();
+    private Nillable<List<Nillable<String>>> telephoneFacsimile = Nillable.missing();
 
     /**
      * 0..*
      */
-    private Nillable<List<String>> telephoneVoice = Nillable.missing();
+    private Nillable<List<Nillable<String>>> telephoneVoice = Nillable.missing();
 
     /**
      * 0..1
@@ -165,7 +165,7 @@ public class Contact {
     /**
      * @return the telephoneFacsimile
      */
-    public Nillable<List<String>> getTelephoneFacsimile() {
+    public Nillable<List<Nillable<String>>> getTelephoneFacsimile() {
         return telephoneFacsimile;
     }
 
@@ -173,7 +173,7 @@ public class Contact {
      * @param telephoneFacsimile
      *            the telephoneFacsimile to set
      */
-    public Contact setTelephoneFacsimile(List<String> telephoneFacsimile) {
+    public Contact setTelephoneFacsimile(List<Nillable<String>> telephoneFacsimile) {
         return setTelephoneFacsimile(Nillable.of(telephoneFacsimile));
     }
 
@@ -181,7 +181,7 @@ public class Contact {
      * @param telephoneFacsimile
      *            the telephoneFacsimile to set
      */
-    public Contact setTelephoneFacsimile(Nillable<List<String>> telephoneFacsimile) {
+    public Contact setTelephoneFacsimile(Nillable<List<Nillable<String>>> telephoneFacsimile) {
         this.telephoneFacsimile = Preconditions.checkNotNull(telephoneFacsimile);
         return this;
     }
@@ -192,25 +192,25 @@ public class Contact {
      */
     public Contact addTelephoneFacsimile(String telephoneFacsimile) {
         if (this.telephoneFacsimile.isAbsent()) {
-            this.telephoneFacsimile = Nillable.of((List<String>) Lists.<String> newArrayList());
+            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
-        this.telephoneFacsimile.get().add(Preconditions.checkNotNull(telephoneFacsimile));
+        this.telephoneFacsimile.get().add(Nillable.of(Preconditions.checkNotNull(telephoneFacsimile)));
         return this;
     }
 
     public void addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
         if (this.telephoneFacsimile.isAbsent()) {
-            this.telephoneFacsimile = Nillable.of((List<String>) Lists.<String> newArrayList());
+            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
         if (telephoneFacsimile.isPresent()) {
-            this.telephoneFacsimile.get().add(telephoneFacsimile.get());
+            this.telephoneFacsimile.get().add(telephoneFacsimile);
         }
     }
 
     /**
      * @return the telephoneVoice
      */
-    public Nillable<List<String>> getTelephoneVoice() {
+    public Nillable<List<Nillable<String>>> getTelephoneVoice() {
         return telephoneVoice;
     }
 
@@ -218,7 +218,7 @@ public class Contact {
      * @param telephoneVoice
      *            the telephoneVoice to set
      */
-    public Contact setTelephoneVoice(List<String> telephoneVoice) {
+    public Contact setTelephoneVoice(List<Nillable<String>> telephoneVoice) {
         return setTelephoneVoice(Nillable.of(telephoneVoice));
     }
 
@@ -226,7 +226,7 @@ public class Contact {
      * @param telephoneVoice
      *            the telephoneVoice to set
      */
-    public Contact setTelephoneVoice(Nillable<List<String>> telephoneVoice) {
+    public Contact setTelephoneVoice(Nillable<List<Nillable<String>>> telephoneVoice) {
         this.telephoneVoice = Preconditions.checkNotNull(telephoneVoice);
         return this;
     }
@@ -237,18 +237,18 @@ public class Contact {
      */
     public Contact addTelephoneVoice(String telephoneVoice) {
         if (this.telephoneVoice.isAbsent()) {
-            this.telephoneVoice = Nillable.of((List<String>) Lists.<String> newArrayList());
+            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
-        this.telephoneVoice.get().add(Preconditions.checkNotNull(telephoneVoice));
+        this.telephoneVoice.get().add(Nillable.of(Preconditions.checkNotNull(telephoneVoice)));
         return this;
     }
-    
+
     public Contact addTelephoneVoice(Nillable<String> telephoneVoice) {
         if (this.telephoneVoice.isAbsent()) {
-            this.telephoneVoice = Nillable.of((List<String>) Lists.<String> newArrayList());
+            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
         if (telephoneVoice.isPresent()) {
-            this.telephoneVoice.get().add(telephoneVoice.get());
+            this.telephoneVoice.get().add(telephoneVoice);
         }
         return this;
     }
