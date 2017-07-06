@@ -30,47 +30,44 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public class AddressRepresentation {
-//    /**
-//     * 1..*
-//     */
-//    private GeographicalName adminUnit;
-//    /**
-//     * 0..*
-//     */
-//    private String locatorDesignator;
-//
-//    /**
-//     * 0..*
-//     */
-//    private GeographicalName locatorName;
-//    /**
-//     * 0..*
-//     */
-//    private GeographicalName addressArea;
-//    /**
-//     * 0..*
-//     */
-//    private GeographicalName postName;
-//
-//    /**
-//     * 0..1
-//     */
-//    private String postCode;
-//    /**
-//     * 0..*
-//     */
-//    private GeographicalName thoroughfare;
-//    /**
-//     * 0..1
-//     */
-//    private ReferenceType addressFeature;
+    /**
+     * 1..*
+     */
     private final List<GeographicalName> adminUnits = new LinkedList<>();
+
+    /**
+     * 0..*
+     */
     private final List<String> locatorDesignators = new LinkedList<>();
+
+    /**
+     * 0..*
+     */
     private final List<GeographicalName> locatorNames = new LinkedList<>();
+
+    /**
+     * 0..*
+     */
     private final List<Nillable<GeographicalName>> addressAreas = new LinkedList<>();
+
+    /**
+     * 0..*
+     */
     private final List<Nillable<GeographicalName>> postNames = new LinkedList<>();
+
+    /**
+     * 0..1
+     */
     private Nillable<String> postCode = Nillable.missing();
+
+    /**
+     * 0..*
+     */
     private final List<Nillable<GeographicalName>> thoroughfares = new LinkedList<>();
+
+    /**
+     * 0..1
+     */
     private Nillable<Reference> addressFeature = Nillable.missing();
 
     public List<GeographicalName> getAdminUnits() {
@@ -90,8 +87,7 @@ public class AddressRepresentation {
     }
 
     public AddressRepresentation addLocatorDesignator(String locatorDesignator) {
-        this.locatorDesignators.add(Preconditions
-                .checkNotNull(locatorDesignator));
+        this.locatorDesignators.add(Preconditions.checkNotNull(locatorDesignator));
         return this;
     }
 
@@ -171,39 +167,31 @@ public class AddressRepresentation {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getAdminUnits(), getLocatorDesignators(),
-                                getLocatorNames(), getAddressAreas(),
-                                getPostNames(), getPostCode(),
-                                getThoroughfares(), getAddressFeature());
+        return Objects.hashCode(getAdminUnits(), getLocatorDesignators(), getLocatorNames(), getAddressAreas(),
+                getPostNames(), getPostCode(), getThoroughfares(), getAddressFeature());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof AddressRepresentation) {
             AddressRepresentation that = (AddressRepresentation) obj;
-            return Objects.equal(getAdminUnits(), that.getAdminUnits()) &&
-                   Objects.equal(getLocatorDesignators(), that.getLocatorDesignators()) &&
-                   Objects.equal(getLocatorNames(), that.getLocatorNames()) &&
-                   Objects.equal(getAddressAreas(), that.getAddressAreas()) &&
-                   Objects.equal(getPostNames(), that.getPostNames()) &&
-                   Objects.equal(getPostCode(), that.getPostCode()) &&
-                   Objects.equal(getThoroughfares(), that.getThoroughfares()) &&
-                   Objects.equal(getAddressFeature(), that.getAddressFeature());
+            return Objects.equal(getAdminUnits(), that.getAdminUnits())
+                    && Objects.equal(getLocatorDesignators(), that.getLocatorDesignators())
+                    && Objects.equal(getLocatorNames(), that.getLocatorNames())
+                    && Objects.equal(getAddressAreas(), that.getAddressAreas())
+                    && Objects.equal(getPostNames(), that.getPostNames())
+                    && Objects.equal(getPostCode(), that.getPostCode())
+                    && Objects.equal(getThoroughfares(), that.getThoroughfares())
+                    && Objects.equal(getAddressFeature(), that.getAddressFeature());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("adminUnits", getAdminUnits())
-                .add("locatorDesignator", getLocatorDesignators())
-                .add("locatorNames", getLocatorNames())
-                .add("addressAreas", getAddressAreas())
-                .add("postNames", getPostNames())
-                .add("postCode", getPostCode())
-                .add("thoroughfares", getThoroughfares())
-                .add("addressFeature", getAddressFeature())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("adminUnits", getAdminUnits())
+                .add("locatorDesignator", getLocatorDesignators()).add("locatorNames", getLocatorNames())
+                .add("addressAreas", getAddressAreas()).add("postNames", getPostNames()).add("postCode", getPostCode())
+                .add("thoroughfares", getThoroughfares()).add("addressFeature", getAddressFeature()).toString();
     }
 }

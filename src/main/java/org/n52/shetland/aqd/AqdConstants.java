@@ -31,6 +31,8 @@ import com.google.common.collect.Sets;
 
 public interface AqdConstants {
 
+    String TEXT = "text";
+
     String AQD = "AQD";
 
     String VERSION = "1.0.0";
@@ -41,7 +43,8 @@ public interface AqdConstants {
 
     String DEFINITION_DATA_CAPTURE = "http://dd.eionet.europa.eu/vocabulary/aq/primaryObservation/dc";
 
-    String DEFINITION_UOM_STATISTICS_PERCENTAGE = "http://dd.eionet.europa.eu/vocabularyconcept/uom/statistics/percentage";
+    String DEFINITION_UOM_STATISTICS_PERCENTAGE =
+            "http://dd.eionet.europa.eu/vocabularyconcept/uom/statistics/percentage";
 
     String NAME_FIXED_OBSERVATIONS = "FixedObservations";
 
@@ -53,7 +56,7 @@ public interface AqdConstants {
 
     SchemaLocation NS_AQD_SCHEMA_LOCATION = new SchemaLocation(NS_AQD, NS_AQD_SCHEMA);
 
-    MediaType AQD_CONTENT_TYPE = new MediaType("text", "xml", "subtype", "id2011850eu/1.0");
+    MediaType AQD_CONTENT_TYPE = new MediaType(TEXT, "xml", "subtype", "id2011850eu/1.0");
 
     String NS_AD = "urn:x-inspire:specification:gmlas:Addresses:3.0";
 
@@ -87,19 +90,11 @@ public interface AqdConstants {
 
     String NS_OMPR_PREFIX = "ompr";
 
-    Map<String, String> NAMESPACE_PREFIX_MAP = ImmutableMap.<String, String> builder()
-            .put(NS_AQD, NS_AQD_PREFIX)
-            .put(NS_AD, NS_AD_PREFIX)
-            .put(NS_AM, NS_AM_PREFIX)
-            .put(NS_AU, NS_AU_PREFIX)
-            .put(NS_BASE, NS_BASE_PREFIX)
-            .put(NS_BASE2, NS_BASE2_PREFIX)
-            .put(NS_EF, NS_EF_PREFIX)
-            .put(NS_GN, NS_GN_PREFIX)
-            .put(NS_OMPR, NS_OMPR_PREFIX)
-            .put(GcoConstants.NS_GCO, GcoConstants.NS_GCO_PREFIX)
-            .put(GmdConstants.NS_GMD, GmdConstants.NS_GMD_PREFIX)
-            .build();
+    Map<String, String> NAMESPACE_PREFIX_MAP = ImmutableMap.<String, String> builder().put(NS_AQD, NS_AQD_PREFIX)
+            .put(NS_AD, NS_AD_PREFIX).put(NS_AM, NS_AM_PREFIX).put(NS_AU, NS_AU_PREFIX).put(NS_BASE, NS_BASE_PREFIX)
+            .put(NS_BASE2, NS_BASE2_PREFIX).put(NS_EF, NS_EF_PREFIX).put(NS_GN, NS_GN_PREFIX)
+            .put(NS_OMPR, NS_OMPR_PREFIX).put(GcoConstants.NS_GCO, GcoConstants.NS_GCO_PREFIX)
+            .put(GmdConstants.NS_GMD, GmdConstants.NS_GMD_PREFIX).build();
 
     String AN_CODE_SPACE = "codeSpace";
 
@@ -197,7 +192,7 @@ public interface AqdConstants {
 
     String EN_TELEPHONE_VOICE = "telephoneVoice";
 
-    String EN_TEXT = "text";
+    String EN_TEXT = TEXT;
 
     String EN_THOROUGHFARE = "thoroughfare";
 
@@ -332,31 +327,24 @@ public interface AqdConstants {
      * specification
      */
     enum Operations {
-        GetCapabilities,
-        GetObservation,
-        DescribeSensor
+        GetCapabilities, GetObservation, DescribeSensor
     }
 
     enum PrimaryObservation {
-        Hourly(HOUR),
-        Daily(DAY),
-        Weekly(WEEK),
-        Fortnightly(FORTNIGHT),
-        Monthly(MONTH),
-        Quarterly(QUARTER),
-        Variable(VAR);
+        Hourly(HOUR), Daily(DAY), Weekly(WEEK), Fortnightly(FORTNIGHT), Monthly(MONTH), Quarterly(QUARTER), Variable(
+                VAR);
 
-        private static final String baseURI = "http://dd.eionet.europa.eu/vocabulary/aq/primaryObservation/";
+        private static final String BASE_URI = "http://dd.eionet.europa.eu/vocabulary/aq/primaryObservation/";
+
+        private static final Set<String> MULTI_DAYS = Sets.newHashSet(WEEK, FORTNIGHT, MONTH, QUARTER);
 
         private final String id;
 
         private final String conceptURI;
 
-        private static final Set<String> multiDay = Sets.newHashSet(WEEK, FORTNIGHT, MONTH, QUARTER);
-
         PrimaryObservation(String id) {
             this.id = id;
-            this.conceptURI = baseURI + id;
+            this.conceptURI = BASE_URI + id;
         }
 
         public String getId() {
@@ -395,7 +383,7 @@ public interface AqdConstants {
         }
 
         public boolean isMultyDayPrimaryObservation() {
-          return multiDay.contains(this.id);
+            return MULTI_DAYS.contains(this.id);
         }
     }
 
@@ -414,7 +402,7 @@ public interface AqdConstants {
         VerificationSamplingPointsOther("VER-SPother"),
         Unknown("Unknown");
 
-        private static final String baseURI = "http://dd.eionet.europa.eu/vocabulary/aq/processparameter/";
+        private static final String BASE_URI = "http://dd.eionet.europa.eu/vocabulary/aq/processparameter/";
 
         private final String id;
 
@@ -422,7 +410,7 @@ public interface AqdConstants {
 
         ProcessParameter(String id) {
             this.id = id;
-            this.conceptURI = baseURI + id;
+            this.conceptURI = BASE_URI + id;
         }
 
         public String getId() {
@@ -454,9 +442,12 @@ public interface AqdConstants {
     }
 
     enum AssessmentType {
-        Fixed("fixed"), Interactive("interactive"), Model("model"), Objective("objective");
+        Fixed("fixed"),
+        Interactive("interactive"),
+        Model("model"),
+        Objective("objective");
 
-        private static final String baseURI = "http://dd.eionet.europa.eu/vocabulary/aq/assessmenttype/";
+        private static final String BASE_URI = "http://dd.eionet.europa.eu/vocabulary/aq/assessmenttype/";
 
         private final String id;
 
@@ -464,7 +455,7 @@ public interface AqdConstants {
 
         AssessmentType(String id) {
             this.id = id;
-            this.conceptURI = baseURI + id;
+            this.conceptURI = BASE_URI + id;
         }
 
         public String getId() {

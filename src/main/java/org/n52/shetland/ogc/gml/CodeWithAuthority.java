@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.gml;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
 
 /**
@@ -26,9 +24,7 @@ import com.google.common.base.Objects;
  * @since 1.0.0
  *
  */
-public class CodeWithAuthority implements Comparable<CodeWithAuthority>, Serializable {
-
-    private static final long serialVersionUID = 9001214766142377426L;
+public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
 
     /**
      * value/identifier

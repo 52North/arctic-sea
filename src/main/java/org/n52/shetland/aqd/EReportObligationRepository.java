@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.aqd;
 
-import org.n52.shetland.inspire.RelatedParty;
+import org.n52.shetland.inspire.base2.RelatedParty;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 public interface EReportObligationRepository {

@@ -22,9 +22,17 @@ import org.n52.shetland.inspire.ad.AddressRepresentation;
 import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.shetland.w3c.Nillable;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @author Christian Autermann
+ * @since
+ *
+ */
 public class Contact {
 
     /**
@@ -41,6 +49,11 @@ public class Contact {
      * 0..1
      */
     private Nillable<String> electronicMailAddress = Nillable.missing();
+
+    /**
+     * 0..1
+     */
+    private Nillable<PT_FreeText> hoursOfService = Nillable.missing();
 
     /**
      * 0..*
@@ -126,6 +139,30 @@ public class Contact {
     }
 
     /**
+     * @return the hoursOfService
+     */
+    public Nillable<PT_FreeText> getHoursOfService() {
+        return hoursOfService;
+    }
+
+    /**
+     * @param hoursOfService
+     *            the hoursOfService to set
+     */
+    public Contact setHoursOfService(Nillable<PT_FreeText> hoursOfService) {
+        this.hoursOfService = Preconditions.checkNotNull(hoursOfService);
+        return this;
+    }
+
+    /**
+     * @param hoursOfService
+     *            the hoursOfService to set
+     */
+    public Contact setHoursOfService(PT_FreeText hoursOfService) {
+        return setHoursOfService(Nillable.of(hoursOfService));
+    }
+
+    /**
      * @return the telephoneFacsimile
      */
     public Nillable<List<String>> getTelephoneFacsimile() {
@@ -155,10 +192,19 @@ public class Contact {
      */
     public Contact addTelephoneFacsimile(String telephoneFacsimile) {
         if (this.telephoneFacsimile.isAbsent()) {
-            this.telephoneFacsimile = Nillable.of((List<String>)Lists.<String>newArrayList());
+            this.telephoneFacsimile = Nillable.of((List<String>) Lists.<String> newArrayList());
         }
         this.telephoneFacsimile.get().add(Preconditions.checkNotNull(telephoneFacsimile));
         return this;
+    }
+
+    public void addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
+        if (this.telephoneFacsimile.isAbsent()) {
+            this.telephoneFacsimile = Nillable.of((List<String>) Lists.<String> newArrayList());
+        }
+        if (telephoneFacsimile.isPresent()) {
+            this.telephoneFacsimile.get().add(telephoneFacsimile.get());
+        }
     }
 
     /**
@@ -191,9 +237,19 @@ public class Contact {
      */
     public Contact addTelephoneVoice(String telephoneVoice) {
         if (this.telephoneVoice.isAbsent()) {
-            this.telephoneVoice = Nillable.of((List<String>)Lists.<String>newArrayList());
+            this.telephoneVoice = Nillable.of((List<String>) Lists.<String> newArrayList());
         }
         this.telephoneVoice.get().add(Preconditions.checkNotNull(telephoneVoice));
+        return this;
+    }
+    
+    public Contact addTelephoneVoice(Nillable<String> telephoneVoice) {
+        if (this.telephoneVoice.isAbsent()) {
+            this.telephoneVoice = Nillable.of((List<String>) Lists.<String> newArrayList());
+        }
+        if (telephoneVoice.isPresent()) {
+            this.telephoneVoice.get().add(telephoneVoice.get());
+        }
         return this;
     }
 
@@ -221,4 +277,33 @@ public class Contact {
         return this;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getAddress(), getContactInstructions(), getElectronicMailAddress(),
+                getHoursOfService(), getTelephoneFacsimile(), getTelephoneVoice(), getWebsite());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Contact) {
+            Contact that = (Contact) obj;
+            return Objects.equal(getAddress(), that.getAddress())
+                    && Objects.equal(getContactInstructions(), that.getContactInstructions())
+                    && Objects.equal(getElectronicMailAddress(), that.getElectronicMailAddress())
+                    && Objects.equal(getHoursOfService(), that.getHoursOfService())
+                    && Objects.equal(getTelephoneFacsimile(), that.getTelephoneFacsimile())
+                    && Objects.equal(getTelephoneVoice(), that.getTelephoneVoice())
+                    && Objects.equal(getWebsite(), getWebsite());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("AddressRepresentation", getAddress())
+                .add("contactInstructions", getContactInstructions())
+                .add("electronicMailAddressRepresentation", getElectronicMailAddress())
+                .add("hoursOfService", getHoursOfService()).add("telephoneFacsimile", getTelephoneFacsimile())
+                .add("telephoneVoice", getTelephoneVoice()).add("website", getWebsite()).toString();
+    }
 }

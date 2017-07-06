@@ -20,8 +20,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.n52.shetland.inspire.InspireID;
-import org.n52.shetland.inspire.RelatedParty;
+import org.n52.shetland.inspire.base.Identifier;
+import org.n52.shetland.inspire.base2.RelatedParty;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.util.CollectionHelper;
@@ -33,12 +33,12 @@ import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 
 public class EReportingHeader extends AbstractEReportingHeader {
-    private InspireID inspireID;
+    private Identifier inspireID;
     private RelatedParty reportingAuthority;
     private EReportingChange change;
     private Referenceable<Time> reportingPeriod = Referenceable.of(Nillable.<Time>missing());
-    private final List<Referenceable<AbstractFeature>> delete= new LinkedList<>();
-    private final List<Referenceable<AbstractFeature>> content= new LinkedList<>();
+    private final List<Referenceable<AbstractFeature>> delete = new LinkedList<>();
+    private final List<Referenceable<AbstractFeature>> content = new LinkedList<>();
 
     public EReportingHeader() {
         setDefaultElementEncoding(AqdConstants.NS_AQD);
@@ -53,11 +53,11 @@ public class EReportingHeader extends AbstractEReportingHeader {
         return this;
     }
 
-    public InspireID getInspireID() {
+    public Identifier getInspireID() {
         return inspireID;
     }
 
-    public EReportingHeader setInspireID(InspireID inspireID) {
+    public EReportingHeader setInspireID(Identifier inspireID) {
         this.inspireID = Preconditions.checkNotNull(inspireID);
         return this;
     }
