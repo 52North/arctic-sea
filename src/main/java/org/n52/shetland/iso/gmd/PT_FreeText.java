@@ -20,6 +20,8 @@ import java.util.Set;
 
 import org.n52.shetland.util.CollectionHelper;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.collect.Sets;
 
 public class PT_FreeText extends AbtractGmd {
@@ -54,4 +56,22 @@ public class PT_FreeText extends AbtractGmd {
         return CollectionHelper.isNotEmpty(getTextGroup());
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getTextGroup());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof PT_FreeText) {
+            PT_FreeText that = (PT_FreeText) obj;
+            return Objects.equal(getTextGroup(), that.getTextGroup());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("TextGroup", getTextGroup()).toString();
+    }
 }

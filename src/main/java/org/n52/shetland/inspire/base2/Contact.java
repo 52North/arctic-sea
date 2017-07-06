@@ -191,20 +191,17 @@ public class Contact {
      *            the telephoneFacsimile to add
      */
     public Contact addTelephoneFacsimile(String telephoneFacsimile) {
-        if (this.telephoneFacsimile.isAbsent()) {
-            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
-        }
-        this.telephoneFacsimile.get().add(Nillable.of(Preconditions.checkNotNull(telephoneFacsimile)));
-        return this;
+        return addTelephoneFacsimile(Nillable.of(Preconditions.checkNotNull(telephoneFacsimile)));
     }
 
-    public void addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
-        if (this.telephoneFacsimile.isAbsent()) {
+    public Contact addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
+        if (this.telephoneFacsimile.isAbsent() || this.telephoneFacsimile.isNil()) {
             this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
         if (telephoneFacsimile.isPresent()) {
             this.telephoneFacsimile.get().add(telephoneFacsimile);
         }
+        return this;
     }
 
     /**
@@ -236,15 +233,11 @@ public class Contact {
      *            the telephoneVoice to add
      */
     public Contact addTelephoneVoice(String telephoneVoice) {
-        if (this.telephoneVoice.isAbsent()) {
-            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
-        }
-        this.telephoneVoice.get().add(Nillable.of(Preconditions.checkNotNull(telephoneVoice)));
-        return this;
+        return addTelephoneVoice(Nillable.of(Preconditions.checkNotNull(telephoneVoice)));
     }
 
     public Contact addTelephoneVoice(Nillable<String> telephoneVoice) {
-        if (this.telephoneVoice.isAbsent()) {
+        if (this.telephoneVoice.isAbsent() || this.telephoneVoice.isNil()) {
             this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
         if (telephoneVoice.isPresent()) {
