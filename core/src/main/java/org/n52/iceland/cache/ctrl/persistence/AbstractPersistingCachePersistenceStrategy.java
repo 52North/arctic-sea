@@ -66,7 +66,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
             LOGGER.debug("Reading cache from temp file '{}'", file.getAbsolutePath());
 
             try (FileInputStream fis = new FileInputStream(file);
-                 ObjectInputStream ois = new ObjectInputStream(fis)) {
+                 ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(fis))) {
                 return Optional.of((WritableContentCache) ois.readObject());
             } catch (IOException | ClassNotFoundException ex) {
                 LOGGER.error(String.format("Error reading cache file '%s'", file.getAbsolutePath()), ex);
@@ -97,7 +97,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
             }
 
             try (FileOutputStream fos = new FileOutputStream(file);
-                 ObjectOutputStream oos = new ObjectOutputStream(fos)) {
+                 ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(fos))) {
                 LOGGER.debug("Serializing cache to {}", file.getAbsolutePath());
                 oos.writeObject(cache);
             } catch (IOException t) {
