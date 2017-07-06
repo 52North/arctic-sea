@@ -130,10 +130,10 @@ public class FilterCapabilities {
                                   Map<T, ? extends Collection<QName>> newOperators) {
         operators.clear();
         Optional.ofNullable(newOperators).ifPresent(so -> {
-            so.forEach((temporalOperator, qnames) -> {
+            so.forEach((operator, qnames) -> {
                 TreeSet<QName> set = new TreeSet<>(Comparables.qname());
                 Optional.ofNullable(qnames).ifPresent(set::addAll);
-                operators.put(temporalOperator, set);
+                operators.put(operator, set);
             });
         });
 

@@ -199,7 +199,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     /**
      * @param phens4CompPhens
      */
-    public void setPhens4CompPhens(Map<String, Collection<String>> phens4CompPhens) {
+    public void setPhens4CompPhens(Map<String, ? extends Collection<String>> phens4CompPhens) {
         set(this.phens4CompPhens, phens4CompPhens);
     }
 
