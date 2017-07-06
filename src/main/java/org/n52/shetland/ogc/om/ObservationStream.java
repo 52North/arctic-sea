@@ -29,7 +29,6 @@ import java.util.function.Supplier;
 import javax.annotation.CheckReturnValue;
 
 import org.n52.janmayen.ThrowingIterator;
-import org.n52.janmayen.function.Predicates;
 import org.n52.janmayen.function.ThrowingConsumer;
 import org.n52.janmayen.function.ThrowingFunction;
 import org.n52.janmayen.function.ThrowingUnaryOperator;
