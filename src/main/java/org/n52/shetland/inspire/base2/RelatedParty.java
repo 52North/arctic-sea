@@ -16,129 +16,212 @@
  */
 package org.n52.shetland.inspire.base2;
 
-import java.util.Set;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 
+import org.n52.shetland.iso.gmd.LocalisedCharacterString;
 import org.n52.shetland.iso.gmd.PT_FreeText;
-import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.Nillable;
+import org.n52.shetland.w3c.xlink.Reference;
 
-import com.google.common.collect.Sets;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
 
 public class RelatedParty {
 
     /**
      * 0..1
      */
-    private PT_FreeText individualName;
+    private Nillable<PT_FreeText> individualName = Nillable.missing();
 
     /**
      * 0..1
      */
-    private PT_FreeText organisationName;
+    private Nillable<PT_FreeText> organisationName = Nillable.missing();
+    /**
+     * 0..1
+     */
+    private Nillable<PT_FreeText> positionName = Nillable.missing();
 
     /**
      * 0..1
      */
-    private PT_FreeText positionName;
-
-    /**
-     * 0..1
-     */
-    private Contact contact;
+    private Nillable<Contact> contact = Nillable.missing();
 
     /**
      * 0..*
      */
-    private Set<ReferenceType> role = Sets.newHashSet();
+    private final List<Nillable<Reference>> roles = new LinkedList<>();
 
     /**
      * @return the individualName
      */
-    public PT_FreeText getIndividualName() {
+    public Nillable<PT_FreeText> getIndividualName() {
         return individualName;
     }
 
     /**
      * @param individualName the individualName to set
+     * @return
      */
-    public void setIndividualName(PT_FreeText individualName) {
-        this.individualName = individualName;
+    public RelatedParty setIndividualName(PT_FreeText individualName) {
+        return setIndividualName(Nillable.of(individualName));
+    }
+
+    public RelatedParty setIndividualName(String individualName) {
+        return setIndividualName(Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(individualName))));
+    }
+
+    public RelatedParty setIndividualName(Nillable<PT_FreeText> individualName) {
+        this.individualName = Preconditions.checkNotNull(individualName);
+        return this;
     }
 
     public boolean isSetIndividualName() {
-        return getIndividualName() != null;
+        return getIndividualName() != null && getIndividualName().isPresent();
     }
 
     /**
      * @return the organisationName
      */
-    public PT_FreeText getOrganisationName() {
+    public Nillable<PT_FreeText> getOrganisationName() {
         return organisationName;
     }
 
     /**
      * @param organisationName the organisationName to set
+     * @return
      */
-    public void setOrganisationName(PT_FreeText organisationName) {
-        this.organisationName = organisationName;
+    public RelatedParty setOrganisationName(PT_FreeText organisationName) {
+        return setOrganisationName(Nillable.of(organisationName));
+    }
+
+    public RelatedParty setOrganisationName(String organisationName) {
+        return setOrganisationName(Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(organisationName))));
+    }
+
+    public RelatedParty setOrganisationName(Nillable<PT_FreeText> organisationName) {
+        this.organisationName = Preconditions.checkNotNull(organisationName);
+        return this;
     }
 
     public boolean isSetOrganisationName() {
-        return getOrganisationName() != null;
+        return getOrganisationName() != null && getIndividualName().isPresent();
     }
 
     /**
      * @return the positionName
      */
-    public PT_FreeText getPositionName() {
+    public Nillable<PT_FreeText> getPositionName() {
         return positionName;
     }
 
     /**
      * @param positionName the positionName to set
+     * @return
      */
-    public void setPositionName(PT_FreeText positionName) {
-        this.positionName = positionName;
+    public RelatedParty setPositionName(PT_FreeText positionName) {
+        return setPositionName(Nillable.of(positionName));
+    }
+
+    public RelatedParty setPositionName(String positionName) {
+        return setPositionName(Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(positionName))));
+    }
+
+    public RelatedParty setPositionName(Nillable<PT_FreeText> positionName) {
+        this.positionName = Preconditions.checkNotNull(positionName);
+        return this;
     }
 
     public boolean isSetPositionName() {
-        return getPositionName() != null;
+        return getPositionName() != null && getPositionName().isPresent();
     }
 
     /**
      * @return the contact
      */
-    public Contact getContact() {
+    public Nillable<org.n52.shetland.inspire.base2.Contact> getContact() {
         return contact;
     }
 
     /**
      * @param contact the contact to set
      */
-    public void setContact(Contact contact) {
-        this.contact = contact;
+    public RelatedParty setContact(Contact contact) {
+        return setContact(Nillable.of(contact));
+    }
+
+    public RelatedParty setContact(Nillable<Contact> contact) {
+        this.contact = Preconditions.checkNotNull(contact);
+        return this;
     }
 
     public boolean isSetContact() {
-        return getContact() != null;
+        return getContact() != null && getContact().isPresent();
     }
 
     /**
      * @return the role
      */
-    public Set<ReferenceType> getRole() {
-        return role;
+    public List<Nillable<Reference>> getRoles() {
+        return Collections.unmodifiableList(roles);
     }
 
     /**
      * @param role the role to set
      */
-    public void setRole(Set<ReferenceType> role) {
-        this.role = role;
+    public void setRoles(List<Nillable<Reference>> roles) {
+        this.roles.clear();
+        if (roles != null) {
+            this.roles.addAll(roles);
+        }
+    }
+
+
+    public RelatedParty addRole(Nillable<Reference> role) {
+      this.roles.add(Preconditions.checkNotNull(role));
+      return this;
+    }
+
+    public RelatedParty addRole(Reference role) {
+      return addRole(Nillable.of(role));
     }
 
     public boolean isSetRole() {
-        return CollectionHelper.isNotEmpty(getRole());
+        return CollectionHelper.isNotEmpty(getRoles());
+    }
+//    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getIndividualName(), getOrganisationName(),
+                                getPositionName(), getContact(), getRoles());
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof RelatedParty) {
+            RelatedParty that = (RelatedParty) obj;
+            return Objects.equal(this.getIndividualName(), that.getIndividualName()) &&
+                   Objects.equal(this.getOrganisationName(), that.getOrganisationName()) &&
+                   Objects.equal(this.getPositionName(), that.getPositionName()) &&
+                   Objects.equal(this.getContact(), that.getContact()) &&
+                   Objects.equal(this.getRoles(), that.getRoles());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this)
+                .add("individualName", getIndividualName())
+                .add("organisationName", getOrganisationName())
+                .add("positionName", getPositionName())
+                .add("contact", getContact())
+                .add("roles", getRoles())
+                .toString();
+    }
 }

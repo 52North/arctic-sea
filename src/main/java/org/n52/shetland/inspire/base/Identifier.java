@@ -18,14 +18,17 @@ package org.n52.shetland.inspire.base;
 
 
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.w3c.Nillable;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class Identifier extends CodeWithAuthority {
 
-    private static final long serialVersionUID = -1604778811204130647L;
-    private String versionId;
+    private Nillable<String> versionId = Nillable.absent();
 
     /**
      * @param localId
@@ -99,64 +102,43 @@ public class Identifier extends CodeWithAuthority {
         return !Strings.isNullOrEmpty(getNamespace());
     }
 
-    /**
-     * @return the versionId
-     */
-    public String getVersionId() {
+    public Nillable<String> getVersionId() {
         return versionId;
     }
 
-    /**
-     * @param versionId the versionId to set
-     */
     public void setVersionId(String versionId) {
-        this.versionId = versionId;
+        this.versionId = Nillable.of(versionId);
     }
 
-    /**
-     * @return <code>true</code>, if versionId is set
-     */
-    public boolean isSetVersionId() {
-        return !Strings.isNullOrEmpty(versionId);
+    public Identifier setVersionId(Nillable<String> versionId) {
+        this.versionId = versionId;
+        return this;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getNamespace(), getLocalId());
+        return Objects.hashCode(getNamespace(), getLocalId(), getVersionId());
     }
 
     @Override
+    @SuppressFBWarnings("EQ_OVERRIDING_EQUALS_NOT_SYMMETRIC")
     public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+        if (obj instanceof Identifier) {
+            Identifier that = (Identifier) obj;
+            return Objects.equal(this.getNamespace(), that.getNamespace()) &&
+                   Objects.equal(this.getLocalId(), that.getLocalId()) &&
+                   Objects.equal(this.getVersionId(), that.getVersionId());
         }
-        if (obj == null) {
-            return false;
-        }
-        if (!Identifier.class.isAssignableFrom(obj.getClass())) {
-            return false;
-        }
-        Identifier other = (Identifier) obj;
-        if (getNamespace() == null) {
-            if (other.getNamespace() != null) {
-                return false;
-            }
-        } else if (!getNamespace().equals(other.getNamespace())) {
-            return false;
-        }
-        if (getLocalId() == null) {
-            if (other.getLocalId() != null) {
-                return false;
-            }
-        } else if (!getLocalId().equals(other.getLocalId())) {
-            return false;
-        }
-        return true;
+        return false;
     }
 
     @Override
     public String toString() {
-        return String.format("Identifier [localId=%s, namespace=%s]", getLocalId(), getNamespace());
+        return MoreObjects.toStringHelper(this)
+                .add("localId", getLocalId())
+                .add("namespace", getNamespace())
+                .add("versionId", getVersionId())
+                .toString();
     }
 
 }

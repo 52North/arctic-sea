@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.iso.gmd;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Strings;
 
 public class LocalisedCharacterString extends AbtractGmd {
@@ -60,6 +62,27 @@ public class LocalisedCharacterString extends AbtractGmd {
 
     public boolean isSetLocale() {
         return !Strings.isNullOrEmpty(getLocale());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getValue());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof LocalisedCharacterString) {
+            LocalisedCharacterString that = (LocalisedCharacterString) obj;
+            return Objects.equal(getValue(), that.getValue())
+                    && Objects.equal(getLocale(), that.getLocale());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("Value", getValue())
+                .add("Locale", getLocale()).toString();
     }
 
 }

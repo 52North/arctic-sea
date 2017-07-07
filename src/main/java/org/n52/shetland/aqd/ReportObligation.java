@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.aqd;
 
-import org.n52.shetland.inspire.InspireID;
+import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Referenceable;
@@ -31,7 +31,7 @@ import com.google.common.base.Preconditions;
  * @author Christian Autermann
  */
 public class ReportObligation {
-    private InspireID inspireID;
+    private Identifier inspireID;
     private EReportingChange change;
     private Referenceable<Time> reportingPeriod
             = Referenceable.of(Nillable.<Time>missing());
@@ -49,11 +49,11 @@ public class ReportObligation {
         return getChange() != null;
     }
 
-    public InspireID getInspireID() {
+    public Identifier getInspireID() {
         return inspireID;
     }
 
-    public ReportObligation setInspireID(InspireID inspireID) {
+    public ReportObligation setInspireID(Identifier inspireID) {
         this.inspireID = Preconditions.checkNotNull(inspireID);
         return this;
     }

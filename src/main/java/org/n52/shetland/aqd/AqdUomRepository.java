@@ -26,12 +26,11 @@ public class AqdUomRepository {
         }
     }
 
-   public interface Uom {
-        String baseURI = "http://dd.eionet.europa.eu/vocabulary/uom/";
-        public String getId();
-        public String getNotation();
-        public String getConceptURI();
-
+    public interface Uom {
+        String BASE_UNIT = "http://dd.eionet.europa.eu/vocabulary/uom/";
+        String getId();
+        String getNotation();
+        String getConceptURI();
     }
 
     public enum UomConcentration implements Uom {
@@ -44,7 +43,7 @@ public class AqdUomRepository {
         MicrogramsCubicMetreDay("ug.m-3.day", "ug/m3·day"),
         MicrogramsCubicMetreHour("ug.m-3.h", "ug/m3·h");
 
-        private final String concentrationBaseURI = baseURI + "concentration/";
+        private static final String CONCENTRATION_BASE_UNIT = BASE_UNIT + "concentration/";
 
         private final String conceptURI;
 
@@ -55,7 +54,7 @@ public class AqdUomRepository {
         UomConcentration(String id, String notation) {
             this.id = id;
             this.notation = notation;
-            this.conceptURI = concentrationBaseURI + id;
+            this.conceptURI = CONCENTRATION_BASE_UNIT + id;
         }
 
         @Override

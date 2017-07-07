@@ -22,9 +22,17 @@ import org.n52.shetland.inspire.ad.AddressRepresentation;
 import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.shetland.w3c.Nillable;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Lists;
 
+/**
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @author Christian Autermann
+ * @since
+ *
+ */
 public class Contact {
 
     /**
@@ -43,14 +51,19 @@ public class Contact {
     private Nillable<String> electronicMailAddress = Nillable.missing();
 
     /**
-     * 0..*
+     * 0..1
      */
-    private Nillable<List<String>> telephoneFacsimile = Nillable.missing();
+    private Nillable<PT_FreeText> hoursOfService = Nillable.missing();
 
     /**
      * 0..*
      */
-    private Nillable<List<String>> telephoneVoice = Nillable.missing();
+    private Nillable<List<Nillable<String>>> telephoneFacsimile = Nillable.missing();
+
+    /**
+     * 0..*
+     */
+    private Nillable<List<Nillable<String>>> telephoneVoice = Nillable.missing();
 
     /**
      * 0..1
@@ -126,9 +139,33 @@ public class Contact {
     }
 
     /**
+     * @return the hoursOfService
+     */
+    public Nillable<PT_FreeText> getHoursOfService() {
+        return hoursOfService;
+    }
+
+    /**
+     * @param hoursOfService
+     *            the hoursOfService to set
+     */
+    public Contact setHoursOfService(Nillable<PT_FreeText> hoursOfService) {
+        this.hoursOfService = Preconditions.checkNotNull(hoursOfService);
+        return this;
+    }
+
+    /**
+     * @param hoursOfService
+     *            the hoursOfService to set
+     */
+    public Contact setHoursOfService(PT_FreeText hoursOfService) {
+        return setHoursOfService(Nillable.of(hoursOfService));
+    }
+
+    /**
      * @return the telephoneFacsimile
      */
-    public Nillable<List<String>> getTelephoneFacsimile() {
+    public Nillable<List<Nillable<String>>> getTelephoneFacsimile() {
         return telephoneFacsimile;
     }
 
@@ -136,7 +173,7 @@ public class Contact {
      * @param telephoneFacsimile
      *            the telephoneFacsimile to set
      */
-    public Contact setTelephoneFacsimile(List<String> telephoneFacsimile) {
+    public Contact setTelephoneFacsimile(List<Nillable<String>> telephoneFacsimile) {
         return setTelephoneFacsimile(Nillable.of(telephoneFacsimile));
     }
 
@@ -144,7 +181,7 @@ public class Contact {
      * @param telephoneFacsimile
      *            the telephoneFacsimile to set
      */
-    public Contact setTelephoneFacsimile(Nillable<List<String>> telephoneFacsimile) {
+    public Contact setTelephoneFacsimile(Nillable<List<Nillable<String>>> telephoneFacsimile) {
         this.telephoneFacsimile = Preconditions.checkNotNull(telephoneFacsimile);
         return this;
     }
@@ -154,17 +191,23 @@ public class Contact {
      *            the telephoneFacsimile to add
      */
     public Contact addTelephoneFacsimile(String telephoneFacsimile) {
-        if (this.telephoneFacsimile.isAbsent()) {
-            this.telephoneFacsimile = Nillable.of((List<String>)Lists.<String>newArrayList());
+        return addTelephoneFacsimile(Nillable.of(Preconditions.checkNotNull(telephoneFacsimile)));
+    }
+
+    public Contact addTelephoneFacsimile(Nillable<String> telephoneFacsimile) {
+        if (this.telephoneFacsimile.isAbsent() || this.telephoneFacsimile.isNil()) {
+            this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
-        this.telephoneFacsimile.get().add(Preconditions.checkNotNull(telephoneFacsimile));
+        if (telephoneFacsimile.isPresent()) {
+            this.telephoneFacsimile.get().add(telephoneFacsimile);
+        }
         return this;
     }
 
     /**
      * @return the telephoneVoice
      */
-    public Nillable<List<String>> getTelephoneVoice() {
+    public Nillable<List<Nillable<String>>> getTelephoneVoice() {
         return telephoneVoice;
     }
 
@@ -172,7 +215,7 @@ public class Contact {
      * @param telephoneVoice
      *            the telephoneVoice to set
      */
-    public Contact setTelephoneVoice(List<String> telephoneVoice) {
+    public Contact setTelephoneVoice(List<Nillable<String>> telephoneVoice) {
         return setTelephoneVoice(Nillable.of(telephoneVoice));
     }
 
@@ -180,7 +223,7 @@ public class Contact {
      * @param telephoneVoice
      *            the telephoneVoice to set
      */
-    public Contact setTelephoneVoice(Nillable<List<String>> telephoneVoice) {
+    public Contact setTelephoneVoice(Nillable<List<Nillable<String>>> telephoneVoice) {
         this.telephoneVoice = Preconditions.checkNotNull(telephoneVoice);
         return this;
     }
@@ -190,10 +233,16 @@ public class Contact {
      *            the telephoneVoice to add
      */
     public Contact addTelephoneVoice(String telephoneVoice) {
-        if (this.telephoneVoice.isAbsent()) {
-            this.telephoneVoice = Nillable.of((List<String>)Lists.<String>newArrayList());
+        return addTelephoneVoice(Nillable.of(Preconditions.checkNotNull(telephoneVoice)));
+    }
+
+    public Contact addTelephoneVoice(Nillable<String> telephoneVoice) {
+        if (this.telephoneVoice.isAbsent() || this.telephoneVoice.isNil()) {
+            this.telephoneVoice = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
-        this.telephoneVoice.get().add(Preconditions.checkNotNull(telephoneVoice));
+        if (telephoneVoice.isPresent()) {
+            this.telephoneVoice.get().add(telephoneVoice);
+        }
         return this;
     }
 
@@ -221,4 +270,33 @@ public class Contact {
         return this;
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(getAddress(), getContactInstructions(), getElectronicMailAddress(),
+                getHoursOfService(), getTelephoneFacsimile(), getTelephoneVoice(), getWebsite());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Contact) {
+            Contact that = (Contact) obj;
+            return Objects.equal(getAddress(), that.getAddress())
+                    && Objects.equal(getContactInstructions(), that.getContactInstructions())
+                    && Objects.equal(getElectronicMailAddress(), that.getElectronicMailAddress())
+                    && Objects.equal(getHoursOfService(), that.getHoursOfService())
+                    && Objects.equal(getTelephoneFacsimile(), that.getTelephoneFacsimile())
+                    && Objects.equal(getTelephoneVoice(), that.getTelephoneVoice())
+                    && Objects.equal(getWebsite(), getWebsite());
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("AddressRepresentation", getAddress())
+                .add("contactInstructions", getContactInstructions())
+                .add("electronicMailAddressRepresentation", getElectronicMailAddress())
+                .add("hoursOfService", getHoursOfService()).add("telephoneFacsimile", getTelephoneFacsimile())
+                .add("telephoneVoice", getTelephoneVoice()).add("website", getWebsite()).toString();
+    }
 }
