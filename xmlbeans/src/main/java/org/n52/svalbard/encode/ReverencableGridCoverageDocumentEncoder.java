@@ -19,12 +19,10 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.om.values.ReferencableGridCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
-import net.opengis.gmlcov.x10.AbstractDiscreteCoverageType;
 import net.opengis.gmlcov.x10.ReferenceableGridCoverageDocument;
 
 /**
@@ -44,21 +42,14 @@ public class ReverencableGridCoverageDocumentEncoder
     }
 
     @Override
-    public ReferenceableGridCoverageDocument encode(ReferencableGridCoverage objectToEncode)
-            throws EncodingException {
+    public ReferenceableGridCoverageDocument encode(ReferencableGridCoverage objectToEncode) throws EncodingException {
         throw new UnsupportedEncoderInputException(this, objectToEncode);
     }
 
     @Override
-    public ReferenceableGridCoverageDocument encode(ReferencableGridCoverage objectToEncode,
-            EncodingContext ec) throws EncodingException {
+    public ReferenceableGridCoverageDocument encode(ReferencableGridCoverage objectToEncode, EncodingContext ec)
+            throws EncodingException {
         throw new UnsupportedEncoderInputException(this, objectToEncode);
-    }
-
-    private XmlObject create() {
-        ReferenceableGridCoverageDocument rgcd = ReferenceableGridCoverageDocument.Factory.newInstance();
-        AbstractDiscreteCoverageType rgct = rgcd.addNewReferenceableGridCoverage();
-        return rgcd;
     }
 
 }

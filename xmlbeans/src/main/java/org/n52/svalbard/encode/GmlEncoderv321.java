@@ -146,7 +146,7 @@ import net.opengis.gml.x32.VerticalDatumPropertyType;
 import net.opengis.gml.x32.VerticalDatumType;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 @Configurable
@@ -347,6 +347,12 @@ public class GmlEncoderv321
         }
     }
 
+    @Override
+    protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
+            EncodingContext context) throws EncodingException {
+        return featurePropertyType.set(createFeature(abstractFeature, context));
+    }
+
     private boolean isNotSamplingFeature(AbstractFeature feature) {
         return !(feature instanceof SamplingFeature);
     }
@@ -420,9 +426,6 @@ public class GmlEncoderv321
      *             * if an error occurs.
      */
     private void createTimePeriodType(TimePeriod timePeriod, TimePeriodType timePeriodType) throws EncodingException {
-        if (timePeriodType == null) {
-            timePeriodType = TimePeriodType.Factory.newInstance(getXmlOptions());
-        }
         if (timePeriod.getGmlId() != null && !timePeriod.getGmlId().isEmpty()) {
             timePeriodType.setId(timePeriod.getGmlId());
         } else {
@@ -582,7 +585,6 @@ public class GmlEncoderv321
                 Geometry lineString = geom.getGeometryN(i);
                 LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
                 xbLineString.setId(getGmlID(geom, foiId));
-                createLineStringFromJtsGeometry((LineString) geom, xbLineString);
                 xbLineString.addNewPosList().setStringValue(JTSHelper.getCoordinatesString(lineString));
                 CurvePropertyType xbCurveMember = xbMultiCurve.addNewCurveMember();
                 xbCurveMember.addNewAbstractCurve().set(xbLineString);
@@ -914,7 +916,6 @@ public class GmlEncoderv321
             }
         }
         if (abstractDatum.hasRealizationEpoch()) {
-            abstractDatum.getRealizationEpoch();
             adt.setRealizationEpoch(abstractDatum.getRealizationEpoch().toCalendar(Locale.ROOT));
         }
         for (String scope : abstractDatum.getScope()) {
@@ -1226,11 +1227,5 @@ public class GmlEncoderv321
 
     private static EncodingException missingValueParameter(String type) {
         return new EncodingException("The required 'value' parameter is empty for encoding %s!", type);
-    }
-
-    @Override
-    protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
-            EncodingContext context) throws EncodingException {
-        return featurePropertyType.set(createFeature(abstractFeature, context));
     }
 }

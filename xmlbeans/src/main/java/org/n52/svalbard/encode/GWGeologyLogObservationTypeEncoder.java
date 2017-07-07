@@ -43,19 +43,19 @@ import net.opengis.gwmlWell.x22.GWGeologyLogType.EndDepth;
 import net.opengis.gwmlWell.x22.GWGeologyLogType.StartDepth;
 import net.opengis.om.x20.OMObservationType;
 
-public class GWGeologyLogObservationTypeEncoder extends OmEncoderv20 {
+public class GWGeologyLogObservationTypeEncoder
+        extends OmEncoderv20 {
 
-    @SuppressWarnings("unchecked")
-    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
-            CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_22, OmObservation.class),
-            CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_WELL_22, OmObservation.class));
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            CollectionHelper.union(CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_22, OmObservation.class),
+                    CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_WELL_22, OmObservation.class));
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(
-                                    new ObservationType(GWMLConstants.OBS_TYPE_GEOLOGY_LOG),
-                                    new ObservationType(GWMLConstants.OBS_TYPE_GEOLOGY_LOG),
-                                    new ObservationType(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION),
-                                    new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
-                                    new ObservationType(OmConstants.OBS_TYPE_PROFILE_OBSERVATION));
+    private static final Set<SupportedType> SUPPORTED_TYPES =
+            Sets.newHashSet(new ObservationType(GWMLConstants.OBS_TYPE_GEOLOGY_LOG),
+                    new ObservationType(GWMLConstants.OBS_TYPE_GEOLOGY_LOG),
+                    new ObservationType(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION),
+                    new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
+                    new ObservationType(OmConstants.OBS_TYPE_PROFILE_OBSERVATION));
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections.singletonMap(
             SosConstants.SOS,
@@ -85,7 +85,6 @@ public class GWGeologyLogObservationTypeEncoder extends OmEncoderv20 {
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         return super.createResult(sosObservation);
     }
-
 
     @Override
     public boolean shouldObservationsWithSameXBeMerged() {
@@ -132,14 +131,15 @@ public class GWGeologyLogObservationTypeEncoder extends OmEncoderv20 {
     }
 
     @Override
-    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation) throws EncodingException {
+    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation)
+            throws EncodingException {
         if (omot instanceof GWGeologyLogType && observation.getValue().getValue() instanceof ProfileValue) {
-            ProfileValue value = (ProfileValue)observation.getValue().getValue();
+            ProfileValue value = (ProfileValue) observation.getValue().getValue();
             if (value.isSetFromLevel()) {
-                encodeStartDepth(((GWGeologyLogType)omot).addNewStartDepth(), value.getFromLevel());
+                encodeStartDepth(((GWGeologyLogType) omot) .addNewStartDepth(), value.getFromLevel());
             }
             if (value.isSetToLevel()) {
-                encodeEndDepth(((GWGeologyLogType)omot).addNewEndDepth(), value.getToLevel());
+                encodeEndDepth(((GWGeologyLogType) omot) .addNewEndDepth(), value.getToLevel());
             }
         }
     }
@@ -152,7 +152,8 @@ public class GWGeologyLogObservationTypeEncoder extends OmEncoderv20 {
 
     @Override
     public Set<SchemaLocation> getSchemaLocations() {
-        Set<SchemaLocation> schemaLocations = Sets.newHashSet(GWMLConstants.GWML_22_SCHEMA_LOCATION, GWMLConstants.GWML_WELL_22_SCHEMA_LOCATION);
+        Set<SchemaLocation> schemaLocations =
+                Sets.newHashSet(GWMLConstants.GWML_22_SCHEMA_LOCATION, GWMLConstants.GWML_WELL_22_SCHEMA_LOCATION);
         schemaLocations.addAll(super.getSchemaLocations());
         return schemaLocations;
     }

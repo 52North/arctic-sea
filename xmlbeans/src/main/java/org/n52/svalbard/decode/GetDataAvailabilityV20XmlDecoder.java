@@ -36,7 +36,7 @@ import com.google.common.base.Joiner;
  *
  * @author Christian Autermann
  *
- * @since 4.4.0
+ * @since 1.0.0
  */
 public class GetDataAvailabilityV20XmlDecoder
         extends AbstractGetDataAvailabilityXmlDecoder {
@@ -69,6 +69,7 @@ public class GetDataAvailabilityV20XmlDecoder
      *
      * @return the parsed request
      * @throws OwsExceptionReport
+     *             If the document could no be parsed
      */
     @Override
     public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException {

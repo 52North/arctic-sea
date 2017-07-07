@@ -26,8 +26,10 @@ import org.n52.shetland.w3c.SchemaLocation;
 import com.google.common.collect.Sets;
 
 import eu.europa.ec.inspire.schemas.base.x33.IdentifierType;
+import eu.europa.ec.inspire.schemas.base.x33.IdentifierType.VersionId;
 
-public abstract class AbstractIdentifierEncoder<T> extends AbstractXmlEncoder<T, Identifier> {
+public abstract class AbstractIdentifierEncoder<T>
+        extends AbstractXmlEncoder<T, Identifier> {
 
     @Override
     public void addNamespacePrefixToMap(final Map<String, String> nameSpacePrefixMap) {
@@ -47,8 +49,14 @@ public abstract class AbstractIdentifierEncoder<T> extends AbstractXmlEncoder<T,
     protected IdentifierType encodeIdentifierType(IdentifierType it, Identifier identifier) {
         it.setLocalId(identifier.getLocalId());
         it.setNamespace(identifier.getNamespace());
-        if (identifier.isSetVersionId()) {
-            it.addNewVersionId().setStringValue(identifier.getVersionId());
+        if (identifier.getVersionId().isPresent()) {
+            it.addNewVersionId().setStringValue(identifier.getVersionId().get());
+        } else if (identifier.getVersionId().isNil()) {
+            VersionId vid = it.addNewVersionId();
+            vid.setNil();
+            if (identifier.getVersionId().hasReason()) {
+                vid.setNilReason(identifier.getVersionId().getNilReason().get());
+            }
         }
         return it;
     }

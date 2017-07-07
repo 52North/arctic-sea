@@ -79,7 +79,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicationObject> {

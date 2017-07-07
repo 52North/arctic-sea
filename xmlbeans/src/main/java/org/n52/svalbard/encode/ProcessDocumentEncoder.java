@@ -17,28 +17,27 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.ompr.InspireOMPRConstants;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
-import org.n52.svalbard.HelperValues;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.shetland.inspire.ompr.Process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-import net.opengis.sensorML.x101.ProcessDocument;
+import eu.europa.ec.inspire.schemas.ompr.x30.ProcessDocument;
+
 
 public class ProcessDocumentEncoder extends ProcessTypeEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessDocumentEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS =
+    private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(Process.class, ProcessDocument.class),
                     new XmlDocumentEncoderKey(InspireOMPRConstants.NS_OMPR_30, Process.class),
                     new XmlDocumentEncoderKey(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class));
@@ -49,18 +48,18 @@ public class ProcessDocumentEncoder extends ProcessTypeEncoder {
     }
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
-    public XmlObject encode(Process process) throws OwsExceptionReport, UnsupportedEncoderInputException {
-        return encode(process, Collections.<HelperValues, String> emptyMap());
+    public XmlObject encode(Process process) throws EncodingException {
+        return encode(process, EncodingContext.empty());
     }
 
     @Override
-    public XmlObject encode(Process process, Map<HelperValues, String> additionalValues)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
+    public XmlObject encode(Process process, EncodingContext context)
+            throws EncodingException {
         ProcessDocument pd = ProcessDocument.Factory.newInstance();
         pd.setProcess(createProcess(process));
         return pd;

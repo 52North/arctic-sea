@@ -28,8 +28,10 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceResponse> extends AbstractResponseEncoder<T> {
+public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceResponse>
+        extends AbstractResponseEncoder<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbtractVersionedResponseEncoder.class);
+
     private final Set<EncoderKey> encoderKeys;
 
     /**
@@ -50,14 +52,16 @@ public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceRespon
      * @param validationEnabled
      *            Indicator if the created/encoded object can be validated
      */
-    public AbtractVersionedResponseEncoder(String service, String version, String operation, String namespace, String prefix,
-            Class<T> responseType, boolean validationEnabled, String operationVersion) {
+    public AbtractVersionedResponseEncoder(
+            String service, String version, String operation, String namespace, String prefix, Class<T> responseType,
+            boolean validationEnabled, String operationVersion) {
         super(service, version, operationVersion, namespace, prefix, responseType, validationEnabled);
         OwsOperationKey key = new OwsOperationKey(service, version, operation);
         this.encoderKeys = Sets.newHashSet(new XmlEncoderKey(namespace, responseType),
                 new VersionedOperationEncoderKey(key, MediaTypes.TEXT_XML, operationVersion),
                 new VersionedOperationEncoderKey(key, MediaTypes.APPLICATION_XML, operationVersion));
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(encoderKeys));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(encoderKeys));
     }
 
     /**
@@ -76,8 +80,9 @@ public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceRespon
      * @param responseType
      *            Response type
      */
-    public AbtractVersionedResponseEncoder(String service, String version, String operation, String namespace, String prefix,
-            Class<T> responseType, String operationVersion) {
+    public AbtractVersionedResponseEncoder(
+            String service, String version, String operation, String namespace, String prefix, Class<T> responseType,
+            String operationVersion) {
         this(service, version, operation, namespace, prefix, responseType, true, operationVersion);
     }
 

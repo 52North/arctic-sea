@@ -36,7 +36,7 @@ public class OperationalActivityPeriodTypeEncoder
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OperationalActivityPeriodTypeEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
+    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(OperationalActivityPeriod.class, OperationalActivityPeriodType.class),
             new XmlEncoderKey(InspireEfConstants.NS_EF, OperationalActivityPeriod.class));
 

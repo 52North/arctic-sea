@@ -46,12 +46,14 @@ import net.opengis.waterml.x20.TimeValuePairType;
  * Abstract {@link Encoder} for {@link TimeLocationValueTriple}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Target
  */
 public abstract class AbstractTimeLocationValueTripleTypeEncoder<T>
         extends AbstractXmlEncoder<T, TimeLocationValueTriple> {
+
+    private static final String MISSING = "missing";
 
     @Override
     public void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap) {
@@ -78,8 +80,6 @@ public abstract class AbstractTimeLocationValueTripleTypeEncoder<T>
             return createMeasurementTimeLocationValueTripleType(timeLocationValueTriple);
         } else if (timeLocationValueTriple.getValue() instanceof CategoryValue) {
             return createCategoricalTimeLocationValueTripleType(timeLocationValueTriple);
-        } else {
-            // TODO throw exception
         }
         return null;
     }
@@ -115,7 +115,7 @@ public abstract class AbstractTimeLocationValueTripleTypeEncoder<T>
             mtlvtt.addNewValue().setStringValue(value);
         } else {
             mtlvtt.addNewValue().setNil();
-            mtlvtt.addNewMetadata().addNewTVPMeasurementMetadata().addNewNilReason().setNilReason("missing");
+            mtlvtt.addNewMetadata().addNewTVPMeasurementMetadata().addNewNilReason().setNilReason(MISSING);
         }
         return mtlvtt;
     }
@@ -141,7 +141,7 @@ public abstract class AbstractTimeLocationValueTripleTypeEncoder<T>
                 ctlvtt.addNewValue().addNewCategory().set(encodeSweCommon(convertToSweCategory(categoryValue)));
             } else {
                 ctlvtt.addNewValue().setNil();
-                ctlvtt.addNewMetadata().addNewTVPMetadata().addNewNilReason().setNilReason("missing");
+                ctlvtt.addNewMetadata().addNewTVPMetadata().addNewNilReason().setNilReason(MISSING);
             }
         }
 

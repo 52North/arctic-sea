@@ -54,7 +54,7 @@ import com.google.common.base.Joiner;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {

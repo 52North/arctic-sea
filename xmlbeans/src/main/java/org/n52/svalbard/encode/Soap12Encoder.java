@@ -71,7 +71,7 @@ import com.google.common.collect.Sets;
 /**
  * Encoder implementation for SOAP 1.2
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>

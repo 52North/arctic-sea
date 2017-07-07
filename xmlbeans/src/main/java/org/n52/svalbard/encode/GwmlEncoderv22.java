@@ -16,8 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.n52.svalbard.encode.AbstractOmEncoderv20.createOmObservationType;
-
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.HashSet;
@@ -26,6 +24,7 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gwml.GWMLConstants;
@@ -35,7 +34,6 @@ import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
@@ -51,32 +49,32 @@ import com.google.common.collect.Sets;
 
 import net.opengis.om.x20.OMObservationType;
 
-public class GwmlEncoderv22 extends OmEncoderv20 {
+public class GwmlEncoderv22
+        extends OmEncoderv20 {
     /**
      * logger, used for logging while initializing the constants from config
      * file
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(GwmlEncoderv22.class);
 
-    @SuppressWarnings("unchecked")
     private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
-            CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_22,
-                    OmObservation.class, NamedValue.class, SingleObservationValue.class, MultiObservationValues.class),
-            CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_WELL_22,
-                    OmObservation.class, NamedValue.class, SingleObservationValue.class, MultiObservationValues.class));
+            CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_22, OmObservation.class, NamedValue.class,
+                    SingleObservationValue.class, MultiObservationValues.class),
+            CodingHelper.encoderKeysForElements(GWMLConstants.NS_GWML_WELL_22, OmObservation.class, NamedValue.class,
+                    SingleObservationValue.class, MultiObservationValues.class));
 
     private static final Set<SupportedType> SUPPORTED_TYPES =
-            Sets.newHashSet(new ObservationType(GWMLConstants.OBS_TYPE_GEOLOGY_LOG), new ObservationType(OmConstants.OBS_TYPE_PROFILE_OBSERVATION));
+            Sets.newHashSet(new ObservationType(GWMLConstants.OBS_TYPE_GEOLOGY_LOG),
+                    new ObservationType(OmConstants.OBS_TYPE_PROFILE_OBSERVATION));
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections.singletonMap(
             SosConstants.SOS,
             Collections.singletonMap(Sos2Constants.SERVICEVERSION, Collections.singleton(GWMLConstants.NS_GWML_22)));
 
     public GwmlEncoderv22() {
-        LOGGER.debug("Encoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(ENCODER_KEYS));
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
     }
-
 
     @Override
     public Set<EncoderKey> getKeys() {
@@ -114,7 +112,6 @@ public class GwmlEncoderv22 extends OmEncoderv20 {
 
     @Override
     public boolean supportsResultStreamingForMergedValues() {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -125,7 +122,8 @@ public class GwmlEncoderv22 extends OmEncoderv20 {
 
     @Override
     public Set<SchemaLocation> getSchemaLocations() {
-        Set<SchemaLocation> schemaLocations = Sets.newHashSet(GWMLConstants.GWML_22_SCHEMA_LOCATION, GWMLConstants.GWML_WELL_22_SCHEMA_LOCATION);
+        Set<SchemaLocation> schemaLocations =
+                Sets.newHashSet(GWMLConstants.GWML_22_SCHEMA_LOCATION, GWMLConstants.GWML_WELL_22_SCHEMA_LOCATION);
         schemaLocations.addAll(super.getSchemaLocations());
         return schemaLocations;
     }
@@ -135,19 +133,18 @@ public class GwmlEncoderv22 extends OmEncoderv20 {
         return super.createOmObservationType();
     }
 
-
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException {
-        encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                new GwmlV22XmlStreamWriter().write((OmObservation)objectToEncode, outputStream, encodingValues);
+                new GwmlV22XmlStreamWriter(outputStream, context, getEncoderRepository(), XmlOptions::new,
+                        (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
-                throw new NoApplicableCodeException().causedBy(xmlse).withMessage("Error while writing element to stream!");
+                throw new EncodingException("Error while writing element to stream!", xmlse);
             }
         } else {
-            super.encode(objectToEncode, outputStream, encodingValues);
+            super.encode(objectToEncode, outputStream, context);
         }
     }
 }

@@ -38,7 +38,7 @@ public class EnvironmentalMonitoringFaciltityTypeEncoder
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EnvironmentalMonitoringFaciltityTypeEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
+    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(EnvironmentalMonitoringFacility.class,
                     EnvironmentalMonitoringFacilityType.class),
             new XmlEncoderKey(InspireEfConstants.NS_EF, EnvironmentalMonitoringFacility.class));

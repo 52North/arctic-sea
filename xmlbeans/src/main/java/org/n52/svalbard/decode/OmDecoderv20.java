@@ -75,7 +75,7 @@ import net.opengis.om.x20.OMObservationType;
 import net.opengis.om.x20.TimeObjectPropertyType;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class OmDecoderv20

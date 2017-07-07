@@ -38,7 +38,7 @@ import com.google.common.base.Joiner;
  * markup language.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public class Iso19139GcoDecoder implements Decoder<Object, XmlObject> {

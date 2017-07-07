@@ -80,7 +80,7 @@ import net.opengis.watermlDr.x20.TimePositionListType;
  * Encoder class for WaterML 2.0 TimeseriesDomainRange (TDR)
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {

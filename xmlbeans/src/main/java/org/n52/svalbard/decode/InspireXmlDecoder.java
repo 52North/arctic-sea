@@ -19,7 +19,7 @@ package org.n52.svalbard.decode;
 /**
  * XML decoder class for the INSPIRE schema
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class InspireXmlDecoder {

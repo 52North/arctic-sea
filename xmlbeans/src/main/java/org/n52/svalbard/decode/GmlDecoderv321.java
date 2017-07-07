@@ -87,7 +87,7 @@ import com.vividsolutions.jts.geom.Polygon;
 import com.vividsolutions.jts.io.ParseException;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
@@ -182,7 +182,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     private Object parseFeaturePropertyType(FeaturePropertyType featurePropertyType) throws DecodingException {
-        SamplingFeature feature = null;
+        AbstractSamplingFeature feature = null;
         // if xlink:href is set
         if (featurePropertyType.getHref() != null) {
             if (featurePropertyType.getHref().startsWith("#")) {

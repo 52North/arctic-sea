@@ -19,39 +19,34 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
-import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gwml.GWMLConstants;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
 
-import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gwmlWell.x22.GWGeologyLogCoveragePropertyType;
 
+public class GWGeologyLogCoveragePropertyTypeEncoder
+        extends AbstractGWGeologyLogCoverageType<GWGeologyLogCoveragePropertyType> {
 
-public class GWGeologyLogCoveragePropertyTypeEncoder extends AbstractGWGeologyLogCoverageType<GWGeologyLogCoveragePropertyType> {
-
-    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
-            new ClassToClassEncoderKey(ProfileValue.class, GWGeologyLogCoveragePropertyType.class),
-            new XmlPropertyTypeEncoderKey(GWMLConstants.NS_GWML_22, ProfileValue.class));
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            Sets.newHashSet(new ClassToClassEncoderKey(ProfileValue.class, GWGeologyLogCoveragePropertyType.class),
+                    new XmlPropertyTypeEncoderKey(GWMLConstants.NS_GWML_22, ProfileValue.class));
 
     @Override
     public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
-
     @Override
-    public GWGeologyLogCoveragePropertyType encode(ProfileValue gwGeologyLogCoverage)
-            throws EncodingException {
+    public GWGeologyLogCoveragePropertyType encode(ProfileValue gwGeologyLogCoverage) throws EncodingException {
         return encode(gwGeologyLogCoverage, EncodingContext.empty());
     }
 
     @Override
-    public GWGeologyLogCoveragePropertyType encode(ProfileValue gwGeologyLogCoverage,
-            EncodingContext ec) throws EncodingException {
+    public GWGeologyLogCoveragePropertyType encode(ProfileValue gwGeologyLogCoverage, EncodingContext ec)
+            throws EncodingException {
         GWGeologyLogCoveragePropertyType gwglcpt = GWGeologyLogCoveragePropertyType.Factory.newInstance();
         gwglcpt.setGWGeologyLogCoverage(encodeGWGeologyLogCoverage(gwGeologyLogCoverage));
         return gwglcpt;

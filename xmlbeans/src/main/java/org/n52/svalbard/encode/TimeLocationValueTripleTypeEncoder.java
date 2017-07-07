@@ -17,15 +17,11 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.ogc.om.TimeLocationValueTriple;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.HelperValues;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 
 import net.opengis.waterml.x20.TimeValuePairType;
@@ -35,28 +31,29 @@ import net.opengis.waterml.x20.TimeValuePairType;
  * {@link TimeValuePairType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class TimeLocationValueTripleTypeEncoder extends AbstractTimeLocationValueTripleTypeEncoder<TimeValuePairType> {
+public class TimeLocationValueTripleTypeEncoder
+        extends AbstractTimeLocationValueTripleTypeEncoder<TimeValuePairType> {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, TimeLocationValueTriple.class);
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
     public TimeValuePairType encode(TimeLocationValueTriple timeLocationValueTriple)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
-        return encode(timeLocationValueTriple, new EnumMap<HelperValues, String>(HelperValues.class));
+            throws EncodingException {
+        return encode(timeLocationValueTriple, EncodingContext.empty());
     }
 
     @Override
-    public TimeValuePairType encode(TimeLocationValueTriple timeLocationValueTriple,
-            Map<HelperValues, String> additionalValues) throws OwsExceptionReport, UnsupportedEncoderInputException {
+    public TimeValuePairType encode(TimeLocationValueTriple timeLocationValueTriple, EncodingContext context)
+            throws EncodingException {
         return encodeTimeLocationValueTriple(timeLocationValueTriple);
     }
 

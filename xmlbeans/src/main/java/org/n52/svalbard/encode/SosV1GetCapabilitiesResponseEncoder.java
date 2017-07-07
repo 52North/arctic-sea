@@ -62,7 +62,7 @@ import org.n52.svalbard.util.N52XmlHelper;
 import com.google.common.collect.Sets;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosV1GetCapabilitiesResponseEncoder extends AbstractSosV1ResponseEncoder<GetCapabilitiesResponse> {

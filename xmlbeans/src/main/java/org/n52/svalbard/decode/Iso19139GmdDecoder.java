@@ -56,9 +56,10 @@ import com.google.common.collect.Lists;
  * extensible markup language.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  */
-public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object> {
+public class Iso19139GmdDecoder
+        extends AbstractXmlDecoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GmdDecoder.class);
 
@@ -84,11 +85,11 @@ public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object> {
         } else if (element instanceof CIResponsiblePartyType) {
             return decodeCIResponsibleParty((CIResponsiblePartyType) element);
         } else if (element instanceof PTFreeTextDocument) {
-            return decodePTFreeTextType(((PTFreeTextDocument)element).getPTFreeText());
+            return decodePTFreeTextType(((PTFreeTextDocument) element).getPTFreeText());
         } else if (element instanceof PTFreeTextPropertyType) {
-            return decodePTFreeTextType(((PTFreeTextPropertyType)element).getPTFreeText());
+            return decodePTFreeTextType(((PTFreeTextPropertyType) element).getPTFreeText());
         } else if (element instanceof PTFreeTextType) {
-            return decodePTFreeTextType((PTFreeTextType)element);
+            return decodePTFreeTextType((PTFreeTextType) element);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }
@@ -97,7 +98,8 @@ public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object> {
     private PT_FreeText decodePTFreeTextType(PTFreeTextType ptftt) {
         PT_FreeText ptFreeText = new PT_FreeText();
         for (LocalisedCharacterStringPropertyType lcspt : ptftt.getTextGroupArray()) {
-            ptFreeText.addTextGroup(new LocalisedCharacterString(lcspt.getLocalisedCharacterString().getStringValue()));
+            ptFreeText
+                    .addTextGroup(new LocalisedCharacterString(lcspt.getLocalisedCharacterString().getStringValue()));
         }
         return ptFreeText;
     }

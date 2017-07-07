@@ -49,7 +49,7 @@ import com.google.common.base.Joiner;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class WsaEncoder implements Encoder<XmlObject, WsaHeader> {

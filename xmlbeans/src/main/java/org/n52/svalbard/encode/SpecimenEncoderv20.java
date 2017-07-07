@@ -27,19 +27,15 @@ import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.features.SfConstants;
-import org.n52.shetland.ogc.om.features.samplingFeatures.PreparationStep;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SfSpecimen;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.sos.FeatureType;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Reference;
-import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.n52.svalbard.util.XmlOptionsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3.x1999.xlink.ActuateType;
@@ -47,9 +43,7 @@ import org.w3.x1999.xlink.ShowType;
 import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
 
 import net.opengis.sampling.x20.SFProcessPropertyType;
 import net.opengis.samplingSpecimen.x20.LocationPropertyType;
@@ -57,15 +51,16 @@ import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;
 import net.opengis.samplingSpecimen.x20.SFSpecimenType;
 import net.opengis.samplingSpecimen.x20.SFSpecimenType.Size;
 
-public class SpecimenEncoderv20 extends SamplingEncoderv20 {
+public class SpecimenEncoderv20
+        extends SamplingEncoderv20 {
     private static final Logger LOGGER = LoggerFactory.getLogger(SpecimenEncoderv20.class);
 
-    @SuppressWarnings("unchecked")
-    private static final Set<EncoderKey> ENCODER_KEYS =
-            CollectionHelper.union(CodingHelper.encoderKeysForElements(SfConstants.NS_SPEC, AbstractFeature.class, SfSpecimen.class),
-                    CodingHelper.encoderKeysForElements(SfConstants.NS_SF, AbstractFeature.class, SfSpecimen.class));
+    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
+            CodingHelper.encoderKeysForElements(SfConstants.NS_SPEC, AbstractFeature.class, SfSpecimen.class),
+            CodingHelper.encoderKeysForElements(SfConstants.NS_SF, AbstractFeature.class, SfSpecimen.class));
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(new FeatureType(OGCConstants.UNKNOWN), new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN));
+    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(new FeatureType(OGCConstants.UNKNOWN),
+            new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN));
 
     public SpecimenEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -94,11 +89,10 @@ public class SpecimenEncoderv20 extends SamplingEncoderv20 {
     }
 
     @Override
-    public XmlObject encode(final AbstractFeature abstractFeature, final EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(final AbstractFeature abstractFeature, final EncodingContext ec) throws EncodingException {
         XmlObject encodedObject;
         if (abstractFeature instanceof SfSpecimen) {
-            encodedObject = createSpecimen((SfSpecimen)abstractFeature);
+            encodedObject = createSpecimen((SfSpecimen) abstractFeature);
         } else {
             encodedObject = createFeature(abstractFeature);
         }
@@ -112,24 +106,20 @@ public class SpecimenEncoderv20 extends SamplingEncoderv20 {
         SFSpecimenDocument sfsd = SFSpecimenDocument.Factory.newInstance(getXmlOptions());
         if (specimen.isSetXml()) {
             try {
-                final XmlObject feature = XmlObject.Factory.parse(specimen.getXml(),
-                        XmlOptionsHelper.getInstance().getXmlOptions());
+                final XmlObject feature = XmlObject.Factory.parse(specimen.getXml(), getXmlOptions());
                 XmlHelper.updateGmlIDs(feature.getDomNode().getFirstChild(), specimen.getGmlId(), null);
-                if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SPEC)
-                        && feature instanceof SFSpecimenType) {
+                if (XmlHelper.getNamespace(feature).equals(SfConstants.NS_SPEC) && feature instanceof SFSpecimenType) {
                     sfsd.setSFSpecimen((SFSpecimenType) feature);
                     addName(sfsd.getSFSpecimen(), specimen);
                     addDescription(sfsd.getSFSpecimen(), specimen);
                     return sfsd;
                 }
-                addName(((SFSpecimenDocument) feature).getSFSpecimen(),
-                        specimen);
-                addDescription(((SFSpecimenDocument) feature).getSFSpecimen(),
-                        specimen);
+                addName(((SFSpecimenDocument) feature).getSFSpecimen(), specimen);
+                addDescription(((SFSpecimenDocument) feature).getSFSpecimen(), specimen);
                 return feature;
             } catch (final XmlException xmle) {
-                throw new NoApplicableCodeException().causedBy(xmle).withMessage(
-                        "Error while encoding GetFeatureOfInterest response, invalid specimen description!");
+                throw new EncodingException(
+                        "Error while encoding GetFeatureOfInterest response, invalid specimen description!", xmle);
             }
         }
         final SFSpecimenType sfst = sfsd.addNewSFSpecimen();
@@ -162,18 +152,16 @@ public class SpecimenEncoderv20 extends SamplingEncoderv20 {
 
     private void addSamplingTime(SFSpecimenType sfst, SfSpecimen specimen) throws EncodingException {
         XmlObject xmlObject = encodeGML32(specimen.getSamplingTime());
-        XmlObject substitution =
-                sfst.addNewSamplingTime().addNewAbstractTimeObject().substitute(
-                        GmlHelper.getGml321QnameForITime(specimen.getSamplingTime()), xmlObject.schemaType());
+        XmlObject substitution = sfst.addNewSamplingTime().addNewAbstractTimeObject()
+                .substitute(GmlHelper.getGml321QnameForITime(specimen.getSamplingTime()), xmlObject.schemaType());
         substitution.set(xmlObject);
     }
 
     private void addSamplingMethod(SFSpecimenType sfst, SfSpecimen specimen) {
         if (specimen.isSetSamplingMethod()) {
-            if (specimen.getSamplingMethod().getInstance().isPresent()) {
-                // TODO
-            } else {
-                sfst.addNewSamplingMethod().setHref(specimen.getSamplingMethod().getReference().getHref().get().toString());
+            if (!specimen.getSamplingMethod().getInstance().isPresent()) {
+                sfst.addNewSamplingMethod()
+                        .setHref(specimen.getSamplingMethod().getReference().getHref().get().toString());
                 Reference ref = specimen.getCurrentLocation().getReference();
                 SFProcessPropertyType sfppt = sfst.addNewSamplingMethod();
                 if (ref.getHref().isPresent()) {
@@ -203,16 +191,18 @@ public class SpecimenEncoderv20 extends SamplingEncoderv20 {
 
     private void addSamplingLocation(SFSpecimenType sfst, SfSpecimen specimen) throws EncodingException {
         if (specimen.isSetSamplingLocation()) {
-            sfst.addNewSamplingLocation().set(encodeGML32(specimen.getSamplingLocation(), EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE, "true")));
+            sfst.addNewSamplingLocation().set(encodeGML32(specimen.getSamplingLocation(),
+                    EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE, "true")));
         }
     }
 
     private void addProcessingDetails(SFSpecimenType sfst, SfSpecimen specimen) {
-        if (specimen.isSetProcessingDetails()) {
-            for (PreparationStep preparationStep : specimen.getProcessingDetails()) {
-                // TODO
-            }
-        }
+        // if (specimen.isSetProcessingDetails()) {
+        // for (PreparationStep preparationStep :
+        // specimen.getProcessingDetails()) {
+        // // TODO
+        // }
+        // }
     }
 
     private void addSize(SFSpecimenType sfst, SfSpecimen specimen) {
@@ -227,9 +217,7 @@ public class SpecimenEncoderv20 extends SamplingEncoderv20 {
 
     private void addCurrentLocation(SFSpecimenType sfst, SfSpecimen specimen) {
         if (specimen.isSetCurrentLocation()) {
-            if (specimen.getCurrentLocation().getInstance().isPresent()) {
-                // TODO
-            } else {
+            if (!specimen.getCurrentLocation().getInstance().isPresent()) {
                 Reference ref = specimen.getCurrentLocation().getReference();
                 LocationPropertyType lpt = sfst.addNewCurrentLocation();
                 if (ref.getHref().isPresent()) {
@@ -263,13 +251,12 @@ public class SpecimenEncoderv20 extends SamplingEncoderv20 {
         }
     }
 
-    private XmlObject encodeGML32(Object o, EncodingContext ec) {
-        return encodeObjectToXml(GmlConstants.NS_GML_32, o, ec);;
+    private XmlObject encodeGML32(Object o, EncodingContext ec) throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML_32, o, ec);
     }
 
-    private XmlObject encodeGML32(Object o) {
+    private XmlObject encodeGML32(Object o) throws EncodingException {
         return encodeObjectToXml(GmlConstants.NS_GML_32, o);
     }
-
 
 }

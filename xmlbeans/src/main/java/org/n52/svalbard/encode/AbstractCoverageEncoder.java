@@ -41,12 +41,13 @@ import net.opengis.gml.x32.RangeSetType;
  * Abstract {@link Encoder} implementation for {@link DiscreteCoverage}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
- * @param <T>
- * @param <S>
+ * @param <T> Target
+ * @param <S> Source
  */
-public abstract class AbstractCoverageEncoder<T, S> extends AbstractXmlEncoder<T, S> {
+public abstract class AbstractCoverageEncoder<T, S>
+        extends AbstractXmlEncoder<T, S> {
 
     /**
      * Encode range set of {@link DiscreteCoverageType} from
@@ -57,7 +58,7 @@ public abstract class AbstractCoverageEncoder<T, S> extends AbstractXmlEncoder<T
      * @param discreteCoverage
      *            The {@link DiscreteCoverage} with the range set
      * @return {@link DiscreteCoverageType} with range set
-     * @throws EncodingException
+     * @throws EncodingException If an error occurs
      */
     protected RangeSetType encodeRangeSet(DiscreteCoverageType dct, DiscreteCoverage<?> discreteCoverage)
             throws EncodingException {

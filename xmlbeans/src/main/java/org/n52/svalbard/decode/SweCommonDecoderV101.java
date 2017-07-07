@@ -115,48 +115,36 @@ import net.opengis.swe.x101.VectorType;
 import net.opengis.swe.x101.VectorType.Coordinate;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
+public class SweCommonDecoderV101
+        extends AbstractXmlDecoder<Object, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SweCommonDecoderV101.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            SweConstants.NS_SWE_101,
-            net.opengis.swe.x101.DataArrayDocument.class,
-            net.opengis.swe.x101.DataArrayType.class,
-            net.opengis.swe.x101.AbstractDataComponentType.class,
-            net.opengis.swe.x101.BooleanDocument.class,
-            net.opengis.swe.x101.BooleanDocument.Boolean.class,
-            net.opengis.swe.x101.CategoryDocument.Category.class,
-            net.opengis.swe.x101.CategoryDocument.class,
-            net.opengis.swe.x101.CountDocument.Count.class,
-            net.opengis.swe.x101.CountDocument.class,
-            net.opengis.swe.x101.CountRangeDocument.CountRange.class,
+    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(SweConstants.NS_SWE_101,
+            net.opengis.swe.x101.DataArrayDocument.class, net.opengis.swe.x101.DataArrayType.class,
+            net.opengis.swe.x101.AbstractDataComponentType.class, net.opengis.swe.x101.BooleanDocument.class,
+            net.opengis.swe.x101.BooleanDocument.Boolean.class, net.opengis.swe.x101.CategoryDocument.Category.class,
+            net.opengis.swe.x101.CategoryDocument.class, net.opengis.swe.x101.CountDocument.Count.class,
+            net.opengis.swe.x101.CountDocument.class, net.opengis.swe.x101.CountRangeDocument.CountRange.class,
             net.opengis.swe.x101.CountRangeDocument.class,
             net.opengis.swe.x101.ObservablePropertyDocument.ObservableProperty.class,
             net.opengis.swe.x101.ObservablePropertyDocument.class,
-            net.opengis.swe.x101.QuantityDocument.Quantity.class,
-            net.opengis.swe.x101.QuantityDocument.class,
+            net.opengis.swe.x101.QuantityDocument.Quantity.class, net.opengis.swe.x101.QuantityDocument.class,
             net.opengis.swe.x101.QuantityRangeDocument.QuantityRange.class,
-            net.opengis.swe.x101.QuantityRangeDocument.class,
-            net.opengis.swe.x101.TextDocument.Text.class,
-            net.opengis.swe.x101.TextDocument.class,
-            net.opengis.swe.x101.TimeDocument.Time.class,
-            net.opengis.swe.x101.TimeDocument.class,
-            net.opengis.swe.x101.TimeRangeDocument.TimeRange.class,
-            net.opengis.swe.x101.TimeRangeDocument.class,
-            net.opengis.swe.x101.DataComponentPropertyType[].class,
-            net.opengis.swe.x101.PositionType.class,
-            net.opengis.swe.x101.VectorType.Coordinate[].class,
-            net.opengis.swe.x101.AnyScalarPropertyType[].class,
-            net.opengis.swe.x101.AbstractDataRecordDocument.class,
+            net.opengis.swe.x101.QuantityRangeDocument.class, net.opengis.swe.x101.TextDocument.Text.class,
+            net.opengis.swe.x101.TextDocument.class, net.opengis.swe.x101.TimeDocument.Time.class,
+            net.opengis.swe.x101.TimeDocument.class, net.opengis.swe.x101.TimeRangeDocument.TimeRange.class,
+            net.opengis.swe.x101.TimeRangeDocument.class, net.opengis.swe.x101.DataComponentPropertyType[].class,
+            net.opengis.swe.x101.PositionType.class, net.opengis.swe.x101.VectorType.Coordinate[].class,
+            net.opengis.swe.x101.AnyScalarPropertyType[].class, net.opengis.swe.x101.AbstractDataRecordDocument.class,
             net.opengis.swe.x101.AbstractDataRecordType.class);
 
     public SweCommonDecoderV101() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                     Joiner.on(", ").join(DECODER_KEYS));
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -321,9 +309,8 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
 
     private SweDataArray parseSweDataArrayType(DataArrayType xbDataArray) throws DecodingException {
         if (!xbDataArray.getElementType().isSetAbstractDataRecord()) {
-            throw new DecodingException(
-                    "The swe:DataArray contains a not yet supported elementType element. " +
-                     "Currently only 'swe:DataRecord' is supported as elementType element.");
+            throw new DecodingException("The swe:DataArray contains a not yet supported elementType element. "
+                    + "Currently only 'swe:DataRecord' is supported as elementType element.");
         }
         final SweDataArray dataArray = new SweDataArray();
         if (xbDataArray.getElementCount() != null) {
@@ -340,10 +327,10 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
 
         // parse values
         // if (xbDataArray.isSetValues()) {
-        //     // TODO implement full support
-        //     // dataArray.setValues(parseValues(dataArray.getElementCount(),
-        //     // dataArray.getElementType(),
-        //     // dataArray.getEncoding(), xbDataArray.getValues()));
+        // // TODO implement full support
+        // // dataArray.setValues(parseValues(dataArray.getElementCount(),
+        // // dataArray.getElementType(),
+        // // dataArray.getEncoding(), xbDataArray.getValues()));
         // }
         DataArrayDocument xbDataArrayDoc = DataArrayDocument.Factory.newInstance(getXmlOptions());
         xbDataArrayDoc.setDataArray1(xbDataArray);
@@ -407,13 +394,13 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
         SweCountRange sosCountRange = new SweCountRange();
 
         // if (xbCountRange.isSetAxisID()) {
-        //     // TODO axisID
+        // // TODO axisID
         // }
         if (xbCountRange.getQualityArray() != null) {
             sosCountRange.setQuality(parseQuality(xbCountRange.getQualityArray()));
         }
         // if (xbCountRange.isSetReferenceFrame()) {
-        //     // TODO reference frame
+        // // TODO reference frame
         // }
         if (xbCountRange.isSetDefinition()) {
             sosCountRange.setDefinition(xbCountRange.getDefinition());
@@ -485,8 +472,7 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
     }
 
     private DecodingException createParsingException(final Exception e) {
-        return new DecodingException(
-                e, "QuantityRange",
+        return new DecodingException(e, "QuantityRange",
                 "Error when parsing 'swe:QuantityRange/swe:value': It must be of type 'double double!");
     }
 
@@ -591,7 +577,8 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
         }
     }
 
-    private Referenceable<SweAllowedTimes> parseConstraint(AllowedTimesPropertyType atpt) throws DateTimeParseException {
+    private Referenceable<SweAllowedTimes> parseConstraint(AllowedTimesPropertyType atpt)
+            throws DateTimeParseException {
         if (atpt.isSetAllowedTimes()) {
             return Referenceable.of(parseAllowedTimes(atpt.getAllowedTimes()));
         } else {
@@ -733,8 +720,8 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
                 sosCoordinates
                         .add(new SweCoordinate<>(xbCoordinate.getName(), parseQuantity(xbCoordinate.getQuantity())));
             } else {
-                throw new DecodingException(
-                        "Position", "Error when parsing the Coordinates of Position: It must be of type Quantity!");
+                throw new DecodingException("Position",
+                        "Error when parsing the Coordinates of Position: It must be of type Quantity!");
             }
         }
         return sosCoordinates;
@@ -761,7 +748,7 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
             return parseTextEncoding(abstractEncodingType.getTextBlock());
         }
         throw new NotYetSupportedDecodingException(SweConstants.EN_ENCODING_TYPE, abstractEncodingType,
-                                                   TextBlock.type.getName());
+                TextBlock.type.getName());
     }
 
     private SweTextEncoding parseTextEncoding(TextBlock textEncoding) {
@@ -772,8 +759,7 @@ public class SweCommonDecoderV101 extends AbstractXmlDecoder<Object, Object> {
         return sosTextEncoding;
     }
 
-    private SweAbstractDataComponent parseAnyScalarProperty(AnyScalarPropertyType xbField)
-            throws DecodingException {
+    private SweAbstractDataComponent parseAnyScalarProperty(AnyScalarPropertyType xbField) throws DecodingException {
         if (xbField.isSetBoolean()) {
             return parseAbstractDataComponentType(xbField.getBoolean());
         } else if (xbField.isSetCategory()) {

@@ -19,15 +19,12 @@ package org.n52.svalbard.encode;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
-import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
-import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationResponse;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Sets;
@@ -50,24 +47,10 @@ public class DeleteObservationV20Encoder extends AbtractVersionedResponseEncoder
     }
 
     @Override
-    public Set<String> getConformanceClasses() {
-        return DeleteObservationConstants.CONFORMANCE_CLASSES;
-    }
-
-    @Override
-    protected XmlObject create(DeleteObservationResponse dor) throws OwsExceptionReport {
+    protected XmlObject create(DeleteObservationResponse dor) throws EncodingException {
         if (dor == null) {
-            throw new UnsupportedEncoderInputException(this, dor);
+            throw new UnsupportedEncoderInputException(this, DeleteObservationResponse.class);
         }
-        final CompositeOwsException exceptions = new CompositeOwsException();
-        if (dor.getService() == null) {
-            exceptions.add(new MissingServiceParameterException());
-        }
-        if (dor.getVersion() == null) {
-            exceptions.add(new MissingVersionParameterException());
-        }
-        exceptions.throwIfNotEmpty();
-
         DeleteObservationResponseDocument xbDeleteObsDoc =
                 DeleteObservationResponseDocument.Factory.newInstance(getXmlOptions());
         xbDeleteObsDoc.addNewDeleteObservationResponse();

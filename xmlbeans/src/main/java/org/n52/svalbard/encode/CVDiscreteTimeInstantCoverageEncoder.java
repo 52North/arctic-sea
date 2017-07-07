@@ -17,26 +17,22 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import net.opengis.cv.x02.gml32.CVDiscreteTimeInstantCoveragePropertyType;
-import net.opengis.cv.x02.gml32.CVDiscreteTimeInstantCoverageType;
-import net.opengis.cv.x02.gml32.CVTimeInstantValuePairPropertyType;
-import net.opengis.cv.x02.gml32.CVTimeInstantValuePairType;
-import net.opengis.gml.x32.TimeInstantPropertyType;
 
 /**
  * Encoder for {@link CVDiscreteTimeInstantCoveragePropertyType}
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class CVDiscreteTimeInstantCoverageEncoder extends AbstractXmlEncoder<XmlObject, Object> {
+public class CVDiscreteTimeInstantCoverageEncoder
+        extends AbstractXmlEncoder<XmlObject, Object> {
 
     @Override
     public Set<EncoderKey> getKeys() {
@@ -45,14 +41,17 @@ public class CVDiscreteTimeInstantCoverageEncoder extends AbstractXmlEncoder<Xml
 
     @Override
     public XmlObject encode(Object objectToEncode, EncodingContext ec) throws EncodingException {
-        CVDiscreteTimeInstantCoveragePropertyType cvdticpt = CVDiscreteTimeInstantCoveragePropertyType.Factory.newInstance(getXmlOptions());
-        CVDiscreteTimeInstantCoverageType cvdtict = cvdticpt.addNewCVDiscreteTimeInstantCoverage();
-        CVTimeInstantValuePairPropertyType cvtivppt = cvdtict.addNewElement();
-        CVTimeInstantValuePairType cvtivpt = cvtivppt.addNewCVTimeInstantValuePair();
-        TimeInstantPropertyType tipt = cvtivpt.addNewGeometry();
-        XmlObject addNewValue = cvtivpt.addNewValue();
+        CVDiscreteTimeInstantCoveragePropertyType cvdticpt =
+                CVDiscreteTimeInstantCoveragePropertyType.Factory.newInstance(getXmlOptions());
+        // CVDiscreteTimeInstantCoverageType cvdtict =
+        // cvdticpt.addNewCVDiscreteTimeInstantCoverage();
+        // CVTimeInstantValuePairPropertyType cvtivppt =
+        // cvdtict.addNewElement();
+        // CVTimeInstantValuePairType cvtivpt =
+        // cvtivppt.addNewCVTimeInstantValuePair();
+        // TimeInstantPropertyType tipt = cvtivpt.addNewGeometry();
+        // XmlObject addNewValue = cvtivpt.addNewValue();
         return cvdticpt;
     }
-
 
 }

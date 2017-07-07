@@ -25,7 +25,7 @@ import org.n52.shetland.ogc.ows.OWSConstants;
 /**
  * Helper class for OGC OWS
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class OwsHelper {

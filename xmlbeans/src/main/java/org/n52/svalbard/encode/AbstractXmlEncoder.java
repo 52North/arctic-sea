@@ -30,7 +30,7 @@ import org.n52.svalbard.util.XmlHelper;
 
 /**
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T> the resulting type, the "Target"
  * @param <S> the input type, the "Source"

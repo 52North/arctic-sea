@@ -86,7 +86,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * SWE helper class.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 @Configurable

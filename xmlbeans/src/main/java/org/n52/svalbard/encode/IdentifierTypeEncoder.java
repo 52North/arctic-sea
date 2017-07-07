@@ -35,7 +35,7 @@ public class IdentifierTypeEncoder
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IdentifierTypeEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS =
+    private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(Identifier.class, IdentifierType.class),
                     new XmlEncoderKey(InspireBaseConstants.NS_BASE, Identifier.class));
 

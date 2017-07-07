@@ -116,7 +116,7 @@ import com.vividsolutions.jts.geom.Point;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {

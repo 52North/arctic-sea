@@ -19,7 +19,6 @@ package org.n52.svalbard.write;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -30,7 +29,6 @@ import org.apache.xmlbeans.XmlOptions;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ObservationFormatDescriptor;
@@ -47,21 +45,18 @@ import com.google.common.collect.Sets;
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailabilityStreamWriter {
+public class GetDataAvailabilityStreamWriter
+        extends AbstractGetDataAvailabilityStreamWriter {
 
     private static final String DEFINITION = "definition";
 
-    public GetDataAvailabilityStreamWriter(OutputStream outputStream, EncodingContext context,
-                                           EncoderRepository encoderRepository,
-                                           Producer<XmlOptions> xmlOptions,
-                                           List<DataAvailability> element,
-                                           Map<TimePeriod, String> times,
-                                           String version)
-            throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, Optional.ofNullable(element)
-              .orElseGet(Collections::emptyList), times, version);
+    public GetDataAvailabilityStreamWriter(
+            OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
+            Producer<XmlOptions> xmlOptions, List<DataAvailability> element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions,
+                Optional.ofNullable(element).orElseGet(Collections::emptyList));
     }
 
     @Override

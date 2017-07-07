@@ -34,7 +34,7 @@ import net.opengis.drt.x10.DeleteResultTemplateResponseType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * @since 4.4.0
+ * @since 1.0.0
  */
 public class DeleteResultTemplateEncoder extends AbstractResponseEncoder<DeleteResultTemplateResponse> {
     public static final SchemaLocation SCHEMA_LOCATION = new SchemaLocation(DeleteResultTemplateConstants.NS,
@@ -49,7 +49,7 @@ public class DeleteResultTemplateEncoder extends AbstractResponseEncoder<DeleteR
     @Override
     protected XmlObject create(DeleteResultTemplateResponse drtr) throws EncodingException {
         if (drtr == null) {
-            throw new UnsupportedEncoderInputException(this, drtr);
+            throw new UnsupportedEncoderInputException(this, DeleteResultTemplateResponse.class);
         }
         DeleteResultTemplateResponseDocument drtrd =
                 DeleteResultTemplateResponseDocument.Factory.newInstance(getXmlOptions());

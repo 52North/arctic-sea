@@ -23,7 +23,7 @@ import javax.xml.stream.XMLStreamWriter;
  * Abstract XML writer class
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.0.2
+ * @since 1.0.0
  *
  * @param <T> concrete writer, e.g, {@link XMLStreamWriter} or {@link XMLEventWriter}
  * @param <S> object to write

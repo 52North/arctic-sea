@@ -30,7 +30,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @param <T> the response type
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractObservationResponseEncoder<T extends AbstractObservationResponse>
         extends AbstractSosResponseEncoder<T> {

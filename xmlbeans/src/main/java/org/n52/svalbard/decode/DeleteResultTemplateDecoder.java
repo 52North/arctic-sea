@@ -17,7 +17,6 @@
 package org.n52.svalbard.decode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
@@ -35,31 +34,24 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
 
 import net.opengis.drt.x10.DeleteResultTemplateDocument;
 import net.opengis.drt.x10.DeleteResultTemplateType;
 import net.opengis.drt.x10.DeleteResultTemplateType.Tuple;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * @since 4.4.0
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
+ * @since 1.0.0
  */
-public class DeleteResultTemplateDecoder extends AbstractXmlDecoder<XmlObject, DeleteResultTemplateRequest> {
-private static final Set<DecoderKey> DECODER_KEYS =
-            CollectionHelper.union(
-                    CodingHelper.decoderKeysForElements(
-                            DeleteResultTemplateConstants.NS,
-                            DeleteResultTemplateDocument.class),
-                    CodingHelper.xmlDecoderKeysForOperation(
-                            SosConstants.SOS,
-                            Sos2Constants.SERVICEVERSION,
-                            DeleteResultTemplateConstants.OPERATION_NAME
-                    )
-            );
+public class DeleteResultTemplateDecoder
+        extends AbstractXmlDecoder<XmlObject, DeleteResultTemplateRequest> {
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(DeleteResultTemplateConstants.NS, DeleteResultTemplateDocument.class),
+            CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                    DeleteResultTemplateConstants.OPERATION_NAME));
 
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(DeleteResultTemplateDecoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteResultTemplateDecoder.class);
 
     public DeleteResultTemplateDecoder() {
         LOGGER.info("Decoder for the following keys initialized successfully: {}!",
@@ -99,8 +91,7 @@ private static final Set<DecoderKey> DECODER_KEYS =
         return request;
     }
 
-    private void parseResultTemplates(String[] resultTemplateArray,
-            DeleteResultTemplateRequest request) {
+    private void parseResultTemplates(String[] resultTemplateArray, DeleteResultTemplateRequest request) {
         for (String resultTemplateId : resultTemplateArray) {
             request.addResultTemplate(resultTemplateId);
         }
@@ -116,12 +107,9 @@ private static final Set<DecoderKey> DECODER_KEYS =
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
-    private void parseObservedPropertyOfferingPairs(
-            Tuple[] tuples, DeleteResultTemplateRequest request) {
+    private void parseObservedPropertyOfferingPairs(Tuple[] tuples, DeleteResultTemplateRequest request) {
         for (Tuple tuple : tuples) {
-            request.addObservedPropertyOfferingPair(
-                    tuple.getObservedProperty(),
-                    tuple.getOffering());
+            request.addObservedPropertyOfferingPair(tuple.getObservedProperty(), tuple.getOffering());
         }
     }
 

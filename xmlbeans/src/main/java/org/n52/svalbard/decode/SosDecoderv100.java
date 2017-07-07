@@ -69,7 +69,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceCommunicationObject> {

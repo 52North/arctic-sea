@@ -127,7 +127,7 @@ import com.google.common.collect.Sets;
  * {@link AbstractSensorMLDecoder} class to decode OGC SensorML 2.0
  *
  * @author Carsten Hollmann
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {

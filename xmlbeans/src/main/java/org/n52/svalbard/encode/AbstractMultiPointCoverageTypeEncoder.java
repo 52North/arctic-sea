@@ -37,11 +37,12 @@ import net.opengis.gml.x32.MultiPointDomainDocument;
  * Abstract {@link Encoder} implementation to encode {@link MultiPointCoverage}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Target
  */
-public abstract class AbstractMultiPointCoverageTypeEncoder<T> extends AbstractCoverageEncoder<T, MultiPointCoverage> {
+public abstract class AbstractMultiPointCoverageTypeEncoder<T>
+        extends AbstractCoverageEncoder<T, MultiPointCoverage> {
 
     /**
      * Encode {@link MultiPointCoverage} to {@link DiscreteCoverageType}
@@ -50,8 +51,9 @@ public abstract class AbstractMultiPointCoverageTypeEncoder<T> extends AbstractC
      *            {@link DiscreteCoverageType} to add values to
      * @param multiPointCoverage
      *            {@link MultiPointCoverage} to encode
-     * @return
+     * @return {@link DiscreteCoverageType}
      * @throws EncodingException
+     *             If an error occurs
      */
     protected DiscreteCoverageType encodeMultiPointCoverageType(DiscreteCoverageType dct,
             MultiPointCoverage multiPointCoverage) throws EncodingException {

@@ -103,7 +103,7 @@ public abstract class AbstractRequestEncoder<T extends OwsServiceRequest> extend
     @Override
     public void encode(T response, OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
         if (response == null) {
-            throw new UnsupportedEncoderInputException(this, null);
+            throw new UnsupportedEncoderInputException(this);
         }
         create(response, outputStream, encodingValues);
     }

@@ -24,9 +24,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -43,14 +40,14 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public class GetDataAvailabilityXmlEncoder extends AbstractResponseEncoder<GetDataAvailabilityResponse> {
-    private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlEncoder.class);
+public class GetDataAvailabilityXmlEncoder
+        extends AbstractResponseEncoder<GetDataAvailabilityResponse> {
 
     public GetDataAvailabilityXmlEncoder() {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME,
-              Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
+                Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
     }
 
     @Override
@@ -62,13 +59,8 @@ public class GetDataAvailabilityXmlEncoder extends AbstractResponseEncoder<GetDa
     protected XmlObject create(GetDataAvailabilityResponse response) throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new GetDataAvailabilityStreamWriter(
-                    baos,
-                    EncodingContext.empty(),
-                    getEncoderRepository(),
-                    this::getXmlOptions,
-                    response.getDataAvailabilities()
-            ).write();
+            new GetDataAvailabilityStreamWriter(baos, EncodingContext.empty(), getEncoderRepository(),
+                    this::getXmlOptions, response.getDataAvailabilities()).write();
             XmlObject encodedObject = XmlObject.Factory.parse(baos.toString("UTF8"));
             XmlHelper.validateDocument(encodedObject, EncodingException::new);
             return encodedObject;

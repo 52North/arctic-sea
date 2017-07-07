@@ -25,7 +25,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.ProfileObservation;
 import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gmlcov.GmlCoverageConstants;
 import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.ObservationValue;
@@ -45,10 +44,11 @@ import net.opengis.om.x20.OMObservationType;
  * {@link ProfileObservationType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class ProfileObservationTypeEncoder extends AbstractOmInspireEncoder {
+public class ProfileObservationTypeEncoder
+        extends AbstractOmInspireEncoder {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, ProfileObservation.class);
@@ -92,16 +92,14 @@ public class ProfileObservationTypeEncoder extends AbstractOmInspireEncoder {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         return super.encode(element, ec);
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException {
-        encodingValues.setEncoder(this);
-        super.encode(objectToEncode, outputStream, encodingValues);
+        super.encode(objectToEncode, outputStream, context);
     }
 
     protected OMObservationType createOmObservationType() {

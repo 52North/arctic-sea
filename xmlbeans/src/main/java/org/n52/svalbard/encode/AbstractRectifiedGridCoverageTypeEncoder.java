@@ -31,9 +31,9 @@ import net.opengis.gml.x33.ce.SimpleMultiPointType;
  * Abstract {@link Encoder} implementation for {@link RectifiedGridCoverage}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Target
  */
 public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
         extends AbstractCoverageEncoder<T, RectifiedGridCoverage> {

@@ -33,7 +33,7 @@ import org.w3c.dom.NodeList;
 /**
  * Helper class for W3C
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class W3cHelper {

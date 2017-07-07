@@ -49,7 +49,7 @@ import net.opengis.sos.x20.GetResultType;
 import net.opengis.sos.x20.GetResultType.SpatialFilter;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServiceRequest> {

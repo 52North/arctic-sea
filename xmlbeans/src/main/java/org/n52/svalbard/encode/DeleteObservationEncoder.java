@@ -63,7 +63,7 @@ public class DeleteObservationEncoder extends AbstractResponseEncoder<DeleteObse
     @Override
     protected XmlObject create(DeleteObservationResponse dor) throws EncodingException {
         if (dor == null) {
-            throw new UnsupportedEncoderInputException(this, null);
+            throw new UnsupportedEncoderInputException(this, DeleteObservationResponse.class);
         }
 
         String observationId = dor.getObservationId();

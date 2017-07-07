@@ -16,16 +16,12 @@
  */
 package org.n52.svalbard.decode;
 
-import static java.lang.String.format;
-
 import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.filter.TemporalFilter;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
@@ -39,8 +35,8 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-import net.opengis.sosdo.x10.DeleteObservationDocument;
-import net.opengis.sosdo.x10.DeleteObservationType;
+import net.opengis.sosdo.x20.DeleteObservationDocument;
+import net.opengis.sosdo.x20.DeleteObservationType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -48,13 +44,14 @@ import net.opengis.sosdo.x10.DeleteObservationType;
  *
  * @since 1.0.0
  */
-public class DeleteObservationV20Decoder extends AbstractXmlDecoder<XmlObject, DeleteObservationRequest> {
+public class DeleteObservationV20Decoder
+        extends AbstractXmlDecoder<XmlObject, DeleteObservationRequest> {
 
-    @SuppressWarnings("unchecked")
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.decoderKeysForElements(DeleteObservationConstants.NS_SOSDO_2_0, DeleteObservationDocument.class),
-                    CodingHelper.xmlDecoderKeysForOperation(
-                    Sos2Constants.SOS, Sos2Constants.SERVICEVERSION, DeleteObservationConstants.Operations.DeleteObservation));
+            CodingHelper.decoderKeysForElements(DeleteObservationConstants.NS_SOSDO_2_0,
+                    DeleteObservationDocument.class),
+            CodingHelper.xmlDecoderKeysForOperation(Sos2Constants.SOS, Sos2Constants.SERVICEVERSION,
+                    DeleteObservationConstants.Operations.DeleteObservation));
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteObservationV20Decoder.class);
 
@@ -68,7 +65,7 @@ public class DeleteObservationV20Decoder extends AbstractXmlDecoder<XmlObject, D
     }
 
     public DeleteObservationRequest decode(XmlObject xmlObject) throws DecodingException {
-        LOGGER.debug(format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
+        LOGGER.debug(String.format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
         // XmlHelper.validateDocument(xmlObject);
         if (xmlObject instanceof DeleteObservationDocument) {
             DeleteObservationDocument delObsDoc = (DeleteObservationDocument) xmlObject;
@@ -100,8 +97,8 @@ public class DeleteObservationV20Decoder extends AbstractXmlDecoder<XmlObject, D
                 parseTemporalFilter(xbDelObsType, delObsRequest);
             }
         } else {
-            throw new NoApplicableCodeException()
-                    .withMessage("Received XML document is not valid. Set log level to debug to get more details");
+            throw new DecodingException(
+                    "Received XML document is not valid. Set log level to debug to get more details");
         }
 
         return delObsRequest;
@@ -131,17 +128,18 @@ public class DeleteObservationV20Decoder extends AbstractXmlDecoder<XmlObject, D
         }
     }
 
-    private void parseTemporalFilter(DeleteObservationType dot, DeleteObservationRequest request) throws OwsExceptionReport {
+    private void parseTemporalFilter(DeleteObservationType dot, DeleteObservationRequest request)
+            throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(dot.getTemporalFilterArray())) {
             request.setTemporalFilters(parseTemporalFilters(dot.getTemporalFilterArray()));
         }
     }
 
-    private Set<TemporalFilter> parseTemporalFilters(
-            final DeleteObservationType.TemporalFilter[] temporalFilters) throws OwsExceptionReport {
+    private Set<TemporalFilter> parseTemporalFilters(final DeleteObservationType.TemporalFilter[] temporalFilters)
+            throws DecodingException {
         final Set<TemporalFilter> sosTemporalFilters = Sets.newHashSetWithExpectedSize(temporalFilters.length);
         for (final DeleteObservationType.TemporalFilter temporalFilter : temporalFilters) {
-            final Object filter = CodingHelper.decodeXmlElement(temporalFilter.getTemporalOps());
+            final Object filter = decodeXmlElement(temporalFilter.getTemporalOps());
             if (filter instanceof TemporalFilter) {
                 sosTemporalFilters.add((TemporalFilter) filter);
             }

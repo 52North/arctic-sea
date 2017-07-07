@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.gml.v321.encode;
+package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.TRUE;
 import static org.hamcrest.Matchers.is;
@@ -23,12 +23,12 @@ import static org.junit.Assert.assertThat;
 import java.util.SortedMap;
 
 import org.junit.Test;
-import org.n52.sos.exception.ows.concrete.UnsupportedEncoderInputException;
-import org.n52.sos.ogc.om.values.QuantityValue;
-import org.n52.sos.ogc.om.values.RectifiedGridCoverage;
-import org.n52.sos.ogc.om.values.Value;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.util.XmlHelper;
+import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
+import org.n52.shetland.ogc.om.values.Value;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Maps;
 
@@ -39,7 +39,7 @@ public class RectifiedGridCoverageDocumentEncoderTest {
     private RectifiedGridCoverageDocumentEncoder encoder = new RectifiedGridCoverageDocumentEncoder();
 
     @Test
-    public void test_encoding() throws UnsupportedEncoderInputException, OwsExceptionReport {
+    public void test_encoding() throws EncodingException, DecodingException {
         RectifiedGridCoverageDocument encoded = encoder.encode(getRectifiedGridCoverage());
 
         assertThat(XmlHelper.validateDocument(encoded), is(TRUE));

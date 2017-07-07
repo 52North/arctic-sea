@@ -65,9 +65,8 @@ import net.opengis.gml.x32.PointType;
  * Abstract {@link Encoder} class for CV_DiscretePointCoverage
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
- * @param <T>
  */
 public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
         extends AbstractXmlEncoder<T, CvDiscretePointCoverage> {
@@ -85,8 +84,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
      *             If an error occurs
      */
     protected CVDiscretePointCoverageType encodeCVDiscretePointCoverage(
-            CvDiscretePointCoverage cvDiscretePointCoverage)
-                    throws EncodingException {
+            CvDiscretePointCoverage cvDiscretePointCoverage) throws EncodingException {
         CVDiscretePointCoverageType cvdpct = CVDiscretePointCoverageType.Factory.newInstance(getXmlOptions());
         cvdpct.setId(cvDiscretePointCoverage.getGmlId());
         cvdpct.addNewDomainExtent().setHref(cvDiscretePointCoverage.getDomainExtent());
@@ -107,8 +105,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
      * @throws EncodingException
      *             If an error occurs
      */
-    private CVPointValuePairType encodePointValuePair(PointValuePair value)
-            throws EncodingException {
+    private CVPointValuePairType encodePointValuePair(PointValuePair value) throws EncodingException {
         CVPointValuePairType cvpvpt = CVPointValuePairType.Factory.newInstance(getXmlOptions());
         cvpvpt.setGeometry(encodeGeometry(value.getPoint(), JavaHelper.generateID(value.toString())));
         if (value.isSetValue()) {
@@ -132,8 +129,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
      * @throws EncodingException
      *             If an error occurs
      */
-    private PointPropertyType encodeGeometry(Point point, String gmlId)
-            throws EncodingException {
+    private PointPropertyType encodeGeometry(Point point, String gmlId) throws EncodingException {
         PointPropertyType ppt = PointPropertyType.Factory.newInstance(getXmlOptions());
         ppt.setPoint((PointType) encodeGML(point, EncodingContext.of(XmlBeansEncodingFlags.GMLID, gmlId)));
         return ppt;
@@ -160,8 +156,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
         nameSpacePrefixMap.put(CvConstants.NS_CV, CvConstants.NS_CV_PREFIX);
     }
 
-    protected XmlObject encodeGML(Object o, EncodingContext ec)
-            throws EncodingException {
+    protected XmlObject encodeGML(Object o, EncodingContext ec) throws EncodingException {
         return encodeObjectToXml(GmlConstants.NS_GML_32, o, ec);
     }
 
@@ -173,8 +168,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
         return encodeObjectToXml(SweConstants.NS_SWE_20, o);
     }
 
-    protected XmlObject encodeSWE(Object o, EncodingContext ec)
-            throws EncodingException {
+    protected XmlObject encodeSWE(Object o, EncodingContext ec) throws EncodingException {
         return encodeObjectToXml(SweConstants.NS_SWE_20, o, ec);
     }
 
@@ -194,10 +188,11 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
      * {@link ValueVisitor} implementation for the result
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since 4.4.0
+     * @since 1.0.0
      *
      */
-    private class ResultValueVisitor implements ValueVisitor<XmlObject, EncodingException> {
+    private class ResultValueVisitor
+            implements ValueVisitor<XmlObject, EncodingException> {
 
         ResultValueVisitor() {
         }
@@ -244,7 +239,10 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
         @Override
         public XmlObject visit(GeometryValue value) throws EncodingException {
             if (value.isSetValue()) {
-                EncodingContext ec = EncodingContext.of(XmlBeansEncodingFlags.GMLID, SosConstants.OBS_ID_PREFIX + JavaHelper.generateID(value.toString())).with(XmlBeansEncodingFlags.PROPERTY_TYPE, true);
+                EncodingContext ec = EncodingContext
+                        .of(XmlBeansEncodingFlags.GMLID,
+                                SosConstants.OBS_ID_PREFIX + JavaHelper.generateID(value.toString()))
+                        .with(XmlBeansEncodingFlags.PROPERTY_TYPE, true);
                 return encodeGML(value.getValue(), ec);
             } else {
                 return null;
@@ -297,10 +295,10 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
             return xbString;
         }
 
-//        @Override
-//        public XmlObject visit(XmlValue value) throws EncodingException {
-//            return value.getValue();
-//        }
+        // @Override
+        // public XmlObject visit(XmlValue value) throws EncodingException {
+        // return value.getValue();
+        // }
 
         @Override
         public XmlObject visit(UnknownValue value) throws EncodingException {

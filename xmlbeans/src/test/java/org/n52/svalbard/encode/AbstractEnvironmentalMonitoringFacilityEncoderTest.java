@@ -14,26 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
+package org.n52.svalbard.encode;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
-import org.n52.sos.config.SettingsManager;
-import org.n52.sos.ogc.gml.ReferenceType;
-import org.n52.svalbard.inspire.base.Identifier;
-import org.n52.svalbard.inspire.ef.EnvironmentalMonitoringFacility;
+import org.n52.shetland.inspire.base.Identifier;
+import org.n52.shetland.inspire.ef.EnvironmentalMonitoringFacility;
+import org.n52.shetland.ogc.gml.ReferenceType;
 
 public abstract class AbstractEnvironmentalMonitoringFacilityEncoderTest {
 
-    @BeforeClass
-    public static void initSettingsManager() {
-        SettingsManager.getInstance();
-    }
-
-    @AfterClass
-    public static void cleanupSettingManager() {
-        SettingsManager.getInstance().cleanup();
-    }
+//    @BeforeClass
+//    public static void initSettingsManager() {
+//        SettingsManager.getInstance();
+//    }
+//
+//    @AfterClass
+//    public static void cleanupSettingManager() {
+//        SettingsManager.getInstance().cleanup();
+//    }
 
     protected EnvironmentalMonitoringFacility getEnvironmentalMonitoringFacility() {
         return new EnvironmentalMonitoringFacility(new Identifier("localId", "namespace"), new ReferenceType("mediaMonitored"));

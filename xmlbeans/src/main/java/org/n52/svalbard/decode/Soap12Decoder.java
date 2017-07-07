@@ -54,7 +54,7 @@ import com.google.common.base.Strings;
 /**
  * class encapsulates decoding methods for SOAP elements.
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class Soap12Decoder extends AbstractSoapDecoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(Soap12Decoder.class);

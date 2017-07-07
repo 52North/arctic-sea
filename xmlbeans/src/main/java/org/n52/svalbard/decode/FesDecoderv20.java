@@ -73,7 +73,7 @@ import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Geometry;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {

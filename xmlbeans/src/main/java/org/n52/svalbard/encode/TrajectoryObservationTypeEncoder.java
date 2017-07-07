@@ -60,10 +60,13 @@ import net.opengis.waterml.x20.TVPMeasurementMetadataType;
  * {@link TrajectoryObservationType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
+public class TrajectoryObservationTypeEncoder
+        extends AbstractOmInspireEncoder {
+
+    private static final String TIMESERIES_PREFIX = "timeseries.";
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, TrajectoryObservation.class);
@@ -80,16 +83,14 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         return super.encode(element, ec);
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException {
-        encodingValues.setEncoder(this);
-        super.encode(objectToEncode, outputStream, encodingValues);
+        super.encode(objectToEncode, outputStream, context);
     }
 
     @Override
@@ -106,8 +107,6 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
                 return createMeasurementTimeseries((AbstractObservationValue<?>) observationValue);
             } else if (observationValue.getValue().getValue() instanceof CategoryValue) {
                 return createCategoricalTimeseries((AbstractObservationValue<?>) observationValue);
-            } else {
-                // TODO throw exception
             }
         } else if (observationValue instanceof MultiObservationValues) {
             if (observationValue.getValue() instanceof TLVTValue) {
@@ -117,8 +116,6 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
                     return createMeasurementTimeseries((AbstractObservationValue<?>) observationValue);
                 } else if (value.getValue() instanceof CategoryValue) {
                     return createCategoricalTimeseries((AbstractObservationValue<?>) observationValue);
-                } else {
-                    // TODO throw exception
                 }
             }
         }
@@ -151,7 +148,7 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
         if (!observationValue.isSetObservationID()) {
             observationValue.setObservationID(JavaHelper.generateID(observationValue.toString()));
         }
-        measurementTimeseries.setId("timeseries." + observationValue.getObservationID());
+        measurementTimeseries.setId(TIMESERIES_PREFIX + observationValue.getObservationID());
         measurementTimeseries.addNewMetadata().addNewTimeseriesMetadata().addNewTemporalExtent()
                 .setHref("#" + observationValue.getPhenomenonTime().getGmlId());
 
@@ -188,8 +185,6 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
                             .set(encodeTLVT(timeLocationValueTriple));
                     counter++;
                 }
-            } else {
-                // TODO throw exception
             }
         }
         if (unit != null && !unit.isEmpty()) {
@@ -227,7 +222,7 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
             throws EncodingException {
         CategoricalTimeseriesDocument categoricalTimeseriesDoc = CategoricalTimeseriesDocument.Factory.newInstance();
         CategoricalTimeseriesType categoricalTimeseries = categoricalTimeseriesDoc.addNewCategoricalTimeseries();
-        categoricalTimeseries.setId("timeseries." + observationValue.getObservationID());
+        categoricalTimeseries.setId(TIMESERIES_PREFIX + observationValue.getObservationID());
         categoricalTimeseries.addNewMetadata().addNewTimeseriesMetadata().addNewTemporalExtent()
                 .setHref("#" + observationValue.getPhenomenonTime().getGmlId());
 
@@ -259,8 +254,6 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
                             .set(encodeTLVT(timeLocationValueTriple));
                     counter++;
                 }
-            } else {
-                // TODO throw exception
             }
         }
         if (unit != null && !unit.isEmpty()) {
@@ -273,8 +266,10 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
 
     /**
      * @param observationID
+     *            Observation id
      * @param counter
-     * @return
+     *            Observation counter
+     * @return {@link EncodingContext}
      */
     private EncodingContext getUserObject(String observationID, int counter) {
         return EncodingContext.of(XmlBeansEncodingFlags.GMLID, observationID + "_" + counter);
@@ -284,8 +279,7 @@ public class TrajectoryObservationTypeEncoder extends AbstractOmInspireEncoder {
         return encodeObjectToXml(InspireOMSOConstants.NS_OMSO_30, o);
     }
 
-    protected XmlObject encodeInspireOMSO(Object o, EncodingContext ec)
-            throws EncodingException {
+    protected XmlObject encodeInspireOMSO(Object o, EncodingContext ec) throws EncodingException {
         return encodeObjectToXml(InspireOMSOConstants.NS_OMSO_30, o, ec);
     }
 

@@ -36,15 +36,10 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SfSpecimen;
 import org.n52.shetland.ogc.om.values.QuantityValue;
-import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.sos.FeatureType;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.n52.svalbard.util.XmlOptionsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,20 +53,20 @@ import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;
 import net.opengis.samplingSpecimen.x20.SFSpecimenType;
 import net.opengis.samplingSpecimen.x20.SFSpecimenType.Size;
 
-public class SpecimenDecoderv20 extends SamplingDecoderv20 {
+public class SpecimenDecoderv20
+        extends SamplingDecoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpecimenDecoderv20.class);
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(
-            new FeatureType(OGCConstants.UNKNOWN),
+    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(new FeatureType(OGCConstants.UNKNOWN),
             new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN));
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(SfConstants.NS_SPEC, SFSpecimenDocument.class,
-                    SFSpecimenType.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(SfConstants.NS_SPEC, SFSpecimenDocument.class, SFSpecimenType.class);
 
     public SpecimenDecoderv20() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ")
-                .join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -84,21 +79,19 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
         return Collections.unmodifiableSet(SUPPORTED_TYPES);
     }
 
-
     @Override
     public AbstractFeature decode(final XmlObject element) throws DecodingException {
         // validate XmlObject
-        XmlHelper.validateDocument((XmlObject)element);
+        XmlHelper.validateDocument((XmlObject) element);
         if (element instanceof SFSpecimenDocument) {
-            return parseSpatialSamplingFeature(((SFSpecimenDocument) element)
-                    .getSFSpecimen());
+            return parseSpatialSamplingFeature(((SFSpecimenDocument) element).getSFSpecimen());
         } else if (element instanceof SFSpecimenType) {
-            return parseSpatialSamplingFeature(((SFSpecimenType) element));
+            return parseSpatialSamplingFeature((SFSpecimenType) element);
         }
         return super.decode(element);
     }
-    private AbstractFeature parseSpatialSamplingFeature(final SFSpecimenType sfst)
-            throws DecodingException {
+
+    private AbstractFeature parseSpatialSamplingFeature(final SFSpecimenType sfst) throws DecodingException {
         final SfSpecimen specimen = new SfSpecimen(null, sfst.getId());
         // parse identifier, names, description
         parseAbstractFeatureType(sfst, specimen);
@@ -109,25 +102,25 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
         }
         // TODO
         sfst.getMaterialClass();
-        specimen.setMaterialClass((ReferenceType)decodeXmlElement(sfst.getMaterialClass()));
+        specimen.setMaterialClass((ReferenceType) decodeXmlElement(sfst.getMaterialClass()));
         specimen.setSamplingTime(getSamplingTime(sfst));
-        if (sfst.isSetSamplingMethod()) {
-//        specimen.setSamplingMethod(sfst.getSamplingMethod());
-        }
+        // if (sfst.isSetSamplingMethod()) {
+        // specimen.setSamplingMethod(sfst.getSamplingMethod());
+        // }
         // samplingLocation
         if (sfst.isSetSamplingLocation()) {
             specimen.setSamplingLocation(getGeometry(sfst));
         }
-//        sfst.getProcessingDetailsArray();
+        // sfst.getProcessingDetailsArray();
         if (sfst.isSetSize()) {
             specimen.setSize(getSize(sfst.getSize()));
         }
-        sfst.getCurrentLocation();
-        if (sfst.isSetCurrentLocation()) {
-//            specimen.setCurrentLocation(currentLocation);
-        }
+        // if (sfst.isSetCurrentLocation()) {
+        // sfst.getCurrentLocation();
+        // specimen.setCurrentLocation(currentLocation);
+        // }
         if (sfst.isSetSpecimenType()) {
-            specimen.setSpecimenType((ReferenceType)decodeXmlElement(sfst.getSpecimenType()));
+            specimen.setSpecimenType((ReferenceType) decodeXmlElement(sfst.getSpecimenType()));
         }
         return specimen;
     }
@@ -149,17 +142,20 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
     }
 
     private String getXmlDescription(final SFSpecimenType sfst) {
-        final SFSpecimenDocument sfsd =
-                SFSpecimenDocument.Factory.newInstance(getXmlOptions());
+        final SFSpecimenDocument sfsd = SFSpecimenDocument.Factory.newInstance(getXmlOptions());
         sfsd.setSFSpecimen(sfst);
         return sfsd.xmlText(getXmlOptions());
     }
 
     /**
-     * Parse {@link FeaturePropertyType} sampledFeatures to {@link AbstractFeature} list.
-     * @param sampledFeatureArray SampledFeatures to parse
+     * Parse {@link FeaturePropertyType} sampledFeatures to
+     * {@link AbstractFeature} list.
+     *
+     * @param sampledFeatureArray
+     *            SampledFeatures to parse
      * @return List with the parsed sampledFeatures
-     * @throws DecodingException If an error occurs
+     * @throws DecodingException
+     *             If an error occurs
      */
     private List<AbstractFeature> getSampledFeatures(FeaturePropertyType[] sampledFeatureArray)
             throws DecodingException {
@@ -171,11 +167,14 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
     }
 
     /**
-     * Parse {@link FeaturePropertyType} sampledFeature to {@link AbstractFeature} list.
+     * Parse {@link FeaturePropertyType} sampledFeature to
+     * {@link AbstractFeature} list.
      *
-     * @param sampledFeature SampledFeature to parse
+     * @param sampledFeature
+     *            SampledFeature to parse
      * @return List with the parsed sampledFeature
-     * @throws DecodingException If an error occurs
+     * @throws DecodingException
+     *             If an error occurs
      */
     private List<AbstractFeature> getSampledFeatures(final FeaturePropertyType sampledFeature)
             throws DecodingException {
@@ -199,12 +198,10 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
                     abstractFeature = sampledFeature.getAbstractFeature();
                 } else if (sampledFeature.getDomNode().hasChildNodes()) {
                     try {
-                        abstractFeature =
-                                XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(sampledFeature.getDomNode()
-                                        .getChildNodes()));
+                        abstractFeature = XmlObject.Factory
+                                .parse(XmlHelper.getNodeFromNodeList(sampledFeature.getDomNode().getChildNodes()));
                     } catch (final XmlException xmle) {
-                        throw new DecodingException(
-                                "Error while parsing feature request!", xmle);
+                        throw new DecodingException("Error while parsing feature request!", xmle);
                     }
                 }
                 if (abstractFeature != null) {

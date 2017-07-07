@@ -53,7 +53,7 @@ import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, SoapRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSoapDecoder.class);

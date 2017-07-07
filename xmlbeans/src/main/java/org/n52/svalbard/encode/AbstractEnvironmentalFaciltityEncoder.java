@@ -54,6 +54,10 @@ public abstract class AbstractEnvironmentalFaciltityEncoder<T, S>
         return encodeObjectToXml(InspireEfConstants.NS_EF, o);
     }
 
+    protected XmlObject encodeEF(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(InspireEfConstants.NS_EF, o, context);
+    }
+
     protected XmlObject encodeEFPropertyType(Object o) throws EncodingException {
         return encodeObjectToXmlPropertyType(InspireEfConstants.NS_EF, o);
     }
@@ -62,12 +66,12 @@ public abstract class AbstractEnvironmentalFaciltityEncoder<T, S>
         return encodeObjectToXmlDocument(InspireEfConstants.NS_EF, o);
     }
 
-    protected XmlObject encodeEF(Object o, EncodingContext context) throws EncodingException {
-        return encodeObjectToXml(InspireEfConstants.NS_EF, o, context);
-    }
-
     protected XmlObject encodeBASE2(Object o) throws EncodingException {
         return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o);
+    }
+
+    protected XmlObject encodeBASE2(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o, context);
     }
 
     protected XmlObject encodeBASE2PropertyType(Object o) throws EncodingException {
@@ -78,12 +82,12 @@ public abstract class AbstractEnvironmentalFaciltityEncoder<T, S>
         return encodeObjectToXmlDocument(InspireBase2Constants.NS_BASE2, o);
     }
 
-    protected XmlObject encodeBASE2(Object o, EncodingContext context) throws EncodingException {
-        return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o, context);
-    }
-
     protected XmlObject encodeBASE(Object o) throws EncodingException {
         return encodeObjectToXml(InspireBaseConstants.NS_BASE, o);
+    }
+
+    protected XmlObject encodeBASE(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(InspireBaseConstants.NS_BASE, o, context);
     }
 
     protected XmlObject encodeBASEPropertyType(Object o) throws EncodingException {
@@ -92,10 +96,6 @@ public abstract class AbstractEnvironmentalFaciltityEncoder<T, S>
 
     protected XmlObject encodeBASEDocument(Object o) throws EncodingException {
         return encodeObjectToXmlDocument(InspireBaseConstants.NS_BASE, o);
-    }
-
-    protected XmlObject encodeBASE(Object o, EncodingContext context) throws EncodingException {
-        return encodeObjectToXml(InspireBaseConstants.NS_BASE, o, context);
     }
 
 }

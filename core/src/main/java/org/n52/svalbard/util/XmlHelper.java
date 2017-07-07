@@ -67,7 +67,7 @@ import com.google.common.collect.Sets;
 /**
  * XML utility class TODO add javadoc to public methods.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class XmlHelper {

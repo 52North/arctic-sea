@@ -111,7 +111,7 @@ import net.opengis.swe.x20.VectorType;
 import net.opengis.swe.x20.VectorType.Coordinate;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SweCommonDecoderV20
@@ -676,7 +676,7 @@ public class SweCommonDecoderV20
     }
 
     private Collection<SweQuality> parseQuality(QualityPropertyType... qualityArray) throws DecodingException {
-        if (qualityArray == null || qualityArray.length == 0) {
+        if (qualityArray != null && qualityArray.length > 0) {
             final ArrayList<SweQuality> sosQualities = Lists.newArrayListWithCapacity(qualityArray.length);
             for (final QualityPropertyType quality : qualityArray) {
                 if (quality.isSetQuantity()) {

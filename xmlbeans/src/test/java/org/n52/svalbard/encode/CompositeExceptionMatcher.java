@@ -16,14 +16,16 @@
  */
 package org.n52.svalbard.encode;
 
-import com.google.common.collect.Lists;
 import java.util.List;
+
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.n52.sos.ogc.ows.CompositeOwsException;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.exception.CompositeOwsException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+
+import com.google.common.collect.Lists;
 
 /**
  *

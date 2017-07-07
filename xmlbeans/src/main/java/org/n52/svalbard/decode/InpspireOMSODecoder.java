@@ -17,7 +17,6 @@
 package org.n52.svalbard.decode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
@@ -27,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
@@ -35,10 +33,11 @@ import com.google.common.collect.Sets;
  * Encoder for INSPIRE OM Specialised Observations
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class InpspireOMSODecoder extends AbstractOmDecoderv20 {
+public class InpspireOMSODecoder
+        extends AbstractOmDecoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InpspireOMSODecoder.class);
 
@@ -46,10 +45,10 @@ public class InpspireOMSODecoder extends AbstractOmDecoderv20 {
 
     private static final Set<SupportedType> SUPPORTED_TYPES =
             ImmutableSet.of(new ObservationType(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION),
-                            new ObservationType(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION),
-                            new ObservationType(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION),
-                            new ObservationType(InspireOMSOConstants.OBS_TYPE_PROFILE_OBSERVATION),
-                            new ObservationType(InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION));
+                    new ObservationType(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION),
+                    new ObservationType(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION),
+                    new ObservationType(InspireOMSOConstants.OBS_TYPE_PROFILE_OBSERVATION),
+                    new ObservationType(InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION));
 
     public InpspireOMSODecoder() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",

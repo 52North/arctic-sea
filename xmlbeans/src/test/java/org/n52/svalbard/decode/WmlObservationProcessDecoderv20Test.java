@@ -33,7 +33,7 @@ import org.n52.svalbard.decode.WmlObservationProcessDecoderv20;
  * Test class for {@link WmlObservationProcessDecoderv20}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class WmlObservationProcessDecoderv20Test {
@@ -43,18 +43,6 @@ public class WmlObservationProcessDecoderv20Test {
     final String REF_OFFERING = "refOffering";
 
     final String TEXT_OFFERING = "textOffering";
-
-    @Test
-    public void testCheckForOffering() {
-        ObservationProcess observationProcess = getObservationProcess();
-        decoder.checkForOffering(observationProcess);
-        assertThat(observationProcess.isSetOfferings(), is(true));
-        assertThat(observationProcess.getOfferings().size(), is(2));
-        for (SosOffering offering : observationProcess.getOfferings()) {
-            assertThat(offering.getIdentifier(), anyOf(is(REF_OFFERING), is(TEXT_OFFERING)));
-        }
-
-    }
 
     private ObservationProcess getObservationProcess() {
         ObservationProcess op = new ObservationProcess();

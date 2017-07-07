@@ -42,17 +42,20 @@ import net.opengis.sosdo.x10.DeleteObservationType;
  *
  * @since 1.0.0
  */
-public class DeleteObservationDecoder extends AbstractXmlDecoder<XmlObject, DeleteObservationRequest> {
+public class DeleteObservationDecoder
+        extends AbstractXmlDecoder<XmlObject, DeleteObservationRequest> {
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.decoderKeysForElements(DeleteObservationConstants.NS_SOSDO_1_0, DeleteObservationDocument.class),
+            CodingHelper.decoderKeysForElements(DeleteObservationConstants.NS_SOSDO_1_0,
+                    DeleteObservationDocument.class),
             CodingHelper.xmlDecoderKeysForOperation(Sos2Constants.SOS, Sos2Constants.SERVICEVERSION,
                     DeleteObservationConstants.Operations.DeleteObservation));
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteObservationDecoder.class);
 
     public DeleteObservationDecoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(DECODER_KEYS));
+        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     public Set<DecoderKey> getKeys() {
@@ -84,7 +87,8 @@ public class DeleteObservationDecoder extends AbstractXmlDecoder<XmlObject, Dele
             delObsRequest.setService(xbDelObsType.getService());
             delObsRequest.addObservationIdentifier(xbDelObsType.getObservation());
         } else {
-            throw new DecodingException("Received XML document is not valid. Set log level to debug to get more details");
+            throw new DecodingException(
+                    "Received XML document is not valid. Set log level to debug to get more details");
         }
 
         return delObsRequest;
@@ -93,6 +97,5 @@ public class DeleteObservationDecoder extends AbstractXmlDecoder<XmlObject, Dele
     public Set<SupportedType> getSupportedTypes() {
         return Collections.emptySet();
     }
-
 
 }

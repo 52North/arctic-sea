@@ -33,12 +33,12 @@ import net.opengis.gml.x32.PointType;
  * {@link Encoder} implementation for {@link Point} to {@link PointPropertyType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class PointPropertyTypeEncoder extends AbstractXmlEncoder<PointPropertyType, Point> {
 
-    protected static final Set<EncoderKey> ENCODER_KEYS =
+    private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(PointPropertyType.class, Point.class),
                     new XmlPropertyTypeEncoderKey(GmlConstants.NS_GML_32, Point.class));
 

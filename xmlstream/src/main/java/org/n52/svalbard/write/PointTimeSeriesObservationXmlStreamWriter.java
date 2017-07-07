@@ -28,7 +28,6 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 
-
 public class PointTimeSeriesObservationXmlStreamWriter extends WmlTVPEncoderv20XmlStreamWriter {
 
 

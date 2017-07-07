@@ -24,6 +24,7 @@ import java.util.Set;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.PointTimeSeriesObservation;
 import org.n52.shetland.ogc.SupportedType;
@@ -31,9 +32,7 @@ import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.PointTimeSeriesObservationXmlStreamWriter;
 
@@ -47,10 +46,11 @@ import net.opengis.om.x20.OMObservationType;
  * {@link PointTimeSeriesObservationType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class PointTimeSeriesObservationTypeEncoder extends AbstractOmInspireEncoder {
+public class PointTimeSeriesObservationTypeEncoder
+        extends AbstractOmInspireEncoder {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, PointTimeSeriesObservation.class);
@@ -82,24 +82,22 @@ public class PointTimeSeriesObservationTypeEncoder extends AbstractOmInspireEnco
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         return super.encode(element, ec);
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException {
-        encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                new PointTimeSeriesObservationXmlStreamWriter().write((OmObservation) objectToEncode, outputStream,
-                        encodingValues);
+                new PointTimeSeriesObservationXmlStreamWriter(outputStream, context, getEncoderRepository(),
+                        XmlOptions::new, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
         }
-        super.encode(objectToEncode, outputStream, encodingValues);
+        super.encode(objectToEncode, outputStream, context);
     }
 
     protected OMObservationType createOmObservationType() {

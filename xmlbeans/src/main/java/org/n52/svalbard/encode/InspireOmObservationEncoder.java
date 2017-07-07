@@ -45,10 +45,11 @@ import com.google.common.collect.Sets;
  * {@link ObservationEncoder} implementation for INSPIRE OM
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class InspireOmObservationEncoder extends AbstractXmlEncoder<XmlObject, Object>
+public class InspireOmObservationEncoder
+        extends AbstractXmlEncoder<XmlObject, Object>
         implements ObservationEncoder<XmlObject, Object>, StreamingEncoder<XmlObject, Object> {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
@@ -64,8 +65,7 @@ public class InspireOmObservationEncoder extends AbstractXmlEncoder<XmlObject, O
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         if (element instanceof OmObservation) {
             return encodeInspireOmsoType((OmObservation) element);
         }
@@ -74,36 +74,23 @@ public class InspireOmObservationEncoder extends AbstractXmlEncoder<XmlObject, O
 
     @Override
     public void encode(Object objectToEncode, OutputStream outputStream) throws EncodingException {
-        encode(objectToEncode, outputStream, new EncodingValues());
+        encode(objectToEncode, outputStream, EncodingContext.empty());
     }
 
     @Override
-    public void encode(Object element, OutputStream outputStream, EncodingValues encodingValues)
-            throws EncodingException {
+    public void encode(Object element, OutputStream outputStream, EncodingContext context) throws EncodingException {
         try {
             if (element instanceof OmObservation && InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION
                     .equals(((OmObservation) element).getObservationConstellation().getObservationType())) {
-                new PointTimeSeriesObservationXmlStreamWriter().write((OmObservation)element, outputStream, encodingValues);
+                new PointTimeSeriesObservationXmlStreamWriter(outputStream, context, getEncoderRepository(),
+                        XmlOptions::new, (OmObservation) element).write();
             } else {
-                XmlOptions xmlOptions = getXmlOptions();
-                if (encodingValues.isEmbedded()) {
-                    xmlOptions.setSaveNoXmlDecl();
-                }
                 // writeIndent(encodingValues.getIndent(), outputStream);
-                encode(element, encodingValues.getAdditionalValues()).save(outputStream, xmlOptions);
+                encode(element, context).save(outputStream, getXmlOptions());
             }
         } catch (IOException | XMLStreamException e) {
-                throw new EncodingException("Error while writing element to stream!", e);
-        } finally {
-            if (encodingValues.isEmbedded()) {
-                getXmlOptions().remove(XmlOptions.SAVE_NO_XML_DECL);
-            }
+            throw new EncodingException("Error while writing element to stream!", e);
         }
-    }
-
-    @Override
-    public boolean forceStreaming() {
-        return false;
     }
 
     protected XmlObject encodeInspireOmsoType(OmObservation o) throws EncodingException {

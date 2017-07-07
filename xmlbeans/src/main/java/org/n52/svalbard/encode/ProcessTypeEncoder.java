@@ -57,7 +57,8 @@ import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType.InspireId;
 import net.opengis.gml.x32.FeaturePropertyType;
 
-public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Process>
+public class ProcessTypeEncoder
+        extends AbstractGmlEncoderv321<XmlObject, Process>
         implements ProcedureEncoder<XmlObject, Process> {
 
     private final Logger LOGGER = LoggerFactory.getLogger(ProcessTypeEncoder.class);
@@ -76,9 +77,10 @@ public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Proces
                             .build());
 
     private final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
-            CodingHelper.encoderKeysForElements(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class, Process.class),
-            CodingHelper.encoderKeysForElements(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE, SosProcedureDescription.class,
-                    Process.class));
+            CodingHelper.encoderKeysForElements(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class,
+                    Process.class),
+            CodingHelper.encoderKeysForElements(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE,
+                    SosProcedureDescription.class, Process.class));
 
     public ProcessTypeEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -223,8 +225,7 @@ public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Proces
     @Override
     protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
             EncodingContext context) throws EncodingException {
-        if (context.has(XmlBeansEncodingFlags.ENCODE)
-                && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
+        if (context.has(XmlBeansEncodingFlags.ENCODE) && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
             featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
             if (abstractFeature.isSetName()) {
                 featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
@@ -246,6 +247,10 @@ public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Proces
         return encodeObjectToXml(InspireBaseConstants.NS_BASE, o);
     }
 
+    protected XmlObject encodeBASE(Object o, EncodingContext encodingContext) throws EncodingException {
+        return encodeObjectToXml(InspireBaseConstants.NS_BASE, o, encodingContext);
+    }
+
     protected XmlObject encodeBASEPropertyType(Object o) throws EncodingException {
         return encodeObjectToXmlPropertyType(InspireBaseConstants.NS_BASE, o);
     }
@@ -254,12 +259,12 @@ public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Proces
         return encodeObjectToXmlDocument(InspireBaseConstants.NS_BASE, o);
     }
 
-    protected XmlObject encodeBASE(Object o, EncodingContext encodingContext) throws EncodingException {
-        return encodeObjectToXml(InspireBaseConstants.NS_BASE, o, encodingContext);
-    }
-
     protected XmlObject encodeBASE2(Object o) throws EncodingException {
         return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o);
+    }
+
+    protected XmlObject encodeBASE2(Object o, EncodingContext encodingContext) throws EncodingException {
+        return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o, encodingContext);
     }
 
     protected XmlObject encodeBASE2PropertyType(Object o) throws EncodingException {
@@ -268,11 +273,6 @@ public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Proces
 
     protected XmlObject encodeBASE2Document(Object o) throws EncodingException {
         return encodeObjectToXmlDocument(InspireBase2Constants.NS_BASE2, o);
-    }
-
-    protected XmlObject encodeBASE2(Object o, EncodingContext encodingContext)
-            throws EncodingException {
-        return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o, encodingContext);
     }
 
 }

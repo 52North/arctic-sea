@@ -19,28 +19,17 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlAnyURI;
-import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlString;
-import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
-import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-import org.n52.shetland.ogc.swes.SwesConstants;
-import org.n52.shetland.ogc.swes.SwesExtension;
-import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.XPathConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.XmlDecodingException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
@@ -49,9 +38,9 @@ import com.google.common.base.Joiner;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject, GetDataAvailabilityRequest> {
+public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXmlDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlDecoder.class);
 
@@ -65,7 +54,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
             Sos2Constants.NS_SOS_20, XmlObject.class), CodingHelper.decoderKeysForElements(
             GetDataAvailabilityConstants.NS_GDA, XmlObject.class), CodingHelper.xmlDecoderKeysForOperation(
             SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME));
-    private static final String EN_EXTENSION = "extension";
+
 
     /**
      * Constructs a new {@code GetDataAvailabilityDecoder}.
@@ -163,91 +152,4 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
         return request;
     }
 
-    private String parseStringValue(XmlObject xmlObject) {
-        if (xmlObject instanceof XmlString) {
-            return ((XmlString) xmlObject).getStringValue();
-        } else if (xmlObject instanceof XmlAnyURI) {
-            return ((XmlAnyURI) xmlObject).getStringValue();
-        } else {
-            return ((XmlAnyTypeImpl) xmlObject).getStringValue();
-        }
-    }
-
-    /**
-     * Parse swes:extensions
-     *
-     * @param xml
-     *            swes:extension
-     * @return parsed {@code SwesExtensions}
-     * @throws DecodingException
-     *             if the swes:extension could not be parsed
-     */
-    private SwesExtensions parseExtensions(XmlObject xml) throws DecodingException {
-        SwesExtensions extensions = new SwesExtensions();
-        for (XmlObject x : xml.selectPath(getPath(XPathConstants.XPATH_PREFIXES_SWES,
-                                                  SwesConstants.NS_SWES_PREFIX, EN_EXTENSION))) {
-            try {
-                if (x.getDomNode().hasChildNodes()) {
-                    Object obj = decodeXmlElement(XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(
-                            x.getDomNode().getChildNodes())));
-                    SwesExtension<?> extension;
-                    if (!(obj instanceof SwesExtension<?>)) {
-                        extension = new SwesExtension<>().setValue(obj);
-                        if (isSweAbstractDataComponent(obj)) {
-                            extension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
-                        }
-                    } else {
-                        extension = (SwesExtension<?>) obj;
-                    }
-                    extensions.addExtension(extension);
-                }
-            } catch (XmlException xmle) {
-                throw new XmlDecodingException(EN_EXTENSION, xmle);
-            }
-        }
-        return extensions;
-    }
-
-    /**
-     * Check if the object is of type {@code SweAbstractDataComponent}
-     *
-     * @param object
-     *            Object to check
-     * @return <code>true</code>, if the object is of type
-     *         {@code SweAbstractDataComponent}
-     */
-    private boolean isSweAbstractDataComponent(final Object object) {
-        return object instanceof SweAbstractDataComponent && ((SweAbstractDataComponent) object).isSetDefinition();
-    }
-
-    /**
-     * Create path from values
-     *
-     * @param xpathPrefix
-     *            XPath prefix
-     * @param prefix
-     *            Namespace prefix
-     * @param element
-     *            Element name
-     * @return XPath path
-     */
-    private String getPath(String xpathPrefix, String prefix, String element) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(xpathPrefix);
-        builder.append(".//");
-        builder.append(prefix);
-        builder.append(":");
-        builder.append(element);
-        return builder.toString();
-    }
-
-    private static String getBasePath(String basePath, String prefix) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(basePath);
-        builder.append("/");
-        builder.append(prefix);
-        builder.append(":");
-        builder.append("GetDataAvailability");
-        return builder.toString();
-    }
 }

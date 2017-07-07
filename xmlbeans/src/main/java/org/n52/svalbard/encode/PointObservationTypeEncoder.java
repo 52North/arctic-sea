@@ -31,7 +31,6 @@ import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 
 import com.google.common.collect.Sets;
@@ -44,10 +43,11 @@ import net.opengis.om.x20.OMObservationType;
  * {@link PointObservationType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class PointObservationTypeEncoder extends AbstractOmInspireEncoder {
+public class PointObservationTypeEncoder
+        extends AbstractOmInspireEncoder {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, PointObservation.class);
@@ -83,16 +83,14 @@ public class PointObservationTypeEncoder extends AbstractOmInspireEncoder {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         return super.encode(element, ec);
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException {
-        encodingValues.setEncoder(this);
-        super.encode(objectToEncode, outputStream, encodingValues);
+        super.encode(objectToEncode, outputStream, context);
     }
 
     protected OMObservationType createOmObservationType() {

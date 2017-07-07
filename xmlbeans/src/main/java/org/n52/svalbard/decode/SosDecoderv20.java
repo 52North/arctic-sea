@@ -100,7 +100,7 @@ import net.opengis.sos.x20.ResultTemplateType;
 import net.opengis.sos.x20.ResultTemplateType.ObservationTemplate;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicationObject>

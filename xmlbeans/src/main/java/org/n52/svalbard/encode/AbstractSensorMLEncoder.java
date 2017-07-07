@@ -22,19 +22,16 @@ import java.util.Set;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.custommonkey.xmlunit.Diff;
+import org.n52.janmayen.NcName;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
-
-import org.n52.janmayen.NcName;
-import org.n52.shetland.ogc.sensorML.AbstractProcess;
-import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 
 /**
  * Abstract {@link AbstractXmlEncoder} class to encode OGC SensorML
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public abstract class AbstractSensorMLEncoder extends AbstractXmlEncoder<XmlObject, Object>

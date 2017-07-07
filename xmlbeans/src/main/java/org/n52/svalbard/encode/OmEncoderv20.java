@@ -83,10 +83,11 @@ import com.google.common.collect.Sets;
 import net.opengis.om.x20.OMObservationType;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class OmEncoderv20 extends AbstractOmEncoderv20 {
+public class OmEncoderv20
+        extends AbstractOmEncoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OmEncoderv20.class);
 
@@ -189,10 +190,8 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new OmV20XmlStreamWriter(outputStream,
-                                         encodingValues.with(XmlWriterSettings.ENCODER, this),
-                                         getEncoderRepository(), this::getXmlOptions,
-                                         (OmObservation) objectToEncode).write();
+                new OmV20XmlStreamWriter(outputStream, encodingValues.with(XmlWriterSettings.ENCODER, this),
+                        getEncoderRepository(), this::getXmlOptions, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -235,10 +234,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         }
     }
 
-    //@Override
-    //public String getDefaultFeatureEncodingNamespace() {
-    //    return SfConstants.NS_SAMS;
-    //}
+    // @Override
+    // public String getDefaultFeatureEncodingNamespace() {
+    // return SfConstants.NS_SAMS;
+    // }
 
     @Override
     protected String getDefaultProcedureEncodingNamspace() {
@@ -251,7 +250,8 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Override
-    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation) throws EncodingException {
+    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation)
+            throws EncodingException {
         // do nothing
     }
 
@@ -278,7 +278,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         SweDataArray dataArray = new SweHelper().createSosSweDataArray(observationValue);
 
         return encodeObjectToXml(SweConstants.NS_SWE_20, dataArray,
-                                 EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
+                EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
     }
 
     protected XmlString createXmlString() {
@@ -301,8 +301,10 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         return encodeObjectToXml(SweConstants.NS_SWE_20, o, additionalValues);
     }
 
-    private class ResultValueVisitor implements ValueVisitor<XmlObject, EncodingException> {
+    private class ResultValueVisitor
+            implements ValueVisitor<XmlObject, EncodingException> {
         private final String observationType;
+
         private final String observationId;
 
         ResultValueVisitor(String observationType, String observationId) {

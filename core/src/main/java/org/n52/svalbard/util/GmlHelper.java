@@ -34,7 +34,7 @@ import com.vividsolutions.jts.geom.Polygon;
  * Helper class for OGC GML. Contains methods to get QName for geometry or time
  * objects.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class GmlHelper {

@@ -25,7 +25,8 @@ import org.n52.shetland.inspire.base2.InspireBase2Constants;
 import org.n52.shetland.inspire.base2.RelatedParty;
 import org.n52.shetland.iso.gmd.GmdConstants;
 import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.w3c.Nillable;
+import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
@@ -66,7 +67,7 @@ public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<XmlObject, Relat
 
     private void addContact(RelatedPartyType rpt, RelatedParty relatedParty) {
         if (relatedParty.isSetContact()) {
-            rpt.addNewContact().setContact(createContact(relatedParty.getContact()));
+            rpt.addNewContact().setContact(createContact(relatedParty.getContact().get()));
         } else {
             rpt.setNilContact();
         }
@@ -88,8 +89,10 @@ public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<XmlObject, Relat
             }
         }
         if (contact.getTelephoneFacsimile().isPresent()) {
-            for (String telephoneFacsimile : contact.getTelephoneFacsimile().get()) {
-                ct.addNewTelephoneFacsimile().setStringValue(telephoneFacsimile);
+            for (Nillable<String> telephoneFacsimile : contact.getTelephoneFacsimile().get()) {
+                if (telephoneFacsimile.isPresent()) {
+                    ct.addNewTelephoneFacsimile().setStringValue(telephoneFacsimile.get());
+                }
             }
         } else if (contact.getTelephoneFacsimile().isNil()) {
             TelephoneFacsimile tf = ct.addNewTelephoneFacsimile();
@@ -99,8 +102,10 @@ public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<XmlObject, Relat
             }
         }
         if (contact.getTelephoneVoice().isPresent()) {
-            for (String telephoneVoice : contact.getTelephoneVoice().get()) {
-                ct.addNewTelephoneVoice().setStringValue(telephoneVoice);
+            for (Nillable<String> telephoneVoice : contact.getTelephoneVoice().get()) {
+                if (telephoneVoice.isPresent()) {
+                    ct.addNewTelephoneVoice().setStringValue(telephoneVoice.get());
+                }
             }
         } else if (contact.getTelephoneVoice().isNil()) {
             TelephoneVoice tv = ct.addNewTelephoneVoice();
@@ -141,8 +146,10 @@ public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<XmlObject, Relat
 
     private void addRole(RelatedPartyType rpt, RelatedParty relatedParty) throws EncodingException {
         if (relatedParty.isSetRole()) {
-            for (ReferenceType role : relatedParty.getRole()) {
-                rpt.addNewRole().set(encodeGML(role));
+            for (Nillable<Reference> role : relatedParty.getRoles()) {
+                if (role.isPresent()) {
+                    rpt.addNewRole().set(encodeGML(role.get()));
+                }
             }
         }
     }

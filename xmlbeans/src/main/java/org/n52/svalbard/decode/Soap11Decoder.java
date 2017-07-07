@@ -39,7 +39,7 @@ import com.google.common.base.Joiner;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class Soap11Decoder extends AbstractSoapDecoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(Soap11Decoder.class);

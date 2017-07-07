@@ -30,7 +30,7 @@ import com.google.common.collect.Sets;
  * Abstract {@link Decoder} class to decode OGC SensorML
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public abstract class AbstractSensorMLDecoder extends AbstractXmlDecoder<XmlObject, AbstractSensorML>

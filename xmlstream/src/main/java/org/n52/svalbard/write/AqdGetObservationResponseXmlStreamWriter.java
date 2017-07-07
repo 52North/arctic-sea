@@ -58,7 +58,7 @@ import com.google.common.collect.Sets;
  * XML stream writer implementation for AQD eResporting
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.3.0
+ * @since 1.0.0
  *
  */
 public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<FeatureCollection> {
@@ -263,7 +263,7 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
      * {@link TimerTask} to write blank strings to the {@link OutputStream} to avoid conncetion timeout after 1000 ms
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since 4.3.0
+     * @since 1.0.0
      *
      */
     private class WriteTimerTask extends TimerTask {

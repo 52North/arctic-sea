@@ -18,7 +18,6 @@ package org.n52.svalbard.write;
 
 import java.io.OutputStream;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -26,7 +25,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.FormatDescriptor;
@@ -43,14 +41,15 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  * @author Carsten Hollmann
  *
- * @since 4.4.0
+ * @since 1.0.0
  */
-public class GetDataAvailabilityV20StreamWriter extends AbstractGetDataAvailabilityStreamWriter {
+public class GetDataAvailabilityV20StreamWriter
+        extends AbstractGetDataAvailabilityStreamWriter {
 
-    public GetDataAvailabilityV20StreamWriter(OutputStream outputStream, EncodingContext context,
-            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, List<DataAvailability> element,
-            Map<TimePeriod, String> times, String version) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element, times, version);
+    public GetDataAvailabilityV20StreamWriter(
+            OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
+            Producer<XmlOptions> xmlOptions, List<DataAvailability> element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override

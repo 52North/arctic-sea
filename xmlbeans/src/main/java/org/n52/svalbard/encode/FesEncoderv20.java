@@ -68,7 +68,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> implements ConformanceClass {

@@ -25,7 +25,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType.InvolvedIn;
 
-public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitoringObjectEncoder {
+public abstract class AbstractMonitoringFeatureEncoder
+        extends AbstractMonitoringObjectEncoder {
 
     protected void encodeAbstractMonitoringFeature(AbstractMonitoringFeatureType amft,
             AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
@@ -35,8 +36,8 @@ public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitorin
         setInvolvedIn(amft, abstractMonitoringFeature);
     }
 
-    private void setReportedTo(AbstractMonitoringFeatureType amft,
-            AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
+    private void setReportedTo(AbstractMonitoringFeatureType amft, AbstractMonitoringFeature abstractMonitoringFeature)
+            throws EncodingException {
         if (abstractMonitoringFeature.isSetReportedTo()) {
             for (ReportToLegalAct reportToLegalAct : abstractMonitoringFeature.getReportedTo()) {
                 amft.addNewReportedTo().addNewReportToLegalAct().set(encodeEF(reportToLegalAct));
@@ -50,26 +51,25 @@ public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitorin
             for (OmObservation omObservation : abstractMonitoringFeature.getHasObservation()) {
                 if (omObservation.isSetSimpleAttrs()) {
                     amft.addNewHasObservation().setHref(omObservation.getSimpleAttrs().getHref());
-                } else {
-                    // TODO encode Observation or GET-Request via xlink:href or full observation
                 }
             }
         }
     }
 
-    private void setInvolvedIn(AbstractMonitoringFeatureType amft,
-            AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
+    private void setInvolvedIn(AbstractMonitoringFeatureType amft, AbstractMonitoringFeature abstractMonitoringFeature)
+            throws EncodingException {
         if (abstractMonitoringFeature.isSetInvolvedIn()) {
             for (EnvironmentalMonitoringActivity environmentalMonitoringActivity : abstractMonitoringFeature
                     .getInvolvedIn()) {
                 if (environmentalMonitoringActivity.isSetSimpleAttrs()) {
-                    InvolvedIn ii =  amft.addNewInvolvedIn();
+                    InvolvedIn ii = amft.addNewInvolvedIn();
                     ii.setHref(environmentalMonitoringActivity.getSimpleAttrs().getHref());
                     if (environmentalMonitoringActivity.getSimpleAttrs().isSetTitle()) {
                         ii.setTitle(environmentalMonitoringActivity.getSimpleAttrs().getTitle());
                     }
                 } else {
-                    amft.addNewInvolvedIn().addNewEnvironmentalMonitoringActivity().set(encodeEF(environmentalMonitoringActivity));
+                    amft.addNewInvolvedIn().addNewEnvironmentalMonitoringActivity()
+                            .set(encodeEF(environmentalMonitoringActivity));
                 }
             }
         }

@@ -122,7 +122,7 @@ import com.google.common.collect.Sets;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 @Configurable

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.sos.encode;
+package org.n52.svalbard.encode;
 
 import java.util.Date;
 import java.util.List;
@@ -26,21 +26,21 @@ import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.om.MultiObservationValues;
+import org.n52.shetland.ogc.om.ObservationValue;
+import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.series.wml.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.wml.DefaultTVPMeasurementMetadata;
 import org.n52.shetland.ogc.om.series.wml.MeasurementTimeseriesMetadata;
 import org.n52.shetland.ogc.om.series.wml.Metadata;
-import org.n52.sos.ogc.gml.time.TimeInstant;
-import org.n52.sos.ogc.om.MultiObservationValues;
-import org.n52.sos.ogc.om.ObservationValue;
-import org.n52.sos.ogc.om.TimeValuePair;
-import org.n52.sos.ogc.om.values.MultiValue;
-import org.n52.sos.ogc.om.values.QuantityValue;
-import org.n52.sos.ogc.om.values.TVPValue;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.series.wml.WaterMLConstants;
-import org.n52.sos.ogc.series.wml.WaterMLConstants.InterpolationType;
-import org.n52.sos.util.CollectionHelper;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
+import org.n52.shetland.ogc.om.values.MultiValue;
+import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.TVPValue;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import net.opengis.gml.x32.ReferenceType;
 import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
@@ -49,8 +49,9 @@ import net.opengis.waterml.x20.MeasurementTimeseriesMetadataType;
 import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * @since 4.4.0
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
+ * @since 1.0.0
  */
 public class WmlTVPEncoderv20Test {
 
@@ -67,8 +68,8 @@ public class WmlTVPEncoderv20Test {
         MultiValue<List<TimeValuePair>> value = new TVPValue();
         String unit = "test-unit";
         value.setUnit(unit);
-        TimeValuePair tvp1 = new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP)),
-                new QuantityValue(52.1234567890));
+        TimeValuePair tvp1 =
+                new TimeValuePair(new TimeInstant(new Date(UTC_TIMESTAMP)), new QuantityValue(52.1234567890));
         List<TimeValuePair> valueList = CollectionHelper.list(tvp1);
         value.setValue(valueList);
 
@@ -77,61 +78,68 @@ public class WmlTVPEncoderv20Test {
     }
 
     @Test
-    public void shouldSetDefaultCumulativeProperty() throws OwsExceptionReport {
+    public void shouldSetDefaultCumulativeProperty() throws EncodingException {
         XmlObject encodedElement = encoder.encode(mv);
 
         Assert.assertThat(encodedElement, CoreMatchers.instanceOf(MeasurementTimeseriesDocument.class));
-        final MeasurementTimeseriesDocument measurementTimeseriesDocument = (MeasurementTimeseriesDocument)encodedElement;
+        final MeasurementTimeseriesDocument measurementTimeseriesDocument =
+                (MeasurementTimeseriesDocument) encodedElement;
         Assert.assertThat(measurementTimeseriesDocument.getTimeseries().isSetMetadata(), Is.is(true));
         Assert.assertThat(measurementTimeseriesDocument.getTimeseries().getMetadata().getTimeseriesMetadata(),
                 CoreMatchers.instanceOf(MeasurementTimeseriesMetadataType.class));
-        final MeasurementTimeseriesMetadataType measurementTimeseriesMetadataType = (MeasurementTimeseriesMetadataType)
-                measurementTimeseriesDocument.getTimeseries().getMetadata().getTimeseriesMetadata();
+        final MeasurementTimeseriesMetadataType measurementTimeseriesMetadataType =
+                (MeasurementTimeseriesMetadataType) measurementTimeseriesDocument.getTimeseries().getMetadata()
+                        .getTimeseriesMetadata();
         Assert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
         Assert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
     }
 
     @Test
-    public void shouldEncodeCumulativeProperty() throws OwsExceptionReport {
-        mv.setMetadata(
-                new Metadata().setTimeseriesmetadata(
-                        new MeasurementTimeseriesMetadata().setCumulative(true)));
+    public void shouldEncodeCumulativeProperty() throws EncodingException {
+        mv.setMetadata(new Metadata().setTimeseriesmetadata(new MeasurementTimeseriesMetadata().setCumulative(true)));
 
         XmlObject encodedElement = encoder.encode(mv);
 
-        Assert.assertThat(((MeasurementTimeseriesMetadataType) ((MeasurementTimeseriesDocument)encodedElement)
+        Assert.assertThat(((MeasurementTimeseriesMetadataType) ((MeasurementTimeseriesDocument) encodedElement)
                 .getTimeseries().getMetadata().getTimeseriesMetadata()).getCumulative(), Is.is(true));
     }
 
     @Test
-    public void shouldEncodeInterpolationType() throws OwsExceptionReport, XmlException {
+    public void shouldEncodeInterpolationType() throws EncodingException, XmlException {
         final InterpolationType type = WaterMLConstants.InterpolationType.MinPrec;
 
-        mv.setDefaultPointMetadata(
-                new DefaultPointMetadata().setDefaultTVPMeasurementMetadata(
-                        new DefaultTVPMeasurementMetadata().setInterpolationtype(
-                                type)));
+        mv.setDefaultPointMetadata(new DefaultPointMetadata()
+                .setDefaultTVPMeasurementMetadata(new DefaultTVPMeasurementMetadata().setInterpolationtype(type)));
 
         XmlObject encodedElement = encoder.encode(mv);
 
-        TVPDefaultMetadataPropertyType defaultPointMetadata = ((MeasurementTimeseriesDocument)encodedElement).getTimeseries().getDefaultPointMetadataArray(0);
-        DefaultTVPMeasurementMetadataDocument tvpMeasurementMetadataDocument = DefaultTVPMeasurementMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
-        ReferenceType interpolationType = tvpMeasurementMetadataDocument.getDefaultTVPMeasurementMetadata().getInterpolationType();
-        Assert.assertThat(interpolationType.getHref(), Is.is("http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec"));
+        TVPDefaultMetadataPropertyType defaultPointMetadata =
+                ((MeasurementTimeseriesDocument) encodedElement).getTimeseries().getDefaultPointMetadataArray(0);
+        DefaultTVPMeasurementMetadataDocument tvpMeasurementMetadataDocument =
+                DefaultTVPMeasurementMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
+        ReferenceType interpolationType =
+                tvpMeasurementMetadataDocument.getDefaultTVPMeasurementMetadata().getInterpolationType();
+        Assert.assertThat(interpolationType.getHref(),
+                Is.is("http://www.opengis.net/def/waterml/2.0/interpolationType/MinPrec"));
         Assert.assertThat(interpolationType.getTitle(), Is.is("MinPrec"));
     }
 
     @Test
-    public void shouldEncodeInterpolationTypeContinuousAsDefault() throws OwsExceptionReport, XmlException {
+    public void shouldEncodeInterpolationTypeContinuousAsDefault() throws EncodingException, XmlException {
         XmlObject encodedElement = encoder.encode(mv);
 
-        TVPDefaultMetadataPropertyType defaultPointMetadata = ((MeasurementTimeseriesDocument)encodedElement).getTimeseries().getDefaultPointMetadataArray(0);
-        DefaultTVPMeasurementMetadataDocument tvpMeasurementMetadataDocument = DefaultTVPMeasurementMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
-        ReferenceType interpolationType = tvpMeasurementMetadataDocument.getDefaultTVPMeasurementMetadata().getInterpolationType();
-        Assert.assertThat(interpolationType.getHref(), Is.is("http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous"));
+        TVPDefaultMetadataPropertyType defaultPointMetadata =
+                ((MeasurementTimeseriesDocument) encodedElement).getTimeseries().getDefaultPointMetadataArray(0);
+        DefaultTVPMeasurementMetadataDocument tvpMeasurementMetadataDocument =
+                DefaultTVPMeasurementMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
+        ReferenceType interpolationType =
+                tvpMeasurementMetadataDocument.getDefaultTVPMeasurementMetadata().getInterpolationType();
+        Assert.assertThat(interpolationType.getHref(),
+                Is.is("http://www.opengis.net/def/waterml/2.0/interpolationType/Continuous"));
         Assert.assertThat(interpolationType.getTitle(), Is.is("Continuous"));
     }
 
-    // TODO add tests für sosObservation or remove duplicate code in WmlTVPEncoderv20
+    // TODO add tests für sosObservation or remove duplicate code in
+    // WmlTVPEncoderv20
 
 }

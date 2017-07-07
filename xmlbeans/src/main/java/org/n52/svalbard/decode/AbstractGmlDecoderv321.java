@@ -69,7 +69,9 @@ import net.opengis.gml.x32.ReferenceType;
 import net.opengis.om.x20.NamedValuePropertyType;
 import net.opengis.om.x20.NamedValueType;
 
-public abstract class AbstractGmlDecoderv321<T, S> extends AbstractXmlDecoder<T, S> implements ConformanceClass {
+public abstract class AbstractGmlDecoderv321<T, S>
+        extends AbstractXmlDecoder<T, S>
+        implements ConformanceClass {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractGmlDecoderv321.class);
 
@@ -113,7 +115,7 @@ public abstract class AbstractGmlDecoderv321<T, S> extends AbstractXmlDecoder<T,
             } else {
                 abstractGML.setDescription(agmlt.getDescription().getStringValue());
             }
-            //} else if (agmlt.isSetDescriptionReference()) {
+            // } else if (agmlt.isSetDescriptionReference()) {
             // TODO
         }
         return abstractGML;
@@ -178,12 +180,14 @@ public abstract class AbstractGmlDecoderv321<T, S> extends AbstractXmlDecoder<T,
         if (namedValueProperty.isSetNamedValue()) {
             NamedValueType namedValue = namedValueProperty.getNamedValue();
             NamedValue<?> sosNamedValue = parseNamedValueValue(namedValue.getValue());
-            org.n52.shetland.ogc.gml.ReferenceType referenceType = (org.n52.shetland.ogc.gml.ReferenceType) decodeXmlObject(namedValue.getName());
+            org.n52.shetland.ogc.gml.ReferenceType referenceType =
+                    (org.n52.shetland.ogc.gml.ReferenceType) decodeXmlObject(namedValue.getName());
             sosNamedValue.setName(referenceType);
             return sosNamedValue;
         } else if (namedValueProperty.isSetHref()) {
             NamedValue<org.n52.shetland.ogc.gml.ReferenceType> sosNamedValue = new NamedValue<>();
-            org.n52.shetland.ogc.gml.ReferenceType referenceType = new org.n52.shetland.ogc.gml.ReferenceType(namedValueProperty.getHref());
+            org.n52.shetland.ogc.gml.ReferenceType referenceType =
+                    new org.n52.shetland.ogc.gml.ReferenceType(namedValueProperty.getHref());
             if (namedValueProperty.isSetTitle()) {
                 referenceType.setTitle(namedValueProperty.getTitle());
             }

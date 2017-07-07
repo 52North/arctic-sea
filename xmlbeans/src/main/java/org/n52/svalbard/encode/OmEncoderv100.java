@@ -99,7 +99,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class OmEncoderv100 extends AbstractXmlEncoder<XmlObject, Object>

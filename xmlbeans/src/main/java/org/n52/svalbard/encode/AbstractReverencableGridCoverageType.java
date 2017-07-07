@@ -25,9 +25,9 @@ import org.n52.shetland.ogc.om.values.ReferencableGridCoverage;
  * Abstract {@link Encoder} for {@link ReferencableGridCoverage}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Target
  */
 public abstract class AbstractReverencableGridCoverageType<T>
         extends AbstractXmlEncoder<T, ReferencableGridCoverage> {

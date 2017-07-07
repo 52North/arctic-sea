@@ -16,8 +16,6 @@
  */
 package org.n52.svalbard.decode;
 
-import static java.lang.String.format;
-
 import java.util.Collections;
 import java.util.Set;
 
@@ -42,15 +40,17 @@ import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.ifoi.x10.InsertFeatureOfInterestDocument;
 import net.opengis.ifoi.x10.InsertFeatureOfInterestType;
 
-
 /**
  * @since 1.0.0
  */
-public class InsertFeatureOfInterestDecoder extends AbstractXmlDecoder<XmlObject, InsertFeatureOfInterestRequest> {
+public class InsertFeatureOfInterestDecoder
+        extends AbstractXmlDecoder<XmlObject, InsertFeatureOfInterestRequest> {
 
-    private static final Set<DecoderKey> DECODER_KEYS =
-            CollectionHelper.union(CodingHelper.decoderKeysForElements(InsertFeatureOfInterestConstants.NS_IFOI, InsertFeatureOfInterestDocument.class), CodingHelper.xmlDecoderKeysForOperation(
-                    SosConstants.SOS, Sos2Constants.SERVICEVERSION, InsertFeatureOfInterestConstants.OPERATION_NAME));
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(InsertFeatureOfInterestConstants.NS_IFOI,
+                    InsertFeatureOfInterestDocument.class),
+            CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                    InsertFeatureOfInterestConstants.OPERATION_NAME));
 
     private static final Logger LOGGER = LoggerFactory.getLogger(InsertFeatureOfInterestDecoder.class);
 
@@ -64,7 +64,7 @@ public class InsertFeatureOfInterestDecoder extends AbstractXmlDecoder<XmlObject
     }
 
     public InsertFeatureOfInterestRequest decode(XmlObject xmlObject) throws DecodingException {
-        LOGGER.debug(format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
+        LOGGER.debug(String.format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
         // XmlHelper.validateDocument(xmlObject);
         if (xmlObject instanceof InsertFeatureOfInterestDocument) {
             InsertFeatureOfInterestDocument ifoid = (InsertFeatureOfInterestDocument) xmlObject;
@@ -90,17 +90,19 @@ public class InsertFeatureOfInterestDecoder extends AbstractXmlDecoder<XmlObject
                 parseFeatureMember(ifoit, request);
             }
         } else {
-            throw new DecodingException("Received XML document is not valid. Set log level to debug to get more details");
+            throw new DecodingException(
+                    "Received XML document is not valid. Set log level to debug to get more details");
         }
 
         return request;
     }
 
-    private void parseFeatureMember(InsertFeatureOfInterestType ifoit, InsertFeatureOfInterestRequest request) throws DecodingException {
+    private void parseFeatureMember(InsertFeatureOfInterestType ifoit, InsertFeatureOfInterestRequest request)
+            throws DecodingException {
         for (FeaturePropertyType fpt : ifoit.getFeatureMemberArray()) {
             final Object decodedObject = decodeXmlElement(fpt);
             if (decodedObject != null && decodedObject instanceof AbstractFeature) {
-                request.addFeatureMember((AbstractFeature)decodedObject);
+                request.addFeatureMember((AbstractFeature) decodedObject);
             }
         }
     }

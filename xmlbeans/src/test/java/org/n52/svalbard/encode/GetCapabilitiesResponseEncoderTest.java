@@ -34,58 +34,58 @@ import org.n52.svalbard.encode.exception.EncodingException;
 
 public class GetCapabilitiesResponseEncoderTest {
 
-    private GetCapabilitiesResponseEncoder encoder;
-    @Rule
-    public final ExpectedException expectedEx = ExpectedException.none();
-
-    @Before
-    public void setUp() {
-        EncoderRepository encoderRepository = new EncoderRepository();
-        SchemaRepository schemaRepository = new SchemaRepository();
-
-        encoder = new GetCapabilitiesResponseEncoder();
-        encoder.setXmlOptions(XmlOptions::new);
-        encoder.setEncoderRepository(encoderRepository);
-        encoder.setSchemaRepository(schemaRepository);
-
-        encoderRepository.setEncoders(Arrays.asList(encoder));
-        encoderRepository.init();
-        schemaRepository.setEncoderRepository(encoderRepository);
-        schemaRepository.init();
-    }
-
-    @Test
-    public void should_create_static_capabilities() throws Exception {
-        XmlObject encodedResponse = encoder.encode(minimalCapabilities());
-
-        Diff d = new Diff(encodedResponse.xmlText(), minimalCapabilities().getXmlString());
-
-        assertThat(d.identical(), is(true));
-        assertThat(d.similar(), is(true));
-    }
-
-    @Test
-    public void should_throw_Exception_when_static_content_is_invalid() throws Exception {
-        expectedEx.expect(EncodingException.class);
-        expectedEx.expectMessage("Error encoding static capabilities");
-        encoder.encode(badCapabilities());
-    }
-
-    private GetCapabilitiesResponse minimalCapabilities() {
-        GetCapabilitiesResponse response = new GetCapabilitiesResponse();
-        response.setService("SOS");
-        response.setVersion("2.0.0");
-        response.setXmlString("<sos:Capabilities version=\"2.0.0\" xmlns:sos=\"http://www.opengis.net/sos/2.0\" " +
-                              "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
-                              "xsi:schemaLocation=\"http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetCapabilities.xsd\"/>");
-        return response;
-    }
-
-    private GetCapabilitiesResponse badCapabilities() {
-        GetCapabilitiesResponse response = new GetCapabilitiesResponse();
-        response.setService("SOS");
-        response.setVersion("2.0.0");
-        response.setXmlString("BAD XML STRING");
-        return response;
-    }
+//    private GetCapabilitiesResponseEncoder encoder;
+//    @Rule
+//    public final ExpectedException expectedEx = ExpectedException.none();
+//
+//    @Before
+//    public void setUp() {
+//        EncoderRepository encoderRepository = new EncoderRepository();
+//        SchemaRepository schemaRepository = new SchemaRepository();
+//
+//        encoder = new GetCapabilitiesResponseEncoder();
+//        encoder.setXmlOptions(XmlOptions::new);
+//        encoder.setEncoderRepository(encoderRepository);
+//        encoder.setSchemaRepository(schemaRepository);
+//
+//        encoderRepository.setEncoders(Arrays.asList(encoder));
+//        encoderRepository.init();
+//        schemaRepository.setEncoderRepository(encoderRepository);
+//        schemaRepository.init();
+//    }
+//
+//    @Test
+//    public void should_create_static_capabilities() throws Exception {
+//        XmlObject encodedResponse = encoder.encode(minimalCapabilities());
+//
+//        Diff d = new Diff(encodedResponse.xmlText(), minimalCapabilities().getXmlString());
+//
+//        assertThat(d.identical(), is(true));
+//        assertThat(d.similar(), is(true));
+//    }
+//
+//    @Test
+//    public void should_throw_Exception_when_static_content_is_invalid() throws Exception {
+//        expectedEx.expect(EncodingException.class);
+//        expectedEx.expectMessage("Error encoding static capabilities");
+//        encoder.encode(badCapabilities());
+//    }
+//
+//    private GetCapabilitiesResponse minimalCapabilities() {
+//        GetCapabilitiesResponse response = new GetCapabilitiesResponse();
+//        response.setService("SOS");
+//        response.setVersion("2.0.0");
+//        response.setXmlString("<sos:Capabilities version=\"2.0.0\" xmlns:sos=\"http://www.opengis.net/sos/2.0\" " +
+//                              "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" " +
+//                              "xsi:schemaLocation=\"http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetCapabilities.xsd\"/>");
+//        return response;
+//    }
+//
+//    private GetCapabilitiesResponse badCapabilities() {
+//        GetCapabilitiesResponse response = new GetCapabilitiesResponse();
+//        response.setService("SOS");
+//        response.setVersion("2.0.0");
+//        response.setXmlString("BAD XML STRING");
+//        return response;
+//    }
 }

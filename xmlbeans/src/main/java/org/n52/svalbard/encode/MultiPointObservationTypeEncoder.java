@@ -25,13 +25,11 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.MultiPointObservation;
 import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 
 import com.google.common.collect.Sets;
@@ -44,10 +42,11 @@ import net.opengis.om.x20.OMObservationType;
  * {@link MultiPointObservationType}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class MultiPointObservationTypeEncoder extends AbstractOmInspireEncoder {
+public class MultiPointObservationTypeEncoder
+        extends AbstractOmInspireEncoder {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, MultiPointObservation.class);
@@ -60,7 +59,7 @@ public class MultiPointObservationTypeEncoder extends AbstractOmInspireEncoder {
     @Override
     public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
         return Collections.singletonMap(InspireOMSOConstants.NS_OMSO_30,
-                (Sets.newHashSet(new ObservationType(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION))));
+                Sets.newHashSet(new ObservationType(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION)));
     }
 
     @Override
@@ -82,16 +81,14 @@ public class MultiPointObservationTypeEncoder extends AbstractOmInspireEncoder {
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec)
-            throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         return super.encode(element, ec);
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext context)
             throws EncodingException {
-        encodingValues.setEncoder(this);
-        super.encode(objectToEncode, outputStream, encodingValues);
+        super.encode(objectToEncode, outputStream, context);
     }
 
     protected OMObservationType createOmObservationType() {

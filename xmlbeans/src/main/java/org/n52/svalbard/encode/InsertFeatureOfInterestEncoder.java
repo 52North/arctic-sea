@@ -48,7 +48,7 @@ public class InsertFeatureOfInterestEncoder extends AbstractResponseEncoder<Inse
     @Override
     protected XmlObject create(InsertFeatureOfInterestResponse ifoir) throws EncodingException {
         if (ifoir == null) {
-            throw new UnsupportedEncoderInputException(this, ifoir);
+            throw new UnsupportedEncoderInputException(this, InsertFeatureOfInterestResponse.class);
         }
         InsertFeatureOfInterestResponseDocument ifoird =
                 InsertFeatureOfInterestResponseDocument.Factory.newInstance(getXmlOptions());

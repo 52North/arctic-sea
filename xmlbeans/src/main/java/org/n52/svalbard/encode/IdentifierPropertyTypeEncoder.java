@@ -35,7 +35,7 @@ public class IdentifierPropertyTypeEncoder extends AbstractIdentifierEncoder<Ide
     private static final Logger LOGGER =
             LoggerFactory.getLogger(IdentifierPropertyTypeEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
+    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(Identifier.class, IdentifierPropertyType.class),
             new XmlPropertyTypeEncoderKey(InspireBaseConstants.NS_BASE, Identifier.class));
 

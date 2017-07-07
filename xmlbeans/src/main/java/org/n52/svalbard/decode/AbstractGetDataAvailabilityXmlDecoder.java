@@ -16,8 +16,6 @@
  */
 package org.n52.svalbard.decode;
 
-import javax.xml.xpath.XPathConstants;
-
 import org.apache.xmlbeans.XmlAnyURI;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -28,12 +26,15 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.ogc.swes.SwesExtension;
 import org.n52.shetland.ogc.swes.SwesExtensions;
+import org.n52.svalbard.XPathConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.decode.exception.XmlDecodingException;
 import org.n52.svalbard.util.XmlHelper;
 
 public abstract class AbstractGetDataAvailabilityXmlDecoder
         extends AbstractXmlDecoder<XmlObject, GetDataAvailabilityRequest> {
+
+    private static final String EN_EXTENSION = "extension";
 
     public abstract GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException;
 
@@ -69,21 +70,20 @@ public abstract class AbstractGetDataAvailabilityXmlDecoder
      * @param xml
      *            swes:extension
      * @return parsed {@code SwesExtensions}
-     * @throws EncodingException
+     * @throws DecodingException
      *             if the swes:extension could not be parsed
      */
     protected SwesExtensions parseExtensions(XmlObject xml) throws DecodingException {
         SwesExtensions extensions = new SwesExtensions();
-        for (XmlObject x : xml
-                .selectPath(XPathConstants.getPath(XPATH_PREFIXES_SWES),
-                        SwesConstants.NS_SWES_PREFIX, "extension"))) {
+        for (XmlObject x : xml.selectPath(getPath(XPathConstants.XPATH_PREFIXES_SWES,
+                                                  SwesConstants.NS_SWES_PREFIX, EN_EXTENSION))) {
             try {
                 if (x.getDomNode().hasChildNodes()) {
-                    Object obj = decodeXmlElement(
-                            XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(x.getDomNode().getChildNodes())));
-                    SwesExtension<?> extension = null;
+                    Object obj = decodeXmlElement(XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(
+                            x.getDomNode().getChildNodes())));
+                    SwesExtension<?> extension;
                     if (!(obj instanceof SwesExtension<?>)) {
-                        extension = new SwesExtension<Object>().setValue(obj);
+                        extension = new SwesExtension<>().setValue(obj);
                         if (isSweAbstractDataComponent(obj)) {
                             extension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
                         }
@@ -93,7 +93,7 @@ public abstract class AbstractGetDataAvailabilityXmlDecoder
                     extensions.addExtension(extension);
                 }
             } catch (XmlException xmle) {
-                throw new DecodingException("extension", xmle);
+                throw new XmlDecodingException(EN_EXTENSION, xmle);
             }
         }
         return extensions;

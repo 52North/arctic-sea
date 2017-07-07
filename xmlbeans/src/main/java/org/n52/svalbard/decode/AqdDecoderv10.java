@@ -35,7 +35,7 @@ import org.n52.svalbard.util.XmlHelper;
  * {@link XmlObject} decoder for AQD e-Reporting requests
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.3.0
+ * @since 1.0.0
  *
  */
 public class AqdDecoderv10 implements Decoder<OwsServiceCommunicationObject, XmlObject> {

@@ -28,14 +28,17 @@ import com.google.common.collect.Sets;
 import net.opengis.cv.x02.gml32.CVDiscretePointCoveragePropertyType;
 
 /**
- * {@link Encoder} for {@link CvDiscretePointCoverage} to encode to {@link CVDiscretePointCoveragePropertyType}
+ * {@link Encoder} for {@link CvDiscretePointCoverage} to encode to
+ * {@link CVDiscretePointCoveragePropertyType}
+ *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class CVDiscretePointCoveragePropertyTypeEncoder extends AbstractCVDiscretePointCoverageTypeEncoder<CVDiscretePointCoveragePropertyType> {
+public class CVDiscretePointCoveragePropertyTypeEncoder
+        extends AbstractCVDiscretePointCoverageTypeEncoder<CVDiscretePointCoveragePropertyType> {
 
-    protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
+    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(CvDiscretePointCoverage.class, CVDiscretePointCoveragePropertyType.class),
             new XmlPropertyTypeEncoderKey(CvConstants.NS_CV, CvDiscretePointCoverage.class));
 
@@ -51,10 +54,11 @@ public class CVDiscretePointCoveragePropertyTypeEncoder extends AbstractCVDiscre
     }
 
     @Override
-    public CVDiscretePointCoveragePropertyType encode(CvDiscretePointCoverage cvDiscretePointCoverage, EncodingContext ec)
-            throws EncodingException {
+    public CVDiscretePointCoveragePropertyType encode(CvDiscretePointCoverage cvDiscretePointCoverage,
+            EncodingContext ec) throws EncodingException {
         // spatialObservation + measured value
-        CVDiscretePointCoveragePropertyType cvdpcpt = CVDiscretePointCoveragePropertyType.Factory.newInstance(getXmlOptions());
+        CVDiscretePointCoveragePropertyType cvdpcpt =
+                CVDiscretePointCoveragePropertyType.Factory.newInstance(getXmlOptions());
         cvdpcpt.setCVDiscretePointCoverage(encodeCVDiscretePointCoverage(cvDiscretePointCoverage));
         return cvdpcpt;
     }

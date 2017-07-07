@@ -20,12 +20,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.ef.AnyDomainLink;
 import org.n52.shetland.inspire.ef.EnvironmentalMonitoringFacility;
 import org.n52.shetland.inspire.ef.NetworkFacility;
-import org.n52.shetland.inspire.ef.OperationalActivityPeriod;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.XmlOptionsHelper;
 
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityDocument;
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType;
@@ -33,7 +31,8 @@ import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.B
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.RelatedTo;
 import net.opengis.gml.x32.FeaturePropertyType;
 
-public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends AbstractMonitoringFeatureEncoder {
+public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder
+        extends AbstractMonitoringFeatureEncoder {
 
     //
     // private static final Map<SupportedTypeKey, Set<String>> SUPPORTED_TYPES =
@@ -56,9 +55,8 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
 
     @Override
     protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
-           EncodingContext context) throws EncodingException {
-        if (context.has(XmlBeansEncodingFlags.ENCODE)
-                && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
+            EncodingContext context) throws EncodingException {
+        if (context.has(XmlBeansEncodingFlags.ENCODE) && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
             featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
             if (abstractFeature.isSetName()) {
                 featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
@@ -68,7 +66,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
         EnvironmentalMonitoringFacilityType emft =
                 createEnvironmentalMonitoringFaciltityType((EnvironmentalMonitoringFacility) abstractFeature);
         EnvironmentalMonitoringFacilityDocument emfd = EnvironmentalMonitoringFacilityDocument.Factory
-                .newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                .newInstance(getXmlOptions());
         emfd.setEnvironmentalMonitoringFacility(emft);
         return emfd;
     }
@@ -81,7 +79,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
 
     protected EnvironmentalMonitoringFacilityType encodeEnvironmentalMonitoringFaciltityType(
             EnvironmentalMonitoringFacilityType emft, EnvironmentalMonitoringFacility environmentalMonitoringFacility)
-                    throws EncodingException {
+            throws EncodingException {
         encodeAbstractMonitoringFeature(emft, environmentalMonitoringFacility);
         setRepresentativePoint(emft, environmentalMonitoringFacility);
         setMeasurementRegime(emft, environmentalMonitoringFacility);
@@ -138,12 +136,12 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setOperationalActivityPeriod(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
-        if (environmentalMonitoringFacility.isSetOperationalActivityPeriod()) {
-            for (OperationalActivityPeriod operationalActivityPeriod : environmentalMonitoringFacility
+            EnvironmentalMonitoringFacility envMoniFac) throws EncodingException {
+        if (envMoniFac.isSetOperationalActivityPeriod()) {
+            for (org.n52.shetland.inspire.ef.OperationalActivityPeriod operationalActivityPeriod : envMoniFac
                     .getOperationalActivityPeriod()) {
                 if (operationalActivityPeriod.isSetSimpleAttrs()) {
-                    eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.OperationalActivityPeriod oap =
+                    EnvironmentalMonitoringFacilityType.OperationalActivityPeriod oap =
                             emft.addNewOperationalActivityPeriod();
                     oap.setHref(operationalActivityPeriod.getSimpleAttrs().getHref());
                     if (operationalActivityPeriod.getSimpleAttrs().isSetTitle()) {

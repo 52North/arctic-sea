@@ -35,7 +35,7 @@ import net.opengis.om.x20.OMObservationType;
  * Abstract {@link Encoder} implementation for INSPIRES OM
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public abstract class AbstractOmInspireEncoder extends AbstractWmlEncoderv20 {

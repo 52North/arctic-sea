@@ -24,7 +24,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * Generic interface for StreamingEncoders.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  * @param <T> the resulting type, the "Target"
  * @param <S> the input type, the "Source"

@@ -45,7 +45,7 @@ import com.google.common.collect.Sets;
 /**
  * Utility class for 52N
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class N52XmlHelper {

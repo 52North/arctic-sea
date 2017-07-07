@@ -22,20 +22,14 @@ import java.util.Set;
 
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
 import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
-import org.n52.shetland.ogc.om.values.ReferenceValue;
-import org.n52.shetland.ogc.om.values.TextValue;
-import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.SosOffering;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +42,8 @@ import net.opengis.waterml.x20.ObservationProcessDocument;
 import net.opengis.waterml.x20.ObservationProcessPropertyType;
 import net.opengis.waterml.x20.ObservationProcessType;
 
-public class WmlObservationProcessDecoderv20 extends AbstractWmlDecoderv20
+public class WmlObservationProcessDecoderv20
+        extends AbstractWmlDecoderv20
         implements ProcedureDecoder<Object, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WmlObservationProcessDecoderv20.class);

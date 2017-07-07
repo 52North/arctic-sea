@@ -44,7 +44,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 /**
  * XML utility class
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 @Configurable
@@ -74,7 +74,6 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
     }
 
     // TODO: To be used by other encoders to have common prefixes
-    @SuppressWarnings("unchecked")
     private Map<String, String> getPrefixMap() {
         Map<String, String> prefixMap = new HashMap<>();
         prefixMap.put(OGCConstants.NS_OGC, OGCConstants.NS_OGC_PREFIX);

@@ -38,7 +38,7 @@ public class ProcessPropertyTypeEncoder extends ProcessTypeEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ProcessPropertyTypeEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS =
+    private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(Process.class, ProcessDocument.class),
                     new XmlPropertyTypeEncoderKey(InspireOMPRConstants.NS_OMPR_30, Process.class),
                     new XmlPropertyTypeEncoderKey(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class));

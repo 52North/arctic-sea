@@ -33,12 +33,13 @@ import com.google.common.collect.Sets;
 
 import net.opengis.gml.x32.FeaturePropertyType;
 
-public class EnvironmentalMonitoringFaciltityForGmlFeaturePropertyTypeEncoder extends AbstractEnvironmentalMonitoringFaciltityEncoder {
+public class EnvironmentalMonitoringFaciltityForGmlFeaturePropertyTypeEncoder
+        extends AbstractEnvironmentalMonitoringFaciltityEncoder {
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(EnvironmentalMonitoringFaciltityForGmlFeaturePropertyTypeEncoder.class);
 
-    protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
+    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(EnvironmentalMonitoringFacility.class, FeaturePropertyType.class),
             new XmlEncoderKey(GmlConstants.NS_GML_32, EnvironmentalMonitoringFacility.class));
 
@@ -53,8 +54,7 @@ public class EnvironmentalMonitoringFaciltityForGmlFeaturePropertyTypeEncoder ex
     }
 
     @Override
-    public XmlObject encode(AbstractFeature abstractFeature, EncodingContext context)
-            throws EncodingException {
+    public XmlObject encode(AbstractFeature abstractFeature, EncodingContext context) throws EncodingException {
         if (abstractFeature instanceof EnvironmentalMonitoringFacility) {
             return createFeature(createFeaturePropertyType(), abstractFeature, context);
         }

@@ -57,7 +57,7 @@ import net.opengis.gml.TimePositionType;
 import com.vividsolutions.jts.io.ParseException;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GmlDecoderv311 implements Decoder<Object, XmlObject> {

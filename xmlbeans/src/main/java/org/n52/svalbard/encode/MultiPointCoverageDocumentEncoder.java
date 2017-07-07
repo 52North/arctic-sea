@@ -17,16 +17,11 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.HelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Sets;
 
@@ -37,13 +32,13 @@ import net.opengis.gml.x32.MultiPointCoverageDocument;
  * {@link MultiPointCoverageDocument}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class MultiPointCoverageDocumentEncoder
         extends AbstractMultiPointCoverageTypeEncoder<MultiPointCoverageDocument> {
 
-    protected static final Set<EncoderKey> ENCODER_KEYS =
+    private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(MultiPointCoverageDocument.class, MultiPointCoverage.class),
                     new XmlPropertyTypeEncoderKey(GmlConstants.NS_GML_32, MultiPointCoverage.class));
 

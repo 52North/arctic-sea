@@ -95,7 +95,7 @@ import net.opengis.gml.TimePeriodType;
 import net.opengis.gml.TimePositionType;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 @Configurable

@@ -30,9 +30,12 @@ import com.google.common.collect.Sets;
 import eu.europa.ec.inspire.schemas.base.x33.IdentifierType;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType;
 
-public abstract class AbstractProcessDecoder<S> extends AbstractXmlDecoder<S, Process> implements ProcedureDecoder<Process, S> {
+public abstract class AbstractProcessDecoder<S>
+        extends AbstractXmlDecoder<S, Process>
+        implements ProcedureDecoder<Process, S> {
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_URL),
+    private static final Set<SupportedType> SUPPORTED_TYPES =
+            Sets.newHashSet(new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_URL),
                     new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE));
 
     @Override

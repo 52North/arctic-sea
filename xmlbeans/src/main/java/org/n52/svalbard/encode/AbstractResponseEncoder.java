@@ -40,7 +40,7 @@ import com.google.common.collect.Sets;
  *            the response type
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> extends AbstractXmlResponseEncoder<T> {
 
@@ -106,7 +106,7 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     @Override
     public void encode(T response, OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
         if (response == null) {
-            throw new UnsupportedEncoderInputException(this, null);
+            throw new UnsupportedEncoderInputException(this);
         }
         create(response, outputStream, encodingValues);
     }

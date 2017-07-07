@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.sos.encoder;
+package org.n52.svalbard.encode;
 
 import java.io.IOException;
 import java.util.Set;
@@ -50,7 +50,6 @@ import org.n52.shetland.inspire.dls.MinimalInspireExtendedCapabilities;
 import org.n52.shetland.inspire.dls.InspireCapabilities.InspireServiceSpatialDataResourceType;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.iceland.service.ServiceConfiguration;
 import org.n52.janmayen.http.MediaTypes;
 import org.xml.sax.SAXException;
 
@@ -134,7 +133,7 @@ public class InspireEncoderTest {
 
     private MinimalInspireExtendedCapabilities getMinimalInspireExtendedCapabilities() {
         // --------------------
-        InspireResourceLocator resourceLocator = new InspireResourceLocator(ServiceConfiguration.getInstance().getServiceURL());
+        InspireResourceLocator resourceLocator = new InspireResourceLocator("http://min.test.org/sos");
         resourceLocator.addMediaType(MediaTypes.APPLICATION_SOAP_XML);
         // --------------------
         InspireSupportedLanguages inspireSupportedLanguages =
@@ -161,7 +160,7 @@ public class InspireEncoderTest {
 
     private FullInspireExtendedCapabilities getFullInspireExtendedCapabilities() {
 
-        InspireResourceLocator resourceLocator = new InspireResourceLocator(ServiceConfiguration.getInstance().getServiceURL());
+        InspireResourceLocator resourceLocator = new InspireResourceLocator("http://full.test.org/sos");
         resourceLocator.addMediaType(MediaTypes.APPLICATION_SOAP_XML);
         // -------------------
         InspireTemporalReference temporalReference = new InspireTemporalReference();

@@ -17,6 +17,7 @@
 package org.n52.svalbard.write;
 
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -45,7 +46,8 @@ import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 
-public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAvailability>> {
+public abstract class AbstractGetDataAvailabilityStreamWriter
+        extends XmlStreamWriter<List<DataAvailability>> {
 
     protected static final String TIME_PERIOD_PREFIX = "tp_";
 
@@ -55,9 +57,7 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
 
     protected static final String NAME = "name";
 
-    protected final Map<TimePeriod, String> times;
-
-    protected final String version;
+    protected final Map<TimePeriod, String> times = new HashMap<>();
 
     protected int dataAvailabilityCount = 1;
 
@@ -65,12 +65,10 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
 
     protected int resultTimeCount = 1;
 
-    public AbstractGetDataAvailabilityStreamWriter(OutputStream outputStream, EncodingContext context,
-            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, List<DataAvailability> element,
-            Map<TimePeriod, String> times, String version) throws XMLStreamException {
+    public AbstractGetDataAvailabilityStreamWriter(
+            OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
+            Producer<XmlOptions> xmlOptions, List<DataAvailability> element) throws XMLStreamException {
         super(outputStream, context, encoderRepository, xmlOptions, element);
-        this.times = times;
-        this.version = version;
     }
 
     @Override
@@ -222,7 +220,7 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
             if (o != null && o instanceof XmlObject) {
                 start(GetDataAvailabilityConstants.GDA_EXTENSION);
                 attr(NAME, entry.getKey());
-                rawText(((XmlObject) o) .xmlText(getXmlOptions()));
+                rawText(((XmlObject) o).xmlText(getXmlOptions()));
                 end(GetDataAvailabilityConstants.GDA_EXTENSION);
             }
         }

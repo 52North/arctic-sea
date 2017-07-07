@@ -24,7 +24,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 import org.n52.svalbard.ConformanceClass;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T> the resulting type, the "Target"
  * @param <S> the input type, the "Source"
