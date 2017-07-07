@@ -200,8 +200,14 @@ public abstract class XmlStreamWriter<S> {
      */
     protected void start(QName name) throws XMLStreamException {
         String ns = this.writer.getNamespaceContext().getNamespaceURI(name.getPrefix());
+        boolean alreadySet = ns != null && !ns.isEmpty();
+        if (alreadySet) {
+            if (!ns.equals(name.getNamespaceURI())) {
+                throw new XMLStreamException("Prefix <" + name.getPrefix() + "> is already bound to <" + ns + ">");
+            }
+        }
         this.writer.writeStartElement(name.getPrefix(), name.getLocalPart(), name.getNamespaceURI());
-        if (ns == null || ns.isEmpty()) {
+        if (!alreadySet) {
             this.writer.writeNamespace(name.getPrefix(), name.getNamespaceURI());
         }
     }
