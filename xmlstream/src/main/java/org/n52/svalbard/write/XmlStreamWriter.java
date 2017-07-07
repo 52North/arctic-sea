@@ -187,7 +187,7 @@ public abstract class XmlStreamWriter<S> {
         if (ns == null || ns.isEmpty()) {
             this.writer.writeNamespace(prefix, namespace);
         } else if (!ns.equals(namespace)) {
-            handleXMLStreamException(prefix, namespace);
+            throw prefixAlreadyBound(prefix, ns);
         }
     }
 
@@ -199,16 +199,15 @@ public abstract class XmlStreamWriter<S> {
      * @throws XMLStreamException If an error occurs when writing to {@link OutputStream}
      */
     protected void start(QName name) throws XMLStreamException {
-        String ns = this.writer.getNamespaceContext().getNamespaceURI(name.getPrefix());
+        String prefix = name.getPrefix();
+        String ns = this.writer.getNamespaceContext().getNamespaceURI(prefix);
         boolean alreadySet = ns != null && !ns.isEmpty();
-        if (alreadySet) {
-            if (!ns.equals(name.getNamespaceURI())) {
-                handleXMLStreamException(name.getPrefix(), ns);
-            }
+        if (alreadySet && !ns.equals(name.getNamespaceURI())) {
+            throw prefixAlreadyBound(prefix, ns);
         }
-        this.writer.writeStartElement(name.getPrefix(), name.getLocalPart(), name.getNamespaceURI());
+        this.writer.writeStartElement(prefix, name.getLocalPart(), name.getNamespaceURI());
         if (!alreadySet) {
-            this.writer.writeNamespace(name.getPrefix(), name.getNamespaceURI());
+            this.writer.writeNamespace(prefix, name.getNamespaceURI());
         }
     }
 
@@ -468,8 +467,8 @@ public abstract class XmlStreamWriter<S> {
         return getContext().get(XmlEncoderFlags.ENCODE_NAMESPACE);
     }
 
-    private void handleXMLStreamException(String prefix, String ns) throws XMLStreamException {
-        throw new XMLStreamException("Prefix <" + prefix + "> is already bound to <" + ns + ">");
+    private static XMLStreamException prefixAlreadyBound(String prefix, String ns) {
+        return new XMLStreamException("Prefix <" + prefix + "> is already bound to <" + ns + ">");
     }
 
 }
