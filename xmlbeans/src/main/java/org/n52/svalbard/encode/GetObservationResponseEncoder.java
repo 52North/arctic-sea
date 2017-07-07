@@ -18,6 +18,7 @@ package org.n52.svalbard.encode;
 
 import java.io.OutputStream;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -25,6 +26,7 @@ import net.opengis.sos.x20.GetObservationResponseDocument;
 import net.opengis.sos.x20.GetObservationResponseType;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 
 import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
@@ -58,7 +60,7 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
 
     @Override
     protected XmlObject createResponse(ObservationEncoder<XmlObject, OmObservation> encoder,
-            GetObservationResponse response) throws EncodingException {
+                                       GetObservationResponse response) throws EncodingException {
         try {
             GetObservationResponseDocument doc = GetObservationResponseDocument.Factory.newInstance(getXmlOptions());
             GetObservationResponseType xbResponse = doc.addNewGetObservationResponse();
@@ -81,13 +83,10 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
                                   GetObservationResponse response, OutputStream outputStream, EncodingContext ctx)
             throws EncodingException {
         try {
-            new GetObservationResponseXmlStreamWriter(
-                    outputStream,
-                    ctx.with(StreamingEncoderFlags.ENCODER, this),
-                    getEncoderRepository(),
-                    this::getXmlOptions,
-                    response
-            ).write();
+            EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                    .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions)
+                    .with(StreamingEncoderFlags.ENCODER, this);
+            new GetObservationResponseXmlStreamWriter(context, outputStream, response).write();
         } catch (XMLStreamException xmlse) {
             throw new EncodingException(xmlse);
         }

@@ -19,6 +19,7 @@ package org.n52.svalbard.encode;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 

@@ -26,9 +26,7 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
-import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -41,7 +39,6 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -66,9 +63,9 @@ public abstract class AbstractGetDataAvailabilityStreamWriter
     protected int resultTimeCount = 1;
 
     public AbstractGetDataAvailabilityStreamWriter(
-            OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
-            Producer<XmlOptions> xmlOptions, List<DataAvailability> element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+            EncodingContext context, OutputStream outputStream, List<DataAvailability> element)
+            throws XMLStreamException {
+        super(context, outputStream, element);
     }
 
     @Override

@@ -32,7 +32,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
@@ -54,6 +53,7 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.svalbard.encode.EncoderFlags;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -163,16 +163,13 @@ public class EReportingHeaderEncoderTest {
         validate(header);
     }
 
-    protected void validate(EReportingHeader header) throws XMLStreamException,
-                                                            OwsExceptionReport,
-                                                            IOException,
-                                                            SAXException,
-                                                            MalformedURLException,
-                                                            EncodingException {
+    protected void validate(EReportingHeader header) throws XMLStreamException, OwsExceptionReport, IOException,
+            SAXException, MalformedURLException, EncodingException {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            new EReportingHeaderEncoder(baos, EncodingContext.empty(), new EncoderRepository(), XmlOptions::new, header).write();
+            new EReportingHeaderEncoder(EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, new EncoderRepository()),
+                    baos, header).write();
             System.out.println(baos.toString("UTF-8"));
-//            xmlValidation(baos);
+            // xmlValidation(baos);
         }
     }
 

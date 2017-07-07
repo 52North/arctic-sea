@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -139,12 +140,12 @@ public class GmlEncoderv311
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ctx) throws EncodingException {
         XmlObject encodedObject = null;
         if (element instanceof Time) {
-            encodedObject = createTime((Time) element, additionalValues);
+            encodedObject = createTime((Time) element, ctx);
         } else if (element instanceof Geometry) {
-            encodedObject = createPosition((Geometry) element, additionalValues.get(XmlBeansEncodingFlags.GMLID));
+            encodedObject = createPosition((Geometry) element, ctx.get(XmlBeansEncodingFlags.GMLID));
         } else if (element instanceof CategoryValue) {
             encodedObject = createReferenceTypeForCategroyValue((CategoryValue) element);
         } else if (element instanceof org.n52.shetland.ogc.gml.ReferenceType) {
@@ -163,14 +164,14 @@ public class GmlEncoderv311
             EnvelopeOrGeometry geom = (EnvelopeOrGeometry) element;
             if (geom.getGeometry().isPresent()) {
                 encodedObject =
-                        createPosition(geom.getGeometry().get(), additionalValues.get(XmlBeansEncodingFlags.GMLID));
+                        createPosition(geom.getGeometry().get(), ctx.get(XmlBeansEncodingFlags.GMLID));
             } else if (geom.getEnvelope().isPresent()) {
                 encodedObject = createEnvelope(geom.getEnvelope().get());
             } else {
                 throw new UnsupportedEncoderInputException(this, element);
             }
         } else if (element instanceof GenericMetaData) {
-            encodedObject = createGenericMetaData((GenericMetaData) element, additionalValues);
+            encodedObject = createGenericMetaData((GenericMetaData) element, ctx);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -178,16 +179,16 @@ public class GmlEncoderv311
         return encodedObject;
     }
 
-    private XmlObject createTime(Time time, EncodingContext additionalValues) throws EncodingException {
+    private XmlObject createTime(Time time, EncodingContext ctx) throws EncodingException {
         if (time != null) {
             if (time instanceof TimeInstant) {
-                if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
+                if (ctx.has(XmlBeansEncodingFlags.DOCUMENT)) {
                     return createTimeInstantDocument((TimeInstant) time);
                 } else {
                     return createTimeInstantType((TimeInstant) time, null);
                 }
             } else if (time instanceof TimePeriod) {
-                if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
+                if (ctx.has(XmlBeansEncodingFlags.DOCUMENT)) {
                     return createTimePeriodDocument((TimePeriod) time);
                 } else {
                     return createTimePeriodType((TimePeriod) time, null);
@@ -294,25 +295,26 @@ public class GmlEncoderv311
         return xbTimePosition;
     }
 
-    private XmlObject createPosition(Geometry geom, String foiId) throws UnsupportedEncoderInputException {
+    private XmlObject createPosition(Geometry geom, Optional<Object> optional) throws UnsupportedEncoderInputException {
+        String gmlId = (optional != null && optional.isPresent() && optional.get() instanceof String) ? (String) optional.get() : null;
         if (geom instanceof Point) {
             PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
-            if (foiId != null) {
-                xbPoint.setId(geom.getGeometryType() + "_" + foiId);
+            if (gmlId != null) {
+                xbPoint.setId(geom.getGeometryType() + "_" + gmlId);
             }
             createPointFromJtsGeometry((Point) geom, xbPoint);
             return xbPoint;
         } else if (geom instanceof LineString) {
             LineStringType xbLineString = LineStringType.Factory.newInstance(getXmlOptions());
-            if (foiId != null) {
-                xbLineString.setId(geom.getGeometryType() + "_" + foiId);
+            if (gmlId != null) {
+                xbLineString.setId(geom.getGeometryType() + "_" + gmlId);
             }
             createLineStringFromJtsGeometry((LineString) geom, xbLineString);
             return xbLineString;
         } else if (geom instanceof Polygon) {
             PolygonType xbPolygon = PolygonType.Factory.newInstance(getXmlOptions());
-            if (foiId != null) {
-                xbPolygon.setId(geom.getGeometryType() + "_" + foiId);
+            if (gmlId != null) {
+                xbPolygon.setId(geom.getGeometryType() + "_" + gmlId);
             }
             createPolygonFromJtsGeometry((Polygon) geom, xbPolygon);
             return xbPolygon;

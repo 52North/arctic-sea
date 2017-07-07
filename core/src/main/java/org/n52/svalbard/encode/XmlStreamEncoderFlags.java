@@ -14,20 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.write;
-
-import javax.xml.stream.XMLEventWriter;
-import javax.xml.stream.XMLStreamWriter;
+package org.n52.svalbard.encode;
 
 /**
- * Abstract XML writer class
+ * TODO JavaDoc
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
- *
- * @param <T> concrete writer, e.g, {@link XMLStreamWriter} or {@link XMLEventWriter}
- * @param <S> object to write
  */
-public abstract class XmlWriter<T, S> {
-
+public enum XmlStreamEncoderFlags {
+    XML_WRITER
 }

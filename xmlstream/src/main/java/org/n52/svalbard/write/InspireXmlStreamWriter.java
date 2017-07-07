@@ -21,9 +21,6 @@ import java.util.List;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.xmlbeans.XmlOptions;
-
-import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.inspire.InspireCitation;
 import org.n52.shetland.inspire.InspireConformity;
@@ -55,7 +52,6 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.gml.time.TimePosition;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -69,10 +65,12 @@ import com.google.common.html.HtmlEscapers;
  *
  */
 public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> implements InspireConstants {
-    public InspireXmlStreamWriter(OutputStream outputStream, EncodingContext context,
-            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, InspireObject element)
+    public InspireXmlStreamWriter(
+            EncodingContext context,
+            OutputStream outputStream,
+            InspireObject element)
             throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+        super(context, outputStream, element);
     }
 
     @Override

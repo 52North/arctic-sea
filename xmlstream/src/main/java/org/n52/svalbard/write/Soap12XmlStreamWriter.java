@@ -22,8 +22,6 @@ import java.util.Set;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
-import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
@@ -34,11 +32,11 @@ import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.svalbard.encode.Encoder;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.OperationResponseEncoderKey;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
 import org.n52.svalbard.encode.StreamingEncoder;
+import org.n52.svalbard.encode.StreamingEncoderFlags;
 import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
@@ -53,13 +51,9 @@ import com.google.common.collect.Sets;
  *
  */
 public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
-
-    public Soap12XmlStreamWriter(OutputStream outputStream,
-                                 EncodingContext context,
-                                 EncoderRepository encoderRepository,
-                                 Producer<XmlOptions> xmlOptions,
-                                 SoapResponse element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+    public Soap12XmlStreamWriter(EncodingContext context, OutputStream outputStream, SoapResponse element)
+            throws XMLStreamException {
+        super(context, outputStream, element);
     }
 
     @Override
@@ -138,12 +132,11 @@ public class Soap12XmlStreamWriter extends XmlStreamWriter<SoapResponse> {
                         new OwsOperationKey(bodyResponse),
                         MediaTypes.APPLICATION_XML));
         if (encoder instanceof StreamingEncoder<?, ?>) {
-
-            EncodingContext ctx = getContext().with(XmlBeansEncodingFlags.DOCUMENT)
+            EncodingContext ctx = getContext()
+                    .with(XmlBeansEncodingFlags.DOCUMENT)
                     .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
                     .without(XmlBeansEncodingFlags.TYPE)
-                    .with(XmlWriterSettings.EMBEDDED, true)
-                    .with(XmlWriterSettings.INDENT);
+                    .with(StreamingEncoderFlags.EMBEDDED, true);
             ((StreamingEncoder) encoder).encode(bodyResponse, getOutputStream(), ctx);
         } else {
             String soapBodyContent = ((XmlObject) encoder.encode(bodyResponse)).xmlText(getXmlOptions());

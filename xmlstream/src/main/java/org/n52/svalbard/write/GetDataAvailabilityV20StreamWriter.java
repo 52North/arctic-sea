@@ -22,8 +22,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.xmlbeans.XmlOptions;
-import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
@@ -32,7 +30,6 @@ import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ObservationForma
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ProcedureDescriptionFormatDescriptor;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -47,9 +44,10 @@ public class GetDataAvailabilityV20StreamWriter
         extends AbstractGetDataAvailabilityStreamWriter {
 
     public GetDataAvailabilityV20StreamWriter(
-            OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
-            Producer<XmlOptions> xmlOptions, List<DataAvailability> element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+            OutputStream outputStream,
+            EncodingContext context,
+            List<DataAvailability> element) throws XMLStreamException {
+        super(context, outputStream, element);
     }
 
     @Override

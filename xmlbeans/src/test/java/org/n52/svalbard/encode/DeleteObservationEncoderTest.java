@@ -179,5 +179,4 @@ public class DeleteObservationEncoderTest {
 //                schemLoc.getSchemaFileUrl(),
 //                is("https://raw.githubusercontent.com/52North/SOS/master/extensions/do/xml/src/main/xsd/sosdo.xsd"));
 //    }
-
 }

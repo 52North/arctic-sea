@@ -20,7 +20,6 @@ import static java.util.stream.Collectors.toMap;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
@@ -43,7 +42,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -195,30 +193,14 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
             throws EncodingException {
         try {
             XmlOptions xmlOptions = new XmlOptions(getXmlOptions());
-            if (encodingValues.getBoolean(XmlWriterSettings.EMBEDDED)) {
+            if (encodingValues.has(StreamingEncoderFlags.EMBEDDED)) {
                 xmlOptions.setSaveNoXmlDecl();
             }
-            writeIndent(encodingValues.getInteger(XmlWriterSettings.INDENT), outputStream);
             XmlObject xmlObject = create(response);
             setSchemaLocations(xmlObject);
             xmlObject.save(outputStream, xmlOptions);
         } catch (IOException ioe) {
             throw new EncodingException("Error while writing element to stream!", ioe);
-        }
-    }
-
-    /**
-     * Write indent to stream if the response is encoded with XmlBeans
-     *
-     * @param level        Level of indent
-     * @param outputStream {@link OutputStream} to write indent
-     *
-     * @throws IOException If an error occurs when writing to stream
-     */
-    protected void writeIndent(int level, OutputStream outputStream) throws IOException {
-        byte[] indent = "  ".getBytes(Charset.forName("UTF-8"));
-        for (int i = 0; i < level; i++) {
-            outputStream.write(indent);
         }
     }
 

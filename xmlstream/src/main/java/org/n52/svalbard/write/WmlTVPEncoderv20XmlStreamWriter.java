@@ -23,9 +23,7 @@ import java.util.Optional;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.xmlbeans.XmlOptions;
 
-import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.MultiObservationValues;
@@ -48,7 +46,6 @@ import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -65,13 +62,11 @@ import com.google.common.base.Strings;
 public class WmlTVPEncoderv20XmlStreamWriter
         extends AbstractOmV20XmlStreamWriter {
     public WmlTVPEncoderv20XmlStreamWriter(
-            OutputStream outputStream,
             EncodingContext context,
-            EncoderRepository encoderRepository,
-            Producer<XmlOptions> xmlOptions,
+            OutputStream outputStream,
             OmObservation element)
                     throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+        super(context, outputStream, element);
     }
 
     @Override

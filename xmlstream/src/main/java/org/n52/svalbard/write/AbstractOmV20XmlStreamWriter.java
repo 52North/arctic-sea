@@ -26,14 +26,11 @@ import java.util.Optional;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.om.x20.OMObservationType;
-
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
-
 import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractMetaData;
@@ -57,11 +54,14 @@ import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.ObservationEncoder;
 import org.n52.svalbard.encode.XmlBeansEncodingFlags;
+import org.n52.svalbard.encode.XmlEncoderFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 
 import com.google.common.base.Strings;
+
+import net.opengis.om.x20.OMObservationType;
 
 /**
  * Abstract implementation of {@link XmlStreamWriter} for writing
@@ -71,11 +71,11 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObservation> {
-    public AbstractOmV20XmlStreamWriter(OutputStream outputStream, EncodingContext context,
-            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, OmObservation element)
+public abstract class AbstractOmV20XmlStreamWriter
+        extends XmlStreamWriter<OmObservation> {
+    public AbstractOmV20XmlStreamWriter(EncodingContext context, OutputStream outputStream, OmObservation element)
             throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+        super(context, outputStream, element);
     }
 
     protected abstract void writeAddtitionalNamespaces() throws XMLStreamException;
@@ -83,7 +83,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
     @Override
     public void write() throws XMLStreamException, EncodingException {
         start();
-        writeOmObservationDoc();
+        writeObservation(getElement());
         end();
         finish();
     }
@@ -97,12 +97,13 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
      *             If an error occurs when creating elements to be written If an
      *             error occurs when creating elements to be written
      */
-    protected void writeOmObservationDoc() throws XMLStreamException, EncodingException {
+    protected void writeObservation(OmObservation observation) throws XMLStreamException, EncodingException {
         start(getDocumentName());
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
+        namespace(W3CConstants.NS_XSI_PREFIX, W3CConstants.NS_XSI);
         namespace(OmConstants.NS_OM_PREFIX, OmConstants.NS_OM_2);
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
-        OmObservation observation = getElement();
+
         writeAddtitionalNamespaces();
         String observationID = addGmlId(observation);
         checkAndWriteIdentifier();
@@ -335,8 +336,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
             ObservationEncoder<XmlObject, Object> e = encoder.get();
             for (NamedValue<?> namedValue : getElement().getParameter()) {
                 start(OmConstants.QN_OM_20_PARAMETER);
-                XmlObject xmlObject = e.encode(namedValue);
-                writeXmlObject(xmlObject, OmConstants.QN_OM_20_NAMED_VALUE);
+                writeXmlObject(e.encode(namedValue), OmConstants.QN_OM_20_NAMED_VALUE);
                 end(OmConstants.QN_OM_20_PARAMETER);
             }
         }
@@ -373,7 +373,7 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         AbstractFeature foi = getElement().getObservationConstellation().getFeatureOfInterest();
 
         if (namespace.isPresent()) {
-            EncodingContext codingContext = EncodingContext.of(XmlWriterSettings.ENCODE_NAMESPACE, namespace.get());
+            EncodingContext codingContext = EncodingContext.of(XmlEncoderFlags.ENCODE_NAMESPACE, namespace.get());
             Encoder<XmlObject, AbstractFeature> encoder = getEncoder(GmlConstants.NS_GML_32, foi);
             writeXmlObject(encoder.encode(foi, codingContext), OmConstants.QN_OM_20_FEATURE_OF_INTEREST);
         } else {
@@ -559,5 +559,4 @@ public abstract class AbstractOmV20XmlStreamWriter extends XmlStreamWriter<OmObs
         }
         return new DateTime().minusYears(1000);
     }
-
 }

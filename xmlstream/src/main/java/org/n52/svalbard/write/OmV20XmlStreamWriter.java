@@ -21,12 +21,8 @@ import java.util.Optional;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.xmlbeans.XmlOptions;
-
-import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.SfConstants;
-import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 
 /**
@@ -38,9 +34,9 @@ import org.n52.svalbard.encode.EncodingContext;
  *
  */
 public class OmV20XmlStreamWriter extends AbstractOmV20XmlStreamWriter {
-    public OmV20XmlStreamWriter(OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
-                                Producer<XmlOptions> xmlOptions, OmObservation element) throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+    public OmV20XmlStreamWriter(EncodingContext context, OutputStream outputStream, OmObservation element)
+            throws XMLStreamException {
+        super(context, outputStream, element);
     }
 
     @Override

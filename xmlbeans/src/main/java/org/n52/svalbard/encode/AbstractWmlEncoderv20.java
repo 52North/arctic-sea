@@ -28,6 +28,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
 import org.isotc211.x2005.gmd.CIResponsiblePartyType;
 import org.joda.time.DateTime;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.iso.gmd.CiResponsibleParty;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -95,13 +96,19 @@ public abstract class AbstractWmlEncoderv20
         extends AbstractOmEncoderv20
         implements ProcedureEncoder<XmlObject, Object> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractWmlEncoderv20.class);
-    private static final String PROCESS_PREFIX = "process.";
+    private static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper
+            .union(CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20,
+                                                       AbstractFeature.class),
+                   CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING,
+                                                       ObservationProcess.class));
+
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>> builder()
                     .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING))
                     .build());
 
+    private static final String PROCESS_ID_PREFIX = "process.";
+    private static final String OBSERVATION_ID_PREFIX = "sf_"
     private static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper.union(
             CodingHelper.encoderKeysForElements(WaterMLConstants.NS_WML_20, AbstractFeature.class,
                     WmlMonitoringPoint.class),

@@ -31,10 +31,12 @@ import org.n52.svalbard.encode.EncodingContext;
 public class PointTimeSeriesObservationXmlStreamWriter extends WmlTVPEncoderv20XmlStreamWriter {
 
 
-    public PointTimeSeriesObservationXmlStreamWriter(OutputStream outputStream, EncodingContext context,
-            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, OmObservation element)
+    public PointTimeSeriesObservationXmlStreamWriter(
+            EncodingContext context,
+            OutputStream outputStream,
+            OmObservation element)
             throws XMLStreamException {
-        super(outputStream, context, encoderRepository, xmlOptions, element);
+        super(context, outputStream, element);
     }
 
     @Override

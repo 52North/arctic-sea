@@ -157,7 +157,48 @@ public class SweCommonEncoderv20
         implements ConformanceClass {
     private static final Logger LOGGER = LoggerFactory.getLogger(SweCommonEncoderv20.class);
 
-    private static final String URN = "urn:";
+import org.n52.janmayen.NcName;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
+import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
+import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweConstants;
+import org.n52.shetland.ogc.swe.SweCoordinate;
+import org.n52.shetland.ogc.swe.SweDataArray;
+import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
+import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweEnvelope;
+import org.n52.shetland.ogc.swe.SweField;
+import org.n52.shetland.ogc.swe.SweSimpleDataRecord;
+import org.n52.shetland.ogc.swe.SweVector;
+import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
+import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
+import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
+import org.n52.shetland.ogc.swe.simpleType.SweCategory;
+import org.n52.shetland.ogc.swe.simpleType.SweCategoryRange;
+import org.n52.shetland.ogc.swe.simpleType.SweCount;
+import org.n52.shetland.ogc.swe.simpleType.SweCountRange;
+import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
+import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
+import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
+import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.n52.shetland.ogc.swe.simpleType.SweTime;
+import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.ogc.swe.stream.StreamingSweDataArray;
+import org.n52.shetland.ogc.swes.SwesConstants;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.ConformanceClass;
+import org.n52.svalbard.ConformanceClasses;
+import org.n52.svalbard.SosHelperValues;
+import org.n52.svalbard.XmlBeansEncodingFlags;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.NotYetSupportedEncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
 
     private static final String HTTP = "http://";
 

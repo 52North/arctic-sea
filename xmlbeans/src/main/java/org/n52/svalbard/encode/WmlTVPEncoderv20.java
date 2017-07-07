@@ -55,7 +55,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.write.WmlTVPEncoderv20XmlStreamWriter;
+import org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -88,8 +88,10 @@ public class WmlTVPEncoderv20
     private static final Set<String> CONFORMANCE_CLASSES = Sets.newHashSet(
             ConformanceClassesWML2.UML_MEASUREMENT_TIMESERIES_TVP_OBSERVATION,
             ConformanceClassesWML2.UML_TIMESERIES_TVP_OBSERVATION,
-            ConformanceClassesWML2.UML_MEASUREMENT_TIMESERIES_TVP_OBSERVATION, ConformanceClassesWML2.XSD_XML_RULES,
-            ConformanceClassesWML2.XSD_TIMESERIES_OBSERVATION, ConformanceClassesWML2.XSD_TIMESERIES_TVP_OBSERVATION,
+            ConformanceClassesWML2.UML_MEASUREMENT_TIMESERIES_TVP_OBSERVATION,
+            ConformanceClassesWML2.XSD_XML_RULES,
+            ConformanceClassesWML2.XSD_TIMESERIES_OBSERVATION,
+            ConformanceClassesWML2.XSD_TIMESERIES_TVP_OBSERVATION,
             ConformanceClassesWML2.XSD_MEASUREMENT_TIMESERIES_TVP);
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
@@ -160,8 +162,7 @@ public class WmlTVPEncoderv20
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
-            throws EncodingException {
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
                 new WmlTVPEncoderv20XmlStreamWriter(outputStream, ctx.with(StreamingEncoderFlags.ENCODER, this),
@@ -170,7 +171,7 @@ public class WmlTVPEncoderv20
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
         } else {
-            super.encode(objectToEncode, outputStream, ctx);
+            super.encode(objectToEncode, ctx);
         }
     }
 

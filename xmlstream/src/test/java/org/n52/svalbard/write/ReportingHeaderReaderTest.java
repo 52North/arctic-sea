@@ -44,6 +44,7 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.svalbard.encode.EncoderFlags;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.read.ReportingHeaderReader;
@@ -156,7 +157,8 @@ public class ReportingHeaderReaderTest {
                         );
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
-            new EReportingHeaderEncoder(baos, EncodingContext.empty(), new EncoderRepository(), XmlOptions::new, header).write();
+            new EReportingHeaderEncoder(EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, new EncoderRepository()),
+                    baos, header).write();
             ByteArrayInputStream in = new ByteArrayInputStream(baos.toByteArray());
             EReportingHeader read = new ReportingHeaderReader().read(in);
 
