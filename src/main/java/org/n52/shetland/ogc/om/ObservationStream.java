@@ -25,6 +25,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 import javax.annotation.CheckReturnValue;
 
@@ -32,6 +33,7 @@ import org.n52.janmayen.ThrowingIterator;
 import org.n52.janmayen.function.ThrowingConsumer;
 import org.n52.janmayen.function.ThrowingFunction;
 import org.n52.janmayen.function.ThrowingUnaryOperator;
+import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
@@ -48,6 +50,61 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
         T collection = supplier.get();
         forEachRemaining(collection::add);
         return collection;
+    }
+
+    /**
+     * Gets the next value that is in the stream.
+     *
+     * @return the first observation of the stream
+     *
+     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     */
+    default Optional<OmObservation> findFirst() throws OwsExceptionReport {
+        if (hasNext()) {
+            return Optional.of(next());
+        } else {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Creates a new stream of this observation stream. Note that consuming the stream will drain the iterator and all
+     * thrown exceptions will be wrapped in {@link RuntimeException}s.
+     *
+     * @return the stream
+     */
+    default Stream<OmObservation> toStream() {
+        return Streams.stream(new Iterator<OmObservation>() {
+            @Override
+            public boolean hasNext() {
+                try {
+                    return ObservationStream.this.hasNext();
+                } catch (OwsExceptionReport ex) {
+                    throw new RuntimeException(ex);
+                }
+
+            }
+
+            @Override
+            public OmObservation next() {
+                try {
+                    return ObservationStream.this.next();
+                } catch (OwsExceptionReport ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+    }
+
+    /**
+     * As this stream is always serial this is the same as {@link #findFirst() }.
+     *
+     * @return the first observation of the stream
+     *
+     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     */
+    default Optional<OmObservation> findAny() throws OwsExceptionReport {
+        return findFirst();
     }
 
     /**
@@ -184,12 +241,14 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      */
     @CheckReturnValue
     default ObservationStream merge() throws OwsExceptionReport {
-        return merge(ObservationMergeIndicator.defaultObservationMergerIndicator());
+        return merge(ObservationMergeIndicator.sameObservationConstellation());
     }
 
     /**
      * Creates a new stream out of this stream in which observations with the same observation constellation are merged.
      * Be aware that this method will consume this stream completely.
+     *
+     * @param indicator
      *
      * @return the new observation stream
      *
@@ -221,6 +280,20 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
             close();
         }
         return of(mergedObservations);
+    }
+
+    /**
+     * Iterate over each remaining element in this stream.
+     *
+     * @param consumer the consumer
+     *
+     * @throws OwsExceptionReport if the consumer throws an error
+     * @deprecated use {@link #forEachRemaining(org.n52.janmayen.function.ThrowingConsumer)} as the name makes it more
+     * clear that this object can only be iterated once.
+     */
+    @Deprecated
+    default void forEach(ThrowingConsumer<OmObservation, OwsExceptionReport> consumer) throws OwsExceptionReport {
+        this.forEachRemaining(consumer);
     }
 
     /**
@@ -257,7 +330,12 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
             }
 
             @Override
-            public ObservationStream merge() throws OwsExceptionReport {
+            public ObservationStream merge() {
+                return this;
+            }
+
+            @Override
+            public ObservationStream merge(ObservationMergeIndicator indicator) {
                 return this;
             }
 
@@ -265,6 +343,7 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
             public ObservationStream modify(ThrowingConsumer<OmObservation, OwsExceptionReport> consumer) {
                 return this;
             }
+
         };
     }
 
@@ -327,6 +406,16 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
             @Override
             public boolean hasNext() {
                 return !done;
+            }
+
+            @Override
+            public ObservationStream merge() throws OwsExceptionReport {
+                return this;
+            }
+
+            @Override
+            public ObservationStream merge(ObservationMergeIndicator indicator) throws OwsExceptionReport {
+                return this;
             }
         };
     }

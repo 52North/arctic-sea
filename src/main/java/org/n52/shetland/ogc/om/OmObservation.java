@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.om;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -76,7 +77,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * O&M parameter.
      */
-    private ParameterHolder parameterHolder = new ParameterHolder();
+    private final ParameterHolder parameterHolder = new ParameterHolder();
 
     /**
      * Map with observation values for each obsservableProeprty.
@@ -113,7 +114,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
 
     private String seriesType;
 
-    private Set<OmObservationContext> relatedObservations = new HashSet<>();
+    private final Set<OmObservationContext> relatedObservations = new HashSet<>();
 
     /**
      * constructor.
@@ -385,9 +386,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Merge result time with passed observation result time
      *
-     * @param sosObservation
-     *            Observation to merge
-     * @param sosObservation
+     * @param sosObservation Observation to merge
+     * @param merged         the observation to merge into
      */
     private void mergeResultTimes(OmObservation merged, OmObservation sosObservation) {
         if (merged.isSetResultTime() && sosObservation.isSetResultTime()) {
@@ -861,90 +861,75 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     public boolean checkForMerge(OmObservation observation) {
-        return checkForMerge(observation, ObservationMergeIndicator.defaultObservationMergerIndicator());
+        return checkForMerge(observation, ObservationMergeIndicator.sameObservationConstellation());
     }
 
-    public boolean checkForMerge(OmObservation observation, ObservationMergeIndicator observationMergeIndicator) {
-        boolean merge = true;
-        if (isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator()) {
-            merge = getAdditionalMergeIndicator().equals(observation.getAdditionalMergeIndicator());
-        } else if ((isSetAdditionalMergeIndicator() && !observation.isSetAdditionalMergeIndicator())
-                || (!isSetAdditionalMergeIndicator() && observation.isSetAdditionalMergeIndicator())) {
-            merge = false;
-        }
-        merge = merge && checkObservationTypeForMerging(observation.getObservationConstellation());
-        if (observationMergeIndicator.sameObservationConstellation()) {
-            merge = merge && getObservationConstellation().equals(observation.getObservationConstellation());
-        } else {
-            if (observationMergeIndicator.isProcedure()) {
-                merge = merge && checkForProcedure(observation);
-            }
-            if (observationMergeIndicator.isObservableProperty()) {
-                merge = merge && checkForObservableProperty(observation);
-            }
-            if (observationMergeIndicator.isFeatureOfInterest()) {
-                merge = merge && checkForFeatureOfInterest(observation);
-            }
-            if (observationMergeIndicator.isOfferings()) {
-                merge = merge && checkForOfferings(observation);
-            }
-        }
-
-        if (observationMergeIndicator.isPhenomenonTime()) {
-            merge = merge && checkForPhenomenonTime(observation);
-        }
-        if (observationMergeIndicator.isSetResultTime()) {
-            merge = merge && checkForResultTime(observation);
-        }
-        if (observationMergeIndicator.isSamplingGeometry()) {
-            merge = merge && checkForSamplingGeometry(observation);
-        }
-        return merge;
-
-    }
-
-    private boolean checkForProcedure(OmObservation observation) {
-        return getObservationConstellation().getProcedure().equals(observation.getObservationConstellation().getProcedure());
-    }
-
-    private boolean checkForObservableProperty(OmObservation observation) {
-        return getObservationConstellation().getObservableProperty().equals(observation.getObservationConstellation().getObservableProperty());
-    }
-
-    private boolean checkForFeatureOfInterest(OmObservation observation) {
-        return getObservationConstellation().getFeatureOfInterest().equals(observation.getObservationConstellation().getFeatureOfInterest());
-    }
-
-    private boolean checkForOfferings(OmObservation observation) {
-        return getObservationConstellation().getOfferings().equals(observation.getObservationConstellation().getOfferings());
-    }
-
-    private boolean checkForPhenomenonTime(OmObservation observation) {
-        return getPhenomenonTime().equals(observation.getPhenomenonTime());
-    }
-
-    private boolean checkForResultTime(OmObservation observation) {
-        return getResultTime().equals(observation.getResultTime());
-    }
-
-    private boolean checkForSamplingGeometry(OmObservation observation) {
-        if (isSetSpatialFilteringProfileParameter() && observation.isSetSpatialFilteringProfileParameter()) {
-            // TODO check for NULL
-            return getSpatialFilteringProfileParameter().getValue().getValue().equals(observation.getSpatialFilteringProfileParameter().getValue().getValue());
-        }
-        return false;
+    public boolean checkForMerge(OmObservation observation, ObservationMergeIndicator indicator) {
+        return checkMergeIndicator(observation) &&
+               checkObservationTypeForMerging(observation) &&
+               checkProcedure(indicator, observation) &&
+               checkOfferings(indicator, observation) &&
+               checkFeatureOfInterest(indicator, observation) &&
+               checkObservableProperty(indicator, observation) &&
+               checkPhenomenonTime(indicator, observation) &&
+               checkResultTime(indicator, observation) &&
+               checkSamplingGeometry(indicator, observation);
     }
 
     /**
      * TODO change if currently not supported types could be merged.
      *
+     * @param observation the observation
+     *
      * @return <code>true</code>, if the observation can be merged
      */
-    private boolean checkObservationTypeForMerging(OmObservationConstellation observationConstellation) {
-        return (observationConstellation.isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationConstellation.getObservationType())
-                && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(observationConstellation.getObservationType())
-                && !OmConstants.OBS_TYPE_OBSERVATION.equals(observationConstellation.getObservationType())
-                && !OmConstants.OBS_TYPE_UNKNOWN.equals(observationConstellation.getObservationType()));
+    private boolean checkObservationTypeForMerging(OmObservation observation) {
+        OmObservationConstellation oc = observation.getObservationConstellation();
+        return oc.isSetObservationType() &&
+               !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(oc.getObservationType()) &&
+               !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(oc.getObservationType()) &&
+               !OmConstants.OBS_TYPE_OBSERVATION.equals(oc.getObservationType()) &&
+               !OmConstants.OBS_TYPE_UNKNOWN.equals(oc.getObservationType());
+    }
+
+    private boolean checkProcedure(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isProcedure() || getObservationConstellation().getProcedure().equals(observation
+               .getObservationConstellation().getProcedure());
+    }
+
+    private boolean checkOfferings(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isOfferings() || getObservationConstellation().getOfferings().equals(observation
+               .getObservationConstellation().getOfferings());
+    }
+
+    private boolean checkFeatureOfInterest(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isFeatureOfInterest() || getObservationConstellation().getFeatureOfInterest()
+               .equals(observation.getObservationConstellation().getFeatureOfInterest());
+    }
+
+    private boolean checkObservableProperty(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isObservableProperty() || getObservationConstellation().getObservableProperty()
+               .equals(observation.getObservationConstellation().getObservableProperty());
+    }
+
+    private boolean checkPhenomenonTime(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isPhenomenonTime() || getPhenomenonTime().equals(observation.getPhenomenonTime());
+    }
+
+    private boolean checkResultTime(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isSetResultTime() || getResultTime().equals(observation.getResultTime());
+    }
+
+    private boolean checkSamplingGeometry(ObservationMergeIndicator indicator, OmObservation observation) {
+        return !indicator.isSamplingGeometry() ||
+               (isSetSpatialFilteringProfileParameter() &&
+                observation.isSetSpatialFilteringProfileParameter() &&
+                getSpatialFilteringProfileParameter().getValue().getValue()
+                        .equals(observation.getSpatialFilteringProfileParameter().getValue().getValue()));
+    }
+
+    private boolean checkMergeIndicator(OmObservation observation) {
+        return Objects.equals(getAdditionalMergeIndicator(), observation.getAdditionalMergeIndicator());
     }
 
 }
