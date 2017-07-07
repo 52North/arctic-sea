@@ -199,7 +199,11 @@ public abstract class XmlStreamWriter<S> {
      * @throws XMLStreamException If an error occurs when writing to {@link OutputStream}
      */
     protected void start(QName name) throws XMLStreamException {
+        String ns = this.writer.getNamespaceContext().getNamespaceURI(name.getPrefix());
         this.writer.writeStartElement(name.getPrefix(), name.getLocalPart(), name.getNamespaceURI());
+        if (ns == null || ns.isEmpty()) {
+            this.writer.writeNamespace(name.getPrefix(), name.getNamespaceURI());
+        }
     }
 
     /**
