@@ -29,6 +29,8 @@ import org.n52.shetland.ogc.ows.OWSConstants;
  *
  */
 public final class OwsHelper {
+    private OwsHelper() {
+    }
 
     /**
      * Sets the first character to UpperCase.
@@ -53,6 +55,4 @@ public final class OwsHelper {
         return new QName(OWSConstants.NS_OWS, localName, OWSConstants.NS_OWS_PREFIX);
     }
 
-    private OwsHelper() {
-    }
 }

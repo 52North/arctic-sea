@@ -14,70 +14,64 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.gda.v20;
+package org.n52.svalbard.decode;
 
 import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.decode.DecoderKey;
-import org.n52.sos.gda.AbstractGetDataAvailabilityXmlDecoder;
-import org.n52.sos.gda.GetDataAvailabilityConstants;
-import org.n52.sos.gda.GetDataAvailabilityRequest;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.util.CodingHelper;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.util.CodingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
 /**
- * {@code Decoder} to handle {@link GetDataAvailabilityRequest}s for version 2.0.
- * 
+ * {@code Decoder} to handle {@link GetDataAvailabilityRequest}s for version
+ * 2.0.
+ *
  * @author Christian Autermann
- * 
+ *
  * @since 4.4.0
  */
-public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXmlDecoder {
+public class GetDataAvailabilityV20XmlDecoder
+        extends AbstractGetDataAvailabilityXmlDecoder {
 
-    private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlDecoder.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityV20XmlDecoder.class);
 
     private static final String BASE_PATH_GDA = getBasePath(GetDataAvailabilityConstants.XPATH_PREFIXES_GDA_20,
             GetDataAvailabilityConstants.NS_GDA_PREFIX);
 
-    // TODO check with 1.0 for DecoderKey with OperationName
-//    @SuppressWarnings("unchecked")
-//    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-//            GetDataAvailabilityConstants.NS_GDA_20, XmlObject.class), CodingHelper.xmlDecoderKeysForOperation(
-//            SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME));
-//    
-//    @SuppressWarnings("unchecked")
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            GetDataAvailabilityConstants.NS_GDA_20, XmlObject.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20, XmlObject.class);
 
     /**
      * Constructs a new {@code GetDataAvailabilityDecoder}.
      */
-    public GetDataAvailabilityXmlDecoder() {
+    public GetDataAvailabilityV20XmlDecoder() {
         LOG.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
-    public Set<DecoderKey> getDecoderKeyTypes() {
+    public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
     /**
      * Parses a {@code GetDataAvailabilityRequest}.
-     * 
+     *
      * @param xml
      *            the request
-     * 
+     *
      * @return the parsed request
      * @throws OwsExceptionReport
      */
     @Override
-    public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws OwsExceptionReport {
+    public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException {
         XmlObject[] roots = xml.selectPath(BASE_PATH_GDA);
         if (roots != null && roots.length > 0) {
             return parseGetDataAvailability(xml, BASE_PATH_GDA, GetDataAvailabilityConstants.XPATH_PREFIXES_GDA_20,
@@ -88,7 +82,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
 
     /**
      * Parse the GetDataAvailability XML request
-     * 
+     *
      * @param xml
      *            GetDataAvailability XML request
      * @param basePath
@@ -104,7 +98,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
      *             If the document could no be parsed
      */
     private GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml, String basePath, String xpathPrefix,
-            String prefix, String namespace) throws OwsExceptionReport {
+            String prefix, String namespace) throws DecodingException {
         GetDataAvailabilityRequest request = new GetDataAvailabilityRequest();
         request.setNamespace(namespace);
         XmlObject[] roots = xml.selectPath(basePath);
@@ -121,7 +115,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
                 service = roots[0].selectAttribute(GetDataAvailabilityConstants.SERVICE);
             }
             if (service != null) {
-            request.setService(parseStringValue(service));
+                request.setService(parseStringValue(service));
             }
         }
 
@@ -143,5 +137,5 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
         request.setExtensions(parseExtensions(xml));
         return request;
     }
-   
+
 }

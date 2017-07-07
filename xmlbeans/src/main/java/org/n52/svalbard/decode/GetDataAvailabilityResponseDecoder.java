@@ -66,13 +66,13 @@ public class GetDataAvailabilityResponseDecoder
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
             CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA,
-                    GetDataAvailabilityResponseDocument.class),
+                                                GetDataAvailabilityResponseDocument.class),
             CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20,
-                    net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument.class));
+                                                net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument.class));
 
     public GetDataAvailabilityResponseDecoder() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(DECODER_KEYS));
+                     Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -92,7 +92,8 @@ public class GetDataAvailabilityResponseDecoder
         throw new UnsupportedDecoderInputException(this, document);
     }
 
-    private GetDataAvailabilityResponse decodeV10(GetDataAvailabilityResponseDocument document) throws DecodingException {
+    private GetDataAvailabilityResponse decodeV10(GetDataAvailabilityResponseDocument document)
+            throws DecodingException {
         GetDataAvailabilityResponse response = new GetDataAvailabilityResponse();
         setService(response);
         setVersions(response);
@@ -101,7 +102,8 @@ public class GetDataAvailabilityResponseDecoder
         return response;
     }
 
-    private GetDataAvailabilityResponse decodeV20(net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument document) throws DecodingException {
+    private GetDataAvailabilityResponse decodeV20(net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument document)
+            throws DecodingException {
         GetDataAvailabilityResponse response = new GetDataAvailabilityResponse();
         setService(response);
         setVersions(response);
@@ -121,10 +123,10 @@ public class GetDataAvailabilityResponseDecoder
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
                 TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(),
-                        damt.getPhenomenonTime().getHref(), periods);
+                                                              damt.getPhenomenonTime().getHref(), periods);
 
                 availabilities.add(new DataAvailability(procedure, observedProperty, featureOfInterest, null,
-                        phenomenonTime));
+                                                        phenomenonTime));
             }
         }
         return availabilities;
@@ -142,10 +144,10 @@ public class GetDataAvailabilityResponseDecoder
                 ReferenceType featureOfInterest = decodeXmlElement(damt.getFeatureOfInterest());
                 ReferenceType observedProperty = decodeXmlElement(damt.getObservedProperty());
                 TimePeriod phenomenonTime = getPhenomenonTime(damt.getPhenomenonTime().getAbstractTimeObject(),
-                        damt.getPhenomenonTime().getHref(), periods);
+                                                              damt.getPhenomenonTime().getHref(), periods);
 
                 DataAvailability dataAvailability = new DataAvailability(procedure, observedProperty, featureOfInterest,
-                        offering, phenomenonTime);
+                                                                         offering, phenomenonTime);
                 FormatDescriptor formatDescriptor = createFormatDescriptor(damt.getFormatDescriptor());
                 if (formatDescriptor != null) {
                     dataAvailability.setFormatDescriptor(formatDescriptor);
@@ -156,23 +158,23 @@ public class GetDataAvailabilityResponseDecoder
         return availabilities;
     }
 
-    private TimePeriod getPhenomenonTime(AbstractTimeObjectType atot, String href, Map<String, TimePeriod> periods) throws DecodingException {
+    private TimePeriod getPhenomenonTime(AbstractTimeObjectType atot, String href, Map<String, TimePeriod> periods)
+            throws DecodingException {
         TimePeriod phenomenonTime;
         if (atot != null) {
             phenomenonTime = decodeXmlElement(atot);
             periods.put(phenomenonTime.getGmlId(), phenomenonTime);
         } else {
-            if (href.startsWith("#")) {
-                href = href.substring(1);
-            }
-            phenomenonTime = periods.get(href);
+            String id = href.startsWith("#") ? href.substring(1) : href;
+            phenomenonTime = periods.get(id);
         }
         return phenomenonTime;
     }
 
     private FormatDescriptor createFormatDescriptor(FormatDescriptorType fdt) {
         if (fdt != null) {
-            String procDescFormatDescriptor = fdt.getProcedureDescriptionFormatDescriptor().getProcedureDescriptionFormat();
+            String procDescFormatDescriptor = fdt.getProcedureDescriptionFormatDescriptor()
+                    .getProcedureDescriptionFormat();
             Set<ObservationFormatDescriptor> obsFormDescs = Sets.newHashSet();
             for (ObservationFormatDescriptorType obsFormatDescriptor : fdt.getObservationFormatDescriptorArray()) {
                 obsFormDescs.add(new ObservationFormatDescriptor(
@@ -180,7 +182,8 @@ public class GetDataAvailabilityResponseDecoder
                         Sets.newHashSet(obsFormatDescriptor.getObservationTypeArray())
                 ));
             }
-            return new FormatDescriptor(new ProcedureDescriptionFormatDescriptor(procDescFormatDescriptor), obsFormDescs);
+            return new FormatDescriptor(new ProcedureDescriptionFormatDescriptor(procDescFormatDescriptor),
+                                        obsFormDescs);
         }
         return null;
     }

@@ -74,14 +74,15 @@ import com.google.common.collect.Sets;
 public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> implements ConformanceClass {
     private static final Logger LOGGER = LoggerFactory.getLogger(FesEncoderv20.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(FilterConstants.NS_FES_2,
+    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(
+            FilterConstants.NS_FES_2,
             TemporalFilter.class,
             org.n52.shetland.ogc.filter.FilterCapabilities.class,
             SpatialFilter.class);
 
     public FesEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(ENCODER_KEYS));
+                     Joiner.on(", ").join(ENCODER_KEYS));
     }
 
     @Override
@@ -122,12 +123,12 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
 
     private XmlObject encodeTemporalFilter(TemporalFilter temporalFilter) throws EncodingException {
         switch (temporalFilter.getOperator()) {
-        case TM_During:
-            return encodeTemporalFilterDuring(temporalFilter);
-        case TM_Equals:
-            return encodeTemporalFilterEquals(temporalFilter);
-        default:
-            throw new UnsupportedEncoderInputException(this, temporalFilter);
+            case TM_During:
+                return encodeTemporalFilterDuring(temporalFilter);
+            case TM_Equals:
+                return encodeTemporalFilterEquals(temporalFilter);
+            default:
+                throw new UnsupportedEncoderInputException(this, temporalFilter);
         }
     }
 
@@ -136,7 +137,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
         final BinaryTemporalOpType during = duringDoc.addNewDuring();
         if (temporalFilter.getTime() instanceof TimePeriod) {
             during.set(encodeObjectToXml(GmlConstants.NS_GML_32, temporalFilter.getTime(),
-                    EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT)));
+                                         EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT)));
         } else {
             throw new EncodingException("The temporal filter value is not a TimePeriod!");
         }
@@ -149,7 +150,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
         final BinaryTemporalOpType equals = equalsDoc.addNewTEquals();
         if (temporalFilter.getTime() instanceof TimeInstant) {
             equals.set(encodeObjectToXml(GmlConstants.NS_GML_32, temporalFilter.getTime(),
-                    EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT)));
+                                         EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT)));
         } else {
             throw new EncodingException("The temporal filter value is not a TimeInstant!");
         }
@@ -162,7 +163,7 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     }
 
     private void checkAndAddValueReference(BinaryTemporalOpType binaryTemporalOp,
-            final TemporalFilter temporalFilter) {
+                                           final TemporalFilter temporalFilter) {
         if (temporalFilter.hasValueReference()) {
             binaryTemporalOp.setValueReference(temporalFilter.getValueReference());
         }
@@ -210,12 +211,10 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     /**
      * Sets the FES conformance classes in the filter capabilities section.
      *
-     * @param conformance
-     *            XML FES conformence
-     * @param sosConformance
-     *            Service conformance
-     * @throws EncodingException
-     *             If an error occurs
+     * @param conformance XML FES conformence
+     * @param sosConformance Service conformance
+     *
+     * @throws EncodingException If an error occurs
      */
     private void setConformance(final ConformanceType conformance, Collection<OwsDomain> sosConformance)
             throws EncodingException {
@@ -229,16 +228,14 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     /**
      * Sets the SpatialFilterCapabilities.
      *
-     * !!! Modify method addicted to your implementation !!!
+     * @param spatialCapabilitiesType FES SpatialCapabilities.
+     * @param sosFilterCaps SOS spatial filter information
      *
-     * @param spatialCapabilitiesType
-     *            FES SpatialCapabilities.
-     * @param sosFilterCaps
-     *            SOS spatial filter information
-     * @throws org.n52.svalbard.encode.exception.EncodingException
+     * @throws EncodingException if the spatial operator is not supported
      */
     private void setSpatialFilterCapabilities(final SpatialCapabilitiesType spatialCapabilitiesType,
-            org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) throws EncodingException {
+                                              org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) throws
+            EncodingException {
 
         // set GeometryOperands
         if (sosFilterCaps.getSpatialOperands() != null && !sosFilterCaps.getSpatialOperands().isEmpty()) {
@@ -264,16 +261,14 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     /**
      * Sets the TemporalFilterCapabilities.
      *
-     * !!! Modify method addicted to your implementation !!!
+     * @param temporalCapabilitiesType FES TemporalCapabilities.
+     * @param sosFilterCaps            SOS temporal filter information
      *
-     * @param temporalCapabilitiesType
-     *            FES TemporalCapabilities.
-     * @param sosFilterCaps
-     *            SOS temporal filter information
-     * @throws org.n52.svalbard.encode.exception.EncodingException
+     * @throws org.n52.svalbard.encode.exception.EncodingException if one of the temporal operators is not supported
      */
     private void setTemporalFilterCapabilities(TemporalCapabilitiesType temporalCapabilitiesType,
-            org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) throws EncodingException {
+                                               org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps)
+            throws EncodingException {
 
         // set TemporalOperands
         if (sosFilterCaps.getTemporalOperands() != null && !sosFilterCaps.getTemporalOperands().isEmpty()) {
@@ -299,16 +294,14 @@ public class FesEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> impleme
     /**
      * Sets the ScalarFilterCapabilities.
      *
-     * !!! Modify method addicted to your implementation !!!
+     * @param scalarCapabilitiesType FES ScalarCapabilities.
+     * @param sosFilterCaps SOS scalar filter information
      *
-     * @param scalarCapabilitiesType
-     *            FES ScalarCapabilities.
-     * @param sosFilterCaps
-     *            SOS scalar filter information
-     * @throws org.n52.svalbard.encode.exception.EncodingException
+     * @throws EncodingException if the comparison operator is not supported
      */
-    private void setScalarFilterCapabilities(final ScalarCapabilitiesType scalarCapabilitiesType,
-            final org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps) throws EncodingException {
+    private void setScalarFilterCapabilities(ScalarCapabilitiesType scalarCapabilitiesType,
+                                             org.n52.shetland.ogc.filter.FilterCapabilities sosFilterCaps)
+            throws EncodingException {
 
         if (sosFilterCaps.getComparisonOperators() != null && !sosFilterCaps.getComparisonOperators().isEmpty()) {
             final ComparisonOperatorsType scalarOps = scalarCapabilitiesType.addNewComparisonOperators();

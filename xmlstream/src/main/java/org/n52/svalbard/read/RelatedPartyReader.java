@@ -20,8 +20,8 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
-import org.n52.shetland.inspire.RelatedParty;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.inspire.base2.RelatedParty;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -39,7 +39,7 @@ public class RelatedPartyReader extends XmlReader<RelatedParty> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_BASE2_INDIVIDUAL_NAME)) {
             this.relatedParty
                     .setIndividualName(delegate(new NillableFreeTextReader()));
@@ -60,7 +60,7 @@ public class RelatedPartyReader extends XmlReader<RelatedParty> {
 
     @Override
     protected RelatedParty finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         return this.relatedParty;
     }
 

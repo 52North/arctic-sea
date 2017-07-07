@@ -14,13 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.sos.encode;
+package org.n52.svalbard.encode;
 
+import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gco.AbstractObjectType;
 import org.n52.shetland.iso.gmd.AbstractObject;
 
-public abstract class AbstractIso19139GcoEncoder extends AbstractXmlEncoder<Object> {
-    
+public abstract class AbstractIso19139GcoEncoder extends AbstractXmlEncoder<XmlObject, Object> {
+
     protected AbstractObjectType encodeAbstractObject(AbstractObjectType aot, AbstractObject abstractObject) {
         if (abstractObject.isSetId()) {
             aot.setId(abstractObject.getId());

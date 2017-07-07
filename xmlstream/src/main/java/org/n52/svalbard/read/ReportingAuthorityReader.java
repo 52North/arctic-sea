@@ -19,7 +19,7 @@ package org.n52.svalbard.read;
 import javax.xml.namespace.QName;
 
 import org.n52.shetland.aqd.AqdConstants;
-import org.n52.shetland.inspire.RelatedParty;
+import org.n52.shetland.inspire.base2.RelatedParty;
 
 /**
  * TODO JavaDoc

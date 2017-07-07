@@ -19,7 +19,7 @@ package org.n52.svalbard.read;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -36,7 +36,7 @@ public abstract class SubtagReader<T> extends XmlReader<T> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(getSubtagName())) {
             this.value = delegate(getSubtagDelegate());
         } else {

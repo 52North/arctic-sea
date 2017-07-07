@@ -27,9 +27,9 @@ import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesConstants;
@@ -65,6 +65,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
             Sos2Constants.NS_SOS_20, XmlObject.class), CodingHelper.decoderKeysForElements(
             GetDataAvailabilityConstants.NS_GDA, XmlObject.class), CodingHelper.xmlDecoderKeysForOperation(
             SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME));
+    private static final String EN_EXTENSION = "extension";
 
     /**
      * Constructs a new {@code GetDataAvailabilityDecoder}.
@@ -90,7 +91,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
      *            the request
      *
      * @return the parsed request
-     * @throws DecodingException
+     * @throws DecodingException if the decoding fails
      */
     public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException {
         XmlObject[] roots = xml.selectPath(BASE_PATH_SOS);
@@ -142,7 +143,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
                 service = roots[0].selectAttribute(GetDataAvailabilityConstants.SERVICE);
             }
             if (service != null) {
-            request.setService(parseStringValue(service));
+                request.setService(parseStringValue(service));
             }
         }
 
@@ -166,7 +167,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
         if (xmlObject instanceof XmlString) {
             return ((XmlString) xmlObject).getStringValue();
         } else if (xmlObject instanceof XmlAnyURI) {
-            return ((XmlAnyURI)xmlObject).getStringValue();
+            return ((XmlAnyURI) xmlObject).getStringValue();
         } else {
             return ((XmlAnyTypeImpl) xmlObject).getStringValue();
         }
@@ -183,11 +184,13 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
      */
     private SwesExtensions parseExtensions(XmlObject xml) throws DecodingException {
         SwesExtensions extensions = new SwesExtensions();
-        for (XmlObject x : xml.selectPath(getPath(XPathConstants.XPATH_PREFIXES_SWES, SwesConstants.NS_SWES_PREFIX, "extension"))) {
+        for (XmlObject x : xml.selectPath(getPath(XPathConstants.XPATH_PREFIXES_SWES,
+                                                  SwesConstants.NS_SWES_PREFIX, EN_EXTENSION))) {
             try {
                 if (x.getDomNode().hasChildNodes()) {
-                    Object obj = decodeXmlElement(XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(x.getDomNode().getChildNodes())));
-                    SwesExtension<?> extension = null;
+                    Object obj = decodeXmlElement(XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(
+                            x.getDomNode().getChildNodes())));
+                    SwesExtension<?> extension;
                     if (!(obj instanceof SwesExtension<?>)) {
                         extension = new SwesExtension<>().setValue(obj);
                         if (isSweAbstractDataComponent(obj)) {
@@ -199,7 +202,7 @@ public class GetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<XmlObject,
                     extensions.addExtension(extension);
                 }
             } catch (XmlException xmle) {
-                throw new XmlDecodingException("extension", xmle);
+                throw new XmlDecodingException(EN_EXTENSION, xmle);
             }
         }
         return extensions;

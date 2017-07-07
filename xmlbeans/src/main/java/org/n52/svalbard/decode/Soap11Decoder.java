@@ -25,6 +25,8 @@ import javax.xml.soap.SOAPException;
 import javax.xml.soap.SOAPMessage;
 
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -32,9 +34,6 @@ import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapHelper;
 import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 
@@ -44,6 +43,8 @@ import com.google.common.base.Joiner;
  */
 public class Soap11Decoder extends AbstractSoapDecoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(Soap11Decoder.class);
+    private static final String SOAP_ACTION = "SOAPAction:";
+    private static final QName QN_CLIENT = new QName(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, "Client");
 
     public Soap11Decoder() {
         super(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE);
@@ -53,46 +54,39 @@ public class Soap11Decoder extends AbstractSoapDecoder {
     /**
      * Parses SOAP 1.1 Envelope to a SOS internal SOAP request.
      *
-     * @param doc
-     *            Request as xml representation
+     * @param doc Request as xml representation
      *
      * @return SOS internal SOAP request
      *
-     * @throws DecodingException
-     *             * if an error occurs.
+     * @throws DecodingException if an error occurs.
      */
     @Override
     protected SoapRequest createEnvelope(XmlObject doc) throws DecodingException {
-        SoapRequest soapRequest =
-                new SoapRequest(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, SOAPConstants.SOAP_1_1_PROTOCOL);
+        SoapRequest soapRequest = new SoapRequest(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE,
+                                                  SOAPConstants.SOAP_1_1_PROTOCOL);
         String soapAction = "";
 
         try {
             SOAPMessage soapMessageRequest;
             try {
-                soapMessageRequest =
-                        SoapHelper.getSoapMessageForProtocol(SOAPConstants.SOAP_1_1_PROTOCOL, doc.newInputStream());
-            } catch (IOException ioe) {
+                soapMessageRequest = SoapHelper.getSoapMessageForProtocol(SOAPConstants.SOAP_1_1_PROTOCOL,
+                                                                          doc.newInputStream());
+            } catch (IOException | SOAPException ioe) {
                 throw new NoApplicableCodeException().causedBy(ioe)
                         .withMessage("Error while parsing SOAPMessage from request string!");
-            } catch (SOAPException soape) {
-                throw new NoApplicableCodeException().causedBy(soape)
-                        .withMessage("Error while parsing SOAPMessage from request string!");
             }
+            // FIXME well... soapAction is always "" at this point
             // if SOAPAction is not spec conform, create SOAPFault
-            if (soapAction.isEmpty() || !soapAction.startsWith("SOAPAction:")) {
+            if (soapAction.isEmpty() || !soapAction.startsWith(SOAP_ACTION)) {
                 SoapFault fault = new SoapFault();
-                fault.setFaultCode(new QName(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, "Client"));
+                fault.setFaultCode(QN_CLIENT);
                 fault.setFaultReason("The SOAPAction parameter in the HTTP-Header is missing or not valid!");
                 fault.setLocale(Locale.ENGLISH);
                 soapRequest.setSoapFault(fault);
                 soapRequest.setSoapFault(fault);
-            } // trim SOAPAction value
-            else {
-                soapAction = soapAction.replace("\"", "");
-                soapAction = soapAction.replace(" ", "");
-                soapAction = soapAction.replace("SOAPAction:", "");
-                soapAction = soapAction.trim();
+            } else {
+                // trim SOAPAction value
+                soapAction = soapAction.replace("\"", "").replace(" ", "").replace(SOAP_ACTION, "").trim();
             }
             try {
                 if (soapMessageRequest.getSOAPHeader() != null) {
@@ -100,10 +94,8 @@ public class Soap11Decoder extends AbstractSoapDecoder {
                 }
                 soapRequest.setAction(checkSoapAction(soapAction, soapRequest.getSoapHeader()));
                 soapRequest.setSoapBodyContent(getSOAPBodyContent(soapMessageRequest));
-            } catch (SOAPException soape) {
+            } catch (SOAPException | DecodingException soape) {
                 throw new NoApplicableCodeException().causedBy(soape).withMessage("Error while parsing SOAPMessage!");
-            } catch (DecodingException ex) {
-                throw new NoApplicableCodeException().causedBy(ex).withMessage("Error while parsing SOAPMessage!");
             }
         } catch (OwsExceptionReport owse) {
             throw new DecodingException(owse);
@@ -114,7 +106,7 @@ public class Soap11Decoder extends AbstractSoapDecoder {
     @Override
     protected SoapRequest createFault(DecodingException de) {
         SoapFault fault = new SoapFault();
-        fault.setFaultCode(new QName(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, "Client"));
+        fault.setFaultCode(QN_CLIENT);
         fault.setLocale(Locale.ENGLISH);
         fault.setFaultReason(de.getMessage());
         SoapRequest r = new SoapRequest(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, SOAPConstants.SOAP_1_1_PROTOCOL);

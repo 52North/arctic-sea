@@ -14,29 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.base2;
+package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.encode.AbstractXmlEncoder;
-import org.n52.sos.encode.ClassToClassEncoderKey;
-import org.n52.sos.encode.EncoderKey;
-import org.n52.sos.encode.XmlEncoderKey;
-import org.n52.sos.exception.ows.concrete.UnsupportedEncoderInputException;
-import org.n52.sos.iso.gmd.GmdConstants;
-import org.n52.sos.ogc.gml.ReferenceType;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.sos.util.CodingHelper;
-import org.n52.svalbard.inspire.base2.Contact;
-import org.n52.svalbard.inspire.base2.InspireBase2Constants;
-import org.n52.svalbard.inspire.base2.RelatedParty;
-import org.n52.svalbard.inspire.ompr.InspireOMPRConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.shetland.inspire.base2.Contact;
+import org.n52.shetland.inspire.base2.InspireBase2Constants;
+import org.n52.shetland.inspire.base2.RelatedParty;
+import org.n52.shetland.iso.gmd.GmdConstants;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Sets;
 
@@ -44,29 +35,26 @@ import eu.europa.ec.inspire.schemas.base2.x20.ContactType;
 import eu.europa.ec.inspire.schemas.base2.x20.ContactType.TelephoneFacsimile;
 import eu.europa.ec.inspire.schemas.base2.x20.ContactType.TelephoneVoice;
 import eu.europa.ec.inspire.schemas.base2.x20.ContactType.Website;
-import net.opengis.gml.x32.NilReasonType;
 import eu.europa.ec.inspire.schemas.base2.x20.RelatedPartyType;
 
-public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<RelatedParty> {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RelatedPartyTypeEncoder.class);
+public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<XmlObject, RelatedParty> {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(RelatedPartyType.class, RelatedParty.class),
                     new XmlEncoderKey(InspireBase2Constants.NS_BASE2, RelatedParty.class));
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
-    public XmlObject encode(RelatedParty relatedParty, Map<HelperValues, String> additionalValues)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
+    public XmlObject encode(RelatedParty relatedParty, EncodingContext context)
+            throws EncodingException, UnsupportedEncoderInputException {
         return createRelatedParty(relatedParty);
     }
 
-    private XmlObject createRelatedParty(RelatedParty relatedParty) throws OwsExceptionReport {
+    private XmlObject createRelatedParty(RelatedParty relatedParty) throws EncodingException {
         RelatedPartyType rpt = RelatedPartyType.Factory.newInstance();
         addContact(rpt, relatedParty);
         addIndividualName(rpt, relatedParty);
@@ -133,38 +121,42 @@ public class RelatedPartyTypeEncoder extends AbstractXmlEncoder<RelatedParty> {
         return ct;
     }
 
-    private void addIndividualName(RelatedPartyType rpt, RelatedParty relatedParty) throws OwsExceptionReport {
+    private void addIndividualName(RelatedPartyType rpt, RelatedParty relatedParty) throws EncodingException {
         if (relatedParty.isSetIndividualName()) {
             rpt.addNewIndividualName().addNewPTFreeText().set(encodeGMD(relatedParty.getIndividualName()));
         }
     }
 
-    private void addOrganisationName(RelatedPartyType rpt, RelatedParty relatedParty) throws OwsExceptionReport {
+    private void addOrganisationName(RelatedPartyType rpt, RelatedParty relatedParty) throws EncodingException {
         if (relatedParty.isSetOrganisationName()) {
             rpt.addNewOrganisationName().addNewPTFreeText().set(encodeGMD(relatedParty.getOrganisationName()));
         }
     }
 
-    private void addPositionName(RelatedPartyType rpt, RelatedParty relatedParty) throws OwsExceptionReport {
+    private void addPositionName(RelatedPartyType rpt, RelatedParty relatedParty) throws EncodingException {
         if (relatedParty.isSetPositionName()) {
             rpt.addNewPositionName().addNewPTFreeText().set(encodeGMD(relatedParty.getPositionName()));
         }
     }
 
-    private void addRole(RelatedPartyType rpt, RelatedParty relatedParty) throws OwsExceptionReport {
+    private void addRole(RelatedPartyType rpt, RelatedParty relatedParty) throws EncodingException {
         if (relatedParty.isSetRole()) {
             for (ReferenceType role : relatedParty.getRole()) {
-                rpt.addNewRole().set(encodeGML32(role));
+                rpt.addNewRole().set(encodeGML(role));
             }
         }
     }
 
-    protected static XmlObject encodeGMD(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(GmdConstants.NS_GMD, o);
+    protected XmlObject encodeGML(Object o) throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML_32, o);
     }
 
-    protected static XmlObject encodeGMD(Object o, Map<HelperValues, String> helperValues) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(GmdConstants.NS_GMD, o, helperValues);
+    protected XmlObject encodeGMD(Object o) throws EncodingException {
+        return encodeObjectToXml(GmdConstants.NS_GMD, o);
+    }
+
+    protected XmlObject encodeGMD(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(GmdConstants.NS_GMD, o, context);
     }
 
 }

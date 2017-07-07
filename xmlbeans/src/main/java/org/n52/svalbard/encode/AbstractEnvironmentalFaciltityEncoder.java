@@ -14,30 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
+package org.n52.svalbard.encode;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.encode.AbstractGmlEncoderv321;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.sos.util.CodingHelper;
-import org.n52.sos.w3c.SchemaLocation;
-import org.n52.svalbard.inspire.base.InspireBaseConstants;
-import org.n52.svalbard.inspire.base2.InspireBase2Constants;
-import org.n52.svalbard.inspire.ef.InspireEfConstants;
+import org.n52.shetland.inspire.base.InspireBaseConstants;
+import org.n52.shetland.inspire.base2.InspireBase2Constants;
+import org.n52.shetland.inspire.ef.InspireEfConstants;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
 
-public abstract class AbstractEnvironmentalFaciltityEncoder<T> extends AbstractGmlEncoderv321<T> {
-    
-    @Override
-    public Set<String> getConformanceClasses() {
-        return Collections.emptySet();
-    }
+public abstract class AbstractEnvironmentalFaciltityEncoder<T, S>
+        extends AbstractGmlEncoderv321<T, S> {
 
     @Override
     public void addNamespacePrefixToMap(final Map<String, String> nameSpacePrefixMap) {
@@ -49,52 +42,60 @@ public abstract class AbstractEnvironmentalFaciltityEncoder<T> extends AbstractG
         return Sets.newHashSet(InspireEfConstants.EF_40_SCHEMA_LOCATION);
     }
 
-    protected static XmlObject encodeEF(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(InspireEfConstants.NS_EF, o);
-    }
-    
-    protected static XmlObject encodeEFPropertyType(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXmlPropertyType(InspireEfConstants.NS_EF, o);
-    }
-    
-    protected static XmlObject encodeEFDocument(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXmlDocument(InspireEfConstants.NS_EF, o);
+    protected XmlObject encodeGML32(Object o) throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML_32, o);
     }
 
-    protected static XmlObject encodeEF(Object o, Map<HelperValues, String> helperValues) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(InspireEfConstants.NS_EF, o, helperValues);
-    }
-    
-    protected static XmlObject encodeBASE2(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(InspireBase2Constants.NS_BASE2, o);
-    }
-    
-    protected static XmlObject encodeBASE2PropertyType(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXmlPropertyType(InspireBase2Constants.NS_BASE2, o);
-    }
-    
-    protected static XmlObject encodeBASE2Document(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXmlDocument(InspireBase2Constants.NS_BASE2, o);
+    protected XmlObject encodeGML32(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML_32, o, context);
     }
 
-    protected static XmlObject encodeBASE2(Object o, Map<HelperValues, String> helperValues) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(InspireBase2Constants.NS_BASE2, o, helperValues);
-    }
-    
-    protected static XmlObject encodeBASE(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(InspireBaseConstants.NS_BASE, o);
-    }
-    
-    protected static XmlObject encodeBASEPropertyType(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXmlPropertyType(InspireBaseConstants.NS_BASE, o);
-    }
-    
-    protected static XmlObject encodeBASEDocument(Object o) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXmlDocument(InspireBaseConstants.NS_BASE, o);
+    protected XmlObject encodeEF(Object o) throws EncodingException {
+        return encodeObjectToXml(InspireEfConstants.NS_EF, o);
     }
 
-    protected static XmlObject encodeBASE(Object o, Map<HelperValues, String> helperValues) throws OwsExceptionReport {
-        return CodingHelper.encodeObjectToXml(InspireBaseConstants.NS_BASE, o, helperValues);
+    protected XmlObject encodeEFPropertyType(Object o) throws EncodingException {
+        return encodeObjectToXmlPropertyType(InspireEfConstants.NS_EF, o);
     }
-    
+
+    protected XmlObject encodeEFDocument(Object o) throws EncodingException {
+        return encodeObjectToXmlDocument(InspireEfConstants.NS_EF, o);
+    }
+
+    protected XmlObject encodeEF(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(InspireEfConstants.NS_EF, o, context);
+    }
+
+    protected XmlObject encodeBASE2(Object o) throws EncodingException {
+        return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o);
+    }
+
+    protected XmlObject encodeBASE2PropertyType(Object o) throws EncodingException {
+        return encodeObjectToXmlPropertyType(InspireBase2Constants.NS_BASE2, o);
+    }
+
+    protected XmlObject encodeBASE2Document(Object o) throws EncodingException {
+        return encodeObjectToXmlDocument(InspireBase2Constants.NS_BASE2, o);
+    }
+
+    protected XmlObject encodeBASE2(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(InspireBase2Constants.NS_BASE2, o, context);
+    }
+
+    protected XmlObject encodeBASE(Object o) throws EncodingException {
+        return encodeObjectToXml(InspireBaseConstants.NS_BASE, o);
+    }
+
+    protected XmlObject encodeBASEPropertyType(Object o) throws EncodingException {
+        return encodeObjectToXmlPropertyType(InspireBaseConstants.NS_BASE, o);
+    }
+
+    protected XmlObject encodeBASEDocument(Object o) throws EncodingException {
+        return encodeObjectToXmlDocument(InspireBaseConstants.NS_BASE, o);
+    }
+
+    protected XmlObject encodeBASE(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(InspireBaseConstants.NS_BASE, o, context);
+    }
+
 }

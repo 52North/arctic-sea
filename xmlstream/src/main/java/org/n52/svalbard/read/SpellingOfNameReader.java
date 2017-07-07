@@ -21,7 +21,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.inspire.Spelling;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -38,7 +38,7 @@ public class SpellingOfNameReader extends XmlReader<Spelling> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_GN_TEXT)) {
             this.spelling.setText(chars());
         } else if (name.equals(AqdConstants.QN_GN_SCRIPT)) {

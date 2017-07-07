@@ -18,6 +18,7 @@ package org.n52.svalbard.decode;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -239,15 +240,7 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
 
         // return error message
         if (getObs.isSetResponseFormat()) {
-            try {
-                String responseFormat = URLDecoder.decode(getObs.getResponseFormat(), "UTF-8");
-                // parse responseFormat through MediaType to ensure it's a mime
-                // type and eliminate whitespace variations
-                getObsRequest.setResponseFormat(MediaType.normalizeString(responseFormat));
-            } catch (UnsupportedEncodingException e) {
-                throw new DecodingException("Error while decoding response format!", e);
-            }
-
+            getObsRequest.setResponseFormat(decodeResponseFormat(getObs.getResponseFormat()));
         } else {
             getObsRequest.setResponseFormat(OmConstants.CONTENT_TYPE_OM.toString());
         }
@@ -291,14 +284,7 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
         getObsByIdRequest.setService(getObsById.getService());
         getObsByIdRequest.setVersion(getObsById.getVersion());
         if (getObsById.isSetResponseFormat()) {
-            try {
-                String responseFormat = URLDecoder.decode(getObsById.getResponseFormat(), "UTF-8");
-                // parse responseFormat through MediaType to ensure it's a mime
-                // type and eliminate whitespace variations
-                getObsByIdRequest.setResponseFormat(MediaType.normalizeString(responseFormat));
-            } catch (UnsupportedEncodingException e) {
-                throw new DecodingException("Error while decoding response format!", e);
-            }
+            getObsByIdRequest.setResponseFormat(decodeResponseFormat(getObsById.getResponseFormat()));
 
         } else {
             getObsByIdRequest.setResponseFormat(OmConstants.CONTENT_TYPE_OM.toString());
@@ -362,6 +348,17 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
             }
         }
         return sosTemporalFilters;
+    }
+
+    private String decodeResponseFormat(String responseFormat) throws DecodingException {
+        try {
+            // parse responseFormat through MediaType to ensure it's a mime
+            // type and eliminate whitespace variations
+            return MediaType.normalizeString(URLDecoder.decode(responseFormat,
+                                                               StandardCharsets.UTF_8.name()));
+        } catch (UnsupportedEncodingException e) {
+            throw new DecodingException("Error while decoding response format!", e);
+        }
     }
 
 }

@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.decode;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,6 +41,9 @@ import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
+import org.n52.shetland.ogc.swe.simpleType.SweAllowedTimes;
+import org.n52.shetland.ogc.swe.simpleType.SweAllowedTokens;
+import org.n52.shetland.ogc.swe.simpleType.SweAllowedValues;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
@@ -50,14 +54,17 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.DateTimeParseException;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NotYetSupportedDecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +74,12 @@ import com.google.common.collect.Lists;
 import net.opengis.swe.x20.AbstractDataComponentDocument;
 import net.opengis.swe.x20.AbstractDataComponentType;
 import net.opengis.swe.x20.AbstractEncodingType;
+import net.opengis.swe.x20.AllowedTimesPropertyType;
+import net.opengis.swe.x20.AllowedTimesType;
+import net.opengis.swe.x20.AllowedTokensPropertyType;
+import net.opengis.swe.x20.AllowedTokensType;
+import net.opengis.swe.x20.AllowedValuesPropertyType;
+import net.opengis.swe.x20.AllowedValuesType;
 import net.opengis.swe.x20.AnyScalarPropertyType;
 import net.opengis.swe.x20.BooleanPropertyType;
 import net.opengis.swe.x20.BooleanType;
@@ -101,7 +114,8 @@ import net.opengis.swe.x20.VectorType.Coordinate;
  * @since 4.0.0
  *
  */
-public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
+public class SweCommonDecoderV20
+        extends AbstractXmlDecoder<Object, Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SweCommonDecoderV20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(SweConstants.NS_SWE_20,
@@ -391,24 +405,24 @@ public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
     }
 
     private SweQuantityRange parseQuantityRange(final QuantityRangeType quantityRange) throws DecodingException {
-    	SweQuantityRange sweQuantityRange = new SweQuantityRange();
-    	if (quantityRange.isSetDefinition()) {
-    		sweQuantityRange.setDefinition(quantityRange.getDefinition());
-    	}
-    	if (quantityRange.isSetLabel()) {
-    		sweQuantityRange.setLabel(quantityRange.getLabel());
-    	}
-    	if (!quantityRange.getUom().isNil() && quantityRange.getUom().isSetCode()) {
-    		sweQuantityRange.setUom(parseUnitOfReference(quantityRange.getUom()));
-    	}
-    	if (quantityRange.getValue() != null) {
-    		sweQuantityRange.setValue(parseRangeValue(quantityRange.getValue()));
-    	}
-    	if (quantityRange.isSetConstraint()) {
-    	    sweQuantityRange.setConstraint(parseConstraint(quantityRange.getConstraint()));
+        SweQuantityRange sweQuantityRange = new SweQuantityRange();
+        if (quantityRange.isSetDefinition()) {
+            sweQuantityRange.setDefinition(quantityRange.getDefinition());
         }
-    	if (quantityRange.getQualityArray() != null) {
-    	    sweQuantityRange.setQuality(parseQuality(quantityRange.getQualityArray()));
+        if (quantityRange.isSetLabel()) {
+            sweQuantityRange.setLabel(quantityRange.getLabel());
+        }
+        if (!quantityRange.getUom().isNil() && quantityRange.getUom().isSetCode()) {
+            sweQuantityRange.setUom(parseUnitOfReference(quantityRange.getUom()));
+        }
+        if (quantityRange.getValue() != null) {
+            sweQuantityRange.setValue(parseRangeValue(quantityRange.getValue()));
+        }
+        if (quantityRange.isSetConstraint()) {
+            sweQuantityRange.setConstraint(parseConstraint(quantityRange.getConstraint()));
+        }
+        if (quantityRange.getQualityArray() != null) {
+            sweQuantityRange.setQuality(parseQuality(quantityRange.getQualityArray()));
         }
         return sweQuantityRange;
     }
@@ -430,7 +444,7 @@ public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
         }
         return uom;
     }
-    
+
     private RangeValue<Double> parseRangeValue(List<?> value) throws DecodingException {
         if (value == null || value.isEmpty() || value.size() != 2) {
             throw new DecodingException("?:QuantityRange/?:value",
@@ -495,7 +509,7 @@ public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
         }
         return sosTimeRange;
     }
-    
+
     private Referenceable<SweAllowedValues> parseConstraint(AllowedValuesPropertyType avpt) {
         if (avpt.isSetAllowedValues()) {
             return Referenceable.of(parseAllowedValues(avpt.getAllowedValues()));
@@ -525,7 +539,7 @@ public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
             return Referenceable.of(ref);
         }
     }
-    
+
     private Referenceable<SweAllowedTokens> parseConstraint(AllowedTokensPropertyType atpt) {
         if (atpt.isSetAllowedTokens()) {
             return Referenceable.of(parseAllowedTokens(atpt.getAllowedTokens()));
@@ -555,8 +569,9 @@ public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
             return Referenceable.of(ref);
         }
     }
-    
-    private Referenceable<SweAllowedTimes> parseConstraint(AllowedTimesPropertyType atpt) throws DateTimeParseException {
+
+    private Referenceable<SweAllowedTimes> parseConstraint(AllowedTimesPropertyType atpt)
+            throws DateTimeParseException {
         if (atpt.isSetAllowedTimes()) {
             return Referenceable.of(parseAllowedTimes(atpt.getAllowedTimes()));
         } else {
@@ -629,7 +644,7 @@ public class SweCommonDecoderV20 extends AbstractXmlDecoder<Object, Object> {
         }
         return allowedTokens;
     }
-    
+
     @SuppressWarnings("rawtypes")
     private SweAllowedTimes parseAllowedTimes(AllowedTimesType att) throws DateTimeParseException {
         SweAllowedTimes allowedTimes = new SweAllowedTimes();

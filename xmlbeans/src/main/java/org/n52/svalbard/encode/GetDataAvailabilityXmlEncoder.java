@@ -47,9 +47,10 @@ import com.google.common.collect.Sets;
  */
 public class GetDataAvailabilityXmlEncoder extends AbstractResponseEncoder<GetDataAvailabilityResponse> {
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlEncoder.class);
+
     public GetDataAvailabilityXmlEncoder() {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME,
-                Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
+              Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
     }
 
     @Override
@@ -60,9 +61,15 @@ public class GetDataAvailabilityXmlEncoder extends AbstractResponseEncoder<GetDa
     @Override
     protected XmlObject create(GetDataAvailabilityResponse response) throws EncodingException {
         try {
-            ByteArrayOutputStream out = new ByteArrayOutputStream();
-            new GetDataAvailabilityStreamWriter(response.getVersion(), response.getDataAvailabilities()).write(out);
-            XmlObject encodedObject = XmlObject.Factory.parse(out.toString("UTF8"));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            new GetDataAvailabilityStreamWriter(
+                    baos,
+                    EncodingContext.empty(),
+                    getEncoderRepository(),
+                    this::getXmlOptions,
+                    response.getDataAvailabilities()
+            ).write();
+            XmlObject encodedObject = XmlObject.Factory.parse(baos.toString("UTF8"));
             XmlHelper.validateDocument(encodedObject, EncodingException::new);
             return encodedObject;
         } catch (XMLStreamException | XmlException | UnsupportedEncodingException ex) {

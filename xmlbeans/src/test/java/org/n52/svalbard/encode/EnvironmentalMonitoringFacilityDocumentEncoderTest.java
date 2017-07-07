@@ -32,7 +32,7 @@ public class EnvironmentalMonitoringFacilityDocumentEncoderTest extends Abstract
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
     private final EnvironmentalMonitoringFaciltityDocumentEncoder docEncoder = new EnvironmentalMonitoringFaciltityDocumentEncoder();
-    
+
     @Test
     public void encodeEnvironmentalMonitoringFacility() throws OwsExceptionReport {
         XmlObject xmlObject = docEncoder.encode(getEnvironmentalMonitoringFacility());

@@ -32,7 +32,7 @@ import org.n52.shetland.inspire.ompr.Process;
 import org.n52.shetland.inspire.ompr.ProcessParameter;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -63,8 +63,8 @@ public class ProcessTypeEncoder extends AbstractGmlEncoderv321<XmlObject, Proces
     private final Logger LOGGER = LoggerFactory.getLogger(ProcessTypeEncoder.class);
 
     private final Set<SupportedType> SUPPORTED_TYPES =
-            Sets.newHashSet(new ProcedureDescriptionFormatType(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_URL),
-                    new ProcedureDescriptionFormatType(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE));
+            Sets.newHashSet(new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_URL),
+                    new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE));
 
     private final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS,

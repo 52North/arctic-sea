@@ -22,9 +22,9 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.svalbard.util.CodingHelper;
 
 import com.google.common.base.Joiner;
@@ -33,13 +33,13 @@ public class GetDataAvailabilityStringDecoder extends AbstractStringRequestDecod
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetDataAvailabilityStringDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS =
-            CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(
-                    SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-                    GetDataAvailabilityConstants.OPERATION_NAME);
+    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.xmlStringDecoderKeysForOperationAndMediaType(
+            SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+            GetDataAvailabilityConstants.OPERATION_NAME);
 
     public GetDataAvailabilityStringDecoder() {
-        LOGGER.debug("Decoder for the following keys initialized successfully: {}!", Joiner.on(", ").join(DECODER_KEYS));
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
+                     Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override

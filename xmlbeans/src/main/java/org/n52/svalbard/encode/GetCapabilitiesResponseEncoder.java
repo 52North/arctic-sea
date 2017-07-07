@@ -19,9 +19,21 @@ package org.n52.svalbard.encode;
 import java.util.Collection;
 import java.util.Set;
 
+import net.opengis.sos.x20.CapabilitiesDocument;
+import net.opengis.sos.x20.CapabilitiesType;
+import net.opengis.sos.x20.CapabilitiesType.Contents;
+import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.InsertionCapabilitiesDocument;
+import net.opengis.sos.x20.InsertionCapabilitiesType;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.swes.x20.AbstractContentsType.Offering;
+import net.opengis.swes.x20.FeatureRelationshipType;
+
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.GmlConstants;
@@ -43,20 +55,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.collect.Sets;
-
-import net.opengis.sos.x20.CapabilitiesDocument;
-import net.opengis.sos.x20.CapabilitiesType;
-import net.opengis.sos.x20.CapabilitiesType.Contents;
-import net.opengis.sos.x20.ContentsType;
-import net.opengis.sos.x20.InsertionCapabilitiesDocument;
-import net.opengis.sos.x20.InsertionCapabilitiesType;
-import net.opengis.sos.x20.ObservationOfferingType;
-import net.opengis.swes.x20.AbstractContentsType.Offering;
-import net.opengis.swes.x20.FeatureRelationshipType;
 
 /**
  * TODO JavaDoc
@@ -68,6 +67,7 @@ import net.opengis.swes.x20.FeatureRelationshipType;
 public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<GetCapabilitiesResponse> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetCapabilitiesResponseEncoder.class);
+    private static final String ID_FORMAT_STRING = "%s_%d";
 
     public GetCapabilitiesResponseEncoder() {
         super(SosConstants.Operations.GetCapabilities.name(), GetCapabilitiesResponse.class);
@@ -114,7 +114,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
             try {
                 xml.set(XmlObject.Factory.parse(((StringBasedExtension) extension).getExtension()));
             } catch (XmlException ex) {
-                throw new EncodingException("Error encoding SwesExtension", ex);
+                throw errorEncodingSwesExtension(ex);
             }
         } else {
             throw new EncodingException("The extension element is not supported by this service!");
@@ -153,7 +153,8 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
             throws EncodingException {
         final ContentsType xbContType = xbContents.addNewContents();
 
-        int offeringCounter = 0; // for gml:id generation
+        // for gml:id generation
+        int offeringCounter = 0;
         for (final SosObservationOffering offering : offerings) {
             if (offering.isValidObservationOffering()) {
                 ++offeringCounter;
@@ -314,7 +315,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
                 try {
                     xbObsOff.addNewExtension().set(XmlObject.Factory.parse(extension.getExtension()));
                 } catch (XmlException ex) {
-                    throw new EncodingException("Error encoding SwesExtension", ex);
+                    throw errorEncodingSwesExtension(ex);
                 }
             } else {
                 xbObsOff.addNewExtension().set(encodeObjectToXml(extention.getNamespace(), extention));
@@ -353,7 +354,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
         if (offering.getPhenomenonTime() instanceof TimePeriod) {
             TimePeriod tp = (TimePeriod) offering.getPhenomenonTime();
             if (!tp.isEmpty()) {
-                tp.setGmlId(String.format("%s_%d", Sos2Constants.EN_PHENOMENON_TIME, offeringCounter));
+                tp.setGmlId(String.format(ID_FORMAT_STRING, Sos2Constants.EN_PHENOMENON_TIME, offeringCounter));
                 XmlObject xmlObject = encodeGml(tp);
                 xbObsOff.addNewPhenomenonTime().addNewTimePeriod().set(xmlObject);
                 xbObsOff.getPhenomenonTime().substitute(Sos2Constants.QN_SOS_PHENOMENON_TIME,
@@ -367,7 +368,7 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
         // set resultTime [0..1]
         if (offering.getResultTime() instanceof TimePeriod) {
             TimePeriod tp = (TimePeriod) offering.getResultTime();
-            tp.setGmlId(String.format("%s_%d", Sos2Constants.EN_RESULT_TIME, offeringCounter));
+            tp.setGmlId(String.format(ID_FORMAT_STRING, Sos2Constants.EN_RESULT_TIME, offeringCounter));
             if (!tp.isEmpty()) {
                 XmlObject xmlObject = encodeGml(tp);
                 xbObsOff.addNewResultTime().addNewTimePeriod().set(xmlObject);
@@ -402,5 +403,9 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
         if (offering.isSetProcedureDescriptionFormats()) {
             offering.getProcedureDescriptionFormats().forEach(xbObsOff::addProcedureDescriptionFormat);
         }
+    }
+
+    private static EncodingException errorEncodingSwesExtension(XmlException ex) {
+        return new EncodingException("Error encoding SwesExtension", ex);
     }
 }

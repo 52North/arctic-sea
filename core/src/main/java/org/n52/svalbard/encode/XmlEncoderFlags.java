@@ -17,14 +17,10 @@
 package org.n52.svalbard.encode;
 
 /**
- * Generic interface for StreamingDataEncoder.
+ * TODO JavaDoc
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
- * @deprecated marker interface
- *
+ * @author Christian Autermann
  */
-@Deprecated
-public interface StreamingDataEncoder {
-
+public enum XmlEncoderFlags {
+    ENCODE_NAMESPACE
 }

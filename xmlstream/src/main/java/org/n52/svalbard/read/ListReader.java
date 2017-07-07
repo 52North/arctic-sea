@@ -22,7 +22,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -39,14 +39,14 @@ public abstract class ListReader<T> extends XmlReader<List<T>> {
 
     @Override
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         this.delegate = getMemberDelegate();
         this.list = new LinkedList<>();
     }
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(getMemberName())) {
             list.add(delegate(this.delegate));
         } else {

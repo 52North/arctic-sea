@@ -55,14 +55,14 @@ public class XmlNamespaceOperationDecoderKey extends NamespaceDecoderKey<String>
     }
 
     @Override
-    protected int getSimilarity(DecoderKey key, String type) {
+    protected int getSimilarity(DecoderKey key, String operation) {
         if (key != null && key.getClass() == getClass()) {
             NamespaceDecoderKey<?> xmlKey = (NamespaceDecoderKey<?>) key;
             if (Objects.equal(getNamespace(), xmlKey.getNamespace()) &&
                 xmlKey.getType() instanceof String &&
-                !Strings.isNullOrEmpty(type) && xmlKey.getType() instanceof String &&
+                !Strings.isNullOrEmpty(operation) && xmlKey.getType() instanceof String &&
                 !Strings.isNullOrEmpty((String) xmlKey.getType()) &&
-                type.equalsIgnoreCase((String) xmlKey.getType())) {
+                operation.equalsIgnoreCase((String) xmlKey.getType())) {
                 return 0;
             }
         }

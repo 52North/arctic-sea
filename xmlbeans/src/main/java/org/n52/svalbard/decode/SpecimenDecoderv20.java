@@ -14,37 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.sos.decode;
+package org.n52.svalbard.decode;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.AbstractGeometry;
+import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.om.features.SfConstants;
 import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SfSpecimen;
-import org.n52.sos.exception.ows.InvalidParameterValueException;
-import org.n52.sos.exception.ows.NoApplicableCodeException;
-import org.n52.sos.ogc.OGCConstants;
-import org.n52.sos.ogc.gml.AbstractFeature;
-import org.n52.sos.ogc.gml.AbstractGeometry;
-import org.n52.sos.ogc.gml.CodeType;
-import org.n52.sos.ogc.gml.CodeWithAuthority;
-import org.n52.sos.ogc.gml.ReferenceType;
-import org.n52.sos.ogc.gml.time.Time;
-import org.n52.sos.ogc.om.features.SfConstants;
-import org.n52.sos.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.sos.ogc.om.values.QuantityValue;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.ConformanceClasses;
-import org.n52.sos.ogc.sos.Sos2Constants;
-import org.n52.sos.service.ServiceConstants.SupportedTypeKey;
-import org.n52.sos.util.CodingHelper;
-import org.n52.sos.util.XmlHelper;
-import org.n52.sos.util.XmlOptionsHelper;
+import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.sos.FeatureType;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.svalbard.ConformanceClasses;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
+import org.n52.svalbard.util.XmlOptionsHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,11 +62,9 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SpecimenDecoderv20.class);
 
-    private static final Map<SupportedTypeKey, Set<String>> SUPPORTED_TYPES = Collections.singletonMap(
-            SupportedTypeKey.FeatureType, (Set<String>) Sets.newHashSet(OGCConstants.UNKNOWN,
-                    SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN));
-
-    private static final Set<String> CONFORMANCE_CLASSES = Sets.newHashSet(ConformanceClasses.OM_V2_SPATIAL_SAMPLING);
+    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(
+            new FeatureType(OGCConstants.UNKNOWN),
+            new FeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SPECIMEN));
 
     private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(SfConstants.NS_SPEC, SFSpecimenDocument.class,
                     SFSpecimenType.class);
@@ -82,43 +80,36 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
     }
 
     @Override
-    public Map<SupportedTypeKey, Set<String>> getSupportedTypes() {
-        return Collections.unmodifiableMap(SUPPORTED_TYPES);
+    public Set<SupportedType> getSupportedTypes() {
+        return Collections.unmodifiableSet(SUPPORTED_TYPES);
     }
 
-    @Override
-    public Set<String> getConformanceClasses() {
-        return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
-
-    }
 
     @Override
-    public AbstractFeature decode(final Object element) throws OwsExceptionReport {
+    public AbstractFeature decode(final XmlObject element) throws DecodingException {
         // validate XmlObject
-        if (element instanceof XmlObject) {
-            XmlHelper.validateDocument((XmlObject)element);
-        }
+        XmlHelper.validateDocument((XmlObject)element);
         if (element instanceof SFSpecimenDocument) {
             return parseSpatialSamplingFeature(((SFSpecimenDocument) element)
                     .getSFSpecimen());
         } else if (element instanceof SFSpecimenType) {
             return parseSpatialSamplingFeature(((SFSpecimenType) element));
         }
-        return null;
+        return super.decode(element);
     }
     private AbstractFeature parseSpatialSamplingFeature(final SFSpecimenType sfst)
-            throws OwsExceptionReport {
+            throws DecodingException {
         final SfSpecimen specimen = new SfSpecimen(null, sfst.getId());
         // parse identifier, names, description
         parseAbstractFeatureType(sfst, specimen);
         specimen.setSampledFeatures(getSampledFeatures(sfst.getSampledFeatureArray()));
-        specimen.setXmlDescription(getXmlDescription(sfst));
+        specimen.setXml(getXmlDescription(sfst));
         if (sfst.getParameterArray() != null) {
             specimen.setParameters(parseNamedValueTypeArray(sfst.getParameterArray()));
         }
         // TODO
         sfst.getMaterialClass();
-        specimen.setMaterialClass((ReferenceType)CodingHelper.decodeXmlElement(sfst.getMaterialClass()));
+        specimen.setMaterialClass((ReferenceType)decodeXmlElement(sfst.getMaterialClass()));
         specimen.setSamplingTime(getSamplingTime(sfst));
         if (sfst.isSetSamplingMethod()) {
 //        specimen.setSamplingMethod(sfst.getSamplingMethod());
@@ -136,14 +127,14 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
 //            specimen.setCurrentLocation(currentLocation);
         }
         if (sfst.isSetSpecimenType()) {
-            specimen.setSpecimenType((ReferenceType)CodingHelper.decodeXmlElement(sfst.getSpecimenType()));
+            specimen.setSpecimenType((ReferenceType)decodeXmlElement(sfst.getSpecimenType()));
         }
         return specimen;
     }
 
-    private Time getSamplingTime(SFSpecimenType sfst) throws OwsExceptionReport {
+    private Time getSamplingTime(SFSpecimenType sfst) throws DecodingException {
         if (sfst.getSamplingTime().isSetAbstractTimeObject()) {
-            Object decodedObject = CodingHelper.decodeXmlObject(sfst.getSamplingTime().getAbstractTimeObject());
+            Object decodedObject = decodeXmlObject(sfst.getSamplingTime().getAbstractTimeObject());
             if (decodedObject instanceof Time) {
                 return (Time) decodedObject;
             }
@@ -159,19 +150,19 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
 
     private String getXmlDescription(final SFSpecimenType sfst) {
         final SFSpecimenDocument sfsd =
-                SFSpecimenDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                SFSpecimenDocument.Factory.newInstance(getXmlOptions());
         sfsd.setSFSpecimen(sfst);
-        return sfsd.xmlText(XmlOptionsHelper.getInstance().getXmlOptions());
+        return sfsd.xmlText(getXmlOptions());
     }
 
     /**
-     * Parse {@link FeaturePropertyType} sampledFeatures to {@link AbstractFeature} list. 
+     * Parse {@link FeaturePropertyType} sampledFeatures to {@link AbstractFeature} list.
      * @param sampledFeatureArray SampledFeatures to parse
      * @return List with the parsed sampledFeatures
-     * @throws OwsExceptionReport If an error occurs
+     * @throws DecodingException If an error occurs
      */
     private List<AbstractFeature> getSampledFeatures(FeaturePropertyType[] sampledFeatureArray)
-            throws OwsExceptionReport {
+            throws DecodingException {
         final List<AbstractFeature> sampledFeatures = Lists.newArrayList();
         for (FeaturePropertyType featurePropertyType : sampledFeatureArray) {
             sampledFeatures.addAll(getSampledFeatures(featurePropertyType));
@@ -180,14 +171,14 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
     }
 
     /**
-     * Parse {@link FeaturePropertyType} sampledFeature to {@link AbstractFeature} list. 
-     * 
+     * Parse {@link FeaturePropertyType} sampledFeature to {@link AbstractFeature} list.
+     *
      * @param sampledFeature SampledFeature to parse
      * @return List with the parsed sampledFeature
-     * @throws OwsExceptionReport If an error occurs
+     * @throws DecodingException If an error occurs
      */
     private List<AbstractFeature> getSampledFeatures(final FeaturePropertyType sampledFeature)
-            throws OwsExceptionReport {
+            throws DecodingException {
         final List<AbstractFeature> sampledFeatures = new ArrayList<AbstractFeature>(1);
         if (sampledFeature != null && !sampledFeature.isNil()) {
             // if xlink:href is set
@@ -212,31 +203,30 @@ public class SpecimenDecoderv20 extends SamplingDecoderv20 {
                                 XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(sampledFeature.getDomNode()
                                         .getChildNodes()));
                     } catch (final XmlException xmle) {
-                        throw new NoApplicableCodeException().causedBy(xmle).withMessage(
-                                "Error while parsing feature request!");
+                        throw new DecodingException(
+                                "Error while parsing feature request!", xmle);
                     }
                 }
                 if (abstractFeature != null) {
-                    final Object decodedObject = CodingHelper.decodeXmlObject(abstractFeature);
+                    final Object decodedObject = decodeXmlObject(abstractFeature);
                     if (decodedObject instanceof AbstractFeature) {
                         sampledFeatures.add((AbstractFeature) decodedObject);
                     }
                 }
-                throw new InvalidParameterValueException().at(Sos2Constants.InsertObservationParams.observation)
-                        .withMessage("The requested sampledFeature type is not supported by this service!");
+                throw new DecodingException("The requested sampledFeature type is not supported by this service!");
             }
         }
         return sampledFeatures;
     }
 
-    private Geometry getGeometry(final SFSpecimenType sfst) throws OwsExceptionReport {
-        final Object decodedObject = CodingHelper.decodeXmlElement(sfst.getSamplingLocation());
+    private Geometry getGeometry(final SFSpecimenType sfst) throws DecodingException {
+        final Object decodedObject = decodeXmlElement(sfst.getSamplingLocation());
         if (decodedObject instanceof Geometry) {
             return (Geometry) decodedObject;
         } else if (decodedObject instanceof AbstractGeometry) {
             return ((AbstractGeometry) decodedObject).getGeometry();
         }
-        throw new InvalidParameterValueException().at(Sos2Constants.InsertObservationParams.observation).withMessage(
+        throw new DecodingException(
                 "The requested geometry type of featureOfInterest is not supported by this service!");
     }
 

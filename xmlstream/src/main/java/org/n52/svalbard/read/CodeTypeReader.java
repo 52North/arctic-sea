@@ -23,8 +23,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.ows.exception.CodedException;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.svalbard.decode.exception.DecodingException;
+
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -36,12 +37,17 @@ public class CodeTypeReader extends XmlReader<CodeType> {
     private CodeType codeType;
 
     @Override
-    protected void begin() throws XMLStreamException, CodedException {
+    protected void begin() throws XMLStreamException, DecodingException {
         String codeSpace = attr(AqdConstants.AN_CODE_SPACE).orNull();
         try {
-            this.codeType = new CodeType(chars(), new URI(codeSpace));
+            if (!Strings.isNullOrEmpty(codeSpace)) {
+                this.codeType = new CodeType(chars(), new URI(codeSpace));
+            } else {
+                this.codeType = new CodeType(chars());
+            }
         } catch (URISyntaxException e) {
-            throw new NoApplicableCodeException().causedBy(e).withMessage("Error while creating URI from '{}'", codeSpace);
+            throw new DecodingException(e, "Error while creating URI from '{}'",
+                    codeSpace);
         }
     }
 

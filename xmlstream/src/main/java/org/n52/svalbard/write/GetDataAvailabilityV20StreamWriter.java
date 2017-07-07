@@ -16,13 +16,17 @@
  */
 package org.n52.svalbard.write;
 
+import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.FormatDescriptor;
@@ -30,6 +34,9 @@ import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ObservationForma
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ProcedureDescriptionFormatDescriptor;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * GetDataAvailability response stream writer.
@@ -38,20 +45,22 @@ import org.n52.shetland.w3c.W3CConstants;
  *
  * @since 4.4.0
  */
-public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailabilityStreamWriter {
+public class GetDataAvailabilityV20StreamWriter extends AbstractGetDataAvailabilityStreamWriter {
 
-    public GetDataAvailabilityStreamWriter(String version, List<DataAvailability> gdas) {
-        super(version, gdas);
+    public GetDataAvailabilityV20StreamWriter(OutputStream outputStream, EncodingContext context,
+            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, List<DataAvailability> element,
+            Map<TimePeriod, String> times, String version) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element, times, version);
     }
 
     @Override
-    protected void writeGetDataAvailabilityResponse() throws XMLStreamException, OwsExceptionReport {
+    protected void writeGetDataAvailabilityResponse() throws XMLStreamException, EncodingException {
         start(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_20_RESPONSE);
         namespace(GetDataAvailabilityConstants.NS_GDA_PREFIX, GetDataAvailabilityConstants.NS_GDA_20);
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
         namespace(SweConstants.NS_SWE_PREFIX, SweConstants.NS_SWE_20);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
-        for (DataAvailability da : getGDAs()) {
+        for (DataAvailability da : getElement()) {
             wirteDataAvailabilityMember(da);
         }
         end(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_20_RESPONSE);
@@ -63,12 +72,12 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
         if (da.getOffering().isSetTitle()) {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getOffering().getTitle());
         } else {
-            attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getOffering().getTitleFromHref());
+            attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getOffering().getTitleOrFromHref());
         }
         end(element);
     }
 
-    protected void wirteDataAvailabilityMember(DataAvailability da) throws XMLStreamException, OwsExceptionReport {
+    protected void wirteDataAvailabilityMember(DataAvailability da) throws XMLStreamException, EncodingException {
         start(GetDataAvailabilityConstants.GDA_DATA_AVAILABILITY_20_MEMBER);
         attr(GmlConstants.QN_ID_32, DATA_AVAILABILITY_PREFIX + dataAvailabilityCount++);
         writeProcedure(da, GetDataAvailabilityConstants.GDA_20_PROCEDURE);
@@ -85,7 +94,7 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
             writeOffering(da, GetDataAvailabilityConstants.GDA_20_OFFERING);
         }
         if (da.isSetFormatDescriptors()) {
-           writeFormatDescriptor(da.getFormatDescriptor(), GetDataAvailabilityConstants.GDA_20_FORMAT_DESCRIPTOR);
+            writeFormatDescriptor(da.getFormatDescriptor(), GetDataAvailabilityConstants.GDA_20_FORMAT_DESCRIPTOR);
         }
         if (da.isSetMetadata()) {
             writeMetadata(da.getMetadata(), GetDataAvailabilityConstants.GDA_20_EXTENSION);
@@ -95,22 +104,29 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
 
     protected void writeFormatDescriptor(FormatDescriptor formatDescriptor, QName element) throws XMLStreamException {
         start(element);
-        writeProcedureDescriptionFormatDescriptor(formatDescriptor.getProcedureDescriptionFormatDescriptor(), GetDataAvailabilityConstants.GDA_20_PROCEDURE_FORMAT_DESCRIPTOR);
-        for (ObservationFormatDescriptor observationFormatDescriptor : formatDescriptor.getObservationFormatDescriptors()) {
-            writeObservationFormatDescriptor(observationFormatDescriptor, GetDataAvailabilityConstants.GDA_20_OBSERVATION_FORMAT_DESCRIPTOR);
+        writeProcedureDescriptionFormatDescriptor(formatDescriptor.getProcedureDescriptionFormatDescriptor(),
+                GetDataAvailabilityConstants.GDA_20_PROCEDURE_FORMAT_DESCRIPTOR);
+        for (ObservationFormatDescriptor observationFormatDescriptor : formatDescriptor
+                .getObservationFormatDescriptors()) {
+            writeObservationFormatDescriptor(observationFormatDescriptor,
+                    GetDataAvailabilityConstants.GDA_20_OBSERVATION_FORMAT_DESCRIPTOR);
         }
         end(element);
     }
 
-    protected void writeProcedureDescriptionFormatDescriptor(ProcedureDescriptionFormatDescriptor formatDescriptor, QName element) throws XMLStreamException {
+    protected void writeProcedureDescriptionFormatDescriptor(ProcedureDescriptionFormatDescriptor formatDescriptor,
+            QName element) throws XMLStreamException {
         start(element);
-        writeElementWithStringValue(formatDescriptor.getProcedureDescriptionFormat(), GetDataAvailabilityConstants.GDA_20_PROCEDURE_DESCRIPTION_FORMAT);
+        writeElementWithStringValue(formatDescriptor.getProcedureDescriptionFormat(),
+                GetDataAvailabilityConstants.GDA_20_PROCEDURE_DESCRIPTION_FORMAT);
         end(element);
     }
 
-    protected void writeObservationFormatDescriptor(ObservationFormatDescriptor formatDescriptor, QName element) throws XMLStreamException {
+    protected void writeObservationFormatDescriptor(ObservationFormatDescriptor formatDescriptor, QName element)
+            throws XMLStreamException {
         start(element);
-        writeElementWithStringValue(formatDescriptor.getResponseFormat(), GetDataAvailabilityConstants.GDA_20_RESPONSE_FORMAT);
+        writeElementWithStringValue(formatDescriptor.getResponseFormat(),
+                GetDataAvailabilityConstants.GDA_20_RESPONSE_FORMAT);
         for (String observationType : formatDescriptor.getObservationTypes()) {
             writeElementWithStringValue(observationType, GetDataAvailabilityConstants.GDA_20_OBSERVATION_TYPE);
         }
@@ -122,7 +138,5 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
         chars(value);
         end(element);
     }
-
-
 
 }

@@ -16,9 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.n52.shetland.util.CollectionHelper.union;
-import static org.n52.svalbard.util.CodingHelper.encoderKeysForElements;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,22 +23,28 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import net.opengis.gml.x32.BaseUnitType;
-import net.opengis.gml.x32.CodeType;
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gco.CharacterStringPropertyType;
 import org.isotc211.x2005.gco.CodeListValueType;
+import org.isotc211.x2005.gco.RealPropertyType;
 import org.isotc211.x2005.gco.UnitOfMeasurePropertyType;
+import org.isotc211.x2005.gmd.AbstractMDIdentificationType;
+import org.isotc211.x2005.gmd.CIAddressPropertyType;
 import org.isotc211.x2005.gmd.CIAddressType;
+import org.isotc211.x2005.gmd.CICitationPropertyType;
 import org.isotc211.x2005.gmd.CICitationType;
+import org.isotc211.x2005.gmd.CIContactPropertyType;
 import org.isotc211.x2005.gmd.CIContactType;
 import org.isotc211.x2005.gmd.CIDateType;
+import org.isotc211.x2005.gmd.CIOnlineResourceDocument;
+import org.isotc211.x2005.gmd.CIOnlineResourcePropertyType;
+import org.isotc211.x2005.gmd.CIOnlineResourceType;
 import org.isotc211.x2005.gmd.CIResponsiblePartyDocument;
 import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
 import org.isotc211.x2005.gmd.CIResponsiblePartyType;
 import org.isotc211.x2005.gmd.CIRoleCodePropertyType;
+import org.isotc211.x2005.gmd.CITelephonePropertyType;
 import org.isotc211.x2005.gmd.CITelephoneType;
 import org.isotc211.x2005.gmd.DQConformanceResultType;
 import org.isotc211.x2005.gmd.DQDomainConsistencyDocument;
@@ -49,10 +52,34 @@ import org.isotc211.x2005.gmd.DQDomainConsistencyPropertyType;
 import org.isotc211.x2005.gmd.DQDomainConsistencyType;
 import org.isotc211.x2005.gmd.DQQuantitativeResultType;
 import org.isotc211.x2005.gmd.DQResultPropertyType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.isotc211.x2005.gmd.EXExtentDocument;
+import org.isotc211.x2005.gmd.EXExtentPropertyType;
+import org.isotc211.x2005.gmd.EXExtentType;
+import org.isotc211.x2005.gmd.EXVerticalExtentDocument;
+import org.isotc211.x2005.gmd.EXVerticalExtentPropertyType;
+import org.isotc211.x2005.gmd.EXVerticalExtentType;
+import org.isotc211.x2005.gmd.LocalisedCharacterStringPropertyType;
+import org.isotc211.x2005.gmd.LocalisedCharacterStringType;
+import org.isotc211.x2005.gmd.MDDataIdentificationDocument;
+import org.isotc211.x2005.gmd.MDDataIdentificationPropertyType;
+import org.isotc211.x2005.gmd.MDDataIdentificationType;
+import org.isotc211.x2005.gmd.MDIdentificationPropertyType;
+import org.isotc211.x2005.gmd.MDMetadataDocument;
+import org.isotc211.x2005.gmd.MDMetadataPropertyType;
+import org.isotc211.x2005.gmd.MDMetadataType;
+import org.isotc211.x2005.gmd.PTFreeTextType;
+import org.isotc211.x2005.gsr.SCCRSPropertyType;
 import org.n52.shetland.iso.GcoConstants;
+import org.n52.shetland.iso.gco.Role;
+import org.n52.shetland.iso.gmd.AbstractMDIdentification;
+import org.n52.shetland.iso.gmd.CiAddress;
+import org.n52.shetland.iso.gmd.CiContact;
+import org.n52.shetland.iso.gmd.CiOnlineResource;
+import org.n52.shetland.iso.gmd.CiResponsibleParty;
+import org.n52.shetland.iso.gmd.CiTelephone;
+import org.n52.shetland.iso.gmd.EXExtent;
+import org.n52.shetland.iso.gmd.EXVerticalExtent;
+import org.n52.shetland.iso.gmd.GmdCitation;
 import org.n52.shetland.iso.gmd.GmdCitationDate;
 import org.n52.shetland.iso.gmd.GmdConformanceResult;
 import org.n52.shetland.iso.gmd.GmdConstants;
@@ -60,18 +87,36 @@ import org.n52.shetland.iso.gmd.GmdDateType;
 import org.n52.shetland.iso.gmd.GmdDomainConsistency;
 import org.n52.shetland.iso.gmd.GmdQuantitativeResult;
 import org.n52.shetland.iso.gmd.GmlBaseUnit;
+import org.n52.shetland.iso.gmd.LocalisedCharacterString;
+import org.n52.shetland.iso.gmd.MDDataIdentification;
+import org.n52.shetland.iso.gmd.MDMetadata;
+import org.n52.shetland.iso.gmd.PT_FreeText;
+import org.n52.shetland.iso.gmd.ScCRS;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.AbstractCRSType;
+import net.opengis.gml.x32.BaseUnitType;
+import net.opengis.gml.x32.CodeType;
 
 /**
  * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic MetaData
@@ -81,7 +126,8 @@ import com.google.common.collect.Sets;
  * @since 4.2.0
  *
  */
-public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
+public class Iso19139GmdEncoder
+        extends AbstractIso19139GcoEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GmdEncoder.class);
 
@@ -96,10 +142,10 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
     private static final QName QN_GML_BASE_UNIT =
             new QName(GmlConstants.NS_GML_32, "BaseUnit", GmlConstants.NS_GML_PREFIX);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = union(
-            encoderKeysForElements(GmdConstants.NS_GMD, SmlResponsibleParty.class, GmdQuantitativeResult.class,
-                    GmdConformanceResult.class),
-            encoderKeysForElements(null, GmdQuantitativeResult.class, GmdConformanceResult.class));
+    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
+            CodingHelper.encoderKeysForElements(GmdConstants.NS_GMD, SmlResponsibleParty.class,
+                    GmdQuantitativeResult.class, GmdConformanceResult.class),
+            CodingHelper.encoderKeysForElements(null, GmdQuantitativeResult.class, GmdConformanceResult.class));
 
     public Iso19139GmdEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -149,7 +195,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             encodedObject = encodeEXVerticalExtent((EXVerticalExtent) element, additionalValues);
         } else {
             if (element instanceof GmdDomainConsistency) {
-                encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency)element, additionalValues);
+                encodedObject = encodeGmdDomainConsistency((GmdDomainConsistency) element, additionalValues);
             } else {
                 throw new UnsupportedEncoderInputException(this, element);
             }
@@ -163,10 +209,10 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         return encodedObject;
     }
 
-    private XmlObject encodeMDMetadata(MDMetadata mdMetadata, Map<HelperValues, String> additionalValues) throws OwsExceptionReport {
+    private XmlObject encodeMDMetadata(MDMetadata mdMetadata, EncodingContext context) throws EncodingException {
         if (mdMetadata.isSetSimpleAttrs()) {
             MDMetadataPropertyType mdmpt =
-                    MDMetadataPropertyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    MDMetadataPropertyType.Factory.newInstance(getXmlOptions());
             mdmpt.setHref(mdMetadata.getSimpleAttrs().getHref());
             if (mdMetadata.getSimpleAttrs().isSetTitle()) {
                 mdmpt.setTitle(mdMetadata.getSimpleAttrs().getTitle());
@@ -176,13 +222,12 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             }
             return mdmpt;
         }
-        MDMetadataType mdmt = MDMetadataType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+        MDMetadataType mdmt = MDMetadataType.Factory.newInstance(getXmlOptions());
         encodeAbstractObject(mdmt, mdMetadata);
-        Map<HelperValues, String> av = Maps.newHashMap();
-        av.put(HelperValues.PROPERTY_TYPE, "true");
         // add contacts
         for (CiResponsibleParty contact : mdMetadata.getContact()) {
-            mdmt.addNewContact().set(encodeResponsibleParty(contact, av));
+            mdmt.addNewContact().set(
+                    encodeResponsibleParty(contact, EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE, true)));
         }
         // add dateStamp
         mdmt.addNewDateStamp().setDateTime(mdMetadata.getDateStamp().toCalendar(null));
@@ -203,21 +248,22 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             }
         }
         // TODO all other optional elements if required
-        if (additionalValues.containsKey(HelperValues.PROPERTY_TYPE)) {
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             MDMetadataPropertyType mdmpt =
-                    MDMetadataPropertyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    MDMetadataPropertyType.Factory.newInstance(getXmlOptions());
             mdmpt.setMDMetadata(mdmt);
             return mdmpt;
-        } else if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             MDMetadataDocument mdmd =
-                    MDMetadataDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    MDMetadataDocument.Factory.newInstance(getXmlOptions());
             mdmd.setMDMetadata(mdmt);
             return mdmd;
         }
         return mdmt;
     }
-    
-    private void encodeIdentificationInfo(AbstractMDIdentificationType amdit, AbstractMDIdentification abstractMDIdentification) {
+
+    private void encodeIdentificationInfo(AbstractMDIdentificationType amdit,
+            AbstractMDIdentification abstractMDIdentification) {
         encodeAbstractObject(amdit, abstractMDIdentification);
         // citation
         encodeCiCitation(amdit.addNewCitation(), abstractMDIdentification.getCitation());
@@ -225,7 +271,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         amdit.addNewAbstract().setCharacterString(abstractMDIdentification.getAbstrakt());
         // TODO all other optional elements if required
     }
-    
+
     private void encodeCiCitation(CICitationPropertyType cicpt, GmdCitation citation) {
         if (citation.isSetSimpleAttrs()) {
             cicpt.setHref(citation.getSimpleAttrs().getHref());
@@ -256,11 +302,10 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         }
     }
 
-    private XmlObject encodeMDDataIdentification(MDDataIdentification mdDataIdentification,
-            Map<HelperValues, String> additionalValues) {
+    private XmlObject encodeMDDataIdentification(MDDataIdentification mdDataIdentification, EncodingContext context) {
         if (mdDataIdentification.isSetSimpleAttrs()) {
-            MDDataIdentificationPropertyType mddipt =
-                    MDDataIdentificationPropertyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+            MDDataIdentificationPropertyType mddipt = MDDataIdentificationPropertyType.Factory
+                    .newInstance(getXmlOptions());
             mddipt.setHref(mdDataIdentification.getSimpleAttrs().getHref());
             if (mdDataIdentification.getSimpleAttrs().isSetTitle()) {
                 mddipt.setTitle(mdDataIdentification.getSimpleAttrs().getTitle());
@@ -271,29 +316,30 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             return mddipt;
         }
         MDDataIdentificationType mddit =
-                MDDataIdentificationType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                MDDataIdentificationType.Factory.newInstance(getXmlOptions());
         encodeIdentificationInfo(mddit, mdDataIdentification);
         // language
         mddit.addNewLanguage().setCharacterString(mdDataIdentification.getLanguage());
         // TODO all other optional elements if required
-        if (additionalValues.containsKey(HelperValues.PROPERTY_TYPE)) {
-            MDDataIdentificationPropertyType mddipt =
-                    MDDataIdentificationPropertyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
+            MDDataIdentificationPropertyType mddipt = MDDataIdentificationPropertyType.Factory
+                    .newInstance(getXmlOptions());
             mddipt.setMDDataIdentification(mddit);
             return mddipt;
-        } else if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             MDDataIdentificationDocument mddid =
-                    MDDataIdentificationDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    MDDataIdentificationDocument.Factory.newInstance(getXmlOptions());
             mddid.setMDDataIdentification(mddit);
             return mddit;
         }
         return mddit;
     }
 
-    private XmlObject encodeResponsibleParty(CiResponsibleParty responsibleParty, Map<HelperValues, String> additionalValues) throws OwsExceptionReport {
+    private XmlObject encodeResponsibleParty(CiResponsibleParty responsibleParty, EncodingContext context)
+            throws EncodingException {
         if (responsibleParty.isSetSimpleAttrs()) {
             CIResponsiblePartyPropertyType cirppt =
-                    CIResponsiblePartyPropertyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
             cirppt.setHref(responsibleParty.getSimpleAttrs().getHref());
             if (responsibleParty.getSimpleAttrs().isSetTitle()) {
                 cirppt.setTitle(responsibleParty.getSimpleAttrs().getTitle());
@@ -304,7 +350,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             return cirppt;
         }
         CIResponsiblePartyType cirpt =
-                CIResponsiblePartyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                CIResponsiblePartyType.Factory.newInstance(getXmlOptions());
         if (responsibleParty.isSetIndividualName()) {
             cirpt.addNewIndividualName().setCharacterString(responsibleParty.getIndividualName());
         }
@@ -326,20 +372,20 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         if (responsibleParty.isSetUuid()) {
             cirpt.setUuid(responsibleParty.getUuid());
         }
-        if (additionalValues.containsKey(HelperValues.PROPERTY_TYPE)) {
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             CIResponsiblePartyPropertyType cirppt =
-                    CIResponsiblePartyPropertyType.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
             cirppt.setCIResponsibleParty(cirpt);
             return cirppt;
-        } else if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             CIResponsiblePartyDocument cirpd =
-                    CIResponsiblePartyDocument.Factory.newInstance(XmlOptionsHelper.getInstance().getXmlOptions());
+                    CIResponsiblePartyDocument.Factory.newInstance(getXmlOptions());
             cirpd.setCIResponsibleParty(cirpt);
             return cirpd;
         }
         return cirpt;
     }
-    
+
     private XmlObject encodeResponsibleParty(SmlResponsibleParty responsibleParty, EncodingContext additionalValues)
             throws EncodingException {
         if (responsibleParty.isSetHref()) {
@@ -379,7 +425,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         }
         return cirpt;
     }
-    
+
     private void encodeContact(CIContactPropertyType cicpt, Referenceable<CiContact> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
@@ -404,7 +450,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             if (reference.getType().isPresent()) {
                 cicpt.setType(TypeType.Enum.forString(reference.getType().get()));
             }
-        } else { 
+        } else {
             if (referenceable.isInstance()) {
                 Nillable<CiContact> nillable = referenceable.getInstance();
                 if (nillable.isPresent()) {
@@ -417,14 +463,16 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                         if (ciContact.getContactInstructionsNillable().isPresent()) {
                             cict.addNewContactInstructions().setCharacterString(ciContact.getContactInstructions());
                         } else if (ciContact.getContactInstructionsNillable().hasReason()) {
-                            cict.addNewContactInstructions().setNilReason(ciContact.getContactInstructionsNillable().getNilReason().get());
+                            cict.addNewContactInstructions()
+                                    .setNilReason(ciContact.getContactInstructionsNillable().getNilReason().get());
                         }
                     }
                     if (ciContact.isSetHoursOfService()) {
                         if (ciContact.getHoursOfServiceNillable().isPresent()) {
                             cict.addNewHoursOfService().setCharacterString(ciContact.getHoursOfService());
                         } else if (ciContact.getHoursOfServiceNillable().hasReason()) {
-                            cict.addNewHoursOfService().setNilReason(ciContact.getHoursOfServiceNillable().getNilReason().get());
+                            cict.addNewHoursOfService()
+                                    .setNilReason(ciContact.getHoursOfServiceNillable().getNilReason().get());
                         }
                     }
                     if (ciContact.getOnlineResourceReferenceable() != null) {
@@ -460,7 +508,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         }
 
     }
-    
+
     private void encodeCiAddress(CIAddressPropertyType ciapt, Referenceable<CiAddress> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
@@ -504,12 +552,13 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                         ciat.addNewPostalCode().setCharacterString(ciAddress.getPostalCode());
                     }
                     if (ciAddress.hasDeliveryPoints()) {
-                        ciat.setDeliveryPointArray(listToCharacterStringPropertyTypeArray(ciAddress.getDeliveryPoints()));
-    
+                        ciat.setDeliveryPointArray(
+                                listToCharacterStringPropertyTypeArray(ciAddress.getDeliveryPoints()));
+
                     }
                     if (ciAddress.hasElectronicMailAddresses()) {
-                        ciat.setElectronicMailAddressArray(listToCharacterStringPropertyTypeArray(Lists
-                                .newArrayList(ciAddress.getElectronicMailAddresses())));
+                        ciat.setElectronicMailAddressArray(listToCharacterStringPropertyTypeArray(
+                                Lists.newArrayList(ciAddress.getElectronicMailAddresses())));
                     }
                     if (ciAddress.isSetId()) {
                         ciat.setId(ciAddress.getId());
@@ -548,7 +597,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                     listToCharacterStringPropertyTypeArray(Lists.newArrayList(responsibleParty.getEmail())));
         }
     }
-    
+
     private void encodePhone(CITelephonePropertyType citpt, Referenceable<CiTelephone> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
@@ -608,10 +657,10 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             citt.setFacsimileArray(listToCharacterStringPropertyTypeArray(responsibleParty.getPhoneFax()));
         }
     }
-    
-    private void encodeRole(CIRoleCodePropertyType circpt, Nillable<Role> nillable) throws OwsExceptionReport {
+
+    private void encodeRole(CIRoleCodePropertyType circpt, Nillable<Role> nillable) throws EncodingException {
         if (nillable.isPresent()) {
-            XmlObject encodeObjectToXml = CodingHelper.encodeObjectToXml(GcoConstants.NS_GCO, nillable.get());
+            XmlObject encodeObjectToXml = encodeObjectToXml(GcoConstants.NS_GCO, nillable.get());
             if (encodeObjectToXml != null) {
                 circpt.addNewCIRoleCode().set(encodeObjectToXml);
             }
@@ -622,7 +671,8 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         }
     }
 
-    private void encodeRole(CIRoleCodePropertyType circpt, Role role) throws EncodingException {
+    private void encodeRole(CIRoleCodePropertyType circpt, org.n52.shetland.ogc.sensorML.Role role)
+            throws EncodingException {
         XmlObject encodeObjectToXml = encodeObjectToXml(GcoConstants.NS_GCO, role);
         if (encodeObjectToXml != null) {
             circpt.addNewCIRoleCode().set(encodeObjectToXml);
@@ -671,7 +721,8 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         }
         dqConformanceResultType.addNewExplanation()
                 .setCharacterString(gmdConformanceResult.getSpecification().getExplanation());
-        encodeCiCitation(dqConformanceResultType.addNewSpecification(), gmdConformanceResult.getSpecification().getCitation());
+        encodeCiCitation(dqConformanceResultType.addNewSpecification(),
+                gmdConformanceResult.getSpecification().getCitation());
     }
 
     private void encodeGmdQuantitativeResult(DQResultPropertyType xbResult,
@@ -697,8 +748,8 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             cursor.dispose();
         }
     }
-    
-    private PTFreeTextType encodePTFreeText(PT_FreeText element, Map<HelperValues, String> additionalValues) {
+
+    private PTFreeTextType encodePTFreeText(PT_FreeText element, EncodingContext context) {
         PTFreeTextType ptftt = PTFreeTextType.Factory.newInstance();
         for (LocalisedCharacterString localisedCharacterString : element.getTextGroup()) {
             ptftt.addNewTextGroup().set(encodeLocalisedCharacterStringPropertyType(localisedCharacterString));
@@ -706,13 +757,15 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         return ptftt;
     }
 
-    private LocalisedCharacterStringPropertyType encodeLocalisedCharacterStringPropertyType(LocalisedCharacterString localisedCharacterString) {
+    private LocalisedCharacterStringPropertyType encodeLocalisedCharacterStringPropertyType(
+            LocalisedCharacterString localisedCharacterString) {
         LocalisedCharacterStringPropertyType lcspt = LocalisedCharacterStringPropertyType.Factory.newInstance();
         lcspt.setLocalisedCharacterString(encodeLocalisedCharacterStringType(localisedCharacterString));
         return lcspt;
     }
-    
-    private LocalisedCharacterStringType encodeLocalisedCharacterStringType(LocalisedCharacterString localisedCharacterString) {
+
+    private LocalisedCharacterStringType encodeLocalisedCharacterStringType(
+            LocalisedCharacterString localisedCharacterString) {
         LocalisedCharacterStringType lcst = LocalisedCharacterStringType.Factory.newInstance();
         lcst.setStringValue(localisedCharacterString.getValue());
         if (localisedCharacterString.isSetLocale()) {
@@ -728,8 +781,9 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             return cspt;
         }).toArray(CharacterStringPropertyType[]::new);
     }
-    
-    private void encodeOnlineResource(CIOnlineResourcePropertyType ciorpt, Referenceable<CiOnlineResource> referenceable) {
+
+    private void encodeOnlineResource(CIOnlineResourcePropertyType ciorpt,
+            Referenceable<CiOnlineResource> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
             if (reference.getActuate().isPresent()) {
@@ -766,7 +820,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                 }
             }
         }
-        
+
     }
 
     private void encodeOnlineResource(CIOnlineResourceType ciort, CiOnlineResource onlineResource) {
@@ -808,14 +862,14 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         }
     }
 
-    private XmlObject encodeCiOnlineResource(CiOnlineResource element, Map<HelperValues, String> additionalValues) {
+    private XmlObject encodeCiOnlineResource(CiOnlineResource element, EncodingContext context) {
         CIOnlineResourceType ciort = CIOnlineResourceType.Factory.newInstance(getXmlOptions());
         encodeOnlineResource(ciort, element);
-        if (additionalValues.containsKey(HelperValues.PROPERTY_TYPE)) {
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             CIOnlineResourcePropertyType ciorpt = CIOnlineResourcePropertyType.Factory.newInstance(getXmlOptions());
             ciorpt.setCIOnlineResource(ciort);
             return ciorpt;
-        } else if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             CIOnlineResourceDocument ciord = CIOnlineResourceDocument.Factory.newInstance(getXmlOptions());
             ciord.setCIOnlineResource(ciort);
             return ciord;
@@ -823,7 +877,7 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         return ciort;
     }
 
-    private XmlObject encodeEXExtent(EXExtent exExtent, Map<HelperValues, String> additionalValues) throws OwsExceptionReport {
+    private XmlObject encodeEXExtent(EXExtent exExtent, EncodingContext context) throws EncodingException {
         EXExtentType exet = EXExtentType.Factory.newInstance();
         if (exExtent.hasDescription()) {
             exet.addNewDescription().setCharacterString(exExtent.getDescription());
@@ -854,11 +908,11 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                     if (reference.getType().isPresent()) {
                         exvept.setType(TypeType.Enum.forString(reference.getType().get()));
                     }
-                } else { 
+                } else {
                     if (verticalExtent.isInstance()) {
                         Nillable<EXVerticalExtent> nillable = verticalExtent.getInstance();
                         if (nillable.isPresent()) {
-                            XmlObject xml = encodeEXVerticalExtent(nillable.get(), new EnumMap<HelperValues, String>(HelperValues.class));
+                            XmlObject xml = encodeEXVerticalExtent(nillable.get(), EncodingContext.empty());
                             if (xml != null && xml instanceof EXVerticalExtentType) {
                                 exvept.setEXVerticalExtent((EXVerticalExtentType) xml);
                             } else {
@@ -877,11 +931,11 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                 }
             }
         }
-        if (additionalValues.containsKey(HelperValues.PROPERTY_TYPE)) {
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             EXExtentPropertyType exept = EXExtentPropertyType.Factory.newInstance(getXmlOptions());
             exept.setEXExtent(exet);
             return exept;
-        } else if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             EXExtentDocument exed = EXExtentDocument.Factory.newInstance(getXmlOptions());
             exed.setEXExtent(exet);
             return exed;
@@ -889,8 +943,8 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
         return exet;
     }
 
-    private XmlObject encodeEXVerticalExtent(EXVerticalExtent exVerticalExtent,
-            Map<HelperValues, String> additionalValues) throws OwsExceptionReport {
+    private XmlObject encodeEXVerticalExtent(EXVerticalExtent exVerticalExtent, EncodingContext context)
+            throws EncodingException {
         EXVerticalExtentType exvet = EXVerticalExtentType.Factory.newInstance();
         if (exVerticalExtent.isSetId()) {
             exvet.setId(exVerticalExtent.getId());
@@ -950,14 +1004,14 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
             if (reference.getType().isPresent()) {
                 sccrspt.setType(TypeType.Enum.forString(reference.getType().get()));
             }
-        } else { 
+        } else {
             if (verticalCRS.isInstance()) {
                 Nillable<ScCRS> nillable = verticalCRS.getInstance();
                 if (nillable.isPresent()) {
-                    XmlObject xml = encodeGML32(nillable.get().getAbstractCrs());
+                    XmlObject xml = encodeObjectToXml(GmlConstants.NS_GML_32, nillable.get().getAbstractCrs());
                     if (xml != null && xml instanceof AbstractCRSType) {
                         final XmlObject substituteElement =
-                        XmlHelper.substituteElement(sccrspt.addNewAbstractCRS(), xml);
+                                XmlHelper.substituteElement(sccrspt.addNewAbstractCRS(), xml);
                         substituteElement.set(xml);
                     } else {
                         sccrspt.setNil();
@@ -973,11 +1027,11 @@ public class Iso19139GmdEncoder extends AbstractIso19139GcoEncoder {
                 }
             }
         }
-        if (additionalValues.containsKey(HelperValues.PROPERTY_TYPE)) {
+        if (context.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
             EXVerticalExtentPropertyType exvept = EXVerticalExtentPropertyType.Factory.newInstance(getXmlOptions());
             exvept.setEXVerticalExtent(exvet);
             return exvept;
-        } else if (additionalValues.containsKey(HelperValues.DOCUMENT)) {
+        } else if (context.has(XmlBeansEncodingFlags.DOCUMENT)) {
             EXVerticalExtentDocument exved = EXVerticalExtentDocument.Factory.newInstance(getXmlOptions());
             exved.setEXVerticalExtent(exvet);
             return exved;

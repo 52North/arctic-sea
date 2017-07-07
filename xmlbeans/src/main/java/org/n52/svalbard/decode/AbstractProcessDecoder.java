@@ -22,7 +22,7 @@ import java.util.Set;
 import org.n52.shetland.inspire.ompr.InspireOMPRConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormatType;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
 import org.n52.shetland.inspire.ompr.Process;
 
 import com.google.common.collect.Sets;
@@ -32,8 +32,8 @@ import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType;
 
 public abstract class AbstractProcessDecoder<S> extends AbstractXmlDecoder<S, Process> implements ProcedureDecoder<Process, S> {
 
-    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(new ProcedureDescriptionFormatType(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_URL),
-                    new ProcedureDescriptionFormatType(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE));
+    private static final Set<SupportedType> SUPPORTED_TYPES = Sets.newHashSet(new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_URL),
+                    new ProcedureDescriptionFormat(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE));
 
     @Override
     public Set<SupportedType> getSupportedTypes() {

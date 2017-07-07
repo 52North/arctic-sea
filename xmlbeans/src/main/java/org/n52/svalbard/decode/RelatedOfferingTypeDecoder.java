@@ -16,20 +16,23 @@
  */
 package org.n52.svalbard.decode;
 
-import com.google.common.base.Joiner;
 import java.util.Collections;
 import java.util.Set;
+
 import net.opengis.sosro.x10.RelatedOfferingsPropertyType;
 import net.opengis.sosro.x10.RelatedOfferingsType.RelatedOffering;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sos.ro.OfferingContext;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferingConstants;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
 
 /**
  * @author Jan Schulte
@@ -38,12 +41,13 @@ public class RelatedOfferingTypeDecoder extends AbstractXmlDecoder<RelatedOfferi
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RelatedOfferingTypeDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS
-            = CollectionHelper.union(CodingHelper.decoderKeysForElements(RelatedOfferingConstants.NS_RO, RelatedOfferingsPropertyType.class));
+    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
+            RelatedOfferingConstants.NS_RO,
+            RelatedOfferingsPropertyType.class);
 
     public RelatedOfferingTypeDecoder() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(DECODER_KEYS));
+                     Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override

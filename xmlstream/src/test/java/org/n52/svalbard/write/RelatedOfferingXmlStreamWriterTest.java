@@ -14,30 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.ro.encode.streaming;
+package org.n52.svalbard.write;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.Test;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.RelatedOfferings;
+import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 public class RelatedOfferingXmlStreamWriterTest {
 
-    private RelatedOfferingXmlStreamWriter writer = new RelatedOfferingXmlStreamWriter();
-
     @Test
-    public void should_encode_relatedOfferings() throws XMLStreamException, OwsExceptionReport, XmlException {
+    public void should_encode_relatedOfferings() throws XMLStreamException, EncodingException, XmlException, IOException {
         RelatedOfferings ro = new RelatedOfferings();
         ro.addValue("role_1", "offering_1");
         ro.addValue("role_2", "offering_2");
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        writer.write(ro, out);
-        XmlObject.Factory.parse(new String(out.toByteArray()));
+        try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
+            new RelatedOfferingXmlStreamWriter(out, EncodingContext.empty(), new EncoderRepository(), XmlOptions::new, ro).write();;
+            XmlObject.Factory.parse(new String(out.toByteArray()));
+        }
     }
 
 }

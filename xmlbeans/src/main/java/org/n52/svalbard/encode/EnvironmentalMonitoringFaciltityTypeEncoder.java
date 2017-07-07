@@ -14,22 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
+package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.encode.ClassToClassEncoderKey;
-import org.n52.sos.encode.EncoderKey;
-import org.n52.sos.encode.XmlEncoderKey;
-import org.n52.sos.exception.ows.concrete.UnsupportedEncoderInputException;
-import org.n52.sos.ogc.gml.AbstractFeature;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.svalbard.inspire.ef.EnvironmentalMonitoringFacility;
-import org.n52.svalbard.inspire.ef.InspireEfConstants;
+import org.n52.shetland.inspire.ef.EnvironmentalMonitoringFacility;
+import org.n52.shetland.inspire.ef.InspireEfConstants;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,8 +36,7 @@ import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType;
 public class EnvironmentalMonitoringFaciltityTypeEncoder
         extends AbstractEnvironmentalMonitoringFaciltityEncoder {
 
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(EnvironmentalMonitoringFaciltityTypeEncoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnvironmentalMonitoringFaciltityTypeEncoder.class);
 
     protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(EnvironmentalMonitoringFacility.class,
@@ -55,13 +49,12 @@ public class EnvironmentalMonitoringFaciltityTypeEncoder
     }
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
-    public XmlObject encode(final AbstractFeature abstractFeature, final Map<HelperValues, String> additionalValues)
-            throws OwsExceptionReport {
+    public XmlObject encode(AbstractFeature abstractFeature, EncodingContext context) throws EncodingException {
         if (abstractFeature instanceof EnvironmentalMonitoringFacility) {
             return createEnvironmentalMonitoringFaciltityType((EnvironmentalMonitoringFacility) abstractFeature);
         }

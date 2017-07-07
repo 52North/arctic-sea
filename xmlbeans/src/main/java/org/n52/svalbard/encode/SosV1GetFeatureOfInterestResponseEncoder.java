@@ -30,7 +30,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  * @since 4.0.0
  */
-public class SosV1GetFeatureOfInterestResponseEncoder extends AbstractSosV1ResponseEncoder<GetFeatureOfInterestResponse> {
+public class SosV1GetFeatureOfInterestResponseEncoder
+        extends AbstractSosV1ResponseEncoder<GetFeatureOfInterestResponse> {
     public SosV1GetFeatureOfInterestResponseEncoder() {
         super(SosConstants.Operations.GetFeatureOfInterest.name(), GetFeatureOfInterestResponse.class);
     }

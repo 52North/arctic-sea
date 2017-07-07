@@ -32,7 +32,7 @@ import org.n52.sos.request.DeleteResultTemplateRequest;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * 
+ *
  * @since 4.4.0
  */
 public class DeleteResultTemplateDecoderTest {
@@ -40,10 +40,10 @@ public class DeleteResultTemplateDecoderTest {
     private DeleteResultTemplateDecoder decoder;
     private DeleteResultTemplateDocument encodedRequest;
     private DeleteResultTemplateType drtt;
-    
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    
+
     @Before
     public void setUp() {
         decoder = new DeleteResultTemplateDecoder();
@@ -52,23 +52,23 @@ public class DeleteResultTemplateDecoderTest {
         drtt.setService("test-service");
         drtt.setVersion("test-version");
     }
-    
+
     @Test
     public void shouldThrowExceptionOnWrongInput() throws OwsExceptionReport {
         thrown.expect(UnsupportedDecoderInputException.class);
         thrown.expectMessage("null can not be decoded by "
                 + decoder.getClass().getName()
                 + " because it is not yet implemented!");
-        
+
         decoder.decode(XmlObject.Factory.newInstance());
     }
-    
+
     @Test
     public void shouldDecodeServiceAndVersion() throws OwsExceptionReport {
         addResultTemplate();
-        
+
         DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
-        
+
         Assert.assertThat(decodedRequest.getService(), Is.is("test-service"));
         Assert.assertThat(decodedRequest.getVersion(), Is.is("test-version"));
     }
@@ -76,20 +76,20 @@ public class DeleteResultTemplateDecoderTest {
     @Test
     public void shouldDecodeResultTemplates() throws OwsExceptionReport {
         addResultTemplate();
-        
+
         DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
-        
+
         Assert.assertThat(decodedRequest.isSetResultTemplates(), Is.is(true));
         Assert.assertThat(decodedRequest.getResultTemplates().size(), Is.is(1));
         Assert.assertThat(decodedRequest.getResultTemplates().get(0), Is.is("test-template"));
     }
-    
+
     @Test
     public void shouldDecodeObservedPropertyOfferingTuples() throws OwsExceptionReport {
         addObservedPropertyOfferingTuple();
-        
+
         DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
-        
+
         Assert.assertThat(decodedRequest.isSetObservedPropertyOfferingPairs(), Is.is(true));
         Assert.assertThat(decodedRequest.getObservedPropertyOfferingPairs().size(), Is.is(1));
         Assert.assertThat(decodedRequest.getObservedPropertyOfferingPairs().get(0).getKey(), Is.is("test-property"));
@@ -101,9 +101,9 @@ public class DeleteResultTemplateDecoderTest {
         t.setOffering("test-offering");
         t.setObservedProperty("test-property");
     }
-    
+
     private void addResultTemplate() {
         drtt.addNewResultTemplate().setStringValue("test-template");
     }
-    
+
 }

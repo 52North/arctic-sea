@@ -14,34 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
-
-import java.util.Map;
+package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.ogc.gml.AbstractFeature;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.sos.util.XmlHelper;
-import org.n52.svalbard.inspire.ef.OperationalActivityPeriod;
+import org.n52.shetland.inspire.ef.OperationalActivityPeriod;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
 
 import eu.europa.ec.inspire.schemas.ef.x40.OperationalActivityPeriodType;
 import net.opengis.gml.x32.FeaturePropertyType;
 
-public abstract class AbstractOperationalActivityPeriodEncoder extends AbstractEnvironmentalFaciltityEncoder<OperationalActivityPeriod>{
+public abstract class AbstractOperationalActivityPeriodEncoder
+        extends AbstractEnvironmentalFaciltityEncoder<XmlObject, OperationalActivityPeriod> {
 
     @Override
     protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
-            Map<HelperValues, String> additionalValues) throws OwsExceptionReport {
-        OperationalActivityPeriodType encodedObject = createOperationalActivityPeriod((OperationalActivityPeriod)abstractFeature);
+            EncodingContext context) throws EncodingException {
+        OperationalActivityPeriodType encodedObject =
+                createOperationalActivityPeriod((OperationalActivityPeriod) abstractFeature);
         featurePropertyType.addNewAbstractFeature().set(encodedObject);
         XmlHelper.substituteElement(featurePropertyType.getAbstractFeature(), encodedObject);
         return featurePropertyType;
     }
-    
-    protected OperationalActivityPeriodType createOperationalActivityPeriod(OperationalActivityPeriod operationalActivityPeriod) throws OwsExceptionReport {
+
+    protected OperationalActivityPeriodType createOperationalActivityPeriod(
+            OperationalActivityPeriod operationalActivityPeriod) throws EncodingException {
         OperationalActivityPeriodType oapt = OperationalActivityPeriodType.Factory.newInstance();
-        oapt.addNewActivityTime().addNewAbstractTimeObject().set(encodeGML32(operationalActivityPeriod.getActivityTime()));
+        oapt.addNewActivityTime().addNewAbstractTimeObject()
+                .set(encodeGML32(operationalActivityPeriod.getActivityTime()));
         // TODO check for substitution
         return oapt;
     }

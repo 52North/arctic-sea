@@ -24,12 +24,14 @@ import com.google.common.base.Objects;
 public class VersionedOperationEncoderKey extends OperationEncoderKey implements EncoderKey {
     private final String operationVersion;
 
-    public VersionedOperationEncoderKey(String service, String version, String operation, MediaType contentType, String operationVersion) {
+    public VersionedOperationEncoderKey(String service, String version, String operation, MediaType contentType,
+            String operationVersion) {
         super(service, version, operation, contentType);
         this.operationVersion = operationVersion;
     }
 
-    public VersionedOperationEncoderKey(String service, String version, Enum<?> operation, MediaType contentType, String operationVersion) {
+    public VersionedOperationEncoderKey(String service, String version, Enum<?> operation, MediaType contentType,
+            String operationVersion) {
         super(service, version, operation, contentType);
         this.operationVersion = operationVersion;
     }
@@ -49,7 +51,6 @@ public class VersionedOperationEncoderKey extends OperationEncoderKey implements
         return equals(key) ? 0 : -1;
     }
 
-
     public String getOperationVersion() {
         return operationVersion;
     }
@@ -64,8 +65,7 @@ public class VersionedOperationEncoderKey extends OperationEncoderKey implements
         super.equals(obj);
         if (obj != null && getClass() == obj.getClass()) {
             final VersionedOperationEncoderKey other = (VersionedOperationEncoderKey) obj;
-            return super.equals(obj)
-                    && getOperationVersion() != null
+            return super.equals(obj) && getOperationVersion() != null
                     && getOperationVersion().equals(other.getOperationVersion());
         }
         return false;
@@ -73,8 +73,9 @@ public class VersionedOperationEncoderKey extends OperationEncoderKey implements
 
     @Override
     public String toString() {
-        return String.format("%s[service=%s, version=%s, operation=%s, contentType=%s, operationVersion=%s]", getClass().getSimpleName(),
-                getService(), getVersion(), getOperation(), getContentType(), getOperationVersion());
+        return String.format("%s[service=%s, version=%s, operation=%s, contentType=%s, operationVersion=%s]",
+                getClass().getSimpleName(), getService(), getVersion(), getOperation(), getContentType(),
+                getOperationVersion());
     }
 
 }

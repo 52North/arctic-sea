@@ -18,11 +18,12 @@ package org.n52.svalbard.encode;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -31,7 +32,6 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 
@@ -48,7 +48,8 @@ import net.opengis.sos.x20.GetObservationByIdResponseType;
  *
  * @since 4.0.0
  */
-public class GetObservationByIdResponseEncoder extends AbstractObservationResponseEncoder<GetObservationByIdResponse> {
+public class GetObservationByIdResponseEncoder
+        extends AbstractObservationResponseEncoder<GetObservationByIdResponse> {
     public static final String GML_ID = "sf_1";
 
     public GetObservationByIdResponseEncoder() {
@@ -61,49 +62,59 @@ public class GetObservationByIdResponseEncoder extends AbstractObservationRespon
         GetObservationByIdResponseDocument doc =
                 GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
         GetObservationByIdResponseType xbResponse = doc.addNewGetObservationByIdResponse();
-        List<OmObservation> oc = getObservationsAndCheckForStreaming(response, encoder);
-        HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<CodeWithAuthority, String>(oc.size());
-        for (OmObservation observation : oc) {
-            EncodingContext codingContext = EncodingContext.empty();
-            final String gmlId;
-            CodeWithAuthority foiId =
-                    observation.getObservationConstellation().getFeatureOfInterest().getIdentifierCodeWithAuthority();
-            if (gmlID4sfIdentifier.containsKey(foiId)) {
-                gmlId = gmlID4sfIdentifier.get(foiId);
-                codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, true);
-            } else {
-                gmlId = GML_ID;
-                gmlID4sfIdentifier.put(foiId, gmlId);
-                codingContext = codingContext.with(SosHelperValues.EXIST_FOI_IN_DOC, false);
+
+        ObservationStream observations = getObservationsAndCheckForStreaming(response, encoder);
+        HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>();
+        try {
+            while (observations.hasNext()) {
+                OmObservation observation = observations.next();
+                EncodingContext codingContext = EncodingContext.empty();
+                CodeWithAuthority foiId = observation.getObservationConstellation().getFeatureOfInterest()
+                        .getIdentifierCodeWithAuthority();
+                if (gmlID4sfIdentifier.containsKey(foiId)) {
+                    codingContext = codingContext.with(XmlBeansEncodingFlags.EXIST_FOI_IN_DOC, true);
+                } else {
+                    gmlID4sfIdentifier.put(foiId, GML_ID);
+                    codingContext = codingContext.with(XmlBeansEncodingFlags.EXIST_FOI_IN_DOC, false);
+                }
+                codingContext = codingContext.with(XmlBeansEncodingFlags.GMLID, gmlID4sfIdentifier.get(foiId));
+                xbResponse.addNewObservation().addNewOMObservation().set(encoder.encode(observation, codingContext));
+
             }
-            codingContext = codingContext.with(SosHelperValues.GMLID, gmlId);
-            xbResponse.addNewObservation().addNewOMObservation().set(encoder.encode(observation, codingContext));
+        } catch (OwsExceptionReport ex) {
+            throw new EncodingException(ex);
         }
         XmlHelper.makeGmlIdsUnique(xbResponse.getDomNode());
         return doc;
     }
 
-    private List<OmObservation> getObservationsAndCheckForStreaming(GetObservationByIdResponse response, ObservationEncoder<XmlObject, OmObservation> encoder) throws EncodingException {
-       if (response.hasStreamingData()) {
-           try {
-               if (encoder.shouldObservationsWithSameXBeMerged()) {
-                    response.mergeStreamingData();
-               } else { 
-                   List<OmObservation> observations = Lists.newArrayList();
-                   for (OmObservation observation : response.getObservationCollection()) {
-                       if (observation.getValue() instanceof StreamingValue<?>) {
-                           observations.addAll(((AbstractStreaming)observation.getValue()).getObservation());
-                       } else {
-                           observations.add(observation);
-                       }
-                   }
-                   return observations;
-               }
-           } catch (OwsExceptionReport e) {
-               throw new EncodingException(e);
-           }
-       }
-       return response.getObservationCollection();
+    private ObservationStream getObservationsAndCheckForStreaming(GetObservationByIdResponse response,
+            ObservationEncoder<XmlObject, OmObservation> encoder)
+            throws NoSuchElementException, EncodingException {
+        try {
+            if (response.getObservationCollection() != null && response.getObservationCollection().hasNext()) {
+
+                if (encoder.shouldObservationsWithSameXBeMerged()) {
+                    return response.getObservationCollection().merge();
+                } else {
+                    List<OmObservation> observations = Lists.newArrayList();
+                    while (response.getObservationCollection().hasNext()) {
+                        OmObservation observation = response.getObservationCollection().next();
+                        if (observation.getValue() instanceof StreamingValue<?>) {
+                            while (((AbstractStreaming) observation.getValue()).hasNext()) {
+                                observations.add(((AbstractStreaming) observation.getValue()).next());
+                            }
+                        } else {
+                            observations.add(observation);
+                        }
+                    }
+                    return ObservationStream.of(observations);
+                }
+            }
+            return response.getObservationCollection();
+        } catch (OwsExceptionReport e) {
+            throw new EncodingException(e);
+        }
     }
 
     @Override

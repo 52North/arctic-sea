@@ -93,7 +93,7 @@ public class Iso19139GmdDecoder extends AbstractXmlDecoder<XmlObject, Object> {
             throw new UnsupportedDecoderXmlInputException(this, element);
         }
     }
-    
+
     private PT_FreeText decodePTFreeTextType(PTFreeTextType ptftt) {
         PT_FreeText ptFreeText = new PT_FreeText();
         for (LocalisedCharacterStringPropertyType lcspt : ptftt.getTextGroupArray()) {

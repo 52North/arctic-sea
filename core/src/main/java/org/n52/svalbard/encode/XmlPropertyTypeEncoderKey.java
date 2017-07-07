@@ -28,7 +28,8 @@ public class XmlPropertyTypeEncoderKey extends XmlEncoderKey {
 
     @Override
     public String toString() {
-        return String.format("XmlPropertyTypeEncoderKey[namespace=%s, type=%s]", getNamespace(), getType().getSimpleName());
+        return String.format("XmlPropertyTypeEncoderKey[namespace=%s, type=%s]", getNamespace(),
+                getType().getSimpleName());
     }
 
     @Override

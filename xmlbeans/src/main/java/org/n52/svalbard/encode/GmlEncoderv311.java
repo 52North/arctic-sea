@@ -24,6 +24,54 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlRuntimeException;
+import org.apache.xmlbeans.impl.values.XmlValueDisconnectedException;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.shetland.ogc.DefaultEncoding;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.GenericMetaData;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.time.IndeterminateValue;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.gml.time.TimePosition;
+import org.n52.shetland.ogc.om.features.FeatureCollection;
+import org.n52.shetland.ogc.om.features.SfConstants;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.om.values.CategoryValue;
+import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.swe.SweConstants;
+import org.n52.shetland.util.CRSHelper;
+import org.n52.shetland.util.DateTimeFormatException;
+import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.EnvelopeOrGeometry;
+import org.n52.shetland.util.JTSHelper;
+import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.MinMax;
+import org.n52.shetland.util.ReferencedEnvelope;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.CodingSettings;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.util.PolygonExtracter;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import net.opengis.gml.AbstractFeatureCollectionType;
 import net.opengis.gml.AbstractRingPropertyType;
 import net.opengis.gml.AbstractRingType;
@@ -46,77 +94,24 @@ import net.opengis.gml.TimePeriodDocument;
 import net.opengis.gml.TimePeriodType;
 import net.opengis.gml.TimePositionType;
 
-import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlRuntimeException;
-import org.apache.xmlbeans.impl.values.XmlValueDisconnectedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.faroe.annotation.Configurable;
-import org.n52.faroe.annotation.Setting;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.GenericMetaData;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.time.IndeterminateValue;
-import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.gml.time.TimePosition;
-import org.n52.shetland.ogc.om.features.FeatureCollection;
-import org.n52.shetland.ogc.om.features.SfConstants;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.om.values.CategoryValue;
-import org.n52.shetland.ogc.om.values.QuantityValue;
-import org.n52.shetland.util.CRSHelper;
-import org.n52.shetland.util.DateTimeFormatException;
-import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.EnvelopeOrGeometry;
-import org.n52.shetland.util.JTSHelper;
-import org.n52.shetland.util.JavaHelper;
-import org.n52.shetland.util.MinMax;
-import org.n52.shetland.util.ReferencedEnvelope;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.CodingSettings;
-import org.n52.svalbard.SosHelperValues;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlHelper;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.util.PolygonExtracter;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * @since 4.0.0
  *
  */
 @Configurable
-public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
+public class GmlEncoderv311
+        extends AbstractXmlEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlEncoderv311.class);
 
-    private String srsNamePrefix;
-
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(GmlConstants.NS_GML,
-            org.n52.shetland.ogc.gml.time.Time.class,
-            com.vividsolutions.jts.geom.Geometry.class,
-            org.n52.shetland.ogc.om.values.CategoryValue.class,
-            org.n52.shetland.ogc.gml.ReferenceType.class,
-            org.n52.shetland.ogc.om.values.QuantityValue.class,
-            org.n52.shetland.ogc.gml.CodeWithAuthority.class,
-            org.n52.shetland.ogc.gml.CodeType.class,
-            AbstractFeature.class,
-            org.n52.shetland.util.ReferencedEnvelope.class,
-            org.n52.shetland.util.EnvelopeOrGeometry.class);
+            org.n52.shetland.ogc.gml.time.Time.class, com.vividsolutions.jts.geom.Geometry.class,
+            org.n52.shetland.ogc.om.values.CategoryValue.class, org.n52.shetland.ogc.gml.ReferenceType.class,
+            org.n52.shetland.ogc.om.values.QuantityValue.class, org.n52.shetland.ogc.gml.CodeWithAuthority.class,
+            org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class,
+            org.n52.shetland.util.ReferencedEnvelope.class, org.n52.shetland.util.EnvelopeOrGeometry.class);
+
+    private String srsNamePrefix;
 
     public GmlEncoderv311() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -149,7 +144,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         if (element instanceof Time) {
             encodedObject = createTime((Time) element, additionalValues);
         } else if (element instanceof Geometry) {
-            encodedObject = createPosition((Geometry) element, additionalValues.get(SosHelperValues.GMLID));
+            encodedObject = createPosition((Geometry) element, additionalValues.get(XmlBeansEncodingFlags.GMLID));
         } else if (element instanceof CategoryValue) {
             encodedObject = createReferenceTypeForCategroyValue((CategoryValue) element);
         } else if (element instanceof org.n52.shetland.ogc.gml.ReferenceType) {
@@ -167,7 +162,8 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
         } else if (element instanceof EnvelopeOrGeometry) {
             EnvelopeOrGeometry geom = (EnvelopeOrGeometry) element;
             if (geom.getGeometry().isPresent()) {
-                encodedObject = createPosition(geom.getGeometry().get(), additionalValues.get(SosHelperValues.GMLID));
+                encodedObject =
+                        createPosition(geom.getGeometry().get(), additionalValues.get(XmlBeansEncodingFlags.GMLID));
             } else if (geom.getEnvelope().isPresent()) {
                 encodedObject = createEnvelope(geom.getEnvelope().get());
             } else {
@@ -215,25 +211,30 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
      * @param timePeriod
      *            SOS time object
      * @param timePeriodType
+     *            the xml time period (may be {@code null})
      * @return XML TimePeriod
      *
      *
      * @throws EncodingException
-     *             * if an error occurs.
+     *             if an error occurs.
      */
     private TimePeriodType createTimePeriodType(TimePeriod timePeriod, TimePeriodType timePeriodType)
             throws EncodingException {
         try {
+            TimePeriodType tpt;
+
             if (timePeriodType == null) {
-                timePeriodType = TimePeriodType.Factory.newInstance(getXmlOptions());
+                tpt = TimePeriodType.Factory.newInstance(getXmlOptions());
+            } else {
+                tpt = timePeriodType;
             }
             if (timePeriod.getGmlId() != null && !timePeriod.getGmlId().isEmpty()) {
-                timePeriodType.setId(timePeriod.getGmlId());
+                tpt.setId(timePeriod.getGmlId());
             }
-            timePeriodType.setBeginPosition(createTimePositionType(timePeriod.getStartTimePosition()));
-            timePeriodType.setEndPosition(createTimePositionType(timePeriod.getEndTimePosition()));
+            tpt.setBeginPosition(createTimePositionType(timePeriod.getStartTimePosition()));
+            tpt.setEndPosition(createTimePositionType(timePeriod.getEndTimePosition()));
 
-            return timePeriodType;
+            return tpt;
         } catch (XmlRuntimeException | XmlValueDisconnectedException x) {
             throw new EncodingException("Error while creating TimePeriod!", x);
         }
@@ -251,19 +252,23 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
      * @param timeInstant
      *            SOS time object
      * @param timeInstantType
+     *            the xml time instant (may be {@code null})
      * @return XML TimeInstant
      *
      */
     private TimeInstantType createTimeInstantType(TimeInstant timeInstant, TimeInstantType timeInstantType) {
         // create time instant
+        TimeInstantType tit;
         if (timeInstantType == null) {
-            timeInstantType = TimeInstantType.Factory.newInstance(getXmlOptions());
+            tit = TimeInstantType.Factory.newInstance(getXmlOptions());
+        } else {
+            tit = timeInstantType;
         }
         if (timeInstant.isSetGmlId()) {
-            timeInstantType.setId(timeInstant.getGmlId());
+            tit.setId(timeInstant.getGmlId());
         }
-        timeInstantType.setTimePosition(createTimePositionType(timeInstant.getTimePosition()));
-        return timeInstantType;
+        tit.setTimePosition(createTimePositionType(timeInstant.getTimePosition()));
+        return tit;
     }
 
     private TimePositionType createTimePositionType(final TimePosition timePosition) throws DateTimeFormatException {
@@ -507,7 +512,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                     if (members.get(member) instanceof SamplingFeature) {
                         return createFeature((SamplingFeature) members.get(member));
                     } else {
-                        throw new EncodingException("No encoder found for featuretype");
+                        throw missingFeatureEncoder();
                     }
                 }
             } else {
@@ -524,7 +529,7 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
                         XmlObject xmlFeature = createFeature((SamplingFeature) members.get(member));
                         xbFeatCol.addNewFeatureMember().set(xmlFeature);
                     } else {
-                        throw new EncodingException("No encoder found for featuretype");
+                        throw missingFeatureEncoder();
                     }
                 }
                 xmlObject = xbFeatureColllectionDoc;
@@ -555,23 +560,25 @@ public class GmlEncoderv311 extends AbstractXmlEncoder<XmlObject, Object> {
     protected String getSrsName(Geometry geom) {
         return srsNamePrefix + geom.getSRID();
     }
-    
-    private XmlObject createGenericMetaData(GenericMetaData element, Map<HelperValues, String> additionalValues) throws EncodingException {
-        if (element.getContent() instanceof DefaultEncoding && ((DefaultEncoding)element.getContent()).isSetDefaultElementEncoding()) {
-            Map<HelperValues, String> helperValues = new EnumMap<HelperValues, String>(HelperValues.class);
-            // TODO check
-            helperValues.put(HelperValues.DOCUMENT, "true");
-            if (SweConstants.NS_SWE_20.equals(((DefaultEncoding) element.getContent()).getDefaultElementEncoding())) {
-                return CodingHelper.encodeObjectToXml(
-                        SweConstants.NS_SWE_101, element.getContent(),
-                        helperValues);
+
+    private XmlObject createGenericMetaData(GenericMetaData element, EncodingContext context)
+            throws EncodingException {
+        if (element.getContent() instanceof DefaultEncoding
+                && ((DefaultEncoding<?>) element.getContent()).isSetDefaultElementEncoding()) {
+            EncodingContext ec = EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT, true);
+            if (SweConstants.NS_SWE_20
+                    .equals(((DefaultEncoding<?>) element.getContent()).getDefaultElementEncoding())) {
+                return encodeObjectToXml(SweConstants.NS_SWE_101, element.getContent(), ec);
             } else {
-                return CodingHelper.encodeObjectToXml(
-                        ((DefaultEncoding) element.getContent()).getDefaultElementEncoding(), element.getContent(),
-                        helperValues);
+                return encodeObjectToXml(((DefaultEncoding<?>) element.getContent()).getDefaultElementEncoding(),
+                        element.getContent(), ec);
             }
 
         }
         return null;
+    }
+
+    private static EncodingException missingFeatureEncoder() {
+        return new EncodingException("No encoder found for featuretype");
     }
 }

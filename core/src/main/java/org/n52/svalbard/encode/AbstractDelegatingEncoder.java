@@ -20,7 +20,8 @@ import javax.inject.Inject;
 
 /**
  * TODO JavaDoc
- *
+ * @param <T> the resulting type, the "Target"
+ * @param <S> the input type, the "Source"
  * @author Christian Autermann
  */
 public abstract class AbstractDelegatingEncoder<T, S> implements Encoder<T, S> {

@@ -16,6 +16,22 @@
  */
 package org.n52.svalbard.write;
 
+import java.io.OutputStream;
+
+import javax.xml.stream.XMLStreamException;
+
+import org.apache.xmlbeans.XmlOptions;
+import org.n52.janmayen.Producer;
+import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
+
 public class GwmlV22XmlStreamWriter extends OmV20XmlStreamWriter {
+
+    public GwmlV22XmlStreamWriter(OutputStream outputStream, EncodingContext context,
+            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, OmObservation element)
+            throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
+    }
 
 }

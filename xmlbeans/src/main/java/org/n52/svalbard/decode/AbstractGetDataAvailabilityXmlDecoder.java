@@ -16,25 +16,26 @@
  */
 package org.n52.svalbard.decode;
 
+import javax.xml.xpath.XPathConstants;
+
 import org.apache.xmlbeans.XmlAnyURI;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
 import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
-import org.n52.sos.decode.AbstractXmlDecoder;
-import org.n52.sos.exception.ows.concrete.XmlDecodingException;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.swe.SweAbstractDataComponent;
-import org.n52.sos.ogc.swes.SwesConstants;
-import org.n52.sos.ogc.swes.SwesExtension;
-import org.n52.sos.ogc.swes.SwesExtensionImpl;
-import org.n52.sos.ogc.swes.SwesExtensions;
-import org.n52.sos.util.CodingHelper;
-import org.n52.sos.util.XmlHelper;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swes.SwesConstants;
+import org.n52.shetland.ogc.swes.SwesExtension;
+import org.n52.shetland.ogc.swes.SwesExtensions;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
 
-public abstract class AbstractGetDataAvailabilityXmlDecoder extends AbstractXmlDecoder<GetDataAvailabilityRequest> {
+public abstract class AbstractGetDataAvailabilityXmlDecoder
+        extends AbstractXmlDecoder<XmlObject, GetDataAvailabilityRequest> {
 
-    public abstract GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws OwsExceptionReport;
+    public abstract GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException;
 
     protected static String getBasePath(String basePath, String prefix) {
         StringBuilder builder = new StringBuilder();
@@ -47,15 +48,16 @@ public abstract class AbstractGetDataAvailabilityXmlDecoder extends AbstractXmlD
     }
 
     @Override
-    public GetDataAvailabilityRequest decode(XmlObject xml) throws OwsExceptionReport {
-        return parseGetDataAvailability(xml);
+    public GetDataAvailabilityRequest decode(XmlObject objectToDecode) throws DecodingException {
+        // TODO Auto-generated method stub
+        return parseGetDataAvailability(objectToDecode);
     }
 
     protected String parseStringValue(XmlObject xmlObject) {
         if (xmlObject instanceof XmlString) {
             return ((XmlString) xmlObject).getStringValue();
         } else if (xmlObject instanceof XmlAnyURI) {
-            return ((XmlAnyURI)xmlObject).getStringValue();
+            return ((XmlAnyURI) xmlObject).getStringValue();
         } else {
             return ((XmlAnyTypeImpl) xmlObject).getStringValue();
         }
@@ -67,31 +69,31 @@ public abstract class AbstractGetDataAvailabilityXmlDecoder extends AbstractXmlD
      * @param xml
      *            swes:extension
      * @return parsed {@code SwesExtensions}
-     * @throws OwsExceptionReport
+     * @throws EncodingException
      *             if the swes:extension could not be parsed
      */
-    protected SwesExtensions parseExtensions(XmlObject xml) throws OwsExceptionReport {
+    protected SwesExtensions parseExtensions(XmlObject xml) throws DecodingException {
         SwesExtensions extensions = new SwesExtensions();
-        for (XmlObject x : xml.selectPath(getPath(SwesConstants.XPATH_PREFIXES_SWES, SwesConstants.NS_SWES_PREFIX,
-                "extension"))) {
+        for (XmlObject x : xml
+                .selectPath(XPathConstants.getPath(XPATH_PREFIXES_SWES),
+                        SwesConstants.NS_SWES_PREFIX, "extension"))) {
             try {
                 if (x.getDomNode().hasChildNodes()) {
-                    Object obj =
-                            CodingHelper.decodeXmlElement(XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(x
-                                    .getDomNode().getChildNodes())));
+                    Object obj = decodeXmlElement(
+                            XmlObject.Factory.parse(XmlHelper.getNodeFromNodeList(x.getDomNode().getChildNodes())));
                     SwesExtension<?> extension = null;
                     if (!(obj instanceof SwesExtension<?>)) {
-                        extension = new SwesExtensionImpl<Object>().setValue(obj);
+                        extension = new SwesExtension<Object>().setValue(obj);
                         if (isSweAbstractDataComponent(obj)) {
                             extension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
                         }
                     } else {
                         extension = (SwesExtension<?>) obj;
                     }
-                    extensions.addSwesExtension(extension);
+                    extensions.addExtension(extension);
                 }
             } catch (XmlException xmle) {
-                throw new XmlDecodingException("extension", xmle);
+                throw new DecodingException("extension", xmle);
             }
         }
         return extensions;

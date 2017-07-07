@@ -74,24 +74,24 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Override
-    public XmlObject encode(Object objectToEncode, EncodingContext additionalValues)
+    public XmlObject encode(Object objectToEncode, EncodingContext ctx)
             throws EncodingException {
         if (objectToEncode instanceof InspireObject) {
-            return encodeObject((InspireObject)objectToEncode);
+            return encodeObject((InspireObject) objectToEncode, ctx);
         } else if (objectToEncode instanceof SwesExtension<?>) {
-            SwesExtension<?> swesExtension = (SwesExtension<?>)objectToEncode;
+            SwesExtension<?> swesExtension = (SwesExtension<?>) objectToEncode;
             if (swesExtension.getValue() instanceof InspireObject) {
-                return encodeObject((InspireObject)swesExtension.getValue());
+                return encodeObject((InspireObject) swesExtension.getValue(), ctx);
             }
         }
-       throw new UnsupportedEncoderInputException(this, objectToEncode);
+        throw new UnsupportedEncoderInputException(this, objectToEncode);
     }
 
-    private XmlObject encodeObject(InspireObject objectToEncode) throws EncodingException {
+    private XmlObject encodeObject(InspireObject objectToEncode, EncodingContext ctx) throws EncodingException {
         try {
             checkIfSupported(objectToEncode);
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            new InspireXmlStreamWriter(objectToEncode).write(out);
+            new InspireXmlStreamWriter(out, ctx, getEncoderRepository(), this::getXmlOptions, objectToEncode).write();
             String s = out.toString("UTF8");
             return XmlObject.Factory.parse(s);
         } catch (XMLStreamException | DateTimeFormatException | XmlException | UnsupportedEncodingException ex) {
@@ -100,10 +100,10 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     private void checkIfSupported(InspireObject objectToEncode) throws EncodingException {
-        if (!(objectToEncode instanceof InspireSupportedLanguages)
-         && !(objectToEncode instanceof InspireSupportedCRS)
-         && !(objectToEncode instanceof FullInspireExtendedCapabilities)
-         && !(objectToEncode instanceof MinimalInspireExtendedCapabilities)) {
+        if (!(objectToEncode instanceof InspireSupportedLanguages) &&
+            !(objectToEncode instanceof InspireSupportedCRS) &&
+            !(objectToEncode instanceof FullInspireExtendedCapabilities) &&
+            !(objectToEncode instanceof MinimalInspireExtendedCapabilities)) {
             throw new UnsupportedEncoderInputException(this, objectToEncode);
         }
     }

@@ -18,7 +18,9 @@ package org.n52.svalbard.encode;
 
 import java.util.Collections;
 import java.util.Set;
+
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos1Constants;
@@ -28,11 +30,17 @@ import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
+ * @param <T> the request type
  */
 public abstract class AbstractSosV1RequestEncoder<T extends OwsServiceRequest> extends AbstractRequestEncoder<T> {
 
     public AbstractSosV1RequestEncoder(String operation, Class<T> responseType) {
-        super(SosConstants.SOS, Sos1Constants.SERVICEVERSION, operation, Sos1Constants.NS_SOS, SosConstants.NS_SOS_PREFIX, responseType);
+        super(SosConstants.SOS,
+              Sos1Constants.SERVICEVERSION,
+              operation,
+              Sos1Constants.NS_SOS,
+              SosConstants.NS_SOS_PREFIX,
+              responseType);
     }
 
     @Override

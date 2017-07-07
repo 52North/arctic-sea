@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
+package org.n52.svalbard.encode;
 
-import org.n52.sos.ogc.om.OmObservation;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.svalbard.inspire.ef.AbstractMonitoringFeature;
-import org.n52.svalbard.inspire.ef.EnvironmentalMonitoringActivity;
-import org.n52.svalbard.inspire.ef.ReportToLegalAct;
+import org.n52.shetland.inspire.ef.AbstractMonitoringFeature;
+import org.n52.shetland.inspire.ef.EnvironmentalMonitoringActivity;
+import org.n52.shetland.inspire.ef.ReportToLegalAct;
+import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType.InvolvedIn;
@@ -28,7 +28,7 @@ import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType.Involve
 public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitoringObjectEncoder {
 
     protected void encodeAbstractMonitoringFeature(AbstractMonitoringFeatureType amft,
-            AbstractMonitoringFeature abstractMonitoringFeature) throws OwsExceptionReport {
+            AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
         encodeAbstractMonitoringObject(amft, abstractMonitoringFeature);
         setReportedTo(amft, abstractMonitoringFeature);
         setHasObservation(amft, abstractMonitoringFeature);
@@ -36,7 +36,7 @@ public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitorin
     }
 
     private void setReportedTo(AbstractMonitoringFeatureType amft,
-            AbstractMonitoringFeature abstractMonitoringFeature) throws OwsExceptionReport {
+            AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
         if (abstractMonitoringFeature.isSetReportedTo()) {
             for (ReportToLegalAct reportToLegalAct : abstractMonitoringFeature.getReportedTo()) {
                 amft.addNewReportedTo().addNewReportToLegalAct().set(encodeEF(reportToLegalAct));
@@ -58,7 +58,7 @@ public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitorin
     }
 
     private void setInvolvedIn(AbstractMonitoringFeatureType amft,
-            AbstractMonitoringFeature abstractMonitoringFeature) throws OwsExceptionReport {
+            AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
         if (abstractMonitoringFeature.isSetInvolvedIn()) {
             for (EnvironmentalMonitoringActivity environmentalMonitoringActivity : abstractMonitoringFeature
                     .getInvolvedIn()) {

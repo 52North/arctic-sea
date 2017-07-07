@@ -14,29 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.base;
+package org.n52.svalbard.encode;
 
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import org.n52.sos.encode.AbstractXmlEncoder;
-import org.n52.sos.w3c.SchemaLocation;
-import org.n52.svalbard.inspire.base.Identifier;
-import org.n52.svalbard.inspire.base.InspireBaseConstants;
-import org.n52.svalbard.inspire.ef.InspireEfConstants;
+import org.n52.shetland.inspire.base.Identifier;
+import org.n52.shetland.inspire.base.InspireBaseConstants;
+import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Sets;
 
 import eu.europa.ec.inspire.schemas.base.x33.IdentifierType;
-import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType;
 
-public abstract class AbstractIdentifierEncoder extends AbstractXmlEncoder<Identifier> {
-
-    @Override
-    public Set<String> getConformanceClasses() {
-        return Collections.emptySet();
-    }
+public abstract class AbstractIdentifierEncoder<T> extends AbstractXmlEncoder<T, Identifier> {
 
     @Override
     public void addNamespacePrefixToMap(final Map<String, String> nameSpacePrefixMap) {
@@ -47,12 +38,12 @@ public abstract class AbstractIdentifierEncoder extends AbstractXmlEncoder<Ident
     public Set<SchemaLocation> getSchemaLocations() {
         return Sets.newHashSet(InspireBaseConstants.BASE_33_SCHEMA_LOCATION);
     }
-    
+
     protected IdentifierType createIdentifierType(Identifier identifier) {
         IdentifierType it = IdentifierType.Factory.newInstance();
         return encodeIdentifierType(it, identifier);
     }
-    
+
     protected IdentifierType encodeIdentifierType(IdentifierType it, Identifier identifier) {
         it.setLocalId(identifier.getLocalId());
         it.setNamespace(identifier.getNamespace());

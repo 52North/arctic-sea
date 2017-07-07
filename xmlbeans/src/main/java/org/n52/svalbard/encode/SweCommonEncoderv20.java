@@ -240,7 +240,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         if (component == null) {
             throw new UnsupportedEncoderInputException(this, component);
         }
-        AbstractDataComponentType xmlComponent = component.accept(new SweDataComponentVisitorImpl()); 
+        AbstractDataComponentType xmlComponent = component.accept(new SweDataComponentVisitorImpl());
         if (component.isSetDefinition()) {
             xmlComponent.setDefinition(component.getDefinition());
         }
@@ -483,7 +483,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         }
         return unitReference;
     }
-    
+
     private UnitReference createUnitReference(final String uom) {
         final UnitReference unitReference =
                 UnitReference.Factory.newInstance(getXmlOptions());
@@ -494,7 +494,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         }
         return unitReference;
     }
-    
+
     private AllowedValuesPropertyType createConstraint(AllowedValuesPropertyType avpt,
             Referenceable<SweAllowedValues> constraint) {
         if (constraint.isInstance()) {
@@ -534,7 +534,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             if (instance.get().isSetValue()) {
                 for (Double value : instance.get().getValue()) {
                     avt.addNewValue().setDoubleValue(value);
-                }          
+                }
             }
             if (instance.get().isSetInterval()) {
                 for (RangeValue<Double> interval : instance.get().getInterval()) {
@@ -587,7 +587,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             if (instance.get().isSetValue()) {
                 for (String value : instance.get().getValue()) {
                     att.addNewValue().setStringValue(value);
-                }          
+                }
             }
             if (instance.get().isSetPattern()) {
                 att.setPattern(instance.get().getPattern());
@@ -635,7 +635,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
             if (instance.get().isSetValue()) {
                 for (DateTime value : instance.get().getValue()) {
                     att.addNewValue().setStringValue(DateTimeHelper.formatDateTime2IsoString(value));
-                }          
+                }
             }
             if (instance.get().isSetInterval()) {
                 for (RangeValue<DateTime> interval : instance.get().getInterval()) {
@@ -653,7 +653,7 @@ public class SweCommonEncoderv20 extends AbstractXmlEncoder<XmlObject, Object> i
         }
         return att;
     }
-    
+
     private QualityPropertyType[] createQuality(final Collection<SweQuality> quality) throws EncodingException {
         if (!quality.isEmpty()) {
             final ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.size());

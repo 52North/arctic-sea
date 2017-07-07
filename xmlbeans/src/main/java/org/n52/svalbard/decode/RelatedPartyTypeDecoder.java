@@ -14,65 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode.inspire;
+package org.n52.svalbard.decode;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.stream.XMLStreamException;
+
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.decode.AbstractXmlDecoder;
-import org.n52.sos.decode.DecoderKey;
-import org.n52.sos.exception.ows.concrete.UnsupportedDecoderInputException;
-import org.n52.sos.iso.gmd.PT_FreeText;
-import org.n52.sos.ogc.gml.ReferenceType;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.util.CodingHelper;
-import org.n52.sos.w3c.Nillable;
-import org.n52.svalbard.inspire.ad.AddressRepresentation;
-import org.n52.svalbard.inspire.base2.Contact;
-import org.n52.svalbard.inspire.base2.RelatedParty;
-import org.n52.svalbard.inspire.ompr.InspireOMPRConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.shetland.inspire.ad.AddressRepresentation;
+import org.n52.shetland.inspire.base2.Contact;
+import org.n52.shetland.inspire.base2.RelatedParty;
+import org.n52.shetland.inspire.ompr.InspireOMPRConstants;
+import org.n52.shetland.iso.gmd.PT_FreeText;
+import org.n52.shetland.w3c.Nillable;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
+import org.n52.svalbard.read.NillableReferenceReader;
+import org.n52.svalbard.util.CodingHelper;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import eu.europa.ec.inspire.schemas.base2.x20.ContactType;
 import eu.europa.ec.inspire.schemas.base2.x20.ContactType.TelephoneFacsimile;
 import eu.europa.ec.inspire.schemas.base2.x20.ContactType.TelephoneVoice;
 import eu.europa.ec.inspire.schemas.base2.x20.RelatedPartyType;
 
-public class RelatedPartyTypeDecoder extends AbstractXmlDecoder<RelatedParty> {
+public class RelatedPartyTypeDecoder
+        extends AbstractXmlDecoder<XmlObject, RelatedParty> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(RelatedPartyTypeDecoder.class);
-
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            InspireOMPRConstants.NS_OMPR_30, RelatedPartyType.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(InspireOMPRConstants.NS_OMPR_30, RelatedPartyType.class);
 
     @Override
-    public Set<DecoderKey> getDecoderKeyTypes() {
+    public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
     @Override
-    public RelatedParty decode(XmlObject xmlObject)
-            throws OwsExceptionReport, UnsupportedDecoderInputException {
+    public RelatedParty decode(XmlObject xmlObject) throws DecodingException {
         if (xmlObject instanceof RelatedPartyType) {
             RelatedPartyType rpt = (RelatedPartyType) xmlObject;
             RelatedParty relatedParty = new RelatedParty();
             relatedParty.setContact(parseContact(rpt));
-            relatedParty.setIndividualName((PT_FreeText)CodingHelper.decodeXmlElement(rpt.getIndividualName()));
-            relatedParty.setOrganisationName((PT_FreeText)CodingHelper.decodeXmlElement(rpt.getOrganisationName()));
-            relatedParty.setPositionName((PT_FreeText)CodingHelper.decodeXmlElement(rpt.getPositionName()));
-            relatedParty.setRole(parseRole(rpt));
+            relatedParty.setIndividualName((PT_FreeText) decodeXmlElement(rpt.getIndividualName()));
+            relatedParty.setOrganisationName((PT_FreeText) decodeXmlElement(rpt.getOrganisationName()));
+            relatedParty.setPositionName((PT_FreeText) decodeXmlElement(rpt.getPositionName()));
+            relatedParty.setRoles(parseRole(rpt));
             return relatedParty;
         }
         throw new UnsupportedDecoderInputException(this, xmlObject);
     }
 
-    private Contact parseContact(RelatedPartyType rpt) throws OwsExceptionReport {
+    private Contact parseContact(RelatedPartyType rpt) throws DecodingException {
         ContactType ct = rpt.getContact().getContact();
         Contact contact = new Contact();
         contact.setAddress(parseAddress(ct));
@@ -85,48 +81,48 @@ public class RelatedPartyTypeDecoder extends AbstractXmlDecoder<RelatedParty> {
     }
 
     private Nillable<AddressRepresentation> parseAddress(ContactType ct) {
-        return Nillable.<AddressRepresentation>nil();
+        return Nillable.<AddressRepresentation> nil();
     }
 
-    private Nillable<PT_FreeText> parseContactInstructions(ContactType ct) throws OwsExceptionReport {
+    private Nillable<PT_FreeText> parseContactInstructions(ContactType ct) throws DecodingException {
         if (ct.isNilContactInstructions()) {
             if (ct.getContactInstructions().isSetNilReason()) {
-                return Nillable.<PT_FreeText>nil(ct.getContactInstructions().getNilReason().toString());
+                return Nillable.<PT_FreeText> nil(ct.getContactInstructions().getNilReason().toString());
             }
-            return Nillable.<PT_FreeText>nil();
+            return Nillable.<PT_FreeText> nil();
         }
-        return Nillable.<PT_FreeText>of((PT_FreeText)CodingHelper.decodeXmlElement(ct.getContactInstructions()));
+        return Nillable.<PT_FreeText> of((PT_FreeText) decodeXmlElement(ct.getContactInstructions()));
     }
 
     private Nillable<String> parseElectronicMailAddress(ContactType ct) {
         if (ct.isNilElectronicMailAddress()) {
             if (ct.getElectronicMailAddress().isSetNilReason()) {
-                return Nillable.<String>nil(ct.getElectronicMailAddress().getNilReason().toString());
+                return Nillable.<String> nil(ct.getElectronicMailAddress().getNilReason().toString());
             }
-            return Nillable.<String>nil();
+            return Nillable.<String> nil();
         }
-        return Nillable.<String>of(ct.getElectronicMailAddress().getStringValue());
+        return Nillable.<String> of(ct.getElectronicMailAddress().getStringValue());
     }
 
-    private Nillable<List<String>> parseTelephoneFacsimile(ContactType ct) {
-        List<String> list = Lists.newArrayList();
+    private Nillable<List<Nillable<String>>> parseTelephoneFacsimile(ContactType ct) {
+        List<Nillable<String>> list = Lists.newArrayList();
         for (TelephoneFacsimile tf : ct.getTelephoneFacsimileArray()) {
             if (tf.isNil() && tf.isSetNilReason()) {
-                return Nillable.<List<String>>nil(tf.getNilReason().toString());
+                return Nillable.<List<Nillable<String>>> nil(tf.getNilReason().toString());
             } else {
-                list.add(tf.getStringValue());
+                list.add(Nillable.of(tf.getStringValue()));
             }
         }
         return Nillable.of(list);
     }
 
-    private Nillable<List<String>> parseTelephoneVoice(ContactType ct) {
-        List<String> list = Lists.newArrayList();
+    private Nillable<List<Nillable<String>>> parseTelephoneVoice(ContactType ct) {
+        List<Nillable<String>> list = Lists.newArrayList();
         for (TelephoneVoice tv : ct.getTelephoneVoiceArray()) {
             if (tv.isNil() && tv.isSetNilReason()) {
-                return Nillable.<List<String>>nil(tv.getNilReason().toString());
+                return Nillable.<List<Nillable<String>>> nil(tv.getNilReason().toString());
             } else {
-                list.add(tv.getStringValue());
+                list.add(Nillable.of(tv.getStringValue()));
             }
         }
         return Nillable.of(list);
@@ -135,20 +131,24 @@ public class RelatedPartyTypeDecoder extends AbstractXmlDecoder<RelatedParty> {
     private Nillable<String> parseWebsite(ContactType ct) {
         if (ct.isNilWebsite()) {
             if (ct.getWebsite().isSetNilReason()) {
-                return Nillable.<String>nil(ct.getWebsite().getNilReason().toString());
+                return Nillable.<String> nil(ct.getWebsite().getNilReason().toString());
             }
-            return Nillable.<String>nil();
+            return Nillable.<String> nil();
         } else {
-            return Nillable.<String>present(ct.getWebsite().getStringValue());
+            return Nillable.<String> present(ct.getWebsite().getStringValue());
         }
     }
 
-    private Set<ReferenceType> parseRole(RelatedPartyType rpt) throws OwsExceptionReport {
-        Set<ReferenceType> set = Sets.newHashSet();
-        for (net.opengis.gml.x32.ReferenceType rt : rpt.getRoleArray()) {
-            set.add((ReferenceType)CodingHelper.decodeXmlElement(rt));
+    private List<Nillable<Reference>> parseRole(RelatedPartyType rpt) throws DecodingException {
+        try {
+            List<Nillable<Reference>> list = Lists.newArrayList();
+            for (net.opengis.gml.x32.ReferenceType rt : rpt.getRoleArray()) {
+                list.add(new NillableReferenceReader().read(rt.newInputStream()));
+            }
+            return list;
+        } catch (XMLStreamException e) {
+            throw new DecodingException(e);
         }
-        return set;
     }
 
 }

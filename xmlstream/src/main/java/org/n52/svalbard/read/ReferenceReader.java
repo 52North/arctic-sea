@@ -20,9 +20,9 @@ import java.net.URI;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -35,7 +35,7 @@ public class ReferenceReader extends XmlReader<Reference> {
 
     @Override
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         this.reference = parseReference();
     }
 

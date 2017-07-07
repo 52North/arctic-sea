@@ -25,15 +25,10 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.om.x20.OMObservationType;
-
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
@@ -72,16 +67,20 @@ import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.write.OmV20XmlStreamWriter;
+import org.n52.svalbard.write.XmlStreamWriter.XmlWriterSettings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import net.opengis.om.x20.OMObservationType;
 
 /**
  * @since 4.0.0
@@ -186,12 +185,14 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
-        encodingValues.setEncoder(this);
         if (objectToEncode instanceof OmObservation) {
             try {
-                new OmV20XmlStreamWriter().write((OmObservation) objectToEncode, outputStream, encodingValues);
+                new OmV20XmlStreamWriter(outputStream,
+                                         encodingValues.with(XmlWriterSettings.ENCODER, this),
+                                         getEncoderRepository(), this::getXmlOptions,
+                                         (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -199,7 +200,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             super.encode(objectToEncode, outputStream, encodingValues);
         }
     }
-    
+
     protected OMObservationType createOmObservationType() {
         return OMObservationType.Factory.newInstance(getXmlOptions());
     }
@@ -207,7 +208,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     @Override
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         ObservationValue<?> value = sosObservation.getValue();
-        // TODO if OM_SWEArrayObservation and get ResultEncoding and
+        // TODO if OM_SWEArrayObservation and get Reget(key)sultEncoding and
         // ResultStructure exists,
         if (value instanceof AbstractObservationValue) {
             AbstractObservationValue<?> abstractObservationValue = (AbstractObservationValue<?>) value;
@@ -234,23 +235,23 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         }
     }
 
-//    @Override
-//    public String getDefaultFeatureEncodingNamespace() {
-//        return SfConstants.NS_SAMS;
-//    }
+    //@Override
+    //public String getDefaultFeatureEncodingNamespace() {
+    //    return SfConstants.NS_SAMS;
+    //}
 
     @Override
     protected String getDefaultProcedureEncodingNamspace() {
         return SensorMLConstants.NS_SML;
     }
-    
+
     @Override
     protected boolean convertEncodedProcedure() {
         return false;
     }
-    
+
     @Override
-    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation) throws OwsExceptionReport {
+    protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation) throws EncodingException {
         // do nothing
     }
 
@@ -328,7 +329,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
         public XmlObject visit(CategoryValue value) throws EncodingException {
             if (observationType.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION)) {
                 if (value.isSetValue() && !value.getValue().isEmpty()) {
-                    return encodeGML(value, EncodingContext.of(SosHelperValues.GMLID,
+                    return encodeGML(value, EncodingContext.of(XmlBeansEncodingFlags.GMLID,
                             SosConstants.OBS_ID_PREFIX + this.observationId));
                 }
             }
@@ -340,7 +341,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
             if (observationType.equals(OmConstants.OBS_TYPE_COMPLEX_OBSERVATION)) {
                 if (value.isSetValue()) {
-                    return encodeSWE(value.getValue(), EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+                    return encodeSWE(value.getValue(), EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
                 }
             }
             return null;
@@ -367,7 +368,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
                 if (value.isSetValue()) {
                     return encodeGML(value.getValue(),
                             EncodingContext.empty()
-                                    .with(SosHelperValues.GMLID, SosConstants.OBS_ID_PREFIX + this.observationId)
+                                    .with(XmlBeansEncodingFlags.GMLID, SosConstants.OBS_ID_PREFIX + this.observationId)
                                     .with(XmlBeansEncodingFlags.PROPERTY_TYPE));
                 } else {
                     return null;
@@ -406,14 +407,14 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(SweDataArrayValue value) throws EncodingException {
-            return encodeSWE(value.getValue(), EncodingContext.of(SosHelperValues.FOR_OBSERVATION));
+            return encodeSWE(value.getValue(), EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
         }
 
         @Override
         public XmlObject visit(TVPValue value) throws EncodingException {
             return null;
         }
-        
+
         @Override
         public XmlObject visit(TextValue value) throws EncodingException {
             if (observationType.equals(OmConstants.OBS_TYPE_TEXT_OBSERVATION)) {

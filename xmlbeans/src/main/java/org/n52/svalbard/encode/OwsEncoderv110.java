@@ -136,7 +136,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
                     OwsServiceProvider.class, OwsOperationsMetadata.class, OwsExceptionReport.class, OwsMetadata.class,
                     OwsDomain.class));
 
-    private boolean includeStackTraceInExceptionReport = false;
+    private boolean includeStackTraceInExceptionReport;
 
     public OwsEncoderv110() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -144,7 +144,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
     }
 
     @Setting(OwsEncoderSettings.INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT)
-    public void setIncludeStackTrace(final boolean includeStackTraceInExceptionReport) {
+    public void setIncludeStackTraceInExceptionReport(boolean includeStackTraceInExceptionReport) {
         this.includeStackTraceInExceptionReport = includeStackTraceInExceptionReport;
     }
 
@@ -347,6 +347,11 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
         return lst;
     }
 
+    private void encodeOwsLanguageString(OwsLanguageString languageString, LanguageStringType xlanguageString) {
+        xlanguageString.setStringValue(languageString.getValue());
+        languageString.getLang().ifPresent(xlanguageString::setLang);
+    }
+
     private AcceptVersionsType encodeAcceptVersions(OwsAcceptVersions acceptVersions) {
         AcceptVersionsType avt = AcceptVersionsType.Factory.newInstance(getXmlOptions());
         acceptVersions.getAcceptVersions().forEach(avt::addVersion);
@@ -454,24 +459,19 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
             requestMethods.forEach(method -> {
                 RequestMethodType xmethod;
                 switch (method.getHttpMethod()) {
-                case HTTPMethods.GET:
-                    xmethod = xhttp.addNewGet();
-                    break;
-                case HTTPMethods.POST:
-                    xmethod = xhttp.addNewPost();
-                    break;
-                default:
-                    return;
+                    case HTTPMethods.GET:
+                        xmethod = xhttp.addNewGet();
+                        break;
+                    case HTTPMethods.POST:
+                        xmethod = xhttp.addNewPost();
+                        break;
+                    default:
+                        return;
                 }
                 encodeOnlineResource(method, xmethod);
                 method.getConstraints().forEach(x -> encodeOwsDomain(x, xmethod.addNewConstraint()));
             });
         }
-    }
-
-    private void encodeOwsLanguageString(OwsLanguageString languageString, LanguageStringType xlanguageString) {
-        xlanguageString.setStringValue(languageString.getValue());
-        languageString.getLang().ifPresent(xlanguageString::setLang);
     }
 
     private void encodeOwsKeywords(Optional<OwsCode> type, List<OwsLanguageString> keywords, KeywordsType xkeywords) {

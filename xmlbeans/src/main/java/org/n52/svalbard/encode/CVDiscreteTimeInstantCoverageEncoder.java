@@ -36,7 +36,7 @@ import net.opengis.gml.x32.TimeInstantPropertyType;
  * @since 4.4.0
  *
  */
-public class CVDiscreteTimeInstantCoverageEncoder extends AbstractXmlEncoder<Object> {
+public class CVDiscreteTimeInstantCoverageEncoder extends AbstractXmlEncoder<XmlObject, Object> {
 
     @Override
     public Set<EncoderKey> getKeys() {

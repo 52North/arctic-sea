@@ -14,22 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
+package org.n52.svalbard.encode;
 
-import java.util.Map;
+import org.apache.xmlbeans.XmlObject;
+import org.n52.shetland.inspire.base2.LegislationCitation;
+import org.n52.shetland.inspire.ef.AbstractMonitoringObject;
+import org.n52.shetland.inspire.ef.Hierarchy;
+import org.n52.shetland.inspire.ef.ObservingCapability;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.w3c.xlink.SimpleAttrs;
+import org.n52.svalbard.encode.exception.EncodingException;
 
-import org.n52.sos.ogc.gml.AbstractFeature;
-import org.n52.sos.ogc.gml.CodeType;
-import org.n52.sos.ogc.gml.ReferenceType;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.sos.w3c.xlink.SimpleAttrs;
-import org.n52.svalbard.inspire.base2.LegislationCitation;
-import org.n52.svalbard.inspire.ef.AbstractMonitoringObject;
-import org.n52.svalbard.inspire.ef.Hierarchy;
-import org.n52.svalbard.inspire.ef.ObservingCapability;
-
-import com.google.common.collect.Maps;
 
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectPropertyType;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType;
@@ -38,12 +35,13 @@ import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType.LegalBac
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType.Narrower;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType.Supersedes;
 
-public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmentalFaciltityEncoder<AbstractFeature> {
-    
+public abstract class AbstractMonitoringObjectEncoder
+        extends AbstractEnvironmentalFaciltityEncoder<XmlObject, AbstractFeature> {
+
     protected abstract String generateGmlId();
 
     protected void encodeAbstractMonitoringObject(AbstractMonitoringObjectType amot,
-            AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+            AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         setGmlId(amot, abstractMonitoringObject);
         setInspireId(amot, abstractMonitoringObject);
         setName(amot, abstractMonitoringObject);
@@ -70,7 +68,8 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
         amot.setId(abstractMonitoringObject.getGmlId());
     }
 
-    private void setInspireId(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setInspireId(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         amot.addNewInspireId().set(encodeBASEPropertyType(abstractMonitoringObject.getInspireId()));
     }
 
@@ -92,14 +91,14 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
     }
 
     private void setMediaMonitored(AbstractMonitoringObjectType amot,
-            AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+            AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         for (ReferenceType mediaMonitored : abstractMonitoringObject.getMediaMonitored()) {
             amot.addNewMediaMonitored().set(encodeGML32(mediaMonitored));
         }
     }
 
     private void setLegalBackground(AbstractMonitoringObjectType amot,
-            AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+            AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         if (abstractMonitoringObject.isSetLegalBackground()) {
             for (LegislationCitation legislationCitation : abstractMonitoringObject.getLegalBackground()) {
                 if (legislationCitation.isSetSimpleAttrs()) {
@@ -116,22 +115,23 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
                 }
             }
         }
-        
+
     }
 
     private void setResponsibleParty(AbstractMonitoringObjectType amot,
-            AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+            AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         if (abstractMonitoringObject.isSetResponsibleParty()) {
-            amot.addNewResponsibleParty().addNewRelatedParty().set(encodeBASE2(abstractMonitoringObject.getResponsibleParty()));
+            amot.addNewResponsibleParty().addNewRelatedParty()
+                    .set(encodeBASE2(abstractMonitoringObject.getResponsibleParty()));
         }
     }
 
-    private void setGeometry(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setGeometry(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         if (abstractMonitoringObject.isSetGeometry()) {
             if (abstractMonitoringObject.isSetGmlID()) {
-                Map<HelperValues, String> additionalValues = Maps.newHashMap();
-                additionalValues.put(HelperValues.GMLID, abstractMonitoringObject.getGmlId());
-                amot.addNewGeometry().set(encodeGML32(abstractMonitoringObject.getGeometry(), additionalValues));
+                amot.addNewGeometry().set(encodeGML32(abstractMonitoringObject.getGeometry(),
+                        new EncodingContext().with(XmlBeansEncodingFlags.GMLID, abstractMonitoringObject.getGmlId())));
             } else {
                 amot.addNewGeometry().set(encodeGML32(abstractMonitoringObject.getGeometry()));
             }
@@ -147,7 +147,8 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
         }
     }
 
-    private void setPurpose(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setPurpose(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         if (abstractMonitoringObject.isSetPurpose()) {
             for (ReferenceType purpose : abstractMonitoringObject.getPurpose()) {
                 amot.addNewPurpose().set(encodeGML32(purpose));
@@ -156,11 +157,12 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
     }
 
     private void setObservingCapability(AbstractMonitoringObjectType amot,
-            AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+            AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         if (abstractMonitoringObject.isSetObservingCapability()) {
             for (ObservingCapability observingCapability : abstractMonitoringObject.getObservingCapability()) {
                 if (observingCapability.isSetHref()) {
-                    eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType.ObservingCapability oc = amot.addNewObservingCapability();
+                    eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType.ObservingCapability oc =
+                            amot.addNewObservingCapability();
                     oc.setHref(observingCapability.getHref());
                     if (observingCapability.isSetTitle()) {
                         oc.setTitle(observingCapability.getTitle());
@@ -172,7 +174,8 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
         }
     }
 
-    private void setBroader(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setBroader(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         if (abstractMonitoringObject.isSetBroader()) {
             Hierarchy broader = abstractMonitoringObject.getBroader();
             if (broader.isSetSimpleAttrs()) {
@@ -187,7 +190,8 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
         }
     }
 
-    private void setNarrower(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setNarrower(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         if (abstractMonitoringObject.isSetNarrower()) {
             for (Hierarchy narrower : abstractMonitoringObject.getNarrower()) {
                 if (narrower.isSetSimpleAttrs()) {
@@ -203,7 +207,8 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
         }
     }
 
-    private void setSupersedes(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setSupersedes(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         if (abstractMonitoringObject.isSetSupersedes()) {
             for (AbstractMonitoringObject supersedes : abstractMonitoringObject.getSupersedes()) {
                 if (supersedes.isSetSimpleAttrs()) {
@@ -219,8 +224,8 @@ public abstract class AbstractMonitoringObjectEncoder extends AbstractEnvironmen
         }
     }
 
-    private void setSupersededBy(AbstractMonitoringObjectType amot,
-            AbstractMonitoringObject abstractMonitoringObject) throws OwsExceptionReport {
+    private void setSupersededBy(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
+            throws EncodingException {
         if (abstractMonitoringObject.isSetSupersededBy()) {
             for (AbstractMonitoringObject supersededBy : abstractMonitoringObject.getSupersededBy()) {
                 if (supersededBy.isSetSimpleAttrs()) {

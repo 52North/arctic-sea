@@ -100,7 +100,7 @@ public class SosDecoderv20Test {
         assertThat(decodedObject, instanceOf(GetObservationRequest.class));
 
         final GetObservationRequest request = (GetObservationRequest) decodedObject;
-        assertThat(request.getExtensions().isBooleanExtensionSet("MergeObservationsIntoDataArray"), is(TRUE));
+        assertThat(request.getBooleanExtension("MergeObservationsIntoDataArray"), is(TRUE));
     }
 
     @Test

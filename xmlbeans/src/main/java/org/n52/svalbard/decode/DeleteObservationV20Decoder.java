@@ -14,68 +14,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.sos.ext.deleteobservation.v20;
+package org.n52.svalbard.decode;
 
 import static java.lang.String.format;
-import static java.util.Collections.emptyMap;
-import static org.n52.sos.ext.deleteobservation.DeleteObservationConstants.CONFORMANCE_CLASSES;
-import static org.n52.sos.ext.deleteobservation.DeleteObservationConstants.NS_SOSDO_2_0;
-import static org.n52.sos.ogc.sos.SosConstants.SOS;
-import static org.n52.sos.util.CodingHelper.decoderKeysForElements;
-import static org.n52.sos.util.CodingHelper.xmlDecoderKeysForOperation;
-import static org.n52.sos.util.CollectionHelper.union;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.decode.Decoder;
-import org.n52.sos.decode.DecoderKey;
-import org.n52.sos.exception.ows.NoApplicableCodeException;
-import org.n52.sos.exception.ows.concrete.UnsupportedDecoderInputException;
-import org.n52.sos.ext.deleteobservation.DeleteObservationConstants;
-import org.n52.sos.ext.deleteobservation.DeleteObservationRequest;
-import org.n52.sos.ogc.filter.TemporalFilter;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.Sos2Constants;
-import org.n52.sos.service.ServiceConstants.SupportedTypeKey;
-import org.n52.sos.util.CodingHelper;
-import org.n52.sos.util.CollectionHelper;
+import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.filter.TemporalFilter;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
+import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-import net.opengis.sosdo.x20.DeleteObservationDocument;
-import net.opengis.sosdo.x20.DeleteObservationType;
+import net.opengis.sosdo.x10.DeleteObservationDocument;
+import net.opengis.sosdo.x10.DeleteObservationType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
- * 
+ *
  * @since 1.0.0
  */
-public class DeleteObservationDecoder implements Decoder<DeleteObservationRequest, XmlObject> {
+public class DeleteObservationV20Decoder extends AbstractXmlDecoder<XmlObject, DeleteObservationRequest> {
 
     @SuppressWarnings("unchecked")
-    private static final Set<DecoderKey> DECODER_KEYS =
-            union(decoderKeysForElements(NS_SOSDO_2_0, DeleteObservationDocument.class), xmlDecoderKeysForOperation(
-                    SOS, Sos2Constants.SERVICEVERSION, DeleteObservationConstants.Operations.DeleteObservation));
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(DeleteObservationConstants.NS_SOSDO_2_0, DeleteObservationDocument.class),
+                    CodingHelper.xmlDecoderKeysForOperation(
+                    Sos2Constants.SOS, Sos2Constants.SERVICEVERSION, DeleteObservationConstants.Operations.DeleteObservation));
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteObservationDecoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DeleteObservationV20Decoder.class);
 
-    public DeleteObservationDecoder() {
+    public DeleteObservationV20Decoder() {
         LOGGER.info("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 
-    public Set<DecoderKey> getDecoderKeyTypes() {
+    public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
-    public DeleteObservationRequest decode(XmlObject xmlObject) throws OwsExceptionReport {
+    public DeleteObservationRequest decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug(format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
         // XmlHelper.validateDocument(xmlObject);
         if (xmlObject instanceof DeleteObservationDocument) {
@@ -89,13 +81,13 @@ public class DeleteObservationDecoder implements Decoder<DeleteObservationReques
     }
 
     private DeleteObservationRequest parseDeleteObservation(DeleteObservationDocument xbDelObsDoc)
-            throws OwsExceptionReport {
+            throws DecodingException {
         DeleteObservationRequest delObsRequest = null;
 
         DeleteObservationType xbDelObsType = xbDelObsDoc.getDeleteObservation();
 
         if (xbDelObsType != null) {
-            delObsRequest = new DeleteObservationRequest(NS_SOSDO_2_0);
+            delObsRequest = new DeleteObservationRequest(DeleteObservationConstants.NS_SOSDO_2_0);
             delObsRequest.setVersion(xbDelObsType.getVersion());
             delObsRequest.setService(xbDelObsType.getService());
             if (CollectionHelper.isNotNullOrEmpty(xbDelObsType.getObservationArray())) {
@@ -144,11 +136,11 @@ public class DeleteObservationDecoder implements Decoder<DeleteObservationReques
             request.setTemporalFilters(parseTemporalFilters(dot.getTemporalFilterArray()));
         }
     }
-    
+
     private Set<TemporalFilter> parseTemporalFilters(
-            final net.opengis.sosdo.x20.DeleteObservationType.TemporalFilter[] temporalFilters) throws OwsExceptionReport {
+            final DeleteObservationType.TemporalFilter[] temporalFilters) throws OwsExceptionReport {
         final Set<TemporalFilter> sosTemporalFilters = Sets.newHashSetWithExpectedSize(temporalFilters.length);
-        for (final net.opengis.sosdo.x20.DeleteObservationType.TemporalFilter temporalFilter : temporalFilters) {
+        for (final DeleteObservationType.TemporalFilter temporalFilter : temporalFilters) {
             final Object filter = CodingHelper.decodeXmlElement(temporalFilter.getTemporalOps());
             if (filter instanceof TemporalFilter) {
                 sosTemporalFilters.add((TemporalFilter) filter);
@@ -157,12 +149,8 @@ public class DeleteObservationDecoder implements Decoder<DeleteObservationReques
         return sosTemporalFilters;
     }
 
-    public Map<SupportedTypeKey, Set<String>> getSupportedTypes() {
-        return emptyMap();
-    }
-
-    public Set<String> getConformanceClasses() {
-        return CONFORMANCE_CLASSES;
+    public Set<SupportedType> getSupportedTypes() {
+        return Collections.emptySet();
     }
 
 }

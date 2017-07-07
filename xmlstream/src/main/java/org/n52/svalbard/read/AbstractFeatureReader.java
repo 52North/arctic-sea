@@ -17,9 +17,7 @@
 package org.n52.svalbard.read;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.ows.exception.CodedException;
-import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -30,13 +28,13 @@ public class AbstractFeatureReader extends XmlReader<AbstractFeature> {
 
     @Override
     protected void begin()
-            throws CodedException {
-        throw new NoApplicableCodeException().withMessage("Not implemented");
+            throws DecodingException {
+        throw new DecodingException("Not implemented");
     }
 
     @Override
     protected AbstractFeature finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         /* TODO implement .finish() */
         throw new UnsupportedOperationException(".finish() not yet implemented");
     }

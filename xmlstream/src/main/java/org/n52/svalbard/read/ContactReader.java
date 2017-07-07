@@ -20,8 +20,8 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
-import org.n52.shetland.inspire.Contact;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.inspire.base2.Contact;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 public class ContactReader extends XmlReader<Contact> {
 
@@ -29,13 +29,13 @@ public class ContactReader extends XmlReader<Contact> {
 
     @Override
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         this.contact = new Contact();
     }
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_BASE2_ADDRESS)) {
             this.contact.setAddress(delegate(new AddressReader()));
         } else if (name.equals(AqdConstants.QN_BASE2_CONTACT_INSTRUCTIONS)) {
@@ -61,7 +61,7 @@ public class ContactReader extends XmlReader<Contact> {
 
     @Override
     protected Contact finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         return contact;
     }
 

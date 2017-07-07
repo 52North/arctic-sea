@@ -90,7 +90,7 @@ public class WmlTVPEncoderv20Test {
         Assert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
         Assert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
     }
-    
+
     @Test
     public void shouldEncodeCumulativeProperty() throws OwsExceptionReport {
         mv.setMetadata(
@@ -102,16 +102,16 @@ public class WmlTVPEncoderv20Test {
         Assert.assertThat(((MeasurementTimeseriesMetadataType) ((MeasurementTimeseriesDocument)encodedElement)
                 .getTimeseries().getMetadata().getTimeseriesMetadata()).getCumulative(), Is.is(true));
     }
-    
+
     @Test
     public void shouldEncodeInterpolationType() throws OwsExceptionReport, XmlException {
         final InterpolationType type = WaterMLConstants.InterpolationType.MinPrec;
-        
+
         mv.setDefaultPointMetadata(
                 new DefaultPointMetadata().setDefaultTVPMeasurementMetadata(
                         new DefaultTVPMeasurementMetadata().setInterpolationtype(
                                 type)));
-        
+
         XmlObject encodedElement = encoder.encode(mv);
 
         TVPDefaultMetadataPropertyType defaultPointMetadata = ((MeasurementTimeseriesDocument)encodedElement).getTimeseries().getDefaultPointMetadataArray(0);

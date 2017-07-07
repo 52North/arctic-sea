@@ -22,7 +22,7 @@ import com.google.common.base.Objects;
 
 public class ClassToClassEncoderKey implements EncoderKey {
 
-    private final  Class<?> internalClass;
+    private final Class<?> internalClass;
 
     private final Class<?> encodedClass;
 
@@ -45,14 +45,16 @@ public class ClassToClassEncoderKey implements EncoderKey {
 
     @Override
     public String toString() {
-        return String.format("ClassToClassEncoderKey[internalClass=%s, encodedClass=%s]", getInternalClass().getSimpleName(), getEncodedClass().getSimpleName());
+        return String.format("ClassToClassEncoderKey[internalClass=%s, encodedClass=%s]",
+                getInternalClass().getSimpleName(), getEncodedClass().getSimpleName());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final ClassToClassEncoderKey o = (ClassToClassEncoderKey) obj;
-            return Objects.equal(getEncodedClass(), o.getEncodedClass()) && Objects.equal(getInternalClass(), o.getInternalClass());
+            return Objects.equal(getEncodedClass(), o.getEncodedClass())
+                    && Objects.equal(getInternalClass(), o.getInternalClass());
         }
         return false;
     }

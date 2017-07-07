@@ -21,7 +21,7 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -39,7 +39,7 @@ public class ChoiceReader<T> extends XmlReader<T> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         XmlReader<? extends T> delegate = delegates.get(name);
         if (this.t == null && delegate != null) {
             this.t = delegate(delegate);

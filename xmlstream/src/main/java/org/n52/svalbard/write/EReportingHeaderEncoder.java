@@ -23,19 +23,23 @@ import java.util.List;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.n52.janmayen.NcName;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
-import org.n52.shetland.inspire.Contact;
 import org.n52.shetland.inspire.GeographicalName;
-import org.n52.shetland.inspire.InspireID;
 import org.n52.shetland.inspire.Pronunciation;
-import org.n52.shetland.inspire.RelatedParty;
 import org.n52.shetland.inspire.Spelling;
 import org.n52.shetland.inspire.ad.AddressRepresentation;
+import org.n52.shetland.inspire.base.Identifier;
+import org.n52.shetland.inspire.base2.Contact;
+import org.n52.shetland.inspire.base2.RelatedParty;
 import org.n52.shetland.iso.GcoConstants;
+import org.n52.shetland.iso.gmd.LocalisedCharacterString;
+import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.GmlConstants;
@@ -49,45 +53,23 @@ import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.svalbard.encode.EncodingValues;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.base.Optional;
 
-
-public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
-    private final EReportingHeader header;
-
-    public EReportingHeaderEncoder(EReportingHeader header) {
-        this.header = header;
+public class EReportingHeaderEncoder
+        extends XmlStreamWriter<EReportingHeader> {
+    public EReportingHeaderEncoder(
+            OutputStream outputStream, EncodingContext context, EncoderRepository encoderRepository,
+            Producer<XmlOptions> xmlOptions, EReportingHeader element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        write(this.header, out, encodingValues);
-    }
-
-    @Override
-    public void write(EReportingHeader elementToStream, OutputStream out)
-            throws XMLStreamException, EncodingException {
-        write(elementToStream, out, new EncodingValues());
-    }
-
-    @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        write(this.header, out, new EncodingValues());
-    }
-
-    @Override
-    public void write(EReportingHeader elementToStream, OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-        this.init(out, encodingValues);
-        this.encodeReportingHeader(elementToStream, encodingValues);
-    }
-
-    private void encodeReportingHeader(EReportingHeader h, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-
+    public void write() throws XMLStreamException, EncodingException {
+        EReportingHeader h = getElement();
         start(AqdConstants.QN_AQD_REPORTING_HEADER);
         namespace(AqdConstants.NS_AD_PREFIX, AqdConstants.NS_AD);
         namespace(AqdConstants.NS_AQD_PREFIX, AqdConstants.NS_AQD);
@@ -98,7 +80,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
         namespace(W3CConstants.NS_XSI_PREFIX, W3CConstants.NS_XSI);
         namespace(GcoConstants.NS_GCO_PREFIX, GcoConstants.NS_GCO);
-        if (encodingValues.isAddSchemaLocation()) {
+        if (isAddSchemaLocation()) {
             schemaLocation(Collections.singleton(AqdConstants.NS_AQD_SCHEMA_LOCATION));
         }
 
@@ -143,7 +125,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         end(AqdConstants.QN_AQD_REPORTING_AUTHORITY);
     }
 
-    private void encodeInpireID(InspireID v) throws XMLStreamException {
+    private void encodeInpireID(Identifier v) throws XMLStreamException {
         start(AqdConstants.QN_AQD_INSPIRE_ID);
         start(AqdConstants.QN_BASE_IDENTIFIER);
         encodeString(AqdConstants.QN_BASE_LOCAL_ID, v.getLocalId());
@@ -190,7 +172,7 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
     }
 
     private void encodeReferenceAttr(Reference v) throws XMLStreamException {
-        attr(W3CConstants.QN_XLINK_HREF, v.getHref().toString());
+        attr(W3CConstants.QN_XLINK_HREF, v.getHref());
         attr(W3CConstants.QN_XLINK_ACTUATE, v.getActuate());
         attr(W3CConstants.QN_XLINK_ARCROLE, v.getArcrole());
         attr(W3CConstants.QN_XLINK_ROLE, v.getRole());
@@ -241,17 +223,19 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
         }
     }
 
-    protected void encodeNillableFreeText(QName qn, Nillable<String> v) throws XMLStreamException {
-        if (!v.isAbsent()) {
-            if (v.isNil()) {
+    protected void encodeNillableFreeText(QName qn, Nillable<PT_FreeText> nillable) throws XMLStreamException {
+        if (!nillable.isAbsent()) {
+            if (nillable.isNil()) {
                 empty(qn);
-                encodeGCONilAttr(v);
+                encodeGCONilAttr(nillable);
             } else {
-                start(qn);
-                start(GcoConstants.QN_GCO_CHARACTER_STRING);
-                chars(v.get());
-                endInline(GcoConstants.QN_GCO_CHARACTER_STRING);
-                end(qn);
+                for (LocalisedCharacterString lcs : nillable.get().getTextGroup()) {
+                    start(qn);
+                    start(GcoConstants.QN_GCO_CHARACTER_STRING);
+                    chars(lcs.getValue());
+                    endInline(GcoConstants.QN_GCO_CHARACTER_STRING);
+                    end(qn);
+                }
             }
         }
     }
@@ -271,15 +255,19 @@ public class EReportingHeaderEncoder extends XmlStreamWriter<EReportingHeader> {
 
     protected void encodeContact(Contact c) throws XMLStreamException {
         start(AqdConstants.QN_BASE2_C_ONTACT);
-        encodeAddress(c.getAddressRepresentation());
+        encodeAddress(c.getAddress());
         encodeNillableFreeText(AqdConstants.QN_BASE2_CONTACT_INSTRUCTIONS, c.getContactInstructions());
-        encodeNillableString(AqdConstants.QN_BASE2_ELECTRONIC_MAIL_ADDRESS, c.getElectronicMailAddressRepresentation());
+        encodeNillableString(AqdConstants.QN_BASE2_ELECTRONIC_MAIL_ADDRESS, c.getElectronicMailAddress());
         encodeNillableFreeText(AqdConstants.QN_BASE2_HOURS_OF_SERVICE, c.getHoursOfService());
-        for (Nillable<String> value : c.getTelephoneFacsimile()) {
-            encodeNillableString(AqdConstants.QN_BASE2_TELEPHONE_FACSIMILE, value);
+        if (c.getTelephoneFacsimile().isPresent()) {
+            for (Nillable<String> value : c.getTelephoneFacsimile().get()) {
+                encodeNillableString(AqdConstants.QN_BASE2_TELEPHONE_FACSIMILE, value);
+            }
         }
-        for (Nillable<String> value : c.getTelephoneVoice()) {
-            encodeNillableString(AqdConstants.QN_BASE2_TELEPHONE_VOICE, value);
+        if (c.getTelephoneVoice().isPresent()) {
+            for (Nillable<String> value : c.getTelephoneVoice().get()) {
+                encodeNillableString(AqdConstants.QN_BASE2_TELEPHONE_VOICE, value);
+            }
         }
         encodeNillableString(AqdConstants.QN_BASE2_WEBSITE, c.getWebsite());
         end(AqdConstants.QN_BASE2_C_ONTACT);

@@ -34,8 +34,8 @@ public abstract class AbstractEnvironmentalMonitoringFacilityEncoderTest {
     public static void cleanupSettingManager() {
         SettingsManager.getInstance().cleanup();
     }
-    
+
     protected EnvironmentalMonitoringFacility getEnvironmentalMonitoringFacility() {
-        return new EnvironmentalMonitoringFacility(new Identifier("localId", "namespace"), new ReferenceType("mediaMonitored")); 
+        return new EnvironmentalMonitoringFacility(new Identifier("localId", "namespace"), new ReferenceType("mediaMonitored"));
     }
 }

@@ -25,7 +25,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,17 +40,17 @@ public abstract class XmlReader<T> {
     private int rootCount;
 
     public T read(InputStream in)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         return XmlReader.this.read(this.inputFactory.createXMLStreamReader(in));
     }
 
     private T read(XmlReader<?> reader)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         return read(reader.reader);
     }
 
     private T read(XMLStreamReader reader)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         this.reader = reader;
         this.root = toNextBeginTag();
         String cName = this.getClass().getSimpleName();
@@ -91,8 +91,14 @@ public abstract class XmlReader<T> {
         return finish();
     }
 
+    protected void read(QName name)
+            throws XMLStreamException, DecodingException {
+        ignore();
+    }
+
+    @SuppressWarnings("hiding")
     protected <T> T delegate(XmlReader<? extends T> reader)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         return reader.read(this);
     }
 
@@ -174,17 +180,12 @@ public abstract class XmlReader<T> {
     }
 
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         /* no op */
     }
 
     protected abstract T finish()
-            throws OwsExceptionReport;
-
-    protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
-        ignore();
-    }
+            throws DecodingException;
 
     protected void ignore() {
         QName name = this.reader.getName();

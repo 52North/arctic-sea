@@ -14,21 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
-
-import java.util.Map;
+package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.ogc.gml.AbstractFeature;
-import org.n52.sos.ogc.gml.ReferenceType;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.sos.util.JavaHelper;
-import org.n52.sos.util.XmlOptionsHelper;
-import org.n52.svalbard.inspire.ef.AnyDomainLink;
-import org.n52.svalbard.inspire.ef.EnvironmentalMonitoringFacility;
-import org.n52.svalbard.inspire.ef.NetworkFacility;
-import org.n52.svalbard.inspire.ef.OperationalActivityPeriod;
+import org.n52.shetland.inspire.ef.AnyDomainLink;
+import org.n52.shetland.inspire.ef.EnvironmentalMonitoringFacility;
+import org.n52.shetland.inspire.ef.NetworkFacility;
+import org.n52.shetland.inspire.ef.OperationalActivityPeriod;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.util.JavaHelper;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlOptionsHelper;
 
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityDocument;
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType;
@@ -56,12 +53,12 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     protected String generateGmlId() {
         return "emf_" + JavaHelper.generateID(Double.toString(System.currentTimeMillis() * Math.random()));
     }
-    
+
     @Override
     protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
-            Map<HelperValues, String> additionalValues) throws OwsExceptionReport {
-        if (additionalValues.containsKey(HelperValues.ENCODE)
-                && additionalValues.get(HelperValues.ENCODE).equals("false")) {
+           EncodingContext context) throws EncodingException {
+        if (context.has(XmlBeansEncodingFlags.ENCODE)
+                && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
             featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
             if (abstractFeature.isSetName()) {
                 featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
@@ -77,14 +74,14 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     protected EnvironmentalMonitoringFacilityType createEnvironmentalMonitoringFaciltityType(
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         EnvironmentalMonitoringFacilityType emft = EnvironmentalMonitoringFacilityType.Factory.newInstance();
         return encodeEnvironmentalMonitoringFaciltityType(emft, environmentalMonitoringFacility);
     }
 
     protected EnvironmentalMonitoringFacilityType encodeEnvironmentalMonitoringFaciltityType(
             EnvironmentalMonitoringFacilityType emft, EnvironmentalMonitoringFacility environmentalMonitoringFacility)
-                    throws OwsExceptionReport {
+                    throws EncodingException {
         encodeAbstractMonitoringFeature(emft, environmentalMonitoringFacility);
         setRepresentativePoint(emft, environmentalMonitoringFacility);
         setMeasurementRegime(emft, environmentalMonitoringFacility);
@@ -98,7 +95,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setRepresentativePoint(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetRepresentativePoint()) {
             emft.addNewRepresentativePoint().addNewPoint()
                     .set(encodeGML32(environmentalMonitoringFacility.getRepresentativePoint()));
@@ -106,7 +103,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setMeasurementRegime(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetMeasurementRegime()) {
             emft.addNewMeasurementRegime().set(encodeGML32(environmentalMonitoringFacility.getMeasurementRegime()));
         } else {
@@ -124,7 +121,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setResultAcquisitionSource(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetResultAcquisitionSource()) {
             for (ReferenceType resultAcquisitionSource : environmentalMonitoringFacility
                     .getResultAcquisitionSource()) {
@@ -134,14 +131,14 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setSpecialisedEMFType(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetSpecialisedEMFType()) {
             emft.addNewSpecialisedEMFType().set(encodeGML32(environmentalMonitoringFacility.getSpecialisedEMFType()));
         }
     }
 
     private void setOperationalActivityPeriod(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetOperationalActivityPeriod()) {
             for (OperationalActivityPeriod operationalActivityPeriod : environmentalMonitoringFacility
                     .getOperationalActivityPeriod()) {
@@ -162,7 +159,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setRelatedTo(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetRelatedTo()) {
             for (AnyDomainLink relatedTo : environmentalMonitoringFacility.getRelatedTo()) {
                 if (relatedTo.isSetSimpleAttrs()) {
@@ -179,7 +176,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
     }
 
     private void setBelongsTo(EnvironmentalMonitoringFacilityType emft,
-            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws OwsExceptionReport {
+            EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetBelongsTo()) {
             for (NetworkFacility belongsTo : environmentalMonitoringFacility.getBelongsTo()) {
                 if (belongsTo.isSetSimpleAttrs()) {

@@ -20,13 +20,17 @@ import java.io.OutputStream;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
+
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sos.ro.OfferingContext;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferingConstants;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.EncodingValues;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
@@ -35,54 +39,28 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  */
 public class RelatedOfferingXmlStreamWriter extends XmlStreamWriter<RelatedOfferings> {
-
-    private RelatedOfferings relatedOfferings;
-
-    public RelatedOfferingXmlStreamWriter(RelatedOfferings relatedOfferings) {
-        setRelatedOfferings(relatedOfferings);
-    }
-
-    public RelatedOfferingXmlStreamWriter() {
+    public RelatedOfferingXmlStreamWriter(OutputStream outputStream, EncodingContext context,
+                                          EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions,
+                                          RelatedOfferings element) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        write(getRelatedOfferings(), out);
+    public void write() throws XMLStreamException, EncodingException {
+        start();
+        writeRelatedOfferingsDoc();
+        end();
+        finish();
     }
 
-    @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        write(getRelatedOfferings(), out, encodingValues);
-    }
-
-    @Override
-    public void write(RelatedOfferings response, OutputStream out) throws XMLStreamException, EncodingException {
-        write(response, out, new EncodingValues());
-    }
-
-    @Override
-    public void write(RelatedOfferings relatedOfferings, OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-        try {
-            setRelatedOfferings(relatedOfferings);
-            init(out, encodingValues);
-            start(encodingValues.isEmbedded());
-            writeRelatedOfferingsDoc(encodingValues);
-            end();
-            finish();
-        } catch (XMLStreamException xmlse) {
-            throw new EncodingException(xmlse);
-        }
-    }
-
-    private void writeRelatedOfferingsDoc(EncodingValues encodingValues) throws XMLStreamException {
+    private void writeRelatedOfferingsDoc() throws XMLStreamException {
         start(RelatedOfferingConstants.QN_RO_RELATED_OFFERINGS);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
         namespace(RelatedOfferingConstants.NS_RO_PREFIX, RelatedOfferingConstants.NS_RO);
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
         addXlinkHrefAttr(RelatedOfferingConstants.RELATED_OFFERINGS);
         addXlinkTitleAttr(RelatedOfferingConstants.RELATED_OFFERINGS);
-        for (OfferingContext offeringContext : getRelatedOfferings().getValue()) {
+        for (OfferingContext offeringContext : getElement().getValue()) {
             start(RelatedOfferingConstants.QN_RO_RELATED_OFFERING);
             writeOfferingContext(offeringContext);
             end(RelatedOfferingConstants.QN_RO_RELATED_OFFERING);
@@ -124,20 +102,6 @@ public class RelatedOfferingXmlStreamWriter extends XmlStreamWriter<RelatedOffer
             title = title.substring(title.lastIndexOf('#') + 1, title.length());
         }
         return title;
-    }
-
-    /**
-     * @return the relatedOfferings
-     */
-    protected RelatedOfferings getRelatedOfferings() {
-        return relatedOfferings;
-    }
-
-    /**
-     * @param relatedOfferings the relatedOfferings to set
-     */
-    protected void setRelatedOfferings(RelatedOfferings relatedOfferings) {
-        this.relatedOfferings = relatedOfferings;
     }
 
 }

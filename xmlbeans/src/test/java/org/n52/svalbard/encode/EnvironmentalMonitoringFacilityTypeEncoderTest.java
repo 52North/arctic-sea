@@ -32,7 +32,7 @@ public class EnvironmentalMonitoringFacilityTypeEncoderTest extends AbstractEnvi
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
     private final EnvironmentalMonitoringFaciltityTypeEncoder typeEncoder = new EnvironmentalMonitoringFaciltityTypeEncoder();
-    
+
     @Test
     public void encodeEnvironmentalMonitoringFacility() throws OwsExceptionReport {
         XmlObject xmlObject = typeEncoder.encode(getEnvironmentalMonitoringFacility());

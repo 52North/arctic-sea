@@ -95,7 +95,7 @@ public class DeleteObservationEncoderTest {
         assertTrue("DecoderKeyTypes does NOT contain " + key, instance.getEncoderKeyType().contains(key));
         key =
                 new VersionedOperationEncoderKey(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-                        DeleteObservationConstants.Operations.DeleteObservation, MediaTypes.TEXT_XML, 
+                        DeleteObservationConstants.Operations.DeleteObservation, MediaTypes.TEXT_XML,
                         DeleteObservationConstants.NS_SOSDO_2_0);
         assertTrue("DecoderKeyTypes does NOT contain " + key, instance.getEncoderKeyType().contains(key));
         key =

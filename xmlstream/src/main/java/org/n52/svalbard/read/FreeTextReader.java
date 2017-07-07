@@ -20,31 +20,33 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.iso.GcoConstants;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.iso.gmd.LocalisedCharacterString;
+import org.n52.shetland.iso.gmd.PT_FreeText;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class FreeTextReader extends XmlReader<String> {
+public class FreeTextReader extends XmlReader<PT_FreeText> {
 
-    private String string;
+    private PT_FreeText freeText;
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(GcoConstants.QN_GCO_CHARACTER_STRING)) {
-            this.string = chars();
+            this.freeText = new PT_FreeText().addTextGroup(new LocalisedCharacterString(chars()));
         } else {
             ignore();
         }
     }
 
     @Override
-    protected String finish()
-            throws OwsExceptionReport {
-        return string;
+    protected PT_FreeText finish()
+            throws DecodingException {
+        return freeText;
     }
 
 }

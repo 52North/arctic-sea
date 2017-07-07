@@ -22,12 +22,12 @@ import javax.xml.stream.XMLStreamException;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 public class ReportingHeaderReader extends XmlReader<EReportingHeader> {
 
     private EReportingHeader header;
-    private boolean change = false;
+    private boolean change;
     private String changeDescription;
 
     @Override
@@ -37,7 +37,7 @@ public class ReportingHeaderReader extends XmlReader<EReportingHeader> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_AQD_INSPIRE_ID)) {
             this.header.setInspireID(delegate(new InpireIDReader()));
         } else if (name.equals(AqdConstants.QN_AQD_REPORTING_AUTHORITY)) {
@@ -61,7 +61,7 @@ public class ReportingHeaderReader extends XmlReader<EReportingHeader> {
 
     @Override
     protected EReportingHeader finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         return this.header
                 .setChange(new EReportingChange(change, changeDescription));
     }

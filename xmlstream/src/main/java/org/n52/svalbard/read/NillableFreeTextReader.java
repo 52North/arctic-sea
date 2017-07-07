@@ -16,10 +16,12 @@
  */
 package org.n52.svalbard.read;
 
-public class NillableFreeTextReader extends NillableReader<String> {
+import org.n52.shetland.iso.gmd.PT_FreeText;
+
+public class NillableFreeTextReader extends NillableReader<PT_FreeText> {
 
     @Override
-    public XmlReader<String> getDelegate() {
+    public XmlReader<PT_FreeText> getDelegate() {
         return new FreeTextReader();
     }
 

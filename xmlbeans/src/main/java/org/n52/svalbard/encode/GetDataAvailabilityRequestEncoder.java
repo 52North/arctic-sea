@@ -46,7 +46,8 @@ public class GetDataAvailabilityRequestEncoder extends AbstractSosRequestEncoder
 
     @Override
     protected XmlObject create(GetDataAvailabilityRequest request) throws EncodingException {
-        return request.getNamespace().equals(GetDataAvailabilityConstants.NS_GDA_20) ? createGDAv20(request) : createGDAv10(request);
+        return request.getNamespace().equals(GetDataAvailabilityConstants.NS_GDA_20)
+               ? createGDAv20(request) : createGDAv10(request);
     }
 
     private XmlObject createGDAv10(GetDataAvailabilityRequest request) {

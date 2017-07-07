@@ -28,5 +28,6 @@ public enum XmlBeansEncodingFlags {
     REFERENCED,
     ENCODE,
     GMLID,
-    FOR_OBSERVATION
+    FOR_OBSERVATION,
+    EXIST_FOI_IN_DOC
 }

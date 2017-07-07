@@ -28,6 +28,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
+ * @param <T> the response type
  *
  * @since 4.0.0
  */
@@ -41,13 +42,11 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     /**
      * Finds a O&Mv2 compatible {@link ObservationEncoder}
      *
-     * @param responseFormat
-     *            the response format
+     * @param responseFormat the response format
      *
      * @return the encoder or {@code null} if none is found
      *
-     * @throws EncodingException
-     *             if the found encoder is not a {@linkplain ObservationEncoder}
+     * @throws EncodingException if the found encoder is not a {@linkplain ObservationEncoder}
      */
     private ObservationEncoder<XmlObject, OmObservation> findObservationEncoder(String responseFormat)
             throws EncodingException {
@@ -65,12 +64,11 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     /**
      * Finds a compatible response encoder to delegate to.
      *
-     * @param responseFormat
-     *            the response format
+     * @param responseFormat the response format
      *
      * @return the encoder
-     * @throws org.n52.svalbard.encode.exception.EncodingException
-     *             if no encoder is found
+     *
+     * @throws org.n52.svalbard.encode.exception.EncodingException if no encoder is found
      */
     private Encoder<XmlObject, T> findResponseEncoder(String responseFormat) throws EncodingException {
         return getEncoder(responseFormat, getResponseType());
@@ -91,7 +89,7 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     }
 
     @Override
-    protected void create(T response, OutputStream outputStream, EncodingValues encodingValues)
+    protected void create(T response, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
         final String responseFormat = response.getResponseFormat();
         // search for an O&M2 encoder for this response format
@@ -105,31 +103,28 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     /**
      * Create a response using the provided O&M2 compatible observation encoder.
      *
-     * @param encoder
-     *            the encoder
-     * @param response
-     *            the response
+     * @param encoder  the encoder
+     * @param response the response
      *
      * @return the encoded response
      *
-     * @throws EncodingException
-     *             if an error occurs
+     * @throws EncodingException if an error occurs
      */
     protected abstract XmlObject createResponse(ObservationEncoder<XmlObject, OmObservation> encoder, T response)
             throws EncodingException;
 
     /**
-     * Override this method in concrete response encoder if streaming is
-     * supported for this operations.
+     * Override this method in concrete response encoder if streaming is supported for this operations.
      *
-     * @param encoder
-     * @param response
-     * @param outputStream
-     * @param encodingValues
-     * @throws EncodingException
+     * @param encoder        the encoder
+     * @param response       the response
+     * @param outputStream   the output stream
+     * @param encodingValues the encoding context
+     *
+     * @throws EncodingException if the encoding fails
      */
     protected void createResponse(ObservationEncoder<XmlObject, OmObservation> encoder, T response,
-            OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
+                                  OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
         super.create(response, outputStream, encodingValues);
     }
 

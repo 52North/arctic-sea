@@ -17,38 +17,31 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gwml.GWMLConstants;
 import org.n52.shetland.ogc.om.values.ProfileLevel;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.HelperValues;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
 
-public class LogValuePropertyTypeEncoder extends AbstractLogValueTypeEncoder<LogValuePropertyType> {
+import net.opengis.gwmlWell.x22.LogValuePropertyType;
 
-    private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
-            new ClassToClassEncoderKey(ProfileLevel.class, LogValuePropertyType.class),
-            new XmlPropertyTypeEncoderKey(GWMLConstants.NS_GWML_22, ProfileLevel.class));
+public class LogValuePropertyTypeEncoder
+        extends AbstractLogValueTypeEncoder<LogValuePropertyType> {
+
+    private static final Set<EncoderKey> ENCODER_KEYS =
+            Sets.newHashSet(new ClassToClassEncoderKey(ProfileLevel.class, LogValuePropertyType.class),
+                    new XmlPropertyTypeEncoderKey(GWMLConstants.NS_GWML_22, ProfileLevel.class));
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
-    public LogValuePropertyType encode(ProfileLevel logValue)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
-        return encode(logValue,  new EnumMap<HelperValues, String>(HelperValues.class));
-    }
-
-    @Override
-    public LogValuePropertyType encode(ProfileLevel logValue, Map<HelperValues, String> additionalValues)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
+    public LogValuePropertyType encode(ProfileLevel logValue, EncodingContext additionalValues)
+            throws EncodingException {
         LogValuePropertyType lvpt = LogValuePropertyType.Factory.newInstance();
         if (logValue.isSetValue()) {
             lvpt.setLogValue(encodeLogValue(logValue));
@@ -57,4 +50,5 @@ public class LogValuePropertyTypeEncoder extends AbstractLogValueTypeEncoder<Log
         }
         return lvpt;
     }
+
 }

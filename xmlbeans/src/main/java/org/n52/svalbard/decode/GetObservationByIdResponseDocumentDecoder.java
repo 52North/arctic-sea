@@ -20,27 +20,29 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import net.opengis.sos.x20.GetObservationByIdResponseDocument;
+import net.opengis.sos.x20.GetObservationByIdResponseType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-import net.opengis.sos.x20.GetObservationByIdResponseDocument;
-import net.opengis.sos.x20.GetObservationByIdResponseType;
-
-import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
-
-public class GetObservationByIdResponseDocumentDecoder extends
-        AbstractXmlDecoder<GetObservationByIdResponseDocument, GetObservationByIdResponse> implements SosResponseDecoder {
+public class GetObservationByIdResponseDocumentDecoder
+        extends AbstractXmlDecoder<GetObservationByIdResponseDocument, GetObservationByIdResponse>
+        implements SosResponseDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GetObservationByIdResponseDocumentDecoder.class);
 
@@ -66,7 +68,7 @@ public class GetObservationByIdResponseDocumentDecoder extends
             setVersions(response);
             GetObservationByIdResponseType type = doc.getGetObservationByIdResponse();
             response.setExtensions(parseExtensibleResponse(type));
-            response.setObservationCollection(parseObservations(type));
+            response.setObservationCollection(ObservationStream.of(parseObservations(type)));
             return response;
         }
         throw new UnsupportedDecoderInputException(this, doc);

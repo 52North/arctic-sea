@@ -14,21 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.ef;
+package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.encode.ClassToClassEncoderKey;
-import org.n52.sos.encode.EncoderKey;
-import org.n52.sos.encode.XmlEncoderKey;
-import org.n52.sos.exception.ows.concrete.UnsupportedEncoderInputException;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.svalbard.inspire.ef.InspireEfConstants;
-import org.n52.svalbard.inspire.ef.OperationalActivityPeriod;
+import org.n52.shetland.inspire.ef.InspireEfConstants;
+import org.n52.shetland.inspire.ef.OperationalActivityPeriod;
+import org.n52.svalbard.encode.exception.EncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,10 +31,10 @@ import com.google.common.collect.Sets;
 
 import eu.europa.ec.inspire.schemas.ef.x40.OperationalActivityPeriodType;
 
-public class OperationalActivityPeriodTypeEncoder extends AbstractOperationalActivityPeriodEncoder {
+public class OperationalActivityPeriodTypeEncoder
+        extends AbstractOperationalActivityPeriodEncoder {
 
-    private static final Logger LOGGER =
-            LoggerFactory.getLogger(OperationalActivityPeriodTypeEncoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(OperationalActivityPeriodTypeEncoder.class);
 
     protected static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(OperationalActivityPeriod.class, OperationalActivityPeriodType.class),
@@ -52,13 +46,13 @@ public class OperationalActivityPeriodTypeEncoder extends AbstractOperationalAct
     }
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
-    public XmlObject encode(OperationalActivityPeriod operationalActivityPeriod, Map<HelperValues, String> additionalValues)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
+    public XmlObject encode(OperationalActivityPeriod operationalActivityPeriod, EncodingContext context)
+            throws EncodingException {
         return createOperationalActivityPeriod(operationalActivityPeriod);
     }
 

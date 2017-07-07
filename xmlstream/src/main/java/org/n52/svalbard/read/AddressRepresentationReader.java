@@ -21,20 +21,20 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.inspire.ad.AddressRepresentation;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 public class AddressRepresentationReader extends XmlReader<AddressRepresentation> {
     private AddressRepresentation address;
 
     @Override
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         this.address = new AddressRepresentation();
     }
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_AD_ADMIN_UNIT)) {
             address.addAdminUnit(delegate(new AdminUnitReader()));
         } else if (name.equals(AqdConstants.QN_AD_LOCATOR_DESIGNATOR)) {
@@ -58,7 +58,7 @@ public class AddressRepresentationReader extends XmlReader<AddressRepresentation
 
     @Override
     protected AddressRepresentation finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         return this.address;
     }
 

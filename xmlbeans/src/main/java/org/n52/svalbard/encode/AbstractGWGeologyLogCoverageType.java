@@ -59,21 +59,4 @@ public abstract class AbstractGWGeologyLogCoverageType<T>
         }
     }
 
-    @Override
-    protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
-            EncodingContext context) throws EncodingException {
-        if (context.has(XmlBeansEncodingFlags.ENCODE)
-                && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
-            featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
-            if (abstractFeature.isSetName()) {
-                featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
-            }
-            return featurePropertyType;
-        }
-        return encodeGWMLDocument(abstractFeature);
-    }
-
-    protected XmlObject encodeGWMLDocument(Object o) throws EncodingException {
-        return encodeObjectToXmlDocument(GWMLConstants.NS_GWML_22, o);
-    }
 }

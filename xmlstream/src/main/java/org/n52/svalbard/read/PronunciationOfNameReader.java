@@ -23,7 +23,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.inspire.Pronunciation;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.base.Function;
 
@@ -49,7 +49,7 @@ public class PronunciationOfNameReader extends XmlReader<Pronunciation> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_GN_PRONUNCIATION_SOUND_LINK)) {
             this.pronunciation.setSoundLink(delegate(new NillableStringReader()).transform(STRING_TO_URI));
         } else if (name.equals(AqdConstants.QN_GN_PRONUNCIATION_IPA)) {

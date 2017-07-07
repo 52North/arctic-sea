@@ -17,13 +17,10 @@
 package org.n52.svalbard.write;
 
 import java.io.OutputStream;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
-import javax.inject.Inject;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
@@ -37,24 +34,16 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.OmConstants;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.svalbard.encode.Encoder;
-import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.EncodingValues;
-import org.n52.svalbard.encode.XmlEncoderKey;
+import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
-import org.n52.svalbard.util.CodingHelper;
-
-import com.google.common.collect.Maps;
 
 public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamWriter<List<DataAvailability>> {
 
@@ -64,7 +53,7 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
 
     protected static final String RESULT_TIME = "resultTime";
 
-    private List<DataAvailability> gdas;
+    protected static final String NAME = "name";
 
     protected final Map<TimePeriod, String> times;
 
@@ -76,46 +65,29 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
 
     protected int resultTimeCount = 1;
 
-
-    public AbstractGetDataAvailabilityStreamWriter(String version, List<DataAvailability> gdas) {
-        this.gdas = gdas == null ? Collections.<DataAvailability> emptyList() : gdas;
-        this.times = new HashMap<TimePeriod, String>(this.gdas.size());
-        this.version = version == null ? Sos2Constants.SERVICEVERSION : version;
+    public AbstractGetDataAvailabilityStreamWriter(OutputStream outputStream, EncodingContext context,
+            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, List<DataAvailability> element,
+            Map<TimePeriod, String> times, String version) throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
+        this.times = times;
+        this.version = version;
     }
 
     @Override
-    public void write(OutputStream out) throws XMLStreamException, EncodingException {
-        init(out);
-        start(true);
+    public void write() throws XMLStreamException, EncodingException {
+        start();
         writeGetDataAvailabilityResponse();
         end();
         finish();
     }
 
-    @Override
-    public void write(OutputStream out, EncodingValues encodingValues) throws XMLStreamException, EncodingException {
-        write(out);
-    }
-
-    @Override
-    public void write(List<DataAvailability> elementToStream, OutputStream out) throws XMLStreamException,
-            EncodingException {
-       this.gdas = elementToStream;
-       write(out);
-    }
-
-    @Override
-    public void write(List<DataAvailability> elementToStream, OutputStream out, EncodingValues encodingValues)
-            throws XMLStreamException, EncodingException {
-        this.gdas = elementToStream;
-        write(out);
-    }
-
     protected abstract void writeGetDataAvailabilityResponse() throws XMLStreamException, EncodingException;
 
-    protected abstract void wirteDataAvailabilityMember(DataAvailability da) throws XMLStreamException, EncodingException;
+    protected abstract void wirteDataAvailabilityMember(DataAvailability da)
+            throws XMLStreamException, EncodingException;
 
-    protected void writePhenomenonTime(DataAvailability da, QName element) throws DateTimeFormatException, XMLStreamException {
+    protected void writePhenomenonTime(DataAvailability da, QName element)
+            throws DateTimeFormatException, XMLStreamException {
         start(element);
         if (times.containsKey(da.getPhenomenonTime())) {
             attr(GetDataAvailabilityConstants.XLINK_HREF, "#" + times.get(da.getPhenomenonTime()));
@@ -190,8 +162,8 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
         end(GmlConstants.QN_END_POSITION_32);
     }
 
-    protected void writeTimeString(DateTime time, TimeFormat format) throws XMLStreamException,
-            DateTimeFormatException {
+    protected void writeTimeString(DateTime time, TimeFormat format)
+            throws XMLStreamException, DateTimeFormatException {
         chars(DateTimeHelper.formatDateTime2String(time, format));
     }
 
@@ -201,13 +173,14 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
         end(element);
     }
 
-    protected void writeResultTimes(List<TimeInstant> resultTimes, QName element) throws XMLStreamException, EncodingException {
+    protected void writeResultTimes(List<TimeInstant> resultTimes, QName element)
+            throws XMLStreamException, EncodingException {
         start(element);
         start(SweConstants.QN_DATA_RECORD_SWE_200);
         attr("definition", RESULT_TIME);
         for (TimeInstant resultTime : resultTimes) {
             start(SweConstants.QN_FIELD_200);
-            attr("name", RESULT_TIME + resultTimeCount++);
+            attr(NAME, RESULT_TIME + resultTimeCount++);
             writeTime(resultTime);
             end(SweConstants.QN_FIELD_200);
         }
@@ -241,17 +214,17 @@ public abstract class AbstractGetDataAvailabilityStreamWriter extends XmlStreamW
         end(element);
     }
 
-    @SuppressWarnings("rawtypes")
-    protected void writeMetadata(Map<String, NamedValue> metadata, QName element) throws XMLStreamException, EncodingException {
-        for (String key : metadata.keySet()) {
-            start(GetDataAvailabilityConstants.GDA_EXTENSION);
-            attr("name", key);
-            rawText(encodeObjectToXmlText(OmConstants.NS_OM_2, metadata.get(key), new EncodingValues().setAsDocument(true)));
-            end(GetDataAvailabilityConstants.GDA_EXTENSION);
+    protected void writeMetadata(Map<String, NamedValue<?>> map, QName element)
+            throws XMLStreamException, EncodingException {
+        for (Entry<String, NamedValue<?>> entry : map.entrySet()) {
+            Object o = getEncoder(OmConstants.NS_OM_2, entry.getValue()).encode(entry.getValue(),
+                    EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
+            if (o != null && o instanceof XmlObject) {
+                start(GetDataAvailabilityConstants.GDA_EXTENSION);
+                attr(NAME, entry.getKey());
+                rawText(((XmlObject) o) .xmlText(getXmlOptions()));
+                end(GetDataAvailabilityConstants.GDA_EXTENSION);
+            }
         }
-    }
-
-    protected List<DataAvailability> getGDAs() {
-        return gdas;
     }
 }

@@ -127,16 +127,18 @@ public final class SweHelper {
     /**
      * Create {@link SweDataArray} from {@link OmObservation}
      *
-     * @param sosObservation The {@link OmObservation} to create {@link SweDataArray} from
+     * @param sosObservation
+     *            The {@link OmObservation} to create {@link SweDataArray} from
      *
      * @return Created {@link SweDataArray}
      *
-     * @throws EncodingException If the service does not support the {@link SweDataArray} creation from value of
-     *                           {@link OmObservation}
+     * @throws EncodingException
+     *             If the service does not support the {@link SweDataArray}
+     *             creation from value of {@link OmObservation}
      */
     public SweDataArray createSosSweDataArray(OmObservation sosObservation) throws EncodingException {
-        String observablePropertyIdentifier = sosObservation.getObservationConstellation().getObservableProperty()
-                .getIdentifier();
+        String observablePropertyIdentifier =
+                sosObservation.getObservationConstellation().getObservableProperty().getIdentifier();
         SweDataArrayValue dataArrayValue = new SweDataArrayValue();
         SweDataArray dataArray = new SweDataArray();
         dataArray.setEncoding(createTextEncoding(sosObservation));
@@ -148,7 +150,7 @@ public final class SweHelper {
             } else {
                 dataArray.setElementType(createElementType(singleValue, observablePropertyIdentifier));
                 dataArrayValue.addBlock(createBlock(dataArray.getElementType(), sosObservation.getPhenomenonTime(),
-                                                    observablePropertyIdentifier, singleValue.getValue()));
+                        observablePropertyIdentifier, singleValue.getValue()));
             }
         } else if (sosObservation.getValue() instanceof MultiObservationValues) {
             MultiObservationValues<?> multiValue = (MultiObservationValues<?>) sosObservation.getValue();
@@ -157,14 +159,13 @@ public final class SweHelper {
             } else if (multiValue.getValue() instanceof TVPValue) {
                 TVPValue tvpValues = (TVPValue) multiValue.getValue();
                 for (TimeValuePair timeValuePair : tvpValues.getValue()) {
-                    if (timeValuePair != null && timeValuePair.getValue() != null && timeValuePair.getValue().isSetValue()) {
+                    if (timeValuePair != null && timeValuePair.getValue() != null
+                            && timeValuePair.getValue().isSetValue()) {
                         if (!dataArray.isSetElementTyp()) {
-                            dataArray.setElementType(createElementType(timeValuePair,
-                                    observablePropertyIdentifier));
+                            dataArray.setElementType(createElementType(timeValuePair, observablePropertyIdentifier));
                         }
-                        List<String> newBlock =
-                                createBlock(dataArray.getElementType(), timeValuePair.getTime(),
-                                        observablePropertyIdentifier, timeValuePair.getValue());
+                        List<String> newBlock = createBlock(dataArray.getElementType(), timeValuePair.getTime(),
+                                observablePropertyIdentifier, timeValuePair.getValue());
                         dataArrayValue.addBlock(newBlock);
                     }
                 }
@@ -176,12 +177,15 @@ public final class SweHelper {
     /**
      * Create {@link SweDataArray} from {@link AbstractObservationValue}
      *
-     * @param observationValue The {@link AbstractObservationValue} to create {@link SweDataArray} from
+     * @param observationValue
+     *            The {@link AbstractObservationValue} to create
+     *            {@link SweDataArray} from
      *
      * @return Created {@link SweDataArray}
      *
-     * @throws EncodingException If the service does not support the {@link SweDataArray} creation from
-     *                           {@link AbstractObservationValue}
+     * @throws EncodingException
+     *             If the service does not support the {@link SweDataArray}
+     *             creation from {@link AbstractObservationValue}
      */
     public SweDataArray createSosSweDataArray(AbstractObservationValue<?> observationValue) throws EncodingException {
         String observablePropertyIdentifier = observationValue.getObservableProperty();
@@ -196,7 +200,7 @@ public final class SweHelper {
             } else {
                 dataArray.setElementType(createElementType(singleValue, observablePropertyIdentifier));
                 dataArrayValue.addBlock(createBlock(dataArray.getElementType(), observationValue.getPhenomenonTime(),
-                                                    observablePropertyIdentifier, singleValue.getValue()));
+                        observablePropertyIdentifier, singleValue.getValue()));
             }
         } else if (observationValue instanceof MultiObservationValues) {
             MultiObservationValues<?> multiValue = (MultiObservationValues<?>) observationValue;
@@ -205,14 +209,13 @@ public final class SweHelper {
             } else if (multiValue.getValue() instanceof TVPValue) {
                 TVPValue tvpValues = (TVPValue) multiValue.getValue();
                 for (TimeValuePair timeValuePair : tvpValues.getValue()) {
-                    if (timeValuePair != null && timeValuePair.getValue() != null && timeValuePair.getValue().isSetValue()) {
+                    if (timeValuePair != null && timeValuePair.getValue() != null
+                            && timeValuePair.getValue().isSetValue()) {
                         if (!dataArray.isSetElementTyp()) {
-                            dataArray.setElementType(createElementType(timeValuePair,
-                                    observablePropertyIdentifier));
+                            dataArray.setElementType(createElementType(timeValuePair, observablePropertyIdentifier));
                         }
-                        List<String> newBlock =
-                                createBlock(dataArray.getElementType(), timeValuePair.getTime(),
-                                        observablePropertyIdentifier, timeValuePair.getValue());
+                        List<String> newBlock = createBlock(dataArray.getElementType(), timeValuePair.getTime(),
+                                observablePropertyIdentifier, timeValuePair.getValue());
                         dataArrayValue.addBlock(newBlock);
                     }
                 }
@@ -294,7 +297,7 @@ public final class SweHelper {
             @Override
             public SweAbstractDataComponent visit(ComplexValue value) throws EncodingException {
                 throw new EncodingException("The merging of '%s' is not yet supported!",
-                                            OmConstants.OBS_TYPE_COMPLEX_OBSERVATION);
+                        OmConstants.OBS_TYPE_COMPLEX_OBSERVATION);
             }
 
             @Override
@@ -352,25 +355,27 @@ public final class SweHelper {
                 throw notSupported();
             }
 
-            private EncodingException notSupported() {
-                return new EncodingException("The merging of value type '%s' is not yet supported!",
-                                             iValue.getClass().getName());
-            }
-
             @Override
             public SweAbstractDataComponent visit(TimeRangeValue value) throws EncodingException {
                 SweTimeRange sweTimeRange = new SweTimeRange();
                 sweTimeRange.setUom(value.getUnit());
                 return sweTimeRange;
             }
+
+            private EncodingException notSupported() {
+                return new EncodingException("The merging of value type '%s' is not yet supported!",
+                        iValue.getClass().getName());
+            }
         });
     }
 
     /**
-     * Create a TextEncoding object for token and tuple separators from SosObservation. If separators not set,
-     * definitions from Configurator are used.
+     * Create a TextEncoding object for token and tuple separators from
+     * SosObservation. If separators not set, definitions from Configurator are
+     * used.
      *
-     * @param o SosObservation with token and tuple separator
+     * @param o
+     *            SosObservation with token and tuple separator
      *
      * @return TextEncoding
      */
@@ -382,10 +387,12 @@ public final class SweHelper {
     }
 
     /**
-     * Create a TextEncoding object for token and tuple separators from SosObservation. If separators not set,
-     * definitions from Configurator are used.
+     * Create a TextEncoding object for token and tuple separators from
+     * SosObservation. If separators not set, definitions from Configurator are
+     * used.
      *
-     * @param v AbstractObservationValue with token and tuple separator
+     * @param v
+     *            AbstractObservationValue with token and tuple separator
      *
      * @return TextEncoding
      */
@@ -399,9 +406,12 @@ public final class SweHelper {
     /**
      * Create a TextEncoding object for token and tuple separators.
      *
-     * @param tuple   Token separator
-     * @param token   Tuple separator
-     * @param decimal Decimal separator
+     * @param tuple
+     *            Token separator
+     * @param token
+     *            Tuple separator
+     * @param decimal
+     *            Decimal separator
      *
      * @return TextEncoding
      */
@@ -417,7 +427,7 @@ public final class SweHelper {
 
     @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
     private List<String> createBlock(SweAbstractDataComponent elementType, Time phenomenonTime, String phenID,
-                                     Value<?> value) {
+            Value<?> value) {
         if (elementType instanceof SweDataRecord) {
             SweDataRecord elementTypeRecord = (SweDataRecord) elementType;
             List<String> block = new ArrayList<>(elementTypeRecord.getFields().size());
@@ -425,8 +435,8 @@ public final class SweHelper {
                 elementTypeRecord.getFields().forEach(field -> {
                     if (field.getElement() instanceof SweTime || field.getElement() instanceof SweTimeRange) {
                         block.add(DateTimeHelper.format(phenomenonTime));
-                    } else if (field.getElement() instanceof SweAbstractDataComponent &&
-                               field.getElement().getDefinition().equals(phenID)) {
+                    } else if (field.getElement() instanceof SweAbstractDataComponent
+                            && field.getElement().getDefinition().equals(phenID)) {
                         block.add(value.getValue().toString());
                     } else if (field.getElement() instanceof SweObservableProperty) {
                         block.add(phenID);
@@ -436,7 +446,7 @@ public final class SweHelper {
             return block;
         }
         String exceptionMsg = String.format("Type of ElementType is not supported: %s",
-                                            elementType != null ? elementType.getClass().getName() : "null");
+                elementType != null ? elementType.getClass().getName() : "null");
         LOGGER.debug(exceptionMsg);
         throw new IllegalArgumentException(exceptionMsg);
     }
@@ -444,9 +454,12 @@ public final class SweHelper {
     /**
      * Create a {@link SweQuantity} from parameter
      *
-     * @param value the {@link SweQuantity} value
-     * @param axis  the {@link SweQuantity} axis id
-     * @param uom   the {@link SweQuantity} unit of measure
+     * @param value
+     *            the {@link SweQuantity} value
+     * @param axis
+     *            the {@link SweQuantity} axis id
+     * @param uom
+     *            the {@link SweQuantity} unit of measure
      *
      * @return the {@link SweQuantity} from parameter
      */
@@ -479,7 +492,7 @@ public final class SweHelper {
      *            Name to check
      * @return <code>true</code>, if the name is defined.
      */
-    public boolean hasNorthingName(String...names) {
+    public boolean hasNorthingName(String... names) {
         return check(getNorthingNames(), names);
     }
 
@@ -537,11 +550,11 @@ public final class SweHelper {
      *            Name to check
      * @return <code>true</code>, if the name is defined.
      */
-    public boolean hasAltitudeName(String...names) {
+    public boolean hasAltitudeName(String... names) {
         return check(getAltitudeNames(), names);
     }
 
-    private boolean check(Set<String> set, String...names) {
+    private boolean check(Set<String> set, String... names) {
         for (String string : set) {
             for (String name : names) {
                 if (string.equalsIgnoreCase(name)) {

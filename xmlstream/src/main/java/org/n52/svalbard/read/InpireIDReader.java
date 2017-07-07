@@ -20,23 +20,23 @@ import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
-import org.n52.shetland.inspire.InspireID;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.w3c.Nillable;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
-public class InpireIDReader extends XmlReader<InspireID> {
+public class InpireIDReader
+        extends XmlReader<Identifier> {
 
-    private InspireID inspireID;
+    private Identifier inspireID;
 
     @Override
-    protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
-        if (name.equals(AqdConstants.QN_BASE_IDENTIFIER)) {
-        } else if (name.equals(AqdConstants.QN_BASE_LOCAL_ID)) {
+    protected void read(QName name) throws XMLStreamException, DecodingException {
+        if (name.equals(AqdConstants.QN_BASE_LOCAL_ID)) {
             this.inspireID.setLocalId(chars());
         } else if (name.equals(AqdConstants.QN_BASE_NAMESPACE)) {
             this.inspireID.setNamespace(chars());
@@ -49,12 +49,11 @@ public class InpireIDReader extends XmlReader<InspireID> {
 
     @Override
     protected void begin() {
-        this.inspireID = new InspireID().setVersionId(Nillable.<String>absent());
+        this.inspireID = new Identifier("", "").setVersionId(Nillable.<String> absent());
     }
 
     @Override
-    protected InspireID finish()
-            throws OwsExceptionReport {
+    protected Identifier finish() throws DecodingException {
         return this.inspireID;
     }
 

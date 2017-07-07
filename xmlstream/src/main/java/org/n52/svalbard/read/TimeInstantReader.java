@@ -21,8 +21,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -35,13 +35,13 @@ public class TimeInstantReader extends XmlReader<TimeInstant> {
 
     @Override
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         this.time = new TimeInstant();
     }
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(GmlConstants.QN_TIME_POSITION_32)) {
             time.setValue(DateTimeHelper.parseIsoString2DateTime(chars()));
         } else {
@@ -51,7 +51,7 @@ public class TimeInstantReader extends XmlReader<TimeInstant> {
 
     @Override
     protected TimeInstant finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         return this.time;
     }
 

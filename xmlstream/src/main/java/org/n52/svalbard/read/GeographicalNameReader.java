@@ -21,7 +21,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.inspire.GeographicalName;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 public class GeographicalNameReader extends XmlReader<GeographicalName> {
     private GeographicalName geographicalName;
@@ -33,7 +33,7 @@ public class GeographicalNameReader extends XmlReader<GeographicalName> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_GN_LANGUAGE)) {
             this.geographicalName.setLanguage(delegate(new NillableStringReader()));
         } else if (name.equals(AqdConstants.QN_GN_NATIVENESS)) {

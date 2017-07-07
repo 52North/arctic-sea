@@ -40,6 +40,7 @@ This project includes:
   INSPIRE Building base schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE Cadastral Parcels schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE Common Transport Elements schema (spec. v4.0) under The Apache Software License, Version 2.0
+  INSPIRE Environmental Monitoring Facilities schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE Geographical Name schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE Network schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE OM Observation References schema (spec. v3.0) under The Apache Software License, Version 2.0
@@ -72,6 +73,7 @@ This project includes:
   OGC SensorML schema (spec. v1.0.1) under The Apache Software License, Version 2.0
   OGC SensorML schema (spec. v2.0.0) under The Apache Software License, Version 2.0
   OGC SOS DeleteObservation schema 1.0 under The Apache Software License, Version 2.0
+  OGC SOS DeleteObservation schema 2.0 under The Apache Software License, Version 2.0
   OGC SOS DeleteResultTemplate schema 1.0 under The Apache Software License, Version 2.0
   OGC SOS GetDataAvailability schema 1.0 (OGC Best Practice 14-004r1) under The Apache Software License, Version 2.0
   OGC SOS GetDataAvailability schema 2.0 under The Apache Software License, Version 2.0

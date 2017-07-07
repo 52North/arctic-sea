@@ -142,6 +142,20 @@ public class CapabilitiesTypeDecoder extends
         return observationOffering;
     }
 
+    private SosOffering parseOffering(ObservationOfferingType obsOffPropType) throws DecodingException {
+        String offeringId;
+        if (obsOffPropType.getIdentifier() != null) {
+            offeringId = obsOffPropType.getIdentifier();
+        } else {
+            offeringId = obsOffPropType.getId();
+        }
+        if (obsOffPropType.getNameArray() != null && obsOffPropType.getNameArray().length > 0) {
+            CodeType codeType = decodeXmlElement(obsOffPropType.getNameArray(0));
+            return new SosOffering(offeringId, codeType);
+        }
+        return new SosOffering(offeringId, "");
+    }
+
     private FilterCapabilities parseFilterCapabilities(CapabilitiesType.FilterCapabilities filterCapabilities) {
         if (filterCapabilities == null) {
             return null;
@@ -190,7 +204,7 @@ public class CapabilitiesTypeDecoder extends
         Extensions extensions = new Extensions();
         for (XmlObject xmlObject : obsOff.getExtensionArray()) {
             try {
-                Extension extension = (Extension) decodeXmlElement(xmlObject);
+                Extension<?> extension = (Extension) decodeXmlElement(xmlObject);
                 extensions.addExtension(extension);
             } catch (DecodingException ex) {
                 LOGGER.warn(ex.getLocalizedMessage());
@@ -214,7 +228,7 @@ public class CapabilitiesTypeDecoder extends
 
     private Map<String, Set<String>> parseRelatedFeatures(ObservationOfferingType obsOff) {
         LOGGER.warn("parseRelatedFeatures needs to be implemented");
-        return new HashMap<String, Set<String>>();
+        return new HashMap<>();
     }
 
     private Time parseResultTime(ObservationOfferingType obsOff) {
@@ -251,18 +265,5 @@ public class CapabilitiesTypeDecoder extends
                 .collect(toSet());
     }
 
-    private SosOffering parseOffering(ObservationOfferingType obsOffPropType) throws DecodingException {
-        String offeringId;
-        if (obsOffPropType.getIdentifier() != null) {
-            offeringId = obsOffPropType.getIdentifier();
-        } else {
-            offeringId = obsOffPropType.getId();
-        }
-        if (obsOffPropType.getNameArray() != null && obsOffPropType.getNameArray().length > 0) {
-            CodeType codeType = decodeXmlElement(obsOffPropType.getNameArray(0));
-            return new SosOffering(offeringId, codeType);
-        }
-        return new SosOffering(offeringId, "");
-    }
 
 }

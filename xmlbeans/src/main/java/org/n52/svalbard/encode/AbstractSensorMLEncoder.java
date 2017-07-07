@@ -477,7 +477,7 @@ public abstract class AbstractSensorMLEncoder extends AbstractXmlEncoder<XmlObje
         }
         return NcName.makeValid(outputName);
     }
-    
+
 //    protected void extendOutputs(AbstractProcess abstractProcess) {
 //        if (abstractProcess.isSetPhenomenon()) {
 //            for (SmlIo output : abstractProcess.getOutputs()) {

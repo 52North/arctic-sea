@@ -14,49 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode.inspire;
+package org.n52.svalbard.decode;
 
 import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
-import org.n52.sos.decode.AbstractXmlDecoder;
-import org.n52.sos.decode.DecoderKey;
-import org.n52.sos.exception.ows.concrete.UnsupportedDecoderInputException;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.util.CodingHelper;
-import org.n52.sos.w3c.Nillable;
-import org.n52.svalbard.inspire.base2.DocumentCitation;
-import org.n52.svalbard.inspire.ompr.InspireOMPRConstants;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.shetland.inspire.base2.DocumentCitation;
+import org.n52.shetland.inspire.ompr.InspireOMPRConstants;
+import org.n52.shetland.w3c.Nillable;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
+import org.n52.svalbard.util.CodingHelper;
 
 import eu.europa.ec.inspire.schemas.base2.x20.DocumentCitationType;
 import eu.europa.ec.inspire.schemas.base2.x20.DocumentCitationType.Link;
 
-public class DocumentCitationTypeDecoder extends AbstractXmlDecoder<DocumentCitation> {
+public class DocumentCitationTypeDecoder
+        extends AbstractXmlDecoder<XmlObject, DocumentCitation> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DocumentCitationTypeDecoder.class);
-
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            InspireOMPRConstants.NS_OMPR_30, DocumentCitationType.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(InspireOMPRConstants.NS_OMPR_30, DocumentCitationType.class);
 
     @Override
-    public Set<DecoderKey> getDecoderKeyTypes() {
+    public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
     @Override
-    public DocumentCitation decode(XmlObject xmlObject)
-            throws OwsExceptionReport, UnsupportedDecoderInputException {
+    public DocumentCitation decode(XmlObject xmlObject) throws DecodingException {
         if (xmlObject instanceof DocumentCitationType) {
             DocumentCitation documentCitation = new DocumentCitation();
-            DocumentCitationType dct = (DocumentCitationType)xmlObject;
+            DocumentCitationType dct = (DocumentCitationType) xmlObject;
             documentCitation.setDescription(dct.getDescription().getStringValue());
             if (dct.isNilDate()) {
                 if (dct.getDate().isSetNilReason()) {
-                    documentCitation.setDate(Nillable.<DateTime>nil(dct.getDate().getNilReason().toString()));
+                    documentCitation.setDate(Nillable.<DateTime> nil(dct.getDate().getNilReason().toString()));
                 }
             } else {
                 documentCitation.setDate(new DateTime(dct.getDate().getCIDate().getDate().getDate().getTime()));
@@ -64,7 +58,7 @@ public class DocumentCitationTypeDecoder extends AbstractXmlDecoder<DocumentCita
             if (dct.getLinkArray() != null) {
                 for (Link link : dct.getLinkArray()) {
                     if (link.isNil() && link.isSetNilReason()) {
-                        documentCitation.addLink(Nillable.<String>nil(link.getNilReason().toString()));
+                        documentCitation.addLink(Nillable.<String> nil(link.getNilReason().toString()));
                     } else {
                         documentCitation.addLink(link.getStringValue());
                     }

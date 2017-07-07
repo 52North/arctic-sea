@@ -35,26 +35,26 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import com.google.common.collect.Sets;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @since 1.0.0
  */
 public class DeleteObservationEncoder extends AbstractResponseEncoder<DeleteObservationResponse> {
-    public static final SchemaLocation SCHEMA_LOCATION = new SchemaLocation(DeleteObservationConstants.NS_SOSDO_1_0,
-            DeleteObservationConstants.NS_SOSDO_1_0_SCHEMA_LOCATION);
+    public static final SchemaLocation SCHEMA_LOCATION
+            = new SchemaLocation(DeleteObservationConstants.NS_SOSDO_1_0,
+                                 DeleteObservationConstants.NS_SOSDO_1_0_SCHEMA_LOCATION);
 
     public DeleteObservationEncoder() {
         super(SosConstants.SOS,
               Sos2Constants.SERVICEVERSION,
               DeleteObservationConstants.Operations.DeleteObservation.name(),
               DeleteObservationConstants.NS_SOSDO_1_0,
-              DeleteObservationConstants.NS_SOSDO_1_0_PREFIX,
+              DeleteObservationConstants.NS_SOSDO_PREFIX,
               DeleteObservationResponse.class);
     }
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
-        if(SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(DeleteObservationConstants.CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
@@ -67,8 +67,8 @@ public class DeleteObservationEncoder extends AbstractResponseEncoder<DeleteObse
         }
 
         String observationId = dor.getObservationId();
-        DeleteObservationResponseDocument xbDeleteObsDoc =
-                DeleteObservationResponseDocument.Factory.newInstance(getXmlOptions());
+        DeleteObservationResponseDocument xbDeleteObsDoc = DeleteObservationResponseDocument.Factory
+                .newInstance(getXmlOptions());
         DeleteObservationResponseType xbDeleteObservationResponse = xbDeleteObsDoc.addNewDeleteObservationResponse();
         xbDeleteObservationResponse.setDeletedObservation(observationId);
         return xbDeleteObsDoc;

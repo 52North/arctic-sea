@@ -16,8 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
-import com.google.common.base.Joiner;
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -25,12 +25,16 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import static java.util.stream.Collectors.toSet;
 import java.util.stream.Stream;
+
 import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
 import net.opengis.sos.x10.ContentsDocument;
 import net.opengis.sos.x10.FilterCapabilitiesDocument;
 import net.opengis.sos.x10.ObservationOfferingType;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.filter.FilterCapabilities;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
@@ -42,8 +46,10 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
@@ -85,7 +91,8 @@ public class CapabilitiesDecoder extends AbstractCapabilitiesBaseTypeDecoder<Cap
         return parseObservationOfferingList(contents.getObservationOfferingList());
     }
 
-    private Collection<SosObservationOffering> parseObservationOfferingList(ContentsDocument.Contents.ObservationOfferingList obsOffList) {
+    private Collection<SosObservationOffering> parseObservationOfferingList(
+            ContentsDocument.Contents.ObservationOfferingList obsOffList) {
         return Optional.ofNullable(obsOffList.getObservationOfferingArray())
                 .map(Arrays::stream)
                 .orElseGet(Stream::empty)
@@ -110,7 +117,8 @@ public class CapabilitiesDecoder extends AbstractCapabilitiesBaseTypeDecoder<Cap
         return observationOffering;
     }
 
-    private FilterCapabilities parseFilterCapabilities(FilterCapabilitiesDocument.FilterCapabilities filterCapabilities) {
+    private FilterCapabilities parseFilterCapabilities(
+            FilterCapabilitiesDocument.FilterCapabilities filterCapabilities) {
         // TODO parse filter capabilities
         LOGGER.warn("parseFilterCapabilities needs to be implemented");
         return null;

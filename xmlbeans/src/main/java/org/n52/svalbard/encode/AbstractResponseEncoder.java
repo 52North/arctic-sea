@@ -24,15 +24,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.http.MediaTypes;
-import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
-
-import org.n52.svalbard.encode.EncoderKey;
 
 
 /**
@@ -106,21 +104,11 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     }
 
     @Override
-    public void encode(T element, OutputStream outputStream) throws EncodingException {
-        encode(element, outputStream, new EncodingValues());
-    }
-
-    @Override
-    public void encode(T response, OutputStream outputStream, EncodingValues encodingValues) throws EncodingException {
+    public void encode(T response, OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, null);
         }
         create(response, outputStream, encodingValues);
-    }
-
-    @Override
-    public boolean forceStreaming() {
-        return false;
     }
 
 }

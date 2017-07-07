@@ -16,20 +16,29 @@
  */
 package org.n52.svalbard.write;
 
+import java.io.OutputStream;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.ObservationFormatDescriptor;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
 
@@ -42,25 +51,41 @@ import com.google.common.collect.Sets;
  */
 public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailabilityStreamWriter {
 
-    public GetDataAvailabilityStreamWriter(String version, List<DataAvailability> gdas) {
-        super(version, gdas);
+    private static final String DEFINITION = "definition";
+
+    public GetDataAvailabilityStreamWriter(OutputStream outputStream, EncodingContext context,
+                                           EncoderRepository encoderRepository,
+                                           Producer<XmlOptions> xmlOptions,
+                                           List<DataAvailability> element,
+                                           Map<TimePeriod, String> times,
+                                           String version)
+            throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, Optional.ofNullable(element)
+              .orElseGet(Collections::emptyList), times, version);
     }
 
     @Override
-    protected void writeGetDataAvailabilityResponse() throws XMLStreamException, OwsExceptionReport {
+    public void write() throws XMLStreamException, EncodingException {
+        start();
+        writeGetDataAvailabilityResponse();
+        end();
+        finish();
+    }
+
+    protected void writeGetDataAvailabilityResponse() throws XMLStreamException, EncodingException {
         start(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_RESPONSE);
         namespace(GetDataAvailabilityConstants.NS_GDA_PREFIX, GetDataAvailabilityConstants.NS_GDA);
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
         namespace(SweConstants.NS_SWE_PREFIX, SweConstants.NS_SWE_20);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
-        for (DataAvailability da : getGDAs()) {
+        for (DataAvailability da : getElement()) {
             wirteDataAvailabilityMember(da);
         }
         end(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_RESPONSE);
     }
 
     @Override
-    protected void wirteDataAvailabilityMember(DataAvailability da) throws XMLStreamException, OwsExceptionReport {
+    protected void wirteDataAvailabilityMember(DataAvailability da) throws XMLStreamException, EncodingException {
         start(GetDataAvailabilityConstants.GDA_DATA_AVAILABILITY_MEMBER);
         attr(GmlConstants.QN_ID_32, DATA_AVAILABILITY_PREFIX + dataAvailabilityCount++);
         writeProcedure(da, GetDataAvailabilityConstants.GDA_PROCEDURE);
@@ -75,6 +100,7 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
         }
         if (da.isSetOffering()) {
             writeOffering(da.getOffering(), GetDataAvailabilityConstants.GDA_EXTENSION);
+            end(GetDataAvailabilityConstants.GDA_PHENOMENON_TIME);
         }
         if (da.isSetFormatDescriptors()) {
             Set<String> observationTypes = Sets.newHashSet();
@@ -92,7 +118,7 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
     protected void writeOffering(ReferenceType offering, QName element) throws XMLStreamException {
         start(GetDataAvailabilityConstants.GDA_EXTENSION);
         start(SweConstants.QN_TEXT_SWE_200);
-        attr("definition", "offering");
+        attr(DEFINITION, "offering");
         start(SweConstants.QN_VALUE_SWE_200);
         chars(offering.getHref());
         end(SweConstants.QN_VALUE_SWE_200);
@@ -105,12 +131,12 @@ public class GetDataAvailabilityStreamWriter extends AbstractGetDataAvailability
         int observationTypeCount = 1;
         start(GetDataAvailabilityConstants.GDA_EXTENSION);
         start(SweConstants.QN_DATA_RECORD_SWE_200);
-        attr("definition", "observationTypes");
+        attr(DEFINITION, "observationTypes");
         for (String observationType : observationTypes) {
             start(SweConstants.QN_FIELD_200);
             attr("name", "observationType_" + observationTypeCount++);
             start(SweConstants.QN_TEXT_SWE_200);
-            attr("definition", "observationType");
+            attr(DEFINITION, "observationType");
             start(SweConstants.QN_VALUE_SWE_200);
             chars(observationType);
             end(SweConstants.QN_VALUE_SWE_200);

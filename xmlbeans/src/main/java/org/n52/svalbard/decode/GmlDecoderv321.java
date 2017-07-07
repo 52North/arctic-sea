@@ -116,7 +116,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                                     VerticalDatumPropertyType.class,
                                     FeatureCollectionDocument.class,
                                     FeatureCollectionType.class
-    ), CodingHelper.decoderKeysForElements (MeasureType.type.toString(), MeasureType.class));
+            ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
 
     private static final String CS = ",";
 
@@ -126,7 +126,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     public GmlDecoderv321() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(DECODER_KEYS));
+                     Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -194,9 +194,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 }
             }
             feature.setGmlId(featurePropertyType.getHref());
-        }
-        // if feature is encoded
-        else {
+        } else {
+            // if feature is encoded
             XmlObject abstractFeature = null;
             if (featurePropertyType.getAbstractFeature() != null) {
                 abstractFeature = featurePropertyType.getAbstractFeature();
@@ -213,23 +212,23 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 if (decodedObject instanceof AbstractSamplingFeature) {
                     feature = (AbstractSamplingFeature) decodedObject;
                 } else {
-                    throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                            "The requested featurePropertyType type is not supported by this service!");
+                    throw unsupportedFeaturePropertyType();
                 }
             }
         }
         if (feature == null) {
-            throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                    "The requested featurePropertyType type is not supported by this service!");
+            throw unsupportedFeaturePropertyType();
         }
         return feature;
     }
 
-    private FeatureCollection parseFeatureCollectionDocument(FeatureCollectionDocument featureCollectionDocument) throws DecodingException {
+    private FeatureCollection parseFeatureCollectionDocument(FeatureCollectionDocument featureCollectionDocument)
+            throws DecodingException {
         return parseFeatureCollectionType(featureCollectionDocument.getFeatureCollection());
     }
 
-    private FeatureCollection parseFeatureCollectionType(FeatureCollectionType featureCollectionType) throws DecodingException {
+    private FeatureCollection parseFeatureCollectionType(FeatureCollectionType featureCollectionType)
+            throws DecodingException {
         final FeatureCollection feaColl = new FeatureCollection();
         for (FeaturePropertyType feaPropType : featureCollectionType.getFeatureMemberArray()) {
             Object decoded = decodeXmlElement(feaPropType);
@@ -239,16 +238,14 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     /**
-     * parses the BBOX element of the featureOfInterest element contained in the
-     * GetObservation request and returns a String representing the BOX in
-     * Well-Known-Text format
+     * parses the BBOX element of the featureOfInterest element contained in the GetObservation request and returns a
+     * String representing the BOX in Well-Known-Text format
      *
-     * @param envelopeType
-     *            XmlBean representing the BBOX-element in the request
+     * @param envelopeType XmlBean representing the BBOX-element in the request
+     *
      * @return Returns the BBOX as ReferencedEnvelope.
      *
-     * @throws DecodingException
-     *             * if parsing the BBOX element failed
+     * @throws DecodingException * if parsing the BBOX element failed
      */
     private ReferencedEnvelope parseEnvelope(EnvelopeType envelopeType) throws DecodingException {
         int srid = CRSHelper.parseSrsName(envelopeType.getSrsName());
@@ -260,10 +257,11 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     /**
      * parses TimeInstant
      *
-     * @param xbTimeIntant
-     *            XmlBean representation of TimeInstant
+     * @param xbTimeIntant XmlBean representation of TimeInstant
+     *
      * @return Returns a TimeInstant created from the TimeInstantType
-     * @throws DecodingException
+     *
+     * @throws DecodingException if the time string is invalid
      */
     private Object parseTimeInstant(TimeInstantType xbTimeIntant) throws DecodingException {
         TimeInstant ti = parseTimePosition(xbTimeIntant.getTimePosition());
@@ -272,15 +270,14 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     /**
-     * creates SOS representation of time period from XMLBeans representation of
-     * time period
+     * creates SOS representation of time period from XMLBeans representation of time period
      *
-     * @param xbTimePeriod
-     *            XMLBeans representation of time period
+     * @param xbTimePeriod XMLBeans representation of time period
+     *
      * @return Returns SOS representation of time period
      *
      *
-     * @throws DecodingException
+     * @throws DecodingException if the time string is invalid
      */
     private Object parseTimePeriod(TimePeriodType xbTimePeriod) throws DecodingException {
         // begin position
@@ -365,8 +362,9 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             String directPosition = getString4Coordinates(xbCoords);
             geomWKT = "POINT" + directPosition;
         } else {
-            throw new DecodingException("For geometry type 'gml:Point' only element "
-                    + "'gml:pos' and 'gml:coordinates' are allowed " + "in the feature of interest parameter!");
+            throw new DecodingException("For geometry type 'gml:Point' only element " +
+                                        "'gml:pos' and 'gml:coordinates' are allowed " +
+                                        "in the feature of interest parameter!");
         }
 
         srid = setDefaultForUnsetSrid(srid);
@@ -421,19 +419,17 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 LinearRingType xbLinearRing = (LinearRingType) xbExteriorRing;
                 exteriorCoordString = getCoordString4LinearRing(xbLinearRing);
             } else {
-                throw new DecodingException("The Polygon must contain the following elements "
-                        + "<gml:exterior><gml:LinearRing><gml:posList>!");
+                throw new DecodingException(
+                        "The Polygon must contain the following elements <gml:exterior><gml:LinearRing><gml:posList>!");
             }
         }
 
         AbstractRingPropertyType[] xbInterior = xbPolygonType.getInteriorArray();
-        AbstractRingPropertyType xbInteriorRing;
         if (xbInterior != null && xbInterior.length != 0) {
-            for (int i = 0; i < xbInterior.length; i++) {
-                xbInteriorRing = xbInterior[i];
-                if (xbInteriorRing instanceof LinearRingType) {
+            for (AbstractRingPropertyType xbInteriorRing : xbInterior) {
+                if (xbInteriorRing.getAbstractRing() instanceof LinearRingType) {
                     interiorCoordString.append(", ")
-                            .append(getCoordString4LinearRing((LinearRingType) xbInteriorRing));
+                            .append(getCoordString4LinearRing((LinearRingType) xbInteriorRing.getAbstractRing()));
                 }
             }
         }
@@ -467,7 +463,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                 polygons.add((Polygon) parsePolygonType((PolygonType) xbAbstractSurface));
             } else {
                 throw new DecodingException("The FeatureType %s is not supportted! Only PolygonType",
-                        xbAbstractSurface);
+                                            xbAbstractSurface);
             }
         }
         if (polygons.isEmpty()) {
@@ -483,8 +479,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     private org.n52.shetland.ogc.gml.ReferenceType parseVerticalDatumPropertyType(VerticalDatumPropertyType vdpt) {
         // TODO parse VerticalDatumType
         if (vdpt.isSetHref() && !vdpt.getHref().isEmpty()) {
-            org.n52.shetland.ogc.gml.ReferenceType referenceType =
-                    new org.n52.shetland.ogc.gml.ReferenceType(vdpt.getHref());
+            org.n52.shetland.ogc.gml.ReferenceType referenceType = new org.n52.shetland.ogc.gml.ReferenceType(vdpt
+                    .getHref());
             if (vdpt.isSetTitle() && !vdpt.getTitle().isEmpty()) {
                 referenceType.setTitle(vdpt.getTitle());
             }
@@ -494,17 +490,15 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     /**
-     * method parses the passed linearRing(generated thru XmlBEans) and returns
-     * a string containing the coordinate values of the passed ring
+     * method parses the passed linearRing(generated thru XmlBEans) and returns a string containing the coordinate
+     * values of the passed ring
      *
-     * @param xbLinearRing
-     *            linearRing(generated thru XmlBEans)
-     * @return Returns a string containing the coordinate values of the passed
-     *         ring
+     * @param xbLinearRing linearRing(generated thru XmlBEans)
+     *
+     * @return Returns a string containing the coordinate values of the passed ring
      *
      *
-     * @throws DecodingException
-     *             * if parsing the linear Ring failed
+     * @throws DecodingException * if parsing the linear Ring failed
      */
     private String getCoordString4LinearRing(LinearRingType xbLinearRing) throws DecodingException {
 
@@ -519,20 +513,20 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         } else if (xbPosArray != null && xbPosArray.length > 0) {
             result = getString4PosArray(xbPosArray);
         } else {
-            throw new DecodingException("The Polygon must contain the following elements "
-                    + "<gml:exterior><gml:LinearRing><gml:posList>, "
-                    + "<gml:exterior><gml:LinearRing><gml:coordinates> "
-                    + "or <gml:exterior><gml:LinearRing><gml:pos>{<gml:pos>}!");
+            throw new DecodingException("The Polygon must contain the following elements " +
+                                        "<gml:exterior><gml:LinearRing><gml:posList>, " +
+                                        "<gml:exterior><gml:LinearRing><gml:coordinates> " +
+                                        "or <gml:exterior><gml:LinearRing><gml:pos>{<gml:pos>}!");
         }
 
         return result;
-    }// end getCoordStrig4LinearRing
+    }
 
     /**
      * parses XmlBeans DirectPosition to a String with coordinates for WKT.
      *
-     * @param xbPos
-     *            XmlBeans generated DirectPosition.
+     * @param xbPos XmlBeans generated DirectPosition.
+     *
      * @return Returns String with coordinates for WKT.
      */
     private String getString4Pos(DirectPositionType xbPos) {
@@ -542,8 +536,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     /**
      * parses XmlBeans DirectPosition[] to a String with coordinates for WKT.
      *
-     * @param xbPosArray
-     *            XmlBeans generated DirectPosition[].
+     * @param xbPosArray XmlBeans generated DirectPosition[].
+     *
      * @return Returns String with coordinates for WKT.
      */
     private String getString4PosArray(DirectPositionType[] xbPosArray) {
@@ -562,12 +556,12 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     /**
      * parses XmlBeans DirectPositionList to a String with coordinates for WKT.
      *
-     * @param xbPosList
-     *            XmlBeans generated DirectPositionList.
+     * @param xbPosList XmlBeans generated DirectPositionList.
+     *
      * @return Returns String with coordinates for WKT.
      *
      *
-     * @throws DecodingException
+     * @throws DecodingException if the pos list contains an odd number of values
      */
     private String getString4PosList(DirectPositionListType xbPosList) throws DecodingException {
         StringBuilder coordinateString = new StringBuilder("(");
@@ -592,11 +586,11 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     }
 
     /**
-     * parses XmlBeans Coordinates to a String with coordinates for WKT.
-     * Replaces cs, decimal and ts if different from default.
+     * parses XmlBeans Coordinates to a String with coordinates for WKT. Replaces cs, decimal and ts if different from
+     * default.
      *
-     * @param xbCoordinates
-     *            XmlBeans generated Coordinates.
+     * @param xbCoordinates XmlBeans generated Coordinates.
+     *
      * @return Returns String with coordinates for WKT.
      */
     private String getString4Coordinates(CoordinatesType xbCoordinates) {
@@ -618,9 +612,16 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     private int setDefaultForUnsetSrid(int srid) throws DecodingException {
         if (srid == 0 || srid == -1) {
-            srid = 4326;
+
             LOGGER.warn("No SrsName is specified for geometry, instead the default 4326 is taken!");
+            return 4326;
+        } else {
+            return srid;
         }
-        return srid;
+    }
+
+    private static DecodingException unsupportedFeaturePropertyType() {
+        return new DecodingException(Sos2Constants.InsertObservationParams.observation,
+                                     "The requested featurePropertyType type is not supported by this service!");
     }
 }

@@ -29,11 +29,11 @@ import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.svalbard.util.XmlHelper;
 
 /**
- * @param <T>
  *
  * @since 4.0.0
  *
- * @param <S>
+ * @param <T> the resulting type, the "Target"
+ * @param <S> the input type, the "Source"
  */
 public abstract class AbstractXmlEncoder<T, S> extends AbstractDelegatingEncoder<T, S>
         implements SchemaAwareEncoder<T, S> {

@@ -303,7 +303,8 @@ public final class XmlHelper {
         }
     }
 
-    public static void updateGmlIDs(final Node node, final String gmlID, String oldGmlID) {
+    //CHECKSTYLE:OFF
+    public static void updateGmlIDs(Node node, String gmlID, String oldGmlID) {
         // check this node's attributes
         if (node != null) {
             final String nodeNamespace = node.getNamespaceURI();
@@ -334,6 +335,7 @@ public final class XmlHelper {
             }
         }
     }
+    //CHECKSTYLE:ON
 
     /**
      * Check if attribute or node namespace is a GML id.
@@ -679,7 +681,7 @@ public final class XmlHelper {
                             cursor.setAttributeText(
                                     W3CConstants.QN_XSI_TYPE,
                                     Joiner.on(":").join(
-                                            XmlHelper.getPrefixForNamespace(content, (String)namespaces.get(prefix)),
+                                            XmlHelper.getPrefixForNamespace(content, (String) namespaces.get(prefix)),
                                             localName));
                         }
                     }

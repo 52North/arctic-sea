@@ -14,21 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode.inspire.base;
+package org.n52.svalbard.encode;
 
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlObject;
-import org.n52.sos.encode.ClassToClassEncoderKey;
-import org.n52.sos.encode.EncoderKey;
-import org.n52.sos.encode.XmlPropertyTypeEncoderKey;
-import org.n52.sos.exception.ows.concrete.UnsupportedEncoderInputException;
-import org.n52.sos.ogc.ows.OwsExceptionReport;
-import org.n52.sos.ogc.sos.SosConstants.HelperValues;
-import org.n52.svalbard.inspire.base.Identifier;
-import org.n52.svalbard.inspire.base.InspireBaseConstants;
+import org.n52.shetland.inspire.base.Identifier;
+import org.n52.shetland.inspire.base.InspireBaseConstants;
+import org.n52.svalbard.encode.exception.EncodingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +30,7 @@ import com.google.common.collect.Sets;
 
 import eu.europa.ec.inspire.schemas.base.x33.IdentifierPropertyType;
 
-public class IdentifierPropertyTypeEncoder extends AbstractIdentifierEncoder {
+public class IdentifierPropertyTypeEncoder extends AbstractIdentifierEncoder<IdentifierPropertyType> {
 
     private static final Logger LOGGER =
             LoggerFactory.getLogger(IdentifierPropertyTypeEncoder.class);
@@ -52,13 +45,13 @@ public class IdentifierPropertyTypeEncoder extends AbstractIdentifierEncoder {
     }
 
     @Override
-    public Set<EncoderKey> getEncoderKeyType() {
+    public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
     }
 
     @Override
-    public XmlObject encode(Identifier identifier, Map<HelperValues, String> additionalValues)
-            throws OwsExceptionReport, UnsupportedEncoderInputException {
+    public IdentifierPropertyType encode(Identifier identifier, EncodingContext context)
+            throws EncodingException {
         IdentifierPropertyType ipt = IdentifierPropertyType.Factory.newInstance();
         ipt.setIdentifier(createIdentifierType(identifier));
         return ipt;

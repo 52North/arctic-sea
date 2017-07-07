@@ -129,16 +129,16 @@ public class Iso19139GmdEncoderTest {
         errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:unitsSystem/@xlink:href", NS_CTX, is("http://www.opengis.net/def/uom/UCUM/")));
         errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record", NS_CTX, is("5.0")));
     }
-    
-    @Test 
+
+    @Test
     public void checkMDMetadataReferenceEncoding() throws EncodingException {
         MDMetadata mdMmetadata = new MDMetadata(new SimpleAttrs().setHref("href").setTitle("title"));
         XmlObject xmlObject = encoder.encode(mdMmetadata);
         xmlObject.validate();
         errors.checkThat(xmlObject, instanceOf(MDMetadataPropertyType.class));
     }
-    
-    @Test 
+
+    @Test
     public void checkMDMetadataEncoding() throws EncodingException {
         MDDataIdentification identificationInfo = new MDDataIdentification(new GmdCitation("title", new GmdCitationDate(GmdDateType.publication(), "date")), "abstrakt", "ger");
         MDMetadata mdMmetadata = new MDMetadata(new CiResponsibleParty(new org.n52.shetland.iso.gco.Role(Role.AUTHOR.name())), DateTime.now(), identificationInfo);

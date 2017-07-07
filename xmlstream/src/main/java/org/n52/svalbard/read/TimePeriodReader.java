@@ -21,8 +21,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -40,7 +40,7 @@ public class TimePeriodReader extends XmlReader<TimePeriod> {
 
     @Override
     protected void read(QName name)
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         if (name.equals(GmlConstants.QN_END_POSITION_32)) {
             time.setEnd(DateTimeHelper.parseIsoString2DateTime(chars()));
         } else if (name.equals(GmlConstants.QN_BEGIN_POSITION_32)) {

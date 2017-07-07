@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
+import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gwml.GWMLConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
@@ -27,6 +28,8 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.FeaturePropertyType;
 
 public abstract class AbstractGroundWaterMLEncoder<T, S> extends AbstractGmlEncoderv321<T, S> {
 
@@ -71,5 +74,23 @@ public abstract class AbstractGroundWaterMLEncoder<T, S> extends AbstractGmlEnco
 
     protected XmlObject encodeGWMLProperty(Object o, EncodingContext ec) throws EncodingException {
         return encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, o, ec);
+    }
+
+    protected XmlObject encodeGWMLDocument(Object o) throws EncodingException {
+        return encodeObjectToXmlDocument(GWMLConstants.NS_GWML_22, o);
+    }
+
+    @Override
+    protected XmlObject createFeature(FeaturePropertyType featurePropertyType, AbstractFeature abstractFeature,
+            EncodingContext context) throws EncodingException {
+        if (context.has(XmlBeansEncodingFlags.ENCODE)
+                && !context.getBoolean(XmlBeansEncodingFlags.ENCODE)) {
+            featurePropertyType.setHref(abstractFeature.getIdentifierCodeWithAuthority().getValue());
+            if (abstractFeature.isSetName()) {
+                featurePropertyType.setTitle(abstractFeature.getFirstName().getValue());
+            }
+            return featurePropertyType;
+        }
+        return encodeGWMLDocument(abstractFeature);
     }
 }

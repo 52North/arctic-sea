@@ -59,9 +59,11 @@ public class DescribeSensorResponseEncoder extends AbstractSwesResponseEncoder<D
             SensorDescriptionType sensorDescription = dsr.addNewDescription().addNewSensorDescription();
             sensorDescription.addNewData().set(getSensorDescription(response, sosProcedureDescription));
             if (sosProcedureDescription.isSetValidTime()) {
-                XmlObject xoValidTime = encodeObjectToXml(GmlConstants.NS_GML_32, sosProcedureDescription.getValidTime());
+                XmlObject xoValidTime = encodeObjectToXml(GmlConstants.NS_GML_32,
+                                                          sosProcedureDescription.getValidTime());
                 XmlObject substitution = sensorDescription.addNewValidTime().addNewAbstractTimeGeometricPrimitive()
-                        .substitute(GmlHelper.getGml321QnameForITime(sosProcedureDescription.getValidTime()), xoValidTime.schemaType());
+                        .substitute(GmlHelper.getGml321QnameForITime(sosProcedureDescription.getValidTime()),
+                                    xoValidTime.schemaType());
                 substitution.set(xoValidTime);
             }
         }

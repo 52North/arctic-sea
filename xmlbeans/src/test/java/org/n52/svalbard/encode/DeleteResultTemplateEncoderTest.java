@@ -36,43 +36,43 @@ import org.n52.sos.response.DeleteResultTemplateResponse;
  * J&uuml;rrens</a>
  */
 public class DeleteResultTemplateEncoderTest {
-    
+
     @Rule
     public ExpectedException thrown = ExpectedException.none();
-    
+
     @Test
     public void shouldThrowExceptionOnNullInput() throws OwsExceptionReport {
         thrown.expect(UnsupportedEncoderInputException.class);
         thrown.expectMessage(String.format("Encoder %s can not encode 'null'",
                 DeleteResultTemplateEncoder.class.getName()));
-        
+
         new DeleteResultTemplateEncoder().create(null);
     }
-    
+
     @Test
     public void shouldThrowExceptionOnMissingServiceAndVersionParameter() throws OwsExceptionReport {
         thrown.expect(new CompositeExceptionMatcher()
                 .with(MissingServiceParameterException.class)
                 .with(MissingVersionParameterException.class));
-        
+
         new DeleteResultTemplateEncoder().create(new DeleteResultTemplateResponse());
     }
-    
+
     @Test
     public void shouldEncodeEmptyResponse() throws OwsExceptionReport {
-        DeleteResultTemplateResponseDocument encodedResponse = 
+        DeleteResultTemplateResponseDocument encodedResponse =
                 (DeleteResultTemplateResponseDocument)
                 new DeleteResultTemplateEncoder().create(
                 (DeleteResultTemplateResponse) new DeleteResultTemplateResponse()
                         .setService("test-service")
                         .setVersion("test-version"));
-        
+
         Assert.assertThat(encodedResponse.getDeleteResultTemplateResponse(), CoreMatchers.notNullValue());
     }
-    
+
     @Test
     public void shouldEncodeResultTemplateList() throws OwsExceptionReport {
-        DeleteResultTemplateResponseDocument encodedResponse = 
+        DeleteResultTemplateResponseDocument encodedResponse =
                 (DeleteResultTemplateResponseDocument)
                 new DeleteResultTemplateEncoder().create(
                 (DeleteResultTemplateResponse) new DeleteResultTemplateResponse()
@@ -81,12 +81,12 @@ public class DeleteResultTemplateEncoderTest {
                                 "test-result-template-2"))
                         .setService("test-service")
                         .setVersion("test-version"));
-        
+
         final DeleteResultTemplateResponseType drtt = encodedResponse.getDeleteResultTemplateResponse();
-        
+
         Assert.assertThat(drtt.sizeOfDeletedTemplateArray(), Is.is(2));
         Assert.assertThat(drtt.getDeletedTemplateArray(0), Is.is("test-result-template-1"));
         Assert.assertThat(drtt.getDeletedTemplateArray(1), Is.is("test-result-template-2"));
     }
-    
+
 }

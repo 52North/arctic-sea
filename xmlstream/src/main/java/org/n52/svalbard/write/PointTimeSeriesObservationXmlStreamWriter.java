@@ -16,30 +16,26 @@
  */
 package org.n52.svalbard.write;
 
+import java.io.OutputStream;
+
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.xmlbeans.XmlOptions;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.EncodingContext;
 
 
 public class PointTimeSeriesObservationXmlStreamWriter extends WmlTVPEncoderv20XmlStreamWriter {
 
-    /**
-     * constructor
-     */
-    public PointTimeSeriesObservationXmlStreamWriter() {
-        super();
-    }
 
-    /**
-     * constructor
-     *
-     * @param observation
-     *            {@link OmObservation} to write to stream
-     */
-    public PointTimeSeriesObservationXmlStreamWriter(OmObservation observation) {
-        super(observation);
+    public PointTimeSeriesObservationXmlStreamWriter(OutputStream outputStream, EncodingContext context,
+            EncoderRepository encoderRepository, Producer<XmlOptions> xmlOptions, OmObservation element)
+            throws XMLStreamException {
+        super(outputStream, context, encoderRepository, xmlOptions, element);
     }
 
     @Override

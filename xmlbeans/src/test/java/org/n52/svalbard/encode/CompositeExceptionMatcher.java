@@ -33,9 +33,9 @@ import org.n52.sos.ogc.ows.OwsExceptionReport;
 public class CompositeExceptionMatcher extends BaseMatcher<CompositeOwsException>{
 
     private int expectedSize;
-    
+
     private List<Matcher<?>> exceptionMatcher;
-    
+
     boolean classNotMatched, sizeNotMatched;
     int subMatcherNotMatched = -1;
 
@@ -92,8 +92,8 @@ public class CompositeExceptionMatcher extends BaseMatcher<CompositeOwsException
                             description);
         }
     }
-    
-    
+
+
 
     public CompositeExceptionMatcher with(Class<? extends OwsExceptionReport> exceptionClass) {
         if (exceptionClass != null) {

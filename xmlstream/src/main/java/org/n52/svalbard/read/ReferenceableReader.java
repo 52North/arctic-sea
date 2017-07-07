@@ -18,16 +18,16 @@ package org.n52.svalbard.read;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 public abstract class ReferenceableReader<T> extends XmlReader<Referenceable<T>> {
 
     private Referenceable<T> referenceable;
 
     @Override
-    protected void begin() throws XMLStreamException, OwsExceptionReport {
+    protected void begin() throws XMLStreamException, DecodingException {
         if (attr(W3CConstants.QN_XLINK_HREF).isPresent()) {
             this.referenceable = Referenceable.of(delegate(new ReferenceReader()));
         } else {
@@ -37,7 +37,7 @@ public abstract class ReferenceableReader<T> extends XmlReader<Referenceable<T>>
 
     @Override
     protected Referenceable<T> finish()
-            throws OwsExceptionReport {
+            throws DecodingException {
         return referenceable;
     }
 

@@ -25,9 +25,22 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x2003.x05.soapEnvelope.Body;
+import org.w3.x2003.x05.soapEnvelope.Envelope;
+import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
+import org.w3.x2003.x05.soapEnvelope.Fault;
+import org.w3.x2003.x05.soapEnvelope.FaultDocument;
+import org.w3.x2003.x05.soapEnvelope.Faultcode;
+import org.w3.x2003.x05.soapEnvelope.Reasontext;
+import org.w3.x2003.x05.soapEnvelope.Subcode;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.exception.CodedException;
@@ -52,19 +65,6 @@ import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.OwsHelper;
 import org.n52.svalbard.write.Soap12XmlStreamWriter;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x2003.x05.soapEnvelope.Body;
-import org.w3.x2003.x05.soapEnvelope.Envelope;
-import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
-import org.w3.x2003.x05.soapEnvelope.Fault;
-import org.w3.x2003.x05.soapEnvelope.FaultDocument;
-import org.w3.x2003.x05.soapEnvelope.Faultcode;
-import org.w3.x2003.x05.soapEnvelope.Reasontext;
-import org.w3.x2003.x05.soapEnvelope.Subcode;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
@@ -88,11 +88,6 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
                 Joiner.on(", ").join(ENCODER_KEY_TYPES));
     }
 
-    @Override
-    public boolean forceStreaming() {
-        return false;
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public Set<EncoderKey> getKeys() {
@@ -113,25 +108,30 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     }
 
     @Override
-    public void encode(Object element, OutputStream outputStream) throws EncodingException {
-        encode(element, outputStream, new EncodingValues());
-    }
-
-    @Override
-    public void encode(Object element, OutputStream outputStream, EncodingValues encodingValues)
+    public void encode(Object element, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
         if (element instanceof SoapResponse) {
-            new Soap12XmlStreamWriter().write((SoapResponse) element, outputStream);
+            try {
+                new Soap12XmlStreamWriter(
+                        outputStream,
+                        encodingValues,
+                        getEncoderRepository(),
+                        this::getXmlOptions,
+                        (SoapResponse) element
+                ).write();
+            } catch (XMLStreamException ex) {
+                throw new EncodingException(ex);
+            }
         } else {
             try {
-                encode(element, encodingValues.getAdditionalValues()).save(outputStream, getXmlOptions());
+                encode(element, encodingValues).save(outputStream, getXmlOptions());
             } catch (IOException ioe) {
                 throw new EncodingException("Error while writing element to stream!", ioe);
             }
         }
     }
 
-    private XmlObject createSOAP12Envelope(final SoapResponse response, EncodingContext additionalValues)
+    private XmlObject createSOAP12Envelope(SoapResponse response, EncodingContext additionalValues)
             throws EncodingException {
         String action = null;
         final EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();

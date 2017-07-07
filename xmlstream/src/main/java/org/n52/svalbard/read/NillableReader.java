@@ -24,9 +24,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.iso.GcoConstants;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.Iterables;
@@ -48,7 +48,7 @@ public abstract class NillableReader<T> extends XmlReader<Nillable<T>> {
 
     @Override
     protected void begin()
-            throws XMLStreamException, OwsExceptionReport {
+            throws XMLStreamException, DecodingException {
         Optional<String> attr = attr(W3CConstants.QN_XSI_NIL);
         if (attr.isPresent() && attr.get().equals("true")) {
             List<QName> attributeNames = getPossibleNilReasonAttributes();

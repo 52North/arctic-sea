@@ -26,8 +26,8 @@ public class ResponseContentTypeEncoderKey implements EncoderKey {
     private final MediaType contentType;
 
     /**
-     * @param response
-     * @param contentType
+     * @param clazz The class
+     * @param contentType The response content type
      */
     public ResponseContentTypeEncoderKey(Class<?> clazz, MediaType contentType) {
         super();
@@ -36,7 +36,7 @@ public class ResponseContentTypeEncoderKey implements EncoderKey {
     }
 
     public Class<?> getObjectClass() {
-       return clazz;
+        return clazz;
     }
 
     public MediaType getContentType() {

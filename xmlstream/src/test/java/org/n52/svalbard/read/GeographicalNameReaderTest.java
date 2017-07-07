@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.sos.decode.xml.stream.inspire.gn;
-
+package org.n52.svalbard.read;
 
 import static org.hamcrest.core.Is.is;
 
@@ -34,6 +33,7 @@ import org.n52.shetland.inspire.Spelling;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.Nillable;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * TODO JavaDoc
@@ -45,7 +45,7 @@ public class GeographicalNameReaderTest {
     public final ErrorCollector errors = new ErrorCollector();
 
     @Test
-    public void test() throws UnsupportedEncodingException, XMLStreamException, OwsExceptionReport, URISyntaxException {
+    public void test() throws UnsupportedEncodingException, XMLStreamException, URISyntaxException, DecodingException {
 
         String xml = "<gn:GeographicalName xmlns:gn=\"urn:x-inspire:specification:gmlas:GeographicalNames:3.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
                      "  <gn:language>eng</gn:language>\n" +
