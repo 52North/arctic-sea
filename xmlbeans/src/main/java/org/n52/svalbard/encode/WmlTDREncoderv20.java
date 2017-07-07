@@ -82,7 +82,8 @@ import net.opengis.watermlDr.x20.TimePositionListType;
  * @since 1.0.0
  *
  */
-public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
+public class WmlTDREncoderv20
+        extends AbstractWmlEncoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WmlTDREncoderv20.class);
 
@@ -97,8 +98,11 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS =
             Collections.singletonMap(SosConstants.SOS, Collections.singletonMap(Sos2Constants.SERVICEVERSION,
                     Collections.singleton(WaterMLConstants.NS_WML_20_DR)));
+
     private static final String TIMESERIES_ID_PREFIX = "timeseries_";
+
     private static final String DATA_RECORD_ID_PREFIX = "datarecord_";
+
     private static final String TIME_POSITION_LIST_ID_PREFIX = "timepositionList_";
 
     public WmlTDREncoderv20() {
@@ -166,14 +170,12 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
+            throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new WmlTDREncoderv20XmlStreamWriter(
-                        ctx.with(StreamingEncoderFlags.ENCODER, this),
-                        outputStream,
-                         (OmObservation) objectToEncode)
-                        .write();
+                new WmlTDREncoderv20XmlStreamWriter(ctx.with(StreamingEncoderFlags.ENCODER, this), outputStream,
+                        (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }
@@ -181,7 +183,6 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
             super.encode(objectToEncode, ctx);
         }
     }
-
 
     @Override
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
@@ -207,7 +208,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
     }
 
     protected OMObservationType createOmObservationType() {
-            return OMObservationType.Factory.newInstance(getXmlOptions());
+        return OMObservationType.Factory.newInstance(getXmlOptions());
     }
 
     /**
@@ -342,7 +343,6 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         return createDataRecord(quantity, sosObservation.getObservationID());
     }
 
-
     private XmlObject createDataRecord(AbstractObservationValue<?> observationValue, String unit)
             throws EncodingException {
         // AbstractPhenomenon observableProperty =
@@ -359,7 +359,7 @@ public class WmlTDREncoderv20 extends AbstractWmlEncoderv20 {
         dataRecord.setIdentifier(DATA_RECORD_ID_PREFIX + observationId);
         dataRecord.addField(field);
         return encodeObjectToXml(SweConstants.NS_SWE_20, dataRecord,
-                                                         EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
+                EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
     }
 
     /**

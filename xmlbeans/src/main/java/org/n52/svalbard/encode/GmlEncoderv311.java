@@ -163,8 +163,7 @@ public class GmlEncoderv311
         } else if (element instanceof EnvelopeOrGeometry) {
             EnvelopeOrGeometry geom = (EnvelopeOrGeometry) element;
             if (geom.getGeometry().isPresent()) {
-                encodedObject =
-                        createPosition(geom.getGeometry().get(), ctx.get(XmlBeansEncodingFlags.GMLID));
+                encodedObject = createPosition(geom.getGeometry().get(), ctx.get(XmlBeansEncodingFlags.GMLID));
             } else if (geom.getEnvelope().isPresent()) {
                 encodedObject = createEnvelope(geom.getEnvelope().get());
             } else {
@@ -295,8 +294,10 @@ public class GmlEncoderv311
         return xbTimePosition;
     }
 
-    private XmlObject createPosition(Geometry geom, Optional<Object> optional) throws UnsupportedEncoderInputException {
-        String gmlId = (optional != null && optional.isPresent() && optional.get() instanceof String) ? (String) optional.get() : null;
+    private XmlObject createPosition(Geometry geom, Optional<Object> optional)
+            throws UnsupportedEncoderInputException {
+        String gmlId = (optional != null && optional.isPresent() && optional.get() instanceof String)
+                ? (String) optional.get() : null;
         if (geom instanceof Point) {
             PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
             if (gmlId != null) {

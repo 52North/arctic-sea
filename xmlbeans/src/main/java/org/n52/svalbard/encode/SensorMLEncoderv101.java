@@ -637,7 +637,7 @@ public class SensorMLEncoderv101
         final Contact newContact = Contact.Factory.newInstance();
         final ContactList newContactList = ContactList.Factory.newInstance();
         mergedResponsibleParties.forEach(
-                responsibleParty -> newContactList.addNewMember().addNewResponsibleParty().set(responsibleParty));
+            responsibleParty -> newContactList.addNewMember().addNewResponsibleParty().set(responsibleParty));
         mergedPersons.forEach(person -> newContactList.addNewMember().addNewPerson().set(person));
         if (newContactList.sizeOfMemberArray() == 1) {
             if (newContactList.getMemberArray(0).isSetPerson()) {

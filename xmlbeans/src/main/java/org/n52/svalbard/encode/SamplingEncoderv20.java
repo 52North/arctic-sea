@@ -192,8 +192,10 @@ public class SamplingEncoderv20
         if (abstractFeature instanceof AbstractSamplingFeature) {
             final AbstractSamplingFeature samplingFeature = (AbstractSamplingFeature) abstractFeature;
             String namespace;
-            if (context.has(XmlEncoderFlags.ENCODE_NAMESPACE)) {
-                namespace = context.get(XmlEncoderFlags.ENCODE_NAMESPACE);
+            if (context.has(XmlEncoderFlags.ENCODE_NAMESPACE)
+                    && context.get(XmlEncoderFlags.ENCODE_NAMESPACE).isPresent()
+                    && context.get(XmlEncoderFlags.ENCODE_NAMESPACE).get() instanceof String) {
+                namespace = (String) context.get(XmlEncoderFlags.ENCODE_NAMESPACE).get();
             } else {
                 namespace = OMHelper.getNamespaceForFeatureType(samplingFeature.getFeatureType());
             }

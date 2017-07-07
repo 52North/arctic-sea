@@ -130,7 +130,8 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  *
  */
-public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
+public class SensorMLDecoderV20
+        extends AbstractSensorMLDecoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SensorMLDecoderV20.class);
 
@@ -147,12 +148,12 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
             .add(new ProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL)).build();
 
-    //CHECKSTYLE:OFF
+    // CHECKSTYLE:OFF
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_TRANSACTIONAL_PROCEDURE_DESCRIPTION_FORMATS =
             ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>> builder()
                     .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL))
                     .build());
-    //CHECKSTYLE:ON
+    // CHECKSTYLE:ON
 
     public SensorMLDecoderV20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -404,12 +405,15 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
                 abstractPhysicalProcess.setAttachedTo((ReferenceType) decodeXmlElement);
             }
         }
-    // if (CollectionHelper.isNotNullOrEmpty(appt.getLocalReferenceFrameArray())) {
-    //
-    // }
-    // if (CollectionHelper.isNotNullOrEmpty(appt.getLocalTimeFrameArray())) {
-    //
-    // }
+        // if
+        // (CollectionHelper.isNotNullOrEmpty(appt.getLocalReferenceFrameArray()))
+        // {
+        //
+        // }
+        // if (CollectionHelper.isNotNullOrEmpty(appt.getLocalTimeFrameArray()))
+        // {
+        //
+        // }
         if (CollectionHelper.isNotNullOrEmpty(appt.getPositionArray())) {
             for (PositionUnionPropertyType pupt : appt.getPositionArray()) {
                 abstractPhysicalProcess.setPosition(parsePositionFrom(pupt));
@@ -520,10 +524,10 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
                             if (o instanceof SweAbstractDataComponent) {
                                 characteristic.setAbstractDataComponent((SweAbstractDataComponent) o);
                             } else {
-                                throw new DecodingException(
-                                        XmlHelper.getLocalName(clpt),
-                                        "Error while parsing the characteristics of the SensorML " +
-                                        "(the characteristics' data record is not of type DataRecordPropertyType)!");
+                                throw new DecodingException(XmlHelper.getLocalName(clpt),
+                                        "Error while parsing the characteristics of the SensorML "
+                                                + "(the characteristics' data record is not of "
+                                                + "type DataRecordPropertyType)!");
                             }
                         } else if (c.isSetHref()) {
                             characteristic.setHref(c.getHref());
@@ -807,18 +811,16 @@ public class SensorMLDecoderV20 extends AbstractSensorMLDecoder {
             if (decodedObject instanceof SweAbstractDataComponent) {
                 return (SweAbstractDataComponent) decodedObject;
             } else {
-                throw new DecodingException(
-                        XmlHelper.getLocalName(adcpt),
-                        "The 'DataComponentOrObservablePropertyType' with " +
-                        "type '%s' as value for '%s' is not supported.",
-                        XmlHelper.getLocalName(toDecode),
-                        XmlHelper.getLocalName(adcpt));
+                throw new DecodingException(XmlHelper.getLocalName(adcpt),
+                        "The 'DataComponentOrObservablePropertyType' with "
+                                + "type '%s' as value for '%s' is not supported.",
+                        XmlHelper.getLocalName(toDecode), XmlHelper.getLocalName(adcpt));
             }
         } else if (adcpt.isSetDataInterface()) {
             return parseDataInterfaceType(adcpt.getDataInterface());
         } else {
             throw new DecodingException(XmlHelper.getLocalName(adcpt),
-                                        "An 'DataComponentOrObservablePropertyType' is not supported");
+                    "An 'DataComponentOrObservablePropertyType' is not supported");
         }
     }
 

@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
-import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -60,8 +59,10 @@ public class GetDataAvailabilityXmlEncoder
     protected XmlObject create(GetDataAvailabilityResponse response) throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new GetDataAvailabilityStreamWriter(baos, EncodingContext.empty(), getEncoderRepository(),
-                    this::getXmlOptions, response.getDataAvailabilities()).write();
+            new GetDataAvailabilityStreamWriter(
+                    EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository()).with(
+                            XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
+                    baos, response.getDataAvailabilities()).write();
             XmlObject encodedObject = XmlObject.Factory.parse(baos.toString("UTF8"));
             XmlHelper.validateDocument(encodedObject, EncodingException::new);
             return encodedObject;

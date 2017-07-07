@@ -24,7 +24,6 @@ import java.util.Set;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.PointTimeSeriesObservation;
 import org.n52.shetland.ogc.SupportedType;
@@ -91,8 +90,10 @@ public class PointTimeSeriesObservationTypeEncoder
             throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new PointTimeSeriesObservationXmlStreamWriter(outputStream, context, getEncoderRepository(),
-                        XmlOptions::new, (OmObservation) objectToEncode).write();
+                new PointTimeSeriesObservationXmlStreamWriter(
+                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                                .with(XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
+                        outputStream, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }

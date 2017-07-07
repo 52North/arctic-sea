@@ -187,7 +187,7 @@ public abstract class XmlStreamWriter<S> {
         if (ns == null || ns.isEmpty()) {
             this.writer.writeNamespace(prefix, namespace);
         } else if (!ns.equals(namespace)) {
-            throw new XMLStreamException("Prefix <" + prefix + "> is already bound to <" + ns + ">");
+            handleXMLStreamException(prefix, namespace);
         }
     }
 
@@ -203,7 +203,7 @@ public abstract class XmlStreamWriter<S> {
         boolean alreadySet = ns != null && !ns.isEmpty();
         if (alreadySet) {
             if (!ns.equals(name.getNamespaceURI())) {
-                throw new XMLStreamException("Prefix <" + name.getPrefix() + "> is already bound to <" + ns + ">");
+                handleXMLStreamException(name.getPrefix(), ns);
             }
         }
         this.writer.writeStartElement(name.getPrefix(), name.getLocalPart(), name.getNamespaceURI());
@@ -466,6 +466,10 @@ public abstract class XmlStreamWriter<S> {
 
     protected Optional<String> getEncodeNamespace() {
         return getContext().get(XmlEncoderFlags.ENCODE_NAMESPACE);
+    }
+
+    private void handleXMLStreamException(String prefix, String ns) throws XMLStreamException {
+        throw new XMLStreamException("Prefix <" + prefix + "> is already bound to <" + ns + ">");
     }
 
 }

@@ -24,7 +24,6 @@ import java.util.Set;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.apache.xmlbeans.XmlOptions;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gwml.GWMLConstants;
@@ -138,8 +137,10 @@ public class GwmlEncoderv22
             throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new GwmlV22XmlStreamWriter(outputStream, context, getEncoderRepository(), XmlOptions::new,
-                        (OmObservation) objectToEncode).write();
+                new GwmlV22XmlStreamWriter(
+                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                                .with(XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
+                        outputStream, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);
             }

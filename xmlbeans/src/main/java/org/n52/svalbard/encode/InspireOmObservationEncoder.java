@@ -26,7 +26,6 @@ import java.util.Set;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.OmObservation;
@@ -82,8 +81,10 @@ public class InspireOmObservationEncoder
         try {
             if (element instanceof OmObservation && InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION
                     .equals(((OmObservation) element).getObservationConstellation().getObservationType())) {
-                new PointTimeSeriesObservationXmlStreamWriter(outputStream, context, getEncoderRepository(),
-                        XmlOptions::new, (OmObservation) element).write();
+                new PointTimeSeriesObservationXmlStreamWriter(
+                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository()).with(
+                                XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
+                        outputStream, (OmObservation) element).write();
             } else {
                 // writeIndent(encodingValues.getIndent(), outputStream);
                 encode(element, context).save(outputStream, getXmlOptions());
