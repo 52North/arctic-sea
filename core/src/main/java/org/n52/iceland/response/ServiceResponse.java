@@ -153,7 +153,9 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
             LOGGER.error("doResponse", ioe);
         } finally {
             try {
-                byteArrayOutputStream.close();
+                if (byteArrayOutputStream != null) {
+                    byteArrayOutputStream.close();
+                }
             } catch (IOException ioe) {
                 LOGGER.error("doSoapResponse, close streams", ioe);
             }

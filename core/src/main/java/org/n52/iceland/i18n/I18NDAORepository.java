@@ -34,7 +34,6 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
 public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> implements Constructable {
     @Deprecated
     private static I18NDAORepository instance;
@@ -65,6 +64,17 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
         // TODO check for subtypes
         I18NDAO<?> dao = producer == null ? null : producer.get();
         return (I18NDAO<T>) dao;
+    }
+
+    public boolean isSupported() {
+        if (!daos.isEmpty()) {
+            for (Producer<I18NDAO<?>> dao : daos.values()) {
+                if (dao.get() != null && dao.get().isSupported()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

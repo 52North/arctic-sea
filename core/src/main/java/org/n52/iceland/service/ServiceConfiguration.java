@@ -19,6 +19,7 @@ package org.n52.iceland.service;
 import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
 import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
 
+import java.io.File;
 import java.net.URI;
 import java.util.Locale;
 
@@ -113,6 +114,7 @@ public class ServiceConfiguration implements Constructable {
 
     private boolean streamingEncoding = true;
 
+    private boolean includeChildObservableProperties = false;
 
     @Deprecated
     public String getDefaultOfferingPrefix() {
@@ -282,4 +284,26 @@ public class ServiceConfiguration implements Constructable {
     public boolean isForceStreamingEncoding() {
         return streamingEncoding;
     }
+
+    public boolean isIncludeChildObservableProperties() {
+        return includeChildObservableProperties;
+    }
+
+    /*
+     * Now, we return the list of returned features and not a complex encoded
+     * relatedFeature => this setting is not needed at all See
+     * AbstractGetFeatureOfInterestDAO:100-195 Don't forget to activate in
+     * MiscSettings the relatedFeature setting
+     *
+     * @Setting(MiscSettings.RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES)
+     * public void setRelatedSamplingFeatureRoleForChildFeatures(final String
+     * relatedSamplingFeatureRoleForChildFeatures) { Validation.notNullOrEmpty(
+     * MiscSettings.RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES,
+     * relatedSamplingFeatureRoleForChildFeatures);
+     * this.relatedSamplingFeatureRoleForChildFeatures =
+     * relatedSamplingFeatureRoleForChildFeatures; }
+     *
+     * public String getRelatedSamplingFeatureRoleForChildFeatures() { return
+     * relatedSamplingFeatureRoleForChildFeatures; }
+     */
 }

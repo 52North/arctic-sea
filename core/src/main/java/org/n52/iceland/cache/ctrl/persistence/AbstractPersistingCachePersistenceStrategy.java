@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.cache.ctrl.persistence;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -26,6 +28,8 @@ import java.util.Optional;
 
 import javax.inject.Inject;
 
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.cache.ContentCache;
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
@@ -34,14 +38,17 @@ import org.n52.janmayen.lifecycle.Constructable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Configurable
 public abstract class AbstractPersistingCachePersistenceStrategy
         implements ContentCachePersistenceStrategy, Constructable {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbstractPersistingCachePersistenceStrategy.class);
     public static final String CACHE_FILE = "cache.tmp";
+    public static final String CACHE_FILE_FOLDER = "service.cacheFileFolder";
     private String cacheFile;
 
     private ConfigLocationProvider configLocationProvider;
+    private File cacheFileFolder;
 
     @Inject
     public void setConfigLocationProvider(
@@ -51,7 +58,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
 
     @Override
     public void init() {
-        this.cacheFile = new File(configLocationProvider.get(), CACHE_FILE)
+        this.cacheFile = new File(getBasePath(), CACHE_FILE)
                 .getAbsolutePath();
     }
 
@@ -106,6 +113,10 @@ public abstract class AbstractPersistingCachePersistenceStrategy
         }
     }
 
+    protected String getBasePath() {
+        return isSetCacheFileFolder() ? getCacheFileFolder().getAbsolutePath() : configLocationProvider.get();
+    }
+
     @Override
     public void remove() {
         File f = getCacheFile();
@@ -114,5 +125,24 @@ public abstract class AbstractPersistingCachePersistenceStrategy
                 LOGGER.error("Error deleting cache file '{}'", f.getAbsolutePath());
             }
         }
+    }
+
+    /**
+     * @return the cacheFileFolder
+     */
+    protected File getCacheFileFolder() {
+        return cacheFileFolder;
+    }
+
+    protected boolean isSetCacheFileFolder() {
+        return cacheFileFolder != null && !cacheFileFolder.exists();
+    }
+
+    /**
+     * @param cacheFileFolder the cacheFileFolder to set
+     */
+    @Setting(CACHE_FILE_FOLDER)
+    public void setCacheFileFolder(File cacheFileFolder) {
+        this.cacheFileFolder = cacheFileFolder;
     }
 }

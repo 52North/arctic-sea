@@ -100,6 +100,24 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
     }
 
     /**
+     * Get all namespaces for which a converter is available to convert to
+     * requested format to default format
+     *
+     * @param fromNamespace
+     *            Requested format
+     * @return Swt with all possible formats
+     */
+    public Set<String> getToNamespaceConverterFrom(final String fromNamespace) {
+        final Set<String> toNamespaces = Sets.newHashSet();
+        for (final ConverterKey converterKey : converter.keySet()) {
+            if (fromNamespace.equals(converterKey.getFromNamespace())) {
+                toNamespaces.add(converterKey.getToNamespace());
+            }
+        }
+        return toNamespaces;
+    }
+
+    /**
      * Checks if a converter is available to convert the stored object from the
      * default format to the requested format
      *
