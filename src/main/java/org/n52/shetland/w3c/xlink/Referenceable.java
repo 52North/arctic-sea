@@ -86,7 +86,7 @@ public abstract class Referenceable<T> {
         public boolean isReference() {
             return false;
         }
-        
+
         @Override
         public int hashCode() {
             return Objects.hashCode(getInstance());

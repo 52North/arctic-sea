@@ -42,7 +42,7 @@ public final class SoapHelper {
 
     private SoapHelper() {
     }
-    
+
     /**
      * Checks the HTTP-Header for action or SOAPAction elements.
      *
