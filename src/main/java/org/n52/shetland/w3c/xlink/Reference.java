@@ -122,7 +122,7 @@ public class Reference {
     public boolean equals(Object obj) {
         if (obj instanceof Reference) {
             Reference that = (Reference) obj;
-            return Objects.equal(getActuate(), that.getActuate())&&
+            return Objects.equal(getActuate(), that.getActuate()) &&
                    Objects.equal(getArcrole(), that.getArcrole()) &&
                    Objects.equal(getHref(), that.getHref()) &&
                    Objects.equal(getRemoteSchema(), that.getRemoteSchema()) &&

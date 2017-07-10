@@ -31,6 +31,6 @@ public interface SoapHeader {
      *
      * @return The namespace
      */
-    public String getNamespace();
+    String getNamespace();
 
 }

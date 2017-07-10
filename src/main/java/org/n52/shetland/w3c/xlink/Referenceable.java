@@ -36,7 +36,7 @@ public abstract class Referenceable<T> {
 
     public abstract boolean isAbsent();
 
-    public abstract <X> Referenceable<X> transform(Function<T,X> fun);
+    public abstract <X> Referenceable<X> transform(Function<T, X> fun);
 
     @Override
     public abstract int hashCode();
@@ -86,6 +86,7 @@ public abstract class Referenceable<T> {
         public boolean isReference() {
             return false;
         }
+        
         @Override
         public int hashCode() {
             return Objects.hashCode(getInstance());

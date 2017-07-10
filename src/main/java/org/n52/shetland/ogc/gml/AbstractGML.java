@@ -474,9 +474,13 @@ public abstract class AbstractGML {
         this.metaDataProperty.add(metaDataProperty);
     }
 
+    /**
+     * @return <tt>true</tt>, if metaData property is set,<br>
+     *         else <tt>false</tt>
+     */
     public boolean isSetMetaDataProperty() {
         return CollectionHelper.isNotEmpty(getMetaDataProperty());
-}
+    }
 
     /**
      * Copies values of this {@link AbstractGML} to the committed

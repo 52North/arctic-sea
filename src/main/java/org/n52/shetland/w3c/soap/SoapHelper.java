@@ -38,8 +38,11 @@ import org.n52.shetland.ogc.ows.OWSConstants;
  *
  * @since 1.0.0
  */
-public class SoapHelper {
+public final class SoapHelper {
 
+    private SoapHelper() {
+    }
+    
     /**
      * Checks the HTTP-Header for action or SOAPAction elements.
      *
@@ -120,9 +123,6 @@ public class SoapHelper {
         } else {
             return OWSConstants.SOAP_REASON_UNKNOWN;
         }
-    }
-
-    private SoapHelper() {
     }
 
 }
