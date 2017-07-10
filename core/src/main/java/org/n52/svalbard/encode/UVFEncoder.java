@@ -743,7 +743,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         List<OmObservation> observations = new ArrayList<>();
         try {
             ObservationStream merge =
-                    observationStream.merge(ObservationMergeIndicator.defaultObservationMergerIndicator());
+                    observationStream.merge(ObservationMergeIndicator.sameObservationConstellation());
             while (merge.hasNext()) {
                 observations.add(merge.next());
             }
