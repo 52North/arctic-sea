@@ -35,9 +35,9 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann
  */
-public class Activatables {
+public final class Activatables {
 
-    private  Activatables() {
+    private Activatables() {
     }
 
     public static <K, V> Map<K, V> filter(Map<K, Activatable<V>> map) {
@@ -77,6 +77,14 @@ public class Activatables {
         return set.stream().map(Activatables::from).collect(toSet());
     }
 
+    public static <T> Activatable<T> from(T t) {
+        return from(t, true);
+    }
+
+    public static <T> Activatable<T> from(T t, boolean active) {
+        return new Activatable<>(t, active);
+    }
+
     public static <K, T> Set<K> activatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {
         return Sets.filter(map.keySet(), provider::isActive);
     }
@@ -99,14 +107,6 @@ public class Activatables {
 
     public static <K, T> Map<K, T> deactivatedMap(Map<K, T> map, ActivationProvider<? super K> provider) {
         return Maps.filterKeys(map, Predicates.not(provider::isActive));
-    }
-
-    public static <T> Activatable<T> from(T t) {
-        return from(t, true);
-    }
-
-    public static <T> Activatable<T> from(T t, boolean active) {
-        return new Activatable<>(t, active);
     }
 
 }

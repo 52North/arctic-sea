@@ -30,7 +30,7 @@ import java.util.NoSuchElementException;
 @Deprecated
 @SuppressWarnings(value = "unchecked")
 public class EmptyIterator<T> implements Iterator<T> {
-    private static final EmptyIterator<?> instance = new EmptyIterator<Object>();
+    private static final EmptyIterator<?> INSTANCE = new EmptyIterator<Object>();
 
     /**
      *
@@ -41,7 +41,7 @@ public class EmptyIterator<T> implements Iterator<T> {
     @Deprecated
     @SuppressWarnings(value = "unchecked")
     public static <T> Iterator<T> instance() {
-        return (Iterator<T>) instance;
+        return (Iterator<T>) INSTANCE;
     }
 
     @Override

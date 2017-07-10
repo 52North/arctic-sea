@@ -21,6 +21,7 @@ package org.n52.iceland.util;
  * or classes
  *
  * @since 1.0.0
+ * @deprecated use constants in less generic interfaces
  *
  */
 @Deprecated

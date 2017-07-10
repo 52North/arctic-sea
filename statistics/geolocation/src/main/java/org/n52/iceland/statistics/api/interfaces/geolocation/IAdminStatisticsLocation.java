@@ -17,17 +17,29 @@
 package org.n52.iceland.statistics.api.interfaces.geolocation;
 
 public interface IAdminStatisticsLocation {
+
+    /**
+     * Initialize the memory database. The path and the {@code LocationDatabaseType} MUST match.
+     *
+     * @param type           type of the loaded database from file.
+     * @param pathToDatabase can be <code>classpath:[path]</code> or <code>[absolute path]</code> string to the
+     *                       appropriate file.
+     */
+    void initDatabase(LocationDatabaseType type,
+                      String pathToDatabase);
+
     /**
      * The country or the city database indicator.
      */
-    public enum LocationDatabaseType {
+    enum LocationDatabaseType {
         // Maybe these string values will change in the future.
         // If there is any version change at the Maxmind GeoLite's side.
-        CITY("GeoLite2-City"), COUNTRY("GeoLite2-Country");
+        CITY("GeoLite2-City"),
+        COUNTRY("GeoLite2-Country");
 
         private final String geoLite2Name;
 
-        private LocationDatabaseType(String geoLite2Name) {
+        LocationDatabaseType(String geoLite2Name) {
             this.geoLite2Name = geoLite2Name;
         }
 
@@ -37,16 +49,4 @@ public interface IAdminStatisticsLocation {
 
     }
 
-    /**
-     * Initialize the memory database. The path and the
-     * {@code LocationDatabaseType} MUST match.
-     *
-     * @param type
-     *            type of the loaded database from file.
-     * @param pathToDatabase
-     *            can be <code>classpath:[path]</code> or
-     *            <code>[absolute path]</code> string to the appropriate file.
-     */
-    public void initDatabase(LocationDatabaseType type,
-            String pathToDatabase);
 }

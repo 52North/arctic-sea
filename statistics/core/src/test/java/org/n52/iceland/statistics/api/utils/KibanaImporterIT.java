@@ -17,6 +17,7 @@
 package org.n52.iceland.statistics.api.utils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 
@@ -43,7 +44,8 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
 
     @Test
     public void importValidJson() throws IOException, InterruptedException {
-        String json = IOUtils.toString(KibanaImporter.class.getResourceAsStream("/kibana/kibana_config.json"));
+        String json = IOUtils.toString(KibanaImporter.class.getResourceAsStream("/kibana/kibana_config.json"),
+                                       StandardCharsets.UTF_8);
         new KibanaImporter(getEmbeddedClient(), ".kibana", "my-index").importJson(json);
         Thread.sleep(1500);
         Assert.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());

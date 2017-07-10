@@ -42,7 +42,7 @@ public class ActivationService {
         this.activationDao = dao;
     }
 
-      /**
+    /**
      * @return the dao
      */
     protected ActivationDao getActivationDao() {
@@ -52,8 +52,7 @@ public class ActivationService {
     /**
      * Checks if the binding is active.
      *
-     * @param key
-     *            the binding
+     * @param key the binding
      *
      * @return if the binding is active
      */
@@ -64,8 +63,7 @@ public class ActivationService {
     /**
      * Checks if the extended capabilities is active.
      *
-     * @param key
-     *            the extended capabilities key
+     * @param key the extended capabilities key
      *
      * @return if the extended capabilities is active
      *
@@ -77,8 +75,7 @@ public class ActivationService {
     /**
      * Returns if a operation is active and should be offered by this service.
      *
-     * @param key
-     *            the key identifying the operation
+     * @param key the key identifying the operation
      *
      * @return {@code true} if the operation is active in this service
      */
@@ -119,19 +116,23 @@ public class ActivationService {
         return new DefaultActivationInitializer<>(getBindingSource());
     }
 
-    public FunctionalActivationListener<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderListener() {
+    public FunctionalActivationListener<OwsOperationMetadataExtensionProviderKey>
+            getOwsOperationMetadataExtensionProviderListener() {
         return this.getActivationDao()::setOwsOperationMetadataExtensionProviderStatus;
     }
 
-    public ActivationSource<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderSource() {
-        return ActivationSource.create(this::isOwsOperationMetadataExtensionProviderActive, this::getOwsOperationMetadataExtensionProviderKeys);
+    public ActivationSource<OwsOperationMetadataExtensionProviderKey>
+            getOwsOperationMetadataExtensionProviderSource() {
+        return ActivationSource.create(this::isOwsOperationMetadataExtensionProviderActive,
+                                       this::getOwsOperationMetadataExtensionProviderKeys);
     }
 
     public Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys() {
         return getActivationDao().getOwsOperationMetadataExtensionProviderKeys();
     }
 
-    public ActivationInitializer<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderInitializer() {
+    public ActivationInitializer<OwsOperationMetadataExtensionProviderKey>
+            getOwsOperationMetadataExtensionProviderInitializer() {
         return new DefaultActivationInitializer<>(getOwsOperationMetadataExtensionProviderSource());
     }
 

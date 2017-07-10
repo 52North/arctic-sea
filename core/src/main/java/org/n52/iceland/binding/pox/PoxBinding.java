@@ -23,45 +23,46 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
-import org.n52.faroe.annotation.Configurable;
-import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.shetland.ogc.ows.service.OwsOperationKey;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 
 /**
  * {@link Binding} implementation for POX (XML) encoded requests
+ *
  * @since 1.0.0
  *
  */
 @Configurable
 public class PoxBinding extends AbstractXmlBinding {
 
-    @Deprecated // SOS-specific
+    @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
 
-     private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
+    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
             .add(new PathBindingKey(BindingConstants.POX_BINDING_ENDPOINT))
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_XML))
             .add(new MediaTypeBindingKey(MediaTypes.TEXT_XML))
@@ -105,12 +106,12 @@ public class PoxBinding extends AbstractXmlBinding {
 
     protected OwsServiceRequest parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
-        return ((OwsServiceRequest)decode(request)).setRequestContext(getRequestContext(request));
+        return ((OwsServiceRequest) decode(request)).setRequestContext(getRequestContext(request));
     }
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
-        if(SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
@@ -138,4 +139,3 @@ public class PoxBinding extends AbstractXmlBinding {
     }
 
 }
-

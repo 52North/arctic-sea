@@ -17,27 +17,26 @@
 package org.n52.iceland.ds;
 
 /**
- * Interface for a connection provider that handles the connection to the
- * underlying data source (e.g. database, web service). Implementation can
- * contain a ConnectionPool.
+ * Interface for a connection provider that handles the connection to the underlying data source (e.g. database, web
+ * service). Implementation can contain a ConnectionPool.
  *
  * @since 1.0.0
  */
 public interface ConnectionProvider {
 
     /**
-     * Get a data source connection
+     * Get a data source connection.
      *
      * @return Connection to the data source
-     * @throws ConnectionProviderException
+     *
+     * @throws ConnectionProviderException if no connection could be acquired
      */
     Object getConnection() throws ConnectionProviderException;
 
     /**
-     * Return the connection to the provider
+     * Return the connection to the provider.
      *
-     * @param connection
-     *            Connection
+     * @param connection the connection
      */
     void returnConnection(Object connection);
 

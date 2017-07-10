@@ -23,16 +23,20 @@ import java.util.List;
 import com.google.common.base.Joiner;
 
 /**
- * @param <A>
+ * A composite action consisting of other actions.
+ *
+ * @param <A> the action type
+ *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  *
  */
 public abstract class CompositeAction<A extends Action> extends RunnableAction {
 
-    private List<A> actions;
+    private final List<A> actions;
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public CompositeAction(A... actions) {
         this.actions = Arrays.asList(actions);
     }

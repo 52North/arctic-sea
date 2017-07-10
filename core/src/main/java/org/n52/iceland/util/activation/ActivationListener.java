@@ -19,7 +19,7 @@ package org.n52.iceland.util.activation;
 /**
  * TODO JavaDoc
  *
- * @param <K>
+ * @param <K> the key type
  *
  * @author Christian Autermann
  */

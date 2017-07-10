@@ -17,11 +17,6 @@
 package org.n52.iceland.ogc.ows;
 
 import static java.util.stream.Collectors.toSet;
-import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.ABSTRACT;
-import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.ACCESS_CONSTRAINTS;
-import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.FEES;
-import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.KEYWORDS;
-import static org.n52.iceland.ogc.ows.OwsServiceIdentificationFactorySettings.TITLE;
 
 import java.net.URI;
 import java.util.Arrays;
@@ -56,7 +51,7 @@ public class OwsServiceIdentificationFactory
     private final ServiceOperatorRepository serviceOperatorRepository;
     private MultilingualString title = new MultilingualString();
     private MultilingualString abstrakt = new MultilingualString();
-    private String fees = null;
+    private String fees;
     private String[] keywords = EMPTY_STRING_ARRAY;
     private String[] constraints = EMPTY_STRING_ARRAY;
     private Locale defaultLocale = Locale.ENGLISH;
@@ -77,17 +72,21 @@ public class OwsServiceIdentificationFactory
         this.defaultLocale = new Locale(lang);
     }
 
+    @Setting(OwsServiceIdentificationFactorySettings.KEYWORDS)
+    public void setKeywords(String keywords) {
+        setKeywords(StringHelper.splitToArray(keywords));
+    }
+
     public void setKeywords(String[] keywords) {
         this.keywords = copyOf(keywords);
         setRecreate();
     }
 
-    @Setting(KEYWORDS)
-    public void setKeywords(String keywords) {
-        setKeywords(StringHelper.splitToArray(keywords));
+    private Set<OwsKeyword> getKeywords() {
+        return Arrays.stream(this.keywords).map(OwsKeyword::new).collect(toSet());
     }
 
-    @Setting(TITLE)
+    @Setting(OwsServiceIdentificationFactorySettings.TITLE)
     public void setTitle(Object title) throws ConfigurationError {
         Validation.notNull("Service Identification Title", title);
         if (title instanceof MultilingualString) {
@@ -105,7 +104,7 @@ public class OwsServiceIdentificationFactory
         return new MultilingualString().addLocalization(this.defaultLocale, (String) value);
     }
 
-    @Setting(ABSTRACT)
+    @Setting(OwsServiceIdentificationFactorySettings.ABSTRACT)
     public void setAbstract(Object description) throws ConfigurationError {
         Validation.notNull("Service Identification Abstract", description);
         if (description instanceof MultilingualString) {
@@ -119,10 +118,14 @@ public class OwsServiceIdentificationFactory
         setRecreate();
     }
 
-    @Setting(FEES)
+    @Setting(OwsServiceIdentificationFactorySettings.FEES)
     public void setFees(String fees) {
         this.fees = fees;
         setRecreate();
+    }
+
+    private Set<String> getFees() {
+        return Optional.ofNullable(this.fees).map(Collections::singleton).orElseGet(Collections::emptySet);
     }
 
     public void setConstraints(String[] constraints) {
@@ -130,7 +133,7 @@ public class OwsServiceIdentificationFactory
         setRecreate();
     }
 
-    @Setting(ACCESS_CONSTRAINTS)
+    @Setting(OwsServiceIdentificationFactorySettings.ACCESS_CONSTRAINTS)
     public void setConstraints(String constraints) {
         setConstraints(StringHelper.splitToArray(constraints));
     }
@@ -143,19 +146,19 @@ public class OwsServiceIdentificationFactory
     private OwsServiceIdentification createFromSettings(Locale locale) {
         // TODO
         Set<URI> profiles = null;
-        Set<String> fees = Optional.ofNullable(this.fees).map(Collections::singleton).orElseGet(Collections::emptySet);
-        HashSet<String> constraints = new HashSet<>(Arrays.asList(this.constraints));
-        MultilingualString title = this.title.filter(locale, defaultLocale, showAllLanguageValues);
-        MultilingualString abstrakt = this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
-        Set<OwsKeyword> keywords = Arrays.stream(this.keywords).map(OwsKeyword::new).collect(toSet());
-        OwsCode serviceType = getServiceType();
-        Set<String> serviceTypeVersion = getSupportedVersions();
-        return new OwsServiceIdentification(serviceType, serviceTypeVersion, profiles, fees, constraints, title, abstrakt, keywords);
+        return new OwsServiceIdentification(
+                getServiceType(),
+                getSupportedVersions(),
+                profiles,
+                getFees(),
+                getContraints(),
+                getTitle(locale),
+                getAbstract(locale),
+                getKeywords());
     }
 
     private OwsCode getServiceType() {
-        URI codeSpace = null;
-        return new OwsCode("OGC:" + this.service, codeSpace);
+        return new OwsCode("OGC:" + this.service, null);
     }
 
     private Set<String> getSupportedVersions() {
@@ -168,6 +171,18 @@ public class OwsServiceIdentificationFactory
                 .filter(Objects::nonNull)
                 .map(MultilingualString::getLocales)
                 .collect(HashSet::new, Set::addAll, Set::addAll);
+    }
+
+    private MultilingualString getAbstract(Locale locale) {
+        return this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
+    }
+
+    private MultilingualString getTitle(Locale locale) {
+        return this.title.filter(locale, defaultLocale, showAllLanguageValues);
+    }
+
+    private Set<String> getContraints() {
+        return new HashSet<>(Arrays.asList(this.constraints));
     }
 
     private static String[] copyOf(String[] a) {

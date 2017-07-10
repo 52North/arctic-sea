@@ -115,7 +115,7 @@ public class I18NJsonEncoder {
         } else if (i18n instanceof I18NObservablePropertyMetadata) {
             return encode((I18NObservablePropertyMetadata) i18n);
         } else {
-            throw new JSONException("Unknown type: " + i18n);
+            throw new JSONException("Unknown metadata type: " + i18n);
         }
     }
 

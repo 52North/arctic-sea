@@ -21,8 +21,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Proxy class for HttpServletResponse to give ResponseWriters access to selected methods,
- * including addHeader and setContentLength.
+ * Proxy class for HttpServletResponse to give ResponseWriters access to selected methods, including addHeader and
+ * setContentLength.
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  *
@@ -45,4 +45,4 @@ public class ResponseProxy {
     public void setContentLength(int contentLength) {
         response.setContentLength(contentLength);
     }
-    }
+}

@@ -16,9 +16,10 @@
  */
 package org.n52.iceland.config;
 
+import org.n52.faroe.SettingsService;
+
 /**
- * Interface for users that are allowed to administer the service.
- * Implementations are {@link SettingsService} specific.
+ * Interface for users that are allowed to administer the service. Implementations are {@link SettingsService} specific.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
@@ -43,17 +44,13 @@ public interface AdministratorUser {
      * Set the value of password.
      *
      * @param password new value of password
-     *
-     * @return {@code this}
      */
-    AdministratorUser setPassword(String password);
+    void setPassword(String password);
 
     /**
      * Set the value of username.
      *
      * @param username new value of username
-     *
-     * @return {@code this}
      */
-    AdministratorUser setUsername(String username);
+    void setUsername(String username);
 }

@@ -24,6 +24,7 @@ import org.n52.janmayen.event.Event;
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 1.0.0
+ * @deprecated do not depend on the configurator!
  */
 @Deprecated
 public class ConfiguratorInitializedEvent implements Event {

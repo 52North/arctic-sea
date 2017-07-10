@@ -36,7 +36,9 @@ public interface InspireConstants {
 
     String INSPIRE_COMMON_10_SCHEMA_LOCATION_URL = "http://inspire.ec.europa.eu/schemas/common/1.0/common.xsd";
 
-    SchemaLocation INSPIRE_DS_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_DS_10_NS, INSPIRE_DS_10_SCHEMA_LOCATION_URL);
+    SchemaLocation INSPIRE_DS_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_DS_10_NS,
+                                                                      INSPIRE_DS_10_SCHEMA_LOCATION_URL);
 
-    SchemaLocation INSPIRE_COMMON_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_COMMON_10_NS, INSPIRE_COMMON_10_SCHEMA_LOCATION_URL);
+    SchemaLocation INSPIRE_COMMON_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_COMMON_10_NS,
+                                                                          INSPIRE_COMMON_10_SCHEMA_LOCATION_URL);
 }

@@ -16,13 +16,14 @@
  */
 package org.n52.iceland.ogc.ows.extension;
 
-
 import org.n52.janmayen.component.ComponentFactory;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
-public interface OwsCapabilitiesExtensionProviderFactory extends ComponentFactory<OwsCapabilitiesExtensionKey, OwsCapabilitiesExtensionProvider> {
+public interface OwsCapabilitiesExtensionProviderFactory
+        extends ComponentFactory<OwsCapabilitiesExtensionKey, OwsCapabilitiesExtensionProvider> {
 
 }

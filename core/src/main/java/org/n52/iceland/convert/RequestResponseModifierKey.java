@@ -26,7 +26,6 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 import com.google.common.base.Strings;
 
-
 /**
  * Key class to identify {@link RequestResponseModifier}
  *
@@ -160,13 +159,13 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
         return String.format("%s[service=%s, service=%s, request=%s, response=%s]",
                              getClass().getSimpleName(), getService(), getVersion(),
                              isSetRequest() ? getRequest().getClass().getSimpleName() : "",
-                             isSetResponse() ? getResponse().getClass().getSimpleName(): "");
+                             isSetResponse() ? getResponse().getClass().getSimpleName() : "");
     }
 
     @Override
     public int compareTo(RequestResponseModifierKey o) {
         Comparator<String> stringComparator = Comparables.allowNull(String::compareTo);
-        Comparator<Class<?>> classComparator = Comparables.allowNull((a,b) -> {
+        Comparator<Class<?>> classComparator = Comparables.allowNull((a, b) -> {
             return a == b ? 0 : a.getName().compareTo(b.getName());
         });
         return Comparator
@@ -176,7 +175,6 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
                 .thenComparing(RequestResponseModifierKey::getResponse, classComparator)
                 .compare(this, o);
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -198,7 +196,6 @@ public class RequestResponseModifierKey implements Comparable<RequestResponseMod
         }
         return hashCode;
     }
-
 
     @SuppressWarnings("unchecked")
     private static <T> Optional<Class<? extends T>> getClass(T t) {

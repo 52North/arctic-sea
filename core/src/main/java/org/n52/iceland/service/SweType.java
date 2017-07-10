@@ -18,15 +18,9 @@ package org.n52.iceland.service;
 
 import org.n52.shetland.ogc.AbstractSupportedStringType;
 
-/**
- * TODO JavaDoc
- *
- * @author Christian Autermann
- */
 @Deprecated
 public class SweType extends AbstractSupportedStringType {
     public SweType(String value) {
         super(value);
     }
-
 }

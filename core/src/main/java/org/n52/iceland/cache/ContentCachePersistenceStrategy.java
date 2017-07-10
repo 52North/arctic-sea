@@ -55,5 +55,5 @@ public interface ContentCachePersistenceStrategy {
     /**
      * Delete any persistent cache instances created by this strategy.
      */
-    public void remove();
+    void remove();
 }
