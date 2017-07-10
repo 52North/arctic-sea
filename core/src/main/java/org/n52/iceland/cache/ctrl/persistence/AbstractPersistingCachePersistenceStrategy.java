@@ -41,12 +41,11 @@ import org.slf4j.LoggerFactory;
 @Configurable
 public abstract class AbstractPersistingCachePersistenceStrategy
         implements ContentCachePersistenceStrategy, Constructable {
+    public static final String CACHE_FILE_FOLDER = "service.cacheFileFolder";
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbstractPersistingCachePersistenceStrategy.class);
     private static final String CACHE_FILE = "cache.tmp";
-    public static final String CACHE_FILE_FOLDER = "service.cacheFileFolder";
     private String cacheFile;
-
     private ConfigLocationProvider configLocationProvider;
     private File cacheFileFolder;
 

@@ -16,10 +16,6 @@
  */
 package org.n52.iceland.service;
 
-import static org.n52.iceland.service.MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING;
-import static org.n52.iceland.service.ServiceSettings.SERVICE_URL;
-
-import java.io.File;
 import java.net.URI;
 import java.util.Locale;
 
@@ -37,6 +33,7 @@ import org.n52.svalbard.CodingSettings;
  *         J&uuml;rrens</a>
  *
  * @since 1.0.0
+ * @deprecated Deprecated use Injection
  */
 @Configurable
 @Deprecated
@@ -51,19 +48,6 @@ public class ServiceConfiguration implements Constructable {
     private boolean strictSpatialFilteringProfile;
     private boolean validateResponse;
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
-
-    /**
-     * @return Returns a singleton instance of the ServiceConfiguration.
-     */
-    @Deprecated
-    public static synchronized ServiceConfiguration getInstance() {
-        return ServiceConfiguration.instance;
-    }
-
-    @Override
-    public void init() {
-        ServiceConfiguration.instance = this;
-    }
 
     /**
      * URL of this service.
@@ -114,7 +98,17 @@ public class ServiceConfiguration implements Constructable {
 
     private boolean streamingEncoding = true;
 
-    private boolean includeChildObservableProperties = false;
+    private boolean includeChildObservableProperties;
+
+    @Deprecated
+    public static synchronized ServiceConfiguration getInstance() {
+        return ServiceConfiguration.instance;
+    }
+
+    @Override
+    public void init() {
+        ServiceConfiguration.instance = this;
+    }
 
     @Deprecated
     public String getDefaultOfferingPrefix() {
@@ -175,15 +169,12 @@ public class ServiceConfiguration implements Constructable {
         return useHttpStatusCodesInKvpAndPoxBinding;
     }
 
-    @Setting(HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
+    @Setting(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING)
     public void setUseHttpStatusCodesInKvpAndPoxBinding(final boolean useHttpStatusCodesInKvpAndPoxBinding) {
-        Validation.notNull(HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING, useHttpStatusCodesInKvpAndPoxBinding);
+        Validation.notNull(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING, useHttpStatusCodesInKvpAndPoxBinding);
         this.useHttpStatusCodesInKvpAndPoxBinding = useHttpStatusCodesInKvpAndPoxBinding;
     }
 
-    /**
-     * @return Returns the sensor description directory
-     */
     // HibernateProcedureUtilities
     @Deprecated
     public String getSensorDir() {
@@ -205,7 +196,7 @@ public class ServiceConfiguration implements Constructable {
         return serviceURL;
     }
 
-    @Setting(SERVICE_URL)
+    @Setting(ServiceSettings.SERVICE_URL)
     public void setServiceURL(final URI serviceURL) throws ConfigurationError {
         Validation.notNull("Service URL", serviceURL);
         String url = serviceURL.toString();
@@ -216,12 +207,12 @@ public class ServiceConfiguration implements Constructable {
     }
 
 //    @Setting(ServiceSettings.DEREGISTER_JDBC_DRIVER)
-    @Deprecated // SOS-specific?!
+    @Deprecated
     public void setDeregisterJdbcDriver(final boolean deregisterJdbcDriver) {
         this.deregisterJdbcDriver = deregisterJdbcDriver;
     }
 
-    @Deprecated // SOS-specific
+    @Deprecated
     public boolean isDeregisterJdbcDriver() {
         return deregisterJdbcDriver;
     }

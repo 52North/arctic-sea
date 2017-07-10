@@ -24,7 +24,7 @@ import org.n52.faroe.ConfigurationError;
 /**
  * @since 4.0.0
  *
- * @param <E>
+ * @param <E> Enum type
  */
 public abstract class AbstractEnumPropertiesFileHandler<E extends Enum<E>> extends
         ServletContextPropertyFileHandler {
