@@ -48,6 +48,7 @@ import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -277,10 +278,15 @@ public final class OMHelper {
         }
 
         @Override
-        public String visit(TimeRangeValue value) throws RuntimeException {
+        public String visit(TimeRangeValue value) {
             return defaultValue();
         }
 
+        @Override
+        public String visit(XmlValue<?> value) {
+            return defaultValue();
+        }
+        
         private static String defaultValue() {
             return OmConstants.OBS_TYPE_OBSERVATION;
         }

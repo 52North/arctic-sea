@@ -18,8 +18,6 @@ package org.n52.shetland.ogc.om.values;
 
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
 public class HrefAttributeValue implements Value<W3CHrefAttribute> {

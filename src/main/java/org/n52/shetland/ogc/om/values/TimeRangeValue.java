@@ -17,7 +17,6 @@
 package org.n52.shetland.ogc.om.values;
 
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.RangeValue;
