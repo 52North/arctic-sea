@@ -16,10 +16,6 @@
  */
 package org.n52.svalbard.coding;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
 import java.io.IOException;
 
 import org.apache.xmlbeans.XmlException;
