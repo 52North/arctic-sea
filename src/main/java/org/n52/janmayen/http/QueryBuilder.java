@@ -111,6 +111,9 @@ public class QueryBuilder {
         if (!this.query.isEmpty()) {
             builder.append(this.url.getPath()).append('?');
             this.query.forEach((name, values) -> {
+                if (!(builder.lastIndexOf("?") == builder.length() - 1)) {
+                    builder.append('&');
+                }
                 builder.append(name).append('=');
                 Iterator<String> iter = values.iterator();
                 if (iter.hasNext()) {
