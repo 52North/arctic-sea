@@ -35,6 +35,7 @@ import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
+import org.n52.shetland.ogc.om.values.XmlValue;
 
 /**
  * TODO JavaDoc
@@ -101,6 +102,6 @@ public interface ValueVisitor<T, X extends Exception> {
     T visit(TimeRangeValue value)
             throws X;
 
-//    T visit(XmlValue value)
-//            throws X;
+    T visit(XmlValue<?> value)
+            throws X;
 }
