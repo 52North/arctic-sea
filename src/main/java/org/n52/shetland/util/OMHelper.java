@@ -286,7 +286,7 @@ public final class OMHelper {
         public String visit(XmlValue<?> value) {
             return defaultValue();
         }
-        
+
         private static String defaultValue() {
             return OmConstants.OBS_TYPE_OBSERVATION;
         }
