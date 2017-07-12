@@ -25,7 +25,6 @@ import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
-import org.n52.shetland.ogc.sos.SosOffering;
 import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
 import org.n52.svalbard.decode.WmlObservationProcessDecoderv20;
 
