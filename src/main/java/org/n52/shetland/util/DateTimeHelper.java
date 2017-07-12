@@ -27,7 +27,6 @@ import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
 import org.n52.janmayen.Times;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
@@ -261,6 +260,28 @@ public final class DateTimeHelper {
         } catch (IllegalArgumentException e) {
             throw new DateTimeFormatException(e);
         }
+    }
+
+    /**
+     * Formats a DateTime to a DAte using specified {@link DateTimeFormatter}
+     *
+     * @param dateTime
+     *            Time object
+     * @param formatter
+     *            the {@link DateTimeFormatter}
+     *
+     * @return Specified formatted time String
+     *
+     * @throws DateTimeFormatException
+     *             If an error occurs.
+     */
+    public static String formatDateTime2FormattedString(DateTime dateTime, DateTimeFormatter formatter)
+            throws DateTimeFormatException {
+            try {
+                return Times.encodeDateTime(dateTime, formatter);
+            } catch (IllegalArgumentException e) {
+                throw new DateTimeFormatException(e);
+            }
     }
 
     /**
