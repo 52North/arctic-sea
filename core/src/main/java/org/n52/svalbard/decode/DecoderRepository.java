@@ -17,6 +17,7 @@
 package org.n52.svalbard.decode;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -37,10 +38,10 @@ public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Deco
         implements Constructable {
 
     @Inject
-    private Optional<Collection<Decoder<?, ?>>> decoders;
+    private Optional<Collection<Decoder<?, ?>>> decoders = Optional.of(Collections.emptyList());
 
     @Inject
-    private Optional<Collection<DecoderFactory>> decoderFactories;
+    private Optional<Collection<DecoderFactory>> decoderFactories = Optional.of(Collections.emptyList());
 
     @VisibleForTesting
     void setDecoders(Collection<Decoder<?, ?>> decoders) {

@@ -17,6 +17,7 @@
 package org.n52.svalbard.encode;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -37,10 +38,10 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
         implements Constructable {
 
     @Inject
-    private Optional<Collection<Encoder<?, ?>>> encoders;
+    private Optional<Collection<Encoder<?, ?>>> encoders = Optional.of(Collections.emptyList());
 
     @Inject
-    private Optional<Collection<EncoderFactory>> encoderFactories;
+    private Optional<Collection<EncoderFactory>> encoderFactories = Optional.of(Collections.emptyList());
 
     @Override
     public void init() {
