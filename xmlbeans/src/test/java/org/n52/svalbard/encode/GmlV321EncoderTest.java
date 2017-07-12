@@ -36,48 +36,48 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
  */
 public class GmlV321EncoderTest {
 
-//    private GmlEncoderv321 encoder;
-//
-//    @Before
-//    public void setup() {
-//        EncoderRepository encoderRepository = new EncoderRepository();
-//        encoder = new GmlEncoderv321();
-//        encoder.setXmlOptions(XmlOptions::new);
-//        encoder.setEncoderRepository(encoderRepository);
-//
-//        encoderRepository.setEncoders(Arrays.asList(encoder));
-//        encoderRepository.init();
-//    }
-//
-//    @Test(expected = EncodingException.class)
-//    public void throwIAEForEncodeNullTest() throws EncodingException {
-//        encoder.encode(null);
-//    }
-//
-//    @Test(expected = UnsupportedEncoderInputException.class)
-//    public void isNullForNotSupportedObjectTest() throws OwsExceptionReport, EncodingException {
-//        encoder.encode(5);
-//    }
-//
-//    @Test(expected = EncodingException.class)
-//    public void throwsIllegalArgumentExceptionWhenConstructorValueNullTest() throws EncodingException {
-//        QuantityValue quantity = new QuantityValue(null);
-//        encoder.encode(quantity);
-//    }
-//
-//    @Test
-//    public void isMeasureTypeValidWithoutUnitTest() throws OwsExceptionReport, EncodingException {
-//        QuantityValue quantity = new QuantityValue(2.2);
-//        XmlObject encode = encoder.encode(quantity);
-//        assertTrue("Encoded Object is NOT valid", encode.validate());
-//    }
-//
-//    @Test
-//    public void isMeasureTypeValidAllSetTest() throws OwsExceptionReport, EncodingException {
-//        QuantityValue quantity = new QuantityValue(2.2);
-//        quantity.setUnit("cm");
-//        XmlObject encode = encoder.encode(quantity);
-//        assertTrue("Encoded Object is NOT valid", encode.validate());
-//    }
+    private GmlEncoderv321 encoder;
+
+    @Before
+    public void setup() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoder = new GmlEncoderv321();
+        encoder.setXmlOptions(XmlOptions::new);
+        encoder.setEncoderRepository(encoderRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(encoder));
+        encoderRepository.init();
+    }
+
+    @Test(expected = EncodingException.class)
+    public void throwIAEForEncodeNullTest() throws EncodingException {
+        encoder.encode(null);
+    }
+
+    @Test(expected = UnsupportedEncoderInputException.class)
+    public void isNullForNotSupportedObjectTest() throws OwsExceptionReport, EncodingException {
+        encoder.encode(5);
+    }
+
+    @Test(expected = EncodingException.class)
+    public void throwsIllegalArgumentExceptionWhenConstructorValueNullTest() throws EncodingException {
+        QuantityValue quantity = new QuantityValue(null);
+        encoder.encode(quantity);
+    }
+
+    @Test
+    public void isMeasureTypeValidWithoutUnitTest() throws OwsExceptionReport, EncodingException {
+        QuantityValue quantity = new QuantityValue(2.2);
+        XmlObject encode = encoder.encode(quantity);
+        assertTrue("Encoded Object is NOT valid", encode.validate());
+    }
+
+    @Test
+    public void isMeasureTypeValidAllSetTest() throws OwsExceptionReport, EncodingException {
+        QuantityValue quantity = new QuantityValue(2.2);
+        quantity.setUnit("cm");
+        XmlObject encode = encoder.encode(quantity);
+        assertTrue("Encoded Object is NOT valid", encode.validate());
+    }
 
 }
