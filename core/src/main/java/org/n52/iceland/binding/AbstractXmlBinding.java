@@ -61,7 +61,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public abstract class AbstractXmlBinding extends SimpleBinding {
+public abstract class AbstractXmlBinding<T> extends SimpleBinding {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractXmlBinding.class);
 
@@ -72,7 +72,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
         this.documentFactory = documentFactory;
     }
 
-    protected OwsServiceRequest decode(HttpServletRequest request) throws OwsExceptionReport {
+    protected T decode(HttpServletRequest request) throws OwsExceptionReport {
         String characterEncoding = getCharacterEncoding(request);
         String xmlString = xmlToString(request, characterEncoding);
         LOGGER.debug("XML-REQUEST: {}", xmlString);
@@ -108,7 +108,7 @@ public abstract class AbstractXmlBinding extends SimpleBinding {
             LOGGER.trace("Using decoder: {}", decoder);
         }
         try {
-            return decoder.decode(xmlString);
+            return (T) decoder.decode(xmlString);
         } catch (OwsDecodingException ex) {
             throw ex.getCause();
         } catch (DecodingException ex) {

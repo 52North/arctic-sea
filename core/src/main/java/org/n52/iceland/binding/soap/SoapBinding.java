@@ -73,7 +73,7 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class SoapBinding extends AbstractXmlBinding {
+public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
     @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections

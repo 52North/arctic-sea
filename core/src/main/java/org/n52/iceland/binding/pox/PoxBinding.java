@@ -56,7 +56,7 @@ import com.google.common.collect.Sets;
  *
  */
 @Configurable
-public class PoxBinding extends AbstractXmlBinding {
+public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
 
     @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
