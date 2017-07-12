@@ -20,7 +20,6 @@ import java.util.AbstractMap;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.CollectionHelper;
 
@@ -71,6 +70,14 @@ public class DeleteResultTemplateRequest extends OwsServiceRequest {
         } else {
             return Collections.emptyList();
         }
+    }
+
+    public DeleteResultTemplateRequest setObservableProperty(String observedProperty) {
+        return addObservedPropertyOfferingPair(observedProperty, "");
+    }
+
+    public DeleteResultTemplateRequest setOffering(String offering) {
+        return addObservedPropertyOfferingPair("", offering);
     }
 
     public DeleteResultTemplateRequest addObservedPropertyOfferingPair(String observedProperty, String offering) {
