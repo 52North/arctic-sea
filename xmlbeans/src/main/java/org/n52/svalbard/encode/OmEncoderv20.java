@@ -59,6 +59,7 @@ import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
+import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -440,7 +441,6 @@ public class OmEncoderv20
 
         @Override
         public XmlObject visit(TLVTValue value) throws EncodingException {
-            // TODO Auto-generated method stub
             return null;
         }
 
@@ -466,6 +466,14 @@ public class OmEncoderv20
 
         @Override
         public XmlObject visit(TimeRangeValue value) throws EncodingException {
+            return null;
+        }
+
+        @Override
+        public XmlObject visit(XmlValue<?> value) throws EncodingException {
+            if (value.getValue() instanceof XmlObject) {
+                return (XmlObject) value.getValue();
+            }
             return null;
         }
     }

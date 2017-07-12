@@ -46,6 +46,7 @@ import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
@@ -327,6 +328,14 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
 
         @Override
         public XmlObject visit(TimeRangeValue value) throws EncodingException {
+            return null;
+        }
+
+        @Override
+        public XmlObject visit(XmlValue<?> value) throws EncodingException {
+            if (value.getValue() instanceof XmlObject) {
+                return (XmlObject) value.getValue();
+            }
             return null;
         }
     }

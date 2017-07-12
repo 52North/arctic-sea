@@ -56,6 +56,7 @@ import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataArray;
@@ -360,6 +361,11 @@ public final class SweHelper {
                 SweTimeRange sweTimeRange = new SweTimeRange();
                 sweTimeRange.setUom(value.getUnit());
                 return sweTimeRange;
+            }
+
+            @Override
+            public SweAbstractDataComponent visit(XmlValue<?> value) throws EncodingException {
+                throw notSupported();
             }
 
             private EncodingException notSupported() {

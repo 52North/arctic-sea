@@ -64,6 +64,7 @@ import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.TimeRangeValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
@@ -733,6 +734,14 @@ public abstract class AbstractOmEncoderv20
         @Override
         public XmlObject visit(TimeRangeValue value) throws EncodingException {
             return encodeObjectToXml(SweConstants.NS_SWE_20, value);
+        }
+
+        @Override
+        public XmlObject visit(XmlValue<?> value) throws EncodingException {
+            if (value.getValue() instanceof XmlObject) {
+                return (XmlObject) value.getValue();
+            }
+            return defaultValue(value);
         }
 
         private EncodingContext createHelperValues(Value<?> value) {
