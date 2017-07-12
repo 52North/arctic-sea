@@ -91,14 +91,14 @@ public class PoxBinding extends AbstractXmlBinding {
     public void doPostOperation(HttpServletRequest req,
                                 HttpServletResponse res)
             throws HTTPException, IOException {
-        OwsServiceRequest sosRequest = null;
+        OwsServiceRequest request = null;
         try {
-            sosRequest = parseRequest(req);
-            OwsServiceResponse sosResponse = getServiceOperator(sosRequest)
-                    .receiveRequest(sosRequest);
-            writeResponse(req, res, sosResponse);
+            request = parseRequest(req);
+            OwsServiceResponse response = getServiceOperator(request)
+                    .receiveRequest(request);
+            writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
-            oer.setVersion(sosRequest != null ? sosRequest.getVersion() : null);
+            oer.setVersion(request != null ? request.getVersion() : null);
             LOG.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
