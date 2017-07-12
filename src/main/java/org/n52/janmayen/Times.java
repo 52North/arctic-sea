@@ -24,6 +24,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.joda.time.format.ISOPeriodFormat;
 
@@ -56,6 +57,16 @@ public final class Times {
             return ZERO.toString(DateTimeFormat.forPattern(dateFormat));
         } else {
             return dateTime.toString(DateTimeFormat.forPattern(dateFormat)).replace(Z, UTC_OFFSET);
+        }
+    }
+
+    public static String encodeDateTime(DateTime dateTime, DateTimeFormatter formatter) {
+        if (formatter == null) {
+            return encodeDateTime(dateTime);
+        } else if (dateTime == null) {
+            return ZERO.toString(formatter);
+        } else {
+            return dateTime.toString(formatter).replace(Z, UTC_OFFSET);
         }
     }
 
