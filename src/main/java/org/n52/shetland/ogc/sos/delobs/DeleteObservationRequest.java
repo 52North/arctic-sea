@@ -49,6 +49,9 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
 
     private String responseFormat;
 
+    public DeleteObservationRequest() {
+    }
+
     public DeleteObservationRequest(String responseFormat) {
         this.responseFormat = responseFormat;
     }
