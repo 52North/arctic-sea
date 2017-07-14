@@ -20,6 +20,7 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 
 import org.n52.shetland.ogc.om.AbstractObservationValue;
+import org.n52.shetland.ogc.om.ObservationMergeIndicator;
 import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.values.Value;
@@ -38,6 +39,8 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
     private String responseFormat;
     private int maxNumberOfValues = Integer.MIN_VALUE;
     private int currentNumberOfValues = 0;
+
+    private ObservationMergeIndicator mergeIndicator;
 
     @Override
     public abstract OmObservation next() throws NoSuchElementException, OwsExceptionReport;
@@ -111,6 +114,14 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
                 throw new ResponseExceedsSizeLimitException().at("maxNumberOfReturnedValues");
             }
         }
+    }
+
+    public void setObservationMergeIndicator(ObservationMergeIndicator mergeIndicator) {
+       this.mergeIndicator = mergeIndicator;
+    }
+
+    public ObservationMergeIndicator getObservationMergeIndicator() {
+        return mergeIndicator;
     }
 
 }
