@@ -18,31 +18,24 @@ package org.n52.svalbard.decode;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.Test;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.coding.AbtractProcessCodingTest;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.inspire.ompr.Process;
+import org.n52.svalbard.decode.exception.DecodingException;
 
-public class ProcessDocumentDecoderTest extends AbtractProcessCodingTest {
+public class ProcessDocumentDecoderTest extends AbtractProcessDecodingTest {
 
-//    @Before
-//    public void init() {
-//        Configurator configurator = mock(Configurator.class);
-//        when(configurator.getProfileHandler()).thenReturn(new DefaultProfileHandler());
-//        Configurator.setInstance(configurator);
-//    }
-//
-//    @Test
-//    public void test_decoding() throws XmlException, IOException, OwsExceptionReport {
-//        Process process = createProcessFromFile();
-//        assertThat(process.isSetIdentifier(), is(true));
-//    }
+    @Test
+    public void test_decoding() throws XmlException, IOException, DecodingException {
+        Process process = createProcessFromFile();
+        assertThat(process.isSetIdentifier(), is(true));
+    }
 
 }
