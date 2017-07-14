@@ -36,10 +36,9 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-@SuppressWarnings("rawtypes")
 public abstract class OwsServiceRequest
         extends OwsServiceCommunicationObject
-        implements Request, HasExtension<OwsServiceRequest> {
+        implements HasExtension<OwsServiceRequest> {
 
     private List<OwsServiceKey> serviceOperatorKeyTypes;
     private OwsServiceRequestContext requestContext;
