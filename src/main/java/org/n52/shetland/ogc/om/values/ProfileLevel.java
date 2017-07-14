@@ -23,6 +23,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataRecord;
@@ -44,6 +45,7 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     private QuantityValue levelEnd;
     private List<Value<?>> value = Lists.newArrayList();
     private Geometry location;
+    private Time phenomenonTime;
 
     /**
      * constructor
@@ -169,6 +171,24 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
 
     public boolean isSetLocation() {
         return getLocation() != null;
+    }
+
+    /**
+     * @return the phenomenonTime
+     */
+    public Time getPhenomenonTime() {
+        return phenomenonTime;
+    }
+
+    /**
+     * @param phenomenonTime the phenomenonTime to set
+     */
+    public void setPhenomenonTime(Time phenomenonTime) {
+        this.phenomenonTime = phenomenonTime;
+    }
+
+    public boolean isSetPhenomenonTime() {
+        return getPhenomenonTime() != null;
     }
 
     @Override

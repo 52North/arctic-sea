@@ -117,6 +117,24 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     }
 
     /**
+     * constructor
+     *
+     * @param procedure
+     *            Procedure by which the observation is made
+     * @param observableProperty
+     *            observableProperty to which the observation accords to
+     * @param featureOfInterest
+     *            featureOfInterest to which this observation belongs
+     * @param offerings
+     *            offering to which this observation belongs
+     */
+    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
+            AbstractFeature featureOfInterest, Set<String> offerings) {
+       this(procedure, observableProperty, featureOfInterest);
+       this.offerings = offerings;
+    }
+
+    /**
      * Get the procedure
      *
      * @return the procedure

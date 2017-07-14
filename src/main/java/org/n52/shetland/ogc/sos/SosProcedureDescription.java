@@ -107,14 +107,6 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return parentProcedure;
     }
 
-    @Deprecated
-    public Collection<String> getParentProcedures() {
-        if (isSetParentProcedure()) {
-            return Sets.newHashSet(getParentProcedure().getHref());
-        }
-        return Sets.newHashSet();
-    }
-
     public SosProcedureDescription<T> setParentProcedure(ReferenceType parentProcedure) {
         this.parentProcedure = parentProcedure;
         return this;
