@@ -44,8 +44,9 @@ public abstract class SmlContact extends AbstractReferenceType {
     }
 
     @Override
-    public void setRole(String role) {
+    public AbstractReferenceType setRole(String role) {
         this.role = new Role(role);
+        return this;
     }
 
     public void setRole(Role role) {

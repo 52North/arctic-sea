@@ -74,8 +74,9 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * @param href
      *             Href to set
      */
-    public void setHref(String href) {
+    public AbstractReferenceType setHref(String href) {
         this.href = new W3CHrefAttribute(href);
+        return this;
     }
 
     /**
@@ -84,8 +85,9 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * @param title
      *              Title to set
      */
-    public void setTitle(String title) {
+    public AbstractReferenceType setTitle(String title) {
         this.title = title;
+        return this;
     }
 
     /**
@@ -94,8 +96,9 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * @param role
      *             Role to set
      */
-    public void setRole(String role) {
+    public AbstractReferenceType setRole(String role) {
         this.role = role;
+        return this;
     }
 
     /**

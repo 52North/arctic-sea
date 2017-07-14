@@ -39,7 +39,8 @@ import com.google.common.base.Strings;
  *
  * @since 4.0.0
  */
-public class InsertObservationRequest extends OwsServiceRequest {
+public class InsertObservationRequest
+        extends OwsServiceRequest {
 
     /**
      * Assigned sensor id
@@ -78,10 +79,11 @@ public class InsertObservationRequest extends OwsServiceRequest {
      * Set assigned sensor id
      *
      * @param assignedSensorId
-     *                         assigned sensor id
+     *            assigned sensor id
      */
-    public void setAssignedSensorId(String assignedSensorId) {
+    public InsertObservationRequest setAssignedSensorId(String assignedSensorId) {
         this.assignedSensorId = assignedSensorId;
+        return this;
     }
 
     public boolean isSetAssignedSensorId() {
@@ -101,25 +103,28 @@ public class InsertObservationRequest extends OwsServiceRequest {
      * Set observations to insert
      *
      * @param observation
-     *                    observations to insert
+     *            observations to insert
      */
-    public void setObservation(List<OmObservation> observation) {
+    public InsertObservationRequest setObservation(List<OmObservation> observation) {
         this.observations = observation;
+        return this;
     }
 
-    public void addObservation(OmObservation observation) {
+    public InsertObservationRequest addObservation(OmObservation observation) {
         if (observations == null) {
             observations = new LinkedList<OmObservation>();
         }
         observations.add(observation);
+        return this;
     }
 
     public boolean isSetObservation() {
         return CollectionHelper.isNotEmpty(getObservations());
     }
 
-    public void setOfferings(List<String> offerings) {
+    public InsertObservationRequest setOfferings(List<String> offerings) {
         this.offerings = offerings;
+        return this;
     }
 
     public List<String> getOfferings() {

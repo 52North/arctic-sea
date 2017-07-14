@@ -76,8 +76,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return procedureDescriptionFormat;
     }
 
-    public void setProcedureDescriptionFormat(String procedureDescriptionFormat) {
+    public InsertSensorRequest setProcedureDescriptionFormat(String procedureDescriptionFormat) {
         this.procedureDescriptionFormat = procedureDescriptionFormat;
+        return this;
     }
 
     public boolean isSetProcedureDescriptionFormat() {
@@ -99,8 +100,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * @param observableProperty
      *                           the observableProperty to set
      */
-    public void setObservableProperty(List<String> observableProperty) {
+    public InsertSensorRequest setObservableProperty(List<String> observableProperty) {
         this.observableProperty = observableProperty;
+        return this;
     }
 
     public boolean isSetObservableProperty() {
@@ -122,8 +124,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * @param procedureDescription
      *                             the procedureDescription to set
      */
-    public void setProcedureDescription(SosProcedureDescription<?> procedureDescription) {
+    public InsertSensorRequest setProcedureDescription(SosProcedureDescription<?> procedureDescription) {
         this.procedureDescription = procedureDescription;
+        return this;
     }
 
     public boolean isSetProcedureDescription() {
@@ -145,8 +148,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
      * @param metadata
      *                 the metadata to set
      */
-    public void setMetadata(SosInsertionMetadata metadata) {
+    public InsertSensorRequest setMetadata(SosInsertionMetadata metadata) {
         this.metadata = metadata;
+        return this;
     }
 
     public boolean isSetMetadata() {
@@ -157,8 +161,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return relatedFeatures;
     }
 
-    public void setRelatedFeature(List<SwesFeatureRelationship> relatedFeatures) {
+    public InsertSensorRequest setRelatedFeature(List<SwesFeatureRelationship> relatedFeatures) {
         this.relatedFeatures = relatedFeatures;
+        return this;
     }
 
     public boolean isSetRelatedFeatures() {
@@ -169,8 +174,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return assignedProcedureIdentifier;
     }
 
-    public void setAssignedProcedureIdentifier(String assignedProcedureID) {
+    public InsertSensorRequest setAssignedProcedureIdentifier(String assignedProcedureID) {
         this.assignedProcedureIdentifier = assignedProcedureID;
+        return this;
     }
 
     public boolean isSetAssignedProcedureIdentifier() {
@@ -181,8 +187,9 @@ public class InsertSensorRequest extends OwsServiceRequest {
         return assignedOfferings;
     }
 
-    public void setAssignedOfferings(Collection<SosOffering> assignedOfferings) {
+    public InsertSensorRequest setAssignedOfferings(Collection<SosOffering> assignedOfferings) {
         this.assignedOfferings.addAll(assignedOfferings);
+        return this;
     }
 
     public SosOffering getFirstAssignedOffering() {
