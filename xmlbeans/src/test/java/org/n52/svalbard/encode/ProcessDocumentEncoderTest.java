@@ -19,42 +19,64 @@ package org.n52.svalbard.encode;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
-import org.n52.svalbard.coding.AbtractProcessCodingTest;
-import org.n52.svalbard.encode.exception.EncodingException;
+import org.junit.rules.ErrorCollector;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.inspire.ompr.Process;
+import org.n52.svalbard.decode.AbtractProcessDecodingTest;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessDocument;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType;
 
-public class ProcessDocumentEncoderTest extends AbtractProcessCodingTest {
+public class ProcessDocumentEncoderTest extends AbtractProcessDecodingTest {
 
-//    @Before
-//    public void init() {
-//        Configurator configurator = mock(Configurator.class);
-//        when(configurator.getProfileHandler()).thenReturn(new DefaultProfileHandler());
-//        Configurator.setInstance(configurator);
-//    }
-//
+    private ProcessDocumentEncoder docEncoder;
+    private ProcessTypeEncoder typeEncoder;
+
+    @Rule
+    public final ErrorCollector errors = new ErrorCollector();
+
+    @Before
+    public void initDecoder() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+        Producer<XmlOptions> options = () -> new XmlOptions();
+
+        docEncoder = new ProcessDocumentEncoder();
+        docEncoder.setEncoderRepository(encoderRepository);
+        docEncoder.setXmlOptions(options);
+
+        typeEncoder = new ProcessTypeEncoder();
+        typeEncoder.setEncoderRepository(encoderRepository);
+        typeEncoder.setXmlOptions(options);
+
+        encoderRepository.setEncoders(Arrays.asList(docEncoder, typeEncoder));
+
+        encoderRepository.init();
+
+    }
+
 //    @Test
-//    public void test_type_encoding() throws XmlException, IOException, EncodingException {
+//    public void test_type_encoding() throws XmlException, IOException, EncodingException, DecodingException {
 //        Process process = createProcessFromFile();
-//        XmlObject encodeObjectToXml = encodeObjectToXml(process.get(), process);
+//        XmlObject encodeObjectToXml = typeEncoder.encode(process);
 //        assertThat(encodeObjectToXml, is(instanceOf(ProcessType.class)));
 //    }
 //
 //    @Test
-//    public void test_document_encoding() throws XmlException, IOException, EncodingException {
+//    public void test_document_encoding() throws XmlException, IOException, EncodingException, DecodingException {
 //        Process process = createProcessFromFile();
-//        XmlObject encodeObjectToXml = encodeObjectToXmlDocument(process.getDescriptionFormat(), process);
+//        XmlObject encodeObjectToXml = docEncoder.encode(process);
 //        assertThat(encodeObjectToXml, is(instanceOf(ProcessDocument.class)));
 //    }
 

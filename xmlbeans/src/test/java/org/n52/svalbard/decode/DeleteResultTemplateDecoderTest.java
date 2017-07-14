@@ -16,7 +16,10 @@
  */
 package org.n52.svalbard.decode;
 
+import java.util.Arrays;
+
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Before;
@@ -38,25 +41,34 @@ import net.opengis.drt.x10.DeleteResultTemplateType.Tuple;
  * @since 1.0.0
  */
 public class DeleteResultTemplateDecoderTest {
-//
-//    private DeleteResultTemplateDecoder decoder;
-//
-//    private DeleteResultTemplateDocument encodedRequest;
-//
-//    private DeleteResultTemplateType drtt;
-//
-//    @Rule
-//    public ExpectedException thrown = ExpectedException.none();
-//
-//    @Before
-//    public void setUp() {
-//        decoder = new DeleteResultTemplateDecoder();
-//        encodedRequest = DeleteResultTemplateDocument.Factory.newInstance();
-//        drtt = encodedRequest.addNewDeleteResultTemplate();
-//        drtt.setService("test-service");
-//        drtt.setVersion("test-version");
-//    }
-//
+
+    private DeleteResultTemplateDecoder decoder;
+
+    private DeleteResultTemplateDocument encodedRequest;
+
+    private DeleteResultTemplateType drtt;
+
+    @Before
+    public void setup() {
+        DecoderRepository decoderRepository = new DecoderRepository();
+
+        decoder = new DeleteResultTemplateDecoder();
+        decoder.setDecoderRepository(decoderRepository);
+        decoder.setXmlOptions(XmlOptions::new);
+
+        decoderRepository.setDecoders(Arrays.asList(decoder));
+        decoderRepository.init();
+
+        encodedRequest = DeleteResultTemplateDocument.Factory.newInstance();
+        drtt = encodedRequest.addNewDeleteResultTemplate();
+        drtt.setService("test-service");
+        drtt.setVersion("test-version");
+    }
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+
 //    @Test
 //    public void shouldThrowExceptionOnWrongInput() throws DecodingException {
 //        thrown.expect(UnsupportedDecoderInputException.class);
@@ -104,9 +116,9 @@ public class DeleteResultTemplateDecoderTest {
 //        t.setOffering("test-offering");
 //        t.setObservedProperty("test-property");
 //    }
-//
-//    private void addResultTemplate() {
-//        drtt.addNewResultTemplate().setStringValue("test-template");
-//    }
+
+    private void addResultTemplate() {
+        drtt.addNewResultTemplate().setStringValue("test-template");
+    }
 
 }
