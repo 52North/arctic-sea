@@ -19,8 +19,6 @@ package org.n52.iceland.ogc.ows.extension;
 import org.n52.janmayen.component.Component;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 
-import com.google.common.collect.Iterables;
-
 /**
  * Interface for OwsCapabilitiesExtensionProvider. Implementations of this interface are loaded by the
  * {@link OwsCapabilitiesExtensionRepository}.
@@ -29,19 +27,6 @@ import com.google.common.collect.Iterables;
  *
  */
 public interface OwsCapabilitiesExtensionProvider extends Component<OwsCapabilitiesExtensionKey> {
-
-    /**
-     * Get the {@link OwsCapabilitiesExtensionKey} for this provider
-     *
-     * @return CapabilitiesExtensionKey
-     *
-     * @deprecated use {@link #getKeys() }
-     *
-     */
-    @Deprecated
-    default OwsCapabilitiesExtensionKey getCapabilitiesExtensionKey() {
-        return Iterables.getFirst(getKeys(), null);
-    }
 
     /**
      * Get the {@link OwsCapabilitiesExtension} the provider provides.

@@ -73,8 +73,7 @@ public final class KvpHelper {
         return Boolean.valueOf(value);
     }
 
-    public static List<String> checkParameterMultipleValues(String values, String name)
-            throws OwsExceptionReport {
+    public static List<String> checkParameterMultipleValues(String values, String name) throws OwsExceptionReport {
         if (values.isEmpty()) {
             throw new MissingParameterValueException(name);
         }
@@ -87,13 +86,11 @@ public final class KvpHelper {
         return splittedParameterValues;
     }
 
-    public static List<String> checkParameterMultipleValues(String values, Enum<?> name)
-            throws OwsExceptionReport {
+    public static List<String> checkParameterMultipleValues(String values, Enum<?> name) throws OwsExceptionReport {
         return checkParameterMultipleValues(values, name.name());
     }
 
-    public static void checkParameterMultipleValues(List<String> values, String name)
-            throws OwsExceptionReport {
+    public static void checkParameterMultipleValues(List<String> values, String name) throws OwsExceptionReport {
         if (CollectionHelper.isEmpty(values)) {
             throw new MissingParameterValueException(name);
         }
@@ -115,10 +112,9 @@ public final class KvpHelper {
     }
 
     private static String getParameterValue(String name, Map<String, String> map) {
-        return map.computeIfAbsent(name,
-                                   key -> map.entrySet().stream()
-                                           .filter(e -> e.getKey().equalsIgnoreCase(key))
-                                           .findFirst().map(Entry::getValue).orElse(null));
+        return map.computeIfAbsent(name, key -> map.entrySet()
+                .stream().filter(e -> e.getKey().equalsIgnoreCase(key))
+                .findFirst().map(Entry::getValue).orElse(null));
     }
 
     public static String getParameterValue(Enum<?> name, Map<String, String> map) {
@@ -126,11 +122,14 @@ public final class KvpHelper {
     }
 
     /**
-     * Perform a sanity check on the request parameter without considering version.
+     * Perform a sanity check on the request parameter without considering
+     * version.
      *
-     * @param value the value
+     * @param value
+     *            the value
      *
-     * @throws OwsExceptionReport if the operation could not be found
+     * @throws OwsExceptionReport
+     *             if the operation could not be found
      * @deprecated use injection to get the {@link RequestOperatorRepository}.
      */
     @Deprecated
