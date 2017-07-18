@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.util.http;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -109,12 +108,12 @@ public class HttpUtils {
     }
 
     public void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
-            Object object, EncodingExceptionHandler owserHandler) throws IOException, HTTPException {
+                            Object object, EncodingExceptionHandler owserHandler) throws IOException, HTTPException {
         writeObject(request, response, contentType, new GenericWritable(object, contentType), owserHandler);
     }
 
     public void writeObject(HttpServletRequest request, HttpServletResponse response, ServiceResponse sr,
-            EncodingExceptionHandler owserHandler) throws IOException, HTTPException {
+                            EncodingExceptionHandler owserHandler) throws IOException, HTTPException {
         response.setStatus(sr.getStatus().getCode());
 
         sr.getHeaderMap().forEach(response::addHeader);
@@ -125,7 +124,8 @@ public class HttpUtils {
     }
 
     public void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
-            Writable writable, EncodingExceptionHandler owserHandler) throws IOException, HTTPException {
+                            Writable writable, EncodingExceptionHandler owserHandler)
+            throws IOException, HTTPException {
         OutputStream out = null;
         response.setContentType(writable.getEncodedContentType().toString());
 
@@ -164,7 +164,7 @@ public class HttpUtils {
                 eventBus.submit(new CountingOutputStreamEvent(bytesWritten));
             }
             if (out != null) {
-                LOGGER.debug("Response status = "+response.getStatus());
+                LOGGER.debug("Response status = " + response.getStatus());
                 out.close();
             }
 
@@ -187,10 +187,8 @@ public class HttpUtils {
         /**
          * constructor
          *
-         * @param o
-         *            {@link Object} to write
-         * @param ct
-         *            contentType to encode to
+         * @param o  {@link Object} to write
+         * @param ct contentType to encode to
          */
         GenericWritable(Object o, MediaType ct) {
             this.o = o;
@@ -268,11 +266,11 @@ public class HttpUtils {
 
         default boolean hasForcedHttpStatus() {
             return false;
-        };
+        }
 
         default HTTPStatus getForcedHttpStatus() {
             return HTTPStatus.OK;
-        };
+        }
     }
 
 }

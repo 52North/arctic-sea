@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.config.spring;
 
-import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toMap;
 
 import java.io.Serializable;
@@ -24,6 +23,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
 
 import javax.inject.Provider;
 
@@ -60,7 +60,8 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
         providedDescriptor.increaseNestingLevel();
         Class<?> type = providedDescriptor.getDependencyType();
         Set<String> candidates = findAutowireCandidates(beanName, type, providedDescriptor).keySet();
-        return candidates.stream().collect(toMap(identity(), name -> new DependencyProvider(descriptor, name)));
+        return candidates.stream()
+                .collect(toMap(Function.identity(), name -> new DependencyProvider(descriptor, name)));
 
     }
 
@@ -85,10 +86,10 @@ public class ProviderAwareListableBeanFactory extends DefaultListableBeanFactory
         private final String beanName;
 
         DependencyProvider(DependencyDescriptor descriptor, String beanName) {
-            descriptor = new DependencyDescriptor(descriptor);
-            descriptor.increaseNestingLevel();
-            this.optional = descriptor.getDependencyType().equals(Optional.class);
-            this.descriptor = this.optional ? new OptionalDependencyDescriptor(descriptor) : descriptor;
+            DependencyDescriptor d = new DependencyDescriptor(descriptor);
+            d.increaseNestingLevel();
+            this.optional = d.getDependencyType().equals(Optional.class);
+            this.descriptor = this.optional ? new OptionalDependencyDescriptor(d) : d;
             this.beanName = beanName;
         }
 

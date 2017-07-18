@@ -26,11 +26,12 @@ public interface IStatisticsDataHandler {
     /**
      * Persist the date to the database
      *
-     * @param dataMap
-     *            keys are property names and the values are the objects
-     * @throws Exception
+     * @param dataMap keys are property names and the values are the objects
+     *
+     * @return the response
+     *
      */
-    public IndexResponse persist(Map<String, Object> dataMap);
+    IndexResponse persist(Map<String, Object> dataMap);
 
     /**
      * Returns true if the statistics module is enabled otherwise false
@@ -44,6 +45,6 @@ public interface IStatisticsDataHandler {
      *
      * @return the opened ready to used client.
      */
-    public Client getClient();
+    Client getClient();
 
 }

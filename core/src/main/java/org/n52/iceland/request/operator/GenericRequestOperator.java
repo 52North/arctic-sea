@@ -39,9 +39,9 @@ import org.n52.janmayen.event.EventBus;
 import org.n52.shetland.ogc.ows.OwsOperation;
 import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 import com.google.common.base.MoreObjects;
 
@@ -200,10 +200,11 @@ public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsSe
     }
 
     protected GenericOperationHandler<Q, A> getOperationHandler() {
-        return getOptionalOperationHandler().orElseThrow(()
-                -> new NullPointerException(String
-                        .format("OperationHandler for Operation %s has no implementation!",
-                                requestOperatorKey.getOperationName())));
+        return getOptionalOperationHandler().orElseThrow(() -> {
+            String message = String.format("OperationHandler for Operation %s has no implementation!",
+                                           requestOperatorKey.getOperationName());
+            return new NullPointerException(message);
+        });
     }
 
     protected Optional<GenericOperationHandler<Q, A>> getOptionalOperationHandler() {

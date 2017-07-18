@@ -20,12 +20,12 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.springframework.beans.factory.annotation.Autowired;
-
 
 /**
  * In 52N SOS version 4.x called OperationDAORepository
@@ -34,7 +34,9 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @since 1.0.0
  */
-public class OperationHandlerRepository extends AbstractComponentRepository<OperationHandlerKey, OperationHandler, OperationHandlerFactory> implements Constructable {
+public class OperationHandlerRepository
+        extends AbstractComponentRepository<OperationHandlerKey, OperationHandler, OperationHandlerFactory>
+        implements Constructable {
     @Deprecated
     private static OperationHandlerRepository instance;
     private final Map<OperationHandlerKey, Producer<OperationHandler>> operationHandlers = new HashMap<>();
@@ -78,13 +80,13 @@ public class OperationHandlerRepository extends AbstractComponentRepository<Oper
     }
 
     @Deprecated
-    public Map<OperationHandlerKey, OperationHandler> getOperationDAOs() {
-        return getOperationHandlers();
+    public OperationHandler getOperationDAO(String service, String operationName) {
+        return getOperationHandler(service, operationName);
     }
 
     @Deprecated
-    public OperationHandler getOperationDAO(String service, String operationName) {
-        return getOperationHandler(service, operationName);
+    public Map<OperationHandlerKey, OperationHandler> getOperationDAOs() {
+        return getOperationHandlers();
     }
 
     @Deprecated

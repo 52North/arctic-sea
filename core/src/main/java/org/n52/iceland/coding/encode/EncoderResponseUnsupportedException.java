@@ -16,14 +16,12 @@
  */
 package org.n52.iceland.coding.encode;
 
-import static org.n52.janmayen.http.HTTPStatus.INTERNAL_SERVER_ERROR;
-
+import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -32,6 +30,6 @@ public class EncoderResponseUnsupportedException extends NoApplicableCodeExcepti
 
     public EncoderResponseUnsupportedException() {
         withMessage("The encoder response is not supported!");
-        setStatus(INTERNAL_SERVER_ERROR);
+        setStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     }
 }

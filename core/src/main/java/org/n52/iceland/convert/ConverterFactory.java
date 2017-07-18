@@ -24,5 +24,5 @@ import org.n52.janmayen.component.ComponentFactory;
  * @author Christian Autermann
  */
 public interface ConverterFactory extends
-        ComponentFactory<ConverterKey, Converter<?,?>> {
+        ComponentFactory<ConverterKey, Converter<?, ?>> {
 }

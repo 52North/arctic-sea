@@ -43,7 +43,8 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class RequestOperatorRepository extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
+public class RequestOperatorRepository
+        extends AbstractComponentRepository<RequestOperatorKey, RequestOperator, RequestOperatorFactory>
         implements ActivationManager<RequestOperatorKey>,
                    ActivationSource<RequestOperatorKey>,
                    Constructable {
@@ -77,25 +78,21 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
         }
     }
 
+    public RequestOperator getRequestOperator(OwsServiceKey sok, String operationName) {
+        return getRequestOperator(new RequestOperatorKey(sok, operationName));
+    }
+
     public Set<RequestOperator> getRequestOperators() {
         return this.requestOperators.entrySet().stream()
-                .filter(e ->  this.activation.isActive(e.getKey()))
+                .filter(e -> this.activation.isActive(e.getKey()))
                 .map(Entry::getValue)
                 .map(Producer::get)
                 .collect(Collectors.toSet());
     }
 
-    public RequestOperator getRequestOperator(OwsServiceKey sok, String operationName) {
-        return getRequestOperator(new RequestOperatorKey(sok, operationName));
-    }
-
     @Override
     public void setActive(RequestOperatorKey rokt, boolean active) {
         this.activation.setActive(rokt, active);
-    }
-
-    public Set<RequestOperatorKey> getActiveRequestOperatorKeys() {
-        return Activatables.activatedKeys(this.requestOperators, this.activation);
     }
 
     public Set<RequestOperator> getActiveRequestOperators(OwsServiceKey sok) {
@@ -105,13 +102,18 @@ public class RequestOperatorRepository extends AbstractComponentRepository<Reque
                 .collect(Collectors.toSet());
     }
 
+    public Set<RequestOperatorKey> getActiveRequestOperatorKeys() {
+        return Activatables.activatedKeys(this.requestOperators, this.activation);
+    }
+
     public Set<RequestOperatorKey> getActiveRequestOperatorKeys(OwsServiceKey sok) {
         return activeRequestOperatorStream(sok)
                 .map(Entry::getKey)
                 .collect(Collectors.toSet());
     }
 
-    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(OwsServiceKey sok) {
+    private Stream<Entry<RequestOperatorKey, Producer<RequestOperator>>> activeRequestOperatorStream(
+            OwsServiceKey sok) {
         return this.requestOperators.entrySet().stream()
                 .filter(e -> activation.isActive(e.getKey()))
                 .filter(e -> e.getKey().getServiceOperatorKey().equals(sok));

@@ -68,7 +68,7 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
         configuration().scheduleWrite();
     }
 
-    protected <K> Set<K> getKeys(String path,Function<JsonNode, K> decoder) {
+    protected <K> Set<K> getKeys(String path, Function<JsonNode, K> decoder) {
         readLock().lock();
         try {
             JsonNode array = getConfiguration().path(JsonConstants.ACTIVATION).path(path);
@@ -84,17 +84,17 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
         return matches(sok).and(matchesDomain(domain));
     }
 
+    protected Predicate<JsonNode> matches(OwsServiceKey key) {
+        String service = key == null ? null : key.getService();
+        String version = key == null ? null : key.getVersion();
+        return matchesService(service).and(matchesVersion(version));
+    }
+
     protected Predicate<JsonNode> matchesDomain(String domain) {
         if (domain == null) {
             return isNullOrMissing(JsonConstants.DOMAIN);
         }
         return n -> n.path(JsonConstants.DOMAIN).asText().equals(domain);
-    }
-
-    protected Predicate<JsonNode> matches(OwsServiceKey key) {
-        String service = key == null ? null : key.getService();
-        String version = key == null ? null : key.getVersion();
-        return matchesService(service).and(matchesVersion(version));
     }
 
     protected Predicate<JsonNode> matchesService(String service) {
@@ -122,12 +122,6 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
         };
     }
 
-    protected <K extends AbstractComparableServiceVersionDomainKey<K>> Function<JsonNode, K> createDomainDecoder(
-            BiFunction<OwsServiceKey, String, K> fun) {
-        Objects.requireNonNull(fun);
-        return n -> fun.apply(decodeServiceOperatorKey(n), n.path(JsonConstants.DOMAIN).textValue());
-    }
-
     protected Supplier<ObjectNode> encode(Supplier<ObjectNode> supplier,
                                           OwsServiceKey key) {
         Objects.requireNonNull(supplier);
@@ -137,6 +131,12 @@ public abstract class AbstractJsonActivationDao extends AbstractJsonDao {
             return supplier.get().put(JsonConstants.SERVICE, service)
                     .put(JsonConstants.VERSION, version);
         };
+    }
+
+    protected <K extends AbstractComparableServiceVersionDomainKey<K>> Function<JsonNode, K> createDomainDecoder(
+            BiFunction<OwsServiceKey, String, K> fun) {
+        Objects.requireNonNull(fun);
+        return n -> fun.apply(decodeServiceOperatorKey(n), n.path(JsonConstants.DOMAIN).textValue());
     }
 
     protected OwsServiceKey decodeServiceOperatorKey(JsonNode node) {

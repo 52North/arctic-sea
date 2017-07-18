@@ -16,34 +16,35 @@
  */
 package org.n52.iceland.util.collections;
 
-
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use guava or plain maps
  *
  */
 @Deprecated
 public final class MultiMaps {
+    private MultiMaps() {
+    }
+
     public static <K, V> SetMultiMap<K, V> newSetMultiMap() {
-        return new HashSetMultiMap<K, V>();
+        return new HashSetMultiMap<>();
     }
 
     public static <K extends Enum<K>, V> SetMultiMap<K, V> newSetMultiMap(Class<K> keyType) {
-        return new EnumSetMultiMap<K, V>(keyType);
+        return new EnumSetMultiMap<>(keyType);
     }
 
     public static <K, V> SetMultiMap<K, V> newSynchronizedSetMultiMap() {
-        return new SynchronizedSetMultiMap<K, V>();
+        return new SynchronizedSetMultiMap<>();
     }
 
     public static <K, V> ListMultiMap<K, V> newListMultiMap() {
-        return new LinkedListMultiMap<K, V>();
+        return new LinkedListMultiMap<>();
     }
 
     public static <K, V> ListMultiMap<K, V> newSynchronizedListMultiMap() {
-        return new SynchronizedListMultiMap<K, V>();
+        return new SynchronizedListMultiMap<>();
     }
 
-    private MultiMaps() {
-    }
 }

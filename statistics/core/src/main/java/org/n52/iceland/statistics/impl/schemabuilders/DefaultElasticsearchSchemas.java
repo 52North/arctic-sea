@@ -21,30 +21,31 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
 import org.n52.iceland.statistics.api.parameters.AbstractEsParameter;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameter;
 import org.n52.iceland.statistics.api.parameters.SingleEsParameter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
- * Abstract class for further application specific Elasticsearch schema
- * creation.
+ * Abstract class for further application specific Elasticsearch schema creation.
  *
  */
 public abstract class DefaultElasticsearchSchemas {
 
-    private static final Logger logger = LoggerFactory.getLogger(DefaultElasticsearchSchemas.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultElasticsearchSchemas.class);
+    private static final String PROPERTIES_KEY = "properties";
 
     protected Map<String, Object> properties;
     protected Map<String, Object> mappings;
 
-    public final Map<String, Object> getSchema() {
+    public Map<String, Object> getSchema() {
         properties = new HashMap<>(1);
         mappings = new HashMap<>();
-        properties.put("properties", mappings);
+        properties.put(PROPERTIES_KEY, mappings);
 
         processSchemaClass(ServiceEventDataMapping.class);
         appSpecificSchema();
@@ -53,12 +54,10 @@ public abstract class DefaultElasticsearchSchemas {
     }
 
     /**
-     * Call this method in your subclass and point it to your class where the
-     * mappings exists. This class will process the
-     * <code>public static final {@link AbstractEsParameter}</code> fields only.
+     * Call this method in your subclass and point it to your class where the mappings exists. This class will process
+     * the <code>public static final {@link AbstractEsParameter}</code> fields only.
      *
-     * @param schemaClass
-     *            application specific schema
+     * @param schemaClass application specific schema
      */
     protected final void processSchemaClass(Class<?> schemaClass) {
         for (Field field : schemaClass.getDeclaredFields()) {
@@ -67,7 +66,7 @@ public abstract class DefaultElasticsearchSchemas {
                 resolveParameterField(value, mappings);
             }
         }
-        logger.debug(mappings.toString());
+        LOG.debug(mappings.toString());
     }
 
     private void resolveParameterField(AbstractEsParameter value, Map<String, Object> map) {
@@ -81,7 +80,7 @@ public abstract class DefaultElasticsearchSchemas {
             // the wrapper properties map is needed to elasticsearch
             Map<String, Object> subproperties = new HashMap<>(1);
             Map<String, Object> childrenMap = new HashMap<>(value.getAllChildren().size());
-            subproperties.put("properties", childrenMap);
+            subproperties.put(PROPERTIES_KEY, childrenMap);
 
             for (AbstractEsParameter child : object.getAllChildren()) {
                 resolveParameterField(child, childrenMap);
@@ -95,13 +94,15 @@ public abstract class DefaultElasticsearchSchemas {
     }
 
     private AbstractEsParameter checkField(Field field) {
-        boolean bool = Modifier.isFinal(field.getModifiers()) && Modifier.isStatic(field.getModifiers()) && Modifier.isPublic(field.getModifiers());
-        bool = bool && field.getType().isAssignableFrom((AbstractEsParameter.class));
+        boolean bool = Modifier.isFinal(field.getModifiers()) &&
+                       Modifier.isStatic(field.getModifiers()) &&
+                       Modifier.isPublic(field.getModifiers()) &&
+                       field.getType().isAssignableFrom(AbstractEsParameter.class);
         if (bool) {
             try {
                 return (AbstractEsParameter) field.get(null);
             } catch (Exception e) {
-                logger.error(e.getMessage(), e);
+                LOG.error(e.getMessage(), e);
             }
         }
         return null;
@@ -110,7 +111,7 @@ public abstract class DefaultElasticsearchSchemas {
     public final Map<String, Object> getMetadataSchema() {
         properties = new HashMap<>(1);
         mappings = new HashMap<>();
-        properties.put("properties", mappings);
+        properties.put(PROPERTIES_KEY, mappings);
         processSchemaClass(MetadataDataMapping.class);
         return properties;
     }

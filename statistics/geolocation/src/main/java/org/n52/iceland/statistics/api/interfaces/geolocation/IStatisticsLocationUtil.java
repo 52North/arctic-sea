@@ -18,19 +18,19 @@ package org.n52.iceland.statistics.api.interfaces.geolocation;
 
 import java.util.Map;
 
-import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.janmayen.net.IPAddress;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 
 public interface IStatisticsLocationUtil {
-    public Map<String, Object> ip2SpatialData(IPAddress ip);
+    Map<String, Object> ip2SpatialData(IPAddress ip);
 
     /**
      *
-     * @param host
-     *            String of the IPv4 address e.g.: <code>123.123.123.123</code>
+     * @param host String of the IPv4 address e.g.: <code>123.123.123.123</code>
+     *
      * @return geo loation data in Elasticsearch's accept format
      */
-    public Map<String, Object> ip2SpatialData(String host);
+    Map<String, Object> ip2SpatialData(String host);
 
-    public IPAddress resolveOriginalIpAddress(OwsServiceRequestContext ctx);
+    IPAddress resolveOriginalIpAddress(OwsServiceRequestContext ctx);
 }

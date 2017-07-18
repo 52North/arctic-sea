@@ -23,7 +23,8 @@ import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
 
-public class OutgoingResponseEventHandler extends AbstractElasticSearchDataHolder implements StatisticsServiceEventHandler<OutgoingResponseEvent> {
+public class OutgoingResponseEventHandler extends AbstractElasticSearchDataHolder
+        implements StatisticsServiceEventHandler<OutgoingResponseEvent> {
 
     @Override
     public Map<String, Object> resolveAsMap(OutgoingResponseEvent event) {

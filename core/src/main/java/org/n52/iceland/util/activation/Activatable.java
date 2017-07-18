@@ -24,7 +24,8 @@ import java.util.Set;
 import com.google.common.base.MoreObjects;
 
 /**
- * @param <T>
+ * @param <T> the object type
+ *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  *

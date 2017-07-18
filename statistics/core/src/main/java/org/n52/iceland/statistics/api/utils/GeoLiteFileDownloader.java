@@ -21,22 +21,21 @@ import java.io.IOException;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-
-import org.n52.faroe.annotation.Configurable;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.faroe.annotation.Configurable;
+
 @Configurable
 public class GeoLiteFileDownloader {
-    private static final Logger logger = LoggerFactory.getLogger(GeoLiteFileDownloader.class);
     public static final String CITY_GZ_FILE_NAME = "city.mmdb.gz";
     public static final String COUNTRY_GZ_FILE_NAME = "country.mmdb.gz";
     public static final String CITY_FILE_NAME = "city.mmdb";
     public static final String COUNTRY_FILE_NAME = "country.mmdb";
+    private static final Logger LOG = LoggerFactory.getLogger(GeoLiteFileDownloader.class);
 
     public static void downloadDefaultDatabases(String folderPath) {
-        logger.info("Downloading default databases to {}", folderPath);
+        LOG.info("Downloading default databases to {}", folderPath);
 
         try {
 
@@ -46,7 +45,7 @@ public class GeoLiteFileDownloader {
                 try {
                     FileUtils.forceMkdir(folder);
                 } catch (IOException e) {
-                    logger.error("Can not create folder", e);
+                    LOG.error("Can not create folder", e);
                     return;
                 }
             }
@@ -58,26 +57,32 @@ public class GeoLiteFileDownloader {
             String countryUrl = prop.getProperty("url.country");
 
             if (cityUrl == null || countryUrl == null) {
-                logger.error("Urls not found in geolitepaths.properties file");
+                LOG.error("Urls not found in geolitepaths.properties file");
                 return;
             }
 
             String cityOutPath = folder.getPath().concat("/").concat(CITY_GZ_FILE_NAME);
             String countryOutPath = folder.getPath().concat("/").concat(COUNTRY_GZ_FILE_NAME);
 
-            logger.info("Downloading {} to {}", cityUrl, cityOutPath);
-            FileDownloader.downloadFile(cityUrl, cityOutPath);
-            logger.info("Downloading {} to {}", countryUrl, countryOutPath);
-            FileDownloader.downloadFile(countryUrl, countryOutPath);
-            logger.info("Gunzip {}", cityOutPath);
-            FileDownloader.gunzipFile(cityOutPath);
-            logger.info("Gunzip {}", countryOutPath);
-            FileDownloader.gunzipFile(countryOutPath);
+            download(cityUrl, cityOutPath);
+            download(countryUrl, countryOutPath);
+            unzip(cityOutPath);
+            unzip(countryOutPath);
 
         } catch (IOException e) {
-            logger.error("Error during default download", e);
+            LOG.error("Error during default download", e);
         } catch (Throwable e) {
-            logger.error(null, e);
+            LOG.error(null, e);
         }
+    }
+
+    private static void download(String cityUrl, String cityOutPath) throws IOException {
+        LOG.info("Downloading {} to {}", cityUrl, cityOutPath);
+        FileDownloader.downloadFile(cityUrl, cityOutPath);
+    }
+
+    private static void unzip(String cityOutPath) throws IOException {
+        LOG.info("Gunzip {}", cityOutPath);
+        FileDownloader.gunzipFile(cityOutPath);
     }
 }

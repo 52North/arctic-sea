@@ -14,22 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.iceland.statistics.impl.handlers;
+package org.n52.iceland.util;
 
-import java.util.Map;
+import javax.servlet.ServletContext;
 
-import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
-import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
-import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
-import org.n52.janmayen.event.Event;
+import org.n52.faroe.ConfigurationError;
 
-public class DefaultServiceEventHandler extends AbstractElasticSearchDataHolder
-        implements StatisticsServiceEventHandler<Event> {
 
-    @Override
-    public Map<String, Object> resolveAsMap(Event event) {
-        put(ServiceEventDataMapping.UNHANDLED_SERVICEEVENT_TYPE.getName(), event.getClass());
-        return dataMap;
+/**
+ * @since 4.0.0
+ *
+ * @param <E> Enum type
+ */
+public abstract class AbstractEnumPropertiesFileHandler<E extends Enum<E>> extends
+        ServletContextPropertyFileHandler {
+
+    protected AbstractEnumPropertiesFileHandler(ServletContext ctx, String name) {
+        super(ctx, name);
     }
 
+    public String get(E e) throws ConfigurationError {
+        return get(e.name());
+    }
+
+    public void save(E e, String value) throws ConfigurationError {
+        save(e.name(), value);
+    }
 }

@@ -32,6 +32,7 @@ import java.util.stream.Collectors;
 import javax.inject.Inject;
 
 import org.n52.iceland.exception.ows.concrete.InvalidServiceParameterException;
+import org.n52.iceland.ogc.ows.OwsServiceMetadataRepository;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
@@ -58,11 +59,10 @@ import org.n52.shetland.ogc.ows.exception.VersionNegotiationFailedException;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
-import org.n52.iceland.ogc.ows.OwsServiceMetadataRepository;
-
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperationHandler
@@ -114,7 +114,6 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
         return response;
     }
 
-
     protected GetCapabilitiesResponse createResponse(String service, String version) {
         return new GetCapabilitiesResponse(service, version);
     }
@@ -134,13 +133,12 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
         }
     }
 
-        /**
-     * Get the response version from request, from set version, from
-     * acceptVersions or from supported versions
+    /**
+     * Get the response version from request, from set version, from acceptVersions or from supported versions
      *
      * @return the response version
-     * @throws OwsExceptionReport
-     *             If the requested version is not supported
+     *
+     * @throws OwsExceptionReport If the requested version is not supported
      */
     private String negotiateVersion(GetCapabilitiesRequest request) throws OwsExceptionReport {
         if (request.isSetVersion()) {
@@ -156,7 +154,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
                         .orElseThrow(this::versionNegotiationFailed);
             } else {
                 version = this.serviceOperatorRepository.getSupportedVersions(service).stream()
-                        .max(Comparables.version()).orElseThrow(() ->  new InvalidServiceParameterException(service));
+                        .max(Comparables.version()).orElseThrow(() -> new InvalidServiceParameterException(service));
             }
             request.setVersion(version);
             return version;
@@ -166,7 +164,7 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
     private OwsExceptionReport versionNegotiationFailed() {
         return new VersionNegotiationFailedException()
                 .withMessage("The requested '%s' values are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions);
+                             OWSConstants.GetCapabilitiesParams.AcceptVersions);
     }
 
     @Override
@@ -185,7 +183,8 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
         Collection<OwsOperation> operations = new LinkedList<>();
         OwsOperationMetadataExtension extension = getOperationsMetadataExtension(service, version);
 
-        for (RequestOperatorKey operatorKey : requestOperatorRepository.getActiveRequestOperatorKeys(new OwsServiceKey(service, version))) {
+        for (RequestOperatorKey operatorKey : requestOperatorRepository.getActiveRequestOperatorKeys(
+                new OwsServiceKey(service, version))) {
             Optional.ofNullable(requestOperatorRepository.getRequestOperator(operatorKey)
                     .getOperationMetadata(service, version)).ifPresent(operations::add);
         }
@@ -198,8 +197,10 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
     }
 
     private Collection<OwsDomain> getCommonParameters(String service) {
-        OwsDomain serviceParameter = new OwsDomain(OWSConstants.RequestParams.service, new OwsAllowedValues(new OwsValue(service)));
-        OwsDomain versionParameter = new OwsDomain(OWSConstants.RequestParams.version, getSupportedVersions(service));
+        OwsDomain serviceParameter = new OwsDomain(OWSConstants.RequestParams.service,
+                                                   new OwsAllowedValues(new OwsValue(service)));
+        OwsDomain versionParameter = new OwsDomain(OWSConstants.RequestParams.version,
+                                                   getSupportedVersions(service));
         return Arrays.asList(serviceParameter, versionParameter);
     }
 
@@ -241,7 +242,8 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
     }
 
     private OwsDomain getSectionsDomain() {
-        OwsPossibleValues possibleValues = new OwsAllowedValues(Arrays.stream(OWSConstants.CapabilitiesSection.values()).map(Object::toString).map(OwsValue::new));
+        OwsPossibleValues possibleValues = new OwsAllowedValues(Arrays.stream(OWSConstants.CapabilitiesSection.values())
+                .map(Object::toString).map(OwsValue::new));
         OwsValue defaultValue = new OwsValue(OWSConstants.CapabilitiesSection.All.toString());
         return new OwsDomain(GetCapabilitiesParams.Sections, possibleValues, defaultValue);
     }
@@ -253,7 +255,8 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
 
     private OwsDomain getAcceptLanguagesDomain() {
         Set<Locale> availableLocales = serviceMetadataRepository.getAvailableLocales();
-        OwsPossibleValues possibleValues = new OwsAllowedValues(availableLocales.stream().map(LocaleHelper::encode).map(OwsValue::new));
+        OwsPossibleValues possibleValues = new OwsAllowedValues(availableLocales.stream()
+                .map(LocaleHelper::encode).map(OwsValue::new));
         return new OwsDomain(GetCapabilitiesParams.AcceptLanguages, possibleValues);
     }
 
@@ -309,11 +312,12 @@ public abstract class AbstractGetCapabilitiesHandler<T> extends AbstractOperatio
         return createCapabilities(capabilities, contents);
     }
 
-    protected Collection<OwsCapabilitiesExtension> getExtensions(GetCapabilitiesRequest request, String service, String version) {
+    protected abstract OwsCapabilities createCapabilities(OwsCapabilities owsCapabilities, T contents);
+
+    protected Collection<OwsCapabilitiesExtension> getExtensions(GetCapabilitiesRequest request, String service,
+                                                                 String version) {
         return Collections.emptyList();
     }
 
     protected abstract T createContents(String service, String version);
-
-    protected abstract OwsCapabilities createCapabilities(OwsCapabilities owsCapabilities, T contents);
 }

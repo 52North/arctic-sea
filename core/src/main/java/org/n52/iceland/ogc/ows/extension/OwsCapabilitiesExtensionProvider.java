@@ -19,27 +19,14 @@ package org.n52.iceland.ogc.ows.extension;
 import org.n52.janmayen.component.Component;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 
-import com.google.common.collect.Iterables;
-
-
 /**
- * Interface for CapabilitiesExtensionProvider. Implementations of this
- * interface are loaded by the {@link CapabilitiesExtensionRepository}.
+ * Interface for OwsCapabilitiesExtensionProvider. Implementations of this interface are loaded by the
+ * {@link OwsCapabilitiesExtensionRepository}.
  *
  * @since 1.0.0
  *
  */
 public interface OwsCapabilitiesExtensionProvider extends Component<OwsCapabilitiesExtensionKey> {
-
-    /**
-     * Get the {@link OwsCapabilitiesExtensionKey} for this provider
-     *
-     * @return CapabilitiesExtensionKey
-     */
-    @Deprecated
-    default OwsCapabilitiesExtensionKey getCapabilitiesExtensionKey() {
-        return Iterables.getFirst(getKeys(), null);
-    }
 
     /**
      * Get the {@link OwsCapabilitiesExtension} the provider provides.
@@ -49,17 +36,14 @@ public interface OwsCapabilitiesExtensionProvider extends Component<OwsCapabilit
     OwsCapabilitiesExtension getExtension();
 
     /**
-     * Does this {@link OwsCapabilitiesExtension} related to a specific service
-     * operation
+     * Does this {@link OwsCapabilitiesExtension} related to a specific service operation
      *
-     * @return <code>true</code>, if service relates to a specific service
-     *         operation
+     * @return <code>true</code>, if service relates to a specific service operation
      */
     boolean hasRelatedOperation();
 
     /**
-     * Get the specific service operation name this
-     * {@link OwsCapabilitiesExtension} relates to.
+     * Get the specific service operation name this {@link OwsCapabilitiesExtension} relates to.
      *
      * @return Related service operation name
      */

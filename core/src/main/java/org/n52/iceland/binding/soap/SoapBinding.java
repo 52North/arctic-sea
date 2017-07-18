@@ -44,6 +44,7 @@ import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -57,7 +58,6 @@ import org.n52.shetland.w3c.wsa.WsaMessageIDHeader;
 import org.n52.shetland.w3c.wsa.WsaReplyToHeader;
 import org.n52.shetland.w3c.wsa.WsaToHeader;
 import org.n52.svalbard.ConformanceClasses;
-import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.XmlEncoderKey;
@@ -73,9 +73,9 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class SoapBinding extends AbstractXmlBinding {
+public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
-    @Deprecated // SOS-specific
+    @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_SOAP_BINDING);
 
@@ -107,7 +107,7 @@ public class SoapBinding extends AbstractXmlBinding {
         return false;
     }
 
-    @Deprecated // uses SOS constants
+    @Deprecated
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
@@ -288,9 +288,7 @@ public class SoapBinding extends AbstractXmlBinding {
                     responseHeader.add(((WsaMessageIDHeader) header).getRelatesToHeader());
                 } else if (header instanceof WsaReplyToHeader) {
                     responseHeader.add(((WsaReplyToHeader) header).getToHeader());
-                } else if (header instanceof WsaToHeader) {
-
-                } else {
+                } else if (!(header instanceof WsaToHeader)) {
                     responseHeader.add(header);
                 }
             }

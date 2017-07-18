@@ -35,6 +35,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    public void deleteAdminUser(String username) {
+        this.adminUserDao.deleteAdminUser(username);
+    }
+
+    @Override
     public boolean hasAdminUser() {
         return !getAdminUsers().isEmpty();
     }
@@ -42,11 +47,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdministratorUser createAdminUser(String username, String password) {
         return this.adminUserDao.createAdminUser(username, password);
-    }
-
-    @Override
-    public void deleteAdminUser(String username) {
-        this.adminUserDao.deleteAdminUser(username);
     }
 
     @Override

@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.config.json;
 
-
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -39,11 +37,12 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class JsonActivationDao extends AbstractJsonActivationDao implements ActivationDao {
 
-  @Override
+    @Override
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
         return isActive(JsonConstants.OPERATIONS, matches(key), key.isDefaultActive());
     }
@@ -101,14 +100,12 @@ public class JsonActivationDao extends AbstractJsonActivationDao implements Acti
                     .forEachRemaining(k -> keys.add(new PathBindingKey(k)));
             node.path(JsonConstants.BY_MEDIA_TYPE).fieldNames()
                     .forEachRemaining(k -> keys
-                            .add(new MediaTypeBindingKey(MediaType.parse(k))));
+                    .add(new MediaTypeBindingKey(MediaType.parse(k))));
             return keys;
         } finally {
             readLock().unlock();
         }
     }
-
-
 
     @Override
     public boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key) {
@@ -116,7 +113,8 @@ public class JsonActivationDao extends AbstractJsonActivationDao implements Acti
     }
 
     @Override
-    public void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key, boolean active) {
+    public void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key,
+                                                               boolean active) {
         setStatus(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, matches(key), s -> encode(s, key), active);
     }
 
@@ -125,10 +123,9 @@ public class JsonActivationDao extends AbstractJsonActivationDao implements Acti
         return getKeys(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, decodeOwsExtendedCapabilitiesProviderKey());
     }
 
-
     protected RequestOperatorKey decodeRequestOperatorKey(JsonNode node) {
         return new RequestOperatorKey(decodeServiceOperatorKey(node),
-                node.path(JsonConstants.OPERATION_NAME).textValue());
+                                      node.path(JsonConstants.OPERATION_NAME).textValue());
     }
 
     protected Function<JsonNode, OwsOperationMetadataExtensionProviderKey> decodeOwsExtendedCapabilitiesProviderKey() {

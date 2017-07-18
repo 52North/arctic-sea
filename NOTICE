@@ -85,7 +85,6 @@ This project includes:
   Spring Expression Language (SpEL) under The Apache Software License, Version 2.0
   Spring TestContext Framework under The Apache Software License, Version 2.0
   Spring Web under The Apache Software License, Version 2.0
-  StAX API under The Apache Software License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
   XmlBeans under The Apache Software License, Version 2.0
 

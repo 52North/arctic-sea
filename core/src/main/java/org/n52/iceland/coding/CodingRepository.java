@@ -40,6 +40,7 @@ import org.n52.svalbard.encode.SchemaRepository;
  * @since 1.0.0
  * @see EncoderRepository
  * @see DecoderRepository
+ * @deprecated use {@link EncoderRepository} and {@link DecoderRepository}
  */
 @Deprecated
 public class CodingRepository implements Constructable {

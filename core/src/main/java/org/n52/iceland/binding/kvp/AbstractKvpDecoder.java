@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.binding.kvp;
 
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,7 +49,7 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  * @param <R> the request type
  */
-public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements Decoder<R, Map<String,String>> {
+public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements Decoder<R, Map<String, String>> {
 
     private final Set<DecoderKey> keys;
     private final Supplier<? extends R> supplier;
@@ -78,14 +77,14 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
     }
 
     @Override
-    public R decode(Map<String,String> parameters) throws DecodingException {
+    public R decode(Map<String, String> parameters) throws DecodingException {
 
         CompositeException exceptions = new CompositeException();
         R request = this.supplier.get();
 
-        parameters.forEach(exceptions.wrap(getDecoder(new Builder<R>()
-                        .add(this::getCommonRequestParameterDefinitions)
-                        .add(this::getRequestParameterDefinitions).build()).curryFirst(request)));
+        parameters.forEach(exceptions.wrapConsumer(getDecoder(new Builder<R>()
+                .add(this::getCommonRequestParameterDefinitions)
+                .add(this::getRequestParameterDefinitions).build()).curryFirst(request)));
 
         if (exceptions.hasExceptions()) {
             throw new DecodingException(exceptions);
@@ -94,7 +93,6 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
         return request;
     }
 
-    @SuppressWarnings("rawtypes")
     protected void getCommonRequestParameterDefinitions(Builder<R> builder) {
         builder.add(OWSConstants.RequestParams.service, OwsServiceRequest::setService);
         builder.add(OWSConstants.RequestParams.version, OwsServiceRequest::setVersion);
@@ -106,19 +104,23 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
         return value == null ? null : StringHelper.splitToList(value, ",");
     }
 
-    protected ThrowingBiConsumer<R, String, DecodingException> decodeList(ThrowingBiConsumer<? super R, ? super List<String>, DecodingException> delegate) {
+    protected ThrowingBiConsumer<R, String, DecodingException> decodeList(
+            ThrowingBiConsumer<? super R, ? super List<String>, DecodingException> delegate) {
         return (request, value) -> delegate.accept(request, decodeList(value));
     }
 
-    protected <T> ThrowingBiConsumer<R, T, DecodingException> asList(ThrowingBiConsumer<? super R, ? super List<T>, DecodingException> delegate) {
-        return (request, value) -> delegate.accept(request, Collections.singletonList(value));
-    }
-
-    protected ThrowingTriConsumer<R, String, String, DecodingException> decodeList(ThrowingTriConsumer<? super R, ? super String, ? super List<String>, DecodingException> delegate) {
+    protected ThrowingTriConsumer<R, String, String, DecodingException> decodeList(
+            ThrowingTriConsumer<? super R, ? super String, ? super List<String>, DecodingException> delegate) {
         return (request, name, value) -> delegate.accept(request, name, decodeList(value));
     }
 
-    protected ThrowingBiConsumer<R, String, DecodingException> normalizeMediaType(ThrowingBiConsumer<? super R, ? super String, DecodingException> delegate) {
+    protected <T> ThrowingBiConsumer<R, T, DecodingException> asList(
+            ThrowingBiConsumer<? super R, ? super List<T>, DecodingException> delegate) {
+        return (request, value) -> delegate.accept(request, Collections.singletonList(value));
+    }
+
+    protected ThrowingBiConsumer<R, String, DecodingException> normalizeMediaType(
+            ThrowingBiConsumer<? super R, ? super String, DecodingException> delegate) {
         return (request, value) -> delegate.accept(request, MediaType.normalizeString(value));
     }
 
@@ -135,7 +137,7 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
         };
     }
 
-    protected static class Builder<R extends OwsServiceRequest> {
+    protected static final class Builder<R extends OwsServiceRequest> {
         private final Map<String, ThrowingBiConsumer<? super R, String, DecodingException>> parsers
                 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 

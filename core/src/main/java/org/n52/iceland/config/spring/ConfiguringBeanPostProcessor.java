@@ -52,7 +52,7 @@ public class ConfiguringBeanPostProcessor implements BeanPostProcessor {
      * @param settingsService the settings service
      */
     @Inject
-    public void setSettingsManager(SettingsService settingsService) {
+    public void setSettingsService(SettingsService settingsService) {
         this.settingsService = settingsService;
     }
 

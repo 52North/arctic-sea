@@ -17,7 +17,7 @@
 package org.n52.iceland.util.activation;
 
 /**
- * Interface for default active method
+ * Interface for default active method.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -28,5 +28,5 @@ public interface DefaultActive {
     /**
      * @return <code>true</code>, if this operation should be active by default
      */
-    public boolean isDefaultActive();
+    boolean isDefaultActive();
 }

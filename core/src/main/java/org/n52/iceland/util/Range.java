@@ -24,19 +24,21 @@ package org.n52.iceland.util;
  */
 public class Range {
 
-    /** from value */
-    private int from = 0;
+    /**
+     * from value
+     */
+    private final int from;
 
-    /** to value */
-    private int to = Integer.MAX_VALUE;
+    /**
+     * to value
+     */
+    private final int to;
 
     /**
      * constructor
      *
-     * @param start
-     *            Start value
-     * @param end
-     *            End value
+     * @param start Start value
+     * @param end   End value
      */
     public Range(int start, int end) {
         this.from = start;
@@ -46,10 +48,11 @@ public class Range {
     /**
      * returns true if a given value is contained in range
      *
-     * @param value
+     * @param value the value
+     *
      * @return boolean true if value is contained in range, else false
      */
     public boolean contains(int value) {
-        return (from <= value && to >= value);
+        return from <= value && to >= value;
     }
 }

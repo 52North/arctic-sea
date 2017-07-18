@@ -125,7 +125,7 @@ public class XmlFactories {
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-        transformer.setOutputProperty(OutputKeys.VERSION, "1.0");
+        transformer.setOutputProperty(OutputKeys.VERSION, XML_VERSION);
         transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 
         try {

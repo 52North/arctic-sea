@@ -75,8 +75,7 @@ public class ElasticsearchSettings {
     private String uuid;
 
     /**
-     * Enables the kibana configuration importing into elasticsearch. Controls
-     * the {@link this#kibanaConfPath} process
+     * Enables the kibana configuration importing into elasticsearch. Controls the {@link this#kibanaConfPath} process
      */
     private boolean kibanaConfigEnable;
 
@@ -86,7 +85,6 @@ public class ElasticsearchSettings {
     private String kibanaConfPath;
 
     // Getter Setters
-
     public boolean isLoggingEnabled() {
         return loggingEnabled;
     }
@@ -126,10 +124,11 @@ public class ElasticsearchSettings {
     @Setting(ElasticsearchSettingsKeys.UUID)
     public void setUuid(String uuid) {
         if (uuid == null || uuid.trim().isEmpty()) {
-            uuid = UUID.randomUUID().toString();
-            saveStringValueToConfigFile(ElasticsearchSettingsKeys.UUID, uuid);
+            this.uuid = UUID.randomUUID().toString();
+            saveStringValueToConfigFile(ElasticsearchSettingsKeys.UUID, this.uuid);
+        } else {
+            this.uuid = uuid;
         }
-        this.uuid = uuid;
     }
 
     public String getClusterName() {
@@ -147,18 +146,18 @@ public class ElasticsearchSettings {
     }
 
     /**
-     * this variable must not be null and format of host[:port] comma separated
-     * if multiple values are given
+     * this variable must not be null and format of host[:port] comma separated if multiple values are given
      *
-     * @param clusterNodes
-     *            list of the clusterNodes
+     * @param clusterNodes list of the clusterNodes
      */
     @Setting(ElasticsearchSettingsKeys.CLUSTER_NODES)
     public void setClusterNodes(String clusterNodes) {
         this.clusterNodes = new ArrayList<>();
         Validation.notNullOrEmpty(ElasticsearchSettingsKeys.CLUSTER_NODES, clusterNodes);
         if (clusterNodes.contains(",")) {
-            Arrays.asList(clusterNodes.split(",")).stream().peek(this::checkClustorNodeFormat).forEach(this.clusterNodes::add);
+            Arrays.stream(clusterNodes.split(","))
+                    .peek(this::checkClustorNodeFormat)
+                    .forEach(this.clusterNodes::add);
         } else {
             checkClustorNodeFormat(clusterNodes);
             this.clusterNodes.add(clusterNodes);
@@ -185,13 +184,13 @@ public class ElasticsearchSettings {
     }
 
     /**
-     * Connection type to the Elasticsearch cluster. NodeClient or
-     * TransportClient are supported.
+     * Connection type to the Elasticsearch cluster. NodeClient or TransportClient are supported.
      *
-     * @param choice
-     *            {@link ElasticsearchSettingsKeys#CONNECTION_MODE_NODE} or
-     *            {@link ElasticsearchSettingsKeys#CONNECTION_MODE_TRANSPORT_CLIENT}
-     *            {@link ElasticsearchSettingsKeys#CONNECTION_MODE_EMBEDDED_SERVER}
+     * @param choice the connection mode
+     *
+     * @see ElasticsearchSettingsKeys#CONNECTION_MODE_NODE
+     * @see ElasticsearchSettingsKeys#CONNECTION_MODE_TRANSPORT_CLIENT
+     * @see ElasticsearchSettingsKeys#CONNECTION_MODE_EMBEDDED_SERVER
      */
     @Setting(ElasticsearchSettingsKeys.CONNECTION_MODE)
     public void setNodeConnectionMode(String choice) {
@@ -201,10 +200,8 @@ public class ElasticsearchSettings {
     /**
      * With the settings API saves the new value to the configuration file
      *
-     * @param key
-     *            key to save the value
-     * @param value
-     *            value to save under the key
+     * @param key   key to save the value
+     * @param value value to save under the key
      */
     public void saveStringValueToConfigFile(String key, String value) {
         settingsService.changeSetting(this.settingValueFactory.newStringSettingValue(key, value));
@@ -236,7 +233,9 @@ public class ElasticsearchSettings {
 
     @Override
     public String toString() {
-        return "ElasticsearchSettings [loggingEnabled=" + loggingEnabled + ", clusterName=" + clusterName + ", nodeConnectionMode="
-                + nodeConnectionMode + ", indexId=" + indexId + ", typeId=" + typeId + ", clusterNodes=" + clusterNodes + ", uuid=" + uuid + "]";
+        return "ElasticsearchSettings [loggingEnabled=" + loggingEnabled + ", clusterName=" + clusterName +
+               ", nodeConnectionMode=" +
+               nodeConnectionMode + ", indexId=" + indexId + ", typeId=" + typeId + ", clusterNodes=" + clusterNodes +
+               ", uuid=" + uuid + "]";
     }
 }

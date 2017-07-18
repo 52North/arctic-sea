@@ -29,18 +29,16 @@ public interface StatisticsServiceEventResolver<T extends Event> {
     Map<String, Object> resolve();
 
     /**
-     * before the processing the Handlers can be added to the resolver via
-     * spring xml
+     * before the processing the Handlers can be added to the resolver via spring xml
      *
-     * @param handlers
+     * @param handlers the handlers
      */
     void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers);
 
     /**
-     * Sets the payload to the Resolver class. Before the {@link #resolve()}
-     * method is called.
+     * Sets the payload to the Resolver class. Before the {@link #resolve()} method is called.
      *
-     * @param event
+     * @param event the event
      */
     void setEvent(T event);
 

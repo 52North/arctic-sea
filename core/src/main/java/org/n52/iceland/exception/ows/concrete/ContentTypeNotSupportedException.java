@@ -16,13 +16,11 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
-
+import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @since 1.0.0
  */
 public class ContentTypeNotSupportedException extends InvalidParameterValueException {
@@ -31,8 +29,9 @@ public class ContentTypeNotSupportedException extends InvalidParameterValueExcep
     @SuppressWarnings("ThrowableResultIgnored")
     public ContentTypeNotSupportedException(String contentType, String... supportedContentType) {
         super("HTTP header Accept", contentType);
-        withMessage("Requested content type '%s' as specified in 'Accept' header not supported. Please one of %s.", contentType, String.join(", ", supportedContentType));
-        setStatus(BAD_REQUEST);
+        withMessage("Requested content type '%s' as specified in 'Accept' header not supported. Please one of %s.",
+                    contentType, String.join(", ", supportedContentType));
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 
 }
