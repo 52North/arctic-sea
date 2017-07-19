@@ -25,7 +25,8 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
 public class IndentingXMLStreamWriter extends DelegatingXMLStreamWriter implements ExtendedXMLStreamWriter {
-    private static final Pattern NEW_LINE_PATTERN = Pattern.compile(System.lineSeparator(), Pattern.LITERAL);
+    private static final Pattern NEW_LINE_PATTERN = Pattern.compile("\\r?\\n");
+    private static final String NEW_LINE = "\n";
     private final Stack<State> stateStack = new Stack<>();
     private final String indent;
     private State state = State.SEEN_NOTHING;
@@ -72,7 +73,7 @@ public class IndentingXMLStreamWriter extends DelegatingXMLStreamWriter implemen
     }
 
     private void writeNewLine() throws XMLStreamException {
-        super.writeCharacters(System.lineSeparator());
+        super.writeCharacters(NEW_LINE);
     }
 
     private void writeIndent() throws XMLStreamException {

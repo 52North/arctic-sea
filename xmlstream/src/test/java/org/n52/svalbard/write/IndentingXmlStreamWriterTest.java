@@ -41,39 +41,69 @@ public class IndentingXmlStreamWriterTest {
     public void test() throws XMLStreamException, UnsupportedEncodingException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         writeXML(baos);
-        Assert.assertThat(baos.toString("UTF-8"), is("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + System.lineSeparator() +
-                                                     "<document attribute=\"attributeValue\">" + System.lineSeparator() +
-                                                     "    <startElement attribute=\"attributeValue\"></startElement>" + System.lineSeparator() +
-                                                     "    <emptyElement attribute=\"attributeValue\"/>" + System.lineSeparator() +
-                                                     "    <startElement>non-line-breaking-text</startElement>" + System.lineSeparator() +
-                                                     "    <startElement>non-line-breaking-text</startElement>" + System.lineSeparator() +
-                                                     "    <startElement>non-line-breaking-text</startElement>" + System.lineSeparator() +
-                                                     "    <startElement>non-line-breaking-text</startElement>" + System.lineSeparator() +
-                                                     "    <startElement>" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "    </startElement>" + System.lineSeparator() +
-                                                     "    <startElement>" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "        line-breaking-text" + System.lineSeparator() +
-                                                     "    </startElement>" + System.lineSeparator() +
-                                                     "    <emptyElement attribute=\"attributeValue\"/>" + System.lineSeparator() +
-                                                     "    <some-externally-generated-xml/>" + System.lineSeparator() +
-                                                     "    <some-externally-generated-xml>" + System.lineSeparator() +
-                                                     "        <some-inner-tag/>" + System.lineSeparator() +
-                                                     "    </some-externally-generated-xml>" + System.lineSeparator() +
-                                                     "    <wrapper1>" + System.lineSeparator() +
-                                                     "        <wrapper2>" + System.lineSeparator() +
-                                                     "            <some-externally-generated-xml>" + System.lineSeparator() +
-                                                     "                <some-inner-tag/>" + System.lineSeparator() +
-                                                     "            </some-externally-generated-xml>" + System.lineSeparator() +
-                                                     "        </wrapper2>" + System.lineSeparator() +
-                                                     "    </wrapper1>" + System.lineSeparator() +
-                                                     "</document>"));
+
+        String expected = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                          "<document attribute=\"attributeValue\">\n" +
+                          "    <startElement attribute=\"attributeValue\"></startElement>\n" +
+                          "    <emptyElement attribute=\"attributeValue\"/>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>non-line-breaking-text</startElement>\n" +
+                          "    <startElement>\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "    </startElement>\n" +
+                          "    <startElement>\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "    </startElement>\n" +
+                          "    <startElement>\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "    </startElement>\n" +
+                          "    <startElement>\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "        line-breaking-text\n" +
+                          "    </startElement>\n" +
+                          "    <emptyElement attribute=\"attributeValue\"/>\n" +
+                          "    <some-externally-generated-xml/>\n" +
+                          "    <some-externally-generated-xml>\n" +
+                          "        <some-inner-tag/>\n" +
+                          "    </some-externally-generated-xml>\n" +
+                          "    <some-externally-generated-xml>\n" +
+                          "        <some-inner-tag/>\n" +
+                          "    </some-externally-generated-xml>\n" +
+                          "    <wrapper1>\n" +
+                          "        <wrapper2>\n" +
+                          "            <some-externally-generated-xml>\n" +
+                          "                <some-inner-tag/>\n" +
+                          "            </some-externally-generated-xml>\n" +
+                          "        </wrapper2>\n" +
+                          "    </wrapper1>\n" +
+                          "    <wrapper1>\n" +
+                          "        <wrapper2>\n" +
+                          "            <some-externally-generated-xml>\n" +
+                          "                <some-inner-tag/>\n" +
+                          "            </some-externally-generated-xml>\n" +
+                          "        </wrapper2>\n" +
+                          "    </wrapper1>\n" +
+                          "</document>";
+
+        System.out.println(baos.toString("UTF-8"));
+        System.out.println(expected);
+        Assert.assertThat(baos.toString("UTF-8"), is(expected));
     }
 
     private void writeXML(ByteArrayOutputStream baos) throws FactoryConfigurationError, XMLStreamException,
@@ -100,35 +130,78 @@ public class IndentingXmlStreamWriterTest {
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
-                    writer.writeCharacters("non-line-breaking-text" + System.lineSeparator() );
+                    writer.writeCharacters("non-line-breaking-text\n");
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
-                    writer.writeCharacters("" + System.lineSeparator() + "non-line-breaking-text");
+                    writer.writeCharacters("non-line-breaking-text\r\n");
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
-                    writer.writeCharacters("" + System.lineSeparator() + "non-line-breaking-text" + System.lineSeparator() );
+                    writer.writeCharacters("\nnon-line-breaking-text");
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
-                    writer.writeCharacters("line-breaking-text" + System.lineSeparator() + "line-breaking-text" + System.lineSeparator() + "line-breaking-text" + System.lineSeparator() + "line-breaking-text" + System.lineSeparator() );
+                    writer.writeCharacters("\r\nnon-line-breaking-text");
                 writer.writeEndElement();
 
                 writer.writeStartElement("startElement");
-                    writer.writeCharacters("line-breaking-text" + System.lineSeparator() + "line-breaking-text" + System.lineSeparator() );
-                    writer.writeCharacters("line-breaking-text" + System.lineSeparator() + "line-breaking-text" + System.lineSeparator() );
+                    writer.writeCharacters("\nnon-line-breaking-text\n");
+                writer.writeEndElement();
+
+                writer.writeStartElement("startElement");
+                    writer.writeCharacters("\r\nnon-line-breaking-text\r\n");
+                writer.writeEndElement();
+
+                writer.writeStartElement("startElement");
+                    writer.writeCharacters("line-breaking-text\n" +
+                                           "line-breaking-text\n" +
+                                           "line-breaking-text\n" +
+                                           "line-breaking-text\n");
+                writer.writeEndElement();
+
+                writer.writeStartElement("startElement");
+                    writer.writeCharacters("line-breaking-text\r\n" +
+                                           "line-breaking-text\r\n" +
+                                           "line-breaking-text\r\n" +
+                                           "line-breaking-text\r\n");
+                writer.writeEndElement();
+
+                writer.writeStartElement("startElement");
+                    writer.writeCharacters("line-breaking-text\n" + "line-breaking-text\n");
+                    writer.writeCharacters("line-breaking-text\n" + "line-breaking-text\n");
+                writer.writeEndElement();
+
+                writer.writeStartElement("startElement");
+                    writer.writeCharacters("line-breaking-text\r\n" + "line-breaking-text\r\n");
+                    writer.writeCharacters("line-breaking-text\r\n" + "line-breaking-text\r\n");
                 writer.writeEndElement();
 
                 writer.writeEmptyElement("emptyElement");
                     writer.writeAttribute("attribute", "attributeValue");
 
                 writer.writeXML("<some-externally-generated-xml/>");
-                writer.writeXML("<some-externally-generated-xml>" + System.lineSeparator() + "    <some-inner-tag/>" + System.lineSeparator() + "</some-externally-generated-xml>");
+                writer.writeXML("<some-externally-generated-xml>\n" +
+                                "    <some-inner-tag/>\n" +
+                                "</some-externally-generated-xml>");
+
+                writer.writeXML("<some-externally-generated-xml>\r\n" +
+                                "    <some-inner-tag/>\r\n" +
+                                "</some-externally-generated-xml>");
 
                 writer.writeStartElement("wrapper1");
                     writer.writeStartElement("wrapper2");
-                        writer.writeXML("<some-externally-generated-xml>" + System.lineSeparator() + "    <some-inner-tag/>" + System.lineSeparator() + "</some-externally-generated-xml>");
+                        writer.writeXML("<some-externally-generated-xml>\n" +
+                                        "    <some-inner-tag/>\n" +
+                                        "</some-externally-generated-xml>");
+                    writer.writeEndElement();
+                writer.writeEndElement();
+
+                writer.writeStartElement("wrapper1");
+                    writer.writeStartElement("wrapper2");
+                        writer.writeXML("<some-externally-generated-xml>\r\n" +
+                                        "    <some-inner-tag/>\r\n" +
+                                        "</some-externally-generated-xml>");
                     writer.writeEndElement();
                 writer.writeEndElement();
 
