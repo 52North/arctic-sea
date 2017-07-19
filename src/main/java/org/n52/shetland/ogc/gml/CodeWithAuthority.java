@@ -59,6 +59,9 @@ public class CodeWithAuthority implements Comparable<CodeWithAuthority> {
         this.codeSpace = codeSpace;
     }
 
+    protected CodeWithAuthority() {
+    }
+
     /**
      * Get value
      *

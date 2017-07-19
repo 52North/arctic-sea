@@ -42,6 +42,9 @@ public class Identifier extends CodeWithAuthority {
         super(codeWithAuthority.getValue(), codeWithAuthority.getCodeSpace());
     }
 
+    public Identifier() {
+    }
+
     /**
      * Get localId
      *
