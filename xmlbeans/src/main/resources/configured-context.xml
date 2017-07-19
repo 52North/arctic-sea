@@ -20,7 +20,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
-    
+
     <!-- decoder -->
     <bean class="org.n52.svalbard.decode.AqdDecoderv10"/>
     <bean class="org.n52.svalbard.decode.AqdStringDecoderv10"/>
@@ -76,9 +76,9 @@
     <bean class="org.n52.svalbard.decode.WmlObservationProcessDecoderv20"/>
     <bean class="org.n52.svalbard.decode.WsaDecoder"/>
     <bean class="org.n52.svalbard.decode.XlinkDecoderv1999"/>
-    
-    
-    
+
+
+
         <!-- encoder -->
     <bean class="org.n52.svalbard.encode.AqdDescribeSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdEncoder"/>
@@ -172,5 +172,5 @@
     <bean class="org.n52.svalbard.encode.WmlTVPEncoderv20"/>
     <bean class="org.n52.svalbard.encode.WsaEncoder"/>
     <bean class="org.n52.svalbard.encode.XlinkEncoderv1999"/>
-    
+
 </beans>
