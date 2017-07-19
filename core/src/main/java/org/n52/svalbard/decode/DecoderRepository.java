@@ -55,7 +55,7 @@ public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Deco
 
     @Override
     public void init() {
-        setProducers(getProviders(decoders.get(), decoderFactories.get()));
+        setProducers(getProviders(decoders, decoderFactories));
     }
 
     public Set<Decoder<?, ?>> getDecoders() {
