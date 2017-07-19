@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -52,6 +53,22 @@ import com.google.common.base.MoreObjects.ToStringHelper;
 public abstract class AbstractComponentRepository<K, C extends Component<K>, F extends ComponentFactory<K, C>> {
     private static final Logger LOG = LoggerFactory
             .getLogger(AbstractComponentRepository.class);
+
+    /**
+     * Create a multi valued map with {@code Producer}s for the supplied {@code components} and {@code factories}.
+     *
+     * @param components the component instances (may be {@code null} or empty)
+     * @param factories  the component factories (may be {@code null} or empty)
+     *
+     * @return the producers
+     */
+    protected Map<K, Set<Producer<C>>> getProviders(Optional<? extends Collection<? extends C>> components,
+                                                    Optional<? extends Collection<? extends F>> factories)
+    {
+        Collection<? extends C> c = components.orElseGet(() -> Collections.<C>emptyList());
+        Collection<? extends F> f = factories.orElseGet(() -> Collections.<F>emptyList());
+        return getProviders(c, f);
+    }
 
     /**
      * Create a multi valued map with {@code Producer}s for the supplied {@code components} and {@code factories}.
