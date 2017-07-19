@@ -19,11 +19,14 @@ package org.n52.svalbard.encode;
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -47,7 +50,7 @@ public class GetDataAvailabilityXmlEncoder
 
     public GetDataAvailabilityXmlEncoder() {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME,
-                Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
+              Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
     }
 
     @Override
@@ -59,10 +62,12 @@ public class GetDataAvailabilityXmlEncoder
     protected XmlObject create(GetDataAvailabilityResponse response) throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            new GetDataAvailabilityStreamWriter(
-                    EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository()).with(
-                            XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
-                    baos, response.getDataAvailabilities()).write();
+            EncodingContext ctx = EncodingContext.empty()
+                    .with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                    .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
+            GetDataAvailabilityStreamWriter writer
+                    = new GetDataAvailabilityStreamWriter(ctx, baos, response.getDataAvailabilities());
+            writer.write();
             XmlObject encodedObject = XmlObject.Factory.parse(baos.toString("UTF8"));
             XmlHelper.validateDocument(encodedObject, EncodingException::new);
             return encodedObject;

@@ -18,9 +18,9 @@ package org.n52.svalbard.encode;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.Writer;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -31,6 +31,9 @@ import java.util.TimeZone;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.janmayen.http.MediaType;
@@ -74,8 +77,6 @@ import org.n52.shetland.uvf.UVFConstants.LineEnding;
 import org.n52.shetland.uvf.UVFSettingsProvider;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -131,7 +132,7 @@ import com.google.common.io.Files;
  * following assumptions/constraints are implemented:
  * <ul>
  * <li>Only ONE timeseries will be encoded. Hence, the
- * {@link UVFRequestModifier} ensures, that each request for the UVF contains
+ * {@code UVFRequestModifier} ensures, that each request for the UVF contains
  * ONE observed property, ONE feature of interest, and ONE procedure.</li>
  * <li>Only observations of type Measurement and Count are supported.</li>
  * <li>The encoder does not check for gaps and encodes only start and end. This

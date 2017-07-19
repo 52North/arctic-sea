@@ -43,7 +43,6 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlHelper;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
@@ -125,19 +124,17 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
     }
 
     @Override
-    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public XmlObject encode(T response) throws EncodingException {
         if (response == null) {
-            throw new UnsupportedEncoderInputException(this, response);
+            throw new UnsupportedEncoderInputException(this, (String) null);
         }
         return encode(response, EncodingContext.of(SosHelperValues.VERSION, this.version));
     }
 
     @Override
-    @SuppressFBWarnings("NP_LOAD_OF_KNOWN_NULL_VALUE")
     public XmlObject encode(T response, EncodingContext additionalValues) throws EncodingException {
         if (response == null) {
-            throw new UnsupportedEncoderInputException(this, response);
+            throw new UnsupportedEncoderInputException(this, (String) null);
         }
         XmlObject xml = create(response);
         setSchemaLocations(xml);

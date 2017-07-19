@@ -27,10 +27,12 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
+
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.gml.time.TimePosition;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -47,19 +49,13 @@ public abstract class AbstractGetDataAvailabilityStreamWriter
         extends XmlStreamWriter<List<DataAvailability>> {
 
     protected static final String TIME_PERIOD_PREFIX = "tp_";
-
     protected static final String DATA_AVAILABILITY_PREFIX = "dam_";
-
     protected static final String RESULT_TIME = "resultTime";
-
-    protected static final String NAME = "name";
-
+    protected static final String AN_NAME = "name";
+    protected static final String AN_DEFINITION = "definition";
     protected final Map<TimePeriod, String> times = new HashMap<>();
-
     protected int dataAvailabilityCount = 1;
-
     protected int timePeriodCount = 1;
-
     protected int resultTimeCount = 1;
 
     public AbstractGetDataAvailabilityStreamWriter(
@@ -83,78 +79,67 @@ public abstract class AbstractGetDataAvailabilityStreamWriter
 
     protected void writePhenomenonTime(DataAvailability da, QName element)
             throws DateTimeFormatException, XMLStreamException {
-        start(element);
         if (times.containsKey(da.getPhenomenonTime())) {
+            empty(element);
             attr(GetDataAvailabilityConstants.XLINK_HREF, "#" + times.get(da.getPhenomenonTime()));
         } else {
+            start(element);
             da.getPhenomenonTime().setGmlId(TIME_PERIOD_PREFIX + timePeriodCount++);
             times.put(da.getPhenomenonTime(), da.getPhenomenonTime().getGmlId());
             writeTimePeriod(da.getPhenomenonTime());
+            end(element);
         }
-        end(element);
+
     }
 
     protected void writeFeatureOfInterest(DataAvailability da, QName element) throws XMLStreamException {
-        start(element);
+        empty(element);
         attr(GetDataAvailabilityConstants.XLINK_HREF, da.getFeatureOfInterest().getHref());
         if (da.getFeatureOfInterest().isSetTitle()) {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getFeatureOfInterest().getTitle());
         } else {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getFeatureOfInterest().getTitleOrFromHref());
         }
-        end(element);
     }
 
     protected void writeProcedure(DataAvailability da, QName element) throws XMLStreamException {
-        start(element);
+        empty(element);
         attr(GetDataAvailabilityConstants.XLINK_HREF, da.getProcedure().getHref());
         if (da.getProcedure().isSetTitle()) {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getProcedure().getTitle());
         } else {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getProcedure().getTitleOrFromHref());
         }
-        end(element);
     }
 
     protected void writeObservedProperty(DataAvailability da, QName element) throws XMLStreamException {
-        start(element);
+        empty(element);
         attr(GetDataAvailabilityConstants.XLINK_HREF, da.getObservedProperty().getHref());
         if (da.getObservedProperty().isSetTitle()) {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getObservedProperty().getTitle());
         } else {
             attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getObservedProperty().getTitleOrFromHref());
         }
-        end(element);
     }
 
     protected void writeTimePeriod(TimePeriod tp) throws XMLStreamException, DateTimeFormatException {
         start(GmlConstants.QN_TIME_PERIOD_32);
         attr(GmlConstants.QN_ID_32, tp.getGmlId());
-        writeBegin(tp);
-        writeEnd(tp);
+        writeTimePosition(GmlConstants.QN_BEGIN_POSITION_32, tp.getStartTimePosition());
+        writeTimePosition(GmlConstants.QN_END_POSITION_32, tp.getEndTimePosition());
         end(GmlConstants.QN_TIME_PERIOD_32);
     }
 
-    protected void writeBegin(TimePeriod tp) throws XMLStreamException, DateTimeFormatException {
-        start(GmlConstants.QN_BEGIN_POSITION_32);
-        if (tp.isSetStartIndeterminateValue()) {
-            attr(GmlConstants.AN_INDETERMINATE_POSITION, tp.getStartIndet().getValue());
+    protected void writeTimePosition(QName name, TimePosition position) throws XMLStreamException {
+        if (position.isSetIndeterminateValue()) {
+            empty(name);
+            attr(GmlConstants.AN_INDETERMINATE_POSITION, position.getIndeterminateValue().getValue());
         }
-        if (tp.isSetStart()) {
-            writeTimeString(tp.getStart(), tp.getTimeFormat());
+        if (position.isSetTime()) {
+            start(name);
+            writeTimeString(position.getTime(), position.getTimeFormat());
+            end(name);
         }
-        end(GmlConstants.QN_BEGIN_POSITION_32);
-    }
-
-    protected void writeEnd(TimePeriod tp) throws XMLStreamException, DateTimeFormatException {
-        start(GmlConstants.QN_END_POSITION_32);
-        if (tp.isSetEndIndeterminateValue()) {
-            attr(GmlConstants.AN_INDETERMINATE_POSITION, tp.getEndIndet().getValue());
-        }
-        if (tp.isSetEnd()) {
-            writeTimeString(tp.getEnd(), tp.getTimeFormat());
-        }
-        end(GmlConstants.QN_END_POSITION_32);
     }
 
     protected void writeTimeString(DateTime time, TimeFormat format)
@@ -168,14 +153,13 @@ public abstract class AbstractGetDataAvailabilityStreamWriter
         end(element);
     }
 
-    protected void writeResultTimes(List<TimeInstant> resultTimes, QName element)
-            throws XMLStreamException, EncodingException {
+    protected void writeResultTimes(List<TimeInstant> resultTimes, QName element) throws XMLStreamException {
         start(element);
         start(SweConstants.QN_DATA_RECORD_SWE_200);
-        attr("definition", RESULT_TIME);
+        attr(AN_DEFINITION, RESULT_TIME);
         for (TimeInstant resultTime : resultTimes) {
             start(SweConstants.QN_FIELD_200);
-            attr(NAME, RESULT_TIME + resultTimeCount++);
+            attr(AN_NAME, RESULT_TIME + resultTimeCount++);
             writeTime(resultTime);
             end(SweConstants.QN_FIELD_200);
         }
@@ -185,39 +169,39 @@ public abstract class AbstractGetDataAvailabilityStreamWriter
 
     protected void writeTime(TimeInstant ti) throws XMLStreamException, DateTimeFormatException {
         start(SweConstants.QN_TIME_SWE_200);
-        writeValue(ti);
-        writeUom();
+        writeSweValue(ti);
+        writeSweUOM(OmConstants.PHEN_UOM_ISO8601);
         end(SweConstants.QN_TIME_SWE_200);
     }
 
-    private void writeUom() throws XMLStreamException {
+    private void writeSweUOM(String uom) throws XMLStreamException {
         start(SweConstants.QN_UOM_SWE_200);
-        attr(W3CConstants.QN_XLINK_HREF, OmConstants.PHEN_UOM_ISO8601);
+        attr(W3CConstants.QN_XLINK_HREF, uom);
         end(SweConstants.QN_UOM_SWE_200);
 
     }
 
-    protected void writeValue(TimeInstant ti) throws XMLStreamException, DateTimeFormatException {
+    protected void writeSweValue(TimeInstant ti) throws XMLStreamException, DateTimeFormatException {
         start(SweConstants.QN_VALUE_SWE_200);
         writeTimeString(ti.getValue(), ti.getTimeFormat());
         end(SweConstants.QN_VALUE_SWE_200);
     }
 
-    protected void writeElementWithStringValue(String value, QName element) throws XMLStreamException {
-        start(element);
+    protected void writeSweValue(String value) throws XMLStreamException {
+        start(SweConstants.QN_VALUE_SWE_200);
         chars(value);
-        end(element);
+        end(SweConstants.QN_VALUE_SWE_200);
     }
 
     protected void writeMetadata(Map<String, NamedValue<?>> map, QName element)
             throws XMLStreamException, EncodingException {
         for (Entry<String, NamedValue<?>> entry : map.entrySet()) {
-            Object o = getEncoder(OmConstants.NS_OM_2, entry.getValue()).encode(entry.getValue(),
-                    EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
+            Object o = getEncoder(OmConstants.NS_OM_2, entry.getValue())
+                    .encode(entry.getValue(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
             if (o != null && o instanceof XmlObject) {
                 start(GetDataAvailabilityConstants.GDA_EXTENSION);
-                attr(NAME, entry.getKey());
-                rawText(((XmlObject) o).xmlText(getXmlOptions()));
+                attr(AN_NAME, entry.getKey());
+                writeXmlObject((XmlObject) o);
                 end(GetDataAvailabilityConstants.GDA_EXTENSION);
             }
         }

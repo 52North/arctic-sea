@@ -58,6 +58,7 @@ import org.n52.shetland.ogc.om.values.UnknownValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.ogc.swe.CoordinateSettingsProvider;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
@@ -72,7 +73,6 @@ import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
-import org.n52.shetland.ogc.swe.CoordinateSettingsProvider;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeHelper;
@@ -494,8 +494,8 @@ public final class SweHelper {
     /**
      * Check if northing names contains name
      *
-     * @param name
-     *            Name to check
+     * @param names
+     *            Names to check
      * @return <code>true</code>, if the name is defined.
      */
     public boolean hasNorthingName(String... names) {
@@ -523,8 +523,8 @@ public final class SweHelper {
     /**
      * Check if easting names contains name
      *
-     * @param name
-     *            Name to check
+     * @param names
+     *            Names to check
      * @return <code>true</code>, if the name is defined.
      */
     public boolean hasEastingName(String... names) {
@@ -552,8 +552,8 @@ public final class SweHelper {
     /**
      * Check if altitude names contains name
      *
-     * @param name
-     *            Name to check
+     * @param names
+     *            Names to check
      * @return <code>true</code>, if the name is defined.
      */
     public boolean hasAltitudeName(String... names) {

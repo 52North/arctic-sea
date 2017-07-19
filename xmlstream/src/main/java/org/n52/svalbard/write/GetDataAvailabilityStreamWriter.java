@@ -16,6 +16,8 @@
  */
 package org.n52.svalbard.write;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
@@ -35,7 +37,6 @@ import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
-import com.google.common.collect.Sets;
 
 /**
  * GetDataAvailability response stream writer.
@@ -46,8 +47,6 @@ import com.google.common.collect.Sets;
  */
 public class GetDataAvailabilityStreamWriter
         extends AbstractGetDataAvailabilityStreamWriter {
-
-    private static final String DEFINITION = "definition";
 
     public GetDataAvailabilityStreamWriter(
             EncodingContext context, OutputStream outputStream, List<DataAvailability> element)
@@ -63,6 +62,7 @@ public class GetDataAvailabilityStreamWriter
         finish();
     }
 
+    @Override
     protected void writeGetDataAvailabilityResponse() throws XMLStreamException, EncodingException {
         start(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_RESPONSE);
         namespace(GetDataAvailabilityConstants.NS_GDA_PREFIX, GetDataAvailabilityConstants.NS_GDA);
@@ -91,14 +91,11 @@ public class GetDataAvailabilityStreamWriter
         }
         if (da.isSetOffering()) {
             writeOffering(da.getOffering(), GetDataAvailabilityConstants.GDA_EXTENSION);
-            end(GetDataAvailabilityConstants.GDA_PHENOMENON_TIME);
         }
         if (da.isSetFormatDescriptors()) {
-            Set<String> observationTypes = Sets.newHashSet();
-            for (ObservationFormatDescriptor ofd : da.getFormatDescriptor().getObservationFormatDescriptors()) {
-                observationTypes.addAll(ofd.getObservationTypes());
-            }
-            writeObservationTypes(observationTypes, GetDataAvailabilityConstants.GDA_EXTENSION);
+            Set<String> observationTypes = da.getFormatDescriptor().getObservationFormatDescriptors().stream()
+                    .map(ObservationFormatDescriptor::getObservationTypes).flatMap(Set::stream).collect(toSet());
+            writeObservationTypes(observationTypes);
         }
         if (da.isSetMetadata()) {
             writeMetadata(da.getMetadata(), GetDataAvailabilityConstants.GDA_EXTENSION);
@@ -108,34 +105,30 @@ public class GetDataAvailabilityStreamWriter
 
     protected void writeOffering(ReferenceType offering, QName element) throws XMLStreamException {
         start(GetDataAvailabilityConstants.GDA_EXTENSION);
-        start(SweConstants.QN_TEXT_SWE_200);
-        attr(DEFINITION, "offering");
-        start(SweConstants.QN_VALUE_SWE_200);
-        chars(offering.getHref());
-        end(SweConstants.QN_VALUE_SWE_200);
-        end(SweConstants.QN_TEXT_SWE_200);
+        writeSweText("offering", offering.getHref());
         end(GetDataAvailabilityConstants.GDA_EXTENSION);
-
     }
 
-    protected void writeObservationTypes(Set<String> observationTypes, QName element) throws XMLStreamException {
-        int observationTypeCount = 1;
+    protected void writeObservationTypes(Set<String> observationTypes) throws XMLStreamException {
         start(GetDataAvailabilityConstants.GDA_EXTENSION);
         start(SweConstants.QN_DATA_RECORD_SWE_200);
-        attr(DEFINITION, "observationTypes");
+        attr(AN_DEFINITION, "observationTypes");
+        int observationTypeCount = 1;
         for (String observationType : observationTypes) {
             start(SweConstants.QN_FIELD_200);
             attr("name", "observationType_" + observationTypeCount++);
-            start(SweConstants.QN_TEXT_SWE_200);
-            attr(DEFINITION, "observationType");
-            start(SweConstants.QN_VALUE_SWE_200);
-            chars(observationType);
-            end(SweConstants.QN_VALUE_SWE_200);
-            end(SweConstants.QN_TEXT_SWE_200);
+            writeSweText("observationType", observationType);
             end(SweConstants.QN_FIELD_200);
         }
         end(SweConstants.QN_DATA_RECORD_SWE_200);
         end(GetDataAvailabilityConstants.GDA_EXTENSION);
+    }
+
+    private void writeSweText(String definition, String value) throws XMLStreamException {
+        start(SweConstants.QN_TEXT_SWE_200);
+        attr(AN_DEFINITION, definition);
+        writeSweValue(value);
+        end(SweConstants.QN_TEXT_SWE_200);
     }
 
 }

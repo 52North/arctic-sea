@@ -82,12 +82,10 @@ public class GetDataAvailabilityResponseDecoder
 
     @Override
     public GetDataAvailabilityResponse decode(XmlObject document) throws DecodingException {
-        if (document != null) {
-            if (document instanceof GetDataAvailabilityResponseDocument) {
-                return decodeV10((GetDataAvailabilityResponseDocument) document);
-            } else if (document instanceof net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) {
-                return decodeV20((net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) document);
-            }
+        if (document instanceof GetDataAvailabilityResponseDocument) {
+            return decodeV10((GetDataAvailabilityResponseDocument) document);
+        } else if (document instanceof net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) {
+            return decodeV20((net.opengis.sosgda.x20.GetDataAvailabilityResponseDocument) document);
         }
         throw new UnsupportedDecoderInputException(this, document);
     }

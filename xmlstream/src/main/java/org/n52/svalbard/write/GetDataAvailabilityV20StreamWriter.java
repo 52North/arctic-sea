@@ -19,10 +19,10 @@ package org.n52.svalbard.write;
 import java.io.OutputStream;
 import java.util.List;
 
-import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.FormatDescriptor;
@@ -40,8 +40,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  * @since 1.0.0
  */
-public class GetDataAvailabilityV20StreamWriter
-        extends AbstractGetDataAvailabilityStreamWriter {
+public class GetDataAvailabilityV20StreamWriter extends AbstractGetDataAvailabilityStreamWriter {
 
     public GetDataAvailabilityV20StreamWriter(
             OutputStream outputStream,
@@ -63,17 +62,17 @@ public class GetDataAvailabilityV20StreamWriter
         end(GetDataAvailabilityConstants.GDA_GET_DATA_AVAILABILITY_20_RESPONSE);
     }
 
-    protected void writeOffering(DataAvailability da, QName element) throws XMLStreamException {
-        start(element);
-        attr(GetDataAvailabilityConstants.XLINK_HREF, da.getOffering().getHref());
-        if (da.getOffering().isSetTitle()) {
-            attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getOffering().getTitle());
+    protected void writeOffering(ReferenceType offering) throws XMLStreamException {
+        empty(GetDataAvailabilityConstants.GDA_20_OFFERING);
+        attr(GetDataAvailabilityConstants.XLINK_HREF, offering.getHref());
+        if (offering.isSetTitle()) {
+            attr(GetDataAvailabilityConstants.XLINK_TITLE, offering.getTitle());
         } else {
-            attr(GetDataAvailabilityConstants.XLINK_TITLE, da.getOffering().getTitleOrFromHref());
+            attr(GetDataAvailabilityConstants.XLINK_TITLE, offering.getTitleOrFromHref());
         }
-        end(element);
     }
 
+    @Override
     protected void wirteDataAvailabilityMember(DataAvailability da) throws XMLStreamException, EncodingException {
         start(GetDataAvailabilityConstants.GDA_DATA_AVAILABILITY_20_MEMBER);
         attr(GmlConstants.QN_ID_32, DATA_AVAILABILITY_PREFIX + dataAvailabilityCount++);
@@ -88,10 +87,10 @@ public class GetDataAvailabilityV20StreamWriter
             writeResultTimes(da.getResultTimes(), GetDataAvailabilityConstants.GDA_20_EXTENSION);
         }
         if (da.isSetOffering()) {
-            writeOffering(da, GetDataAvailabilityConstants.GDA_20_OFFERING);
+            writeOffering(da.getOffering());
         }
         if (da.isSetFormatDescriptors()) {
-            writeFormatDescriptor(da.getFormatDescriptor(), GetDataAvailabilityConstants.GDA_20_FORMAT_DESCRIPTOR);
+            writeFormatDescriptor(da.getFormatDescriptor());
         }
         if (da.isSetMetadata()) {
             writeMetadata(da.getMetadata(), GetDataAvailabilityConstants.GDA_20_EXTENSION);
@@ -99,41 +98,48 @@ public class GetDataAvailabilityV20StreamWriter
         end(GetDataAvailabilityConstants.GDA_DATA_AVAILABILITY_20_MEMBER);
     }
 
-    protected void writeFormatDescriptor(FormatDescriptor formatDescriptor, QName element) throws XMLStreamException {
-        start(element);
-        writeProcedureDescriptionFormatDescriptor(formatDescriptor.getProcedureDescriptionFormatDescriptor(),
-                GetDataAvailabilityConstants.GDA_20_PROCEDURE_FORMAT_DESCRIPTOR);
-        for (ObservationFormatDescriptor observationFormatDescriptor : formatDescriptor
-                .getObservationFormatDescriptors()) {
-            writeObservationFormatDescriptor(observationFormatDescriptor,
-                    GetDataAvailabilityConstants.GDA_20_OBSERVATION_FORMAT_DESCRIPTOR);
+    protected void writeFormatDescriptor(FormatDescriptor formatDescriptor) throws XMLStreamException {
+        start(GetDataAvailabilityConstants.GDA_20_FORMAT_DESCRIPTOR);
+        writeProcedureDescriptionFormatDescriptor(formatDescriptor.getProcedureDescriptionFormatDescriptor());
+        for (ObservationFormatDescriptor ofd : formatDescriptor.getObservationFormatDescriptors()) {
+            writeObservationFormatDescriptor(ofd);
         }
-        end(element);
+        end(GetDataAvailabilityConstants.GDA_20_FORMAT_DESCRIPTOR);
     }
 
-    protected void writeProcedureDescriptionFormatDescriptor(ProcedureDescriptionFormatDescriptor formatDescriptor,
-            QName element) throws XMLStreamException {
-        start(element);
-        writeElementWithStringValue(formatDescriptor.getProcedureDescriptionFormat(),
-                GetDataAvailabilityConstants.GDA_20_PROCEDURE_DESCRIPTION_FORMAT);
-        end(element);
-    }
-
-    protected void writeObservationFormatDescriptor(ObservationFormatDescriptor formatDescriptor, QName element)
+    protected void writeProcedureDescriptionFormatDescriptor(ProcedureDescriptionFormatDescriptor formatDescriptor)
             throws XMLStreamException {
-        start(element);
-        writeElementWithStringValue(formatDescriptor.getResponseFormat(),
-                GetDataAvailabilityConstants.GDA_20_RESPONSE_FORMAT);
-        for (String observationType : formatDescriptor.getObservationTypes()) {
-            writeElementWithStringValue(observationType, GetDataAvailabilityConstants.GDA_20_OBSERVATION_TYPE);
-        }
-        end(element);
+        start(GetDataAvailabilityConstants.GDA_20_PROCEDURE_FORMAT_DESCRIPTOR);
+        writeProcedureDescriptionFormat(formatDescriptor.getProcedureDescriptionFormat());
+        end(GetDataAvailabilityConstants.GDA_20_PROCEDURE_FORMAT_DESCRIPTOR);
     }
 
-    protected void writeElementWithStringValue(String value, QName element) throws XMLStreamException {
-        start(element);
-        chars(value);
-        end(element);
+    protected void writeObservationFormatDescriptor(ObservationFormatDescriptor formatDescriptor)
+            throws XMLStreamException {
+        start(GetDataAvailabilityConstants.GDA_20_OBSERVATION_FORMAT_DESCRIPTOR);
+        writeResponseFormat(formatDescriptor.getResponseFormat());
+        for (String observationType : formatDescriptor.getObservationTypes()) {
+            writeObservationType(observationType);
+        }
+        end(GetDataAvailabilityConstants.GDA_20_OBSERVATION_FORMAT_DESCRIPTOR);
+    }
+
+    private void writeProcedureDescriptionFormat(String procedureDescriptionFormat) throws XMLStreamException {
+        start(GetDataAvailabilityConstants.GDA_20_PROCEDURE_DESCRIPTION_FORMAT);
+        chars(procedureDescriptionFormat);
+        end(GetDataAvailabilityConstants.GDA_20_PROCEDURE_DESCRIPTION_FORMAT);
+    }
+
+    private void writeObservationType(String observationType) throws XMLStreamException {
+        start(GetDataAvailabilityConstants.GDA_20_OBSERVATION_TYPE);
+        chars(observationType);
+        end(GetDataAvailabilityConstants.GDA_20_OBSERVATION_TYPE);
+    }
+
+    private void writeResponseFormat(String responseFormat) throws XMLStreamException {
+        start(GetDataAvailabilityConstants.GDA_20_RESPONSE_FORMAT);
+        chars(responseFormat);
+        end(GetDataAvailabilityConstants.GDA_20_RESPONSE_FORMAT);
     }
 
 }
