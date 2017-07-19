@@ -88,24 +88,24 @@ public class GetDataAvailabilityXmlEncoderTest {
                                  "xmlns:gml=\"http://www.opengis.net/gml/3.2\" " +
                                  "xmlns:swe=\"http://www.opengis.net/swe/2.0\" " +
                                  "xmlns:xlink=\"http://www.w3.org/1999/xlink\" " +
-                                 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">%n" +
-                                 "  <gda:dataAvailabilityMember gml:id=\"dam_1\">%n" +
-                                 "    <gda:procedure xlink:href=\"procedure\" xlink:title=\"procedure\"/>%n" +
-                                 "    <gda:observedProperty xlink:href=\"observedProperty\" xlink:title=\"observedProperty\"/>%n" +
-                                 "    <gda:featureOfInterest xlink:href=\"featureOfInterest\" xlink:title=\"featureOfInterest\"/>%n" +
-                                 "    <gda:phenomenonTime>%n" +
-                                 "      <gml:TimePeriod gml:id=\"tp_1\">%n" +
-                                 "        <gml:beginPosition>%s</gml:beginPosition>%n" +
-                                 "        <gml:endPosition>%s</gml:endPosition>%n" +
-                                 "      </gml:TimePeriod>%n" +
-                                 "    </gda:phenomenonTime>%n" +
-                                 "    <gda:count>100</gda:count>%n" +
-                                 "    <gda:extension>%n" +
-                                 "      <swe:Text definition=\"offering\">%n" +
-                                 "        <swe:value>offering</swe:value>%n" +
-                                 "      </swe:Text>%n" +
-                                 "    </gda:extension>%n" +
-                                 "  </gda:dataAvailabilityMember>%n" +
+                                 "xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n" +
+                                 "  <gda:dataAvailabilityMember gml:id=\"dam_1\">\n" +
+                                 "    <gda:procedure xlink:href=\"procedure\" xlink:title=\"procedure\"/>\n" +
+                                 "    <gda:observedProperty xlink:href=\"observedProperty\" xlink:title=\"observedProperty\"/>\n" +
+                                 "    <gda:featureOfInterest xlink:href=\"featureOfInterest\" xlink:title=\"featureOfInterest\"/>\n" +
+                                 "    <gda:phenomenonTime>\n" +
+                                 "      <gml:TimePeriod gml:id=\"tp_1\">\n" +
+                                 "        <gml:beginPosition>%s</gml:beginPosition>\n" +
+                                 "        <gml:endPosition>%s</gml:endPosition>\n" +
+                                 "      </gml:TimePeriod>\n" +
+                                 "    </gda:phenomenonTime>\n" +
+                                 "    <gda:count>100</gda:count>\n" +
+                                 "    <gda:extension>\n" +
+                                 "      <swe:Text definition=\"offering\">\n" +
+                                 "        <swe:value>offering</swe:value>\n" +
+                                 "      </swe:Text>\n" +
+                                 "    </gda:extension>\n" +
+                                 "  </gda:dataAvailabilityMember>\n" +
                                  "</gda:GetDataAvailabilityResponse>",
                                  begin.toString(ISODateTimeFormat.dateTime()),
                                  end.toString(ISODateTimeFormat.dateTime()))));
