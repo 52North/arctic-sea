@@ -541,7 +541,7 @@ public interface InspireCapabilities {
         /**
          * Set the supported CRSes
          *
-         * @param supportedCRSes
+         * @param supportedCRS
          *            the supported CRSes to set
          */
         InspireExtendedCapabilitiesSupportedCRS setSupportedCRS(InspireSupportedCRS supportedCRS);

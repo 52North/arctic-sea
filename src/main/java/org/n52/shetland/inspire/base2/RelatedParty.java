@@ -65,7 +65,7 @@ public class RelatedParty {
 
     /**
      * @param individualName the individualName to set
-     * @return
+     * @return this {@link RelatedParty}
      */
     public RelatedParty setIndividualName(PT_FreeText individualName) {
         return setIndividualName(Nillable.of(individualName));
@@ -93,7 +93,7 @@ public class RelatedParty {
 
     /**
      * @param organisationName the organisationName to set
-     * @return
+     * @return this {@link RelatedParty}
      */
     public RelatedParty setOrganisationName(PT_FreeText organisationName) {
         return setOrganisationName(Nillable.of(organisationName));
@@ -121,7 +121,7 @@ public class RelatedParty {
 
     /**
      * @param positionName the positionName to set
-     * @return
+     * @return this {@link RelatedParty}
      */
     public RelatedParty setPositionName(PT_FreeText positionName) {
         return setPositionName(Nillable.of(positionName));
@@ -171,7 +171,7 @@ public class RelatedParty {
     }
 
     /**
-     * @param role the role to set
+     * @param roles the roles to set
      */
     public void setRoles(List<Nillable<Reference>> roles) {
         this.roles.clear();

@@ -475,8 +475,7 @@ public abstract class AbstractGML {
     }
 
     /**
-     * @return <tt>true</tt>, if metaData property is set,<br>
-     *         else <tt>false</tt>
+     * @return <code>true</code>, if metaData property is set, else <code>false</code>
      */
     public boolean isSetMetaDataProperty() {
         return CollectionHelper.isNotEmpty(getMetaDataProperty());
