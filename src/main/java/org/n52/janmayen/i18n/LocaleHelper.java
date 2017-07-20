@@ -16,19 +16,28 @@
  */
 package org.n52.janmayen.i18n;
 
+import static java.util.stream.Collectors.toMap;
+
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import java.util.StringTokenizer;
 
 import javax.annotation.Nullable;
 
+import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.function.Predicates;
 
 public final class LocaleHelper {
     private static final Map<String, Locale> CACHE = Collections.synchronizedMap(new HashMap<>());
+    private static final Map<String, String> ISO_COUNTRY_ALPHA_3_TO_ALPHA_2 = Arrays
+            .stream(Locale.getISOCountries()).map(Functions.curryFirst(Locale::new, "")).distinct()
+            .collect(toMap(Locale::getISO3Country, Locale::getCountry));
+    private static final Map<String, String> ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2 = Arrays
+            .stream(Locale.getISOLanguages()).map(Locale::new).distinct()
+            .collect(toMap(Locale::getISO3Language, Locale::getLanguage));
 
     private LocaleHelper() {
     }
@@ -65,15 +74,12 @@ public final class LocaleHelper {
     }
 
     private static Locale decode1(String locale) {
-        StringTokenizer tokenizer = new StringTokenizer(locale, "-_ #");
-        int length = tokenizer.countTokens();
-        String[] tokens = new String[length];
-        for (int i = 0; i < length; ++i) {
-            tokens[i] = tokenizer.nextToken();
-        }
-        String language = length > 0 ? tokens[0] : "";
-        String country = length > 1 ? tokens[1] : "";
-        String variant = length > 2 ? tokens[2] : "";
+        String[] tokens = locale.split("[-_# ]");
+        String language = tokens.length > 0 ? tokens[0].toLowerCase() : "";
+        String country = tokens.length > 1 ? tokens[1].toUpperCase() : "";
+        String variant = tokens.length > 2 ? tokens[2] : "";
+        country = ISO_COUNTRY_ALPHA_3_TO_ALPHA_2.getOrDefault(country, country);
+        language = ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2.getOrDefault(language, language);
         return new Locale(language, country, variant);
     }
 }

@@ -20,13 +20,10 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.Locale;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
-
-import org.n52.janmayen.i18n.LocaleHelper;
 
 /**
  * TODO JavaDoc
@@ -39,13 +36,13 @@ public class LocaleHelperTest {
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
 
-    @Test@Ignore
+    @Test
     public void testSerialization() {
         String string = LocaleHelper.encode(Locale.GERMAN);
         errors.checkThat(LocaleHelper.decode(string, null), is(Locale.GERMAN));
     }
 
-    @Test@Ignore
+    @Test
     public void test() {
 
         //IETF BCP 47
@@ -59,6 +56,7 @@ public class LocaleHelperTest {
         errors.checkThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
         errors.checkThat(LocaleHelper.decode("de-de", null), is(Locale.GERMANY));
         errors.checkThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("deu", null), is(Locale.GERMANY));
+        errors.checkThat(LocaleHelper.decode("deu", null), is(Locale.GERMAN));
+        errors.checkThat(LocaleHelper.decode("eng", null), is(Locale.ENGLISH));
     }
 }

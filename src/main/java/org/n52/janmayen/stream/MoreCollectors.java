@@ -187,6 +187,7 @@ public final class MoreCollectors {
         return toCompositeException(supplier, fun);
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public static <T, E extends Exception, X extends CompositeException> Collector<T, ?, X> toCompositeException(
             Supplier<X> supplier, ThrowingConsumer<? super T, E> fun) {
         BiConsumer<X, T> accumulator = (composite, t) -> {
