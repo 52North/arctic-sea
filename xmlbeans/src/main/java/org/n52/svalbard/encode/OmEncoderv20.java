@@ -23,13 +23,20 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
+
+import net.opengis.om.x20.OMObservationType;
 
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
@@ -73,14 +80,10 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.write.OmV20XmlStreamWriter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-
-import net.opengis.om.x20.OMObservationType;
 
 /**
  * @since 1.0.0
@@ -193,8 +196,9 @@ public class OmEncoderv20
         if (objectToEncode instanceof OmObservation) {
             try {
                 new OmV20XmlStreamWriter(
-                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
-                                .with(XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
+                        EncodingContext.empty()
+                                .with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                                .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>)this::getXmlOptions),
                         outputStream, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);

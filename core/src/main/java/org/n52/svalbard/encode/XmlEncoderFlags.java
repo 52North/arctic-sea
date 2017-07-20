@@ -22,8 +22,20 @@ package org.n52.svalbard.encode;
  * @author Christian Autermann
  */
 public enum XmlEncoderFlags {
+    /**
+     * Should be of type {@code String}.
+     */
     ENCODE_NAMESPACE,
+    /**
+     * Should be of type {@code boolean}.
+     */
     ADD_SCHEMA_LOCATION,
+    /**
+     * Should be of type {@code String}.
+     */
     XML_VERSION,
+    /**
+     * Should be of type {@code java.util.function.Supplier&lt;org.apache.xmlbeans.XmlOptions&gt;}.
+     */
     XML_OPTIONS
 }
