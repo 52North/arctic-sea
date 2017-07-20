@@ -131,16 +131,17 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     public XmlObject encode(Object element, EncodingContext ctx)
             throws EncodingException, UnsupportedEncoderInputException {
         if (element instanceof GetObservationResponse) {
-            return encodeGetObservationResponse((GetObservationResponse) element);
+            return encodeGetObservationResponse((GetObservationResponse) element, ctx);
         } else if (element instanceof OmObservation) {
-            return encodeOmObservation((OmObservation) element);
+            return encodeOmObservation((OmObservation) element, ctx);
         } else if (element instanceof EReportingHeader) {
             return encodeEReportingHeader((EReportingHeader) element, ctx);
         }
         throw new UnsupportedEncoderInputException(this, element);
     }
 
-    private XmlObject encodeGetObservationResponse(GetObservationResponse response) throws EncodingException {
+    private XmlObject encodeGetObservationResponse(GetObservationResponse response, EncodingContext ctx)
+            throws EncodingException {
         try {
             FeatureCollection featureCollection = getFeatureCollection(response);
             // TODO get FLOW from response
@@ -175,7 +176,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
-            return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, EncodingContext.empty()
+            return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, ctx
                                      .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
                                      .with(XmlBeansEncodingFlags.DOCUMENT));
         } catch (OwsExceptionReport ex) {
@@ -183,8 +184,8 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         }
     }
 
-    private XmlObject encodeOmObservation(OmObservation element) throws EncodingException {
-        return encodeObjectToXml(OmConstants.NS_OM_2, element);
+    private XmlObject encodeOmObservation(OmObservation element, EncodingContext context) throws EncodingException {
+        return encodeObjectToXml(OmConstants.NS_OM_2, element, context);
     }
 
     private XmlObject encodeEReportingHeader(EReportingHeader element, EncodingContext ctx) throws EncodingException {

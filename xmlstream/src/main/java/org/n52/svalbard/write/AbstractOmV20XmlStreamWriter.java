@@ -26,10 +26,13 @@ import java.util.Optional;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.om.x20.OMObservationType;
+
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
+
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractMetaData;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -57,8 +60,6 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 
 import com.google.common.base.Strings;
-
-import net.opengis.om.x20.OMObservationType;
 
 /**
  * Abstract implementation of {@link XmlStreamWriter} for writing
@@ -88,11 +89,11 @@ public abstract class AbstractOmV20XmlStreamWriter
     /**
      * Write {@link OmObservation} XML encoded to stream
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
-     * @throws EncodingException
-     *             If an error occurs when creating elements to be written If an
-     *             error occurs when creating elements to be written
+     * @param observation the observation
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
+     * @throws EncodingException  If an error occurs when creating elements to be written If an error occurs when
+     *                            creating elements to be written
      */
     protected void writeObservation(OmObservation observation) throws XMLStreamException, EncodingException {
         start(getDocumentName());
@@ -397,8 +398,8 @@ public abstract class AbstractOmV20XmlStreamWriter
         if (observation.getValue() instanceof AbstractObservationValue<?>) {
             ((AbstractObservationValue<?>) observation.getValue()).setValuesForResultEncoding(observation);
         }
-        XmlObject createResult = (XmlObject) getEncoder(getEncodeNamespace().get(), observation.getValue())
-                .encode(observation.getValue());
+        XmlObject createResult = (XmlObject) getEncoder(getEncodeNamespace().orElse(OmConstants.NS_OM_2),
+                                                        observation.getValue()).encode(observation.getValue());
         if (createResult != null) {
             if (createResult.xmlText().contains(XML_FRAGMENT)) {
                 XmlObject set =
