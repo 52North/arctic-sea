@@ -20,10 +20,15 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.om.x20.OMObservationType;
+
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.PointTimeSeriesObservation;
 import org.n52.shetland.ogc.SupportedType;
@@ -38,7 +43,6 @@ import org.n52.svalbard.write.PointTimeSeriesObservationXmlStreamWriter;
 import com.google.common.collect.Sets;
 
 import eu.europa.ec.inspire.schemas.omso.x30.PointTimeSeriesObservationType;
-import net.opengis.om.x20.OMObservationType;
 
 /**
  * {@link Encoder} implementation for {@link PointTimeSeriesObservation} to
@@ -92,7 +96,7 @@ public class PointTimeSeriesObservationTypeEncoder
             try {
                 new PointTimeSeriesObservationXmlStreamWriter(
                         EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
-                                .with(XmlEncoderFlags.XML_OPTIONS, getXmlOptions()),
+                                .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
                         outputStream, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);

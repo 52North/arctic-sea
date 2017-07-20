@@ -32,12 +32,11 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-
 /**
  * TODO JavaDoc
  *
- * @param <T>
- *            the response type
+ * @param <T> the response type
+ *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
@@ -51,50 +50,37 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     /**
      * constructor
      *
-     * @param service
-     *            Service
-     * @param version
-     *            Service version
-     * @param operation
-     *            Service operation name
-     * @param namespace
-     *            Service XML schema namespace
-     * @param prefix
-     *            Service XML schema prefix
-     * @param responseType
-     *            Response type
-     * @param validate
-     *            Indicator if the created/encoded object should be validated
+     * @param service      Service
+     * @param version      Service version
+     * @param operation    Service operation name
+     * @param namespace    Service XML schema namespace
+     * @param prefix       Service XML schema prefix
+     * @param responseType Response type
+     * @param validate     Indicator if the created/encoded object should be validated
      */
     public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix,
-            Class<T> responseType, boolean validate) {
+                                   Class<T> responseType, boolean validate) {
         super(service, version, operation, namespace, prefix, responseType, validate);
         OwsOperationKey key = new OwsOperationKey(service, version, operation);
         this.encoderKeys = Sets.newHashSet(new XmlEncoderKey(namespace, responseType),
-                new OperationResponseEncoderKey(key, MediaTypes.TEXT_XML),
-                new OperationResponseEncoderKey(key, MediaTypes.APPLICATION_XML));
+                                           new OperationResponseEncoderKey(key, MediaTypes.TEXT_XML),
+                                           new OperationResponseEncoderKey(key, MediaTypes.APPLICATION_XML));
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                Joiner.on(", ").join(encoderKeys));
+                     Joiner.on(", ").join(encoderKeys));
     }
 
     /**
      * constructor
      *
-     * @param service
-     *            Service
-     * @param version
-     *            Service version
-     * @param operation
-     *            Service operation name
-     * @param namespace
-     *            Service XML schema namespace
-     * @param prefix
-     *            Service XML schema prefix
-     * @param responseType
-     *            Response type
+     * @param service      Service
+     * @param version      Service version
+     * @param operation    Service operation name
+     * @param namespace    Service XML schema namespace
+     * @param prefix       Service XML schema prefix
+     * @param responseType Response type
      */
     public AbstractResponseEncoder(String service, String version, String operation, String namespace, String prefix,
-            Class<T> responseType) {
+                                   Class<T> responseType) {
         this(service, version, operation, namespace, prefix, responseType, false);
     }
 
@@ -104,11 +90,11 @@ public abstract class AbstractResponseEncoder<T extends OwsServiceResponse> exte
     }
 
     @Override
-    public void encode(T response, OutputStream outputStream, EncodingContext encodingValues) throws EncodingException {
+    public void encode(T response, OutputStream outputStream, EncodingContext context) throws EncodingException {
         if (response == null) {
             throw new UnsupportedEncoderInputException(this);
         }
-        create(response, outputStream, encodingValues);
+        create(response, outputStream, context);
     }
 
 }

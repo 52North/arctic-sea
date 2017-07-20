@@ -16,12 +16,13 @@
  */
 package org.n52.svalbard.encode;
 
+import java.util.function.Supplier;
+
 import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 
-import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -38,14 +39,14 @@ import org.n52.svalbard.util.XmlHelper;
 public abstract class AbstractXmlEncoder<T, S> extends AbstractDelegatingEncoder<T, S>
         implements SchemaAwareEncoder<T, S> {
 
-    private Producer<XmlOptions> xmlOptions;
+    private Supplier<XmlOptions> xmlOptions;
 
     public XmlOptions getXmlOptions() {
         return xmlOptions.get();
     }
 
     @Inject
-    public void setXmlOptions(Producer<XmlOptions> xmlOptions) {
+    public void setXmlOptions(Supplier<XmlOptions> xmlOptions) {
         this.xmlOptions = xmlOptions;
     }
 

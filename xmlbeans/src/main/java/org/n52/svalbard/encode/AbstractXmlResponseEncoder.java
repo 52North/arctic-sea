@@ -56,15 +56,10 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
         implements StreamingEncoder<XmlObject, T>, ConformanceClass {
 
     private final String namespace;
-
     private final String prefix;
-
     private final String version;
-
     private final Class<T> responseType;
-
     private boolean validate;
-
     private SchemaRepository schemaRepository;
 
     /**
@@ -189,9 +184,12 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
     protected void create(T response, OutputStream outputStream, EncodingContext encodingValues)
             throws EncodingException {
         try {
-            XmlOptions xmlOptions = new XmlOptions(getXmlOptions());
+            XmlOptions xmlOptions;
             if (encodingValues.has(StreamingEncoderFlags.EMBEDDED)) {
+                xmlOptions = new XmlOptions(getXmlOptions());
                 xmlOptions.setSaveNoXmlDecl();
+            } else {
+                xmlOptions = getXmlOptions();
             }
             XmlObject xmlObject = create(response);
             setSchemaLocations(xmlObject);

@@ -45,7 +45,7 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
 
     @Override
     public void init() {
-        setProducers(getProviders(encoders.get(), encoderFactories.get()));
+        setProducers(getProviders(encoders, encoderFactories));
     }
 
     public Set<Encoder<?, ?>> getEncoders() {
