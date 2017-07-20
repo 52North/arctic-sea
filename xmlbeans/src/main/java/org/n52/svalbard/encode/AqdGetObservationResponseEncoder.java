@@ -75,7 +75,8 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
-            EncodingContext ctx = EncodingContext.empty().with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
+            EncodingContext ctx = EncodingContext.empty()
+                    .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
                     .with(XmlBeansEncodingFlags.DOCUMENT);
             return encodeGml(ctx, featureCollection);
         } catch (OwsExceptionReport ex) {
