@@ -604,7 +604,9 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
      * Remove spatial filtering profile parameter
      */
     public void removeSpatialFilteringProfileParameter() {
-        removeParameter(getSpatialFilteringProfileParameter());
+        if (isSetSpatialFilteringProfileParameter()) {
+            removeParameter(getSpatialFilteringProfileParameter());
+        }
     }
 
     /**
