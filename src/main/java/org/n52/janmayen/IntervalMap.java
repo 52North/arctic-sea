@@ -1,5 +1,23 @@
+/*
+ * Copyright 2016-2017 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.janmayen;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,6 +29,18 @@ import java.util.Set;
  * @param <V> the value type
  */
 public interface IntervalMap<K, V> {
+    @SuppressWarnings("rawtypes")
+    IntervalMap EMPTY = new IntervalMap<Object, Object>() {
+        @Override
+        public Optional<Object> get(Object lower, Object upper) {
+            return Optional.empty();
+        }
+
+        @Override
+        public Set<Object> search(Object lower, Object upper) {
+            return Collections.emptySet();
+        }
+    };
 
     /**
      * Get the value of the first interval matching the supplied key.
@@ -79,4 +109,32 @@ public interface IntervalMap<K, V> {
      */
     Set<V> search(K lower, K upper);
 
+    /**
+     * Creates a {@link IntervalMap} that returns the same value for each key.
+     *
+     * @param <K>   the key type
+     * @param <V>   the value type
+     * @param value the value
+     *
+     * @return the {@link IntervalMap}
+     */
+    static <K, V> IntervalMap<K, V> universal(V value) {
+        Objects.requireNonNull(value);
+        return new IntervalMap<K, V>() {
+            @Override
+            public Optional<V> get(K lower, K upper) {
+                return Optional.of(value);
+            }
+
+            @Override
+            public Set<V> search(K lower, K upper) {
+                return Collections.singleton(value);
+            }
+        };
+    }
+
+    @SuppressWarnings("unchecked")
+    static <K, V> IntervalMap<K, V> empty() {
+        return (IntervalMap<K, V>) EMPTY;
+    }
 }
