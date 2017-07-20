@@ -51,22 +51,20 @@ import com.google.common.base.MoreObjects.ToStringHelper;
  * @since 1.0.0
  */
 public abstract class AbstractComponentRepository<K, C extends Component<K>, F extends ComponentFactory<K, C>> {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(AbstractComponentRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractComponentRepository.class);
 
     /**
      * Create a multi valued map with {@code Producer}s for the supplied {@code components} and {@code factories}.
      *
-     * @param components the component instances (may be {@code null} or empty)
-     * @param factories  the component factories (may be {@code null} or empty)
+     * @param components the component instances
+     * @param factories  the component factories
      *
      * @return the producers
      */
     protected Map<K, Set<Producer<C>>> getProviders(Optional<? extends Collection<? extends C>> components,
-                                                    Optional<? extends Collection<? extends F>> factories)
-    {
-        Collection<? extends C> c = components.orElseGet(() -> Collections.<C>emptyList());
-        Collection<? extends F> f = factories.orElseGet(() -> Collections.<F>emptyList());
+                                                    Optional<? extends Collection<? extends F>> factories) {
+        Collection<? extends C> c = components.isPresent() ? components.get() : Collections.emptyList();
+        Collection<? extends F> f = factories.isPresent() ? factories.get() : Collections.emptyList();
         return getProviders(c, f);
     }
 
