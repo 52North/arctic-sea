@@ -32,15 +32,18 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.shetland.aqd.AbstractEReportingHeader;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportObligationRepository;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
 import org.n52.shetland.aqd.ReportObligations;
 import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -54,7 +57,7 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
-import org.n52.shetland.util.AqdHelper;
+import org.n52.shetland.util.EReportingSetting;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
@@ -62,10 +65,14 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.EReportingHeaderEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
+@Configurable
 public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         implements ObservationEncoder<XmlObject, Object> {
 
@@ -75,9 +82,9 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
             AqdConstants.NS_AQD,
             GetObservationResponse.class, OmObservation.class, EReportingHeader.class);
 
-    private AqdHelper aqdHelper;
-
     private EReportObligationRepository reportObligationRepository;
+    private String namespace;
+    private String observationPrefix;
 
     public AqdEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -150,7 +157,6 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
             TimeInstant resultTime = new TimeInstant(new DateTime(DateTimeZone.UTC));
             int counter = 1;
             ObservationStream observationCollection = response.getObservationCollection();
-            AqdHelper helper = getAqdHelper();
 
             while (observationCollection.hasNext()) {
 
@@ -163,12 +169,12 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
                     }
 
                     while (value.hasNext()) {
-                        helper.processObservation(value.next(), timePeriod, resultTime,
+                        processObservation(value.next(), timePeriod, resultTime,
                                                   featureCollection, eReportingHeader, counter++);
                     }
 
                 } else {
-                    helper.processObservation(observation, timePeriod, resultTime,
+                    processObservation(observation, timePeriod, resultTime,
                                               featureCollection, eReportingHeader, counter++);
                 }
             }
@@ -215,13 +221,64 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         return featureCollection;
     }
 
-    private AqdHelper getAqdHelper() {
-        return this.aqdHelper;
+    protected void processObservation(OmObservation observation, TimePeriod timePeriod, TimeInstant resultTime,
+            FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader, int counter) {
+        if (observation.isSetPhenomenonTime()) {
+            // generate gml:id
+            observation.setGmlId(getObservationId(counter));
+            // add xlink:href to eReportingHeader.content
+            eReportingHeader.addContent((AbstractFeature) new OmObservation()
+                    .setIdentifier(new CodeWithAuthority(getObservationXlink(observation.getGmlId()))));
+            timePeriod.extendToContain(observation.getPhenomenonTime());
+            observation.setResultTime(resultTime);
+            featureCollection.addMember(observation);
+        }
     }
 
-    @Inject
-    public void setAqdHelper(AqdHelper aqdHelper) {
-        this.aqdHelper = Objects.requireNonNull(aqdHelper);
+    protected String getObservationXlink(String gmlId) {
+        StringBuilder id = new StringBuilder();
+        if (isSetEReportingNamespace()) {
+            id.append(getEReportingNamespace());
+            if (!getEReportingNamespace().endsWith("/")) {
+                id.append("/");
+            }
+        } else {
+            id.append("#");
+        }
+        id.append(gmlId);
+        return id.toString();
+
+    }
+
+    protected String getObservationId(int counter) {
+        return (isSetEReportingObservationPrefix() ? getEReportingObservationPrefix() : "o_")
+                .concat(Integer.toString(counter));
+    }
+
+    public String getEReportingNamespace() {
+        return namespace;
+    }
+
+    @Setting(EReportingSetting.EREPORTING_NAMESPACE)
+    public void setEReportingNamespace(String namespace) throws ConfigurationError {
+        this.namespace = namespace;
+    }
+
+    protected boolean isSetEReportingNamespace() {
+        return !Strings.isNullOrEmpty(getEReportingNamespace());
+    }
+
+    @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
+    public void setEReportingObservationPrefix(String observationPrefix) throws ConfigurationError {
+        this.observationPrefix = observationPrefix;
+    }
+
+    protected String getEReportingObservationPrefix() {
+        return observationPrefix;
+    }
+
+    protected boolean isSetEReportingObservationPrefix() {
+        return !Strings.isNullOrEmpty(getEReportingObservationPrefix());
     }
 
     protected EReportingHeader getEReportingHeader(ReportObligationType type) throws OwsExceptionReport {
