@@ -27,7 +27,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.aqd.ReportObligationType;
 import org.n52.shetland.aqd.ReportObligations;
@@ -69,7 +68,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
             int counter = 1;
             while (response.getObservationCollection().hasNext()) {
                 OmObservation observation = response.getObservationCollection().next();
-                getAqdHelper().processObservation(observation, timePeriod, resultTime,
+                processObservation(observation, timePeriod, resultTime,
                                                   featureCollection, eReportingHeader, counter++);
             }
             if (!timePeriod.isEmpty()) {
@@ -123,7 +122,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
         int counter = 1;
         while (response.getObservationCollection().hasNext()) {
             OmObservation observation = response.getObservationCollection().next();
-            getAqdHelper().processObservation(observation, timePeriod, resultTime,
+            processObservation(observation, timePeriod, resultTime,
                                               featureCollection, eReportingHeader, counter++);
         }
         return timePeriod;
