@@ -52,7 +52,7 @@ public class DocumentCitation extends AbstractGML implements AttributeSimpleAttr
 
     /**
      * @param date the date to set
-     * @return
+     * @return this {@link DocumentCitation}
      */
     public DocumentCitation setDate(Nillable<DateTime> date) {
         this.date = date;
@@ -61,7 +61,7 @@ public class DocumentCitation extends AbstractGML implements AttributeSimpleAttr
 
     /**
      * @param date the date to set
-     * @return
+     * @return this {@link DocumentCitation}
      */
     public DocumentCitation setDate(DateTime date) {
         setDate(Nillable.present(date));
@@ -77,7 +77,7 @@ public class DocumentCitation extends AbstractGML implements AttributeSimpleAttr
 
     /**
      * @param links the links to set
-     * @return
+     * @return this {@link DocumentCitation}
      */
     public DocumentCitation setLinks(List<Nillable<String>> links) {
         getLinks().clear();
