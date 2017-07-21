@@ -55,18 +55,5 @@
     <bean class="org.n52.svalbard.read.TimeReader"/>
 
     <!-- writer -->
-    <bean class="org.n52.svalbard.write.AqdGetObservationResponseXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.EReportingHeaderEncoder"/>
-    <bean class="org.n52.svalbard.write.GetDataAvailabilityStreamWriter"/>
-    <bean class="org.n52.svalbard.write.GetDataAvailabilityV20StreamWriter"/>
-    <bean class="org.n52.svalbard.write.GetFeatureOfInterestXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.GetObservationResponseXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.GwmlV22XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.InspireXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.OmV20XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.PointTimeSeriesObservationXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.RelatedOfferingXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.Soap12XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.WmlTVPEncoderv20XmlStreamWriter"/>
+
 </beans>
