@@ -127,6 +127,11 @@ public class TrajectoryObservationTypeEncoder
         return InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION;
     }
 
+    @Override
+    public Set<SupportedType> getSupportedTypes() {
+        return Collections.unmodifiableSet(Sets.newHashSet(new ObservationType(getObservationType())));
+    }
+
     protected OMObservationType createOmObservationType() {
         return TrajectoryObservationType.Factory.newInstance(getXmlOptions());
     }

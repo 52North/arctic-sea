@@ -92,6 +92,11 @@ public class ProfileObservationTypeEncoder
     }
 
     @Override
+    public Set<SupportedType> getSupportedTypes() {
+        return Collections.unmodifiableSet(Sets.newHashSet(new ObservationType(getObservationType())));
+    }
+
+    @Override
     public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         return super.encode(element, ec);
     }
