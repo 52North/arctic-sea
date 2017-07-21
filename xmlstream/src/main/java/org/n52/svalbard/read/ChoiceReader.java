@@ -28,7 +28,7 @@ import org.n52.svalbard.decode.exception.DecodingException;
  *
  * @author Christian Autermann
  */
-public class ChoiceReader<T> extends XmlReader<T> {
+public abstract class ChoiceReader<T> extends XmlReader<T> {
 
     private final Map<QName, ? extends XmlReader<? extends T>> delegates;
     private T t;
