@@ -32,7 +32,7 @@ import org.n52.shetland.ogc.sos.response.BatchResponse.ExceptionOrResponse;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class BatchResponse extends OwsServiceResponse implements Iterable<ExceptionOrResponse> {
     private final List<ExceptionOrResponse> responses;

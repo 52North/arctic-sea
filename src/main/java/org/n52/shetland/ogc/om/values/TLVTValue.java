@@ -31,7 +31,7 @@ import org.n52.shetland.util.CollectionHelper;
 /**
  * {@link MultiValue} representing a time location value triple for observations
  *
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {

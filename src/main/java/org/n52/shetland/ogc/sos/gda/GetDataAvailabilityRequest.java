@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class GetDataAvailabilityRequest extends OwsServiceRequest implements ResponseFormat {
 

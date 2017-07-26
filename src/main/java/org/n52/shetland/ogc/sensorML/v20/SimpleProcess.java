@@ -27,10 +27,11 @@ import org.n52.shetland.util.JavaHelper;
  * @since 4.2.0
  *
  */
-public class SimpleProcess extends DescribedObject implements HasProcessMethod {
+public class SimpleProcess
+        extends DescribedObject
+        implements HasProcessMethod {
 
     public static final String ID_PREFIX = "sp_";
-
     private ProcessMethod method;
 
     public SimpleProcess() {
@@ -44,7 +45,7 @@ public class SimpleProcess extends DescribedObject implements HasProcessMethod {
 
     @Override
     public void setMethod(ProcessMethod method) {
-      this.method = method;
+        this.method = method;
     }
 
 }

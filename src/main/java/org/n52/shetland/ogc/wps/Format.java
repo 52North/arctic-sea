@@ -48,16 +48,16 @@ public class Format implements Comparable<Format> {
 
     private static final Set<String> CHARSETS = new HashSet<>(Charset.availableCharsets().keySet());
 
+    private final Optional<String> mimeType;
+    private final Optional<String> encoding;
+    private final Optional<String> schema;
+
     public static final String BASE64_ENCODING = "base64";
     public static final String DEFAULT_ENCODING = "UTF-8";
 
     public static final Format TEXT_PLAIN = new Format("text/plain");
     public static final Format APPLICATION_XML = new Format("application/xml");
     public static final Format TEXT_XML = new Format("text/xml");
-
-    private final Optional<String> mimeType;
-    private final Optional<String> encoding;
-    private final Optional<String> schema;
 
     public Format(String mimeType) {
         this(mimeType, (String) null, null);
@@ -123,20 +123,20 @@ public class Format implements Comparable<Format> {
         return getMimeType().orElse("").equalsIgnoreCase(nullToEmpty(mimeType));
     }
 
-    public boolean hasEncoding(String encoding) {
-        return getEncoding().orElse("").equalsIgnoreCase(nullToEmpty(encoding));
-    }
-
-    public boolean hasSchema(String schema) {
-        return getSchema().orElse("").equalsIgnoreCase(nullToEmpty(schema));
-    }
-
     public boolean hasMimeType(Format other) {
         return hasMimeType(other.getMimeType().orElse(null));
     }
 
+    public boolean hasEncoding(String encoding) {
+        return getEncoding().orElse("").equalsIgnoreCase(nullToEmpty(encoding));
+    }
+
     public boolean hasEncoding(Format other) {
         return hasEncoding(other.getEncoding().orElse(null));
+    }
+
+    public boolean hasSchema(String schema) {
+        return getSchema().orElse("").equalsIgnoreCase(nullToEmpty(schema));
     }
 
     public boolean hasSchema(Format other) {
@@ -147,20 +147,20 @@ public class Format implements Comparable<Format> {
         return !hasMimeType() || hasMimeType(mimeType);
     }
 
-    public boolean matchesEncoding(String encoding) {
-        return !hasEncoding() || hasEncoding(encoding);
-    }
-
-    public boolean matchesSchema(String schema) {
-        return !hasSchema() || hasSchema(schema);
-    }
-
     public boolean matchesMimeType(Format other) {
         return !hasMimeType() || hasMimeType(other);
     }
 
+    public boolean matchesEncoding(String encoding) {
+        return !hasEncoding() || hasEncoding(encoding);
+    }
+
     public boolean matchesEncoding(Format other) {
         return !hasEncoding() || hasEncoding(other);
+    }
+
+    public boolean matchesSchema(String schema) {
+        return !hasSchema() || hasSchema(schema);
     }
 
     public boolean matchesSchema(Format other) {

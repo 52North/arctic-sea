@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.sos.SosResultEncoding;
 import org.n52.shetland.ogc.sos.SosResultStructure;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GetResultTemplateResponse extends OwsServiceResponse {

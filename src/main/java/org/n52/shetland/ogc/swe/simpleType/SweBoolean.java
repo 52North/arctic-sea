@@ -21,7 +21,7 @@ import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SweBoolean extends SweAbstractSimpleType<Boolean> {

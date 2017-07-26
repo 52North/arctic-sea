@@ -32,12 +32,12 @@ import org.n52.shetland.util.JavaHelper;
  * @since 4.2.0
  *
  */
-public class AggregateProcess extends DescribedObject implements HasComponents<AggregateProcess>, HasConnections<AggregateProcess> {
+public class AggregateProcess
+        extends DescribedObject
+        implements HasComponents<AggregateProcess>, HasConnections<AggregateProcess> {
 
     public static final String ID_PREFIX = "ap_";
-
     private final List<SmlComponent> components = new ArrayList<>(0);
-
     private SmlConnection connections;
 
     public AggregateProcess() {

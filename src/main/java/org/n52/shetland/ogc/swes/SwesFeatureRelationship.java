@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.swes;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SwesFeatureRelationship {

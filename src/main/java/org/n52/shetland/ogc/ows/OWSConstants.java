@@ -16,14 +16,7 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import static java.util.stream.Collectors.toMap;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 

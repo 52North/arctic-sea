@@ -27,7 +27,9 @@ import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
  * @since 4.2.0
  *
  */
-public class AbstractPhysicalProcess extends DescribedObject implements HasPosition<AbstractPhysicalProcess> {
+public class AbstractPhysicalProcess
+        extends DescribedObject
+        implements HasPosition<AbstractPhysicalProcess> {
 
     private ReferenceType attachedTo;
     private SpatialFrame localReferenceFrame;
@@ -49,10 +51,10 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
      * parentProcedure list. If title is set, the title is used, else the href.
      *
      * @param attachedTo
-     *                   the attachedTo to set
+     *            the attachedTo to set
      */
     public void setAttachedTo(ReferenceType attachedTo) {
-       this.attachedTo = attachedTo;
+        this.attachedTo = attachedTo;
     }
 
     public boolean isSetAttachedTo() {
@@ -68,7 +70,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
 
     /**
      * @param localReferenceFrame
-     *                            the localReferenceFrame to set
+     *            the localReferenceFrame to set
      */
     public void setLocalReferenceFrame(SpatialFrame localReferenceFrame) {
         this.localReferenceFrame = localReferenceFrame;
@@ -83,7 +85,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
 
     /**
      * @param localTimeFrame
-     *                       the localTimeFrame to set
+     *            the localTimeFrame to set
      */
     public void setLocalTimeFrame(TemporalFrame localTimeFrame) {
         this.localTimeFrame = localTimeFrame;
@@ -98,7 +100,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
 
     /**
      * @param position
-     *                 the position to set
+     *            the position to set
      */
     public AbstractPhysicalProcess setPosition(SmlPosition position) {
         this.position = position;
@@ -114,7 +116,7 @@ public class AbstractPhysicalProcess extends DescribedObject implements HasPosit
 
     /**
      * @param timePosition
-     *                     the timePosition to set
+     *            the timePosition to set
      */
     public void setTimePosition(Object timePosition) {
         this.timePosition = timePosition;

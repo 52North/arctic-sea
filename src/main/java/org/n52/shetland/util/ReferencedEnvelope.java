@@ -29,7 +29,7 @@ import com.vividsolutions.jts.geom.GeometryFactory;
  * merging capabilities like SosEnvelope.expandTo(SosEnvelope) considering
  * coordinate transformations?
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ReferencedEnvelope implements Serializable {
     private static final long serialVersionUID = 6525679408878064331L;
@@ -61,7 +61,7 @@ public class ReferencedEnvelope implements Serializable {
      *            SRID
      */
     public ReferencedEnvelope(Envelope envelope, int srid) {
-        this.envelope = envelope;
+        this.envelope = envelope != null ? envelope : new Envelope();
         this.srid = srid;
     }
 
@@ -222,6 +222,7 @@ public class ReferencedEnvelope implements Serializable {
         GeometryFactory factory = JTSHelper.getGeometryFactoryForSRID(srid);
         return factory.toGeometry(this.envelope);
     }
+
     /**
      * Static method to check if an SosEnvelope is not null and is not empty
      *

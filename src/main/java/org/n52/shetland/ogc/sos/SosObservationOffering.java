@@ -37,7 +37,7 @@ import org.n52.shetland.util.ReferencedEnvelope;
 /**
  * Class which represents a ObservationOffering. Used in the SosCapabilities.
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SosObservationOffering extends AbstractSWES implements Comparable<SosObservationOffering> {
 
@@ -164,7 +164,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observableProperties
+     * @param observableProperties observableProperties to se
      */
     public void setObservableProperties(Collection<String> observableProperties) {
         set(this.observableProperties, observableProperties);
@@ -182,7 +182,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param compositePhenomena
+     * @param compositePhenomena compositePhenomena to set
      */
     public void setCompositePhenomena(Collection<String> compositePhenomena) {
         set(this.compositePhenomena, compositePhenomena);
@@ -197,7 +197,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param phens4CompPhens
+     * @param phens4CompPhens phens4CompPhens to set
      */
     public void setPhens4CompPhens(Map<String, ? extends Collection<String>> phens4CompPhens) {
         set(this.phens4CompPhens, phens4CompPhens);
@@ -288,7 +288,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param procedures
+     * @param procedures procedures to set
      */
     public void setProcedures(Collection<String> procedures) {
         set(this.procedures, procedures);
@@ -302,7 +302,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param resultModels
+     * @param resultModels resultModels to set
      */
     public void setResultModels(Collection<QName> resultModels) {
         set(this.resultModels, resultModels);
@@ -344,7 +344,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param responseFormats
+     * @param responseFormats responseFormats to set
      */
     public void setResponseFormats(Collection<String> responseFormats) {
         set(this.responseFormats, responseFormats);

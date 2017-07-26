@@ -24,9 +24,8 @@ import org.n52.shetland.util.CollectionHelper;
 
 public class DeleteResultTemplateResponse extends OwsServiceResponse {
 
-    private List<String> resultTemplates;
-
     private static String OPERATION_NAME = "DeleteResultTemplate";
+    private List<String> resultTemplates;
 
     public DeleteResultTemplateResponse() {
         super(null, null, OPERATION_NAME);

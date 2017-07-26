@@ -33,9 +33,9 @@ public interface HasComponents<T> {
 
     List<SmlComponent> getComponents();
 
-    T addComponents(final List<SmlComponent> components);
+    T addComponents(List<SmlComponent> components);
 
-    T addComponent(final SmlComponent component);
+    T addComponent(SmlComponent component);
 
     default boolean isSetComponents() {
         return getComponents() != null && !getComponents().isEmpty();

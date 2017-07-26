@@ -41,7 +41,7 @@ import com.google.common.io.CharStreams;
  * @since 1.0.0
  *
  */
-public class StringHelper {
+public final class StringHelper {
     private StringHelper() {
     }
 

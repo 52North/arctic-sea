@@ -16,10 +16,9 @@
  */
 package org.n52.shetland.util;
 
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.CoordinateFilter;
@@ -33,22 +32,19 @@ import com.vividsolutions.jts.io.WKTReader;
 /**
  * Utility class for the Java Topology Suite.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class JTSHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JTSHelper.class);
-
-    public static final String WKT_POLYGON = "Polygon";
-
-    public static final String WKT_POINT = "Point";
-
     public static final CoordinateFilter COORDINATE_SWITCHING_FILTER = coord -> {
         double tmp = coord.x;
         coord.x = coord.y;
         coord.y = tmp;
     };
+    public static final String WKT_POLYGON = "Polygon";
+    public static final String WKT_POINT = "Point";
 
     protected JTSHelper() {
     }

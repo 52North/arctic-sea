@@ -35,7 +35,7 @@ import com.google.common.base.Strings;
 /**
  * class represents an offering in the SOS database
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SosOffering extends AbstractFeature implements Comparable<SosOffering> {
     private static final String OFFERING_NAME_PREFIX = "Offering for sensor ";

@@ -20,7 +20,7 @@ package org.n52.shetland.ogc.om.values;
  * Class that represents a referencable grid coverage
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class ReferencableGridCoverage {

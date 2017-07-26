@@ -21,7 +21,7 @@ package org.n52.shetland.ogc.sos.gda;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class GetDataAvailabilityV20Response extends GetDataAvailabilityResponse {
 

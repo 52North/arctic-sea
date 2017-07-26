@@ -70,21 +70,21 @@ public class ProcessDescriptionImpl
              builder.isStatusSupported());
     }
 
-    public ProcessDescriptionImpl(OwsCode id, OwsLanguageString title,
-                                  OwsLanguageString abstrakt,
-                                  Set<OwsKeyword> keywords,
-                                  Set<OwsMetadata> metadata,
-                                  Set<? extends ProcessInputDescription> inputs,
-                                  Set<? extends ProcessOutputDescription> outputs,
-                                  String version,
-                                  boolean storeSupported,
-                                  boolean statusSupported) {
+    public ProcessDescriptionImpl(
+            OwsCode id, OwsLanguageString title, OwsLanguageString abstrakt, Set<OwsKeyword> keywords,
+            Set<OwsMetadata> metadata, Set<? extends ProcessInputDescription> inputs,
+            Set<? extends ProcessOutputDescription> outputs, String version, boolean storeSupported,
+            boolean statusSupported) {
         super(id, title, abstrakt, keywords, metadata);
         Function<Description, OwsCode> keyFunc = Description::getId;
-        Collector<ProcessInputDescription, ?, ProcessInputDescription> inputDownstreamCollector = MoreCollectors.toSingleResult();
-        Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector = MoreCollectors.toSingleResult();
-        Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> inputCollector = groupingBy(keyFunc, inputDownstreamCollector);
-        Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector = groupingBy(keyFunc, outputDownstreamCollector);
+        Collector<ProcessInputDescription, ?, ProcessInputDescription> inputDownstreamCollector =
+                MoreCollectors.toSingleResult();
+        Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector =
+                MoreCollectors.toSingleResult();
+        Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> inputCollector =
+                groupingBy(keyFunc, inputDownstreamCollector);
+        Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector =
+                groupingBy(keyFunc, outputDownstreamCollector);
         this.inputs = Optional.ofNullable(inputs).orElseGet(Collections::emptySet).stream().collect(inputCollector);
         this.outputs = Optional.ofNullable(outputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
         this.storeSupported = storeSupported;
@@ -141,10 +141,8 @@ public class ProcessDescriptionImpl
             extends AbstractDescription.AbstractBuilder<T, B>
             implements ProcessDescription.Builder<T, B> {
 
-        private final ImmutableSet.Builder<ProcessInputDescription> inputs
-                = ImmutableSet.builder();
-        private final ImmutableSet.Builder<ProcessOutputDescription> outputs
-                = ImmutableSet.builder();
+        private final ImmutableSet.Builder<ProcessInputDescription> inputs = ImmutableSet.builder();
+        private final ImmutableSet.Builder<ProcessOutputDescription> outputs = ImmutableSet.builder();
         private boolean storeSupported = false;
         private boolean statusSupported = false;
         private String version;
@@ -210,7 +208,8 @@ public class ProcessDescriptionImpl
 
     }
 
-    public static class Builder extends AbstractBuilder<ProcessDescription, Builder> {
+    public static class Builder
+            extends AbstractBuilder<ProcessDescription, Builder> {
         @Override
         public ProcessDescription build() {
             return new ProcessDescriptionImpl(this);

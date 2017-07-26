@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 /**
  * Interface for measurement value representation for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            specific value type

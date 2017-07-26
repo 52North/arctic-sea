@@ -41,7 +41,7 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * Represents the GroundWaterML 2.0 GW_GeologyLogCoverage
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class ProfileValue extends AbstractFeature implements Value<List<ProfileLevel>> {

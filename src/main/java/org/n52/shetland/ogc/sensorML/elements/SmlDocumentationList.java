@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SmlDocumentationList extends AbstractSmlDocumentation {

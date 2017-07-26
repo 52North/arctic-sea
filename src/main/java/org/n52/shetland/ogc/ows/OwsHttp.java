@@ -37,7 +37,7 @@ public class OwsHttp implements OwsDCP {
     private final SortedSet<OwsRequestMethod> requestMethods;
 
     public OwsHttp(Collection<OwsRequestMethod> requestMethods) {
-        this.requestMethods = Optional.ofNullable(requestMethods).map(TreeSet::new).orElseGet(TreeSet::new);
+        this.requestMethods = Optional.ofNullable(requestMethods).map(TreeSet<OwsRequestMethod>::new).orElseGet(TreeSet::new);
     }
 
     public SortedSet<OwsRequestMethod> getRequestMethods() {

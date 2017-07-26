@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
  * Abtract class represents SensorML 2.0 TermType.
  *
  * @author Carsten Hollmann
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public abstract class Term {

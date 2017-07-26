@@ -32,7 +32,9 @@ import org.n52.shetland.util.JavaHelper;
  * @since 4.2.0
  *
  */
-public class PhysicalSystem extends AbstractPhysicalProcess implements HasComponents<PhysicalSystem>, HasConnections<PhysicalSystem> {
+public class PhysicalSystem
+        extends AbstractPhysicalProcess
+        implements HasComponents<PhysicalSystem>, HasConnections<PhysicalSystem> {
 
     public static final String ID_PREFIX = "ps_";
 

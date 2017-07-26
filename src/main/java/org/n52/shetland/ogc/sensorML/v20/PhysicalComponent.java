@@ -27,10 +27,11 @@ import org.n52.shetland.util.JavaHelper;
  * @since 4.2.0
  *
  */
-public class PhysicalComponent extends AbstractPhysicalProcess implements HasProcessMethod {
+public class PhysicalComponent
+        extends AbstractPhysicalProcess
+        implements HasProcessMethod {
 
     public static final String ID_PREFIX = "pc_";
-
     private ProcessMethod method;
 
     public PhysicalComponent() {
@@ -44,7 +45,7 @@ public class PhysicalComponent extends AbstractPhysicalProcess implements HasPro
 
     @Override
     public void setMethod(ProcessMethod method) {
-      this.method = method;
+        this.method = method;
     }
 
 }

@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 /**
  * SOS internal representation of SWE simpleType observableProperty
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SweObservableProperty extends SweAbstractSimpleType<String> {
 

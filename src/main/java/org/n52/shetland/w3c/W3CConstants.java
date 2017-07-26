@@ -26,28 +26,6 @@ import javax.xml.namespace.QName;
  *
  */
 public interface W3CConstants {
-    // attribute names
-    String AN_HREF = "href";
-
-    String AN_TITLE = "title";
-
-    String AN_TYPE = "type";
-
-    String AN_NIL = "nil";
-
-    String AN_SHOW = "show";
-
-    String AN_ARCROLE = "arcrole";
-
-    String AN_ACTUATE = "actuate";
-
-    String AN_ROLE = "role";
-
-    String AN_SCHEMA_LOCATION = "schemaLocation";
-
-    String AN_XMLNS = "xmlns";
-
-    String PREFIX_XMLNS = "xmlns:";
 
     // namespaces and schema locations
     String NS_XLINK = "http://www.w3.org/1999/xlink";
@@ -68,6 +46,30 @@ public interface W3CConstants {
 
     String NS_XS_PREFIX = "xs";
 
+    // attribute names
+    String AN_HREF = "href";
+
+    String AN_TITLE = "title";
+
+    String AN_TYPE = "type";
+
+    String AN_NIL = "nil";
+
+    String AN_SHOW = "show";
+
+    String AN_ARCROLE = "arcrole";
+
+    String AN_ACTUATE = "actuate";
+
+    String AN_ROLE = "role";
+
+    String AN_SCHEMA_LOCATION = SCHEMA_LOCATION;
+
+    String AN_XMLNS = "xmlns";
+
+    String PREFIX_XMLNS = "xmlns:";
+
+    // qnames
     QName QN_SCHEMA_LOCATION = new QName(NS_XSI, AN_SCHEMA_LOCATION);
 
     QName QN_SCHEMA_LOCATION_PREFIXED = new QName(NS_XSI, AN_SCHEMA_LOCATION, NS_XSI_PREFIX);

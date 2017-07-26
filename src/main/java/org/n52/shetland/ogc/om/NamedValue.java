@@ -24,7 +24,7 @@ import org.n52.shetland.ogc.om.values.Value;
 /**
  * Class representing a O&M conform NamedValue
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            value type

@@ -17,17 +17,15 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType time
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SweTime extends SweAbstractUomType<DateTime> {
 
@@ -35,7 +33,6 @@ public class SweTime extends SweAbstractUomType<DateTime> {
      * value
      */
     private DateTime value;
-    private Referenceable<SweAllowedTimes> constraint;
 
     @Override
     public DateTime getValue() {
@@ -59,31 +56,6 @@ public class SweTime extends SweAbstractUomType<DateTime> {
     @Override
     public boolean isSetValue() {
         return value != null;
-    }
-
-    /**
-     * @return the constraint
-     */
-    public Referenceable<SweAllowedTimes> getConstraint() {
-        return constraint;
-    }
-
-    /**
-     * @param constraint the constraint to set
-     */
-    public void setConstraint(SweAllowedTimes constraint) {
-        this.constraint = Referenceable.of(constraint);
-    }
-
-    public boolean isSetContstraint() {
-        return getConstraint() != null && !getConstraint().isAbsent();
-    }
-
-    /**
-     * @param constraint the constraint to set
-     */
-    public void setConstraint(Referenceable<SweAllowedTimes> constraint) {
-        this.constraint = constraint;
     }
 
     @Override

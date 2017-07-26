@@ -21,7 +21,7 @@ import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ResponseExceedsSizeLimitException extends CodedSosException {
     private static final long serialVersionUID = 192859897753197663L;

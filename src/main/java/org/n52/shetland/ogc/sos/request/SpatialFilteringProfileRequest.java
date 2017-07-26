@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.filter.SpatialFilter;
  * Interface to define methods for requests that supports
  * SpatialFilteringProfile spatial filter
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface SpatialFilteringProfileRequest {

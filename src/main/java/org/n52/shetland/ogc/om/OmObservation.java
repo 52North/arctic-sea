@@ -43,7 +43,7 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * Class represents a SOS/O&M observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class OmObservation extends AbstractFeature implements AttributeSimpleAttrs {
     private SimpleAttrs simpleAttrs;

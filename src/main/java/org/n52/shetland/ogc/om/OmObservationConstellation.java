@@ -29,7 +29,7 @@ import org.n52.shetland.w3c.Nillable;
 import com.google.common.base.Objects;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class OmObservationConstellation extends AbstractFeature implements Copyable<OmObservationConstellation> {
 

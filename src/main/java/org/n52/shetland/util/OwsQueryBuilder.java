@@ -43,6 +43,7 @@ public class OwsQueryBuilder extends QueryBuilder {
         add(OWSConstants.RequestParams.service, service);
         return this;
     }
+
     public OwsQueryBuilder addVersion(String version) {
         add(OWSConstants.RequestParams.version, version);
         return this;

@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.sensorML.elements;
 
 import java.util.function.Predicate;
 
-public class SmlIoPredicates {
+public final class SmlIoPredicates {
 
     private SmlIoPredicates() {
     }

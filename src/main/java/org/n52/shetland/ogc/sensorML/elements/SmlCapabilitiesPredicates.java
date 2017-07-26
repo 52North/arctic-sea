@@ -25,7 +25,7 @@ import java.util.function.Predicate;
  *
  * @author Christian Autermann
  */
-public class SmlCapabilitiesPredicates {
+public final class SmlCapabilitiesPredicates {
     private SmlCapabilitiesPredicates() {
     }
 

@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 /**
  * Unknown value for observation if type is unknown
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class UnknownValue implements Value<Object> {

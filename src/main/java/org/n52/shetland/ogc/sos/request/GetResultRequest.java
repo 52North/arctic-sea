@@ -32,7 +32,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GetResultRequest extends OwsServiceRequest implements SpatialFeatureQueryRequest {

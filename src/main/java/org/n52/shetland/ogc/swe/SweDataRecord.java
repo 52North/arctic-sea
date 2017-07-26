@@ -16,12 +16,14 @@
  */
 package org.n52.shetland.ogc.swe;
 
+import java.util.Objects;
+
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 
 /**
  * SOS internal representation of SWE dataRecord
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SweDataRecord extends SweAbstractDataRecord {
 
@@ -37,12 +39,11 @@ public class SweDataRecord extends SweAbstractDataRecord {
 
     @Override
     public int hashCode() {
-        final int prime = 42;
-        int hash = 7;
-        hash = prime * hash + super.hashCode();
-        hash = prime * hash + (getDataComponentType() != null
-                               ? getDataComponentType().hashCode() : 0);
-        return hash;
+        return Objects.hash(42, super.hashCode(), 7, getDataComponentType());
+    }
+    @Override
+    public boolean equals(Object obj) {
+        return Objects.equals(this, obj);
     }
 
     @Override

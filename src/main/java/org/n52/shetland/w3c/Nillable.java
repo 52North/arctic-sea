@@ -16,8 +16,7 @@
  */
 package org.n52.shetland.w3c;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
+import com.google.common.base.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.base.Optional;
@@ -266,7 +265,7 @@ public abstract class Nillable<T> {
         private final T obj;
 
         Present(T obj) {
-            this.obj = checkNotNull(obj);
+            this.obj = Preconditions.checkNotNull(obj);
         }
 
         @Override

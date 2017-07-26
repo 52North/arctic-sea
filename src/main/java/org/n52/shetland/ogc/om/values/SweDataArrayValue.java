@@ -41,7 +41,7 @@ import com.google.common.collect.Sets;
 /**
  * Multi value representing a SweDataArray for observations
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SweDataArrayValue implements MultiValue<SweDataArray> {

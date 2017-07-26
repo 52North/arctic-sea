@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 /**
  * SOS internal representation of SWE field
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 //FIXME this is not a AbstractDataComponent according to the SWE standard
 public class SweField extends SweAbstractDataComponent {

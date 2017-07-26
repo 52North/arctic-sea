@@ -28,7 +28,7 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ReferencedEnvelopeTest {
 

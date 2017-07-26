@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 /**
  * Quantity measurement representation for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class QuantityValue extends SweQuantity implements Value<Double>, Comparable<QuantityValue> {

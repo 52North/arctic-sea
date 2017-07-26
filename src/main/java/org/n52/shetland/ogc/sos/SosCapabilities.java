@@ -23,7 +23,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.filter.FilterCapabilities;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
@@ -35,7 +34,7 @@ import org.n52.shetland.util.CollectionHelper;
 /**
  * Class which represents the Capabilities.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosCapabilities extends OwsCapabilities {
@@ -60,19 +59,21 @@ public class SosCapabilities extends OwsCapabilities {
         this(owsCapabilities, null, null);
     }
 
-    public SosCapabilities(OwsCapabilities owsCapabilities, FilterCapabilities filterCapabilities, Collection<SosObservationOffering> contents) {
+    public SosCapabilities(
+            OwsCapabilities owsCapabilities, FilterCapabilities filterCapabilities,
+            Collection<SosObservationOffering> contents) {
         super(owsCapabilities);
         this.filterCapabilities = Optional.ofNullable(filterCapabilities);
         this.contents = Optional.ofNullable(contents).map(CollectionHelper::newSortedSet);
     }
 
-    public SosCapabilities(String service, String version, String updateSequence,
-                           OwsServiceIdentification serviceIdentification, OwsServiceProvider serviceProvider,
-                           OwsOperationsMetadata operationsMetadata, Set<String> languages,
-                           FilterCapabilities filterCapabilities,
-                           Collection<SosObservationOffering> contents,
-                           Collection<OwsCapabilitiesExtension> extensions) {
-        super(SosConstants.SOS, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata, languages, extensions);
+    public SosCapabilities(
+            String service, String version, String updateSequence, OwsServiceIdentification serviceIdentification,
+            OwsServiceProvider serviceProvider, OwsOperationsMetadata operationsMetadata, Set<String> languages,
+            FilterCapabilities filterCapabilities, Collection<SosObservationOffering> contents,
+            Collection<OwsCapabilitiesExtension> extensions) {
+        super(SosConstants.SOS, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata,
+                languages, extensions);
         this.filterCapabilities = Optional.ofNullable(filterCapabilities);
         this.contents = Optional.ofNullable(contents).map(CollectionHelper::newSortedSet);
     }

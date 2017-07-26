@@ -28,7 +28,6 @@ import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collector;
-import java.util.stream.Collector.Characteristics;
 import java.util.stream.Stream;
 
 import org.n52.janmayen.function.ThrowingCallable;

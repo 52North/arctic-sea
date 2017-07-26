@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.sos.response;
 import org.n52.shetland.ogc.sos.SosConstants;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GetObservationByIdResponse extends AbstractObservationResponse {

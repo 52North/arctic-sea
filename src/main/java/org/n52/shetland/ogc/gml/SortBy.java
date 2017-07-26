@@ -21,7 +21,7 @@ import org.n52.shetland.ogc.gml.GmlConstants.SortingOrder;
 /**
  * class represents the gml:sortByType
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SortBy {
 

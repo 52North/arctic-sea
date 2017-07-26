@@ -20,7 +20,7 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GetResultResponse extends OwsServiceResponse {

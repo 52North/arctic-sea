@@ -34,22 +34,36 @@ public interface SwesConstants {
 
     String NS_SWES_PREFIX = "swes";
 
-    SchemaLocation SWES_20_SCHEMA_LOCATION = new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swes.xsd");
-    SchemaLocation SWES_20_DESCRIBE_SENSOR_SCHEMA_LOCATION = new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesDescribeSensor.xsd");
-    SchemaLocation SWES_20_INSERT_SENSOR_SCHEMA_LOCATION = new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesInsertSensor.xsd");
-    SchemaLocation SWES_20_UPDATE_SENSOR_DESCRIPTION_SCHEMA_LOCATION = new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesUpdateSensorDescription.xsd");
-    SchemaLocation SWES_20_DELETE_SENSOR_SCHEMA_LOCATION = new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesDeleteSensor.xsd");
+    SchemaLocation SWES_20_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swes.xsd");
+
+    SchemaLocation SWES_20_DESCRIBE_SENSOR_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesDescribeSensor.xsd");
+
+    SchemaLocation SWES_20_INSERT_SENSOR_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesInsertSensor.xsd");
+
+    SchemaLocation SWES_20_UPDATE_SENSOR_DESCRIPTION_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesUpdateSensorDescription.xsd");
+
+    SchemaLocation SWES_20_DELETE_SENSOR_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesDeleteSensor.xsd");
 
     @Deprecated
     String SCHEMA_LOCATION_URL_SWES_20 = SWES_20_SCHEMA_LOCATION.getSchemaFileUrl();
+
     @Deprecated
     String SCHEMA_LOCATION_URL_SWES_20_DESCRIBE_SENSOR = SWES_20_DESCRIBE_SENSOR_SCHEMA_LOCATION.getSchemaFileUrl();
+
     @Deprecated
     String SCHEMA_LOCATION_URL_SWES_20_DELETE_SENSOR = SWES_20_DELETE_SENSOR_SCHEMA_LOCATION.getSchemaFileUrl();
+
     @Deprecated
     String SCHEMA_LOCATION_URL_SWES_20_INSERT_SENSOR = SWES_20_INSERT_SENSOR_SCHEMA_LOCATION.getSchemaFileUrl();
+
     @Deprecated
-    String SCHEMA_LOCATION_URL_SWES_20_UPDATE_SENSOR_DESCRIPTION = SWES_20_UPDATE_SENSOR_DESCRIPTION_SCHEMA_LOCATION.getSchemaFileUrl();
+    String SCHEMA_LOCATION_URL_SWES_20_UPDATE_SENSOR_DESCRIPTION =
+            SWES_20_UPDATE_SENSOR_DESCRIPTION_SCHEMA_LOCATION.getSchemaFileUrl();
 
     // element names
     String EN_EXTENSION = "extension";
@@ -78,7 +92,8 @@ public interface SwesConstants {
 
     String EN_UPDATE_SENSOR_DESCRIPTION_RESPONSE = "UpdateSensorDescriptionResponse";
 
-    QName QN_INSERTION_METADATA = new QName(SwesConstants.NS_SWES_20, SwesConstants.EN_INSERTION_METADATA, SwesConstants.NS_SWES_PREFIX);
+    QName QN_INSERTION_METADATA =
+            new QName(SwesConstants.NS_SWES_20, SwesConstants.EN_INSERTION_METADATA, SwesConstants.NS_SWES_PREFIX);
 
     // QNames for elements
     QName QN_ABSTRACT_OFFERING = new QName(NS_SWES_20, EN_ABSTRACT_OFFERING, NS_SWES_PREFIX);
@@ -101,7 +116,8 @@ public interface SwesConstants {
 
     QName QN_UPDATE_SENSOR_DESCRIPTION = new QName(NS_SWES_20, EN_UPDATE_SENSOR_DESCRIPTION, NS_SWES_PREFIX);
 
-    QName QN_UPDATE_SENSOR_DESCRIPTION_RESPONSE = new QName(NS_SWES_20, EN_UPDATE_SENSOR_DESCRIPTION_RESPONSE, NS_SWES_PREFIX);
+    QName QN_UPDATE_SENSOR_DESCRIPTION_RESPONSE =
+            new QName(NS_SWES_20, EN_UPDATE_SENSOR_DESCRIPTION_RESPONSE, NS_SWES_PREFIX);
 
     String SOAP_REASON_INVALID_REQUEST = "The request did not conform to its XML Schema definition.";
 

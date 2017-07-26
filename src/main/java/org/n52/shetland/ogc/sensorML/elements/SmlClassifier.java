@@ -25,7 +25,7 @@ import org.n52.shetland.ogc.sensorML.Term;
  *         J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SmlClassifier extends Term {
 

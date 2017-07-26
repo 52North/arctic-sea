@@ -22,13 +22,12 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
-import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType quantity
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SweQuantity extends SweAbstractUomType<Double> implements SweQuality {
 
@@ -41,9 +40,6 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
      * value
      */
     private Double value;
-
-    private Referenceable<SweAllowedValues> constraint;
-
 
     /**
      * constructor
@@ -156,31 +152,6 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
     @Override
     public SweQuantity setQuality(Collection<SweQuality> quality) {
         return (SweQuantity) super.setQuality(quality);
-    }
-
-    /**
-     * @return the constraint
-     */
-    public Referenceable<SweAllowedValues> getConstraint() {
-        return constraint;
-    }
-
-    /**
-     * @param constraint the constraint to set
-     */
-    public void setConstraint(SweAllowedValues constraint) {
-        this.constraint = Referenceable.of(constraint);
-    }
-
-    public boolean isSetContstraint() {
-        return getConstraint() != null && !getConstraint().isAbsent();
-    }
-
-    /**
-     * @param constraint the constraint to set
-     */
-    public void setConstraint(Referenceable<SweAllowedValues> constraint) {
-        this.constraint = constraint;
     }
 
     @Override

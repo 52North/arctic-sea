@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 /**
  * SOS internal representation of SensorML IOs
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SmlIo extends AbstractReferenceType {
 

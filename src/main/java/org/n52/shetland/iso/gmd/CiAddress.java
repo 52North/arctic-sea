@@ -26,7 +26,7 @@ import com.google.common.base.Strings;
  * Internal representation of the ISO GMD Address.
  *
  * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class CiAddress extends AbstractObject {

@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 /**
  * Count measurement representation for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class CountValue extends SweCount implements Value<Integer> {

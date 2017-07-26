@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class InsertSensorRequest extends OwsServiceRequest {

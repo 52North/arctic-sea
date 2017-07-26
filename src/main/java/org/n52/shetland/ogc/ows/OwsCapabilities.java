@@ -56,8 +56,9 @@ public class OwsCapabilities {
         this.serviceIdentification = Optional.ofNullable(serviceIdentification);
         this.serviceProvider = Optional.ofNullable(serviceProvider);
         this.operationsMetadata = Optional.ofNullable(operationsMetadata);
-        this.languages = Optional.ofNullable(languages).map(TreeSet::new);
-        this.extensions = Optional.ofNullable(extensions).map(TreeSet::new).orElseGet(TreeSet::new);
+        this.languages = Optional.ofNullable(languages).map(TreeSet<String>::new);
+        this.extensions =
+                Optional.ofNullable(extensions).map(TreeSet<OwsCapabilitiesExtension>::new).orElseGet(TreeSet::new);
     }
 
     public OwsCapabilities(OwsCapabilities other) {
@@ -124,7 +125,7 @@ public class OwsCapabilities {
     }
 
     public void setLanguages(SortedSet<String> languages) {
-        this.languages = Optional.ofNullable(languages).map(TreeSet::new);
+        this.languages = Optional.ofNullable(languages).map(TreeSet<String>::new);
     }
 
     public SortedSet<OwsCapabilitiesExtension> getExtensions() {

@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.sensorML.v20;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.AbstractProcess;
 import org.n52.shetland.ogc.sensorML.SensorML20Constants;
-import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 
 /**
  * Class that represents SensorML 2.0 AbstractProcess

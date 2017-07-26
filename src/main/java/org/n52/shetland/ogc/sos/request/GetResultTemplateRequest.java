@@ -24,7 +24,7 @@ import com.google.common.base.Strings;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GetResultTemplateRequest extends OwsServiceRequest {

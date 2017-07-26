@@ -28,10 +28,9 @@ import com.google.common.collect.Lists;
 
 public class DeleteResultTemplateRequest extends OwsServiceRequest {
 
-    private List<String> resultTemplates;
-    private List<AbstractMap.SimpleEntry<String,String>> observedPropertyOfferingPairs;
-
     private static String OPERATION_NAME = "DeleteResultTemplate";
+    private List<String> resultTemplates;
+    private List<AbstractMap.SimpleEntry<String, String>> observedPropertyOfferingPairs;
 
     public DeleteResultTemplateRequest() {
         super(null, null, OPERATION_NAME);
@@ -47,7 +46,7 @@ public class DeleteResultTemplateRequest extends OwsServiceRequest {
 
     @Override
     public String getOperationName() {
-        return "DeleteResultTemplate";
+        return OPERATION_NAME;
     }
 
     public DeleteResultTemplateRequest addResultTemplate(String resultTemplateId) {

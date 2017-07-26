@@ -17,7 +17,7 @@
 package org.n52.shetland.ogc.sensorML;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class ProcessModel extends AbstractProcess implements HasProcessMethod {

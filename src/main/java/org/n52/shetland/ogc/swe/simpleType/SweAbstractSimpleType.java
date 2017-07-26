@@ -21,6 +21,7 @@ import java.util.Collection;
 
 import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
@@ -31,13 +32,14 @@ import com.google.common.collect.Lists;
  * @param <T>
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent
         implements Value<T, SweAbstractSimpleType<T>> {
 
     // TODO quality needs to be a collection
     private Collection<SweQuality> quality;
+    private Referenceable<SweAllowedTokens> constraint;
 
     /**
      * Get quality information
@@ -66,6 +68,31 @@ public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent
      */
     public boolean isSetQuality() {
         return quality != null && !quality.isEmpty();
+    }
+
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedTokens> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedTokens constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
+        this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override

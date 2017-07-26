@@ -24,7 +24,7 @@ import org.n52.shetland.ogc.om.values.Value;
 /**
  * Interface for observation values.
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            observation value type

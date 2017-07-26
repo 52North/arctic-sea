@@ -29,7 +29,7 @@ import com.google.common.base.Strings;
 /**
  * class represents a updateSensor request
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class UpdateSensorRequest extends OwsServiceRequest {
     private String procedureIdentifier;

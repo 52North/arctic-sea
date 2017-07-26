@@ -30,7 +30,7 @@ import com.google.common.collect.Maps;
 /**
  * class represents a GMl feature collection
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class FeatureCollection extends AbstractFeature implements Iterable<AbstractFeature> {
 

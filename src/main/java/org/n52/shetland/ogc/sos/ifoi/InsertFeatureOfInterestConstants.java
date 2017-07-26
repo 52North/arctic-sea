@@ -16,12 +16,7 @@
  */
 package org.n52.shetland.ogc.sos.ifoi;
 
-
 public interface InsertFeatureOfInterestConstants {
-
-    public interface InsertFeatureOfInterestParams {
-
-    }
 
     /**
      * The operation name.
@@ -35,8 +30,13 @@ public interface InsertFeatureOfInterestConstants {
 
     String NS_IFOI_PREFIX = "ifoi";
 
-    String SCHEMA_LOCATION_URL_INSERT_FEATURE_OF_INTEREST =  "http://52north.org/schema/ifoi/1.0/InsertFeatureOfInterest.xsd";
+    String SCHEMA_LOCATION_URL_INSERT_FEATURE_OF_INTEREST =
+            "http://52north.org/schema/ifoi/1.0/InsertFeatureOfInterest.xsd";
 
     String CONFORMANCE_CLASS = "http://www.opengis.net/spec/SOS/2.0/conf/foi";
+
+    public interface InsertFeatureOfInterestParams {
+
+    }
 
 }

@@ -25,7 +25,7 @@ import org.n52.shetland.ogc.gml.ReferenceType;
  * Representation of OGC O&M 2.0 ObservationContext
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class OmObservationContext {

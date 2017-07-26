@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.swes.SwesConstants;
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public enum SwesExceptionCode implements ExceptionCode {
     InvalidRequest(SwesConstants.SOAP_REASON_INVALID_REQUEST),
@@ -30,7 +30,7 @@ public enum SwesExceptionCode implements ExceptionCode {
 
     private final String soapFaultReason;
 
-    private SwesExceptionCode(String soapFaultReason) {
+    SwesExceptionCode(String soapFaultReason) {
         this.soapFaultReason = soapFaultReason;
     }
 

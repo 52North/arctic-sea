@@ -30,7 +30,7 @@ import org.n52.shetland.util.CollectionHelper;
 /**
  * Multi value representing a time value pairs for observations
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class TVPValue implements MultiValue<List<TimeValuePair>> {

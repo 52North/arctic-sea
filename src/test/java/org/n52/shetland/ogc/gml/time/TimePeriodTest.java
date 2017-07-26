@@ -28,7 +28,7 @@ import org.junit.Test;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a> TODO test extent to methods!!!
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class TimePeriodTest {
 

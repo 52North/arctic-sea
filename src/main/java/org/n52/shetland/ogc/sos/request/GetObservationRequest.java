@@ -48,7 +48,7 @@ import com.google.common.collect.Maps;
 /**
  * SOS GetObservation request.
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class GetObservationRequest extends AbstractObservationRequest implements SpatialFeatureQueryRequest {
 

@@ -30,7 +30,7 @@ import com.google.common.base.Strings;
  * Class that represents a CV_DiscretePointCoverage
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class CvDiscretePointCoverage implements Value<PointValuePair> {

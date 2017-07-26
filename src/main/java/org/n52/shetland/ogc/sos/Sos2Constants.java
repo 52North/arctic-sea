@@ -32,7 +32,8 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
-public interface Sos2Constants extends SosConstants {
+public interface Sos2Constants
+        extends SosConstants {
 
     String NS_SOS_20 = "http://www.opengis.net/sos/2.0";
 
@@ -40,13 +41,13 @@ public interface Sos2Constants extends SosConstants {
 
     String SCHEMA_LOCATION_URL_SOS_GET_CAPABILITIES = "http://schemas.opengis.net/sos/2.0/sosGetCapabilities.xsd";
 
-    String SCHEMA_LOCATION_URL_SOS_GET_FEATURE_OF_INTEREST
-            = "http://schemas.opengis.net/sos/2.0/sosGetFeatureOfInterest.xsd";
+    String SCHEMA_LOCATION_URL_SOS_GET_FEATURE_OF_INTEREST =
+            "http://schemas.opengis.net/sos/2.0/sosGetFeatureOfInterest.xsd";
 
     String SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION = "http://schemas.opengis.net/sos/2.0/sosGetObservation.xsd";
 
-    String SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION_BY_ID
-            = "http://schemas.opengis.net/sos/2.0/sosGetObservationById.xsd";
+    String SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION_BY_ID =
+            "http://schemas.opengis.net/sos/2.0/sosGetObservationById.xsd";
 
     String SCHEMA_LOCATION_URL_SOS_GET_RESULT = "http://schemas.opengis.net/sos/2.0/sosGetResult.xsd";
 
@@ -56,53 +57,53 @@ public interface Sos2Constants extends SosConstants {
 
     String SCHEMA_LOCATION_URL_SOS_INSERT_RESULT = "http://schemas.opengis.net/sos/2.0/sosInsertResult.xsd";
 
-    String SCHEMA_LOCATION_URL_SOS_INSERT_RESULT_TEMPLATE
-            = "http://schemas.opengis.net/sos/2.0/sosInsertResultTemplate.xsd";
+    String SCHEMA_LOCATION_URL_SOS_INSERT_RESULT_TEMPLATE =
+            "http://schemas.opengis.net/sos/2.0/sosInsertResultTemplate.xsd";
 
     String SCHEMA_LOCATION_URL_SOS_INSERT_SENSOR = "http://schemas.opengis.net/sos/2.0/sosInsertSensor.xsd";
 
-    String SCHEMA_LOCATION_URL_SOS_INSERTION_CAPABILITIES
-            = "http://schemas.opengis.net/sos/2.0/sosInsertionCapabilities.xsd#InsertionCapabilities";
+    String SCHEMA_LOCATION_URL_SOS_INSERTION_CAPABILITIES =
+            "http://schemas.opengis.net/sos/2.0/sosInsertionCapabilities.xsd#InsertionCapabilities";
 
     SchemaLocation SOS_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS);
 
-    SchemaLocation SOS_GET_CAPABILITIES_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                             SCHEMA_LOCATION_URL_SOS_GET_CAPABILITIES);
+    SchemaLocation SOS_GET_CAPABILITIES_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_GET_CAPABILITIES);
 
-    SchemaLocation SOS_GET_FEATURE_OF_INTEREST_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                                    SCHEMA_LOCATION_URL_SOS_GET_FEATURE_OF_INTEREST);
+    SchemaLocation SOS_GET_FEATURE_OF_INTEREST_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_GET_FEATURE_OF_INTEREST);
 
-    SchemaLocation SOS_GET_OBSERVATION_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                            SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION);
+    SchemaLocation SOS_GET_OBSERVATION_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION);
 
-    SchemaLocation SOS_GET_OBSERVATION_BY_ID_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                                  SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION_BY_ID);
+    SchemaLocation SOS_GET_OBSERVATION_BY_ID_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_GET_OBSERVATION_BY_ID);
 
     SchemaLocation SOS_GET_RESULT_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_GET_RESULT);
 
-    SchemaLocation SOS_GET_RESULT_TEMPLATE_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                                SCHEMA_LOCATION_URL_SOS_GET_RESULT_TEMPLATE);
+    SchemaLocation SOS_GET_RESULT_TEMPLATE_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_GET_RESULT_TEMPLATE);
 
-    SchemaLocation SOS_INSERT_OBSERVATION_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                               SCHEMA_LOCATION_URL_SOS_INSERT_OBSERVATION);
+    SchemaLocation SOS_INSERT_OBSERVATION_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_INSERT_OBSERVATION);
 
-    SchemaLocation SOS_INSERT_RESULT_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                          SCHEMA_LOCATION_URL_SOS_INSERT_RESULT);
+    SchemaLocation SOS_INSERT_RESULT_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_INSERT_RESULT);
 
-    SchemaLocation SOS_INSERT_RESULT_TEMPLATE_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                                   SCHEMA_LOCATION_URL_SOS_INSERT_RESULT_TEMPLATE);
+    SchemaLocation SOS_INSERT_RESULT_TEMPLATE_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_INSERT_RESULT_TEMPLATE);
 
-    SchemaLocation SOS_INSERT_SNSOR_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                         SCHEMA_LOCATION_URL_SOS_INSERT_SENSOR);
+    SchemaLocation SOS_INSERT_SNSOR_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_INSERT_SENSOR);
 
-    SchemaLocation SOS_INSERTION_CAPABILITIES_SCHEMA_LOCATION = new SchemaLocation(NS_SOS_20,
-                                                                                   SCHEMA_LOCATION_URL_SOS_INSERTION_CAPABILITIES);
+    SchemaLocation SOS_INSERTION_CAPABILITIES_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS_20, SCHEMA_LOCATION_URL_SOS_INSERTION_CAPABILITIES);
 
     /**
      * Constant for the content types of the response formats
      */
-    Set<String> RESPONSE_FORMATS = ImmutableSet.of(OmConstants.RESPONSE_FORMAT_OM_2,
-                                                   MediaTypes.APPLICATION_ZIP.toString());
+    Set<String> RESPONSE_FORMATS =
+            ImmutableSet.of(OmConstants.RESPONSE_FORMAT_OM_2, MediaTypes.APPLICATION_ZIP.toString());
 
     String EN_CAPABILITIES = "Capabilities";
 
@@ -162,15 +163,15 @@ public interface Sos2Constants extends SosConstants {
 
     QName QN_GET_FEATURE_OF_INTEREST = new QName(NS_SOS_20, EN_GET_FEATURE_OF_INTEREST, SosConstants.NS_SOS_PREFIX);
 
-    QName QN_GET_FEATURE_OF_INTEREST_RESPONSE = new QName(NS_SOS_20, EN_GET_FEATURE_OF_INTEREST_RESPONSE,
-                                                          SosConstants.NS_SOS_PREFIX);
+    QName QN_GET_FEATURE_OF_INTEREST_RESPONSE =
+            new QName(NS_SOS_20, EN_GET_FEATURE_OF_INTEREST_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
     QName QN_GET_OBSERVATION = new QName(NS_SOS_20, EN_GET_OBSERVATION, SosConstants.NS_SOS_PREFIX);
 
     QName QN_GET_OBSERVATION_BY_ID = new QName(NS_SOS_20, EN_GET_OBSERVATION_BY_ID, SosConstants.NS_SOS_PREFIX);
 
-    QName QN_GET_OBSERVATION_BY_ID_RESPONSE = new QName(NS_SOS_20, EN_GET_OBSERVATION_BY_ID_RESPONSE,
-                                                        SosConstants.NS_SOS_PREFIX);
+    QName QN_GET_OBSERVATION_BY_ID_RESPONSE =
+            new QName(NS_SOS_20, EN_GET_OBSERVATION_BY_ID_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
     QName QN_GET_OBSERVATION_RESPONSE = new QName(NS_SOS_20, EN_GET_OBSERVATION_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
@@ -180,13 +181,13 @@ public interface Sos2Constants extends SosConstants {
 
     QName QN_GET_RESULT_TEMPLATE = new QName(NS_SOS_20, EN_GET_RESULT_TEMPLATE, SosConstants.NS_SOS_PREFIX);
 
-    QName QN_GET_RESULT_TEMPLATE_RESPONSE = new QName(NS_SOS_20, EN_GET_RESULT_TEMPLATE_RESPONSE,
-                                                      SosConstants.NS_SOS_PREFIX);
+    QName QN_GET_RESULT_TEMPLATE_RESPONSE =
+            new QName(NS_SOS_20, EN_GET_RESULT_TEMPLATE_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
     QName QN_INSERT_OBSERVATION = new QName(NS_SOS_20, EN_INSERT_OBSERVATION, SosConstants.NS_SOS_PREFIX);
 
-    QName QN_INSERT_OBSERVATION_RESPONSE = new QName(NS_SOS_20, EN_INSERT_OBSERVATION_RESPONSE,
-                                                     SosConstants.NS_SOS_PREFIX);
+    QName QN_INSERT_OBSERVATION_RESPONSE =
+            new QName(NS_SOS_20, EN_INSERT_OBSERVATION_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
     QName QN_INSERT_RESULT = new QName(NS_SOS_20, EN_INSERT_RESULT, SosConstants.NS_SOS_PREFIX);
 
@@ -194,8 +195,8 @@ public interface Sos2Constants extends SosConstants {
 
     QName QN_INSERT_RESULT_TEMPLATE = new QName(NS_SOS_20, EN_INSERT_RESULT_TEMPLATE, SosConstants.NS_SOS_PREFIX);
 
-    QName QN_INSERT_RESULT_TEMPLATE_RESPONSE = new QName(NS_SOS_20, EN_INSERT_RESULT_TEMPLATE_RESPONSE,
-                                                         SosConstants.NS_SOS_PREFIX);
+    QName QN_INSERT_RESULT_TEMPLATE_RESPONSE =
+            new QName(NS_SOS_20, EN_INSERT_RESULT_TEMPLATE_RESPONSE, SosConstants.NS_SOS_PREFIX);
 
     QName QN_OBSERVATION_OFFERING = new QName(NS_SOS_20, EN_OBSERVATION_OFFERING, SosConstants.NS_SOS_PREFIX);
 
@@ -211,13 +212,13 @@ public interface Sos2Constants extends SosConstants {
 
     QName QN_SOS_OBSERVATION_TYPE = new QName(NS_SOS_20, EN_OBSERVATION_TYPE, SosConstants.NS_SOS_PREFIX);
 
-    QName QN_SOS_FEATURE_OF_INTEREST_TYPE = new QName(NS_SOS_20, EN_FEATURE_OF_INTEREST_TYPE,
-                                                      SosConstants.NS_SOS_PREFIX);
+    QName QN_SOS_FEATURE_OF_INTEREST_TYPE =
+            new QName(NS_SOS_20, EN_FEATURE_OF_INTEREST_TYPE, SosConstants.NS_SOS_PREFIX);
 
     String VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE = "http://www.opengis.net/req/omxml/2.0/data/samplingGeometry";
 
-    String HREF_PARAMETER_SPATIAL_FILTERING_PROFILE
-            = "http://www.opengis.net/def/param-name/OGC-OM/2.0/samplingGeometry";
+    String HREF_PARAMETER_SPATIAL_FILTERING_PROFILE =
+            "http://www.opengis.net/def/param-name/OGC-OM/2.0/samplingGeometry";
 
     /**
      * The names of the extensions that we know off and might support
@@ -289,8 +290,8 @@ public interface Sos2Constants extends SosConstants {
     }
 
     /**
-     * enum with parameter names for OGC SOS 2.0 getFeatureOfInterest request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 2.0 getFeatureOfInterest request
+     * not supported by all versions
      */
     enum GetFeatureOfInterestParams {
         featureOfInterest,

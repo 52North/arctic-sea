@@ -68,6 +68,7 @@ public final class DateTimeHelper {
     /**
      * Hidden utility constructor.
      */
+
     private DateTimeHelper() {
     }
 
@@ -157,7 +158,6 @@ public final class DateTimeHelper {
             } catch (DateTimeFormatException e) {
                 throw new IllegalArgumentException(e);
             }
-    //return formatDateTime2IsoString(((TimeInstant) time).getValue());
         } else if (time instanceof TimePeriod) {
             TimePeriod period = (TimePeriod) time;
             return String.format("%s/%s",
@@ -206,14 +206,14 @@ public final class DateTimeHelper {
     public static String formatDateTime2String(DateTime dateTime, TimeFormat timeFormat)
             throws DateTimeFormatException {
         switch (timeFormat) {
-        case Y:
-            return formatDateTime2YearDateString(dateTime);
-        case YM:
-            return formatDateTime2YearMonthDateString(dateTime);
-        case YMD:
-            return formatDateTime2YearMonthDayDateStringYMD(dateTime);
-        default:
-            return formatDateTime2ResponseString(dateTime);
+            case Y:
+                return formatDateTime2YearDateString(dateTime);
+            case YM:
+                return formatDateTime2YearMonthDateString(dateTime);
+            case YMD:
+                return formatDateTime2YearMonthDayDateStringYMD(dateTime);
+            default:
+                return formatDateTime2ResponseString(dateTime);
         }
     }
 
@@ -226,17 +226,16 @@ public final class DateTimeHelper {
      * @throws DateTimeFormatException
      *             If an error occurs when formatting the {@link TimePosition}
      */
-    public static String formatDateTime2String(TimePosition timePosition)
-            throws DateTimeFormatException {
+    public static String formatDateTime2String(TimePosition timePosition) throws DateTimeFormatException {
         switch (timePosition.getTimeFormat()) {
-        case Y:
-            return formatDateTime2YearDateString(timePosition.getTime());
-        case YM:
-            return formatDateTime2YearMonthDateString(timePosition.getTime());
-        case YMD:
-            return formatDateTime2YearMonthDayDateStringYMD(timePosition.getTime());
-        default:
-            return formatDateTime2ResponseString(timePosition.getTime());
+            case Y:
+                return formatDateTime2YearDateString(timePosition.getTime());
+            case YM:
+                return formatDateTime2YearMonthDateString(timePosition.getTime());
+            case YMD:
+                return formatDateTime2YearMonthDayDateStringYMD(timePosition.getTime());
+            default:
+                return formatDateTime2ResponseString(timePosition.getTime());
         }
     }
 
@@ -291,10 +290,10 @@ public final class DateTimeHelper {
      *            The DateTime.
      * @return Returns formatted time String.
      *
-     * @throws DateTimeFormatException
+     * @throws DateTimeFormatException,
+     * If an error occurs.
      */
-    public static String formatDateTime2YearMonthDayDateStringYMD(DateTime dateTime)
-            throws DateTimeFormatException {
+    public static String formatDateTime2YearMonthDayDateStringYMD(DateTime dateTime) {
         try {
             DateTime result = checkAndGetDateTimeWithZoneUtc(dateTime);
             return result.toString(DateTimeFormat.forPattern(YMD_RESPONSE_FORMAT));
@@ -310,7 +309,7 @@ public final class DateTimeHelper {
      *            The DateTime.
      * @return Returns formatted time String.
      *
-     * @throws DateTimeFormatException
+     * @throws DateTimeFormatException If an error occurs.
      */
     public static String formatDateTime2YearMonthDateString(DateTime dateTime) throws DateTimeFormatException {
         try {
@@ -328,7 +327,7 @@ public final class DateTimeHelper {
      *            The DateTime.
      * @return Returns formatted time String.
      *
-     * @throws DateTimeFormatException
+     * @throws DateTimeFormatException If an error occurs.
      */
     public static String formatDateTime2YearDateString(DateTime dateTime) throws DateTimeFormatException {
         try {
@@ -433,7 +432,7 @@ public final class DateTimeHelper {
     /**
      * Make a new UTC DateTime from an object
      *
-     * @param object
+     * @param object Object to make {@link DateTime}
      * @return DateTime, or null if object was null
      */
     public static DateTime makeDateTime(Object object) {
@@ -452,8 +451,8 @@ public final class DateTimeHelper {
     /**
      * Find the max of two dates (null safe)
      *
-     * @param dt1
-     * @param dt2
+     * @param dt1 first {@link DateTime}
+     * @param dt2 second {@link DateTime}
      * @return Max of two dates
      */
     public static DateTime max(DateTime dt1, DateTime dt2) {
@@ -483,7 +482,7 @@ public final class DateTimeHelper {
      * @return Days with precisions between the two {@link DateTime}s
      */
     public static double getDaysSinceWithPrecision(DateTime start, DateTime end) {
-        double value = Days.daysBetween(start, end).getDays() + end.getSecondOfDay()/SECONDS_OF_DAY;
+        double value = Days.daysBetween(start, end).getDays() + end.getSecondOfDay() / SECONDS_OF_DAY;
         return new BigDecimal(value).doubleValue();
     }
 

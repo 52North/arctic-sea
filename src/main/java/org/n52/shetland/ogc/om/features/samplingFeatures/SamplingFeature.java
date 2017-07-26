@@ -36,7 +36,7 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * Abstract super class for all sampling features
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SamplingFeature extends AbstractSamplingFeature {

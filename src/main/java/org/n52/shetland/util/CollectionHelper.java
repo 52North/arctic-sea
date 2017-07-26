@@ -269,6 +269,21 @@ public final class CollectionHelper {
         return !isEmptyOrNull(collection);
     }
 
+    /**
+     * Check if collection is not null and not empty
+     *
+     * @param <K> the key type
+     * @param <V> the value type
+     * @param map
+     *            Map to check
+     *
+     * @return <tt>false</tt>, if map is <tt>null</tt> or empty, else
+     * <tt>true</tt>.
+     */
+    public static <K, V> boolean isNotEmpty(Map<K, V> map) {
+        return map != null && !map.isEmpty();
+    }
+
     public static <T> boolean isEmptyOrNull(Collection<T> collection) {
         return collection == null || collection.isEmpty();
     }
@@ -285,21 +300,6 @@ public final class CollectionHelper {
      */
     public static <T> boolean isEmpty(Collection<T> collection) {
         return collection != null && collection.isEmpty();
-    }
-
-    /**
-     * Check if collection is not null and not empty
-     *
-     * @param <K> the key type
-     * @param <V> the value type
-     * @param map
-     *            Map to check
-     *
-     * @return <tt>false</tt>, if map is <tt>null</tt> or empty, else
-     * <tt>true</tt>.
-     */
-    public static <K, V> boolean isNotEmpty(Map<K, V> map) {
-        return map != null && !map.isEmpty();
     }
 
     /**

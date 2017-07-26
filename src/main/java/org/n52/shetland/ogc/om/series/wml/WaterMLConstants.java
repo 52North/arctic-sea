@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * @see http://www.opengeospatial.org/standards/waterml
  */
 public interface WaterMLConstants {
@@ -157,7 +157,7 @@ public interface WaterMLConstants {
      * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
      *
      * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
-     * @since 4.4.0
+     * @since 1.0.0
      */
     public enum InterpolationType {
 

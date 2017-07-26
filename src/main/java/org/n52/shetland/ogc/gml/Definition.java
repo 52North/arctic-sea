@@ -22,7 +22,7 @@ import com.google.common.base.Strings;
  * Internal representation of the OGC GML Definition.
  *
  * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public abstract class Definition extends DefinitionBase {

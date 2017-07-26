@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 /**
  * Nil template value for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class NilTemplateValue implements Value<String> {

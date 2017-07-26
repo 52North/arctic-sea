@@ -21,7 +21,7 @@ package org.n52.shetland.ogc.om.series.wml;
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @see http://www.opengeospatial.org/standards/waterml
- * @since 4.4.0
+ * @since 1.0.0
  */
 public class MeasurementTimeseriesMetadata extends TimeseriesMetadata {
 

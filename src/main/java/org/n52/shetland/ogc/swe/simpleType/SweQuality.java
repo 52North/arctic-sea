@@ -19,6 +19,6 @@ package org.n52.shetland.ogc.swe.simpleType;
 /**
  * SOS internal representation of SWE simpleType quality
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface SweQuality {}

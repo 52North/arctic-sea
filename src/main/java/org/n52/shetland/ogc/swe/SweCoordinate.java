@@ -24,7 +24,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
  * SOS internal representation of SWE coordinates
  *
  * @param <T>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SweCoordinate<T extends Number> implements Copyable<SweCoordinate<T>> {
 

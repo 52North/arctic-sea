@@ -28,7 +28,7 @@ import com.google.common.collect.Sets;
 /**
  * Class representing a single value observation value
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            value type

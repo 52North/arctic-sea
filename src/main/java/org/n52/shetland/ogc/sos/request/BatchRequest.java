@@ -30,12 +30,12 @@ import org.n52.shetland.ogc.sos.BatchConstants;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class BatchRequest extends OwsServiceRequest implements Iterable<OwsServiceRequest> {
     private final List<OwsServiceRequest> requests;
 
-    private boolean stopAtFailure = false;
+    private boolean stopAtFailure;
 
     public BatchRequest(List<OwsServiceRequest> requests) {
         super(null, null, BatchConstants.OPERATION_NAME);

@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.om.values.MultiValue;
 /**
  * Class representing a multi value observation value
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            value type

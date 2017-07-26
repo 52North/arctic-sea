@@ -21,7 +21,8 @@ package org.n52.shetland.ogc.wps.description;
  *
  * @author Christian Autermann
  */
-public interface ProcessOutputDescription extends DataDescription {
+public interface ProcessOutputDescription
+        extends DataDescription {
 
     default BoundingBoxOutputDescription asBoundingBox() {
         throw new UnsupportedOperationException();
@@ -69,38 +70,30 @@ public interface ProcessOutputDescription extends DataDescription {
         });
     }
 
-    <T, X extends Exception> T visit(
-            ThrowingReturningVisitor<T, X> visitor)
-            throws X;
+    <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X;
 
-    default <X extends Exception> void visit(
-            ThrowingVisitor<X> visitor)
-            throws X {
+    default <X extends Exception> void visit(ThrowingVisitor<X> visitor) throws X {
         visit(new ThrowingReturningVisitor<Void, X>() {
             @Override
-            public Void visit(BoundingBoxOutputDescription output)
-                    throws X {
+            public Void visit(BoundingBoxOutputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
 
             @Override
-            public Void visit(ComplexOutputDescription output)
-                    throws X {
+            public Void visit(ComplexOutputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
 
             @Override
-            public Void visit(LiteralOutputDescription output)
-                    throws X {
+            public Void visit(LiteralOutputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
 
             @Override
-            public Void visit(GroupOutputDescription output)
-                    throws X {
+            public Void visit(GroupOutputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
@@ -109,29 +102,42 @@ public interface ProcessOutputDescription extends DataDescription {
 
     interface Visitor {
         void visit(BoundingBoxOutputDescription output);
+
         void visit(ComplexOutputDescription output);
+
         void visit(LiteralOutputDescription output);
+
         void visit(GroupOutputDescription output);
     }
 
     interface ThrowingReturningVisitor<T, X extends Exception> {
         T visit(BoundingBoxOutputDescription output) throws X;
+
         T visit(ComplexOutputDescription output) throws X;
+
         T visit(LiteralOutputDescription output) throws X;
+
         T visit(GroupOutputDescription output) throws X;
     }
 
     interface ReturningVisitor<T> {
         T visit(BoundingBoxOutputDescription output);
+
         T visit(ComplexOutputDescription output);
+
         T visit(LiteralOutputDescription output);
+
         T visit(GroupOutputDescription output);
 
     }
+
     interface ThrowingVisitor<X extends Exception> {
         void visit(BoundingBoxOutputDescription output) throws X;
+
         void visit(ComplexOutputDescription output) throws X;
+
         void visit(LiteralOutputDescription output) throws X;
+
         void visit(GroupOutputDescription output) throws X;
     }
 

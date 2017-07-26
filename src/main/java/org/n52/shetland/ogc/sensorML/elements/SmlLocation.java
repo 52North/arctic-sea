@@ -21,7 +21,7 @@ import com.vividsolutions.jts.geom.Point;
 /**
  * SOS internal representation of SensorML location
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SmlLocation {
     // TODO AssociationAttributeGroup values?

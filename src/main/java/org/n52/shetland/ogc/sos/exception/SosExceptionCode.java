@@ -22,14 +22,14 @@ import org.n52.shetland.ogc.sos.SosConstants;
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public enum SosExceptionCode implements ExceptionCode {
     ResponseExceedsSizeLimit(SosConstants.SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT),
     InvalidPropertyOfferingCombination(SosConstants.SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION);
     private final String soapFaultReason;
 
-    private SosExceptionCode(String soapFaultReason) {
+    SosExceptionCode(String soapFaultReason) {
         this.soapFaultReason = soapFaultReason;
     }
 

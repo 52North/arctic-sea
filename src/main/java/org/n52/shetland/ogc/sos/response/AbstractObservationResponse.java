@@ -28,7 +28,7 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
     private ObservationStream observationCollection;

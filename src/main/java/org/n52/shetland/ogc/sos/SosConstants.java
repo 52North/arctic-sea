@@ -16,8 +16,7 @@
  */
 package org.n52.shetland.ogc.sos;
 
-import static java.util.Collections.unmodifiableSet;
-
+import java.util.Collections;
 import java.util.Set;
 
 import org.n52.janmayen.http.MediaTypes;
@@ -39,7 +38,7 @@ public interface SosConstants {
     /**
      * Constant for the content types of the accept formats
      */
-    Set<String> ACCEPT_FORMATS = unmodifiableSet(Sets.newHashSet(MediaTypes.APPLICATION_XML.toString()));
+    Set<String> ACCEPT_FORMATS = Collections.unmodifiableSet(Sets.newHashSet(MediaTypes.APPLICATION_XML.toString()));
 
     String PROCEDURE_STANDARD_DESC_URL = "standardURL";
 
@@ -126,13 +125,14 @@ public interface SosConstants {
 
     String SEPARATOR_4_REL_FEAT = "_._";
 
-    String SEPARATOR_4_OFFERINGS = "_._";
+    String SEPARATOR_4_OFFERINGS = SEPARATOR_4_REL_FEAT;
 
     String SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT =
             "The requested result set exceeds the response size limit of this service and thus cannot be delivered.";
 
     String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
-            "Observations for the requested combination of observedProperty and offering do not use SWE Common encoded results.";
+            "Observations for the requested combination of observedProperty and "
+            + "offering do not use SWE Common encoded results.";
 
     String GENERATED_IDENTIFIER_PREFIX = "generated_";
 

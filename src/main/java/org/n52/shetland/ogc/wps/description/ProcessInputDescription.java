@@ -26,7 +26,8 @@ import org.n52.shetland.ogc.wps.InputOccurence;
  *
  * @author Christian Autermann
  */
-public interface ProcessInputDescription extends DataDescription {
+public interface ProcessInputDescription
+        extends DataDescription {
 
     default BoundingBoxInputDescription asBoundingBox() {
         throw new UnsupportedOperationException();
@@ -77,72 +78,75 @@ public interface ProcessInputDescription extends DataDescription {
         });
     }
 
-    default <X extends Exception> void visit(
-            ThrowingVisitor<X> visitor)
-            throws X {
+    default <X extends Exception> void visit(ThrowingVisitor<X> visitor) throws X {
         visit(new ThrowingReturningVisitor<Void, X>() {
             @Override
-            public Void visit(BoundingBoxInputDescription output)
-                    throws X {
+            public Void visit(BoundingBoxInputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
 
             @Override
-            public Void visit(ComplexInputDescription output)
-                    throws X {
+            public Void visit(ComplexInputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
 
             @Override
-            public Void visit(LiteralInputDescription output)
-                    throws X {
+            public Void visit(LiteralInputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
 
             @Override
-            public Void visit(GroupInputDescription output)
-                    throws X {
+            public Void visit(GroupInputDescription output) throws X {
                 visitor.visit(output);
                 return null;
             }
         });
     }
 
-    <T, X extends Exception> T visit(
-            ThrowingReturningVisitor<T, X> visitor)
-            throws X;
+    <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X;
 
     interface Visitor {
         void visit(BoundingBoxInputDescription input);
+
         void visit(ComplexInputDescription input);
+
         void visit(LiteralInputDescription input);
+
         void visit(GroupInputDescription input);
     }
 
     interface ThrowingVisitor<X extends Exception> {
         void visit(BoundingBoxInputDescription input) throws X;
+
         void visit(ComplexInputDescription input) throws X;
+
         void visit(LiteralInputDescription input) throws X;
+
         void visit(GroupInputDescription input) throws X;
     }
 
     interface ReturningVisitor<T> {
         T visit(BoundingBoxInputDescription input);
+
         T visit(ComplexInputDescription input);
+
         T visit(LiteralInputDescription input);
+
         T visit(GroupInputDescription input);
     }
 
     interface ThrowingReturningVisitor<T, X extends Exception> {
         T visit(BoundingBoxInputDescription input) throws X;
+
         T visit(ComplexInputDescription input) throws X;
+
         T visit(LiteralInputDescription input) throws X;
+
         T visit(GroupInputDescription input) throws X;
     }
-
 
     interface Builder<T extends ProcessInputDescription, B extends Builder<T, B>>
             extends DataDescription.Builder<T, B> {
@@ -161,8 +165,7 @@ public interface ProcessInputDescription extends DataDescription {
 
         default B withOccurence(InputOccurence occurence) {
             Objects.requireNonNull(occurence);
-            return withMaximalOccurence(occurence.getMax().orElse(null))
-                    .withMinimalOccurence(occurence.getMin());
+            return withMaximalOccurence(occurence.getMax().orElse(null)).withMinimalOccurence(occurence.getMin());
         }
 
     }

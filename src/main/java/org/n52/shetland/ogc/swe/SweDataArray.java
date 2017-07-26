@@ -122,7 +122,7 @@ public class SweDataArray extends SweAbstractDataComponent {
      * Adds the given block - a {@link List}<{@link String}> - add the end of
      * the current list of blocks
      *
-     * @param blockOfTokensToAddAtTheEnd
+     * @param blockOfTokensToAddAtTheEnd the blocks of tokens to add
      * @return <tt>true</tt> (as specified by {@link Collection#add}) <br />
      *         <tt>false</tt> if block could not be added
      */

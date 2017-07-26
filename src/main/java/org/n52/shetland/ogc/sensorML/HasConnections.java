@@ -22,7 +22,7 @@ public interface HasConnections<T> {
 
     SmlConnection getConnections();
 
-    T setConnections(final SmlConnection component);
+    T setConnections(SmlConnection component);
 
     default boolean isSetConnections() {
         return getConnections() != null && getConnections().isSetConnections();
