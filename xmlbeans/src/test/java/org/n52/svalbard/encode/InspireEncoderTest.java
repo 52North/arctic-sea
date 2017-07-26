@@ -16,7 +16,10 @@
  */
 package org.n52.svalbard.encode;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.xml.XMLConstants;
@@ -27,8 +30,14 @@ import javax.xml.validation.Validator;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.inspire.InspireConformity;
+import org.n52.shetland.inspire.InspireConformity.InspireDegreeOfConformity;
 import org.n52.shetland.inspire.InspireConformityCitation;
 import org.n52.shetland.inspire.InspireDateOfCreation;
 import org.n52.shetland.inspire.InspireDateOfLastRevision;
@@ -44,20 +53,67 @@ import org.n52.shetland.inspire.InspireSupportedCRS;
 import org.n52.shetland.inspire.InspireSupportedLanguages;
 import org.n52.shetland.inspire.InspireTemporalReference;
 import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
-import org.n52.shetland.inspire.InspireConformity.InspireDegreeOfConformity;
 import org.n52.shetland.inspire.dls.FullInspireExtendedCapabilities;
-import org.n52.shetland.inspire.dls.MinimalInspireExtendedCapabilities;
 import org.n52.shetland.inspire.dls.InspireCapabilities.InspireServiceSpatialDataResourceType;
+import org.n52.shetland.inspire.dls.MinimalInspireExtendedCapabilities;
+import org.n52.shetland.inspire.omso.InspireOMSOConstants;
+import org.n52.shetland.ogc.AbstractSupportedStringType;
+import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.om.ObservationType;
 import org.xml.sax.SAXException;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 public class InspireEncoderTest {
 
     private static XmlOptions xmlOptions = new XmlOptions();
+
+    EncoderRepository encoderRepository;
+
+    Set<SupportedType> supportedTypes = Sets.newHashSet();
+
+    @Before
+    public void setup() {
+        encoderRepository = new EncoderRepository();
+
+        encoderRepository.setEncoders(Lists.newArrayList(new PointObservationTypeEncoder(),
+                new PointTimeSeriesObservationTypeEncoder(),
+                new TrajectoryObservationTypeEncoder(),
+                new ProfileObservationTypeEncoder(),
+                new MultiPointObservationTypeEncoder()));
+        encoderRepository.init();
+
+        this.encoderRepository.getEncoders().stream()
+        .map(Encoder::getSupportedTypes)
+        .filter(Objects::nonNull)
+        .forEachOrdered(this.supportedTypes::addAll);
+    }
+
+
+    private Set<? extends SupportedType> typesFor(Class<? extends SupportedType> key) {
+        return this.supportedTypes;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Set<String> getObservationTypesAsString() {
+        return getSupportedTypeAsString((Set<AbstractSupportedStringType>) typesFor(ObservationType.class));
+    }
+
+    private Set<String> getSupportedTypeAsString(Set<? extends AbstractSupportedStringType> types) {
+        return types.stream().map(AbstractSupportedStringType::getValue).collect(toSet());
+    }
+
+    @Test
+    public void test_observationTypes() {
+        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION), Matchers.is(true));
+        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION), Matchers.is(true));
+        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION), Matchers.is(true));
+        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_PROFILE_OBSERVATION), Matchers.is(true));
+        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION), Matchers.is(true));
+    }
 
     /*
      * xmlns:xsd="http://www.w3.org/2001/XMLSchema"
