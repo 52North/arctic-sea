@@ -29,8 +29,6 @@ import com.google.common.collect.Sets;
 
 public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject {
 
-    private static final long serialVersionUID = 8628478394394160938L;
-
     /**
      * 0..*
      */
@@ -98,7 +96,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     public void addHasObservation(OmObservation hasObservation) {
         this.hasObservation.add(Referenceable.of(hasObservation));
     }
-    
+
     /**
      * @param hasObservation the hasObservation to add
      */

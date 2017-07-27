@@ -33,8 +33,6 @@ import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
@@ -46,9 +44,7 @@ import com.vividsolutions.jts.geom.Geometry;
  * @since 1.0.0
  */
 public class OmObservation
-        extends AbstractFeature
-        implements AttributeSimpleAttrs {
-    private SimpleAttrs simpleAttrs;
+        extends AbstractFeature {
 
     /**
      * ID of this observation; in the standard 52n SOS PostgreSQL database, this
@@ -156,16 +152,6 @@ public class OmObservation
      */
     public OmObservation(CodeWithAuthority identifier, String gmlId) {
         super(identifier, gmlId);
-    }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
     }
 
     /**
