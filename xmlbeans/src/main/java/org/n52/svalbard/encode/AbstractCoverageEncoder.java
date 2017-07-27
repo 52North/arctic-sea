@@ -122,6 +122,7 @@ public abstract class AbstractCoverageEncoder<T, S>
         }
     }
 
+    @SuppressWarnings("unchecked")
     private List<?> getList(DiscreteCoverage<?> discreteCoverage) {
         List list = Lists.newArrayList();
         for (Object value : discreteCoverage.getRangeSet()) {

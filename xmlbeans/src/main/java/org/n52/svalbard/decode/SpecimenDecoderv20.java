@@ -70,7 +70,7 @@ public class SpecimenDecoderv20
     }
 
     @Override
-    public Set<DecoderKey> getDecoderKeyTypes() {
+    public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
@@ -82,7 +82,7 @@ public class SpecimenDecoderv20
     @Override
     public AbstractFeature decode(final XmlObject element) throws DecodingException {
         // validate XmlObject
-        XmlHelper.validateDocument((XmlObject) element);
+        XmlHelper.validateDocument(element);
         if (element instanceof SFSpecimenDocument) {
             return parseSpatialSamplingFeature(((SFSpecimenDocument) element).getSFSpecimen());
         } else if (element instanceof SFSpecimenType) {

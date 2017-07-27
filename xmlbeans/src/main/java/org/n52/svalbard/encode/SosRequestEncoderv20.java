@@ -21,7 +21,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.TemporalFilter;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -30,12 +29,10 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.GetResultRequest;
 import org.n52.shetland.ogc.sos.request.GetResultTemplateRequest;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +77,7 @@ public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServi
 
     @Override
     public XmlObject encode(OwsServiceRequest communicationObject) throws EncodingException {
-        return encode(communicationObject, EncodingContext.of(SosHelperValues.VERSION, Sos2Constants.SERVICEVERSION));
+        return encode(communicationObject, EncodingContext.empty());
     }
 
     @Override

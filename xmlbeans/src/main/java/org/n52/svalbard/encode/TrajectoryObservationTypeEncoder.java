@@ -108,7 +108,7 @@ public class TrajectoryObservationTypeEncoder
             }
         } else if (observationValue instanceof MultiObservationValues) {
             if (observationValue.getValue() instanceof TLVTValue) {
-                TimeLocationValueTriple value = (TimeLocationValueTriple) ((TLVTValue) observationValue.getValue())
+                TimeLocationValueTriple value = ((TLVTValue) observationValue.getValue())
                         .getValue().iterator().next();
                 if (value.getValue() instanceof QuantityValue || value.getValue() instanceof CountValue) {
                     return createMeasurementTimeseries((AbstractObservationValue<?>) observationValue);

@@ -40,21 +40,22 @@ import com.google.common.base.Joiner;
  *
  * @since 1.0.0
  */
-public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXmlDecoder {
+public class GetDataAvailabilityXmlDecoder
+        extends AbstractGetDataAvailabilityXmlDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlDecoder.class);
 
-    private static final String BASE_PATH_SOS = getBasePath(XPathConstants.XPATH_PREFIX_SOS_20,
-            SosConstants.NS_SOS_PREFIX);
+    private static final String BASE_PATH_SOS =
+            getBasePath(XPathConstants.XPATH_PREFIX_SOS_20, SosConstants.NS_SOS_PREFIX);
 
-    private static final String BASE_PATH_GDA = getBasePath(GetDataAvailabilityConstants.XPATH_PREFIXES_GDA,
-            GetDataAvailabilityConstants.NS_GDA_PREFIX);
+    private static final String BASE_PATH_GDA =
+            getBasePath(GetDataAvailabilityConstants.XPATH_PREFIXES_GDA, GetDataAvailabilityConstants.NS_GDA_PREFIX);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            Sos2Constants.NS_SOS_20, XmlObject.class), CodingHelper.decoderKeysForElements(
-            GetDataAvailabilityConstants.NS_GDA, XmlObject.class), CodingHelper.xmlDecoderKeysForOperation(
-            SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME));
-
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CollectionHelper.union(CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20, XmlObject.class),
+                    CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA, XmlObject.class),
+                    CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                            GetDataAvailabilityConstants.OPERATION_NAME));
 
     /**
      * Constructs a new {@code GetDataAvailabilityDecoder}.
@@ -69,7 +70,8 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
     }
 
     @Override
-    public GetDataAvailabilityRequest decode(XmlObject xml) throws DecodingException {
+    public GetDataAvailabilityRequest decode(XmlObject xml)
+            throws DecodingException {
         return parseGetDataAvailability(xml);
     }
 
@@ -80,9 +82,11 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
      *            the request
      *
      * @return the parsed request
-     * @throws DecodingException if the decoding fails
+     * @throws DecodingException
+     *             if the decoding fails
      */
-    public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException {
+    public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml)
+            throws DecodingException {
         XmlObject[] roots = xml.selectPath(BASE_PATH_SOS);
         if (roots != null && roots.length > 0) {
             return parseGetDataAvailability(xml, BASE_PATH_SOS, XPathConstants.XPATH_PREFIX_SOS_20,
@@ -115,7 +119,8 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
      *             If the document could no be parsed
      */
     private GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml, String basePath, String xpathPrefix,
-            String prefix, String namespace) throws DecodingException {
+            String prefix, String namespace)
+            throws DecodingException {
         GetDataAvailabilityRequest request = new GetDataAvailabilityRequest();
         request.setNamespace(namespace);
         XmlObject[] roots = xml.selectPath(basePath);

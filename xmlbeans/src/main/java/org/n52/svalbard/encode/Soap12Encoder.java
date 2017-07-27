@@ -31,19 +31,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x2003.x05.soapEnvelope.Body;
-import org.w3.x2003.x05.soapEnvelope.Envelope;
-import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
-import org.w3.x2003.x05.soapEnvelope.Fault;
-import org.w3.x2003.x05.soapEnvelope.FaultDocument;
-import org.w3.x2003.x05.soapEnvelope.Faultcode;
-import org.w3.x2003.x05.soapEnvelope.Reasontext;
-import org.w3.x2003.x05.soapEnvelope.Subcode;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionCode;
@@ -59,13 +46,24 @@ import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.shetland.w3c.wsa.WsaActionHeader;
 import org.n52.shetland.w3c.wsa.WsaConstants;
 import org.n52.shetland.w3c.wsa.WsaHeader;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.OwsHelper;
 import org.n52.svalbard.write.Soap12XmlStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x2003.x05.soapEnvelope.Body;
+import org.w3.x2003.x05.soapEnvelope.Envelope;
+import org.w3.x2003.x05.soapEnvelope.EnvelopeDocument;
+import org.w3.x2003.x05.soapEnvelope.Fault;
+import org.w3.x2003.x05.soapEnvelope.FaultDocument;
+import org.w3.x2003.x05.soapEnvelope.Faultcode;
+import org.w3.x2003.x05.soapEnvelope.Reasontext;
+import org.w3.x2003.x05.soapEnvelope.Subcode;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
@@ -90,7 +88,6 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
                      Joiner.on(", ").join(ENCODER_KEY_TYPES));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(CollectionHelper.union(ENCODER_KEY_TYPES, super.getKeys()));
@@ -220,7 +217,6 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         return faultDoc;
     }
 
-    @SuppressWarnings("unchecked")
     // see
     // http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html#FAQ300
     // for more details
@@ -248,7 +244,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
             addNewText.setStringValue(SoapHelper.getSoapFaultReasonText(firstException.getCode()));
 
             fault.addNewDetail().set(encodeObjectToXml(OWSConstants.NS_OWS, firstException,
-                                                       EncodingContext.of(SosHelperValues.ENCODE_OWS_EXCEPTION_ONLY)));
+                    EncodingContext.of(XmlBeansEncodingFlags.ENCODE_OWS_EXCEPTION_ONLY)));
         }
         return faultDoc;
     }
