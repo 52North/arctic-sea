@@ -6,9 +6,9 @@
 
 ## Description
 
-**52°North's backbone for OGC services, clients and middleware**
+### 52°North's backbone for OGC services, clients and middleware
 
-*52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.*
+**52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
 The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules: 
 
