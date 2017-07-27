@@ -30,11 +30,13 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  *
  */
-public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements LogicFilter {
+public class BinaryLogicFilter
+        extends Filter<BinaryLogicOperator>
+        implements LogicFilter {
 
     private BinaryLogicOperator operator;
-
-    private final Set<Filter<?>> filterPredicates = Sets.newLinkedHashSet(); // keep insertion order
+    // keep insertion order
+    private final Set<Filter<?>> filterPredicates = Sets.newLinkedHashSet();
 
     /**
      * constructor
@@ -100,12 +102,8 @@ public class BinaryLogicFilter extends Filter<BinaryLogicOperator> implements Lo
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("children", this.filterPredicates.size())
-                .add("predicates", Arrays.toString(this.filterPredicates.toArray()))
-                .toString();
+        return MoreObjects.toStringHelper(this).add("children", this.filterPredicates.size())
+                .add("predicates", Arrays.toString(this.filterPredicates.toArray())).toString();
     }
-
-
 
 }

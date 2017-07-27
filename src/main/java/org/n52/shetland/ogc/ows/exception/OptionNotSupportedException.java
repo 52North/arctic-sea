@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
-import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>Request is
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>Request is
  * for an option that is not supported by this server.</i>
  *
  * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
@@ -36,6 +36,6 @@ public class OptionNotSupportedException extends CodedOwsException {
 
     public OptionNotSupportedException() {
         super(OwsExceptionCode.OptionNotSupported);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 }

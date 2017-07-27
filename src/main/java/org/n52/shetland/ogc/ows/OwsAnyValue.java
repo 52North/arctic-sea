@@ -21,7 +21,7 @@ package org.n52.shetland.ogc.ows;
  *
  * @author Christian Autermann
  */
-public class OwsAnyValue implements OwsPossibleValues {
+public final class OwsAnyValue implements OwsPossibleValues {
     private static final OwsAnyValue INSTANCE = new OwsAnyValue();
 
     private OwsAnyValue() {

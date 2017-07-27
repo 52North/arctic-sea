@@ -23,9 +23,10 @@ import org.n52.shetland.ogc.sensorML.Term;
  *
  * @since 1.0.0
  */
-public class SmlIdentifier extends Term {
+public class SmlIdentifier
+        extends Term {
 
-     /**
+    /**
      * constructor
      */
     public SmlIdentifier() {

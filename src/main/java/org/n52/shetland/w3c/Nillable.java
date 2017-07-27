@@ -31,6 +31,8 @@ import com.google.common.base.Optional;
  */
 public abstract class Nillable<T> {
 
+    private static final String INSTANCE_ABSENT = "instance is absent";
+
     private Nillable() {
     }
 
@@ -389,12 +391,12 @@ public abstract class Nillable<T> {
 
         @Override
         public Optional<String> getNilReason() {
-            throw new UnsupportedOperationException("instance is absent");
+            throw new UnsupportedOperationException(INSTANCE_ABSENT);
         }
 
         @Override
         public Object get() {
-            throw new UnsupportedOperationException("instance is absent");
+            throw new UnsupportedOperationException(INSTANCE_ABSENT);
         }
 
         @Override

@@ -25,8 +25,10 @@ import java.util.Collection;
  * @since 1.0.0
  *
  * @param <T>
+ *            Value tpe
  */
-public interface DiscreteCoverage<T> extends Value<T> {
+public interface DiscreteCoverage<T>
+        extends Value<T> {
 
     String getGmlId();
 

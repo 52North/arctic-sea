@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -29,6 +30,7 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 public class SweCategory extends SweAbstractUomType<String> implements SweQuality {
 
     private String value;
+    private Referenceable<SweAllowedTokens> constraint;
 
     public SweCategory() {
     }
@@ -81,6 +83,31 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
     @Override
     public String getStringValue() {
         return value;
+    }
+
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedTokens> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedTokens constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
+        this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override

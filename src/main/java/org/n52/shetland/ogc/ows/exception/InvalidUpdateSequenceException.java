@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
-import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>Value of
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>Value of
  * (optional) updateSequence parameter in GetCapabilities operation request is
  * greater than current value of service metadata updateSequence number.</i>
  *
@@ -37,6 +37,6 @@ public class InvalidUpdateSequenceException extends CodedOwsException {
 
     public InvalidUpdateSequenceException() {
         super(OwsExceptionCode.InvalidUpdateSequence);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 }

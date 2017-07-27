@@ -49,7 +49,8 @@ public class SamplingFeatureComplex {
      *                If {@link #relatedSamplingFeatureRole} is null or empty
      *                and {@link #relatedSamplingFeature} is null or empty
      */
-    public SamplingFeatureComplex(final String relatedSamplingFeatureRole, final SamplingFeature relatedSamplingFeature) {
+    public SamplingFeatureComplex(
+            final String relatedSamplingFeatureRole, final SamplingFeature relatedSamplingFeature) {
         if (Strings.isNullOrEmpty(relatedSamplingFeatureRole)) {
             throw new IllegalArgumentException("relatedSamplingFeatureRole is required.");
         }

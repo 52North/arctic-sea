@@ -24,19 +24,22 @@ import org.n52.shetland.w3c.SchemaLocation;
  *
  * @since 1.0.0
  */
-public interface WPS100Constants extends WPSConstants {
+public interface WPS100Constants
+        extends WPSConstants {
 
     String NS_WPS = "http://www.opengis.net/wps/1.0.0";
 
     /** Constant for the schema repository of the WPS */
     String SCHEMA_LOCATION_WPS = "http://schemas.opengis.net/wps/1.0.0/wpsAll.xsd";
 
-    String SCHEMA_LOCATION_URL_WPS1_GET_CAPBABILITIES = "http://schemas.opengis.net/wps/1.0.0/wpsAll.xsd";
+    String SCHEMA_LOCATION_URL_WPS1_GET_CAPBABILITIES = SCHEMA_LOCATION_WPS;
 
     SchemaLocation WPS1_SCHEMA_LOCATION = new SchemaLocation(NS_WPS, SCHEMA_LOCATION_WPS);
 
-    //TODO: there are different schemas for getcapabilities request and response
-    SchemaLocation GET_CAPABILITIES_WPS1_SCHEMA_LOCATION = new SchemaLocation(NS_WPS, SCHEMA_LOCATION_URL_WPS1_GET_CAPBABILITIES);
+    // TODO: there are different schemas for getcapabilities request and
+    // response
+    SchemaLocation GET_CAPABILITIES_WPS1_SCHEMA_LOCATION =
+            new SchemaLocation(NS_WPS, SCHEMA_LOCATION_URL_WPS1_GET_CAPBABILITIES);
 
     /** Constant for actual implementing version */
     String SERVICEVERSION = "1.0.0";

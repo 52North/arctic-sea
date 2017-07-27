@@ -22,11 +22,12 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 /**
  * Internal representation of the ISO GMD ExVerticalExtent.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public class EXVerticalExtent extends AbstractObject{
+public class EXVerticalExtent
+        extends AbstractObject {
 
     /* 1..1 */
     private Nillable<Double> minimumValue;
@@ -43,7 +44,8 @@ public class EXVerticalExtent extends AbstractObject{
     }
 
     /**
-     * @param minimumValue the minimumValue to set
+     * @param minimumValue
+     *            the minimumValue to set
      */
     public void setMinimumValue(Nillable<Double> minimumValue) {
         this.minimumValue = minimumValue;
@@ -57,7 +59,8 @@ public class EXVerticalExtent extends AbstractObject{
     }
 
     /**
-     * @param maximumValue the maximumValue to set
+     * @param maximumValue
+     *            the maximumValue to set
      */
     public void setMaximumValue(Nillable<Double> maximumValue) {
         this.maximumValue = maximumValue;
@@ -71,7 +74,8 @@ public class EXVerticalExtent extends AbstractObject{
     }
 
     /**
-     * @param verticalCRS the verticalCRS to set
+     * @param verticalCRS
+     *            the verticalCRS to set
      */
     public void setVerticalCRS(Referenceable<ScCRS> verticalCRS) {
         this.verticalCRS = verticalCRS;

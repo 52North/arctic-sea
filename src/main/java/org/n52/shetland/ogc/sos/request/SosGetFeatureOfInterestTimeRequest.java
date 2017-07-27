@@ -18,14 +18,14 @@ package org.n52.shetland.ogc.sos.request;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos1Constants;
-import org.n52.shetland.ogc.sos.Sos1Constants;
 
 /**
  * SOS GetFeatureOfInterestTime request
  *
  * @since 1.0.0
  */
-public class SosGetFeatureOfInterestTimeRequest extends OwsServiceRequest {
+public class SosGetFeatureOfInterestTimeRequest
+        extends OwsServiceRequest {
 
     /**
      * FOI identifier
@@ -57,7 +57,7 @@ public class SosGetFeatureOfInterestTimeRequest extends OwsServiceRequest {
      * Set FOI identifier
      *
      * @param featureIdentifier
-     *                          FOI identifier
+     *            FOI identifier
      */
     public void setFeatureIdentifier(String featureIdentifier) {
         this.featureIdentifier = featureIdentifier;

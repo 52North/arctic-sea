@@ -74,7 +74,8 @@ public class BoundingBoxOutputDescriptionImpl
         return this.defaultCRS;
     }
 
-    public static abstract class AbstractBuilder<T extends BoundingBoxOutputDescription, B extends AbstractBuilder<T, B>>
+    public static abstract class AbstractBuilder<T extends BoundingBoxOutputDescription,
+                                                 B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements BoundingBoxOutputDescription.Builder<T, B> {
 

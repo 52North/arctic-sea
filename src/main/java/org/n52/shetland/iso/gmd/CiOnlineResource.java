@@ -25,11 +25,12 @@ import com.google.common.base.Strings;
 /**
  * Internal representation of the ISO GMD OnlineResource.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public class CiOnlineResource extends AbstractObject {
+public class CiOnlineResource
+        extends AbstractObject {
 
     /* 1..1 */
     private Nillable<URI> linkage;
@@ -44,13 +45,17 @@ public class CiOnlineResource extends AbstractObject {
     /* 0..1 */
     private String function;
 
-//    <xs:element name="linkage" type="gmd:URL_PropertyType"/>
-//    <xs:element name="protocol" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-//    <xs:element name="applicationProfile" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-//    <xs:element name="name" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-//    <xs:element name="description" type="gco:CharacterString_PropertyType" minOccurs="0"/>
-//    <xs:element name="function" type="gmd:CI_OnLineFunctionCode_PropertyType" minOccurs="0"/>
-
+    // <xs:element name="linkage" type="gmd:URL_PropertyType"/>
+    // <xs:element name="protocol" type="gco:CharacterString_PropertyType"
+    // minOccurs="0"/>
+    // <xs:element name="applicationProfile"
+    // type="gco:CharacterString_PropertyType" minOccurs="0"/>
+    // <xs:element name="name" type="gco:CharacterString_PropertyType"
+    // minOccurs="0"/>
+    // <xs:element name="description" type="gco:CharacterString_PropertyType"
+    // minOccurs="0"/>
+    // <xs:element name="function" type="gmd:CI_OnLineFunctionCode_PropertyType"
+    // minOccurs="0"/>
 
     public CiOnlineResource(Nillable<URI> linkage) {
         this.linkage = linkage;
@@ -72,7 +77,8 @@ public class CiOnlineResource extends AbstractObject {
     }
 
     /**
-     * @param linkage the linkage to set
+     * @param linkage
+     *            the linkage to set
      */
     public void setLinkage(Nillable<URI> linkage) {
         this.linkage = linkage;
@@ -86,14 +92,16 @@ public class CiOnlineResource extends AbstractObject {
     }
 
     /**
-     * @param protocol the protocol to set
+     * @param protocol
+     *            the protocol to set
      */
     public void setProtocol(Nillable<String> protocol) {
         this.protocol = protocol;
     }
 
     /**
-     * @param protocol the protocol to set
+     * @param protocol
+     *            the protocol to set
      */
     public void setProtocol(String protocol) {
         this.protocol = Nillable.of(protocol);
@@ -111,7 +119,8 @@ public class CiOnlineResource extends AbstractObject {
     }
 
     /**
-     * @param applicationProfile the applicationProfile to set
+     * @param applicationProfile
+     *            the applicationProfile to set
      */
     public void setApplicationProfile(String applicationProfile) {
         this.applicationProfile = applicationProfile;
@@ -129,7 +138,8 @@ public class CiOnlineResource extends AbstractObject {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -147,7 +157,8 @@ public class CiOnlineResource extends AbstractObject {
     }
 
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -165,7 +176,8 @@ public class CiOnlineResource extends AbstractObject {
     }
 
     /**
-     * @param function the function to set
+     * @param function
+     *            the function to set
      */
     public void setFunction(String function) {
         this.function = function;

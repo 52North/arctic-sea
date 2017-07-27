@@ -25,7 +25,7 @@ import com.google.common.base.Strings;
 /**
  * Internal representation of the ISO GMD Address.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */

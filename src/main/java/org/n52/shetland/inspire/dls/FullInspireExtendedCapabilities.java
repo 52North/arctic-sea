@@ -48,15 +48,18 @@ import org.n52.shetland.util.CollectionHelper;
 import com.google.common.collect.Lists;
 
 /**
- * Service internal object to represent the full INSPIRE DLS ExtendedCapabilities
+ * Service internal object to represent the full INSPIRE DLS
+ * ExtendedCapabilities
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 4.1.0
  *
  */
-public class FullInspireExtendedCapabilities extends InspireExtendedCapabilitiesDLS implements
-        InspireExtendedCapabilitiesResourceLocator, InspireExtendedCapabilitiesMetadataURL,
-        InspireExtendedCapabilitiesResourceType, InspireExtendedCapabilitiesTemporalReference<FullInspireExtendedCapabilities>,
+public class FullInspireExtendedCapabilities
+        extends InspireExtendedCapabilitiesDLS
+        implements InspireExtendedCapabilitiesResourceLocator, InspireExtendedCapabilitiesMetadataURL,
+        InspireExtendedCapabilitiesResourceType,
+        InspireExtendedCapabilitiesTemporalReference<FullInspireExtendedCapabilities>,
         InspireExtendedCapabilitiesConformity, InspireExtendedCapabilitiesMetadataPointOfContact,
         InspireExtendedCapabilitiesMetadataDate, InspireExtendedCapabilitiesMandatoryKeyword,
         InspireExtendedCapabilitiesKeyword, InspireExtendedCapabilitiesSpatialDataServiceType {
@@ -102,13 +105,14 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
-     *  @param supportedCRS
+     * @param supportedCRS
      *            Supported CRSes to set
      */
-    public FullInspireExtendedCapabilities(InspireResourceLocator resourceLocator,
-            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            InspireUniqueResourceIdentifier spatialDataSetIdentifier, InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier,supportedCRS);
+    public FullInspireExtendedCapabilities(
+            InspireResourceLocator resourceLocator, InspireSupportedLanguages supportedLanguages,
+            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier,
+            InspireSupportedCRS supportedCRS) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier, supportedCRS);
         addResourceLocator(resourceLocator);
     }
 
@@ -123,12 +127,13 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
-     *  @param supportedCRS
+     * @param supportedCRS
      *            Supported CRSes to set
      */
-    public FullInspireExtendedCapabilities(List<InspireResourceLocator> resourceLocators,
-            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            InspireUniqueResourceIdentifier spatialDataSetIdentifier, InspireSupportedCRS supportedCRS) {
+    public FullInspireExtendedCapabilities(
+            List<InspireResourceLocator> resourceLocators, InspireSupportedLanguages supportedLanguages,
+            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier,
+            InspireSupportedCRS supportedCRS) {
         super(supportedLanguages, responseLanguage, spatialDataSetIdentifier, supportedCRS);
         setResourceLocator(resourceLocators);
     }
@@ -144,12 +149,13 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
-     *  @param supportedCRS
+     * @param supportedCRS
      *            Supported CRSes to set
      */
-    public FullInspireExtendedCapabilities(InspireResourceLocator resourceLocator,
-            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers, InspireSupportedCRS supportedCRS) {
+    public FullInspireExtendedCapabilities(
+            InspireResourceLocator resourceLocator, InspireSupportedLanguages supportedLanguages,
+            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers,
+            InspireSupportedCRS supportedCRS) {
         super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers, supportedCRS);
         addResourceLocator(resourceLocator);
     }
@@ -165,13 +171,14 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
-     *  @param supportedCRS
+     * @param supportedCRS
      *            Supported CRSes to set
      */
-    public FullInspireExtendedCapabilities(List<InspireResourceLocator> resourceLocators,
-            InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers, InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers,supportedCRS);
+    public FullInspireExtendedCapabilities(
+            List<InspireResourceLocator> resourceLocators, InspireSupportedLanguages supportedLanguages,
+            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers,
+            InspireSupportedCRS supportedCRS) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers, supportedCRS);
         setResourceLocator(resourceLocators);
     }
 
@@ -219,14 +226,15 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
 
     @Override
     public String toString() {
-        return String.format("%s %n[%n \tresourceLocator=%s," + "%n resourceType=%s," + "%n temporalReferences=%s,"
-                + "%n conformity=%s," + "%n metadataPointOfContacts=%s," + "%n metadataDate=%s,"
-                + "%n spatialDataServiceType=%s," + "%n mandatoryKeywords=%s," + "%n keywords=%s,"
-                + "%n supportedLanguages=%s," + "%n responseLanguage=%s," + "%n metadataUrl=%s%n]", this.getClass()
-                .getSimpleName(), CollectionHelper.collectionToString(getResourceLocator()), getResourceType(),
-                CollectionHelper.collectionToString(getTemporalReferences()), CollectionHelper
-                        .collectionToString(getConformity()), CollectionHelper
-                        .collectionToString(getMetadataPointOfContacts()), getMetadataDate(),
+        return String.format(
+                "%s %n[%n \tresourceLocator=%s," + "%n resourceType=%s," + "%n temporalReferences=%s,"
+                        + "%n conformity=%s," + "%n metadataPointOfContacts=%s," + "%n metadataDate=%s,"
+                        + "%n spatialDataServiceType=%s," + "%n mandatoryKeywords=%s," + "%n keywords=%s,"
+                        + "%n supportedLanguages=%s," + "%n responseLanguage=%s," + "%n metadataUrl=%s%n]",
+                this.getClass().getSimpleName(), CollectionHelper.collectionToString(getResourceLocator()),
+                getResourceType(), CollectionHelper.collectionToString(getTemporalReferences()),
+                CollectionHelper.collectionToString(getConformity()),
+                CollectionHelper.collectionToString(getMetadataPointOfContacts()), getMetadataDate(),
                 getSpatialDataServiceType(), CollectionHelper.collectionToString(getMandatoryKeywords()),
                 CollectionHelper.collectionToString(getKeywords()), getSupportedLanguages(), getResponseLanguage(),
                 getMetadataUrl());
@@ -238,7 +246,8 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
     }
 
     @Override
-    public InspireExtendedCapabilitiesResourceType setResourceType(InspireServiceSpatialDataResourceType resourceType) {
+    public InspireExtendedCapabilitiesResourceType setResourceType(
+            InspireServiceSpatialDataResourceType resourceType) {
         this.resourceType = resourceType;
         return this;
     }
@@ -247,10 +256,12 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
     public boolean isSetResourceType() {
         return getResourceType() != null;
     }
+
     @Override
     public List<InspireTemporalReference> getTemporalReferences() {
         return temporalReferences;
     }
+
     @Override
     public FullInspireExtendedCapabilities setTemporalReferences(
             Collection<InspireTemporalReference> temporalReferences) {
@@ -260,6 +271,7 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
         }
         return this;
     }
+
     @Override
     public FullInspireExtendedCapabilities addTemporalReference(InspireTemporalReference temporalReference) {
         getTemporalReferences().add(temporalReference);
@@ -323,7 +335,6 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
         return CollectionHelper.isNotEmpty(getMetadataPointOfContacts());
     }
 
-
     public TimeInstant getMetadataDate() {
         return metadataDate;
     }
@@ -362,7 +373,8 @@ public class FullInspireExtendedCapabilities extends InspireExtendedCapabilities
     }
 
     @Override
-    public FullInspireExtendedCapabilities setMandatoryKeywords(Collection<InspireMandatoryKeyword> mandatoryKeywords) {
+    public FullInspireExtendedCapabilities setMandatoryKeywords(
+            Collection<InspireMandatoryKeyword> mandatoryKeywords) {
         if (CollectionHelper.isNotEmpty(mandatoryKeywords)) {
             getMandatoryKeywords().clear();
             getMandatoryKeywords().addAll(mandatoryKeywords);

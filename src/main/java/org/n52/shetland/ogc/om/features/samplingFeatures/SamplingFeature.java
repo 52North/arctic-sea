@@ -16,22 +16,9 @@
  */
 package org.n52.shetland.ogc.om.features.samplingFeatures;
 
-import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
-import org.n52.shetland.ogc.om.features.samplingFeatures.FeatureOfInterestVisitor;
-
-import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.features.SfConstants;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.JavaHelper;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
 
 /**
  * Abstract super class for all sampling features
@@ -40,11 +27,6 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  */
 public class SamplingFeature extends AbstractSamplingFeature {
-
-    /**
-     * Feature geometry
-     */
-    private static final long serialVersionUID = 4660755526492323288L;
 
     /**
      * constructor
@@ -78,7 +60,8 @@ public class SamplingFeature extends AbstractSamplingFeature {
     @Override
     public String toString() {
         return String.format(
-                "SamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
+                "SamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
+                + "featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
                 getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(),
                 getSampledFeatures(), getParameters(), isEncode(), getRelatedSamplingFeatures());
     }

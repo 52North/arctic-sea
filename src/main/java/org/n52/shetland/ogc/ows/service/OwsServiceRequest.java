@@ -56,7 +56,8 @@ public abstract class OwsServiceRequest
         super(service, version, operationName);
     }
 
-    public List<OwsServiceKey> getServiceOperatorKeys() throws OwsExceptionReport {
+    public List<OwsServiceKey> getServiceOperatorKeys()
+            throws OwsExceptionReport {
         if (serviceOperatorKeyTypes == null) {
             checkServiceAndVersionParameter();
             serviceOperatorKeyTypes = Collections.singletonList(new OwsServiceKey(getService(), getVersion()));
@@ -64,7 +65,8 @@ public abstract class OwsServiceRequest
         return Collections.unmodifiableList(serviceOperatorKeyTypes);
     }
 
-    private void checkServiceAndVersionParameter() throws OwsExceptionReport {
+    private void checkServiceAndVersionParameter()
+            throws OwsExceptionReport {
         if (!isSetService()) {
             throw new MissingServiceParameterException();
         }
@@ -102,8 +104,7 @@ public abstract class OwsServiceRequest
     }
 
     public String getRequestedLanguage() {
-        return getExtension(OWSConstants.AdditionalRequestParams.language)
-                .map(e -> e.getValue()).map(value -> {
+        return getExtension(OWSConstants.AdditionalRequestParams.language).map(e -> e.getValue()).map(value -> {
             if (value instanceof Value<?, ?>) {
                 return ((Value<?, ?>) value).getStringValue();
             } else if (value instanceof String) {
@@ -124,10 +125,7 @@ public abstract class OwsServiceRequest
 
     @Override
     public String toString() {
-        return String.format("%s[service=%s, version=%s, operation=%s]",
-                             getClass().getName(),
-                             getService(),
-                             getVersion(),
-                             getOperationName());
+        return String.format("%s[service=%s, version=%s, operation=%s]", getClass().getName(), getService(),
+                getVersion(), getOperationName());
     }
 }

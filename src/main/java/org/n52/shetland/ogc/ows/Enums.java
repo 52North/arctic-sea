@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  *
  * @author Christian Autermann
  */
-public class Enums {
+public final class Enums {
 
 
     private static final Map<Class<? extends Enum<?>>, Map<String, Enum<?>>> NAMES = new HashMap<>();

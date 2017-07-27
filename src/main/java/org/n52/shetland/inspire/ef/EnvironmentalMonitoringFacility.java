@@ -27,7 +27,8 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Point;
 
-public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
+public class EnvironmentalMonitoringFacility
+        extends AbstractMonitoringFeature {
 
     /**
      * 0..1
@@ -69,8 +70,7 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
      */
     private Set<NetworkFacility> belongsTo = Sets.newHashSet();
 
-
-    private boolean wasEncoded = false;
+    private boolean wasEncoded;
 
     public EnvironmentalMonitoringFacility(SimpleAttrs simpleAttrs) {
         super(simpleAttrs);
@@ -84,8 +84,9 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
         super(inspireId, mediaMonitored);
     }
 
-    public EnvironmentalMonitoringFacility(Identifier inspireId, ReferenceType mediaMonitored,
-            ReferenceType measurementRegime, boolean mobile, OperationalActivityPeriod operationalActivityPeriod) {
+    public EnvironmentalMonitoringFacility(
+            Identifier inspireId, ReferenceType mediaMonitored, ReferenceType measurementRegime, boolean mobile,
+            OperationalActivityPeriod operationalActivityPeriod) {
         super(inspireId, mediaMonitored);
         this.measurementRegime = measurementRegime;
         this.mobile = mobile;
@@ -93,8 +94,8 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
         setDefaultElementEncoding(InspireEfConstants.NS_EF);
     }
 
-    public EnvironmentalMonitoringFacility(Identifier inspireId, Set<ReferenceType> mediaMonitored,
-            ReferenceType measurementRegime, boolean mobile,
+    public EnvironmentalMonitoringFacility(
+            Identifier inspireId, Set<ReferenceType> mediaMonitored, ReferenceType measurementRegime, boolean mobile,
             Set<OperationalActivityPeriod> operationalActivityPeriod) {
         super(inspireId, mediaMonitored);
         this.measurementRegime = measurementRegime;
@@ -146,7 +147,8 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
     }
 
     /**
-     * @param measurementRegime the measurementRegime to set
+     * @param measurementRegime
+     *            the measurementRegime to set
      */
     public void setMeasurementRegime(ReferenceType measurementRegime) {
         this.measurementRegime = measurementRegime;
@@ -164,7 +166,8 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
     }
 
     /**
-     * @param mobile the mobile to set
+     * @param mobile
+     *            the mobile to set
      */
     public void setMobile(Boolean mobile) {
         this.mobile = mobile;
@@ -221,7 +224,8 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
     }
 
     /**
-     * @param operationalActivityPeriod the operationalActivityPeriod to set
+     * @param operationalActivityPeriod
+     *            the operationalActivityPeriod to set
      */
     public void setOperationalActivityPeriod(Set<OperationalActivityPeriod> operationalActivityPeriod) {
         this.operationalActivityPeriod = operationalActivityPeriod;
@@ -272,7 +276,7 @@ public class EnvironmentalMonitoringFacility extends AbstractMonitoringFeature {
     }
 
     public void wasEncoded() {
-        this.wasEncoded  = true;
+        this.wasEncoded = true;
     }
 
 }

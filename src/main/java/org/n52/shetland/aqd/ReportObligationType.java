@@ -32,7 +32,7 @@ public enum ReportObligationType {
 
     private final String description;
 
-    private ReportObligationType(String title, String description) {
+    ReportObligationType(String title, String description) {
         this.title = title;
         this.description = description;
     }

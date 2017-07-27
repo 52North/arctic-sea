@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.inspire.base;
 
-
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.w3c.Nillable;
 
@@ -26,13 +25,16 @@ import com.google.common.base.Strings;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
-public class Identifier extends CodeWithAuthority {
+public class Identifier
+        extends CodeWithAuthority {
 
     private Nillable<String> versionId = Nillable.absent();
 
     /**
      * @param localId
+     *            the localID
      * @param namespace
+     *            the namespace
      */
     public Identifier(String localId, String namespace) {
         super(localId, namespace);
@@ -128,20 +130,17 @@ public class Identifier extends CodeWithAuthority {
     public boolean equals(Object obj) {
         if (obj instanceof Identifier) {
             Identifier that = (Identifier) obj;
-            return Objects.equal(this.getNamespace(), that.getNamespace()) &&
-                   Objects.equal(this.getLocalId(), that.getLocalId()) &&
-                   Objects.equal(this.getVersionId(), that.getVersionId());
+            return Objects.equal(this.getNamespace(), that.getNamespace())
+                    && Objects.equal(this.getLocalId(), that.getLocalId())
+                    && Objects.equal(this.getVersionId(), that.getVersionId());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("localId", getLocalId())
-                .add("namespace", getNamespace())
-                .add("versionId", getVersionId())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("localId", getLocalId()).add("namespace", getNamespace())
+                .add("versionId", getVersionId()).toString();
     }
 
 }

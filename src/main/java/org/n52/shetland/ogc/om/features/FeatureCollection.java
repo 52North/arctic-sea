@@ -32,28 +32,31 @@ import com.google.common.collect.Maps;
  *
  * @since 1.0.0
  */
-public class FeatureCollection extends AbstractFeature implements Iterable<AbstractFeature> {
+public class FeatureCollection
+        extends AbstractFeature
+        implements Iterable<AbstractFeature> {
 
+    private static String GML_FEATURE_COLLECTION = "gml:FeatureCollection";
     /**
      * members of this feature collection
      */
-    private SortedMap<String, AbstractFeature> members = Maps.<String, AbstractFeature>newTreeMap();
+    private SortedMap<String, AbstractFeature> members = Maps.<String, AbstractFeature> newTreeMap();
 
     /**
      * constructor
      */
     public FeatureCollection() {
-        super(new CodeWithAuthority("gml:FeatureCollection"));
+        super(new CodeWithAuthority(GML_FEATURE_COLLECTION));
     }
 
     /**
      * constructor
      *
      * @param members
-     *                collection with feature members of this collection
+     *            collection with feature members of this collection
      */
     public FeatureCollection(final Map<String, AbstractFeature> members) {
-        super(new CodeWithAuthority("gml:FeatureCollection"));
+        super(new CodeWithAuthority(GML_FEATURE_COLLECTION));
         this.members.clear();
         this.members.putAll(members);
     }
@@ -71,7 +74,7 @@ public class FeatureCollection extends AbstractFeature implements Iterable<Abstr
      * Set features
      *
      * @param members
-     *                the members to set
+     *            the members to set
      */
     public void setMembers(Map<String, AbstractFeature> members) {
         this.members.putAll(members);
@@ -91,7 +94,7 @@ public class FeatureCollection extends AbstractFeature implements Iterable<Abstr
 
     /**
      * @param featureIdentifier
-     *                          the id
+     *            the id
      *
      * @return the removed feature
      *

@@ -44,7 +44,8 @@ import com.vividsolutions.jts.geom.Point;
  * @since
  *
  */
-public class MultiPointObservation extends AbstractInspireObservation {
+public class MultiPointObservation
+        extends AbstractInspireObservation {
 
     /**
      * consturctor
@@ -58,7 +59,7 @@ public class MultiPointObservation extends AbstractInspireObservation {
      *
      * @param observation
      *            {@link OmObservation} to convert
-     * @throws CodedException
+     * @throws CodedException If an error occurs
      */
     public MultiPointObservation(OmObservation observation) throws CodedException {
         super(observation);
@@ -128,7 +129,8 @@ public class MultiPointObservation extends AbstractInspireObservation {
             point.setSRID(geometry.getSRID());
         } else {
             if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature
-                    && ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).isSetGeometry()) {
+                    && ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                            .isSetGeometry()) {
                 Geometry geometry =
                         ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).getGeometry();
                 point = geometry.getInteriorPoint();
@@ -173,9 +175,11 @@ public class MultiPointObservation extends AbstractInspireObservation {
                 }
             } else {
                 if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature
-                        && ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).isSetGeometry()) {
+                        && ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                                .isSetGeometry()) {
                     Geometry geometry =
-                            ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).getGeometry();
+                            ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                                    .getGeometry();
                     if (geometry != null) {
                         if (factory == null) {
                             factory = geometry.getFactory();

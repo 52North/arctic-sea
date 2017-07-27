@@ -16,14 +16,16 @@
  */
 package org.n52.shetland.ogc.ows.extension;
 
-//FIXME should this one replaced by SwesExtension<String> or should {@link SwesExtension} provide a direct and easy way to get the string represenation of this extension Object?
+//FIXME should this one replaced by SwesExtension<String> or should
+// {@link SwesExtension} provide a direct and easy way to get the string represenation of this extension Object?
 //<!--@deprecated use {@link Encoder.encode(Object).toString()}-->
-public interface StringBasedExtension extends Extension<String> {
+public interface StringBasedExtension
+        extends Extension<String> {
 
     /**
      * Get this extension as a String.
      *
      * @return the extension as a xml text
      */
-    public String getExtension();
+    String getExtension();
 }

@@ -25,7 +25,8 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
  * @since 1.0.0
  *
  */
-public class NilTemplateValue implements Value<String> {
+public class NilTemplateValue
+        implements Value<String> {
 
     /**
      * Unit of measure
@@ -48,6 +49,12 @@ public class NilTemplateValue implements Value<String> {
     }
 
     @Override
+    public NilTemplateValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -61,15 +68,8 @@ public class NilTemplateValue implements Value<String> {
     }
 
     @Override
-    public NilTemplateValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    @Override
     public String toString() {
-        return String
-                .format("NilTemplateValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("NilTemplateValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override

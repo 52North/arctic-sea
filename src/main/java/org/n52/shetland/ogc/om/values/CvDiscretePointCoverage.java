@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-
-
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.PointValuePair;
@@ -33,8 +31,10 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class CvDiscretePointCoverage implements Value<PointValuePair> {
+public class CvDiscretePointCoverage
+        implements Value<PointValuePair> {
 
+    private static final String GML_ID_PREFIX = "dpc_";
     private final String gmlId;
     private String domainExtent;
     private ReferenceType rangeType;
@@ -43,9 +43,9 @@ public class CvDiscretePointCoverage implements Value<PointValuePair> {
 
     public CvDiscretePointCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            this.gmlId = JavaHelper.generateID(toString());
-        } else if (!gmlId.startsWith("dpc_")) {
-            this.gmlId = "dpc_" + gmlId;
+            this.gmlId = GML_ID_PREFIX + JavaHelper.generateID(toString());
+        } else if (!gmlId.startsWith(GML_ID_PREFIX)) {
+            this.gmlId = GML_ID_PREFIX + gmlId;
         } else {
             this.gmlId = gmlId;
         }
@@ -111,6 +111,12 @@ public class CvDiscretePointCoverage implements Value<PointValuePair> {
     }
 
     @Override
+    public CvDiscretePointCoverage setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -121,12 +127,6 @@ public class CvDiscretePointCoverage implements Value<PointValuePair> {
     @Override
     public UoM getUnitObject() {
         return this.unit;
-    }
-
-    @Override
-    public CvDiscretePointCoverage setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
     }
 
     @Override

@@ -49,7 +49,7 @@ public abstract class AbstractDataDescription extends AbstractDescription
 
 
 
-    public static abstract class AbstractBuilder<T extends DataDescription, B extends DataDescription.Builder<T, B>>
+    public abstract static class AbstractBuilder<T extends DataDescription, B extends DataDescription.Builder<T, B>>
             extends AbstractDescription.AbstractBuilder<T, B>
             implements DataDescription.Builder<T, B> {
 

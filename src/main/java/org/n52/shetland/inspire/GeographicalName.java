@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.inspire;
 
-
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -31,6 +30,7 @@ import com.google.common.base.Preconditions;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class GeographicalName {
@@ -100,14 +100,12 @@ public class GeographicalName {
         return pronunciation;
     }
 
-    public GeographicalName setPronunciation(
-                                             Nillable<Pronunciation> pronunciation) {
+    public GeographicalName setPronunciation(Nillable<Pronunciation> pronunciation) {
         this.pronunciation = Preconditions.checkNotNull(pronunciation);
         return this;
     }
 
-    public GeographicalName setPronunciation(
-                                             Pronunciation pronunciation) {
+    public GeographicalName setPronunciation(Pronunciation pronunciation) {
         return setPronunciation(Nillable.of(pronunciation));
     }
 
@@ -132,8 +130,7 @@ public class GeographicalName {
         return grammaticalGender;
     }
 
-    public GeographicalName setGrammaticalGender(
-                                                 Nillable<CodeType> grammaticalGender) {
+    public GeographicalName setGrammaticalGender(Nillable<CodeType> grammaticalGender) {
         this.grammaticalGender = Preconditions.checkNotNull(grammaticalGender);
         return this;
     }
@@ -146,8 +143,7 @@ public class GeographicalName {
         return grammaticalNumber;
     }
 
-    public GeographicalName setGrammaticalNumber(
-                                                 Nillable<CodeType> grammaticalNumber) {
+    public GeographicalName setGrammaticalNumber(Nillable<CodeType> grammaticalNumber) {
         this.grammaticalNumber = Preconditions.checkNotNull(grammaticalNumber);
         return this;
     }
@@ -158,45 +154,32 @@ public class GeographicalName {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("language", getLanguage())
-                .add("nativeness", getNativeness())
-                .add("nameStatus", getNameStatus())
-                .add("grammaticalGender", getGrammaticalGender())
-                .add("grammaticalNumber", getGrammaticalNumber())
-                .add("pronunciation", getPronunciation())
-                .add("sourceOfName", getSourceOfName())
-                .add("spelling", getSpelling())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("language", getLanguage()).add("nativeness", getNativeness())
+                .add("nameStatus", getNameStatus()).add("grammaticalGender", getGrammaticalGender())
+                .add("grammaticalNumber", getGrammaticalNumber()).add("pronunciation", getPronunciation())
+                .add("sourceOfName", getSourceOfName()).add("spelling", getSpelling()).toString();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getLanguage(),getNativeness(),getNameStatus(),
-                getGrammaticalNumber(), getGrammaticalGender(), getPronunciation(),
-                getSourceOfName(), getSpelling());
+        return Objects.hashCode(getLanguage(), getNativeness(), getNameStatus(), getGrammaticalNumber(),
+                getGrammaticalGender(), getPronunciation(), getSourceOfName(), getSpelling());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof GeographicalName) {
             GeographicalName that = (GeographicalName) obj;
-            return Objects.equal(this.getGrammaticalGender(), that.getGrammaticalGender()) &&
-                   Objects.equal(this.getGrammaticalNumber(), that.getGrammaticalNumber()) &&
-                   Objects.equal(this.getLanguage(), that.getLanguage()) &&
-                   Objects.equal(this.getNameStatus(), that.getNameStatus()) &&
-                   Objects.equal(this.getNativeness(), that.getNativeness()) &&
-                   Objects.equal(this.getPronunciation(), that.getPronunciation()) &&
-                   Objects.equal(this.getSourceOfName(), that.getSourceOfName()) &&
-                   Objects.equal(this.getSpelling(), that.getSpelling());
+            return Objects.equal(this.getGrammaticalGender(), that.getGrammaticalGender())
+                    && Objects.equal(this.getGrammaticalNumber(), that.getGrammaticalNumber())
+                    && Objects.equal(this.getLanguage(), that.getLanguage())
+                    && Objects.equal(this.getNameStatus(), that.getNameStatus())
+                    && Objects.equal(this.getNativeness(), that.getNativeness())
+                    && Objects.equal(this.getPronunciation(), that.getPronunciation())
+                    && Objects.equal(this.getSourceOfName(), that.getSourceOfName())
+                    && Objects.equal(this.getSpelling(), that.getSpelling());
         }
         return false;
     }
-
-
-
-
-
-
 
 }

@@ -41,7 +41,8 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
  *
  * @author Christian Autermann
  */
-public interface ObservationStream extends ThrowingIterator<OmObservation, OwsExceptionReport>, AutoCloseable {
+public interface ObservationStream
+        extends ThrowingIterator<OmObservation, OwsExceptionReport>, AutoCloseable {
     @Override
     default void close() {
     }
@@ -57,7 +58,8 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      *
      * @return the first observation of the stream
      *
-     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     * @throws OwsExceptionReport
+     *             if an error occurs during observation retrieval
      */
     default Optional<OmObservation> findFirst() throws OwsExceptionReport {
         if (hasNext()) {
@@ -68,8 +70,9 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * Creates a new stream of this observation stream. Note that consuming the stream will drain the iterator and all
-     * thrown exceptions will be wrapped in {@link RuntimeException}s.
+     * Creates a new stream of this observation stream. Note that consuming the
+     * stream will drain the iterator and all thrown exceptions will be wrapped
+     * in {@link RuntimeException}s.
      *
      * @return the stream
      */
@@ -97,11 +100,13 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * As this stream is always serial this is the same as {@link #findFirst() }.
+     * As this stream is always serial this is the same as {@link #findFirst() }
+     * .
      *
      * @return the first observation of the stream
      *
-     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     * @throws OwsExceptionReport
+     *             if an error occurs during observation retrieval
      */
     default Optional<OmObservation> findAny() throws OwsExceptionReport {
         return findFirst();
@@ -109,10 +114,11 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
 
     /**
      *
-     * Creates a new observation stream from an consumer that consumes every observation before it is emitted by the
-     * stream.
+     * Creates a new observation stream from an consumer that consumes every
+     * observation before it is emitted by the stream.
      *
-     * @param consumer the consumer
+     * @param consumer
+     *            the consumer
      *
      * @return the new stream
      */
@@ -126,10 +132,11 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * Creates a new observation stream from a mapping function that produces a stream for every observation in this
-     * stream.
+     * Creates a new observation stream from a mapping function that produces a
+     * stream for every observation in this stream.
      *
-     * @param mapper the mapping function
+     * @param mapper
+     *            the mapping function
      *
      * @return the new stream
      */
@@ -170,10 +177,11 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * Produces a observation new stream from a mapping function that produces a new observation for every observation
-     * in this stream.
+     * Produces a observation new stream from a mapping function that produces a
+     * new observation for every observation in this stream.
      *
-     * @param operator the mapping function
+     * @param operator
+     *            the mapping function
      *
      * @return the new stream
      */
@@ -198,10 +206,11 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * Creates a new observation stream that filters the observatons from the original stream using the supplied
-     * predicate.
+     * Creates a new observation stream that filters the observatons from the
+     * original stream using the supplied predicate.
      *
-     * @param predicate the filter
+     * @param predicate
+     *            the filter
      *
      * @return the new stream
      */
@@ -229,12 +238,14 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * Creates a new stream out of this stream in which observations with the same observation constellation are merged.
-     * Be aware that this method will consume this stream completely.
+     * Creates a new stream out of this stream in which observations with the
+     * same observation constellation are merged. Be aware that this method will
+     * consume this stream completely.
      *
      * @return the new observation stream
      *
-     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     * @throws OwsExceptionReport
+     *             if an error occurs during observation retrieval
      *
      * @see OmObservation#checkForMerge(org.n52.shetland.ogc.om.OmObservation)
      * @see OmObservation#mergeWithObservation(org.n52.shetland.ogc.om.OmObservation)
@@ -245,14 +256,16 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     }
 
     /**
-     * Creates a new stream out of this stream in which observations with the same observation constellation are merged.
-     * Be aware that this method will consume this stream completely.
+     * Creates a new stream out of this stream in which observations with the
+     * same observation constellation are merged. Be aware that this method will
+     * consume this stream completely.
      *
      * @param indicator
      *
      * @return the new observation stream
      *
-     * @throws OwsExceptionReport if an error occurs during observation retrieval
+     * @throws OwsExceptionReport
+     *             if an error occurs during observation retrieval
      *
      * @see OmObservation#checkForMerge(org.n52.shetland.ogc.om.OmObservation)
      * @see OmObservation#mergeWithObservation(org.n52.shetland.ogc.om.OmObservation)
@@ -264,9 +277,8 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
         try {
             while (hasNext()) {
                 OmObservation observation = next();
-                Optional<OmObservation> merge = mergedObservations.stream()
-                        .filter(o -> o.checkForMerge(observation, indicator))
-                        .findAny();
+                Optional<OmObservation> merge =
+                        mergedObservations.stream().filter(o -> o.checkForMerge(observation, indicator)).findAny();
                 if (merge.isPresent()) {
                     merge.get().mergeWithObservation(observation);
                 } else {
@@ -285,11 +297,15 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     /**
      * Iterate over each remaining element in this stream.
      *
-     * @param consumer the consumer
+     * @param consumer
+     *            the consumer
      *
-     * @throws OwsExceptionReport if the consumer throws an error
-     * @deprecated use {@link #forEachRemaining(org.n52.janmayen.function.ThrowingConsumer)} as the name makes it more
-     * clear that this object can only be iterated once.
+     * @throws OwsExceptionReport
+     *             if the consumer throws an error
+     * @deprecated use
+     *             {@link #forEachRemaining(org.n52.janmayen.function.ThrowingConsumer)}
+     *             as the name makes it more clear that this object can only be
+     *             iterated once.
      */
     @Deprecated
     default void forEach(ThrowingConsumer<OmObservation, OwsExceptionReport> consumer) throws OwsExceptionReport {
@@ -301,7 +317,7 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
      *
      * @return the stream
      */
-    public static ObservationStream empty() {
+    static ObservationStream empty() {
         return new ObservationStream() {
             @Override
             public OmObservation next() {
@@ -350,11 +366,12 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     /**
      * Creates a new observation stream from the supplied iterator.
      *
-     * @param observations the observations
+     * @param observations
+     *            the observations
      *
      * @return the stream
      */
-    public static ObservationStream of(Iterator<OmObservation> observations) {
+    static ObservationStream of(Iterator<OmObservation> observations) {
         Objects.requireNonNull(observations);
         return new ObservationStream() {
 
@@ -373,26 +390,28 @@ public interface ObservationStream extends ThrowingIterator<OmObservation, OwsEx
     /**
      * Creates a new observation stream from the supplied iterable.
      *
-     * @param observations the observations
+     * @param observations
+     *            the observations
      *
      * @return the stream
      */
-    public static ObservationStream of(Iterable<OmObservation> observations) {
+    static ObservationStream of(Iterable<OmObservation> observations) {
         return of(observations.iterator());
     }
 
     /**
      * Creates a new observation stream from the supplied observation.
      *
-     * @param observation the observation
+     * @param observation
+     *            the observation
      *
      * @return the stream
      */
-    public static ObservationStream of(OmObservation observation) {
+    static ObservationStream of(OmObservation observation) {
         Objects.requireNonNull(observation);
         return new ObservationStream() {
 
-            private boolean done = false;
+            private boolean done;
 
             @Override
             public OmObservation next() {

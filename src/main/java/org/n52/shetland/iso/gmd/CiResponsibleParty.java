@@ -25,7 +25,7 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
 /**
  * Internal representation of the ISO GMD ResponsibleParty.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */

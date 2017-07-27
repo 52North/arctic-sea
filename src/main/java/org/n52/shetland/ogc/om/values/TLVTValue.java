@@ -27,14 +27,14 @@ import org.n52.shetland.ogc.om.TimeLocationValueTriple;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.util.CollectionHelper;
 
-
 /**
  * {@link MultiValue} representing a time location value triple for observations
  *
  * @since 1.0.0
  *
  */
-public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
+public class TLVTValue
+        implements MultiValue<List<TimeLocationValueTriple>> {
 
     /**
      * Mesurement values
@@ -85,6 +85,12 @@ public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
     }
 
     @Override
+    public TLVTValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -95,12 +101,6 @@ public class TLVTValue implements MultiValue<List<TimeLocationValueTriple>> {
     @Override
     public UoM getUnitObject() {
         return this.unit;
-    }
-
-    @Override
-    public TLVTValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
     }
 
     @Override

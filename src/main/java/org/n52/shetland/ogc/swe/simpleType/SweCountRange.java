@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -28,6 +29,7 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
 
     private RangeValue<Integer> value;
+    private Referenceable<SweAllowedValues> constraint;
 
     @Override
     public RangeValue<Integer> getValue() {
@@ -48,6 +50,31 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     @Override
     public String getStringValue() {
         return value.toString();
+    }
+
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedValues> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedValues constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedValues> constraint) {
+        this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override

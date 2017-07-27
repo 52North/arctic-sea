@@ -26,7 +26,8 @@ import org.joda.time.DateTimeZone;
  *
  * @since 1.0.0
  */
-public class TimeInstant extends Time {
+public class TimeInstant
+        extends Time {
     /**
      * serial number
      */
@@ -85,7 +86,8 @@ public class TimeInstant extends Time {
      * Constructor using Java Dates, setting unknown indeterminate values if
      * null
      *
-     * @param date Value date
+     * @param date
+     *            Value date
      */
     public TimeInstant(Date date) {
         if (date != null) {
@@ -209,13 +211,15 @@ public class TimeInstant extends Time {
     @Override
     public boolean equals(final Object paramObject) {
         if (paramObject instanceof TimeInstant) {
-            TimeInstant toCheck = (TimeInstant)paramObject;
+            TimeInstant toCheck = (TimeInstant) paramObject;
             if (isSetValue() && toCheck.isSetValue()) {
                 return getValue().isEqual(toCheck.getValue());
             } else if (isSetIndeterminateValue() && toCheck.isSetIndeterminateValue()) {
                 return getIndeterminateValue().equals(toCheck.getIndeterminateValue());
-            } else if (isSetValue() && toCheck.isSetValue() && isSetIndeterminateValue() && toCheck.isSetIndeterminateValue()) {
-                return getValue().isEqual(toCheck.getValue()) && getIndeterminateValue().equals(toCheck.getIndeterminateValue());
+            } else if (isSetValue() && toCheck.isSetValue() && isSetIndeterminateValue()
+                    && toCheck.isSetIndeterminateValue()) {
+                return getValue().isEqual(toCheck.getValue())
+                        && getIndeterminateValue().equals(toCheck.getIndeterminateValue());
             }
         }
         return false;

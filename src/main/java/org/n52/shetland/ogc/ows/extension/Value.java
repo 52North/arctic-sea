@@ -23,7 +23,9 @@ package org.n52.shetland.ogc.ows.extension;
  * @since 1.0.0
  *
  * @param <T>
+ *            Value type
  * @param <S>
+ *            Instance type
  */
 public interface Value<T, S> {
 

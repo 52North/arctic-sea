@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.ows.exception;
 import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>List of
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>List of
  * versions in “AcceptVersions” parameter value in GetCapabilities operation
  * request did not include any version supported by this server.</i>
  *

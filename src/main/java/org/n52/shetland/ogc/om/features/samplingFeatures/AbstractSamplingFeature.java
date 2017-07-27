@@ -36,8 +36,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Geometry;
 
-public abstract class AbstractSamplingFeature extends AbstractFeature implements FeatureWithGeometry,
-        FeatureWithFeatureType, FeatureWithUrl, FeatureWithEncode {
+public abstract class AbstractSamplingFeature
+        extends AbstractFeature
+        implements FeatureWithGeometry, FeatureWithFeatureType, FeatureWithUrl, FeatureWithEncode {
 
     /**
      * Feature geometry
@@ -74,7 +75,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature implements
      */
     private Collection<SamplingFeatureComplex> relatedSamplingFeatures;
 
-    private boolean wasEncoded = false;
+    private boolean wasEncoded;
 
     /**
      * constructor
@@ -228,7 +229,7 @@ public abstract class AbstractSamplingFeature extends AbstractFeature implements
     }
 
     public void wasEncoded() {
-        this.wasEncoded  = true;
+        this.wasEncoded = true;
     }
 
     /**
@@ -276,9 +277,8 @@ public abstract class AbstractSamplingFeature extends AbstractFeature implements
      * @return Related sampling features
      */
     public List<SamplingFeatureComplex> getRelatedSamplingFeatures() {
-        return relatedSamplingFeatures != null
-                ? Lists.newArrayList(relatedSamplingFeatures)
-                : Collections.<SamplingFeatureComplex>emptyList();
+        return relatedSamplingFeatures != null ? Lists.newArrayList(relatedSamplingFeatures)
+                : Collections.<SamplingFeatureComplex> emptyList();
     }
 
     /**
@@ -292,9 +292,10 @@ public abstract class AbstractSamplingFeature extends AbstractFeature implements
 
     @Override
     public String toString() {
-        return String
-                .format("AbstractSamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
-                        getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(),
-                        getSampledFeatures(), getParameters(), isEncode(), getRelatedSamplingFeatures());
+        return String.format(
+                "AbstractSamplingFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
+                + "featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
+                getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(), getSampledFeatures(),
+                getParameters(), isEncode(), getRelatedSamplingFeatures());
     }
 }

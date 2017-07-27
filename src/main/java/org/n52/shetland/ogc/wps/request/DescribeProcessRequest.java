@@ -50,12 +50,12 @@ public class DescribeProcessRequest extends OwsServiceRequest {
         addProcessIdentifier(new OwsCode(identifier));
     }
 
-    public void addProcessIdentifiers(List<String> identifiers) {
-        identifiers.forEach(this::addProcessIdentifier);
-    }
-
     public void addProcessIdentifier(OwsCode identifier) {
         this.identifiers.add(Objects.requireNonNull(identifier));
+    }
+
+    public void addProcessIdentifiers(List<String> identifiers) {
+        identifiers.forEach(this::addProcessIdentifier);
     }
 
     public boolean isAll() {

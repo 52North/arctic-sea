@@ -42,12 +42,13 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <S>
  *            Entity type
  */
-public abstract class StreamingValue<S> extends AbstractStreaming {
+public abstract class StreamingValue<S>
+        extends AbstractStreaming {
     private Time phenomenonTime;
     private TimeInstant resultTime;
     private Time validTime;
     private String unit;
-    private boolean unitQueried = false;
+    private boolean unitQueried;
     private OmObservation observationTemplate;
     private GeometryTransformer geometryTransformer;
 
@@ -84,7 +85,8 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
     }
 
     /**
-     * @param geometryTransformer the geometryTransformer to set
+     * @param geometryTransformer
+     *            the geometryTransformer to set
      */
     @Inject
     public void setGeometryTransformer(GeometryTransformer geometryTransformer) {
@@ -146,6 +148,12 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
             }
 
             @Override
+            public Value<ObservationStream> setUnit(UoM unit) {
+                setUnit(unit.getUom());
+                return this;
+            }
+
+            @Override
             public String getUnit() {
                 return StreamingValue.this.getUnit();
             }
@@ -153,12 +161,6 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
             @Override
             public UoM getUnitObject() {
                 return getUnit() == null ? null : new UoM(getUnit());
-            }
-
-            @Override
-            public Value<ObservationStream> setUnit(UoM unit) {
-                setUnit(unit.getUom());
-                return this;
             }
 
             @Override
@@ -232,11 +234,11 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
             }
             if (observation.isSetParameter()) {
                 for (NamedValue<?> namedValue : observation.getParameter()) {
-                    if (getGeometryTransformer() != null && Sos2Constants.HREF_PARAMETER_SPATIAL_FILTERING_PROFILE.equals(namedValue.getName().getHref())) {
+                    if (getGeometryTransformer() != null && Sos2Constants.HREF_PARAMETER_SPATIAL_FILTERING_PROFILE
+                            .equals(namedValue.getName().getHref())) {
                         NamedValue<Geometry> spatialFilteringProfileParameter = (NamedValue<Geometry>) namedValue;
-                        spatialFilteringProfileParameter.getValue().setValue(
-                                getGeometryTransformer().transform(
-                                        spatialFilteringProfileParameter.getValue().getValue(), targetCRS));
+                        spatialFilteringProfileParameter.getValue().setValue(getGeometryTransformer()
+                                .transform(spatialFilteringProfileParameter.getValue().getValue(), targetCRS));
                     }
                 }
             }

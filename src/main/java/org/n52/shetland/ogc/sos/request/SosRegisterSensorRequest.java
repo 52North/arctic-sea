@@ -18,10 +18,9 @@ package org.n52.shetland.ogc.sos.request;
 
 import java.util.Collection;
 
-import org.n52.shetland.ogc.sos.Sos1Constants;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.AbstractPhenomenon;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 
 /**
@@ -29,7 +28,8 @@ import org.n52.shetland.ogc.sos.Sos1Constants;
  *
  * @since 1.0.0
  */
-public class SosRegisterSensorRequest extends OwsServiceRequest {
+public class SosRegisterSensorRequest
+        extends OwsServiceRequest {
 
     /**
      * SOS Sensor system
@@ -61,9 +61,9 @@ public class SosRegisterSensorRequest extends OwsServiceRequest {
      * @param featuresOfInterest
      *            FeatureOfInterest
      */
-    public SosRegisterSensorRequest(Collection<AbstractPhenomenon> observableProperties,
-                                    String sensorDescription,
-                                    Collection<AbstractFeature> featuresOfInterest) {
+    public SosRegisterSensorRequest(
+            Collection<AbstractPhenomenon> observableProperties, String sensorDescription,
+            Collection<AbstractFeature> featuresOfInterest) {
         super(null, null, Sos1Constants.Operations.RegisterSensor.name());
         // this.system = system;
         this.observableProperties = observableProperties;
@@ -146,6 +146,5 @@ public class SosRegisterSensorRequest extends OwsServiceRequest {
     public void setFeaturesOfInterest(Collection<AbstractFeature> featuresOfInterest) {
         this.featuresOfInterest = featuresOfInterest;
     }
-
 
 }

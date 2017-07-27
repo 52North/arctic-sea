@@ -26,7 +26,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
  * @since 1.0.0
  *
  */
-public class CategoryValue extends SweCategory implements Value<String> {
+public class CategoryValue
+        extends SweCategory
+        implements Value<String> {
 
     /**
      * constructor
@@ -60,7 +62,7 @@ public class CategoryValue extends SweCategory implements Value<String> {
      *            Unit of measure
      */
     public CategoryValue(String value, UoM unit) {
-       super(value, unit);
+        super(value, unit);
     }
 
     @Override
@@ -75,6 +77,12 @@ public class CategoryValue extends SweCategory implements Value<String> {
     }
 
     @Override
+    public CategoryValue setUnit(UoM unit) {
+        super.setUom(unit);
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         return super.getUom();
     }
@@ -82,12 +90,6 @@ public class CategoryValue extends SweCategory implements Value<String> {
     @Override
     public UoM getUnitObject() {
         return super.getUomObject();
-    }
-
-    @Override
-    public CategoryValue setUnit(UoM unit) {
-       super.setUom(unit);
-       return this;
     }
 
     @Override

@@ -29,7 +29,10 @@ import com.vividsolutions.jts.geom.Geometry;
  * @since 1.0.0
  *
  */
-public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
+public class GeometryValue
+        extends AbstractGeometry
+        implements Value<Geometry> {
+    private static final String GML_ID_PREFIX = "sp_";
     /**
      * Unit of measure
      */
@@ -40,17 +43,18 @@ public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
         setGeometry(abstractGeometry.getGeometry());
         setIdentifier(abstractGeometry.getIdentifierCodeWithAuthority());
         setName(abstractGeometry.getName());
-        setGmlId("sp_" + JavaHelper.generateID(toString()));
+        setGmlId(GML_ID_PREFIX + JavaHelper.generateID(toString()));
     }
 
     /**
      * construcor
      *
-     * @param value Geometry value
+     * @param value
+     *            Geometry value
      */
     public GeometryValue(Geometry value) {
         setValue(value);
-        setGmlId("sp_" + JavaHelper.generateID(toString()));
+        setGmlId(GML_ID_PREFIX + JavaHelper.generateID(toString()));
     }
 
     @Override
@@ -70,6 +74,12 @@ public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
     }
 
     @Override
+    public GeometryValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -83,15 +93,8 @@ public class GeometryValue extends AbstractGeometry implements Value<Geometry> {
     }
 
     @Override
-    public GeometryValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    @Override
     public String toString() {
-        return String
-                .format("GeometryValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("GeometryValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override

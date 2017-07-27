@@ -23,7 +23,8 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 
 import com.google.common.collect.Sets;
 
-public class PointTimeSeriesObservation extends AbstractInspireObservation {
+public class PointTimeSeriesObservation
+        extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -42,19 +43,20 @@ public class PointTimeSeriesObservation extends AbstractInspireObservation {
         super(observation);
         if (!checkForFeatureGeometry(observation) && observation.isSetSpatialFilteringProfileParameter()) {
             try {
-                ((AbstractSamplingFeature)getObservationConstellation().getFeatureOfInterest()).setGeometry(getGeometryFromSamplingGeometry(observation));
+                ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                        .setGeometry(getGeometryFromSamplingGeometry(observation));
             } catch (InvalidSridException e) {
                 // TODO
             }
         }
-        observation.setParameter(Sets.<NamedValue<?>>newHashSet());
+        observation.setParameter(Sets.<NamedValue<?>> newHashSet());
         getObservationConstellation().setObservationType(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION);
     }
 
     @Override
     public OmObservation cloneTemplate() {
-        if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature){
-            ((AbstractSamplingFeature)getObservationConstellation().getFeatureOfInterest()).setEncode(true);
+        if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
+            ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).setEncode(true);
         }
         return cloneTemplate(new PointTimeSeriesObservation());
     }

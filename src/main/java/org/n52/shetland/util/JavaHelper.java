@@ -44,16 +44,16 @@ public final class JavaHelper {
     /**
      * Message digest for generating single identifier
      */
-    private static final MessageDigest messageDigest;
-    private static Random random;
+    private static final MessageDigest MESSAGE_DIGEST;
+    private static final Random RANDOM;
 
     /**
      * Instantiation of the message digest
      */
     static {
         try {
-            messageDigest = MessageDigest.getInstance("SHA-256");
-            random = new Random();
+            MESSAGE_DIGEST = MessageDigest.getInstance("SHA-256");
+            RANDOM = new Random();
         } catch (final NoSuchAlgorithmException nsae) {
             throw new Error("Error while getting SHA-256 messagedigest!", nsae);
         }
@@ -72,8 +72,8 @@ public final class JavaHelper {
      */
     public static String generateID(String message) {
         final long autoGeneratredID = new DateTime().getMillis();
-        final String concate = random.nextDouble() + message + Long.toString(autoGeneratredID);
-        return bytesToHex(messageDigest.digest(concate.getBytes(StandardCharsets.UTF_8)));
+        final String concate = RANDOM.nextDouble() + message + Long.toString(autoGeneratredID);
+        return bytesToHex(MESSAGE_DIGEST.digest(concate.getBytes(StandardCharsets.UTF_8)));
     }
 
     /**
@@ -88,7 +88,7 @@ public final class JavaHelper {
         StringBuilder buffer = new StringBuilder(2 * bytes.length);
         for (int i = 0; i < bytes.length; ++i) {
             buffer.append(Character.forDigit((bytes[i] >> 4) & 0xF, 16));
-            buffer.append(Character.forDigit((bytes[i] & 0xF), 16));
+            buffer.append(Character.forDigit(bytes[i] & 0xF, 16));
         }
         return buffer.toString();
     }

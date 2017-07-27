@@ -28,6 +28,7 @@ import org.n52.janmayen.Copyable;
  */
 public class RangeValue<T> implements Copyable<RangeValue<T>> {
 
+    private static final String NULL = "null";
     private T rangeStart;
     private T rangeEnd;
 
@@ -83,12 +84,12 @@ public class RangeValue<T> implements Copyable<RangeValue<T>> {
         if (isSetStartValue()) {
             builder.append(rangeStart);
         } else {
-            builder.append("null");
+            builder.append(NULL);
         }
         if (isSetEndValue()) {
             builder.append(rangeEnd);
         } else {
-            builder.append("null");
+            builder.append(NULL);
         }
         return builder.toString();
     }

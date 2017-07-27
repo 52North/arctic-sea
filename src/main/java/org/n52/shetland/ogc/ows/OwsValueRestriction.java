@@ -16,19 +16,18 @@
  */
 package org.n52.shetland.ogc.ows;
 
-
 import java.util.Comparator;
 
 import org.n52.janmayen.Comparables;
-
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public interface OwsValueRestriction extends Comparable<OwsValueRestriction> {
-    public static final Comparator<OwsValueRestriction> COMPARATOR = Comparator.nullsLast((o1, o2) -> {
+public interface OwsValueRestriction
+        extends Comparable<OwsValueRestriction> {
+    Comparator<OwsValueRestriction> COMPARATOR = Comparator.nullsLast((o1, o2) -> {
         if (o1.isRange()) {
             if (o2.isRange()) {
                 return OwsRange.COMPARATOR.compare(o1.asRange(), o2.asRange());
@@ -50,7 +49,6 @@ public interface OwsValueRestriction extends Comparable<OwsValueRestriction> {
         }
     });
 
-
     default boolean isRange() {
         return false;
     }
@@ -68,7 +66,7 @@ public interface OwsValueRestriction extends Comparable<OwsValueRestriction> {
     }
 
     @Override
-    public default int compareTo(OwsValueRestriction other) {
+    default int compareTo(OwsValueRestriction other) {
         return COMPARATOR.compare(this, other);
     }
 

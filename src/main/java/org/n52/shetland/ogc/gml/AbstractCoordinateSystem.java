@@ -24,24 +24,25 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 /**
  * Internal representation of the OGC GML AbstractCoordinateSystem.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public abstract class AbstractCoordinateSystem extends IdentifiedObject {
+public abstract class AbstractCoordinateSystem
+        extends IdentifiedObject {
 
     private final List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis = new ArrayList<>();
 
     private Aggregation aggregation;
 
-    public AbstractCoordinateSystem(CodeWithAuthority identifier,
-                                    Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
+    public AbstractCoordinateSystem(
+            CodeWithAuthority identifier, Referenceable<CoordinateSystemAxis> coordinateSystemAxis) {
         super(identifier);
         addCoordinateSystemAxis(coordinateSystemAxis);
     }
 
-    public AbstractCoordinateSystem(CodeWithAuthority identifier,
-                                    List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
+    public AbstractCoordinateSystem(
+            CodeWithAuthority identifier, List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         super(identifier);
         addCoordinateSystemAxis(coordinateSystemAxis);
     }
@@ -54,7 +55,8 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
     }
 
     /**
-     * @param coordinateSystemAxis the coordinateSystemAxis to set
+     * @param coordinateSystemAxis
+     *            the coordinateSystemAxis to set
      *
      * @return {@code this}
      */
@@ -66,7 +68,8 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
     }
 
     /**
-     * @param coordinateSystemAxis the coordinateSystemAxis to set
+     * @param coordinateSystemAxis
+     *            the coordinateSystemAxis to set
      *
      * @return {@code this}
      */
@@ -77,7 +80,8 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
     }
 
     /**
-     * @param coordinateSystemAxis the coordinateSystemAxis to set
+     * @param coordinateSystemAxis
+     *            the coordinateSystemAxis to set
      *
      * @return {@code this}
      */
@@ -94,7 +98,8 @@ public abstract class AbstractCoordinateSystem extends IdentifiedObject {
     }
 
     /**
-     * @param aggregation the aggregation to set
+     * @param aggregation
+     *            the aggregation to set
      *
      * @return {@code this}
      */

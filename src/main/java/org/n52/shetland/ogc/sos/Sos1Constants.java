@@ -30,7 +30,8 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
-public interface Sos1Constants extends SosConstants{
+public interface Sos1Constants
+        extends SosConstants {
 
     String NS_SOS = "http://www.opengis.net/sos/1.0";
 
@@ -57,16 +58,12 @@ public interface Sos1Constants extends SosConstants{
      * versions
      */
     enum Operations {
-        GetFeatureOfInterestTime,
-        DescribeFeatureType,
-        DescribeObservationType,
-        DescribeResultModel,
-        RegisterSensor;
+        GetFeatureOfInterestTime, DescribeFeatureType, DescribeObservationType, DescribeResultModel, RegisterSensor;
     }
 
     /**
-     * enum with names of OGC SOS 1.0.0 Capabilities sections not supported by all
-     * versions
+     * enum with names of OGC SOS 1.0.0 Capabilities sections not supported by
+     * all versions
      */
     enum CapabilitiesSections {
         Filter_Capabilities;
@@ -77,8 +74,7 @@ public interface Sos1Constants extends SosConstants{
      * supported by all versions
      */
     enum GetObservationParams {
-        eventTime,
-        resultModel;
+        eventTime, resultModel;
     }
 
     /**
@@ -86,8 +82,7 @@ public interface Sos1Constants extends SosConstants{
      * supported by all versions
      */
     enum InsertObservationParams {
-        AssignedSensorId,
-        Observation;
+        AssignedSensorId, Observation;
     }
 
     /**
@@ -95,47 +90,36 @@ public interface Sos1Constants extends SosConstants{
      * supported by all versions
      */
     enum DescribeSensorParams {
-        outputFormat,
-        time;
+        outputFormat, time;
     }
 
     /**
-     * enum with parameter names for OGC SOS 1.0.0 getFeatureOfInterest request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 1.0.0 getFeatureOfInterest request
+     * not supported by all versions
      */
     enum GetFeatureOfInterestParams {
-        featureOfInterestID,
-        location;
+        featureOfInterestID, location;
     }
 
     /**
      * enum with parameter names for getFeatureOfInterestTime request
      */
     enum GetFeatureOfInterestTimeParams {
-        featureOfInterestID,
-        location,
-        observedProperty,
-        procedure;
+        featureOfInterestID, location, observedProperty, procedure;
     }
 
     /**
      * enum with parameter names for registerSensor request
      */
     enum RegisterSensorParams {
-        SensorDescription,
-        ObservationTemplate;
+        SensorDescription, ObservationTemplate;
     }
 
     /**
-     * enum with parameter names for OGC SOS 1.0.0 getObservationById request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 1.0.0 getObservationById request
+     * not supported by all versions
      */
     enum GetObservationByIdParams {
-        srsName,
-        ObservationId,
-        responseFormat,
-        resultModel,
-        responseMode,
-        SortBy;
+        srsName, ObservationId, responseFormat, resultModel, responseMode, SortBy;
     }
 }

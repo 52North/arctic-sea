@@ -65,4 +65,9 @@ public class OmObservationContext {
         return Objects.hash(this.role, 234, this.relatedObservation);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return Objects.equals(this, obj);
+    }
+
 }

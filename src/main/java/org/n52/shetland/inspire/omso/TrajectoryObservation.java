@@ -44,7 +44,8 @@ import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 import com.vividsolutions.jts.geom.Point;
 
-public class TrajectoryObservation extends AbstractInspireObservation {
+public class TrajectoryObservation
+        extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -62,7 +63,8 @@ public class TrajectoryObservation extends AbstractInspireObservation {
     public TrajectoryObservation(OmObservation observation) {
         super(observation);
         getObservationConstellation().setObservationType(InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION);
-        SamplingFeature sf = new SamplingFeature(getObservationConstellation().getFeatureOfInterest().getIdentifierCodeWithAuthority());
+        SamplingFeature sf = new SamplingFeature(
+                getObservationConstellation().getFeatureOfInterest().getIdentifierCodeWithAuthority());
         sf.setFeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_CURVE);
         getObservationConstellation().setFeatureOfInterest(sf);
         if (isSetSpatialFilteringProfileParameter()) {
@@ -95,8 +97,10 @@ public class TrajectoryObservation extends AbstractInspireObservation {
                 geometry = getSpatialFilteringProfileParameter().getValue().getValue();
             } else {
                 if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature
-                        && ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).isSetGeometry()) {
-                    geometry = ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).getGeometry();
+                        && ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                                .isSetGeometry()) {
+                    geometry = ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                            .getGeometry();
                 }
             }
             TLVTValue tlvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value, geometry);

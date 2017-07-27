@@ -45,7 +45,9 @@ import com.vividsolutions.jts.geom.Geometry;
  *
  * @since 1.0.0
  */
-public class OmObservation extends AbstractFeature implements AttributeSimpleAttrs {
+public class OmObservation
+        extends AbstractFeature
+        implements AttributeSimpleAttrs {
     private SimpleAttrs simpleAttrs;
 
     /**
@@ -65,7 +67,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     private TimePeriod validTime;
 
     /**
-     * constellation of procedure, obervedProperty, offering and observationType.
+     * constellation of procedure, obervedProperty, offering and
+     * observationType.
      */
     private OmObservationConstellation observationConstellation;
 
@@ -126,7 +129,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * constructor.
      *
-     * @param identifier Feature identifier
+     * @param identifier
+     *            Feature identifier
      */
     public OmObservation(String identifier) {
         super(identifier);
@@ -135,7 +139,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * constructor.
      *
-     * @param identifier Feature identifier
+     * @param identifier
+     *            Feature identifier
      */
     public OmObservation(CodeWithAuthority identifier) {
         super(identifier);
@@ -144,8 +149,10 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * constructor.
      *
-     * @param identifier Feature identifier
-     * @param gmlId      GML id
+     * @param identifier
+     *            Feature identifier
+     * @param gmlId
+     *            GML id
      */
     public OmObservation(CodeWithAuthority identifier, String gmlId) {
         super(identifier, gmlId);
@@ -154,7 +161,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
         this.simpleAttrs = simpleAttrs;
-     }
+    }
 
     @Override
     public SimpleAttrs getSimpleAttrs() {
@@ -173,7 +180,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set the observation constellation.
      *
-     * @param observationConstellation the observationConstellation to set
+     * @param observationConstellation
+     *            the observationConstellation to set
      */
     public OmObservation setObservationConstellation(OmObservationConstellation observationConstellation) {
         this.observationConstellation = observationConstellation;
@@ -192,7 +200,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set observation ID.
      *
-     * @param observationID the observationID to set
+     * @param observationID
+     *            the observationID to set
      */
     public void setObservationID(final String observationID) {
         this.observationID = observationID;
@@ -223,7 +232,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set result time.
      *
-     * @param resultTime the resultTime to set
+     * @param resultTime
+     *            the resultTime to set
      */
     public void setResultTime(final TimeInstant resultTime) {
         this.resultTime = resultTime;
@@ -241,7 +251,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set valid time.
      *
-     * @param validTime the validTime to set
+     * @param validTime
+     *            the validTime to set
      */
     public void setValidTime(final TimePeriod validTime) {
         this.validTime = validTime;
@@ -259,7 +270,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set result type.
      *
-     * @param resultType the resultType to set
+     * @param resultType
+     *            the resultType to set
      */
     public void setResultType(final String resultType) {
         this.resultType = resultType;
@@ -277,7 +289,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set token separator.
      *
-     * @param tokenSeparator the tokenSeparator to set
+     * @param tokenSeparator
+     *            the tokenSeparator to set
      */
     public void setTokenSeparator(final String tokenSeparator) {
         this.tokenSeparator = tokenSeparator;
@@ -295,7 +308,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set noData value.
      *
-     * @param noDataValue the noDataValue to set
+     * @param noDataValue
+     *            the noDataValue to set
      */
     public void setNoDataValue(final String noDataValue) {
         this.noDataValue = noDataValue;
@@ -313,7 +327,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set tuple separator.
      *
-     * @param tupleSeparator the tupleSeparator to set
+     * @param tupleSeparator
+     *            the tupleSeparator to set
      */
     public void setTupleSeparator(final String tupleSeparator) {
         this.tupleSeparator = tupleSeparator;
@@ -331,7 +346,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set decimal separator.
      *
-     * @param decimalSeparator the decimalSeparator to set
+     * @param decimalSeparator
+     *            the decimalSeparator to set
      */
     public void setDecimalSeparator(final String decimalSeparator) {
         this.decimalSeparator = decimalSeparator;
@@ -349,7 +365,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set observation values.
      *
-     * @param value the values to set
+     * @param value
+     *            the values to set
      */
     public void setValue(final ObservationValue<?> value) {
         this.value = value;
@@ -362,13 +379,23 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Merge this observation with passed observation.
      *
-     * @param sosObservation Observation to merge
+     * @param sosObservation
+     *            Observation to merge
      */
     public void mergeWithObservation(final OmObservation sosObservation) {
         mergeValues(sosObservation.getValue());
         mergeResultTimes(sosObservation);
     }
 
+    /**
+     * Merge this observation with passed observation.
+     *
+     * @param observationValue
+     *            Observation to merge
+     */
+    public void mergeWithObservation(ObservationValue<?> observationValue) {
+        mergeValues(observationValue);
+    }
 
     private void mergeObservationValues(OmObservation merged, OmObservation observation) {
         mergeValues(merged, observation);
@@ -384,10 +411,35 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     /**
+     * Merge observation values with passed observation values.
+     *
+     * @param observationValue
+     *            Observation to merge
+     */
+    private void mergeValues(final ObservationValue<?> observationValue) {
+        TVPValue tvpValue;
+        if (getValue() instanceof SingleObservationValue) {
+            tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
+        } else {
+            tvpValue = (TVPValue) ((MultiObservationValues<?>) value).getValue();
+        }
+        if (observationValue instanceof SingleObservationValue) {
+            final SingleObservationValue<?> singleValue = (SingleObservationValue<?>) observationValue;
+            if (!(singleValue.getValue() instanceof NilTemplateValue)) {
+                tvpValue.addValue(new TimeValuePair(singleValue.getPhenomenonTime(), singleValue.getValue()));
+            }
+        } else if (observationValue instanceof MultiObservationValues) {
+            tvpValue.addValues(((TVPValue) ((MultiObservationValues<?>) observationValue).getValue()).getValue());
+        }
+    }
+
+    /**
      * Merge result time with passed observation result time
      *
-     * @param sosObservation Observation to merge
-     * @param merged         the observation to merge into
+     * @param sosObservation
+     *            Observation to merge
+     * @param merged
+     *            the observation to merge into
      */
     private void mergeResultTimes(OmObservation merged, OmObservation sosObservation) {
         if (merged.isSetResultTime() && sosObservation.isSetResultTime()) {
@@ -400,18 +452,10 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     /**
-     * Merge this observation with passed observation.
-     *
-     * @param observationValue Observation to merge
-     */
-    public void mergeWithObservation(ObservationValue<?> observationValue) {
-        mergeValues(observationValue);
-    }
-
-    /**
      * Merge result time with passed observation result time.
      *
-     * @param sosObservation Observation to merge
+     * @param sosObservation
+     *            Observation to merge
      */
     private void mergeResultTimes(final OmObservation sosObservation) {
         if (isSetResultTime() && sosObservation.isSetResultTime()) {
@@ -424,38 +468,15 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     /**
-     * Merge observation values with passed observation values.
-     *
-     * @param observationValue Observation to merge
-     */
-    private void mergeValues(final ObservationValue<?> observationValue) {
-        TVPValue tvpValue;
-        if (getValue() instanceof SingleObservationValue) {
-            tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
-        } else {
-            tvpValue = (TVPValue) ((MultiObservationValues<?>) value).getValue();
-        }
-        if (observationValue instanceof SingleObservationValue) {
-            final SingleObservationValue<?> singleValue = (SingleObservationValue<?>) observationValue;
-            if (!(singleValue.getValue() instanceof NilTemplateValue)) {
-                tvpValue.addValue(new TimeValuePair(singleValue.getPhenomenonTime(),
-                                                    singleValue.getValue()));
-            }
-        } else if (observationValue instanceof MultiObservationValues) {
-            tvpValue.addValues(((TVPValue) ((MultiObservationValues<?>) observationValue).getValue()).getValue());
-        }
-    }
-
-    /**
      * Convert {@link SingleObservationValue} to {@link TVPValue}.
      *
-     * @param singleValue Single observation value
+     * @param singleValue
+     *            Single observation value
      *
      * @return Converted TVPValue value
      */
     public TVPValue convertSingleValueToMultiValue(final SingleObservationValue<?> singleValue) {
-        MultiObservationValues<List<TimeValuePair>> multiValue =
-                new MultiObservationValues<>();
+        MultiObservationValues<List<TimeValuePair>> multiValue = new MultiObservationValues<>();
         TVPValue tvpValue = new TVPValue();
         if (singleValue.isSetUnit()) {
             tvpValue.setUnit(singleValue.getUnit());
@@ -526,9 +547,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
      * @return <code>true</code>, if result time is template is set
      */
     public boolean isTemplateResultTime() {
-        return isSetResultTime() &&
-               (getResultTime().isIndeterminateValueEqualTo(IndeterminateValue.TEMPLATE) ||
-                getResultTime().isNilReasonEqualTo(Time.NilReason.template));
+        return isSetResultTime() && (getResultTime().isIndeterminateValueEqualTo(IndeterminateValue.TEMPLATE)
+                || getResultTime().isNilReasonEqualTo(Time.NilReason.template));
     }
 
     /**
@@ -676,7 +696,6 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
         return parameterHolder.getDepthParameter();
     }
 
-
     public boolean isSetHeightDepthParameter() {
         return parameterHolder.isSetHeightDepthParameter();
     }
@@ -686,7 +705,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     public OmObservation cloneTemplate() {
-       return cloneTemplate(new OmObservation());
+        return cloneTemplate(new OmObservation());
     }
 
     public OmObservation cloneTemplate(boolean withIdentifierNameDesription) {
@@ -703,7 +722,7 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
             }
         }
         return clonedTemplate;
-     }
+    }
 
     protected OmObservation cloneTemplate(OmObservation clone) {
         clone.setObservationConstellation(this.getObservationConstellation());
@@ -750,7 +769,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     /**
      * Set result quality.
      *
-     * @param qualityList Result quality to set
+     * @param qualityList
+     *            Result quality to set
      *
      * @return {@code this}
      */
@@ -852,7 +872,8 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     /**
-     * @param seriesType the seriesType to set
+     * @param seriesType
+     *            the seriesType to set
      */
     public void setSeriesType(String seriesType) {
         this.seriesType = seriesType;
@@ -867,51 +888,47 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     public boolean checkForMerge(OmObservation observation, ObservationMergeIndicator indicator) {
-        return checkMergeIndicator(observation) &&
-               checkObservationTypeForMerging(observation) &&
-               checkProcedure(indicator, observation) &&
-               checkOfferings(indicator, observation) &&
-               checkFeatureOfInterest(indicator, observation) &&
-               checkObservableProperty(indicator, observation) &&
-               checkPhenomenonTime(indicator, observation) &&
-               checkResultTime(indicator, observation) &&
-               checkSamplingGeometry(indicator, observation);
+        return checkMergeIndicator(observation) && checkObservationTypeForMerging(observation)
+                && checkProcedure(indicator, observation) && checkOfferings(indicator, observation)
+                && checkFeatureOfInterest(indicator, observation) && checkObservableProperty(indicator, observation)
+                && checkPhenomenonTime(indicator, observation) && checkResultTime(indicator, observation)
+                && checkSamplingGeometry(indicator, observation);
     }
 
     /**
      * TODO change if currently not supported types could be merged.
      *
-     * @param observation the observation
+     * @param observation
+     *            the observation
      *
      * @return <code>true</code>, if the observation can be merged
      */
     private boolean checkObservationTypeForMerging(OmObservation observation) {
         OmObservationConstellation oc = observation.getObservationConstellation();
-        return oc.isSetObservationType() &&
-               !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(oc.getObservationType()) &&
-               !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(oc.getObservationType()) &&
-               !OmConstants.OBS_TYPE_OBSERVATION.equals(oc.getObservationType()) &&
-               !OmConstants.OBS_TYPE_UNKNOWN.equals(oc.getObservationType());
+        return oc.isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(oc.getObservationType())
+                && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(oc.getObservationType())
+                && !OmConstants.OBS_TYPE_OBSERVATION.equals(oc.getObservationType())
+                && !OmConstants.OBS_TYPE_UNKNOWN.equals(oc.getObservationType());
     }
 
     private boolean checkProcedure(ObservationMergeIndicator indicator, OmObservation observation) {
-        return !indicator.isProcedure() || getObservationConstellation().getProcedure().equals(observation
-               .getObservationConstellation().getProcedure());
+        return !indicator.isProcedure() || getObservationConstellation().getProcedure()
+                .equals(observation.getObservationConstellation().getProcedure());
     }
 
     private boolean checkOfferings(ObservationMergeIndicator indicator, OmObservation observation) {
-        return !indicator.isOfferings() || getObservationConstellation().getOfferings().equals(observation
-               .getObservationConstellation().getOfferings());
+        return !indicator.isOfferings() || getObservationConstellation().getOfferings()
+                .equals(observation.getObservationConstellation().getOfferings());
     }
 
     private boolean checkFeatureOfInterest(ObservationMergeIndicator indicator, OmObservation observation) {
         return !indicator.isFeatureOfInterest() || getObservationConstellation().getFeatureOfInterest()
-               .equals(observation.getObservationConstellation().getFeatureOfInterest());
+                .equals(observation.getObservationConstellation().getFeatureOfInterest());
     }
 
     private boolean checkObservableProperty(ObservationMergeIndicator indicator, OmObservation observation) {
         return !indicator.isObservableProperty() || getObservationConstellation().getObservableProperty()
-               .equals(observation.getObservationConstellation().getObservableProperty());
+                .equals(observation.getObservationConstellation().getObservableProperty());
     }
 
     private boolean checkPhenomenonTime(ObservationMergeIndicator indicator, OmObservation observation) {
@@ -923,11 +940,10 @@ public class OmObservation extends AbstractFeature implements AttributeSimpleAtt
     }
 
     private boolean checkSamplingGeometry(ObservationMergeIndicator indicator, OmObservation observation) {
-        return !indicator.isSamplingGeometry() ||
-               (isSetSpatialFilteringProfileParameter() &&
-                observation.isSetSpatialFilteringProfileParameter() &&
-                getSpatialFilteringProfileParameter().getValue().getValue()
-                        .equals(observation.getSpatialFilteringProfileParameter().getValue().getValue()));
+        return !indicator.isSamplingGeometry()
+                || (isSetSpatialFilteringProfileParameter() && observation.isSetSpatialFilteringProfileParameter()
+                        && getSpatialFilteringProfileParameter().getValue().getValue()
+                                .equals(observation.getSpatialFilteringProfileParameter().getValue().getValue()));
     }
 
     private boolean checkMergeIndicator(OmObservation observation) {

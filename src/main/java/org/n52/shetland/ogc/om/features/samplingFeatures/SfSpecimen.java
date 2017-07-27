@@ -29,7 +29,8 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 import com.google.common.collect.Lists;
 import com.vividsolutions.jts.geom.Geometry;
 
-public class SfSpecimen extends SamplingFeature {
+public class SfSpecimen
+        extends SamplingFeature {
 
     /*
      * 1..1
@@ -61,7 +62,7 @@ public class SfSpecimen extends SamplingFeature {
     /*
      * 0..1
      */
-    private ReferenceType  specimenType;
+    private ReferenceType specimenType;
 
     public SfSpecimen(CodeWithAuthority featureIdentifier) {
         this(featureIdentifier, null);
@@ -85,7 +86,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param materialClass the materialClass to set
+     * @param materialClass
+     *            the materialClass to set
      */
     public void setMaterialClass(ReferenceType materialClass) {
         this.materialClass = materialClass;
@@ -99,7 +101,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param samplingTime the samplingTime to set
+     * @param samplingTime
+     *            the samplingTime to set
      */
     public void setSamplingTime(Time samplingTime) {
         this.samplingTime = samplingTime;
@@ -113,14 +116,16 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param samplingMethod the samplingMethod to set
+     * @param samplingMethod
+     *            the samplingMethod to set
      */
     public void setSamplingMethod(SfProcess samplingMethod) {
         this.samplingMethod = Referenceable.of(samplingMethod);
     }
 
     /**
-     * @param samplingMethod the samplingMethod to set
+     * @param samplingMethod
+     *            the samplingMethod to set
      */
     public void setSamplingMethod(Referenceable<SfProcess> samplingMethod) {
         this.samplingMethod = samplingMethod;
@@ -138,8 +143,10 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param samplingLocation the samplingLocation to set
+     * @param samplingLocation
+     *            the samplingLocation to set
      * @throws InvalidSridException
+     *             If the SRID is invalid
      */
     public void setSamplingLocation(Geometry samplingLocation) throws InvalidSridException {
         setGeometry(samplingLocation);
@@ -157,7 +164,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param processingDetails the processingDetails to set
+     * @param processingDetails
+     *            the processingDetails to set
      */
     public void setProcessingDetails(List<PreparationStep> processingDetails) {
         this.processingDetails.clear();
@@ -184,7 +192,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param size the size to set
+     * @param size
+     *            the size to set
      */
     public void setSize(QuantityValue size) {
         this.size = size;
@@ -202,7 +211,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param currentLocation the currentLocation to set
+     * @param currentLocation
+     *            the currentLocation to set
      */
     public void setCurrentLocation(Referenceable<SpecLocation> currentLocation) {
         this.currentLocation = currentLocation;
@@ -220,7 +230,8 @@ public class SfSpecimen extends SamplingFeature {
     }
 
     /**
-     * @param specimenType the specimenType to set
+     * @param specimenType
+     *            the specimenType to set
      */
     public void setSpecimenType(ReferenceType specimenType) {
         this.specimenType = specimenType;

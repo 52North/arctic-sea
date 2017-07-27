@@ -56,6 +56,12 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
     }
 
     @Override
+    public BooleanValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -66,12 +72,6 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
     @Override
     public UoM getUnitObject() {
         return this.unit;
-    }
-
-    @Override
-    public BooleanValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
     }
 
     @Override

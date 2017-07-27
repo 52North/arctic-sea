@@ -32,30 +32,37 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Maps;
 
-public abstract class AbstractStreaming extends AbstractObservationValue<Value<ObservationStream>>
+public abstract class AbstractStreaming
+        extends AbstractObservationValue<Value<ObservationStream>>
         implements ObservationStream {
     private final Map<AdditionalRequestParams, Object> additionalRequestParams = Maps.newHashMap();
 
     private String responseFormat;
     private int maxNumberOfValues = Integer.MIN_VALUE;
-    private int currentNumberOfValues = 0;
+    private int currentNumberOfValues;
 
     private ObservationMergeIndicator mergeIndicator;
 
     @Override
-    public abstract OmObservation next() throws NoSuchElementException, OwsExceptionReport;
+    public abstract OmObservation next()
+            throws NoSuchElementException, OwsExceptionReport;
 
     @Override
-    public abstract boolean hasNext() throws OwsExceptionReport;
+    public abstract boolean hasNext()
+            throws OwsExceptionReport;
 
     /**
-     * Check and modify observation for Spatial Filtering Profile and requested crs
+     * Check and modify observation for Spatial Filtering Profile and requested
+     * crs
      *
-     * @param observation {@link OmObservation} to check
+     * @param observation
+     *            {@link OmObservation} to check
      *
-     * @throws OwsExceptionReport If an error occurs when modifying the {@link OmObservation}
+     * @throws OwsExceptionReport
+     *             If an error occurs when modifying the {@link OmObservation}
      */
-    protected abstract void checkForModifications(OmObservation observation) throws OwsExceptionReport;
+    protected abstract void checkForModifications(OmObservation observation)
+            throws OwsExceptionReport;
 
     public void add(AdditionalRequestParams parameter, Object object) {
         additionalRequestParams.put(parameter, object);
@@ -94,7 +101,8 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
     }
 
     /**
-     * @param maxNumberOfValues the maxNumberOfValues to set
+     * @param maxNumberOfValues
+     *            the maxNumberOfValues to set
      */
     public void setMaxNumberOfValues(int maxNumberOfValues) {
         this.maxNumberOfValues = maxNumberOfValues;
@@ -103,11 +111,14 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
     /**
      * Check if the max number of returned values is exceeded
      *
-     * @param size Max number count
+     * @param size
+     *            Max number count
      *
-     * @throws CodedException If the size limit is exceeded
+     * @throws CodedException
+     *             If the size limit is exceeded
      */
-    protected void checkMaxNumberOfReturnedValues(int size) throws OwsExceptionReport {
+    protected void checkMaxNumberOfReturnedValues(int size)
+            throws OwsExceptionReport {
         if (getMaxNumberOfValues() > 0) {
             currentNumberOfValues += size;
             if (currentNumberOfValues > getMaxNumberOfValues()) {
@@ -117,7 +128,7 @@ public abstract class AbstractStreaming extends AbstractObservationValue<Value<O
     }
 
     public void setObservationMergeIndicator(ObservationMergeIndicator mergeIndicator) {
-       this.mergeIndicator = mergeIndicator;
+        this.mergeIndicator = mergeIndicator;
     }
 
     public ObservationMergeIndicator getObservationMergeIndicator() {

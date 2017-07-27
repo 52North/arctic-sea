@@ -19,7 +19,9 @@ package org.n52.shetland.iso.gmd;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 
-public abstract class GmdDomainConsistency extends AbtractGmd implements OmResultQuality {
+public abstract class GmdDomainConsistency
+        extends AbtractGmd
+        implements OmResultQuality {
 
     public static GmdConformanceResult dataCapture(boolean pass) {
         return new GmdConformanceResult(pass, GmdSpecification.dataCapture());
@@ -38,8 +40,7 @@ public abstract class GmdDomainConsistency extends AbtractGmd implements OmResul
     }
 
     public static GmdQuantitativeResult uncertaintyEstimation(double value) {
-        return new GmdQuantitativeResult( GmlBaseUnit.uncertaintyEstimation().unifyId(value),
-                                         Double.toString(value));
+        return new GmdQuantitativeResult(GmlBaseUnit.uncertaintyEstimation().unifyId(value), Double.toString(value));
     }
 
     public static GmdQuantitativeResult uncertaintyEstimation(GmlConstants.NilReason nilReason) {

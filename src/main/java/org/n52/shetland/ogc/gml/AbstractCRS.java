@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.gml;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
@@ -28,11 +27,12 @@ import com.google.common.collect.Lists;
 /**
  * Internal representation of the OGC GML AbstractCRS.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public abstract class AbstractCRS extends IdentifiedObject {
+public abstract class AbstractCRS
+        extends IdentifiedObject {
 
     /* 0..* */
     private List<Referenceable<DomainOfValidity>> domainOfValidity = new ArrayList<>();

@@ -517,6 +517,23 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
+     * Add map to sorted map.
+     *
+     * @param <K>       the key type
+     * @param <V>       the value type
+     * @param sortedMap the target map
+     * @param map       the source map
+     */
+    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
+        if (sortedMap != null) {
+            sortedMap.clear();
+            if (map != null) {
+                map.forEach((key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
+            }
+        }
+    }
+
+    /**
      * add collection to sorted set.
      *
      * @param <T>  the element type
@@ -556,23 +573,6 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, Collection<V> value) {
         if (map != null && key != null && value != null) {
             map.computeIfAbsent(key, Functions.forSupplier(TreeSet::new)).addAll(value);
-        }
-    }
-
-    /**
-     * Add map to sorted map.
-     *
-     * @param <K>       the key type
-     * @param <V>       the value type
-     * @param sortedMap the target map
-     * @param map       the source map
-     */
-    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
-        if (sortedMap != null) {
-            sortedMap.clear();
-            if (map != null) {
-                map.forEach((key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
-            }
         }
     }
 

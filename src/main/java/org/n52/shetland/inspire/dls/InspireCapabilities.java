@@ -137,7 +137,8 @@ public interface InspireCapabilities {
          * @param supportedLanguages
          *            the supported languages to set
          */
-        InspireExtendedCapabilitiesSupportedLanguage setSupportedLanguages(InspireSupportedLanguages supportedLanguages);
+        InspireExtendedCapabilitiesSupportedLanguage setSupportedLanguages(
+                InspireSupportedLanguages supportedLanguages);
 
         /**
          * Check if supported languages are set
@@ -554,6 +555,7 @@ public interface InspireCapabilities {
         boolean isSetSupportedCRS();
 
     }
+
     /**
      * INSPIRE capabilities spatial data service type
      *
@@ -561,8 +563,13 @@ public interface InspireCapabilities {
      * @since 4.1.0
      *
      */
-    public enum InspireSpatialDataServiceType {
-        discovery, view, download, transformation, invoke, other;
+    enum InspireSpatialDataServiceType {
+        discovery,
+        view,
+        download,
+        transformation,
+        invoke,
+        other;
     }
 
     /**
@@ -572,7 +579,7 @@ public interface InspireCapabilities {
      * @since 4.1.0
      *
      */
-    public enum InspireServiceSpatialDataResourceType {
+    enum InspireServiceSpatialDataResourceType {
         service;
     }
 }

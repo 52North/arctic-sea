@@ -17,7 +17,7 @@
 package org.n52.shetland.ogc.ows.exception;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>Request is
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>Request is
  * for an operation that is not supported by this server.</i>
  *
  * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC

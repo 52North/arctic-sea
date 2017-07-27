@@ -58,75 +58,6 @@ public class OwsServiceRequestContext {
         return address;
     }
 
-    public void setIPAddress(Optional<IPAddress> ip) {
-        this.address = Preconditions.checkNotNull(ip);
-    }
-
-    public void setIPAddress(IPAddress ip) {
-        this.address = Optional.ofNullable(ip);
-    }
-
-    public Optional<ProxyChain> getForwardedForChain() {
-        return proxyChain;
-    }
-
-    public void setForwaredForChain(ProxyChain chain) {
-        this.proxyChain = Optional.ofNullable(chain);
-    }
-
-    public void setForwaredForChain(Optional<ProxyChain> chain) {
-        this.proxyChain = Preconditions.checkNotNull(chain);
-    }
-
-
-    public Optional<String> getToken() {
-        return token;
-    }
-
-
-    public void setToken(Optional<String> token) {
-        this.token = Preconditions.checkNotNull(token);
-    }
-    public void setToken(String token) {
-        this.token = Optional.ofNullable(Strings.emptyToNull(token));
-    }
-
-    public Optional<String> getContentType() {
-        return contentType;
-    }
-
-    public void setContentType(String contentType) {
-        this.contentType = Optional.ofNullable(contentType);
-    }
-
-    public Optional<List<MediaType>> getAcceptType() {
-        return acceptType;
-    }
-
-    public void setAcceptType(List<MediaType> list) {
-        this.acceptType = Optional.ofNullable(list);
-    }
-
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("address", getIPAddress().orElse(null))
-                .add("token", getToken().orElse(null))
-                .add("proxyChain", getForwardedForChain().orElse(null))
-                .toString();
-    }
-
-    public static OwsServiceRequestContext fromRequest(HttpServletRequest req) {
-        OwsServiceRequestContext rc = new OwsServiceRequestContext();
-        rc.setIPAddress(getIPAddress(req));
-        rc.setForwaredForChain(ProxyChain.fromForwardedForHeader(req.getHeader(HTTPHeaders.X_FORWARDED_FOR)));
-        rc.setToken(req.getHeader(HTTPHeaders.AUTHORIZATION));
-        rc.setContentType(req.getHeader(HTTPHeaders.CONTENT_TYPE));
-        rc.setAcceptType(HTTPHeaders.getAcceptHeader(req));
-        return rc;
-
-    }
-
     private static IPAddress getIPAddress(HttpServletRequest req) {
         InetAddress addr = null;
         String addrAsString = req.getRemoteAddr();
@@ -151,7 +82,7 @@ public class OwsServiceRequestContext {
                 } catch (UnknownHostException e) {
                     LOG.warn("Ignoring invalid IPv4-mapped-IPv6 address: " + req.getRemoteAddr(), e);
                 }
-                //6to4 addresses
+                // 6to4 addresses
             } else if (InetAddresses.is6to4Address(inet6Address)) {
                 return new IPAddress(InetAddresses.get6to4IPv4Address(inet6Address));
             } else if (InetAddresses.toAddrString(addr).equals("::1")) {
@@ -164,5 +95,71 @@ public class OwsServiceRequestContext {
             LOG.warn("Ignoring unknown InetAddress: {}", addr);
         }
         return null;
+    }
+
+    public void setIPAddress(Optional<IPAddress> ip) {
+        this.address = Preconditions.checkNotNull(ip);
+    }
+
+    public void setIPAddress(IPAddress ip) {
+        this.address = Optional.ofNullable(ip);
+    }
+
+    public Optional<ProxyChain> getForwardedForChain() {
+        return proxyChain;
+    }
+
+    public void setForwaredForChain(ProxyChain chain) {
+        this.proxyChain = Optional.ofNullable(chain);
+    }
+
+    public void setForwaredForChain(Optional<ProxyChain> chain) {
+        this.proxyChain = Preconditions.checkNotNull(chain);
+    }
+
+    public Optional<String> getToken() {
+        return token;
+    }
+
+    public void setToken(Optional<String> token) {
+        this.token = Preconditions.checkNotNull(token);
+    }
+
+    public void setToken(String token) {
+        this.token = Optional.ofNullable(Strings.emptyToNull(token));
+    }
+
+    public Optional<String> getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = Optional.ofNullable(contentType);
+    }
+
+    public Optional<List<MediaType>> getAcceptType() {
+        return acceptType;
+    }
+
+    public void setAcceptType(List<MediaType> list) {
+        this.acceptType = Optional.ofNullable(list);
+    }
+
+    @Override
+    public String toString() {
+        return MoreObjects.toStringHelper(this).omitNullValues().add("address", getIPAddress().orElse(null))
+                .add("token", getToken().orElse(null)).add("proxyChain", getForwardedForChain().orElse(null))
+                .toString();
+    }
+
+    public static OwsServiceRequestContext fromRequest(HttpServletRequest req) {
+        OwsServiceRequestContext rc = new OwsServiceRequestContext();
+        rc.setIPAddress(getIPAddress(req));
+        rc.setForwaredForChain(ProxyChain.fromForwardedForHeader(req.getHeader(HTTPHeaders.X_FORWARDED_FOR)));
+        rc.setToken(req.getHeader(HTTPHeaders.AUTHORIZATION));
+        rc.setContentType(req.getHeader(HTTPHeaders.CONTENT_TYPE));
+        rc.setAcceptType(HTTPHeaders.getAcceptHeader(req));
+        return rc;
+
     }
 }

@@ -26,18 +26,19 @@ import java.util.function.Predicate;
 
 import org.n52.janmayen.Comparables;
 
-
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class OwsHttp implements OwsDCP {
+public class OwsHttp
+        implements OwsDCP {
 
     private final SortedSet<OwsRequestMethod> requestMethods;
 
     public OwsHttp(Collection<OwsRequestMethod> requestMethods) {
-        this.requestMethods = Optional.ofNullable(requestMethods).map(TreeSet<OwsRequestMethod>::new).orElseGet(TreeSet::new);
+        this.requestMethods =
+                Optional.ofNullable(requestMethods).map(TreeSet<OwsRequestMethod>::new).orElseGet(TreeSet::new);
     }
 
     public SortedSet<OwsRequestMethod> getRequestMethods() {

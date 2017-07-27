@@ -102,8 +102,8 @@ public class ComplexInputDescriptionImpl
         @SuppressWarnings(value = "unchecked")
         @Override
         public B withMaximumMegabytes(BigInteger maximumMegabytes) {
-            if(maximumMegabytes == null ||
-                                        maximumMegabytes.compareTo(BigInteger.ZERO) > 0){
+            if (maximumMegabytes == null ||
+                                        maximumMegabytes.compareTo(BigInteger.ZERO) > 0) {
                 this.maximumMegabytes = maximumMegabytes;
             }
             return (B) this;

@@ -16,9 +16,6 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import static com.google.common.base.Strings.emptyToNull;
-import static java.util.stream.Collectors.groupingBy;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
@@ -27,6 +24,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.n52.janmayen.stream.MoreCollectors;
 import org.n52.shetland.ogc.ows.OwsCode;
@@ -38,6 +36,7 @@ import org.n52.shetland.ogc.wps.description.ProcessDescription;
 import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 
 /**
@@ -82,9 +81,9 @@ public class ProcessDescriptionImpl
         Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector =
                 MoreCollectors.toSingleResult();
         Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> inputCollector =
-                groupingBy(keyFunc, inputDownstreamCollector);
+                Collectors.groupingBy(keyFunc, inputDownstreamCollector);
         Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector =
-                groupingBy(keyFunc, outputDownstreamCollector);
+                Collectors.groupingBy(keyFunc, outputDownstreamCollector);
         this.inputs = Optional.ofNullable(inputs).orElseGet(Collections::emptySet).stream().collect(inputCollector);
         this.outputs = Optional.ofNullable(outputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
         this.storeSupported = storeSupported;
@@ -137,20 +136,21 @@ public class ProcessDescriptionImpl
         return version;
     }
 
-    public static abstract class AbstractBuilder<T extends ProcessDescription, B extends ProcessDescription.Builder<T, B>>
+    public static abstract class AbstractBuilder<T extends ProcessDescription,
+                                                 B extends ProcessDescription.Builder<T, B>>
             extends AbstractDescription.AbstractBuilder<T, B>
             implements ProcessDescription.Builder<T, B> {
 
         private final ImmutableSet.Builder<ProcessInputDescription> inputs = ImmutableSet.builder();
         private final ImmutableSet.Builder<ProcessOutputDescription> outputs = ImmutableSet.builder();
-        private boolean storeSupported = false;
-        private boolean statusSupported = false;
+        private boolean storeSupported;
+        private boolean statusSupported;
         private String version;
 
         @SuppressWarnings(value = "unchecked")
         @Override
         public B withVersion(String version) {
-            this.version = Objects.requireNonNull(emptyToNull(version));
+            this.version = Objects.requireNonNull(Strings.emptyToNull(version));
             return (B) this;
         }
 

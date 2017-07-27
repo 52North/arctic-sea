@@ -34,9 +34,11 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class OwsRange implements OwsValueRestriction {
-    public static final Comparator<OwsRange> COMPARATOR = Comparator.comparing(OwsRange::getLowerBound, Optionals.nullsFirst())
-                .thenComparing(Comparator.comparing(OwsRange::getUpperBound, Optionals.nullsLast()));
+public class OwsRange
+        implements OwsValueRestriction {
+    public static final Comparator<OwsRange> COMPARATOR =
+            Comparator.comparing(OwsRange::getLowerBound, Optionals.nullsFirst())
+                    .thenComparing(Comparator.comparing(OwsRange::getUpperBound, Optionals.nullsLast()));
 
     public static final String CLOSED = "closed";
     public static final String CLOSED_OPEN = "closed-open";
@@ -58,13 +60,13 @@ public class OwsRange implements OwsValueRestriction {
         this(lowerBound, BoundType.CLOSED, upperBound, BoundType.CLOSED, null);
     }
 
-    public OwsRange(OwsValue lowerBound, BoundType lowerBoundType,
-                    OwsValue upperBound, BoundType upperBoundType) {
+    public OwsRange(OwsValue lowerBound, BoundType lowerBoundType, OwsValue upperBound, BoundType upperBoundType) {
         this(lowerBound, lowerBoundType, upperBound, upperBoundType, null);
     }
 
-    public OwsRange(OwsValue lowerBound, BoundType lowerBoundType,
-                    OwsValue upperBound, BoundType upperBoundType, OwsValue spacing) {
+    public OwsRange(
+            OwsValue lowerBound, BoundType lowerBoundType, OwsValue upperBound, BoundType upperBoundType,
+            OwsValue spacing) {
         this(new Bound(lowerBoundType, lowerBound), new Bound(upperBoundType, upperBound), spacing);
     }
 
@@ -129,18 +131,17 @@ public class OwsRange implements OwsValueRestriction {
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             OwsRange that = (OwsRange) obj;
-            return Objects.equals(this.lowerBound, that.getLowerBound().orElse(null)) &&
-                   Objects.equals(this.upperBound, that.getUpperBound().orElse(null)) &&
-                   Objects.equals(this.spacing, that.getSpacing());
+            return Objects.equals(this.lowerBound, that.getLowerBound().orElse(null))
+                    && Objects.equals(this.upperBound, that.getUpperBound().orElse(null))
+                    && Objects.equals(this.spacing, that.getSpacing());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .addValue(this.lowerBound.asLower() + ", " +
-                          this.upperBound.asUpper()).toString();
+        return MoreObjects.toStringHelper(this).addValue(this.lowerBound.asLower() + ", " + this.upperBound.asUpper())
+                .toString();
     }
 
     private static BoundType getLowerType(String type) {
@@ -204,21 +205,19 @@ public class OwsRange implements OwsValueRestriction {
         public boolean equals(Object obj) {
             if (obj != null && obj.getClass() == getClass()) {
                 Bound that = (Bound) obj;
-                return Objects.equals(this.type, that.getType()) &&
-                       Objects.equals(this.value, that.getValue());
+                return Objects.equals(this.type, that.getType()) && Objects.equals(this.value, that.getValue());
             }
             return false;
         }
     }
 
-    public static enum BoundType {
-        OPEN('(',')'),
-        CLOSED('[',']');
+    public enum BoundType {
+        OPEN('(', ')'), CLOSED('[', ']');
 
         private final char upper;
         private final char lower;
 
-        private BoundType(char upper, char lower) {
+        BoundType(char upper, char lower) {
             this.upper = upper;
             this.lower = lower;
         }

@@ -37,13 +37,15 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public class SosOffering extends AbstractFeature implements Comparable<SosOffering> {
+public class SosOffering
+        extends AbstractFeature
+        implements Comparable<SosOffering> {
     private static final String OFFERING_NAME_PREFIX = "Offering for sensor ";
     /**
      * flag to identify offering as offering from a parent procedure, default =
      * false.
      */
-    private boolean parentOffering = false;
+    private boolean parentOffering;
 
     /**
      * constructor
@@ -139,19 +141,15 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("identifier", getIdentifier())
-                .add("name", getName())
-                .add("description", getDescription())
-                .add("parentOfferingFlag", isParentOffering()).toString();
+        return MoreObjects.toStringHelper(this).add("identifier", getIdentifier()).add("name", getName())
+                .add("description", getDescription()).add("parentOfferingFlag", isParentOffering()).toString();
     }
 
     @Override
     public boolean equals(Object o) {
         if (o instanceof SosOffering) {
             SosOffering other = (SosOffering) o;
-            return Objects.equals(getIdentifier(), other.getIdentifier())
-                    && Objects.equals(getName(), other.getName())
+            return Objects.equals(getIdentifier(), other.getIdentifier()) && Objects.equals(getName(), other.getName())
                     && Objects.equals(isParentOffering(), other.isParentOffering());
         }
         return false;
@@ -186,8 +184,8 @@ public class SosOffering extends AbstractFeature implements Comparable<SosOfferi
      * @return the set (never {@literal null})
      */
     public static Set<SosOffering> fromSet(Set<SweAbstractSimpleType<?>> set) {
-        return Optional.ofNullable(set).map(Set::stream).orElseGet(Stream::empty)
-                .map(SosOffering::from).collect(toSet());
+        return Optional.ofNullable(set).map(Set::stream).orElseGet(Stream::empty).map(SosOffering::from)
+                .collect(toSet());
     }
 
     /**

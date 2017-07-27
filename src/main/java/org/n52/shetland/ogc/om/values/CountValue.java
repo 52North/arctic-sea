@@ -26,7 +26,9 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
  * @since 1.0.0
  *
  */
-public class CountValue extends SweCount implements Value<Integer> {
+public class CountValue
+        extends SweCount
+        implements Value<Integer> {
     /**
      * Unit of measure
      */
@@ -55,6 +57,12 @@ public class CountValue extends SweCount implements Value<Integer> {
     }
 
     @Override
+    public CountValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -65,12 +73,6 @@ public class CountValue extends SweCount implements Value<Integer> {
     @Override
     public UoM getUnitObject() {
         return this.unit;
-    }
-
-    @Override
-    public CountValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
     }
 
     @Override

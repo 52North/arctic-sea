@@ -65,8 +65,10 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
                                      Set<? extends ProcessInputDescription> inputs) {
         super(id, title, abstrakt, keywords, metadata, occurence);
         Function<ProcessInputDescription, OwsCode> keyFunc = Description::getId;
-        Collector<ProcessInputDescription, ?, ProcessInputDescription> outputDownstreamCollector = MoreCollectors.toSingleResult();
-        Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> outputCollector = groupingBy(keyFunc, outputDownstreamCollector);
+        Collector<ProcessInputDescription, ?, ProcessInputDescription> outputDownstreamCollector =
+                MoreCollectors.toSingleResult();
+        Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> outputCollector =
+                groupingBy(keyFunc, outputDownstreamCollector);
         this.inputs = Optional.ofNullable(inputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
     }
 

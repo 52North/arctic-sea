@@ -24,7 +24,7 @@ public interface PhenomenonNameDescriptionProvider {
 
     String getObservablePropertyName(String observableProperty);
 
-    default boolean isSetObservablePropertyDescription(String observableProperty){
+    default boolean isSetObservablePropertyDescription(String observableProperty) {
         return getObservablePropertyDescription(observableProperty) != null;
     }
 

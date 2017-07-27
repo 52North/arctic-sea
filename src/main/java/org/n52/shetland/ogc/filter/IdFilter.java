@@ -34,7 +34,8 @@ import org.slf4j.LoggerFactory;
  * @since 1.0.0
  *
  */
-public class IdFilter extends Filter<Id> {
+public class IdFilter
+        extends Filter<Id> {
 
     private static final Logger log = LoggerFactory.getLogger(IdFilter.class);
 
@@ -43,7 +44,7 @@ public class IdFilter extends Filter<Id> {
     private Set<String> ids;
 
     public IdFilter() {
-        this(Sets.<String>newHashSet());
+        this(Sets.<String> newHashSet());
     }
 
     public IdFilter(String id) {
@@ -75,8 +76,10 @@ public class IdFilter extends Filter<Id> {
 
     @Override
     public Filter<Id> setOperator(Id operator) throws RuntimeException {
-        if(Optional.ofNullable(this.operator).isPresent() && !this.operator.equals(operator)) {
-            log.warn("Combination of different ID filters not supported, ignoring new operator '{}' in favour of already set '{}'",
+        if (Optional.ofNullable(this.operator).isPresent() && !this.operator.equals(operator)) {
+            log.warn(
+                    "Combination of different ID filters not supported, "
+                    + "ignoring new operator '{}' in favour of already set '{}'",
                     operator, this.operator);
         }
         this.operator = operator;

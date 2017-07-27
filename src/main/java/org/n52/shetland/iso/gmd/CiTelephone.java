@@ -25,7 +25,7 @@ import org.n52.shetland.util.CollectionHelper;
 /**
  * Internal representation of the ISO GMD Telephone.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */

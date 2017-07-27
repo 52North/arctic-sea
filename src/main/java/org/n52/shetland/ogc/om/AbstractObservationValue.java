@@ -20,7 +20,8 @@ import org.n52.shetland.ogc.om.series.wml.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.wml.Metadata;
 import org.n52.shetland.ogc.om.values.Value;
 
-public abstract class AbstractObservationValue<T extends Value<?>> implements ObservationValue<T> {
+public abstract class AbstractObservationValue<T extends Value<?>>
+        implements ObservationValue<T> {
     private String observationID;
     private String observationType;
     private String observableProperty;
@@ -48,7 +49,8 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     }
 
     /**
-     * @param observationID the observationID to set
+     * @param observationID
+     *            the observationID to set
      */
     public void setObservationID(String observationID) {
         this.observationID = observationID;
@@ -66,7 +68,8 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     }
 
     /**
-     * @param observationType the observationType to set
+     * @param observationType
+     *            the observationType to set
      */
     private void setObservationType(String observationType) {
         this.observationType = observationType;
@@ -84,7 +87,8 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     }
 
     /**
-     * @param observableProperty the observableProperty to set
+     * @param observableProperty
+     *            the observableProperty to set
      */
     private void setObservableProperty(String observableProperty) {
         this.observableProperty = observableProperty;
@@ -102,7 +106,8 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     }
 
     /**
-     * @param tokenSeparator the tokenSeparator to set
+     * @param tokenSeparator
+     *            the tokenSeparator to set
      */
     private void setTokenSeparator(String tokenSeparator) {
         this.tokenSeparator = tokenSeparator;
@@ -120,7 +125,8 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     }
 
     /**
-     * @param tupleSeparator the tupleSeparator to set
+     * @param tupleSeparator
+     *            the tupleSeparator to set
      */
     private void setTupleSeparator(String tupleSeparator) {
         this.tupleSeparator = tupleSeparator;
@@ -143,7 +149,7 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
      * Set decimal separator
      *
      * @param decimalSeparator
-     *                         the decimalSeparator to set
+     *            the decimalSeparator to set
      */
     public void setDecimalSeparator(final String decimalSeparator) {
         this.decimalSeparator = decimalSeparator;
@@ -167,14 +173,15 @@ public abstract class AbstractObservationValue<T extends Value<?>> implements Ob
     }
 
     /**
-     * @param unit the unit to set
+     * @param unit
+     *            the unit to set
      */
     public void setUnit(String unit) {
         this.unit = unit;
     }
 
     public boolean isSetUnit() {
-        return getUnit()!= null && !getUnit().isEmpty();
+        return getUnit() != null && !getUnit().isEmpty();
     }
 
     @Override

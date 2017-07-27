@@ -217,6 +217,10 @@ public abstract class AbstractSensorML
         return this;
     }
 
+    public AbstractSensorML addCapabilities(final SmlCapabilities capabilities) {
+        return addCapabilities(Collections.singletonList(capabilities));
+    }
+
     public Optional<SmlCapabilities> findCapabilities(Predicate<SmlCapabilities> predicate) {
         if (this.capabilities != null) {
             return getCapabilities().stream().filter(predicate).findFirst();
@@ -231,29 +235,8 @@ public abstract class AbstractSensorML
         }
     }
 
-    public AbstractSensorML addCapabilities(final SmlCapabilities capabilities) {
-        return addCapabilities(Collections.singletonList(capabilities));
-    }
-
     public List<SmlContact> getContact() {
         return contacts;
-    }
-
-    public AbstractSensorML setContact(List<SmlContact> contacts) {
-        if (isSetContact()) {
-            this.contacts.addAll(contacts);
-        } else {
-            this.contacts = contacts;
-        }
-        return this;
-    }
-
-    public AbstractSensorML addContact(final SmlContact contact) {
-        if (this.contacts == null) {
-            this.contacts = new LinkedList<>();
-        }
-        this.contacts.add(contact);
-        return this;
     }
 
     /**
@@ -284,6 +267,23 @@ public abstract class AbstractSensorML
             }
         }
         return null;
+    }
+
+    public AbstractSensorML setContact(List<SmlContact> contacts) {
+        if (isSetContact()) {
+            this.contacts.addAll(contacts);
+        } else {
+            this.contacts = contacts;
+        }
+        return this;
+    }
+
+    public AbstractSensorML addContact(final SmlContact contact) {
+        if (this.contacts == null) {
+            this.contacts = new LinkedList<>();
+        }
+        this.contacts.add(contact);
+        return this;
     }
 
     public List<AbstractSmlDocumentation> getDocumentation() {

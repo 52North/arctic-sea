@@ -32,7 +32,7 @@ public interface ResponseFormat {
      *
      * @return response format
      */
-    public String getResponseFormat();
+    String getResponseFormat();
 
     /**
      * Set response format
@@ -40,7 +40,7 @@ public interface ResponseFormat {
      * @param responseFormat
      *                       response format
      */
-    public void setResponseFormat(String responseFormat);
+    void setResponseFormat(String responseFormat);
 
     /**
      * Is response format set?

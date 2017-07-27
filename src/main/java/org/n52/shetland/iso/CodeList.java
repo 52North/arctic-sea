@@ -37,7 +37,7 @@ public interface CodeList {
 
         private String identifier;
 
-        private CiRoleCodes(String identifier) {
+        CiRoleCodes(String identifier) {
             this.identifier = identifier;
         }
 

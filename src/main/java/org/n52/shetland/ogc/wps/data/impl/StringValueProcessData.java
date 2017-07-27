@@ -32,7 +32,8 @@ import com.google.common.base.MoreObjects;
  *
  * @author Christian Autermann
  */
-public class StringValueProcessData extends ValueProcessData {
+public class StringValueProcessData
+        extends ValueProcessData {
 
     private final String string;
 
@@ -54,7 +55,7 @@ public class StringValueProcessData extends ValueProcessData {
         return new ByteArrayInputStream(string.getBytes(StandardCharsets.UTF_8));
     }
 
-      @Override
+    @Override
     public int hashCode() {
         return Objects.hash(getId(), getFormat(), this.string);
     }
@@ -71,18 +72,14 @@ public class StringValueProcessData extends ValueProcessData {
             return false;
         }
         final StringValueProcessData other = (StringValueProcessData) obj;
-        return Objects.equals(getId(), other.getId()) &&
-               Objects.equals(getFormat(), other.getFormat()) &&
-               Objects.equals(this.string, other.string);
+        return Objects.equals(getId(), other.getId()) && Objects.equals(getFormat(), other.getFormat())
+                && Objects.equals(this.string, other.string);
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).omitNullValues()
-                .add("id", getId())
-                .add("format", getFormat())
-                .add("value", this.string)
-                .toString();
+        return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("format", getFormat())
+                .add("value", this.string).toString();
     }
 
 }

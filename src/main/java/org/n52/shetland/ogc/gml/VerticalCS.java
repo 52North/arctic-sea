@@ -24,7 +24,7 @@ import org.n52.shetland.w3c.xlink.Referenceable;
 /**
  * Internal representation of the OGC GML VerticalCS.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
@@ -37,7 +37,5 @@ public class VerticalCS extends AbstractCoordinateSystem {
     public VerticalCS(CodeWithAuthority identifier, List<Referenceable<CoordinateSystemAxis>> coordinateSystemAxis) {
         super(identifier, coordinateSystemAxis);
     }
-
-    private static final long serialVersionUID = 9109947004063278729L;
 
 }

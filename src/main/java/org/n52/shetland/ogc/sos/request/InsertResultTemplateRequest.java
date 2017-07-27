@@ -17,7 +17,6 @@
 package org.n52.shetland.ogc.sos.request;
 
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -30,7 +29,8 @@ import org.n52.shetland.util.JavaHelper;
 /**
  * @since 1.0.0
  */
-public class InsertResultTemplateRequest extends OwsServiceRequest {
+public class InsertResultTemplateRequest
+        extends OwsServiceRequest {
 
     private OmObservationConstellation observationTemplate;
     private final SosResultTemplate resultTemplate = new SosResultTemplate();
@@ -87,7 +87,7 @@ public class InsertResultTemplateRequest extends OwsServiceRequest {
     }
 
     public boolean isSetResultStructure() {
-        return getResultStructure()!=null;
+        return getResultStructure() != null;
     }
 
     public SosResultEncoding getResultEncoding() {
@@ -95,7 +95,7 @@ public class InsertResultTemplateRequest extends OwsServiceRequest {
     }
 
     public void setResultEncoding(SosResultEncoding resultEncoding) {
-        this.resultTemplate.setResultEncoding(resultEncoding);;
+        this.resultTemplate.setResultEncoding(resultEncoding);
     }
 
     public boolean isSetResultEncoding() {

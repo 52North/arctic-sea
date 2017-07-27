@@ -111,11 +111,14 @@ public class Extensions {
         if (Strings.emptyToNull(name) == null || extension == null) {
             return false;
         }
-        return Optional.ofNullable(extractor.apply(extension)).map(s -> s.equalsIgnoreCase(name)).orElseGet(() -> false);
+        return Optional.ofNullable(extractor
+                                    .apply(extension))
+                                    .map(s -> s.equalsIgnoreCase(name)).orElseGet(() -> false);
     }
 
     private boolean checkExtensionName(String extensionName, Extension<?> extension) {
-        return checkExtensionIdentifier(extensionName, extension) || checkExtensionDefinition(extensionName, extension);
+        return checkExtensionIdentifier(extensionName, extension)
+                || checkExtensionDefinition(extensionName, extension);
     }
 
     private boolean checkExtensionIdentifier(String extensionName, Extension<?> extension) {

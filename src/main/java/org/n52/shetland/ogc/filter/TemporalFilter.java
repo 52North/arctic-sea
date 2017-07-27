@@ -25,14 +25,15 @@ import org.n52.shetland.ogc.gml.time.Time;
  * @since 1.0.0
  *
  */
-public class TemporalFilter extends Filter<TimeOperator> {
+public class TemporalFilter
+        extends Filter<TimeOperator> {
 
     private TimeOperator operator;
 
     private Time time;
 
     public TemporalFilter() {
-        this((TimeOperator)null, null, null);
+        this((TimeOperator) null, null, null);
     }
 
     /**

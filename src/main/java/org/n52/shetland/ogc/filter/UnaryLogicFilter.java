@@ -24,16 +24,19 @@ import org.n52.shetland.ogc.filter.FilterConstants.UnaryLogicOperator;
  * @since 1.0.0
  *
  */
-public class UnaryLogicFilter extends Filter<UnaryLogicOperator> implements LogicFilter {
+public class UnaryLogicFilter
+        extends Filter<UnaryLogicOperator>
+        implements LogicFilter {
 
-   private UnaryLogicOperator operator = UnaryLogicOperator.Not;
+    private UnaryLogicOperator operator = UnaryLogicOperator.Not;
 
     private Filter<?> filterPredicate;
 
     /**
      * Constructor
      *
-     * @param filterPredicate Filter
+     * @param filterPredicate
+     *            Filter
      */
     public UnaryLogicFilter(Filter<?> filterPredicate) {
         this.filterPredicate = filterPredicate;
@@ -58,7 +61,8 @@ public class UnaryLogicFilter extends Filter<UnaryLogicOperator> implements Logi
     }
 
     /**
-     * @param filterPredicate the filterPredicate to set
+     * @param filterPredicate
+     *            the filterPredicate to set
      */
     public void setFilterPredicate(Filter<?> filterPredicate) {
         this.filterPredicate = filterPredicate;

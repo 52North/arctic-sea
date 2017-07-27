@@ -23,8 +23,9 @@ package org.n52.shetland.iso.gmd;
  */
 public class GmdDateType {
 
+    private static final String EN_PUBLICATION = "publication";
     private static final GmdDateType PUBLICATION
-            = new GmdDateType("eng", "publication", "publication");
+            = new GmdDateType("eng", EN_PUBLICATION, EN_PUBLICATION);
     private final String codeList;
     private final String codeListValue;
     private final String codeSpace;

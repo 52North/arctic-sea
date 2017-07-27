@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -29,15 +30,9 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
  */
 public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> implements SweQuality {
 
-    /**
-     * axis ID
-     */
     private String axisID;
-
-    /**
-     * value
-     */
     private RangeValue<Double> value;
+    private Referenceable<SweAllowedValues> constraint;
 
     /**
      * constructor
@@ -113,6 +108,31 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> imp
 
     public boolean isSetAxisID() {
         return axisID != null && !axisID.isEmpty();
+    }
+
+    /**
+     * @return the constraint
+     */
+    public Referenceable<SweAllowedValues> getConstraint() {
+        return constraint;
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(SweAllowedValues constraint) {
+        this.constraint = Referenceable.of(constraint);
+    }
+
+    /**
+     * @param constraint the constraint to set
+     */
+    public void setConstraint(Referenceable<SweAllowedValues> constraint) {
+        this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override

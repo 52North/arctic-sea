@@ -23,7 +23,8 @@ import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-public class ComplexValue implements Value<SweAbstractDataRecord> {
+public class ComplexValue
+        implements Value<SweAbstractDataRecord> {
     private SweAbstractDataRecord value;
     private UoM unit;
 
@@ -57,6 +58,12 @@ public class ComplexValue implements Value<SweAbstractDataRecord> {
     }
 
     @Override
+    public ComplexValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -70,22 +77,18 @@ public class ComplexValue implements Value<SweAbstractDataRecord> {
     }
 
     @Override
-    public ComplexValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("value", this.value)
-                .add("unit", this.unit)
-                .toString();
+        return MoreObjects.toStringHelper(this).add("value", this.value).add("unit", this.unit).toString();
     }
 
     @Override
     public int hashCode() {
         return Objects.hashCode(this.value, this.unit);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Objects.equal(this, obj);
     }
 
     @Override

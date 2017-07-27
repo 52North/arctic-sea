@@ -89,7 +89,7 @@ public abstract class AbstractDescription implements Description {
         return Collections.unmodifiableSet(this.metadata);
     }
 
-    protected static abstract class AbstractBuilder<T extends Description, B extends Description.Builder<T, B>>
+    protected abstract static class AbstractBuilder<T extends Description, B extends Description.Builder<T, B>>
             implements Description.Builder<T, B> {
 
         private OwsCode id;

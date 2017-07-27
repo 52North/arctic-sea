@@ -101,12 +101,16 @@ public class OutputDefinition {
         return Collections.unmodifiableList(outputs);
     }
 
-    public void setOutputs(List<OutputDefinition> outputs) {
-        this.outputs = outputs == null ? Collections.emptyList() : outputs;
-    }
-
     public Map<OwsCode, OutputDefinition> getOutputsById() {
         return getOutputsById(getOutputs());
+    }
+
+    public static Map<OwsCode, OutputDefinition> getOutputsById(List<OutputDefinition> outputs) {
+        return outputs.stream().collect(toMap(OutputDefinition::getId, Function.identity()));
+    }
+
+    public void setOutputs(List<OutputDefinition> outputs) {
+        this.outputs = outputs == null ? Collections.emptyList() : outputs;
     }
 
     public boolean hasOutputs() {
@@ -145,10 +149,6 @@ public class OutputDefinition {
                 .add("dataTransmissionMode", this.dataTransmissionMode)
                 .add("outputs", this.outputs)
                 .toString();
-    }
-
-    public static Map<OwsCode, OutputDefinition> getOutputsById(List<OutputDefinition> outputs) {
-        return outputs.stream().collect(toMap(OutputDefinition::getId, Function.identity()));
     }
 
 }

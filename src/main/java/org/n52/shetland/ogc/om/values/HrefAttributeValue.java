@@ -20,7 +20,8 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
-public class HrefAttributeValue implements Value<W3CHrefAttribute> {
+public class HrefAttributeValue
+        implements Value<W3CHrefAttribute> {
 
     private W3CHrefAttribute value;
 
@@ -53,6 +54,12 @@ public class HrefAttributeValue implements Value<W3CHrefAttribute> {
     }
 
     @Override
+    public HrefAttributeValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -66,21 +73,13 @@ public class HrefAttributeValue implements Value<W3CHrefAttribute> {
     }
 
     @Override
-    public HrefAttributeValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-
-    @Override
     public boolean isSetValue() {
         return getValue() != null && getValue().isSetHref();
     }
 
     @Override
     public String toString() {
-        return String
-                .format("HrefAttributeValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("HrefAttributeValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override

@@ -21,10 +21,10 @@ import java.net.URI;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
-public class ObservingCapability extends SimpleAttrs {
+public class ObservingCapability
+        extends SimpleAttrs {
 
     /**
      * 1..1
@@ -65,7 +65,9 @@ public class ObservingCapability extends SimpleAttrs {
         setHref(href);
     }
 
-    public ObservingCapability(Time observingTime, ReferenceType processType, ReferenceType resultNature, AbstractFeature procedure, ReferenceType observedProperty) {
+    public ObservingCapability(
+            Time observingTime, ReferenceType processType, ReferenceType resultNature, AbstractFeature procedure,
+            ReferenceType observedProperty) {
         this.observingTime = observingTime;
         this.processType = processType;
         this.resultNature = resultNature;
@@ -81,7 +83,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param observingTime the observingTime to set
+     * @param observingTime
+     *            the observingTime to set
      */
     public void setObservingTime(Time observingTime) {
         this.observingTime = observingTime;
@@ -95,7 +98,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param processType the processType to set
+     * @param processType
+     *            the processType to set
      */
     public void setProcessType(ReferenceType processType) {
         this.processType = processType;
@@ -109,7 +113,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param resultNature the resultNature to set
+     * @param resultNature
+     *            the resultNature to set
      */
     public void setResultNature(ReferenceType resultNature) {
         this.resultNature = resultNature;
@@ -123,7 +128,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param onlineResource the onlineResource to set
+     * @param onlineResource
+     *            the onlineResource to set
      */
     public void setOnlineResource(URI onlineResource) {
         this.onlineResource = onlineResource;
@@ -137,7 +143,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param procedure the procedure to set
+     * @param procedure
+     *            the procedure to set
      */
     public void setProcedure(AbstractFeature procedure) {
         this.procedure = procedure;
@@ -151,7 +158,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param featureOfInterest the featureOfInterest to set
+     * @param featureOfInterest
+     *            the featureOfInterest to set
      */
     public void setFeatureOfInterest(AbstractFeature featureOfInterest) {
         this.featureOfInterest = featureOfInterest;
@@ -165,7 +173,8 @@ public class ObservingCapability extends SimpleAttrs {
     }
 
     /**
-     * @param observedProperty the observedProperty to set
+     * @param observedProperty
+     *            the observedProperty to set
      */
     public void setObservedProperty(ReferenceType observedProperty) {
         this.observedProperty = observedProperty;

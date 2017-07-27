@@ -39,7 +39,8 @@ import com.vividsolutions.jts.geom.Geometry;
  * @since 1.0.0
  *
  */
-public class ProfileLevel implements Comparable<ProfileLevel> {
+public class ProfileLevel
+        implements Comparable<ProfileLevel> {
 
     private QuantityValue levelStart;
     private QuantityValue levelEnd;
@@ -181,7 +182,8 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
     }
 
     /**
-     * @param phenomenonTime the phenomenonTime to set
+     * @param phenomenonTime
+     *            the phenomenonTime to set
      */
     public void setPhenomenonTime(Time phenomenonTime) {
         this.phenomenonTime = phenomenonTime;
@@ -214,7 +216,8 @@ public class ProfileLevel implements Comparable<ProfileLevel> {
             return false;
         }
         final ProfileLevel other = (ProfileLevel) obj;
-        if ((getLevelStart() == null) ? (other.getLevelStart() != null) : !getLevelStart().equals(other.getLevelStart())) {
+        if ((getLevelStart() == null) ? (other.getLevelStart() != null)
+                : !getLevelStart().equals(other.getLevelStart())) {
             return false;
         }
         if ((getLevelEnd() == null) ? (other.getLevelEnd() != null) : !getLevelEnd().equals(other.getLevelEnd())) {

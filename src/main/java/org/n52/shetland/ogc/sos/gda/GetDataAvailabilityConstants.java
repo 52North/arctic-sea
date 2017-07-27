@@ -57,12 +57,14 @@ public interface GetDataAvailabilityConstants {
 
     String OBSERVATION_TYPE = "observationType";
 
+    String DECLARE_NAMESPACE = "declare namespace %s='%s';";
+
     /*
      * GDA v10
      */
     String NS_GDA = "http://www.opengis.net/sosgda/1.0";
 
-    String XPATH_PREFIXES_GDA = String.format("declare namespace %s='%s';", NS_GDA_PREFIX, NS_GDA);
+    String XPATH_PREFIXES_GDA = String.format(DECLARE_NAMESPACE, NS_GDA_PREFIX, NS_GDA);
 
     String SCHEMA_LOCATION_URL_GET_DATA_AVAILABILITY = "http://waterml2.org/schemas/gda/1.0/gda.xsd";
 
@@ -125,7 +127,7 @@ public interface GetDataAvailabilityConstants {
      */
     String NS_GDA_20 = "http://www.opengis.net/sosgda/2.0";
 
-    String XPATH_PREFIXES_GDA_20 = String.format("declare namespace %s='%s';", NS_GDA_PREFIX, NS_GDA_20);
+    String XPATH_PREFIXES_GDA_20 = String.format(DECLARE_NAMESPACE, NS_GDA_PREFIX, NS_GDA_20);
 
     String SCHEMA_LOCATION_URL_GET_DATA_AVAILABILITY_20 = "http://waterml2.org/schemas/gda/2.0/gda.xsd";
 

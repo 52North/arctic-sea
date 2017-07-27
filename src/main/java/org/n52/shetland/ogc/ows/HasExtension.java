@@ -30,7 +30,7 @@ import org.n52.shetland.ogc.swes.SwesExtension;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Extension type
  */
 public interface HasExtension<T extends HasExtension<? extends T>> {
     /**

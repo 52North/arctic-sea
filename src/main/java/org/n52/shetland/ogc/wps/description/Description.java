@@ -84,19 +84,18 @@ public interface Description {
 
         B withKeyword(OwsKeyword keyword);
 
+        default B withKeyword(String keyword) {
+            return withKeyword(new OwsKeyword(keyword));
+        }
+
         @SuppressWarnings("unchecked")
         default B withKeywords(Iterable<OwsKeyword> keywords) {
             keywords.forEach(this::withKeyword);
             return (B) this;
         }
 
-        @SuppressWarnings("unchecked")
         default B withKeywords(OwsKeyword... keywords) {
             return withKeywords(Arrays.asList(keywords));
-        }
-
-        default B withKeyword(String keyword) {
-            return withKeyword(new OwsKeyword(keyword));
         }
 
         B withMetadata(OwsMetadata metadata);

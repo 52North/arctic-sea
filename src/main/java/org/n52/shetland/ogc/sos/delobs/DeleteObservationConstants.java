@@ -51,12 +51,12 @@ public interface DeleteObservationConstants {
 
     String CONFORMANCE_CLASS_20 = "http://www.opengis.net/extension/SOSDO/2.0/observationDeletion";
 
-    Set<String> CONFORMANCE_CLASSES = Collections.unmodifiableSet(Sets.newHashSet(CONFORMANCE_CLASS_10, CONFORMANCE_CLASS_20));
+    Set<String> CONFORMANCE_CLASSES =
+            Collections.unmodifiableSet(Sets.newHashSet(CONFORMANCE_CLASS_10, CONFORMANCE_CLASS_20));
 
     String NS_SOSDO_1_0_SCHEMA_LOCATION = "http://52north.org/schema/sosdo/1.0/sosdo.xsd";
 
     String NS_SOSDO_2_0_SCHEMA_LOCATION = "http://52north.org/schema/sosdo/2.0/sosdo.xsd";
-
 
     enum Operations {
         DeleteObservation;

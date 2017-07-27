@@ -41,7 +41,7 @@ public interface FilterConstants {
 
     String NS_FES_2_PREFIX = "fes";
 
-    String NS_FES_110_PREFIX = "fes";
+    String NS_FES_110_PREFIX = NS_FES_2_PREFIX;
 
     String SCHEMA_LOCATION_URL_FES_20 = "http://schemas.opengis.net/filter/2.0/filterAll.xsd";
 
@@ -66,7 +66,7 @@ public interface FilterConstants {
     String EN_VALUE_REFERENCE = "ValueReference";
     String EN_LITERAL = "Literal";
     String EN_PROPERTY_IS_EQUAL_TO = "PropertyIsEqualTo";
-    String EN_FILTER = "Filter";
+    String EN_FILTER = SHORT_NAME;
 
     /*
      * QNames
@@ -100,31 +100,31 @@ public interface FilterConstants {
 
     class TimeOperatorMapping {
 
-        private static final BiMap<TimeOperator, TimeOperator2> bimap
+        private static final BiMap<TimeOperator, TimeOperator2> BIMAP
                 = EnumBiMap.create(TimeOperator.class, TimeOperator2.class);
 
         static {
-            bimap.put(TimeOperator.TM_Before, TimeOperator2.Before);
-            bimap.put(TimeOperator.TM_After, TimeOperator2.After);
-            bimap.put(TimeOperator.TM_Begins, TimeOperator2.Begins);
-            bimap.put(TimeOperator.TM_Ends, TimeOperator2.Ends);
-            bimap.put(TimeOperator.TM_EndedBy, TimeOperator2.EndedBy);
-            bimap.put(TimeOperator.TM_BegunBy, TimeOperator2.BegunBy);
-            bimap.put(TimeOperator.TM_During, TimeOperator2.During);
-            bimap.put(TimeOperator.TM_Equals, TimeOperator2.TEquals);
-            bimap.put(TimeOperator.TM_Contains, TimeOperator2.TContains);
-            bimap.put(TimeOperator.TM_Overlaps, TimeOperator2.TOverlaps);
-            bimap.put(TimeOperator.TM_Meets, TimeOperator2.Meets);
-            bimap.put(TimeOperator.TM_MetBy, TimeOperator2.MetBy);
-            bimap.put(TimeOperator.TM_OverlappedBy, TimeOperator2.OverlappedBy);
+            BIMAP.put(TimeOperator.TM_Before, TimeOperator2.Before);
+            BIMAP.put(TimeOperator.TM_After, TimeOperator2.After);
+            BIMAP.put(TimeOperator.TM_Begins, TimeOperator2.Begins);
+            BIMAP.put(TimeOperator.TM_Ends, TimeOperator2.Ends);
+            BIMAP.put(TimeOperator.TM_EndedBy, TimeOperator2.EndedBy);
+            BIMAP.put(TimeOperator.TM_BegunBy, TimeOperator2.BegunBy);
+            BIMAP.put(TimeOperator.TM_During, TimeOperator2.During);
+            BIMAP.put(TimeOperator.TM_Equals, TimeOperator2.TEquals);
+            BIMAP.put(TimeOperator.TM_Contains, TimeOperator2.TContains);
+            BIMAP.put(TimeOperator.TM_Overlaps, TimeOperator2.TOverlaps);
+            BIMAP.put(TimeOperator.TM_Meets, TimeOperator2.Meets);
+            BIMAP.put(TimeOperator.TM_MetBy, TimeOperator2.MetBy);
+            BIMAP.put(TimeOperator.TM_OverlappedBy, TimeOperator2.OverlappedBy);
         }
 
         public static TimeOperator get(TimeOperator2 to) {
-            return bimap.inverse().get(to);
+            return BIMAP.inverse().get(to);
         }
 
         public static TimeOperator2 get(TimeOperator to) {
-            return bimap.get(to);
+            return BIMAP.get(to);
         }
     }
 

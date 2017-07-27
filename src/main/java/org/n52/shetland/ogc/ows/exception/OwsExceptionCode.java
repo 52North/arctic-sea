@@ -35,7 +35,7 @@ public enum OwsExceptionCode implements ExceptionCode {
     VersionNegotiationFailed(OWSConstants.SOAP_REASON_VERSION_NEGOTIATION_FAILED);
     private final String soapFaulReason;
 
-    private OwsExceptionCode(String soapFaultReason) {
+    OwsExceptionCode(String soapFaultReason) {
         this.soapFaulReason = soapFaultReason;
     }
 
