@@ -35,9 +35,6 @@ Shetland compromises classes for OGC models like [SensorML](http://www.opengeosp
 Jan Mayen contains various utility classes shared accross the Arctic Sea.
 Download [Jan Mayen](https://github.com/52North/janmayen/releases)
 
-
-### Features [Marketing features]
-
 ## License
 All components are licensed under the [Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
 
