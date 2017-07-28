@@ -39,6 +39,9 @@ This project includes:
   Compress-LZF under Apache License 2.0
   Elasticsearch SecureSM under The Apache Software License, Version 2.0
   Elasticsearch: Core under The Apache Software License, Version 2.0
+  EXIficient under MIT License
+  EXIficient-Core under MIT License
+  EXIficient-Grammars under MIT License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest All under New BSD License
@@ -86,5 +89,7 @@ This project includes:
   Spring TestContext Framework under The Apache Software License, Version 2.0
   Spring Web under The Apache Software License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
+  Xerces2-j under The Apache Software License, Version 2.0
+  XML Commons External Components XML APIs under The Apache Software License, Version 2.0 or The SAX License or The W3C License
   XmlBeans under The Apache Software License, Version 2.0
 
