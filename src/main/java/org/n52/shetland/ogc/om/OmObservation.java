@@ -199,7 +199,10 @@ public class OmObservation
      * @return the phenomenonTime
      */
     public Time getPhenomenonTime() {
-        return value.getPhenomenonTime();
+        if (isSetValue()) {
+            return value.getPhenomenonTime();
+        }
+        return null;
     }
 
     public boolean isSetPhenomenonTime() {
