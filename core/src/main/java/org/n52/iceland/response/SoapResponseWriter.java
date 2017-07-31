@@ -36,7 +36,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * Writer for {@link SOAPMessage} objects
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @since 4.0.0
+ * @since 2.0.0
  */
 public class SoapResponseWriter extends AbstractResponseWriter<SOAPMessage> {
     public static final ResponseWriterKey KEY = new ResponseWriterKey(SOAPMessage.class);

@@ -45,7 +45,7 @@ import org.n52.svalbard.util.CodingHelper;
  * Streaming SOAP response writer implementation.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 2.0.0
  *
  */
 public class SoapChainResponseWriter extends AbstractResponseWriter<SoapChain> {

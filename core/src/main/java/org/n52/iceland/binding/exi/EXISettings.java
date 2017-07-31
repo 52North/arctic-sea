@@ -21,7 +21,7 @@ package org.n52.iceland.binding.exi;
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
- * @since 4.2.0
+ * @since 2.0.0
  *
  */
 public interface EXISettings {

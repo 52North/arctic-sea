@@ -33,7 +33,7 @@ import com.siemens.ct.exi.EXIFactory;
  * Writer factory class for {@link EXIObject} and {@link EXIResponseWriter}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 2.0.0
  *
  */
 public class EXIResponseWriterFactory

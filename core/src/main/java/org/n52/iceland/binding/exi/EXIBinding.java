@@ -68,7 +68,7 @@ import com.siemens.ct.exi.exceptions.EXIException;
  * <a href="http://www.w3.org/TR/exi/">http://www.w3.org/TR/exi/</a>
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 2.0.0
  *
  */
 public class EXIBinding
