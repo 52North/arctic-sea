@@ -97,7 +97,7 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
         return Collections.unmodifiableSet(inputs.keySet());
     }
 
-    public static abstract class AbstractBuilder<T extends GroupInputDescription, B extends AbstractBuilder<T, B>>
+    public abstract static class AbstractBuilder<T extends GroupInputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements GroupInputDescription.Builder<T, B> {
 

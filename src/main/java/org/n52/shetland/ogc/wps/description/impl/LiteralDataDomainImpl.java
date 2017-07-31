@@ -69,7 +69,7 @@ public class LiteralDataDomainImpl implements LiteralDataDomain {
         return this.defaultValue;
     }
 
-    public static abstract class AbstractLiteralDataDomainBuilder<T extends LiteralDataDomain,
+    public abstract static class AbstractLiteralDataDomainBuilder<T extends LiteralDataDomain,
                                                                   B extends AbstractLiteralDataDomainBuilder<T, B>>
             implements LiteralDataDomain.Builder<T, B> {
 

@@ -101,7 +101,7 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
         return Collections.unmodifiableSet(outputs.keySet());
     }
 
-    public static abstract class AbstractBuilder<T extends GroupOutputDescription, B extends AbstractBuilder<T, B>>
+    public abstract static class AbstractBuilder<T extends GroupOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements GroupOutputDescription.Builder<T, B> {
 

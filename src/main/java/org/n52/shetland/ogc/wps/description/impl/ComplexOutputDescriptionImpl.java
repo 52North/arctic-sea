@@ -88,7 +88,7 @@ public class ComplexOutputDescriptionImpl
         return this.maximumMegabytes;
     }
 
-    public static abstract class AbstractBuilder<T extends ComplexOutputDescription, B extends AbstractBuilder<T, B>>
+    public abstract static class AbstractBuilder<T extends ComplexOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements ComplexOutputDescription.Builder<T, B> {
 

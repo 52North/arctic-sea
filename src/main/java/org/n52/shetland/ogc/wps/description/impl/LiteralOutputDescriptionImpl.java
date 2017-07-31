@@ -76,7 +76,7 @@ public class LiteralOutputDescriptionImpl
         return this.defaultLiteralDataDomain;
     }
 
-    public static abstract class AbstractBuilder<T extends LiteralOutputDescription, B extends AbstractBuilder<T, B>>
+    public abstract static class AbstractBuilder<T extends LiteralOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements LiteralOutputDescription.Builder<T, B> {
 

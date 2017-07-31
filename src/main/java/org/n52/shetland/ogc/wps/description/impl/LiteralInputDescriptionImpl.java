@@ -78,7 +78,7 @@ public class LiteralInputDescriptionImpl
         return Collections.unmodifiableSet(supportedLiteralDataDomains);
     }
 
-    public static abstract class AbstractBuilder<T extends LiteralInputDescription,
+    public abstract static class AbstractBuilder<T extends LiteralInputDescription,
                                                  B extends LiteralInputDescription.Builder<T, B>>
             extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements LiteralInputDescription.Builder<T, B> {

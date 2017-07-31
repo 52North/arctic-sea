@@ -136,7 +136,7 @@ public class ProcessDescriptionImpl
         return version;
     }
 
-    public static abstract class AbstractBuilder<T extends ProcessDescription,
+    public abstract static class AbstractBuilder<T extends ProcessDescription,
                                                  B extends ProcessDescription.Builder<T, B>>
             extends AbstractDescription.AbstractBuilder<T, B>
             implements ProcessDescription.Builder<T, B> {

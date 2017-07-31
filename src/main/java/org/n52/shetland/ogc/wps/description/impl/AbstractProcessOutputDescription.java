@@ -46,7 +46,7 @@ public abstract class AbstractProcessOutputDescription
         super(id, title, abstrakt, keywords, metadata);
     }
 
-    protected static abstract class AbstractBuilder<T extends ProcessOutputDescription, B extends AbstractBuilder<T, B>>
+    protected abstract static class AbstractBuilder<T extends ProcessOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessOutputDescription.Builder<T, B> {
     }
