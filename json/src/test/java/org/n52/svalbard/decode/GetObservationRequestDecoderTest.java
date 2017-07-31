@@ -28,17 +28,14 @@ import java.io.IOException;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
-import org.mockito.cglib.core.Constants;
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.request.GetObservationRequest;
-import org.n52.svalbard.ConfiguredSettingsManager;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.GetObservationRequestDecoder;
 
