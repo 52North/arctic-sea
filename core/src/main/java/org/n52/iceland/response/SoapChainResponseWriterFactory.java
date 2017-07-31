@@ -34,7 +34,7 @@ import org.n52.svalbard.encode.EncoderRepository;
  * {@link SoapChainResponseWriter}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 2.0.0
  *
  */
 public class SoapChainResponseWriterFactory

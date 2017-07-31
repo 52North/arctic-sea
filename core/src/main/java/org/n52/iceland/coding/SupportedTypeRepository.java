@@ -21,10 +21,7 @@ import static java.util.stream.Collectors.toSet;
 import java.util.Objects;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.n52.iceland.util.activation.Activatable;
-import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.AbstractSupportedStringType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.ObservationType;
@@ -44,7 +41,7 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann
  */
-public class SupportedTypeRepository implements Constructable {
+public class SupportedTypeRepository {
     @Deprecated
     private static SupportedTypeRepository instance;
     private final Set<Activatable<SupportedType>> supportedTypes = Sets.newHashSet();
@@ -57,18 +54,9 @@ public class SupportedTypeRepository implements Constructable {
         this.cache = CacheBuilder.newBuilder().build(new CacheLoaderImpl());
     }
 
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    @Inject
-    public void setDecoderRepository(DecoderRepository decoderRepository) {
+    public void init(DecoderRepository decoderRepository, EncoderRepository encoderRepository) {
         this.decoderRepository = decoderRepository;
-    }
-
-    @Override
-    public void init() {
+        this.encoderRepository = encoderRepository;
         SupportedTypeRepository.instance = this;
         this.supportedTypes.clear();
 

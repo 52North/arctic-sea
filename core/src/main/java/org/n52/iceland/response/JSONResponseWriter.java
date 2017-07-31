@@ -21,27 +21,29 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-
 import org.n52.iceland.coding.encode.AbstractResponseWriter;
 import org.n52.iceland.coding.encode.ResponseProxy;
 import org.n52.iceland.coding.encode.ResponseWriterKey;
+import org.n52.janmayen.Json;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.svalbard.encode.EncoderRepository;
-import org.n52.svalbard.encode.exception.EncodingException;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
- * Writer for {@link SOAPMessage} objects
+ * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
+ *
  * @since 2.0.0
  */
-public class SoapResponseWriter extends AbstractResponseWriter<SOAPMessage> {
-    public static final ResponseWriterKey KEY = new ResponseWriterKey(SOAPMessage.class);
+public class JSONResponseWriter
+        extends AbstractResponseWriter<JsonNode> {
 
-    public SoapResponseWriter(EncoderRepository encoderRepository) {
+    public static final ResponseWriterKey KEY = new ResponseWriterKey(JsonNode.class);
+
+    public JSONResponseWriter(EncoderRepository encoderRepository) {
         super(encoderRepository);
     }
 
@@ -51,26 +53,23 @@ public class SoapResponseWriter extends AbstractResponseWriter<SOAPMessage> {
     }
 
     @Override
-    public void write(SOAPMessage t, OutputStream out, ResponseProxy responseProxy)
-            throws IOException, EncodingException {
-        try {
-            t.writeTo(out);
-        } catch (SOAPException soapex) {
-            throw new EncodingException(soapex);
-        }
+    public void write(JsonNode t, OutputStream out, ResponseProxy responseProxy)
+            throws IOException {
+        Json.print(out, t);
     }
 
     @Override
     public MediaType getContentType() {
-        return MediaTypes.APPLICATION_SOAP_XML;
+        return MediaTypes.APPLICATION_JSON;
     }
 
     @Override
     public void setContentType(MediaType contentType) {
+
     }
 
     @Override
-    public boolean supportsGZip(SOAPMessage t) {
-        return false;
+    public boolean supportsGZip(JsonNode t) {
+        return true;
     }
 }

@@ -22,7 +22,7 @@ import org.n52.faroe.ConfigurationError;
 
 
 /**
- * @since 4.0.0
+ * @since 2.0.0
  *
  * @param <E> Enum type
  */

@@ -124,6 +124,23 @@
             <groupId>org.apache.xmlbeans</groupId>
             <artifactId>xmlbeans</artifactId>
         </dependency>
+        
+        <dependency>
+            <groupId>com.siemens.ct.exi</groupId>
+            <artifactId>exificient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.siemens.ct.exi</groupId>
+            <artifactId>exificient-grammars</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.siemens.ct.exi</groupId>
+            <artifactId>exificient-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>xml-apis</groupId>
+            <artifactId>xml-apis</artifactId>
+        </dependency>
 
         <!-- Testing dependencies -->
         <dependency>
@@ -138,7 +155,7 @@
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

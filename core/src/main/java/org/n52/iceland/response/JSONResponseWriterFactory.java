@@ -17,7 +17,6 @@
 package org.n52.iceland.response;
 
 import javax.inject.Inject;
-import javax.xml.soap.SOAPMessage;
 
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterFactory;
@@ -25,20 +24,20 @@ import org.n52.iceland.coding.encode.ResponseWriterKey;
 import org.n52.janmayen.component.SingleTypeComponentFactory;
 import org.n52.svalbard.encode.EncoderRepository;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 /**
- * {@link ResponseWriterFactory} implementation for {@link SOAPMessage} and
- * {@link SoapResponseWriter}
+ * {@link ResponseWriterFactory} implementation for {@link JsonNode} and
+ * {@link JSONResponseWriter}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 2.0.0
  *
  */
-public class SoapResponseWriterFactory
-        implements ResponseWriterFactory,
-                   SingleTypeComponentFactory<ResponseWriterKey, ResponseWriter<?>> {
+public class JSONResponseWriterFactory
+        implements ResponseWriterFactory, SingleTypeComponentFactory<ResponseWriterKey, ResponseWriter<?>> {
 
-    private static final ResponseWriterKey RESPONSE_WRITER_KEY
-            = new ResponseWriterKey(SOAPMessage.class);
+    private static final ResponseWriterKey RESPONSE_WRITER_KEY = new ResponseWriterKey(JsonNode.class);
     private EncoderRepository encoderRepository;
 
     @Inject
@@ -52,8 +51,8 @@ public class SoapResponseWriterFactory
     }
 
     @Override
-    public SoapResponseWriter create() {
-        return new SoapResponseWriter(this.encoderRepository);
+    public JSONResponseWriter create() {
+        return new JSONResponseWriter(this.encoderRepository);
     }
 
 }

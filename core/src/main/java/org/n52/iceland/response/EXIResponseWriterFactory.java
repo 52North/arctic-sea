@@ -17,33 +17,47 @@
 package org.n52.iceland.response;
 
 import javax.inject.Inject;
-import javax.xml.soap.SOAPMessage;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.n52.iceland.coding.encode.ResponseWriter;
 import org.n52.iceland.coding.encode.ResponseWriterFactory;
 import org.n52.iceland.coding.encode.ResponseWriterKey;
+import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.SingleTypeComponentFactory;
+import org.n52.shetland.exi.EXIObject;
 import org.n52.svalbard.encode.EncoderRepository;
 
+import com.siemens.ct.exi.EXIFactory;
+
 /**
- * {@link ResponseWriterFactory} implementation for {@link SOAPMessage} and
- * {@link SoapResponseWriter}
+ * Writer factory class for {@link EXIObject} and {@link EXIResponseWriter}
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 2.0.0
  *
  */
-public class SoapResponseWriterFactory
-        implements ResponseWriterFactory,
-                   SingleTypeComponentFactory<ResponseWriterKey, ResponseWriter<?>> {
+public class EXIResponseWriterFactory
+        implements ResponseWriterFactory, SingleTypeComponentFactory<ResponseWriterKey, ResponseWriter<?>> {
 
-    private static final ResponseWriterKey RESPONSE_WRITER_KEY
-            = new ResponseWriterKey(SOAPMessage.class);
+    private static final ResponseWriterKey RESPONSE_WRITER_KEY = new ResponseWriterKey(EXIObject.class);
+
+    private Producer<EXIFactory> exiFactoryProducer;
+    private Producer<XmlOptions> xmlOptionsProducer;
     private EncoderRepository encoderRepository;
 
     @Inject
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
+    }
+
+    @Inject
+    public void setExiFactoryProducer(Producer<EXIFactory> producer) {
+        this.exiFactoryProducer = producer;
+    }
+
+    @Inject
+    public void setXmlOptionsProducer(Producer<XmlOptions> producer) {
+        this.xmlOptionsProducer = producer;
     }
 
     @Override
@@ -52,8 +66,7 @@ public class SoapResponseWriterFactory
     }
 
     @Override
-    public SoapResponseWriter create() {
-        return new SoapResponseWriter(this.encoderRepository);
+    public EXIResponseWriter create() {
+        return new EXIResponseWriter(this.encoderRepository, this.exiFactoryProducer, this.xmlOptionsProducer);
     }
-
 }
