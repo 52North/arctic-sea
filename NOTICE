@@ -28,7 +28,6 @@ This project includes:
   52°North Jan Mayen under The Apache Software License, Version 2.0
   52°North Shetland under The Apache Software License, Version 2.0
   52°North Svalbard Core under The Apache Software License, Version 2.0
-  AOP alliance under Public Domain
   Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
@@ -84,13 +83,13 @@ This project includes:
   SLF4J Simple Binding under MIT License
   SnakeYAML under Apache License Version 2.0
   Spatial4J under The Apache Software License, Version 2.0
-  Spring AOP under The Apache Software License, Version 2.0
-  Spring Beans under The Apache Software License, Version 2.0
-  Spring Context under The Apache Software License, Version 2.0
-  Spring Core under The Apache Software License, Version 2.0
-  Spring Expression Language (SpEL) under The Apache Software License, Version 2.0
-  Spring TestContext Framework under The Apache Software License, Version 2.0
-  Spring Web under The Apache Software License, Version 2.0
+  Spring AOP under Apache License, Version 2.0
+  Spring Beans under Apache License, Version 2.0
+  Spring Context under Apache License, Version 2.0
+  Spring Core under Apache License, Version 2.0
+  Spring Expression Language (SpEL) under Apache License, Version 2.0
+  Spring TestContext Framework under Apache License, Version 2.0
+  Spring Web under Apache License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
   Xerces2-j under The Apache Software License, Version 2.0
   XML Commons External Components XML APIs under The Apache Software License, Version 2.0 or The SAX License or The W3C License

@@ -91,4 +91,9 @@ public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProce
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
         return bean;
     }
+
+    @Override
+    public boolean requiresDestruction(Object bean) {
+        return bean instanceof Destroyable;
+    }
 }
