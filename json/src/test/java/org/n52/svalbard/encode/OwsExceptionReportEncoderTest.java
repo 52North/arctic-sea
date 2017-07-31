@@ -32,7 +32,6 @@ import static org.n52.svalbard.coding.json.matchers.JSONMatchers.isObject;
 import static org.n52.svalbard.coding.json.matchers.ValidationMatchers.instanceOf;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -50,7 +49,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @since 1.0.0
  */
-@Ignore
 public class OwsExceptionReportEncoderTest {
     private OwsExceptionReportEncoder enc;
 
@@ -71,10 +69,10 @@ public class OwsExceptionReportEncoderTest {
         assertThat(json, is(notNullValue()));
         final String message = "The encoder response is not supported!";
         e.checkThat(json, is(instanceOf(SchemaConstants.Common.EXCEPTION_REPORT)));
-        e.checkThat(json.path(VERSION), is(equalTo("2.0.0")));
+        e.checkThat(json.path(VERSION).asText(), is(equalTo("2.0.0")));
         e.checkThat(json.path(EXCEPTIONS), is(arrayOfLength(1)));
         e.checkThat(json.path(EXCEPTIONS).path(0), isObject());
         e.checkThat(json.path(EXCEPTIONS).path(0).path(LOCATOR), does(not(exist())));
-        e.checkThat(json.path(EXCEPTIONS).path(0).path(TEXT), is(equalTo(message)));
+        e.checkThat(json.path(EXCEPTIONS).path(0).path(TEXT).asText(), is(equalTo(message)));
     }
 }
