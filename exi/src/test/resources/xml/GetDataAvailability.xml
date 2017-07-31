@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016-2017 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<gda:GetDataAvailability service="SOS" version="2.0.0"
+	xmlns:gda="http://www.opengis.net/sosgda/1.0" xmlns:swes="http://www.opengis.net/swes/2.0"
+	xmlns:fes="http://www.opengis.net/fes/2.0" xmlns:gml="http://www.opengis.net/gml/3.2"
+	xmlns:swe="http://www.opengis.net/swe/2.0">
+	<!-- show optional observation count for timeseries in GetDataAvailability response -->
+	<!-- <swes:extension>
+		<swe:Boolean definition="ShowCount">
+			<swe:value>true</swe:value>
+		</swe:Boolean>
+	</swes:extension> -->
+	<!-- Inlcude result times in GetDataAvailability response as swe:DataRecord in gda:extension -->
+	<!-- <swes:extension>
+		<swe:Boolean definition="IncludeResultTimes">
+			<swe:value>true</swe:value>
+		</swe:Boolean>
+	</swes:extension> -->
+	<!-- Inlcude result times with matching phenomenonTime in GetDataAvailability response as swe:DataRecord in gda:extension -->
+	<!-- <swes:extension>
+		<fes:During>
+			<fes:ValueReference>phenomenonTime</fes:ValueReference>
+			<gml:TimePeriod gml:id="tp_1">
+				<gml:beginPosition>2012-11-19T12:59:59.000Z</gml:beginPosition>
+				<gml:endPosition>2012-11-19T13:05:00.000Z</gml:endPosition>
+			</gml:TimePeriod>
+		</fes:During>
+	</swes:extension> -->
+	<gda:procedure>http://www.52north.org/test/procedure/1</gda:procedure>
+	<gda:procedure>http://www.52north.org/test/procedure/4</gda:procedure>
+	<gda:observedProperty>http://www.52north.org/test/observableProperty/1</gda:observedProperty>
+	<gda:observedProperty>http://www.52north.org/test/observableProperty/2</gda:observedProperty>
+	<gda:observedProperty>http://www.52north.org/test/observableProperty/3</gda:observedProperty>
+	<gda:observedProperty>http://www.52north.org/test/observableProperty/4</gda:observedProperty>
+	<gda:observedProperty>http://www.52north.org/test/observableProperty/5</gda:observedProperty>
+	<gda:featureOfInterest>http://www.52north.org/test/featureOfInterest/1</gda:featureOfInterest>
+	<gda:featureOfInterest>http://www.52north.org/test/featureOfInterest/4</gda:featureOfInterest>
+	<gda:offering>http://www.52north.org/test/offering/1</gda:offering>
+	<gda:offering>http://www.52north.org/test/offering/4</gda:offering>
+</gda:GetDataAvailability>

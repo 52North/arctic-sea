@@ -42,6 +42,9 @@
         <module>core</module>
         <module>xmlbeans</module>
         <module>xmlstream</module>
+        <module>json</module>
+        <module>json-common</module>
+        <module>exi</module>
     </modules>
 
     <developers>
@@ -108,6 +111,7 @@
         <n52.common.xml.version>2.3.0</n52.common.xml.version>
         <saxon.version>9.1.0.8</saxon.version>
         <xmlbeans.version>2.6.0</xmlbeans.version>
+        <jackson.version>2.8.5</jackson.version>
     </properties>
 
     <dependencyManagement>
@@ -120,12 +124,27 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard-exi</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>svalbard-xmlbeans</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>svalbard-xmlstream</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard-json</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard-json-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -139,11 +158,6 @@
                 <artifactId>findbugs-annotations</artifactId>
                 <version>3.0.1</version>
             </dependency>
-            <!-- <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-beans</artifactId>
-                <version>4.2.3.RELEASE</version>
-            </dependency> -->
             <dependency>
                 <groupId>org.n52.janmayen</groupId>
                 <artifactId>janmayen</artifactId>
@@ -199,8 +213,45 @@
                 <artifactId>stax-api</artifactId>
                 <version>1.0.1</version>
             </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.4</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>3.1.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>xml-apis</groupId>
+                <artifactId>xml-apis</artifactId>
+                <version>1.4.01</version>
+            </dependency>
+            <dependency>
+                <groupId>com.siemens.ct.exi</groupId>
+                <artifactId>exificient</artifactId>
+                <version>0.9.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.siemens.ct.exi</groupId>
+                <artifactId>exificient-grammars</artifactId>
+                <version>0.9.6</version>
+            </dependency>
+            <dependency>
+                <groupId>com.siemens.ct.exi</groupId>
+                <artifactId>exificient-core</artifactId>
+                <version>0.9.6</version>
+            </dependency>
 
             <!-- Testing dependencies -->
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>svalbard-json-common</artifactId>
+                <version>${project.version}</version>
+                <classifier>tests</classifier>
+            </dependency>
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -227,6 +278,61 @@
                         <artifactId>hamcrest-core</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            
+            <!-- JSON -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.fge</groupId>
+                <artifactId>json-schema-validator</artifactId>
+                <version>2.2.6</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>jsr305</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.github.fge</groupId>
+                <artifactId>json-schema-core</artifactId>
+                <version>1.2.5</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>jsr305</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.github.fge</groupId>
+                <artifactId>jackson-coreutils</artifactId>
+                <version>1.8</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.code.findbugs</groupId>
+                        <artifactId>jsr305</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>javax.activation</groupId>
+                <artifactId>activation</artifactId>
+                <version>1.1.1</version>
             </dependency>
 
             <!-- XML -->

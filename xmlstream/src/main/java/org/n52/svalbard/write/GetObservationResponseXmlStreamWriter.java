@@ -101,9 +101,8 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
                     if (encoder.supportsResultStreamingForMergedValues()) {
                         writeObservationData(ctx, o, encoder);
                     } else {
-                        ObservationStream merged = value.merge();
-                        while (merged.hasNext()) {
-                            writeObservationData(ctx, merged.next(), encoder);
+                        while (value.hasNext()) {
+                            writeObservationData(ctx, value.next(), encoder);
                         }
                     }
                 } else {
