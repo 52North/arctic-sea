@@ -42,6 +42,6 @@ This project includes:
   Objenesis under Apache 2
   SLF4J API Module under MIT License
   SLF4J Simple Binding under MIT License
-  Spring Core under The Apache Software License, Version 2.0
-  Spring TestContext Framework under The Apache Software License, Version 2.0
+  Spring Core under Apache License, Version 2.0
+  Spring TestContext Framework under Apache License, Version 2.0
 
