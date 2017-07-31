@@ -36,7 +36,7 @@ import com.google.common.collect.Sets;
  * Class that represents SensorML 2.0 FeatrureOfInterest
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public class SmlFeatureOfInterest extends SweAbstractDataComponent {

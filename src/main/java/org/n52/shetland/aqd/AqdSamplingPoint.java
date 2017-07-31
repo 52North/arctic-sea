@@ -23,7 +23,7 @@ import org.n52.shetland.inspire.ef.EfEnvironmentalMonitoringFacility;
  * Class represents an AQD_SamplingPoint
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.3.0
+ * @since 1.0.0
  *
  */
 public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {

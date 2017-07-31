@@ -20,7 +20,7 @@ package org.n52.shetland.inspire;
  * Enum for the INSPIRE mandatory keyword values
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public enum InspireMandatoryKeywordValue {

@@ -29,7 +29,7 @@ import com.google.common.collect.Sets;
  * Service internal representation of INSPIRE resource locator
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class InspireResourceLocator {

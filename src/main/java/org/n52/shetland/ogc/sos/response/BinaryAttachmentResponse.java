@@ -26,7 +26,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  *
- * @since 4.1.0
+ * @since 1.0.0
  */
 @SuppressFBWarnings({"EI_EXPOSE_REP", "EI_EXPOSE_REP2"})
 public class BinaryAttachmentResponse {

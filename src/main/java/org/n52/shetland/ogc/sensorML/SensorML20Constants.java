@@ -23,7 +23,7 @@ import org.n52.shetland.w3c.SchemaLocation;
  * OGC SensorML 2.0 constants
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public interface SensorML20Constants extends SensorMLConstants {

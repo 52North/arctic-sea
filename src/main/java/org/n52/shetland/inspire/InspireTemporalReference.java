@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
  * Service internal representation of INSPIRE temporal reference
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class InspireTemporalReference {

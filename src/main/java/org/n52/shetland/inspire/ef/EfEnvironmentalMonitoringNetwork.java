@@ -20,7 +20,7 @@ package org.n52.shetland.inspire.ef;
  * Class represents an EnvironmentalMonitoringNetwork
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.3.0
+ * @since 1.0.0
  *
  */
 public class EfEnvironmentalMonitoringNetwork extends EfAbstractMonitoringFeature {
