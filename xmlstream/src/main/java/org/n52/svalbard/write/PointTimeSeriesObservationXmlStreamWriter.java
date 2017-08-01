@@ -27,7 +27,6 @@ import org.n52.svalbard.encode.EncodingContext;
 
 public class PointTimeSeriesObservationXmlStreamWriter extends WmlTVPEncoderv20XmlStreamWriter {
 
-
     public PointTimeSeriesObservationXmlStreamWriter(
             EncodingContext context,
             OutputStream outputStream,

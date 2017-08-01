@@ -49,8 +49,8 @@ public class PointObservationTypeEncoder
         extends AbstractOmInspireEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PointObservationTypeEncoder.class);
-    private static final Set<EncoderKey> ENCODER_KEYS =
-            CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, PointObservation.class);
+    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper
+            .encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, PointObservation.class);
 
     public PointObservationTypeEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -63,13 +63,14 @@ public class PointObservationTypeEncoder
     }
 
     @Override
-    protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
+    protected XmlObject createResult(OmObservation sosObservation)
+            throws EncodingException {
         return encodeResult(sosObservation.getValue());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
+    protected XmlObject encodeResult(ObservationValue<?> observationValue)
+            throws EncodingException {
         if (observationValue.getValue() instanceof CvDiscretePointCoverage) {
             return encodeObjectToXml(CvConstants.NS_CV, observationValue.getValue());
         }
@@ -82,7 +83,8 @@ public class PointObservationTypeEncoder
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec)
+            throws EncodingException {
         return super.encode(element, ec);
     }
 

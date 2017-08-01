@@ -77,6 +77,11 @@ public class PointTimeSeriesObservationTypeEncoder
     }
 
     @Override
+    public boolean supportsResultStreamingForMergedValues() {
+        return true;
+    }
+
+    @Override
     protected String getObservationType() {
         return InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION;
     }
@@ -92,7 +97,7 @@ public class PointTimeSeriesObservationTypeEncoder
         if (objectToEncode instanceof OmObservation) {
             try {
                 new PointTimeSeriesObservationXmlStreamWriter(
-                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                        context.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
                         outputStream, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
