@@ -360,9 +360,9 @@ public class SosDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicatio
         sosObservationConstellation.addOffering(resultTemplate.getOffering());
         sosInsertResultTemplate.setObservationTemplate(sosObservationConstellation);
         sosInsertResultTemplate.setResultStructure(
-                parseResultStructure(resultTemplate.getResultStructure().getAbstractDataComponent()));
+                parseResultStructure(resultTemplate.getResultStructure()));
         sosInsertResultTemplate
-                .setResultEncoding(parseResultEncoding(resultTemplate.getResultEncoding().getAbstractEncoding()));
+                .setResultEncoding(parseResultEncoding(resultTemplate.getResultEncoding()));
         sosInsertResultTemplate.setExtensions(parseExtensibleRequest(insertResultTemplate));
         return sosInsertResultTemplate;
     }
