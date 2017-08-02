@@ -184,6 +184,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
     public GetDataAvailabilityRequest setNamespace(String namspace) {
         if (!Strings.isNullOrEmpty(namspace)) {
             this.namspace = namspace;
+            setResponseFormat(namspace);
         }
         return this;
     }

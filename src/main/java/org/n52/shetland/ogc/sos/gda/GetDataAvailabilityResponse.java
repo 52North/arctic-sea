@@ -113,6 +113,7 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
     public void setNamespace(String namespace) {
         if (!Strings.isNullOrEmpty(namespace)) {
             this.namespace = namespace;
+            setResponseFormat(namespace);
         }
     }
 
