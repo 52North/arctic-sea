@@ -162,7 +162,7 @@ public class AbstractProcess extends AbstractSensorML {
                 return smlIo.getIoName();
             }
         }
-        return getObservablePropertyName(observableProperty);
+        return null;
     }
 
     @Override
@@ -179,7 +179,7 @@ public class AbstractProcess extends AbstractSensorML {
                 return smlIo.getIoName();
             }
         }
-        return getObservablePropertyName(observableProperty);
+        return null;
     }
 
     protected Predicate<SmlIo> createSmlIoPredicate(String identifier) {
