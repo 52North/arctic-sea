@@ -27,6 +27,7 @@ import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.ows.extension.Value;
+import org.n52.shetland.ogc.swe.simpleType.SweText;
 
 import com.google.common.base.Strings;
 
@@ -109,6 +110,8 @@ public abstract class OwsServiceRequest
                 return ((Value<?, ?>) value).getStringValue();
             } else if (value instanceof String) {
                 return (String) value;
+            } else if (value instanceof SweText) {
+                return ((SweText) value).getValue();
             } else {
                 return "";
             }

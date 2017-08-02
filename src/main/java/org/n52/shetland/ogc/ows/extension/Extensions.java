@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
+
 import com.google.common.base.Strings;
 
 public class Extensions {
@@ -102,6 +104,8 @@ public class Extensions {
                 return (Boolean) value;
             } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
                 return (Boolean) ((Value) value).getValue();
+            } else if (value instanceof SweBoolean) {
+                return ((SweBoolean) value).getValue();
             }
             return false;
         }).orElse(defaultValue);

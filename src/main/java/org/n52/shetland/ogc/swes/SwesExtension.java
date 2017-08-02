@@ -16,23 +16,23 @@
  */
 package org.n52.shetland.ogc.swes;
 
-import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.AbstractExtension;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
-public class SwesExtension<T> implements Extension<T> {
+public class SwesExtension<T extends SweAbstractDataComponent>
+        extends AbstractExtension<T> {
 
-    private String namespace = SweConstants.NS_SWE_20;
-    private String identifier;
     private T value;
-    private String definition;
 
     public SwesExtension(T value) {
-        this.value = value;
+        setValue(value);
     }
 
     public SwesExtension() {
@@ -41,35 +41,7 @@ public class SwesExtension<T> implements Extension<T> {
 
     @Override
     public String getNamespace() {
-        return namespace;
-    }
-
-    @Override
-    public SwesExtension<T> setNamespace(String namespace) {
-        this.namespace = namespace;
-        return this;
-    }
-
-    @Override
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    @Override
-    public SwesExtension<T> setIdentifier(String identifier) {
-        this.identifier = identifier;
-        return this;
-    }
-
-    @Override
-    public String getDefinition() {
-        return definition;
-    }
-
-    @Override
-    public SwesExtension<T> setDefinition(final String definition) {
-        this.definition = definition;
-        return this;
+        return SweConstants.NS_SWE_20;
     }
 
     @Override
@@ -80,12 +52,19 @@ public class SwesExtension<T> implements Extension<T> {
     @Override
     public SwesExtension<T> setValue(final T value) {
         this.value = value;
+        if (value != null) {
+            setIdentifier(
+                    getIdentifier() == null && value.isSetIdentifier() ? value.getIdentifier() : getIdentifier());
+            setDefinition(
+                    getDefinition() == null && value.isSetDefinition() ? value.getDefinition() : getDefinition());
+        }
         return this;
     }
 
     @Override
     public String toString() {
-        return String.format("SwesExtension [value=%s, definition=%s]", value, definition);
+        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]", value, getIdentifier(),
+                getDefinition());
     }
 
 }
