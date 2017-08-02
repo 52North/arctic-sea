@@ -45,7 +45,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 /**
  * TODO JavaDoc
  *
- * @param <T> Class type
+ * @param <T>
+ *            Class type
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
@@ -107,10 +108,12 @@ public abstract class AbstractSosRequestDecoder<T extends OwsServiceRequest>
     protected Extension<SweAbstractDataComponent> parseExtension(JsonNode node) {
         if (node.isObject() && node.has(JSONConstants.DEFINITION) && node.has(JSONConstants.VALUE)) {
             if (node.path("value").isBoolean()) {
-                return new SwesExtension<>().setDefinition(node.path(JSONConstants.DEFINITION).asText())
+                return new SwesExtension<SweAbstractDataComponent>()
+                        .setDefinition(node.path(JSONConstants.DEFINITION).asText())
                         .setValue(new SweBoolean().setValue(node.path(JSONConstants.VALUE).asBoolean()));
             } else if (node.path(JSONConstants.VALUE).isTextual()) {
-                return new SwesExtension<>().setDefinition(node.path(JSONConstants.DEFINITION).asText())
+                return new SwesExtension<SweAbstractDataComponent>()
+                        .setDefinition(node.path(JSONConstants.DEFINITION).asText())
                         .setValue(new SweText().setValue(node.path(JSONConstants.VALUE).asText()));
             }
         }
