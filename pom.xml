@@ -75,7 +75,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>22.0</version>
+            <version>20.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.findbugs</groupId>
