@@ -35,6 +35,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 import org.n52.svalbard.write.GetDataAvailabilityStreamWriter;
+import org.n52.svalbard.write.GetDataAvailabilityV20StreamWriter;
 
 import com.google.common.collect.Sets;
 
@@ -65,9 +66,11 @@ public class GetDataAvailabilityXmlEncoder
             EncodingContext ctx = EncodingContext.empty()
                     .with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                     .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
-            GetDataAvailabilityStreamWriter writer
-                    = new GetDataAvailabilityStreamWriter(ctx, baos, response.getDataAvailabilities());
-            writer.write();
+            if (GetDataAvailabilityConstants.NS_GDA.equals(response.getResponseFormat())) {
+                new GetDataAvailabilityStreamWriter(ctx, baos, response.getDataAvailabilities()).write();
+            } else if (GetDataAvailabilityConstants.NS_GDA_20.equals(response.getResponseFormat())) {
+                new GetDataAvailabilityV20StreamWriter(ctx, baos, response.getDataAvailabilities()).write();
+            }
             XmlObject encodedObject = XmlObject.Factory.parse(baos.toString("UTF8"));
             XmlHelper.validateDocument(encodedObject, EncodingException::new);
             return encodedObject;

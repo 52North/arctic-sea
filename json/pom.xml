@@ -75,10 +75,6 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>xml-apis</groupId>
-            <artifactId>xml-apis</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.github.fge</groupId>
             <artifactId>jackson-coreutils</artifactId>
             <exclusions>

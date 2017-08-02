@@ -63,7 +63,7 @@ This project includes:
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
   javax.inject under The Apache Software License, Version 2.0
-  JCL 1.1.1 implemented over SLF4J under MIT License
+  JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache 2
   JOpt Simple under The MIT License
   JTS Topology Suite under Lesser General Public License (LGPL)
