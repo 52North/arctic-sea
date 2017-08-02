@@ -16,12 +16,14 @@
  */
 package org.n52.iceland.ogc.ows;
 
+import static java.util.stream.Collectors.toSet;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.inject.Inject;
 
@@ -84,10 +86,21 @@ public class OwsServiceMetadataRepositoryImpl implements OwsServiceMetadataRepos
 
     @Override
     public Set<Locale> getAvailableLocales() {
+        Set<Locale> forProviders;
+        Set<Locale> forIdentifications;
+
         synchronized (this.serviceProviders) {
-            return this.serviceProviders.values().stream()
+            forProviders = this.serviceProviders.values().stream()
                     .map(LocalizedProducer::getAvailableLocales)
-                    .flatMap(Set::stream).collect(Collectors.toSet());
+                    .flatMap(Set::stream).collect(toSet());
         }
+        synchronized (this.serviceIdentifications) {
+            forIdentifications = this.serviceProviders.values().stream()
+                    .map(LocalizedProducer::getAvailableLocales)
+                    .flatMap(Set::stream).collect(toSet());
+        }
+
+        return Stream.of(forProviders, forIdentifications)
+                .flatMap(Set::stream).collect(toSet());
     }
 }
