@@ -17,7 +17,7 @@
 package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
-
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesExtension;
 import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
@@ -32,11 +32,13 @@ import net.opengis.swes.x20.ExtensibleResponseType;
  */
 public interface ExtensibleResponseDecoder {
 
-    default SwesExtensions parseExtensibleResponse(ExtensibleResponseType ert) throws DecodingException {
+    default SwesExtensions parseExtensibleResponse(ExtensibleResponseType ert)
+            throws DecodingException {
         return parseExtensibleResponseExtension(ert.getExtensionArray());
     }
 
-    default SwesExtensions parseExtensibleResponseExtension(XmlObject[] extensionArray) throws DecodingException {
+    default SwesExtensions parseExtensibleResponseExtension(XmlObject[] extensionArray)
+            throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
             SwesExtensions extensions = new SwesExtensions();
             for (XmlObject xbSwesExtension : extensionArray) {
@@ -44,8 +46,8 @@ public interface ExtensibleResponseDecoder {
                 Object obj = decodeXmlElement(xbSwesExtension);
                 if (obj instanceof SwesExtension<?>) {
                     extensions.addExtension((SwesExtension<?>) obj);
-                } else {
-                    extensions.addExtension(new SwesExtension<>().setValue(obj));
+                } else if (obj instanceof SweAbstractDataComponent) {
+                    extensions.addExtension(new SwesExtension<>().setValue((SweAbstractDataComponent) obj));
                 }
             }
             return extensions;
@@ -53,6 +55,7 @@ public interface ExtensibleResponseDecoder {
         return null;
     }
 
-    <T> T decodeXmlElement(XmlObject obj) throws DecodingException;
+    <T> T decodeXmlElement(XmlObject obj)
+            throws DecodingException;
 
 }

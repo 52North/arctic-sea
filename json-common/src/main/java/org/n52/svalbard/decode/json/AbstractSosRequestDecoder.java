@@ -26,7 +26,9 @@ import java.util.stream.Collectors;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swes.SwesExtension;
@@ -89,12 +91,11 @@ public abstract class AbstractSosRequestDecoder<T extends OwsServiceRequest>
 
     }
 
-    @SuppressWarnings("rawtypes")
     protected SwesExtensions parseExtensions(JsonNode node) {
         SwesExtensions extensions = new SwesExtensions();
         if (node.isArray()) {
             for (JsonNode n : node) {
-                SwesExtension extension = parseExtension(n);
+                Extension<SweAbstractDataComponent> extension = parseExtension(n);
                 if (extension != null) {
                     extensions.addExtension(extension);
                 }
@@ -103,8 +104,7 @@ public abstract class AbstractSosRequestDecoder<T extends OwsServiceRequest>
         return extensions;
     }
 
-    @SuppressWarnings("rawtypes")
-    protected SwesExtension parseExtension(JsonNode node) {
+    protected Extension<SweAbstractDataComponent> parseExtension(JsonNode node) {
         if (node.isObject() && node.has(JSONConstants.DEFINITION) && node.has(JSONConstants.VALUE)) {
             if (node.path("value").isBoolean()) {
                 return new SwesExtension<>().setDefinition(node.path(JSONConstants.DEFINITION).asText())
