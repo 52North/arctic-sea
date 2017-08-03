@@ -95,7 +95,7 @@ public class OwsServiceMetadataRepositoryImpl implements OwsServiceMetadataRepos
                     .flatMap(Set::stream).collect(toSet());
         }
         synchronized (this.serviceIdentifications) {
-            forIdentifications = this.serviceProviders.values().stream()
+            forIdentifications = this.serviceIdentifications.values().stream()
                     .map(LocalizedProducer::getAvailableLocales)
                     .flatMap(Set::stream).collect(toSet());
         }
