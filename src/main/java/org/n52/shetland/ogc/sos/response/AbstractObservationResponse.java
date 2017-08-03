@@ -55,8 +55,9 @@ public abstract class AbstractObservationResponse
         return observationCollection;
     }
 
-    public void setObservationCollection(final ObservationStream observationCollection) {
+    public AbstractObservationResponse setObservationCollection(final ObservationStream observationCollection) {
         this.observationCollection = observationCollection;
+        return this;
     }
 
     @Override
