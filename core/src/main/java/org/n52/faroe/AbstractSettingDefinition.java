@@ -47,8 +47,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
     }
 
     @Override
-    public void setKey(String k) {
+    public AbstractSettingDefinition<T> setKey(String k) {
         this.identifier = k;
+        return this;
     }
 
     @Override
@@ -57,8 +58,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
     }
 
     @Override
-    public void setDescription(String d) {
+    public AbstractSettingDefinition<T> setDescription(String d) {
         this.description = d;
+        return this;
     }
 
     @Override
@@ -72,8 +74,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
     }
 
     @Override
-    public void setTitle(String t) {
+    public AbstractSettingDefinition<T> setTitle(String t) {
         this.title = t;
+        return this;
     }
 
     @Override
@@ -87,8 +90,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
     }
 
     @Override
-    public void setOptional(boolean o) {
+    public AbstractSettingDefinition<T> setOptional(boolean o) {
         this.optional = o;
+        return this;
     }
 
     @Override
@@ -97,8 +101,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
     }
 
     @Override
-    public void setGroup(SettingDefinitionGroup g) {
+    public AbstractSettingDefinition<T> setGroup(SettingDefinitionGroup g) {
         this.group = g;
+        return this;
     }
 
     @Override
@@ -112,8 +117,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
     }
 
     @Override
-    public void setDefaultValue(T d) {
+    public AbstractSettingDefinition<T> setDefaultValue(T d) {
         this.defaultValue = d;
+        return this;
     }
 
     @Override
@@ -157,8 +163,9 @@ public abstract class AbstractSettingDefinition<T> extends AbstractOrdered imple
         return this.type;
     }
 
-    void setType(SettingType type) {
+    AbstractSettingDefinition<T> setType(SettingType type) {
         this.type = type;
+        return this;
     }
 
     @Override

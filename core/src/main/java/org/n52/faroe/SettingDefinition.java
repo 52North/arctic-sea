@@ -104,14 +104,14 @@ public interface SettingDefinition<T> extends Ordered {
      *
      * @param key the <b>unique</b> key
      */
-    void setKey(String key);
+    SettingDefinition<?> setKey(String key);
 
     /**
      * Sets the title of this setting definition, which will be presented to the user.
      *
      * @param title the title
      */
-    void setTitle(String title);
+    SettingDefinition<?> setTitle(String title);
 
     /**
      * Sets the description of this setting definition, which should further describe the purpose of this setting. Can
@@ -119,7 +119,7 @@ public interface SettingDefinition<T> extends Ordered {
      *
      * @param description the description
      */
-    void setDescription(String description);
+    SettingDefinition<?> setDescription(String description);
 
     /**
      * Sets whether this setting is optional or can be null. By default all settings are required.
@@ -127,7 +127,7 @@ public interface SettingDefinition<T> extends Ordered {
      * @param optional if this setting is optional
      *
      */
-    void setOptional(boolean optional);
+    SettingDefinition<?> setOptional(boolean optional);
 
     /**
      * Sets the default value of this setting. All required settings should have a default setting to allow a smoother
@@ -135,14 +135,14 @@ public interface SettingDefinition<T> extends Ordered {
      *
      * @param defaultValue the default value
      */
-    void setDefaultValue(T defaultValue);
+    SettingDefinition<?> setDefaultValue(T defaultValue);
 
     /**
      * Sets the group of this definition. If no group is set, the setting will be moved to a default group.
      *
      * @param group the group
      */
-    void setGroup(SettingDefinitionGroup group);
+    SettingDefinition<?> setGroup(SettingDefinitionGroup group);
 
     /**
      * @return the type of the value of this definition
