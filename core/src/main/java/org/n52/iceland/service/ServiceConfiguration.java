@@ -48,8 +48,6 @@ public class ServiceConfiguration
 
     private boolean addOutputsToSensorML;
 
-    private boolean strictSpatialFilteringProfile;
-
     private boolean validateResponse;
 
     private boolean useHttpStatusCodesInKvpAndPoxBinding;
@@ -58,11 +56,6 @@ public class ServiceConfiguration
      * URL of this service.
      */
     private String serviceURL;
-
-    /**
-     * directory of sensor descriptions in SensorML format.
-     */
-    private String sensorDirectory;
 
     /**
      * Prefix URN for the spatial reference system.
@@ -142,17 +135,6 @@ public class ServiceConfiguration
         this.addOutputsToSensorML = addOutputsToSensorML;
     }
 
-    @Deprecated
-    public boolean isStrictSpatialFilteringProfile() {
-        return strictSpatialFilteringProfile;
-    }
-
-    // @Setting(STRICT_SPATIAL_FILTERING_PROFILE)
-    @Deprecated
-    public void setStrictSpatialFilteringProfile(final boolean strictSpatialFilteringProfile) {
-        this.strictSpatialFilteringProfile = strictSpatialFilteringProfile;
-    }
-
     public boolean isValidateResponse() {
         return validateResponse;
     }
@@ -178,18 +160,6 @@ public class ServiceConfiguration
     public void setUseHttpStatusCodesInKvpAndPoxBinding(final boolean useHttpStatusCodesInKvpAndPoxBinding) {
         Validation.notNull(MiscSettings.HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING, useHttpStatusCodesInKvpAndPoxBinding);
         this.useHttpStatusCodesInKvpAndPoxBinding = useHttpStatusCodesInKvpAndPoxBinding;
-    }
-
-    // HibernateProcedureUtilities
-    @Deprecated
-    public String getSensorDir() {
-        return sensorDirectory;
-    }
-
-    // @Setting(SENSOR_DIRECTORY)
-    @Deprecated
-    public void setSensorDirectory(final String sensorDirectory) {
-        this.sensorDirectory = sensorDirectory;
     }
 
     /**
@@ -261,15 +231,6 @@ public class ServiceConfiguration
 
     public int getMaxNumberOfReturnedValues() {
         return maxNumberOfReturnedValues;
-    }
-
-    @Setting(MiscSettings.RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST)
-    public void setOverallExtrema(boolean overallExtrema) {
-        this.overallExtrema = overallExtrema;
-    }
-
-    public boolean isOverallExtrema() {
-        return overallExtrema;
     }
 
     @Setting(StreamingSettings.FORCE_STREAMING_ENCODING)
