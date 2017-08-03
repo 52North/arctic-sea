@@ -41,15 +41,20 @@ import javax.annotation.Nullable;
  * @author Christian Autermann
  */
 public final class Functions {
+
     private Functions() {
     }
 
     /**
-     * Creates a {@link Predicate} that checks if it's input is an instance of {@code clazz}.
+     * Creates a {@link Predicate} that checks if it's input is an instance of
+     * {@code clazz}.
      *
-     * @param <T>   The input type.
-     * @param <U>   The type of which the input has to be an instance of.
-     * @param clazz The class of which the input has to be an instance of.
+     * @param <T>
+     *            The input type.
+     * @param <U>
+     *            The type of which the input has to be an instance of.
+     * @param clazz
+     *            The class of which the input has to be an instance of.
      *
      * @return The predicate.
      *
@@ -63,25 +68,33 @@ public final class Functions {
     /**
      * Casts it's input argument to any type.
      *
-     * @param <T> The input type.
-     * @param <U> The output type.
-     * @param t   The object to be casted.
+     * @param <T>
+     *            The input type.
+     * @param <U>
+     *            The output type.
+     * @param t
+     *            The object to be casted.
      *
      * @return The casted object.
      *
-     * @throws ClassCastException if the object can not be casted.
+     * @throws ClassCastException
+     *             if the object can not be casted.
      */
     @SuppressWarnings("unchecked")
-    public static <T, U extends T> U cast(T t) throws ClassCastException {
+    public static <T, U extends T> U cast(T t)
+            throws ClassCastException {
         return (U) t;
     }
 
     /**
      * Returns a {@link Function} that casts it's input argument to any type.
      *
-     * @param <T>   The input type.
-     * @param <U>   The output type.
-     * @param clazz The class the input should be casted to.
+     * @param <T>
+     *            The input type.
+     * @param <U>
+     *            The output type.
+     * @param clazz
+     *            The class the input should be casted to.
      *
      * @return The casting function.
      *
@@ -94,12 +107,16 @@ public final class Functions {
     }
 
     /**
-     * Returns a {@link Function} that casts it'S input argument to the specified type if it's the right type. The
-     * returned {@link Optional} either contains the casted input arguemnt or is empty.
+     * Returns a {@link Function} that casts it'S input argument to the
+     * specified type if it's the right type. The returned {@link Optional}
+     * either contains the casted input arguemnt or is empty.
      *
-     * @param <T>   The input type.
-     * @param <U>   The output type.
-     * @param clazz The class to
+     * @param <T>
+     *            The input type.
+     * @param <U>
+     *            The output type.
+     * @param clazz
+     *            The class to
      *
      * @return An {@link Optional} containing the input
      */
@@ -112,9 +129,12 @@ public final class Functions {
     /**
      * Create a function for the the supplier, ignoring any supplied input.
      *
-     * @param <T>      the type of the input to the function
-     * @param <U>      the type of the result to the function
-     * @param supplier the supplier
+     * @param <T>
+     *            the type of the input to the function
+     * @param <U>
+     *            the type of the result to the function
+     * @param supplier
+     *            the supplier
      *
      * @return the function wrapping the supplier
      */
@@ -126,9 +146,12 @@ public final class Functions {
     /**
      * Creates a function returning the same result for each invocation.
      *
-     * @param <T> the type of the input to the function
-     * @param <U> the type of the result to the function
-     * @param u   the constant result
+     * @param <T>
+     *            the type of the input to the function
+     * @param <U>
+     *            the type of the result to the function
+     * @param u
+     *            the constant result
      *
      * @return the function
      */
@@ -137,12 +160,17 @@ public final class Functions {
     }
 
     /**
-     * Curries the parameter of the {@code Function} and creates a {@code Consumer}.
+     * Curries the parameter of the {@code Function} and creates a
+     * {@code Consumer}.
      *
-     * @param <T>      the parameter type
-     * @param <R>      the return type
-     * @param function the function
-     * @param t        the curried parameter
+     * @param <T>
+     *            the parameter type
+     * @param <R>
+     *            the return type
+     * @param function
+     *            the function
+     * @param t
+     *            the curried parameter
      *
      * @return the curried function
      */
@@ -152,13 +180,19 @@ public final class Functions {
     }
 
     /**
-     * Curries the first parameter of the {@code BiFunction} and creates a {@code Function}.
+     * Curries the first parameter of the {@code BiFunction} and creates a
+     * {@code Function}.
      *
-     * @param <T1>       the first parameter type
-     * @param <T2>       the second parameter type
-     * @param <R>        the return type
-     * @param bifunction the function
-     * @param t1         the curried parameter
+     * @param <T1>
+     *            the first parameter type
+     * @param <T2>
+     *            the second parameter type
+     * @param <R>
+     *            the return type
+     * @param bifunction
+     *            the function
+     * @param t1
+     *            the curried parameter
      *
      * @return the curried function
      */
@@ -168,13 +202,19 @@ public final class Functions {
     }
 
     /**
-     * Curries the second parameter of the {@code BiFunction} and creates a {@code Function}.
+     * Curries the second parameter of the {@code BiFunction} and creates a
+     * {@code Function}.
      *
-     * @param <T1>       the first parameter type
-     * @param <T2>       the second parameter type
-     * @param <R>        the return type
-     * @param bifunction the function
-     * @param t2         the curried parameter
+     * @param <T1>
+     *            the first parameter type
+     * @param <T2>
+     *            the second parameter type
+     * @param <R>
+     *            the return type
+     * @param bifunction
+     *            the function
+     * @param t2
+     *            the curried parameter
      *
      * @return the curried function
      */
@@ -186,9 +226,12 @@ public final class Functions {
     /**
      * Reverses the parameter order of the BiConsumer
      *
-     * @param <A>      the first parameter type
-     * @param <B>      the second parameter type
-     * @param consumer the consumer
+     * @param <A>
+     *            the first parameter type
+     * @param <B>
+     *            the second parameter type
+     * @param consumer
+     *            the consumer
      *
      * @return the consumer with switched parameters
      *
@@ -230,21 +273,22 @@ public final class Functions {
     }
 
     public static <K, V> Function<Map<K, V>, Set<K>> keySetWhereValues(Predicate<? super V> predicate) {
-        return Functions.<K, V>keyStreamWhereValues(predicate).andThen(s -> s.collect(toSet()));
+        return Functions.<K, V> keyStreamWhereValues(predicate).andThen(s -> s.collect(toSet()));
     }
 
     public static <K, V> Function<Map<K, V>, Stream<K>> keyStreamWhereValues(Predicate<? super V> predicate) {
         Objects.requireNonNull(predicate);
-        return map -> map.entrySet().stream()
-                .filter(e -> predicate.test(e.getValue()))
-                .map(Entry::getKey);
+        return map -> map.entrySet().stream().filter(e -> predicate.test(e.getValue())).map(Entry::getKey);
     }
 
     /**
-     * Wrapps a {@link Consumer} into a {@link Function} that returns it's input argument.
+     * Wrapps a {@link Consumer} into a {@link Function} that returns it's input
+     * argument.
      *
-     * @param <T>    The consumed element's type.
-     * @param action The consumer.
+     * @param <T>
+     *            The consumed element's type.
+     * @param action
+     *            The consumer.
      *
      * @return A function that applies the consumer and returns it's input.
      */
@@ -257,13 +301,17 @@ public final class Functions {
     }
 
     /**
-     * Wraps an {@link ThrowingFunction} into an {@link Function} that throws an {@link Error} if the function throws an
-     * {@link Exception}.
+     * Wraps an {@link ThrowingFunction} into an {@link Function} that throws an
+     * {@link Error} if the function throws an {@link Exception}.
      *
-     * @param <S> the function's input type.
-     * @param <T> the function's output type.
-     * @param <X> the type of the the exception that might be thrown.
-     * @param fun the function.
+     * @param <S>
+     *            the function's input type.
+     * @param <T>
+     *            the function's output type.
+     * @param <X>
+     *            the type of the the exception that might be thrown.
+     * @param fun
+     *            the function.
      *
      * @return the wrapped function.
      */
