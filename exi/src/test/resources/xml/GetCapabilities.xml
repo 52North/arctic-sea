@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2016-2017 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<sos:GetCapabilities service="SOS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:swe="http://www.opengis.net/swe/2.0"
+	xsi:schemaLocation="http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetCapabilities.xsd">
+	<ows:AcceptVersions>
+		<ows:Version>2.0.0</ows:Version>
+	</ows:AcceptVersions>
+	<ows:Sections>
+		<ows:Section>OperationsMetadata</ows:Section>
+		<ows:Section>ServiceIdentification</ows:Section>
+		<ows:Section>ServiceProvider</ows:Section>
+		<ows:Section>FilterCapabilities</ows:Section>
+		<ows:Section>Contents</ows:Section>
+	</ows:Sections>
+	<!--
+	<sos:extension xsi:type="swe:CountPropertyType">
+		<swe:Count>
+			<swe:identifier>crs</swe:identifier>
+			<swe:value>4326</swe:value>
+		</swe:Count>
+	</sos:extension>
+	-->
+	<!--
+	<sos:extension xsi:type="swe:TextPropertyType">
+		<swe:Text>
+			<swe:identifier>language</swe:identifier>
+			<swe:value>ger</swe:value>
+		</swe:Text>
+	</sos:extension>
+	-->
+</sos:GetCapabilities>

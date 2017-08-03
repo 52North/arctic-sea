@@ -20,6 +20,8 @@ import org.n52.shetland.inspire.ef.AbstractMonitoringFeature;
 import org.n52.shetland.inspire.ef.EnvironmentalMonitoringActivity;
 import org.n52.shetland.inspire.ef.ReportToLegalAct;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType;
@@ -48,9 +50,12 @@ public abstract class AbstractMonitoringFeatureEncoder
     private void setHasObservation(AbstractMonitoringFeatureType amft,
             AbstractMonitoringFeature abstractMonitoringFeature) {
         if (abstractMonitoringFeature.isSetHasObservation()) {
-            for (OmObservation omObservation : abstractMonitoringFeature.getHasObservation()) {
-                if (omObservation.isSetSimpleAttrs()) {
-                    amft.addNewHasObservation().setHref(omObservation.getSimpleAttrs().getHref());
+            for (Referenceable<OmObservation> referenceable : abstractMonitoringFeature.getHasObservation()) {
+                if (referenceable.isReference()) {
+                    Reference reference = referenceable.getReference();
+                    if (reference.getHref().isPresent()) {
+                        amft.addNewHasObservation().setHref(reference.getHref().toString());
+                    }
                 }
             }
         }

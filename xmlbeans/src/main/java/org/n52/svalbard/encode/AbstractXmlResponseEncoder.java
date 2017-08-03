@@ -30,14 +30,12 @@ import javax.inject.Inject;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.ConformanceClass;
-import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
@@ -123,7 +121,7 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
         if (response == null) {
             throw new UnsupportedEncoderInputException(this, (String) null);
         }
-        return encode(response, EncodingContext.of(SosHelperValues.VERSION, this.version));
+        return encode(response, EncodingContext.empty());
     }
 
     @Override

@@ -32,6 +32,7 @@ import org.junit.rules.ErrorCollector;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityResponse.DataAvailability;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -67,6 +68,7 @@ public class GetDataAvailabilityXmlEncoderTest {
     public void test() throws EncodingException {
 
         GetDataAvailabilityResponse response = new GetDataAvailabilityResponse("SOS", "2.0.0");
+        response.setNamespace(GetDataAvailabilityConstants.NS_GDA);
         DateTime begin = DateTime.now().withZone(DateTimeZone.UTC);
         DateTime end = begin.plusHours(1).withZone(DateTimeZone.UTC);
         TimePeriod timePeriod = new TimePeriod(begin, end);

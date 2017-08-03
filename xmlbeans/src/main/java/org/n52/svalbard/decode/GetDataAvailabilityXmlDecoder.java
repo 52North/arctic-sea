@@ -25,13 +25,15 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.XPathConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
+
+import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
+import net.opengis.sosgda.x10.GetDataAvailabilityType;
 
 /**
  * {@code Decoder} to handle {@link GetDataAvailabilityRequest}s.
@@ -40,21 +42,15 @@ import com.google.common.base.Joiner;
  *
  * @since 1.0.0
  */
-public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXmlDecoder {
+public class GetDataAvailabilityXmlDecoder
+        extends AbstractGetDataAvailabilityXmlDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlDecoder.class);
 
-    private static final String BASE_PATH_SOS = getBasePath(XPathConstants.XPATH_PREFIX_SOS_20,
-            SosConstants.NS_SOS_PREFIX);
-
-    private static final String BASE_PATH_GDA = getBasePath(GetDataAvailabilityConstants.XPATH_PREFIXES_GDA,
-            GetDataAvailabilityConstants.NS_GDA_PREFIX);
-
-    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(CodingHelper.decoderKeysForElements(
-            Sos2Constants.NS_SOS_20, XmlObject.class), CodingHelper.decoderKeysForElements(
-            GetDataAvailabilityConstants.NS_GDA, XmlObject.class), CodingHelper.xmlDecoderKeysForOperation(
-            SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME));
-
+    private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
+            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA, XmlObject.class),
+            CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                    GetDataAvailabilityConstants.OPERATION_NAME));
 
     /**
      * Constructs a new {@code GetDataAvailabilityDecoder}.
@@ -69,7 +65,8 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
     }
 
     @Override
-    public GetDataAvailabilityRequest decode(XmlObject xml) throws DecodingException {
+    public GetDataAvailabilityRequest decode(XmlObject xml)
+            throws DecodingException {
         return parseGetDataAvailability(xml);
     }
 
@@ -80,19 +77,13 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
      *            the request
      *
      * @return the parsed request
-     * @throws DecodingException if the decoding fails
+     * @throws DecodingException
+     *             if the decoding fails
      */
-    public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml) throws DecodingException {
-        XmlObject[] roots = xml.selectPath(BASE_PATH_SOS);
-        if (roots != null && roots.length > 0) {
-            return parseGetDataAvailability(xml, BASE_PATH_SOS, XPathConstants.XPATH_PREFIX_SOS_20,
-                    SosConstants.NS_SOS_PREFIX, Sos2Constants.NS_SOS_20);
-        } else {
-            roots = xml.selectPath(BASE_PATH_GDA);
-            if (roots != null && roots.length > 0) {
-                return parseGetDataAvailability(xml, BASE_PATH_GDA, GetDataAvailabilityConstants.XPATH_PREFIXES_GDA,
-                        GetDataAvailabilityConstants.NS_GDA_PREFIX, GetDataAvailabilityConstants.NS_GDA);
-            }
+    public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml)
+            throws DecodingException {
+        if (xml instanceof GetDataAvailabilityDocument) {
+            return parseGetDataAvailability((GetDataAvailabilityDocument) xml);
         }
         return new GetDataAvailabilityRequest();
     }
@@ -102,53 +93,39 @@ public class GetDataAvailabilityXmlDecoder extends AbstractGetDataAvailabilityXm
      *
      * @param xml
      *            GetDataAvailability XML request
-     * @param basePath
-     *            XPath base path
-     * @param xpathPrefix
-     *            XPath prefix
-     * @param prefix
-     *            XML document namespace prefix
-     * @param namespace
-     *            XML document namespace
      * @return {@code GetDataAvailabilityRequest}
      * @throws DecodingException
      *             If the document could no be parsed
      */
-    private GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml, String basePath, String xpathPrefix,
-            String prefix, String namespace) throws DecodingException {
+    private GetDataAvailabilityRequest parseGetDataAvailability(GetDataAvailabilityDocument xml)
+            throws DecodingException {
         GetDataAvailabilityRequest request = new GetDataAvailabilityRequest();
-        request.setNamespace(namespace);
-        XmlObject[] roots = xml.selectPath(basePath);
-        if (roots != null && roots.length > 0) {
-            XmlObject version = roots[0].selectAttribute(GetDataAvailabilityConstants.SOS_VERSION);
-            if (version == null) {
-                version = roots[0].selectAttribute(GetDataAvailabilityConstants.VERSION);
-            }
-            if (version != null) {
-                request.setVersion(parseStringValue(version));
-            }
-            XmlObject service = roots[0].selectAttribute(GetDataAvailabilityConstants.SOS_SERVICE);
-            if (service == null) {
-                service = roots[0].selectAttribute(GetDataAvailabilityConstants.SERVICE);
-            }
-            if (service != null) {
-                request.setService(parseStringValue(service));
-            }
-        }
+        GetDataAvailabilityType gdat = xml.getGetDataAvailability();
+        request.setNamespace(xml.getDomNode().getNamespaceURI());
+        request.setService(gdat.getService());
+        request.setVersion(gdat.getVersion());
 
-        for (XmlObject x : xml.selectPath(getPath(xpathPrefix, prefix, "observedProperty"))) {
-            request.addObservedProperty(parseStringValue(x));
+        if (CollectionHelper.isNotNullOrEmpty(gdat.getObservedPropertyArray())) {
+            for (String s : gdat.getObservedPropertyArray()) {
+                request.addObservedProperty(s);
+            }
         }
-        for (XmlObject x : xml.selectPath(getPath(xpathPrefix, prefix, "procedure"))) {
-            request.addProcedure(parseStringValue(x));
+        if (CollectionHelper.isNotNullOrEmpty(gdat.getProcedureArray())) {
+            for (String s : gdat.getProcedureArray()) {
+                request.addProcedure(s);
+            }
         }
-        for (XmlObject x : xml.selectPath(getPath(xpathPrefix, prefix, "featureOfInterest"))) {
-            request.addFeatureOfInterest(parseStringValue(x));
+        if (CollectionHelper.isNotNullOrEmpty(gdat.getFeatureOfInterestArray())) {
+            for (String s : gdat.getFeatureOfInterestArray()) {
+                request.addFeatureOfInterest(s);
+            }
         }
-        for (XmlObject x : xml.selectPath(getPath(xpathPrefix, prefix, "offering"))) {
-            request.addOffering(parseStringValue(x));
+        if (CollectionHelper.isNotNullOrEmpty(gdat.getOfferingArray())) {
+            for (String s : gdat.getOfferingArray()) {
+                request.addOffering(s);
+            }
         }
-        request.setExtensions(parseExtensions(xml));
+        request.setExtensions(parseExtensibleRequest(gdat));
         return request;
     }
 

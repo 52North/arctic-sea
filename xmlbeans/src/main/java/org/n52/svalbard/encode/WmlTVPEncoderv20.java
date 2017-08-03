@@ -169,7 +169,7 @@ public class WmlTVPEncoderv20
         if (objectToEncode instanceof OmObservation) {
             try {
                 new WmlTVPEncoderv20XmlStreamWriter(
-                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                        ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
                         outputStream, (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {

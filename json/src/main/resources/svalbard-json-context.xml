@@ -1,0 +1,96 @@
+<!--
+
+    Copyright 2016-2017 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+
+    <!-- Decoder implementations from coding/json -->
+    <bean class="org.n52.svalbard.decode.json.AddressJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.BatchRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.ContactJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.DeleteObservationJsonDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.DeleteSensorRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.DescribeSensorRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.EReportingChangeJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.EReportingHeaderJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.FeatureDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.FieldDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GeographicalNameJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GeoJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetCapabilitiesRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetDataAvailabilityJsonDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetFeatureOfInterestRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetObservationByIdRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetObservationRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetResultRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.GetResultTemplateRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.InsertObservationRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.InsertResultRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.InsertResultTemplateRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.InsertSensorRequestDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.InspireIDJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.ObservationDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.PronunciationJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.RelatedPartyJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.ReportObligationJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.SpatialFilterDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.SpellingJSONDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.TemporalFilterDecoder"/>
+    <bean class="org.n52.svalbard.decode.json.UpdateSensorRequestDecoder"/>
+
+    <!-- Encoder implementations from coding/json -->
+    <bean class="org.n52.svalbard.encode.json.AddressJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.BatchResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.CodeTypeJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.ContactJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.DeleteObservationJsonEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.DeleteSensorResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.DescribeSensorResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.EReportingChangeJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.EReportingHeaderJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.FeatureOfInterestEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.FieldEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GeographicNameJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GeoJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetCapabilitiesResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetDataAvailabilityJsonEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetFeatureOfInterestResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetObservationByIdResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetObservationResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetResultResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.GetResultTemplateResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.InspireIDJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.InsertObservationResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.InsertResultResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.InsertResultTemplateResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.InsertSensorResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.IterableJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.NillableJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.ObservationEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.OwsExceptionReportEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.PronunciationJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.ReferenceableJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.ReferenceJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.RelatedPartyJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.ReportObligationJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.SpellingJSONEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.UpdateSensorResponseEncoder"/>
+
+</beans>

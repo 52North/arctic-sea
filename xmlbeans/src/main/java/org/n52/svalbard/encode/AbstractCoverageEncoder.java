@@ -23,6 +23,7 @@ import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.DiscreteCoverage;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -108,11 +109,20 @@ public abstract class AbstractCoverageEncoder<T, S>
             }
             monrlt.setListValue(list);
             rst.set(qld);
-        } else {
-            rst.setNil();
+        } else if (value instanceof TextValue) {
+            CategoryListDocument cld = CategoryListDocument.Factory.newInstance();
+            CodeOrNilReasonListType conrlt = cld.addNewCategoryList();
+            if (discreteCoverage.isSetUnit()) {
+                conrlt.setCodeSpace(discreteCoverage.getUnit());
+            } else if (value.isSetUnit()) {
+                conrlt.setCodeSpace(value.getUnit());
+            }
+            conrlt.setListValue(list);
+            rst.set(cld);
         }
     }
 
+    @SuppressWarnings("unchecked")
     private List<?> getList(DiscreteCoverage<?> discreteCoverage) {
         List list = Lists.newArrayList();
         for (Object value : discreteCoverage.getRangeSet()) {

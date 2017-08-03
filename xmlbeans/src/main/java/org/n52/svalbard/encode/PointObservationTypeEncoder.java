@@ -18,22 +18,21 @@ package org.n52.svalbard.encode;
 
 import java.io.OutputStream;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.PointObservation;
-import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.cv.CvConstants;
-import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Sets;
+import com.google.common.base.Joiner;
 
 import eu.europa.ec.inspire.schemas.omso.x30.PointObservationType;
 import net.opengis.om.x20.OMObservationType;
@@ -49,8 +48,14 @@ import net.opengis.om.x20.OMObservationType;
 public class PointObservationTypeEncoder
         extends AbstractOmInspireEncoder {
 
-    private static final Set<EncoderKey> ENCODER_KEYS =
-            CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, PointObservation.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(PointObservationTypeEncoder.class);
+    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper
+            .encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, PointObservation.class);
+
+    public PointObservationTypeEncoder() {
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
+    }
 
     @Override
     public Set<EncoderKey> getKeys() {
@@ -58,19 +63,14 @@ public class PointObservationTypeEncoder
     }
 
     @Override
-    public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
-        return Collections.singletonMap(InspireOMSOConstants.NS_OMSO_30,
-                Sets.newHashSet(new ObservationType(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION)));
-    }
-
-    @Override
-    protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
+    protected XmlObject createResult(OmObservation sosObservation)
+            throws EncodingException {
         return encodeResult(sosObservation.getValue());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
+    protected XmlObject encodeResult(ObservationValue<?> observationValue)
+            throws EncodingException {
         if (observationValue.getValue() instanceof CvDiscretePointCoverage) {
             return encodeObjectToXml(CvConstants.NS_CV, observationValue.getValue());
         }
@@ -83,7 +83,8 @@ public class PointObservationTypeEncoder
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext ec)
+            throws EncodingException {
         return super.encode(element, ec);
     }
 

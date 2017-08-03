@@ -29,5 +29,6 @@ public enum XmlBeansEncodingFlags {
     ENCODE,
     GMLID,
     FOR_OBSERVATION,
-    EXIST_FOI_IN_DOC
+    EXIST_FOI_IN_DOC,
+    ENCODE_OWS_EXCEPTION_ONLY
 }

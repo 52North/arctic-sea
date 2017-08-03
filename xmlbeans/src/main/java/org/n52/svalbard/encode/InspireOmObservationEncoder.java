@@ -80,17 +80,17 @@ public class InspireOmObservationEncoder
     }
 
     @Override
-    public void encode(Object element, OutputStream outputStream, EncodingContext context) throws EncodingException {
+    public void encode(Object element, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
         try {
             if (element instanceof OmObservation && InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION
                     .equals(((OmObservation) element).getObservationConstellation().getObservationType())) {
                 new PointTimeSeriesObservationXmlStreamWriter(
-                        EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
+                        ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
                         outputStream, (OmObservation) element).write();
             } else {
                 // writeIndent(encodingValues.getIndent(), outputStream);
-                encode(element, context).save(outputStream, getXmlOptions());
+                encode(element, ctx).save(outputStream, getXmlOptions());
             }
         } catch (IOException | XMLStreamException e) {
             throw new EncodingException("Error while writing element to stream!", e);

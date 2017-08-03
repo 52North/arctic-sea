@@ -43,8 +43,8 @@ import org.n52.svalbard.encode.exception.EncodingException;
 public class GetDataAvailabilityV20StreamWriter extends AbstractGetDataAvailabilityStreamWriter {
 
     public GetDataAvailabilityV20StreamWriter(
-            OutputStream outputStream,
             EncodingContext context,
+            OutputStream outputStream,
             List<DataAvailability> element) throws XMLStreamException {
         super(context, outputStream, element);
     }

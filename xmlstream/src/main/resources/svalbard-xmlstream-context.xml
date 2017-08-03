@@ -19,33 +19,28 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
     <!-- reader -->
     <bean class="org.n52.svalbard.read.AddressAreaReader"/>
     <bean class="org.n52.svalbard.read.AddressReader"/>
     <bean class="org.n52.svalbard.read.AddressRepresentationReader"/>
     <bean class="org.n52.svalbard.read.AdminUnitReader"/>
-    <bean class="org.n52.svalbard.read.ChoiceReader"/>
     <bean class="org.n52.svalbard.read.CodeTypeReader"/>
     <bean class="org.n52.svalbard.read.ContactReader"/>
     <bean class="org.n52.svalbard.read.FreeTextReader"/>
     <bean class="org.n52.svalbard.read.GeographicalNameReader"/>
     <bean class="org.n52.svalbard.read.InpireIDReader"/>
-    <bean class="org.n52.svalbard.read.ListReader"/>
     <bean class="org.n52.svalbard.read.LocatorNameReader"/>
     <bean class="org.n52.svalbard.read.NillableCodeTypeReader"/>
     <bean class="org.n52.svalbard.read.NillableContactReader"/>
     <bean class="org.n52.svalbard.read.NillableFreeTextReader"/>
     <bean class="org.n52.svalbard.read.NillableGeographicalNameReader"/>
-    <bean class="org.n52.svalbard.read.NillableReader"/>
     <bean class="org.n52.svalbard.read.NillableReferenceReader"/>
     <bean class="org.n52.svalbard.read.NillableStringReader"/>
-    <bean class="org.n52.svalbard.read.NillableSubtagReader"/>
     <bean class="org.n52.svalbard.read.PostNameReader"/>
     <bean class="org.n52.svalbard.read.PronounciationReader"/>
     <bean class="org.n52.svalbard.read.PronunciationOfNameReader"/>
     <bean class="org.n52.svalbard.read.ReferenceableFeatureReader"/>
-    <bean class="org.n52.svalbard.read.ReferenceableReader"/>
     <bean class="org.n52.svalbard.read.ReferenceReader"/>
     <bean class="org.n52.svalbard.read.RelatedPartyReader"/>
     <bean class="org.n52.svalbard.read.ReportingAuthorityReader"/>
@@ -54,25 +49,11 @@
     <bean class="org.n52.svalbard.read.SpellingOfNameReader"/>
     <bean class="org.n52.svalbard.read.SpellingReader"/>
     <bean class="org.n52.svalbard.read.StringReader"/>
-    <bean class="org.n52.svalbard.read.SubtagReader"/>
     <bean class="org.n52.svalbard.read.ThoroughfareReader"/>
     <bean class="org.n52.svalbard.read.TimeInstantReader"/>
     <bean class="org.n52.svalbard.read.TimePeriodReader"/>
     <bean class="org.n52.svalbard.read.TimeReader"/>
 
     <!-- writer -->
-    <bean class="org.n52.svalbard.write.AqdGetObservationResponseXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.EReportingHeaderEncoder"/>
-    <bean class="org.n52.svalbard.write.GetDataAvailabilityStreamWriter"/>
-    <bean class="org.n52.svalbard.write.GetDataAvailabilityV20StreamWriter"/>
-    <bean class="org.n52.svalbard.write.GetFeatureOfInterestXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.GetObservationResponseXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.GwmlV22XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.InspireXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.OmV20XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.PointTimeSeriesObservationXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.RelatedOfferingXmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.Soap12XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter"/>
-    <bean class="org.n52.svalbard.write.WmlTVPEncoderv20XmlStreamWriter"/>
+
 </beans>

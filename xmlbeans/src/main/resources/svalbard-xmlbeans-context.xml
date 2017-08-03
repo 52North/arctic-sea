@@ -19,7 +19,7 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
     <!-- decoder -->
     <bean class="org.n52.svalbard.decode.AqdDecoderv10"/>
@@ -64,7 +64,6 @@
     <bean class="org.n52.svalbard.decode.Soap12StringDecoder"/>
     <bean class="org.n52.svalbard.decode.SosDecoderv100"/>
     <bean class="org.n52.svalbard.decode.SosDecoderv20"/>
-    <bean class="org.n52.svalbard.decode.SosResponseDecoder"/>
     <bean class="org.n52.svalbard.decode.SosStringDecoderv100"/>
     <bean class="org.n52.svalbard.decode.SosStringDecoderv20"/>
     <bean class="org.n52.svalbard.decode.SpecimenDecoderv20"/>
@@ -98,8 +97,6 @@
     <bean class="org.n52.svalbard.encode.EnvironmentalMonitoringFaciltityForGmlFeaturePropertyTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.EnvironmentalMonitoringFaciltityPropertyTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.EnvironmentalMonitoringFaciltityTypeEncoder"/>
-    <bean class="org.n52.svalbard.encode.ExtensibleRequestEncoder"/>
-    <bean class="org.n52.svalbard.encode.ExtensibleResponseDecoder"/>
     <bean class="org.n52.svalbard.encode.FesEncoderv20"/>
     <bean class="org.n52.svalbard.encode.GetCapabilitiesRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.GetCapabilitiesResponseEncoder"/>
@@ -136,7 +133,6 @@
     <bean class="org.n52.svalbard.encode.OmEncoderv100"/>
     <bean class="org.n52.svalbard.encode.OmEncoderv20"/>
     <bean class="org.n52.svalbard.encode.OperationalActivityPeriodTypeEncoder"/>
-    <bean class="org.n52.svalbard.encode.OperationRequestEncoderKey"/>
     <bean class="org.n52.svalbard.encode.OwsEncoderv110"/>
     <bean class="org.n52.svalbard.encode.PointObservationTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.PointPropertyTypeEncoder"/>

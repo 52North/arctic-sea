@@ -24,10 +24,14 @@ import java.util.Set;
 import org.n52.shetland.inspire.base.InspireBaseConstants;
 import org.n52.shetland.inspire.omor.InspireOMORConstants;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
+import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.features.SfConstants;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+
+import com.google.common.collect.Sets;
 
 import net.opengis.om.x20.OMObservationType;
 
@@ -94,6 +98,16 @@ public abstract class AbstractOmInspireEncoder extends AbstractWmlEncoderv20 {
         nameSpacePrefixMap.put(InspireBaseConstants.NS_BASE, InspireBaseConstants.NS_BASE_PREFIX);
         nameSpacePrefixMap.put(InspireOMORConstants.NS_OMOR_30, InspireOMORConstants.NS_OMOR_PREFIX);
         nameSpacePrefixMap.put(InspireOMSOConstants.NS_OMSO_30, InspireOMSOConstants.NS_OMSO_PREFIX);
+    }
+
+    @Override
+    public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
+        return Collections.singletonMap(InspireOMSOConstants.NS_OMSO_30, getSupportedTypes());
+    }
+
+    @Override
+    public Set<SupportedType> getSupportedTypes() {
+        return Collections.unmodifiableSet(Sets.newHashSet(new ObservationType(getObservationType())));
     }
 
     protected abstract String getObservationType();

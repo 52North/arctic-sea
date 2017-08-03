@@ -18,21 +18,20 @@ package org.n52.svalbard.encode;
 
 import java.io.OutputStream;
 import java.util.Collections;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.MultiPointObservation;
-import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.om.ObservationType;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.google.common.collect.Sets;
+import com.google.common.base.Joiner;
 
 import eu.europa.ec.inspire.schemas.omso.x30.MultiPointObservationType;
 import net.opengis.om.x20.OMObservationType;
@@ -48,18 +47,18 @@ import net.opengis.om.x20.OMObservationType;
 public class MultiPointObservationTypeEncoder
         extends AbstractOmInspireEncoder {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MultiPointObservationTypeEncoder.class);
     private static final Set<EncoderKey> ENCODER_KEYS =
             CodingHelper.encoderKeysForElements(InspireOMSOConstants.NS_OMSO_30, MultiPointObservation.class);
+
+    public MultiPointObservationTypeEncoder() {
+        LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
+                Joiner.on(", ").join(ENCODER_KEYS));
+    }
 
     @Override
     public Set<EncoderKey> getKeys() {
         return Collections.unmodifiableSet(ENCODER_KEYS);
-    }
-
-    @Override
-    public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
-        return Collections.singletonMap(InspireOMSOConstants.NS_OMSO_30,
-                Sets.newHashSet(new ObservationType(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION)));
     }
 
     @Override

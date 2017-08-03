@@ -26,14 +26,16 @@ import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 
-public abstract class AbstractSwesDecoderv20<S> extends AbstractXmlDecoder<XmlObject, S> {
+public abstract class AbstractSwesDecoderv20<S>
+        extends AbstractXmlDecoder<XmlObject, S> {
 
     protected SwesExtensions parseExtensibleRequest(ExtensibleRequestType extensibleRequestType)
             throws DecodingException {
         return parseExtensibleRequestExtension(extensibleRequestType.getExtensionArray());
     }
 
-    protected SwesExtensions parseExtensibleRequestExtension(XmlObject[] extensionArray) throws DecodingException {
+    protected SwesExtensions parseExtensibleRequestExtension(XmlObject[] extensionArray)
+            throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
             final SwesExtensions extensions = new SwesExtensions();
             for (XmlObject xbSwesExtension : extensionArray) {
@@ -41,13 +43,11 @@ public abstract class AbstractSwesDecoderv20<S> extends AbstractXmlDecoder<XmlOb
                 Object obj = decodeXmlElement(xbSwesExtension);
                 if (obj instanceof SwesExtension<?>) {
                     extensions.addExtension((SwesExtension<?>) obj);
-                } else {
-                    SwesExtension<Object> swesExtension = new SwesExtension<>();
-                    if (obj instanceof SweAbstractDataComponent) {
-                        swesExtension.setIdentifier(((SweAbstractDataComponent) obj).getIdentifier());
-                        swesExtension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
-                    }
-                    swesExtension.setValue(obj);
+                } else if (obj instanceof SweAbstractDataComponent) {
+                    SwesExtension<SweAbstractDataComponent> swesExtension =
+                            new SwesExtension<SweAbstractDataComponent>();
+                    swesExtension.setIdentifier(((SweAbstractDataComponent) obj).getIdentifier());
+                    swesExtension.setDefinition(((SweAbstractDataComponent) obj).getDefinition());
                     extensions.addExtension(swesExtension);
                 }
             }

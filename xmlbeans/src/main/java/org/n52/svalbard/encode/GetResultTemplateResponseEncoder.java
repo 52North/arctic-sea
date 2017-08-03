@@ -18,16 +18,8 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
-import net.opengis.sos.x20.GetResultTemplateResponseDocument;
-import net.opengis.sos.x20.GetResultTemplateResponseType;
-import net.opengis.sos.x20.GetResultTemplateResponseType.ResultEncoding;
-import net.opengis.sos.x20.GetResultTemplateResponseType.ResultStructure;
-import net.opengis.swe.x20.DataRecordDocument;
-import net.opengis.swe.x20.TextEncodingDocument;
-
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosResultEncoding;
 import org.n52.shetland.ogc.sos.SosResultStructure;
@@ -38,6 +30,13 @@ import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Sets;
 
+import net.opengis.sos.x20.GetResultTemplateResponseDocument;
+import net.opengis.sos.x20.GetResultTemplateResponseType;
+import net.opengis.sos.x20.GetResultTemplateResponseType.ResultEncoding;
+import net.opengis.sos.x20.GetResultTemplateResponseType.ResultStructure;
+import net.opengis.swe.x20.DataRecordDocument;
+import net.opengis.swe.x20.TextEncodingDocument;
+
 /**
  * TODO JavaDoc
  *
@@ -45,14 +44,16 @@ import com.google.common.collect.Sets;
  *
  * @since 1.0.0
  */
-public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder<GetResultTemplateResponse> {
+public class GetResultTemplateResponseEncoder
+        extends AbstractSosResponseEncoder<GetResultTemplateResponse> {
 
     public GetResultTemplateResponseEncoder() {
         super(Sos2Constants.Operations.GetResultTemplate.name(), GetResultTemplateResponse.class);
     }
 
     @Override
-    protected XmlObject create(GetResultTemplateResponse response) throws EncodingException {
+    protected XmlObject create(GetResultTemplateResponse response)
+            throws EncodingException {
         GetResultTemplateResponseDocument doc = GetResultTemplateResponseDocument.Factory.newInstance(getXmlOptions());
         GetResultTemplateResponseType xbResponse = doc.addNewGetResultTemplateResponse();
         xbResponse.setResultEncoding(createResultEncoding(response.getResultEncoding()));
@@ -60,7 +61,8 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
         return doc;
     }
 
-    private ResultEncoding createResultEncoding(SosResultEncoding resultEncoding) throws EncodingException {
+    private ResultEncoding createResultEncoding(SosResultEncoding resultEncoding)
+            throws EncodingException {
         // TODO move encoding to SWECommonEncoder
         final TextEncodingDocument xbEncoding;
         if (resultEncoding.isEncoded()) {
@@ -84,7 +86,8 @@ public class GetResultTemplateResponseEncoder extends AbstractSosResponseEncoder
         return xbResultEncoding;
     }
 
-    private ResultStructure createResultStructure(SosResultStructure resultStructure) throws EncodingException {
+    private ResultStructure createResultStructure(SosResultStructure resultStructure)
+            throws EncodingException {
         // TODO move encoding to SWECommonEncoder
         final DataRecordDocument dataRecordDoc;
         if (resultStructure.isEncoded()) {
