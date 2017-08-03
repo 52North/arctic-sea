@@ -28,8 +28,11 @@ public class AqdUomRepository {
 
     public interface Uom {
         String BASE_UNIT = "http://dd.eionet.europa.eu/vocabulary/uom/";
+
         String getId();
+
         String getNotation();
+
         String getConceptURI();
     }
 

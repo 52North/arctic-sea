@@ -27,15 +27,6 @@ import org.n52.shetland.ogc.wps.description.LiteralInputDescription;
 import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
-import org.n52.shetland.ogc.wps.description.impl.BoundingBoxInputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.BoundingBoxOutputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.ComplexInputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.ComplexOutputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.GroupInputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.GroupOutputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.LiteralInputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.LiteralOutputDescriptionImpl;
-import org.n52.shetland.ogc.wps.description.impl.ProcessDescriptionImpl;
 
 public class ProcessDescriptionFactory implements ProcessDescriptionBuilderFactory
         <

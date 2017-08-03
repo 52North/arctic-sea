@@ -26,7 +26,7 @@ import org.n52.shetland.ogc.ows.extension.Extensions;
  * SOS internal representation of AbstractSWES element
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public abstract class AbstractSWES extends AbstractFeature implements HasExtension<AbstractSWES> {

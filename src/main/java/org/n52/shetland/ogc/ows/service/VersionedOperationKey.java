@@ -21,13 +21,14 @@ import java.util.Comparator;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-public class VersionedOperationKey extends OwsOperationKey implements Comparable<OwsOperationKey> {
+public class VersionedOperationKey
+        extends OwsOperationKey
+        implements Comparable<OwsOperationKey> {
 
-    private static final Comparator<VersionedOperationKey> COMPARATOR
-    = Comparator.comparing(VersionedOperationKey::getService)
-            .thenComparing(VersionedOperationKey::getVersion)
-            .thenComparing(VersionedOperationKey::getOperation)
-            .thenComparing(VersionedOperationKey::getOperationVersion);
+    private static final Comparator<VersionedOperationKey> COMPARATOR =
+            Comparator.comparing(VersionedOperationKey::getService).thenComparing(VersionedOperationKey::getVersion)
+                    .thenComparing(VersionedOperationKey::getOperation)
+                    .thenComparing(VersionedOperationKey::getOperationVersion);
 
     private final String operationVersion;
 
@@ -56,8 +57,7 @@ public class VersionedOperationKey extends OwsOperationKey implements Comparable
     public boolean equals(Object obj) {
         if (obj != null && getClass() == obj.getClass()) {
             final VersionedOperationKey o = (VersionedOperationKey) obj;
-            return Objects.equal(getService(), o.getService())
-                    && Objects.equal(getVersion(), o.getVersion())
+            return Objects.equal(getService(), o.getService()) && Objects.equal(getVersion(), o.getVersion())
                     && Objects.equal(getOperation(), o.getOperation())
                     && Objects.equal(getOperationVersion(), o.getOperationVersion());
         }
@@ -72,7 +72,8 @@ public class VersionedOperationKey extends OwsOperationKey implements Comparable
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getClass().getName(), getService(), getVersion(), getOperation(), getOperationVersion());
+        return Objects.hashCode(getClass().getName(), getService(), getVersion(), getOperation(),
+                getOperationVersion());
     }
 
     public int getSimilarity(OwsOperationKey key) {
@@ -82,7 +83,7 @@ public class VersionedOperationKey extends OwsOperationKey implements Comparable
     @Override
     public int compareTo(OwsOperationKey other) {
         if (other instanceof VersionedOperationKey) {
-            return COMPARATOR.compare(this, (VersionedOperationKey)other);
+            return COMPARATOR.compare(this, (VersionedOperationKey) other);
         }
         return 1;
     }

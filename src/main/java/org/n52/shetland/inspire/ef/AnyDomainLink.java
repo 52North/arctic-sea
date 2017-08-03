@@ -20,9 +20,12 @@ import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
-public class AnyDomainLink extends AbstractGML implements AttributeSimpleAttrs {
+public class AnyDomainLink
+        extends AbstractGML
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
+
     /**
      * 1..1
      */
@@ -34,7 +37,7 @@ public class AnyDomainLink extends AbstractGML implements AttributeSimpleAttrs {
     private EnvironmentalMonitoringFacility relatedTo;
 
     public AnyDomainLink(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     public AnyDomainLink(String comment, EnvironmentalMonitoringFacility relatedTo) {

@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  * @see http://www.opengeospatial.org/standards/waterml
  */
 public interface WaterMLConstants {
@@ -59,9 +59,15 @@ public interface WaterMLConstants {
     String OBSERVATION_TYPE_CATEGORICAL_TDR =
             "http://www.opengis.net/def/observationType/waterml/2.0/categoricalDRTimeseriesObservation";
 
-    MediaType WML_CONTENT_TYPE = new MediaType("text", "xml", "subtype", "waterml/2.0");
+    String TEXT = "text";
 
-    MediaType WML_DR_CONTENT_TYPE = new MediaType("text", "xml", "subtype", "waterml-dr/2.0");
+    String XML = "xml";
+
+    String SUBTYPE = "subtype";
+
+    MediaType WML_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "waterml/2.0");
+
+    MediaType WML_DR_CONTENT_TYPE = new MediaType(TEXT, XML, SUBTYPE, "waterml-dr/2.0");
 
     String SCHEMA_LOCATION_URL_WML_20 = "http://schemas.opengis.net/waterml/2.0/waterml2.xsd";
 
@@ -94,7 +100,7 @@ public interface WaterMLConstants {
 
     String EN_NIL_REASON = "nilReason";
 
-    String EN_MEASUREMENT_TIMESERIES  = "MeasurementTimeseries";
+    String EN_MEASUREMENT_TIMESERIES = "MeasurementTimeseries";
 
     String EN_TIMESERIES_METADATA = "TimeseriesMetadata";
 
@@ -130,19 +136,21 @@ public interface WaterMLConstants {
 
     QName QN_TIMESERIES_METADATA = new QName(NS_WML_20, EN_TIMESERIES_METADATA, NS_WML_20_PREFIX);
 
-    QName QN_MEASUREMENT_TIMESERIES_METADATA = new QName(NS_WML_20, EN_MEASUREMENT_TIMESERIES_METADATA, NS_WML_20_PREFIX);
+    QName QN_MEASUREMENT_TIMESERIES_METADATA =
+            new QName(NS_WML_20, EN_MEASUREMENT_TIMESERIES_METADATA, NS_WML_20_PREFIX);
 
     QName QN_TEMPORAL_EXTENT = new QName(NS_WML_20, EN_TEMPORAL_EXTENT, NS_WML_20_PREFIX);
 
     QName QN_DEFAULT_POINT_METADATA = new QName(NS_WML_20, EN_DEFAULT_POINT_METADATA, NS_WML_20_PREFIX);
 
-    QName QN_DEFAULT_TVP_MEASUREMENT_METADATA = new QName(NS_WML_20, EN_DEFAULT_TVP_MEASUREMENT_METADATA, NS_WML_20_PREFIX);
+    QName QN_DEFAULT_TVP_MEASUREMENT_METADATA =
+            new QName(NS_WML_20, EN_DEFAULT_TVP_MEASUREMENT_METADATA, NS_WML_20_PREFIX);
 
     QName QN_INTERPOLATION_TYPE = new QName(NS_WML_20, EN_INTERPOLATION_TYPE, NS_WML_20_PREFIX);
 
     QName QN_CUMULATIVE = new QName(NS_WML_20, EN_CUMULATIVE, NS_WML_20_PREFIX);
 
-    QName UOM =  new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
+    QName UOM = new QName(NS_WML_20, EN_UOM, NS_WML_20_PREFIX);
 
     /**
      * @see MeasurementTimeseriesMetadata#isCumulative()
@@ -156,10 +164,11 @@ public interface WaterMLConstants {
      *
      * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
      *
-     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
-     * @since 4.4.0
+     * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+     *         J&uuml;rrens</a>
+     * @since 1.0.0
      */
-    public enum InterpolationType {
+    enum InterpolationType {
 
         /**
          * Continuous/Instantaneous
@@ -167,7 +176,8 @@ public interface WaterMLConstants {
          */
         Continuous,
         /**
-         * http://www.opengis.net/def/waterml/2.0/interpolationType/Discontinuous
+         * http://www.opengis.net/def/waterml/2.0/interpolationType/
+         * Discontinuous
          */
         Discontinuous,
         /**

@@ -24,13 +24,14 @@ import org.n52.shetland.util.JavaHelper;
  * Class that represents SensorML 2.0 PhysicalComponent
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
-public class PhysicalComponent extends AbstractPhysicalProcess implements HasProcessMethod {
+public class PhysicalComponent
+        extends AbstractPhysicalProcess
+        implements HasProcessMethod {
 
     public static final String ID_PREFIX = "pc_";
-
     private ProcessMethod method;
 
     public PhysicalComponent() {
@@ -44,7 +45,7 @@ public class PhysicalComponent extends AbstractPhysicalProcess implements HasPro
 
     @Override
     public void setMethod(ProcessMethod method) {
-      this.method = method;
+        this.method = method;
     }
 
 }

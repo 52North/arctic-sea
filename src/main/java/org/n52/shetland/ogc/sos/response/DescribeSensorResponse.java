@@ -24,7 +24,7 @@ import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.util.CollectionHelper;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class DescribeSensorResponse extends OwsServiceResponse {

@@ -20,7 +20,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlLocation;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class AbstractComponent extends AbstractProcess {

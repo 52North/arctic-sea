@@ -23,7 +23,7 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class CRSHelper {
+public final class CRSHelper {
 
     private CRSHelper() {
     }

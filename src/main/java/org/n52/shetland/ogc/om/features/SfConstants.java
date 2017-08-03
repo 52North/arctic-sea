@@ -16,18 +16,16 @@
  */
 package org.n52.shetland.ogc.om.features;
 
-import javax.xml.namespace.QName;
-
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * Interface for SamplingFeature constants
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface SfConstants {
 
- // namespaces and schema lcations
+    // namespaces and schema lcations
     String NS_SA = "http://www.opengis.net/sampling/1.0";
 
     String NS_SA_PREFIX = "sa";
@@ -79,8 +77,7 @@ public interface SfConstants {
     String SAMPLING_FEAT_TYPE_SF_SAMPLING_SOLID =
             "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingSolid";
 
-    String SAMPLING_FEAT_TYPE_SF_SPECIMEN =
-            "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_Specimen";
+    String SAMPLING_FEAT_TYPE_SF_SPECIMEN = "http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_Specimen";
 
     // element names
     String EN_SAMPLINGPOINT = "SamplingPoint";

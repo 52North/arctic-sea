@@ -22,10 +22,11 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 /**
  * Unknown value for observation if type is unknown
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class UnknownValue implements Value<Object> {
+public class UnknownValue
+        implements Value<Object> {
 
     /**
      * Measurement
@@ -41,7 +42,7 @@ public class UnknownValue implements Value<Object> {
      * Constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      */
     public UnknownValue(Object value) {
         this.value = value;
@@ -64,6 +65,12 @@ public class UnknownValue implements Value<Object> {
     }
 
     @Override
+    public UnknownValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -77,15 +84,8 @@ public class UnknownValue implements Value<Object> {
     }
 
     @Override
-    public UnknownValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    @Override
     public String toString() {
-        return String
-                .format("UnknownValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("UnknownValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override

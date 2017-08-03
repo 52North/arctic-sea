@@ -17,5 +17,5 @@
 package org.n52.shetland.ogc.ows.extension;
 
 public interface DisableableExtension {
-    public boolean isDisabled();
+    boolean isDisabled();
 }

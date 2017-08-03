@@ -22,14 +22,14 @@ import java.util.List;
 import org.n52.janmayen.Copyable;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Value type
  */
 public class RangeValue<T> implements Copyable<RangeValue<T>> {
 
+    private static final String NULL = "null";
     private T rangeStart;
-
     private T rangeEnd;
 
     public RangeValue(final T rangeStart, final T rangeEnd) {
@@ -84,12 +84,12 @@ public class RangeValue<T> implements Copyable<RangeValue<T>> {
         if (isSetStartValue()) {
             builder.append(rangeStart);
         } else {
-            builder.append("null");
+            builder.append(NULL);
         }
         if (isSetEndValue()) {
             builder.append(rangeEnd);
         } else {
-            builder.append("null");
+            builder.append(NULL);
         }
         return builder.toString();
     }

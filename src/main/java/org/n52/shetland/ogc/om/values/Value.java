@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 /**
  * Interface for measurement value representation for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            specific value type
@@ -54,19 +54,19 @@ public interface Value<T> {
     void setUnit(String unit);
 
     /**
-     * Get the unit of measure object
-     *
-     * @return Unit of measure
-     */
-    UoM getUnitObject();
-
-    /**
      * Set the unit of measure object
      *
      * @param unit
      *            Unit of measure
      */
     Value<T> setUnit(UoM unit);
+
+    /**
+     * Get the unit of measure object
+     *
+     * @return Unit of measure
+     */
+    UoM getUnitObject();
 
     /**
      * Get the unit of measure

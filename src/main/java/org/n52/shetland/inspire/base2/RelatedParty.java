@@ -41,6 +41,7 @@ public class RelatedParty {
      * 0..1
      */
     private Nillable<PT_FreeText> organisationName = Nillable.missing();
+
     /**
      * 0..1
      */
@@ -64,15 +65,17 @@ public class RelatedParty {
     }
 
     /**
-     * @param individualName the individualName to set
-     * @return
+     * @param individualName
+     *            the individualName to set
+     * @return this {@link RelatedParty}
      */
     public RelatedParty setIndividualName(PT_FreeText individualName) {
         return setIndividualName(Nillable.of(individualName));
     }
 
     public RelatedParty setIndividualName(String individualName) {
-        return setIndividualName(Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(individualName))));
+        return setIndividualName(
+                Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(individualName))));
     }
 
     public RelatedParty setIndividualName(Nillable<PT_FreeText> individualName) {
@@ -92,15 +95,17 @@ public class RelatedParty {
     }
 
     /**
-     * @param organisationName the organisationName to set
-     * @return
+     * @param organisationName
+     *            the organisationName to set
+     * @return this {@link RelatedParty}
      */
     public RelatedParty setOrganisationName(PT_FreeText organisationName) {
         return setOrganisationName(Nillable.of(organisationName));
     }
 
     public RelatedParty setOrganisationName(String organisationName) {
-        return setOrganisationName(Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(organisationName))));
+        return setOrganisationName(
+                Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(organisationName))));
     }
 
     public RelatedParty setOrganisationName(Nillable<PT_FreeText> organisationName) {
@@ -120,15 +125,17 @@ public class RelatedParty {
     }
 
     /**
-     * @param positionName the positionName to set
-     * @return
+     * @param positionName
+     *            the positionName to set
+     * @return this {@link RelatedParty}
      */
     public RelatedParty setPositionName(PT_FreeText positionName) {
         return setPositionName(Nillable.of(positionName));
     }
 
     public RelatedParty setPositionName(String positionName) {
-        return setPositionName(Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(positionName))));
+        return setPositionName(
+                Nillable.of(new PT_FreeText().addTextGroup(new LocalisedCharacterString(positionName))));
     }
 
     public RelatedParty setPositionName(Nillable<PT_FreeText> positionName) {
@@ -148,7 +155,8 @@ public class RelatedParty {
     }
 
     /**
-     * @param contact the contact to set
+     * @param contact
+     *            the contact to set
      */
     public RelatedParty setContact(Contact contact) {
         return setContact(Nillable.of(contact));
@@ -171,7 +179,8 @@ public class RelatedParty {
     }
 
     /**
-     * @param role the role to set
+     * @param roles
+     *            the roles to set
      */
     public void setRoles(List<Nillable<Reference>> roles) {
         this.roles.clear();
@@ -180,48 +189,43 @@ public class RelatedParty {
         }
     }
 
-
     public RelatedParty addRole(Nillable<Reference> role) {
-      this.roles.add(Preconditions.checkNotNull(role));
-      return this;
+        this.roles.add(Preconditions.checkNotNull(role));
+        return this;
     }
 
     public RelatedParty addRole(Reference role) {
-      return addRole(Nillable.of(role));
+        return addRole(Nillable.of(role));
     }
 
     public boolean isSetRole() {
         return CollectionHelper.isNotEmpty(getRoles());
     }
-//    }
+    // }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getIndividualName(), getOrganisationName(),
-                                getPositionName(), getContact(), getRoles());
+        return Objects.hashCode(getIndividualName(), getOrganisationName(), getPositionName(), getContact(),
+                getRoles());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof RelatedParty) {
             RelatedParty that = (RelatedParty) obj;
-            return Objects.equal(this.getIndividualName(), that.getIndividualName()) &&
-                   Objects.equal(this.getOrganisationName(), that.getOrganisationName()) &&
-                   Objects.equal(this.getPositionName(), that.getPositionName()) &&
-                   Objects.equal(this.getContact(), that.getContact()) &&
-                   Objects.equal(this.getRoles(), that.getRoles());
+            return Objects.equal(this.getIndividualName(), that.getIndividualName())
+                    && Objects.equal(this.getOrganisationName(), that.getOrganisationName())
+                    && Objects.equal(this.getPositionName(), that.getPositionName())
+                    && Objects.equal(this.getContact(), that.getContact())
+                    && Objects.equal(this.getRoles(), that.getRoles());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("individualName", getIndividualName())
-                .add("organisationName", getOrganisationName())
-                .add("positionName", getPositionName())
-                .add("contact", getContact())
-                .add("roles", getRoles())
-                .toString();
+        return MoreObjects.toStringHelper(this).add("individualName", getIndividualName())
+                .add("organisationName", getOrganisationName()).add("positionName", getPositionName())
+                .add("contact", getContact()).add("roles", getRoles()).toString();
     }
 }

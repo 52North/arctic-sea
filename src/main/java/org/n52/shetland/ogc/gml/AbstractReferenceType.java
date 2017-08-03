@@ -21,7 +21,8 @@ import java.util.Objects;
 import org.n52.janmayen.Comparables;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
 
-public class AbstractReferenceType implements Comparable<AbstractReferenceType> {
+public class AbstractReferenceType
+        implements Comparable<AbstractReferenceType> {
 
     /**
      * Href
@@ -72,7 +73,7 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * Set href
      *
      * @param href
-     *             Href to set
+     *            Href to set
      */
     public AbstractReferenceType setHref(String href) {
         this.href = new W3CHrefAttribute(href);
@@ -83,7 +84,7 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * Set title
      *
      * @param title
-     *              Title to set
+     *            Title to set
      */
     public AbstractReferenceType setTitle(String title) {
         this.title = title;
@@ -94,7 +95,7 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * Set role
      *
      * @param role
-     *             Role to set
+     *            Role to set
      */
     public AbstractReferenceType setRole(String role) {
         this.role = role;
@@ -125,7 +126,7 @@ public class AbstractReferenceType implements Comparable<AbstractReferenceType> 
      * @return <code>true</code>, if role is set
      */
     public boolean isSetRole() {
-        return this.role!=null && !this.role.isEmpty();
+        return this.role != null && !this.role.isEmpty();
     }
 
     /**

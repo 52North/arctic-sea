@@ -16,9 +16,6 @@
  */
 package org.n52.shetland.ogc.wps;
 
-import static com.google.common.base.Strings.emptyToNull;
-import static com.google.common.base.Strings.nullToEmpty;
-import static java.util.stream.Collectors.toSet;
 
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -30,9 +27,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.n52.janmayen.Optionals;
 import org.n52.janmayen.http.MediaType;
+
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -41,19 +41,17 @@ import org.n52.janmayen.http.MediaType;
  */
 public class Format implements Comparable<Format> {
 
+    public static final String BASE64_ENCODING = "base64";
+    public static final String DEFAULT_ENCODING = "UTF-8";
+    public static final Format TEXT_PLAIN = new Format("text/plain");
+    public static final Format APPLICATION_XML = new Format("application/xml");
+    public static final Format TEXT_XML = new Format("text/xml");
     private static final Comparator<Format> COMPARATOR = Comparator.nullsLast(Comparator
             .comparing(Format::getMimeType, Optionals.nullsFirst()))
             .thenComparing(Format::getSchema, Optionals.nullsFirst())
             .thenComparing(Format::getEncoding, Optionals.nullsFirst());
-
+    private static final String STAR_SLASH_STAR = "*/*";
     private static final Set<String> CHARSETS = new HashSet<>(Charset.availableCharsets().keySet());
-
-    public static final String BASE64_ENCODING = "base64";
-    public static final String DEFAULT_ENCODING = "UTF-8";
-
-    public static final Format TEXT_PLAIN = new Format("text/plain");
-    public static final Format APPLICATION_XML = new Format("application/xml");
-    public static final Format TEXT_XML = new Format("text/xml");
 
     private final Optional<String> mimeType;
     private final Optional<String> encoding;
@@ -68,9 +66,9 @@ public class Format implements Comparable<Format> {
     }
 
     public Format(String mimeType, String encoding, String schema) {
-        this(Optional.ofNullable(emptyToNull(mimeType)),
-             Optional.ofNullable(emptyToNull(encoding)),
-             Optional.ofNullable(emptyToNull(schema)));
+        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
+             Optional.ofNullable(Strings.emptyToNull(encoding)),
+             Optional.ofNullable(Strings.emptyToNull(schema)));
     }
 
     private Format(Optional<String> mimeType, Optional<String> encoding, Optional<String> schema) {
@@ -111,8 +109,24 @@ public class Format implements Comparable<Format> {
         return getSchema().isPresent();
     }
 
+    public boolean hasSchema(String schema) {
+        return getSchema().orElse("").equalsIgnoreCase(Strings.nullToEmpty(schema));
+    }
+
+    public boolean hasSchema(Format other) {
+        return hasSchema(other.getSchema().orElse(null));
+    }
+
     public boolean hasEncoding() {
         return getEncoding().isPresent();
+    }
+
+    public boolean hasEncoding(String encoding) {
+        return getEncoding().orElse("").equalsIgnoreCase(Strings.nullToEmpty(encoding));
+    }
+
+    public boolean hasEncoding(Format other) {
+        return hasEncoding(other.getEncoding().orElse(null));
     }
 
     public boolean hasMimeType() {
@@ -120,47 +134,31 @@ public class Format implements Comparable<Format> {
     }
 
     public boolean hasMimeType(String mimeType) {
-        return getMimeType().orElse("").equalsIgnoreCase(nullToEmpty(mimeType));
-    }
-
-    public boolean hasEncoding(String encoding) {
-        return getEncoding().orElse("").equalsIgnoreCase(nullToEmpty(encoding));
-    }
-
-    public boolean hasSchema(String schema) {
-        return getSchema().orElse("").equalsIgnoreCase(nullToEmpty(schema));
+        return getMimeType().orElse("").equalsIgnoreCase(Strings.nullToEmpty(mimeType));
     }
 
     public boolean hasMimeType(Format other) {
         return hasMimeType(other.getMimeType().orElse(null));
     }
 
-    public boolean hasEncoding(Format other) {
-        return hasEncoding(other.getEncoding().orElse(null));
-    }
-
-    public boolean hasSchema(Format other) {
-        return hasSchema(other.getSchema().orElse(null));
-    }
-
     public boolean matchesMimeType(String mimeType) {
         return !hasMimeType() || hasMimeType(mimeType);
-    }
-
-    public boolean matchesEncoding(String encoding) {
-        return !hasEncoding() || hasEncoding(encoding);
-    }
-
-    public boolean matchesSchema(String schema) {
-        return !hasSchema() || hasSchema(schema);
     }
 
     public boolean matchesMimeType(Format other) {
         return !hasMimeType() || hasMimeType(other);
     }
 
+    public boolean matchesEncoding(String encoding) {
+        return !hasEncoding() || hasEncoding(encoding);
+    }
+
     public boolean matchesEncoding(Format other) {
         return !hasEncoding() || hasEncoding(other);
+    }
+
+    public boolean matchesSchema(String schema) {
+        return !hasSchema() || hasSchema(schema);
     }
 
     public boolean matchesSchema(Format other) {
@@ -238,16 +236,17 @@ public class Format implements Comparable<Format> {
     }
 
     public boolean isCompatible(Format that) {
-        if (!((!this.hasEncoding() && (!that.hasEncoding() || that.isCharacterEncoding())) || this.hasEncoding(that))) {
+        if (!((!this.hasEncoding() && (!that.hasEncoding() || that.isCharacterEncoding()))
+                || this.hasEncoding(that))) {
             return false;
         }
 
-
-        if (!MediaType.parse(that.getMimeType().orElse("*/*")).isCompatible(MediaType.parse(this.getMimeType().orElse("*/*")))) {
+        if (!MediaType.parse(that.getMimeType().orElse(STAR_SLASH_STAR))
+                .isCompatible(MediaType.parse(this.getMimeType().orElse(STAR_SLASH_STAR)))) {
             return false;
         }
 
-        return (!this.hasSchema() || this.hasSchema(that));
+        return !this.hasSchema() || this.hasSchema(that);
     }
 
     public void setTo(Consumer<String> encoding, Consumer<String> mimeType, Consumer<String> schema) {
@@ -294,6 +293,6 @@ public class Format implements Comparable<Format> {
     }
 
     public Set<Format> withAnyCharset() {
-        return getAvailableCharsets().stream().map(this::withEncoding).collect(toSet());
+        return getAvailableCharsets().stream().map(this::withEncoding).collect(Collectors.toSet());
     }
 }

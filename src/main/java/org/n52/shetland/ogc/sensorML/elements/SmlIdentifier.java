@@ -21,11 +21,12 @@ import org.n52.shetland.ogc.sensorML.Term;
 /**
  * SOS internal representation of SensorML identifier
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public class SmlIdentifier extends Term {
+public class SmlIdentifier
+        extends Term {
 
-     /**
+    /**
      * constructor
      */
     public SmlIdentifier() {

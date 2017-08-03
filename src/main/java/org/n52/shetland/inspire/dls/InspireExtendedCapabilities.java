@@ -29,7 +29,7 @@ import org.n52.shetland.ogc.sos.SosConstants;
  * Abstract service internal representation of INSPIRE  ExtendedCapabilities.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public abstract class InspireExtendedCapabilities implements OwsOperationMetadataExtension,

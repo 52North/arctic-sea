@@ -19,7 +19,9 @@ package org.n52.shetland.iso.gmd;
 import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
-public abstract class AbstractMDIdentification extends AbstractObject implements AttributeSimpleAttrs {
+public abstract class AbstractMDIdentification
+        extends AbstractObject
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
     /**
@@ -42,7 +44,7 @@ public abstract class AbstractMDIdentification extends AbstractObject implements
 
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     @Override

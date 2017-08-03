@@ -18,7 +18,7 @@ package org.n52.shetland.ogc;
 
 /**
  *
- * @author Matthes Rieke <m.rieke@52north.org>
+ * @author Matthes Rieke
  */
 public interface SupportedType {
 

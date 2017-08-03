@@ -36,7 +36,7 @@ import com.google.common.collect.Sets;
  * Class that represents SensorML 2.0 FeatrureOfInterest
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
 public class SmlFeatureOfInterest extends SweAbstractDataComponent {
@@ -55,8 +55,18 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
         return this;
     }
 
+    public SmlFeatureOfInterest addFeaturesOfInterest(Map<String, AbstractFeature> featuresOfInterestMap) {
+        getFeaturesOfInterestMap().putAll(featuresOfInterestMap);
+        return this;
+    }
+
     public SmlFeatureOfInterest addFeatureOfInterest(String featureIdentifier) {
         getFeaturesOfInterest().add(featureIdentifier);
+        return this;
+    }
+
+    public SmlFeatureOfInterest addFeatureOfInterest(AbstractFeature feature) {
+        getFeaturesOfInterestMap().put(feature.getIdentifier(), feature);
         return this;
     }
 
@@ -67,16 +77,6 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     public boolean isSetFeaturesOfInterest() {
         return CollectionHelper.isNotEmpty(getFeaturesOfInterest()) || CollectionHelper
                .isNotEmpty(getFeaturesOfInterestMap());
-    }
-
-    public SmlFeatureOfInterest addFeaturesOfInterest(Map<String, AbstractFeature> featuresOfInterestMap) {
-        getFeaturesOfInterestMap().putAll(featuresOfInterestMap);
-        return this;
-    }
-
-    public SmlFeatureOfInterest addFeatureOfInterest(AbstractFeature feature) {
-        getFeaturesOfInterestMap().put(feature.getIdentifier(), feature);
-        return this;
     }
 
     public Map<String, AbstractFeature> getFeaturesOfInterestMap() {

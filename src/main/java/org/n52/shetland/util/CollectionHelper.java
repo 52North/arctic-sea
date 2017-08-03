@@ -16,10 +16,7 @@
  */
 package org.n52.shetland.util;
 
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toSet;
+import java.util.Comparator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -103,11 +100,11 @@ public final class CollectionHelper {
     @SafeVarargs
     @SuppressWarnings("varargs")
     public static <T> Set<T> union(Set<T>... elements) {
-        return Arrays.stream(elements).flatMap(Set::stream).collect(toSet());
+        return Arrays.stream(elements).flatMap(Set::stream).collect(Collectors.toSet());
     }
 
     public static <T> Set<T> union(Iterable<Set<T>> elements) {
-        return Streams.stream(elements).flatMap(Set<T>::stream).collect(toSet());
+        return Streams.stream(elements).flatMap(Set<T>::stream).collect(Collectors.toSet());
     }
 
     @SafeVarargs
@@ -119,7 +116,7 @@ public final class CollectionHelper {
     public static <T> Set<T> intersection(Iterable<Set<T>> sets) {
         Function<Set<T>, Predicate<T>> f = set -> set::contains;
         Predicate<T> predicate = Streams.stream(sets).map(f).reduce(Predicates.alwaysTrue(), Predicate::and);
-        return Streams.stream(sets).flatMap(Set::stream).filter(predicate).collect(toSet());
+        return Streams.stream(sets).flatMap(Set::stream).filter(predicate).collect(Collectors.toSet());
     }
 
     /**
@@ -165,12 +162,12 @@ public final class CollectionHelper {
 
     public static <T> List<T> conjunctCollections(Collection<T> list1, Collection<T> list2) {
         Set<T> set = new HashSet<>(list2);
-        return list1.stream().filter(set::contains).collect(toList());
+        return list1.stream().filter(set::contains).collect(Collectors.toList());
     }
 
     public static <T> Set<T> conjunctCollectionsToSet(Collection<T> list1, Collection<T> list2) {
         Set<T> set = new HashSet<>(list2);
-        return list1.stream().filter(set::contains).collect(toSet());
+        return list1.stream().filter(set::contains).collect(Collectors.toSet());
     }
 
     public static <K, V> Map<K, V> synchronizedInitialSizeMapWithLoadFactor1(int capacity) {
@@ -254,7 +251,7 @@ public final class CollectionHelper {
                 .filter(Objects::nonNull)
                 .flatMap(c -> c.stream())
                 .filter(Objects::nonNull)
-                .collect(toSet());
+                .collect(Collectors.toSet());
     }
 
     /**
@@ -267,6 +264,21 @@ public final class CollectionHelper {
      */
     public static <T> boolean isNotEmpty(Collection<T> collection) {
         return !isEmptyOrNull(collection);
+    }
+
+    /**
+     * Check if collection is not null and not empty
+     *
+     * @param <K> the key type
+     * @param <V> the value type
+     * @param map
+     *            Map to check
+     *
+     * @return <tt>false</tt>, if map is <tt>null</tt> or empty, else
+     * <tt>true</tt>.
+     */
+    public static <K, V> boolean isNotEmpty(Map<K, V> map) {
+        return map != null && !map.isEmpty();
     }
 
     public static <T> boolean isEmptyOrNull(Collection<T> collection) {
@@ -285,21 +297,6 @@ public final class CollectionHelper {
      */
     public static <T> boolean isEmpty(Collection<T> collection) {
         return collection != null && collection.isEmpty();
-    }
-
-    /**
-     * Check if collection is not null and not empty
-     *
-     * @param <K> the key type
-     * @param <V> the value type
-     * @param map
-     *            Map to check
-     *
-     * @return <tt>false</tt>, if map is <tt>null</tt> or empty, else
-     * <tt>true</tt>.
-     */
-    public static <K, V> boolean isNotEmpty(Map<K, V> map) {
-        return map != null && !map.isEmpty();
     }
 
     /**
@@ -374,7 +371,7 @@ public final class CollectionHelper {
 
     public static String collectionToString(Collection<?> collection) {
         return collection.stream().map(String::valueOf)
-                .collect(joining(",", "(", ")"));
+                .collect(Collectors.joining(",", "(", ")"));
     }
 
     /**
@@ -394,7 +391,7 @@ public final class CollectionHelper {
 
     public static <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         return map.entrySet().stream()
-                .sorted(comparing(Map.Entry::getValue))
+                .sorted(Comparator.comparing(Map.Entry::getValue))
                 .collect(MoreCollectors.toLinkedHashMap());
     }
 

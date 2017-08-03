@@ -21,9 +21,12 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
-public class NetworkFacility extends AbstractGML implements AttributeSimpleAttrs {
+public class NetworkFacility
+        extends AbstractGML
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
+
     /**
      * 1..1
      */
@@ -43,7 +46,8 @@ public class NetworkFacility extends AbstractGML implements AttributeSimpleAttrs
         this.simpleAttrs = simpleAttrs;
     }
 
-    public NetworkFacility(Time linkingTime, EnvironmentalMonitoringNetwork belongsTo, EnvironmentalMonitoringFacility contains) {
+    public NetworkFacility(
+            Time linkingTime, EnvironmentalMonitoringNetwork belongsTo, EnvironmentalMonitoringFacility contains) {
         this.linkingTime = linkingTime;
         this.belongsTo = belongsTo;
         this.contains = contains;
@@ -67,7 +71,8 @@ public class NetworkFacility extends AbstractGML implements AttributeSimpleAttrs
     }
 
     /**
-     * @param linkingTime the linkingTime to set
+     * @param linkingTime
+     *            the linkingTime to set
      */
     public void setLinkingTime(Time linkingTime) {
         this.linkingTime = linkingTime;
@@ -81,7 +86,8 @@ public class NetworkFacility extends AbstractGML implements AttributeSimpleAttrs
     }
 
     /**
-     * @param belongsTo the belongsTo to set
+     * @param belongsTo
+     *            the belongsTo to set
      */
     public void setBelongsTo(EnvironmentalMonitoringNetwork belongsTo) {
         this.belongsTo = belongsTo;
@@ -95,7 +101,8 @@ public class NetworkFacility extends AbstractGML implements AttributeSimpleAttrs
     }
 
     /**
-     * @param contains the contains to set
+     * @param contains
+     *            the contains to set
      */
     public void setContains(EnvironmentalMonitoringFacility contains) {
         this.contains = contains;

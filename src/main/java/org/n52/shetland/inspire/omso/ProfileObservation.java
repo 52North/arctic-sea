@@ -37,7 +37,8 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.GeometryFactory;
 import com.vividsolutions.jts.geom.LineString;
 
-public class ProfileObservation extends AbstractInspireObservation {
+public class ProfileObservation
+        extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -59,8 +60,8 @@ public class ProfileObservation extends AbstractInspireObservation {
 
     @Override
     public OmObservation cloneTemplate() {
-        if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature){
-            ((AbstractSamplingFeature)getObservationConstellation().getFeatureOfInterest()).setEncode(true);
+        if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
+            ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).setEncode(true);
         }
         return cloneTemplate(new ProfileObservation());
     }
@@ -69,7 +70,8 @@ public class ProfileObservation extends AbstractInspireObservation {
     public void setValue(ObservationValue<?> value) {
         if (value instanceof StreamingValue<?>) {
             super.setValue(value);
-        } else if (value.getValue() instanceof RectifiedGridCoverage || value.getValue() instanceof ReferencableGridCoverage) {
+        } else if (value.getValue() instanceof RectifiedGridCoverage
+                || value.getValue() instanceof ReferencableGridCoverage) {
             super.setValue(value);
         } else if (value.getValue() instanceof ProfileValue) {
             ProfileValue profile = (ProfileValue) value.getValue();
@@ -96,12 +98,12 @@ public class ProfileObservation extends AbstractInspireObservation {
             double heightDepth = 0;
             if (isSetHeightDepthParameter()) {
                 heightDepth = getHeightDepthParameter().getValue().getValue();
+                removeParameter(getHeightDepthParameter());
             }
             RectifiedGridCoverage rectifiedGridCoverage = new RectifiedGridCoverage(getObservationID());
             rectifiedGridCoverage.setUnit(value.getValue().getUnit());
             rectifiedGridCoverage.addValue(heightDepth, value.getValue());
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), rectifiedGridCoverage));
-            removeParameter(getHeightDepthParameter());
         }
     }
 
@@ -129,11 +131,14 @@ public class ProfileObservation extends AbstractInspireObservation {
             // ReverencableGridCoverage) {
             // ((ReverencableGridCoverage)getValue()).addValue(((ReverencableGridCoverage)observationValue).getValue());
 
-            if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
-                if (((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).isSetGeometry()) {
-                    // TODO check for SamplingCurve and Depht/Height
-                }
-            }
+            // if (getObservationConstellation().getFeatureOfInterest()
+            // instanceof AbstractSamplingFeature) {
+            // if (((AbstractSamplingFeature)
+            // getObservationConstellation().getFeatureOfInterest()).isSetGeometry())
+            // {
+            // // TODO check for SamplingCurve and Depht/Height
+            // }
+            // }
             return true;
         }
         return false;

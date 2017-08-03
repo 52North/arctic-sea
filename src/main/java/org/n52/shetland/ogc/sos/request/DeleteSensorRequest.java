@@ -18,13 +18,13 @@ package org.n52.shetland.ogc.sos.request;
 
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class DeleteSensorRequest extends OwsServiceRequest {
+public class DeleteSensorRequest
+        extends OwsServiceRequest {
 
     private String procedureIdentifier;
 
@@ -42,7 +42,7 @@ public class DeleteSensorRequest extends OwsServiceRequest {
 
     /**
      * @param procedureIdentifier
-     *                            the procedureIdentifier to set
+     *            the procedureIdentifier to set
      */
     public void setProcedureIdentifier(String procedureIdentifier) {
         this.procedureIdentifier = procedureIdentifier;

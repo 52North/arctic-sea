@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.om;
 /**
  * class represents a phenomenon of an observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class OmObservableProperty extends AbstractPhenomenon {
 

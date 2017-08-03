@@ -20,7 +20,7 @@ package org.n52.shetland.ogc.gml;
 /**
  * Class represents a GML conform ReferenceType element
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class ReferenceType extends AbstractReferenceType {

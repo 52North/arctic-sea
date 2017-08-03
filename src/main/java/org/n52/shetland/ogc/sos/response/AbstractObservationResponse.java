@@ -28,13 +28,15 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public abstract class AbstractObservationResponse extends OwsServiceResponse implements ResponseFormat {
+public abstract class AbstractObservationResponse
+        extends OwsServiceResponse
+        implements ResponseFormat {
     private ObservationStream observationCollection;
     private String responseFormat;
     private String resultModel;
-    private boolean mergeObservation = false;
+    private boolean mergeObservation;
     private ObservationMergeIndicator observationMergeIndicator;
     private GlobalObservationResponseValues globalValues;
 
@@ -53,8 +55,9 @@ public abstract class AbstractObservationResponse extends OwsServiceResponse imp
         return observationCollection;
     }
 
-    public void setObservationCollection(final ObservationStream observationCollection) {
+    public AbstractObservationResponse setObservationCollection(final ObservationStream observationCollection) {
         this.observationCollection = observationCollection;
+        return this;
     }
 
     @Override

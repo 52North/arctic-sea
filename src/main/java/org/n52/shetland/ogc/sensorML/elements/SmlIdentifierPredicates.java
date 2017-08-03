@@ -24,7 +24,7 @@ import java.util.function.Predicate;
  *
  * @author Christian Autermann
  */
-public class SmlIdentifierPredicates {
+public final class SmlIdentifierPredicates {
     private SmlIdentifierPredicates() {
     }
 

@@ -31,7 +31,7 @@ public class ScCRS {
 
     /**
      * @param abstractCrs the abstractCrs to set
-     * @return
+     * @return this {@link ScCRS}
      */
     public ScCRS setAbstractCrs(AbstractCRS abstractCrs) {
         this.abstractCrs = abstractCrs;

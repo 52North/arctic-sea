@@ -40,15 +40,13 @@ public class OwsBoundingBox {
             throw new IllegalArgumentException("dimension has to be positive");
         }
         if (lowerCorner.length != dimension) {
-            throw new IllegalArgumentException(String.format("lowerCorner has wrong dimension (%s vs %s)",
-                                                             lowerCorner.length, dimension));
+            throw new IllegalArgumentException(
+                    String.format("lowerCorner has wrong dimension (%s vs %s)", lowerCorner.length, dimension));
         }
         if (upperCorner.length != dimension) {
-            throw new IllegalArgumentException(String.format("upperCorner has wrong dimension (%s vs %s)",
-                                                             upperCorner.length, dimension));
+            throw new IllegalArgumentException(
+                    String.format("upperCorner has wrong dimension (%s vs %s)", upperCorner.length, dimension));
         }
-
-        ;
         this.lowerCorner = Arrays.copyOf(lowerCorner, lowerCorner.length);
         this.upperCorner = Arrays.copyOf(upperCorner, upperCorner.length);
         this.dimension = dimension;
@@ -102,9 +100,8 @@ public class OwsBoundingBox {
             return false;
         }
         final OwsBoundingBox other = (OwsBoundingBox) obj;
-        return this.getDimension() != other.getDimension() &&
-               Objects.equals(this.getCRS(), other.getCRS()) &&
-               Arrays.equals(this.getLowerCorner(), other.getLowerCorner()) &&
-               Arrays.equals(this.getUpperCorner(), other.getUpperCorner());
+        return this.getDimension() != other.getDimension() && Objects.equals(this.getCRS(), other.getCRS())
+                && Arrays.equals(this.getLowerCorner(), other.getLowerCorner())
+                && Arrays.equals(this.getUpperCorner(), other.getUpperCorner());
     }
 }

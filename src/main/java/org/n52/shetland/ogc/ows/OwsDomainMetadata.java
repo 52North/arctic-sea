@@ -16,13 +16,12 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import static com.google.common.base.Strings.emptyToNull;
-
 import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
 
 import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -36,7 +35,7 @@ public class OwsDomainMetadata {
 
     public OwsDomainMetadata(URI reference, String value) {
         this.reference = reference;
-        this.value = emptyToNull(value);
+        this.value = Strings.emptyToNull(value);
     }
 
     public OwsDomainMetadata(String value) {

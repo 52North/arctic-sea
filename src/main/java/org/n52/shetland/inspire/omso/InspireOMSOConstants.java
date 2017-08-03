@@ -24,7 +24,7 @@ import org.n52.shetland.w3c.SchemaLocation;
  * INSPIRES OM Specialised Observation constants
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public interface InspireOMSOConstants {
@@ -51,6 +51,6 @@ public interface InspireOMSOConstants {
 
     String EN_OMSO_POINT_TIMESERIES_OBSERVATION = "PointTimeSeriesObservation";
 
-    QName QN_POINT_TIMESERES_OBSERVATION = new QName(NS_OMSO_30, EN_OMSO_POINT_TIMESERIES_OBSERVATION, NS_OMSO_PREFIX);;
+    QName QN_POINT_TIMESERES_OBSERVATION = new QName(NS_OMSO_30, EN_OMSO_POINT_TIMESERIES_OBSERVATION, NS_OMSO_PREFIX);
 
 }

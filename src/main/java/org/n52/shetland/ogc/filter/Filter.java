@@ -25,9 +25,11 @@ import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T> operator type, e.g. {@link TimeOperator},{@link SpatialOperator}
+ * @param <T>
+ *            operator type, e.g. {@link TimeOperator},{@link SpatialOperator}
  */
-public abstract class Filter<T> implements AbstractSelectionClause {
+public abstract class Filter<T>
+        implements AbstractSelectionClause {
 
     /**
      * Value reference.
@@ -42,6 +44,7 @@ public abstract class Filter<T> implements AbstractSelectionClause {
 
     /**
      * @param valueReference
+     *            the value reference
      */
     public Filter(String valueReference) {
         this.valueReference = valueReference;
@@ -59,7 +62,8 @@ public abstract class Filter<T> implements AbstractSelectionClause {
     /**
      * Set value reference.
      *
-     * @param valueReference value reference
+     * @param valueReference
+     *            value reference
      *
      * @return This filter
      */
@@ -87,7 +91,8 @@ public abstract class Filter<T> implements AbstractSelectionClause {
     /**
      * Set filter operator.
      *
-     * @param operator filter operator
+     * @param operator
+     *            filter operator
      *
      * @return {@code this}
      */

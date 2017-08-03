@@ -24,7 +24,7 @@ import com.google.common.base.Strings;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SamplingFeatureComplex {
 
@@ -49,7 +49,8 @@ public class SamplingFeatureComplex {
      *                If {@link #relatedSamplingFeatureRole} is null or empty
      *                and {@link #relatedSamplingFeature} is null or empty
      */
-    public SamplingFeatureComplex(final String relatedSamplingFeatureRole, final SamplingFeature relatedSamplingFeature) {
+    public SamplingFeatureComplex(
+            final String relatedSamplingFeatureRole, final SamplingFeature relatedSamplingFeature) {
         if (Strings.isNullOrEmpty(relatedSamplingFeatureRole)) {
             throw new IllegalArgumentException("relatedSamplingFeatureRole is required.");
         }

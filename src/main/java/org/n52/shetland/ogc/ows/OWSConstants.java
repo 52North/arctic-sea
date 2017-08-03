@@ -16,14 +16,7 @@
  */
 package org.n52.shetland.ogc.ows;
 
-import static java.util.stream.Collectors.toMap;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
 
 import javax.xml.namespace.QName;
 
@@ -37,7 +30,7 @@ import org.n52.shetland.w3c.SchemaLocation;
  */
 public interface OWSConstants {
 
-    //fixme: add version...
+    // fixme: add version...
     String NS_OWS = "http://www.opengis.net/ows/1.1";
 
     String NS_OWS_PREFIX = "ows";
@@ -48,8 +41,8 @@ public interface OWSConstants {
 
     SchemaLocation OWS_110_SCHEMA_LOCATION = new SchemaLocation(NS_OWS, SCHEMA_LOCATION_URL_OWS);
 
-    SchemaLocation OWS_110_EXCEPTION_REPORT_SCHEMA_LOCATION = new SchemaLocation(NS_OWS_PREFIX,
-            SCHEMA_LOCATION_URL_OWS_EXCEPTIONREPORT);
+    SchemaLocation OWS_110_EXCEPTION_REPORT_SCHEMA_LOCATION =
+            new SchemaLocation(NS_OWS_PREFIX, SCHEMA_LOCATION_URL_OWS_EXCEPTIONREPORT);
 
     String NS_OWS_100 = "http://www.opengis.net/ows/1.0";
 
@@ -60,11 +53,13 @@ public interface OWSConstants {
     // exception messages
     String SOAP_REASON_INVALID_PARAMETER_VALUE = "The request contained an invalid parameter value.";
 
-    String SOAP_REASON_INVALID_UPDATE_SEQUENCES
-            = "The value of the updateSequence parameter in the GetCapabilities operation request was greater than the current value of the service metadata updateSequence number.";
+    String SOAP_REASON_INVALID_UPDATE_SEQUENCES =
+            "The value of the updateSequence parameter in the GetCapabilities operation request "
+            + "was greater than the current value of the service metadata updateSequence number.";
 
-    String SOAP_REASON_MISSING_PARAMETER_VALUE
-            = "The request did not include a value for a required parameter and this server does not declare a default value for it.";
+    String SOAP_REASON_MISSING_PARAMETER_VALUE =
+            "The request did not include a value for a required parameter and this server "
+            + "does not declare a default value for it.";
 
     String SOAP_REASON_NO_APPLICABLE_CODE = "A server exception was encountered.";
 
@@ -79,16 +74,19 @@ public interface OWSConstants {
             "The request included an extension that is not supported by this server.";
 
     String SOAP_REASON_VERSION_NEGOTIATION_FAILED =
-            "The list of versions in the ‘AcceptVersions’ parameter value of the GetCapabilities operation request did not include any version supported by this server.";
+            "The list of versions in the ‘AcceptVersions’ parameter value of the GetCapabilities operation "
+            + "request did not include any version supported by this server.";
 
     String SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT =
             "The requested result set exceeds the response size limit of this service and thus cannot be delivered.";
 
-    @Deprecated // SOS-specific
+    // SOS-specific
+    @Deprecated
     String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
-            "Observations for the requested combination of observedProperty and offering do not use SWE Common encoded results.";
+            "Observations for the requested combination of observedProperty and offering do not use "
+            + "SWE Common encoded results.";
 
-    String SOAP_REASON_UNKNOWN = "A server exception was encountered.";
+    String SOAP_REASON_UNKNOWN = SOAP_REASON_NO_APPLICABLE_CODE;
 
     String EN_EXCEPTION = "Exception";
 
@@ -122,10 +120,12 @@ public interface OWSConstants {
 
         public static final String DYNAMIC_CAPABILITIES_IDENTIFIER = "dynamic";
 
-         /**
-         * Check if the supplied string represents a constant of this enumeration.
+        /**
+         * Check if the supplied string represents a constant of this
+         * enumeration.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return wether or not the string represents an enum value
          */
@@ -134,9 +134,11 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string representation.
+         * Get the corresponding enum constant for the supplied string
+         * representation.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return the enum constant
          */
@@ -154,10 +156,12 @@ public interface OWSConstants {
         Languages,
         Contents;
 
-         /**
-         * Check if the supplied string represents a constant of this enumeration.
+        /**
+         * Check if the supplied string represents a constant of this
+         * enumeration.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return wether or not the string represents an enum value
          */
@@ -166,9 +170,11 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string representation.
+         * Get the corresponding enum constant for the supplied string
+         * representation.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return the enum constant
          */
@@ -187,12 +193,11 @@ public interface OWSConstants {
 
     /**
      * Enumeration for related feature role
-     *
+     * @deprecated SOS-specific
      */
-    @Deprecated //SOS-specific
+    @Deprecated
     enum RelatedFeatureRole {
-        featureOfInterestID,
-        relatedFeatureID
+        featureOfInterestID, relatedFeatureID
     }
 
     /** enum with names of get request parameters for all requests */
@@ -202,9 +207,11 @@ public interface OWSConstants {
         version;
 
         /**
-         * Check if the supplied string represents a constant of this enumeration.
+         * Check if the supplied string represents a constant of this
+         * enumeration.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return wether or not the string represents an enum value
          */
@@ -213,9 +220,11 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string representation.
+         * Get the corresponding enum constant for the supplied string
+         * representation.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return the enum constant
          */
@@ -224,17 +233,18 @@ public interface OWSConstants {
         }
     }
 
-
     /** enum with names of get request parameters for all requests */
     enum AdditionalRequestParams {
         language,
         crs,
         returnHumanReadableIdentifier;
 
-         /**
-         * Check if the supplied string represents a constant of this enumeration.
+        /**
+         * Check if the supplied string represents a constant of this
+         * enumeration.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return wether or not the string represents an enum value
          */
@@ -243,9 +253,11 @@ public interface OWSConstants {
         }
 
         /**
-         * Get the corresponding enum constant for the supplied string representation.
+         * Get the corresponding enum constant for the supplied string
+         * representation.
          *
-         * @param string the string value
+         * @param string
+         *            the string value
          *
          * @return the enum constant
          */
@@ -253,7 +265,5 @@ public interface OWSConstants {
             return Enums.fromString(AdditionalRequestParams.class, string);
         }
     }
-
-
 
 }

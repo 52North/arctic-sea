@@ -30,23 +30,25 @@ import com.google.common.collect.ImmutableSet;
  *
  * @since 1.0.0
  */
-public interface Sos1Constants extends SosConstants{
+public interface Sos1Constants
+        extends SosConstants {
 
     String NS_SOS = "http://www.opengis.net/sos/1.0";
 
     /** Constant for the schema repository of the SOS */
     String SCHEMA_LOCATION_SOS = "http://schemas.opengis.net/sos/1.0.0/sosAll.xsd";
 
-    String SCHEMA_LOCATION_URL_SOS1_GET_CAPBABILITIES = "http://schemas.opengis.net/sos/1.0.0/sosAll.xsd";
+    String SCHEMA_LOCATION_URL_SOS1_GET_CAPBABILITIES = "http://schemas.opengis.net/sos/1.0.0/sosGetCapabilities.xsd";
 
     SchemaLocation SOS1_SCHEMA_LOCATION = new SchemaLocation(NS_SOS, SCHEMA_LOCATION_SOS);
 
-    SchemaLocation GET_CAPABILITIES_SOS1_SCHEMA_LOCATION = new SchemaLocation(NS_SOS, SCHEMA_LOCATION_URL_SOS1_GET_CAPBABILITIES);
+    SchemaLocation GET_CAPABILITIES_SOS1_SCHEMA_LOCATION =
+            new SchemaLocation(NS_SOS, SCHEMA_LOCATION_URL_SOS1_GET_CAPBABILITIES);
 
     /** Constant for the content types of the response formats */
     // TODO use MediaType
-    Set<String> RESPONSE_FORMATS = ImmutableSet.of(OmConstants.CONTENT_TYPE_OM.toString(),
-                                                   MediaTypes.APPLICATION_ZIP.toString());
+    Set<String> RESPONSE_FORMATS =
+            ImmutableSet.of(OmConstants.CONTENT_TYPE_OM.toString(), MediaTypes.APPLICATION_ZIP.toString());
 
     /** Constant for actual implementing version */
     String SERVICEVERSION = "1.0.0";
@@ -56,16 +58,12 @@ public interface Sos1Constants extends SosConstants{
      * versions
      */
     enum Operations {
-        GetFeatureOfInterestTime,
-        DescribeFeatureType,
-        DescribeObservationType,
-        DescribeResultModel,
-        RegisterSensor;
+        GetFeatureOfInterestTime, DescribeFeatureType, DescribeObservationType, DescribeResultModel, RegisterSensor;
     }
 
     /**
-     * enum with names of OGC SOS 1.0.0 Capabilities sections not supported by all
-     * versions
+     * enum with names of OGC SOS 1.0.0 Capabilities sections not supported by
+     * all versions
      */
     enum CapabilitiesSections {
         Filter_Capabilities;
@@ -76,8 +74,7 @@ public interface Sos1Constants extends SosConstants{
      * supported by all versions
      */
     enum GetObservationParams {
-        eventTime,
-        resultModel;
+        eventTime, resultModel;
     }
 
     /**
@@ -85,8 +82,7 @@ public interface Sos1Constants extends SosConstants{
      * supported by all versions
      */
     enum InsertObservationParams {
-        AssignedSensorId,
-        Observation;
+        AssignedSensorId, Observation;
     }
 
     /**
@@ -94,47 +90,36 @@ public interface Sos1Constants extends SosConstants{
      * supported by all versions
      */
     enum DescribeSensorParams {
-        outputFormat,
-        time;
+        outputFormat, time;
     }
 
     /**
-     * enum with parameter names for OGC SOS 1.0.0 getFeatureOfInterest request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 1.0.0 getFeatureOfInterest request
+     * not supported by all versions
      */
     enum GetFeatureOfInterestParams {
-        featureOfInterestID,
-        location;
+        featureOfInterestID, location;
     }
 
     /**
      * enum with parameter names for getFeatureOfInterestTime request
      */
     enum GetFeatureOfInterestTimeParams {
-        featureOfInterestID,
-        location,
-        observedProperty,
-        procedure;
+        featureOfInterestID, location, observedProperty, procedure;
     }
 
     /**
      * enum with parameter names for registerSensor request
      */
     enum RegisterSensorParams {
-        SensorDescription,
-        ObservationTemplate;
+        SensorDescription, ObservationTemplate;
     }
 
     /**
-     * enum with parameter names for OGC SOS 1.0.0 getObservationById request not
-     * supported by all versions
+     * enum with parameter names for OGC SOS 1.0.0 getObservationById request
+     * not supported by all versions
      */
     enum GetObservationByIdParams {
-        srsName,
-        ObservationId,
-        responseFormat,
-        resultModel,
-        responseMode,
-        SortBy;
+        srsName, ObservationId, responseFormat, resultModel, responseMode, SortBy;
     }
 }

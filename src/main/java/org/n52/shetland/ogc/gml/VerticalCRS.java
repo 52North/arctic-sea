@@ -26,21 +26,26 @@ import com.google.common.collect.Lists;
 /**
  * Internal representation of the OGC GML VerticlaCRS.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since 4.4.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  *
  */
-public class VerticalCRS extends AbstractCRS {
+public class VerticalCRS
+        extends AbstractCRS {
 
-    private Referenceable<VerticalCS> verticalCS = Referenceable.of(Nillable.<VerticalCS>missing());
+    private Referenceable<VerticalCS> verticalCS = Referenceable.of(Nillable.<VerticalCS> missing());
 
-    private Referenceable<VerticalDatum> verticalDatum = Referenceable.of(Nillable.<VerticalDatum>missing());
+    private Referenceable<VerticalDatum> verticalDatum = Referenceable.of(Nillable.<VerticalDatum> missing());
 
-    public VerticalCRS(CodeWithAuthority identifier, String scope, Referenceable<VerticalCS> verticalCS, Referenceable<VerticalDatum> verticalDatum) {
+    public VerticalCRS(
+            CodeWithAuthority identifier, String scope, Referenceable<VerticalCS> verticalCS,
+            Referenceable<VerticalDatum> verticalDatum) {
         this(identifier, Lists.newArrayList(scope), verticalCS, verticalDatum);
     }
 
-    public VerticalCRS(CodeWithAuthority identifier, List<String> scope, Referenceable<VerticalCS> verticalCS, Referenceable<VerticalDatum> verticalDatum) {
+    public VerticalCRS(
+            CodeWithAuthority identifier, List<String> scope, Referenceable<VerticalCS> verticalCS,
+            Referenceable<VerticalDatum> verticalDatum) {
         super(identifier, scope);
         setVerticalCS(verticalCS);
         setVerticalDatum(verticalDatum);
@@ -54,7 +59,8 @@ public class VerticalCRS extends AbstractCRS {
     }
 
     /**
-     * @param verticalCS the verticalCS to set
+     * @param verticalCS
+     *            the verticalCS to set
      */
     public void setVerticalCS(Referenceable<VerticalCS> verticalCS) {
         this.verticalCS = verticalCS;
@@ -68,7 +74,8 @@ public class VerticalCRS extends AbstractCRS {
     }
 
     /**
-     * @param verticalDatum the verticalDatum to set
+     * @param verticalDatum
+     *            the verticalDatum to set
      */
     public void setVerticalDatum(Referenceable<VerticalDatum> verticalDatum) {
         this.verticalDatum = verticalDatum;

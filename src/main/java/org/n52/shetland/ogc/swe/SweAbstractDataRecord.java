@@ -29,7 +29,7 @@ import com.google.common.collect.Sets;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public abstract class SweAbstractDataRecord extends SweAbstractDataComponent implements DataRecord {
     private List<SweField> fields;
@@ -141,7 +141,7 @@ public abstract class SweAbstractDataRecord extends SweAbstractDataComponent imp
                     element.setName(field.getName());
                 }
                 if (element.getClass() == clazz) {
-                    set.add((SweAbstractSimpleType<?>)element);
+                    set.add((SweAbstractSimpleType<?>) element);
                 }
             }
             return set;

@@ -30,16 +30,14 @@ import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class SweEnvelope extends SweAbstractDataComponent {
+public class SweEnvelope
+        extends SweAbstractDataComponent {
     private String referenceFrame;
-
     private SweVector upperCorner;
-
     private SweVector lowerCorner;
-
     private SweTimeRange time;
     private final boolean northingFirst;
 
@@ -52,14 +50,13 @@ public class SweEnvelope extends SweAbstractDataComponent {
     }
 
     public SweEnvelope(ReferencedEnvelope sosEnvelope, String uom, boolean northingFirst) {
-        this(String.valueOf(sosEnvelope.getSrid()),
-             createUpperCorner(sosEnvelope, uom, northingFirst),
-             createLowerCorner(sosEnvelope, uom, northingFirst),
-             northingFirst);
+        this(String.valueOf(sosEnvelope.getSrid()), createUpperCorner(sosEnvelope, uom, northingFirst),
+                createLowerCorner(sosEnvelope, uom, northingFirst), northingFirst);
     }
 
-    public SweEnvelope(String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
-                       boolean northingFirst) {
+    public SweEnvelope(
+            String referenceFrame, SweVector upperCorner, SweVector lowerCorner, SweTimeRange time,
+            boolean northingFirst) {
         this.referenceFrame = referenceFrame;
         this.upperCorner = upperCorner;
         this.lowerCorner = lowerCorner;
@@ -121,11 +118,8 @@ public class SweEnvelope extends SweAbstractDataComponent {
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(getClass())
-                .add("upperCorner", getUpperCorner())
-                .add("lowerCorner", getLowerCorner())
-                .add("time", getTime())
-                .add("referenceFrame", getReferenceFrame())
+        return MoreObjects.toStringHelper(getClass()).add("upperCorner", getUpperCorner())
+                .add("lowerCorner", getLowerCorner()).add("time", getTime()).add("referenceFrame", getReferenceFrame())
                 .toString();
     }
 
@@ -138,10 +132,10 @@ public class SweEnvelope extends SweAbstractDataComponent {
     public boolean equals(Object obj) {
         if (obj instanceof SweEnvelope) {
             SweEnvelope other = (SweEnvelope) obj;
-            return Objects.equal(getReferenceFrame(), other.getReferenceFrame()) &&
-                   Objects.equal(getUpperCorner(), other.getUpperCorner()) &&
-                   Objects.equal(getLowerCorner(), other.getLowerCorner()) &&
-                   Objects.equal(getTime(), other.getTime());
+            return Objects.equal(getReferenceFrame(), other.getReferenceFrame())
+                    && Objects.equal(getUpperCorner(), other.getUpperCorner())
+                    && Objects.equal(getLowerCorner(), other.getLowerCorner())
+                    && Objects.equal(getTime(), other.getTime());
 
         }
         return false;
@@ -185,9 +179,7 @@ public class SweEnvelope extends SweAbstractDataComponent {
     }
 
     private Coordinate getSweVectorAsCoordinate(SweVector vector) {
-        if (vector != null &&
-            vector.isSetCoordinates() &&
-            vector.getCoordinates().size() >= 2) {
+        if (vector != null && vector.isSetCoordinates() && vector.getCoordinates().size() >= 2) {
             Double x = extractDouble(vector.getCoordinates().get(0));
             Double y = extractDouble(vector.getCoordinates().get(1));
             if (x != null && y != null) {
@@ -227,6 +219,7 @@ public class SweEnvelope extends SweAbstractDataComponent {
         }
         return clone;
     }
+
     private static SweVector createLowerCorner(ReferencedEnvelope env, String uom, boolean northingFirst) {
         if (northingFirst) {
             return createSweVector(env.getEnvelope().getMinY(), env.getEnvelope().getMinX(), uom);

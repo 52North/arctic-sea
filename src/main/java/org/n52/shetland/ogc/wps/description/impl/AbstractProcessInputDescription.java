@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
 import java.math.BigInteger;
 import java.util.Objects;
 import java.util.Set;
@@ -28,6 +26,8 @@ import org.n52.shetland.ogc.ows.OwsLanguageString;
 import org.n52.shetland.ogc.ows.OwsMetadata;
 import org.n52.shetland.ogc.wps.InputOccurence;
 import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
+
+import com.google.common.base.Preconditions;
 
 /**
  * TODO JavaDoc
@@ -65,7 +65,8 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
         return this.occurence;
     }
 
-    protected static abstract class AbstractBuilder<T extends ProcessInputDescription, B extends ProcessInputDescription.Builder<T, B>>
+    protected abstract static class AbstractBuilder<T extends ProcessInputDescription,
+                                                    B extends ProcessInputDescription.Builder<T, B>>
             extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessInputDescription.Builder<T, B> {
 
@@ -76,7 +77,7 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
         @Override
         public B withMinimalOccurence(BigInteger min) {
             if (min != null) {
-                checkArgument(min.compareTo(BigInteger.ZERO) > 0, "minimalOccurence");
+                Preconditions.checkArgument(min.compareTo(BigInteger.ZERO) > 0, "minimalOccurence");
                 this.minimalOccurence = min;
             } else {
                 this.minimalOccurence = BigInteger.ONE;
@@ -88,7 +89,7 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
         @Override
         public B withMaximalOccurence(BigInteger max) {
             if (max != null) {
-                checkArgument(max.compareTo(BigInteger.ZERO) > 0, "maximalOccurence");
+                Preconditions.checkArgument(max.compareTo(BigInteger.ZERO) > 0, "maximalOccurence");
                 this.maximalOccurence = max;
             } else {
                 this.maximalOccurence = BigInteger.ONE;

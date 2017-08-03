@@ -22,7 +22,7 @@ import java.util.Set;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractSimpleType;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface DataRecord {

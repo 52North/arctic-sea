@@ -20,7 +20,7 @@ package org.n52.shetland.util;
  * Setting definition provider for AQD e-Reporting definitions
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.3.0
+ * @since 1.0.0
  *
  */
 public interface EReportingSetting {
@@ -33,12 +33,11 @@ public interface EReportingSetting {
 
     String EREPORTING_PROCEDURE_PREFIX_KEY = "eReporting.procedure.prefix";
 
-//     String EREPORTING_OBSERVABLE_PROPERTY_PREFIX_KEY = "eReporting.obervableProperty.prefix";
-    String EREPORTING_FEATURE_OF_INTEREST_PREFIX_KEY
-            = "eReporting.featureOfInterest.prefix";
+    // String EREPORTING_OBSERVABLE_PROPERTY_PREFIX_KEY =
+    // "eReporting.obervableProperty.prefix";
+    String EREPORTING_FEATURE_OF_INTEREST_PREFIX_KEY = "eReporting.featureOfInterest.prefix";
 
-    String EREPORTING_SAMPLING_POINT_PREFIX_KEY
-            = "eReporting.samplingPoint.prefix";
+    String EREPORTING_SAMPLING_POINT_PREFIX_KEY = "eReporting.samplingPoint.prefix";
 
     String EREPORTING_STATION_PREFIX_KEY = "eReporting.station.prefix";
 

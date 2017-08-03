@@ -30,7 +30,7 @@ import org.n52.shetland.w3c.SchemaLocation;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @author ShaneStClair
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface SensorMLConstants {
 

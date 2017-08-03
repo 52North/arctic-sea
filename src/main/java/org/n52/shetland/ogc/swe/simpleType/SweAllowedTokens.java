@@ -23,34 +23,41 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
-public class SweAllowedTokens extends AbstractSWES {
+public class SweAllowedTokens
+        extends AbstractSWES {
 
-    private static final long serialVersionUID = 1908681867976641885L;
     private List<String> value;
     private String pattern;
+
     /**
      * @return the value
      */
     public List<String> getValue() {
         return value;
     }
+
     /**
-     * @param value the value to set
+     * @param value
+     *            the value to set
      */
     public void setValue(List<String> value) {
         this.value = value;
     }
+
     public boolean isSetValue() {
         return CollectionHelper.isNotEmpty(getValue());
     }
+
     /**
      * @return the pattern
      */
     public String getPattern() {
         return pattern;
     }
+
     /**
-     * @param pattern the pattern to set
+     * @param pattern
+     *            the pattern to set
      */
     public void setPattern(String pattern) {
         this.pattern = pattern;

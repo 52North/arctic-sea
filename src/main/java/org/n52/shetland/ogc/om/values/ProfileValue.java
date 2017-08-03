@@ -41,15 +41,17 @@ import com.vividsolutions.jts.geom.PrecisionModel;
  * Represents the GroundWaterML 2.0 GW_GeologyLogCoverage
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class ProfileValue extends AbstractFeature implements Value<List<ProfileLevel>> {
+public class ProfileValue
+        extends AbstractFeature
+        implements Value<List<ProfileLevel>> {
 
     private QuantityValue fromLevel;
-    private boolean queriedFromLevel = false;
+    private boolean queriedFromLevel;
     private QuantityValue toLevel;
-    private boolean queriedToLevel = false;
+    private boolean queriedToLevel;
     private List<ProfileLevel> values = Lists.newArrayList();
 
     public ProfileValue(String identifier) {
@@ -92,6 +94,12 @@ public class ProfileValue extends AbstractFeature implements Value<List<ProfileL
     }
 
     @Override
+    public ProfileValue setUnit(UoM unit) {
+        // nothing to do
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         return null;
     }
@@ -104,12 +112,6 @@ public class ProfileValue extends AbstractFeature implements Value<List<ProfileL
     @Override
     public boolean isSetUnit() {
         return false;
-    }
-
-    @Override
-    public ProfileValue setUnit(UoM unit) {
-        // nothing to do
-        return this;
     }
 
     @Override
@@ -266,7 +268,8 @@ public class ProfileValue extends AbstractFeature implements Value<List<ProfileL
                 if (new HashSet<>(map.values()).size() == 1) {
                     return getValue().iterator().next().getLocation();
                 } else {
-                    return new GeometryFactory(new PrecisionModel(), srid).createLineString(map.values().toArray(new Coordinate[1]));
+                    return new GeometryFactory(new PrecisionModel(), srid)
+                            .createLineString(map.values().toArray(new Coordinate[1]));
                 }
             }
         }

@@ -19,7 +19,7 @@ package org.n52.shetland.ogc.sos;
 /**
  * Constants for SOAP messages
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public interface SosSoapConstants {
 
@@ -89,10 +89,10 @@ public interface SosSoapConstants {
             "http://www.opengis.net/def/serviceOperation/sos/resultRetrieval/2.0/GetResultResponse";
 
     String REQ_ACTION_INSERT_RESULT =
-            "http://www.opengis.net/def/serviceOperation/sos/resultInsertion/2.0/InsertResultTemplate";
+            "http://www.opengis.net/def/serviceOperation/sos/resultInsertion/2.0/InsertResult";
 
     String RESP_ACTION_INSERT_RESULT =
-            "http://www.opengis.net/def/serviceOperation/sos/resultInsertion/2.0/InsertResultTemplateResponse";
+            "http://www.opengis.net/def/serviceOperation/sos/resultInsertion/2.0/InsertResultResponse";
 
     // GetDataAVailability
 

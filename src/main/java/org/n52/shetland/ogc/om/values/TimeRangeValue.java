@@ -27,11 +27,14 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
  *
  * @author Christian Autermann
  */
-public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<DateTime>> {
+public class TimeRangeValue
+        extends SweTimeRange
+        implements Value<RangeValue<DateTime>> {
     /**
      * constructor
      *
-     * @param value Measurement value
+     * @param value
+     *            Measurement value
      */
     public TimeRangeValue(RangeValue<DateTime> value) {
         super(value);
@@ -40,8 +43,10 @@ public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<Dat
     /**
      * * constructor
      *
-     * @param value Measurement value
-     * @param unit Unit of measure
+     * @param value
+     *            Measurement value
+     * @param unit
+     *            Unit of measure
      */
     public TimeRangeValue(RangeValue<DateTime> value, String unit) {
         super(value, unit);
@@ -50,8 +55,10 @@ public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<Dat
     /**
      * * constructor
      *
-     * @param value Measurement value
-     * @param unit Unit of measure
+     * @param value
+     *            Measurement value
+     * @param unit
+     *            Unit of measure
      */
     public TimeRangeValue(RangeValue<DateTime> value, UoM unit) {
         super(value, unit);
@@ -69,6 +76,12 @@ public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<Dat
     }
 
     @Override
+    public TimeRangeValue setUnit(UoM unit) {
+        super.setUom(unit);
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         return super.getUom();
     }
@@ -76,12 +89,6 @@ public class TimeRangeValue extends SweTimeRange implements Value<RangeValue<Dat
     @Override
     public UoM getUnitObject() {
         return super.getUomObject();
-    }
-
-    @Override
-    public TimeRangeValue setUnit(UoM unit) {
-        super.setUom(unit);
-        return this;
     }
 
     @Override

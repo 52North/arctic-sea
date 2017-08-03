@@ -17,11 +17,13 @@
 package org.n52.shetland.ogc.om.series.wml;
 
 /**
- * This class implements the OGC WaterML 2.0 element <code>MeasurementTimeseries > defaultPointMetadata</code>.
- * See <code>/req/xsd-timeseries-tvp/defaultPointMetadata</code>.
+ * This class implements the OGC WaterML 2.0 element
+ * <code>MeasurementTimeseries > defaultPointMetadata</code>. See
+ * <code>/req/xsd-timeseries-tvp/defaultPointMetadata</code>.
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * @since 4.4.0
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
+ * @since 1.0.0
  * @see http://www.opengeospatial.org/standards/waterml
  */
 public class DefaultPointMetadata {
@@ -36,7 +38,8 @@ public class DefaultPointMetadata {
         return defaultTVPMeasurementMetadata;
     }
 
-    public DefaultPointMetadata setDefaultTVPMeasurementMetadata(DefaultTVPMeasurementMetadata defaultTVPMeasurementMetadata) {
+    public DefaultPointMetadata setDefaultTVPMeasurementMetadata(
+            DefaultTVPMeasurementMetadata defaultTVPMeasurementMetadata) {
         this.defaultTVPMeasurementMetadata = defaultTVPMeasurementMetadata;
         return this;
     }

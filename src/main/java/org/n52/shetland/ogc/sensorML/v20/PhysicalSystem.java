@@ -29,10 +29,12 @@ import org.n52.shetland.util.JavaHelper;
  * Class that represents SensorML 2.0 PhysicalSystem
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.2.0
+ * @since 1.0.0
  *
  */
-public class PhysicalSystem extends AbstractPhysicalProcess implements HasComponents<PhysicalSystem>, HasConnections<PhysicalSystem> {
+public class PhysicalSystem
+        extends AbstractPhysicalProcess
+        implements HasComponents<PhysicalSystem>, HasConnections<PhysicalSystem> {
 
     public static final String ID_PREFIX = "ps_";
 

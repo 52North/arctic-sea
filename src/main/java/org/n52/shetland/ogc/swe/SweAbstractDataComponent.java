@@ -29,10 +29,11 @@ import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public abstract class SweAbstractDataComponent implements DefaultEncoding<SweAbstractDataComponent>, Copyable<SweAbstractDataComponent>{
+public abstract class SweAbstractDataComponent
+        implements DefaultEncoding<SweAbstractDataComponent>, Copyable<SweAbstractDataComponent> {
 
     private String definition;
 
@@ -212,16 +213,16 @@ public abstract class SweAbstractDataComponent implements DefaultEncoding<SweAbs
             return false;
         }
         final SweAbstractDataComponent other = (SweAbstractDataComponent) obj;
-        if ((getDefinition() == null) ? (other.getDefinition() != null) : !getDefinition().equals(
-                other.getDefinition())) {
+        if ((getDefinition() == null) ? (other.getDefinition() != null)
+                : !getDefinition().equals(other.getDefinition())) {
             return false;
         }
-        if ((getDescription() == null) ? (other.getDescription() != null) : !getDescription().equals(
-                other.getDescription())) {
+        if ((getDescription() == null) ? (other.getDescription() != null)
+                : !getDescription().equals(other.getDescription())) {
             return false;
         }
-        if ((getIdentifier() == null) ? (other.getIdentifier() != null) : !getIdentifier().equals(
-                other.getIdentifier())) {
+        if ((getIdentifier() == null) ? (other.getIdentifier() != null)
+                : !getIdentifier().equals(other.getIdentifier())) {
             return false;
         }
         return true;
@@ -238,7 +239,7 @@ public abstract class SweAbstractDataComponent implements DefaultEncoding<SweAbs
      * passed
      *
      * @param copy
-     *             {@link SweAbstractDataComponent} to copy values to
+     *            {@link SweAbstractDataComponent} to copy values to
      *
      * @return Copy of this
      */

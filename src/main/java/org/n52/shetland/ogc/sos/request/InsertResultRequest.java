@@ -21,13 +21,12 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 
 import com.google.common.base.Strings;
 
-import org.n52.shetland.ogc.sos.Sos2Constants;
-
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class InsertResultRequest extends OwsServiceRequest {
+public class InsertResultRequest
+        extends OwsServiceRequest {
 
     private String templateIdentifier;
     private String resultValues;
@@ -47,6 +46,7 @@ public class InsertResultRequest extends OwsServiceRequest {
     public void setTemplateIdentifier(String templateIdentifier) {
         this.templateIdentifier = templateIdentifier;
     }
+
     public String getTemplateIdentifier() {
         return templateIdentifier;
     }
@@ -58,7 +58,6 @@ public class InsertResultRequest extends OwsServiceRequest {
     public void setResultValues(String resultValues) {
         this.resultValues = resultValues;
     }
-
 
     public String getResultValues() {
         return resultValues;

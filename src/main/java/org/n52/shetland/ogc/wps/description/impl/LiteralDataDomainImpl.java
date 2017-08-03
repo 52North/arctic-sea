@@ -69,7 +69,8 @@ public class LiteralDataDomainImpl implements LiteralDataDomain {
         return this.defaultValue;
     }
 
-    public static abstract class AbstractLiteralDataDomainBuilder<T extends LiteralDataDomain, B extends AbstractLiteralDataDomainBuilder<T, B>>
+    public abstract static class AbstractLiteralDataDomainBuilder<T extends LiteralDataDomain,
+                                                                  B extends AbstractLiteralDataDomainBuilder<T, B>>
             implements LiteralDataDomain.Builder<T, B> {
 
         private OwsPossibleValues possibleValues = OwsAnyValue.instance();

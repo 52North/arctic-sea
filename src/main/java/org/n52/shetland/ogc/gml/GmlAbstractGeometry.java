@@ -21,7 +21,7 @@ import com.vividsolutions.jts.geom.Geometry;
 /**
  * A class that represents a gml:AbstractGeometry (PointType, ...).
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class GmlAbstractGeometry extends AbstractFeature {

@@ -85,9 +85,9 @@ public abstract class AbstractGML {
      * constructor
      *
      * @param identifier
-     *                   identifier
+     *            identifier
      * @param gmlId
-     *                   GML id
+     *            GML id
      */
     public AbstractGML(CodeWithAuthority identifier, String gmlId) {
         this.identifier = identifier;
@@ -99,8 +99,8 @@ public abstract class AbstractGML {
         if (o instanceof AbstractGML) {
             AbstractGML feature = (AbstractGML) o;
             if (feature.isSetIdentifier() && this.isSetIdentifier() && feature.isSetGmlID() && this.isSetGmlID()) {
-                return feature.getIdentifierCodeWithAuthority().equals(this.getIdentifierCodeWithAuthority()) &&
-                         feature.getGmlId().equals(this.getGmlId());
+                return feature.getIdentifierCodeWithAuthority().equals(this.getIdentifierCodeWithAuthority())
+                        && feature.getGmlId().equals(this.getGmlId());
             } else if (feature.isSetIdentifier() && this.isSetIdentifier()) {
                 return feature.getIdentifierCodeWithAuthority().equals(this.getIdentifierCodeWithAuthority());
             }
@@ -138,7 +138,7 @@ public abstract class AbstractGML {
      * Set identifier
      *
      * @param identifier
-     *                   the identifier to set
+     *            the identifier to set
      *
      * @return this
      */
@@ -151,7 +151,7 @@ public abstract class AbstractGML {
      * Set identifier
      *
      * @param identifier
-     *                   the identifier to set
+     *            the identifier to set
      *
      * @return this
      */
@@ -191,7 +191,7 @@ public abstract class AbstractGML {
      * Set human readable identifier
      *
      * @param humanReadableIdentifier
-     *                                the human readable identifier to set
+     *            the human readable identifier to set
      *
      * @return this
      */
@@ -204,7 +204,7 @@ public abstract class AbstractGML {
      * Set human readable identifier
      *
      * @param humanReadableIdentifier
-     *                                the human readable identifier to set
+     *            the human readable identifier to set
      *
      * @return this
      */
@@ -216,11 +216,11 @@ public abstract class AbstractGML {
     /**
      * @return <tt>true</tt>, if human readable identifier is set and value is
      *         not an empty string,<br>
-     * else <tt>false</tt>
+     *         else <tt>false</tt>
      */
     public boolean isSetHumanReadableIdentifier() {
-        return getHumanReadableIdentifierCodeWithAuthority() != null &&
-                 getHumanReadableIdentifierCodeWithAuthority().isSetValue();
+        return getHumanReadableIdentifierCodeWithAuthority() != null
+                && getHumanReadableIdentifierCodeWithAuthority().isSetValue();
     }
 
     /**
@@ -241,8 +241,8 @@ public abstract class AbstractGML {
      * @return <code>true</code>, if the original identifier is set
      */
     public boolean isSetOriginalIdentifier() {
-        return getOriginalIdentifierCodeWithAuthority() != null &&
-                 getOriginalIdentifierCodeWithAuthority().isSetValue();
+        return getOriginalIdentifierCodeWithAuthority() != null
+                && getOriginalIdentifierCodeWithAuthority().isSetValue();
     }
 
     /**
@@ -280,7 +280,7 @@ public abstract class AbstractGML {
      * Add feature names, clears the name list
      *
      * @param name
-     *             Feature names to ad
+     *            Feature names to ad
      *
      * @return {@code this}
      */
@@ -294,7 +294,7 @@ public abstract class AbstractGML {
      * Set the name, clears the name list
      *
      * @param name
-     *             Name to set
+     *            Name to set
      *
      * @return {@code this}
      */
@@ -308,7 +308,7 @@ public abstract class AbstractGML {
      * Adds the name to the name list
      *
      * @param name
-     *             Name to add
+     *            Name to add
      *
      * @return {@code this}
      */
@@ -323,7 +323,7 @@ public abstract class AbstractGML {
      * Add a feature name
      *
      * @param name
-     *             Feature name to add
+     *            Feature name to add
      *
      * @return {@code this}
      */
@@ -336,13 +336,15 @@ public abstract class AbstractGML {
      * Add a feature name
      *
      * @param name
-     *                  Feature name to add
+     *            Feature name to add
      * @param codespace
-     *                  Codespace of the feature name
+     *            Codespace of the feature name
      *
      * @return {@code this}
      *
-     * @throws java.net.URISyntaxException if the code space is not a valid URI
+     * @throws java.net.URISyntaxException
+     *             if the code space is not a valid URI
+     * @deprecated Use {@link AbstractGML}{@link #addName(String, URI)}
      */
     @Deprecated
     public AbstractGML addName(final String name, final String codespace) throws URISyntaxException {
@@ -389,7 +391,7 @@ public abstract class AbstractGML {
      * Set feature description
      *
      * @param description
-     *                    Feature description to set
+     *            Feature description to set
      *
      * @return this
      */
@@ -420,7 +422,7 @@ public abstract class AbstractGML {
      * Set GML id
      *
      * @param gmlId
-     *              GML id to set
+     *            GML id to set
      */
     public void setGmlId(String gmlId) {
         this.gmlId = gmlId;
@@ -453,7 +455,8 @@ public abstract class AbstractGML {
     }
 
     /**
-     * @param metaDataProperty the metaDataProperty to set
+     * @param metaDataProperty
+     *            the metaDataProperty to set
      */
     public void setMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
         this.metaDataProperty.clear();
@@ -461,22 +464,24 @@ public abstract class AbstractGML {
     }
 
     /**
-     * @param metaDataProperty the metaDataProperty to add
+     * @param metaDataProperty
+     *            the metaDataProperty to add
      */
     public void addMetaDataProperty(List<AbstractMetaData> metaDataProperty) {
         this.metaDataProperty.addAll(metaDataProperty);
     }
 
     /**
-     * @param metaDataProperty the metaDataProperty to add
+     * @param metaDataProperty
+     *            the metaDataProperty to add
      */
     public void addMetaDataProperty(AbstractMetaData metaDataProperty) {
         this.metaDataProperty.add(metaDataProperty);
     }
 
     /**
-     * @return <tt>true</tt>, if metaData property is set,<br>
-     *         else <tt>false</tt>
+     * @return <code>true</code>, if metaData property is set, else
+     *         <code>false</code>
      */
     public boolean isSetMetaDataProperty() {
         return CollectionHelper.isNotEmpty(getMetaDataProperty());
@@ -487,13 +492,13 @@ public abstract class AbstractGML {
      * {@link AbstractGML}
      *
      * @param copyOf
-     *               {@link AbstractGML} to set values
+     *            {@link AbstractGML} to set values
      */
     public void copyTo(AbstractGML copyOf) {
         copyOf.setDescription(getDescription());
         copyOf.setGmlId(getGmlId());
         copyOf.setIdentifier(getIdentifierCodeWithAuthority());
         copyOf.setName(getName());
-        copyOf.setMetaDataProperty(getMetaDataProperty());;
+        copyOf.setMetaDataProperty(getMetaDataProperty());
     }
 }

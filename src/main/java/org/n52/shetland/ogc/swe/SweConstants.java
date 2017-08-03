@@ -206,7 +206,7 @@ public interface SweConstants {
         DataRecord
     }
 
-    public static final class SweCoordinateNames {
+    final class SweCoordinateNames {
         public static final String EASTING = "easting";
         public static final String NORTHING = "northing";
         public static final String ALTITUDE = "altitude";

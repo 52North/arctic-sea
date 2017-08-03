@@ -25,8 +25,8 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
 /**
  * Internal representation of the ISO GMD ResponsibleParty.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since 4.4.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  *
  */
 public class CiResponsibleParty extends AbstractObject implements AttributeSimpleAttrs {

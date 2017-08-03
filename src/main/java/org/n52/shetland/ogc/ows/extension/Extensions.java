@@ -25,6 +25,8 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
+
 import com.google.common.base.Strings;
 
 public class Extensions {
@@ -102,6 +104,8 @@ public class Extensions {
                 return (Boolean) value;
             } else if (value instanceof Value && ((Value) value).getValue() instanceof Boolean) {
                 return (Boolean) ((Value) value).getValue();
+            } else if (value instanceof SweBoolean) {
+                return ((SweBoolean) value).getValue();
             }
             return false;
         }).orElse(defaultValue);
@@ -111,11 +115,14 @@ public class Extensions {
         if (Strings.emptyToNull(name) == null || extension == null) {
             return false;
         }
-        return Optional.ofNullable(extractor.apply(extension)).map(s -> s.equalsIgnoreCase(name)).orElseGet(() -> false);
+        return Optional.ofNullable(extractor
+                                    .apply(extension))
+                                    .map(s -> s.equalsIgnoreCase(name)).orElseGet(() -> false);
     }
 
     private boolean checkExtensionName(String extensionName, Extension<?> extension) {
-        return checkExtensionIdentifier(extensionName, extension) || checkExtensionDefinition(extensionName, extension);
+        return checkExtensionIdentifier(extensionName, extension)
+                || checkExtensionDefinition(extensionName, extension);
     }
 
     private boolean checkExtensionIdentifier(String extensionName, Extension<?> extension) {

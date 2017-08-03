@@ -16,19 +16,19 @@
  */
 package org.n52.shetland.ogc.sos.exception;
 
-import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class ResponseExceedsSizeLimitException extends CodedSosException {
     private static final long serialVersionUID = 192859897753197663L;
 
     public ResponseExceedsSizeLimitException() {
         super(SosExceptionCode.ResponseExceedsSizeLimit);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 
     public ResponseExceedsSizeLimitException forLimit(final int size, final int limit) {

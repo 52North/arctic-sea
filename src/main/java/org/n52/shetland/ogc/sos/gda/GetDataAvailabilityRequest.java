@@ -31,7 +31,7 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class GetDataAvailabilityRequest extends OwsServiceRequest implements ResponseFormat {
 
@@ -184,6 +184,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
     public GetDataAvailabilityRequest setNamespace(String namspace) {
         if (!Strings.isNullOrEmpty(namspace)) {
             this.namspace = namspace;
+            setResponseFormat(namspace);
         }
         return this;
     }

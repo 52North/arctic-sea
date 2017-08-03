@@ -22,11 +22,13 @@ import java.util.Collection;
  * Interface for discrete coverages
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  * @param <T>
+ *            Value tpe
  */
-public interface DiscreteCoverage<T> extends Value<T> {
+public interface DiscreteCoverage<T>
+        extends Value<T> {
 
     String getGmlId();
 

@@ -38,7 +38,7 @@ import org.n52.shetland.util.CollectionHelper;
 /**
  * SOS filter capabilities
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class FilterCapabilities {
     private final SortedSet<QName> spatialOperands = new TreeSet<>(Comparables.qname());

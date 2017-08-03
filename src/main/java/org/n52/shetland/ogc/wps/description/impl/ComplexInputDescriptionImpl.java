@@ -91,7 +91,7 @@ public class ComplexInputDescriptionImpl
         return this.maximumMegabytes;
     }
 
-    public static abstract class AbstractBuilder<T extends ComplexInputDescription, B extends AbstractBuilder<T, B>>
+    public abstract static class AbstractBuilder<T extends ComplexInputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements ComplexInputDescription.Builder<T, B> {
 
@@ -102,8 +102,8 @@ public class ComplexInputDescriptionImpl
         @SuppressWarnings(value = "unchecked")
         @Override
         public B withMaximumMegabytes(BigInteger maximumMegabytes) {
-            if(maximumMegabytes == null ||
-                                        maximumMegabytes.compareTo(BigInteger.ZERO) > 0){
+            if (maximumMegabytes == null ||
+                                        maximumMegabytes.compareTo(BigInteger.ZERO) > 0) {
                 this.maximumMegabytes = maximumMegabytes;
             }
             return (B) this;

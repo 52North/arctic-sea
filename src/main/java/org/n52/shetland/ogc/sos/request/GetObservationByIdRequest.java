@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.sos.SosConstants;
 /**
  * SOS GetObservationById request
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class GetObservationByIdRequest extends AbstractObservationRequest {
 

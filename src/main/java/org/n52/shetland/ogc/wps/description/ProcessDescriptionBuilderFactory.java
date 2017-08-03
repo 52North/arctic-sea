@@ -30,13 +30,22 @@ public interface ProcessDescriptionBuilderFactory<
         > {
 
     ProcessDescription.Builder<PD, ?> process();
+
     GroupOutputDescription.Builder<GOD, ?> groupOutput();
+
     GroupInputDescription.Builder<GID, ?> groupInput();
+
     LiteralInputDescription.Builder<LID, ?> literalInput();
+
     LiteralOutputDescription.Builder<LOD, ?> literalOutput();
+
     ComplexInputDescription.Builder<CID, ?> complexInput();
+
     ComplexOutputDescription.Builder<COD, ?> complexOutput();
+
     BoundingBoxInputDescription.Builder<BID, ?> boundingBoxInput();
+
     BoundingBoxOutputDescription.Builder<BOD, ?> boundingBoxOutput();
+
     LiteralDataDomain.Builder<LDD, ?> literalDataDomain();
 }

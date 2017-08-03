@@ -17,7 +17,7 @@
 package org.n52.shetland.ogc.ows.exception;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>No other
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>No other
  * exceptionCode specified by this service and server applies to this
  * exception.</i>
  *

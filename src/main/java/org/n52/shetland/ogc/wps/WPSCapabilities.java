@@ -36,7 +36,8 @@ public class WPSCapabilities extends OwsCapabilities {
                            Collection<String> languages,
                            Collection<OwsCapabilitiesExtension> extension,
                            ProcessOfferings processOfferings) {
-        this(WPSConstants.SERVICE, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata, languages, extension, processOfferings);
+        this(WPSConstants.SERVICE, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata,
+                languages, extension, processOfferings);
     }
 
     public WPSCapabilities(String service, String version, String updateSequence,
@@ -46,7 +47,8 @@ public class WPSCapabilities extends OwsCapabilities {
                            Collection<String> languages,
                            Collection<OwsCapabilitiesExtension> extension,
                            ProcessOfferings processOfferings) {
-        super(service, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata, languages, extension);
+        super(service, version, updateSequence, serviceIdentification, serviceProvider, operationsMetadata, languages,
+                extension);
         this.processOfferings = Optional.ofNullable(processOfferings);
     }
 

@@ -27,7 +27,7 @@ import com.google.common.collect.Lists;
 /**
  * SOS internal representation of SensorML capabilities
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabilities> {
 

@@ -17,8 +17,8 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
@@ -29,7 +29,6 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
      */
     private RangeValue<String> value;
     private Referenceable<SweAllowedTokens> constraint;
-
 
     @Override
     public RangeValue<String> getValue() {
@@ -66,15 +65,15 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
         this.constraint = Referenceable.of(constraint);
     }
 
-    public boolean isSetContstraint() {
-        return getConstraint() != null && !getConstraint().isAbsent();
-    }
-
     /**
      * @param constraint the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedTokens> constraint) {
         this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override

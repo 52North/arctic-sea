@@ -29,7 +29,9 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
 
-public class EnvironmentalMonitoringActivity extends AbstractFeature implements AttributeSimpleAttrs {
+public class EnvironmentalMonitoringActivity
+        extends AbstractFeature
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
 
@@ -78,8 +80,8 @@ public class EnvironmentalMonitoringActivity extends AbstractFeature implements 
         this.simpleAttrs = simpleAttrs;
     }
 
-    public EnvironmentalMonitoringActivity(Time activityTime, String activityConditions, RelatedParty responsibleParty,
-            Identifier inspireId) {
+    public EnvironmentalMonitoringActivity(
+            Time activityTime, String activityConditions, RelatedParty responsibleParty, Identifier inspireId) {
         super(inspireId);
         this.activityTime = activityTime;
         this.activityConditions = activityConditions;
@@ -89,7 +91,7 @@ public class EnvironmentalMonitoringActivity extends AbstractFeature implements 
 
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     @Override
@@ -119,7 +121,8 @@ public class EnvironmentalMonitoringActivity extends AbstractFeature implements 
     }
 
     /**
-     * @param boundingBox the boundingBox to set
+     * @param boundingBox
+     *            the boundingBox to set
      */
     public void setBoundingBox(Object boundingBox) {
         this.boundingBox = boundingBox;
@@ -151,7 +154,8 @@ public class EnvironmentalMonitoringActivity extends AbstractFeature implements 
     }
 
     /**
-     * @param onlineResource the onlineResource to set
+     * @param onlineResource
+     *            the onlineResource to set
      */
     public void setOnlineResource(Set<URI> onlineResource) {
         this.onlineResource.clear();
@@ -170,7 +174,8 @@ public class EnvironmentalMonitoringActivity extends AbstractFeature implements 
     }
 
     /**
-     * @param setUpFor the setUpFor to set
+     * @param setUpFor
+     *            the setUpFor to set
      */
     public void setSetUpFor(Set<EnvironmentalMonitoringProgramme> setUpFor) {
         this.setUpFor.clear();
@@ -189,7 +194,8 @@ public class EnvironmentalMonitoringActivity extends AbstractFeature implements 
     }
 
     /**
-     * @param uses the uses to set
+     * @param uses
+     *            the uses to set
      */
     public void setUses(Set<AbstractMonitoringFeature> uses) {
         this.uses.clear();

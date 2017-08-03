@@ -19,12 +19,14 @@ package org.n52.shetland.ogc.sos;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class SosProcedureDescriptionUnknownType extends SosProcedureDescription<AbstractFeature> {
+public class SosProcedureDescriptionUnknownType
+        extends SosProcedureDescription<AbstractFeature> {
 
-    public SosProcedureDescriptionUnknownType(String identifier, String procedureDescriptionFormat, String xmlDescription) {
+    public SosProcedureDescriptionUnknownType(
+            String identifier, String procedureDescriptionFormat, String xmlDescription) {
         super(new UnknownGMLDescription(identifier, procedureDescriptionFormat, xmlDescription));
     }
 
@@ -48,8 +50,9 @@ public class SosProcedureDescriptionUnknownType extends SosProcedureDescription<
         return this;
     }
 
-    private static class UnknownGMLDescription extends AbstractFeature {
-        public UnknownGMLDescription(String identifier, String procedureDescriptionFormat, String xmlDescription) {
+    private static class UnknownGMLDescription
+            extends AbstractFeature {
+        UnknownGMLDescription(String identifier, String procedureDescriptionFormat, String xmlDescription) {
             super(identifier);
             setDefaultElementEncoding(procedureDescriptionFormat);
             setXml(xmlDescription);

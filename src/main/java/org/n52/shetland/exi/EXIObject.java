@@ -14,16 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.ows.service;
+package org.n52.shetland.exi;
+
+import java.io.OutputStream;
 
 /**
- * Simple interface to identify requests.
+ * Class to hold the {@link XmlObject} which should be encoded and written to the {@link OutputStream}.
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-@Deprecated
-public interface Request {
+public class EXIObject<T> {
+
+    private final T doc;
+
+    /**
+     * @param doc the {@link XmlObject} to encode
+     */
+    public EXIObject(T doc) {
+        this.doc = doc;
+    }
+
+    /**
+     * @return the doc
+     */
+    public T getDoc() {
+        return doc;
+    }
 
 }

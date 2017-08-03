@@ -21,7 +21,7 @@ import org.n52.shetland.ogc.gml.time.Time;
 /**
  * Interface for observation values with more than one value
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  * @param <T>
  *            type of the multi value

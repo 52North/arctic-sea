@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.sensorML.elements;
 
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
-public class SmlCapability extends AbstractDataComponentContainer<SmlCapability>{
+public class SmlCapability extends AbstractDataComponentContainer<SmlCapability> {
 
     /**
      * default constructor

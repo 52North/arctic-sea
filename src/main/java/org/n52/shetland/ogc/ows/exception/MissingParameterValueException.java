@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
-import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>Operation
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>Operation
  * request does not include a parameter value, and this server did not declare a
  * default value for that parameter.</i>
  *
@@ -36,7 +36,7 @@ public class MissingParameterValueException extends CodedOwsException {
     public MissingParameterValueException(final String parameter) {
         super(OwsExceptionCode.MissingParameterValue);
         at(parameter).withMessage("The value for the parameter '%s' is missing in the request!", parameter);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 
     public MissingParameterValueException(final Enum<?> parameter) {
@@ -45,6 +45,6 @@ public class MissingParameterValueException extends CodedOwsException {
 
     public MissingParameterValueException() {
         super(OwsExceptionCode.MissingParameterValue);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 }

@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-
 import java.util.Collection;
 
 import org.n52.shetland.ogc.ows.extension.Value;
@@ -31,9 +30,10 @@ import com.google.common.collect.Lists;
  * @param <T>
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.0.0
+ * @since 1.0.0
  */
-public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent
+public abstract class SweAbstractSimpleType<T>
+        extends SweAbstractDataComponent
         implements Value<T, SweAbstractSimpleType<T>> {
 
     // TODO quality needs to be a collection
@@ -71,6 +71,11 @@ public abstract class SweAbstractSimpleType<T> extends SweAbstractDataComponent
     @Override
     public int hashCode() {
         return Objects.hashCode(super.hashCode(), getValue());
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Objects.equal(this, obj);
     }
 
     @Override

@@ -21,7 +21,6 @@ import com.vividsolutions.jts.geom.Geometry;
 
 public interface FeatureWith {
 
-
     interface FeatureWithGeometry {
         /**
          * Get feature geometry
@@ -36,16 +35,16 @@ public interface FeatureWith {
          * @param geometry
          *            Geometry to set
          */
-        void setGeometry(final Geometry geometry);
+        void setGeometry(Geometry geometry);
 
         /**
          * Check whether geometry is set
          *
          * @return <code>true</code>, if geometry is set
          */
-         default boolean isSetGeometry() {
-             return getGeometry() != null && !getGeometry().isEmpty();
-         }
+        default boolean isSetGeometry() {
+            return getGeometry() != null && !getGeometry().isEmpty();
+        }
     }
 
     interface FeatureWithFeatureType {
@@ -62,7 +61,7 @@ public interface FeatureWith {
          * @param featureType
          *            Type of this feature
          */
-        void setFeatureType(final String featureType);
+        void setFeatureType(String featureType);
 
         /**
          * Check whether feature type is set
@@ -88,7 +87,7 @@ public interface FeatureWith {
          * @param url
          *            URL to set
          */
-        void setUrl(final String url);
+        void setUrl(String url);
 
         /**
          * Check whether URL is set

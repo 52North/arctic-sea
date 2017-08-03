@@ -24,9 +24,10 @@ import com.google.common.base.Strings;
 /**
  * SOS AbstractObservation request
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public abstract class AbstractObservationRequest extends OwsServiceRequest
+public abstract class AbstractObservationRequest
+        extends OwsServiceRequest
         implements ResponseFormat, SrsNameRequest {
     /**
      * SRS name
@@ -48,7 +49,7 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
      */
     private String responseMode;
 
-    private boolean checkForDuplicity = false;
+    private boolean checkForDuplicity;
 
     public AbstractObservationRequest() {
     }
@@ -75,7 +76,7 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
      * Set response format
      *
      * @param responseFormat
-     *                       response format
+     *            response format
      */
     @Override
     public void setResponseFormat(String responseFormat) {
@@ -100,7 +101,7 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
      * Set response mode
      *
      * @param responseMode
-     *                     response mode
+     *            response mode
      */
     public void setResponseMode(String responseMode) {
         this.responseMode = responseMode;
@@ -123,7 +124,7 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
      * Set result model
      *
      * @param resultModel
-     *                    result model
+     *            result model
      */
     public void setResultModel(String resultModel) {
         this.resultModel = resultModel;
@@ -156,12 +157,12 @@ public abstract class AbstractObservationRequest extends OwsServiceRequest
     }
 
     /**
-     * @param checkForDuplicity the checkForDuplicity to set
+     * @param checkForDuplicity
+     *            the checkForDuplicity to set
      */
     public void setCheckForDuplicity(boolean checkForDuplicity) {
         this.checkForDuplicity = checkForDuplicity;
     }
-
 
     public void copyOf(AbstractObservationRequest res) {
         res.setResponseFormat(this.responseFormat);

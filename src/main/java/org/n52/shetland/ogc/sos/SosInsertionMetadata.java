@@ -24,7 +24,7 @@ import com.google.common.collect.Sets;
 /**
  * SOS internal representation of SOS insertion metadata
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SosInsertionMetadata {
 

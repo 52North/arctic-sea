@@ -20,7 +20,8 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 
-public class ReferenceValue implements Value<ReferenceType> {
+public class ReferenceValue
+        implements Value<ReferenceType> {
 
     private ReferenceType value;
 
@@ -53,6 +54,12 @@ public class ReferenceValue implements Value<ReferenceType> {
     }
 
     @Override
+    public ReferenceValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -66,20 +73,13 @@ public class ReferenceValue implements Value<ReferenceType> {
     }
 
     @Override
-    public ReferenceValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    @Override
     public boolean isSetValue() {
         return getValue() != null && getValue().isSetHref();
     }
 
     @Override
     public String toString() {
-        return String
-                .format("ReferenceValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("ReferenceValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override

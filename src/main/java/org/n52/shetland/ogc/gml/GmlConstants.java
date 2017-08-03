@@ -43,10 +43,9 @@ public interface GmlConstants {
 
     SchemaLocation GML_32_SCHEMAL_LOCATION = new SchemaLocation(NS_GML_32, SCHEMA_LOCATION_URL_GML_32);
 
-    String GML_ID_ATT = "id";
+    String AN_ID = "id";
 
-    String GML_ID_WITH_PREFIX = new StringBuilder().append(NS_GML_PREFIX).append(':').append(GML_ID_ATT)
-            .toString();
+    String GML_ID_WITH_PREFIX = new StringBuilder().append(NS_GML_PREFIX).append(':').append(AN_ID).toString();
 
     /* element names used in GML */
 
@@ -119,8 +118,6 @@ public interface GmlConstants {
 
     String EN_POINT = "Point";
 
-    String EN_MULTIPOINT = "MultiPoint";
-
     String EN_POLYGON = "Polygon";
 
     String EN_MULTI_POINT = "MultiPoint";
@@ -141,8 +138,6 @@ public interface GmlConstants {
 
     /* attribute names in GML */
 
-    String AN_ID = "id";
-
     String AN_INDETERMINATE_POSITION = "indeterminatePosition";
 
     /* QNames for elements */
@@ -153,7 +148,7 @@ public interface GmlConstants {
 
     QName QN_POINT = new QName(NS_GML, EN_POINT, NS_GML_PREFIX);
 
-    QName QN_MULTIPOINT = new QName(NS_GML, EN_MULTIPOINT, NS_GML_PREFIX);
+    QName QN_MULTIPOINT = new QName(NS_GML, EN_MULTI_POINT, NS_GML_PREFIX);
 
     QName QN_LINESTRING = new QName(NS_GML, EN_LINE_STRING, NS_GML_PREFIX);
 
@@ -223,18 +218,20 @@ public interface GmlConstants {
 
     QName QN_ID = new QName(NS_GML, AN_ID, NS_GML_PREFIX);
 
-    QName QN_BEGIN_POSITION_32 = new QName(GmlConstants.NS_GML_32, GmlConstants.EN_BEGIN_POSITION,
-            GmlConstants.NS_GML_PREFIX);
+    QName QN_BEGIN_POSITION_32 =
+            new QName(GmlConstants.NS_GML_32, GmlConstants.EN_BEGIN_POSITION, GmlConstants.NS_GML_PREFIX);
 
     /**
      * The {@code QName} for {@code gml:endPosition}.
      */
-    QName QN_END_POSITION_32 = new QName(GmlConstants.NS_GML_32, GmlConstants.EN_END_POSITION, GmlConstants.NS_GML_PREFIX);
+    QName QN_END_POSITION_32 =
+            new QName(GmlConstants.NS_GML_32, GmlConstants.EN_END_POSITION, GmlConstants.NS_GML_PREFIX);
 
     /**
      * The {@code QName} for {@code gml:timePosition}.
      */
-    QName QN_TIME_POSITION_32 = new QName(GmlConstants.NS_GML_32, GmlConstants.EN_TIME_POSITION, GmlConstants.NS_GML_PREFIX);
+    QName QN_TIME_POSITION_32 =
+            new QName(GmlConstants.NS_GML_32, GmlConstants.EN_TIME_POSITION, GmlConstants.NS_GML_PREFIX);
 
     /**
      * The {@code QName} for {@code gml:identifier}.
@@ -245,7 +242,7 @@ public interface GmlConstants {
 
     QName QN_INDETERMINATE_POSITION_32 = new QName(NS_GML_32, AN_INDETERMINATE_POSITION, NS_GML_PREFIX);
 
-    QName QN_OM_20_META_DATA_PROPERTY_32 = new QName(NS_GML_32, EN_META_DATA_PROPERTY , NS_GML_PREFIX);
+    QName QN_OM_20_META_DATA_PROPERTY_32 = new QName(NS_GML_32, EN_META_DATA_PROPERTY, NS_GML_PREFIX);
 
     /** string constant for ascending sorting order */
     String SORT_ORDER_ASC = SortingOrder.ASC.name();
@@ -275,14 +272,14 @@ public interface GmlConstants {
         ASC, DESC
     }
 
-
     /**
-     * inapplicable there is no value
-     * missing the correct value is not readily available to the sender of this data. Furthermore, a correct value may not exist
-     * template the value will be available later
-     * unknown the correct value is not known to, and not computable by, the sender of this data. However, a correct value probably exists
-     * withheld the value is not divulged
-     * Not supported: other:text other brief explanation, where text is a string of two or more characters with no included spaces
+     * inapplicable there is no value missing the correct value is not readily
+     * available to the sender of this data. Furthermore, a correct value may
+     * not exist template the value will be available later unknown the correct
+     * value is not known to, and not computable by, the sender of this data.
+     * However, a correct value probably exists withheld the value is not
+     * divulged Not supported: other:text other brief explanation, where text is
+     * a string of two or more characters with no included spaces
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
      *
@@ -290,11 +287,7 @@ public interface GmlConstants {
      *
      */
     enum NilReason {
-        inapplicable,
-        missing,
-        template,
-        unknown,
-        withheld;
+        inapplicable, missing, template, unknown, withheld;
     }
 
 }

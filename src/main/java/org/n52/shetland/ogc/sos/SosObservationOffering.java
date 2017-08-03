@@ -37,7 +37,7 @@ import org.n52.shetland.util.ReferencedEnvelope;
 /**
  * Class which represents a ObservationOffering. Used in the SosCapabilities.
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SosObservationOffering extends AbstractSWES implements Comparable<SosObservationOffering> {
 
@@ -164,7 +164,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param observableProperties
+     * @param observableProperties observableProperties to se
      */
     public void setObservableProperties(Collection<String> observableProperties) {
         set(this.observableProperties, observableProperties);
@@ -182,7 +182,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param compositePhenomena
+     * @param compositePhenomena compositePhenomena to set
      */
     public void setCompositePhenomena(Collection<String> compositePhenomena) {
         set(this.compositePhenomena, compositePhenomena);
@@ -197,7 +197,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param phens4CompPhens
+     * @param phens4CompPhens phens4CompPhens to set
      */
     public void setPhens4CompPhens(Map<String, ? extends Collection<String>> phens4CompPhens) {
         set(this.phens4CompPhens, phens4CompPhens);
@@ -288,7 +288,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param procedures
+     * @param procedures procedures to set
      */
     public void setProcedures(Collection<String> procedures) {
         set(this.procedures, procedures);
@@ -302,7 +302,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param resultModels
+     * @param resultModels resultModels to set
      */
     public void setResultModels(Collection<QName> resultModels) {
         set(this.resultModels, resultModels);
@@ -344,7 +344,7 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
-     * @param responseFormats
+     * @param responseFormats responseFormats to set
      */
     public void setResponseFormats(Collection<String> responseFormats) {
         set(this.responseFormats, responseFormats);
@@ -517,6 +517,23 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     }
 
     /**
+     * Add map to sorted map.
+     *
+     * @param <K>       the key type
+     * @param <V>       the value type
+     * @param sortedMap the target map
+     * @param map       the source map
+     */
+    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
+        if (sortedMap != null) {
+            sortedMap.clear();
+            if (map != null) {
+                map.forEach((key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
+            }
+        }
+    }
+
+    /**
      * add collection to sorted set.
      *
      * @param <T>  the element type
@@ -556,23 +573,6 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
     private static <K, V> void addToMap(SortedMap<K, SortedSet<V>> map, K key, Collection<V> value) {
         if (map != null && key != null && value != null) {
             map.computeIfAbsent(key, Functions.forSupplier(TreeSet::new)).addAll(value);
-        }
-    }
-
-    /**
-     * Add map to sorted map.
-     *
-     * @param <K>       the key type
-     * @param <V>       the value type
-     * @param sortedMap the target map
-     * @param map       the source map
-     */
-    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
-        if (sortedMap != null) {
-            sortedMap.clear();
-            if (map != null) {
-                map.forEach((key, value) -> sortedMap.put(key, value != null ? new TreeSet<>(value) : new TreeSet<>()));
-            }
         }
     }
 

@@ -17,20 +17,21 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
-import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
-public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
+public class SweTimeRange
+        extends SweAbstractUomType<RangeValue<DateTime>> {
 
     private RangeValue<DateTime> value;
     private Referenceable<SweAllowedTimes> constraint;
@@ -87,15 +88,15 @@ public class SweTimeRange extends SweAbstractUomType<RangeValue<DateTime>> {
         this.constraint = Referenceable.of(constraint);
     }
 
-    public boolean isSetContstraint() {
-        return getConstraint() != null && !getConstraint().isAbsent();
-    }
-
     /**
      * @param constraint the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedTimes> constraint) {
         this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override

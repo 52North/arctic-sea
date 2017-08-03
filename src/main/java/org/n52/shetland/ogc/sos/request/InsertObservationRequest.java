@@ -37,7 +37,7 @@ import com.google.common.base.Strings;
 /**
  * SOS InsertObservation request
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class InsertObservationRequest
         extends OwsServiceRequest {
@@ -46,13 +46,12 @@ public class InsertObservationRequest
      * Assigned sensor id
      */
     private String assignedSensorId;
-
     private List<String> offerings;
-
     /**
      * SOS observation collection with observations to insert
      */
     private List<OmObservation> observations;
+    private ReferenceChecker referenceChecker = new ReferenceChecker();
 
     public InsertObservationRequest() {
         super(null, null, SosConstants.Operations.InsertObservation.name());
@@ -106,7 +105,7 @@ public class InsertObservationRequest
      *            observations to insert
      */
     public InsertObservationRequest setObservation(List<OmObservation> observation) {
-        this.observations = observation;
+        observations = referenceChecker.checkObservationsForReferences(observation);
         return this;
     }
 
@@ -114,7 +113,7 @@ public class InsertObservationRequest
         if (observations == null) {
             observations = new LinkedList<OmObservation>();
         }
-        observations.add(observation);
+        observations.add(referenceChecker.checkObservationForReferences(observation));
         return this;
     }
 
@@ -148,11 +147,30 @@ public class InsertObservationRequest
      *
      */
     private static class ReferenceChecker {
-        final Map<String, Time> phenomenonTimes = new HashMap<String, Time>();
+        private final Map<String, Time> phenomenonTimes = new HashMap<String, Time>();
+        private final Map<String, TimeInstant> resultTimes = new HashMap<String, TimeInstant>();
+        private final Map<String, AbstractFeature> features = new HashMap<String, AbstractFeature>();
 
-        final Map<String, TimeInstant> resultTimes = new HashMap<String, TimeInstant>();
+        /**
+         * @return the phenomenonTimes
+         */
+        public Map<String, Time> getPhenomenonTimes() {
+            return phenomenonTimes;
+        }
 
-        final Map<String, AbstractFeature> features = new HashMap<String, AbstractFeature>();
+        /**
+         * @return the resultTimes
+         */
+        public Map<String, TimeInstant> getResultTimes() {
+            return resultTimes;
+        }
+
+        /**
+         * @return the features
+         */
+        public Map<String, AbstractFeature> getFeatures() {
+            return features;
+        }
 
         /**
          * Check observations for references
@@ -163,8 +181,7 @@ public class InsertObservationRequest
          * @throws OwsExceptionReport
          *             If an error occurs
          */
-        public List<OmObservation> checkObservationsForReferences(final List<OmObservation> observations)
-                throws OwsExceptionReport {
+        public List<OmObservation> checkObservationsForReferences(final List<OmObservation> observations) {
             if (CollectionHelper.isNotEmpty(observations)) {
                 for (OmObservation observation : observations) {
                     checkObservationForReferences(observation);
@@ -182,12 +199,12 @@ public class InsertObservationRequest
          * @throws OwsExceptionReport
          *             If an error occurs
          */
-        public OmObservation checkObservationForReferences(OmObservation observation) throws OwsExceptionReport {
+        public OmObservation checkObservationForReferences(OmObservation observation) {
             if (observation != null) {
-                checkAndAddPhenomenonTime(observation.getPhenomenonTime(), phenomenonTimes);
-                checkAndAddResultTime(observation.getResultTime(), resultTimes);
-                checkAndAddFeatures(observation.getObservationConstellation().getFeatureOfInterest(), features);
-                checkReferencedElements(observation, phenomenonTimes, resultTimes, features);
+                checkAndAddPhenomenonTime(observation.getPhenomenonTime(), getPhenomenonTimes());
+                checkAndAddResultTime(observation.getResultTime(), getResultTimes());
+                checkAndAddFeatures(observation.getObservationConstellation().getFeatureOfInterest(), getFeatures());
+                checkReferencedElements(observation, getPhenomenonTimes(), getResultTimes(), getFeatures());
             }
             return observation;
         }
@@ -212,8 +229,7 @@ public class InsertObservationRequest
         }
 
         private void checkReferencedElements(final OmObservation observation, final Map<String, Time> phenomenonTimes,
-                final Map<String, TimeInstant> resultTimes, final Map<String, AbstractFeature> features)
-                throws OwsExceptionReport {
+                final Map<String, TimeInstant> resultTimes, final Map<String, AbstractFeature> features) {
             // phenomenonTime
             final Time phenomenonTime = observation.getPhenomenonTime();
             if (phenomenonTime != null && phenomenonTime.isReferenced()) {

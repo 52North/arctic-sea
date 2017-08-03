@@ -16,15 +16,15 @@
  */
 package org.n52.shetland.ogc.gml;
 
-
 /**
  * Internal representation of the OGC GML CoordinateSystemAxis.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since 4.4.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  *
  */
-public class CoordinateSystemAxis extends IdentifiedObject {
+public class CoordinateSystemAxis
+        extends IdentifiedObject {
 
     /* 1..1 */
     private CodeType axisAbbrev;
@@ -39,7 +39,8 @@ public class CoordinateSystemAxis extends IdentifiedObject {
     /* 1..1 */
     private String uom;
 
-    public CoordinateSystemAxis(CodeWithAuthority identifier, CodeType axisAbbrev, CodeWithAuthority axisDirection, String uom) {
+    public CoordinateSystemAxis(
+            CodeWithAuthority identifier, CodeType axisAbbrev, CodeWithAuthority axisDirection, String uom) {
         super(identifier);
         this.axisAbbrev = axisAbbrev;
         this.axisDirection = axisDirection;

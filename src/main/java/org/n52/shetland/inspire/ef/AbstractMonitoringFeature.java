@@ -22,13 +22,12 @@ import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
 
 public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject {
-
-    private static final long serialVersionUID = 8628478394394160938L;
 
     /**
      * 0..*
@@ -38,7 +37,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * 0..*
      */
-    private Set<OmObservation> hasObservation = Sets.newHashSet();
+    private Set<Referenceable<OmObservation>> hasObservation = Sets.newHashSet();
 
     /**
      * 0..*
@@ -79,14 +78,14 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * @return the hasObservation
      */
-    public Set<OmObservation> getHasObservation() {
+    public Set<Referenceable<OmObservation>> getHasObservation() {
         return hasObservation;
     }
 
     /**
      * @param hasObservation the hasObservation to set
      */
-    public void setHasObservation(Set<OmObservation> hasObservation) {
+    public void setHasObservation(Set<Referenceable<OmObservation>> hasObservation) {
         this.hasObservation.clear();
         this.hasObservation = hasObservation;
     }
@@ -95,6 +94,13 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
      * @param hasObservation the hasObservation to add
      */
     public void addHasObservation(OmObservation hasObservation) {
+        this.hasObservation.add(Referenceable.of(hasObservation));
+    }
+
+    /**
+     * @param hasObservation the hasObservation to add
+     */
+    public void addHasObservation(Referenceable<OmObservation> hasObservation) {
         this.hasObservation.add(hasObservation);
     }
 

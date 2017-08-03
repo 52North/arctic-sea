@@ -18,24 +18,12 @@ package org.n52.shetland.util;
 
 import java.util.Set;
 
-import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
-import org.n52.shetland.aqd.AbstractEReportingHeader;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.om.OmObservation;
-import org.n52.shetland.ogc.om.features.FeatureCollection;
-
-import com.google.common.base.Strings;
 
 @Configurable
 public class AqdHelper {
 
-    private String namespace;
-    private String observationPrefix;
     private Set<Integer> validityFlags;
     private Set<Integer> verificationFlags;
 
@@ -52,32 +40,6 @@ public class AqdHelper {
     @Setting(EReportingSetting.EREPORTING_VALIDITY_FLAGS)
     public void setValidityFlags(String validityFlags) {
         this.validityFlags = JavaHelper.getIntegerSetFromString(validityFlags);
-    }
-
-    public String getEReportingNamespace() {
-        return namespace;
-    }
-
-    @Setting(EReportingSetting.EREPORTING_NAMESPACE)
-    public void setEReportingNamespace(String namespace) throws ConfigurationError {
-        this.namespace = namespace;
-    }
-
-    public boolean isSetEReportingNamespace() {
-        return !Strings.isNullOrEmpty(getEReportingNamespace());
-    }
-
-    @Setting(EReportingSetting.EREPORTING_OBSERVATION_PREFIX)
-    public void setEReportingObservationPrefix(String observationPrefix) throws ConfigurationError {
-        this.observationPrefix = observationPrefix;
-    }
-
-    public String getEReportingObservationPrefix() {
-        return observationPrefix;
-    }
-
-    public boolean isSetEReportingObservationPrefix() {
-        return !Strings.isNullOrEmpty(getEReportingObservationPrefix());
     }
 
     public boolean isSetValidityFlags() {
@@ -103,38 +65,4 @@ public class AqdHelper {
         return CollectionHelper.isNotEmpty(getVerificationFlags());
     }
 
-    public void processObservation(OmObservation observation, TimePeriod timePeriod, TimeInstant resultTime,
-                                   FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader,
-                                   int counter) {
-        if (observation.isSetPhenomenonTime()) {
-            // generate gml:id
-            observation.setGmlId(getObservationId(counter));
-            // add xlink:href to eReportingHeader.content
-            eReportingHeader.addContent((AbstractFeature) new OmObservation()
-                    .setIdentifier(new CodeWithAuthority(getObservationXlink(observation.getGmlId()))));
-            timePeriod.extendToContain(observation.getPhenomenonTime());
-            observation.setResultTime(resultTime);
-            featureCollection.addMember(observation);
-        }
-    }
-
-    public String getObservationXlink(String gmlId) {
-        StringBuilder id = new StringBuilder();
-        if (isSetEReportingNamespace()) {
-            id.append(getEReportingNamespace());
-            if (!getEReportingNamespace().endsWith("/")) {
-                id.append("/");
-            }
-        } else {
-            id.append("#");
-        }
-        id.append(gmlId);
-        return id.toString();
-
-    }
-
-    public String getObservationId(int counter) {
-        return (isSetEReportingObservationPrefix() ? getEReportingObservationPrefix() : "o_")
-                .concat(Integer.toString(counter));
-    }
 }

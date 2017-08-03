@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swes.SwesExtension;
@@ -30,7 +31,7 @@ import org.n52.shetland.ogc.swes.SwesExtension;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Extension type
  */
 public interface HasExtension<T extends HasExtension<? extends T>> {
     /**
@@ -151,8 +152,8 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
         return getExtensions().getBooleanExtension(identifier, defaultValue);
     }
 
-    default <V> void addSwesExtension(String name, V value) {
-        SwesExtension<V> extension = new SwesExtension<>();
+    default <V extends SweAbstractDataComponent> void addSwesExtension(String name, V value) {
+        SwesExtension<V> extension = new SwesExtension<V>();
         extension.setIdentifier(name);
         extension.setValue(value);
         addExtension(extension);

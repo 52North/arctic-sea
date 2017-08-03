@@ -18,26 +18,19 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
-import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType quantity
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> implements SweQuality {
 
-    /**
-     * axis ID
-     */
     private String axisID;
-
-    /**
-     * value
-     */
     private RangeValue<Double> value;
     private Referenceable<SweAllowedValues> constraint;
 
@@ -131,15 +124,15 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> imp
         this.constraint = Referenceable.of(constraint);
     }
 
-    public boolean isSetContstraint() {
-        return getConstraint() != null && !getConstraint().isAbsent();
-    }
-
     /**
      * @param constraint the constraint to set
      */
     public void setConstraint(Referenceable<SweAllowedValues> constraint) {
         this.constraint = constraint;
+    }
+
+    public boolean isSetContstraint() {
+        return getConstraint() != null && !getConstraint().isAbsent();
     }
 
     @Override
@@ -157,7 +150,6 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> imp
         visitor.visit(this);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public SweQuantityRange copy() {
         SweQuantityRange copy = new SweQuantityRange();

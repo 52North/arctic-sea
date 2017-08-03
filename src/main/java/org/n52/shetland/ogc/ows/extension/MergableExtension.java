@@ -21,7 +21,7 @@ import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 /**
  * @since 1.0.0
  *
- * @param <T>
+ * @param <T> Extension type
  */
 public interface MergableExtension<T extends MergableExtension<T>> extends OwsCapabilitiesExtension {
 

@@ -67,8 +67,10 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
                                       Set<? extends ProcessOutputDescription> outputs) {
         super(id, title, abstrakt, keywords, metadata);
         Function<ProcessOutputDescription, OwsCode> keyFunc = Description::getId;
-        Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector = MoreCollectors.toSingleResult();
-        Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector = groupingBy(keyFunc, outputDownstreamCollector);
+        Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector =
+                MoreCollectors.toSingleResult();
+        Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector =
+                groupingBy(keyFunc, outputDownstreamCollector);
         this.outputs = Optional.ofNullable(outputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
     }
 
@@ -99,7 +101,7 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
         return Collections.unmodifiableSet(outputs.keySet());
     }
 
-    public static abstract class AbstractBuilder<T extends GroupOutputDescription, B extends AbstractBuilder<T, B>>
+    public abstract static class AbstractBuilder<T extends GroupOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements GroupOutputDescription.Builder<T, B> {
 

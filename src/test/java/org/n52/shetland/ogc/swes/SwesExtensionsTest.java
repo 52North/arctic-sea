@@ -26,21 +26,23 @@ import org.junit.Test;
 
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
+import org.n52.shetland.ogc.swe.simpleType.SweCount;
+import org.n52.shetland.ogc.swe.simpleType.SweText;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SwesExtensionsTest {
 
     private static final String DEFINITION_1 = TestDefinitions.definition1.name();
     private static final String DEFINITION_2 = TestDefinitions.definition2.name();
     private static final String DEFINITION_3= TestDefinitions.definition3.name();
-    private static final String VALUE_1 = "";
-    private static final Integer VALUE_2 = 1;
-    private static final Boolean VALUE_3 = false;
+    private static final SweText VALUE_1 = new SweText().setValue("");
+    private static final SweCount VALUE_2 = new SweCount().setValue(1);
+    private static final SweBoolean VALUE_3 = new SweBoolean().setValue(false);
 
     @Test
     public void isEmpty_should_return_false_if_extensions_are_null_or_empty() {
@@ -64,9 +66,9 @@ public class SwesExtensionsTest {
    @Test
    public void containsExtension_for_string_schould_return_true() {
        final Extensions extensions = new Extensions();
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new String()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new SweText()));
        assertThat(extensions.containsExtension(DEFINITION_1), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_2), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_3), is(TRUE));
@@ -75,9 +77,9 @@ public class SwesExtensionsTest {
    @Test
    public void containsExtension_for_enum_schould_return_true() {
        final Extensions extensions = new Extensions();
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new String()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new SweText()));
        assertThat(extensions.containsExtension(DEFINITION_1), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_2), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_3), is(TRUE));
@@ -86,9 +88,9 @@ public class SwesExtensionsTest {
    @Test
    public void containsExtension_for_enum_created_with_string_schould_return_true() {
        final Extensions extensions = new Extensions();
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new String()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new SweText()));
        assertThat(extensions.containsExtension(DEFINITION_1), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_2), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_3), is(TRUE));
@@ -97,9 +99,9 @@ public class SwesExtensionsTest {
    @Test
    public void containsExtension_for_string_created_with_enum_schould_return_true() {
        final Extensions extensions = new Extensions();
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new String()));
-       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new String()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_1).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_2).setValue(new SweText()));
+       extensions.addExtension(new SwesExtension<>().setDefinition(DEFINITION_3).setValue(new SweText()));
        assertThat(extensions.containsExtension(DEFINITION_1), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_2), is(TRUE));
        assertThat(extensions.containsExtension(DEFINITION_3), is(TRUE));

@@ -26,7 +26,7 @@ import org.n52.shetland.ogc.ows.extension.MergableExtension;
 import org.n52.shetland.util.CollectionHelper;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosInsertionCapabilities implements OwsCapabilitiesExtension, MergableExtension<SosInsertionCapabilities> {

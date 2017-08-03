@@ -24,7 +24,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 /**
  * Boolean measurement representation for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class BooleanValue extends SweBoolean implements Value<Boolean> {
@@ -56,6 +56,12 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
     }
 
     @Override
+    public BooleanValue setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -66,12 +72,6 @@ public class BooleanValue extends SweBoolean implements Value<Boolean> {
     @Override
     public UoM getUnitObject() {
         return this.unit;
-    }
-
-    @Override
-    public BooleanValue setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
     }
 
     @Override

@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.ows.exception;
 
-import static org.n52.janmayen.http.HTTPStatus.BAD_REQUEST;
+import org.n52.janmayen.http.HTTPStatus;
 
 /**
- * Implementation of {@link CodedOwsException} to be used if </br> <i>Operation
+ * Implementation of {@link CodedOwsException} to be used if <p> <i>Operation
  * request contains an invalid parameter value.</i>
  *
  * @see <a href="http://portal.opengeospatial.org/files/?artifact_id=20040">OGC
@@ -36,13 +36,13 @@ public class InvalidParameterValueException extends CodedOwsException {
 
     public InvalidParameterValueException() {
         super(OwsExceptionCode.InvalidParameterValue);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 
     public InvalidParameterValueException(final String parameterName, final String value) {
         super(OwsExceptionCode.InvalidParameterValue);
         withMessage("The value '%s' of the parameter '%s' is invalid", value, parameterName).at(parameterName);
-        setStatus(BAD_REQUEST);
+        setStatus(HTTPStatus.BAD_REQUEST);
     }
 
     public InvalidParameterValueException(final Enum<?> parameterName, final String value) {

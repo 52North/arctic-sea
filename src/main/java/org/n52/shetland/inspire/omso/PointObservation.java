@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.inspire.omso;
 
-
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
 import org.n52.shetland.ogc.om.ObservationValue;
@@ -29,11 +28,11 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 
-import com.google.common.base.Strings;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.Point;
 
-public class PointObservation extends AbstractInspireObservation {
+public class PointObservation
+        extends AbstractInspireObservation {
 
     /**
      * constructor
@@ -53,7 +52,8 @@ public class PointObservation extends AbstractInspireObservation {
         getObservationConstellation().setObservationType(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION);
         if (!checkForFeatureGeometry(observation) && observation.isSetSpatialFilteringProfileParameter()) {
             try {
-                ((AbstractSamplingFeature)getObservationConstellation().getFeatureOfInterest()).setGeometry(getGeometryFromSamplingGeometry(observation));
+                ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest())
+                        .setGeometry(getGeometryFromSamplingGeometry(observation));
             } catch (InvalidSridException e) {
                 // TODO
             }
@@ -62,8 +62,8 @@ public class PointObservation extends AbstractInspireObservation {
 
     @Override
     public OmObservation cloneTemplate() {
-        if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature){
-            ((AbstractSamplingFeature)getObservationConstellation().getFeatureOfInterest()).setEncode(true);
+        if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
+            ((AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest()).setEncode(true);
         }
         return cloneTemplate(new PointObservation());
     }
@@ -76,12 +76,14 @@ public class PointObservation extends AbstractInspireObservation {
             super.setValue(value);
         } else {
             CvDiscretePointCoverage cvDiscretePointCoverage = new CvDiscretePointCoverage(getObservationID());
-            cvDiscretePointCoverage.setRangeType(new ReferenceType(getObservationConstellation().getObservablePropertyIdentifier()));
+            cvDiscretePointCoverage
+                    .setRangeType(new ReferenceType(getObservationConstellation().getObservablePropertyIdentifier()));
             cvDiscretePointCoverage.setUnit(((AbstractObservationValue<?>) value).getUnit());
             Geometry geometry = null;
             String domainExtent = "";
-            if (isSetSpatialFilteringProfileParameter() && getSpatialFilteringProfileParameter().getValue() instanceof GeometryValue) {
-                GeometryValue geometryValue = (GeometryValue)getSpatialFilteringProfileParameter().getValue();
+            if (isSetSpatialFilteringProfileParameter()
+                    && getSpatialFilteringProfileParameter().getValue() instanceof GeometryValue) {
+                GeometryValue geometryValue = (GeometryValue) getSpatialFilteringProfileParameter().getValue();
                 geometry = getSpatialFilteringProfileParameter().getValue().getValue();
                 domainExtent = geometryValue.getGmlId();
             } else if (checkForFeatureGeometry(this)) {
@@ -92,7 +94,7 @@ public class PointObservation extends AbstractInspireObservation {
                 cvDiscretePointCoverage.setDomainExtent("#" + geometry.getGeometryType() + "_" + domainExtent);
                 Point point = null;
                 if (geometry instanceof Point) {
-                    point = (Point)geometry;
+                    point = (Point) geometry;
                 } else {
                     point = geometry.getCentroid();
                 }

@@ -25,7 +25,7 @@ import org.n52.shetland.ogc.gml.ReferenceType;
  * Representation of OGC O&M 2.0 ObservationContext
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
 public class OmObservationContext {
@@ -63,6 +63,11 @@ public class OmObservationContext {
     @Override
     public int hashCode() {
         return Objects.hash(this.role, 234, this.relatedObservation);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return Objects.equals(this, obj);
     }
 
 }

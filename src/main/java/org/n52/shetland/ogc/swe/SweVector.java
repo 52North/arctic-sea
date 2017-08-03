@@ -26,7 +26,7 @@ import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import com.google.common.base.Objects;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SweVector extends SweAbstractDataComponent {
@@ -41,7 +41,6 @@ public class SweVector extends SweAbstractDataComponent {
     }
 
     @SafeVarargs
-    @SuppressWarnings("varargs")
     public SweVector(SweCoordinate<? extends Number>... coordinates) {
         this(Arrays.asList(coordinates));
     }

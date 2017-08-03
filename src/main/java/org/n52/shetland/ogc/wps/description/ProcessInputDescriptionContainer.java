@@ -39,7 +39,8 @@ public interface ProcessInputDescriptionContainer extends Description {
 
     Set<OwsCode> getInputs();
 
-    interface Builder<T extends ProcessInputDescriptionContainer, B extends ProcessInputDescriptionContainer.Builder<T, B>>
+    interface Builder<T extends ProcessInputDescriptionContainer,
+                      B extends ProcessInputDescriptionContainer.Builder<T, B>>
             extends Description.Builder<T, B> {
 
         B withInput(ProcessInputDescription input);

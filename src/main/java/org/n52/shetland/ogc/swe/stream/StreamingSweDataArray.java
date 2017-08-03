@@ -31,7 +31,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
      * Each list entry represents one block, a list of tokens.<br />
      * Atm, this implementation using java.lang.String to represent each token.
      */
-    private StreamingValue values;
+    private StreamingValue<?> values;
 
     /**
      * swe:elementType
@@ -48,7 +48,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
     /**
      * @return the values
      */
-    public StreamingValue getValues() {
+    public StreamingValue<?> getValues() {
         return values;
     }
 
@@ -59,7 +59,7 @@ public class StreamingSweDataArray extends SweAbstractDataComponent {
      *
      * @return This SweDataArray
      */
-    public StreamingSweDataArray setValues(final StreamingValue values) {
+    public StreamingSweDataArray setValues(final StreamingValue<?> values) {
         this.values = values;
         return this;
     }

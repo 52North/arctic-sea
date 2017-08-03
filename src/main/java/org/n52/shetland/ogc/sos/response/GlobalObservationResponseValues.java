@@ -34,7 +34,7 @@ public class GlobalObservationResponseValues {
             if (phenomenonTime instanceof TimeInstant) {
                 this.phenomenonTime = new TimePeriod(this.phenomenonTime, this.phenomenonTime);
             }
-            ((TimePeriod)this.phenomenonTime).extendToContain(phenomenonTime);
+            ((TimePeriod) this.phenomenonTime).extendToContain(phenomenonTime);
         } else {
             this.phenomenonTime = phenomenonTime;
         }

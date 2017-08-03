@@ -28,14 +28,13 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
 
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class GetResultRequest extends OwsServiceRequest implements SpatialFeatureQueryRequest {
+public class GetResultRequest
+        extends OwsServiceRequest
+        implements SpatialFeatureQueryRequest {
 
     /**
      * Identifier for the observation template
@@ -180,8 +179,7 @@ public class GetResultRequest extends OwsServiceRequest implements SpatialFeatur
 
     @Override
     public boolean hasSpatialFilteringProfileSpatialFilter() {
-        return isSetSpatialFilter()
-                && getSpatialFilter().getValueReference().equals(
-                        Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE);
+        return isSetSpatialFilter() && getSpatialFilter().getValueReference()
+                .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE);
     }
 }

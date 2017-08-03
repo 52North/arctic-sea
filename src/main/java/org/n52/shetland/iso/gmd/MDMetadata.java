@@ -25,7 +25,9 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
 
-public class MDMetadata extends AbstractObject implements AttributeSimpleAttrs {
+public class MDMetadata
+        extends AbstractObject
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
 
@@ -43,17 +45,17 @@ public class MDMetadata extends AbstractObject implements AttributeSimpleAttrs {
         this(Sets.newHashSet(contact), dateStamp, Sets.newHashSet(identificationInfo));
     }
 
-    public MDMetadata(Set<CiResponsibleParty> contact, DateTime dateStamp, Set<AbstractMDIdentification> identificationInfo) {
+    public MDMetadata(
+            Set<CiResponsibleParty> contact, DateTime dateStamp, Set<AbstractMDIdentification> identificationInfo) {
         super();
         this.contact = contact;
         this.dateStamp = dateStamp;
         this.identificationInfo = identificationInfo;
     }
 
-
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     @Override

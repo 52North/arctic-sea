@@ -19,14 +19,17 @@ package org.n52.shetland.ogc.sensorML;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
+import org.n52.shetland.ogc.sensorML.elements.SmlIoPredicates;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class AbstractProcess extends AbstractSensorML {
@@ -143,6 +146,55 @@ public class AbstractProcess extends AbstractSensorML {
     public AbstractProcess addName(final CodeType name) {
         super.addName(name);
         return this;
+    }
+
+    @Override
+    public String getObservablePropertyName(String observableProperty) {
+        if (isOutputSet(createSmlIoPredicate(observableProperty))) {
+            SmlIo smlIo = findOutputs(createSmlIoPredicate(observableProperty)).get();
+            if (smlIo.getIoValue().isSetName()) {
+                return smlIo.getIoValue().getName().getValue();
+            }
+            if (smlIo.isSetTitle()) {
+                return smlIo.getTitle();
+            }
+            if (smlIo.isSetName()) {
+                return smlIo.getIoName();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String getObservablePropertyDescription(String observableProperty) {
+        if (isOutputSet(createSmlIoPredicate(observableProperty))) {
+            SmlIo smlIo = findOutputs(createSmlIoPredicate(observableProperty)).get();
+            if (smlIo.getIoValue().isSetName()) {
+                return smlIo.getIoValue().getName().getValue();
+            }
+            if (smlIo.isSetTitle()) {
+                return smlIo.getTitle();
+            }
+            if (smlIo.isSetName()) {
+                return smlIo.getIoName();
+            }
+        }
+        return null;
+    }
+
+    protected Predicate<SmlIo> createSmlIoPredicate(String identifier) {
+        return SmlIoPredicates.identifierOrNameOrDefinition(identifier, identifier, identifier);
+    }
+
+    public Optional<SmlIo> findOutputs(Predicate<SmlIo> predicate) {
+        if (isSetOutputs()) {
+            return getOutputs().stream().filter(predicate).findFirst();
+        }
+        return Optional.empty();
+    }
+
+    public boolean isOutputSet(Predicate<SmlIo> predicate) {
+        return findOutputs(predicate).isPresent();
     }
 
     public void copyTo(AbstractProcess copyOf) {

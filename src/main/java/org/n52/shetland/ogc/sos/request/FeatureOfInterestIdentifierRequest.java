@@ -22,7 +22,7 @@ import java.util.List;
  * Interface to define methods for requests that supports featureOfInterest
  * identifiers
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public interface FeatureOfInterestIdentifierRequest {

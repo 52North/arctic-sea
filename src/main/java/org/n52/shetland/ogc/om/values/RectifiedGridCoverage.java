@@ -33,20 +33,22 @@ import com.google.common.collect.Maps;
  * Class that represents a rectified grid coverage
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double, Value<?>>> {
+public class RectifiedGridCoverage
+        implements DiscreteCoverage<SortedMap<Double, Value<?>>> {
 
+    private static final String GML_ID_PREFIX = "rgc_";
     private final String gmlId;
     private final SortedMap<Double, Value<?>> value = Maps.newTreeMap();
     private UoM unit;
 
     public RectifiedGridCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            this.gmlId = JavaHelper.generateID(toString());
-        } else if (!gmlId.startsWith("rgc_")) {
-            this.gmlId = "rgc_" + gmlId;
+            this.gmlId = GML_ID_PREFIX + JavaHelper.generateID(toString());
+        } else if (!gmlId.startsWith(GML_ID_PREFIX)) {
+            this.gmlId = GML_ID_PREFIX + gmlId;
         } else {
             this.gmlId = gmlId;
         }
@@ -83,6 +85,12 @@ public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double,
     }
 
     @Override
+    public RectifiedGridCoverage setUnit(UoM unit) {
+        this.unit = unit;
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         if (isSetUnit()) {
             return unit.getUom();
@@ -96,12 +104,6 @@ public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double,
     }
 
     @Override
-    public RectifiedGridCoverage setUnit(UoM unit) {
-        this.unit = unit;
-        return this;
-    }
-
-    @Override
     public boolean isSetUnit() {
         return getUnitObject() != null && !getUnitObject().isEmpty();
     }
@@ -112,7 +114,8 @@ public class RectifiedGridCoverage implements DiscreteCoverage<SortedMap<Double,
     }
 
     @Override
-    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
+    public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor)
+            throws E {
         return visitor.visit(this);
     }
 

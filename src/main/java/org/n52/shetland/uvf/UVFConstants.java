@@ -24,13 +24,15 @@ import org.n52.shetland.util.CollectionHelper;
 
 public interface UVFConstants {
 
+    String LINE_ENDING = "lineEnding";
+
     MediaType CONTENT_TYPE_UVF = new MediaType("application", "uvf");
 
-    MediaType CONTENT_TYPE_UVF_WINDOWS = new MediaType("application", "uvf", "lineEnding", "Windows");
+    MediaType CONTENT_TYPE_UVF_WINDOWS = CONTENT_TYPE_UVF.withParameter(LINE_ENDING, "Windows");
 
-    MediaType CONTENT_TYPE_UVF_UNIX = new MediaType("application", "uvf", "lineEnding", "Unix");
+    MediaType CONTENT_TYPE_UVF_UNIX = CONTENT_TYPE_UVF.withParameter(LINE_ENDING, "Unix");
 
-    MediaType CONTENT_TYPE_UVF_MAC = new MediaType("application", "uvf", "lineEnding", "Mac");
+    MediaType CONTENT_TYPE_UVF_MAC = CONTENT_TYPE_UVF.withParameter(LINE_ENDING, "Mac");
 
     /**
      * Time format to be used in UVF encoded data: <code>yyMMddHHmm</code>,
@@ -76,7 +78,7 @@ public interface UVFConstants {
 
     String LINE_ENDING_MAC = "\r";
 
-    enum LineEnding{
+    enum LineEnding {
         Windows, Unix, Mac;
     }
 

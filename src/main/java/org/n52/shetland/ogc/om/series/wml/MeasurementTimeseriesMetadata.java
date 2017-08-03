@@ -17,19 +17,23 @@
 package org.n52.shetland.ogc.om.series.wml;
 
 /**
- * This class implements the OGC WaterML 2.0 element <code>metadata</code>. See <code>/req/uml-timeseries-observation/metadata</code>.
+ * This class implements the OGC WaterML 2.0 element <code>metadata</code>. See
+ * <code>/req/uml-timeseries-observation/metadata</code>.
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
  * @see http://www.opengeospatial.org/standards/waterml
- * @since 4.4.0
+ * @since 1.0.0
  */
-public class MeasurementTimeseriesMetadata extends TimeseriesMetadata {
+public class MeasurementTimeseriesMetadata
+        extends TimeseriesMetadata {
 
     private boolean cumulative;
 
     /**
-     * "A series that is defined as cumulative is one where the values indicate a sequentially increasing series;
-     * i.e. each value is added to the last so the value represents the total of a value since accumulation began."
+     * "A series that is defined as cumulative is one where the values indicate
+     * a sequentially increasing series; i.e. each value is added to the last so
+     * the value represents the total of a value since accumulation began."
      * (Source: OGC#10-126r3)
      */
     public boolean isCumulative() {

@@ -32,10 +32,11 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.vividsolutions.jts.geom.Geometry;
 
-public abstract class AbstractMonitoringObject extends AbstractFeature implements AttributeSimpleAttrs {
+public abstract class AbstractMonitoringObject
+        extends AbstractFeature
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
-
 
     /**
      * 1..1 inspireId, super.identifier
@@ -120,7 +121,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
 
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     @Override
@@ -129,7 +130,7 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     public Identifier getInspireId() {
-       return (Identifier) getIdentifierCodeWithAuthority();
+        return (Identifier) getIdentifierCodeWithAuthority();
     }
 
     /**
@@ -140,7 +141,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param additionalDescription the additionalDescription to set
+     * @param additionalDescription
+     *            the additionalDescription to set
      */
     public void setAdditionalDescription(String additionalDescription) {
         this.additionalDescription = additionalDescription;
@@ -158,14 +160,16 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param mediaMonitored the mediaMonitored to add
+     * @param mediaMonitored
+     *            the mediaMonitored to add
      */
     public void addMediaMonitored(Set<ReferenceType> mediaMonitored) {
         this.mediaMonitored.addAll(mediaMonitored);
     }
 
     /**
-     * @param mediaMonitored the mediaMonitored to add
+     * @param mediaMonitored
+     *            the mediaMonitored to add
      */
     public void addMediaMonitored(ReferenceType mediaMonitored) {
         this.mediaMonitored.add(mediaMonitored);
@@ -179,7 +183,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param legalBackground the legalBackground to set
+     * @param legalBackground
+     *            the legalBackground to set
      */
     public void setLegalBackground(Set<LegislationCitation> legalBackground) {
         this.legalBackground.clear();
@@ -198,7 +203,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param responsibleParty the responsibleParty to set
+     * @param responsibleParty
+     *            the responsibleParty to set
      */
     public void setResponsibleParty(RelatedParty responsibleParty) {
         this.responsibleParty = responsibleParty;
@@ -216,14 +222,16 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param geometry the geometry to set
+     * @param geometry
+     *            the geometry to set
      */
     public void setGeometry(AbstractGeometry geometry) {
         this.geometry = geometry;
     }
 
     /**
-     * @param geometry the geometry to set
+     * @param geometry
+     *            the geometry to set
      */
     public void setGeometry(Geometry geometry) {
         this.geometry = new AbstractGeometry().setGeometry(geometry);
@@ -233,7 +241,6 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
         return getGeometry() != null && getGeometry().isSetGeometry();
     }
 
-
     /**
      * @return the onlineResource
      */
@@ -242,16 +249,17 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param onlineResource the onlineResource to set
+     * @param onlineResource
+     *            the onlineResource to set
      */
     public void setOnlineResource(Set<String> onlineResource) {
         this.onlineResource.clear();
         this.onlineResource = onlineResource;
     }
 
-   public boolean isSetOnlineResources() {
-       return CollectionHelper.isNotEmpty(getOnlineResource());
-   }
+    public boolean isSetOnlineResources() {
+        return CollectionHelper.isNotEmpty(getOnlineResource());
+    }
 
     /**
      * @return the purpose
@@ -261,7 +269,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param purpose the purpose to set
+     * @param purpose
+     *            the purpose to set
      */
     public void setPurpose(Set<ReferenceType> purpose) {
         this.purpose.clear();
@@ -280,7 +289,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param observingCapability the observingCapability to set
+     * @param observingCapability
+     *            the observingCapability to set
      */
     public void setObservingCapability(Set<ObservingCapability> observingCapability) {
         this.observingCapability.clear();
@@ -288,7 +298,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param observingCapability the observingCapability to add
+     * @param observingCapability
+     *            the observingCapability to add
      */
     public void addObservingCapability(ObservingCapability observingCapability) {
         this.observingCapability.add(observingCapability);
@@ -306,7 +317,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param broader the broader to set
+     * @param broader
+     *            the broader to set
      */
     public void setBroader(Hierarchy broader) {
         this.broader = broader;
@@ -324,17 +336,18 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param narrower the narrower to set
+     * @param narrower
+     *            the narrower to set
      */
     public void setNarrower(Set<Hierarchy> narrower) {
         this.narrower.clear();
         this.narrower = narrower;
     }
 
-
     public boolean isSetNarrower() {
         return CollectionHelper.isNotEmpty(getObservingCapability());
     }
+
     /**
      * @return the supersedes
      */
@@ -343,7 +356,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param supersedes the supersedes to set
+     * @param supersedes
+     *            the supersedes to set
      */
     public void setSupersedes(Set<AbstractMonitoringObject> supersedes) {
         this.supersedes.clear();
@@ -362,7 +376,8 @@ public abstract class AbstractMonitoringObject extends AbstractFeature implement
     }
 
     /**
-     * @param supersededBy the supersededBy to set
+     * @param supersededBy
+     *            the supersededBy to set
      */
     public void setSupersededBy(Set<AbstractMonitoringObject> supersededBy) {
         this.supersededBy.clear();

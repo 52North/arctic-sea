@@ -17,12 +17,13 @@ This project includes:
 
   "Java Concurrency in Practice" book annotations under Creative Commons Attribution License, http://creativecommons.org/licenses/by/2.5
   52°North Faroe Annotations under The Apache Software License, Version 2.0
-  52°North Faroe Utilities under The Apache Software License, Version 2.0
   52°North Jan Mayen under The Apache Software License, Version 2.0
   52°North Shetland under The Apache Software License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
+  Byte Buddy (without dependencies) under The Apache Software License, Version 2.0
+  Byte Buddy Java agent under The Apache Software License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
   FindBugs-Annotations under GNU Lesser Public License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
@@ -33,13 +34,14 @@ This project includes:
   jackson-databind under The Apache Software License, Version 2.0
   Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   javax.inject under The Apache Software License, Version 2.0
-  JCL 1.1.1 implemented over SLF4J under MIT License
+  JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache 2
   JTS Topology Suite under Lesser General Public License (LGPL)
   JUnit under Eclipse Public License 1.0
-  Mockito under The MIT License
+  mockito-core under The MIT License
+  Objenesis under Apache 2
   SLF4J API Module under MIT License
   SLF4J Simple Binding under MIT License
-  Spring Core under The Apache Software License, Version 2.0
-  Spring TestContext Framework under The Apache Software License, Version 2.0
+  Spring Core under Apache License, Version 2.0
+  Spring TestContext Framework under Apache License, Version 2.0
 

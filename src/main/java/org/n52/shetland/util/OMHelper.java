@@ -22,9 +22,6 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.features.SfConstants;
@@ -60,11 +57,13 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for Observation and Measurement
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public final class OMHelper {
@@ -155,23 +154,23 @@ public final class OMHelper {
     public static QName getQNameFor(final String observationType) {
         if (null != observationType) {
             switch (observationType) {
-            case OmConstants.OBS_TYPE_MEASUREMENT:
-                return OmConstants.RESULT_MODEL_MEASUREMENT;
-            case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
-                return OmConstants.RESULT_MODEL_CATEGORY_OBSERVATION;
-            case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
-                return OmConstants.RESULT_MODEL_GEOMETRY_OBSERVATION;
-            case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
-                return OmConstants.RESULT_MODEL_COUNT_OBSERVATION;
-            case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
-                return OmConstants.RESULT_MODEL_TRUTH_OBSERVATION;
-            case OmConstants.OBS_TYPE_TEXT_OBSERVATION:
-                return OmConstants.RESULT_MODEL_TEXT_OBSERVATION;
-            case OmConstants.OBS_TYPE_COMPLEX_OBSERVATION:
-                return OmConstants.RESULT_MODEL_COMPLEX_OBSERVATION;
-            default:
-                LOG.trace("Not supported observationType '{}'", observationType);
-                break;
+                case OmConstants.OBS_TYPE_MEASUREMENT:
+                    return OmConstants.RESULT_MODEL_MEASUREMENT;
+                case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_CATEGORY_OBSERVATION;
+                case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_GEOMETRY_OBSERVATION;
+                case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_COUNT_OBSERVATION;
+                case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_TRUTH_OBSERVATION;
+                case OmConstants.OBS_TYPE_TEXT_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_TEXT_OBSERVATION;
+                case OmConstants.OBS_TYPE_COMPLEX_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_COMPLEX_OBSERVATION;
+                default:
+                    LOG.trace("Not supported observationType '{}'", observationType);
+                    break;
             }
         }
         return OmConstants.RESULT_MODEL_OBSERVATION;

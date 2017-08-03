@@ -32,7 +32,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
 public class SosProcedureDescription<T extends AbstractFeature> extends AbstractFeature {
@@ -48,9 +48,9 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     private ReferenceType parentProcedure;
     private Set<AbstractSensorML> childProcedures = new LinkedHashSet<>();
     private boolean insitu = true;
-    private boolean mobile = false;
+    private boolean mobile;
     private ReferenceType typeOf;
-    private boolean aggregation = false;
+    private boolean aggregation;
 
     public SosProcedureDescription(T description) {
         super(description.getIdentifier());
@@ -201,14 +201,14 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         return this;
     }
 
-    public SosProcedureDescription<T> setPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
-        this.phenomenonMap.clear();
-        addPhenomenon(phenomenons);
+    public SosProcedureDescription<T> addPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
+        phenomenons.forEach(phenomenons::put);
         return this;
     }
 
-    public SosProcedureDescription<T> addPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
-        phenomenons.forEach(phenomenons::put);
+    public SosProcedureDescription<T> setPhenomenon(Map<String, AbstractPhenomenon> phenomenons) {
+        this.phenomenonMap.clear();
+        addPhenomenon(phenomenons);
         return this;
     }
 
@@ -280,7 +280,8 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
 
     @Override
     public String getDefaultElementEncoding() {
-        if (getProcedureDescription() != null && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding())) {
+        if (getProcedureDescription() != null
+                && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding())) {
             return getProcedureDescription().getDefaultElementEncoding();
         }
         return super.getDefaultElementEncoding();
@@ -288,6 +289,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
 
     @Override
     public boolean isSetDefaultElementEncoding() {
-        return super.isSetDefaultElementEncoding() || (getProcedureDescription() != null && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding()));
+        return super.isSetDefaultElementEncoding() || (getProcedureDescription() != null
+                && !Strings.isNullOrEmpty(getProcedureDescription().getDefaultElementEncoding()));
     }
 }

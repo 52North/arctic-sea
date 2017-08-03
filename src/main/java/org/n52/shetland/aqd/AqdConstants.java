@@ -322,6 +322,8 @@ public interface AqdConstants {
 
     String EXTENSION_FLOW = "flow";
 
+    String MODEL = "model";
+
     /**
      * the names of the operations supported by all versions of the SOS
      * specification
@@ -392,7 +394,7 @@ public interface AqdConstants {
         CalibrationSamplingPointsOther("CAL-SPother"),
         CalibrationSamplingPoints("CAL-SPs"),
         EnvironmentalObjective("EO"),
-        Model("model"),
+        Model(MODEL),
         ObjectiveEstimation("objective-estimation"),
         PrimaryObservationTime("primaryObsTime"),
         SamplingPoint("SamplingPoint"),
@@ -444,7 +446,7 @@ public interface AqdConstants {
     enum AssessmentType {
         Fixed("fixed"),
         Interactive("interactive"),
-        Model("model"),
+        Model(MODEL),
         Objective("objective");
 
         private static final String BASE_URI = "http://dd.eionet.europa.eu/vocabulary/aq/assessmenttype/";

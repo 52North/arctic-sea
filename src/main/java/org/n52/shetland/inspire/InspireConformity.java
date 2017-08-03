@@ -20,7 +20,7 @@ package org.n52.shetland.inspire;
  * Service internal representation of INSPIRE conformity
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class InspireConformity {
@@ -93,7 +93,7 @@ public class InspireConformity {
      * Enum of degree of conformity values
      *
      * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
-     * @since 4.1.0
+     * @since 1.0.0
      *
      */
     public enum InspireDegreeOfConformity {

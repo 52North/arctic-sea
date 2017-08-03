@@ -44,7 +44,7 @@ import com.google.common.io.CharStreams;
  *
  * @author Christian Autermann
  */
-public class HTTP {
+public final class HTTP {
     private static final CloseableHttpClient CLIENT = HttpClientBuilder.create()
             .useSystemProperties()
             .setUserAgent("shetland-1.0.0")

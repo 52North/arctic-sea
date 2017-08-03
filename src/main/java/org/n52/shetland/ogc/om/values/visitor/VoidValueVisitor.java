@@ -30,13 +30,15 @@ import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.UnknownValue;
+import org.n52.shetland.ogc.om.values.XmlValue;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public abstract class VoidValueVisitor<E extends Exception> implements ValueVisitor<Void, E> {
+public abstract class VoidValueVisitor<E extends Exception>
+        implements ValueVisitor<Void, E> {
 
     @Override
     public Void visit(BooleanValue value)
@@ -136,12 +138,12 @@ public abstract class VoidValueVisitor<E extends Exception> implements ValueVisi
         return null;
     }
 
-//    @Override
-//    public Void visit(XmlValue value)
-//            throws E {
-//        _visit(value);
-//        return null;
-//    }
+    @Override
+    public Void visit(XmlValue<?> value)
+            throws E {
+        _visit(value);
+        return null;
+    }
 
     protected abstract void _visit(BooleanValue value)
             throws E;
@@ -185,6 +187,6 @@ public abstract class VoidValueVisitor<E extends Exception> implements ValueVisi
     protected abstract void _visit(UnknownValue value)
             throws E;
 
-//    protected abstract void _visit(XmlValue value)
-//            throws E;
+    protected abstract void _visit(XmlValue<?> value)
+            throws E;
 }

@@ -28,7 +28,7 @@ import com.google.common.collect.Lists;
  * Service internal representation of INSPIRE temporal reference
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.1.0
+ * @since 1.0.0
  *
  */
 public class InspireTemporalReference {
@@ -193,10 +193,11 @@ public class InspireTemporalReference {
 
     @Override
     public String toString() {
-        return String
-                .format("%s %n[%n dateOfCreation=%s,%n dateOfLastRevision=%s,%n dateOfPublication=%s,%n temporalReferences=%s%n]",
-                        this.getClass().getSimpleName(), getDateOfCreation(), getDateOfLastRevision(),
-                        CollectionHelper.collectionToString(getDatesOfPublication()),
-                        CollectionHelper.collectionToString(getTemporalExtents()));
+        return String.format(
+                "%s %n[%n dateOfCreation=%s,%n dateOfLastRevision=%s,"
+                + "%n dateOfPublication=%s,%n temporalReferences=%s%n]",
+                this.getClass().getSimpleName(), getDateOfCreation(), getDateOfLastRevision(),
+                CollectionHelper.collectionToString(getDatesOfPublication()),
+                CollectionHelper.collectionToString(getTemporalExtents()));
     }
 }

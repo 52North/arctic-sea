@@ -40,7 +40,7 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeatureComplex;
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  *
- * @since 4.0.0
+ * @since 1.0.0
  */
 public class SamplingFeatureTest {
 

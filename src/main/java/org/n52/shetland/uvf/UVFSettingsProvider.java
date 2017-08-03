@@ -18,8 +18,8 @@ package org.n52.shetland.uvf;
 
 public interface UVFSettingsProvider {
 
-   String DEFAULT_CRS_SETTING_KEY = "uvf.default.crs";
-   String UVF_TIME_ZONE_SETTING_KEY = "uvf.timeZone";
-   String UVF_LINE_ENDING_KEY = "uvf.lineEnding";
+    String DEFAULT_CRS_SETTING_KEY = "uvf.default.crs";
+    String UVF_TIME_ZONE_SETTING_KEY = "uvf.timeZone";
+    String UVF_LINE_ENDING_KEY = "uvf.lineEnding";
 
 }

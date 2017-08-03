@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.inspire.omso;
 
-
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.values.GeometryValue;
@@ -27,10 +26,11 @@ import com.vividsolutions.jts.geom.Geometry;
  * Abstract class for INSPIRE OM Specialised Observations
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 4.4.0
+ * @since 1.0.0
  *
  */
-public abstract class AbstractInspireObservation extends OmObservation {
+public abstract class AbstractInspireObservation
+        extends OmObservation {
 
     /**
      * constructor
@@ -48,7 +48,8 @@ public abstract class AbstractInspireObservation extends OmObservation {
         this();
         observation.copyTo(this);
         if (getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
-            AbstractSamplingFeature sf = (AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest();
+            AbstractSamplingFeature sf =
+                    (AbstractSamplingFeature) getObservationConstellation().getFeatureOfInterest();
             sf.setEncode(true);
         }
     }
@@ -63,7 +64,8 @@ public abstract class AbstractInspireObservation extends OmObservation {
      *         featureOfInterest with geometry value
      */
     protected boolean checkForFeatureGeometry(OmObservation observation) {
-        if (observation.getObservationConstellation().isSetFeatureOfInterest() && observation.getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
+        if (observation.getObservationConstellation().isSetFeatureOfInterest() && observation
+                .getObservationConstellation().getFeatureOfInterest() instanceof AbstractSamplingFeature) {
             return ((AbstractSamplingFeature) observation.getObservationConstellation().getFeatureOfInterest())
                     .isSetGeometry();
         }
@@ -79,7 +81,8 @@ public abstract class AbstractInspireObservation extends OmObservation {
      * @return The geometry
      */
     protected Geometry getGeometryFromFeature(OmObservation observation) {
-        return ((AbstractSamplingFeature) observation.getObservationConstellation().getFeatureOfInterest()).getGeometry();
+        return ((AbstractSamplingFeature) observation.getObservationConstellation().getFeatureOfInterest())
+                .getGeometry();
     }
 
     /**

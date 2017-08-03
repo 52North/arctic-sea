@@ -29,14 +29,16 @@ import org.n52.shetland.w3c.Nillable;
 import com.google.common.base.Objects;
 
 /**
- * @since 4.0.0
+ * @since 1.0.0
  */
-public class OmObservationConstellation extends AbstractFeature implements Copyable<OmObservationConstellation> {
+public class OmObservationConstellation
+        extends AbstractFeature
+        implements Copyable<OmObservationConstellation> {
 
     /**
      * Identifier of the procedure by which the observation is made
      */
-    private Nillable<AbstractFeature> procedure = Nillable.<AbstractFeature>nil();
+    private Nillable<AbstractFeature> procedure = Nillable.<AbstractFeature> nil();
 
     /**
      * Identifier of the observableProperty to which the observation accords to
@@ -51,7 +53,7 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     /**
      * Identifier of the featureOfInterest to which this observation belongs
      */
-    private Nillable<AbstractFeature> featureOfInterest = Nillable.<AbstractFeature>nil();
+    private Nillable<AbstractFeature> featureOfInterest = Nillable.<AbstractFeature> nil();
 
     /**
      * type of the observation
@@ -72,42 +74,53 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     /**
      * constructor
      *
-     * @param procedure Procedure by which the observation is made
-     * @param observableProperty observableProperty to which the observation accords to
-     * @param featureOfInterest featureOfInterest to which this observation belongs
+     * @param procedure
+     *            Procedure by which the observation is made
+     * @param observableProperty
+     *            observableProperty to which the observation accords to
+     * @param featureOfInterest
+     *            featureOfInterest to which this observation belongs
      */
-    public OmObservationConstellation(AbstractFeature procedure,
-                                      AbstractPhenomenon observableProperty,
-                                      AbstractFeature featureOfInterest) {
+    public OmObservationConstellation(
+            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest) {
         this(procedure, observableProperty, null, featureOfInterest, null);
     }
 
     /**
      * constructor
      *
-     * @param procedure Procedure by which the observation is made
-     * @param observableProperty observableProperty to which the observation accords to
-     * @param featureOfInterest featureOfInterest to which this observation belongs
-     * @param observationType    the observation type
+     * @param procedure
+     *            Procedure by which the observation is made
+     * @param observableProperty
+     *            observableProperty to which the observation accords to
+     * @param featureOfInterest
+     *            featureOfInterest to which this observation belongs
+     * @param observationType
+     *            the observation type
      */
-    public OmObservationConstellation(AbstractFeature procedure,
-                                      AbstractPhenomenon observableProperty,
-                                      AbstractFeature featureOfInterest,
-                                      String observationType) {
+    public OmObservationConstellation(
+            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest,
+            String observationType) {
         this(procedure, observableProperty, null, featureOfInterest, observationType);
     }
 
     /**
      * constructor
      *
-     * @param procedure Procedure by which the observation is made
-     * @param observableProperty observableProperty to which the observation accords to
-     * @param offerings offering to which this observation belongs
-     * @param featureOfInterest featureOfInterest to which this observation belongs
-     * @param observationType the observation type
+     * @param procedure
+     *            Procedure by which the observation is made
+     * @param observableProperty
+     *            observableProperty to which the observation accords to
+     * @param offerings
+     *            offering to which this observation belongs
+     * @param featureOfInterest
+     *            featureOfInterest to which this observation belongs
+     * @param observationType
+     *            the observation type
      */
-    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
-                                      Set<String> offerings, AbstractFeature featureOfInterest, String observationType) {
+    public OmObservationConstellation(
+            AbstractFeature procedure, AbstractPhenomenon observableProperty, Set<String> offerings,
+            AbstractFeature featureOfInterest, String observationType) {
         super("");
         this.procedure = Nillable.of(procedure);
         this.observableProperty = observableProperty;
@@ -128,10 +141,11 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
      * @param offerings
      *            offering to which this observation belongs
      */
-    public OmObservationConstellation(AbstractFeature procedure, AbstractPhenomenon observableProperty,
-            AbstractFeature featureOfInterest, Set<String> offerings) {
-       this(procedure, observableProperty, featureOfInterest);
-       this.offerings = offerings;
+    public OmObservationConstellation(
+            AbstractFeature procedure, AbstractPhenomenon observableProperty, AbstractFeature featureOfInterest,
+            Set<String> offerings) {
+        this(procedure, observableProperty, featureOfInterest);
+        this.offerings = offerings;
     }
 
     /**
@@ -159,17 +173,17 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     /**
      * Set the procedure
      *
-     * @param procedure the procedure to set
+     * @param procedure
+     *            the procedure to set
      *
      * @return this
      */
     public OmObservationConstellation setProcedure(AbstractFeature procedure) {
         if (procedure == null) {
-            return setProcedure(Nillable.<AbstractFeature>nil());
+            return setProcedure(Nillable.<AbstractFeature> nil());
         }
         return setProcedure(Nillable.of(procedure));
     }
-
 
     /**
      * Set the procedure
@@ -195,7 +209,8 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     /**
      * Set observableProperty
      *
-     * @param observableProperty the observableProperty to set
+     * @param observableProperty
+     *            the observableProperty to set
      *
      * @return this
      */
@@ -220,7 +235,8 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     /**
      * Set offering
      *
-     * @param offerings the offering to set
+     * @param offerings
+     *            the offering to set
      *
      * @return this
      */
@@ -254,14 +270,14 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
         return featureOfInterest.isPresent() ? featureOfInterest.get() : null;
     }
 
-   /**
-    * Get featureOfInterest
-    *
-    * @return the featureOfInterest
-    */
-   public Nillable<AbstractFeature> getNillableFeatureOfInterest() {
-       return featureOfInterest;
-   }
+    /**
+     * Get featureOfInterest
+     *
+     * @return the featureOfInterest
+     */
+    public Nillable<AbstractFeature> getNillableFeatureOfInterest() {
+        return featureOfInterest;
+    }
 
     /**
      * Set featureOfInterest
@@ -272,7 +288,7 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
      */
     public OmObservationConstellation setFeatureOfInterest(AbstractFeature featureOfInterest) {
         if (featureOfInterest == null) {
-            return setFeatureOfInterest(Nillable.<AbstractFeature>nil());
+            return setFeatureOfInterest(Nillable.<AbstractFeature> nil());
         }
         return setFeatureOfInterest(Nillable.of(featureOfInterest));
     }
@@ -305,7 +321,8 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
     /**
      * Set observation type
      *
-     * @param observationType the observationType to set
+     * @param observationType
+     *            the observationType to set
      *
      * @return this
      */
@@ -324,7 +341,8 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.procedure, 19, this.observableProperty, this.offerings, 43, this.featureOfInterest);
+        return Objects.hashCode(this.procedure, 19, this.observableProperty, this.offerings, 43,
+                this.featureOfInterest);
     }
 
     /**
@@ -333,10 +351,10 @@ public class OmObservationConstellation extends AbstractFeature implements Copya
      * @return <code>true</code>, if the observation can be merged
      */
     public boolean checkObservationTypeForMerging() {
-        return (isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType) &&
-                 !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(observationType) &&
-                 !OmConstants.OBS_TYPE_OBSERVATION.equals(observationType) &&
-                 !OmConstants.OBS_TYPE_UNKNOWN.equals(observationType));
+        return isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType)
+                && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(observationType)
+                && !OmConstants.OBS_TYPE_OBSERVATION.equals(observationType)
+                && !OmConstants.OBS_TYPE_UNKNOWN.equals(observationType);
     }
 
     public boolean isSetObservationType() {

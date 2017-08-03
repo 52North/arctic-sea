@@ -23,16 +23,18 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 /**
  * Quantity measurement representation for observation
  *
- * @since 4.0.0
+ * @since 1.0.0
  *
  */
-public class QuantityValue extends SweQuantity implements Value<Double>, Comparable<QuantityValue> {
+public class QuantityValue
+        extends SweQuantity
+        implements Value<Double>, Comparable<QuantityValue> {
 
     /**
      * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      */
     public QuantityValue(Double value) {
         super();
@@ -43,9 +45,9 @@ public class QuantityValue extends SweQuantity implements Value<Double>, Compara
      * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      * @param unit
-     *              Unit of measure
+     *            Unit of measure
      */
     public QuantityValue(Double value, String unit) {
         super(value, unit);
@@ -55,9 +57,9 @@ public class QuantityValue extends SweQuantity implements Value<Double>, Compara
      * constructor
      *
      * @param value
-     *              Measurement value
+     *            Measurement value
      * @param unit
-     *              Unit of measure
+     *            Unit of measure
      */
     public QuantityValue(Double value, UoM unit) {
         super(value, unit);
@@ -75,6 +77,12 @@ public class QuantityValue extends SweQuantity implements Value<Double>, Compara
     }
 
     @Override
+    public QuantityValue setUnit(UoM unit) {
+        super.setUom(unit);
+        return this;
+    }
+
+    @Override
     public String getUnit() {
         return super.getUom();
     }
@@ -85,20 +93,13 @@ public class QuantityValue extends SweQuantity implements Value<Double>, Compara
     }
 
     @Override
-    public QuantityValue setUnit(UoM unit) {
-       super.setUom(unit);
-       return this;
-    }
-
-    @Override
     public boolean isSetUnit() {
         return super.isSetUom();
     }
 
     @Override
     public String toString() {
-        return String
-                .format("QuantityValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("QuantityValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override

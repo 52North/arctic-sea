@@ -31,26 +31,23 @@ public interface LiteralDescription {
     interface Builder<T extends LiteralDescription, B extends org.n52.janmayen.Builder<T, B>> {
 
         @SuppressWarnings("unchecked")
-        default B withSupportedLiteralDataDomain(
-                Iterable<LiteralDataDomain> domains) {
+        default B withSupportedLiteralDataDomain(Iterable<LiteralDataDomain> domains) {
             for (LiteralDataDomain domain : domains) {
                 withDefaultLiteralDataDomain(domain);
             }
             return (B) this;
         }
 
-        B withDefaultLiteralDataDomain(LiteralDataDomain domain);
-
-        default B withDefaultLiteralDataDomain(
-                LiteralDataDomain.Builder<?, ?> domain) {
-            return withDefaultLiteralDataDomain(domain.build());
-        }
-
         B withSupportedLiteralDataDomain(LiteralDataDomain domain);
 
-        default B withSupportedLiteralDataDomain(
-                LiteralDataDomain.Builder<?, ?> domain) {
+        default B withSupportedLiteralDataDomain(LiteralDataDomain.Builder<?, ?> domain) {
             return withSupportedLiteralDataDomain(domain.build());
+        }
+
+        B withDefaultLiteralDataDomain(LiteralDataDomain domain);
+
+        default B withDefaultLiteralDataDomain(LiteralDataDomain.Builder<?, ?> domain) {
+            return withDefaultLiteralDataDomain(domain.build());
         }
 
     }

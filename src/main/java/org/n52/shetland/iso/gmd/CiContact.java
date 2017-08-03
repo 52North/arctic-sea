@@ -29,8 +29,8 @@ import com.google.common.collect.Lists;
 /**
  * Internal representation of the ISO GMD Contact.
  *
- * @author Carsten Hollmann <c.hollmann@52north.org>
- * @since 4.4.0
+ * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
+ * @since 1.0.0
  *
  */
 public class CiContact extends AbstractObject {

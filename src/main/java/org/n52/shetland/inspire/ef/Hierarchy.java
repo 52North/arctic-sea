@@ -21,7 +21,9 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
-public class Hierarchy extends AbstractGML implements AttributeSimpleAttrs {
+public class Hierarchy
+        extends AbstractGML
+        implements AttributeSimpleAttrs {
 
     private SimpleAttrs simpleAttrs;
 
@@ -42,7 +44,7 @@ public class Hierarchy extends AbstractGML implements AttributeSimpleAttrs {
 
     @Override
     public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-       this.simpleAttrs = simpleAttrs;
+        this.simpleAttrs = simpleAttrs;
     }
 
     @Override
@@ -58,7 +60,8 @@ public class Hierarchy extends AbstractGML implements AttributeSimpleAttrs {
     }
 
     /**
-     * @param linkingTime the linkingTime to set
+     * @param linkingTime
+     *            the linkingTime to set
      */
     public void setLinkingTime(Time linkingTime) {
         this.linkingTime = linkingTime;
@@ -72,7 +75,8 @@ public class Hierarchy extends AbstractGML implements AttributeSimpleAttrs {
     }
 
     /**
-     * @param broader the broader to set
+     * @param broader
+     *            the broader to set
      */
     public void setBroader(AbstractMonitoringObject broader) {
         this.broader = broader;
@@ -86,7 +90,8 @@ public class Hierarchy extends AbstractGML implements AttributeSimpleAttrs {
     }
 
     /**
-     * @param narrower the narrower to set
+     * @param narrower
+     *            the narrower to set
      */
     public void setNarrower(AbstractMonitoringObject narrower) {
         this.narrower = narrower;
