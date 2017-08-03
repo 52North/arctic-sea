@@ -581,7 +581,7 @@ public class SosDecoderv20
             }
         } catch (XmlException e) {
             throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultEncoding,
-                    "Error while parsing the result structure!");
+                    "Error while parsing the result encoding!");
         }
     }
 
