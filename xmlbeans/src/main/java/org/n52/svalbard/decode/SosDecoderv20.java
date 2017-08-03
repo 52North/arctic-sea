@@ -362,10 +362,14 @@ public class SosDecoderv20
                 parseObservationTemplate(resultTemplate.getObservationTemplate());
         sosObservationConstellation.addOffering(resultTemplate.getOffering());
         sosInsertResultTemplate.setObservationTemplate(sosObservationConstellation);
-        sosInsertResultTemplate.setResultStructure(
-                parseResultStructure(resultTemplate.getResultStructure().getAbstractDataComponent()));
-        sosInsertResultTemplate
-                .setResultEncoding(parseResultEncoding(resultTemplate.getResultEncoding().getAbstractEncoding()));
+        try {
+            sosInsertResultTemplate.setResultStructure(
+                    parseResultStructure(XmlObject.Factory.parse(resultTemplate.getResultStructure().xmlText())));
+            sosInsertResultTemplate.setResultEncoding(
+                    parseResultEncoding(XmlObject.Factory.parse(resultTemplate.getResultEncoding().xmlText())));
+        } catch (XmlException e) {
+            throw new DecodingException(e, "Error while parsing InsertResultTemplate request!");
+        }
         sosInsertResultTemplate.setExtensions(parseExtensibleRequest(insertResultTemplate));
         return sosInsertResultTemplate;
     }
@@ -550,38 +554,27 @@ public class SosDecoderv20
 
     private SosResultStructure parseResultStructure(XmlObject resultStructure)
             throws DecodingException {
-        try {
-            Object decodedObject = decodeXmlElement(XmlObject.Factory.parse(resultStructure.xmlText()));
-            if (decodedObject instanceof SweAbstractDataComponent) {
-                final SweAbstractDataComponent sosSweData = (SweAbstractDataComponent) decodedObject;
-                return new SosResultStructure(sosSweData);
-            } else {
-                throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultStructure,
-                        "The requested result structure (%s) is not supported by this server!",
-                        resultStructure.getDomNode().getNodeName());
-            }
-        } catch (XmlException e) {
+        Object decodedObject = decodeXmlElement(resultStructure);
+        if (decodedObject instanceof SweAbstractDataComponent) {
+            final SweAbstractDataComponent sosSweData = (SweAbstractDataComponent) decodedObject;
+            return new SosResultStructure(sosSweData);
+        } else {
             throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultStructure,
-                    "Error while parsing the result structure!");
+                    "The requested result structure (%s) is not supported by this server!",
+                    resultStructure.getDomNode().getNodeName());
         }
-
     }
 
     private SosResultEncoding parseResultEncoding(XmlObject resultEncoding)
             throws DecodingException {
-        try {
-            Object decodedObject = decodeXmlElement(XmlObject.Factory.parse(resultEncoding.xmlText()));
-            if (decodedObject instanceof SweAbstractEncoding) {
-                final SweAbstractEncoding sosSweEncoding = (SweAbstractEncoding) decodedObject;
-                return new SosResultEncoding(sosSweEncoding);
-            } else {
-                throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultEncoding,
-                        "The requested result encoding (%s) is not supported by this server!",
-                        resultEncoding.getDomNode().getNodeName());
-            }
-        } catch (XmlException e) {
+        Object decodedObject = decodeXmlElement(resultEncoding);
+        if (decodedObject instanceof SweAbstractEncoding) {
+            final SweAbstractEncoding sosSweEncoding = (SweAbstractEncoding) decodedObject;
+            return new SosResultEncoding(sosSweEncoding);
+        } else {
             throw new DecodingException(Sos2Constants.InsertResultTemplateParams.resultEncoding,
-                    "Error while parsing the result encoding!");
+                    "The requested result encoding (%s) is not supported by this server!",
+                    resultEncoding.getDomNode().getNodeName());
         }
     }
 
