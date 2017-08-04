@@ -22,10 +22,11 @@ import java.util.Set;
 import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 import com.google.common.collect.ImmutableSet;
 
-public class TestXmlBinding extends AbstractXmlBinding {
+public class TestXmlBinding extends AbstractXmlBinding<OwsServiceRequest> {
 
     private static final PathBindingKey PATH_KEY
             = new PathBindingKey("/service/test");
