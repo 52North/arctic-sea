@@ -87,6 +87,7 @@ import org.w3.x1999.xlink.ActuateType;
 import org.w3.x1999.xlink.ShowType;
 import org.w3.x1999.xlink.TypeType;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -207,11 +208,13 @@ public class SweCommonEncoderv20
     }
 
     @Override
-    public XmlObject encode(Object sosSweType, EncodingContext additionalValues) throws EncodingException {
+    public XmlObject encode(Object sosSweType, EncodingContext additionalValues)
+            throws EncodingException {
         return XmlHelper.validateDocument(encode1(sosSweType, additionalValues), EncodingException::new);
     }
 
-    private XmlObject encode1(Object sosSweType, EncodingContext additionalValues) throws EncodingException {
+    private XmlObject encode1(Object sosSweType, EncodingContext additionalValues)
+            throws EncodingException {
         if (sosSweType instanceof SweCoordinate) {
             return createCoordinate((SweCoordinate<?>) sosSweType);
         } else if (sosSweType instanceof SweAbstractEncoding) {
@@ -266,7 +269,8 @@ public class SweCommonEncoderv20
         }
     }
 
-    private XmlObject asPropertyType(AbstractDataComponentType type) throws NotYetSupportedEncodingException {
+    private XmlObject asPropertyType(AbstractDataComponentType type)
+            throws NotYetSupportedEncodingException {
         if (type instanceof BooleanType) {
             BooleanPropertyType propertyType = BooleanPropertyType.Factory.newInstance();
             propertyType.setBoolean((BooleanType) type);
@@ -332,7 +336,8 @@ public class SweCommonEncoderv20
         }
     }
 
-    private XmlObject asDocument(AbstractDataComponentType type) throws NotYetSupportedEncodingException {
+    private XmlObject asDocument(AbstractDataComponentType type)
+            throws NotYetSupportedEncodingException {
         if (type instanceof BooleanType) {
             BooleanDocument document = BooleanDocument.Factory.newInstance();
             document.setBoolean((BooleanType) type);
@@ -410,7 +415,8 @@ public class SweCommonEncoderv20
         return xmlString;
     }
 
-    private DataRecordType.Field createField(SweField field) throws EncodingException {
+    private DataRecordType.Field createField(SweField field)
+            throws EncodingException {
         SweAbstractDataComponent element = field.getElement();
         DataRecordType.Field xmlField = DataRecordType.Field.Factory.newInstance(getXmlOptions());
 
@@ -425,15 +431,17 @@ public class SweCommonEncoderv20
         return xmlField;
     }
 
-    private Coordinate createCoordinate(SweCoordinate<?> coordinate) throws EncodingException {
+    private Coordinate createCoordinate(SweCoordinate<?> coordinate)
+            throws EncodingException {
         Coordinate xbCoordinate = Coordinate.Factory.newInstance(getXmlOptions());
         xbCoordinate.setName(coordinate.getName());
-        xbCoordinate
-                .setQuantity((QuantityType) createAbstractDataComponent((SweQuantity) coordinate.getValue(), null));
+        xbCoordinate.setQuantity((QuantityType) createAbstractDataComponent((SweQuantity) coordinate.getValue(),
+                EncodingContext.empty()));
         return xbCoordinate;
     }
 
-    private AbstractEncodingType createAbstractEncoding(SweAbstractEncoding encoding) throws EncodingException {
+    private AbstractEncodingType createAbstractEncoding(SweAbstractEncoding encoding)
+            throws EncodingException {
         if (encoding instanceof SweTextEncoding) {
             return createTextEncoding((SweTextEncoding) encoding);
         }
@@ -654,7 +662,8 @@ public class SweCommonEncoderv20
         return att;
     }
 
-    private QualityPropertyType[] createQuality(final Collection<SweQuality> quality) throws EncodingException {
+    private QualityPropertyType[] createQuality(final Collection<SweQuality> quality)
+            throws EncodingException {
         if (!quality.isEmpty()) {
             final ArrayList<QualityPropertyType> xbQualities = Lists.newArrayListWithCapacity(quality.size());
             for (final SweQuality sweQuality : quality) {
@@ -688,12 +697,14 @@ public class SweCommonEncoderv20
     public class SweDataComponentVisitorImpl
             implements SweDataComponentVisitor<AbstractDataComponentType, EncodingException> {
         @Override
-        public AbstractDataComponentType visit(SweField component) throws EncodingException {
+        public AbstractDataComponentType visit(SweField component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(SweDataRecord component) throws EncodingException {
+        public AbstractDataComponentType visit(SweDataRecord component)
+                throws EncodingException {
             List<SweField> sosFields = component.getFields();
             DataRecordType xbDataRecord = DataRecordType.Factory.newInstance(getXmlOptions());
             if (sosFields == null) {
@@ -713,7 +724,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweDataArray component) throws EncodingException {
+        public AbstractDataComponentType visit(SweDataArray component)
+                throws EncodingException {
             if (component == null) {
                 return null;
             }
@@ -778,7 +790,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweCount component) throws EncodingException {
+        public AbstractDataComponentType visit(SweCount component)
+                throws EncodingException {
             CountType xml = CountType.Factory.newInstance(getXmlOptions());
             if (component.isSetValue()) {
                 xml.setValue(new BigInteger(Integer.toString(component.getValue())));
@@ -790,7 +803,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweCountRange component) throws EncodingException {
+        public AbstractDataComponentType visit(SweCountRange component)
+                throws EncodingException {
             CountRangeType xml = CountRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetValue()) {
                 xml.setValue(component.getValue().getRangeAsList());
@@ -802,7 +816,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweBoolean component) throws EncodingException {
+        public AbstractDataComponentType visit(SweBoolean component)
+                throws EncodingException {
             BooleanType xbBoolean = BooleanType.Factory.newInstance(getXmlOptions());
             if (component.isSetValue()) {
                 xbBoolean.setValue(component.getValue());
@@ -811,7 +826,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweCategory component) throws EncodingException {
+        public AbstractDataComponentType visit(SweCategory component)
+                throws EncodingException {
             CategoryType xml = CategoryType.Factory.newInstance(getXmlOptions());
             if (component.getCodeSpace() != null) {
                 xml.addNewCodeSpace().setHref(component.getCodeSpace());
@@ -826,7 +842,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweCategoryRange component) throws EncodingException {
+        public AbstractDataComponentType visit(SweCategoryRange component)
+                throws EncodingException {
             CategoryRangeType xml = CategoryRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetUom()) {
                 xml.addNewCodeSpace().setHref(component.getUom());
@@ -841,12 +858,14 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweObservableProperty component) throws EncodingException {
+        public AbstractDataComponentType visit(SweObservableProperty component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(SweQuantity component) throws EncodingException {
+        public AbstractDataComponentType visit(SweQuantity component)
+                throws EncodingException {
             QuantityType xml = QuantityType.Factory.newInstance(getXmlOptions());
             if (component.isSetAxisID()) {
                 xml.setAxisID(component.getAxisID());
@@ -870,7 +889,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweQuantityRange component) throws EncodingException {
+        public AbstractDataComponentType visit(SweQuantityRange component)
+                throws EncodingException {
             QuantityRangeType xml = QuantityRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetAxisID()) {
                 xml.setAxisID(component.getAxisID());
@@ -894,7 +914,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweText component) throws EncodingException {
+        public AbstractDataComponentType visit(SweText component)
+                throws EncodingException {
             TextType xml = TextType.Factory.newInstance(getXmlOptions());
             if (component.isSetValue()) {
                 xml.setValue(component.getValue());
@@ -906,7 +927,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweTime component) throws EncodingException {
+        public AbstractDataComponentType visit(SweTime component)
+                throws EncodingException {
             TimeType xml = TimeType.Factory.newInstance(getXmlOptions());
             if (component.isSetValue()) {
                 xml.setValue(component.getValue());
@@ -925,7 +947,8 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweTimeRange component) throws EncodingException {
+        public AbstractDataComponentType visit(SweTimeRange component)
+                throws EncodingException {
             TimeRangeType xml = TimeRangeType.Factory.newInstance(getXmlOptions());
             if (component.isSetUom()) {
                 xml.addNewUom().setHref(component.getUom());
@@ -943,12 +966,14 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweEnvelope component) throws EncodingException {
+        public AbstractDataComponentType visit(SweEnvelope component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(SweVector component) throws EncodingException {
+        public AbstractDataComponentType visit(SweVector component)
+                throws EncodingException {
             VectorType xbVector = VectorType.Factory.newInstance(getXmlOptions());
             if (component.isSetReferenceFrame()) {
                 xbVector.setReferenceFrame(component.getReferenceFrame());
@@ -965,36 +990,40 @@ public class SweCommonEncoderv20
         }
 
         @Override
-        public AbstractDataComponentType visit(SweSimpleDataRecord component) throws EncodingException {
+        public AbstractDataComponentType visit(SweSimpleDataRecord component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(SmlPosition component) throws EncodingException {
+        public AbstractDataComponentType visit(SmlPosition component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(SmlDataInterface component) throws EncodingException {
+        public AbstractDataComponentType visit(SmlDataInterface component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(SmlFeatureOfInterest component) throws EncodingException {
+        public AbstractDataComponentType visit(SmlFeatureOfInterest component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @Override
-        public AbstractDataComponentType visit(StreamingSweDataArray component) throws EncodingException {
+        public AbstractDataComponentType visit(StreamingSweDataArray component)
+                throws EncodingException {
             return unsupported(component);
         }
 
         @SuppressFBWarnings("VA_FORMAT_STRING_USES_NEWLINE")
-        private AbstractDataComponentType unsupported(SweAbstractDataComponent component) throws EncodingException {
-
+        private AbstractDataComponentType unsupported(SweAbstractDataComponent component)
+                throws EncodingException {
             String xml = component.getXml();
-
-            if (xml != null && !xml.isEmpty()) {
+            if (!Strings.isNullOrEmpty(xml)) {
                 try {
                     return (AbstractDataComponentType) XmlObject.Factory.parse(xml, getXmlOptions());
                 } catch (XmlException ex) {
