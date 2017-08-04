@@ -16,16 +16,20 @@
  */
 package org.n52.shetland.ogc.sos.response;
 
+import java.util.List;
+
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
+
+import com.google.common.collect.Lists;
 
 /**
  * @since 1.0.0
  *
  */
 public class InsertResultResponse extends OwsServiceResponse {
-    private OmObservation observation;
+    private List<OmObservation> observations = Lists.newArrayList();
 
     public InsertResultResponse() {
         super(null, null, Sos2Constants.Operations.InsertResult.name());
@@ -39,12 +43,21 @@ public class InsertResultResponse extends OwsServiceResponse {
         super(service, version, operationName);
     }
 
-    public OmObservation getObservation() {
-        return observation;
+    public List<OmObservation> getObservations() {
+        return observations;
     }
 
     public void setObservation(OmObservation observation) {
-        this.observation = observation;
+        if (observation != null) {
+            this.observations.add(observation);
+        }
+    }
+    
+    public void setObservations(List<OmObservation> observations) {
+        this.observations.clear();
+        if (observations != null) {
+            this.observations.addAll(observations);
+        }
     }
 
 }
