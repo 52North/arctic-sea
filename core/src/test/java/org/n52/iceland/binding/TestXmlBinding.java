@@ -19,12 +19,11 @@ package org.n52.iceland.binding;
 import java.util.Collections;
 import java.util.Set;
 
+import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 
 import com.google.common.collect.ImmutableSet;
-
-import org.n52.iceland.coding.DocumentBuilderProvider;
 
 public class TestXmlBinding extends AbstractXmlBinding {
 
@@ -59,11 +58,6 @@ public class TestXmlBinding extends AbstractXmlBinding {
     @Override
     protected MediaType getDefaultContentType() {
         return MEDIA_TYPE_KEY.getMediaType();
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return PATH_KEY.getPath();
     }
 
 }

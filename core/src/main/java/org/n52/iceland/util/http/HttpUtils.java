@@ -65,6 +65,7 @@ public class HttpUtils {
     private Boolean isCountingOutputStream = false;
 
     private EventBus eventBus;
+    private ResponseWriterRepository responseWriterRepository;
 
     public EventBus getEventBus() {
         return eventBus;
@@ -75,6 +76,11 @@ public class HttpUtils {
         this.eventBus = eventBus;
     }
 
+    @Inject
+    public void setResponseWriterRepository(ResponseWriterRepository responseWriterRepository) {
+        this.responseWriterRepository = responseWriterRepository;
+    }
+
     public Boolean getIsCountingOutputStream() {
         return isCountingOutputStream;
     }
@@ -82,29 +88,6 @@ public class HttpUtils {
     @Setting(MiscSettings.STATISTICS_COUNTING_OUTPUTSTREAM)
     public void setIsCountingOutputStream(Boolean isCountingOutputStream) {
         this.isCountingOutputStream = isCountingOutputStream;
-    }
-
-    @Deprecated
-    public static boolean supportsGzipEncoding(HttpServletRequest req) {
-        return HTTPHeaders.supportsGzipEncoding(req);
-    }
-
-    @Deprecated
-    public static boolean isGzipEncoded(HttpServletRequest req) {
-        return HTTPHeaders.isGzipEncoded(req);
-    }
-
-    @Deprecated
-    public static List<MediaType> getAcceptHeader(HttpServletRequest req) {
-        return HTTPHeaders.getAcceptHeader(req);
-    }
-
-    public static InputStream getInputStream(HttpServletRequest req) throws IOException {
-        if (HTTPHeaders.isGzipEncoded(req)) {
-            return new GZIPInputStream(req.getInputStream());
-        } else {
-            return req.getInputStream();
-        }
     }
 
     public void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
@@ -123,8 +106,8 @@ public class HttpUtils {
         }
     }
 
-    public void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
-                            Writable writable, EncodingExceptionHandler owserHandler)
+    private void writeObject(HttpServletRequest request, HttpServletResponse response, MediaType contentType,
+                             Writable writable, EncodingExceptionHandler owserHandler)
             throws IOException, HTTPException {
         OutputStream out = null;
         response.setContentType(writable.getEncodedContentType().toString());
@@ -171,60 +154,33 @@ public class HttpUtils {
         }
     }
 
-    private static Writable getWritable(Object writeOwsExceptionReport, MediaType contentType) {
+    private Writable getWritable(Object writeOwsExceptionReport, MediaType contentType) {
         if (writeOwsExceptionReport instanceof ServiceResponse) {
             return new ServiceResponseWritable((ServiceResponse) writeOwsExceptionReport);
         }
         return new GenericWritable(writeOwsExceptionReport, contentType);
     }
 
-    private static class GenericWritable implements Writable {
+    @Deprecated
+    public static boolean supportsGzipEncoding(HttpServletRequest req) {
+        return HTTPHeaders.supportsGzipEncoding(req);
+    }
 
-        private final Object o;
+    @Deprecated
+    public static boolean isGzipEncoded(HttpServletRequest req) {
+        return HTTPHeaders.isGzipEncoded(req);
+    }
 
-        private final ResponseWriter<Object> writer;
+    @Deprecated
+    public static List<MediaType> getAcceptHeader(HttpServletRequest req) {
+        return HTTPHeaders.getAcceptHeader(req);
+    }
 
-        /**
-         * constructor
-         *
-         * @param o  {@link Object} to write
-         * @param ct contentType to encode to
-         */
-        GenericWritable(Object o, MediaType ct) {
-            this.o = o;
-            writer = ResponseWriterRepository.getInstance().getWriter(o.getClass());
-            if (writer == null) {
-                throw new RuntimeException("no writer for " + o.getClass() + " found!");
-            }
-            writer.setContentType(ct);
-        }
-
-        @Override
-        public boolean hasForcedHttpStatus() {
-            return writer.hasForcedHttpStatus(this.o);
-        }
-
-        @Override
-        public HTTPStatus getForcedHttpStatus() {
-            return writer.getForcedHttpStatus(this.o);
-        }
-
-        @Override
-        public boolean supportsGZip() {
-            return writer.supportsGZip(o);
-        }
-
-        @Override
-        public void write(OutputStream out, ResponseProxy responseProxy) throws IOException, EncodingException {
-            writer.write(o, out, responseProxy);
-        }
-
-        @Override
-        public MediaType getEncodedContentType() {
-            if (o instanceof ResponseFormat) {
-                return writer.getEncodedContentType((ResponseFormat) o);
-            }
-            return writer.getContentType();
+    public static InputStream getInputStream(HttpServletRequest req) throws IOException {
+        if (HTTPHeaders.isGzipEncoded(req)) {
+            return new GZIPInputStream(req.getInputStream());
+        } else {
+            return req.getInputStream();
         }
     }
 
@@ -256,7 +212,57 @@ public class HttpUtils {
         }
     }
 
-    public interface Writable {
+    private class GenericWritable implements Writable {
+
+        private final Object object;
+
+        private final ResponseWriter<Object> writer;
+
+        /**
+         * Creates a new {@code GenericWritable}.
+         *
+         * @param object {@link Object} to write
+         * @param ct     contentType to encode to
+         */
+        GenericWritable(Object object, MediaType ct) {
+            this.object = object;
+            writer = responseWriterRepository.getWriter(object.getClass());
+            if (writer == null) {
+                throw new RuntimeException("no writer for " + object.getClass() + " found!");
+            }
+            writer.setContentType(ct);
+        }
+
+        @Override
+        public boolean hasForcedHttpStatus() {
+            return writer.hasForcedHttpStatus(this.object);
+        }
+
+        @Override
+        public HTTPStatus getForcedHttpStatus() {
+            return writer.getForcedHttpStatus(this.object);
+        }
+
+        @Override
+        public boolean supportsGZip() {
+            return writer.supportsGZip(object);
+        }
+
+        @Override
+        public void write(OutputStream out, ResponseProxy responseProxy) throws IOException, EncodingException {
+            writer.write(object, out, responseProxy);
+        }
+
+        @Override
+        public MediaType getEncodedContentType() {
+            if (object instanceof ResponseFormat) {
+                return writer.getEncodedContentType((ResponseFormat) object);
+            }
+            return writer.getContentType();
+        }
+    }
+
+    private interface Writable {
 
         void write(OutputStream out, ResponseProxy responseProxy) throws IOException, EncodingException;
 

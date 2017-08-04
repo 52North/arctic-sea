@@ -30,10 +30,8 @@ import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
-import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.service.MiscSettings;
 import org.n52.janmayen.http.MediaType;
@@ -47,7 +45,6 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.ConformanceClasses;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /**
  * {@link Binding} implementation for POX (XML) encoded requests
@@ -62,8 +59,7 @@ public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
 
-    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(BindingConstants.POX_BINDING_ENDPOINT))
+    private static final Set<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_XML))
             .add(new MediaTypeBindingKey(MediaTypes.TEXT_XML))
             .build();
@@ -104,9 +100,8 @@ public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
         }
     }
 
-    protected OwsServiceRequest parseRequest(HttpServletRequest request)
-            throws OwsExceptionReport {
-        return ((OwsServiceRequest) decode(request)).setRequestContext(getRequestContext(request));
+    protected OwsServiceRequest parseRequest(HttpServletRequest request) throws OwsExceptionReport {
+        return decode(request).setRequestContext(getRequestContext(request));
     }
 
     @Override
@@ -126,16 +121,6 @@ public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
     @Override
     protected MediaType getDefaultContentType() {
         return MediaTypes.APPLICATION_XML;
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Sets.newHashSet(MediaTypes.TEXT_XML, MediaTypes.APPLICATION_XML);
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return BindingConstants.POX_BINDING_ENDPOINT;
     }
 
 }

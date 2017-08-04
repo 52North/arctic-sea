@@ -22,6 +22,8 @@ public interface ConnectionProviderIdentificator {
     String CONNECTION_PROVIDER_IDENTIFIER = "connection.provider.identifier";
 
     @Deprecated
-    String getConnectionProviderIdentifier();
+    default String getConnectionProviderIdentifier() {
+        return "";
+    }
 
 }

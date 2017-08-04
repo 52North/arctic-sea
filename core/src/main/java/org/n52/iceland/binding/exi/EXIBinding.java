@@ -33,9 +33,13 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.XMLReader;
+
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.exception.HTTPException;
@@ -53,12 +57,7 @@ import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.XMLReader;
 
-import com.google.common.collect.ImmutableSet;
 import com.siemens.ct.exi.EXIFactory;
 import com.siemens.ct.exi.api.sax.EXISource;
 import com.siemens.ct.exi.exceptions.EXIException;
@@ -71,19 +70,12 @@ import com.siemens.ct.exi.exceptions.EXIException;
  * @since 2.0.0
  *
  */
-public class EXIBinding
-        extends SimpleBinding {
-
-    private static final String URL_PATTERN = "/exi";
-
+public class EXIBinding extends SimpleBinding {
     private static final Set<String> CONFORMANCE_CLASSES =
             Collections.singleton("http://www.opengis.net/spec/SOS/2.0/conf/exi");
-
     private static final Logger LOGGER = LoggerFactory.getLogger(EXIBinding.class);
-
-    private static final Set<BindingKey> KEYS = ImmutableSet.<BindingKey> builder()
-            .add(new PathBindingKey(URL_PATTERN)).add(new MediaTypeBindingKey(MediaTypes.APPLICATION_EXI)).build();
-
+    private static final Set<BindingKey> KEYS =
+            Collections.singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_EXI));
     private final EXIUtils exiUtils;
 
     @Inject
@@ -208,15 +200,4 @@ public class EXIBinding
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
     }
-
-    @Override
-    public String getUrlPattern() {
-        return URL_PATTERN;
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_EXI);
-    }
-
 }
