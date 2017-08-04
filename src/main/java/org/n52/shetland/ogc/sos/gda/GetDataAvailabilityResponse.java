@@ -114,6 +114,11 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
         return this.namespace;
     }
 
+    public GetDataAvailabilityResponse setNamespace(String namespace) {
+        this.namespace = namespace;
+        return this;
+    }
+
     /**
      * Describes the availability of observation with a specified combination of {@code featureOfInterest},
      * {@code observedProperty} and {@code procedure} .

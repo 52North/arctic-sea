@@ -52,7 +52,7 @@ public class InsertResultResponse extends OwsServiceResponse {
             this.observations.add(observation);
         }
     }
-    
+
     public void setObservations(List<OmObservation> observations) {
         this.observations.clear();
         if (observations != null) {

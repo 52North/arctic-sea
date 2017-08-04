@@ -39,7 +39,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
     private List<String> observedProperties = new LinkedList<>();
     private List<String> featuresOfInterest = new LinkedList<>();
     private List<String> offerings = new LinkedList<>();
-    private String namspace = GetDataAvailabilityConstants.NS_GDA;
+    private String namespace = GetDataAvailabilityConstants.NS_GDA_20;
     private String responseFormat;
 
     public GetDataAvailabilityRequest() {
@@ -177,7 +177,12 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
     }
 
     public String getNamespace() {
-        return this.namspace;
+        return this.namespace;
+    }
+
+    public GetDataAvailabilityRequest setNamespace(String namespace) {
+        this.namespace = namespace;
+        return this;
     }
 
 }
