@@ -168,25 +168,12 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
 
     @Override
     public String getResponseFormat() {
-        return responseFormat;
+        return Strings.isNullOrEmpty(responseFormat) ? getNamespace() : responseFormat;
     }
 
     @Override
     public void setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
-    }
-
-    @Override
-    public boolean isSetResponseFormat() {
-        return !Strings.isNullOrEmpty(getResponseFormat());
-    }
-
-    public GetDataAvailabilityRequest setNamespace(String namspace) {
-        if (!Strings.isNullOrEmpty(namspace)) {
-            this.namspace = namspace;
-            setResponseFormat(namspace);
-        }
-        return this;
     }
 
     public String getNamespace() {

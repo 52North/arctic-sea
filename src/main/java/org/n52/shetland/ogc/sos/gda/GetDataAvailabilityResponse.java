@@ -102,19 +102,12 @@ public class GetDataAvailabilityResponse extends OwsServiceResponse implements R
 
     @Override
     public String getResponseFormat() {
-        return responseFormat;
+        return Strings.isNullOrEmpty(responseFormat) ? getNamespace() : responseFormat;
     }
 
     @Override
     public void setResponseFormat(String responseFormat) {
         this.responseFormat = responseFormat;
-    }
-
-    public void setNamespace(String namespace) {
-        if (!Strings.isNullOrEmpty(namespace)) {
-            this.namespace = namespace;
-            setResponseFormat(namespace);
-        }
     }
 
     public String getNamespace() {
