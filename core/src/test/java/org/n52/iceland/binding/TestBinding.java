@@ -51,9 +51,4 @@ public class TestBinding extends SimpleBinding {
         return Sets.<BindingKey>newHashSet(new PathBindingKey(URL_PATTERN));
     }
 
-    @Override
-    public String getUrlPattern() {
-        return URL_PATTERN;
-    }
-
 }

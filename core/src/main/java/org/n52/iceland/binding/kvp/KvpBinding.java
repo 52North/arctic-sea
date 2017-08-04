@@ -33,10 +33,8 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
-import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.exception.HTTPException;
@@ -66,7 +64,6 @@ import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * OWS binding for Key-Value-Pair (HTTP-Get) requests
@@ -81,11 +78,8 @@ public class KvpBinding extends SimpleBinding {
     @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_KVP_CORE_BINDING);
-
-    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(BindingConstants.KVP_BINDING_ENDPOINT))
-            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_KVP))
-            .build();
+    private static final Set<BindingKey> KEYS =
+            Collections.singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_KVP));
 
     private boolean useHttpResponseCodes;
 
@@ -109,16 +103,6 @@ public class KvpBinding extends SimpleBinding {
     @Override
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_KVP);
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return BindingConstants.KVP_BINDING_ENDPOINT;
     }
 
     @Override

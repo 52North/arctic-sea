@@ -16,9 +16,12 @@
  */
 package org.n52.iceland.binding.soap;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -28,10 +31,8 @@ import javax.xml.soap.SOAPConstants;
 
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
-import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
@@ -64,9 +65,6 @@ import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-
 /**
  * {@link Binding} implementation for SOAP encoded requests
  *
@@ -79,21 +77,14 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_SOAP_BINDING);
 
-    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(BindingConstants.SOAP_BINDING_ENDPOINT))
-            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML))
-            .build();
+    private static final Set<BindingKey> KEYS = Collections
+            .singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML));
 
     private HttpUtils httpUtils;
 
     @Override
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return BindingConstants.SOAP_BINDING_ENDPOINT;
     }
 
     @Override
@@ -114,11 +105,6 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_SOAP_XML);
     }
 
     @Override
@@ -145,7 +131,7 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
     private void parseSoapRequest(SoapChain soapChain) throws OwsExceptionReport {
         String soapAction = SoapHelper.checkSoapHeader(soapChain.getHttpRequest());
-        SoapRequest soapRequest = (SoapRequest) decode(soapChain.getHttpRequest());
+        SoapRequest soapRequest = decode(soapChain.getHttpRequest());
         if (soapRequest.getSoapAction() == null && soapAction != null) {
             soapRequest.setAction(soapAction);
         }
@@ -175,7 +161,6 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     // }
     // chain.setBodyRequest(bodyRequest);
     // }
-
     private void createSoapResponse(SoapChain chain) {
         SoapResponse soapResponse = new SoapResponse();
         soapResponse.setSoapVersion(chain.getSoapRequest().getSoapVersion());
@@ -190,9 +175,9 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     }
 
     private Object encodeSoapResponse(SoapChain chain) throws OwsExceptionReport, NoEncoderForKeyException {
-        final EncoderKey key =
-                new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(), chain.getSoapResponse().getClass());
-        final Encoder<?, SoapResponse> encoder = getEncoder(key);
+        EncoderKey key = new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(),
+                                           chain.getSoapResponse().getClass());
+        Encoder<?, SoapResponse> encoder = getEncoder(key);
         if (encoder != null) {
             try {
                 return encoder.encode(chain.getSoapResponse());
@@ -223,31 +208,31 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
             }
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain),
-                    encodeSoapResponse(chain), this);
+                                  encodeSoapResponse(chain), this);
         } catch (OwsExceptionReport | NoEncoderForKeyException t) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, t);
         }
     }
 
     private void writeResponse(SoapChain chain) throws IOException, HTTPException {
-        MediaType contentType =
-                chooseResponseContentType(chain.getBodyResponse(), HTTPHeaders.getAcceptHeader(chain.getHttpRequest()),
-                        getDefaultContentType());
+        MediaType contentType = chooseResponseContentType(chain.getBodyResponse(),
+                                                          HTTPHeaders.getAcceptHeader(chain.getHttpRequest()),
+                                                          getDefaultContentType());
         // TODO allow other bindings to encode response as soap messages
         if (contentType.isCompatible(getDefaultContentType())) {
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain), chain, this);
         } else {
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), contentType,
-                    chain.getBodyResponse(), this);
+                                  chain.getBodyResponse(), this);
         }
     }
 
     /**
      * Check the {@link MediaType}
      *
-     * @param chain
-     *            SoapChain to check
+     * @param chain SoapChain to check
+     *
      * @return the valid {@link MediaType}
      */
     private MediaType checkMediaType(SoapChain chain) {
@@ -261,19 +246,17 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     }
 
     /**
-     * Check if SoapHeader information is contained in the body response and add
-     * the header information to the {@link SoapResponse}
+     * Check if SoapHeader information is contained in the body response and add the header information to the
+     * {@link SoapResponse}
      *
-     * @param chain
-     *            SoapChain to check
+     * @param chain SoapChain to check
      */
     private void checkSoapInjection(SoapChain chain) {
         if (chain.getBodyResponse() instanceof CommunicationObjectWithSoapHeader) {
-            final CommunicationObjectWithSoapHeader soapHeaderObject =
-                    (CommunicationObjectWithSoapHeader) chain.getBodyResponse();
+            CommunicationObjectWithSoapHeader soapHeaderObject = (CommunicationObjectWithSoapHeader) chain
+                    .getBodyResponse();
             if (soapHeaderObject.isSetSoapHeader()) {
-                final List<SoapHeader> headers =
-                        ((CommunicationObjectWithSoapHeader) chain.getSoapRequest()).getSoapHeader();
+                List<SoapHeader> headers = ((CommunicationObjectWithSoapHeader) chain.getSoapRequest()).getSoapHeader();
                 // TODO do things
                 chain.getSoapResponse().setHeader(checkSoapHeaders(headers));
             }
@@ -282,17 +265,17 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
     private List<SoapHeader> checkSoapHeaders(List<SoapHeader> headers) {
         if (CollectionHelper.isNotEmpty(headers)) {
-            List<SoapHeader> responseHeader = Lists.newArrayListWithCapacity(headers.size());
-            for (SoapHeader header : headers) {
+            return headers.stream().map((header) -> {
                 if (header instanceof WsaMessageIDHeader) {
-                    responseHeader.add(((WsaMessageIDHeader) header).getRelatesToHeader());
+                    return ((WsaMessageIDHeader) header).getRelatesToHeader();
                 } else if (header instanceof WsaReplyToHeader) {
-                    responseHeader.add(((WsaReplyToHeader) header).getToHeader());
+                    return ((WsaReplyToHeader) header).getToHeader();
                 } else if (!(header instanceof WsaToHeader)) {
-                    responseHeader.add(header);
+                    return header;
+                } else {
+                    return null;
                 }
-            }
-            return responseHeader;
+            }).filter(Objects::nonNull).collect(toList());
         }
         return null;
     }

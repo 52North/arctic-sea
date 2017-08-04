@@ -25,6 +25,13 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.util.http.HttpUtils;
@@ -36,7 +43,6 @@ import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
-import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.StringHelper;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.decode.Decoder;
@@ -44,18 +50,14 @@ import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 
 /**
  * Abstract binding class for XML encoded requests
+ *
+ * @param <T> the decoded request type
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -78,7 +80,7 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
         LOGGER.debug("XML-REQUEST: {}", xmlString);
         DecoderKey key = getDecoderKey(xmlString, characterEncoding);
         LOGGER.trace("Found decoder key: {}", key);
-        Decoder<OwsServiceRequest, String> decoder = getDecoder(key);
+        Decoder<T, String> decoder = getDecoder(key);
         if (decoder == null) {
             // if this a GetCapabilities request, then the service is not supported
             String opOrType = null;
@@ -102,13 +104,13 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
             } else {
                 throw new InvalidParameterValueException()
                         .withMessage("No decoder found for incoming message " +
-                                "based on derived decoder key: %s\nMessage: %s", key, xmlString);
+                                     "based on derived decoder key: %s\nMessage: %s", key, xmlString);
             }
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
         }
         try {
-            return (T) decoder.decode(xmlString);
+            return decoder.decode(xmlString);
         } catch (OwsDecodingException ex) {
             throw ex.getCause();
         } catch (DecodingException ex) {
@@ -162,8 +164,8 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
             namespace = element.getAttribute(name);
             return new XmlNamespaceOperationDecoderKey(namespace, elementName);
         } else {
-            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(), nodeName.substring(nodeName
-                                                       .indexOf(':') + 1));
+            return new XmlNamespaceOperationDecoderKey(element.getNamespaceURI(),
+                                                       nodeName.substring(nodeName.indexOf(':') + 1));
         }
     }
 

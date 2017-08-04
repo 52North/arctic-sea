@@ -25,5 +25,7 @@ public interface DatasourceDaoIdentifier {
     String DATASOURCE_DAO_IDENTIFIER = "datasource.dao.identifier";
 
     @Deprecated
-    String getDatasourceDaoIdentifier();
+    default String getDatasourceDaoIdentifier() {
+        return "";
+    }
 }

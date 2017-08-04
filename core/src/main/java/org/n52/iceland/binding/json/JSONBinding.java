@@ -29,7 +29,6 @@ import org.slf4j.LoggerFactory;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.exception.HTTPException;
@@ -49,7 +48,6 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * {@link Binding} implementation for JSON encoded requests
@@ -58,7 +56,6 @@ import com.google.common.collect.ImmutableSet;
  * @since 1.0.0
  */
 public class JSONBinding extends SimpleBinding {
-    private static final String URL_PATTERN = "/json";
     @Deprecated
     private static final String CONFORMANCE_CLASS
             = "http://www.opengis.net/spec/SOS/2.0/conf/json";
@@ -68,11 +65,8 @@ public class JSONBinding extends SimpleBinding {
     private static final String SERVICE = "service";
     private static final String VERSION = "version";
     private static final String REQUEST = "request";
-
-    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(URL_PATTERN))
-            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_JSON))
-            .build();
+    private static final Set<BindingKey> KEYS =
+            Collections.singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_JSON));
 
     @Override
     public Set<BindingKey> getKeys() {
@@ -149,15 +143,5 @@ public class JSONBinding extends SimpleBinding {
             throw new NoApplicableCodeException().causedBy(ioe).withMessage(
                     "Error while reading request! Message: %s", ioe.getMessage());
         }
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return URL_PATTERN;
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_JSON);
     }
 }
