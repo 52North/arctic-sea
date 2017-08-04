@@ -18,6 +18,7 @@ package org.n52.svalbard.encode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -37,6 +38,7 @@ import org.n52.svalbard.util.XmlHelper;
 import org.n52.svalbard.write.GetDataAvailabilityStreamWriter;
 import org.n52.svalbard.write.GetDataAvailabilityV20StreamWriter;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 /**
@@ -51,16 +53,31 @@ public class GetDataAvailabilityXmlEncoder
 
     public GetDataAvailabilityXmlEncoder() {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, GetDataAvailabilityConstants.OPERATION_NAME,
-              Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
+                Sos2Constants.NS_SOS_20, SosConstants.NS_SOS_PREFIX, GetDataAvailabilityResponse.class, false);
     }
 
     @Override
     protected Set<SchemaLocation> getConcreteSchemaLocations() {
-        return Sets.newHashSet(GetDataAvailabilityConstants.GET_DATA_AVAILABILITY_SCHEMA_LOCATION);
+        return Collections.emptySet();
+    }
+
+    protected Set<SchemaLocation> getConcreteSchemaLocations(String namespace) {
+        if (!Strings.isNullOrEmpty(namespace)) {
+            switch (namespace) {
+                case GetDataAvailabilityConstants.NS_GDA:
+                    return Sets.newHashSet(GetDataAvailabilityConstants.GET_DATA_AVAILABILITY_SCHEMA_LOCATION);
+                case GetDataAvailabilityConstants.NS_GDA_20:
+                    return Sets.newHashSet(GetDataAvailabilityConstants.GET_DATA_AVAILABILITY_20_SCHEMA_LOCATION);
+                default:
+                    return getConcreteSchemaLocations();
+            }
+        }
+        return getConcreteSchemaLocations();
     }
 
     @Override
-    protected XmlObject create(GetDataAvailabilityResponse response) throws EncodingException {
+    protected XmlObject create(GetDataAvailabilityResponse response)
+            throws EncodingException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             EncodingContext ctx = EncodingContext.empty()

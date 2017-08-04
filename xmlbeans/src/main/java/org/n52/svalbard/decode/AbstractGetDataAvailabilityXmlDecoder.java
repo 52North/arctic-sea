@@ -43,7 +43,6 @@ public abstract class AbstractGetDataAvailabilityXmlDecoder
     @Override
     public GetDataAvailabilityRequest decode(XmlObject objectToDecode)
             throws DecodingException {
-        // TODO Auto-generated method stub
         return parseGetDataAvailability(objectToDecode);
     }
 

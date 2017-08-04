@@ -37,6 +37,8 @@ import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 
+import com.google.common.collect.Sets;
+
 
 /**
  * GetDataAvailability response stream writer.
@@ -69,6 +71,7 @@ public class GetDataAvailabilityStreamWriter
         namespace(GmlConstants.NS_GML_PREFIX, GmlConstants.NS_GML_32);
         namespace(SweConstants.NS_SWE_PREFIX, SweConstants.NS_SWE_20);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
+        schemaLocation(Sets.newHashSet(GetDataAvailabilityConstants.GET_DATA_AVAILABILITY_SCHEMA_LOCATION));
         for (DataAvailability da : getElement()) {
             wirteDataAvailabilityMember(da);
         }

@@ -26,6 +26,7 @@ import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,10 +47,6 @@ public class GetDataAvailabilityV20XmlDecoder
         extends AbstractGetDataAvailabilityXmlDecoder {
 
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityV20XmlDecoder.class);
-    //
-    // private static final String BASE_PATH_GDA =
-    // getBasePath(GetDataAvailabilityConstants.XPATH_PREFIXES_GDA_20,
-    // GetDataAvailabilityConstants.NS_GDA_PREFIX);
 
     private static final Set<DecoderKey> DECODER_KEYS =
             CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20, XmlObject.class);
@@ -98,7 +95,8 @@ public class GetDataAvailabilityV20XmlDecoder
             throws DecodingException {
         GetDataAvailabilityRequest request = new GetDataAvailabilityRequest();
         GetDataAvailabilityType gdat = xml.getGetDataAvailability();
-        request.setNamespace(xml.getDomNode().getNamespaceURI());
+        request.setNamespace(XmlHelper.getNamespace(xml));
+        request.setResponseFormat(XmlHelper.getNamespace(xml));
         request.setService(gdat.getService());
         request.setVersion(gdat.getVersion());
 

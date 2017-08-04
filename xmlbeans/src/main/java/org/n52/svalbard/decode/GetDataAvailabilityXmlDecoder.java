@@ -27,6 +27,7 @@ import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,7 +86,7 @@ public class GetDataAvailabilityXmlDecoder
         if (xml instanceof GetDataAvailabilityDocument) {
             return parseGetDataAvailability((GetDataAvailabilityDocument) xml);
         }
-        return new GetDataAvailabilityRequest();
+        return new GetDataAvailabilityRequest().setNamespace(GetDataAvailabilityConstants.NS_GDA);
     }
 
     /**
@@ -101,7 +102,8 @@ public class GetDataAvailabilityXmlDecoder
             throws DecodingException {
         GetDataAvailabilityRequest request = new GetDataAvailabilityRequest();
         GetDataAvailabilityType gdat = xml.getGetDataAvailability();
-        request.setNamespace(xml.getDomNode().getNamespaceURI());
+        request.setNamespace(XmlHelper.getNamespace(xml));
+        request.setResponseFormat(XmlHelper.getNamespace(xml));
         request.setService(gdat.getService());
         request.setVersion(gdat.getVersion());
 

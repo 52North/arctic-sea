@@ -142,7 +142,7 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
                 .collect(toMap(SchemaLocation::getNamespace, Function.identity()));
         schemaLocations.putAll(getSchemaLocations().stream()
                 .collect(toMap(SchemaLocation::getNamespace, Function.identity())));
-        schemaLocations.putAll(getConcreteSchemaLocations().stream()
+        schemaLocations.putAll(getConcreteSchemaLocations(XmlHelper.getNamespace(document)).stream()
                 .collect(toMap(SchemaLocation::getNamespace, Function.identity())));
         N52XmlHelper.setSchemaLocationsToDocument(document, schemaLocations.values());
     }
@@ -158,6 +158,10 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
      * @return the concrete schema locations
      */
     protected abstract Set<SchemaLocation> getConcreteSchemaLocations();
+
+    protected Set<SchemaLocation> getConcreteSchemaLocations(String namespace) {
+        return getConcreteSchemaLocations();
+    }
 
     /**
      * Create an {@link XmlObject} from the {@link OwsServiceResponse} object
