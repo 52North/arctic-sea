@@ -191,14 +191,14 @@ public class SmlPosition
 
     public SweVector getVector() {
         if (!isSetVector() && isSetPosition()) {
-            SweVector vector = (SweVector) copyValueTo(new SweVector(getPosition()));
-            vector.setReferenceFrame(getReferenceFrame());
+            SweVector v = (SweVector) copyValueTo(new SweVector(getPosition()));
+            v.setReferenceFrame(getReferenceFrame());
             if (isSetName()) {
-                vector.setName(getName());
+                v.setName(getName());
             }
-            return vector;
+            return v;
         }
-        return vector;
+        return this.vector;
     }
 
     public void setVector(SweVector vector) {

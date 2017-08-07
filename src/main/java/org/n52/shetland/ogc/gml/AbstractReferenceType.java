@@ -151,16 +151,16 @@ public class AbstractReferenceType
         if (isSetTitle()) {
             return getTitle();
         }
-        String title = getHref();
-        if (title.startsWith("http")) {
-            title = title.substring(title.lastIndexOf('/') + 1, title.length());
-        } else if (title.startsWith("urn")) {
-            title = title.substring(title.lastIndexOf(':') + 1, title.length());
+        String t = getHref();
+        if (t.startsWith("http")) {
+            t = t.substring(t.lastIndexOf('/') + 1, t.length());
+        } else if (t.startsWith("urn")) {
+            t = t.substring(t.lastIndexOf(':') + 1, t.length());
         }
-        if (title.contains("#")) {
-            title = title.substring(title.lastIndexOf("#") + 1, title.length());
+        if (t.contains("#")) {
+            t = t.substring(t.lastIndexOf("#") + 1, t.length());
         }
-        return title;
+        return t;
     }
 
     @Override

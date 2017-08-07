@@ -84,15 +84,12 @@ public class SweDataArray extends SweAbstractDataComponent {
     }
 
     public SweCount getElementCount() {
-        SweCount elementCount = new SweCount();
         if (isSetValues()) {
-            elementCount.setValue(values.size());
+            return new SweCount().setValue(values.size());
         } else if (isSetElementCount()) {
-            elementCount = this.elementCount;
-        } else {
-            elementCount.setValue(0);
+            return this.elementCount;
         }
-        return elementCount;
+        return new SweCount().setValue(0);
     }
 
     public SweAbstractEncoding getEncoding() {

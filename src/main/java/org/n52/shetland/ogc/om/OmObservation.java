@@ -393,9 +393,9 @@ public class OmObservation
 
     private void mergeValues(OmObservation merged, OmObservation observation) {
         SweDataArray combinedValue = (SweDataArray) merged.getValue().getValue().getValue();
-        SweDataArray value = (SweDataArray) observation.getValue().getValue().getValue();
-        if (value.isSetValues()) {
-            combinedValue.addAll(value.getValues());
+        SweDataArray v = (SweDataArray) observation.getValue().getValue().getValue();
+        if (v.isSetValues()) {
+            combinedValue.addAll(v.getValues());
         }
     }
 

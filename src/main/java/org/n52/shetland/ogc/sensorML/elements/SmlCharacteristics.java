@@ -56,15 +56,15 @@ public class SmlCharacteristics extends AbstractSmlDataComponentContainer<SmlCha
      */
     public List<SmlCharacteristic> getCharacteristic() {
         if (!hasCharacteristics() && isSetAbstractDataComponents()) {
-            List<SmlCharacteristic> characteristics = Lists.newArrayList();
+            List<SmlCharacteristic> c = Lists.newArrayList();
             for (SweAbstractDataComponent component : getAbstractDataComponents()) {
                 SmlCharacteristic smlCharacteristic = new SmlCharacteristic(component.getName().getValue());
                 smlCharacteristic.setAbstractDataComponent(component);
-                characteristics.add(smlCharacteristic);
+                c.add(smlCharacteristic);
             }
-            return characteristics;
+            return c;
         }
-        return characteristics;
+        return this.characteristics;
     }
 
     /**

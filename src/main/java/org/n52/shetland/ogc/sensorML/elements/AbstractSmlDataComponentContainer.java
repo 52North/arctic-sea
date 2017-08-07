@@ -99,11 +99,11 @@ public class AbstractSmlDataComponentContainer<T> extends AbstractReferenceType 
             SweSimpleDataRecord sdr = new SweSimpleDataRecord();
             int counter = 1;
             for (SweAbstractDataComponent element : abstractDataComponents) {
-                String name = "field_" + counter++;
+                String n = "field_" + counter++;
                 if (element.isSetName()) {
-                    name = element.getName().getValue();
+                    n = element.getName().getValue();
                 }
-                SweField field = new SweField(name, element);
+                SweField field = new SweField(n, element);
                 sdr.addField(field);
             }
             return sdr;
