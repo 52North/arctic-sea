@@ -21,8 +21,7 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 
 /**
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -53,10 +52,8 @@ public class SwesExtension<T extends SweAbstractDataComponent>
     public SwesExtension<T> setValue(final T value) {
         this.value = value;
         if (value != null) {
-            setIdentifier(
-                    getIdentifier() == null && value.isSetIdentifier() ? value.getIdentifier() : getIdentifier());
-            setDefinition(
-                    getDefinition() == null && value.isSetDefinition() ? value.getDefinition() : getDefinition());
+            setIdentifier(getIdentifier() == null && value.isSetIdentifier() ? value.getIdentifier() : getIdentifier());
+            setDefinition(getDefinition() == null && value.isSetDefinition() ? value.getDefinition() : getDefinition());
         }
         return this;
     }
@@ -64,7 +61,7 @@ public class SwesExtension<T extends SweAbstractDataComponent>
     @Override
     public String toString() {
         return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]", value, getIdentifier(),
-                getDefinition());
+                             getDefinition());
     }
 
 }
