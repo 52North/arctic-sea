@@ -55,6 +55,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
 
     private final ActivationListeners<BindingKey> activation = new ActivationListeners<>(true);
 
+    @Deprecated
     private final Map<PathBindingKey, Producer<Binding>> byPath = Maps.newHashMap();
     private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
     private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
@@ -174,6 +175,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         return Producers.produce(actives);
     }
 
+    @Deprecated
     public Map<String, Binding> getBindingsByPath() {
         Map<String, Binding> map = new HashMap<>(this.byPath.size());
         for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
@@ -187,7 +189,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     }
 
     public Map<MediaType, Binding> getBindingsByMediaType() {
-        Map<MediaType, Binding> map = new HashMap<>(this.byPath.size());
+        Map<MediaType, Binding> map = new HashMap<>(this.byMediaType.size());
         for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
             MediaTypeBindingKey key = entry.getKey();
             Producer<Binding> producer = entry.getValue();
@@ -198,6 +200,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         return map;
     }
 
+    @Deprecated
     public Map<String, Binding> getAllBindingsByPath() {
         Map<String, Binding> map = new HashMap<>(this.byPath.size());
         for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
@@ -209,7 +212,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     }
 
     public Map<MediaType, Binding> getAllBindingsByMediaType() {
-        Map<MediaType, Binding> map = new HashMap<>(this.byPath.size());
+        Map<MediaType, Binding> map = new HashMap<>(this.byMediaType.size());
         for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
             MediaTypeBindingKey key = entry.getKey();
             Producer<Binding> producer = entry.getValue();
