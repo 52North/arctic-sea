@@ -74,11 +74,6 @@ public abstract class SweAbstractSimpleType<T>
     }
 
     @Override
-    public boolean equals(Object obj) {
-        return Objects.equal(this, obj);
-    }
-
-    @Override
     public String toString() {
         return String.format("%s [value=%s; quality=%s; simpleType=%s]", this.getClass().getSimpleName(), getValue(),
                 getQuality(), getDataComponentType());
