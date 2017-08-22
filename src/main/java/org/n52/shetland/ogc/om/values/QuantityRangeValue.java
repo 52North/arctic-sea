@@ -16,57 +16,46 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
+import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.swe.RangeValue;
+import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 
-/**
- * Quantity measurement representation for observation
- *
- * @since 1.0.0
- *
- */
-public class QuantityValue
-        extends SweQuantity
-        implements QuantityValued<Double, QuantityValue> {
+public class QuantityRangeValue extends SweQuantityRange implements QuantityValued<RangeValue<Double>, QuantityRangeValue> {
+    /**
+     * serial number
+     */
+    private static final long serialVersionUID = 9192378261383584604L;
 
     /**
      * constructor
      *
      * @param value
-     *            Measurement value
+     *              Measurement value
      */
-    public QuantityValue(Double value) {
+    public QuantityRangeValue(Double rangeStart, Double rangeEnd) {
         super();
-        super.setValue(value);
+        super.setValue(new RangeValue<Double>(rangeStart, rangeEnd));
     }
 
     /**
      * constructor
      *
      * @param value
-     *            Measurement value
+     *              Measurement value
      * @param unit
-     *            Unit of measure
+     *              Unit of measure
      */
-    public QuantityValue(Double value, String unit) {
-        super(value, unit);
-    }
-
-    /**
-     * constructor
-     *
-     * @param value
-     *            Measurement value
-     * @param unit
-     *            Unit of measure
-     */
-    public QuantityValue(Double value, UoM unit) {
-        super(value, unit);
+    public QuantityRangeValue(Double rangeStart, Double rangeEnd, String unit) {
+        this(rangeStart, rangeEnd);
+        this.setUnit(unit);
     }
 
     @Override
-    public QuantityValue setValue(final Double value) {
+    public QuantityRangeValue setValue(RangeValue<Double> value) {
         super.setValue(value);
         return this;
     }
@@ -74,12 +63,6 @@ public class QuantityValue
     @Override
     public void setUnit(String unit) {
         super.setUom(unit);
-    }
-
-    @Override
-    public QuantityValue setUnit(UoM unit) {
-        super.setUom(unit);
-        return this;
     }
 
     @Override
@@ -93,13 +76,20 @@ public class QuantityValue
     }
 
     @Override
+    public QuantityRangeValue setUnit(UoM unit) {
+       super.setUom(unit);
+       return this;
+    }
+
+    @Override
     public boolean isSetUnit() {
         return super.isSetUom();
     }
 
     @Override
     public String toString() {
-        return String.format("QuantityValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String
+                .format("QuantityValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override
@@ -108,7 +98,7 @@ public class QuantityValue
     }
 
     @Override
-    public int compareTo(QuantityValue o) {
+    public int compareTo(QuantityRangeValue o) {
         if (o == null) {
             throw new NullPointerException();
         }
@@ -118,6 +108,8 @@ public class QuantityValue
         if (getValue() == null && o.getValue() == null) {
             return 0;
         }
-        return getValue().compareTo(o.getValue());
+        return Comparables.chain(o).compare(getValue(), o.getValue()).result();
     }
+
+
 }

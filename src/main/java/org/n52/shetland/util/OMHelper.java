@@ -35,6 +35,7 @@ import org.n52.shetland.ogc.om.values.HrefAttributeValue;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
@@ -283,6 +284,11 @@ public final class OMHelper {
 
         @Override
         public String visit(XmlValue<?> value) {
+            return defaultValue();
+        }
+
+        @Override
+        public String visit(QuantityRangeValue value) {
             return defaultValue();
         }
 

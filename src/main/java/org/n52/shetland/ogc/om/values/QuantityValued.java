@@ -16,34 +16,6 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-import java.util.Collection;
-
-/**
- * Interface for discrete coverages
- *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 1.0.0
- *
- * @param <T>
- *            Value tpe
- */
-public interface DiscreteCoverage<T>
-        extends Value<T> {
-
-    String getGmlId();
-
-    Collection<Value<?>> getRangeSet();
-
-    /**
-     * @return the rangeParameters
-     */
-    String getRangeParameters();
-
-    /**
-     * @param rangeParameters the rangeParameters to set
-     */
-    void setRangeParameters(String rangeParameters);
-
-    boolean isSetRangeParameters();
+public interface QuantityValued<T, C> extends Value<T>, Comparable<C> {
 
 }

@@ -37,12 +37,13 @@ import com.google.common.collect.Maps;
  *
  */
 public class RectifiedGridCoverage
-        implements DiscreteCoverage<SortedMap<Double, Value<?>>> {
+        implements DiscreteCoverage<SortedMap<QuantityValued<?, ?>, Value<?>>> {
 
     private static final String GML_ID_PREFIX = "rgc_";
     private final String gmlId;
-    private final SortedMap<Double, Value<?>> value = Maps.newTreeMap();
+    private final SortedMap<QuantityValued<?, ?>, Value<?>> value = Maps.newTreeMap();
     private UoM unit;
+    private String rangeParameters;
 
     public RectifiedGridCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
@@ -60,22 +61,30 @@ public class RectifiedGridCoverage
     }
 
     @Override
-    public RectifiedGridCoverage setValue(SortedMap<Double, Value<?>> value) {
+    public RectifiedGridCoverage setValue(SortedMap<QuantityValued<?, ?>, Value<?>> value) {
         this.value.clear();
         addValue(value);
         return this;
     }
 
-    public void addValue(Double key, Value<?> value) {
+    public void addValue(QuantityValued<?, ?> key, Value<?> value) {
         this.value.put(key, value);
     }
 
-    public void addValue(SortedMap<Double, Value<?>> value) {
+    public void addValue(SortedMap<QuantityValued<?, ?>, Value<?>> value) {
         this.value.putAll(value);
     }
 
+    public void addValue(Double key, Value<?> value) {
+        this.value.put(new QuantityValue(key), value);
+    }
+
+    public void addValue(Double from, Double to, Value<?> value) {
+        this.value.put(new QuantityRangeValue(from, to), value);
+    }
+
     @Override
-    public SortedMap<Double, Value<?>> getValue() {
+    public SortedMap<QuantityValued<?, ?>, Value<?>> getValue() {
         return value;
     }
 
@@ -122,9 +131,9 @@ public class RectifiedGridCoverage
     /**
      * Get the domainSet
      *
-     * @return The domainSet as {@link Double} {@link List}
+     * @return The domainSet as {@link QuantityValued<?, ?>} {@link List}
      */
-    public List<Double> getDomainSet() {
+    public List<QuantityValued<?, ?>> getDomainSet() {
         return Lists.newArrayList(getValue().keySet());
     }
 
@@ -133,4 +142,18 @@ public class RectifiedGridCoverage
         return getValue().values();
     }
 
+    @Override
+    public String getRangeParameters() {
+        return rangeParameters;
+    }
+
+    @Override
+    public void setRangeParameters(String rangeParameters) {
+        this.rangeParameters = rangeParameters;
+    }
+
+    @Override
+    public boolean isSetRangeParameters() {
+        return !Strings.isNullOrEmpty(getRangeParameters());
+    }
 }

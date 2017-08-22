@@ -26,7 +26,7 @@ import org.n52.janmayen.Copyable;
  *
  * @param <T> Value type
  */
-public class RangeValue<T> implements Copyable<RangeValue<T>> {
+public class RangeValue<T> implements Comparable<RangeValue<T>>, Copyable<RangeValue<T>> {
 
     private static final String NULL = "null";
     private T rangeStart;
@@ -135,5 +135,25 @@ public class RangeValue<T> implements Copyable<RangeValue<T>> {
     @Override
     public RangeValue<T> copy() {
         return new RangeValue<>(getRangeStart(), getRangeEnd());
+    }
+
+    @Override
+    public int compareTo(RangeValue<T> o) {
+        if (checkCompareToParameter(getRangeStart(), o.getRangeStart())
+                && checkCompareToParameter(getRangeEnd(), o.getRangeEnd())) {
+            return 0;
+        }
+        return 1;
+    }
+
+    private boolean checkCompareToParameter(T t, T t2) {
+        if (t != null && t2 != null) {
+            return t.equals(t2);
+        } else if (t == null && t2 == null) {
+            return true;
+        } else if (t == null) {
+            return true;
+        }
+        return false;
     }
 }

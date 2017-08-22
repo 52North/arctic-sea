@@ -28,6 +28,8 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature
 import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.values.ProfileLevel;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.QuantityRangeValue;
+import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferencableGridCoverage;
 import org.n52.shetland.util.CollectionHelper;
@@ -77,10 +79,16 @@ public class ProfileObservation
             ProfileValue profile = (ProfileValue) value.getValue();
             RectifiedGridCoverage rectifiedGridCoverage = new RectifiedGridCoverage(getObservationID());
             rectifiedGridCoverage.setUnit(value.getValue().getUnit());
+            rectifiedGridCoverage.setRangeParameters(getObservationConstellation().getObservablePropertyIdentifier());
             List<Coordinate> coordinates = Lists.newArrayList();
             int srid = 0;
             for (ProfileLevel level : profile.getValue()) {
-                rectifiedGridCoverage.addValue(level.getLevelStart().getValue(), level.getSimpleValue());
+                if (level.isSetLevelEnd()) {
+                    rectifiedGridCoverage.addValue(new QuantityRangeValue(level.getLevelStart().getValue(),
+                            level.getLevelEnd().getValue(), level.getLevelStart().getUnit()), level.getSimpleValue());
+                } else {
+                    rectifiedGridCoverage.addValue(level.getLevelStart(), level.getSimpleValue());
+                }
                 if (level.isSetLocation()) {
                     Coordinate coordinate = level.getLocation().getCoordinate();
                     coordinate.z = level.getLevelStart().getValue();
@@ -95,9 +103,9 @@ public class ProfileObservation
             }
             super.setValue(new SingleObservationValue<>(value.getPhenomenonTime(), rectifiedGridCoverage));
         } else {
-            double heightDepth = 0;
+            QuantityValue heightDepth = new QuantityValue(0.0);
             if (isSetHeightDepthParameter()) {
-                heightDepth = getHeightDepthParameter().getValue().getValue();
+                heightDepth = (QuantityValue) getHeightDepthParameter().getValue();
                 removeParameter(getHeightDepthParameter());
             }
             RectifiedGridCoverage rectifiedGridCoverage = new RectifiedGridCoverage(getObservationID());

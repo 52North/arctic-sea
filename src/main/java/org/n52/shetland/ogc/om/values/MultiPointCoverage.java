@@ -58,6 +58,7 @@ public class MultiPointCoverage
      * Unit of measure
      */
     private UoM unit;
+    private String rangeParameters;
 
     public MultiPointCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
@@ -170,6 +171,21 @@ public class MultiPointCoverage
     @Override
     public List<Value<?>> getRangeSet() {
         return getPointValue().getValues();
+    }
+
+    @Override
+    public String getRangeParameters() {
+        return rangeParameters;
+    }
+
+    @Override
+    public void setRangeParameters(String rangeParameters) {
+        this.rangeParameters = rangeParameters;
+    }
+
+    @Override
+    public boolean isSetRangeParameters() {
+        return !Strings.isNullOrEmpty(getRangeParameters());
     }
 
     @Override

@@ -26,6 +26,7 @@ import org.n52.shetland.ogc.om.values.HrefAttributeValue;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
@@ -69,6 +70,9 @@ public interface ValueVisitor<T, X extends Exception> {
     T visit(QuantityValue value)
             throws X;
 
+    T visit(QuantityRangeValue value)
+            throws X;
+
     T visit(ReferenceValue value)
             throws X;
 
@@ -104,4 +108,5 @@ public interface ValueVisitor<T, X extends Exception> {
 
     T visit(XmlValue<?> value)
             throws X;
+
 }
