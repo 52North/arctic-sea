@@ -37,6 +37,7 @@ import org.n52.shetland.ogc.om.values.HrefAttributeValue;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
@@ -307,6 +308,11 @@ public class ObservationEncoder
             @Override
             public JsonNode visit(TimeRangeValue value)
                     throws EncodingException {
+                throw new UnsupportedEncoderInputException(ObservationEncoder.this, value);
+            }
+
+            @Override
+            public JsonNode visit(QuantityRangeValue value) throws EncodingException {
                 throw new UnsupportedEncoderInputException(ObservationEncoder.this, value);
             }
         });

@@ -57,6 +57,7 @@ import org.n52.shetland.ogc.om.values.HrefAttributeValue;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
@@ -410,6 +411,11 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
                     return encodeGML(value);
                 }
             }
+            return null;
+        }
+
+        @Override
+        public XmlObject visit(QuantityRangeValue value) throws EncodingException {
             return null;
         }
 
