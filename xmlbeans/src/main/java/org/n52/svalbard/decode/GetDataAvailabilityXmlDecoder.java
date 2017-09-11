@@ -19,22 +19,24 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
+import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
+import net.opengis.sosgda.x10.GetDataAvailabilityType;
+
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-
-import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
-import net.opengis.sosgda.x10.GetDataAvailabilityType;
 
 /**
  * {@code Decoder} to handle {@link GetDataAvailabilityRequest}s.
@@ -81,12 +83,13 @@ public class GetDataAvailabilityXmlDecoder
      * @throws DecodingException
      *             if the decoding fails
      */
+    @Override
     public GetDataAvailabilityRequest parseGetDataAvailability(XmlObject xml)
             throws DecodingException {
         if (xml instanceof GetDataAvailabilityDocument) {
             return parseGetDataAvailability((GetDataAvailabilityDocument) xml);
         }
-        return new GetDataAvailabilityRequest().setNamespace(GetDataAvailabilityConstants.NS_GDA);
+        throw new UnsupportedDecoderXmlInputException(this, xml);
     }
 
     /**
@@ -102,8 +105,9 @@ public class GetDataAvailabilityXmlDecoder
             throws DecodingException {
         GetDataAvailabilityRequest request = new GetDataAvailabilityRequest();
         GetDataAvailabilityType gdat = xml.getGetDataAvailability();
-        request.setNamespace(XmlHelper.getNamespace(xml));
-        request.setResponseFormat(XmlHelper.getNamespace(xml));
+        String namespace = XmlHelper.getNamespace(xml);
+        request.setNamespace(namespace);
+        request.setResponseFormat(namespace);
         request.setService(gdat.getService());
         request.setVersion(gdat.getVersion());
 
