@@ -36,6 +36,7 @@ import org.n52.shetland.ogc.om.values.HrefAttributeValue;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
@@ -312,12 +313,12 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
         }
 
         @Override
-        public XmlObject visit(MultiPointCoverage multiPointCoverage) throws EncodingException {
+        public XmlObject visit(MultiPointCoverage value) throws EncodingException {
             return null;
         }
 
         @Override
-        public XmlObject visit(RectifiedGridCoverage rectifiedGridCoverage) throws EncodingException {
+        public XmlObject visit(RectifiedGridCoverage value) throws EncodingException {
             return null;
         }
 
@@ -336,6 +337,11 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
             if (value.getValue() instanceof XmlObject) {
                 return (XmlObject) value.getValue();
             }
+            return null;
+        }
+
+        @Override
+        public XmlObject visit(QuantityRangeValue value) throws EncodingException {
             return null;
         }
     }

@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.encode;
 
+import java.util.Optional;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -53,11 +54,12 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 
 @Configurable
-public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse>
-        extends AbstractResponseEncoder<T> {
+public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse> extends AbstractResponseEncoder<T> {
 
-    private EReportObligationRepository reportObligationRepository;
+    private Optional<EReportObligationRepository> reportObligationRepository;
+
     private String namespace;
+
     private String observationPrefix;
 
     public AbstractAqdResponseEncoder(String operation, Class<T> responseType) {
@@ -66,7 +68,7 @@ public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse>
     }
 
     @Inject
-    public void setReportObligationRepository(EReportObligationRepository reportObligationRepository) {
+    public void setReportObligationRepository(Optional<EReportObligationRepository> reportObligationRepository) {
         this.reportObligationRepository = reportObligationRepository;
     }
 
@@ -135,8 +137,12 @@ public abstract class AbstractAqdResponseEncoder<T extends OwsServiceResponse>
         return !Strings.isNullOrEmpty(getEReportingObservationPrefix());
     }
 
-    protected EReportingHeader getEReportingHeader(ReportObligationType type) throws OwsExceptionReport {
-        return reportObligationRepository.createHeader(type);
+    protected EReportingHeader getEReportingHeader(ReportObligationType type)
+            throws OwsExceptionReport, EncodingException {
+        if (reportObligationRepository.isPresent()) {
+            return reportObligationRepository.get().createHeader(type);
+        }
+        throw new EncodingException("Missing implementatation of %s!", EReportObligationRepository.class);
     }
 
     protected XmlObject encodeGml(Object o) throws EncodingException {

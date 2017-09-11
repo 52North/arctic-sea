@@ -20,7 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
@@ -78,17 +78,18 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AqdEncoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper.encoderKeysForElements(
-            AqdConstants.NS_AQD,
+    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper.encoderKeysForElements(AqdConstants.NS_AQD,
             GetObservationResponse.class, OmObservation.class, EReportingHeader.class);
 
-    private EReportObligationRepository reportObligationRepository;
+    private Optional<EReportObligationRepository> reportObligationRepository;
+
     private String namespace;
+
     private String observationPrefix;
 
     public AqdEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
-                     Joiner.on(", ").join(ENCODER_KEY_TYPES));
+                Joiner.on(", ").join(ENCODER_KEY_TYPES));
     }
 
     @Override
@@ -170,21 +171,20 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
                     }
 
                     while (value.hasNext()) {
-                        processObservation(value.next(), timePeriod, resultTime,
-                                                  featureCollection, eReportingHeader, counter++);
+                        processObservation(value.next(), timePeriod, resultTime, featureCollection, eReportingHeader,
+                                counter++);
                     }
 
                 } else {
-                    processObservation(observation, timePeriod, resultTime,
-                                              featureCollection, eReportingHeader, counter++);
+                    processObservation(observation, timePeriod, resultTime, featureCollection, eReportingHeader,
+                            counter++);
                 }
             }
             if (!timePeriod.isEmpty()) {
                 eReportingHeader.setReportingPeriod(Referenceable.of((Time) timePeriod));
             }
             return encodeObjectToXml(GmlConstants.NS_GML_32, featureCollection, ctx
-                                     .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2)
-                                     .with(XmlBeansEncodingFlags.DOCUMENT));
+                    .with(XmlEncoderFlags.ENCODE_NAMESPACE, OmConstants.NS_OM_2).with(XmlBeansEncodingFlags.DOCUMENT));
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
         }
@@ -282,12 +282,16 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
         return !Strings.isNullOrEmpty(getEReportingObservationPrefix());
     }
 
-    protected EReportingHeader getEReportingHeader(ReportObligationType type) throws OwsExceptionReport {
-        return this.reportObligationRepository.createHeader(type);
+    protected EReportingHeader getEReportingHeader(ReportObligationType type)
+            throws OwsExceptionReport, EncodingException {
+        if (reportObligationRepository.isPresent()) {
+            return reportObligationRepository.get().createHeader(type);
+        }
+        throw new EncodingException("Missing implementatation of %s!", EReportObligationRepository.class);
     }
 
     @Inject
-    public void setReportObligationRepository(EReportObligationRepository reportObligationRepository) {
-        this.reportObligationRepository = Objects.requireNonNull(reportObligationRepository);
+    public void setReportObligationRepository(Optional<EReportObligationRepository> reportObligationRepository) {
+        this.reportObligationRepository = reportObligationRepository;
     }
 }
