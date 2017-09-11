@@ -236,12 +236,6 @@ public class Service extends HttpServlet {
                 return binding;
             }
         }
-
-        for (String prefix : this.bindingRepository.getAllBindingsByPath().keySet()) {
-            if (requestURI.startsWith(prefix)) {
-                return this.bindingRepository.getBinding(prefix);
-            }
-        }
         throw new HTTPException(HTTPStatus.NOT_FOUND);
     }
 

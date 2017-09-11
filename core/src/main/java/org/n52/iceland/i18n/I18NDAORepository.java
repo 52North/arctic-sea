@@ -36,8 +36,6 @@ import com.google.common.collect.Maps;
  */
 public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory>
         implements Constructable {
-    @Deprecated
-    private static I18NDAORepository instance;
     private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
 
     @Autowired(required = false)
@@ -47,7 +45,6 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
 
     @Override
     public void init() {
-        I18NDAORepository.instance = this;
         this.daos.clear();
         this.daos.putAll(getUniqueProviders(this.components, this.componentFactories));
     }
@@ -77,18 +74,6 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
             }
         }
         return false;
-    }
-
-    /**
-     * Get the singleton instance of the I18NDAORepository.
-     *
-     * @return Returns a singleton instance of the I18NDAORepository.
-     *
-     * @deprecated use injection
-     */
-    @Deprecated
-    public static I18NDAORepository getInstance() {
-        return I18NDAORepository.instance;
     }
 
 }
