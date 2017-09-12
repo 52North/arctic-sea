@@ -22,9 +22,12 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 
+import net.opengis.gml.x32.RectifiedGridCoverageDocument;
+
 import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.Test;
+
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
@@ -33,8 +36,6 @@ import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
-
-import net.opengis.gml.x32.RectifiedGridCoverageDocument;
 
 public class RectifiedGridCoverageDocumentEncoderTest {
 

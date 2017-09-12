@@ -16,7 +16,18 @@
  */
 package org.n52.svalbard.encode;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
+
+import net.opengis.gml.x32.BooleanListDocument;
+import net.opengis.gml.x32.CoordinatesType;
+import net.opengis.gml.x32.CountListDocument;
+import net.opengis.gml.x32.DataBlockType;
+import net.opengis.gml.x32.DiscreteCoverageType;
+import net.opengis.gml.x32.MeasureOrNilReasonListType;
+import net.opengis.gml.x32.QuantityListDocument;
+import net.opengis.gml.x32.RangeSetType;
 
 import org.n52.shetland.ogc.om.values.BooleanValue;
 import org.n52.shetland.ogc.om.values.CategoryValue;
@@ -28,16 +39,6 @@ import org.n52.shetland.ogc.om.values.Value;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
-
-import net.opengis.gml.x32.BooleanListDocument;
-import net.opengis.gml.x32.CoordinatesType;
-import net.opengis.gml.x32.CountListDocument;
-import net.opengis.gml.x32.DataBlockType;
-import net.opengis.gml.x32.DiscreteCoverageType;
-import net.opengis.gml.x32.MeasureOrNilReasonListType;
-import net.opengis.gml.x32.QuantityListDocument;
-import net.opengis.gml.x32.RangeSetType;
 
 /**
  * Abstract {@link Encoder} implementation for {@link DiscreteCoverage}
@@ -110,13 +111,7 @@ public abstract class AbstractCoverageEncoder<T, S>
     }
 
     private List<?> getList(DiscreteCoverage<?> discreteCoverage) {
-        List list = Lists.newArrayList();
-        for (Object value : discreteCoverage.getRangeSet()) {
-            if (value instanceof Value<?>) {
-                list.add(((Value<?>) value).getValue());
-            }
-        }
-        return list;
+        return discreteCoverage.getRangeSet().stream().map(Value::getValue).collect(toList());
     }
 
 }

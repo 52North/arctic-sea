@@ -21,22 +21,25 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-import org.apache.xmlbeans.XmlObject;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.om.values.QuantityValued;
-import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
-import org.n52.shetland.ogc.swe.RangeValue;
-import org.n52.svalbard.encode.exception.EncodingException;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-
 import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.DiscreteCoverageType;
 import net.opengis.gml.x32.LineStringDocument;
 import net.opengis.gml.x32.LineStringType;
 import net.opengis.gml.x33.ce.SimpleMultiPointDocument;
 import net.opengis.gml.x33.ce.SimpleMultiPointType;
+
+import org.apache.xmlbeans.XmlObject;
+
+import org.n52.janmayen.function.Predicates;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.om.values.ComparableValue;
+import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
+import org.n52.shetland.ogc.om.values.Value;
+import org.n52.shetland.ogc.swe.RangeValue;
+import org.n52.svalbard.encode.exception.EncodingException;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 
 /**
  * Abstract {@link Encoder} implementation for {@link RectifiedGridCoverage}
@@ -55,8 +58,8 @@ public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
      *
      * @param rectifiedGridCoverage
      *            The {@link RectifiedGridCoverage}
-     * @param additionalValues
-     *            Helper values
+     * @param ec
+     *            the encoding context
      * @return Encoded {@link RectifiedGridCoverage}
      * @throws EncodingException
      *             If an error occurs
@@ -72,7 +75,7 @@ public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
     }
 
     private XmlObject encodeDomainSet(RectifiedGridCoverage rectifiedGridCoverage) {
-        List<QuantityValued<?, ?>> domainSet = rectifiedGridCoverage.getDomainSet();
+        List<ComparableValue<?, ?>> domainSet = rectifiedGridCoverage.getDomainSet();
         if (!checkForRange(domainSet)) {
             SimpleMultiPointDocument smpd = SimpleMultiPointDocument.Factory.newInstance();
             SimpleMultiPointType smpt = smpd.addNewSimpleMultiPoint();
@@ -89,7 +92,7 @@ public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
             LineStringType lst = lsd.addNewLineString();
             lst.setId("ls_" + rectifiedGridCoverage.getGmlId());
             lst.setUomLabels(getUoms(domainSet));
-            for (QuantityValued<?, ?> quantityValued : domainSet) {
+            for (ComparableValue<?, ?> quantityValued : domainSet) {
                 Object value = quantityValued.getValue();
                 if (value instanceof Double) {
                     lst.addNewPos().setListValue(Lists.newArrayList((Double) value));
@@ -102,9 +105,9 @@ public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private List getList(List<QuantityValued<?, ?>> domainSet) {
+    private List getList(List<ComparableValue<?, ?>> domainSet) {
         List list = new ArrayList<>();
-        for (QuantityValued<?, ?> quantityValued : domainSet) {
+        for (ComparableValue<?, ?> quantityValued : domainSet) {
             if (quantityValued.getValue() instanceof Double) {
                 list.add((Double) quantityValued.getValue());
             }
@@ -112,18 +115,13 @@ public abstract class AbstractRectifiedGridCoverageTypeEncoder<T>
         return list;
     }
 
-    private boolean checkForRange(List<QuantityValued<?, ?>> domainSet) {
-        for (QuantityValued<?, ?> quantityValued : domainSet) {
-            if (quantityValued.getValue() instanceof RangeValue) {
-                return true;
-            }
-        }
-        return false;
+    private boolean checkForRange(List<ComparableValue<?, ?>> domainSet) {
+        return domainSet.stream().map(Value::getValue).anyMatch(Predicates.instanceOf(RangeValue.class));
     }
 
-    private List<String> getUoms(List<QuantityValued<?, ?>> domainSet) {
+    private List<String> getUoms(List<ComparableValue<?, ?>> domainSet) {
         SortedSet<String> uoms = Sets.newTreeSet();
-        for (QuantityValued<?, ?> values : domainSet) {
+        for (ComparableValue<?, ?> values : domainSet) {
             uoms.add(values.getUnit());
         }
         return Lists.newArrayList(uoms);

@@ -28,10 +28,10 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.EXExtentType;
+
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.janmayen.function.Predicates;
-import org.n52.shetland.ogc.DefaultEncoding;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractCRS;
 import org.n52.shetland.ogc.gml.AbstractCoordinateSystem;
@@ -75,6 +75,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3.x1999.xlink.ActuateType;
@@ -144,6 +145,8 @@ import net.opengis.gml.x32.VerticalCSType;
 import net.opengis.gml.x32.VerticalDatumDocument;
 import net.opengis.gml.x32.VerticalDatumPropertyType;
 import net.opengis.gml.x32.VerticalDatumType;
+
+import org.n52.shetland.ogc.HasDefaultEncoding;
 
 /**
  * @since 1.0.0
@@ -816,10 +819,10 @@ public class GmlEncoderv321
     private XmlObject createGenericMetaData(GenericMetaData element, EncodingContext ctx) throws EncodingException {
         GenericMetaDataDocument gmdd = GenericMetaDataDocument.Factory.newInstance(getXmlOptions());
         GenericMetaDataType gmdt = gmdd.addNewGenericMetaData();
-        if (element.getContent() instanceof DefaultEncoding
-                && ((DefaultEncoding<?>) element.getContent()).isSetDefaultElementEncoding()) {
+        if (element.getContent() instanceof HasDefaultEncoding
+                && ((HasDefaultEncoding<?>) element.getContent()).isSetDefaultElementEncoding()) {
             // TODO check
-            gmdt.set(encodeObjectToXml(((DefaultEncoding<?>) element.getContent()).getDefaultElementEncoding(),
+            gmdt.set(encodeObjectToXml(((HasDefaultEncoding<?>) element.getContent()).getDefaultElementEncoding(),
                     element.getContent(), new EncodingContext().with(XmlBeansEncodingFlags.PROPERTY_TYPE, true)));
         }
         if (ctx.has(XmlBeansEncodingFlags.DOCUMENT)) {
