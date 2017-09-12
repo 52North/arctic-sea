@@ -16,6 +16,6 @@
  */
 package org.n52.shetland.ogc.om.values;
 
-public interface QuantityValued<T, C> extends Value<T>, Comparable<C> {
+public interface ComparableValue<T, C extends ComparableValue<T, C>> extends Value<T>, Comparable<C> {
 
 }

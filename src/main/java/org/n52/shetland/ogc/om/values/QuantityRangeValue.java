@@ -19,35 +19,29 @@ package org.n52.shetland.ogc.om.values;
 import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.ogc.om.values.visitor.VoidValueVisitor;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 
-public class QuantityRangeValue extends SweQuantityRange implements QuantityValued<RangeValue<Double>, QuantityRangeValue> {
-    /**
-     * serial number
-     */
-    private static final long serialVersionUID = 9192378261383584604L;
+public class QuantityRangeValue extends SweQuantityRange
+        implements ComparableValue<RangeValue<Double>, QuantityRangeValue> {
 
     /**
-     * constructor
+     * Creates a new {@code QuantityRangeValue}.
      *
-     * @param value
-     *              Measurement value
+     * @param rangeStart the start of the range
+     * @param rangeEnd   the end of the range
      */
     public QuantityRangeValue(Double rangeStart, Double rangeEnd) {
         super();
-        super.setValue(new RangeValue<Double>(rangeStart, rangeEnd));
+        super.setValue(new RangeValue<>(rangeStart, rangeEnd));
     }
 
     /**
-     * constructor
+     * Creates a new {@code QuantityRangeValue}.
      *
-     * @param value
-     *              Measurement value
-     * @param unit
-     *              Unit of measure
+     * @param rangeStart the start of the range
+     * @param rangeEnd   the end of the range
+     * @param unit Unit of measure
      */
     public QuantityRangeValue(Double rangeStart, Double rangeEnd, String unit) {
         this(rangeStart, rangeEnd);
@@ -61,11 +55,6 @@ public class QuantityRangeValue extends SweQuantityRange implements QuantityValu
     }
 
     @Override
-    public void setUnit(String unit) {
-        super.setUom(unit);
-    }
-
-    @Override
     public String getUnit() {
         return super.getUom();
     }
@@ -76,9 +65,14 @@ public class QuantityRangeValue extends SweQuantityRange implements QuantityValu
     }
 
     @Override
+    public void setUnit(String unit) {
+        super.setUom(unit);
+    }
+
+    @Override
     public QuantityRangeValue setUnit(UoM unit) {
-       super.setUom(unit);
-       return this;
+        super.setUom(unit);
+        return this;
     }
 
     @Override
@@ -88,8 +82,7 @@ public class QuantityRangeValue extends SweQuantityRange implements QuantityValu
 
     @Override
     public String toString() {
-        return String
-                .format("QuantityValue [value=%s, unit=%s]", getValue(), getUnit());
+        return String.format("QuantityValue [value=%s, unit=%s]", getValue(), getUnit());
     }
 
     @Override
@@ -102,14 +95,7 @@ public class QuantityRangeValue extends SweQuantityRange implements QuantityValu
         if (o == null) {
             throw new NullPointerException();
         }
-        if (getValue() == null ^ o.getValue() == null) {
-            return (getValue() == null) ? -1 : 1;
-        }
-        if (getValue() == null && o.getValue() == null) {
-            return 0;
-        }
-        return Comparables.chain(o).compare(getValue(), o.getValue()).result();
+        return Comparables.compare(getValue(), o.getValue());
     }
-
 
 }

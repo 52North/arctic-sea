@@ -18,9 +18,9 @@ package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * SOS internal representation of SWE simpleType quantity
@@ -67,7 +67,7 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> imp
     }
 
     @Override
-    public SweQuantityRange setValue(final RangeValue<Double> value) {
+    public SweQuantityRange setValue(RangeValue<Double> value) {
         this.value = value;
         return this;
     }

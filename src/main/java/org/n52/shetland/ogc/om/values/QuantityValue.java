@@ -28,7 +28,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
  */
 public class QuantityValue
         extends SweQuantity
-        implements QuantityValued<Double, QuantityValue> {
+        implements ComparableValue<Double, QuantityValue> {
 
     /**
      * constructor

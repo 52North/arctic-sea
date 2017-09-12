@@ -37,11 +37,11 @@ import com.google.common.collect.Maps;
  *
  */
 public class RectifiedGridCoverage
-        implements DiscreteCoverage<SortedMap<QuantityValued<?, ?>, Value<?>>> {
+        implements DiscreteCoverage<SortedMap<ComparableValue<?, ?>, Value<?>>> {
 
     private static final String GML_ID_PREFIX = "rgc_";
     private final String gmlId;
-    private final SortedMap<QuantityValued<?, ?>, Value<?>> value = Maps.newTreeMap();
+    private final SortedMap<ComparableValue<?, ?>, Value<?>> value = Maps.newTreeMap();
     private UoM unit;
     private String rangeParameters;
 
@@ -61,17 +61,17 @@ public class RectifiedGridCoverage
     }
 
     @Override
-    public RectifiedGridCoverage setValue(SortedMap<QuantityValued<?, ?>, Value<?>> value) {
+    public RectifiedGridCoverage setValue(SortedMap<ComparableValue<?, ?>, Value<?>> value) {
         this.value.clear();
         addValue(value);
         return this;
     }
 
-    public void addValue(QuantityValued<?, ?> key, Value<?> value) {
+    public void addValue(ComparableValue<?, ?> key, Value<?> value) {
         this.value.put(key, value);
     }
 
-    public void addValue(SortedMap<QuantityValued<?, ?>, Value<?>> value) {
+    public void addValue(SortedMap<ComparableValue<?, ?>, Value<?>> value) {
         this.value.putAll(value);
     }
 
@@ -84,7 +84,7 @@ public class RectifiedGridCoverage
     }
 
     @Override
-    public SortedMap<QuantityValued<?, ?>, Value<?>> getValue() {
+    public SortedMap<ComparableValue<?, ?>, Value<?>> getValue() {
         return value;
     }
 
@@ -131,9 +131,9 @@ public class RectifiedGridCoverage
     /**
      * Get the domainSet
      *
-     * @return The domainSet as {@link QuantityValued<?, ?>} {@link List}
+     * @return The domainSet as {@link ComparableValue} {@link List}
      */
-    public List<QuantityValued<?, ?>> getDomainSet() {
+    public List<ComparableValue<?, ?>> getDomainSet() {
         return Lists.newArrayList(getValue().keySet());
     }
 

@@ -44,12 +44,12 @@ public class RangeValue<T> implements Comparable<RangeValue<T>>, Copyable<RangeV
         return rangeStart;
     }
 
-    public T getRangeEnd() {
-        return rangeEnd;
-    }
-
     public void setRangeStart(final T rangeStart) {
         this.rangeStart = rangeStart;
+    }
+
+    public T getRangeEnd() {
+        return rangeEnd;
     }
 
     public void setRangeEnd(final T rangeEnd) {
@@ -139,8 +139,8 @@ public class RangeValue<T> implements Comparable<RangeValue<T>>, Copyable<RangeV
 
     @Override
     public int compareTo(RangeValue<T> o) {
-        if (checkCompareToParameter(getRangeStart(), o.getRangeStart())
-                && checkCompareToParameter(getRangeEnd(), o.getRangeEnd())) {
+        if (checkCompareToParameter(getRangeStart(), o.getRangeStart()) &&
+                 checkCompareToParameter(getRangeEnd(), o.getRangeEnd())) {
             return 0;
         }
         return 1;
