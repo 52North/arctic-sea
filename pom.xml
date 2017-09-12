@@ -81,7 +81,7 @@
 
     <properties>
         <version.java>1.8</version.java>
-        <version.slf4j>1.7.21</version.slf4j>
+        <version.slf4j>1.7.25</version.slf4j>
     </properties>
     <dependencyManagement>
         <dependencies>
