@@ -8,10 +8,6 @@ after_success:
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/iceland develop
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/sos feature/5.x
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/javaPS
-addons:
-  apt:
-    packages:
-    - jq
 cache:
   directories:
   - "$HOME/.m2"
