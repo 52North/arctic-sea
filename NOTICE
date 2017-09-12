@@ -56,7 +56,7 @@ This project includes:
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
   Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   javax.inject under The Apache Software License, Version 2.0
-  JCL 1.1.1 implemented over SLF4J under MIT License
+  JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache 2
   JSR166e under CC0 1.0 Universal
   JTS Topology Suite under Lesser General Public License (LGPL)
