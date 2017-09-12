@@ -17,11 +17,12 @@
 package org.n52.shetland.iso.gmd;
 
 
-import org.n52.shetland.ogc.DefaultEncoding;
 
 import com.google.common.base.Strings;
 
-public abstract class AbtractGmd implements DefaultEncoding<AbtractGmd> {
+import org.n52.shetland.ogc.HasDefaultEncoding;
+
+public abstract class AbtractGmd implements HasDefaultEncoding<AbtractGmd> {
 
     private String defaultEncoding = GmdConstants.NS_GMD;
 

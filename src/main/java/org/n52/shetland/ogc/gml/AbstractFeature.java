@@ -16,11 +16,12 @@
  */
 package org.n52.shetland.ogc.gml;
 
-import org.n52.shetland.ogc.DefaultEncoding;
 import org.n52.shetland.ogc.om.features.samplingFeatures.FeatureOfInterestVisitor;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 import com.google.common.base.Strings;
+
+import org.n52.shetland.ogc.HasDefaultEncoding;
 
 /**
  * Abstract class for encoding the feature of interest. Necessary because
@@ -32,7 +33,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public abstract class AbstractFeature extends AbstractGML implements DefaultEncoding<AbstractFeature> {
+public abstract class AbstractFeature extends AbstractGML implements HasDefaultEncoding<AbstractFeature> {
 
     private String defaultEncoding;
     private String xml;

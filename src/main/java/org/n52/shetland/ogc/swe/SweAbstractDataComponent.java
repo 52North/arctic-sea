@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.n52.janmayen.Copyable;
-import org.n52.shetland.ogc.DefaultEncoding;
+import org.n52.shetland.ogc.HasDefaultEncoding;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.util.CollectionHelper;
@@ -33,7 +33,7 @@ import com.google.common.collect.Lists;
  *
  */
 public abstract class SweAbstractDataComponent
-        implements DefaultEncoding<SweAbstractDataComponent>, Copyable<SweAbstractDataComponent> {
+        implements HasDefaultEncoding<SweAbstractDataComponent>, Copyable<SweAbstractDataComponent> {
 
     private String definition;
 
