@@ -18,9 +18,11 @@ package org.n52.svalbard.decode;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import net.opengis.gml.x32.AbstractCurveType;
 import net.opengis.gml.x32.AbstractGeometryType;
 import net.opengis.gml.x32.AbstractRingPropertyType;
 import net.opengis.gml.x32.AbstractRingType;
@@ -29,6 +31,7 @@ import net.opengis.gml.x32.CodeType;
 import net.opengis.gml.x32.CodeWithAuthorityType;
 import net.opengis.gml.x32.CompositeSurfaceType;
 import net.opengis.gml.x32.CoordinatesType;
+import net.opengis.gml.x32.CurvePropertyType;
 import net.opengis.gml.x32.DirectPositionListType;
 import net.opengis.gml.x32.DirectPositionType;
 import net.opengis.gml.x32.EnvelopeDocument;
@@ -40,6 +43,8 @@ import net.opengis.gml.x32.GeometryPropertyType;
 import net.opengis.gml.x32.LineStringType;
 import net.opengis.gml.x32.LinearRingType;
 import net.opengis.gml.x32.MeasureType;
+import net.opengis.gml.x32.MultiCurveDocument;
+import net.opengis.gml.x32.MultiCurveType;
 import net.opengis.gml.x32.PointDocument;
 import net.opengis.gml.x32.PointType;
 import net.opengis.gml.x32.PolygonType;
@@ -76,6 +81,7 @@ import org.n52.shetland.util.DateTimeParseException;
 import org.n52.shetland.util.JTSHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
@@ -107,6 +113,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                                     PointType.class,
                                     PointDocument.class,
                                     LineStringType.class,
+                                    MultiCurveDocument.class,
+                                    MultiCurveType.class,
                                     PolygonType.class,
                                     CompositeSurfaceType.class,
                                     CodeWithAuthorityType.class,
@@ -123,6 +131,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     private static final String DECIMAL = ".";
 
     private static final String TS = " ";
+    protected static final int DEFAULT_SRID = 4326;
 
     public GmlDecoderv321() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -176,6 +185,10 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             return parseFeatureCollectionDocument((FeatureCollectionDocument) xmlObject);
         } else if (xmlObject instanceof FeatureCollectionType) {
             return parseFeatureCollectionType((FeatureCollectionType) xmlObject);
+        } else if (xmlObject instanceof MultiCurveDocument) {
+            return parseMultiCurveDocument((MultiCurveDocument) xmlObject);
+        } else if (xmlObject instanceof MultiCurveType) {
+            return parseMultiCurveType((MultiCurveType) xmlObject);
         } else {
             throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         }
@@ -331,7 +344,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         return sosMeasureType;
     }
 
-    private Object parseGeometryPropertyType(GeometryPropertyType geometryPropertyType) throws DecodingException {
+    private AbstractGeometry parseGeometryPropertyType(GeometryPropertyType geometryPropertyType) throws DecodingException {
         return parseAbstractGeometryType(geometryPropertyType.getAbstractGeometry());
     }
 
@@ -342,7 +355,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         return abstractGeometry;
     }
 
-    private Object parsePointType(PointType xbPointType) throws DecodingException {
+    private Geometry parsePointType(PointType xbPointType) throws DecodingException {
 
         String geomWKT = null;
         int srid = -1;
@@ -376,7 +389,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         }
     }
 
-    private Object parseLineStringType(LineStringType xbLineStringType) throws DecodingException {
+    private Geometry parseLineStringType(LineStringType xbLineStringType) throws DecodingException {
         int srid = -1;
         if (xbLineStringType.getSrsName() != null) {
             srid = CRSHelper.parseSrsName(xbLineStringType.getSrsName());
@@ -384,25 +397,62 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
         DirectPositionType[] xbPositions = xbLineStringType.getPosArray();
 
-        StringBuilder positions = new StringBuilder();
+                String geomWKT;
         if (xbPositions != null && xbPositions.length > 0) {
+            StringBuilder positions = new StringBuilder();
             if (srid == -1 && xbPositions[0].getSrsName() != null && !(xbPositions[0].getSrsName().isEmpty())) {
                 srid = CRSHelper.parseSrsName(xbPositions[0].getSrsName());
             }
-            positions.append(getString4PosArray(xbLineStringType.getPosArray()));
-        }
-        String geomWKT = "LINESTRING" + positions.toString() + "";
 
+            geomWKT = "LINESTRING" + getString4PosArray(xbLineStringType.getPosArray()) + "";
+        } else if (xbLineStringType.getPosList() != null) {
+            StringBuilder builder = new StringBuilder();
+            builder.append("LINESTRING(");
+            DirectPositionListType posList = xbLineStringType.getPosList();
+            int dim;
+            if (posList.getSrsDimension() == null) {
+                dim = 2;
+            } else {
+                dim = posList.getSrsDimension().intValue();
+            }
+            if (posList.getListValue().size() % dim != 0) {
+                throw new DecodingException("posList does not contain a multiple of %d coordinates", dim);
+            }
+
+            @SuppressWarnings("unchecked")
+            Iterator<Double> iterator = posList.getListValue().iterator();
+            if (iterator.hasNext()) {
+                builder.append(iterator.next());
+                for (int i = 1; i < dim; ++i) {
+                    builder.append(' ').append(iterator.next());
+                }
+                while (iterator.hasNext()) {
+                    builder.append(", ");
+                    builder.append(iterator.next());
+                    for (int i = 1; i < dim; ++i) {
+                        builder.append(' ').append(iterator.next());
+                    }
+                }
+            }
+            builder.append(")");
+            geomWKT = builder.toString();
+        } else {
+            geomWKT = null;
+        }
         srid = setDefaultForUnsetSrid(srid);
 
-        try {
-            return JTSHelper.createGeometryFromWKT(geomWKT, srid);
-        } catch (ParseException ex) {
-            throw new DecodingException(ex);
+        if (geomWKT != null) {
+            try {
+                return JTSHelper.createGeometryFromWKT(geomWKT, srid);
+            } catch (ParseException ex) {
+                throw new DecodingException(ex);
+            }
+        } else {
+            return JTSHelper.getGeometryFactoryForSRID(srid).createGeometryCollection(null);
         }
     }
 
-    private Object parsePolygonType(PolygonType xbPolygonType) throws DecodingException {
+    private Geometry parsePolygonType(PolygonType xbPolygonType) throws DecodingException {
         int srid = -1;
         if (xbPolygonType.getSrsName() != null) {
             srid = CRSHelper.parseSrsName(xbPolygonType.getSrsName());
@@ -446,6 +496,34 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             throw new DecodingException(ex);
         }
     }
+
+    private Geometry parseMultiCurveDocument(MultiCurveDocument multiCurveDocument) throws DecodingException {
+        return parseMultiCurveType(multiCurveDocument.getMultiCurve());
+    }
+    private Geometry parseMultiCurveType(MultiCurveType multiCurveType) throws DecodingException {
+        List<Geometry> curves = new ArrayList<>(multiCurveType.getCurveMemberArray().length);
+        for (CurvePropertyType curvePropertyType: multiCurveType.getCurveMemberArray()) {
+            if (curvePropertyType.getAbstractCurve() != null) {
+                curves.add(parseAbstractCurveType(curvePropertyType.getAbstractCurve()));
+            }
+        }
+        return JTSHelper.getGeometryFactoryForSRID(getSRID(multiCurveType)).buildGeometry(curves);
+    }
+
+    private int getSRID(AbstractGeometryType abstractGeometryType) {
+        String srsName = abstractGeometryType.getSrsName();
+        int srid = CRSHelper.parseSrsName(srsName);
+        return srid <= 0 ? DEFAULT_SRID : srid;
+    }
+
+    private Geometry parseAbstractCurveType(AbstractCurveType abstractCurveType) throws DecodingException {
+        if (abstractCurveType instanceof LineStringType) {
+            return parseLineStringType((LineStringType) abstractCurveType);
+        } else {
+            throw new UnsupportedDecoderInputException(this, abstractCurveType);
+        }
+    }
+
 
     private Geometry parseCompositeSurfaceType(CompositeSurfaceType xbCompositeSurface) throws DecodingException {
         SurfacePropertyType[] xbCurfaceProperties = xbCompositeSurface.getSurfaceMemberArray();
@@ -612,9 +690,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
     private int setDefaultForUnsetSrid(int srid) throws DecodingException {
         if (srid == 0 || srid == -1) {
-
             LOGGER.warn("No SrsName is specified for geometry, instead the default 4326 is taken!");
-            return 4326;
+            return DEFAULT_SRID;
         } else {
             return srid;
         }
