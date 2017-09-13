@@ -127,11 +127,9 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             ), CodingHelper.decoderKeysForElements(MeasureType.type.toString(), MeasureType.class));
 
     private static final String CS = ",";
-
     private static final String DECIMAL = ".";
-
     private static final String TS = " ";
-    protected static final int DEFAULT_SRID = 4326;
+    private static final int DEFAULT_SRID = 4326;
 
     public GmlDecoderv321() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -344,7 +342,8 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         return sosMeasureType;
     }
 
-    private AbstractGeometry parseGeometryPropertyType(GeometryPropertyType geometryPropertyType) throws DecodingException {
+    private AbstractGeometry parseGeometryPropertyType(GeometryPropertyType geometryPropertyType)
+            throws DecodingException {
         return parseAbstractGeometryType(geometryPropertyType.getAbstractGeometry());
     }
 
@@ -397,13 +396,11 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
 
         DirectPositionType[] xbPositions = xbLineStringType.getPosArray();
 
-                String geomWKT;
+        String geomWKT;
         if (xbPositions != null && xbPositions.length > 0) {
-            StringBuilder positions = new StringBuilder();
             if (srid == -1 && xbPositions[0].getSrsName() != null && !(xbPositions[0].getSrsName().isEmpty())) {
                 srid = CRSHelper.parseSrsName(xbPositions[0].getSrsName());
             }
-
             geomWKT = "LINESTRING" + getString4PosArray(xbLineStringType.getPosArray()) + "";
         } else if (xbLineStringType.getPosList() != null) {
             StringBuilder builder = new StringBuilder();
@@ -500,6 +497,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
     private Geometry parseMultiCurveDocument(MultiCurveDocument multiCurveDocument) throws DecodingException {
         return parseMultiCurveType(multiCurveDocument.getMultiCurve());
     }
+
     private Geometry parseMultiCurveType(MultiCurveType multiCurveType) throws DecodingException {
         List<Geometry> curves = new ArrayList<>(multiCurveType.getCurveMemberArray().length);
         for (CurvePropertyType curvePropertyType: multiCurveType.getCurveMemberArray()) {
