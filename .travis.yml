@@ -7,19 +7,9 @@ after_success:
 - curl -Ls https://git.io/deploy-maven-snapshot | bash
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/sos feature/5.x
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/javaPS
-addons:
-  apt:
-    packages:
-    - jq
 cache:
   directories:
   - "$HOME/.m2"
-env:
-  global:
-  - SNAPSHOT_BRANCH=develop
-  - secure: ibKFb3rNTGglJCTblnqZXFAgonXiAy7g1T3Y5Mpi/uRZZ3ykvecJwB5NLdnDxaRAFkmSukrNu+B6LBl8UOGI82HotsAtw1oDeDU69hKAvF5yeLCxt8RZpXr8J2QCV5+AqxUEIyvmY57i842RPf7oASZPtYBPuKbXeNDVhJ1wCjY=
-  - secure: IfM8vwcKIh4Is/9YJK6qMM6I42EMXlce7UMxFmTOF1Vy1K3xe3khMIgufU8t98cjQdNIst+nPpNQmGMRHg3PAxZ1g2MhM3/n/b6YydjveaRd6Zspq0AidF0i/Wl5taMwqT4H8dy/i9ewyQ6JjdNCDzQyS4P3cKInHYM+keZGZCQ=
-  - secure: IdwiMiv8jsJ1sipvCrJoSA/T3sT9OLD77r+K0BobORLrv0s94W45PPAU2pQqhJ9SaOSqqBWUISM/OndTVzi2gYw2o9XiXNn7zDsPem/o5tJekmKUOfzT1C1L/KAwvnbuSWBhHkleyhC9Y+DjCLIVdIpKgPhetI7VVzLNBkCmO9s=
 notifications:
   slack:
     secure: cjVvpdeSwxadIek3xgBZ54l3Y4AjePvO6mLIfO9EcBHCGLnD8yJqZznXZ8U43hQ3qet1Co9AA/85leSgD5kiXhpx2cZtwjmKlvY7vnZhyeRtN9NZL9068okbuaTUVviX9euP3xImmOj4PhnJulBzm+9N06yAG5EP8vOgxiv26Yw=
