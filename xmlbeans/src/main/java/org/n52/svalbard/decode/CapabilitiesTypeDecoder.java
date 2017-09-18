@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -36,6 +37,7 @@ import net.opengis.sos.x20.ContentsType;
 import net.opengis.sos.x20.ObservationOfferingPropertyType;
 import net.opengis.sos.x20.ObservationOfferingType;
 import net.opengis.swes.x20.AbstractContentsType;
+import net.opengis.swes.x20.AbstractOfferingType.RelatedFeature;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -227,8 +229,13 @@ public class CapabilitiesTypeDecoder extends
     }
 
     private Map<String, Set<String>> parseRelatedFeatures(ObservationOfferingType obsOff) {
-        LOGGER.warn("parseRelatedFeatures needs to be implemented");
-        return new HashMap<>();
+        HashMap<String, Set<String>> map = new HashMap<>(obsOff.getRelatedFeatureArray().length);
+        for (RelatedFeature releatedFeature : obsOff.getRelatedFeatureArray()) {
+            String feature = releatedFeature.getFeatureRelationship().getTarget().getHref();
+            String role = releatedFeature.getFeatureRelationship().getRole();
+            map.computeIfAbsent(feature, (key) -> new HashSet<>(1)).add(role);
+        }
+        return map;
     }
 
     private Time parseResultTime(ObservationOfferingType obsOff) {
