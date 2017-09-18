@@ -23,6 +23,7 @@ import java.util.Optional;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Interval;
 import org.joda.time.Period;
 import org.joda.time.format.ISOPeriodFormat;
 
@@ -63,6 +64,15 @@ public class TimePeriod
      *
      */
     public TimePeriod() {
+    }
+
+    /**
+     * Creates a new {@code TimePeriod} from an {@code Interval}.
+     *
+     * @param interval the interval
+     */
+    public TimePeriod(Interval interval) {
+        this(interval.getStart(), interval.getEnd());
     }
 
     /**
