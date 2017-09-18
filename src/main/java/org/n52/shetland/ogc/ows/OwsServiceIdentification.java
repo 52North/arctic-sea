@@ -55,8 +55,6 @@ public class OwsServiceIdentification extends OwsDescription {
         this.accessConstraints = CollectionHelper.newSortedSet(accessConstraints);
     }
 
-
-
     public OwsCode getServiceType() {
         return serviceType;
     }

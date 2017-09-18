@@ -17,6 +17,7 @@
 package org.n52.shetland.util;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import com.google.common.base.Joiner;
 import com.vividsolutions.jts.geom.Coordinate;
@@ -25,9 +26,8 @@ import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
- * Class for internal Envelope representation TODO should this class offer
- * merging capabilities like SosEnvelope.expandTo(SosEnvelope) considering
- * coordinate transformations?
+ * Class for internal Envelope representation TODO should this class offer merging capabilities like
+ * SosEnvelope.expandTo(SosEnvelope) considering coordinate transformations?
  *
  * @since 1.0.0
  */
@@ -47,7 +47,6 @@ public class ReferencedEnvelope implements Serializable {
     public ReferencedEnvelope() {
     }
 
-
     public ReferencedEnvelope(Geometry geometry) {
         this(geometry.getEnvelopeInternal(), geometry.getSRID());
     }
@@ -55,10 +54,8 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * constructor
      *
-     * @param envelope
-     *            JTS envelope
-     * @param srid
-     *            SRID
+     * @param envelope JTS envelope
+     * @param srid     SRID
      */
     public ReferencedEnvelope(Envelope envelope, int srid) {
         this.envelope = envelope != null ? envelope : new Envelope();
@@ -103,8 +100,9 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Set envelope
      *
-     * @param envelope
-     *            the envelope to set
+     * @param envelope the envelope to set
+     *
+     * @return {@code this}
      */
     public ReferencedEnvelope setEnvelope(Envelope envelope) {
         this.envelope = envelope;
@@ -112,8 +110,7 @@ public class ReferencedEnvelope implements Serializable {
     }
 
     /**
-     * Creates the minimum and maximum values of this envelope in the default
-     * EPSG.
+     * Creates the minimum and maximum values of this envelope in the default EPSG.
      *
      * @return the {@code MinMax} describing the envelope
      */
@@ -124,7 +121,7 @@ public class ReferencedEnvelope implements Serializable {
                     .setMaximum(joiner.join(envelope.getMaxX(), envelope.getMaxY()))
                     .setMinimum(joiner.join(envelope.getMinX(), envelope.getMinY()));
         }
-        return new MinMax<String>();
+        return new MinMax<>();
     }
 
     /**
@@ -143,8 +140,9 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Set SRID
      *
-     * @param srid
-     *            the srid to set
+     * @param srid the srid to set
+     *
+     * @return {@code this}
      */
     public ReferencedEnvelope setSrid(int srid) {
         this.srid = srid;
@@ -157,11 +155,7 @@ public class ReferencedEnvelope implements Serializable {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((getEnvelope() == null) ? 0 : getEnvelope().hashCode());
-        result = prime * result + getSrid();
-        return result;
+        return Objects.hash(getSrid(), getEnvelope());
     }
 
     @Override
@@ -176,17 +170,7 @@ public class ReferencedEnvelope implements Serializable {
             return false;
         }
         final ReferencedEnvelope other = (ReferencedEnvelope) obj;
-        if (getEnvelope() == null) {
-            if (other.getEnvelope() != null) {
-                return false;
-            }
-        } else if (!getEnvelope().equals(other.getEnvelope())) {
-            return false;
-        }
-        if (getSrid() != other.getSrid()) {
-            return false;
-        }
-        return true;
+        return getSrid() == other.getSrid() && Objects.equals(getEnvelope(), other.getEnvelope());
     }
 
     @Override
@@ -223,11 +207,15 @@ public class ReferencedEnvelope implements Serializable {
         return factory.toGeometry(this.envelope);
     }
 
+    public boolean is1D() {
+        return getMinY() == getMaxY() && getMinX() == getMaxX();
+    }
+
     /**
      * Static method to check if an SosEnvelope is not null and is not empty
      *
-     * @param envelope
-     *            SosEnvelope to check
+     * @param envelope SosEnvelope to check
+     *
      * @return <code>true</code>, if SosEnvelope is not null and not empty.
      */
     public static boolean isNotNullOrEmpty(ReferencedEnvelope envelope) {
