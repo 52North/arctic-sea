@@ -17,10 +17,10 @@
 package org.n52.shetland.ogc.sos.request;
 
 import org.n52.shetland.ogc.filter.SpatialFilter;
+import org.n52.shetland.ogc.sos.Sos2Constants;
 
 /**
- * Interface to define methods for requests that supports
- * SpatialFilteringProfile spatial filter
+ * Interface to define methods for requests that supports SpatialFilteringProfile spatial filter
  *
  * @since 1.0.0
  *
@@ -37,8 +37,7 @@ public interface SpatialFilteringProfileRequest {
     /**
      * Set SpatialFilter
      *
-     * @param spatialFilter
-     *            SpatialFilter to set
+     * @param spatialFilter SpatialFilter to set
      */
     void setSpatialFilter(SpatialFilter spatialFilter);
 
@@ -47,13 +46,18 @@ public interface SpatialFilteringProfileRequest {
      *
      * @return True if SpatialFilter is set
      */
-    boolean isSetSpatialFilter();
+    default boolean isSetSpatialFilter() {
+        return getSpatialFilter() != null;
+    }
 
     /**
      * Check if SpatialFilter is a SpatialFilteringProfile spatial filter
      *
      * @return True if SpatialFilter is a SpatialFilteringProfile spatial filter
      */
-    boolean hasSpatialFilteringProfileSpatialFilter();
+    default boolean hasSpatialFilteringProfileSpatialFilter() {
+         return isSetSpatialFilter() && getSpatialFilter().getValueReference()
+                .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE);
+    }
 
 }

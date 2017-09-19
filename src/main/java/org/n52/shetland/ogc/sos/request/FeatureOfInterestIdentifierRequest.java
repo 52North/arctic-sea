@@ -19,8 +19,7 @@ package org.n52.shetland.ogc.sos.request;
 import java.util.List;
 
 /**
- * Interface to define methods for requests that supports featureOfInterest
- * identifiers
+ * Interface to define methods for requests that supports featureOfInterest identifiers
  *
  * @since 1.0.0
  *
@@ -37,8 +36,7 @@ public interface FeatureOfInterestIdentifierRequest {
     /**
      * Set FeatureOfInterest identifiers
      *
-     * @param featureIdentifiers
-     *            FeatureOfInterest identifiers
+     * @param featureIdentifiers FeatureOfInterest identifiers
      */
     void setFeatureIdentifiers(List<String> featureIdentifiers);
 
@@ -47,6 +45,8 @@ public interface FeatureOfInterestIdentifierRequest {
      *
      * @return True if request contains FeatureOfInterest identifiers
      */
-    boolean isSetFeatureOfInterest();
+    default boolean isSetFeatureOfInterest() {
+        return getFeatureIdentifiers() != null && !getFeatureIdentifiers().isEmpty();
+    }
 
 }

@@ -24,6 +24,7 @@ package org.n52.shetland.ogc.sos.request;
  * @since 1.0.0
  *
  */
-public interface SpatialFeatureQueryRequest extends SpatialFilteringProfileRequest, FeatureOfInterestIdentifierRequest {
+public interface SpatialFeatureQueryRequest extends SpatialFilteringProfileRequest,
+                                                    FeatureOfInterestIdentifierRequest {
 
 }

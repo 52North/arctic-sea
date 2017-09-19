@@ -36,7 +36,6 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.ExtendedIndeterminateTime;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
@@ -319,18 +318,8 @@ public class GetObservationRequest
         return procedures != null && !procedures.isEmpty();
     }
 
-    @Override
-    public boolean isSetFeatureOfInterest() {
-        return featureIdentifiers != null && !featureIdentifiers.isEmpty();
-    }
-
     public boolean isSetTemporalFilter() {
         return temporalFilters != null && !temporalFilters.isEmpty();
-    }
-
-    @Override
-    public boolean isSetSpatialFilter() {
-        return spatialFilter != null;
     }
 
     public boolean hasFirstLatestTemporalFilter() {
@@ -366,12 +355,6 @@ public class GetObservationRequest
     public boolean isEmpty() {
         return !isSetOffering() && !isSetObservableProperty() && !isSetProcedure() && !isSetFeatureOfInterest()
                 && !isSetTemporalFilter() && !isSetSpatialFilter();
-    }
-
-    @Override
-    public boolean hasSpatialFilteringProfileSpatialFilter() {
-        return isSetSpatialFilter() && getSpatialFilter().getValueReference()
-                .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE);
     }
 
     public boolean isSetRequestString() {
