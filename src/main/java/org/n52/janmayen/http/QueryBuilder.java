@@ -102,7 +102,7 @@ public class QueryBuilder {
 
     public QueryBuilder add(String name, Iterable<Object> value) {
         List<String> list = query.computeIfAbsent(name, Functions.forSupplier(LinkedList::new));
-        Streams.stream(value).map(o -> o == null ? "" : o.toString()).forEach(list::add);
+        Streams.stream(value).filter(Objects::nonNull).map(Object::toString).forEach(list::add);
         return this;
     }
 
