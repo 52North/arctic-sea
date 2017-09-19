@@ -24,75 +24,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.apache.xmlbeans.XmlCursor;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-import org.isotc211.x2005.gmd.EXExtentType;
-
-import org.n52.faroe.annotation.Configurable;
-import org.n52.faroe.annotation.Setting;
-import org.n52.janmayen.function.Predicates;
-import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.ogc.gml.AbstractCRS;
-import org.n52.shetland.ogc.gml.AbstractCoordinateSystem;
-import org.n52.shetland.ogc.gml.AbstractDatum;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.AbstractGeometry;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.CoordinateSystemAxis;
-import org.n52.shetland.ogc.gml.Definition;
-import org.n52.shetland.ogc.gml.DomainOfValidity;
-import org.n52.shetland.ogc.gml.GenericMetaData;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.VerticalCRS;
-import org.n52.shetland.ogc.gml.VerticalCS;
-import org.n52.shetland.ogc.gml.VerticalDatum;
-import org.n52.shetland.ogc.gml.time.IndeterminateValue;
-import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.gml.time.TimePosition;
-import org.n52.shetland.ogc.om.features.FeatureCollection;
-import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.om.values.CategoryValue;
-import org.n52.shetland.ogc.om.values.QuantityValue;
-import org.n52.shetland.util.CRSHelper;
-import org.n52.shetland.util.DateTimeFormatException;
-import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.EnvelopeOrGeometry;
-import org.n52.shetland.util.JTSHelper;
-import org.n52.shetland.util.JavaHelper;
-import org.n52.shetland.util.MinMax;
-import org.n52.shetland.util.OMHelper;
-import org.n52.shetland.util.ReferencedEnvelope;
-import org.n52.shetland.w3c.Nillable;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.shetland.w3c.xlink.Reference;
-import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.svalbard.CodingSettings;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlHelper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Strings;
-import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.util.PolygonExtracter;
-
 import net.opengis.gml.x32.AbstractCRSType;
 import net.opengis.gml.x32.AbstractCoordinateSystemType;
 import net.opengis.gml.x32.AbstractDatumType;
@@ -146,7 +77,74 @@ import net.opengis.gml.x32.VerticalDatumDocument;
 import net.opengis.gml.x32.VerticalDatumPropertyType;
 import net.opengis.gml.x32.VerticalDatumType;
 
+import org.apache.xmlbeans.XmlCursor;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.isotc211.x2005.gmd.EXExtentType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
+
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.janmayen.function.Predicates;
 import org.n52.shetland.ogc.HasDefaultEncoding;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.gml.AbstractCRS;
+import org.n52.shetland.ogc.gml.AbstractCoordinateSystem;
+import org.n52.shetland.ogc.gml.AbstractDatum;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.AbstractGeometry;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.CoordinateSystemAxis;
+import org.n52.shetland.ogc.gml.Definition;
+import org.n52.shetland.ogc.gml.DomainOfValidity;
+import org.n52.shetland.ogc.gml.GenericMetaData;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.VerticalCRS;
+import org.n52.shetland.ogc.gml.VerticalCS;
+import org.n52.shetland.ogc.gml.VerticalDatum;
+import org.n52.shetland.ogc.gml.time.IndeterminateValue;
+import org.n52.shetland.ogc.gml.time.Time;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.gml.time.TimePosition;
+import org.n52.shetland.ogc.om.features.FeatureCollection;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.om.values.CategoryValue;
+import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.util.CRSHelper;
+import org.n52.shetland.util.DateTimeFormatException;
+import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.EnvelopeOrGeometry;
+import org.n52.shetland.util.JTSHelper;
+import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.MinMax;
+import org.n52.shetland.util.OMHelper;
+import org.n52.shetland.util.ReferencedEnvelope;
+import org.n52.shetland.w3c.Nillable;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.svalbard.CodingSettings;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.geom.LineString;
+import com.vividsolutions.jts.geom.MultiLineString;
+import com.vividsolutions.jts.geom.MultiPoint;
+import com.vividsolutions.jts.geom.Point;
+import com.vividsolutions.jts.geom.Polygon;
+import com.vividsolutions.jts.geom.util.PolygonExtracter;
 
 /**
  * @since 1.0.0
@@ -167,7 +165,8 @@ public class GmlEncoderv321
             org.n52.shetland.util.ReferencedEnvelope.class, org.n52.shetland.util.EnvelopeOrGeometry.class,
             org.n52.shetland.ogc.om.features.FeatureCollection.class, org.n52.shetland.ogc.gml.AbstractGeometry.class);
 
-    private String srsNamePrefix;
+    private String srsNamePrefixURL = OGCConstants.URL_DEF_CRS_EPSG;
+    private String srsNamePrefixURN = OGCConstants.URN_DEF_CRS_EPSG;
 
     public GmlEncoderv321() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -175,8 +174,13 @@ public class GmlEncoderv321
     }
 
     @Setting(CodingSettings.SRS_NAME_PREFIX_URL)
-    public void setSrsNamePrefix(String prefix) {
-        srsNamePrefix = CRSHelper.asUrnPrefix(prefix);
+    public void setSrsNamePrefixURL(String prefix) {
+        this.srsNamePrefixURL = CRSHelper.asHttpPrefix(prefix);
+    }
+
+    @Setting(CodingSettings.SRS_NAME_PREFIX_URN)
+    public void setSrsNamePrefixURN(String prefix) {
+        this.srsNamePrefixURN = CRSHelper.asUrnPrefix(prefix);
     }
 
     @Override
@@ -544,10 +548,7 @@ public class GmlEncoderv321
     }
 
     private XmlObject createPosition(Geometry geom, EncodingContext ctx) throws EncodingException {
-        String foiId =
-                (ctx.get(XmlBeansEncodingFlags.GMLID) != null && ctx.get(XmlBeansEncodingFlags.GMLID).isPresent()
-                        && ctx.get(XmlBeansEncodingFlags.GMLID).get() instanceof String)
-                                ? (String) ctx.get(XmlBeansEncodingFlags.GMLID).get() : null;
+        String foiId = ctx.<String>get(XmlBeansEncodingFlags.GMLID).orElse(null);
         if (geom instanceof Point) {
             PointType xbPoint = PointType.Factory.newInstance(getXmlOptions());
             xbPoint.setId(getGmlID(geom, foiId));
@@ -644,7 +645,7 @@ public class GmlEncoderv321
 
     @SuppressWarnings("rawtypes")
     private String getGmlID(Geometry geom, String gmlId) {
-        String id = null;
+        String id;
         if (!Strings.isNullOrEmpty(gmlId)) {
             id = gmlId;
         } else if (geom.getUserData() != null && geom.getUserData() instanceof Map
@@ -917,9 +918,7 @@ public class GmlEncoderv321
         if (abstractDatum.hasRealizationEpoch()) {
             adt.setRealizationEpoch(abstractDatum.getRealizationEpoch().toCalendar(Locale.ROOT));
         }
-        for (String scope : abstractDatum.getScope()) {
-            adt.addNewScope().setStringValue(scope);
-        }
+        abstractDatum.getScope().forEach(scope -> adt.addNewScope().setStringValue(scope));
     }
 
     private net.opengis.gml.x32.DomainOfValidityDocument.DomainOfValidity createDomainOfValidity(
@@ -1111,9 +1110,7 @@ public class GmlEncoderv321
             }
         }
         if (abstractCRS.hasScope()) {
-            for (String scope : abstractCRS.getScope()) {
-                acrst.addNewScope().setStringValue(scope);
-            }
+            abstractCRS.getScope().forEach(scope -> acrst.addNewScope().setStringValue(scope));
         }
     }
 
@@ -1221,7 +1218,7 @@ public class GmlEncoderv321
     }
 
     protected String getSrsName(int srid) {
-        return srsNamePrefix.concat(String.valueOf(srid));
+        return srsNamePrefixURL.concat(String.valueOf(srid));
     }
 
     private static EncodingException missingValueParameter(String type) {

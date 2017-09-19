@@ -362,6 +362,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             srid = CRSHelper.parseSrsName(xbPointType.getSrsName());
         }
 
+
         if (xbPointType.getPos() != null) {
             DirectPositionType xbPos = xbPointType.getPos();
             if (srid == -1 && xbPos.getSrsName() != null) {
