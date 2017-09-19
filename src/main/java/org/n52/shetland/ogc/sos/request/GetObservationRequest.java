@@ -172,7 +172,7 @@ public class GetObservationRequest
         this.observedProperties = Optional.ofNullable(observedProperties).orElseGet(LinkedList::new);
     }
 
-    public void addsetObservedProperty(String observedProperty) {
+    public void addObservedProperty(String observedProperty) {
         this.observedProperties.add(observedProperty);
     }
 
