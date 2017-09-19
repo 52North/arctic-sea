@@ -23,7 +23,6 @@ import com.google.common.base.Joiner;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Envelope;
 import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
 
 /**
  * Class for internal Envelope representation TODO should this class offer merging capabilities like
@@ -203,8 +202,7 @@ public class ReferencedEnvelope implements Serializable {
     }
 
     public Geometry toGeometry() {
-        GeometryFactory factory = JTSHelper.getGeometryFactoryForSRID(srid);
-        return factory.toGeometry(this.envelope);
+        return JTSHelper.getGeometryFactoryForSRID(srid).toGeometry(this.envelope);
     }
 
     public boolean is1D() {

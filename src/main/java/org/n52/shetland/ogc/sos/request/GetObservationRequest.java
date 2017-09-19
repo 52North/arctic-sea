@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.sos.request;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -120,7 +121,11 @@ public class GetObservationRequest
      *            temporal filters
      */
     public void setTemporalFilters(List<TemporalFilter> temporalFilters) {
-        this.temporalFilters = temporalFilters;
+        this.temporalFilters = Optional.ofNullable(temporalFilters).orElseGet(LinkedList::new);
+    }
+
+    public void addTemporalFilter(TemporalFilter filter) {
+        this.temporalFilters.add(filter);
     }
 
     /**
@@ -141,7 +146,11 @@ public class GetObservationRequest
      */
     @Override
     public void setFeatureIdentifiers(List<String> featureIdentifiers) {
-        this.featureIdentifiers = featureIdentifiers;
+        this.featureIdentifiers = Optional.ofNullable(featureIdentifiers).orElseGet(LinkedList::new);
+    }
+
+    public void addFeatureIdentifier(String featureIdentifier) {
+        this.featureIdentifiers.add(featureIdentifier);
     }
 
     /**
@@ -160,7 +169,11 @@ public class GetObservationRequest
      *            observedProperties
      */
     public void setObservedProperties(List<String> observedProperties) {
-        this.observedProperties = observedProperties;
+        this.observedProperties = Optional.ofNullable(observedProperties).orElseGet(LinkedList::new);
+    }
+
+    public void addsetObservedProperty(String observedProperty) {
+        this.observedProperties.add(observedProperty);
     }
 
     /**
@@ -179,7 +192,11 @@ public class GetObservationRequest
      *            offerings
      */
     public void setOfferings(List<String> offerings) {
-        this.offerings = offerings;
+        this.offerings = Optional.ofNullable(offerings).orElseGet(LinkedList::new);
+    }
+
+    public void addOffering(String offering) {
+        this.offerings.add(offering);
     }
 
     /**
@@ -198,7 +215,11 @@ public class GetObservationRequest
      *            procedures
      */
     public void setProcedures(List<String> procedures) {
-        this.procedures = procedures;
+        this.procedures = Optional.ofNullable(procedures).orElseGet(LinkedList::new);
+    }
+
+    public void addProcedure(String procedure) {
+        this.procedures.add(procedure);
     }
 
     /**
