@@ -77,6 +77,10 @@ public abstract class AbstractOperationHandler implements OperationHandler {
         this.bindingRepository = Objects.requireNonNull(bindingRepository);
     }
 
+    public BindingRepository getBindingRepository() {
+        return bindingRepository;
+    }
+
     @Setting(ServiceSettings.SERVICE_URL)
     public void setServiceURL(final URI serviceURL)
             throws ConfigurationError {
