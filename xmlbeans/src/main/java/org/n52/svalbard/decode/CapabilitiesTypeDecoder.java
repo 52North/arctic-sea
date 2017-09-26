@@ -108,14 +108,11 @@ public class CapabilitiesTypeDecoder extends
     }
 
     private Collection<SosObservationOffering> parseContents(ContentsType contents) {
-        AbstractContentsType.Offering[] offeringArray = contents.getOfferingArray();
-        Optional<AbstractContentsType.Offering[]> optional = Optional.ofNullable(offeringArray);
-        Optional<Stream<AbstractContentsType.Offering>> stream = optional.map(Arrays::stream);
-        Stream<AbstractContentsType.Offering> orElseGet = stream.orElseGet(Stream::empty);
-        Stream<SosObservationOffering> map = orElseGet.map(this::parseOffering);
-        Stream<SosObservationOffering> filter = map.filter(Objects::nonNull);
-        Set<SosObservationOffering> collect = filter.collect(toSet());
-        return collect;
+        return Optional.ofNullable(contents.getOfferingArray())
+                .map(Arrays::stream).orElseGet(Stream::empty)
+                .map(this::parseOffering)
+                .filter(Objects::nonNull)
+                .collect(toSet());
     }
 
     private SosObservationOffering parseOffering(AbstractContentsType.Offering offering) {
