@@ -524,7 +524,8 @@ public class SosObservationOffering extends AbstractSWES implements Comparable<S
      * @param sortedMap the target map
      * @param map       the source map
      */
-    private static <K, V> void set(SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
+    private static <K, V extends Comparable<? super V>> void set(
+            SortedMap<K, SortedSet<V>> sortedMap, Map<K, ? extends Collection<V>> map) {
         if (sortedMap != null) {
             sortedMap.clear();
             if (map != null) {
