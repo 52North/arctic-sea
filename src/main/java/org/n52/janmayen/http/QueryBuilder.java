@@ -42,10 +42,11 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  */
 public class QueryBuilder {
+    private static final String DEFAULT_LIST_SEPERATOR = ",";
     private final URL url;
     private final Charset charset;
     private final Map<String, List<String>> query = new LinkedHashMap<>();
-    private String listSeperator = ",";
+    private String listSeperator = DEFAULT_LIST_SEPERATOR;
 
     public QueryBuilder(URL url) {
         this(url, StandardCharsets.UTF_8);
@@ -111,15 +112,16 @@ public class QueryBuilder {
         if (!this.query.isEmpty()) {
             builder.append(this.url.getPath()).append('?');
             this.query.forEach((name, values) -> {
-                if (!(builder.lastIndexOf("?") == builder.length() - 1)) {
-                    builder.append('&');
-                }
-                builder.append(name).append('=');
-                Iterator<String> iter = values.iterator();
-                if (iter.hasNext()) {
+                if (!values.isEmpty()) {
+                    if (!(builder.lastIndexOf("?") == builder.length() - 1)) {
+                        builder.append('&');
+                    }
+                    builder.append(name).append('=');
+                    Iterator<String> iter = values.iterator();
                     builder.append(encodeValue(iter.next()));
                     while (iter.hasNext()) {
-                        builder.append(this.listSeperator).append(encodeValue(iter.next()));
+                        builder.append(this.listSeperator)
+                                .append(encodeValue(iter.next()));
                     }
                 }
             });
