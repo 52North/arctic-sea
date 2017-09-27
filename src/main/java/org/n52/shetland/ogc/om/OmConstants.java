@@ -96,6 +96,8 @@ public interface OmConstants {
 
     String EN_TEXT_OBSERVATION = "TextObservation";
 
+    String EN_REFERENCE_OBSERVATION = "ReferenceObservation";
+
     String EN_TRUTH_OBSERVATION = "TruthObservation";
 
     String EN_GEOMETRY_OBSERVATION = "GeometryObservation";
@@ -253,6 +255,9 @@ public interface OmConstants {
     String OBS_TYPE_SWE_ARRAY_OBSERVATION =
             "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_SWEArrayObservation";
 
+    String OBS_TYPE_REFERENCE_OBSERVATION =
+            "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_ReferenceObservation";
+
     String OBS_RESULT_TYPE_OBSERVATION = "http://www.opengis.net/sensorML/2.0/DataArray";
 
     String SAMPLING_FEAT_TYPE_UNKNOWN = "http://www.opengis.net/def/samplingFeatureType/unknown";
@@ -274,6 +279,8 @@ public interface OmConstants {
     QName RESULT_MODEL_TRUTH_OBSERVATION = new QName(NS_OM, EN_TRUTH_OBSERVATION, NS_OM_PREFIX);
 
     QName RESULT_MODEL_TEXT_OBSERVATION = new QName(NS_OM, EN_TEXT_OBSERVATION, NS_OM_PREFIX);
+
+    QName RESULT_MODEL_REFERENCE_OBSERVATION = new QName(NS_OM, EN_REFERENCE_OBSERVATION, NS_OM_PREFIX);
 
     /**
      * Array of constants for result models.
@@ -313,9 +320,17 @@ public interface OmConstants {
     ObservationType OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_SWE_ARRAY_OBSERVATION);
     ObservationType OBS_TYPE_TRUTH_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
     ObservationType OBS_TYPE_MEASUREMENT_TYPE = new ObservationType(OBS_TYPE_MEASUREMENT);
+    ObservationType OBS_TYPE_REFERENCE_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_REFERENCE_OBSERVATION);
 
     Set<String> OBSERVATION_TYPES =
-            ImmutableSet.of(OBS_TYPE_MEASUREMENT, OBS_TYPE_CATEGORY_OBSERVATION, OBS_TYPE_COMPLEX_OBSERVATION,
-                    OBS_TYPE_COUNT_OBSERVATION, OBS_TYPE_GEOMETRY_OBSERVATION, OBS_TYPE_TEXT_OBSERVATION,
-                    OBS_TYPE_TRUTH_OBSERVATION, OBS_TYPE_SWE_ARRAY_OBSERVATION, OBS_TYPE_PROFILE_OBSERVATION);
+            ImmutableSet.of(OBS_TYPE_MEASUREMENT,
+                    OBS_TYPE_CATEGORY_OBSERVATION,
+                    OBS_TYPE_COMPLEX_OBSERVATION,
+                    OBS_TYPE_COUNT_OBSERVATION,
+                    OBS_TYPE_GEOMETRY_OBSERVATION,
+                    OBS_TYPE_TEXT_OBSERVATION,
+                    OBS_TYPE_TRUTH_OBSERVATION,
+                    OBS_TYPE_SWE_ARRAY_OBSERVATION,
+                    OBS_TYPE_PROFILE_OBSERVATION,
+                    OBS_TYPE_REFERENCE_OBSERVATION);
 }

@@ -41,4 +41,6 @@ public interface InspireOMPRConstants {
     MediaType OMPR_30_CONTENT_TYPE = new MediaType("text", "xml", "subtype", "ompr/3.0");
 
     String OMPR_30_OUTPUT_FORMAT_MIME_TYPE = OMPR_30_CONTENT_TYPE.toString();
+
+    String FEATURE_CONCEPT_PROCESS = "http://inspire.ec.europa.eu/featureconcept/Process";
 }

@@ -131,6 +131,8 @@ public final class OMHelper {
             return OmConstants.OBS_TYPE_TRUTH_OBSERVATION;
         } else if (OmConstants.RESULT_MODEL_TEXT_OBSERVATION.equals(resultModel)) {
             return OmConstants.OBS_TYPE_TEXT_OBSERVATION;
+        } else if (OmConstants.RESULT_MODEL_REFERENCE_OBSERVATION.equals(resultModel)) {
+            return OmConstants.OBS_TYPE_REFERENCE_OBSERVATION;
         } else if (OmConstants.RESULT_MODEL_COMPLEX_OBSERVATION.equals(resultModel)) {
             return OmConstants.OBS_TYPE_COMPLEX_OBSERVATION;
         }
@@ -167,6 +169,8 @@ public final class OMHelper {
                     return OmConstants.RESULT_MODEL_TRUTH_OBSERVATION;
                 case OmConstants.OBS_TYPE_TEXT_OBSERVATION:
                     return OmConstants.RESULT_MODEL_TEXT_OBSERVATION;
+                case OmConstants.OBS_TYPE_REFERENCE_OBSERVATION:
+                    return OmConstants.RESULT_MODEL_REFERENCE_OBSERVATION;
                 case OmConstants.OBS_TYPE_COMPLEX_OBSERVATION:
                     return OmConstants.RESULT_MODEL_COMPLEX_OBSERVATION;
                 default:
@@ -229,7 +233,7 @@ public final class OMHelper {
 
         @Override
         public String visit(ReferenceValue value) {
-            return defaultValue();
+            return OmConstants.OBS_TYPE_REFERENCE_OBSERVATION;
         }
 
         @Override
