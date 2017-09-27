@@ -105,6 +105,7 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
                         new ObservationType(OmConstants.OBS_TYPE_MEASUREMENT),
                         new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
                         new ObservationType(OmConstants.OBS_TYPE_TRUTH_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION)));
+                        new ObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION),
+                        new ObservationType(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)));
     }
 }

@@ -387,7 +387,10 @@ public abstract class AbstractWmlEncoderv20
                 } else {
                     observationProcess.setId(PROCESS_ID_PREFIX + JavaHelper.generateID(procedure.toString()));
                 }
-
+                if (procedure.isSetIdentifier()) {
+                    observationProcess.addNewIdentifier()
+                            .set(encodeGML(procedure.getIdentifierCodeWithAuthority()));
+                }
                 if (procedure.isSetName()) {
                     for (final CodeType sosName : procedure.getName()) {
                         observationProcess.addNewName().set(encodeGML(sosName));

@@ -115,7 +115,8 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
                     OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE,
                     OmConstants.OBS_TYPE_MEASUREMENT_TYPE,
                     OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE,
-                    OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE));
+                    OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE,
+                    OmConstants.OBS_TYPE_REFERENCE_OBSERVATION_TYPE));
 
     private static final Map<String, Map<String, Set<String>>> SUPPORTED_RESPONSE_FORMATS = Collections.singletonMap(
             SosConstants.SOS,
@@ -421,6 +422,9 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(ReferenceValue value) throws EncodingException {
+            if (value.isSetValue()) {
+                return encodeGML(value.getValue());
+            }
             return null;
         }
 
