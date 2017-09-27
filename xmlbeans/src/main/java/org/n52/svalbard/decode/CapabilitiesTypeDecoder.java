@@ -230,7 +230,10 @@ public class CapabilitiesTypeDecoder extends
         for (RelatedFeature releatedFeature : obsOff.getRelatedFeatureArray()) {
             String feature = releatedFeature.getFeatureRelationship().getTarget().getHref();
             String role = releatedFeature.getFeatureRelationship().getRole();
-            map.computeIfAbsent(feature, (key) -> new HashSet<>(1)).add(role);
+            Set<String> roles = map.computeIfAbsent(feature, (key) -> new HashSet<>(1));
+            if (role != null) {
+                roles.add(role);
+            }
         }
         return map;
     }
