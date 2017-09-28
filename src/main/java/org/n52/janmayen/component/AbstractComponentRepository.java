@@ -176,8 +176,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
          * @return the {code ToStringHelper}
          */
         protected ToStringHelper toStringBuilder() {
-            return MoreObjects.toStringHelper(this)
-                    .add("key", this.key);
+            return MoreObjects.toStringHelper(this).add("key", this.key);
         }
     }
 
@@ -230,22 +229,19 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
         public boolean equals(Object obj) {
             if (obj instanceof InstanceProducer) {
                 InstanceProducer<?, ?> that = (InstanceProducer) obj;
-                return super.equals(that) &&
-                       Objects.equals(this.component, that.getComponent());
+                return super.equals(that) && Objects.equals(this.component, that.getComponent());
             }
             return false;
         }
 
         @Override
         public String toString() {
-            return toStringBuilder()
-                    .toString();
+            return toStringBuilder().toString();
         }
 
         @Override
         protected ToStringHelper toStringBuilder() {
-            return super.toStringBuilder()
-                    .add("component", this.component);
+            return super.toStringBuilder().add("component", this.component);
         }
     }
 
