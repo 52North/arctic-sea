@@ -23,7 +23,10 @@ import static java.util.stream.Collectors.toMap;
 
 import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,6 +56,30 @@ import org.n52.janmayen.function.ThrowingConsumer;
 public final class MoreCollectors {
 
     private MoreCollectors() {
+    }
+
+    /**
+     * Returns a {@code Collector} that accumulates the input elements into a new unmodifiable {@code Set}.
+     *
+     * @param <T> the element type
+     *
+     * @return the collector
+     */
+    public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
+        BiConsumer<Set<T>, Set<T>> combiner = Collection::addAll;
+        return collector(HashSet::new, Set::add, combiner, Collections::unmodifiableSet);
+    }
+
+    /**
+     * Returns a {@code Collector} that accumulates the input elements into a new unmodifiable {@code List}.
+     *
+     * @param <T> the element type
+     *
+     * @return the collector
+     */
+    public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
+        BiConsumer<List<T>, List<T>> combiner = Collection::addAll;
+        return collector(LinkedList::new, List::add, combiner, Collections::unmodifiableList);
     }
 
     public static <T, A, R> Collector<T, A, R> filtering(Predicate<T> filter, Collector<T, A, R> downstream) {
