@@ -41,6 +41,7 @@ import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.HrefAttributeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sensorML.SensorML;
 import org.n52.shetland.w3c.xlink.W3CHrefAttribute;
@@ -69,7 +70,8 @@ public class ObservationDecoder
             // .add(OBS_TYPE_COMPLEX_OBSERVATION)
             .add(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION_TYPE)
             .add(OmConstants.OBS_TYPE_COUNT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_MEASUREMENT_TYPE)
-            .add(OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE).build();
+            .add(OmConstants.OBS_TYPE_TEXT_OBSERVATION_TYPE).add(OmConstants.OBS_TYPE_TRUTH_OBSERVATION_TYPE)
+            .add(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION_TYPE).build();
 
     private final JSONDecoder<AbstractFeature> featureDecoder = new FeatureDecoder();
 
@@ -226,6 +228,8 @@ public class ObservationDecoder
             return parseTruthObservationValue(node);
         } else if (type.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION)) {
             return parseCategoryObservationValue(node);
+        } else if (type.equals(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)) {
+            return parseReferenceObservationValue(node);
         } else if (type.equals(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION)) {
             return parseGeometryObservation(node);
         } else {
@@ -286,7 +290,26 @@ public class ObservationDecoder
     private ObservationValue<?> parseGeometryObservation(JsonNode node)
             throws DecodingException {
         GeometryValue v = new GeometryValue(geometryDecoder.decodeJSON(node.path(JSONConstants.RESULT), false));
-        return new SingleObservationValue<>(parsePhenomenonTime(node), v);
+        return new SingleObservationValue<Geometry>(parsePhenomenonTime(node), v);
+    }
+
+    private ObservationValue<?> parseReferenceObservationValue(JsonNode node) throws DecodingException {
+        ReferenceValue v = new ReferenceValue(parseReferenceValue(node.path(JSONConstants.RESULT)));
+        return new SingleObservationValue<ReferenceType>(parsePhenomenonTime(node), v);
+    }
+
+    private ReferenceType parseReferenceValue(JsonNode node) {
+        ReferenceType ref = new ReferenceType();
+        if (!node.path(JSONConstants.HREF).isMissingNode()) {
+            ref.setHref(node.path(JSONConstants.HREF).asText());
+        }
+        if (!node.path(JSONConstants.TITLE).isMissingNode()) {
+            ref.setTitle(node.path(JSONConstants.TITLE).asText());
+        }
+        if (!node.path(JSONConstants.ROLE).isMissingNode()) {
+            ref.setRole(node.path(JSONConstants.ROLE).asText());
+        }
+        return ref;
     }
 
 }

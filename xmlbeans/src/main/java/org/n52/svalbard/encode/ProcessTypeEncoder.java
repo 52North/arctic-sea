@@ -80,6 +80,8 @@ public class ProcessTypeEncoder
             CodingHelper.encoderKeysForElements(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class,
                     Process.class),
             CodingHelper.encoderKeysForElements(InspireOMPRConstants.OMPR_30_OUTPUT_FORMAT_MIME_TYPE,
+                    SosProcedureDescription.class, Process.class),
+            CodingHelper.encoderKeysForElements(InspireOMPRConstants.FEATURE_CONCEPT_PROCESS,
                     SosProcedureDescription.class, Process.class));
 
     public ProcessTypeEncoder() {

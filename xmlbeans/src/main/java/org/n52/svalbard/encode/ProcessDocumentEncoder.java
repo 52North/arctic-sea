@@ -40,7 +40,10 @@ public class ProcessDocumentEncoder extends ProcessTypeEncoder {
     private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(Process.class, ProcessDocument.class),
                     new XmlDocumentEncoderKey(InspireOMPRConstants.NS_OMPR_30, Process.class),
-                    new XmlDocumentEncoderKey(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class));
+                    new XmlDocumentEncoderKey(InspireOMPRConstants.NS_OMPR_30, SosProcedureDescription.class),
+                    new XmlDocumentEncoderKey(InspireOMPRConstants.FEATURE_CONCEPT_PROCESS, Process.class),
+                    new XmlDocumentEncoderKey(InspireOMPRConstants.FEATURE_CONCEPT_PROCESS,
+                            SosProcedureDescription.class));
 
     public ProcessDocumentEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",

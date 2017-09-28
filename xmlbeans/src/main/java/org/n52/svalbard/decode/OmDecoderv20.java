@@ -50,6 +50,7 @@ import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sensorML.SensorML;
@@ -299,6 +300,10 @@ public class OmDecoderv20
                 QuantityValue quantitiyValue = new QuantityValue(measureType.getValue(), measureType.getUnit());
                 return new SingleObservationValue<>(quantitiyValue);
             } else if (decodedObject instanceof ReferenceType) {
+                if (omObservation.isSetType() && omObservation.getType().isSetHref()
+                        && omObservation.getType().getHref().equals(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)) {
+                    return new SingleObservationValue<>(new ReferenceValue((ReferenceType) decodedObject));
+                }
                 return new SingleObservationValue<>(new CategoryValue(((ReferenceType) decodedObject).getHref()));
             } else if (decodedObject instanceof Geometry) {
                 return new SingleObservationValue<>(new GeometryValue((Geometry) decodedObject));
