@@ -24,8 +24,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.n52.janmayen.component.AbstractSimilarityKeyComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.svalbard.AbstractCodingRepository;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -34,7 +34,8 @@ import com.google.common.annotations.VisibleForTesting;
  *
  * @author Christian Autermann
  */
-public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
+public class EncoderRepository
+        extends AbstractSimilarityKeyComponentRepository<EncoderKey, Encoder<?, ?>, EncoderFactory>
         implements Constructable {
 
     @Inject
@@ -61,15 +62,13 @@ public class EncoderRepository extends AbstractCodingRepository<EncoderKey, Enco
         return hasComponent(key, keys);
     }
 
-    @SuppressWarnings("unchecked")
     public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
-        return (Encoder<F, T>) getComponent(key, keys);
+        return this.<F, T>tryGetEncoder(key, keys).orElse(null);
     }
 
     @SuppressWarnings("unchecked")
     public <F, T> Optional<Encoder<F, T>> tryGetEncoder(EncoderKey key, EncoderKey... keys) {
-        Optional<Encoder<?, ?>> tryGetComponent = tryGetComponent(key, keys);
-        return tryGetComponent.map(e -> (Encoder<F, T>) e);
+        return tryGetComponent(key, keys).map(e -> (Encoder<F, T>) e);
     }
 
     @Override
