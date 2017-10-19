@@ -32,6 +32,7 @@ public interface HTTPMethods {
     String HEAD = "HEAD";
     String POST = "POST";
     String PUT = "PUT";
+    String PATCH = "PATCH";
     String DELETE = "DELETE";
     String TRACE = "TRACE";
     String OPTIONS = "OPTIONS";
