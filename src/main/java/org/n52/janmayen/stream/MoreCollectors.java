@@ -23,7 +23,10 @@ import static java.util.stream.Collectors.toMap;
 
 import java.math.BigInteger;
 import java.util.AbstractMap.SimpleEntry;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -55,6 +58,30 @@ public final class MoreCollectors {
     private MoreCollectors() {
     }
 
+    /**
+     * Returns a {@code Collector} that accumulates the input elements into a new unmodifiable {@code Set}.
+     *
+     * @param <T> the element type
+     *
+     * @return the collector
+     */
+    public static <T> Collector<T, ?, Set<T>> toUnmodifiableSet() {
+        BiConsumer<Set<T>, Set<T>> combiner = Collection::addAll;
+        return collector(HashSet::new, Set::add, combiner, Collections::unmodifiableSet);
+    }
+
+    /**
+     * Returns a {@code Collector} that accumulates the input elements into a new unmodifiable {@code List}.
+     *
+     * @param <T> the element type
+     *
+     * @return the collector
+     */
+    public static <T> Collector<T, ?, List<T>> toUnmodifiableList() {
+        BiConsumer<List<T>, List<T>> combiner = Collection::addAll;
+        return collector(LinkedList::new, List::add, combiner, Collections::unmodifiableList);
+    }
+
     public static <T, A, R> Collector<T, A, R> filtering(Predicate<T> filter, Collector<T, A, R> downstream) {
         Objects.requireNonNull(filter);
         BiConsumer<A, T> downstreamAccumulator = downstream.accumulator();
@@ -72,8 +99,8 @@ public final class MoreCollectors {
                                                               Collector<? super U, A, R> downstream) {
         Objects.requireNonNull(mapper);
         BiConsumer<A, ? super U> downstreamAccumulator = downstream.accumulator();
-        BiConsumer<A, T> accumulator = (r, t)
-                -> mapper.apply(t).sequential().forEach(u -> downstreamAccumulator.accept(r, u));
+        BiConsumer<A, T> accumulator = (r, t) -> mapper.apply(t).sequential()
+                .forEach(u -> downstreamAccumulator.accept(r, u));
         return Collector.of(downstream.supplier(), accumulator, downstream.combiner(), downstream.finisher(),
                             getCharacteristics(downstream));
     }
@@ -187,6 +214,7 @@ public final class MoreCollectors {
         return toCompositeException(supplier, fun);
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public static <T, E extends Exception, X extends CompositeException> Collector<T, ?, X> toCompositeException(
             Supplier<X> supplier, ThrowingConsumer<? super T, E> fun) {
         BiConsumer<X, T> accumulator = (composite, t) -> {

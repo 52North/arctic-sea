@@ -46,6 +46,7 @@ import org.n52.janmayen.function.ThrowingTriConsumer;
 import org.n52.janmayen.function.ThrowingUnaryOperator;
 import org.n52.janmayen.function.TriConsumer;
 
+import com.google.common.base.Throwables;
 
 /**
  * TODO JavaDoc
@@ -113,10 +114,19 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    public <X extends Exception> void throwCause(Class<? extends X> type) throws X {
+        Throwable cause = getCause();
+        if (cause != null) {
+            Throwables.throwIfUnchecked(cause);
+            Throwables.throwIfInstanceOf(cause, type);
+        }
+    }
+
     @Override
     public Iterator<Throwable> iterator() {
         return new Iterator<Throwable>() {
             private final Iterator<Throwable> iter = exceptions.iterator();
+
             @Override
             public boolean hasNext() {
                 return iter.hasNext();
@@ -139,52 +149,115 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         return this.exceptions.spliterator();
     }
 
+    @Deprecated
     public <X extends Exception> Runnable wrap(ThrowingRunnable<X> runnable) {
+        return wrapRunnable(runnable);
+    }
+
+    @Deprecated
+    public <T> Supplier<Optional<T>> wrap(Callable<T> callable) {
+        return wrapCallable(callable);
+    }
+
+    @Deprecated
+    public <T, X extends Exception> Supplier<Optional<T>> wrap(ThrowingCallable<T, X> callable) {
+        return wrapCallable(callable);
+    }
+
+    @Deprecated
+    public <T, X extends Exception> Consumer<T> wrap(ThrowingConsumer<T, X> consumer) {
+        return wrapConsumer(consumer);
+    }
+
+    @Deprecated
+    public <T, U, X extends Exception> BiConsumer<T, U> wrap(ThrowingBiConsumer<T, U, X> consumer) {
+        return wrapConsumer(consumer);
+    }
+
+    @Deprecated
+    public <A, B, C, X extends Exception> TriConsumer<A, B, C> wrap(ThrowingTriConsumer<A, B, C, X> consumer) {
+        return wrapConsumer(consumer);
+    }
+
+    @Deprecated
+    public <T, R, X extends Exception> Function<T, Optional<R>> wrap(ThrowingFunction<T, R, X> function) {
+        return wrapFunction(function);
+    }
+
+    @Deprecated
+    public <T, U, R, X extends Exception> BiFunction<T, U, Optional<R>> wrap(ThrowingBiFunction<T, U, R, X> function) {
+        return wrapFunction(function);
+    }
+
+    @Deprecated
+    public <T, X extends Exception> Function<T, Optional<T>> wrap(ThrowingUnaryOperator<T, X> operator) {
+        return wrapOperator(operator);
+    }
+
+    @Deprecated
+    public <T, X extends Exception> Supplier<Optional<T>> wrap(ThrowingSupplier<T, X> supplier) {
+        return wrapSupplier(supplier);
+    }
+
+    @Deprecated
+    public <T, X extends Exception> Predicate<T> wrap(ThrowingPredicate<T, X> predicate, boolean defaultValue) {
+        return wrapPredicate(predicate, defaultValue);
+    }
+
+    @Deprecated
+    public <T, U, X extends Exception> BiPredicate<T, U> wrap(ThrowingBiPredicate<T, U, X> predicate,
+                                                              boolean defaultValue) {
+        return wrapPredicate(predicate, defaultValue);
+    }
+
+    public <X extends Exception> Runnable wrapRunnable(ThrowingRunnable<X> runnable) {
         return () -> run(runnable);
     }
 
-    public <T> Supplier<Optional<T>> wrap(Callable<T> callable) {
+    public <T> Supplier<Optional<T>> wrapCallable(Callable<T> callable) {
         return () -> call(callable);
     }
 
-    public <T, X extends Exception> Supplier<Optional<T>> wrap(ThrowingCallable<T, X> callable) {
+    public <T, X extends Exception> Supplier<Optional<T>> wrapCallable(ThrowingCallable<T, X> callable) {
         return () -> call(callable);
     }
 
-    public <T, X extends Exception> Consumer<T> wrap(ThrowingConsumer<T, X> consumer) {
+    public <T, X extends Exception> Consumer<T> wrapConsumer(ThrowingConsumer<T, X> consumer) {
         return t -> accept(consumer, t);
     }
 
-    public <T, U, X extends Exception> BiConsumer<T, U> wrap(ThrowingBiConsumer<T, U, X> consumer) {
+    public <T, U, X extends Exception> BiConsumer<T, U> wrapConsumer(ThrowingBiConsumer<T, U, X> consumer) {
         return (t, u) -> accept(consumer, t, u);
     }
 
-    public <A, B, C, X extends Exception> TriConsumer<A, B, C> wrap(ThrowingTriConsumer<A, B, C, X> consumer) {
+    public <A, B, C, X extends Exception> TriConsumer<A, B, C> wrapConsumer(ThrowingTriConsumer<A, B, C, X> consumer) {
         return (a, b, c) -> accept(consumer, a, b, c);
     }
 
-    public <T, R, X extends Exception> Function<T, Optional<R>> wrap(ThrowingFunction<T, R, X> function) {
+    public <T, R, X extends Exception> Function<T, Optional<R>> wrapFunction(ThrowingFunction<T, R, X> function) {
         return t -> apply(function, t);
     }
 
-    public <T, U, R, X extends Exception> BiFunction<T, U, Optional<R>> wrap(ThrowingBiFunction<T, U, R, X> function) {
+    public <T, U, R, X extends Exception> BiFunction<T, U, Optional<R>> wrapFunction(
+            ThrowingBiFunction<T, U, R, X> function) {
         return (t, u) -> apply(function, t, u);
     }
 
-    public <T, X extends Exception> Function<T, Optional<T>> wrap(ThrowingUnaryOperator<T, X> operator) {
+    public <T, X extends Exception> Function<T, Optional<T>> wrapOperator(ThrowingUnaryOperator<T, X> operator) {
         return wrap((ThrowingFunction<T, T, X>) operator);
     }
 
-    public <T, X extends Exception> Supplier<Optional<T>> wrap(ThrowingSupplier<T, X> supplier) {
+    public <T, X extends Exception> Supplier<Optional<T>> wrapSupplier(ThrowingSupplier<T, X> supplier) {
         return () -> get(supplier);
     }
 
-    public <T, X extends Exception> Predicate<T> wrap(ThrowingPredicate<T, X> predicate, boolean defaultValue) {
+    public <T, X extends Exception> Predicate<T> wrapPredicate(
+            ThrowingPredicate<T, X> predicate, boolean defaultValue) {
         return t -> test(predicate, defaultValue, t);
     }
 
-    public <T, U, X extends Exception> BiPredicate<T, U> wrap(ThrowingBiPredicate<T, U, X> predicate,
-                                                              boolean defaultValue) {
+    public <T, U, X extends Exception> BiPredicate<T, U> wrapPredicate(
+            ThrowingBiPredicate<T, U, X> predicate, boolean defaultValue) {
         return (t, u) -> test(predicate, defaultValue, t, u);
     }
 

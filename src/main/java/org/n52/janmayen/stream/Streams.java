@@ -44,6 +44,134 @@ public final class Streams {
     }
 
     /**
+     * Returns a sequential reverse-ordered {@code IntStream} from {@code from} (inclusive) to {@code to} (inclusive) by
+     * an incremental step of {@code 1}.
+     *
+     * @param from the inclusive lower bound
+     * @param to   the inclusive upper bound
+     *
+     * @return the reverse range
+     *
+     * @see IntStream#range(int, int)
+     */
+    public static IntStream reverseRangeClosed(int from, int to) {
+        return IntStream.rangeClosed(from, to).map(i -> to - i + from - 1);
+    }
+
+    /**
+     * Returns a sequential reverse-ordered {@code IntStream} from {@code from} (inclusive) to {@code to} (exclusive) by
+     * an incremental step of {@code 1}.
+     *
+     * @param from the inclusive lower bound
+     * @param to   the exclusive upper bound
+     *
+     * @return the reverse range
+     *
+     * @see IntStream#range(int, int)
+     */
+    public static IntStream reverseRange(int from, int to) {
+        return IntStream.range(from, to).map(i -> to - i + from - 1);
+    }
+
+    /**
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     *
+     * @param <T>            the element type of the stream
+     * @param array          the array
+     * @param startInclusive the lowest index (i.e. the last element to return)
+     * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
+     *
+     * @return the reversed stream
+     */
+    public static <T> Stream<T> reverseStream(T[] array, int startInclusive, int endInclusive) {
+        return reverseRange(startInclusive, endInclusive).mapToObj(i -> array[i]);
+    }
+
+    /**
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     *
+     * @param array          the array
+     * @param startInclusive the lowest index (i.e. the last element to return)
+     * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
+     *
+     * @return the reversed stream
+     */
+    public static LongStream reverseStream(long[] array, int startInclusive, int endInclusive) {
+        return reverseRange(startInclusive, endInclusive).mapToLong(i -> array[i]);
+    }
+
+    /**
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     *
+     * @param array          the array
+     * @param startInclusive the lowest index (i.e. the last element to return)
+     * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
+     *
+     * @return the reversed stream
+     */
+    public static IntStream reverseStream(int[] array, int startInclusive, int endInclusive) {
+        return reverseRange(startInclusive, endInclusive).map(i -> array[i]);
+    }
+
+    /**
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     *
+     * @param array          the array
+     * @param startInclusive the lowest index (i.e. the last element to return)
+     * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
+     *
+     * @return the reversed stream
+     */
+    public static DoubleStream reverseStream(double[] array, int startInclusive, int endInclusive) {
+        return reverseRange(startInclusive, endInclusive).mapToDouble(i -> array[i]);
+    }
+
+    /**
+     * Returns a reversed stream of the array values.
+     *
+     * @param <T>   the element type of the stream
+     * @param array the array
+     *
+     * @return the reversed stream
+     */
+    public static <T> Stream<T> reverseStream(T[] array) {
+        return reverseStream(array, 0, array.length);
+    }
+
+    /**
+     * Returns a reversed stream of the array values.
+     *
+     * @param array the array
+     *
+     * @return the reversed stream
+     */
+    public static LongStream reverseStream(long[] array) {
+        return reverseStream(array, 0, array.length);
+    }
+
+    /**
+     * Returns a reversed stream of the array values.
+     *
+     * @param array the array
+     *
+     * @return the reversed stream
+     */
+    public static IntStream reverseStream(int[] array) {
+        return reverseStream(array, 0, array.length);
+    }
+
+    /**
+     * Returns a reversed stream of the array values.
+     *
+     * @param array the array
+     *
+     * @return the reversed stream
+     */
+    public static DoubleStream reverseStream(double[] array) {
+        return reverseStream(array, 0, array.length);
+    }
+
+    /**
      * Factory function for creating a {@code Stream} from an {@code Enumeration}.
      *
      * @param <T>         the element type

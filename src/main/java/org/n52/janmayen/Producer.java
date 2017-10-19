@@ -16,13 +16,10 @@
  */
 package org.n52.janmayen;
 
-import javax.inject.Provider;
-
 /**
  * Generic Factory interface.
  *
- * @param <T>
- *            the type to produce
+ * @param <T> the type to produce
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
@@ -31,7 +28,7 @@ import javax.inject.Provider;
 @FunctionalInterface
 public interface Producer<T> extends java.util.function.Supplier<T>,
                                      com.google.common.base.Supplier<T>,
-                                     Provider<T> {
+                                     javax.inject.Provider<T> {
 
     @Override
     T get();

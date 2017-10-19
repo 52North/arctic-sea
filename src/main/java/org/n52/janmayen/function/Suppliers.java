@@ -16,6 +16,7 @@
  */
 package org.n52.janmayen.function;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 /**
@@ -40,4 +41,30 @@ public final class Suppliers {
         return () -> t;
     }
 
+    /**
+     * Maps the output of an supplier using a function.
+     *
+     * @param <U>      The original suppliers return type
+     * @param <V>      The new suppliers return type
+     * @param supplier the original supplier
+     * @param mapper   the mapper
+     *
+     * @return the new supplier
+     */
+    public static <U, V> Supplier<V> mapping(Function<? super U, ? extends V> mapper, Supplier<U> supplier) {
+        return () -> mapper.apply(supplier.get());
+    }
+
+    /**
+     * Creates a function ignoring it's parameter and just returning the supplier's value.
+     *
+     * @param <U>      the parameter type
+     * @param <V>      the supplier's return type
+     * @param supplier the supplier
+     *
+     * @return the function
+     */
+    public static <U, V> Function<U, V> asFunction(Supplier<V> supplier) {
+        return (u) -> supplier.get();
+    }
 }
