@@ -325,6 +325,9 @@ public abstract class AbstractCapabilitiesBaseTypeDecoder<T, S> extends Abstract
     }
 
     private OwsServiceIdentification parseServiceIdentification(ServiceIdentification serviceIdentification) {
+        if (serviceIdentification == null) {
+            return null;
+        }
         OwsCode serviceType = parseCode(serviceIdentification.getServiceType());
         Set<String> serviceTypeVersion = Optional.ofNullable(serviceIdentification.getServiceTypeVersionArray())
                 .map(Arrays::stream).orElseGet(Stream::empty).collect(toSet());
