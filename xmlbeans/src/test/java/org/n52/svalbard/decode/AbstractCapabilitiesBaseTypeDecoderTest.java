@@ -18,6 +18,8 @@ package org.n52.svalbard.decode;
 
 import java.util.Set;
 
+import org.hamcrest.core.Is;
+import org.junit.Assert;
 import org.junit.Test;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -32,7 +34,7 @@ public class AbstractCapabilitiesBaseTypeDecoderTest {
         CapabilitiesBaseType cbt = CapabilitiesBaseType.Factory.newInstance();
         cbt.setVersion("2.0.0");
         cbt.setUpdateSequence("nothing-to-see-here");
-        decoder.parseCapabilitiesBaseType("SOS", cbt);
+        Assert.assertThat(decoder.parseCapabilitiesBaseType("SOS", cbt).getServiceIdentification().isPresent(), Is.is(false));
     }
 
     private class TestSeam extends AbstractCapabilitiesBaseTypeDecoder<CapabilitiesBaseType, OwsCapabilities> {
