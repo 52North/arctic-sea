@@ -172,7 +172,8 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
         try {
             final XmlObject xbProcedureDescription = XmlObject.Factory
                     .parse(getNodeFromNodeList(xbInsertSensor.getProcedureDescription().getDomNode().getChildNodes()));
-            checkFormatWithNamespace(xbInsertSensor.getProcedureDescriptionFormat(), XmlHelper.getNamespace(xbProcedureDescription));
+            checkFormatWithNamespace(xbInsertSensor.getProcedureDescriptionFormat(),
+                    XmlHelper.getNamespace(xbProcedureDescription));
             final Decoder<?, XmlObject> decoder =
                     getDecoder(new XmlNamespaceDecoderKey(xbInsertSensor.getProcedureDescriptionFormat(),
                             xbProcedureDescription.getClass()));
