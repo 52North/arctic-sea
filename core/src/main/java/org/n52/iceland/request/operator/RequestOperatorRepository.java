@@ -66,7 +66,11 @@ public class RequestOperatorRepository
         Map<RequestOperatorKey, Producer<RequestOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.requestOperators.clear();
-        this.requestOperators.putAll(implementations);
+        for (Entry<RequestOperatorKey, Producer<RequestOperator>> entry : implementations.entrySet()) {
+            if (entry.getValue().get().isSupported()) {
+                this.requestOperators.put(entry.getKey(), entry.getValue());
+            }
+        }
     }
 
     public RequestOperator getRequestOperator(RequestOperatorKey key) {
