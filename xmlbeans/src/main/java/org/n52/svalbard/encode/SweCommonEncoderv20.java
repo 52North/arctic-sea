@@ -694,12 +694,6 @@ public class SweCommonEncoderv20
         return unitReference;
     }
 
-    private UnitReference createUnknownUnitReference() {
-        UnitReference unitReference = UnitReference.Factory.newInstance(getXmlOptions());
-        unitReference.setHref(OGCConstants.UNKNOWN);
-        return unitReference;
-    }
-
     public class SweDataComponentVisitorImpl
             implements SweDataComponentVisitor<AbstractDataComponentType, EncodingException> {
         @Override

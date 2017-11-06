@@ -329,16 +329,16 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
     private boolean checkForRequestUrl(final String href) {
         return href.toLowerCase(Locale.ROOT).contains("request=");
     }
-    
+
     /**
      * Check if the namespace of the procedure description element is equal to
      * the procedure description format of the request.
-     * 
+     *
      * @param procedureDescriptionFormat
      *            the procedure description format of the request
      * @param namespace
      *            the namespace of the procedure description element
-     *            
+     *
      * @throws CodedException
      *             If the {@code procedureDescriptionFormat} and
      *             {@code namespace} are not equal
