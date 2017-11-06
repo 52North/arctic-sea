@@ -24,8 +24,8 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
+import org.n52.janmayen.component.AbstractSimilarityKeyComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.n52.svalbard.AbstractCodingRepository;
 
 import com.google.common.annotations.VisibleForTesting;
 
@@ -34,7 +34,8 @@ import com.google.common.annotations.VisibleForTesting;
  *
  * @author Christian Autermann
  */
-public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Decoder<?, ?>, DecoderFactory>
+public class DecoderRepository
+        extends AbstractSimilarityKeyComponentRepository<DecoderKey, Decoder<?, ?>, DecoderFactory>
         implements Constructable {
 
     @Inject
@@ -66,9 +67,13 @@ public class DecoderRepository extends AbstractCodingRepository<DecoderKey, Deco
         return hasComponent(key, keys);
     }
 
-    @SuppressWarnings("unchecked")
     public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
-        return (Decoder<F, T>) getComponent(key, keys);
+        return this.<F, T>tryGetDecoder(key, keys).orElse(null);
+    }
+
+    @SuppressWarnings("unchecked")
+    public <F, T> Optional<Decoder<F, T>> tryGetDecoder(DecoderKey key, DecoderKey... keys) {
+        return tryGetComponent(key, keys).map(e -> (Decoder<F, T>) e);
     }
 
     @Override
