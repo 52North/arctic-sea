@@ -61,6 +61,13 @@ public interface RequestOperator extends ConformanceClass, Component<RequestOper
      */
     OwsOperation getOperationMetadata(String service, String version) throws OwsExceptionReport;
 
+    /**
+     * Check if the operation and all necessary sources (e.g. tables) are available.
+     *
+     * @return <code>true</code>, if the operation is supported
+     */
+    boolean isSupported();
+
     @Deprecated
     default RequestOperatorKey getRequestOperatorKeyType() {
         Set<RequestOperatorKey> keys = getKeys();
