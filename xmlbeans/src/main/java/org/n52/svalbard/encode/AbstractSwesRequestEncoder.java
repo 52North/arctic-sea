@@ -16,19 +16,29 @@
  */
 package org.n52.svalbard.encode;
 
+import java.util.Set;
+
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swes.SwesConstants;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">J6uuml;rrens, Eike Hinderk</a>
  */
 public abstract class AbstractSwesRequestEncoder<T extends OwsServiceRequest> extends AbstractRequestEncoder<T> {
 
     public AbstractSwesRequestEncoder(String operation, Class<T> responseType) {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, operation, SwesConstants.NS_SWES_20,
                 SwesConstants.NS_SWES_PREFIX, responseType);
+    }
+
+    @Override
+    protected Set<SchemaLocation> getConcreteSchemaLocations() {
+        return CollectionHelper.set(SwesConstants.SWES_20_SCHEMA_LOCATION);
     }
 
 }
