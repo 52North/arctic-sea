@@ -31,7 +31,8 @@ import net.opengis.swes.x20.InsertionMetadataType;
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  */
-public class SosInsertionMetadataTypeEncoder extends AbstractXmlEncoder<SosInsertionMetadataType, SosInsertionMetadata> {
+public class SosInsertionMetadataTypeEncoder
+    extends AbstractXmlEncoder<SosInsertionMetadataType, SosInsertionMetadata> {
 
     private static final Set<EncoderKey> ENCODER_KEYS = Sets.newHashSet(
             new ClassToClassEncoderKey(SosInsertionMetadata.class, InsertionMetadataType.class),
@@ -51,10 +52,14 @@ public class SosInsertionMetadataTypeEncoder extends AbstractXmlEncoder<SosInser
     public SosInsertionMetadataType encode(SosInsertionMetadata objectToEncode, EncodingContext additionalValues)
             throws EncodingException {
         SosInsertionMetadataType simt = SosInsertionMetadataType.Factory.newInstance(getXmlOptions());
-        objectToEncode.getObservationTypes().parallelStream()
-            .forEach(ot -> { simt.addNewObservationType().setStringValue(ot); });
-        objectToEncode.getFeatureOfInterestTypes().parallelStream()
-            .forEach(ft -> { simt.addNewFeatureOfInterestType().setStringValue(ft); });
+        objectToEncode.getObservationTypes().parallelStream().forEach(ot -> {
+            simt.addNewObservationType().setStringValue(ot);
+            }
+        );
+        objectToEncode.getFeatureOfInterestTypes().parallelStream().forEach(ft -> {
+            simt.addNewFeatureOfInterestType().setStringValue(ft);
+            }
+        );
         return simt;
     }
 

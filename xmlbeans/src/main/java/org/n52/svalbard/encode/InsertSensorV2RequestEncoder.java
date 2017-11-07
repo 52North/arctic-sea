@@ -96,8 +96,10 @@ public class InsertSensorV2RequestEncoder extends AbstractSwesRequestEncoder<Ins
     }
 
     private void addObservableProperties(InsertSensorRequest request, InsertSensorType insertSensor) {
-        request.getObservableProperty().stream()
-            .forEach(c -> { insertSensor.addNewObservableProperty().setStringValue(c);});
+        request.getObservableProperty().stream().forEach(c -> {
+            insertSensor.addNewObservableProperty().setStringValue(c);
+            }
+        );
     }
 
     private void addProcedureDescriptionFormat(InsertSensorRequest request, InsertSensorType insertSensor) {
