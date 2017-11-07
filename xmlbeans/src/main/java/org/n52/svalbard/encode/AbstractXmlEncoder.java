@@ -156,11 +156,11 @@ public abstract class AbstractXmlEncoder<T, S> extends AbstractDelegatingEncoder
     }
 
     public EncoderKey getPropertyTypeEncoderKey(String namespace, Object o) {
-        return new XmlDocumentEncoderKey(namespace, o.getClass());
+        return new XmlPropertyTypeEncoderKey(namespace, o.getClass());
     }
 
     public EncoderKey getPropertyTypeEncoderKey(String namespace, Class<?> o) {
-        return new XmlDocumentEncoderKey(namespace, o);
+        return new XmlPropertyTypeEncoderKey(namespace, o);
     }
 
 }

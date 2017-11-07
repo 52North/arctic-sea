@@ -16,29 +16,22 @@
  */
 package org.n52.svalbard.encode;
 
-import java.util.Collections;
-import java.util.Set;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.DescribeSensorRequest;
-import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">J6uuml;rrens, Eike Hinderk</a>
  */
 public class DescribeSensorV2RequestEncoder extends AbstractSwesRequestEncoder<DescribeSensorRequest> {
 
     public DescribeSensorV2RequestEncoder() {
         super(SosConstants.Operations.DescribeSensor.name(), DescribeSensorRequest.class);
-    }
-
-    @Override
-    protected Set<SchemaLocation> getConcreteSchemaLocations() {
-        return Collections.emptySet();
     }
 
     @Override
