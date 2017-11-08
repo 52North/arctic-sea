@@ -1,9 +1,9 @@
 # 52°North Svalbard [![Build Status](https://travis-ci.org/52North/svalbard.svg)](https://travis-ci.org/52North/svalbard)
-52°North's Java framework for de-/encoding of OGC web services requests/responses
+Svalbard consists of various decoders and encoders for OGC models like SensorML, O&M or SWE Common, service interfaces like SOS or WPS and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in <a target="_blank" href="https://github.com/52North/shetland">Shetland</a> and are shared accross 52°North components.
 
 ## Credits
 
-The development of the 52°North Svalbard implementation was supported by several organizations and projects. Among other we would like to thank the following organisations and project
+The development of the 52°North Svalbard implementation was supported by several organizations and projects. Among others, we would like to thank the following organizations and projects.
 
 | Project/Logo | Description |
 | :-------------: | :------------- |
