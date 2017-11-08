@@ -1,6 +1,6 @@
 # 52°North Iceland [![Build Status](https://travis-ci.org/52North/iceland.svg)](https://travis-ci.org/52North/iceland)
 
-Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings, and facilitates the rapid development of modular services that are easily configured using Faroe. Svalbard is used for request parsing and response generation.
+Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings, and facilitates the rapid development of modular services that are easily configured using  [Faroe](https://github.com/52North/faroe). [Svalbard](https://github.com/52North/svalbard) is used for request parsing and response generation.
 
 The 52°North Iceland was previously developed in the the [52°North SOS 4.x](https://github.com/52North/SOS) and was then extracted into an own project to be used in other projects.
 
