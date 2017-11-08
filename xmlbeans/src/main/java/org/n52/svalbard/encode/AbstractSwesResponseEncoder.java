@@ -37,6 +37,7 @@ import com.google.common.collect.Sets;
  * @since 1.0.0
  */
 public abstract class AbstractSwesResponseEncoder<T extends OwsServiceResponse> extends AbstractResponseEncoder<T> {
+
     public AbstractSwesResponseEncoder(String operation, Class<T> responseType) {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, operation, SwesConstants.NS_SWES_20,
                 SwesConstants.NS_SWES_PREFIX, responseType);
