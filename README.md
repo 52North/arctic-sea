@@ -7,7 +7,7 @@
 
 **52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
-The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules. 
+The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules. 
 <p align="center">
 <img src="https://github.com/52North/arctic-sea/raw/master/overview.png" width='60%'/>
 </p>
@@ -15,7 +15,7 @@ The Arctic Sea is stack of projects (all named after islands that are more or le
 
 #### [Iceland](https://github.com/52North/iceland)
 
-Iceland is a service framework that allows the development of OGC RPC based services. It features bindings for KVP, POX, SOAP and JSON based bindings and allows the rapid development of modular services that are easily configured using 52°North Faroe. 52°North Svalbard is used for request parsing and response generation. 
+Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings, and facilitates the rapid development of modular services that are easily configured using Faroe. Svalbard is used for request parsing and response generation.
 Download [Iceland](https://github.com/52North/iceland/releases)
 
 #### [Svalbard](https://github.com/52North/svalbard)
@@ -24,7 +24,7 @@ Svalbard consists of various decoders and encoders for OGC models like [SensorML
 
 #### [Faroe](https://github.com/52North/faroe)
 
-Faroe is a configuration API currently featuring a JSON and a SQLite backend. It allows the injection and automatic configuration of settings of various types in classes, including a Spring `BeanPostprocessor`.
+Faroe is a configuration API currently featuring a JSON and a SQLite backend. It enables the injection and automatic configuration of settings of various types in classes, including a Spring `BeanPostprocessor`.
 
 #### [Shetland](https://github.com/52North/shetland)
 
