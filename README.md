@@ -1,8 +1,10 @@
 # 52°North Shetland [![Build Status](https://travis-ci.org/52North/shetland.svg)](https://travis-ci.org/52North/shetland)
+Shetland is part of the <a target="_blank" href="https://github.com/52North/arctic-sea">Arctic Sea</a> framework. It compromises classes for OGC models like SensorML, O&M or SWE Common and various service requests and responses. These are shared accross different service implementations.
+
 
 ## Credits
 
-The development of the 52°North Shetland implementation was supported by several organizations and projects. Among other we would like to thank the following organisations and project
+The development of the 52°North Shetland implementation was supported by several organizations and projects. Among others, we would like to thank the following organizations and projects.
 
 | Project/Logo | Description |
 | :-------------: | :------------- |
