@@ -48,7 +48,7 @@ import net.opengis.swes.x20.InsertSensorType.ProcedureDescription;
 public class InsertSensorV2RequestEncoderTest {
 
     private InsertSensorRequest request;
-    private InsertSensorV2RequestEncoder encoder;
+    private InsertSensorRequestEncoder encoder;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -64,7 +64,7 @@ public class InsertSensorV2RequestEncoderTest {
         request.setMetadata(metadata);
         request.setObservableProperty(CollectionHelper.list("test-property-1", "test-property-2"));
 
-        encoder = new InsertSensorV2RequestEncoder();
+        encoder = new InsertSensorRequestEncoder();
         encoder.setXmlOptions(() -> new XmlOptions());
 
         SensorMLEncoderv20 sensorMLEncoderv20 = new SensorMLEncoderv20();
@@ -96,14 +96,14 @@ public class InsertSensorV2RequestEncoderTest {
     public void shoudlThrowExceptionWhenNullValueReceived() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
         thrown.expectMessage("null input received.");
-        new InsertSensorV2RequestEncoder().create(null);
+        new InsertSensorRequestEncoder().create(null);
     }
 
     @Test
     public void shoudlThrowExceptionWhenProcedureDescriptionFormatIsMissing() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
         thrown.expectMessage("procedure description format not defined in InsertSensorRequest.");
-        new InsertSensorV2RequestEncoder().create(new InsertSensorRequest());
+        new InsertSensorRequestEncoder().create(new InsertSensorRequest());
     }
 
     @Test
@@ -112,7 +112,7 @@ public class InsertSensorV2RequestEncoderTest {
         thrown.expectMessage("procedure description is missing in InsertSensorRequest.");
         InsertSensorRequest request = new InsertSensorRequest();
         request.setProcedureDescriptionFormat("test-format");
-        new InsertSensorV2RequestEncoder().create(request);
+        new InsertSensorRequestEncoder().create(request);
     }
 
     @Test
@@ -122,7 +122,7 @@ public class InsertSensorV2RequestEncoderTest {
         InsertSensorRequest request = new InsertSensorRequest();
         request.setProcedureDescriptionFormat("test-format");
         request.setProcedureDescription(createProcedureDescription());
-        new InsertSensorV2RequestEncoder().create(request);
+        new InsertSensorRequestEncoder().create(request);
     }
 
     @Test
@@ -133,7 +133,7 @@ public class InsertSensorV2RequestEncoderTest {
         request.setProcedureDescriptionFormat("test-format");
         request.setProcedureDescription(createProcedureDescription());
         request.setObservableProperty(CollectionHelper.list("test-property"));
-        new InsertSensorV2RequestEncoder().create(request);
+        new InsertSensorRequestEncoder().create(request);
     }
 
     @Test

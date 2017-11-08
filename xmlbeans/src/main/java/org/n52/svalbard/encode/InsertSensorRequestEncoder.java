@@ -32,9 +32,9 @@ import net.opengis.swes.x20.InsertSensorType;
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  */
-public class InsertSensorV2RequestEncoder extends AbstractSwesRequestEncoder<InsertSensorRequest> {
+public class InsertSensorRequestEncoder extends AbstractSwesRequestEncoder<InsertSensorRequest> {
 
-    public InsertSensorV2RequestEncoder() {
+    public InsertSensorRequestEncoder() {
         super(Sos2Constants.Operations.InsertSensor.name(), InsertSensorRequest.class);
     }
 
