@@ -27,7 +27,7 @@ To integrate 52°North Iceland into your Maven project, you can use this depende
 <dependency>
 	<groupId>org.n52.iceland</groupId>
 	<artifactId>iceland</artifactId>
-	<version>1.0.0</version>
+	<version>1.2.1</version>
 </dependency>
 ```
 
