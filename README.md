@@ -64,7 +64,7 @@ The Sensor Web Community
 
 ## Credits
 
-The development of the 52°North Iceland implementation was supported by several organizations and projects. Among other we would like to thank the following organisations and project
+The development of the 52°North Iceland implementation was supported by several organizations and projects. We would like to thank the following.
 
 | Project/Logo | Description |
 | :-------------: | :------------- |
