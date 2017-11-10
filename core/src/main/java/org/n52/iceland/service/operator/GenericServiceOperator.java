@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,13 +22,13 @@ import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.exception.ows.OperationNotSupportedException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
-import org.n52.iceland.response.AbstractServiceResponse;
+import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 import com.google.common.base.MoreObjects;
 
@@ -42,14 +42,14 @@ import com.google.common.base.MoreObjects;
  */
 public class GenericServiceOperator implements ServiceOperator {
     private RequestOperatorRepository requestOperatorRepository;
-    private final ServiceOperatorKey key;
+    private final OwsServiceKey key;
     private final String service;
     private final String version;
 
     public GenericServiceOperator(String service, String version) {
         this.service = Objects.requireNonNull(service);
         this.version = Objects.requireNonNull(version);
-        this.key = new ServiceOperatorKey(service, version);
+        this.key = new OwsServiceKey(service, version);
     }
 
     /**
@@ -57,7 +57,7 @@ public class GenericServiceOperator implements ServiceOperator {
      *
      * @return the key
      */
-    public ServiceOperatorKey getKey() {
+    public OwsServiceKey getKey() {
         return this.key;
     }
 
@@ -73,7 +73,7 @@ public class GenericServiceOperator implements ServiceOperator {
     }
 
     @Override
-    public Set<ServiceOperatorKey> getKeys() {
+    public Set<OwsServiceKey> getKeys() {
         return Collections.singleton(this.key);
     }
 
@@ -86,8 +86,8 @@ public class GenericServiceOperator implements ServiceOperator {
      *                                        a {@code null}-response.
      */
     @Override
-    public AbstractServiceResponse receiveRequest(
-            AbstractServiceRequest<?> request)
+    public OwsServiceResponse receiveRequest(
+            OwsServiceRequest request)
             throws OwsExceptionReport {
         String operationName = request.getOperationName();
         RequestOperator operator = this.requestOperatorRepository
@@ -97,7 +97,7 @@ public class GenericServiceOperator implements ServiceOperator {
             throw new OperationNotSupportedException(operationName);
         }
 
-        AbstractServiceResponse response = operator.receiveRequest(request);
+        OwsServiceResponse response = operator.receiveRequest(request);
 
         if (response == null) {
             throw new OperationNotSupportedException(operationName);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,16 +27,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.Producer;
-import org.n52.iceland.util.Producers;
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
 import org.n52.iceland.util.activation.ActivationListeners;
 import org.n52.iceland.util.activation.ActivationManager;
 import org.n52.iceland.util.activation.ActivationSource;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.Producers;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Maps;
 
@@ -55,6 +55,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
 
     private final ActivationListeners<BindingKey> activation = new ActivationListeners<>(true);
 
+    @Deprecated
     private final Map<PathBindingKey, Producer<Binding>> byPath = Maps.newHashMap();
     private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
     private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
@@ -85,6 +86,14 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     @Override
     public boolean isActive(BindingKey key) {
         return this.activation.isActive(key);
+    }
+
+    public boolean isActive(String urlPattern) {
+        return isActive(new PathBindingKey(urlPattern));
+    }
+
+    public boolean isActive(MediaType mediaType) {
+        return isActive(new MediaTypeBindingKey(mediaType));
     }
 
     @Override
@@ -159,14 +168,6 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         return isActive(key);
     }
 
-    public boolean isActive(String urlPattern) {
-        return isActive(new PathBindingKey(urlPattern));
-    }
-
-    public boolean isActive(MediaType mediaType) {
-        return isActive(new MediaTypeBindingKey(mediaType));
-    }
-
     public Map<BindingKey, Binding> getBindings() {
         Map<BindingKey, Producer<Binding>> actives
                 = Activatables.activatedMap(this.bindings,
@@ -174,6 +175,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         return Producers.produce(actives);
     }
 
+    @Deprecated
     public Map<String, Binding> getBindingsByPath() {
         Map<String, Binding> map = new HashMap<>(this.byPath.size());
         for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
@@ -187,7 +189,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     }
 
     public Map<MediaType, Binding> getBindingsByMediaType() {
-        Map<MediaType, Binding> map = new HashMap<>(this.byPath.size());
+        Map<MediaType, Binding> map = new HashMap<>(this.byMediaType.size());
         for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
             MediaTypeBindingKey key = entry.getKey();
             Producer<Binding> producer = entry.getValue();
@@ -198,6 +200,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         return map;
     }
 
+    @Deprecated
     public Map<String, Binding> getAllBindingsByPath() {
         Map<String, Binding> map = new HashMap<>(this.byPath.size());
         for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
@@ -209,7 +212,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     }
 
     public Map<MediaType, Binding> getAllBindingsByMediaType() {
-        Map<MediaType, Binding> map = new HashMap<>(this.byPath.size());
+        Map<MediaType, Binding> map = new HashMap<>(this.byMediaType.size());
         for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
             MediaTypeBindingKey key = entry.getKey();
             Producer<Binding> producer = entry.getValue();

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,30 +16,28 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import static org.n52.iceland.util.http.HTTPStatus.INTERNAL_SERVER_ERROR;
-
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
 public class NoImplementationFoundException extends NoApplicableCodeException {
     private static final long serialVersionUID = 8191563379756983127L;
 
-    public NoImplementationFoundException(final Class<?> required) {
+    public NoImplementationFoundException(Class<?> required) {
         this(required.getSimpleName());
     }
 
-    public NoImplementationFoundException(final String format, final Object... args) {
+    public NoImplementationFoundException(String format, Object... args) {
         this(String.format(format, args));
     }
 
-    public NoImplementationFoundException(final String required) {
+    public NoImplementationFoundException(String required) {
         withMessage("No implementation for '%s' found.", required);
-        setStatus(INTERNAL_SERVER_ERROR);
+        setStatus(HTTPStatus.INTERNAL_SERVER_ERROR);
     }
 }

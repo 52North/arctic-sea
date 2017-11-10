@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,6 @@
  */
 package org.n52.iceland.coding.encode;
 
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
@@ -27,28 +26,31 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.ClassHelper;
-import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.Comparables;
-import org.n52.iceland.util.Producer;
+import org.n52.janmayen.ClassHelper;
+import org.n52.janmayen.Comparables;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
  *
- * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author CarstenHollmann <c.hollmann@52north.org>
+ * @author Christian Autermann
+ * @author Carsten Hollmann
  *
  * @since 1.0.0
  */
-public class ResponseWriterRepository extends AbstractComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory> implements Constructable {
+public class ResponseWriterRepository
+        extends AbstractComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory>
+        implements Constructable {
 
     private static ResponseWriterRepository instance;
 
-    private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper.synchronizedMap();
+    private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper
+            .synchronizedMap();
 
     @Autowired(required = false)
     private Collection<ResponseWriter<?>> components;
@@ -82,7 +84,7 @@ public class ResponseWriterRepository extends AbstractComponentRepository<Respon
                 .map(Producer::get).orElse(null);
     }
 
-    private  ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
+    private ResponseWriterKey chooseWriter(Set<Class<?>> compatible, Class<?> clazz) {
         if (compatible.isEmpty()) {
             return null;
         }

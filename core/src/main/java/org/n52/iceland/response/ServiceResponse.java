@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
-import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.w3c.soap.SoapHeader;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.w3c.soap.SoapHeader;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -154,7 +154,9 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
             LOGGER.error("doResponse", ioe);
         } finally {
             try {
-                byteArrayOutputStream.close();
+                if (byteArrayOutputStream != null) {
+                    byteArrayOutputStream.close();
+                }
             } catch (IOException ioe) {
                 LOGGER.error("doSoapResponse, close streams", ioe);
             }
@@ -164,10 +166,10 @@ public class ServiceResponse implements CommunicationObjectWithSoapHeader {
     /**
      * Check, if this response contains content to be written.
      *
-     * @return <code>true</code>, if content is <b>NOT</b> available,<br />
+     * @return <code>true</code>, if content is <b>NOT</b> available,
      *         else <code>false</code>, if content is available
      *
-     * @see #writeToOutputStream(OutputStream).
+     * @see #writeToOutputStream(java.io.OutputStream)
      */
     public boolean isContentLess() {
         return byteArrayOutputStream == null;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,8 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.n52.iceland.config.SettingDefinition;
-import org.n52.iceland.config.SettingDefinitionGroup;
+import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingDefinitionGroup;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -30,10 +30,8 @@ import org.n52.iceland.config.SettingDefinitionGroup;
  */
 public interface Datasource extends ConnectionProviderIdentificator, DatasourceDaoIdentifier {
 
-    SettingDefinitionGroup BASE_GROUP = new SettingDefinitionGroup().setTitle("Database Configuration").setOrder(1);
-
-    SettingDefinitionGroup ADVANCED_GROUP = new SettingDefinitionGroup().setTitle("Advanced Database Configuration")
-            .setOrder(2);
+    SettingDefinitionGroup BASE_GROUP = new SettingDefinitionGroup("Database Configuration", 1);
+    SettingDefinitionGroup ADVANCED_GROUP = new SettingDefinitionGroup("Advanced Database Configuration", 2);
 
     /**
      * @return the representive name of this dialect
@@ -43,7 +41,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
     /**
      * @return the settings needed to connect
      */
-    Set<SettingDefinition<?, ?>> getSettingDefinitions();
+    Set<SettingDefinition<?>> getSettingDefinitions();
 
     /**
      * @param current
@@ -52,7 +50,7 @@ public interface Datasource extends ConnectionProviderIdentificator, DatasourceD
      * @return the settings that can be newSettings without schema without
      *         reinstallation
      */
-    Set<SettingDefinition<?, ?>> getChangableSettingDefinitions(Properties current);
+    Set<SettingDefinition<?>> getChangableSettingDefinitions(Properties current);
 
     /**
      * Parse datasource properties to map

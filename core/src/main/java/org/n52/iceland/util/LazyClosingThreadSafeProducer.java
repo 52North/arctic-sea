@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +16,16 @@
  */
 package org.n52.iceland.util;
 
+
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.lifecycle.Destroyable;
+import org.n52.faroe.ConfigurationError;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.lifecycle.Destroyable;
 
 /**
 
@@ -31,18 +33,16 @@ import org.n52.iceland.lifecycle.Destroyable;
  */
 public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, Destroyable {
 
-    private static final Logger log = LoggerFactory.getLogger(LocalizedLazyThreadSafeProducer.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(LocalizedLazyThreadSafeProducer.class);
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
-
-    private T t = null;
+    private T t;
 
     protected void setRecreate() {
         this.lock.writeLock().lock();
         try {
-            log.trace("Removing internal object to recreate it. Old object: {}", this.t);
+            LOG.trace("Removing internal object to recreate it. Old object: {}", this.t);
             if (this.t != null) {
-                log.trace("Closing {}", this.t);
+                LOG.trace("Closing {}", this.t);
                 close(t);
             }
 
@@ -70,7 +70,7 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
             if (this.t == null) {
                 // create it
                 this.t = create();
-                log.trace("Created a new object: {}", this.t);
+                LOG.trace("Created a new object: {}", this.t);
             }
             // downgrade to read lock
             this.lock.readLock().lock();
@@ -95,5 +95,5 @@ public abstract class LazyClosingThreadSafeProducer<T> implements Producer<T>, D
     protected abstract T create()
             throws ConfigurationError;
 
-    protected abstract void close(T t);
+    protected abstract void close(T object);
 }

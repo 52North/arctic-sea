@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.event.ServiceEvent;
+import org.n52.janmayen.event.Event;
 
 /**
  * Event fired when Configurator is initialized. Useful for custom post-init functionality like
@@ -24,8 +24,9 @@ import org.n52.iceland.event.ServiceEvent;
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 1.0.0
+ * @deprecated do not depend on the configurator!
  */
 @Deprecated
-public class ConfiguratorInitializedEvent implements ServiceEvent {
+public class ConfiguratorInitializedEvent implements Event {
     //no properties currently necessary
 }

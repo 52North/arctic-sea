@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,7 @@ import java.util.Set;
 import javax.inject.Inject;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.ogc.ows.extension.OwsOperationMetadataExtensionProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.util.activation.ActivationInitializer;
 import org.n52.iceland.util.activation.ActivationSource;
@@ -36,53 +35,56 @@ import org.n52.iceland.util.activation.FunctionalActivationListener;
  */
 public class ActivationService {
 
-    private ActivationDao dao;
+    private ActivationDao activationDao;
 
     @Inject
-    public void setPersistingActivationManagerDao(ActivationDao dao) {
-        this.dao = dao;
+    public void setActivationDao(ActivationDao dao) {
+        this.activationDao = dao;
+    }
+
+    /**
+     * @return the dao
+     */
+    protected ActivationDao getActivationDao() {
+        return this.activationDao;
     }
 
     /**
      * Checks if the binding is active.
      *
-     * @param key
-     *            the binding
+     * @param key the binding
      *
      * @return if the binding is active
      */
     public boolean isBindingActive(BindingKey key) {
-        return this.dao.isBindingActive(key);
+        return getActivationDao().isBindingActive(key);
     }
 
     /**
      * Checks if the extended capabilities is active.
      *
-     * @param key
-     *            the extended capabilities key
+     * @param key the extended capabilities key
      *
      * @return if the extended capabilities is active
      *
      */
-    public boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsExtendedCapabilitiesProviderKey key) {
-        return this.dao.isOwsExtendedCapabilitiesProviderActive(key);
+    public boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key) {
+        return this.getActivationDao().isOwsOperationMetadataExtensionProviderActive(key);
     }
 
     /**
      * Returns if a operation is active and should be offered by this service.
      *
-     * @param key
-     *            the key identifying the operation
+     * @param key the key identifying the operation
      *
      * @return {@code true} if the operation is active in this service
      */
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
-        return this.dao.isRequestOperatorActive(key);
+        return getActivationDao().isRequestOperatorActive(key);
     }
 
     public FunctionalActivationListener<RequestOperatorKey> getRequestOperatorListener() {
-        return this.dao::setOperationStatus;
+        return getActivationDao()::setOperationStatus;
     }
 
     public ActivationSource<RequestOperatorKey> getRequestOperatorSource() {
@@ -91,7 +93,7 @@ public class ActivationService {
     }
 
     public Set<RequestOperatorKey> getRequestOperatorKeys() {
-        return this.dao.getRequestOperatorKeys();
+        return getActivationDao().getRequestOperatorKeys();
     }
 
     public ActivationInitializer<RequestOperatorKey> getRequestOperatorInitializer() {
@@ -99,66 +101,39 @@ public class ActivationService {
     }
 
     public FunctionalActivationListener<BindingKey> getBindingListener() {
-        return this.dao::setBindingStatus;
+        return getActivationDao()::setBindingStatus;
     }
 
     public ActivationSource<BindingKey> getBindingSource() {
-        return ActivationSource.create(this::isBindingActive,
-                                       this::getBindingKeys);
+        return ActivationSource.create(this::isBindingActive, this::getBindingKeys);
     }
 
     public Set<BindingKey> getBindingKeys() {
-        return this.dao.getBindingKeys();
+        return getActivationDao().getBindingKeys();
     }
 
     public ActivationInitializer<BindingKey> getBindingInitializer() {
         return new DefaultActivationInitializer<>(getBindingSource());
     }
 
-    public FunctionalActivationListener<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesListener() {
-        return this.dao::setOwsExtendedCapabilitiesStatus;
+    public FunctionalActivationListener<OwsOperationMetadataExtensionProviderKey>
+            getOwsOperationMetadataExtensionProviderListener() {
+        return this.getActivationDao()::setOwsOperationMetadataExtensionProviderStatus;
     }
 
-    public ActivationSource<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesSource() {
-        return ActivationSource
-                .create(this::isOwsExtendedCapabilitiesProviderActive,
-                        this::getOwsExtendedCapabilitiesProviderKeys);
+    public ActivationSource<OwsOperationMetadataExtensionProviderKey>
+            getOwsOperationMetadataExtensionProviderSource() {
+        return ActivationSource.create(this::isOwsOperationMetadataExtensionProviderActive,
+                                       this::getOwsOperationMetadataExtensionProviderKeys);
     }
 
-    public Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys() {
-        return this.dao.getOwsExtendedCapabilitiesProviderKeys();
+    public Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys() {
+        return getActivationDao().getOwsOperationMetadataExtensionProviderKeys();
     }
 
-    public ActivationInitializer<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabiltiesInitializer() {
-        return new DefaultActivationInitializer<>(getOwsExtendedCapabiltiesSource());
+    public ActivationInitializer<OwsOperationMetadataExtensionProviderKey>
+            getOwsOperationMetadataExtensionProviderInitializer() {
+        return new DefaultActivationInitializer<>(getOwsOperationMetadataExtensionProviderSource());
     }
 
-    /**
-     * Checks if the offering extension is active.
-     *
-     * @param key
-     *            the offering extension key
-     *
-     * @return if the offering extension is active
-     */
-    public boolean isOfferingExtensionActive(OfferingExtensionKey key) {
-        return this.dao.isOfferingExtensionActive(key);
-    }
-
-    public FunctionalActivationListener<OfferingExtensionKey> getOfferingExtensionListener() {
-        return this.dao::setOfferingExtensionStatus;
-    }
-
-    public ActivationSource<OfferingExtensionKey> getOfferingExtensionSource() {
-        return ActivationSource.create(this::isOfferingExtensionActive,
-                                       this::getOfferingExtensionKeys);
-    }
-
-    protected Set<OfferingExtensionKey> getOfferingExtensionKeys() {
-        return this.dao.getOfferingExtensionKeys();
-    }
-
-    public ActivationInitializer<OfferingExtensionKey> getOfferingExtensionInitializer() {
-        return new DefaultActivationInitializer<>(getOfferingExtensionSource());
-    }
 }

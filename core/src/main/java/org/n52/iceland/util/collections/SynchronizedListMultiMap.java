@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,18 +23,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Implementation based on synchonized {@link LinkedList}s and a synchronized
- * {@link HashMap}.
+ * Implementation based on synchonized {@link LinkedList}s and a synchronized {@link HashMap}.
  *
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use either guava or a plain java collection
  *
  */
+@Deprecated
 public class SynchronizedListMultiMap<K, V> extends AbstractSynchronizedMultiMap<K, V, List<V>> implements
         ListMultiMap<K, V> {
     private static final long serialVersionUID = 5212730580728827254L;

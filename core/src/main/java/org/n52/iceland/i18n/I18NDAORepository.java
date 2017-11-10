@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +21,12 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.Producer;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Maps;
-
 
 /**
  * I18N DAO repository
@@ -35,10 +34,8 @@ import com.google.common.collect.Maps;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory> implements Constructable {
-    @Deprecated
-    private static I18NDAORepository instance;
+public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I18NDAO<?>, I18NDAOFactory>
+        implements Constructable {
     private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
 
     @Autowired(required = false)
@@ -48,7 +45,6 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
 
     @Override
     public void init() {
-        I18NDAORepository.instance = this;
         this.daos.clear();
         this.daos.putAll(getUniqueProviders(this.components, this.componentFactories));
     }
@@ -57,7 +53,8 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
      * Get the available DAO
      *
      * @param <T> the meta data type
-     * @param c the meta data class
+     * @param c   the meta data class
+     *
      * @return the loaded DAO
      */
     @SuppressWarnings("unchecked")
@@ -68,14 +65,15 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
         return (I18NDAO<T>) dao;
     }
 
-    /**
-     * Get the singleton instance of the I18NDAORepository.
-     *
-     * @return Returns a singleton instance of the I18NDAORepository.
-     */
-    @Deprecated
-    public static I18NDAORepository getInstance() {
-        return I18NDAORepository.instance;
+    public boolean isSupported() {
+        if (!daos.isEmpty()) {
+            for (Producer<I18NDAO<?>> dao : daos.values()) {
+                if (dao.get() != null && dao.get().isSupported()) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
 }

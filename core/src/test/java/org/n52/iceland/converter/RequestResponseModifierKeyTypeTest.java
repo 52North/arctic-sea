@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,16 +25,14 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
 import org.n52.iceland.convert.RequestResponseModifierKey;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.TestRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.response.TestResponse;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 public class RequestResponseModifierKeyTypeTest {
     private static final String service = "SOS";
     private static final String version = "2.0.0";
-    private final AbstractServiceRequest<?> request = new TestRequest();
-    private final AbstractServiceResponse response = new TestResponse();
+    private final OwsServiceRequest request = new RequestImpl();
+    private final OwsServiceResponse response = new ResponseImpl();
 
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
@@ -58,16 +56,19 @@ public class RequestResponseModifierKeyTypeTest {
         errors.checkThat(new RequestResponseModifierKey(service, version, request, response), is(equalTo(new RequestResponseModifierKey(service, version, request, response))));
     }
 
-    private AbstractServiceRequest<?> getModifiedRequest() {
-        TestRequest request = new TestRequest();
+    private OwsServiceRequest getModifiedRequest() {
+        OwsServiceRequest request = new RequestImpl();
         request.setService(service).setVersion(version);
         return request;
     }
 
-    private AbstractServiceResponse getModifiedResponse() {
-        TestResponse response = new TestResponse();
+    private OwsServiceResponse getModifiedResponse() {
+        OwsServiceResponse response = new ResponseImpl();
         response.setService(service).setVersion(version);
         return response;
     }
+
+    private static class RequestImpl extends OwsServiceRequest {};
+    private static class ResponseImpl extends OwsServiceResponse {};
 
 }

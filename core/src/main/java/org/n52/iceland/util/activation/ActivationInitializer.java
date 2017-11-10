@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +22,6 @@ package org.n52.iceland.util.activation;
  */
 public interface ActivationInitializer<K> {
 
-    void initialize(ActivationSink<K> manager);
+    void initialize(ActivationSink<K> sink);
 
 }

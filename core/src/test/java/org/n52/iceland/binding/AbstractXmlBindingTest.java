@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +16,15 @@
  */
 package org.n52.iceland.binding;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.decode.OperationDecoderKey;
-import org.n52.iceland.coding.decode.XmlNamespaceOperationDecoderKey;
-import org.n52.iceland.exception.CodedException;
-import org.n52.iceland.w3c.soap.SoapConstants;
+import org.n52.shetland.ogc.ows.exception.CodedException;
+import org.n52.shetland.w3c.soap.SoapConstants;
+import org.n52.svalbard.decode.DecoderKey;
+import org.n52.svalbard.decode.OperationDecoderKey;
+import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
 
 public class AbstractXmlBindingTest {
 

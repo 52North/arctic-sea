@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,19 +23,14 @@ import java.util.Map;
 import org.n52.iceland.statistics.api.parameters.AbstractEsParameter;
 
 public abstract class AbstractElasticSearchDataHolder {
-    protected final Map<String, Object> dataMap;
-
-    public AbstractElasticSearchDataHolder() {
-        dataMap = new HashMap<String, Object>();
-    }
+    protected final Map<String, Object> dataMap = new HashMap<>();
 
     protected Map<String, Object> put(AbstractEsParameter key,
             Object value) {
         return put(key.getName(), value);
     }
 
-    protected Map<String, Object> put(String key,
-            Object value) {
+    protected Map<String, Object> put(String key, Object value) {
         if (key == null || value == null) {
             return dataMap;
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +21,14 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
-import org.n52.iceland.exception.ows.OperationNotSupportedException;
-import org.n52.iceland.request.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.impl.handlers.CountingOutputStreamEventHandler;
 import org.n52.iceland.statistics.impl.handlers.DefaultServiceEventHandler;
 import org.n52.iceland.statistics.impl.handlers.exceptions.CodedExceptionEventHandler;
+import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
 
 public class EventHandlerFinderTest {
 

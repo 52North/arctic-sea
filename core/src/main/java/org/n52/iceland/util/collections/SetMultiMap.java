@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,14 +23,14 @@ import java.util.Set;
 /**
  * Interface for {@link Set} based {@link MultiMap}s.
  *
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use either guava or plain java maps
  *
  */
+@Deprecated
 public interface SetMultiMap<K, V> extends MultiMap<K, V, Set<V>>, Map<K, Set<V>>, Serializable {
 }

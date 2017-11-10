@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,32 +23,31 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.binding.Binding;
-import org.n52.iceland.binding.SimpleBinding;
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.decode.OperationDecoderKey;
-import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.NoApplicableCodeException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.exception.ows.concrete.NoDecoderForKeyException;
-import org.n52.iceland.ogc.sos.Sos2Constants;
-import org.n52.iceland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.JSONUtils;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
+import org.n52.iceland.binding.SimpleBinding;
+import org.n52.iceland.coding.decode.OwsDecodingException;
+import org.n52.iceland.exception.HTTPException;
+import org.n52.janmayen.Json;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.OperationDecoderKey;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * {@link Binding} implementation for JSON encoded requests
@@ -57,7 +56,7 @@ import com.google.common.collect.ImmutableSet;
  * @since 1.0.0
  */
 public class JSONBinding extends SimpleBinding {
-    private static final String URL_PATTERN = "/json";
+    @Deprecated
     private static final String CONFORMANCE_CLASS
             = "http://www.opengis.net/spec/SOS/2.0/conf/json";
     private static final Set<String> CONFORMANCE_CLASSES = Collections
@@ -66,11 +65,8 @@ public class JSONBinding extends SimpleBinding {
     private static final String SERVICE = "service";
     private static final String VERSION = "version";
     private static final String REQUEST = "request";
-
-    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(URL_PATTERN))
-            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_JSON))
-            .build();
+    private static final Set<BindingKey> KEYS =
+            Collections.singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_JSON));
 
     @Override
     public Set<BindingKey> getKeys() {
@@ -79,7 +75,7 @@ public class JSONBinding extends SimpleBinding {
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
-        if(SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
@@ -96,43 +92,51 @@ public class JSONBinding extends SimpleBinding {
     }
 
     @Override
-    public boolean checkOperationHttpPostSupported(OperationKey k) throws HTTPException {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey k) throws HTTPException {
         return getDecoder(new OperationDecoderKey(k, MediaTypes.APPLICATION_JSON)) != null;
     }
 
     @Override
     public void doPostOperation(HttpServletRequest req, HttpServletResponse res)
             throws HTTPException, IOException {
-        AbstractServiceRequest<?> request = null;
+        OwsServiceRequest request = null;
         try {
             request = parseRequest(req);
             checkServiceOperatorKeyTypes(request);
-            AbstractServiceResponse response = getServiceOperator(request).receiveRequest(request);
+            OwsServiceResponse response = getServiceOperator(request).receiveRequest(request);
             writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
             oer.setVersion(request != null ? request.getVersion() : null);
+            LOG.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }
 
-    private AbstractServiceRequest<?> parseRequest(HttpServletRequest request)
+    private OwsServiceRequest parseRequest(HttpServletRequest request)
             throws OwsExceptionReport {
         try {
-            JsonNode json = JSONUtils.loadReader(request.getReader());
+            JsonNode json = Json.loadReader(request.getReader());
             if (LOG.isDebugEnabled()) {
-                LOG.debug("JSON-REQUEST: {}", JSONUtils.print(json));
+                LOG.debug("JSON-REQUEST: {}", Json.print(json));
             }
             OperationDecoderKey key = new OperationDecoderKey(
                     json.path(SERVICE).textValue(),
                     json.path(VERSION).textValue(),
                     json.path(REQUEST).textValue(),
                     MediaTypes.APPLICATION_JSON);
-            Decoder<AbstractServiceRequest<?>, JsonNode> decoder =
-                    getDecoder(key);
+            Decoder<OwsServiceRequest, JsonNode> decoder = getDecoder(key);
             if (decoder == null) {
-                throw new NoDecoderForKeyException(key);
+                NoDecoderForKeyException cause = new NoDecoderForKeyException(key);
+                throw new NoApplicableCodeException().withMessage(cause.getMessage()).causedBy(cause);
             }
-            AbstractServiceRequest<?> sosRequest = decoder.decode(json);
+            OwsServiceRequest sosRequest;
+            try {
+                sosRequest = decoder.decode(json);
+            } catch (OwsDecodingException ex) {
+                throw ex.getCause();
+            } catch (DecodingException ex) {
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
+            }
             sosRequest.setRequestContext(getRequestContext(request));
             return sosRequest;
         } catch (IOException ioe) {
@@ -140,16 +144,4 @@ public class JSONBinding extends SimpleBinding {
                     "Error while reading request! Message: %s", ioe.getMessage());
         }
     }
-
-    @Override
-    public String getUrlPattern() {
-        return URL_PATTERN;
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_JSON);
-    }
-
-
 }

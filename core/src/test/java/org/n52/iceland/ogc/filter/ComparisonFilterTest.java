@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,16 @@
  */
 package org.n52.iceland.ogc.filter;
 
+import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.filter.FilterConstants;
+
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  *

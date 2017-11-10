@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,8 +21,8 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Proxy class for HttpServletResponse to give ResponseWriters access to selected methods,
- * including addHeader and setContentLength.
+ * Proxy class for HttpServletResponse to give ResponseWriters access to selected methods, including addHeader and
+ * setContentLength.
  *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  *

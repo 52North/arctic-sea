@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,232 +17,162 @@
 package org.n52.iceland.binding;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.component.Component;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.service.ConformanceClass;
-import org.n52.iceland.util.http.HTTPStatus;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.component.Component;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.svalbard.ConformanceClass;
 
 /**
- * Abstract Super class for binding implementations<br />
+ * Abstract Super class for binding implementations.
  *
- * Context:<br />
- * The <code>Binding.check*()</code> methods are called during GetCapabilities
- * processing when collecting the operations metadata.
+ * Context: The {@code Binding.check*()} methods are called during GetCapabilities processing when collecting the
+ * operations metadata.
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  *
  * @since 1.0.0
  */
-public abstract class Binding implements ConformanceClass, Component<BindingKey>, OwsExceptionReportHandler {
+public abstract class Binding implements ConformanceClass, Component<BindingKey>, EncodingExceptionHandler {
+
     /**
-     * HTTP DELETE request handling method
+     * HTTP DELETE request handling method.
      *
-     * @param request
-     *            HTTP DELETE request
+     * @param request  HTTP DELETE request
+     * @param response HTTP DELETE response
      *
-     * @param response
-     *            HTTP DELETE response
-     *
-     *
-     * @throws HTTPException
-     *             if the encoding of an exception failed
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws HTTPException if the encoding of an exception failed
+     * @throws IOException   if an IO error occurs
      */
-    public void doDeleteOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
-            IOException {
+    public void doDeleteOperation(HttpServletRequest request, HttpServletResponse response)
+            throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
 
     /**
-     * HTTP GET request handling method
+     * HTTP GET request handling method.
      *
-     * @param request
-     *            HTTP GET request
+     * @param request  HTTP GET request
+     * @param response HTTP GET response
      *
-     * @param response
-     *            HTTP GET response
-     *
-     *
-     * @throws HTTPException
-     *             if the encoding of an exception failed
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws HTTPException if the encoding of an exception failed
+     * @throws IOException   if an IO error occurs
      */
-    public void doGetOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
-            IOException {
+    public void doGetOperation(HttpServletRequest request, HttpServletResponse response)
+            throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
 
     /**
-     * HTTP DELETE request handling method
+     * HTTP DELETE request handling method.
      *
-     * @param request
-     *            HTTP DELETE request
+     * @param request  HTTP DELETE request
+     * @param response HTTP DELETE response
      *
-     * @param response
-     *            HTTP DELETE response
-     *
-     *
-     * @throws HTTPException
-     *             if the encoding of an exception failed
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws HTTPException if the encoding of an exception failed
+     * @throws IOException   if an IO error occurs
      */
-    public void doOptionsOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
-            IOException {
+    public void doOptionsOperation(HttpServletRequest request, HttpServletResponse response)
+            throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
 
     /**
-     * HTTP POST request handling method
+     * HTTP POST request handling method.
      *
-     * @param request
-     *            HTTP POST request
+     * @param request  HTTP POST request
+     * @param response HTTP POST response
      *
-     * @param response
-     *            HTTP POST response
-     *
-     *
-     * @throws HTTPException
-     *             if the encoding of an exception failed
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws HTTPException if the encoding of an exception failed
+     * @throws IOException   if an IO error occurs
      */
-    public void doPostOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
-            IOException {
+    public void doPostOperation(HttpServletRequest request, HttpServletResponse response)
+            throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
 
     /**
-     * HTTP PUT request handling method
+     * HTTP PUT request handling method.
      *
-     * @param request
-     *            HTTP PUT request
+     * @param request  HTTP PUT request
+     * @param response HTTP PUT response
      *
-     * @param response
-     *            HTTP PUT response
-     *
-     *
-     * @throws HTTPException
-     *             if the encoding of an exception failed
-     * @throws IOException
-     *             if an IO error occurs
+     * @throws HTTPException if the encoding of an exception failed
+     * @throws IOException   if an IO error occurs
      */
-    public void doPutOperation(HttpServletRequest request, HttpServletResponse response) throws HTTPException,
-            IOException {
+    public void doPutOperation(HttpServletRequest request, HttpServletResponse response)
+            throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
 
     /**
-     * Get URL pattern for the operator.<br />
-     * The URL pattern MUST start with "/service", MUST NOT contain any additional
-     * "/", and MUST be unique over all bindings present in the service at runtime.<br />
-     * For example, a kvp binding could have the pattern "/service/kvp".
+     * Check, if the operation is supported by the decoder by the HTTP-Delete method.
      *
-     * @return URL pattern
+     * @param operation identifier of the decoder
+     *
+     * @return true, if the decoder {@code decoderKey} supports HTTP-Delete for operation {@code operationName}
+     *
+     * @throws HTTPException if an error occurs
      */
-    public abstract String getUrlPattern();
-
-    /**
-     * Check, if the operation is supported by the decoder by the HTTP-Delete
-     * method.
-     *
-     * @param decoderKey
-     *            identifier of the decoder
-     *
-     * @return true, if the decoder <code>decoderKey</code> supports HTTP-Delete
-     *         for * operation <code>operationName</code>
-     *
-     *
-     * @throws HTTPException
-     */
-    public boolean checkOperationHttpDeleteSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpDeleteSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
     /**
-     * Check, if the operation is supported by the decoder by the HTTP-Get
-     * method.
+     * Check, if the operation is supported by the decoder by the HTTP-Get method.
      *
-     * @param decoderKey
-     *            identifier of the decoder
+     * @param operation identifier of the decoder
      *
-     * @return true, if the decoder <code>decoderKey</code> supports HTTP-Get
-     *         for operation <code>operationName</code>
+     * @return true, if the decoder {@code decoderKey} supports HTTP-Get for operation {@code operationName}
      *
-     *
-     * @throws HTTPException
+     * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpGetSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpGetSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
     /**
-     * Check, if the operation is supported by the decoder by the HTTP-Post
-     * method.
+     * Check, if the operation is supported by the decoder by the HTTP-Post method.
      *
-     * @param decoderKey
-     *            identifier of the decoder
+     * @param operation identifier of the decoder
      *
-     * @return true, if the decoder <code>decoderKey</code> supports HTTP-Post
-     *         for operation <code>operationName</code>
+     * @return true, if the decoder {@code decoderKey} supports HTTP-Post for operation {@code operationName}
      *
-     *
-     * @throws HTTPException
+     * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpPostSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
     /**
-     * Check, if the operation is supported by the decoder by the HTTP-Options
-     * method.
+     * Check, if the operation is supported by the decoder by the HTTP-Options method.
      *
-     * @param decoderKey
-     *            identifier of the decoder
+     * @param operation identifier of the decoder
      *
-     * @return true, if the decoder <code>decoderKey</code> supports HTTP-Post
-     *         for operation <code>operationName</code>
+     * @return true, if the decoder {@code decoderKey} supports HTTP-Post for operation {@code operationName}
      *
-     *
-     * @throws HTTPException
+     * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpOptionsSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpOptionsSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
     /**
-     * Check, if the operation is supported by the decoder by the HTTP-Put
-     * method.
+     * Check, if the operation is supported by the decoder by the HTTP-Put method.
      *
-     * @param decoderKey
-     *            identifier of the decoder
+     * @param operation identifier of the decoder
      *
-     * @return true, if the decoder <code>decoderKey</code> supports HTTP-Put
-     *         for operation <code>operationName</code>
+     * @return true, if the decoder {@code decoderKey} supports HTTP-Put for operation {@code operationName}
      *
-     *
-     * @throws HTTPException
+     * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpPutSupported(OperationKey decoderKey) throws HTTPException {
+    public boolean checkOperationHttpPutSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
-    /**
-     * @return the message encoding used as a constraint for the DCP
-     */
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.emptySet();
-    }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,16 +23,15 @@ import java.util.Set;
 /**
  * Abstract implementation that delegates to a existing map implementation.
  *
- * @param <K>
- *            the key type
- * @param <V>
- *            the value type
- * @param <C>
- *            the collection type
+ * @param <K> the key type
+ * @param <V> the value type
+ * @param <C> the collection type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use either guava or a plain java collection
  */
+@Deprecated
 public abstract class AbstractDelegatingMultiMap<K, V, C extends Collection<V>> implements MultiMap<K, V, C> {
     private static final long serialVersionUID = 7065617676463608631L;
 
@@ -93,6 +92,20 @@ public abstract class AbstractDelegatingMultiMap<K, V, C extends Collection<V>> 
     }
 
     @Override
+    public boolean remove(K key, Iterable<V> value) {
+        boolean altered = false;
+        C c = get(key);
+        if (c != null) {
+            for (V v : value) {
+                if (c.remove(v)) {
+                    altered = true;
+                }
+            }
+        }
+        return altered;
+    }
+
+    @Override
     public void putAll(Map<? extends K, ? extends C> m) {
         getDelegate().putAll(m);
     }
@@ -144,20 +157,6 @@ public abstract class AbstractDelegatingMultiMap<K, V, C extends Collection<V>> 
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean remove(K key, Iterable<V> value) {
-        boolean altered = false;
-        C c = get(key);
-        if (c != null) {
-            for (V v : value) {
-                if (c.remove(v)) {
-                    altered = true;
-                }
-            }
-        }
-        return altered;
     }
 
     @Override

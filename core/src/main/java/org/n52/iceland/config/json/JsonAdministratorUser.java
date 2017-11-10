@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,20 +39,18 @@ public class JsonAdministratorUser implements AdministratorUser {
     }
 
     @Override
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Override
     public String getUsername() {
         return this.username;
     }
 
     @Override
-    public AdministratorUser setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    @Override
-    public AdministratorUser setUsername(String username) {
+    public void setUsername(String username) {
         this.username = username;
-        return this;
     }
 
 }

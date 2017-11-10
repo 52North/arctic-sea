@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.cache.ContentCache;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.util.GroupedAndNamedThreadFactory;
+import org.n52.janmayen.GroupedAndNamedThreadFactory;
 
 /**
  * @author Christian Autermann
@@ -41,7 +41,8 @@ public class AsyncCachePersistenceStrategy
 
     private static final TimeUnit WRITE_DELAY_UNITS = TimeUnit.SECONDS;
     private long writeDelay = 30;
-    private final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor(new GroupedAndNamedThreadFactory("cache-persister"));
+    private final ScheduledExecutorService executor = Executors
+            .newSingleThreadScheduledExecutor(new GroupedAndNamedThreadFactory("cache-persister"));
     private final AtomicReference<ContentCache> cacheReference = new AtomicReference<>();
     private Updater updater;
 

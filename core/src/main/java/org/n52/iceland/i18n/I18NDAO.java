@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,9 +19,9 @@ package org.n52.iceland.i18n;
 import java.util.Collection;
 import java.util.Locale;
 
-import org.n52.iceland.component.Component;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
+import org.n52.janmayen.component.Component;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Interface for the I18N DAOs

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,6 @@
  */
 package org.n52.iceland.util.collections;
 
-import org.n52.iceland.util.collections.AbstractMultiHashMap;
-import org.n52.iceland.util.collections.SetMultiMap;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,15 +26,17 @@ import java.util.Set;
  *
  * Implementation based on {@link HashSet}s and a {@link HashMap}.
  *
- * @param <K>
- * @param <V>
+ * @param <K> the key type
+ * @param <V> the value type
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
+ * @deprecated use either guava or a plain java collection
  *
  */
-public class HashSetMultiMap<K, V> extends AbstractMultiHashMap<K, V, Set<V>> implements SetMultiMap<K, V>,
-        Serializable {
+@Deprecated
+public class HashSetMultiMap<K, V> extends AbstractMultiHashMap<K, V, Set<V>>
+        implements SetMultiMap<K, V>, Serializable {
     private static final long serialVersionUID = 7628009915817528370L;
 
     public HashSetMultiMap(Map<? extends K, ? extends Set<V>> m) {

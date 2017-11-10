@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,37 +16,32 @@
  */
 package org.n52.iceland.ogc;
 
-import org.n52.iceland.service.operator.ServiceOperatorKey;
+import java.util.Comparator;
+import java.util.Objects;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ComparisonChain;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 /**
- * Abstract class for comparable keys with parameters service, version and
- * domain
+ * Abstract class for comparable keys with parameters service, version and domain
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
- *            implementation of this class
+ * @param <T> implementation of this class
  */
 public abstract class AbstractComparableServiceVersionDomainKey<T extends AbstractComparableServiceVersionDomainKey<T>>
         implements Comparable<T> {
-    private ServiceOperatorKey sok;
+    private OwsServiceKey serviceKey;
 
     private String domain;
 
     /**
      * constructor
      *
-     * @param sok
-     *            the {@link ServiceOperatorKey} to set
-     * @param domain
-     *            the domain to set
+     * @param sok    the {@link OwsServiceKey} to set
+     * @param domain the domain to set
      */
-    public AbstractComparableServiceVersionDomainKey(ServiceOperatorKey sok, String domain) {
+    public AbstractComparableServiceVersionDomainKey(OwsServiceKey sok, String domain) {
         setServiceOperatorKey(sok);
         setDomain(domain);
     }
@@ -54,34 +49,30 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * constructor
      *
-     * @param service
-     *            the service to set
-     * @param version
-     *            the version to set
-     * @param domain
-     *            the domain to set
+     * @param service the service to set
+     * @param version the version to set
+     * @param domain  the domain to set
      */
     public AbstractComparableServiceVersionDomainKey(String service, String version, String domain) {
-        this(new ServiceOperatorKey(service, version), domain);
+        this(new OwsServiceKey(service, version), domain);
     }
 
     /**
-     * Set the {@link ServiceOperatorKey} to set
+     * Set the {@link OwsServiceKey} to set
      *
-     * @param sok
-     *            the {@link ServiceOperatorKey} to set
+     * @param key the {@link OwsServiceKey} to set
      */
-    private void setServiceOperatorKey(ServiceOperatorKey sok) {
-        this.sok = sok;
+    private void setServiceOperatorKey(OwsServiceKey key) {
+        this.serviceKey = key;
     }
 
     /**
-     * Get the {@link ServiceOperatorKey}
+     * Get the {@link OwsServiceKey}
      *
-     * @return the {@link ServiceOperatorKey}
+     * @return the {@link OwsServiceKey}
      */
-    public ServiceOperatorKey getServiceOperatorKey() {
-        return sok;
+    public OwsServiceKey getServiceOperatorKey() {
+        return serviceKey;
     }
 
     /**
@@ -90,7 +81,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      * @return the service
      */
     public String getService() {
-        return sok == null ? null : sok.getService();
+        return serviceKey == null ? null : serviceKey.getService();
     }
 
     /**
@@ -99,7 +90,7 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
      * @return the version
      */
     public String getVersion() {
-        return sok == null ? null : sok.getVersion();
+        return serviceKey == null ? null : serviceKey.getVersion();
     }
 
     /**
@@ -114,18 +105,18 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     /**
      * Set the domain
      *
-     * @param domain
-     *            the domain to set
+     * @param domain the domain to set
      */
     private void setDomain(String domain) {
         this.domain = domain;
     }
 
     @Override
-    public int compareTo(T o) {
-        Preconditions.checkNotNull(o);
-        return ComparisonChain.start().compare(getServiceOperatorKey(), o.getServiceOperatorKey())
-                .compare(getDomain(), o.getDomain()).result();
+    @SuppressWarnings("unchecked")
+    public int compareTo(T other) {
+        return Comparator.comparing(T::getServiceOperatorKey)
+                .thenComparing(T::getDomain)
+                .compare((T) this, other);
     }
 
     @SuppressWarnings("unchecked")
@@ -133,20 +124,20 @@ public abstract class AbstractComparableServiceVersionDomainKey<T extends Abstra
     public boolean equals(Object obj) {
         if (obj != null && obj.getClass() == getClass()) {
             T o = (T) obj;
-            return Objects.equal(getServiceOperatorKey(), o.getServiceOperatorKey())
-                    && Objects.equal(getDomain(), o.getDomain());
+            return Objects.equals(getServiceOperatorKey(), o.getServiceOperatorKey()) &&
+                   Objects.equals(getDomain(), o.getDomain());
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getServiceOperatorKey(), getDomain());
+        return Objects.hash(getServiceOperatorKey(), getDomain());
     }
 
     @Override
     public String toString() {
         return String.format("%s[serviceOperatorKeyType=%s, domain=%s]", getClass().getSimpleName(),
-                getServiceOperatorKey(), getDomain());
+                             getServiceOperatorKey(), getDomain());
     }
 }

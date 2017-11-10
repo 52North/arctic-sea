@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,13 +26,11 @@ import java.util.Set;
 public interface AdminUserService {
 
     /**
-     * Creates a new {@code AdministratorUser}. This method will fail if the
-     * username is already used by another user.
+     * Creates a new {@code AdministratorUser}. This method will fail if the username is already used by another user.
      *
-     * @param username
-     *                 the proposed username
-     * @param password
-     *                 the proposed (hashed) password
+     * @param username the proposed username
+     * @param password the proposed (hashed) password
+     *
      * @return the user
      */
     AdministratorUser createAdminUser(String username, String password);
@@ -40,27 +38,23 @@ public interface AdminUserService {
     /**
      * Deletes the user with the specified username.
      *
-     * @param username
-     *                 the username
+     * @param username the username
      */
     void deleteAdminUser(String username);
 
     /**
-     * Deletes the user previously returned by
-     * {@link #getAdminUser(java.lang.String)} or {@link #getAdminUsers()}.
+     * Deletes the user previously returned by {@link #getAdminUser(java.lang.String)} or {@link #getAdminUsers()}.
      *
-     * @param user
+     * @param user the user
      */
     void deleteAdminUser(AdministratorUser user);
 
     /**
      * Gets the administrator user with the specified user name.
      *
-     * @param username
-     *                 the username
+     * @param username the username
      *
-     * @return the administrator user or {@code null} if no user with the
-     *         specified name exists
+     * @return the administrator user or {@code null} if no user with the specified name exists
      */
     AdministratorUser getAdminUser(String username);
 
@@ -79,11 +73,9 @@ public interface AdminUserService {
     boolean hasAdminUser();
 
     /**
-     * Saves a user previously returned by
-     * {@link #getAdminUser(java.lang.String)} or {@link #getAdminUsers()}.
+     * Saves a user previously returned by {@link #getAdminUser(java.lang.String)} or {@link #getAdminUsers()}.
      *
-     * @param user
-     *             the user to change
+     * @param user the user to change
      */
     void saveAdminUser(AdministratorUser user);
 

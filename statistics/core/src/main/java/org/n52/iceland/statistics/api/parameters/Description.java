@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,35 +17,6 @@
 package org.n52.iceland.statistics.api.parameters;
 
 public class Description {
-    public static enum InformationOrigin {
-        RequestEvent,
-        ResponseEvent,
-        CountingStreamEvent,
-        OutgoingResponseEvent,
-        ExceptionEvent,
-        Computed,
-        None;
-    }
-
-    public static enum Operation {
-        None,
-        Default,
-        Metadata,
-        GetCapabilities,
-        GetObservation,
-        GetObservationById,
-        DescribeSensor,
-        InsertObservation,
-        GetResult,
-        GetFeatureOfInterest,
-        DeleteSensor,
-        GetDataAvailability,
-        GetResultTemplate,
-        InsertResult,
-        InsertResultTemplate,
-        InsertSensor,
-        UpdateSensor;
-    }
 
     private final InformationOrigin informationOrigin;
     private final Operation operation;
@@ -80,7 +51,38 @@ public class Description {
 
     @Override
     public String toString() {
-        return "Description [informationOrigin=" + informationOrigin + ", operation=" + operation + ", desc=" + desc + "]";
+        return "Description [informationOrigin=" + informationOrigin + ", operation=" + operation + ", desc=" + desc +
+               "]";
+    }
+
+    public enum InformationOrigin {
+        RequestEvent,
+        ResponseEvent,
+        CountingStreamEvent,
+        OutgoingResponseEvent,
+        ExceptionEvent,
+        Computed,
+        None;
+    }
+
+    public enum Operation {
+        None,
+        Default,
+        Metadata,
+        GetCapabilities,
+        GetObservation,
+        GetObservationById,
+        DescribeSensor,
+        InsertObservation,
+        GetResult,
+        GetFeatureOfInterest,
+        DeleteSensor,
+        GetDataAvailability,
+        GetResultTemplate,
+        InsertResult,
+        InsertResultTemplate,
+        InsertSensor,
+        UpdateSensor;
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,13 +22,12 @@ import java.util.Map;
 import org.n52.iceland.statistics.api.parameters.ElasticsearchTypeRegistry.ElasticsearchType;
 
 /**
- * Abstract Elasticsearch variables which the user sees on the interface by the
- * name
+ * Abstract Elasticsearch variables which the user sees on the interface by the name
  */
 public abstract class AbstractEsParameter {
     private final String name;
     private Description description;
-    private ElasticsearchType type = null;
+    private ElasticsearchType type;
 
     public AbstractEsParameter(String name) {
         this.name = name;

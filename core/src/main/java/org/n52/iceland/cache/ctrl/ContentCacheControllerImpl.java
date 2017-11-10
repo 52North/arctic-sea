@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,25 +25,27 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import javax.inject.Inject;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.joda.time.DateTime;
+
 import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCacheUpdate;
 import org.n52.iceland.cache.WritableContentCache;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.lifecycle.Constructable;
-
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheController implements Constructable {
     private static final Logger LOGGER = LoggerFactory.getLogger(ContentCacheControllerImpl.class);
 
     private static final AtomicInteger COMPLETE_UPDATE_COUNT = new AtomicInteger(0);
     private static final AtomicInteger PARTIAL_UPDATE_COUNT = new AtomicInteger(0);
-    private CompleteUpdate current = null;
-    private CompleteUpdate next = null;
+
     private volatile WritableContentCache cache;
     private final ReentrantLock lock = new ReentrantLock();
+
+    private CompleteUpdate current;
+    private CompleteUpdate next;
 
     private ContentCachePersistenceStrategy persistenceStrategy;
     private ContentCacheFactory cacheFactory;
@@ -85,7 +87,6 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
         setInitialized(true);
     }
 
-
     @Override
     public WritableContentCache getCache() {
         return this.cache;
@@ -104,6 +105,11 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
         } finally {
             unlock();
         }
+    }
+
+    @Override
+    public void update() throws OwsExceptionReport {
+        update(this.completeCacheUpdateFactory.get());
     }
 
     @Override
@@ -174,11 +180,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
         if (isCurrent) {
             runCurrent();
         } else if (isNext) {
-            if (waitFor != null) {
-                LOGGER.trace("{} waiting for {}", update, waitFor);
-                waitFor.waitForCompletion();
-                LOGGER.trace("{} stopped waiting for {}", update, waitFor);
-            }
+            waitFor(waitFor, update);
             lock();
             try {
                 current = next;
@@ -187,10 +189,16 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
                 unlock();
             }
             runCurrent();
-        } else if (waitFor != null) {
-            LOGGER.trace("{} waiting for {}", update, waitFor);
-            waitFor.waitForCompletion();
-            LOGGER.trace("{} stopped waiting for {}", update, waitFor);
+        } else {
+            waitFor(waitFor, update);
+        }
+    }
+
+    private void waitFor(CompleteUpdate running, CompleteUpdate update) throws OwsExceptionReport {
+        if (running != null) {
+            LOGGER.trace("{} waiting for {}", update, running);
+            running.waitForCompletion();
+            LOGGER.trace("{} stopped waiting for {}", update, running);
         }
     }
 
@@ -208,17 +216,16 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
     }
 
     @Override
-    public void update() throws OwsExceptionReport {
-        update(this.completeCacheUpdateFactory.get());
-    }
-
-    @Override
     public ContentCachePersistenceStrategy getContentCachePersistenceStrategy() {
         return this.persistenceStrategy;
     }
 
     private enum State {
-        WAITING, RUNNING, APPLYING_UPDATES, FINISHED, FAILED
+        WAITING,
+        RUNNING,
+        APPLYING_UPDATES,
+        FINISHED,
+        FAILED
     }
 
     private abstract class Update {
@@ -240,14 +247,14 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
             super(update);
         }
 
-        synchronized void execute(WritableContentCache cache) throws OwsExceptionReport {
-            LOGGER.trace("Starting Update {}", getUpdate());
+        synchronized void execute(WritableContentCache newCache) throws OwsExceptionReport {
+            LOGGER.trace("Starting partial update {}", getUpdate());
             getUpdate().reset();
-            getUpdate().setCache(cache);
+            getUpdate().setCache(newCache);
             getUpdate().execute();
-            LOGGER.trace("Finished Update {}", getUpdate());
+            LOGGER.trace("Finished partial update {}", getUpdate());
             if (getUpdate().failed()) {
-                LOGGER.warn("Update failed!", getUpdate().getFailureCause());
+                LOGGER.warn("Partial update failed!", getUpdate().getFailureCause());
                 throw getUpdate().getFailureCause();
             }
         }
@@ -321,20 +328,20 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
             setCache(execute(getCache()));
         }
 
-        WritableContentCache execute(WritableContentCache cache) throws OwsExceptionReport {
+        WritableContentCache execute(WritableContentCache newCache) throws OwsExceptionReport {
             if (isFinished()) {
                 throw new IllegalStateException("already finished");
             }
             setState(State.RUNNING);
-            getUpdate().setCache(cache);
-            LOGGER.trace("Starting update {}", getUpdate());
+            getUpdate().setCache(newCache);
+            LOGGER.trace("Starting complete update {}", getUpdate());
             getUpdate().execute();
-            LOGGER.trace("Finished update {}", getUpdate());
+            LOGGER.trace("Finished complete update {}", getUpdate());
             lock();
             try {
                 if (getUpdate().failed()) {
                     setState(State.FAILED);
-                    LOGGER.warn("Update failed!", getUpdate().getFailureCause());
+                    LOGGER.warn("Complete update failed!", getUpdate().getFailureCause());
                     throw getUpdate().getFailureCause();
                 } else {
                     setState(State.APPLYING_UPDATES);
@@ -358,6 +365,7 @@ public class ContentCacheControllerImpl extends AbstractSchedulingContentCacheCo
                     try {
                         finished.await();
                     } catch (InterruptedException ex) {
+                        LOGGER.warn("Interrupted while waiting for cache update completion", ex);
                     }
                 }
                 if (getState() == State.FAILED) {

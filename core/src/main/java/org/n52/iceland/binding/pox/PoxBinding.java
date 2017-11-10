@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,46 +23,48 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
-import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.ogc.sos.ConformanceClasses;
-import org.n52.iceland.ogc.sos.Sos2Constants;
-import org.n52.iceland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
 import org.n52.iceland.service.MiscSettings;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.svalbard.ConformanceClasses;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 /**
  * {@link Binding} implementation for POX (XML) encoded requests
+ *
  * @since 1.0.0
  *
  */
 @Configurable
-public class PoxBinding extends AbstractXmlBinding {
+public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
 
-    @Deprecated // SOS-specific
+    @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
 
-     private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(BindingConstants.POX_BINDING_ENDPOINT))
+    private static final Set<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_XML))
             .add(new MediaTypeBindingKey(MediaTypes.TEXT_XML))
             .build();
+
+    private static final Logger LOG = LoggerFactory.getLogger(PoxBinding.class);
 
     private boolean useHttpResponseCodes;
 
@@ -85,33 +87,33 @@ public class PoxBinding extends AbstractXmlBinding {
     public void doPostOperation(HttpServletRequest req,
                                 HttpServletResponse res)
             throws HTTPException, IOException {
-        AbstractServiceRequest<?> sosRequest = null;
+        OwsServiceRequest request = null;
         try {
-            sosRequest = parseRequest(req);
-            AbstractServiceResponse sosResponse = getServiceOperator(sosRequest)
-                    .receiveRequest(sosRequest);
-            writeResponse(req, res, sosResponse);
+            request = parseRequest(req);
+            OwsServiceResponse response = getServiceOperator(request)
+                    .receiveRequest(request);
+            writeResponse(req, res, response);
         } catch (OwsExceptionReport oer) {
-            oer.setVersion(sosRequest != null ? sosRequest.getVersion() : null);
+            oer.setVersion(request != null ? request.getVersion() : null);
+            LOG.warn("Unexpected error", oer);
             writeOwsExceptionReport(req, res, oer);
         }
     }
 
-    protected AbstractServiceRequest<?> parseRequest(HttpServletRequest request)
-            throws OwsExceptionReport {
-        return ((AbstractServiceRequest<?>)decode(request)).setRequestContext(getRequestContext(request));
+    protected OwsServiceRequest parseRequest(HttpServletRequest request) throws OwsExceptionReport {
+        return decode(request).setRequestContext(getRequestContext(request));
     }
 
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
-        if(SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
+        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
     }
 
     @Override
-    public boolean checkOperationHttpPostSupported(OperationKey k) {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey k) {
         return hasDecoder(k, MediaTypes.TEXT_XML) ||
                hasDecoder(k, MediaTypes.APPLICATION_XML);
     }
@@ -121,15 +123,4 @@ public class PoxBinding extends AbstractXmlBinding {
         return MediaTypes.APPLICATION_XML;
     }
 
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Sets.newHashSet(MediaTypes.TEXT_XML, MediaTypes.APPLICATION_XML);
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return BindingConstants.POX_BINDING_ENDPOINT;
-    }
-
 }
-

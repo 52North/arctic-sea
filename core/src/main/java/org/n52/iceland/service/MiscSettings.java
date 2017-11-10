@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,19 +24,6 @@ package org.n52.iceland.service;
  * @since 1.0.0
  */
 public interface MiscSettings {
-    String TOKEN_SEPARATOR = "misc.tokenSeparator";
-
-    String TUPLE_SEPARATOR = "misc.tupleSeparator";
-
-    String DECIMAL_SEPARATOR = "misc.decimalSeparator";
-
-    String CHARACTER_ENCODING = "misc.characterEncoding";
-
-    @Deprecated
-    String SRS_NAME_PREFIX_SOS_V1 = "misc.srsNamePrefixSosV1";
-
-    @Deprecated
-    String SRS_NAME_PREFIX_SOS_V2 = "misc.srsNamePrefixSosV2";
 
     @Deprecated
     String DEFAULT_OFFERING_PREFIX = "misc.defaultOfferingPrefix";
@@ -73,5 +60,4 @@ public interface MiscSettings {
     String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
 
     String INCLUDE_ORIGINAL_REQUEST = "misc.includeOriginalRequest";
-
 }

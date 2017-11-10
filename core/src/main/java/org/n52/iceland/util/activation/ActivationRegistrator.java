@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.lifecycle.Constructable;
+import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Maps;
 
@@ -34,9 +34,7 @@ import com.google.common.collect.Maps;
  */
 @SuppressWarnings("rawtypes")
 public class ActivationRegistrator implements Constructable {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(ActivationRegistrator.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(ActivationRegistrator.class);
     private final Map<ActivationListenable, ActivationListener> listeners;
     private final Map<ActivationSink, ActivationInitializer> initializers;
 
@@ -68,13 +66,13 @@ public class ActivationRegistrator implements Constructable {
     }
 
     @SuppressWarnings("unchecked")
-    private  void registerListeners() {
+    private void registerListeners() {
         LOG.debug("Registering listeners");
         this.listeners.forEach(chain(logger(), ActivationListenable::registerListener));
     }
 
-    private static <T, U> BiConsumer<T,U> logger() {
-        return (a, b) -> LOG.debug("Registrating {} for {}", a, b);
+    private static <T, U> BiConsumer<T, U> logger() {
+        return (a, b) -> LOG.debug("Registering {} for {}", a, b);
     }
 
     private static <T, U> BiConsumer<T, U> chain(BiConsumer<T, U> first, BiConsumer<T, U> second) {

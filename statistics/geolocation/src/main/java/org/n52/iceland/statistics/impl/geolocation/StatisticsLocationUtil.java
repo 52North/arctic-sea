@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,42 +25,42 @@ import java.util.Map;
 import java.util.Objects;
 
 import javax.inject.Singleton;
+import javax.security.auth.Destroyable;
 
 import org.elasticsearch.common.geo.GeoPoint;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
-import org.n52.iceland.request.RequestContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
+import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
+import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 import org.n52.iceland.statistics.api.parameters.ObjectEsParameterFactory;
 import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.n52.iceland.statistics.api.utils.GeoLiteFileDownloader;
-import org.n52.iceland.util.net.IPAddress;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.net.IPAddress;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 
 import com.maxmind.db.Reader.FileMode;
 import com.maxmind.geoip2.DatabaseReader;
 import com.maxmind.geoip2.model.CityResponse;
 import com.maxmind.geoip2.record.Country;
 import com.maxmind.geoip2.record.Location;
-import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation;
-import org.n52.iceland.statistics.api.interfaces.geolocation.IStatisticsLocationUtil;
 
 /**
- * Utility class for mapping objects to Elasticsearch specific Geolocation type
- * objects
+ * Utility class for mapping objects to Elasticsearch specific Geolocation type objects
  *
  */
-
 @Singleton
 @Configurable
-public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminStatisticsLocation, Constructable, Destroyable {
+public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminStatisticsLocation, Constructable,
+                                               Destroyable {
 
-    private static final Logger logger = LoggerFactory.getLogger(StatisticsLocationUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(StatisticsLocationUtil.class);
 
-    private boolean enabled = false;
+    private boolean enabled;
     private boolean isAutoDownload;
     private String downloadFolderPath;
     private String cityDbLoc;
@@ -85,7 +85,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
         try {
             return ip2SpatialData(InetAddress.getByName(host));
         } catch (UnknownHostException e) {
-            logger.warn("Not a valid IPv4 address", e);
+            LOG.warn("Not a valid IPv4 address", e);
         }
         return null;
     }
@@ -95,7 +95,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
             return null;
         }
         if (reader == null) {
-            logger.warn("Location database is not initialized. Exiting.");
+            LOG.warn("Location database is not initialized. Exiting.");
             return null;
         }
         try {
@@ -108,32 +108,32 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
                 Location loc = city.getLocation();
                 holder.put(ObjectEsParameterFactory.GEOLOC_COUNTRY_CODE.getName(), city.getCountry().getIsoCode());
                 holder.put(ObjectEsParameterFactory.GEOLOC_CITY_NAME.getName(), city.getCity().getName());
-                holder.put(ObjectEsParameterFactory.GEOLOC_GEO_POINT.getName(), new GeoPoint(loc.getLatitude(), loc.getLongitude()));
+                holder.put(ObjectEsParameterFactory.GEOLOC_GEO_POINT.getName(),
+                           new GeoPoint(loc.getLatitude(), loc.getLongitude()));
             }
             return holder;
         } catch (Throwable e) {
-            logger.warn("Can't convert IP to GeoIp", e);
+            LOG.warn("Can't convert IP to GeoIp", e);
         }
         return null;
     }
 
     /**
-     * Resolves source {@link IPAddress} if there were a proxy get the original
-     * address
+     * Resolves source {@link IPAddress} if there were a proxy get the original address
      *
-     * @param ctx
-     *            holder of the address
+     * @param ctx holder of the address
+     *
      * @return caller source address
      */
     @Override
-    public IPAddress resolveOriginalIpAddress(RequestContext ctx) {
+    public IPAddress resolveOriginalIpAddress(OwsServiceRequestContext ctx) {
         if (ctx == null) {
             return null;
         }
         if (ctx.getForwardedForChain().isPresent()) {
             return ctx.getForwardedForChain().get().getOrigin();
         } else {
-            return ctx.getIPAddress().orNull();
+            return ctx.getIPAddress().orElse(null);
         }
     }
 
@@ -141,19 +141,20 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
     public void initDatabase(LocationDatabaseType type, String pathToDatabase) {
         Objects.requireNonNull(type);
         Objects.requireNonNull(pathToDatabase);
-        logger.info("Init {} as type {} with file {}", getClass().toString(), type.toString(), pathToDatabase);
+        LOG.info("Init {} as type {} with file {}", getClass().toString(), type.toString(), pathToDatabase);
         dbType = type;
         try {
             File f = new File(pathToDatabase);
             reader = new DatabaseReader.Builder(f).fileMode(FileMode.MEMORY_MAPPED).build();
             // mismatch
             if (!type.getGeoLite2Name().equals(reader.getMetadata().getDatabaseType())) {
-                logger.error("DatabaseType {} not match with the databasefile {}. Exiting.", type.toString(), pathToDatabase);
+                LOG.error("DatabaseType {} not match with the databasefile {}. Exiting.",
+                             type.toString(), pathToDatabase);
                 destroy();
                 return;
             }
         } catch (Throwable e) {
-            logger.error("Couldn't initation geolocation database ", e);
+            LOG.error("Couldn't initation geolocation database ", e);
             reader = null;
         }
     }
@@ -165,7 +166,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
                 reader.close();
             }
         } catch (IOException e) {
-            logger.error("Error during closing GeoLite reader", e);
+            LOG.error("Error during closing GeoLite reader", e);
         } finally {
             enabled = false;
             reader = null;
@@ -238,7 +239,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
 
     @Override
     public void init() {
-        logger.info("Statistics Geolocation module is {}", enabled);
+        LOG.info("Statistics Geolocation module is {}", enabled);
         if (enabled) {
             // downloader auto - manual
             if (isAutoDownload) {
@@ -247,7 +248,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
                 if (!FileDownloader.isPathExists(countryPath) || !FileDownloader.isPathExists(cityPath)) {
                     GeoLiteFileDownloader.downloadDefaultDatabases(downloadFolderPath);
                 } else {
-                    logger.info("GeoLite2 databases on paths {} and {} already exists", countryPath, cityPath);
+                    LOG.info("GeoLite2 databases on paths {} and {} already exists", countryPath, cityPath);
                 }
             }
             // db type
@@ -266,7 +267,8 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
                 }
             }
             if (pathToDatabase == null) {
-                logger.error("Path to type {} database can't be empty. Check your location database type or the path", dbType.name());
+                LOG.error("Path to type {} database can't be empty. Check your location database type or the path",
+                             dbType.name());
                 return;
             }
             initDatabase(dbType, pathToDatabase);

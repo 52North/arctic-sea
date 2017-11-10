@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,8 +28,9 @@ import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.event.ServiceEvent;
-import org.n52.iceland.event.ServiceEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.iceland.event.events.AbstractFlowEvent;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -41,24 +42,23 @@ import org.n52.iceland.statistics.impl.resolvers.CountingOutputStreamEventResolv
 import org.n52.iceland.statistics.impl.resolvers.DefaultServiceEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.ExceptionEventResolver;
 import org.n52.iceland.statistics.impl.resolvers.OutgoingResponseEventResolver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.n52.janmayen.event.Event;
+import org.n52.janmayen.event.EventListener;
 
 import com.google.common.collect.Sets;
 
-public abstract class AbstractStatisticsServiceEventListener implements ServiceEventListener {
-
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+public abstract class AbstractStatisticsServiceEventListener implements EventListener {
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractStatisticsServiceEventListener.class);
     private static final int DEFAULT_THREAD_POOL_SIZE = 2;
     private static final int EVENTS_ARR_SIZE = 4;
     private final ExecutorService executorService;
     @SuppressWarnings("unchecked")
-    private final Set<Class<? extends ServiceEvent>> eventTypes =
-            Sets.newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputStreamEvent.class);
-    private ConcurrentMap<Long, List<AbstractFlowEvent>> eventsCache = new ConcurrentHashMap<>();
+    private final Set<Class<? extends Event>> eventTypes = Sets
+            .newHashSet(ExceptionEvent.class, OutgoingResponseEvent.class, CountingOutputStreamEvent.class);
+    private final ConcurrentMap<Long, List<AbstractFlowEvent>> eventsCache = new ConcurrentHashMap<>();
 
     @Inject
-    protected IStatisticsDataHandler dataHandler;
+    private IStatisticsDataHandler dataHandler;
 
     @Inject
     private StatisticsResolverFactory resolverFactory;
@@ -72,13 +72,13 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     }
 
     @Override
-    public Set<Class<? extends ServiceEvent>> getTypes() {
+    public Set<Class<? extends Event>> getTypes() {
         return eventTypes;
     }
 
     @Override
-    public void handle(ServiceEvent serviceEvent) {
-        logger.debug("Event received: {}", serviceEvent);
+    public void handle(Event serviceEvent) {
+        LOG.debug("Event received: {}", serviceEvent);
         if (!dataHandler.isLoggingEnabled()) {
             return;
         }
@@ -109,7 +109,7 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
                 }
 
             } else {
-                logger.trace("Unssupported type of event: {}", serviceEvent.getClass());
+                LOG.trace("Unssupported type of event: {}", serviceEvent.getClass());
 
                 BatchResolver singleOp = new BatchResolver(dataHandler);
                 addEventToResolver(singleOp, serviceEvent);
@@ -117,13 +117,11 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
             }
 
         } catch (Throwable e) {
-            logger.error("Can't handle event for statistics logging: {}", serviceEvent, e);
-        } finally {
-
+            LOG.error("Can't handle event for statistics logging: {}", serviceEvent, e);
         }
     }
 
-    private void addEventToResolver(BatchResolver resolver, ServiceEvent event) {
+    private void addEventToResolver(BatchResolver resolver, Event event) {
         StatisticsServiceEventResolver<?> evtResolver = null;
 
         if (event instanceof ExceptionEvent) {
@@ -131,11 +129,13 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
             sosExceptionEventResolver.setEvent((ExceptionEvent) event);
             evtResolver = sosExceptionEventResolver;
         } else if (event instanceof OutgoingResponseEvent) {
-            OutgoingResponseEventResolver outgoingResponseEventResolver = resolverFactory.getOutgoingResponseEventResolver();
+            OutgoingResponseEventResolver outgoingResponseEventResolver = resolverFactory
+                    .getOutgoingResponseEventResolver();
             outgoingResponseEventResolver.setEvent((OutgoingResponseEvent) event);
             evtResolver = outgoingResponseEventResolver;
         } else if (event instanceof CountingOutputStreamEvent) {
-            CountingOutputStreamEventResolver countingOutputstreamEventResolver = resolverFactory.getCountingOutputstreamEventResolver();
+            CountingOutputStreamEventResolver countingOutputstreamEventResolver = resolverFactory
+                    .getCountingOutputstreamEventResolver();
             countingOutputstreamEventResolver.setEvent((CountingOutputStreamEvent) event);
             evtResolver = countingOutputstreamEventResolver;
         } else {
@@ -154,41 +154,47 @@ public abstract class AbstractStatisticsServiceEventListener implements ServiceE
     }
 
     /**
-     * Call this method in the constructor or before listener registration
-     * starts to register additional event types to your listener
+     * Call this method in the constructor or before listener registration starts to register additional event types to
+     * your listener
      *
-     * @param types
-     *            additional ServiceEvent to listener for
+     * @param types additional ServiceEvent to listener for
      */
-    protected void registerEventType(Set<Class<? extends ServiceEvent>> types) {
+    protected void registerEventType(Set<Class<? extends Event>> types) {
         eventTypes.addAll(types);
     }
 
     @Override
     protected void finalize() throws Throwable {
-        this.executorService.shutdown();
+        try {
+            this.executorService.shutdown();
+        } finally {
+            super.finalize();
+        }
     }
 
     // ---------- ABSTRACT METHODS ------------ //
-
     /**
-     * Returns the application specific resolver
-     * {@link StatisticsServiceEventResolver} based on the {@link ServiceEvent}
+     * Returns the application specific resolver {@link StatisticsServiceEventResolver} based on the {@link Event}
      *
-     * @param serviceEvent
+     * @param serviceEvent the event
+     *
      * @return the concrete service event resolver
      */
-    protected abstract StatisticsServiceEventResolver<?> findResolver(ServiceEvent serviceEvent);
+    protected abstract StatisticsServiceEventResolver<?> findResolver(Event serviceEvent);
+
+    public IStatisticsDataHandler getDataHandler() {
+        return dataHandler;
+    }
 
     /**
-     * Custom class for persisting the resolved {@link ServiceEvent}s
+     * Custom class for persisting the resolved {@link Event}s
      */
     private static class BatchResolver implements Runnable {
         private static final Logger logger = LoggerFactory.getLogger(BatchResolver.class);
         private final List<StatisticsServiceEventResolver<?>> eventsResolvers;
         private final IStatisticsDataHandler dataHandler;
 
-        public BatchResolver(IStatisticsDataHandler dataHandler) {
+        BatchResolver(IStatisticsDataHandler dataHandler) {
             eventsResolvers = new ArrayList<>(EVENTS_ARR_SIZE);
             this.dataHandler = dataHandler;
         }

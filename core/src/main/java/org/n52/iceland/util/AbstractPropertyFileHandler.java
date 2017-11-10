@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,7 +28,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.exception.ConfigurationError;
+import org.n52.faroe.ConfigurationError;
 
 /**
  * @since 1.0.0
@@ -37,22 +37,21 @@ import org.n52.iceland.exception.ConfigurationError;
 public class AbstractPropertyFileHandler {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPropertyFileHandler.class);
-
+    private static final String ERROR_READING_MESSAGE = "Error reading properties";
+    private static final String ERROR_WRITING_MESSAGE = "Error writing properties";
     private final File propertiesFile;
-
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
-
     private Properties cache;
+
+    protected AbstractPropertyFileHandler(String name) {
+        this.propertiesFile = new File(name);
+    }
 
     public File getFile(boolean create) throws IOException {
         if (propertiesFile.exists() || (create && propertiesFile.createNewFile())) {
             return propertiesFile;
         }
         return null;
-    }
-
-    protected AbstractPropertyFileHandler(String name) {
-        this.propertiesFile = new File(name);
     }
 
     private Properties load() throws IOException {
@@ -77,12 +76,25 @@ public class AbstractPropertyFileHandler {
         }
     }
 
+    public void save(String m, String value) throws ConfigurationError {
+        lock.writeLock().lock();
+        try {
+            Properties p = load();
+            p.setProperty(m, value);
+            save(p);
+        } catch (IOException e) {
+            throw new ConfigurationError(ERROR_WRITING_MESSAGE, e);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
     public String get(String m) throws ConfigurationError {
         lock.readLock().lock();
         try {
             return load().getProperty(m);
         } catch (IOException e) {
-            throw new ConfigurationError("Error reading properties", e);
+            throw new ConfigurationError(ERROR_READING_MESSAGE, e);
         } finally {
             lock.readLock().unlock();
         }
@@ -95,22 +107,19 @@ public class AbstractPropertyFileHandler {
             p.remove(m);
             save(p);
         } catch (IOException e) {
-            throw new ConfigurationError("Error writing properties", e);
+            throw new ConfigurationError(ERROR_WRITING_MESSAGE, e);
         } finally {
             lock.writeLock().unlock();
         }
     }
 
-    public void save(String m, String value) throws ConfigurationError {
-        lock.writeLock().lock();
+    public boolean delete() {
         try {
-            Properties p = load();
-            p.setProperty(m, value);
-            save(p);
-        } catch (IOException e) {
-            throw new ConfigurationError("Error writing properties", e);
-        } finally {
-            lock.writeLock().unlock();
+            cache = null;
+            LOG.debug("Removing properties file: {}.", getFile(false));
+            return exists() ? getFile(false).delete() : true;
+        } catch (IOException ex) {
+            return false;
         }
     }
 
@@ -118,12 +127,10 @@ public class AbstractPropertyFileHandler {
         lock.writeLock().lock();
         try {
             Properties p = load();
-            for (String key : properties.stringPropertyNames()) {
-                p.setProperty(key, properties.getProperty(key));
-            }
+            properties.stringPropertyNames().forEach(key -> p.setProperty(key, properties.getProperty(key)));
             save(p);
         } catch (IOException e) {
-            throw new ConfigurationError("Error writing properties", e);
+            throw new ConfigurationError(ERROR_WRITING_MESSAGE, e);
         } finally {
             lock.writeLock().unlock();
         }
@@ -134,18 +141,10 @@ public class AbstractPropertyFileHandler {
         try {
             return copyOf(load());
         } catch (IOException e) {
-            throw new ConfigurationError("Error reading properties", e);
+            throw new ConfigurationError(ERROR_READING_MESSAGE, e);
         } finally {
             lock.readLock().unlock();
         }
-    }
-
-    private static Properties copyOf(Properties p) {
-        Properties np = new Properties();
-        for (String s : p.stringPropertyNames()) {
-            np.put(s, p.get(s));
-        }
-        return np;
     }
 
     public String getPath() {
@@ -161,13 +160,9 @@ public class AbstractPropertyFileHandler {
         }
     }
 
-    public boolean delete() {
-        try {
-            cache = null;
-            LOG.debug("Removing properties file: {}.", getFile(false));
-            return exists() ? getFile(false).delete() : true;
-        } catch (IOException ex) {
-            return false;
-        }
+    private static Properties copyOf(Properties p) {
+        Properties np = new Properties();
+        p.stringPropertyNames().forEach(s -> np.put(s, p.get(s)));
+        return np;
     }
 }

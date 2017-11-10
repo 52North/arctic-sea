@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
-import org.n52.iceland.exception.ows.OptionNotSupportedException;
+import org.n52.shetland.ogc.ows.exception.OptionNotSupportedException;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>

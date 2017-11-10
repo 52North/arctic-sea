@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,22 +16,23 @@
  */
 package org.n52.iceland.coding;
 
-import org.n52.iceland.coding.encode.SchemaRepository;
-import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.decode.DecoderRepository;
-
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
 import javax.inject.Inject;
 
-import org.n52.iceland.coding.decode.Decoder;
-import org.n52.iceland.coding.decode.DecoderKey;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.decode.ConformanceClassDecoder;
+import org.n52.svalbard.decode.Decoder;
+import org.n52.svalbard.decode.DecoderKey;
+import org.n52.svalbard.decode.DecoderRepository;
+import org.n52.svalbard.encode.ConformanceClassEncoder;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.SchemaRepository;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -39,11 +40,11 @@ import org.n52.iceland.w3c.SchemaLocation;
  * @since 1.0.0
  * @see EncoderRepository
  * @see DecoderRepository
+ * @deprecated use {@link EncoderRepository} and {@link DecoderRepository}
  */
 @Deprecated
 public class CodingRepository implements Constructable {
 
-    @Deprecated
     private static CodingRepository instance;
     private EncoderRepository encoderRepository;
     private DecoderRepository decoderRepository;
@@ -69,62 +70,50 @@ public class CodingRepository implements Constructable {
         CodingRepository.instance = this;
     }
 
-    @Deprecated
     public Set<Decoder<?, ?>> getDecoders() {
         return this.decoderRepository.getDecoders();
     }
 
-    @Deprecated
     public Set<Encoder<?, ?>> getEncoders() {
         return this.encoderRepository.getEncoders();
     }
 
-    @Deprecated
-    public Map<DecoderKey, Set<Decoder<?, ?>>> getDecoderByKey() {
+    public Map<DecoderKey, Set<ConformanceClassDecoder<?, ?>>> getDecoderByKey() {
         return Collections.emptyMap();
     }
 
-    @Deprecated
-    public Map<EncoderKey, Set<Encoder<?, ?>>> getEncoderByKey() {
+    public Map<EncoderKey, Set<ConformanceClassEncoder<?, ?>>> getEncoderByKey() {
         return Collections.emptyMap();
     }
 
-    @Deprecated
     public boolean hasDecoder(DecoderKey key, DecoderKey... keys) {
         return this.decoderRepository.hasDecoder(key, keys);
     }
 
-    @Deprecated
     public <F, T> Decoder<F, T> getDecoder(DecoderKey key, DecoderKey... keys) {
         return this.decoderRepository.getDecoder(key, keys);
     }
 
-    @Deprecated
     public boolean hasEncoder(EncoderKey key, EncoderKey... keys) {
         return this.encoderRepository.hasEncoder(key, keys);
     }
 
-    @Deprecated
     public <F, T> Encoder<F, T> getEncoder(EncoderKey key, EncoderKey... keys) {
         return this.encoderRepository.getEncoder(key, keys);
     }
 
-    @Deprecated
     public Set<SchemaLocation> getSchemaLocation(String namespace) {
         return this.schemaRepository.getSchemaLocation(namespace);
     }
 
-    @Deprecated
     public String getNamespaceFor(String prefix) {
         return this.schemaRepository.getNamespaceFor(prefix);
     }
 
-    @Deprecated
     public String getPrefixFor(String namespace) {
         return this.schemaRepository.getPrefixFor(namespace);
     }
 
-    @Deprecated
     public static CodingRepository getInstance() {
         return CodingRepository.instance;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,31 +16,33 @@
  */
 package org.n52.iceland.convert;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.response.AbstractServiceResponse;
-import org.n52.iceland.util.Producer;
-import org.n52.iceland.util.Producers;
-
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.SetMultimap;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 @SuppressWarnings("rawtypes")
-public class RequestResponseModifierRepository extends
-              AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory> implements Constructable {
+public class RequestResponseModifierRepository
+        extends
+        AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory>
+        implements Constructable {
 
     @Deprecated
     private static RequestResponseModifierRepository instance;
 
-    private final ListMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> requestResponseModifier
-            = LinkedListMultimap.create();
+    private final Map<RequestResponseModifierKey, Set<Producer<RequestResponseModifier>>> requestResponseModifier
+            = new HashMap<>();
 
     @Autowired(required = false)
     private Collection<RequestResponseModifier> components;
@@ -51,45 +53,45 @@ public class RequestResponseModifierRepository extends
     @Override
     public void init() {
         RequestResponseModifierRepository.instance = this;
-        SetMultimap<RequestResponseModifierKey, Producer<RequestResponseModifier>> implementations
+        Map<RequestResponseModifierKey, Set<Producer<RequestResponseModifier>>> implementations
                 = getProviders(this.components, this.componentFactories);
         this.requestResponseModifier.clear();
-        for (RequestResponseModifierKey key : implementations.keySet()) {
-            requestResponseModifier.putAll(key, implementations.get(key));
-        }
+        this.requestResponseModifier.putAll(implementations);
     }
 
-    public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request) {
-        RequestResponseModifierKey key = new RequestResponseModifierKey(request.getService(), request.getVersion(), request);
+    public List<RequestResponseModifier> getRequestResponseModifier(OwsServiceRequest request) {
+        RequestResponseModifierKey key
+                = new RequestResponseModifierKey(request.getService(), request.getVersion(), request);
         return getRequestResponseModifier(key);
     }
 
-    public List<RequestResponseModifier> getRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
-        RequestResponseModifierKey key = new RequestResponseModifierKey(response.getService(), response.getVersion(), request, response);
+    public List<RequestResponseModifier> getRequestResponseModifier(OwsServiceRequest request,
+                                                                    OwsServiceResponse response) {
+        RequestResponseModifierKey key
+                = new RequestResponseModifierKey(response.getService(), response.getVersion(), request, response);
         return getRequestResponseModifier(key);
     }
 
     public List<RequestResponseModifier> getRequestResponseModifier(RequestResponseModifierKey key) {
-        List<Producer<RequestResponseModifier>> producers
-                = this.requestResponseModifier.get(key);
+        Set<Producer<RequestResponseModifier>> producers = this.requestResponseModifier.get(key);
         if (producers == null) {
             return null;
         } else {
-            return Producers.produce(producers);
+            return producers.stream().map(Producer::get).collect(toList());
         }
     }
 
-    public  boolean hasRequestResponseModifier(AbstractServiceRequest request) {
+    public boolean hasRequestResponseModifier(OwsServiceRequest request) {
         return hasRequestResponseModifier(new RequestResponseModifierKey(
                 request.getService(), request.getVersion(), request));
     }
 
-    public boolean hasRequestResponseModifier(AbstractServiceRequest request, AbstractServiceResponse response) {
+    public boolean hasRequestResponseModifier(OwsServiceRequest request, OwsServiceResponse response) {
         return hasRequestResponseModifier(new RequestResponseModifierKey(
-                request.getService(), request.getVersion(), request, response))
-               && hasRequestResponseModifier(new RequestResponseModifierKey(
+                request.getService(), request.getVersion(), request, response)) &&
+               hasRequestResponseModifier(new RequestResponseModifierKey(
                        response.getService(), response.getVersion(), request,
-                        response));
+                       response));
     }
 
     public boolean hasRequestResponseModifier(RequestResponseModifierKey key) {

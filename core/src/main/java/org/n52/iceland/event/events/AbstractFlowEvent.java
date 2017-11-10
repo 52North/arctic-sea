@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,9 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.event.ServiceEvent;
+import org.n52.janmayen.event.Event;
 
-public class AbstractFlowEvent implements ServiceEvent {
+public class AbstractFlowEvent implements Event {
     private final Long eventsGroupId;
 
     public AbstractFlowEvent(Long eventsGroupId) {

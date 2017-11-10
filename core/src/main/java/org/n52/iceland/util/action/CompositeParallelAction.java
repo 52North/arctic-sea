@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,11 +24,11 @@ import java.util.concurrent.ThreadFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.util.GroupedAndNamedThreadFactory;
-
+import org.n52.janmayen.GroupedAndNamedThreadFactory;
 
 /**
- * @param <A>
+ * @param <A> the action type
+ *
  * @author <a href="mailto:shane@axiomalaska.com">Shane StClair</a>
  * @since 1.0.0
  *
@@ -42,6 +42,7 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
     private CountDownLatch countDownLatch;
 
     @SafeVarargs
+    @SuppressWarnings("varargs")
     public CompositeParallelAction(int threads, String threadGroupName, A... actions) {
         super(actions);
         this.threadGroupName = threadGroupName;
@@ -56,15 +57,15 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
             countDownLatch = new CountDownLatch(getActions().size());
 
             //preprocess and submit actions
-            for (A action : getActions()){
+            getActions().stream().forEachOrdered((action) -> {
                 action.setParentCountDownLatch(countDownLatch);
                 pre(action);
                 executor.submit(action);
-            }
+            });
             long latchSize = this.countDownLatch.getCount();
 
-            //execute actions in parallel
-            executor.shutdown(); // <-- will finish all submitted tasks
+            // execute actions in parallel
+            executor.shutdown();
             // wait for all threads to finish
             try {
                 LOGGER.debug("{}: waiting for {} threads to finish", threadGroupName, latchSize);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
  */
 package org.n52.iceland.eu;
 
-import org.n52.iceland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  *
@@ -36,7 +36,9 @@ public interface InspireConstants {
 
     String INSPIRE_COMMON_10_SCHEMA_LOCATION_URL = "http://inspire.ec.europa.eu/schemas/common/1.0/common.xsd";
 
-    SchemaLocation INSPIRE_DS_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_DS_10_NS, INSPIRE_DS_10_SCHEMA_LOCATION_URL);
+    SchemaLocation INSPIRE_DS_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_DS_10_NS,
+                                                                      INSPIRE_DS_10_SCHEMA_LOCATION_URL);
 
-    SchemaLocation INSPIRE_COMMON_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_COMMON_10_NS, INSPIRE_COMMON_10_SCHEMA_LOCATION_URL);
+    SchemaLocation INSPIRE_COMMON_10_SCHEMA_LOCATION = new SchemaLocation(INSPIRE_COMMON_10_NS,
+                                                                          INSPIRE_COMMON_10_SCHEMA_LOCATION_URL);
 }

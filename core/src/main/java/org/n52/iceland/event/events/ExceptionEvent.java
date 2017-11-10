@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,12 +21,11 @@ import java.io.OutputStream;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Event is fired if an occured {@link Exception} is written to the
- * {@link OutputStream} of the {@link HttpServletResponse}
+ * Event is fired if an occured {@link Exception} is written to the {@link OutputStream} of the
+ * {@link HttpServletResponse}
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
@@ -44,6 +43,7 @@ public class ExceptionEvent extends AbstractFlowEvent {
 
     @Override
     public String toString() {
-        return String.format("ExceptionEvent[exception=%s]", getException() != null ? getException().getClass().getSimpleName() : getClass());
+        return String.format("ExceptionEvent[exception=%s]", getException() != null ? getException().getClass()
+                             .getSimpleName() : getClass());
     }
 }

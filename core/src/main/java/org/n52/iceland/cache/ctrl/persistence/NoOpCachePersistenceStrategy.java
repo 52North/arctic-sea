@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +18,8 @@ package org.n52.iceland.cache.ctrl.persistence;
 
 import java.util.Optional;
 
-import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.ContentCache;
+import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
 
 /**

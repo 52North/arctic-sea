@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,49 +16,37 @@
  */
 package org.n52.iceland.util;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.n52.iceland.exception.ows.InvalidParameterValueException;
-import org.n52.iceland.exception.ows.MissingParameterValueException;
-import org.n52.iceland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.iceland.binding.kvp.AbstractKvpDecoder;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
+import org.n52.shetland.ogc.ows.OWSConstants.RequestParams;
+import org.n52.shetland.ogc.ows.exception.InvalidParameterValueException;
+import org.n52.shetland.ogc.ows.exception.MissingParameterValueException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
-import java.net.URI;
-import java.net.URISyntaxException;
-import org.n52.iceland.exception.CodedException;
 
 /**
  * Utility class for Key-Value-Pair (KVP) requests
  *
  * @since 1.0.0
+ * @deprecated use {@link AbstractKvpDecoder}
  *
  */
+@Deprecated
 public final class KvpHelper {
     private KvpHelper() {
     }
 
-    public static Map<String, String> getKvpParameterValueMap(HttpServletRequest req) {
-        Map<String, String> kvp = new HashMap<>();
-        Enumeration<?> parameterNames = req.getParameterNames();
-        while (parameterNames.hasMoreElements()) {
-            // all key names to lower case
-            String key = (String) parameterNames.nextElement();
-            kvp.put(key.replace("amp;", "").toLowerCase(Locale.ROOT), req.getParameter(key));
-        }
-        return kvp;
-    }
-
-    public static String checkParameterSingleValue(String value, String name) throws CodedException {
+    public static String checkParameterSingleValue(String value, String name) throws OwsExceptionReport {
         if (checkParameterMultipleValues(value, name).size() == 1) {
             return value;
         } else {
@@ -66,27 +54,26 @@ public final class KvpHelper {
         }
     }
 
-    public static String checkParameterSingleValue(String value, Enum<?> name) throws CodedException {
+    public static String checkParameterSingleValue(String value, Enum<?> name) throws OwsExceptionReport {
         return checkParameterSingleValue(value, name.name());
     }
 
-    public static URI checkParameterSingleURI(String values, String name) throws CodedException {
+    public static URI checkParameterSingleURI(String values, String name) throws OwsExceptionReport {
         String value = checkParameterSingleValue(values, name);
         try {
-            URI uri = new URI(value);
-            return uri;
+            return new URI(value);
         } catch (URISyntaxException e) {
-            throw new InvalidParameterValueException(name, values).withMessage("Cannot parse provided value '%s' to URI", value).causedBy(e);
+            throw new InvalidParameterValueException().at(name).causedBy(e)
+                    .withMessage("Cannot parse provided value '%s' to URI", value);
         }
     }
 
-    public static boolean checkParameterBooleanValue(String value, String name) throws CodedException {
+    public static boolean checkParameterBooleanValue(String value, String name) throws OwsExceptionReport {
         checkParameterValue(value, name);
         return Boolean.valueOf(value);
     }
 
-    public static List<String> checkParameterMultipleValues(String values, String name)
-            throws MissingParameterValueException {
+    public static List<String> checkParameterMultipleValues(String values, String name) throws OwsExceptionReport {
         if (values.isEmpty()) {
             throw new MissingParameterValueException(name);
         }
@@ -99,13 +86,11 @@ public final class KvpHelper {
         return splittedParameterValues;
     }
 
-    public static List<String> checkParameterMultipleValues(String values, Enum<?> name)
-            throws MissingParameterValueException {
+    public static List<String> checkParameterMultipleValues(String values, Enum<?> name) throws OwsExceptionReport {
         return checkParameterMultipleValues(values, name.name());
     }
 
-    public static void checkParameterMultipleValues(List<String> values, String name)
-            throws MissingParameterValueException {
+    public static void checkParameterMultipleValues(List<String> values, String name) throws OwsExceptionReport {
         if (CollectionHelper.isEmpty(values)) {
             throw new MissingParameterValueException(name);
         }
@@ -116,22 +101,20 @@ public final class KvpHelper {
         }
     }
 
-    public static void checkParameterValue(String value, String name) throws CodedException {
+    public static void checkParameterValue(String value, String name) throws OwsExceptionReport {
         if (Strings.isNullOrEmpty(value)) {
             throw new MissingParameterValueException(name);
         }
     }
 
-    public static void checkParameterValue(String value, Enum<?> name) throws CodedException {
+    public static void checkParameterValue(String value, Enum<?> name) throws OwsExceptionReport {
         checkParameterValue(value, name.name());
     }
 
     private static String getParameterValue(String name, Map<String, String> map) {
-        return map.computeIfAbsent(name, key
-                -> map.entrySet().stream()
-                .filter(e -> e.getKey().equalsIgnoreCase(key))
-                .findFirst().map(Entry::getValue).orElse(null)
-        );
+        return map.computeIfAbsent(name, key -> map.entrySet()
+                .stream().filter(e -> e.getKey().equalsIgnoreCase(key))
+                .findFirst().map(Entry::getValue).orElse(null));
     }
 
     public static String getParameterValue(Enum<?> name, Map<String, String> map) {
@@ -139,13 +122,18 @@ public final class KvpHelper {
     }
 
     /**
-     * Perform a sanity check on the request parameter without considering version.
+     * Perform a sanity check on the request parameter without considering
+     * version.
      *
      * @param value
-     * @throws InvalidParameterValueException
+     *            the value
+     *
+     * @throws OwsExceptionReport
+     *             if the operation could not be found
+     * @deprecated use injection to get the {@link RequestOperatorRepository}.
      */
     @Deprecated
-    public static void checkRequestParameter(String value) throws InvalidParameterValueException {
+    public static void checkRequestParameter(String value) throws OwsExceptionReport {
         for (RequestOperatorKey rok : RequestOperatorRepository.getInstance().getAllRequestOperatorKeys()) {
             if (value.equals(rok.getOperationName())) {
                 return;

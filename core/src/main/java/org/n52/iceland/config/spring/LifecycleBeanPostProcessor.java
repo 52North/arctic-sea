@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,8 +24,8 @@ import org.springframework.context.annotation.CommonAnnotationBeanPostProcessor;
 import org.springframework.core.Ordered;
 import org.springframework.core.PriorityOrdered;
 
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.n52.janmayen.lifecycle.Destroyable;
 
 /**
  * Bean post processor that calls {@link Constructable#init() } and
@@ -50,10 +50,8 @@ import org.n52.iceland.lifecycle.Destroyable;
  *
  * @author Christian Autermann
  */
-public class LifecycleBeanPostProcessor
-        implements DestructionAwareBeanPostProcessor, PriorityOrdered {
-    private static final Logger LOG = LoggerFactory
-            .getLogger(LifecycleBeanPostProcessor.class);
+public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProcessor, PriorityOrdered {
+    private static final Logger LOG = LoggerFactory.getLogger(LifecycleBeanPostProcessor.class);
 
     private int order = Ordered.LOWEST_PRECEDENCE;
 
@@ -68,34 +66,34 @@ public class LifecycleBeanPostProcessor
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) {
-
         if (bean instanceof Constructable) {
             try {
                 ((Constructable) bean).init();
             } catch (Throwable t) {
-                throw new BeanInitializationException(
-                        "Couldn't counstruct bean " + beanName, t);
+                throw new BeanInitializationException("Couldn't counstruct bean " + beanName, t);
             }
         }
-
         return bean;
     }
 
     @Override
     public void postProcessBeforeDestruction(Object bean, String beanName) {
         if (bean instanceof Destroyable) {
-
             try {
                 ((Destroyable) bean).destroy();
             } catch (Throwable t) {
                 LOG.error("Couldn't invoke destroy method on " + beanName, t);
             }
-
         }
     }
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) {
         return bean;
+    }
+
+    @Override
+    public boolean requiresDestruction(Object bean) {
+        return bean instanceof Destroyable;
     }
 }

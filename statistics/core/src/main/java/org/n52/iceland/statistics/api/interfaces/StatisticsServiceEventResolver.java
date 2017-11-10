@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +18,9 @@ package org.n52.iceland.statistics.api.interfaces;
 
 import java.util.Map;
 
-import org.n52.iceland.event.ServiceEvent;
+import org.n52.janmayen.event.Event;
 
-public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
+public interface StatisticsServiceEventResolver<T extends Event> {
     /**
      * Resolves the the request to Elasticsearch format
      *
@@ -29,18 +29,16 @@ public interface StatisticsServiceEventResolver<T extends ServiceEvent> {
     Map<String, Object> resolve();
 
     /**
-     * before the processing the Handlers can be added to the resolver via
-     * spring xml
+     * before the processing the Handlers can be added to the resolver via spring xml
      *
-     * @param handlers
+     * @param handlers the handlers
      */
     void setHandlers(Map<String, StatisticsServiceEventHandler<?>> handlers);
 
     /**
-     * Sets the payload to the Resolver class. Before the {@link #resolve()}
-     * method is called.
+     * Sets the payload to the Resolver class. Before the {@link #resolve()} method is called.
      *
-     * @param event
+     * @param event the event
      */
     void setEvent(T event);
 

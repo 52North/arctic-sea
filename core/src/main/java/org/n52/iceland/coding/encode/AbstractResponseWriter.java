@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,15 @@
  */
 package org.n52.iceland.coding.encode;
 
-import org.n52.iceland.coding.CodingRepository;
-import org.n52.iceland.request.ResponseFormat;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.ResponseFormat;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.EncoderRepository;
 
 /**
  * Abstract {@link ResponseWriter} class for response streaming
@@ -29,12 +32,16 @@ import org.slf4j.LoggerFactory;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
- * @param <T>
- *            generic for the element to write
+ * @param <T> generic for the element to write
  */
 public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractResponseWriter.class);
     private MediaType contentType;
+    private final EncoderRepository encoderRepository;
+
+    public AbstractResponseWriter(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
+    }
 
     @Override
     public MediaType getContentType() {
@@ -47,24 +54,17 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
     }
 
     /**
-     * Check if contentType is set
-     * @return <code>true</code>, if contentType is set
-     */
-    public boolean isSetContentType() {
-        return getContentType() != null;
-    }
-
-    /**
      * Getter for encoder, encapsulates the instance call
      *
-     * @param key
-     *            Encoder key
+     * @param <D> the encoders output type
+     * @param <S> the encoders input type
+     * @param key Encoder key
+     *
      * @return Matching encoder
      */
     protected <D, S> Encoder<D, S> getEncoder(EncoderKey key) {
-        return CodingRepository.getInstance().getEncoder(key);
+        return encoderRepository.getEncoder(key);
     }
-
 
     @Override
     public MediaType getEncodedContentType(ResponseFormat responseFormat) {
@@ -77,12 +77,16 @@ public abstract class AbstractResponseWriter<T> implements ResponseWriter<T> {
             }
             if (contentTypeFromResponseFormat != null) {
                 if (MediaTypes.COMPATIBLE_TYPES.containsEntry(contentTypeFromResponseFormat.withoutParameters(),
-                        getContentType())) {
+                                                              getContentType())) {
                     return getContentType();
                 }
                 return contentTypeFromResponseFormat;
             }
         }
         return getContentType();
+    }
+
+    protected EncoderRepository getEncoderRepository() {
+        return encoderRepository;
     }
 }

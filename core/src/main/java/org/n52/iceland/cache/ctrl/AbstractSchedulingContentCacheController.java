@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,17 +23,17 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.n52.faroe.ConfigurationError;
+import org.n52.faroe.Validation;
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.cache.ContentCacheController;
-import org.n52.iceland.config.annotation.Configurable;
-import org.n52.iceland.config.annotation.Setting;
-import org.n52.iceland.exception.ConfigurationError;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.lifecycle.Destroyable;
-import org.n52.iceland.util.Validation;
+import org.n52.janmayen.lifecycle.Destroyable;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
- * Abstract class for capabilities cache controller implementations that
- * schedules a complete cache update at a configured interval.
+ * Abstract class for capabilities cache controller implementations that schedules a complete cache update at a
+ * configured interval.
  *
  * @since 1.0.0
  */
@@ -41,10 +41,10 @@ import org.n52.iceland.util.Validation;
 public abstract class AbstractSchedulingContentCacheController implements ContentCacheController, Destroyable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSchedulingContentCacheController.class);
 
-    private boolean initialized = false;
+    private boolean initialized;
     private long updateInterval;
     private final Timer timer = new Timer("52n-iceland-capabilities-cache-controller", true);
-    private TimerTask current = null;
+    private TimerTask current;
 
     /**
      * Starts a new timer task
@@ -62,7 +62,7 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
         }
         if (delay > 0) {
             LOGGER.info("Next CapabilitiesCacheUpdate in {}m: {}", delay / 60000,
-                    new DateTime(System.currentTimeMillis() + delay));
+                        new DateTime(System.currentTimeMillis() + delay));
             timer.schedule(current, delay);
         }
     }
@@ -118,8 +118,7 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
     }
 
     /**
-     * @param initialized
-     *            the initialized to set
+     * @param initialized the initialized to set
      */
     protected void setInitialized(boolean initialized) {
         this.initialized = initialized;
@@ -133,7 +132,8 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
                 LOGGER.info("Timertask: capabilities cache update successful!");
                 schedule();
             } catch (OwsExceptionReport e) {
-                LOGGER.error("Fatal error: Timertask couldn't update capabilities cache! Switch log level to DEBUG to get more details.");
+                LOGGER.error("Fatal error: Timertask couldn't update capabilities cache! " +
+                             "Switch log level to DEBUG to get more details.");
                 LOGGER.debug("Exception thrown", e);
             }
         }

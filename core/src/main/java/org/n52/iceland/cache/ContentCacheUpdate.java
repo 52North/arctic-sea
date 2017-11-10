@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,8 @@
  */
 package org.n52.iceland.cache;
 
-import org.n52.iceland.exception.ows.OwsExceptionReport;
 import org.n52.iceland.util.action.Action;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -39,13 +39,13 @@ public abstract class ContentCacheUpdate implements Action {
     /**
      * Marks this cache update as failed.
      *
-     * @param exceptionReport
+     * @param cause
      *            the cause
      *
      * @return this
      */
-    protected ContentCacheUpdate fail(OwsExceptionReport exceptionReport) {
-        this.exceptionReport = exceptionReport;
+    protected ContentCacheUpdate fail(OwsExceptionReport cause) {
+        this.exceptionReport = cause;
         return this;
     }
 

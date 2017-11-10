@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,14 +28,14 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderRepository;
-import org.n52.iceland.coding.encode.OperationResponseEncoderKey;
 import org.n52.iceland.exception.HTTPException;
 import org.n52.iceland.response.TestResponse;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderRepository;
+import org.n52.svalbard.encode.OperationResponseEncoderKey;
 
 /**
  * @since 1.0.0
@@ -46,10 +46,9 @@ public class SimpleBindingTest {
 
     private static final List<MediaType> JSON = newArrayList(MediaTypes.APPLICATION_JSON);
 
-    private static final List<MediaType> ANYTHING = newArrayList(MediaTypes.WILD_CARD);
+    private static final List<MediaType> ANYTHING = newArrayList(MediaType.any());
 
-    private static final List<MediaType> XML_AND_JSON = newArrayList(MediaTypes.APPLICATION_XML,
-            MediaTypes.APPLICATION_JSON);
+    private static final List<MediaType> XML_AND_JSON = newArrayList(MediaTypes.APPLICATION_XML, MediaTypes.APPLICATION_JSON);
 
     private static final List<MediaType> NOTHING = newArrayList();
 
@@ -70,7 +69,7 @@ public class SimpleBindingTest {
     @SuppressWarnings({"rawtypes", "unchecked"})
     private EncoderRepository mockEncoderRepository() {
         EncoderRepository encoderRepository = mock(EncoderRepository.class);
-        OperationKey operationKey = response.getOperationKey();
+        OwsOperationKey operationKey = new OwsOperationKey(response);
         OperationResponseEncoderKey operationEncoderKey =
                 new OperationResponseEncoderKey(operationKey, MediaTypes.APPLICATION_JSON);
         Encoder encoder = Mockito.mock(Encoder.class);

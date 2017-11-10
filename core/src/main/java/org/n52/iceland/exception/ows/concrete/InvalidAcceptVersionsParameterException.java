@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +16,13 @@
  */
 package org.n52.iceland.exception.ows.concrete;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.n52.iceland.exception.ows.VersionNegotiationFailedException;
-import org.n52.iceland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.exception.VersionNegotiationFailedException;
+
+import com.google.common.base.Joiner;
 
 
 /**
@@ -33,13 +36,12 @@ public class InvalidAcceptVersionsParameterException extends VersionNegotiationF
 
     @SuppressWarnings("ThrowableResultIgnored")
     public InvalidAcceptVersionsParameterException(String... acceptVersions) {
-        withMessage("The requested %s values (%s) are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
+        this(Arrays.asList(acceptVersions));
     }
 
     @SuppressWarnings("ThrowableResultIgnored")
     public InvalidAcceptVersionsParameterException(List<String> acceptVersions) {
         withMessage("The requested %s values (%s) are not supported by this service!",
-                OWSConstants.GetCapabilitiesParams.AcceptVersions, possibleValues.join(acceptVersions));
+                OWSConstants.GetCapabilitiesParams.AcceptVersions, Joiner.on(", ").join(acceptVersions));
     }
 }

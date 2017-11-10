@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,11 +16,11 @@
  */
 package org.n52.iceland.event.events;
 
-import org.n52.iceland.request.AbstractServiceRequest;
 import org.n52.iceland.request.operator.RequestOperator;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 /**
- * Event should be fired when a new {@link AbstractServiceRequest} arrives in
+ * Event should be fired when a new {@link OwsServiceRequest} arrives in
  * the implemented {@link RequestOperator}
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -29,14 +29,14 @@ import org.n52.iceland.request.operator.RequestOperator;
  */
 public class RequestEvent extends AbstractFlowEvent {
 
-    private final AbstractServiceRequest<?> request;
+    private final OwsServiceRequest request;
 
-    public RequestEvent(final AbstractServiceRequest<?> request) {
+    public RequestEvent(OwsServiceRequest request) {
         super(Thread.currentThread().getId());
         this.request = request;
     }
 
-    public AbstractServiceRequest<?> getRequest() {
+    public OwsServiceRequest getRequest() {
         return request;
     }
 

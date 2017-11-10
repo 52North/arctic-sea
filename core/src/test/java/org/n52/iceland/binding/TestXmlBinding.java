@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,12 +19,14 @@ package org.n52.iceland.binding;
 import java.util.Collections;
 import java.util.Set;
 
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.iceland.coding.DocumentBuilderProvider;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 
 import com.google.common.collect.ImmutableSet;
 
-public class TestXmlBinding extends AbstractXmlBinding {
+public class TestXmlBinding extends AbstractXmlBinding<OwsServiceRequest> {
 
     private static final PathBindingKey PATH_KEY
             = new PathBindingKey("/service/test");
@@ -32,6 +34,12 @@ public class TestXmlBinding extends AbstractXmlBinding {
             = new MediaTypeBindingKey(MediaTypes.APPLICATION_XML);
     private static final ImmutableSet<BindingKey> KEYS
             = ImmutableSet.of(PATH_KEY, MEDIA_TYPE_KEY);
+
+    public TestXmlBinding() {
+        DocumentBuilderProvider fac = new DocumentBuilderProvider();
+        fac.init();
+        super.setDocumentFactory(fac);
+    }
 
     @Override
     protected boolean isUseHttpResponseCodes() {
@@ -51,11 +59,6 @@ public class TestXmlBinding extends AbstractXmlBinding {
     @Override
     protected MediaType getDefaultContentType() {
         return MEDIA_TYPE_KEY.getMediaType();
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return PATH_KEY.getPath();
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,8 @@ package org.n52.iceland.binding;
 import java.util.Collections;
 import java.util.Set;
 
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
 
 import com.google.common.collect.Sets;
 
@@ -49,11 +49,6 @@ public class TestBinding extends SimpleBinding {
     @Override
     public Set<BindingKey> getKeys() {
         return Sets.<BindingKey>newHashSet(new PathBindingKey(URL_PATTERN));
-    }
-
-    @Override
-    public String getUrlPattern() {
-        return URL_PATTERN;
     }
 
 }

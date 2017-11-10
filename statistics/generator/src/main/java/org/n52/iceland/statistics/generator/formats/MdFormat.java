@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,14 +28,14 @@ import org.n52.iceland.statistics.api.parameters.SingleEsParameter;
 import com.google.common.base.Strings;
 
 public class MdFormat {
-
-    private Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> parameters;
-    private StringBuilder output;
     private static final String LINE_TEMPLATE = " - **<fieldname>** - <desc>.";
     private static final String TYPE_TEMPLATE = " Type: <type>";
     private static final String NEW_LINE = "\n";
     private static final String NO_DESCRIPTION = "No available description";
     private static final String TAB = "\t";
+    private static final String DESCRIPTION_PLACEHOLDER = "<desc>";
+    private Map<Operation, Map<InformationOrigin, List<AbstractEsParameter>>> parameters;
+    private StringBuilder output;
 
     private String formatLine(AbstractEsParameter parameter, int indent) {
         String line = Strings.repeat(TAB, indent);
@@ -46,9 +46,9 @@ public class MdFormat {
         // Description
         if (parameter.getDescription() != null) {
             if (parameter.getDescription().getDesc() != null) {
-                line = line.replace("<desc>", parameter.getDescription().getDesc());
+                line = line.replace(DESCRIPTION_PLACEHOLDER, parameter.getDescription().getDesc());
             } else {
-                line = line.replace("<desc>", NO_DESCRIPTION);
+                line = line.replace(DESCRIPTION_PLACEHOLDER, NO_DESCRIPTION);
             }
 
             // Type
@@ -56,7 +56,7 @@ public class MdFormat {
                 line += TYPE_TEMPLATE.replace("<type>", parameter.getType().humanReadableType());
             }
         } else {
-            line = line.replace("<desc>", NO_DESCRIPTION);
+            line = line.replace(DESCRIPTION_PLACEHOLDER, NO_DESCRIPTION);
         }
 
         line += NEW_LINE;
@@ -68,16 +68,16 @@ public class MdFormat {
         parameter.getAllChildren().stream().forEach(l -> this.appendToOutput(l, indent + 1));
     }
 
+    private void format(SingleEsParameter parameter, int indent) {
+        output.append(formatLine(parameter, indent));
+    }
+
     private void appendToOutput(AbstractEsParameter parameter, int indent) {
         if (parameter instanceof ObjectEsParameter) {
             format((ObjectEsParameter) parameter, indent);
         } else {
             format((SingleEsParameter) parameter, indent);
         }
-    }
-
-    private void format(SingleEsParameter parameter, int indent) {
-        output.append(formatLine(parameter, indent));
     }
 
     private String formatH1(String line) {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,15 +18,16 @@ package org.n52.iceland.statistics.impl.handlers;
 
 import java.util.Map;
 
-import org.n52.iceland.event.ServiceEvent;
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
+import org.n52.janmayen.event.Event;
 
-public class DefaultServiceEventHandler extends AbstractElasticSearchDataHolder implements StatisticsServiceEventHandler<ServiceEvent> {
+public class DefaultServiceEventHandler extends AbstractElasticSearchDataHolder
+        implements StatisticsServiceEventHandler<Event> {
 
     @Override
-    public Map<String, Object> resolveAsMap(ServiceEvent event) {
+    public Map<String, Object> resolveAsMap(Event event) {
         put(ServiceEventDataMapping.UNHANDLED_SERVICEEVENT_TYPE.getName(), event.getClass());
         return dataMap;
     }

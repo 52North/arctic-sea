@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,7 +35,8 @@ public class OutgoingResponseEvent extends AbstractFlowEvent {
     private final long requestNumber;
     private final long elapsedTime;
 
-    public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber, long elapsedTime) {
+    public OutgoingResponseEvent(HttpServletRequest request, HttpServletResponse response, long requestNumber,
+                                 long elapsedTime) {
         super(Thread.currentThread().getId());
         this.request = request;
         this.response = response;

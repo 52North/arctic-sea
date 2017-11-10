@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +18,13 @@ package org.n52.iceland.statistics.impl.handlers.exceptions;
 
 import java.util.Map;
 
-import org.n52.iceland.exception.CodedException;
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.api.mappings.ServiceEventDataMapping;
+import org.n52.shetland.ogc.ows.exception.CodedException;
 
-public class CodedExceptionEventHandler extends AbstractElasticSearchDataHolder implements StatisticsServiceEventHandler<Exception> {
+public class CodedExceptionEventHandler extends AbstractElasticSearchDataHolder
+        implements StatisticsServiceEventHandler<Exception> {
 
     @Override
     public Map<String, Object> resolveAsMap(Exception rawException) {

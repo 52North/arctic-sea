@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,6 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 
-import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -36,9 +35,9 @@ import com.google.common.collect.Sets;
  *
  * @author Christian Autermann
  */
-public class Activatables {
+public final class Activatables {
 
-    private  Activatables() {
+    private Activatables() {
     }
 
     public static <K, V> Map<K, V> filter(Map<K, Activatable<V>> map) {
@@ -78,34 +77,6 @@ public class Activatables {
         return set.stream().map(Activatables::from).collect(toSet());
     }
 
-    public static <K, T> Set<K> activatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {
-        return Sets.filter(map.keySet(), asPredicate(provider));
-    }
-
-    public static <K, T> Set<T> activatedSet(Map<K, T> map, ActivationProvider<? super K> provider) {
-        return new HashSet<>(activatedMap(map, provider).values());
-    }
-
-    public static <K, T> Map<K, T> activatedMap(Map<K, T> map, ActivationProvider<? super K> provider) {
-        return Maps.filterKeys(map, asPredicate(provider));
-    }
-
-    public static <K, T> Set<K> deactivatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {
-        return Sets.filter(map.keySet(), Predicates.not(asPredicate(provider)));
-    }
-
-    public static <K, T> Set<T> deactivatedSet(Map<K, T> map, ActivationProvider<? super K> provider) {
-        return new HashSet<>(deactivatedMap(map, provider).values());
-    }
-
-    public static <K, T> Map<K, T> deactivatedMap(Map<K, T> map, ActivationProvider<? super K> provider) {
-        return Maps.filterKeys(map, Predicates.not(asPredicate(provider)));
-    }
-
-    private static <K> Predicate<K> asPredicate(ActivationProvider<? super K> provider) {
-        return new ActivationProviderPredicate<>(provider);
-    }
-
     public static <T> Activatable<T> from(T t) {
         return from(t, true);
     }
@@ -114,17 +85,28 @@ public class Activatables {
         return new Activatable<>(t, active);
     }
 
-    private static class ActivationProviderPredicate<K> implements Predicate<K> {
-        private final ActivationProvider<? super K> provider;
+    public static <K, T> Set<K> activatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {
+        return Sets.filter(map.keySet(), provider::isActive);
+    }
 
-        ActivationProviderPredicate(ActivationProvider<? super K> provider) {
-            this.provider = provider;
-        }
+    public static <K, T> Set<T> activatedSet(Map<K, T> map, ActivationProvider<? super K> provider) {
+        return new HashSet<>(activatedMap(map, provider).values());
+    }
 
-        @Override
-        public boolean apply(K input) {
-            return this.provider.isActive(input);
-        }
+    public static <K, T> Map<K, T> activatedMap(Map<K, T> map, ActivationProvider<? super K> provider) {
+        return Maps.filterKeys(map, provider::isActive);
+    }
+
+    public static <K, T> Set<K> deactivatedKeys(Map<K, T> map, ActivationProvider<? super K> provider) {
+        return Sets.filter(map.keySet(), Predicates.not(provider::isActive));
+    }
+
+    public static <K, T> Set<T> deactivatedSet(Map<K, T> map, ActivationProvider<? super K> provider) {
+        return new HashSet<>(deactivatedMap(map, provider).values());
+    }
+
+    public static <K, T> Map<K, T> deactivatedMap(Map<K, T> map, ActivationProvider<? super K> provider) {
+        return Maps.filterKeys(map, Predicates.not(provider::isActive));
     }
 
 }

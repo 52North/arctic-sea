@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,33 +22,30 @@ import java.util.Set;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.n52.iceland.event.ServiceEvent;
-import org.n52.iceland.event.ServiceEventListener;
 import org.n52.iceland.event.events.ExceptionEvent;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
+import org.n52.janmayen.event.Event;
+import org.n52.janmayen.event.EventListener;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Single point of exception logging.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  */
-public class ExceptionLogger implements ServiceEventListener {
+public class ExceptionLogger implements EventListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(ExceptionLogger.class);
-
-    public static final Set<Class<? extends ServiceEvent>> EVENTS = Collections
-            .<Class<? extends ServiceEvent>> singleton(ExceptionEvent.class);
+    private static final String MESSAGE = "Exception thrown";
 
     @Override
-    public Set<Class<? extends ServiceEvent>> getTypes() {
-        return EVENTS;
+    public Set<Class<? extends Event>> getTypes() {
+        return Collections.<Class<? extends Event>>singleton(ExceptionEvent.class);
     }
 
     @Override
-    public void handle(final ServiceEvent event) {
+    public void handle(Event event) {
         final ExceptionEvent ee = (ExceptionEvent) event;
 
         // TODO review logging of exceptions. Stacktrace only on debug level?
@@ -57,9 +54,9 @@ public class ExceptionLogger implements ServiceEventListener {
             if (owse.getStatus() == null) {
                 log(owse);
             } else if (owse.getStatus().getCode() >= 500) {
-                LOGGER.error("Exception thrown", owse);
+                LOGGER.error(MESSAGE, owse);
             } else if (owse.getStatus().getCode() >= 400) {
-                LOGGER.warn("Exception thrown", owse);
+                LOGGER.warn(MESSAGE, owse);
             } else {
                 log(owse);
             }
@@ -69,6 +66,6 @@ public class ExceptionLogger implements ServiceEventListener {
     }
 
     private void log(final OwsExceptionReport owse) {
-        LOGGER.debug("Exception thrown", owse);
+        LOGGER.debug(MESSAGE, owse);
     }
 }

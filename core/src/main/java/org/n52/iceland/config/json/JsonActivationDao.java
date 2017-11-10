@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +16,6 @@
  */
 package org.n52.iceland.config.json;
 
-
-
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -29,26 +27,22 @@ import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.PathBindingKey;
 import org.n52.iceland.config.ActivationDao;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.ogc.ows.extension.OwsOperationMetadataExtensionProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
-import org.n52.iceland.service.operator.ServiceOperatorKey;
-import org.n52.iceland.util.http.MediaType;
+import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
-public class JsonActivationDao extends AbstractJsonActivationDao
-        implements ActivationDao {
+public class JsonActivationDao extends AbstractJsonActivationDao implements ActivationDao {
 
-    @Deprecated // SOS-specific
-    protected static final String OFFERING_EXTENSIONS = "offeringExtensions";
-
-  @Override
+    @Override
     public boolean isRequestOperatorActive(RequestOperatorKey key) {
         return isActive(JsonConstants.OPERATIONS, matches(key), key.isDefaultActive());
     }
@@ -106,60 +100,42 @@ public class JsonActivationDao extends AbstractJsonActivationDao
                     .forEachRemaining(k -> keys.add(new PathBindingKey(k)));
             node.path(JsonConstants.BY_MEDIA_TYPE).fieldNames()
                     .forEachRemaining(k -> keys
-                            .add(new MediaTypeBindingKey(MediaType.parse(k))));
+                    .add(new MediaTypeBindingKey(MediaType.parse(k))));
             return keys;
         } finally {
             readLock().unlock();
         }
     }
 
-     @Override
-    public boolean isOfferingExtensionActive(OfferingExtensionKey key) {
-        return isActive(OFFERING_EXTENSIONS, matches(key), true);
-    }
-
     @Override
-    public void setOfferingExtensionStatus(OfferingExtensionKey key, boolean active) {
-        setStatus(OFFERING_EXTENSIONS, matches(key), s -> encode(s, key), active);
-    }
-
-    @Override
-    public Set<OfferingExtensionKey> getOfferingExtensionKeys() {
-        Function<JsonNode, OfferingExtensionKey> fun
-                = createDomainDecoder(OfferingExtensionKey::new);
-        return getKeys(OFFERING_EXTENSIONS, fun);
-    }
-
-
-    @Override
-    public boolean isOwsExtendedCapabilitiesProviderActive(OwsExtendedCapabilitiesProviderKey key) {
+    public boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key) {
         return isActive(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, matches(key), true);
     }
 
     @Override
-    public void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey key, boolean active) {
+    public void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key,
+                                                               boolean active) {
         setStatus(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, matches(key), s -> encode(s, key), active);
     }
 
     @Override
-    public Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys() {
+    public Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys() {
         return getKeys(JsonConstants.OWS_EXTENDED_CAPABILITIES_PROVIDERS, decodeOwsExtendedCapabilitiesProviderKey());
     }
 
-
     protected RequestOperatorKey decodeRequestOperatorKey(JsonNode node) {
         return new RequestOperatorKey(decodeServiceOperatorKey(node),
-                node.path(JsonConstants.OPERATION_NAME).textValue());
+                                      node.path(JsonConstants.OPERATION_NAME).textValue());
     }
 
-    protected Function<JsonNode, OwsExtendedCapabilitiesProviderKey> decodeOwsExtendedCapabilitiesProviderKey() {
-        return createDomainDecoder(OwsExtendedCapabilitiesProviderKey::new);
+    protected Function<JsonNode, OwsOperationMetadataExtensionProviderKey> decodeOwsExtendedCapabilitiesProviderKey() {
+        return createDomainDecoder(OwsOperationMetadataExtensionProviderKey::new);
     }
 
     protected Supplier<ObjectNode> encode(Supplier<ObjectNode> supplier, RequestOperatorKey key) {
         Objects.requireNonNull(supplier);
         return () -> {
-            ServiceOperatorKey sok = key == null ? null : key.getServiceOperatorKey();
+            OwsServiceKey sok = key == null ? null : key.getServiceOperatorKey();
             String operationName = key == null ? null : key.getOperationName();
             return encode(supplier, sok).get()
                     .put(JsonConstants.OPERATION_NAME, operationName);
@@ -167,7 +143,7 @@ public class JsonActivationDao extends AbstractJsonActivationDao
     }
 
     protected Predicate<JsonNode> matches(RequestOperatorKey key) {
-        ServiceOperatorKey sok = key == null ? null : key.getServiceOperatorKey();
+        OwsServiceKey sok = key == null ? null : key.getServiceOperatorKey();
         String operationName = key == null ? null : key.getOperationName();
         return matches(sok).and(matchesOperationName(operationName));
     }

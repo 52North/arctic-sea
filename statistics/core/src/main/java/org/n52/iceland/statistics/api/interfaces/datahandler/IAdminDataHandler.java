@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,18 +16,20 @@
  */
 package org.n52.iceland.statistics.api.interfaces.datahandler;
 
+import javax.security.auth.Destroyable;
+
 import org.elasticsearch.client.Client;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.lifecycle.Destroyable;
+
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
+import org.n52.janmayen.lifecycle.Constructable;
 
 public interface IAdminDataHandler extends Constructable, Destroyable {
 
-    public void deleteIndex(String index);
+    void deleteIndex(String index);
 
-    public void createSchema();
+    void createSchema();
 
-    public Client getElasticsearchClient();
+    Client getElasticsearchClient();
 
-    public ElasticsearchSettings getElasticsearchSettings();
+    ElasticsearchSettings getElasticsearchSettings();
 }

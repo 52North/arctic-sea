@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -35,6 +35,11 @@ public class AdminUserServiceImpl implements AdminUserService {
     }
 
     @Override
+    public void deleteAdminUser(String username) {
+        this.adminUserDao.deleteAdminUser(username);
+    }
+
+    @Override
     public boolean hasAdminUser() {
         return !getAdminUsers().isEmpty();
     }
@@ -42,11 +47,6 @@ public class AdminUserServiceImpl implements AdminUserService {
     @Override
     public AdministratorUser createAdminUser(String username, String password) {
         return this.adminUserDao.createAdminUser(username, password);
-    }
-
-    @Override
-    public void deleteAdminUser(String username) {
-        this.adminUserDao.deleteAdminUser(username);
     }
 
     @Override

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,9 +24,9 @@ import java.util.function.Supplier;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.n52.iceland.component.AbstractComponentRepository;
-import org.n52.iceland.lifecycle.Constructable;
-import org.n52.iceland.util.Producer;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.component.AbstractComponentRepository;
+import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Sets;
 
@@ -36,8 +36,9 @@ import com.google.common.collect.Sets;
  *
  * @since 1.0.0
  */
-@SuppressWarnings("rawtypes")
-public class ConverterRepository extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory> implements Constructable {
+public class ConverterRepository
+        extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory>
+        implements Constructable {
     @Deprecated
     private static ConverterRepository instance;
 
@@ -67,7 +68,6 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
         this.converter.putAll(implementations);
     }
 
-
     public <T, F> Converter<T, F> getConverter(final String fromNamespace, final String toNamespace) {
         return getConverter(new ConverterKey(fromNamespace, toNamespace));
     }
@@ -82,11 +82,9 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
     }
 
     /**
-     * Get all namespaces for which a converter is available to convert from
-     * requested format to default format
+     * Get all namespaces for which a converter is available to convert from requested format to default format
      *
-     * @param toNamespace
-     *                    Requested format
+     * @param toNamespace Requested format
      *
      * @return Swt with all possible formats
      */
@@ -101,13 +99,29 @@ public class ConverterRepository extends AbstractComponentRepository<ConverterKe
     }
 
     /**
+     * Get all namespaces for which a converter is available to convert to
+     * requested format to default format
+     *
+     * @param fromNamespace
+     *            Requested format
+     * @return Swt with all possible formats
+     */
+    public Set<String> getToNamespaceConverterFrom(final String fromNamespace) {
+        final Set<String> toNamespaces = Sets.newHashSet();
+        for (final ConverterKey converterKey : converter.keySet()) {
+            if (fromNamespace.equals(converterKey.getFromNamespace())) {
+                toNamespaces.add(converterKey.getToNamespace());
+            }
+        }
+        return toNamespaces;
+    }
+
+    /**
      * Checks if a converter is available to convert the stored object from the
      * default format to the requested format
      *
-     * @param fromNamespace
-     *                      Default format
-     * @param toNamespace
-     *                      Requested fromat
+     * @param fromNamespace Default format
+     * @param toNamespace   Requested fromat
      *
      * @return If a converter is available
      */

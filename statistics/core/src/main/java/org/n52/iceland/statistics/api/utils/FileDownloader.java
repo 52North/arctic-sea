@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,17 +33,16 @@ import org.slf4j.LoggerFactory;
 
 public class FileDownloader {
 
-    private static final Logger logger = LoggerFactory.getLogger(FileDownloader.class);
+    private static final Logger LOG = LoggerFactory.getLogger(FileDownloader.class);
 
     /**
      * Download the url to the specified location
      *
-     * @param url
-     *            url to download
-     * @param outfilePath
-     *            outputfile location
-     * @throws FileNotFoundException
-     * @throws IOException
+     * @param url url to download
+     * @param outfilePath outputfile location
+     *
+     * @throws FileNotFoundException if an error occurs
+     * @throws IOException           if an error occurs
      */
     public static void downloadFile(String url, String outfilePath) throws FileNotFoundException, IOException {
         Objects.requireNonNull(url);
@@ -51,7 +50,7 @@ public class FileDownloader {
 
         URL fileUrl = new URL(url);
         File out = new File(outfilePath);
-        logger.info("Downloading file {} to {}", fileUrl, out);
+        LOG.info("Downloading file {} to {}", fileUrl, out);
         FileUtils.copyURLToFile(fileUrl, out);
     }
 
@@ -75,7 +74,7 @@ public class FileDownloader {
             while (-1 != (n = gzFile.read(buff))) {
                 out.write(buff, 0, n);
             }
-            logger.debug("Extracted file path {}", outPath);
+            LOG.debug("Extracted file path {}", outPath);
         } catch (IOException e) {
             throw e;
         } finally {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,7 @@ package org.n52.iceland.config;
 import java.util.Set;
 
 import org.n52.iceland.binding.BindingKey;
-import org.n52.iceland.ogc.ows.OwsExtendedCapabilitiesProviderKey;
-import org.n52.iceland.ogc.swes.OfferingExtensionKey;
+import org.n52.iceland.ogc.ows.extension.OwsOperationMetadataExtensionProviderKey;
 import org.n52.iceland.request.operator.RequestOperatorKey;
 
 /**
@@ -36,7 +35,7 @@ public interface ActivationDao {
      *
      * @return {@code true} if the operation is active in this service
      */
-    public abstract boolean isRequestOperatorActive(RequestOperatorKey key);
+    boolean isRequestOperatorActive(RequestOperatorKey key);
 
     /**
      * Sets the status of an operation.
@@ -55,7 +54,7 @@ public interface ActivationDao {
      *
      * @return if the binding is active
      */
-    public abstract boolean isBindingActive(BindingKey key);
+    boolean isBindingActive(BindingKey key);
 
     /**
      * Sets the status of a binding.
@@ -74,27 +73,9 @@ public interface ActivationDao {
      *
      * @return if the extended capabilities is active
      */
-    public abstract boolean isOwsExtendedCapabilitiesProviderActive(
-            OwsExtendedCapabilitiesProviderKey key);
+    boolean isOwsOperationMetadataExtensionProviderActive(OwsOperationMetadataExtensionProviderKey key);
 
-    void setOwsExtendedCapabilitiesStatus(OwsExtendedCapabilitiesProviderKey key,
-                                          boolean active);
+    void setOwsOperationMetadataExtensionProviderStatus(OwsOperationMetadataExtensionProviderKey key, boolean active);
 
-    Set<OwsExtendedCapabilitiesProviderKey> getOwsExtendedCapabilitiesProviderKeys();
-
-
-    /**
-     * Checks if the offering extension is active.
-     *
-     * @param key
-     *            the offering extension key
-     *
-     * @return if the offering extension is active
-     */
-    boolean isOfferingExtensionActive(OfferingExtensionKey key);
-
-    void setOfferingExtensionStatus(OfferingExtensionKey key, boolean active);
-
-    Set<OfferingExtensionKey> getOfferingExtensionKeys();
-
+    Set<OwsOperationMetadataExtensionProviderKey> getOwsOperationMetadataExtensionProviderKeys();
 }

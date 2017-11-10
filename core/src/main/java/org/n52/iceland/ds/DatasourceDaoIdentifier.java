@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,5 +25,7 @@ public interface DatasourceDaoIdentifier {
     String DATASOURCE_DAO_IDENTIFIER = "datasource.dao.identifier";
 
     @Deprecated
-    String getDatasourceDaoIdentifier();
+    default String getDatasourceDaoIdentifier() {
+        return "";
+    }
 }

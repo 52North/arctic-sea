@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +17,7 @@
 package org.n52.iceland.convert;
 
 /**
- * Defines the types of modification the {@link RequestResponseModifier}
- * performs
+ * Defines the types of modification the {@link RequestResponseModifier} performs
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
@@ -26,14 +25,13 @@ package org.n52.iceland.convert;
  */
 public class RequestResponseModifierFacilitator {
 
-    private boolean merger = false;
-
-    private boolean splitter = false;
-
-    private boolean adderRemover = false;
+    private boolean merger;
+    private boolean splitter;
+    private boolean adderRemover;
 
     /**
-     * @param merger
+     * @param merger if this is a merger
+     *
      * @return this
      */
     public RequestResponseModifierFacilitator setMerger(boolean merger) {
@@ -42,15 +40,15 @@ public class RequestResponseModifierFacilitator {
     }
 
     /**
-     * @return <code>true</code>, if the {@link RequestResponseModifier} merges
-     *         values, e.g. observations
+     * @return <code>true</code>, if the {@link RequestResponseModifier} merges values, e.g. observations
      */
     public boolean isMerger() {
         return merger;
     }
 
     /**
-     * @param splitter
+     * @param splitter if this is a splitter
+     *
      * @return this
      */
     public RequestResponseModifierFacilitator setSplitter(boolean splitter) {
@@ -59,15 +57,16 @@ public class RequestResponseModifierFacilitator {
     }
 
     /**
-     * @return <code>true</code>, if the {@link RequestResponseModifier} splits
-     *         values, e.g. a SweDataArray observation into single observations
+     * @return <code>true</code>, if the {@link RequestResponseModifier} splits values, e.g. a SweDataArray observation
+     *         into single observations
      */
     public boolean isSplitter() {
         return splitter;
     }
 
     /**
-     * @param adderRemover
+     * @param adderRemover if this is a adder or remover
+     *
      * @return this
      */
     public RequestResponseModifierFacilitator setAdderRemover(boolean adderRemover) {
@@ -76,8 +75,8 @@ public class RequestResponseModifierFacilitator {
     }
 
     /**
-     * @return <code>true</code>, if the {@link RequestResponseModifier}
-     *         adds/removes values, e.g. add/remove prefixes to identifier
+     * @return <code>true</code>, if the {@link RequestResponseModifier} adds/removes values, e.g. add/remove prefixes
+     *         to identifier
      */
     public boolean isAdderRemover() {
         return adderRemover;

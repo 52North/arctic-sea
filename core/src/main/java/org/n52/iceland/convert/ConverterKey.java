@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,8 +27,10 @@ import java.util.Objects;
  */
 public class ConverterKey implements Comparable<ConverterKey> {
     private static final Comparator<ConverterKey> COMPARATOR
-            = Comparator.nullsFirst(Comparator.comparing(ConverterKey::getFromNamespace, Comparator.nullsFirst(String::compareTo))
-                            .thenComparing(Comparator.comparing(ConverterKey::getToNamespace, Comparator.nullsFirst(String::compareTo))));
+            = Comparator.nullsFirst(Comparator.comparing(ConverterKey::getFromNamespace,
+                                                         Comparator.nullsFirst(String::compareTo))
+                    .thenComparing(Comparator.comparing(ConverterKey::getToNamespace,
+                                                        Comparator.nullsFirst(String::compareTo))));
 
     private final String fromNamespace;
     private final String toNamespace;
@@ -36,10 +38,8 @@ public class ConverterKey implements Comparable<ConverterKey> {
     /**
      * Constructor
      *
-     * @param fromNamespace
-     *            The source namespace
-     * @param toNamespace
-     *            The target namespace
+     * @param fromNamespace The source namespace
+     * @param toNamespace   The target namespace
      */
     public ConverterKey(String fromNamespace, String toNamespace) {
         this.fromNamespace = fromNamespace;

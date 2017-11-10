@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +16,12 @@
  */
 package org.n52.iceland.binding.soap;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.inject.Inject;
@@ -28,40 +31,39 @@ import javax.xml.soap.SOAPConstants;
 
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
-import org.n52.iceland.binding.BindingConstants;
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
-import org.n52.iceland.binding.PathBindingKey;
-import org.n52.iceland.coding.OperationKey;
-import org.n52.iceland.coding.encode.Encoder;
-import org.n52.iceland.coding.encode.EncoderKey;
-import org.n52.iceland.coding.encode.XmlEncoderKey;
+import org.n52.iceland.coding.encode.OwsEncodingException;
 import org.n52.iceland.event.events.ExceptionEvent;
 import org.n52.iceland.exception.HTTPException;
-import org.n52.iceland.exception.ows.OwsExceptionReport;
-import org.n52.iceland.exception.ows.concrete.NoEncoderForKeyException;
-import org.n52.iceland.ogc.sos.ConformanceClasses;
-import org.n52.iceland.ogc.sos.Sos2Constants;
-import org.n52.iceland.ogc.sos.SosConstants;
-import org.n52.iceland.request.AbstractServiceRequest;
-import org.n52.iceland.request.GetCapabilitiesRequest;
 import org.n52.iceland.service.CommunicationObjectWithSoapHeader;
-import org.n52.iceland.util.CollectionHelper;
-import org.n52.iceland.util.http.HTTPStatus;
 import org.n52.iceland.util.http.HttpUtils;
-import org.n52.iceland.util.http.MediaType;
-import org.n52.iceland.util.http.MediaTypes;
-import org.n52.iceland.w3c.soap.SoapChain;
-import org.n52.iceland.w3c.soap.SoapHeader;
-import org.n52.iceland.w3c.soap.SoapHelper;
-import org.n52.iceland.w3c.soap.SoapRequest;
-import org.n52.iceland.w3c.soap.SoapResponse;
-import org.n52.iceland.w3c.wsa.WsaMessageIDHeader;
-import org.n52.iceland.w3c.wsa.WsaReplyToHeader;
-import org.n52.iceland.w3c.wsa.WsaToHeader;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
+import org.n52.janmayen.http.HTTPHeaders;
+import org.n52.janmayen.http.HTTPStatus;
+import org.n52.janmayen.http.MediaType;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
+import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.soap.SoapChain;
+import org.n52.shetland.w3c.soap.SoapHeader;
+import org.n52.shetland.w3c.soap.SoapHelper;
+import org.n52.shetland.w3c.soap.SoapRequest;
+import org.n52.shetland.w3c.soap.SoapResponse;
+import org.n52.shetland.w3c.wsa.WsaMessageIDHeader;
+import org.n52.shetland.w3c.wsa.WsaReplyToHeader;
+import org.n52.shetland.w3c.wsa.WsaToHeader;
+import org.n52.svalbard.ConformanceClasses;
+import org.n52.svalbard.encode.Encoder;
+import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.XmlEncoderKey;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 
 /**
  * {@link Binding} implementation for SOAP encoded requests
@@ -69,16 +71,14 @@ import com.google.common.collect.Lists;
  * @since 1.0.0
  *
  */
-public class SoapBinding extends AbstractXmlBinding {
+public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
-    @Deprecated // SOS-specific
+    @Deprecated
     private static final Set<String> CONFORMANCE_CLASSES = Collections
             .singleton(ConformanceClasses.SOS_V2_SOAP_BINDING);
 
-    private static final ImmutableSet<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
-            .add(new PathBindingKey(BindingConstants.SOAP_BINDING_ENDPOINT))
-            .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML))
-            .build();
+    private static final Set<BindingKey> KEYS = Collections
+            .singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML));
 
     private HttpUtils httpUtils;
 
@@ -88,12 +88,7 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     @Override
-    public String getUrlPattern() {
-        return BindingConstants.SOAP_BINDING_ENDPOINT;
-    }
-
-    @Override
-    public boolean checkOperationHttpPostSupported(OperationKey k) {
+    public boolean checkOperationHttpPostSupported(OwsOperationKey k) {
         return hasDecoder(k, MediaTypes.TEXT_XML) ||
                hasDecoder(k, MediaTypes.APPLICATION_XML);
     }
@@ -103,18 +98,13 @@ public class SoapBinding extends AbstractXmlBinding {
         return false;
     }
 
-    @Deprecated // uses SOS constants
+    @Deprecated
     @Override
     public Set<String> getConformanceClasses(String service, String version) {
         if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
             return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
         }
         return Collections.emptySet();
-    }
-
-    @Override
-    public Set<MediaType> getSupportedEncodings() {
-        return Collections.singleton(MediaTypes.APPLICATION_SOAP_XML);
     }
 
     @Override
@@ -141,7 +131,7 @@ public class SoapBinding extends AbstractXmlBinding {
 
     private void parseSoapRequest(SoapChain soapChain) throws OwsExceptionReport {
         String soapAction = SoapHelper.checkSoapHeader(soapChain.getHttpRequest());
-        SoapRequest soapRequest = (SoapRequest) decode(soapChain.getHttpRequest());
+        SoapRequest soapRequest = decode(soapChain.getHttpRequest());
         if (soapRequest.getSoapAction() == null && soapAction != null) {
             soapRequest.setAction(soapAction);
         }
@@ -162,7 +152,7 @@ public class SoapBinding extends AbstractXmlBinding {
     // throw new NoApplicableCodeException().withMessage(
     // "The returned object is not an AbstractServiceRequest implementation").setStatus(BAD_REQUEST);
     // }
-    // AbstractServiceRequest<?> bodyRequest = (AbstractServiceRequest<?>)
+    // AbstractServiceRequest bodyRequest = (AbstractServiceRequest)
     // aBodyRequest;
     // bodyRequest.setRequestContext(getRequestContext(chain.getHttpRequest()));
     // if (bodyRequest instanceof CommunicationObjectWithSoapHeader) {
@@ -171,7 +161,6 @@ public class SoapBinding extends AbstractXmlBinding {
     // }
     // chain.setBodyRequest(bodyRequest);
     // }
-
     private void createSoapResponse(SoapChain chain) {
         SoapResponse soapResponse = new SoapResponse();
         soapResponse.setSoapVersion(chain.getSoapRequest().getSoapVersion());
@@ -181,18 +170,25 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     private void createBodyResponse(SoapChain chain) throws OwsExceptionReport {
-        AbstractServiceRequest<?> req = chain.getSoapRequest().getSoapBodyContent();
+        OwsServiceRequest req = chain.getSoapRequest().getSoapBodyContent();
         chain.setBodyResponse(getServiceOperator(req).receiveRequest(req));
     }
 
-    private Object encodeSoapResponse(SoapChain chain) throws OwsExceptionReport {
-        final EncoderKey key =
-                new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(), chain.getSoapResponse().getClass());
-        final Encoder<?, SoapResponse> encoder = getEncoder(key);
+    private Object encodeSoapResponse(SoapChain chain) throws OwsExceptionReport, NoEncoderForKeyException {
+        EncoderKey key = new XmlEncoderKey(chain.getSoapResponse().getSoapNamespace(),
+                                           chain.getSoapResponse().getClass());
+        Encoder<?, SoapResponse> encoder = getEncoder(key);
         if (encoder != null) {
-            return encoder.encode(chain.getSoapResponse());
+            try {
+                return encoder.encode(chain.getSoapResponse());
+            } catch (OwsEncodingException ex) {
+                throw ex.getCause();
+            } catch (EncodingException ex) {
+                throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
+            }
         } else {
-            throw new NoEncoderForKeyException(key);
+            NoEncoderForKeyException cause = new NoEncoderForKeyException(key);
+            throw new NoApplicableCodeException().withMessage(cause.getMessage()).causedBy(cause);
         }
     }
 
@@ -212,32 +208,31 @@ public class SoapBinding extends AbstractXmlBinding {
             }
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain),
-                    encodeSoapResponse(chain), this);
-        } catch (OwsExceptionReport t) {
+                                  encodeSoapResponse(chain), this);
+        } catch (OwsExceptionReport | NoEncoderForKeyException t) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, t);
         }
     }
 
     private void writeResponse(SoapChain chain) throws IOException, HTTPException {
-        HttpUtils.getAcceptHeader(chain.getHttpRequest());
-        MediaType contentType =
-                chooseResponseContentType(chain.getBodyResponse(), HttpUtils.getAcceptHeader(chain.getHttpRequest()),
-                        getDefaultContentType());
+        MediaType contentType = chooseResponseContentType(chain.getBodyResponse(),
+                                                          HTTPHeaders.getAcceptHeader(chain.getHttpRequest()),
+                                                          getDefaultContentType());
         // TODO allow other bindings to encode response as soap messages
         if (contentType.isCompatible(getDefaultContentType())) {
             checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain), chain, this);
         } else {
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), contentType,
-                    chain.getBodyResponse(), this);
+                                  chain.getBodyResponse(), this);
         }
     }
 
     /**
      * Check the {@link MediaType}
      *
-     * @param chain
-     *            SoapChain to check
+     * @param chain SoapChain to check
+     *
      * @return the valid {@link MediaType}
      */
     private MediaType checkMediaType(SoapChain chain) {
@@ -251,19 +246,17 @@ public class SoapBinding extends AbstractXmlBinding {
     }
 
     /**
-     * Check if SoapHeader information is contained in the body response and add
-     * the header information to the {@link SoapResponse}
+     * Check if SoapHeader information is contained in the body response and add the header information to the
+     * {@link SoapResponse}
      *
-     * @param chain
-     *            SoapChain to check
+     * @param chain SoapChain to check
      */
     private void checkSoapInjection(SoapChain chain) {
         if (chain.getBodyResponse() instanceof CommunicationObjectWithSoapHeader) {
-            final CommunicationObjectWithSoapHeader soapHeaderObject =
-                    (CommunicationObjectWithSoapHeader) chain.getBodyResponse();
+            CommunicationObjectWithSoapHeader soapHeaderObject = (CommunicationObjectWithSoapHeader) chain
+                    .getBodyResponse();
             if (soapHeaderObject.isSetSoapHeader()) {
-                final List<SoapHeader> headers =
-                        ((CommunicationObjectWithSoapHeader) chain.getSoapRequest()).getSoapHeader();
+                List<SoapHeader> headers = ((CommunicationObjectWithSoapHeader) chain.getSoapRequest()).getSoapHeader();
                 // TODO do things
                 chain.getSoapResponse().setHeader(checkSoapHeaders(headers));
             }
@@ -272,19 +265,17 @@ public class SoapBinding extends AbstractXmlBinding {
 
     private List<SoapHeader> checkSoapHeaders(List<SoapHeader> headers) {
         if (CollectionHelper.isNotEmpty(headers)) {
-            List<SoapHeader> responseHeader = Lists.newArrayListWithCapacity(headers.size());
-            for (SoapHeader header : headers) {
+            return headers.stream().map((header) -> {
                 if (header instanceof WsaMessageIDHeader) {
-                    responseHeader.add(((WsaMessageIDHeader) header).getRelatesToHeader());
+                    return ((WsaMessageIDHeader) header).getRelatesToHeader();
                 } else if (header instanceof WsaReplyToHeader) {
-                    responseHeader.add(((WsaReplyToHeader) header).getToHeader());
-                } else if (header instanceof WsaToHeader) {
-
+                    return ((WsaReplyToHeader) header).getToHeader();
+                } else if (!(header instanceof WsaToHeader)) {
+                    return header;
                 } else {
-                    responseHeader.add(header);
+                    return null;
                 }
-            }
-            return responseHeader;
+            }).filter(Objects::nonNull).collect(toList());
         }
         return null;
     }

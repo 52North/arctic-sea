@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.util;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -23,16 +24,24 @@ import java.util.NoSuchElementException;
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
+ * @deprecated use {@link Collections#emptyIterator() }
  * @since 1.0.0
  */
+@Deprecated
 @SuppressWarnings(value = "unchecked")
 public class EmptyIterator<T> implements Iterator<T> {
-    private static final EmptyIterator<?> instance = new EmptyIterator<Object>();
+    private static final EmptyIterator<?> INSTANCE = new EmptyIterator<Object>();
 
+    /**
+     *
+     * @param <T> the iterator's element type
+     * @return the instance
+     * @deprecated use {@link Collections#emptyIterator() }
+     */
+    @Deprecated
     @SuppressWarnings(value = "unchecked")
     public static <T> Iterator<T> instance() {
-        return (Iterator<T>) instance;
+        return (Iterator<T>) INSTANCE;
     }
 
     @Override

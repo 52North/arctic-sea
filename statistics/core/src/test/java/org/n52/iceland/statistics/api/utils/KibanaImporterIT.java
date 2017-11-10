@@ -1,5 +1,5 @@
 /*
- * Copyright 2015 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +17,7 @@
 package org.n52.iceland.statistics.api.utils;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 import javax.inject.Inject;
 
@@ -25,6 +26,7 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
 import org.n52.iceland.statistics.impl.ElasticsearchAdminHandler;
@@ -42,7 +44,8 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
 
     @Test
     public void importValidJson() throws IOException, InterruptedException {
-        String json = IOUtils.toString(KibanaImporter.class.getResourceAsStream("/kibana/kibana_config.json"));
+        String json = IOUtils.toString(KibanaImporter.class.getResourceAsStream("/kibana/kibana_config.json"),
+                                       StandardCharsets.UTF_8);
         new KibanaImporter(getEmbeddedClient(), ".kibana", "my-index").importJson(json);
         Thread.sleep(1500);
         Assert.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
