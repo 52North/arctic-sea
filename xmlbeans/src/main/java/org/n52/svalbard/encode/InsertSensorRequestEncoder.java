@@ -54,27 +54,26 @@ public class InsertSensorRequestEncoder extends AbstractSwesRequestEncoder<Inser
 
     private void validateInput(InsertSensorRequest request) throws UnsupportedEncoderInputException {
         if (request == null) {
-            throw new UnsupportedEncoderInputException(this, "null input received.");
+            throw new UnsupportedEncoderInputException(this, "null");
         }
         if (!request.isSetProcedureDescriptionFormat()) {
             throw new UnsupportedEncoderInputException(this,
-                    "procedure description format not defined in InsertSensorRequest.");
+                    "procedure description format missing");
         }
         if (!request.isSetProcedureDescription()) {
             throw new UnsupportedEncoderInputException(this,
-                    "procedure description is missing in InsertSensorRequest.");
+                    "procedure description missing");
         }
         if (!request.isSetObservableProperty()) {
-            throw new UnsupportedEncoderInputException(this, "observed property is missing in InsertSensorRequest.");
+            throw new UnsupportedEncoderInputException(this, "observed property missing");
         }
         if (!request.isSetMetadata()) {
-            throw new UnsupportedEncoderInputException(this, "metadata field is missing in InsertSensorRequest.");
+            throw new UnsupportedEncoderInputException(this, "metadata field missing");
         }
     }
 
     private void addProcedureDescription(InsertSensorRequest request, InsertSensorType insertSensor)
             throws EncodingException {
-
         XmlObject xmlObj;
         if (request.getProcedureDescription() instanceof SosProcedureDescriptionUnknownType &&
                 request.getProcedureDescription().isSetXml()) {
