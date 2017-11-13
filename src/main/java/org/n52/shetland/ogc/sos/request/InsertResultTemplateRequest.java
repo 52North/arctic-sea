@@ -74,7 +74,7 @@ public class InsertResultTemplateRequest
         this.observationTemplate = observationConstellation;
     }
 
-    public boolean isSetObservatioTenmplate() {
+    public boolean isSetObservationTemplate() {
         return getObservationTemplate() != null && !getObservationTemplate().isEmpty();
     }
 
