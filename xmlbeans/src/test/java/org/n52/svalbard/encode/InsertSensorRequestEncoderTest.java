@@ -45,7 +45,7 @@ import net.opengis.swes.x20.InsertSensorType.ProcedureDescription;
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  */
-public class InsertSensorV2RequestEncoderTest {
+public class InsertSensorRequestEncoderTest {
 
     private InsertSensorRequest request;
     private InsertSensorRequestEncoder encoder;
