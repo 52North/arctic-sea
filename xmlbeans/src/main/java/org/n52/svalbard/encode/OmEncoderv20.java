@@ -222,8 +222,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     @Override
     protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         ObservationValue<?> value = sosObservation.getValue();
-        // TODO if OM_SWEArrayObservation and get Reget(key)sultEncoding and
-        // ResultStructure exists,
+        // TODO if OM_SWEArrayObservation and ResultEncoding and ResultStructure exists,
         if (value instanceof AbstractObservationValue) {
             AbstractObservationValue<?> abstractObservationValue = (AbstractObservationValue<?>) value;
             abstractObservationValue.setValuesForResultEncoding(sosObservation);
@@ -288,7 +287,6 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     private XmlObject createMultiObservationValueToResult(MultiObservationValues<?> observationValue)
             throws EncodingException {
-        // TODO create SosSweDataArray
         SweDataArray dataArray = new SweHelper().createSosSweDataArray(observationValue);
 
         return encodeObjectToXml(SweConstants.NS_SWE_20, dataArray,
@@ -346,7 +344,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             if (observationType.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION)) {
                 if (value.isSetValue() && !value.getValue().isEmpty()) {
                     return encodeGML(value, EncodingContext.of(XmlBeansEncodingFlags.GMLID,
-                            SosConstants.OBS_ID_PREFIX + this.observationId));
+                            SosConstants.OBS_ID_PREFIX + observationId));
                 }
             }
             return null;
@@ -383,7 +381,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
                 if (value.isSetValue()) {
                     return encodeGML(value.getValue(),
                             EncodingContext.empty()
-                                    .with(XmlBeansEncodingFlags.GMLID, SosConstants.OBS_ID_PREFIX + this.observationId)
+                                    .with(XmlBeansEncodingFlags.GMLID, SosConstants.OBS_ID_PREFIX + observationId)
                                     .with(XmlBeansEncodingFlags.PROPERTY_TYPE));
                 } else {
                     return null;
