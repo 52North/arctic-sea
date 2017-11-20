@@ -20,7 +20,6 @@ import static org.hamcrest.Matchers.containsString;
 
 import java.util.Arrays;
 import java.util.Iterator;
-
 import javax.xml.namespace.NamespaceContext;
 
 import org.apache.xmlbeans.XmlObject;
@@ -115,34 +114,36 @@ public class OmEncoderv20Test {
 
     @Before
     public void setup() {
-        EncoderRepository encoderRepository = new EncoderRepository();
 
         omEncoderv20 = new OmEncoderv20();
         omEncoderv20.setXmlOptions(XmlOptions::new);
-        omEncoderv20.setEncoderRepository(encoderRepository);
 
         GmlEncoderv321 gmlEncoderv321 = new GmlEncoderv321();
-        gmlEncoderv321.setEncoderRepository(encoderRepository);
         gmlEncoderv321.setXmlOptions(XmlOptions::new);
 
         SensorMLEncoderv20 sensorMLEncoderv20 = new SensorMLEncoderv20();
         sensorMLEncoderv20.setXmlOptions(XmlOptions::new);
-        sensorMLEncoderv20.setEncoderRepository(encoderRepository);
 
         SweCommonEncoderv20 sweCommonEncoderv20 = new SweCommonEncoderv20();
-        sweCommonEncoderv20.setEncoderRepository(encoderRepository);
         sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
 
         SamplingEncoderv20 samsEncoderv20 = new SamplingEncoderv20();
-        samsEncoderv20.setEncoderRepository(encoderRepository);
         samsEncoderv20.setXmlOptions(XmlOptions::new);
 
+        SweCommonEncoderv20 sweEncoderv20 = new SweCommonEncoderv20();
+        sweEncoderv20.setXmlOptions(XmlOptions::new);
+
+        EncoderRepository encoderRepository = new EncoderRepository();
         encoderRepository.setEncoders(Arrays.asList(omEncoderv20,
                 gmlEncoderv321,
                 sensorMLEncoderv20,
                 sweCommonEncoderv20,
-                samsEncoderv20));
+                samsEncoderv20,
+                sweEncoderv20));
         encoderRepository.init();
+
+        encoderRepository.getEncoders().stream()
+            .forEach(e -> ((AbstractDelegatingEncoder<?,?>)e).setEncoderRepository(encoderRepository));
 
     }
 
