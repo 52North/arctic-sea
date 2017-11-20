@@ -42,7 +42,9 @@ import org.n52.shetland.ogc.sos.SosResultEncoding;
 import org.n52.shetland.ogc.sos.SosResultStructure;
 import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
+import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -55,8 +57,12 @@ import net.opengis.sos.x20.InsertResultTemplateDocument;
 import net.opengis.sos.x20.InsertResultTemplateType;
 import net.opengis.sos.x20.ResultTemplateType;
 import net.opengis.sos.x20.ResultTemplateType.ObservationTemplate;
+import net.opengis.swe.x20.AbstractDataComponentType;
 import net.opengis.swe.x20.AbstractEncodingType;
+import net.opengis.swe.x20.DataRecordType;
+import net.opengis.swe.x20.DataRecordType.Field;
 import net.opengis.swe.x20.TextEncodingType;
+import net.opengis.swe.x20.TimeType;
 
 public class InsertResultTemplateRequestEncoderTest {
 
@@ -85,6 +91,12 @@ public class InsertResultTemplateRequestEncoderTest {
 
     private String blockSeparator = ";";
 
+    private String field1Definition = "test-field-1-definition";
+
+    private String field1Name = "test_field_1_name";
+
+    private String field1Uom = "test-field-1-uom";
+
     @Before
     public void setup() throws InvalidSridException, ParseException {
         SensorML procedure = new SensorML();
@@ -107,11 +119,17 @@ public class InsertResultTemplateRequestEncoderTest {
         textEncoding.setBlockSeparator(blockSeparator);
         textEncoding.setTokenSeparator(tokenSeparator);
 
+        SweDataRecord resultStructure = new SweDataRecord();
+        SweTime sweTime = new SweTime();
+        sweTime.setDefinition(field1Definition);
+        sweTime.setUom(field1Uom);
+        resultStructure.addField(new SweField(field1Name, sweTime));
+
         request = new InsertResultTemplateRequest(SosConstants.SOS,
                 Sos2Constants.SERVICEVERSION,
                 Sos2Constants.Operations.InsertResultTemplate.name());
         request.setResultEncoding(new SosResultEncoding(textEncoding));
-        request.setResultStructure(new SosResultStructure(new SweDataRecord()));
+        request.setResultStructure(new SosResultStructure(resultStructure));
         request.setIdentifier(templateIdentifier);
         request.setObservationTemplate(observationTemplate);
 
@@ -282,5 +300,25 @@ public class InsertResultTemplateRequestEncoderTest {
         TextEncodingType xbTextEncoding = (TextEncodingType) resultEncoding;
         Assert.assertThat(xbTextEncoding.getBlockSeparator(), Is.is(blockSeparator));
         Assert.assertThat(xbTextEncoding.getTokenSeparator(), Is.is(tokenSeparator));
+    }
+
+    @Test
+    public void shouldEncodeResultStructure() throws EncodingException {
+        ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
+                .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
+
+        Assert.assertThat(template.getResultStructure(), Matchers.notNullValue());
+        AbstractDataComponentType abstractDataComponent = template.getResultStructure().getAbstractDataComponent();
+        Assert.assertThat(abstractDataComponent, Matchers.notNullValue());
+        Assert.assertThat(abstractDataComponent, Matchers.instanceOf(DataRecordType.class));
+        DataRecordType xbResultStructure = (DataRecordType) abstractDataComponent;
+        Assert.assertThat(xbResultStructure.getFieldArray().length, Is.is(1));
+        Assert.assertThat(xbResultStructure.getFieldArray(0), Matchers.instanceOf(Field.class));
+        Assert.assertThat(xbResultStructure.getFieldArray(0).getName(), Is.is(field1Name));
+        Assert.assertThat(xbResultStructure.getFieldArray(0).getAbstractDataComponent(),
+                Matchers.instanceOf(TimeType.class));
+        TimeType xbTime = (TimeType) xbResultStructure.getFieldArray(0).getAbstractDataComponent();
+        Assert.assertThat(xbTime.getDefinition(), Is.is(field1Definition));
+        Assert.assertThat(xbTime.getUom().getCode(), Is.is(field1Uom));
     }
 }

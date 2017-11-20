@@ -21,6 +21,7 @@ import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -51,6 +52,7 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
         addIdentifier(resultTemplate, request);
         addOffering(resultTemplate, request);
         addObservationTemplate(resultTemplate, request);
+        addResultStructure(resultTemplate, request.getResultStructure().get().get());
         addResultEncoding(resultTemplate, request.getResultEncoding().get().get());
         return doc;
     }
@@ -66,7 +68,7 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
                 request.getObservationTemplate().getOfferings().size() != 1) {
             throw new UnsupportedEncoderInputException(this, "missing offering");
         }
-        if (!request.isSetResultStructure()) {
+        if (!request.isSetResultStructure() || !request.getResultStructure().get().isPresent()) {
             throw new UnsupportedEncoderInputException(this, "missing resultStructure");
         }
         if (!request.isSetResultEncoding() || !request.getResultEncoding().get().isPresent()) {
@@ -101,6 +103,14 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
             .set(encodeObjectToXml(OmConstants.NS_OM_2,
                     request.getObservationTemplate(),
                     EncodingContext.empty().with(XmlBeansEncodingFlags.PROPERTY_TYPE)));
+    }
+
+    private void addResultStructure(ResultTemplateType resultTemplate,
+            SweAbstractDataComponent sweAbstractDataComponent) throws EncodingException {
+        resultTemplate.addNewResultStructure()
+        .set(encodeObjectToXml(SweConstants.NS_SWE_20,
+                sweAbstractDataComponent,
+                EncodingContext.empty().with(XmlBeansEncodingFlags.PROPERTY_TYPE)));
     }
 
     private void addResultEncoding(ResultTemplateType resultTemplate, SweAbstractEncoding sweAbstractEncoding)
