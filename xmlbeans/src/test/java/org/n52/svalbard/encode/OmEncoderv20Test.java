@@ -27,13 +27,17 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
+import org.hamcrest.core.Is;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+import org.junit.rules.ExpectedException;
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -44,8 +48,11 @@ import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
+import org.n52.shetland.ogc.om.features.SfConstants;
+import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.values.ComplexValue;
+import org.n52.shetland.ogc.sensorML.SensorML;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataRecord;
@@ -55,12 +62,18 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
+import org.n52.shetland.util.JTSHelper;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterators;
+import com.vividsolutions.jts.io.ParseException;
+
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.sampling.x20.SFSamplingFeatureType;
 
 public class OmEncoderv20Test {
 
@@ -83,9 +96,22 @@ public class OmEncoderv20Test {
     protected static final String CHILD_OBSERVABLE_PROPERTY_4_NAME = "child4";
     protected static final String CHILD_OBSERVABLE_PROPERTY_5_NAME = "child5";
 
+    private OmEncoderv20 omEncoderv20;
+
     @Rule
     public final ErrorCollector errors = new ErrorCollector();
-    private OmEncoderv20 omEncoderv20;
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private String procedureIdentifier = "test-procedure-identifier";
+
+    private String observedProperty = "test-observed-property";
+
+    private String featureIdentifier = "test-feature-identifier";
+
+    private String featureName = "test-feature-name";
+
 
     @Before
     public void setup() {
@@ -107,14 +133,21 @@ public class OmEncoderv20Test {
         sweCommonEncoderv20.setEncoderRepository(encoderRepository);
         sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
 
-        encoderRepository.setEncoders(Arrays.asList(omEncoderv20, gmlEncoderv321, sensorMLEncoderv20, sweCommonEncoderv20));
+        SamplingEncoderv20 samsEncoderv20 = new SamplingEncoderv20();
+        samsEncoderv20.setEncoderRepository(encoderRepository);
+        samsEncoderv20.setXmlOptions(XmlOptions::new);
+
+        encoderRepository.setEncoders(Arrays.asList(omEncoderv20,
+                gmlEncoderv321,
+                sensorMLEncoderv20,
+                sweCommonEncoderv20,
+                samsEncoderv20));
         encoderRepository.init();
 
     }
 
     @Test
-    public void testComplexObservation()
-            throws EncodingException {
+    public void testComplexObservation() throws EncodingException {
         OmObservation observation = createComplexObservation();
         XmlObject xb = omEncoderv20.encode(observation, EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
         Node node = xb.getDomNode();
@@ -127,6 +160,100 @@ public class OmEncoderv20Test {
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/swe:DataRecord/swe:field[@name='child3']/swe:Count[@definition='http://example.tld/phenomenon/child/3']"));
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/swe:DataRecord/swe:field[@name='child4']/swe:Text[@definition='http://example.tld/phenomenon/child/4']"));
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/swe:DataRecord/swe:field[@name='child5']/swe:Category[@definition='http://example.tld/phenomenon/child/5']"));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenReceivedInvalidObservationTypeInObservationTemplate() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                OmEncoderv20.class.getSimpleName() +
+                " can not encode 'missing type in OM_Observation'"));
+
+        omEncoderv20.encode(new OmObservationConstellation());
+    }
+
+    @Test
+    public void shouldEncodeObservationTypeInObservationTemplate() throws EncodingException {
+        OmObservationConstellation observationTemplate = new OmObservationConstellation();
+        String observationType = OmConstants.OBS_TYPE_MEASUREMENT;
+        observationTemplate.setObservationType(observationType);
+        observationTemplate.setObservableProperty(new OmObservableProperty(observedProperty));
+
+        OMObservationType encodedObservationTemplate = (OMObservationType) omEncoderv20.encode(observationTemplate);
+
+        Assert.assertThat(encodedObservationTemplate.getType().getHref(), Is.is(observationType));
+    }
+
+    @Test
+    public void shouldEncodeTimeFieldsInObservationTemplate() throws EncodingException {
+        OmObservationConstellation observationTemplate = new OmObservationConstellation();
+        String observationType = OmConstants.OBS_TYPE_MEASUREMENT;
+        observationTemplate.setObservationType(observationType);
+        observationTemplate.setObservableProperty(new OmObservableProperty(observedProperty));
+
+        OMObservationType encodedObservationTemplate = (OMObservationType) omEncoderv20.encode(observationTemplate);
+
+        Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().isNil(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().isSetNilReason(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().getNilReason(), Is.is("template"));
+        Assert.assertThat(encodedObservationTemplate.getResultTime().isNil(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getResultTime().isSetNilReason(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getResultTime().getNilReason(), Is.is("template"));
+    }
+
+    @Test
+    public void shouldEncodeFeatureWithNilWhenMissingInObservationTemplate() throws EncodingException {
+        OmObservationConstellation observationTemplate = new OmObservationConstellation();
+        String observationType = OmConstants.OBS_TYPE_MEASUREMENT;
+        observationTemplate.setObservationType(observationType);
+        observationTemplate.setObservableProperty(new OmObservableProperty(observedProperty));
+
+        OMObservationType encodedObservationTemplate = (OMObservationType) omEncoderv20.encode(observationTemplate);
+
+        Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().isNil(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().isSetNilReason(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().getNilReason(), Is.is("template"));
+    }
+
+    @Test
+    public void shouldEncodeFeatureInObservationTemplate() throws EncodingException, InvalidSridException, ParseException {
+        //
+        SamplingFeature featureOfInterest = new SamplingFeature(new CodeWithAuthority(featureIdentifier));
+        featureOfInterest.setIdentifier(featureIdentifier);
+        featureOfInterest.setName(new CodeType(featureName));
+        featureOfInterest.setFeatureType(SfConstants.SAMPLING_FEAT_TYPE_SF_SAMPLING_POINT);
+        featureOfInterest.setGeometry(JTSHelper.createGeometryFromWKT("POINT (30 10)" , 4326));
+        //
+        SensorML procedure = new SensorML();
+        procedure.setIdentifier(procedureIdentifier);
+        //
+        OmObservationConstellation observationTemplate = new OmObservationConstellation();
+        observationTemplate.setObservationType(OmConstants.OBS_TYPE_MEASUREMENT);
+        observationTemplate.setObservableProperty(new OmObservableProperty(observedProperty));
+        observationTemplate.setProcedure(procedure);
+        observationTemplate.setFeatureOfInterest(featureOfInterest);
+        //
+        OMObservationType omObservation = (OMObservationType) omEncoderv20.encode(observationTemplate);
+        //
+        Assert.assertThat(omObservation.getType().getHref(), Is.is(OmConstants.OBS_TYPE_MEASUREMENT));
+        Assert.assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(true));
+        Assert.assertThat(omObservation.getPhenomenonTime().isSetNilReason(), Is.is(true));
+        Assert.assertThat(omObservation.getPhenomenonTime().getNilReason(), Is.is("template"));
+        Assert.assertThat(omObservation.getResultTime().isNil(), Is.is(true));
+        Assert.assertThat(omObservation.getResultTime().isSetNilReason(), Is.is(true));
+        Assert.assertThat(omObservation.getResultTime().getNilReason(), Is.is("template"));
+        Assert.assertThat(omObservation.getProcedure().isNil(), Is.is(false));
+        Assert.assertThat(omObservation.getProcedure().getHref(), Is.is(procedureIdentifier));
+        Assert.assertThat(omObservation.getObservedProperty().isNil(), Is.is(false));
+        Assert.assertThat(omObservation.getObservedProperty().getHref(), Is.is(observedProperty));
+        Assert.assertThat(omObservation.getFeatureOfInterest(), Matchers.notNullValue());
+        Assert.assertThat(omObservation.getFeatureOfInterest().getAbstractFeature(),
+                Matchers.instanceOf(SFSamplingFeatureType.class));
+        SFSamplingFeatureType feature =
+                (SFSamplingFeatureType) omObservation.getFeatureOfInterest().getAbstractFeature();
+        Assert.assertThat(feature.getIdentifier().getStringValue(), Is.is(featureIdentifier));
+        Assert.assertThat(feature.getNameArray().length, Is.is(1));
+        Assert.assertThat(feature.getNameArray(0).getStringValue(), Is.is(featureName));
     }
 
 

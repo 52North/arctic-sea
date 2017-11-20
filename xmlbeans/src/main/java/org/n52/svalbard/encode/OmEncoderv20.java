@@ -27,7 +27,12 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.gml.x32.AbstractFeatureType;
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.gml.x32.TimeInstantPropertyType;
 import net.opengis.om.x20.OMObservationType;
+import net.opengis.om.x20.OMProcessPropertyType;
+import net.opengis.om.x20.TimeObjectPropertyType;
 
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
@@ -39,12 +44,14 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
 import org.n52.shetland.ogc.om.MultiObservationValues;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.values.BooleanValue;
@@ -75,9 +82,11 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.OMHelper;
+import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.write.OmV20XmlStreamWriter;
@@ -92,10 +101,16 @@ import com.google.common.collect.Sets;
  */
 public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
+    private static final String NIL_REASON_TEMPLATE = "template";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(OmEncoderv20.class);
 
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(OmConstants.NS_OM_2,
-            OmObservation.class, NamedValue.class, SingleObservationValue.class, MultiObservationValues.class);
+            MultiObservationValues.class,
+            NamedValue.class,
+            SingleObservationValue.class,
+            OmObservation.class,
+            OmObservationConstellation.class);
 
     // TODO: change to correct conformance class
     private static final Set<String> CONFORMANCE_CLASSES = new HashSet<>(Arrays
@@ -193,6 +208,8 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
         if (element instanceof ObservationValue) {
             return encodeResult((ObservationValue<?>) element);
+        } else if (element instanceof OmObservationConstellation) {
+            return encodeObservationTemplate((OmObservationConstellation) element);
         }
         return super.encode(element, additionalValues);
     }
@@ -266,6 +283,67 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
     protected void addAddtitionalInformation(OMObservationType omot, OmObservation observation)
             throws EncodingException {
         // do nothing
+    }
+
+    private OMObservationType encodeObservationTemplate(OmObservationConstellation observationTemplate)
+            throws EncodingException {
+        validateInput(observationTemplate);
+        OMObservationType xbObservationTemplate = createOmObservationType();
+        addObservationType(xbObservationTemplate, observationTemplate.getObservationType());
+        addNilPhenomenonTime(xbObservationTemplate);
+        addNilResultTime(xbObservationTemplate);
+        addProcedure(xbObservationTemplate, observationTemplate.getNillableProcedure());
+        addObservedProperty(xbObservationTemplate, observationTemplate.getObservablePropertyIdentifier());
+        addFeature(xbObservationTemplate, observationTemplate.getNillableFeatureOfInterest());
+        return xbObservationTemplate;
+    }
+
+    private void addObservedProperty(OMObservationType xbObservationTemplate, String observablePropertyIdentifier) {
+        xbObservationTemplate.addNewObservedProperty().setHref(observablePropertyIdentifier);
+    }
+
+    private void addFeature(OMObservationType xbObservationTemplate,
+            Nillable<AbstractFeature> featureOfInterest) throws EncodingException {
+        FeaturePropertyType xbFeatureOfInterest = xbObservationTemplate.addNewFeatureOfInterest();
+        if (featureOfInterest.isNil() || featureOfInterest.isAbsent()) {
+            xbFeatureOfInterest.setNil();
+            xbFeatureOfInterest.setNilReason(NIL_REASON_TEMPLATE);
+        } else {
+            XmlObject xbEncodedFeature = encodeObjectToXmlPropertyType(
+                    featureOfInterest.get().getDefaultElementEncoding(),
+                    featureOfInterest.get(),
+                    EncodingContext.empty().with(XmlBeansEncodingFlags.PROPERTY_TYPE));
+            xbFeatureOfInterest.setAbstractFeature((AbstractFeatureType) xbEncodedFeature);
+        }
+    }
+
+    private void addProcedure(OMObservationType xbObservationTemplate, Nillable<AbstractFeature> procedure) {
+        OMProcessPropertyType xbProcedure = xbObservationTemplate.addNewProcedure();
+        if (procedure.isNil() || procedure.isAbsent() || !procedure.get().isSetIdentifier()) {
+            xbProcedure.setNil();
+            xbProcedure.setNilReason(NIL_REASON_TEMPLATE);
+        } else {
+            xbProcedure.setHref(procedure.get().getIdentifier());
+        }
+    }
+
+    private void validateInput(OmObservationConstellation observationTemplate) throws UnsupportedEncoderInputException {
+        if (!observationTemplate.isSetObservationType() ||
+                observationTemplate.getObservationType().isEmpty()) {
+            throw new UnsupportedEncoderInputException(this, "missing type in OM_Observation");
+        }
+    }
+
+    private void addNilResultTime(OMObservationType xbObservationTemplate) {
+        TimeInstantPropertyType xbResultTime = xbObservationTemplate.addNewResultTime();
+        xbResultTime.setNil();
+        xbResultTime.setNilReason(NIL_REASON_TEMPLATE);
+    }
+
+    private void addNilPhenomenonTime(OMObservationType xbObservationTemplate) {
+        TimeObjectPropertyType xbPhenomenonTime = xbObservationTemplate.addNewPhenomenonTime();
+        xbPhenomenonTime.setNil();
+        xbPhenomenonTime.setNilReason(NIL_REASON_TEMPLATE);
     }
 
     private XmlObject createSingleObservationToResult(final SingleObservationValue<?> observationValue)
