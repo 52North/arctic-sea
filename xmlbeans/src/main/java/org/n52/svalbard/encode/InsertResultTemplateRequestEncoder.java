@@ -17,10 +17,16 @@
 package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
+import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
+import net.opengis.sos.x20.InsertResultTemplateDocument;
+import net.opengis.sos.x20.InsertResultTemplateType;
+import net.opengis.sos.x20.ResultTemplateType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
@@ -34,7 +40,16 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
     @Override
     protected XmlObject create(InsertResultTemplateRequest request) throws EncodingException {
         validateInput(request);
-        return null;
+        InsertResultTemplateDocument doc = InsertResultTemplateDocument.Factory.newInstance(getXmlOptions());
+        InsertResultTemplateType insertResultTemplate = doc.addNewInsertResultTemplate();
+        addService(insertResultTemplate);
+        addVersion(insertResultTemplate);
+        // reduced element hierarchy and switched to sos:ResultTemplate level
+        ResultTemplateType resultTemplate = insertResultTemplate.addNewProposedTemplate().addNewResultTemplate();
+        addIdentifier(resultTemplate, request);
+        addOffering(resultTemplate, request);
+        addObservationTemplate(resultTemplate, request);
+        return doc;
     }
 
     private void validateInput(InsertResultTemplateRequest request) throws UnsupportedEncoderInputException {
@@ -44,6 +59,10 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
         if (!request.isSetObservationTemplate()) {
             throw new UnsupportedEncoderInputException(this, "missing ObservationTemplate");
         }
+        if (request.getObservationTemplate().getOfferings() == null ||
+                request.getObservationTemplate().getOfferings().size() != 1) {
+            throw new UnsupportedEncoderInputException(this, "missing offering");
+        }
         if (!request.isSetResultStructure()) {
             throw new UnsupportedEncoderInputException(this, "missing resultStructure");
         }
@@ -52,4 +71,30 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
         }
     }
 
+    private void addService(InsertResultTemplateType insertResultTemplate) {
+        insertResultTemplate.setService(SosConstants.SOS);
+    }
+
+    private void addVersion(InsertResultTemplateType insertResultTemplate) {
+        insertResultTemplate.setVersion(Sos2Constants.SERVICEVERSION);
+    }
+
+    private void addIdentifier(ResultTemplateType resultTemplate, InsertResultTemplateRequest request) {
+        // identifier is optional
+        if (request.getIdentifier() != null &&
+                request.getIdentifier().getValue() != null &&
+                !request.getIdentifier().getValue().isEmpty()) {
+            resultTemplate.setIdentifier(request.getIdentifier().getValue());
+        }
+    }
+
+    private void addOffering(ResultTemplateType resultTemplate, InsertResultTemplateRequest request) {
+        resultTemplate.setOffering(request.getObservationTemplate().getOfferings().iterator().next());
+    }
+
+    private void addObservationTemplate(ResultTemplateType resultTemplate, InsertResultTemplateRequest request)
+            throws EncodingException {
+        resultTemplate.addNewObservationTemplate().addNewOMObservation()
+            .set(encodeObjectToXml(OmConstants.NS_OM_2, request.getObservationTemplate()));
+    }
 }
