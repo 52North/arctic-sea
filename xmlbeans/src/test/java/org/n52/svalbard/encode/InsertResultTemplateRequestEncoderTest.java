@@ -55,6 +55,8 @@ import net.opengis.sos.x20.InsertResultTemplateDocument;
 import net.opengis.sos.x20.InsertResultTemplateType;
 import net.opengis.sos.x20.ResultTemplateType;
 import net.opengis.sos.x20.ResultTemplateType.ObservationTemplate;
+import net.opengis.swe.x20.AbstractEncodingType;
+import net.opengis.swe.x20.TextEncodingType;
 
 public class InsertResultTemplateRequestEncoderTest {
 
@@ -79,12 +81,12 @@ public class InsertResultTemplateRequestEncoderTest {
 
     private String featureName = "test-feature-name";
 
+    private String tokenSeparator = "@";
+
+    private String blockSeparator = ";";
+
     @Before
     public void setup() throws InvalidSridException, ParseException {
-        encoder = new InsertResultTemplateRequestEncoder();
-        Supplier<XmlOptions> xmlOptions = () -> new XmlOptions();
-        encoder.setXmlOptions(xmlOptions);
-
         SensorML procedure = new SensorML();
         procedure.setIdentifier(procedureIdentifier);
 
@@ -101,13 +103,22 @@ public class InsertResultTemplateRequestEncoderTest {
         observationTemplate.setObservableProperty(new OmObservableProperty(observedProperty));
         observationTemplate.setFeatureOfInterest(featureOfInterest);
 
+        SweTextEncoding textEncoding = new SweTextEncoding();
+        textEncoding.setBlockSeparator(blockSeparator);
+        textEncoding.setTokenSeparator(tokenSeparator);
+
         request = new InsertResultTemplateRequest(SosConstants.SOS,
                 Sos2Constants.SERVICEVERSION,
                 Sos2Constants.Operations.InsertResultTemplate.name());
+        request.setResultEncoding(new SosResultEncoding(textEncoding));
         request.setResultStructure(new SosResultStructure(new SweDataRecord()));
-        request.setResultEncoding(new SosResultEncoding(new SweTextEncoding()));
         request.setIdentifier(templateIdentifier);
         request.setObservationTemplate(observationTemplate);
+
+        Supplier<XmlOptions> xmlOptions = () -> new XmlOptions();
+
+        encoder = new InsertResultTemplateRequestEncoder();
+        encoder.setXmlOptions(xmlOptions);
 
         OmEncoderv20 omEncoder = new OmEncoderv20();
         omEncoder.setXmlOptions(xmlOptions);
@@ -118,14 +129,15 @@ public class InsertResultTemplateRequestEncoderTest {
         GmlEncoderv321 gml32Encoder = new GmlEncoderv321();
         gml32Encoder.setXmlOptions(xmlOptions);
 
+        SweCommonEncoderv20 sweEncoderv20 = new SweCommonEncoderv20();
+        sweEncoderv20.setXmlOptions(xmlOptions);
+
         EncoderRepository encoderRepository = new EncoderRepository();
-        encoderRepository.setEncoders(Arrays.asList(encoder, omEncoder, samsEncoder, gml32Encoder));
+        encoderRepository.setEncoders(Arrays.asList(encoder, omEncoder, samsEncoder, gml32Encoder, sweEncoderv20));
         encoderRepository.init();
 
-        encoder.setEncoderRepository(encoderRepository);
-        omEncoder.setEncoderRepository(encoderRepository);
-        samsEncoder.setEncoderRepository(encoderRepository);
-        gml32Encoder.setEncoderRepository(encoderRepository);
+        encoderRepository.getEncoders().stream()
+            .forEach(e -> ((AbstractDelegatingEncoder<?,?>)e).setEncoderRepository(encoderRepository));
     }
 
     @Test
@@ -256,5 +268,19 @@ public class InsertResultTemplateRequestEncoderTest {
         Assert.assertThat(feature.getIdentifier().getStringValue(), Is.is(featureIdentifier));
         Assert.assertThat(feature.getNameArray().length, Is.is(1));
         Assert.assertThat(feature.getNameArray(0).getStringValue(), Is.is(featureName));
+    }
+
+    @Test
+    public void shouldEncodeResultEncoding() throws EncodingException {
+        ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
+                .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
+
+        Assert.assertThat(template.getResultEncoding(), Matchers.notNullValue());
+        Assert.assertThat(template.getResultEncoding().getAbstractEncoding(), Matchers.notNullValue());
+        AbstractEncodingType resultEncoding = template.getResultEncoding().getAbstractEncoding();
+        Assert.assertThat(resultEncoding, Matchers.instanceOf(TextEncodingType.class));
+        TextEncodingType xbTextEncoding = (TextEncodingType) resultEncoding;
+        Assert.assertThat(xbTextEncoding.getBlockSeparator(), Is.is(blockSeparator));
+        Assert.assertThat(xbTextEncoding.getTokenSeparator(), Is.is(tokenSeparator));
     }
 }
