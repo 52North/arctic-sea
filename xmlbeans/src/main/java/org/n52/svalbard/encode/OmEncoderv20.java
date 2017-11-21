@@ -27,7 +27,6 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.gml.x32.AbstractFeatureType;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gml.x32.TimeInstantPropertyType;
 import net.opengis.om.x20.OMObservationType;
@@ -102,6 +101,8 @@ import com.google.common.collect.Sets;
 public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     private static final String NIL_REASON_TEMPLATE = "template";
+
+    private static final String OBSERVATION_GML_ID_TEMPLATE = NIL_REASON_TEMPLATE;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OmEncoderv20.class);
 
@@ -289,13 +290,23 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             throws EncodingException {
         validateInput(observationTemplate);
         OMObservationType xbObservationTemplate = createOmObservationType();
+        addGmlId(xbObservationTemplate);
         addObservationType(xbObservationTemplate, observationTemplate.getObservationType());
         addNilPhenomenonTime(xbObservationTemplate);
         addNilResultTime(xbObservationTemplate);
         addProcedure(xbObservationTemplate, observationTemplate.getNillableProcedure());
         addObservedProperty(xbObservationTemplate, observationTemplate.getObservablePropertyIdentifier());
         addFeature(xbObservationTemplate, observationTemplate.getNillableFeatureOfInterest());
+        addResult(xbObservationTemplate);
         return xbObservationTemplate;
+    }
+
+    private void addResult(OMObservationType xbObservationTemplate) {
+        xbObservationTemplate.addNewResult();
+    }
+
+    private void addGmlId(OMObservationType xbObservationTemplate) {
+        xbObservationTemplate.setId(OBSERVATION_GML_ID_TEMPLATE);
     }
 
     private void addObservedProperty(OMObservationType xbObservationTemplate, String observablePropertyIdentifier) {
@@ -306,14 +317,13 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             Nillable<AbstractFeature> featureOfInterest) throws EncodingException {
         FeaturePropertyType xbFeatureOfInterest = xbObservationTemplate.addNewFeatureOfInterest();
         if (featureOfInterest.isNil() || featureOfInterest.isAbsent()) {
-            xbFeatureOfInterest.setNil();
             xbFeatureOfInterest.setNilReason(NIL_REASON_TEMPLATE);
         } else {
             XmlObject xbEncodedFeature = encodeObjectToXmlPropertyType(
                     featureOfInterest.get().getDefaultElementEncoding(),
                     featureOfInterest.get(),
-                    EncodingContext.empty().with(XmlBeansEncodingFlags.PROPERTY_TYPE));
-            xbFeatureOfInterest.setAbstractFeature((AbstractFeatureType) xbEncodedFeature);
+                    EncodingContext.empty());
+            xbFeatureOfInterest.set(xbEncodedFeature);
         }
     }
 
@@ -336,13 +346,11 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     private void addNilResultTime(OMObservationType xbObservationTemplate) {
         TimeInstantPropertyType xbResultTime = xbObservationTemplate.addNewResultTime();
-        xbResultTime.setNil();
         xbResultTime.setNilReason(NIL_REASON_TEMPLATE);
     }
 
     private void addNilPhenomenonTime(OMObservationType xbObservationTemplate) {
         TimeObjectPropertyType xbPhenomenonTime = xbObservationTemplate.addNewPhenomenonTime();
-        xbPhenomenonTime.setNil();
         xbPhenomenonTime.setNilReason(NIL_REASON_TEMPLATE);
     }
 

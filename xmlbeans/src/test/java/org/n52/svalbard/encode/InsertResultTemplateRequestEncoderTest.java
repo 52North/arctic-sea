@@ -16,9 +16,12 @@
  */
 package org.n52.svalbard.encode;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
@@ -46,12 +49,15 @@ import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.util.JTSHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.XmlHelper;
 
 import com.vividsolutions.jts.io.ParseException;
 
 import net.opengis.om.x20.OMObservationType;
+import net.opengis.sampling.x20.SFSamplingFeatureDocument;
 import net.opengis.sampling.x20.SFSamplingFeatureType;
 import net.opengis.sos.x20.InsertResultTemplateDocument;
 import net.opengis.sos.x20.InsertResultTemplateType;
@@ -257,7 +263,7 @@ public class InsertResultTemplateRequestEncoderTest {
     }
 
     @Test
-    public void shouldEncodeObservationTemplate() throws EncodingException {
+    public void shouldEncodeObservationTemplate() throws EncodingException, XmlException, IOException {
         ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
 
@@ -268,10 +274,10 @@ public class InsertResultTemplateRequestEncoderTest {
         OMObservationType omObservation = observationTemplate.getOMObservation();
         Assert.assertThat(omObservation, Matchers.instanceOf(OMObservationType.class));
         Assert.assertThat(omObservation.getType().getHref(), Is.is(OmConstants.OBS_TYPE_MEASUREMENT));
-        Assert.assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(true));
+        Assert.assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(false));
         Assert.assertThat(omObservation.getPhenomenonTime().isSetNilReason(), Is.is(true));
         Assert.assertThat(omObservation.getPhenomenonTime().getNilReason(), Is.is("template"));
-        Assert.assertThat(omObservation.getResultTime().isNil(), Is.is(true));
+        Assert.assertThat(omObservation.getResultTime().isNil(), Is.is(false));
         Assert.assertThat(omObservation.getResultTime().isSetNilReason(), Is.is(true));
         Assert.assertThat(omObservation.getResultTime().getNilReason(), Is.is("template"));
         Assert.assertThat(omObservation.getProcedure().isNil(), Is.is(false));
@@ -279,19 +285,20 @@ public class InsertResultTemplateRequestEncoderTest {
         Assert.assertThat(omObservation.getObservedProperty().isNil(), Is.is(false));
         Assert.assertThat(omObservation.getObservedProperty().getHref(), Is.is(observedProperty));
         Assert.assertThat(omObservation.getFeatureOfInterest(), Matchers.notNullValue());
-        Assert.assertThat(omObservation.getFeatureOfInterest().getAbstractFeature(),
-                Matchers.instanceOf(SFSamplingFeatureType.class));
-        SFSamplingFeatureType feature =
-                (SFSamplingFeatureType) omObservation.getFeatureOfInterest().getAbstractFeature();
+        XmlObject xmlObject = XmlObject.Factory.parse(omObservation.getFeatureOfInterest().newInputStream());
+        Assert.assertThat(xmlObject, Matchers.instanceOf(SFSamplingFeatureDocument.class));
+        SFSamplingFeatureType feature = ((SFSamplingFeatureDocument) xmlObject).getSFSamplingFeature();
         Assert.assertThat(feature.getIdentifier().getStringValue(), Is.is(featureIdentifier));
         Assert.assertThat(feature.getNameArray().length, Is.is(1));
         Assert.assertThat(feature.getNameArray(0).getStringValue(), Is.is(featureName));
     }
 
     @Test
-    public void shouldEncodeResultEncoding() throws EncodingException {
+    public void shouldEncodeResultEncoding() throws EncodingException, DecodingException {
         ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
+
+        XmlHelper.validateDocument(template);
 
         Assert.assertThat(template.getResultEncoding(), Matchers.notNullValue());
         Assert.assertThat(template.getResultEncoding().getAbstractEncoding(), Matchers.notNullValue());

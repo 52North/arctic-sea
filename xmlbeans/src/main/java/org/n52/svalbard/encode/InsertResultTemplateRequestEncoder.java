@@ -115,9 +115,9 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
 
     private void addResultEncoding(ResultTemplateType resultTemplate, SweAbstractEncoding sweAbstractEncoding)
             throws EncodingException {
-        resultTemplate.addNewResultEncoding().addNewAbstractEncoding()
+        resultTemplate.addNewResultEncoding()
             .set(encodeObjectToXml(SweConstants.NS_SWE_20,
                     sweAbstractEncoding,
-                    EncodingContext.empty().with(XmlBeansEncodingFlags.PROPERTY_TYPE)));
+                    EncodingContext.empty().with(XmlBeansEncodingFlags.DOCUMENT)));
     }
 }

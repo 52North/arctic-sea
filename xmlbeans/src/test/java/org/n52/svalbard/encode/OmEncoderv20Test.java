@@ -18,10 +18,12 @@ package org.n52.svalbard.encode;
 
 import static org.hamcrest.Matchers.containsString;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import javax.xml.namespace.NamespaceContext;
 
+import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.Matcher;
@@ -72,6 +74,7 @@ import com.google.common.collect.Iterators;
 import com.vividsolutions.jts.io.ParseException;
 
 import net.opengis.om.x20.OMObservationType;
+import net.opengis.sampling.x20.SFSamplingFeatureDocument;
 import net.opengis.sampling.x20.SFSamplingFeatureType;
 
 public class OmEncoderv20Test {
@@ -194,10 +197,10 @@ public class OmEncoderv20Test {
 
         OMObservationType encodedObservationTemplate = (OMObservationType) omEncoderv20.encode(observationTemplate);
 
-        Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().isNil(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().isNil(), Is.is(false));
         Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().isSetNilReason(), Is.is(true));
         Assert.assertThat(encodedObservationTemplate.getPhenomenonTime().getNilReason(), Is.is("template"));
-        Assert.assertThat(encodedObservationTemplate.getResultTime().isNil(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getResultTime().isNil(), Is.is(false));
         Assert.assertThat(encodedObservationTemplate.getResultTime().isSetNilReason(), Is.is(true));
         Assert.assertThat(encodedObservationTemplate.getResultTime().getNilReason(), Is.is("template"));
     }
@@ -211,13 +214,13 @@ public class OmEncoderv20Test {
 
         OMObservationType encodedObservationTemplate = (OMObservationType) omEncoderv20.encode(observationTemplate);
 
-        Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().isNil(), Is.is(true));
+        Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().isNil(), Is.is(false));
         Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().isSetNilReason(), Is.is(true));
         Assert.assertThat(encodedObservationTemplate.getFeatureOfInterest().getNilReason(), Is.is("template"));
     }
 
     @Test
-    public void shouldEncodeFeatureInObservationTemplate() throws EncodingException, InvalidSridException, ParseException {
+    public void shouldEncodeFeatureInObservationTemplate() throws EncodingException, InvalidSridException, ParseException, XmlException, IOException {
         //
         SamplingFeature featureOfInterest = new SamplingFeature(new CodeWithAuthority(featureIdentifier));
         featureOfInterest.setIdentifier(featureIdentifier);
@@ -237,10 +240,10 @@ public class OmEncoderv20Test {
         OMObservationType omObservation = (OMObservationType) omEncoderv20.encode(observationTemplate);
         //
         Assert.assertThat(omObservation.getType().getHref(), Is.is(OmConstants.OBS_TYPE_MEASUREMENT));
-        Assert.assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(true));
+        Assert.assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(false));
         Assert.assertThat(omObservation.getPhenomenonTime().isSetNilReason(), Is.is(true));
         Assert.assertThat(omObservation.getPhenomenonTime().getNilReason(), Is.is("template"));
-        Assert.assertThat(omObservation.getResultTime().isNil(), Is.is(true));
+        Assert.assertThat(omObservation.getResultTime().isNil(), Is.is(false));
         Assert.assertThat(omObservation.getResultTime().isSetNilReason(), Is.is(true));
         Assert.assertThat(omObservation.getResultTime().getNilReason(), Is.is("template"));
         Assert.assertThat(omObservation.getProcedure().isNil(), Is.is(false));
@@ -248,15 +251,13 @@ public class OmEncoderv20Test {
         Assert.assertThat(omObservation.getObservedProperty().isNil(), Is.is(false));
         Assert.assertThat(omObservation.getObservedProperty().getHref(), Is.is(observedProperty));
         Assert.assertThat(omObservation.getFeatureOfInterest(), Matchers.notNullValue());
-        Assert.assertThat(omObservation.getFeatureOfInterest().getAbstractFeature(),
-                Matchers.instanceOf(SFSamplingFeatureType.class));
-        SFSamplingFeatureType feature =
-                (SFSamplingFeatureType) omObservation.getFeatureOfInterest().getAbstractFeature();
+        XmlObject xmlObject = XmlObject.Factory.parse(omObservation.getFeatureOfInterest().newInputStream());
+        Assert.assertThat(xmlObject, Matchers.instanceOf(SFSamplingFeatureDocument.class));
+        SFSamplingFeatureType feature = ((SFSamplingFeatureDocument) xmlObject).getSFSamplingFeature();
         Assert.assertThat(feature.getIdentifier().getStringValue(), Is.is(featureIdentifier));
         Assert.assertThat(feature.getNameArray().length, Is.is(1));
         Assert.assertThat(feature.getNameArray(0).getStringValue(), Is.is(featureName));
     }
-
 
     protected OmObservation createComplexObservation() {
         DateTime now = new DateTime(DateTimeZone.UTC);
