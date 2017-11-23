@@ -64,13 +64,14 @@ public class InsertSensorResponseDecoderTest {
     }
 
     @Test
-    public void testCreateInsertSensorResponse() throws DecodingException {
+    public void shouldCreateInsertSensorResponse() throws DecodingException {
+        String offering = "test-offering";
+        String procedure = "test-procedure";
         InsertSensorResponseDocument isrd = InsertSensorResponseDocument.Factory.newInstance();
         InsertSensorResponseType response = isrd.addNewInsertSensorResponse();
-        String offering = "test-offering";
         response.setAssignedOffering(offering);
-        String procedure = "test-procedure";
         response.setAssignedProcedure(procedure);
+
         InsertSensorResponse decodedResponse = new InsertSensorResponseDecoder().decode(isrd);
 
         Assert.assertThat(decodedResponse.getAssignedOffering(), Is.is(offering));
