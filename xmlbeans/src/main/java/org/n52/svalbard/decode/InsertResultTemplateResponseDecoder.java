@@ -23,7 +23,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.InsertResultTemplateResponse;
-import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
@@ -44,8 +43,8 @@ public class InsertResultTemplateResponseDecoder extends AbstractXmlDecoder<XmlO
     private static final Logger LOGGER = LoggerFactory.getLogger(InsertResultTemplateResponseDecoder.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.decoderKeysForElements(SwesConstants.NS_SWES_20,
-                    InsertResultTemplateResponse.class),
+            CodingHelper.decoderKeysForElements(Sos2Constants.NS_SOS_20,
+                    InsertResultTemplateResponseDocument.class),
             CodingHelper.xmlDecoderKeysForOperation(Sos2Constants.SOS, Sos2Constants.SERVICEVERSION,
                     Sos2Constants.Operations.InsertResultTemplate));
 
