@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
@@ -45,8 +44,8 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
         validateInput(request);
         InsertResultTemplateDocument doc = InsertResultTemplateDocument.Factory.newInstance(getXmlOptions());
         InsertResultTemplateType insertResultTemplate = doc.addNewInsertResultTemplate();
-        addService(insertResultTemplate);
-        addVersion(insertResultTemplate);
+        insertResultTemplate.setService(request.getService());
+        insertResultTemplate.setVersion(request.getVersion());
         // reduced element hierarchy and switched to sos:ResultTemplate level
         ResultTemplateType resultTemplate = insertResultTemplate.addNewProposedTemplate().addNewResultTemplate();
         addIdentifier(resultTemplate, request);
@@ -74,14 +73,6 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
         if (!request.isSetResultEncoding() || !request.getResultEncoding().get().isPresent()) {
             throw new UnsupportedEncoderInputException(this, "missing resultEncoding");
         }
-    }
-
-    private void addService(InsertResultTemplateType insertResultTemplate) {
-        insertResultTemplate.setService(SosConstants.SOS);
-    }
-
-    private void addVersion(InsertResultTemplateType insertResultTemplate) {
-        insertResultTemplate.setVersion(Sos2Constants.SERVICEVERSION);
     }
 
     private void addIdentifier(ResultTemplateType resultTemplate, InsertResultTemplateRequest request) {
