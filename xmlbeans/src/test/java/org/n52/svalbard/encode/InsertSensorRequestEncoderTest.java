@@ -55,7 +55,7 @@ public class InsertSensorRequestEncoderTest {
 
     @Before
     public void prepare() {
-        request = new InsertSensorRequest();
+        request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL);
         request.setProcedureDescription(createProcedureDescription());
         SosInsertionMetadata metadata = new SosInsertionMetadata();
@@ -98,7 +98,27 @@ public class InsertSensorRequestEncoderTest {
         thrown.expectMessage(Is.is("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
                 " can not encode 'null'"));
-        new InsertSensorRequestEncoder().create(null);
+        encoder.create(null);
+    }
+
+    @Test
+    public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'missing service'"));
+
+        encoder.create(new InsertSensorRequest());
+    }
+
+    @Test
+    public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'missing version'"));
+
+        encoder.create(new InsertSensorRequest("service", ""));
     }
 
     @Test
@@ -107,7 +127,7 @@ public class InsertSensorRequestEncoderTest {
         thrown.expectMessage(Is.is("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
                 " can not encode 'procedure description format missing'"));
-        new InsertSensorRequestEncoder().create(new InsertSensorRequest());
+        encoder.create(new InsertSensorRequest("service", "version"));
     }
 
     @Test
@@ -116,9 +136,9 @@ public class InsertSensorRequestEncoderTest {
         thrown.expectMessage(Is.is("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
                 " can not encode 'procedure description missing'"));
-        InsertSensorRequest request = new InsertSensorRequest();
+        InsertSensorRequest request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat("test-format");
-        new InsertSensorRequestEncoder().create(request);
+        encoder.create(request);
     }
 
     @Test
@@ -127,10 +147,10 @@ public class InsertSensorRequestEncoderTest {
         thrown.expectMessage(Is.is("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
                 " can not encode 'observed property missing'"));
-        InsertSensorRequest request = new InsertSensorRequest();
+        InsertSensorRequest request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat("test-format");
         request.setProcedureDescription(createProcedureDescription());
-        new InsertSensorRequestEncoder().create(request);
+        encoder.create(request);
     }
 
     @Test
@@ -139,11 +159,11 @@ public class InsertSensorRequestEncoderTest {
         thrown.expectMessage(Is.is("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
                 " can not encode 'metadata field missing'"));
-        InsertSensorRequest request = new InsertSensorRequest();
+        InsertSensorRequest request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat("test-format");
         request.setProcedureDescription(createProcedureDescription());
         request.setObservableProperty(CollectionHelper.list("test-property"));
-        new InsertSensorRequestEncoder().create(request);
+        encoder.create(request);
     }
 
     @Test

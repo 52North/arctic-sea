@@ -56,10 +56,9 @@ public class InsertResultTemplateRequestEncoder extends AbstractSwesRequestEncod
         return doc;
     }
 
-    private void validateInput(InsertResultTemplateRequest request) throws UnsupportedEncoderInputException {
-        if (request == null) {
-            throw new UnsupportedEncoderInputException(this, "null");
-        }
+    @Override
+    protected void validateInput(InsertResultTemplateRequest request) throws UnsupportedEncoderInputException {
+        super.validateInput(request);
         if (!request.isSetObservationTemplate()) {
             throw new UnsupportedEncoderInputException(this, "missing ObservationTemplate");
         }

@@ -175,13 +175,33 @@ public class InsertResultTemplateRequestEncoderTest {
     }
 
     @Test
+    public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertResultTemplateRequestEncoder.class.getSimpleName() +
+                " can not encode 'missing service'"));
+
+        encoder.create(new InsertResultTemplateRequest());
+    }
+
+    @Test
+    public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertResultTemplateRequestEncoder.class.getSimpleName() +
+                " can not encode 'missing version'"));
+
+        encoder.create(new InsertResultTemplateRequest("service", ""));
+    }
+
+    @Test
     public void shouldThrowExceptionWhenObservationTemplateIsMissing() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
         thrown.expectMessage(Is.is("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
                 " can not encode 'missing ObservationTemplate'"));
 
-        encoder.create(new InsertResultTemplateRequest());
+        encoder.create(new InsertResultTemplateRequest("service", "version"));
     }
 
     @Test
@@ -191,7 +211,7 @@ public class InsertResultTemplateRequestEncoderTest {
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
                 " can not encode 'missing offering'"));
 
-        request = new InsertResultTemplateRequest();
+        request = new InsertResultTemplateRequest("service", "version");
         request.setObservationTemplate(new OmObservationConstellation());
         encoder.create(request);
     }
@@ -203,7 +223,7 @@ public class InsertResultTemplateRequestEncoderTest {
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
                 " can not encode 'missing resultStructure'"));
 
-        request = new InsertResultTemplateRequest();
+        request = new InsertResultTemplateRequest("service", "version");
         request.setObservationTemplate(new OmObservationConstellation());
         OmObservationConstellation observationTemplate = new OmObservationConstellation();
         observationTemplate.addOffering(offering);
@@ -218,7 +238,7 @@ public class InsertResultTemplateRequestEncoderTest {
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
                 " can not encode 'missing resultEncoding'"));
 
-        request = new InsertResultTemplateRequest();
+        request = new InsertResultTemplateRequest("service", "version");
         request.setObservationTemplate(new OmObservationConstellation());
         request.setResultStructure(new SosResultStructure(new SweDataRecord()));
         OmObservationConstellation observationTemplate = new OmObservationConstellation();

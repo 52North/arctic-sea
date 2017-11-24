@@ -52,10 +52,9 @@ public class InsertSensorRequestEncoder extends AbstractSwesRequestEncoder<Inser
         return doc;
     }
 
-    private void validateInput(InsertSensorRequest request) throws UnsupportedEncoderInputException {
-        if (request == null) {
-            throw new UnsupportedEncoderInputException(this, "null");
-        }
+    @Override
+    protected void validateInput(InsertSensorRequest request) throws UnsupportedEncoderInputException {
+        super.validateInput(request);
         if (!request.isSetProcedureDescriptionFormat()) {
             throw new UnsupportedEncoderInputException(this,
                     "procedure description format missing");
