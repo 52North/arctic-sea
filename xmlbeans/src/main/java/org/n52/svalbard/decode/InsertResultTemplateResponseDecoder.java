@@ -74,6 +74,5 @@ public class InsertResultTemplateResponseDecoder extends AbstractXmlDecoder<XmlO
                 Sos2Constants.SERVICEVERSION);
         decodedResponse.setAcceptedTemplate(isr.getAcceptedTemplate());
         return decodedResponse;
-
     }
 }

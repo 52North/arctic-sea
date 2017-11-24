@@ -25,8 +25,6 @@ import org.junit.rules.ExpectedException;
 import org.n52.shetland.ogc.sos.response.InsertResultTemplateResponse;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
-import org.n52.svalbard.util.XmlHelper;
-
 import net.opengis.sos.x20.InsertResultTemplateResponseDocument;
 
 /**
@@ -70,8 +68,6 @@ public class InsertResultTemplateResponseDecoderTest {
         isrd.addNewInsertResultTemplateResponse().setAcceptedTemplate(templateId );
 
         InsertResultTemplateResponse decodedResponse = new InsertResultTemplateResponseDecoder().decode(isrd);
-
-        XmlHelper.validateDocument(isrd);
 
         Assert.assertThat(decodedResponse.getAcceptedTemplate(), Is.is(templateId));
     }
