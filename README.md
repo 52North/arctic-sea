@@ -1,4 +1,4 @@
-# 52°North Jan Mayen [![Build Status](https://travis-ci.org/52North/janmayen.svg)](https://travis-ci.org/52North/janmayen) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.janmayen/janmayen.svg)]()
+# 52°North Jan Mayen [![Build Status](https://travis-ci.org/52North/janmayen.svg)](https://travis-ci.org/52North/janmayen) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.janmayen/janmayen.svg)](https://search.maven.org/#search|gav|1|g:org.n52.janmayen%20AND%20a:janmayen)
 Jan Mayen contains various utility classes shared accross the <a target="_blank" href="https://github.com/52North/arctic-sea">Arctic Sea</a>.  
 
 ## Credits
