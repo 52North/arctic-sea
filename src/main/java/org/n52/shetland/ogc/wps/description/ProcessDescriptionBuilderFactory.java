@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+@SuppressWarnings("checkstyle:interfacetypeparametername")
 public interface ProcessDescriptionBuilderFactory<
         PD extends ProcessDescription,
         GID extends GroupInputDescription,
@@ -26,8 +27,7 @@ public interface ProcessDescriptionBuilderFactory<
         COD extends ComplexOutputDescription,
         BID extends BoundingBoxInputDescription,
         BOD extends BoundingBoxOutputDescription,
-        LDD extends LiteralDataDomain
-        > {
+        LDD extends LiteralDataDomain> {
 
     ProcessDescription.Builder<PD, ?> process();
 
