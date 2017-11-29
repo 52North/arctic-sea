@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.om;
 
-import javax.inject.Inject;
 
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -42,8 +41,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @param <S>
  *            Entity type
  */
-public abstract class StreamingValue<S>
-        extends AbstractStreaming {
+public abstract class StreamingValue<S> extends AbstractStreaming {
     private Time phenomenonTime;
     private TimeInstant resultTime;
     private Time validTime;
@@ -88,7 +86,6 @@ public abstract class StreamingValue<S>
      * @param geometryTransformer
      *            the geometryTransformer to set
      */
-    @Inject
     public void setGeometryTransformer(GeometryTransformer geometryTransformer) {
         this.geometryTransformer = geometryTransformer;
     }

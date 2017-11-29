@@ -22,6 +22,9 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.features.SfConstants;
@@ -58,8 +61,6 @@ import org.n52.shetland.ogc.swe.simpleType.SweCategory;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for Observation and Measurement
@@ -218,7 +219,7 @@ public final class OMHelper {
 
         @Override
         public String visit(HrefAttributeValue value) {
-            return defaultValue();
+            return OmConstants.OBS_TYPE_REFERENCE_OBSERVATION;
         }
 
         @Override
