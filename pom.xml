@@ -28,7 +28,7 @@
 
     <groupId>org.n52.iceland</groupId>
     <artifactId>iceland-parent</artifactId>
-    <version>2-SNAPSHOT</version>
+    <version>2.0.0</version>
 
     <packaging>pom</packaging>
 
@@ -90,7 +90,7 @@
         <url>https://github.com/52North/iceland</url>
         <connection>scm:git:https://github.com/52North/iceland.git</connection>
         <developerConnection>scm:git:https://github.com/52North/iceland.git</developerConnection>
-        <tag>HEAD</tag>
+        <tag>v2.0.0</tag>
     </scm>
 
     <issueManagement>
