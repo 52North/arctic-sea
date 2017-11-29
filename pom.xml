@@ -61,10 +61,6 @@
         </license>
     </licenses>
 
-    <properties>
-        <version.java>1.8</version.java>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -162,10 +158,7 @@
                         </goals>
                         <configuration>
                             <source>
-                                import java.util.Date
-                                import java.text.MessageFormat
-                                def vartimestamp = MessageFormat.format("{0,date,yyyy}", new Date())
-                                project.properties['currentYearDynamic'] = vartimestamp
+                                project.properties['currentYearDynamic'] = java.text.MessageFormat.format("{0,date,yyyy}", new java.util.Date())
                             </source>
                         </configuration>
                     </execution>
@@ -226,33 +219,6 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerVersion>${version.java}</compilerVersion>
-                    <source>${version.java}</source>
-                    <target>${version.java}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[${version.java},)</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
