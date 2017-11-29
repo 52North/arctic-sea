@@ -6,7 +6,7 @@ script: mvn -fae -U -B clean install -P check
 after_success:
 - curl -Ls https://git.io/deploy-maven-snapshot | bash
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/svalbard
-- curl -Ls https://git.io/trigger-build | bash -s -- 52North/iceland develop
+- curl -Ls https://git.io/trigger-build | bash -s -- 52North/iceland
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/sos feature/5.x
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/javaPS
 cache:

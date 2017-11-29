@@ -79,10 +79,6 @@
         </license>
     </licenses>
 
-    <properties>
-        <version.slf4j>1.7.25</version.slf4j>
-    </properties>
-    
     <repositories>
         <repository>
             <id>sonatype-nexus-snapshots</id>
@@ -96,7 +92,7 @@
             </snapshots>
         </repository>
     </repositories>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -122,7 +118,7 @@
             <dependency>
                 <groupId>org.n52.janmayen</groupId>
                 <artifactId>janmayen</artifactId>
-                <version>1.2.0-SNAPSHOT</version>
+                <version>1.2.0</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -132,7 +128,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>${version.slf4j}</version>
+                <version>1.7.25</version>
             </dependency>
             <dependency>
                 <groupId>joda-time</groupId>
@@ -176,7 +172,7 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-simple</artifactId>
-                <version>${version.slf4j}</version>
+                <version>1.7.25</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>
