@@ -52,9 +52,9 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.ObservationEncoder;
 import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.XmlEncoderFlags;
+import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
@@ -327,14 +327,16 @@ public abstract class AbstractOmV20XmlStreamWriter
      *             If an error occurs when creating elements to be written
      */
     protected void writeParameter() throws XMLStreamException, EncodingException {
-        Optional<ObservationEncoder<XmlObject, Object>> encoder = this.<XmlObject, Object> getEncoder()
-                .filter(e -> e instanceof ObservationEncoder).map(e -> (ObservationEncoder<XmlObject, Object>) e);
+//        Optional<ObservationEncoder<XmlObject, Object>> encoder = this.<XmlObject, Object> getEncoder()
+//                .filter(e -> e instanceof ObservationEncoder).map(e -> (ObservationEncoder<XmlObject, Object>) e);
 
-        if (encoder.isPresent()) {
-            ObservationEncoder<XmlObject, Object> e = encoder.get();
+        XmlEncoderKey key = new XmlEncoderKey(OmConstants.NS_OM_2, NamedValue.class);
+
+        Encoder<XmlObject, NamedValue<?>> encoder = getEncoder(key);
+        if (encoder != null) {
             for (NamedValue<?> namedValue : getElement().getParameter()) {
                 start(OmConstants.QN_OM_20_PARAMETER);
-                writeXmlObject(e.encode(namedValue), OmConstants.QN_OM_20_NAMED_VALUE);
+                writeXmlObject(encoder.encode(namedValue), OmConstants.QN_OM_20_NAMED_VALUE);
                 end(OmConstants.QN_OM_20_PARAMETER);
             }
         }
