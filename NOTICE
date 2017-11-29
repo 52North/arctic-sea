@@ -19,16 +19,19 @@ This project includes:
   52°North Faroe Annotations under The Apache Software License, Version 2.0
   52°North Jan Mayen under The Apache Software License, Version 2.0
   52°North Shetland under The Apache Software License, Version 2.0
+  Animal Sniffer Annotations under MIT license
   Apache Commons Codec under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
   Byte Buddy (without dependencies) under The Apache Software License, Version 2.0
   Byte Buddy Java agent under The Apache Software License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
+  error-prone annotations under Apache 2.0
   FindBugs-Annotations under GNU Lesser Public License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest All under New BSD License
+  J2ObjC Annotations under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
