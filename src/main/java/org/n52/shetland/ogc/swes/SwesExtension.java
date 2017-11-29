@@ -51,7 +51,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
     public SwesExtension<T> setValue(T value) {
         this.value = value;
         if (value != null && value instanceof SweAbstractDataComponent) {
-            SweAbstractDataComponent c = (SweAbstractDataComponent)value;
+            SweAbstractDataComponent c = (SweAbstractDataComponent) value;
             setIdentifier(getIdentifier() == null && c.isSetIdentifier() ? c.getIdentifier() : getIdentifier());
             setDefinition(getDefinition() == null && c.isSetDefinition() ? c.getDefinition() : getDefinition());
         }
@@ -60,7 +60,7 @@ public class SwesExtension<T> extends AbstractExtension<T> {
 
     @Override
     public String toString() {
-        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]", value, getIdentifier(),
-                             getDefinition());
+        return String.format("SwesExtension [value=%s, identifier=%s, definition=%s]",
+                             value, getIdentifier(), getDefinition());
     }
 }

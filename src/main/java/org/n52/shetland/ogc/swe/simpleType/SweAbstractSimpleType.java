@@ -17,11 +17,11 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import java.util.Collection;
+import java.util.Objects;
 
 import org.n52.shetland.ogc.ows.extension.Value;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
-import com.google.common.base.Objects;
 import com.google.common.collect.Lists;
 
 /**
@@ -51,8 +51,8 @@ public abstract class SweAbstractSimpleType<T>
     /**
      * Set quality information
      *
-     * @param quality
-     *            quality information to set
+     * @param quality quality information to set
+     *
      * @return This SweAbstractSimpleType
      */
     public SweAbstractSimpleType<T> setQuality(Collection<SweQuality> quality) {
@@ -62,7 +62,7 @@ public abstract class SweAbstractSimpleType<T>
 
     /**
      * @return <tt>true</tt>, if the quality field is not <tt>null</tt>,<br>
-     *         <tt>false</tt> else.
+     * <tt>false</tt> else.
      */
     public boolean isSetQuality() {
         return quality != null && !quality.isEmpty();
@@ -70,13 +70,14 @@ public abstract class SweAbstractSimpleType<T>
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(super.hashCode(), getValue());
+        return Objects.hash(super.hashCode(), getValue());
     }
 
     @Override
     public String toString() {
-        return String.format("%s [value=%s; quality=%s; simpleType=%s]", this.getClass().getSimpleName(), getValue(),
-                getQuality(), getDataComponentType());
+        return String.format("%s [value=%s; quality=%s; simpleType=%s]",
+                             this.getClass().getSimpleName(), getValue(),
+                             getQuality(), getDataComponentType());
     }
 
     protected Collection<SweQuality> cloneQuality() {
@@ -84,6 +85,25 @@ public abstract class SweAbstractSimpleType<T>
             return Lists.newArrayList(getQuality());
         }
         return null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        final SweAbstractSimpleType<?> other = (SweAbstractSimpleType<?>) obj;
+        return Objects.equals(this.quality, other.quality) &&
+               Objects.equals(getValue(), other.getValue());
     }
 
 }
