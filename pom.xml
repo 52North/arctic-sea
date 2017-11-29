@@ -95,6 +95,12 @@
             <version>3.0.1</version>
         </dependency>
         <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.9</version>
@@ -136,12 +142,7 @@
             <version>1.7.25</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>3.0.1u2</version>
-            <scope>provided</scope>
-        </dependency>
+        
     </dependencies>
 
     <build>
