@@ -1,4 +1,4 @@
-# 52°North Shetland [![Build Status](https://travis-ci.org/52North/shetland.svg)](https://travis-ci.org/52North/shetland)
+# 52°North Shetland [![Build Status](https://travis-ci.org/52North/shetland.svg)](https://travis-ci.org/52North/shetland) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.shetland/shetland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.shetland%20AND%20a:shetland)
 Shetland is part of the <a target="_blank" href="https://github.com/52North/arctic-sea">Arctic Sea</a> framework. It compromises classes for OGC models like SensorML, O&M or SWE Common and various service requests and responses. These are shared accross different service implementations.
 
 
