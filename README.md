@@ -1,4 +1,4 @@
-# 52°North Faroe [![Build Status](https://travis-ci.org/52North/faroe.svg)](https://travis-ci.org/52North/faroe) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.faroe/faroe.svg)]()
+# 52°North Faroe [![Build Status](https://travis-ci.org/52North/faroe.svg)](https://travis-ci.org/52North/faroe) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.janmayen/janmayen.svg)](https://search.maven.org/#search|gav|1|g:org.n52.faroe%20AND%20a:faroe)
 [Iceland's](https://github.com/52North/iceland) configuration API currently featuring a JSON and a SQLite backend. It allows the injection and automatic configuration of settings of various types in classes, including a Spring `BeanPostprocessor`.
 
 ## Credits
