@@ -100,14 +100,15 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
 
     @Override
     public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
-        return Collections.singletonMap(MediaTypes.APPLICATION_JSON.toString(),
-                                        Sets.newHashSet(new ObservationType(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION),
-                                                        new ObservationType(OmConstants.OBS_TYPE_COUNT_OBSERVATION),
-                                                        new ObservationType(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION),
-                                                        new ObservationType(OmConstants.OBS_TYPE_MEASUREMENT),
-                                                        new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
-                                                        new ObservationType(OmConstants.OBS_TYPE_TRUTH_OBSERVATION),
-                                                        new ObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION),
-                                                        new ObservationType(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)));
+        return Collections.singletonMap(
+                MediaTypes.APPLICATION_JSON.toString(),
+                Sets.newHashSet(new ObservationType(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_COUNT_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_MEASUREMENT),
+                                new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_TRUTH_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)));
     }
 }
