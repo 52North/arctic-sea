@@ -21,14 +21,17 @@ Download [Iceland](https://github.com/52North/iceland/releases)
 #### [Svalbard](https://github.com/52North/svalbard)
 
 Svalbard consists of various decoders and encoders for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon), service interfaces like [SOS](http://www.opengeospatial.org/standards/sos) or [WPS](http://www.opengeospatial.org/standards/wps) and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in 52°North Shetland and are shared accross 52°North components.
+Download [Svalbard](https://github.com/52North/svalbard/releases)
 
 #### [Faroe](https://github.com/52North/faroe)
 
 Faroe is a configuration API currently featuring a JSON and a SQLite backend. It enables the injection and automatic configuration of settings of various types in classes, including a Spring `BeanPostprocessor`.
+Download [Faroe](https://github.com/52North/faroe/releases)
 
 #### [Shetland](https://github.com/52North/shetland)
 
 Shetland compromises classes for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon) and various service requests and responses. These are shared accross different service implementations.
+Download [Shetland](https://github.com/52North/shetland/releases)
 
 #### [Jan Mayen](https://github.com/52North/janmayen)
 
