@@ -19,14 +19,21 @@ package org.n52.iceland.cache.ctrl.persistence;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
 import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
@@ -35,8 +42,6 @@ import org.n52.iceland.cache.ContentCachePersistenceStrategy;
 import org.n52.iceland.cache.WritableContentCache;
 import org.n52.janmayen.ConfigLocationProvider;
 import org.n52.janmayen.lifecycle.Constructable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Configurable
 public abstract class AbstractPersistingCachePersistenceStrategy
@@ -45,9 +50,9 @@ public abstract class AbstractPersistingCachePersistenceStrategy
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbstractPersistingCachePersistenceStrategy.class);
     private static final String CACHE_FILE = "cache.tmp";
-    private String cacheFile;
+    private Path cacheFile;
     private ConfigLocationProvider configLocationProvider;
-    private File cacheFileFolder;
+    private Path cacheFileFolder;
 
     @Inject
     public void setConfigLocationProvider(
@@ -57,84 +62,70 @@ public abstract class AbstractPersistingCachePersistenceStrategy
 
     @Override
     public void init() {
-        this.cacheFile = new File(getBasePath(), CACHE_FILE)
-                .getAbsolutePath();
+        this.cacheFile = getBasePath().resolve(CACHE_FILE);
     }
 
-    protected File getCacheFile() {
-        return new File(this.cacheFile);
+    public Path getCacheFile() {
+        return this.cacheFile;
     }
 
     @Override
     public Optional<WritableContentCache> load() {
-        File file = getCacheFile();
-        if (file.exists() && file.canRead()) {
-            LOGGER.debug("Reading cache from temp file '{}'", file.getAbsolutePath());
+        Path file = getCacheFile();
 
-            try (FileInputStream fis = new FileInputStream(file);
-                 ObjectInputStream ois = new ObjectInputStream(new BufferedInputStream(fis))) {
-                return Optional.of((WritableContentCache) ois.readObject());
-            } catch (IOException | ClassNotFoundException ex) {
-                logErrorReading(file, ex);
-            }
-            if (!file.delete()) {
-                logErrorDeleting(file);
-            }
-        } else {
-            LOGGER.debug("No cache temp file found at '{}'", file.getAbsolutePath());
+        if (!Files.isReadable(file)) {
+            LOGGER.debug("No cache temp file found at '{}'", file);
+            return Optional.empty();
         }
-        return Optional.empty();
+        LOGGER.debug("Reading cache from temp file '{}'", file);
+        try (ObjectInputStream ois = newObjectInputStream(file)) {
+            return Optional.of((WritableContentCache) ois.readObject());
+        } catch (IOException | ClassNotFoundException ex) {
+            LOGGER.error(String.format("Error reading cache file '%s'", file), ex);
+            return Optional.empty();
+        }
     }
 
     protected void persistCache(ContentCache cache) {
-        File file = getCacheFile();
-        if (!file.exists() || file.delete()) {
-            if (cache == null) {
-                return;
-            }
 
-            try {
-                if (!file.createNewFile()) {
-                    logErroWriting(file);
-                    return;
-                }
-            } catch (IOException ex) {
-                logErrorSerializing(file, ex);
-            }
+        if (cache == null) {
+            remove();
+            return;
+        }
+        Path file = getCacheFile();
 
-            try (FileOutputStream fos = new FileOutputStream(file);
-                 ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(fos))) {
-                LOGGER.debug("Serializing cache to {}", file.getAbsolutePath());
-                oos.writeObject(cache);
-            } catch (IOException t) {
-                logErrorSerializing(file, t);
-            }
+        try (ObjectOutputStream oos = newObjectOutputStream(file)) {
+            LOGGER.debug("Serializing cache to {}", file);
+            oos.writeObject(cache);
+        } catch (IOException ex) {
+            LOGGER.error(String.format("Error serializing cache to '%s'", file), ex);
         }
     }
 
-    protected String getBasePath() {
-        return isSetCacheFileFolder() ? getCacheFileFolder().getAbsolutePath() : configLocationProvider.get();
+    protected Path getBasePath() {
+        return isSetCacheFileFolder()
+                       ? getCacheFileFolder().toAbsolutePath()
+                       : Paths.get(configLocationProvider.get());
     }
 
     @Override
     public void remove() {
-        File f = getCacheFile();
-        if (f != null && f.exists()) {
-            if (!f.delete()) {
-                logErrorDeleting(f);
-            }
+        Path file = getCacheFile();
+        if (file == null) {
+            return;
+        }
+        try {
+            Files.deleteIfExists(file);
+        } catch (IOException ex) {
+            LOGGER.error(String.format("Error deleting cache file '%s'", file), ex);
         }
     }
 
     /**
      * @return the cacheFileFolder
      */
-    protected File getCacheFileFolder() {
+    protected Path getCacheFileFolder() {
         return cacheFileFolder;
-    }
-
-    protected boolean isSetCacheFileFolder() {
-        return cacheFileFolder != null && !cacheFileFolder.exists();
     }
 
     /**
@@ -142,22 +133,31 @@ public abstract class AbstractPersistingCachePersistenceStrategy
      */
     @Setting(CACHE_FILE_FOLDER)
     public void setCacheFileFolder(File cacheFileFolder) {
+        setCacheFileFolder(cacheFileFolder.toPath());
+    }
+
+    /**
+     * @param cacheFileFolder the cacheFileFolder to set
+     */
+    public void setCacheFileFolder(Path cacheFileFolder) {
         this.cacheFileFolder = cacheFileFolder;
     }
 
-    private void logErrorSerializing(File file, IOException ex) {
-        LOGGER.error(String.format("Error serializing cache to '%s'", file.getAbsolutePath()), ex);
+    protected boolean isSetCacheFileFolder() {
+        return cacheFileFolder != null && Files.exists(cacheFileFolder);
     }
 
-    private void logErrorDeleting(File f) {
-        LOGGER.error("Error deleting cache file '{}'", f.getAbsolutePath());
+    private static ObjectInputStream newObjectInputStream(Path file) throws IOException {
+        InputStream is = Files.newInputStream(file);
+        BufferedInputStream bis = new BufferedInputStream(is);
+        ObjectInputStream ois = new ObjectInputStream(bis);
+        return ois;
     }
 
-    private void logErroWriting(File file) {
-        LOGGER.error("Can not create writable file {}", file.getAbsolutePath());
-    }
-
-    private void logErrorReading(File file, Exception ex) {
-        LOGGER.error(String.format("Error reading cache file '%s'", file.getAbsolutePath()), ex);
+    private static ObjectOutputStream newObjectOutputStream(Path file) throws IOException {
+        OutputStream os = Files.newOutputStream(file, StandardOpenOption.CREATE);
+        BufferedOutputStream bos = new BufferedOutputStream(os);
+        ObjectOutputStream oos = new ObjectOutputStream(bos);
+        return oos;
     }
 }
