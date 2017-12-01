@@ -9,7 +9,6 @@ Here you can find the [Documentation](doc/Index.md).
 
 ## Branches
 
-This project follows the [Gitflow branching model](http://nvie.com/posts/a-successful-git-branching-model/). [`master`](../../tree/master) reflects the latest stable release.
 Ongoing development is done in branch [`develop`](../../tree/develop) and dedicated feature branches (`feature/*`).
 
 ## Code Compilation
