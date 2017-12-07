@@ -254,9 +254,4 @@ public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsSe
                 .toString();
     }
 
-    @Override
-    public boolean isSupported() {
-        return true;
-    }
-
 }

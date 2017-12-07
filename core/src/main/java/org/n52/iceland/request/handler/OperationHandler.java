@@ -57,7 +57,9 @@ public interface OperationHandler extends ConformanceClass, Component<OperationH
     /**
      * Check if the operation and all necessary sources (e.g. tables) are available.
      *
-     * @return <code>true</code>, if the operation is supported
+     * @return {@code true}, if the operation is supported
      */
-    boolean isSupported();
+    default boolean isSupported() {
+        return true;
+    }
 }
