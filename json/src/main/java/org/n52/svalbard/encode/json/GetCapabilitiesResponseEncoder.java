@@ -24,6 +24,9 @@ import java.util.stream.Collectors;
 
 import javax.xml.namespace.QName;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.ogc.filter.FilterCapabilities;
@@ -63,8 +66,6 @@ import org.n52.shetland.w3c.xlink.Link;
 import org.n52.svalbard.coding.json.JSONConstants;
 import org.n52.svalbard.coding.json.SchemaConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -314,6 +315,9 @@ public class GetCapabilitiesResponseEncoder
 
     private JsonNode encodeOffering(SosObservationOffering soo)
             throws EncodingException {
+        if (soo == null) {
+            return nodeFactory().nullNode();
+        }
         ObjectNode jsoo = nodeFactory().objectNode();
         SosOffering offering = soo.getOffering();
         jsoo.put(JSONConstants.IDENTIFIER, offering.getIdentifier());
@@ -548,7 +552,12 @@ public class GetCapabilitiesResponseEncoder
             throws EncodingException {
         ArrayNode node = nodeFactory().arrayNode();
         for (SosObservationOffering offering : contents) {
-            node.add(encodeOffering(offering));
+            if (offering != null) {
+                JsonNode encodedOffering = encodeOffering(offering);
+                if (encodedOffering != null && !encodedOffering.isNull()) {
+                    node.add(encodedOffering);
+                }
+            }
         }
         return node;
     }

@@ -304,11 +304,9 @@ public class SensorMLDecoderV20
         parseDescribedObject(describedObject, ap);
         if (describedObject.isSetComponents()) {
             ap.addComponents(parseComponents(describedObject.getComponents()));
-            final List<Integer> compsToRemove =
+            List<Integer> compsToRemove =
                     checkComponentsForRemoval(describedObject.getComponents().getComponentList());
-            for (final Integer integer : compsToRemove) {
-                describedObject.getComponents().getComponentList().removeComponent(integer);
-            }
+            compsToRemove.forEach(describedObject.getComponents().getComponentList()::removeComponent);
             if (removeEmptyComponents(describedObject.getComponents())) {
                 describedObject.unsetComponents();
             }
@@ -354,8 +352,7 @@ public class SensorMLDecoderV20
         // }
         if (CollectionHelper.isNotNullOrEmpty(dot.getCapabilitiesArray())) {
             parseCapabilities(describedObject, dot.getCapabilitiesArray());
-            final List<Integer> capsToRemove = checkCapabilitiesForRemoval(dot.getCapabilitiesArray());
-            capsToRemove.forEach(dot::removeCapabilities);
+            checkCapabilitiesForRemoval(dot.getCapabilitiesArray()).forEach(dot::removeCapabilities);
         }
         if (CollectionHelper.isNotNullOrEmpty(dot.getContactsArray())) {
             parseContact(dot.getContactsArray());

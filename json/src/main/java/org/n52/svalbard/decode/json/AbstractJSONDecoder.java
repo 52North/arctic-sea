@@ -32,8 +32,7 @@ import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public abstract class AbstractJSONDecoder<T>
-        extends JSONDecoder<T> {
+public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
 
     public AbstractJSONDecoder(Class<T> type) {
         super(type);

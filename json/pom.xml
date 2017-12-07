@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.n52.svalbard</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>1-SNAPSHOT</version>
+        <version>1.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>svalbard-json</artifactId>
     <name>52°North Svalbard JSON encoding</name>
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>svalbard-json-common</artifactId>
-        </dependency> 
+        </dependency>
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>findbugs-annotations</artifactId>
@@ -27,12 +27,6 @@
             <groupId>org.n52.janmayen</groupId>
             <artifactId>janmayen</artifactId>
         </dependency>
-        <!-- 
-        <dependency>
-            <groupId>org.n52.faroe</groupId>
-            <artifactId>faroe-annotations</artifactId>
-        </dependency>
-         -->
         <dependency>
             <groupId>org.n52.faroe</groupId>
             <artifactId>faroe-utils</artifactId>
@@ -61,7 +55,6 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>
-
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.mockito</groupId>

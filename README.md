@@ -1,4 +1,4 @@
-# 52°North Svalbard [![Build Status](https://travis-ci.org/52North/svalbard.svg)](https://travis-ci.org/52North/svalbard)
+# 52°North Svalbard [![Build Status](https://travis-ci.org/52North/svalbard.svg)](https://travis-ci.org/52North/svalbard) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.svalbard/svalbard.svg)](https://search.maven.org/#search|gav|1|g:org.n52.svalbard%20AND%20a:svalbard)
 Svalbard consists of various decoders and encoders for OGC models like SensorML, O&M or SWE Common, service interfaces like SOS or WPS and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in <a target="_blank" href="https://github.com/52North/shetland">Shetland</a> and are shared accross 52°North components.
 
 ## Credits

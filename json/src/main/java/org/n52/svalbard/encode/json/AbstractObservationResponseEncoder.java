@@ -40,8 +40,7 @@ import com.google.common.collect.Sets;
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @param <T>
- *            the response type
+ * @param <T> the response type
  *
  * @since 1.0.0
  */
@@ -60,19 +59,22 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     protected void encodeResponse(ObjectNode json, T t) throws EncodingException {
         ArrayNode obs = json.putArray(JSONConstants.OBSERVATIONS);
         try {
-            while (t.getObservationCollection().hasNext()) {
-                OmObservation o = t.getObservationCollection().next();
-                if (o.getValue() instanceof ObservationStream) {
-                    ObservationStream value = (ObservationStream) o.getValue();
-                        while (value.hasNext()) {
-                            obs.add(encodeObjectToJson(value.next()));
-                    }
-                } else {
-                    obs.add(encodeObjectToJson(o));
-                }
-            }
+            ObservationStream observationCollection = t.getObservationCollection();
+            encodeObservationStream(observationCollection, obs);
         } catch (OwsExceptionReport ex) {
             throw new EncodingException(ex);
+        }
+    }
+
+    private void encodeObservationStream(ObservationStream observationCollection, ArrayNode obs)
+            throws EncodingException, OwsExceptionReport {
+        while (observationCollection.hasNext()) {
+            OmObservation observation = observationCollection.next();
+            if (observation.getValue() instanceof ObservationStream) {
+                encodeObservationStream((ObservationStream) observation.getValue(), obs);
+            } else {
+                obs.add(encodeObjectToJson(observation));
+            }
         }
     }
 
@@ -98,14 +100,15 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
 
     @Override
     public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
-        return Collections.singletonMap(MediaTypes.APPLICATION_JSON.toString(),
+        return Collections.singletonMap(
+                MediaTypes.APPLICATION_JSON.toString(),
                 Sets.newHashSet(new ObservationType(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_COUNT_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_MEASUREMENT),
-                        new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_TRUTH_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION),
-                        new ObservationType(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)));
+                                new ObservationType(OmConstants.OBS_TYPE_COUNT_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_MEASUREMENT),
+                                new ObservationType(OmConstants.OBS_TYPE_TEXT_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_TRUTH_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION),
+                                new ObservationType(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)));
     }
 }

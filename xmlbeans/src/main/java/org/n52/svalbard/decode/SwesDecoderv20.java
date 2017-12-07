@@ -24,8 +24,30 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import net.opengis.gml.x32.AbstractTimeGeometricPrimitiveType;
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.sos.x20.SosInsertionMetadataPropertyType;
+import net.opengis.sos.x20.SosInsertionMetadataType;
+import net.opengis.swes.x20.DeleteSensorDocument;
+import net.opengis.swes.x20.DeleteSensorType;
+import net.opengis.swes.x20.DescribeSensorDocument;
+import net.opengis.swes.x20.DescribeSensorType;
+import net.opengis.swes.x20.InsertSensorDocument;
+import net.opengis.swes.x20.InsertSensorType;
+import net.opengis.swes.x20.InsertSensorType.Metadata;
+import net.opengis.swes.x20.InsertSensorType.RelatedFeature;
+import net.opengis.swes.x20.SensorDescriptionType;
+import net.opengis.swes.x20.UpdateSensorDescriptionDocument;
+import net.opengis.swes.x20.UpdateSensorDescriptionType;
+import net.opengis.swes.x20.UpdateSensorDescriptionType.Description;
+
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -33,7 +55,6 @@ import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -53,30 +74,9 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
-
-import net.opengis.gml.x32.AbstractTimeGeometricPrimitiveType;
-import net.opengis.gml.x32.FeaturePropertyType;
-import net.opengis.sos.x20.SosInsertionMetadataPropertyType;
-import net.opengis.sos.x20.SosInsertionMetadataType;
-import net.opengis.swes.x20.DeleteSensorDocument;
-import net.opengis.swes.x20.DeleteSensorType;
-import net.opengis.swes.x20.DescribeSensorDocument;
-import net.opengis.swes.x20.DescribeSensorType;
-import net.opengis.swes.x20.InsertSensorDocument;
-import net.opengis.swes.x20.InsertSensorType;
-import net.opengis.swes.x20.InsertSensorType.Metadata;
-import net.opengis.swes.x20.InsertSensorType.RelatedFeature;
-import net.opengis.swes.x20.SensorDescriptionType;
-import net.opengis.swes.x20.UpdateSensorDescriptionDocument;
-import net.opengis.swes.x20.UpdateSensorDescriptionType;
-import net.opengis.swes.x20.UpdateSensorDescriptionType.Description;
 
 /**
  * @since 1.0.0
@@ -182,7 +182,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 if (decodedProcedureDescription instanceof SosProcedureDescription) {
                     request.setProcedureDescription((SosProcedureDescription) decodedProcedureDescription);
                 } else if (decodedProcedureDescription instanceof AbstractFeature) {
-                    request.setProcedureDescription(new SosProcedureDescription<AbstractFeature>(
+                    request.setProcedureDescription(new SosProcedureDescription<>(
                             (AbstractFeature) decodedProcedureDescription));
                 }
             }
@@ -243,12 +243,12 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
                 if (decodedObject instanceof SosProcedureDescription) {
                     sosProcedureDescription = (SosProcedureDescription) decodedObject;
                 } else if (decodedObject instanceof AbstractFeature) {
-                    sosProcedureDescription =
-                            new SosProcedureDescription<AbstractFeature>((AbstractFeature) decodedObject);
+                    sosProcedureDescription = new SosProcedureDescription<>((AbstractFeature) decodedObject);
                 }
-
-                if (sensorDescription.isSetValidTime()) {
-                    sosProcedureDescription.setValidTime(getValidTime(sensorDescription.getValidTime()));
+                if (sosProcedureDescription != null) {
+                    if (sensorDescription.isSetValidTime()) {
+                        sosProcedureDescription.setValidTime(getValidTime(sensorDescription.getValidTime()));
+                    }
                 }
                 request.addProcedureDescriptionString(sosProcedureDescription);
             } catch (final XmlException xmle) {
@@ -340,7 +340,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
      * @param namespace
      *            the namespace of the procedure description element
      *
-     * @throws CodedException
+     * @throws DecodingException
      *             If the {@code procedureDescriptionFormat} and
      *             {@code namespace} are not equal
      */
