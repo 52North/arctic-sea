@@ -55,7 +55,8 @@ public class GetDataAvailabilityXmlEncoderTest {
         encoderRepository.init();
 
         SchemaRepository schemaRepository = new SchemaRepository();
-        schemaRepository.init(encoderRepository);
+        schemaRepository.setEncoderRepository(encoderRepository);
+        schemaRepository.init();
 
         encoder.setEncoderRepository(encoderRepository);
         encoder.setXmlOptions(XmlOptions::new);
