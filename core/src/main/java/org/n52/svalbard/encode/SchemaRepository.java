@@ -24,9 +24,6 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.inject.Inject;
-
-import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.w3c.SchemaLocation;
 
 import com.google.common.collect.Maps;
@@ -38,7 +35,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @author Christian Autermann
  */
-public class SchemaRepository implements Constructable {
+public class SchemaRepository {
     @Deprecated
     private static SchemaRepository instance;
 
@@ -46,21 +43,16 @@ public class SchemaRepository implements Constructable {
 
     private EncoderRepository encoderRepository;
 
-    @Inject
-    public void setEncoderRepository(EncoderRepository encoderRepository) {
-        this.encoderRepository = encoderRepository;
-    }
-
-    @Override
     @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    public void init() {
-        SchemaRepository.instance = this;
+    public void init(EncoderRepository encoderRepository) {
+        this.encoderRepository = encoderRepository;
         this.schemaLocations.clear();
         this.schemaLocations
                 .putAll(this.encoderRepository.getEncoders().stream().filter(e -> e instanceof SchemaAwareEncoder)
                         .map(e -> (SchemaAwareEncoder<?, ?>) e).map(SchemaAwareEncoder::getSchemaLocations)
                         .filter(Objects::nonNull).flatMap(Set<SchemaLocation>::stream)
                         .collect(groupingBy(SchemaLocation::getNamespace, Collectors.toSet())));
+        SchemaRepository.instance = this;
     }
 
     public Set<SchemaLocation> getSchemaLocation(String namespace) {
