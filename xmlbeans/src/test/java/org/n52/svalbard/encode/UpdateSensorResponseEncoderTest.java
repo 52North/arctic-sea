@@ -64,7 +64,6 @@ public class UpdateSensorResponseEncoderTest {
         EncoderRepository encoderRepository = new EncoderRepository();
 
         SchemaRepository schemaRepository = new SchemaRepository();
-        schemaRepository.setEncoderRepository(encoderRepository);
 
         encoder = new UpdateSensorResponseEncoder();
         encoder.setEncoderRepository(encoderRepository);
@@ -73,7 +72,7 @@ public class UpdateSensorResponseEncoderTest {
 
         encoderRepository.setEncoders(Arrays.asList(encoder));
         encoderRepository.init();
-        schemaRepository.init();
+        schemaRepository.init(encoderRepository);
     }
 
     @Test

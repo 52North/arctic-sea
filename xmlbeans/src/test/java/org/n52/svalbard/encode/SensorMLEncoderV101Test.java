@@ -82,8 +82,7 @@ public class SensorMLEncoderV101Test {
         encoderRepository.setEncoders(Arrays.asList(sensorMLEncoderv101));
         encoderRepository.init();
 
-        schemaRepository.setEncoderRepository(encoderRepository);
-        schemaRepository.init();
+        schemaRepository.init(encoderRepository);
     }
 
     @Test
