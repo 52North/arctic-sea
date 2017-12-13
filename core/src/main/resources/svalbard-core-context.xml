@@ -23,8 +23,6 @@
     <!-- repositories -->
     <bean id="decoderRepository" class="org.n52.svalbard.decode.DecoderRepository" />
     <bean id="encoderRepository" class="org.n52.svalbard.encode.EncoderRepository" />
-    <bean id="schemaRepository" class="org.n52.svalbard.encode.SchemaRepository"/>
-    <bean id="schemaRepositoryInitializer" class="org.n52.svalbard.encode.SchemaRepositoryInitializer"/>
 
     <!-- XML options helper -->
     <bean id="xmlOptionsHelper" class="org.n52.svalbard.util.XmlOptionsHelper" />
