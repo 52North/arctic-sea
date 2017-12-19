@@ -23,12 +23,17 @@ This project includes:
   52°North Svalbard Exi under The Apache Software License, Version 2.0
   52°North Svalbard JSON Common under The Apache Software License, Version 2.0
   52°North Svalbard JSON encoding under The Apache Software License, Version 2.0
+  52°North Svalbard OData under The Apache Software License, Version 2.0
   52°North Svalbard Parent under The Apache Software License, Version 2.0
   52°North Svalbard XML Stream under The Apache Software License, Version 2.0
   52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
+  aalto-xml under The Apache Software License, Version 2.0
+  abego TreeLayout Core under BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)
   Animal Sniffer Annotations under MIT license
+  ANTLR 4 Runtime under BSD 3-Clause License
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons IO under Apache License, Version 2.0
+  Apache Commons Lang under The Apache Software License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
   Byte Buddy (without dependencies) under The Apache Software License, Version 2.0
@@ -62,6 +67,8 @@ This project includes:
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
+  Jackson-dataformat-XML under The Apache Software License, Version 2.0
+  Jackson-module-JAXB-annotations under The Apache Software License, Version 2.0
   Java Servlet API under CDDL 1.1 or GPL2 w/ CPE
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
@@ -78,6 +85,10 @@ This project includes:
   OASIS WS-N specification schemas - including WS-BrokeredNotification (v1.3) under The Apache Software License, Version 2.0
   OASIS WS-Resources specification schemas v1.2 under The Apache Software License, Version 2.0
   Objenesis under Apache 2
+  odata-commons-api under The Apache Software License, Version 2.0
+  odata-commons-core under The Apache Software License, Version 2.0
+  odata-server-api under The Apache Software License, Version 2.0
+  odata-server-core under The Apache Software License, Version 2.0
   OGC Filter schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC GML Coverage schema (spec. v1.0) under The Apache Software License, Version 2.0
   OGC GML schema (spec. v3.1.1) under The Apache Software License, Version 2.0
@@ -111,6 +122,7 @@ This project includes:
   SLF4J API Module under MIT License
   SLF4J Simple Binding under MIT License
   StAX API under The Apache Software License, Version 2.0
+  Stax2 API under The BSD License
   W3C SOAP specification recommondation (v1.2 part 1) under The Apache Software License, Version 2.0
   W3C WS-Addressing specification schemas (v1.0) under The Apache Software License, Version 2.0
   W3C xlink schema (spec. v1.1.0) under The Apache Software License, Version 2.0

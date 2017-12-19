@@ -45,6 +45,7 @@
         <module>json</module>
         <module>json-common</module>
         <module>exi</module>
+        <module>svalbard-odata</module>
     </modules>
 
     <developers>
@@ -111,6 +112,7 @@
         <version.xmlbeans>2.6.0</version.xmlbeans>
         <version.jackson>2.9.2</version.jackson>
         <version.exificient>0.9.6</version.exificient>
+        <version.olingo>4.1.0</version.olingo>
     </properties>
 
     <dependencyManagement>
@@ -183,6 +185,31 @@
                 <version>1.0.0</version>
             </dependency>
             <dependency>
+                <groupId>org.apache.olingo</groupId>
+                <artifactId>odata-server-core</artifactId>
+                <version>${version.olingo}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.olingo</groupId>
+                <artifactId>odata-commons-core</artifactId>
+                <version>${version.olingo}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-codec</groupId>
+                <artifactId>commons-codec</artifactId>
+                <version>1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.olingo</groupId>
+                <artifactId>odata-server-api</artifactId>
+                <version>${version.olingo}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.olingo</groupId>
+                <artifactId>odata-commons-api</artifactId>
+                <version>${version.olingo}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>23.4-jre</version>
@@ -196,6 +223,11 @@
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
+                <version>1.7.25</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
                 <version>1.7.25</version>
             </dependency>
             <dependency>
@@ -509,7 +541,7 @@
                 <artifactId>52n-xml-inspire-ompr-v30</artifactId>
                 <version>${version.n52CommonXML}</version>
             </dependency>
-           <dependency>
+            <dependency>
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-inspire-base2-v20</artifactId>
                 <version>${version.n52CommonXML}</version>
