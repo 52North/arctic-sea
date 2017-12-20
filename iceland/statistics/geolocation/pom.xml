@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright 2015 52°North Initiative for Geospatial Open Source
+    Copyright 2015-2017 52°North Initiative for Geospatial Open Source
     Software GmbH
 
     Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,13 +21,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.n52.iceland</groupId>
+        <groupId>org.n52.arctic-sea</groupId>
         <artifactId>iceland-parent</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
 
-    <artifactId>statistics-geolocation</artifactId>
+    <artifactId>iceland-statistics-geolocation</artifactId>
     <packaging>jar</packaging>
 
     <name>52°North Iceland Statistics Geolocation Feature</name>
@@ -35,19 +35,19 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.n52.janmayen</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>janmayen</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.n52.shetland</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>shetland</artifactId>
         </dependency>        
         <dependency>
-            <groupId>org.n52.iceland</groupId>
-            <artifactId>statistics</artifactId>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>iceland-statistics</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.n52.faroe</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>faroe-annotations</artifactId>
         </dependency>
         <dependency>

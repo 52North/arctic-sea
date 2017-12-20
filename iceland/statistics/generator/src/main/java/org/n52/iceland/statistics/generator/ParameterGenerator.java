@@ -18,11 +18,13 @@ package org.n52.iceland.statistics.generator;
 
 import static java.util.stream.Collectors.groupingBy;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,7 +38,6 @@ import org.n52.iceland.statistics.api.parameters.Description.InformationOrigin;
 import org.n52.iceland.statistics.api.parameters.Description.Operation;
 import org.n52.iceland.statistics.generator.formats.MdFormat;
 
-import com.google.common.io.Files;
 
 public class ParameterGenerator {
 
@@ -46,7 +47,7 @@ public class ParameterGenerator {
         String printable = formatter.create();
         // System.out.println(printable);
         try {
-            Files.write(printable, new File(filePath), Charset.forName("UTF-8"));
+            Files.write(Paths.get(filePath), printable.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE);
         } catch (IOException e) {
             e.printStackTrace();
             throw e;
