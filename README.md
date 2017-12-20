@@ -1,4 +1,4 @@
-# Arctic Sea
+# Arctic Sea[![Build Status](https://travis-ci.org/52North/arctic-sea.svg)](https://travis-ci.org/52North/arctic-sea) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/arctic-sea.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea)
 
 
 ## Description
