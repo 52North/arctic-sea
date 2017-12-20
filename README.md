@@ -7,36 +7,31 @@
 
 **52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
-The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules. 
+The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules.
 <p align="center">
 <img src="https://github.com/52North/arctic-sea/raw/master/overview.png" width='60%'/>
 </p>
 
 
-#### [Iceland](https://github.com/52North/iceland) [![Build Status](https://travis-ci.org/52North/iceland.svg)](https://travis-ci.org/52North/iceland) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.iceland/iceland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.iceland%20AND%20a:iceland)
+#### Iceland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/iceland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:iceland)
 
 Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings, and facilitates the rapid development of modular services that are easily configured using Faroe. Svalbard is used for request parsing and response generation.
-Download [Iceland](https://github.com/52North/iceland/releases)
 
-#### [Svalbard](https://github.com/52North/svalbard) [![Build Status](https://travis-ci.org/52North/svalbard.svg)](https://travis-ci.org/52North/svalbard) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.svalbard/svalbard.svg)](https://search.maven.org/#search|gav|1|g:org.n52.svalbard)
+#### Svalbard [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/svalbard.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:svalbard)
 
 Svalbard consists of various decoders and encoders for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon), service interfaces like [SOS](http://www.opengeospatial.org/standards/sos) or [WPS](http://www.opengeospatial.org/standards/wps) and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in 52°North Shetland and are shared accross 52°North components.
-Download [Svalbard](https://github.com/52North/svalbard/releases)
 
-#### [Faroe](https://github.com/52North/faroe) [![Build Status](https://travis-ci.org/52North/faroe.svg)](https://travis-ci.org/52North/faroe) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.faroe/faroe.svg)](https://search.maven.org/#search|gav|1|g:org.n52.faroe)
+#### Faroe [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/faroe.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:janmayen)
 
 Faroe is a configuration API currently featuring a JSON and a SQLite backend. It enables the injection and automatic configuration of settings of various types in classes, including a Spring `BeanPostprocessor`.
-Download [Faroe](https://github.com/52North/faroe/releases)
 
-#### [Shetland](https://github.com/52North/shetland) [![Build Status](https://travis-ci.org/52North/shetland.svg)](https://travis-ci.org/52North/shetland) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.shetland/shetland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.shetland)
+#### Shetland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-seav/shetland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:shetland)
 
 Shetland compromises classes for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon) and various service requests and responses. These are shared accross different service implementations.
-Download [Shetland](https://github.com/52North/shetland/releases)
 
-#### [Jan Mayen](https://github.com/52North/janmayen) [![Build Status](https://travis-ci.org/52North/janmayen.svg)](https://travis-ci.org/52North/janmayen) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.janmayen/janmayen.svg)](https://search.maven.org/#search|gav|1|g:org.n52.janmayen)
+#### Jan Mayen [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/janmayen.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:janmayen)
 
 Jan Mayen contains various utility classes shared accross the Arctic Sea.
-Download [Jan Mayen](https://github.com/52North/janmayen/releases)
 
 ## License
 All components are licensed under the [Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
@@ -49,72 +44,78 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.janmayen>1.2.0</version.janmayen>
-  <version.faroe>1.3.0</version.faroe>
-  <version.shetland>1.0.0</version.shetland>
-  <version.svalbard>1.0.0</version.svalbard>
-  <version.iceland>2.0.0</version.iceland>
+  <version.arctic-sea>3.0.0-SNAPSHOT</version.iceland>
 </properties>
 <dependencies>
   <dependency>
-    <groupId>org.n52.iceland</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>iceland</artifactId>
-    <version>${version.iceland}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.faroe</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>faroe</artifactId>
-    <version>${version.faroe}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.faroe</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>faroe-annotations</artifactId>
-    <version>${version.faroe}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.faroe</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>faroe-utils</artifactId>
-    <version>${version.faroe}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.svalbard</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>faroe-json</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>svalbard</artifactId>
-    <version>${version.svalbard}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.svalbard</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>svalbard-xmlstream</artifactId>
-    <version>${version.svalbard}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.svalbard</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>svalbard-json</artifactId>
-    <version>${version.svalbard}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.svalbard</groupId>
-    <artifactId>svalbard-jsoncommon</artifactId>
-    <version>${version.svalbard}</version>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>svalbard-json-common</artifactId>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.svalbard</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>svalbard-exi</artifactId>
-    <version>${version.svalbard}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.svalbard</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>svalbard-xmlbeans</artifactId>
-    <version>${version.svalbard}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.shetland</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>svalbard-odata</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>shetland</artifactId>
-    <version>${version.shetland}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
-    <groupId>org.n52.janmayen</groupId>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>janmayen</artifactId>
-    <version>${version.janmayen}</version>
+    <version>${version.arctic-sea}</version>
   </dependency>
 </dependencies>
 ```
@@ -154,10 +155,22 @@ If you encounter any issues with the software or if you would like to see certai
 
 You can get support in the [community mailing list and forums](http://52north.org/resources/mailing-lists-and-forums/).
 
-
 ## Contribute
 Are you interested in contributing to the 52°North Arctic Sea and you would like to pull your changes to the 52N repository to have them available to all?
 
 In that case we need your official permission and for this purpose we have a so-called contributors license agreement (CLA) in place. With this agreement you grant us the rights to use and publish your code under an open source license.
 
 A link to the contributors license agreement and further explanations are available [here](http://52north.org/about/licensing/cla-guidelines).
+
+
+## Credits
+
+The development of the 52°North Faroe implementation was supported by several organizations and projects. Among other we would like to thank the following organizations and project
+
+| Project/Logo | Description |
+| :-------------: | :------------- |
+| <a target="_blank" href="http://www.nexosproject.eu/"><img alt="NeXOS - Next generation, Cost-effective, Compact, Multifunctional Web Enabled Ocean Sensor Systems Empowering Marine, Maritime and Fisheries Management" align="middle" width="172" src="https://raw.githubusercontent.com/52North/sos/develop/spring/views/src/main/webapp/static/images/funding/logo_nexos.png" /></a> | The development of this version of the 52&deg;North Faroe was supported by the <a target="_blank" href="http://cordis.europa.eu/fp7/home_en.html">European FP7</a> research project <a target="_blank" href="http://www.nexosproject.eu/">NeXOS</a> (co-funded by the European Commission under the grant agreement n&deg;614102) |
+| <a target="_blank" href="https://bmbf.de/"><img alt="BMBF" align="middle"  src="https://raw.githubusercontent.com/52North/sos/develop/spring/views/src/main/webapp/static/images/funding/bmbf_logo_en.png"/></a><a target="_blank" href="https://colabis.de/"><img alt="COLABIS - Collaborative Early Warning Information Systems for Urban Infrastructures" align="middle"  src="https://raw.githubusercontent.com/52North/sos/develop/spring/views/src/main/webapp/static/images/funding/colabis.png"/></a> | The development of this version 52&deg;North Faroe was supported by the <a target="_blank" href="https://www.bmbf.de"> German Federal Ministry of Education and Research</a> research project <a target="_blank" href="https://colabis.de/">COLABIS</a> (co-funded by the German Federal Ministry of Education and Research, programme Geotechnologien, under grant agreement no. 03G0852A) |
+| <a target="_blank" href="http://www.odip.org"><img alt="ODIP II - Ocean Data Interoperability Platform" align="middle" width="100" src="https://raw.githubusercontent.com/52North/sos/develop/spring/views/src/main/webapp/static/images/funding/odip-logo.png"/></a> | The development of this version of the 52&deg;North Faroe was supported by the <a target="_blank" href="https://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> research project <a target="_blank" href="http://www.odip.org/">ODIP II</a> (co-funded by the European Commission under the grant agreement n&deg;654310) |
+| <a target="_blank" href="http://www.connectingeo.net/"><img alt="ConnectinGEO - Coordinating an Observation Network of Networks EnCompassing saTellite and IN-situ to fill the Gaps in European Observations" align="middle" width="100" src="https://raw.githubusercontent.com/52North/sos/develop/spring/views/src/main/webapp/static/images/funding/ConnectinGEO_logo.png"/></a> | The development of this version of the 52&deg;North Faroe was supported by the <a target="_blank" href="https://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> research project <a target="_blank" href="http://www.connectingeo.net/">ConnectinGEO</a> (co-funded by the European Commission under the grant agreement n&deg;641538) |
+| <a target="_blank" href="http://www.geoviqua.org/"><img alt="GeoViQua - QUAlity aware VIsualization for the Global Earth Observation System of Systems" align="middle" width="172" src="https://raw.githubusercontent.com/52North/sos/develop/spring/views/src/main/webapp/static/images/funding/logo_geoviqua.png"/></a> | The development of this version 52&deg;North Faroe was supported by the <a target="_blank" href="http://cordis.europa.eu/fp7/home_en.html">European FP7</a> research project <a href="http://www.geoviqua.org/" title="GeoViQua">GeoViQua</a> (co-funded by the European Commission under the grant agreement n&deg;265178) |
