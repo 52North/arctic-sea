@@ -62,7 +62,7 @@ public class InsertSensorResponseDecoder extends AbstractXmlDecoder<XmlObject, I
     @Override
     public InsertSensorResponse decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug("REQUESTTYPE: {}", xmlObject != null ? xmlObject.getClass() : "null recevied");
-        if (xmlObject == null || !InsertSensorResponseDocument.class.isAssignableFrom(xmlObject.getClass())) {
+        if (!(xmlObject instanceof InsertSensorResponseDocument)) {
             throw new UnsupportedDecoderInputException(this, xmlObject);
         }
         InsertSensorResponseDocument isrd = (InsertSensorResponseDocument) xmlObject;

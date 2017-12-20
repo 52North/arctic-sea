@@ -61,7 +61,7 @@ public class InsertResultTemplateResponseDecoder extends AbstractXmlDecoder<XmlO
     @Override
     public InsertResultTemplateResponse decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug("REQUESTTYPE: {}", xmlObject != null ? xmlObject.getClass() : "null recevied");
-        if (xmlObject == null || !InsertResultTemplateResponseDocument.class.isAssignableFrom(xmlObject.getClass())) {
+        if (!(xmlObject instanceof InsertResultTemplateResponseDocument)) {
             throw new UnsupportedDecoderInputException(this, xmlObject);
         }
         InsertResultTemplateResponseDocument isrd = (InsertResultTemplateResponseDocument) xmlObject;

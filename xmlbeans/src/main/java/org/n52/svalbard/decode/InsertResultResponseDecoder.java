@@ -60,7 +60,7 @@ public class InsertResultResponseDecoder extends AbstractXmlDecoder<XmlObject, I
     @Override
     public InsertResultResponse decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug("REQUESTTYPE: {}", xmlObject != null ? xmlObject.getClass() : "null recevied");
-        if (xmlObject == null || !InsertResultResponseDocument.class.isAssignableFrom(xmlObject.getClass())) {
+        if (!(xmlObject instanceof InsertResultResponseDocument)) {
             throw new UnsupportedDecoderInputException(this, xmlObject);
         }
         InsertResultResponseType isr = ((InsertResultResponseDocument) xmlObject).getInsertResultResponse();

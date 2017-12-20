@@ -61,7 +61,7 @@ public class InsertObservationResponseV20Decoder extends AbstractXmlDecoder<XmlO
     @Override
     public InsertObservationResponse decode(XmlObject xmlObject) throws DecodingException {
         LOGGER.debug("REQUESTTYPE: {}", xmlObject != null ? xmlObject.getClass() : "null recevied");
-        if (xmlObject == null || !InsertObservationResponseDocument.class.isAssignableFrom(xmlObject.getClass())) {
+        if (!(xmlObject instanceof InsertObservationResponseDocument)) {
             throw new UnsupportedDecoderInputException(this, xmlObject);
         }
         InsertObservationResponseType isr =
