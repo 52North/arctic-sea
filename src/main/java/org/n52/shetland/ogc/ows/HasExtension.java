@@ -17,6 +17,7 @@
 package org.n52.shetland.ogc.ows;
 
 import java.util.Optional;
+import java.util.Set;
 
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
@@ -73,6 +74,19 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     @SuppressWarnings("unchecked")
     default T addExtension(Extension<?> extension) {
         getExtensions().addExtension(extension);
+        return (T) this;
+    }
+
+    /**
+     * Add a {@link Extension}s to this object
+     *
+     * @param extensions the {@link Extension}s to add
+     *
+     * @return this
+     */
+    @SuppressWarnings("unchecked")
+    default T addExtension(Set<Extension<?>> extensions) {
+        getExtensions().addExtension(extensions);
         return (T) this;
     }
 
@@ -134,6 +148,11 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
      */
     default Optional<Extension<?>> getExtension(String identifier) {
         return getExtensions().getExtension(identifier);
+    }
+
+
+    default int getExtensionCount(String identifier) {
+        return getExtensions().countExtensions(identifier);
     }
 
     default boolean getBooleanExtension(String identifier) {
