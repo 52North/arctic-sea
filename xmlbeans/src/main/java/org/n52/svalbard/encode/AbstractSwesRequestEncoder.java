@@ -24,6 +24,7 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
@@ -39,6 +40,18 @@ public abstract class AbstractSwesRequestEncoder<T extends OwsServiceRequest> ex
     @Override
     protected Set<SchemaLocation> getConcreteSchemaLocations() {
         return CollectionHelper.set(SwesConstants.SWES_20_SCHEMA_LOCATION);
+    }
+
+    protected void validateInput(T request) throws UnsupportedEncoderInputException {
+        if (request == null) {
+            throw new UnsupportedEncoderInputException(this, "null");
+        }
+        if (!request.isSetService()) {
+            throw new UnsupportedEncoderInputException(this, "missing service");
+        }
+        if (!request.isSetVersion()) {
+            throw new UnsupportedEncoderInputException(this, "missing version");
+        }
     }
 
 }

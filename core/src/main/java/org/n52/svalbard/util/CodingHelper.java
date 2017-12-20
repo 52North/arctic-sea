@@ -21,6 +21,8 @@ import static java.util.stream.Collectors.toSet;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -32,6 +34,7 @@ import org.n52.svalbard.decode.XmlNamespaceDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 import org.n52.svalbard.decode.exception.XmlDecodingException;
 import org.n52.svalbard.encode.EncoderKey;
+import org.n52.svalbard.encode.OperationRequestEncoderKey;
 import org.n52.svalbard.encode.XmlDocumentEncoderKey;
 import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.XmlPropertyTypeEncoderKey;
@@ -74,6 +77,25 @@ public final class CodingHelper {
             set.add(new OperationDecoderKey(service, version, o, MediaTypes.APPLICATION_XML));
         }
         return set;
+    }
+
+    public static Set<EncoderKey> xmlEncoderKeysForOperationAndMediaType(String service, String version,
+            String... operations) {
+        HashSet<EncoderKey> set = new HashSet<>(operations.length);
+        for (String operation : operations) {
+            set.add(new OperationRequestEncoderKey(service, version, operation, MediaTypes.TEXT_XML));
+            set.add(new OperationRequestEncoderKey(service, version, operation, MediaTypes.APPLICATION_XML));
+        }
+        return set;
+    }
+
+
+    public static Set<EncoderKey> xmlEncoderKeysForOperationAndMediaType(String service, String version,
+            Enum<?>... operations) {
+        return xmlEncoderKeysForOperationAndMediaType(service,
+                version,
+                Stream.of(operations).map(o -> o.name()).collect(Collectors.toList())
+                .toArray(new String[operations.length]));
     }
 
     public static Set<DecoderKey> xmlStringDecoderKeysForOperationAndMediaType(String service, String version,
@@ -127,4 +149,5 @@ public final class CodingHelper {
             throw new XmlDecodingException("XML string", string, e);
         }
     }
+
 }

@@ -32,9 +32,9 @@ import net.opengis.swes.x20.InsertSensorType;
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  */
-public class InsertSensorV2RequestEncoder extends AbstractSwesRequestEncoder<InsertSensorRequest> {
+public class InsertSensorRequestEncoder extends AbstractSwesRequestEncoder<InsertSensorRequest> {
 
-    public InsertSensorV2RequestEncoder() {
+    public InsertSensorRequestEncoder() {
         super(Sos2Constants.Operations.InsertSensor.name(), InsertSensorRequest.class);
     }
 
@@ -52,29 +52,27 @@ public class InsertSensorV2RequestEncoder extends AbstractSwesRequestEncoder<Ins
         return doc;
     }
 
-    private void validateInput(InsertSensorRequest request) throws UnsupportedEncoderInputException {
-        if (request == null) {
-            throw new UnsupportedEncoderInputException(this, "null input received.");
-        }
+    @Override
+    protected void validateInput(InsertSensorRequest request) throws UnsupportedEncoderInputException {
+        super.validateInput(request);
         if (!request.isSetProcedureDescriptionFormat()) {
             throw new UnsupportedEncoderInputException(this,
-                    "procedure description format not defined in InsertSensorRequest.");
+                    "procedure description format missing");
         }
         if (!request.isSetProcedureDescription()) {
             throw new UnsupportedEncoderInputException(this,
-                    "procedure description is missing in InsertSensorRequest.");
+                    "procedure description missing");
         }
         if (!request.isSetObservableProperty()) {
-            throw new UnsupportedEncoderInputException(this, "observed property is missing in InsertSensorRequest.");
+            throw new UnsupportedEncoderInputException(this, "observed property missing");
         }
         if (!request.isSetMetadata()) {
-            throw new UnsupportedEncoderInputException(this, "metadata field is missing in InsertSensorRequest.");
+            throw new UnsupportedEncoderInputException(this, "metadata field missing");
         }
     }
 
     private void addProcedureDescription(InsertSensorRequest request, InsertSensorType insertSensor)
             throws EncodingException {
-
         XmlObject xmlObj;
         if (request.getProcedureDescription() instanceof SosProcedureDescriptionUnknownType &&
                 request.getProcedureDescription().isSetXml()) {

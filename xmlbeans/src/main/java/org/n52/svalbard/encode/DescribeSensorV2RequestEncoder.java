@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import net.opengis.swes.x20.DescribeSensorDocument;
 import net.opengis.swes.x20.DescribeSensorType;
 import org.apache.xmlbeans.XmlObject;
-import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.DescribeSensorRequest;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -36,37 +35,14 @@ public class DescribeSensorV2RequestEncoder extends AbstractSwesRequestEncoder<D
 
     @Override
     protected XmlObject create(DescribeSensorRequest request) throws EncodingException {
+        validateInput(request);
         DescribeSensorDocument doc = DescribeSensorDocument.Factory.newInstance(getXmlOptions());
         DescribeSensorType descSensType = doc.addNewDescribeSensor();
-        addVersion(descSensType, request);
-        addService(descSensType, request);
-        addProcedure(descSensType, request);
-        addOutputFormat(descSensType, request);
-        return doc;
-    }
-
-    private void addVersion(DescribeSensorType descSensType, DescribeSensorRequest request) {
-        if (request.getVersion() != null) {
-            descSensType.setVersion(request.getVersion());
-        } else {
-            descSensType.setVersion(Sos2Constants.SERVICEVERSION);
-        }
-    }
-
-    private void addService(DescribeSensorType descSensType, DescribeSensorRequest request) {
-        if (request.getService() != null) {
-            descSensType.setService(request.getService());
-        } else {
-            descSensType.setService(SosConstants.SOS);
-        }
-    }
-
-    private void addProcedure(DescribeSensorType descSensType, DescribeSensorRequest request) {
+        descSensType.setVersion(request.getVersion());
+        descSensType.setService(request.getService());
         descSensType.setProcedure(request.getProcedure());
-    }
-
-    private void addOutputFormat(DescribeSensorType descSensType, DescribeSensorRequest request) {
         descSensType.setProcedureDescriptionFormat(request.getProcedureDescriptionFormat());
+        return doc;
     }
 
 }

@@ -55,7 +55,6 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
 
     private final String namespace;
     private final String prefix;
-    private final String version;
     private final Class<T> responseType;
     private boolean validate;
     private SchemaRepository schemaRepository;
@@ -75,7 +74,6 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
                                       String prefix, Class<T> responseType, boolean validate) {
         this.namespace = namespace;
         this.prefix = prefix;
-        this.version = version;
         this.responseType = responseType;
         this.validate = validate;
     }
