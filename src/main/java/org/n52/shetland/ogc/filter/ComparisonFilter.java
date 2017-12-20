@@ -57,6 +57,9 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
      */
     private String singleChar;
 
+    /**
+     * match case flag
+     */
     private boolean matchCase = true;
 
     /**
@@ -294,10 +297,16 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
         return this.singleChar != null && !this.singleChar.isEmpty();
     }
 
+    /**
+     * @return the matchCase
+     */
     public boolean isMatchCase() {
         return matchCase;
     }
 
+    /**
+     * @param matchCase the matchCase to set
+     */
     public void setMatchCase(boolean matchCase) {
         this.matchCase = matchCase;
     }
