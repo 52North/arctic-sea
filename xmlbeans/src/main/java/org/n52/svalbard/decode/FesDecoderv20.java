@@ -316,6 +316,9 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
         } else {
             throw new UnsupportedDecoderXmlInputException(this, comparisonOpsType);
         }
+        if (comparisonOpsType.isSetMatchCase()) {
+            comparisonFilter.setMatchCase(comparisonOpsType.getMatchCase());
+        }
         parseExpressions(comparisonOpsType.getExpressionArray(), comparisonFilter);
         return comparisonFilter;
     }
@@ -337,14 +340,17 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
                 try {
                     comparisonFilter.setValueReference(parseValueReference(xmlObject));
                 } catch (XmlException xmle) {
-                    throw new DecodingException("Error while parsing valueReference element!", xmle);
+                    throw valueReferenceParsingException(xmle);
                 }
             } else if (xmlObject instanceof LiteralType) {
                 // TODO is this the best way?
-                LiteralType literalType = (LiteralType) xmlObject;
-                comparisonFilter.setValue(literalType.getDomNode().getFirstChild().getNodeValue());
+                comparisonFilter.setValue(parseLiteralValue((LiteralType) xmlObject));
             }
         }
+    }
+
+    private String parseLiteralValue(LiteralType literalType) {
+        return literalType.getDomNode().getFirstChild().getNodeValue();
     }
 
     /**
@@ -428,7 +434,22 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
      */
     private ComparisonFilter parsePropertyIsBetweenFilter(PropertyIsBetweenType comparisonOpsType)
             throws DecodingException {
-        throw new UnsupportedDecoderXmlInputException(this, comparisonOpsType);
+        ComparisonFilter comparisonFilter = new ComparisonFilter();
+        comparisonFilter.setOperator(ComparisonOperator.PropertyIsBetween);
+        try {
+            comparisonFilter.setValueReference(parseValueReference(comparisonOpsType.getExpression()));
+        } catch (XmlException xmle) {
+            throw valueReferenceParsingException(xmle);
+        }
+        if (comparisonOpsType.getLowerBoundary().getExpression() instanceof LiteralType) {
+            comparisonFilter
+                    .setValue(parseLiteralValue((LiteralType) comparisonOpsType.getLowerBoundary().getExpression()));
+        }
+        if (comparisonOpsType.getUpperBoundary().getExpression() instanceof LiteralType) {
+            comparisonFilter.setValueUpper(
+                    parseLiteralValue((LiteralType) comparisonOpsType.getUpperBoundary().getExpression()));
+        }
+        return comparisonFilter;
     }
 
     /**
@@ -613,6 +634,10 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
             filters.add(parseTemporalFilterType(temporalOpsType));
         }
         return filters;
+    }
+
+    private static DecodingException valueReferenceParsingException(XmlException xmle) throws DecodingException {
+        return new DecodingException("Error while parsing valueReference element!", xmle);
     }
 
     private static DecodingException unsupportedTemporalOperator() {
