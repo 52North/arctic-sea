@@ -16,9 +16,11 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 import org.apache.xmlbeans.XmlObject;
-import org.hamcrest.Matchers;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -69,7 +71,7 @@ public class InsertResultResponseDecoderTest {
         isrd.addNewInsertResultResponse();
         InsertResultResponse decodedResponse = new InsertResultResponseDecoder().decode(isrd);
 
-        Assert.assertThat(decodedResponse, Matchers.notNullValue(InsertResultResponse.class));
+        assertThat(decodedResponse, is(notNullValue(InsertResultResponse.class)));
     }
 
 }

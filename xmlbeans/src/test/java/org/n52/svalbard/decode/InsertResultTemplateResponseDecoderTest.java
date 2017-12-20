@@ -16,9 +16,10 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
+
 import org.apache.xmlbeans.XmlObject;
-import org.hamcrest.core.Is;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -69,7 +70,7 @@ public class InsertResultTemplateResponseDecoderTest {
 
         InsertResultTemplateResponse decodedResponse = new InsertResultTemplateResponseDecoder().decode(isrd);
 
-        Assert.assertThat(decodedResponse.getAcceptedTemplate(), Is.is(templateId));
+        assertThat(decodedResponse.getAcceptedTemplate(), is(templateId));
     }
 
 }
