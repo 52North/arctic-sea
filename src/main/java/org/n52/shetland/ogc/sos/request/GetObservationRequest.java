@@ -252,6 +252,10 @@ public class GetObservationRequest
         return getResultFilter() != null;
     }
 
+    public boolean hasResultFilter() {
+        return getResultFilter() != null;
+    }
+
     /**
      *
      * Get request as String.

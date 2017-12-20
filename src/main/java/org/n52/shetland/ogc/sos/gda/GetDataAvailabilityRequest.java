@@ -20,8 +20,14 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
+import org.n52.shetland.ogc.sos.ResultFilter;
+import org.n52.shetland.ogc.sos.ResultFilterConstants;
+import org.n52.shetland.ogc.sos.SosSpatialFilter;
+import org.n52.shetland.ogc.sos.SosSpatialFilterConstants;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
@@ -185,4 +191,39 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
         return this;
     }
 
+    public boolean hasResultFilter() {
+        return hasExtension(ResultFilterConstants.RESULT_FILTER)
+                && getExtension(ResultFilterConstants.RESULT_FILTER).isPresent()
+                && getExtension(ResultFilterConstants.RESULT_FILTER).get() instanceof ResultFilter;
+    }
+
+    public ComparisonFilter getResultFilter() {
+        if (hasResultFilter()) {
+            return ((ResultFilter) getExtension(ResultFilterConstants.RESULT_FILTER).get()).getValue();
+        }
+        return null;
+    }
+
+    public GetDataAvailabilityRequest setResultFilter(ComparisonFilter filter) {
+        addExtension(new ResultFilter(filter));
+        return this;
+    }
+
+    public boolean hasSpatialFilter() {
+        return hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
+                && getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).isPresent()
+                && getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get() instanceof SosSpatialFilter;
+    }
+
+    public SpatialFilter getSpatialFilter() {
+        if (hasSpatialFilter()) {
+            return ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue();
+        }
+        return null;
+    }
+
+    public GetDataAvailabilityRequest setSpatialFilter(SpatialFilter filter) {
+        addExtension(new SosSpatialFilter(filter));
+        return this;
+    }
 }
