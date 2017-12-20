@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.TemporalFilter;
@@ -28,6 +27,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.GetResultRequest;
 import org.n52.shetland.ogc.sos.request.GetResultTemplateRequest;
+import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -47,13 +47,18 @@ import net.opengis.sos.x20.GetResultType.SpatialFilter;
 
 /**
  * @since 1.0.0
- *
  */
 public class SosRequestEncoderv20 extends AbstractXmlEncoder<XmlObject, OwsServiceRequest> {
     private static final Logger LOGGER = LoggerFactory.getLogger(SosRequestEncoderv20.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(Sos2Constants.NS_SOS_20,
-            OwsServiceRequest.class, GetResultTemplateRequest.class, GetResultRequest.class);
+    private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
+            CodingHelper.encoderKeysForElements(Sos2Constants.NS_SOS_20,
+                    OwsServiceRequest.class, GetResultTemplateRequest.class, GetResultRequest.class),
+            CodingHelper.xmlEncoderKeysForOperationAndMediaType(
+                    SosConstants.SOS,
+                    Sos2Constants.SERVICEVERSION,
+                    Sos2Constants.Operations.GetResultTemplate));
+
 
     public SosRequestEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",

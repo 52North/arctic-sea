@@ -58,17 +58,19 @@ public class DeleteObservationDecoder
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 
+    @Override
     public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
 
+    @Override
     public DeleteObservationRequest decode(XmlObject xmlObject) throws DecodingException {
-        LOGGER.debug(String.format("REQUESTTYPE: %s", xmlObject != null ? xmlObject.getClass() : "null recevied"));
+        LOGGER.debug("REQUESTTYPE: {}", xmlObject != null ? xmlObject.getClass() : "null recevied");
         // XmlHelper.validateDocument(xmlObject);
         if (xmlObject instanceof DeleteObservationDocument) {
             DeleteObservationDocument delObsDoc = (DeleteObservationDocument) xmlObject;
             DeleteObservationRequest decodedRequest = parseDeleteObservation(delObsDoc);
-            LOGGER.debug(String.format("Decoded request: %s", decodedRequest));
+            LOGGER.debug("Decoded request: {}", decodedRequest);
             return decodedRequest;
         } else {
             throw new UnsupportedDecoderInputException(this, xmlObject);
@@ -94,6 +96,7 @@ public class DeleteObservationDecoder
         return delObsRequest;
     }
 
+    @Override
     public Set<SupportedType> getSupportedTypes() {
         return Collections.emptySet();
     }

@@ -22,6 +22,7 @@ package org.n52.svalbard;
  * @since 1.0.0
  */
 public interface OwsEncoderSettings {
+
     String INCLUDE_STACK_TRACE_IN_EXCEPTION_REPORT = "misc.includeStackTraceInExceptionReport";
 
 }

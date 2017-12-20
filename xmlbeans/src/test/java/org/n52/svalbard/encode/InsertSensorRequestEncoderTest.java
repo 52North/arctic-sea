@@ -45,17 +45,17 @@ import net.opengis.swes.x20.InsertSensorType.ProcedureDescription;
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  */
-public class InsertSensorV2RequestEncoderTest {
+public class InsertSensorRequestEncoderTest {
 
     private InsertSensorRequest request;
-    private InsertSensorV2RequestEncoder encoder;
+    private InsertSensorRequestEncoder encoder;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
     @Before
     public void prepare() {
-        request = new InsertSensorRequest();
+        request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL);
         request.setProcedureDescription(createProcedureDescription());
         SosInsertionMetadata metadata = new SosInsertionMetadata();
@@ -64,7 +64,7 @@ public class InsertSensorV2RequestEncoderTest {
         request.setMetadata(metadata);
         request.setObservableProperty(CollectionHelper.list("test-property-1", "test-property-2"));
 
-        encoder = new InsertSensorV2RequestEncoder();
+        encoder = new InsertSensorRequestEncoder();
         encoder.setXmlOptions(() -> new XmlOptions());
 
         SensorMLEncoderv20 sensorMLEncoderv20 = new SensorMLEncoderv20();
@@ -93,47 +93,77 @@ public class InsertSensorV2RequestEncoderTest {
     }
 
     @Test
-    public void shoudlThrowExceptionWhenNullValueReceived() throws EncodingException {
+    public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage("null input received.");
-        new InsertSensorV2RequestEncoder().create(null);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'null'"));
+        encoder.create(null);
     }
 
     @Test
-    public void shoudlThrowExceptionWhenProcedureDescriptionFormatIsMissing() throws EncodingException {
+    public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage("procedure description format not defined in InsertSensorRequest.");
-        new InsertSensorV2RequestEncoder().create(new InsertSensorRequest());
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'missing service'"));
+
+        encoder.create(new InsertSensorRequest());
     }
 
     @Test
-    public void shoudlThrowExceptionWhenProcedureDescriptionIsMissing() throws EncodingException {
+    public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage("procedure description is missing in InsertSensorRequest.");
-        InsertSensorRequest request = new InsertSensorRequest();
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'missing version'"));
+
+        encoder.create(new InsertSensorRequest("service", ""));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenProcedureDescriptionFormatIsMissing() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'procedure description format missing'"));
+        encoder.create(new InsertSensorRequest("service", "version"));
+    }
+
+    @Test
+    public void shouldThrowExceptionWhenProcedureDescriptionIsMissing() throws EncodingException {
+        thrown.expect(UnsupportedEncoderInputException.class);
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'procedure description missing'"));
+        InsertSensorRequest request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat("test-format");
-        new InsertSensorV2RequestEncoder().create(request);
+        encoder.create(request);
     }
 
     @Test
-    public void shoudlThrowExceptionWhenObservablePropertyIsMissing() throws EncodingException {
+    public void shouldThrowExceptionWhenObservablePropertyIsMissing() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage("observed property is missing in InsertSensorRequest.");
-        InsertSensorRequest request = new InsertSensorRequest();
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'observed property missing'"));
+        InsertSensorRequest request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat("test-format");
         request.setProcedureDescription(createProcedureDescription());
-        new InsertSensorV2RequestEncoder().create(request);
+        encoder.create(request);
     }
 
     @Test
-    public void shoudlThrowExceptionWhenMetadataIsMissing() throws EncodingException {
+    public void shouldThrowExceptionWhenMetadataIsMissing() throws EncodingException {
         thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage("metadata field is missing in InsertSensorRequest.");
-        InsertSensorRequest request = new InsertSensorRequest();
+        thrown.expectMessage(Is.is("Encoder " +
+                InsertSensorRequestEncoder.class.getSimpleName() +
+                " can not encode 'metadata field missing'"));
+        InsertSensorRequest request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat("test-format");
         request.setProcedureDescription(createProcedureDescription());
         request.setObservableProperty(CollectionHelper.list("test-property"));
-        new InsertSensorV2RequestEncoder().create(request);
+        encoder.create(request);
     }
 
     @Test

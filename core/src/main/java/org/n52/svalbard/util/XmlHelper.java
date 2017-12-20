@@ -227,6 +227,11 @@ public final class XmlHelper {
         return doc;
     }
 
+    /**
+     * @param doc the XML document to validate.
+     * @return <code>true</code> if the given xml document is valid, else an exception is thrown.
+     * @throws DecodingException thrown if the given xml document is invalid.
+     */
     public static boolean validateDocument(XmlObject doc) throws DecodingException {
         validateDocument(doc, DecodingException::new);
         return true;
@@ -457,7 +462,7 @@ public final class XmlHelper {
 
 
     public static String getLocalName(XmlObject element) {
-        return (element == null) ? null : element.getDomNode().getLocalName();
+        return element == null ? null : element.getDomNode().getLocalName();
     }
 
     /**

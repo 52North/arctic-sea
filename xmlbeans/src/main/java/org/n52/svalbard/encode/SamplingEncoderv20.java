@@ -57,6 +57,7 @@ import com.vividsolutions.jts.geom.MultiPolygon;
 import com.vividsolutions.jts.geom.Point;
 import com.vividsolutions.jts.geom.Polygon;
 
+import net.opengis.gml.x32.AbstractFeatureDocument;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.sampling.x20.SFSamplingFeatureType;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
@@ -124,7 +125,17 @@ public class SamplingEncoderv20
     @Override
     public XmlObject encode(final AbstractFeature abstractFeature, final EncodingContext ctx)
             throws EncodingException {
-        final XmlObject encodedObject = createFeature(abstractFeature);
+        final XmlObject encodedObject;
+        if (!ctx.isEmpty() && ctx.has(XmlBeansEncodingFlags.PROPERTY_TYPE)) {
+            XmlObject tmp = createFeature(abstractFeature);
+            if (tmp instanceof SFSpatialSamplingFeatureDocument) {
+                encodedObject = ((SFSpatialSamplingFeatureDocument) tmp).getSFSamplingFeature();
+            } else {
+                encodedObject = ((AbstractFeatureDocument) tmp).getAbstractFeature();
+            }
+        } else {
+            encodedObject = createFeature(abstractFeature);
+        }
         // LOGGER.debug("Encoded object {} is valid: {}",
         // encodedObject.schemaType().toString(),
         // XmlHelper.validateDocument(encodedObject));
