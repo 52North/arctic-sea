@@ -149,67 +149,6 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         return this.exceptions.spliterator();
     }
 
-    @Deprecated
-    public <X extends Exception> Runnable wrap(ThrowingRunnable<X> runnable) {
-        return wrapRunnable(runnable);
-    }
-
-    @Deprecated
-    public <T> Supplier<Optional<T>> wrap(Callable<T> callable) {
-        return wrapCallable(callable);
-    }
-
-    @Deprecated
-    public <T, X extends Exception> Supplier<Optional<T>> wrap(ThrowingCallable<T, X> callable) {
-        return wrapCallable(callable);
-    }
-
-    @Deprecated
-    public <T, X extends Exception> Consumer<T> wrap(ThrowingConsumer<T, X> consumer) {
-        return wrapConsumer(consumer);
-    }
-
-    @Deprecated
-    public <T, U, X extends Exception> BiConsumer<T, U> wrap(ThrowingBiConsumer<T, U, X> consumer) {
-        return wrapConsumer(consumer);
-    }
-
-    @Deprecated
-    public <A, B, C, X extends Exception> TriConsumer<A, B, C> wrap(ThrowingTriConsumer<A, B, C, X> consumer) {
-        return wrapConsumer(consumer);
-    }
-
-    @Deprecated
-    public <T, R, X extends Exception> Function<T, Optional<R>> wrap(ThrowingFunction<T, R, X> function) {
-        return wrapFunction(function);
-    }
-
-    @Deprecated
-    public <T, U, R, X extends Exception> BiFunction<T, U, Optional<R>> wrap(ThrowingBiFunction<T, U, R, X> function) {
-        return wrapFunction(function);
-    }
-
-    @Deprecated
-    public <T, X extends Exception> Function<T, Optional<T>> wrap(ThrowingUnaryOperator<T, X> operator) {
-        return wrapOperator(operator);
-    }
-
-    @Deprecated
-    public <T, X extends Exception> Supplier<Optional<T>> wrap(ThrowingSupplier<T, X> supplier) {
-        return wrapSupplier(supplier);
-    }
-
-    @Deprecated
-    public <T, X extends Exception> Predicate<T> wrap(ThrowingPredicate<T, X> predicate, boolean defaultValue) {
-        return wrapPredicate(predicate, defaultValue);
-    }
-
-    @Deprecated
-    public <T, U, X extends Exception> BiPredicate<T, U> wrap(ThrowingBiPredicate<T, U, X> predicate,
-                                                              boolean defaultValue) {
-        return wrapPredicate(predicate, defaultValue);
-    }
-
     public <X extends Exception> Runnable wrapRunnable(ThrowingRunnable<X> runnable) {
         return () -> run(runnable);
     }
@@ -244,7 +183,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
     }
 
     public <T, X extends Exception> Function<T, Optional<T>> wrapOperator(ThrowingUnaryOperator<T, X> operator) {
-        return wrap((ThrowingFunction<T, T, X>) operator);
+        return wrapFunction((ThrowingFunction<T, T, X>) operator);
     }
 
     public <T, X extends Exception> Supplier<Optional<T>> wrapSupplier(ThrowingSupplier<T, X> supplier) {
@@ -261,8 +200,9 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         return (t, u) -> test(predicate, defaultValue, t, u);
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <X extends Exception> void run(ThrowingRunnable<X> runnable) {
-        wrap(runnable).run();
+        wrapRunnable(runnable).run();
         try {
             runnable.run();
         } catch (Exception e) {
@@ -280,6 +220,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, X extends Exception> Optional<T> call(ThrowingCallable<T, X> callable) {
         try {
             T result = callable.call();
@@ -290,6 +231,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, X extends Exception> void accept(ThrowingConsumer<T, X> consumer, T t) {
         try {
             consumer.accept(t);
@@ -298,6 +240,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, U, X extends Exception> void accept(ThrowingBiConsumer<T, U, X> consumer, T t, U u) {
         try {
             consumer.accept(t, u);
@@ -306,6 +249,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <A, B, C, X extends Exception> void accept(ThrowingTriConsumer<A, B, C, X> consumer, A a, B b, C c) {
         try {
             consumer.accept(a, b, c);
@@ -314,6 +258,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, R, X extends Exception> Optional<R> apply(ThrowingFunction<T, R, X> function, T t) {
         try {
             return Optional.ofNullable(function.apply(t));
@@ -323,6 +268,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, U, R, X extends Exception> Optional<R> apply(ThrowingBiFunction<T, U, R, X> function, T t, U u) {
         try {
             return Optional.ofNullable(function.apply(t, u));
@@ -332,10 +278,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
-    public <T, X extends Exception> Optional<T> apply(ThrowingUnaryOperator<T, X> operator, T t) {
-        return apply((ThrowingFunction<T, T, X>) operator, t);
-    }
-
+    @SuppressWarnings("UseSpecificCatch")
     public <T, X extends Exception> Optional<T> get(ThrowingSupplier<T, X> supplier) {
         try {
             return Optional.ofNullable(supplier.get());
@@ -345,6 +288,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, X extends Exception> boolean test(ThrowingPredicate<T, X> predicate, boolean defaultValue, T t) {
         try {
             return predicate.test(t);
@@ -354,6 +298,7 @@ public class CompositeException extends Exception implements Iterable<Throwable>
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public <T, U, X extends Exception> boolean test(ThrowingBiPredicate<T, U, X> predicate,
                                                     boolean defaultValue, T t, U u) {
         try {

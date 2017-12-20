@@ -178,26 +178,11 @@ public final class MoreCollectors {
         return toMap(Entry::getKey, Entry::getValue, Streams.throwingMerger(), LinkedHashMap::new);
     }
 
-    @Deprecated
-    public static <T, A, R> Collector<T, ?, R> collector(Supplier<A> supplier,
-                                                         BiConsumer<A, T> accumulator,
-                                                         BinaryOperator<A> combiner,
-                                                         Function<A, R> finisher) {
-        return Collector.of(supplier, accumulator, combiner, finisher);
-    }
-
     public static <T, R> Collector<T, ?, R> collector(Supplier<R> supplier,
                                                       BiConsumer<R, T> accumulator,
                                                       BiConsumer<R, R> combiner) {
         BinaryOperator<R> binaryOperator = Functions.mergeLeft(combiner);
         return Collector.of(supplier, accumulator, binaryOperator);
-    }
-
-    @Deprecated
-    public static <T, R> Collector<T, ?, R> collector(Supplier<R> supplier,
-                                                      BiConsumer<R, T> accumulator,
-                                                      BinaryOperator<R> combiner) {
-        return Collector.of(supplier, accumulator, combiner);
     }
 
     public static <T, A, R> Collector<T, ?, R> collector(Supplier<A> supplier,
