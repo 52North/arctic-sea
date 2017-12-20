@@ -369,5 +369,4 @@ public abstract class SimpleBinding extends Binding {
             throw new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
         }
     }
-
 }

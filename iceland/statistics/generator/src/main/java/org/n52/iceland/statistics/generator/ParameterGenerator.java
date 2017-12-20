@@ -104,7 +104,7 @@ public class ParameterGenerator {
             // "..\\PARAMETERS.MD", "SosDataMapping"));
             System.out.println("Application's DataMapping class is not specified. " +
                                "Add the class name of your data mapping class.");
-            System.out.printf("Usage java -jar statistics-kibana %s [%s]\n", "..\\PARAMETERS.MD", "SosDataMapping");
+            System.out.printf("Usage java -jar statistics-kibana %s [%s]%n", "..\\PARAMETERS.MD", "SosDataMapping");
         }
     }
     //CHECKSTYLE:ON

@@ -37,6 +37,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -58,7 +60,7 @@ public class ServiceOperatorRepository
 
     @Override
     public void init() {
-        ServiceOperatorRepository.instance = this;
+        setStaticInstance();
         Map<OwsServiceKey, Producer<ServiceOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.serviceOperators.clear();
@@ -134,6 +136,12 @@ public class ServiceOperatorRepository
 
     public boolean isServiceSupported(String service) {
         return this.supportedVersions.containsKey(service);
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        ServiceOperatorRepository.instance = this;
     }
 
     @Deprecated

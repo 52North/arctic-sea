@@ -32,6 +32,8 @@ import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 @SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository
         extends
@@ -52,7 +54,7 @@ public class RequestResponseModifierRepository
 
     @Override
     public void init() {
-        RequestResponseModifierRepository.instance = this;
+        setStaticInstance();
         Map<RequestResponseModifierKey, Set<Producer<RequestResponseModifier>>> implementations
                 = getProviders(this.components, this.componentFactories);
         this.requestResponseModifier.clear();
@@ -96,6 +98,12 @@ public class RequestResponseModifierRepository
 
     public boolean hasRequestResponseModifier(RequestResponseModifierKey key) {
         return requestResponseModifier.containsKey(key);
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        RequestResponseModifierRepository.instance = this;
     }
 
     @Deprecated

@@ -44,6 +44,8 @@ import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * Repository for {@link OwsOperationMetadataExtension}. Loads all implemented
  * {@link OwsOperationMetadataExtensionProvider} and adds to this repository.
@@ -75,7 +77,7 @@ public class OwsOperationMetadataExtensionProviderRepository
 
     @Override
     public void init() {
-        OwsOperationMetadataExtensionProviderRepository.instance = this;
+        setStaticInstance();
         Map<OwsOperationMetadataExtensionProviderKey, Producer<OwsOperationMetadataExtensionProvider>> implemtations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.extendedCapabilitiesProvider.clear();
@@ -263,6 +265,12 @@ public class OwsOperationMetadataExtensionProviderRepository
                 .stream()
                 .map(OwsOperationMetadataExtensionProviderKey::getDomain)
                 .collect(toSet());
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        OwsOperationMetadataExtensionProviderRepository.instance = this;
     }
 
     /**

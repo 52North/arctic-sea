@@ -27,6 +27,8 @@ import org.n52.janmayen.Producers;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * In 52N SOS version 4.x called OperationDAORepository
  *
@@ -55,7 +57,7 @@ public class OperationHandlerRepository
 
     @Override
     public void init() {
-        OperationHandlerRepository.instance = this;
+        setStaticInstance();
         Map<OperationHandlerKey, Producer<OperationHandler>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.operationHandlers.clear();
@@ -87,6 +89,12 @@ public class OperationHandlerRepository
     @Deprecated
     public Map<OperationHandlerKey, OperationHandler> getOperationDAOs() {
         return getOperationHandlers();
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        OperationHandlerRepository.instance = this;
     }
 
     @Deprecated

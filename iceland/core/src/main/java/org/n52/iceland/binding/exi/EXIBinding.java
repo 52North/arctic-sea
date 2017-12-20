@@ -19,6 +19,7 @@ package org.n52.iceland.binding.exi;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Set;
 
@@ -172,7 +173,7 @@ public class EXIBinding extends SimpleBinding {
                 transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
             }
             transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-            transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+            transformer.setOutputProperty(OutputKeys.ENCODING, StandardCharsets.UTF_8.name());
             // decode EXI encoded InputStream
             EXISource exiSource = new EXISource(ef);
             XMLReader exiReader = exiSource.getXMLReader();
@@ -183,7 +184,7 @@ public class EXIBinding extends SimpleBinding {
             transformer.transform(saxSource, new StreamResult(os));
 
             // create XmlObject from OutputStream
-            return XmlHelper.parseXmlString(os.toString());
+            return XmlHelper.parseXmlString(os.toString(StandardCharsets.UTF_8.name()));
         } catch (IOException | EXIException ex) {
             throw new NoApplicableCodeException().causedBy(ex).withMessage("Error while reading request! Message: %s",
                     ex.getMessage());

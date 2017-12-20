@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.statistics.impl.handlers.exceptions;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
@@ -28,14 +29,18 @@ public class OwsExceptionEventHandler extends AbstractElasticSearchDataHolder
 
     @Override
     public Map<String, Object> resolveAsMap(Exception rawException) {
-        OwsExceptionReport exception = (OwsExceptionReport) rawException;
-        put(ServiceEventDataMapping.EX_CLASSTYPE, exception.getClass().getSimpleName());
-        if (exception.getStatus() != null) {
-            put(ServiceEventDataMapping.EX_STATUS, exception.getStatus().getCode());
+        if (rawException instanceof OwsExceptionReport) {
+            OwsExceptionReport exception = (OwsExceptionReport) rawException;
+            put(ServiceEventDataMapping.EX_CLASSTYPE, exception.getClass().getSimpleName());
+            if (exception.getStatus() != null) {
+                put(ServiceEventDataMapping.EX_STATUS, exception.getStatus().getCode());
+            }
+            put(ServiceEventDataMapping.EX_VERSION, exception.getVersion());
+            put(ServiceEventDataMapping.OWSEX_NAMESPACE, exception.getNamespace());
+            put(ServiceEventDataMapping.EX_MESSAGE, exception.getMessage());
+            return dataMap;
+        } else {
+            return Collections.emptyMap();
         }
-        put(ServiceEventDataMapping.EX_VERSION, exception.getVersion());
-        put(ServiceEventDataMapping.OWSEX_NAMESPACE, exception.getNamespace());
-        put(ServiceEventDataMapping.EX_MESSAGE, exception.getMessage());
-        return dataMap;
     }
 }

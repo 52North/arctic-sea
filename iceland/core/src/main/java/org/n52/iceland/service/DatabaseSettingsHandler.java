@@ -27,6 +27,8 @@ import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
 import org.n52.janmayen.lifecycle.Constructable;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -48,6 +50,8 @@ public class DatabaseSettingsHandler implements Constructable {
     }
 
     @Override
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void init() {
         DatabaseSettingsHandler.instance = this;
     }

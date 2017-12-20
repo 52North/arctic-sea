@@ -30,6 +30,8 @@ import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -60,7 +62,7 @@ public class ConverterRepository
 
     @Override
     public void init() {
-        ConverterRepository.instance = this;
+        setStaticInstance();
         // TODO check for encoder/decoder used by converter
         Map<ConverterKey, Producer<Converter<?, ?>>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
@@ -131,6 +133,12 @@ public class ConverterRepository
 
     public boolean hasConverter(ConverterKey key) {
         return this.converter.containsKey(key);
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        ConverterRepository.instance = this;
     }
 
     @Deprecated

@@ -35,6 +35,8 @@ import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -47,6 +49,7 @@ public class ResponseWriterRepository
         extends AbstractComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory>
         implements Constructable {
 
+    @Deprecated
     private static ResponseWriterRepository instance;
 
     private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper
@@ -60,7 +63,7 @@ public class ResponseWriterRepository
 
     @Override
     public void init() {
-        ResponseWriterRepository.instance = this;
+        setStaticInstance();
         Map<ResponseWriterKey, Producer<ResponseWriter<?>>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.writersByClass.clear();
@@ -90,6 +93,12 @@ public class ResponseWriterRepository
         }
         Comparator<Class<?>> comparator = new ClassSimilarityComparator(clazz);
         return new ResponseWriterKey(Collections.min(compatible, comparator));
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        ResponseWriterRepository.instance = this;
     }
 
     @Deprecated

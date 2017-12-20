@@ -82,8 +82,13 @@ public class EmbeddedElasticsearch {
         }
 
         String resource = RESOURCE_BASE + CONFIG_PATH;
-        Builder setting = Settings.settingsBuilder()
-                .loadFromStream(resource, getClass().getResourceAsStream(RESOURCE_BASE + CONFIG_PATH));
+        Builder setting;
+        try (InputStream stream = getClass().getResourceAsStream(RESOURCE_BASE + CONFIG_PATH)) {
+            setting = Settings.settingsBuilder() .loadFromStream(resource, stream);
+        } catch (IOException ex) {
+            LOG.error(ex.getMessage(), ex);
+            return;
+        }
         setting.put("cluster.name", "elasticsearch");
         setting.put("node.name", "Embedded Server");
         setting.put("path.home", homePath);
@@ -103,10 +108,10 @@ public class EmbeddedElasticsearch {
     }
 
     private void copyLoggingFile() throws FileNotFoundException, IOException {
-        InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/logging.yml");
-        FileOutputStream out = new FileOutputStream(new File(homePath + LOGGING_CONFIG_PATH));
-        IOUtils.copy(inputLogigng, out);
-        out.close();
+        try (InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/logging.yml");
+             FileOutputStream out = new FileOutputStream(new File(homePath + LOGGING_CONFIG_PATH))) {
+            IOUtils.copy(inputLogigng, out);
+        }
     }
 
     private void downlaodGroovyLibrary() throws IOException {
@@ -123,11 +128,11 @@ public class EmbeddedElasticsearch {
 
         // read the files list at least on windows works
         for (String line : SCRIPT_FILE_NAMES) {
-            InputStream scriptFile = EmbeddedElasticsearch.class
-                    .getResourceAsStream(RESOURCE_BASE + "/scripts/" + line);
-            FileOutputStream scriptFileOut = new FileOutputStream(scripts.getAbsolutePath() + "/" + line);
-            IOUtils.copy(scriptFile, scriptFileOut);
-            scriptFileOut.close();
+            try (InputStream scriptFile = EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/scripts/" +
+                                                                                          line);
+                 FileOutputStream scriptFileOut = new FileOutputStream(scripts.getAbsolutePath() + "/" + line)) {
+                IOUtils.copy(scriptFile, scriptFileOut);
+            }
         }
     }
 

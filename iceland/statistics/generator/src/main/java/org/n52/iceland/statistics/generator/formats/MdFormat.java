@@ -91,14 +91,14 @@ public class MdFormat {
     public String create() {
         output = new StringBuilder();
         // Header 1
-        for (Operation op : parameters.keySet()) {
+        parameters.forEach((op, paramsByOrigin) -> {
             output.append(formatH1(op.toString()));
             // Header 2
-            for (InformationOrigin origin : parameters.get(op).keySet()) {
+            paramsByOrigin.forEach((origin, params) -> {
                 output.append(formatH2(origin.toString()));
-                parameters.get(op).get(origin).stream().forEach(l -> appendToOutput(l, 0));
-            }
-        }
+                params.forEach(l -> appendToOutput(l, 0));
+            });
+        });
         return output.toString();
     }
 

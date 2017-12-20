@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.statistics.impl.handlers.exceptions;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.n52.iceland.statistics.api.AbstractElasticSearchDataHolder;
@@ -28,17 +29,21 @@ public class CodedExceptionEventHandler extends AbstractElasticSearchDataHolder
 
     @Override
     public Map<String, Object> resolveAsMap(Exception rawException) {
-        CodedException exception = (CodedException) rawException;
-        put(ServiceEventDataMapping.EX_CLASSTYPE, exception.getClass().getSimpleName());
-        if (exception.getStatus() != null) {
-            put(ServiceEventDataMapping.EX_STATUS, exception.getStatus().getCode());
+        if (rawException instanceof CodedException) {
+            CodedException exception = (CodedException) rawException;
+            put(ServiceEventDataMapping.EX_CLASSTYPE, exception.getClass().getSimpleName());
+            if (exception.getStatus() != null) {
+                put(ServiceEventDataMapping.EX_STATUS, exception.getStatus().getCode());
+            }
+            put(ServiceEventDataMapping.CEX_LOCATOR, exception.getLocator());
+            put(ServiceEventDataMapping.EX_VERSION, exception.getVersion());
+            if (exception.getCode() != null) {
+                put(ServiceEventDataMapping.CEX_SOAP_FAULT, exception.getCode().getSoapFaultReason());
+            }
+            put(ServiceEventDataMapping.EX_MESSAGE, exception.getMessage());
+            return dataMap;
+        } else {
+            return Collections.emptyMap();
         }
-        put(ServiceEventDataMapping.CEX_LOCATOR, exception.getLocator());
-        put(ServiceEventDataMapping.EX_VERSION, exception.getVersion());
-        if (exception.getCode() != null) {
-            put(ServiceEventDataMapping.CEX_SOAP_FAULT, exception.getCode().getSoapFaultReason());
-        }
-        put(ServiceEventDataMapping.EX_MESSAGE, exception.getMessage());
-        return dataMap;
     }
 }

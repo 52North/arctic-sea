@@ -38,6 +38,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -62,7 +64,7 @@ public class RequestOperatorRepository
 
     @Override
     public void init() {
-        RequestOperatorRepository.instance = this;
+        setStaticInstance();
         Map<RequestOperatorKey, Producer<RequestOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.requestOperators.clear();
@@ -156,6 +158,12 @@ public class RequestOperatorRepository
     @Override
     public Set<RequestOperatorKey> getKeys() {
         return Collections.unmodifiableSet(this.requestOperators.keySet());
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        RequestOperatorRepository.instance = this;
     }
 
     @Deprecated

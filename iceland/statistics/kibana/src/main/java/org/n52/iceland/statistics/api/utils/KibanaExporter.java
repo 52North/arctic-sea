@@ -42,7 +42,7 @@ public class KibanaExporter {
     //CHECKSTYLE:OFF
     public static void main(String args[]) throws Exception {
         if (args.length != 2) {
-            System.out.printf("Usage: java KibanaExporter.jar %s %s\n", "localhost:9300", "my-cluster-name");
+            System.out.printf("Usage: java KibanaExporter.jar %s %s%n", "localhost:9300", "my-cluster-name");
             System.exit(0);
         }
         if (!args[0].contains(":")) {
@@ -106,7 +106,7 @@ public class KibanaExporter {
     }
 
     private static KibanaConfigEntryDto parseSearchHit(SearchHit hit) {
-        System.out.printf("Reading %s/%s/%s\n", hit.getIndex(), hit.getType(), hit.getId());
+        System.out.printf("Reading %s/%s/%s%n", hit.getIndex(), hit.getType(), hit.getId());
 
         String id = hit.getId();
         if (hit.getId().equals(statisticsIndex)) {

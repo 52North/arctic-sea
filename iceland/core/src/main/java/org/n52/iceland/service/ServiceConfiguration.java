@@ -27,18 +27,18 @@ import org.n52.iceland.i18n.I18NSettings;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.svalbard.CodingSettings;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
- *         J&uuml;rrens</a>
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  *
  * @since 1.0.0
  * @deprecated Deprecated use Injection
  */
 @Configurable
 @Deprecated
-public class ServiceConfiguration
-        implements Constructable {
+public class ServiceConfiguration implements Constructable {
     private static ServiceConfiguration instance;
 
     /**
@@ -57,31 +57,6 @@ public class ServiceConfiguration
      */
     private String serviceURL;
 
-    /**
-     * Prefix URN for the spatial reference system.
-     */
-    private String srsNamePrefix;
-
-    /**
-     * prefix URN for the spatial reference system.
-     */
-    private String srsNamePrefixSosV2;
-
-    /**
-     * token separator for result element.
-     */
-    private String tokenSeparator;
-
-    /**
-     * tuple separator for result element.
-     */
-    private String tupleSeparator;
-
-    /**
-     * decimal separator for result element.
-     */
-    private String decimalSeparator;
-
     private boolean deregisterJdbcDriver;
 
     private Locale defaultLanguage;
@@ -91,8 +66,6 @@ public class ServiceConfiguration
     private int maxNumberOfReturnedTimeSeries = Integer.MAX_VALUE;
 
     private int maxNumberOfReturnedValues = Integer.MAX_VALUE;
-
-    private boolean overallExtrema = true;
 
     private boolean streamingEncoding = true;
 
@@ -104,6 +77,8 @@ public class ServiceConfiguration
     }
 
     @Override
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void init() {
         ServiceConfiguration.instance = this;
     }

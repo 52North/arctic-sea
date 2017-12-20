@@ -40,6 +40,8 @@ import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Maps;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -118,7 +120,7 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
 
     @Override
     public void init() {
-        BindingRepository.instance = this;
+        setStaticInstance();
         Map<BindingKey, Producer<Binding>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.bindings.clear();
@@ -219,6 +221,12 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
             map.put(key.getMediaType(), producer.get());
         }
         return map;
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        BindingRepository.instance = this;
     }
 
     @Deprecated

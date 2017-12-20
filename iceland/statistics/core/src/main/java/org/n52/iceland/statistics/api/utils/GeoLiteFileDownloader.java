@@ -18,6 +18,7 @@ package org.n52.iceland.statistics.api.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
@@ -51,7 +52,10 @@ public class GeoLiteFileDownloader {
             }
 
             Properties prop = new Properties();
-            prop.load(GeoLiteFileDownloader.class.getResourceAsStream("/statistics/geolitepaths.properties"));
+            try (InputStream stream = GeoLiteFileDownloader.class
+                    .getResourceAsStream("/statistics/geolitepaths.properties")) {
+                prop.load(stream);
+            }
 
             String cityUrl = prop.getProperty("url.city");
             String countryUrl = prop.getProperty("url.country");

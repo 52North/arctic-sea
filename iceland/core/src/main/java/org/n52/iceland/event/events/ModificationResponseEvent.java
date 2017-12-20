@@ -17,9 +17,9 @@
 package org.n52.iceland.event.events;
 
 import org.n52.iceland.request.operator.RequestOperator;
+import org.n52.janmayen.event.Event;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.janmayen.event.Event;
 
 /**
  * Abstract event that should be fired if a successful request changed the

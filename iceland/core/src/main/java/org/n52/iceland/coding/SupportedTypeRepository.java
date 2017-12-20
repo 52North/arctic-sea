@@ -36,6 +36,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
@@ -57,7 +59,7 @@ public class SupportedTypeRepository {
     public void init(DecoderRepository decoderRepository, EncoderRepository encoderRepository) {
         this.decoderRepository = decoderRepository;
         this.encoderRepository = encoderRepository;
-        SupportedTypeRepository.instance = this;
+        setStaticInstance();
         this.supportedTypes.clear();
 
         this.decoderRepository.getDecoders().stream()
@@ -99,6 +101,12 @@ public class SupportedTypeRepository {
 
     private Set<String> getSupportedTypeAsString(Set<? extends AbstractSupportedStringType> types) {
         return types.stream().map(AbstractSupportedStringType::getValue).collect(toSet());
+    }
+
+    @Deprecated
+    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    private void setStaticInstance() {
+        SupportedTypeRepository.instance = this;
     }
 
     @Deprecated
