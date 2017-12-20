@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>8</version>
+        <version>10</version>
     </parent>
 
     <groupId>org.n52.janmayen</groupId>
     <artifactId>janmayen</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.3.0-SNAPSHOT</version>
 
 
     <name>52°North Jan Mayen</name>
@@ -61,10 +61,6 @@
         </license>
     </licenses>
 
-    <properties>
-        <version.java>1.8</version.java>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -75,7 +71,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>20.0</version>
+            <version>23.4-jre</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.code.findbugs</groupId>
@@ -99,6 +95,12 @@
             <version>3.0.1</version>
         </dependency>
         <dependency>
+            <groupId>com.google.code.findbugs</groupId>
+            <artifactId>annotations</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.9.9</version>
@@ -107,12 +109,12 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.8.5</version>
+            <version>2.9.2</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.8.5</version>
+            <version>2.9.2</version>
         </dependency>
 
         <!-- Testing dependencies -->
@@ -140,12 +142,7 @@
             <version>1.7.25</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>annotations</artifactId>
-            <version>3.0.1</version>
-            <scope>provided</scope>
-        </dependency>
+        
     </dependencies>
 
     <build>
@@ -162,10 +159,7 @@
                         </goals>
                         <configuration>
                             <source>
-                                import java.util.Date
-                                import java.text.MessageFormat
-                                def vartimestamp = MessageFormat.format("{0,date,yyyy}", new Date())
-                                project.properties['currentYearDynamic'] = vartimestamp
+                                project.properties['currentYearDynamic'] = java.text.MessageFormat.format("{0,date,yyyy}", new java.util.Date())
                             </source>
                         </configuration>
                     </execution>
@@ -226,33 +220,6 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <compilerVersion>${version.java}</compilerVersion>
-                    <source>${version.java}</source>
-                    <target>${version.java}</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[${version.java},)</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

@@ -17,10 +17,13 @@ This project includes:
 
   "Java Concurrency in Practice" book annotations under Creative Commons Attribution License, http://creativecommons.org/licenses/by/2.5
   52°North Jan Mayen under The Apache Software License, Version 2.0
+  Animal Sniffer Annotations under MIT license
+  error-prone annotations under Apache 2.0
   FindBugs-Annotations under GNU Lesser Public License
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   Hamcrest All under New BSD License
+  J2ObjC Annotations under The Apache Software License, Version 2.0
   Jackson-annotations under The Apache Software License, Version 2.0
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
