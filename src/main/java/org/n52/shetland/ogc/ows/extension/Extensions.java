@@ -23,6 +23,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
@@ -64,6 +65,12 @@ public class Extensions {
         return this.extensions.stream()
                 .filter(e -> checkExtensionName(identifier, e))
                 .findAny().isPresent();
+    }
+
+    public int countExtensions(String identifier) {
+        return this.extensions.stream()
+                .filter(e -> checkExtensionName(identifier, e))
+                .collect(Collectors.toSet()).size();
     }
 
     @SuppressWarnings("rawtypes")
