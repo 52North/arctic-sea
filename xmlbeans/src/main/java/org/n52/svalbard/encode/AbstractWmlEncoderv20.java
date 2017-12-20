@@ -310,6 +310,13 @@ public abstract class AbstractWmlEncoderv20
                 }
             }
 
+            if (sampFeat.isSetDescription()) {
+                if (!mpt.isSetDescription()) {
+                    mpt.addNewDescription();
+                }
+                mpt.getDescription().setStringValue(sampFeat.getDescription());
+            }
+
             // set type
             // TODO: check if special definition
             // monitoringPoint.addNewType().setHref(sampFeat.getFeatureType());
