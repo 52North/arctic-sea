@@ -26,14 +26,13 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sos.request.InsertObservationRequest;
-import org.n52.svalbard.ConfiguredSettingsManager;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.InsertObservationRequestDecoder;
 

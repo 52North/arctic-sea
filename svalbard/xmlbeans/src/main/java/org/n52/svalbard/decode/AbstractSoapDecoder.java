@@ -34,6 +34,9 @@ import javax.xml.soap.SOAPMessage;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
 
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -44,10 +47,6 @@ import org.n52.shetland.w3c.wsa.WsaActionHeader;
 import org.n52.shetland.w3c.wsa.WsaConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.W3cHelper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
 
 import com.google.common.collect.Lists;
 

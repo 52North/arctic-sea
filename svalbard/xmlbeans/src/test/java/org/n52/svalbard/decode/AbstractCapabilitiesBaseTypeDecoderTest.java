@@ -18,13 +18,14 @@ package org.n52.svalbard.decode;
 
 import java.util.Set;
 
+import net.opengis.ows.x11.CapabilitiesBaseType;
+
 import org.hamcrest.core.Is;
 import org.junit.Assert;
 import org.junit.Test;
+
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.svalbard.decode.exception.DecodingException;
-
-import net.opengis.ows.x11.CapabilitiesBaseType;
 
 public class AbstractCapabilitiesBaseTypeDecoderTest {
 

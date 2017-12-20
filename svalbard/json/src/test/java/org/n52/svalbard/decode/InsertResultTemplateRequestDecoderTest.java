@@ -26,11 +26,11 @@ import static org.junit.Assert.assertThat;
 import java.io.IOException;
 
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+
 import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
 import org.n52.shetland.ogc.swe.SweDataRecord;
@@ -39,7 +39,6 @@ import org.n52.shetland.ogc.swe.encoding.SweTextEncoding;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
-import org.n52.svalbard.ConfiguredSettingsManager;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.InsertResultTemplateRequestDecoder;
 

@@ -22,15 +22,16 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
+import net.opengis.sosdo.x20.DeleteObservationDocument;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
-
-import net.opengis.sosdo.x20.DeleteObservationDocument;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

@@ -27,6 +27,7 @@ import java.util.Random;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+
 import org.n52.svalbard.coding.json.GeoJSONDecodingException;
 import org.n52.svalbard.coding.json.SchemaConstants;
 import org.n52.svalbard.coding.json.matchers.ValidationMatchers;
