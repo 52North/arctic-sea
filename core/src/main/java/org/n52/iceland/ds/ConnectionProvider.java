@@ -39,5 +39,12 @@ public interface ConnectionProvider {
      * @param connection the connection
      */
     void returnConnection(Object connection);
+    
+    /**
+     * Get the max connections number
+     * 
+     * @return The max connection number
+     */
+    int getMaxConnections();
 
 }
