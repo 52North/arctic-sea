@@ -41,7 +41,7 @@ import org.n52.svalbard.decode.json.GetObservationRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 /**
  * TODO JavaDoc

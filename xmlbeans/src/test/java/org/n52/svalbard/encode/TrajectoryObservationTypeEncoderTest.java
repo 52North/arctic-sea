@@ -52,8 +52,8 @@ import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
 import org.n52.svalbard.util.XmlOptionsHelper;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 
 import eu.europa.ec.inspire.schemas.omso.x30.TrajectoryObservationType;
 

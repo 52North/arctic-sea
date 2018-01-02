@@ -67,7 +67,7 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Lists;
-import com.vividsolutions.jts.geom.Envelope;
+import org.locationtech.jts.geom.Envelope;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>

@@ -76,7 +76,6 @@ This project includes:
   JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache 2
   JOpt Simple under The MIT License
-  JTS Topology Suite under Lesser General Public License (LGPL)
   JUnit under Eclipse Public License 1.0
   libphonenumber under The Apache Software License, Version 2.0
   mockito-core under The MIT License
@@ -117,6 +116,7 @@ This project includes:
   OGC WaterML DR schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC WaterML schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC XML schemas under The Apache Software License, Version 2.0
+  org.locationtech.jts:jts-core under Eclipse Publish License, Version 1.0 or Eclipse Distribution License - v 1.0
   Portele Schape Change schema (spec. v3.0) under The Apache Software License, Version 2.0
   Saxon-HE under Mozilla Public License Version 2.0
   SLF4J API Module under MIT License

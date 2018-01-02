@@ -68,7 +68,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 import net.opengis.om.x20.NamedValuePropertyType;
 import net.opengis.om.x20.OMObservationDocument;

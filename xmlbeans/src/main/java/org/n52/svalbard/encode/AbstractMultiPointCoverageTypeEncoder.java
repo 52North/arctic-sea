@@ -25,9 +25,9 @@ import org.n52.shetland.ogc.om.values.MultiPointCoverage.PointValueLists;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.Point;
 
 import net.opengis.gml.x32.DiscreteCoverageType;
 import net.opengis.gml.x32.DomainSetType;

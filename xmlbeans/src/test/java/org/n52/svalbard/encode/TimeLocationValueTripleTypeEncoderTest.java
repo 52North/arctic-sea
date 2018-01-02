@@ -34,8 +34,8 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 
 import eu.europa.ec.inspire.schemas.omso.x30.CategoricalTimeLocationValueTripleType;
 import eu.europa.ec.inspire.schemas.omso.x30.MeasurementTimeLocationValueTripleType;
