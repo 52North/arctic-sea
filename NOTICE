@@ -62,7 +62,6 @@ This project includes:
   JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache 2
   JSR166e under CC0 1.0 Universal
-  JTS Topology Suite under Lesser General Public License (LGPL)
   JUnit under Eclipse Public License 1.0
   Lucene Common Analyzers under Apache 2
   Lucene Core under Apache 2
@@ -82,6 +81,7 @@ This project includes:
   mockito-core under The MIT License
   Netty under Apache License, Version 2.0
   Objenesis under Apache 2
+  org.locationtech.jts:jts-core under Eclipse Publish License, Version 1.0 or Eclipse Distribution License - v 1.0
   SLF4J API Module under MIT License
   SLF4J Simple Binding under MIT License
   SnakeYAML under Apache License Version 2.0
