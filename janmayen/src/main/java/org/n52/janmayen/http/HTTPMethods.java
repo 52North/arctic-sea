@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2016-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,6 +32,7 @@ public interface HTTPMethods {
     String HEAD = "HEAD";
     String POST = "POST";
     String PUT = "PUT";
+    String PATCH = "PATCH";
     String DELETE = "DELETE";
     String TRACE = "TRACE";
     String OPTIONS = "OPTIONS";
