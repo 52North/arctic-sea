@@ -46,7 +46,7 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;

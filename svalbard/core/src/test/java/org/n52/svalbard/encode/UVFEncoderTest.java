@@ -64,8 +64,8 @@ import org.n52.shetland.util.JTSHelper;
 import org.n52.shetland.uvf.UVFConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.io.ParseException;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

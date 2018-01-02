@@ -54,7 +54,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
 
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.io.ParseException;
 
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.sampling.x20.SFSamplingFeatureDocument;

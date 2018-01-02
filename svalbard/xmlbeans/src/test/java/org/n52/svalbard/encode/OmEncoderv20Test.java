@@ -71,7 +71,7 @@ import org.w3c.dom.Node;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterators;
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.io.ParseException;
 
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.sampling.x20.SFSamplingFeatureDocument;

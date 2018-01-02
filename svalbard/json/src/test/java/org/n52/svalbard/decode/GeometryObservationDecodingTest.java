@@ -41,9 +41,9 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.ObservationDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
 
 /**
  * TODO JavaDoc
