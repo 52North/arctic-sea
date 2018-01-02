@@ -25,7 +25,7 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 public class EnvironmentalMonitoringFacility
         extends AbstractMonitoringFeature {

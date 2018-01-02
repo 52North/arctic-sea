@@ -25,7 +25,7 @@ import org.junit.Test;
 
 import org.n52.shetland.util.ReferencedEnvelope;
 
-import com.vividsolutions.jts.geom.Envelope;
+import org.locationtech.jts.geom.Envelope;
 
 /**
  * @since 1.0.0

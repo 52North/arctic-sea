@@ -21,7 +21,7 @@ import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.util.JavaHelper;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Geometry measurement representation for observation

@@ -27,7 +27,7 @@ import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.util.ReferencedEnvelope;
 
-import com.vividsolutions.jts.geom.Envelope;
+import org.locationtech.jts.geom.Envelope;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

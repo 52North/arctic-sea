@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 /**
  * SOS internal representation of SensorML location

@@ -39,10 +39,10 @@ This project includes:
   javax.inject under The Apache Software License, Version 2.0
   JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache 2
-  JTS Topology Suite under Lesser General Public License (LGPL)
   JUnit under Eclipse Public License 1.0
   mockito-core under The MIT License
   Objenesis under Apache 2
+  org.locationtech.jts:jts-core under Eclipse Publish License, Version 1.0 or Eclipse Distribution License - v 1.0
   SLF4J API Module under MIT License
   SLF4J Simple Binding under MIT License
   Spring Core under Apache License, Version 2.0
