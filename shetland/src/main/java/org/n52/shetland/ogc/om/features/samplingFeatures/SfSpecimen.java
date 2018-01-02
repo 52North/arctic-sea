@@ -27,7 +27,7 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Lists;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 public class SfSpecimen
         extends SamplingFeature {

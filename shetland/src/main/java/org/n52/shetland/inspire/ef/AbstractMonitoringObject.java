@@ -30,7 +30,7 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 public abstract class AbstractMonitoringObject
         extends AbstractFeature

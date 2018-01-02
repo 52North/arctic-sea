@@ -17,7 +17,7 @@
 package org.n52.shetland.ogc.gml;
 
 import com.google.common.base.Strings;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 public interface FeatureWith {
 

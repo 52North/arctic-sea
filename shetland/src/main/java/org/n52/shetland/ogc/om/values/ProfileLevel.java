@@ -30,7 +30,7 @@ import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 
 import com.google.common.collect.Lists;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Represents the level of a profile

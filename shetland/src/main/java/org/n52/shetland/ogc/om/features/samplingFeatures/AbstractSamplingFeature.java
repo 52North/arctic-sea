@@ -34,7 +34,7 @@ import org.n52.shetland.util.JavaHelper;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 public abstract class AbstractSamplingFeature
         extends AbstractFeature

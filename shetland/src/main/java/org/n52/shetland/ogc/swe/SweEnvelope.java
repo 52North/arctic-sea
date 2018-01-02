@@ -26,8 +26,8 @@ import org.n52.shetland.util.ReferencedEnvelope;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.Envelope;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Envelope;
 
 /**
  * @since 1.0.0

@@ -20,7 +20,7 @@ import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.util.ReferencedEnvelope;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Spatial filter class

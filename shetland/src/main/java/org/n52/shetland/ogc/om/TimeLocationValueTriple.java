@@ -24,7 +24,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.values.Value;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Class that hold the time, the location and the value.

@@ -16,7 +16,7 @@
  */
 package org.n52.shetland.ogc.gml;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 public class AbstractGeometry extends AbstractGML {
     /**
