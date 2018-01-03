@@ -178,7 +178,7 @@ public class JTSHelper {
             return null;
         }
         @SuppressWarnings("unchecked")
-        G geom = (G) geometry.clone();
+        G geom = (G) geometry.copy();
         geom.apply(COORDINATE_SWITCHING_FILTER);
         geom.geometryChanged();
         return geom;
