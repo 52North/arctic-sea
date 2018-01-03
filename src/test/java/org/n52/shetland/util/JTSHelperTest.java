@@ -175,7 +175,7 @@ public class JTSHelperTest extends JTSHelper {
 
     @Test
     public void shouldReverseUnknownGeometry() throws OwsExceptionReport {
-        testReverse(getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(5)));
+        testReverse(new UnknownGeometry(getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(5))));
     }
 
     protected void testReverse(Geometry geometry) throws OwsExceptionReport {
