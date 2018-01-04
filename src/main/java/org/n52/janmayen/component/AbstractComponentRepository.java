@@ -106,6 +106,22 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
      * Create a map with {@code Producer}s for the supplied {@code components} and {@code factories}. Components or
      * factories with the same keys are discarded.
      *
+     * @param components the component instances
+     * @param factories  the component factories
+     *
+     * @return the producers
+     */
+    protected Map<K, Producer<C>> getUniqueProviders(Optional<? extends Collection<? extends C>> components,
+                                                     Optional<? extends Collection<? extends F>> factories) {
+        Collection<? extends C> c = components.isPresent() ? components.get() : Collections.emptyList();
+        Collection<? extends F> f = factories.isPresent() ? factories.get() : Collections.emptyList();
+        return getUniqueProviders(c, f);
+    }
+
+    /**
+     * Create a map with {@code Producer}s for the supplied {@code components} and {@code factories}. Components or
+     * factories with the same keys are discarded.
+     *
      * @param components the component instances (may be {@code null} or empty)
      * @param factories  the component factories (may be {@code null} or empty)
      *
