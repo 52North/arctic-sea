@@ -19,12 +19,14 @@ package org.n52.iceland.convert;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
@@ -32,7 +34,6 @@ import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
-@SuppressWarnings("rawtypes")
 public class RequestResponseModifierRepository
         extends
         AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory>
@@ -44,11 +45,12 @@ public class RequestResponseModifierRepository
     private final Map<RequestResponseModifierKey, Set<Producer<RequestResponseModifier>>> requestResponseModifier
             = new HashMap<>();
 
-    @Autowired(required = false)
-    private Collection<RequestResponseModifier> components;
+    @Inject
+    private Optional<Collection<RequestResponseModifier>> components = Optional.of(Collections.emptyList());
 
-    @Autowired(required = false)
-    private Collection<RequestResponseModifierFactory> componentFactories;
+    @Inject
+    private Optional<Collection<RequestResponseModifierFactory>> componentFactories =
+            Optional.of(Collections.emptyList());
 
     @Override
     public void init() {

@@ -17,10 +17,12 @@
 package org.n52.iceland.request.handler;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.Producers;
@@ -40,16 +42,16 @@ public class OperationHandlerRepository
     @Deprecated
     private static OperationHandlerRepository instance;
     private final Map<OperationHandlerKey, Producer<OperationHandler>> operationHandlers = new HashMap<>();
-    private Collection<OperationHandler> components;
-    private Collection<OperationHandlerFactory> componentFactories;
+    private Optional<Collection<OperationHandler>> components = Optional.of(Collections.emptyList());
+    private Optional<Collection<OperationHandlerFactory>> componentFactories = Optional.of(Collections.emptyList());
 
-    @Autowired(required = false)
-    public void setComponents(Collection<OperationHandler> components) {
+    @Inject
+    public void setComponents(Optional<Collection<OperationHandler>> components) {
         this.components = components;
     }
 
-    @Autowired(required = false)
-    public void setComponentFactories(Collection<OperationHandlerFactory> componentFactories) {
+    @Inject
+    public void setComponentFactories(Optional<Collection<OperationHandlerFactory>> componentFactories) {
         this.componentFactories = componentFactories;
     }
 

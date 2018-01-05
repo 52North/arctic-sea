@@ -20,11 +20,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
@@ -55,10 +56,10 @@ public class RequestOperatorRepository
 
     private final ActivationListeners<RequestOperatorKey> activation = new ActivationListeners<>(true);
 
-    @Autowired(required = false)
-    private Collection<RequestOperator> components;
-    @Autowired(required = false)
-    private Collection<RequestOperatorFactory> componentFactories;
+    @Inject
+    private Optional<Collection<RequestOperator>> components = Optional.of(Collections.emptyList());
+    @Inject
+    private Optional<Collection<RequestOperatorFactory>> componentFactories = Optional.of(Collections.emptyList());
 
     @Override
     public void init() {
