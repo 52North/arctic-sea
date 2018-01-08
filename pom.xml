@@ -244,7 +244,7 @@
                 <version>1</version>
             </dependency>
             
-            <!-- Google -->
+            <!-- Findbugs -->
             <dependency>
                 <groupId>com.google.code.findbugs</groupId>
                 <artifactId>jsr305</artifactId>
@@ -255,6 +255,8 @@
                 <artifactId>findbugs-annotations</artifactId>
                 <version>${version.findbugs}</version>
             </dependency>
+
+            <!-- Guava -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

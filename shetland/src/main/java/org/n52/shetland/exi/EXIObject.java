@@ -19,10 +19,13 @@ package org.n52.shetland.exi;
 import java.io.OutputStream;
 
 /**
- * Class to hold the {@link XmlObject} which should be encoded and written to the {@link OutputStream}.
+ * Class to hold the XML object which should be encoded and written to the {@link OutputStream}.
+ *
+ * @param <T> the type of the xml object
+ *
+ * @since 1.0.0
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since 1.0.0
  *
  */
 public class EXIObject<T> {

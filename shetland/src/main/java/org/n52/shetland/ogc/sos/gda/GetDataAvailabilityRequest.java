@@ -40,17 +40,13 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public class GetDataAvailabilityRequest
-        extends
-        OwsServiceRequest
-        implements
-        ResponseFormat,
-        SpatialFeatureQueryRequest {
+public class GetDataAvailabilityRequest extends OwsServiceRequest
+        implements ResponseFormat, SpatialFeatureQueryRequest {
 
     private List<String> procedures = new LinkedList<>();
-    private List<String> observedProperties = new LinkedList<>();
-    private List<String> featuresOfInterest = new LinkedList<>();
-    private List<String> offerings = new LinkedList<>();
+    private final List<String> observedProperties = new LinkedList<>();
+    private final List<String> featuresOfInterest = new LinkedList<>();
+    private final List<String> offerings = new LinkedList<>();
     private String namespace = GetDataAvailabilityConstants.NS_GDA_20;
     private String responseFormat;
 
@@ -97,8 +93,7 @@ public class GetDataAvailabilityRequest
     /**
      * Add a {@code procedure} to the request.
      *
-     * @param procedure
-     *                  the {@code procedure}
+     * @param procedure the {@code procedure}
      */
     public void addProcedure(String procedure) {
         this.procedures.add(procedure);
@@ -107,8 +102,7 @@ public class GetDataAvailabilityRequest
     /**
      * Add a {@code observedProperty} to the request.
      *
-     * @param observedProperty
-     *                         the {@code observedProperty}
+     * @param observedProperty the {@code observedProperty}
      */
     public void addObservedProperty(String observedProperty) {
         this.observedProperties.add(observedProperty);
@@ -117,8 +111,7 @@ public class GetDataAvailabilityRequest
     /**
      * Add a {@code featureOfInterest} to the request.
      *
-     * @param featureOfInterest
-     *                          the {@code featureOfInterest}
+     * @param featureOfInterest the {@code featureOfInterest}
      */
     public void addFeatureOfInterest(String featureOfInterest) {
         this.featuresOfInterest.add(featureOfInterest);
@@ -132,8 +125,7 @@ public class GetDataAvailabilityRequest
     /**
      * Add a {@code offering} to the request.
      *
-     * @param offering
-     *                 the {@code offering}
+     * @param offering the {@code offering}
      */
     public void addOffering(String offering) {
         this.offerings.add(offering);
@@ -198,9 +190,9 @@ public class GetDataAvailabilityRequest
     }
 
     public boolean hasResultFilter() {
-        return hasExtension(ResultFilterConstants.RESULT_FILTER)
-                && getExtension(ResultFilterConstants.RESULT_FILTER).isPresent()
-                && getExtension(ResultFilterConstants.RESULT_FILTER).get() instanceof ResultFilter;
+        return hasExtension(ResultFilterConstants.RESULT_FILTER) &&
+               getExtension(ResultFilterConstants.RESULT_FILTER).isPresent() &&
+               getExtension(ResultFilterConstants.RESULT_FILTER).get() instanceof ResultFilter;
     }
 
     public ComparisonFilter getResultFilter() {
@@ -216,18 +208,20 @@ public class GetDataAvailabilityRequest
     }
 
     public boolean hasSpatialFilter() {
-        return hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
-                && getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).isPresent()
-                && getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get() instanceof SosSpatialFilter;
+        return hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER) &&
+               getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).isPresent() &&
+               getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get() instanceof SosSpatialFilter;
     }
 
+    @Override
     public SpatialFilter getSpatialFilter() {
-        if (hasSpatialFilter()) {
-            return ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue();
+        if (!hasSpatialFilter()) {
+            return null;
         }
-        return null;
+        return ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue();
     }
 
+    @Override
     public void setSpatialFilter(SpatialFilter filter) {
         addExtension(new SosSpatialFilter(filter));
     }
@@ -239,6 +233,6 @@ public class GetDataAvailabilityRequest
 
     @Override
     public void setFeatureIdentifiers(List<String> featureIdentifiers) {
-       setFeatureOfInterest(featureIdentifiers);
+        setFeatureOfInterest(featureIdentifiers);
     }
 }
