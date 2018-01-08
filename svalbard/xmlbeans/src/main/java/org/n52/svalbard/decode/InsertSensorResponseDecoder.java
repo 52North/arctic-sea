@@ -19,7 +19,13 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
+import net.opengis.swes.x20.InsertSensorResponseDocument;
+import net.opengis.swes.x20.InsertSensorResponseType;
+
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.InsertSensorResponse;
@@ -28,13 +34,8 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-
-import net.opengis.swes.x20.InsertSensorResponseDocument;
-import net.opengis.swes.x20.InsertSensorResponseType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>

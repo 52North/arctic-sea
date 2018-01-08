@@ -38,11 +38,11 @@ public class RelatedPartyJSONDecoder
         RelatedParty relatedParty = new RelatedParty();
         relatedParty.setContact(decodeJsonToNillable(node.path(AQDJSONConstants.CONTACT), Contact.class));
         relatedParty.setIndividualName(
-                parseNillableString(node.path(AQDJSONConstants.INDIVIDUAL_NAME)).transform(this::parseFreeText));
+                parseNillableString(node.path(AQDJSONConstants.INDIVIDUAL_NAME)).map(this::parseFreeText));
         relatedParty.setOrganisationName(
-                parseNillableString(node.path(AQDJSONConstants.ORGANISATION_NAME)).transform(this::parseFreeText));
+                parseNillableString(node.path(AQDJSONConstants.ORGANISATION_NAME)).map(this::parseFreeText));
         relatedParty.setPositionName(
-                parseNillableString(node.path(AQDJSONConstants.POSITION_NAME)).transform(this::parseFreeText));
+                parseNillableString(node.path(AQDJSONConstants.POSITION_NAME)).map(this::parseFreeText));
         for (JsonNode n : node.path(AQDJSONConstants.ROLES)) {
             relatedParty.addRole(parseNillableReference(n));
         }

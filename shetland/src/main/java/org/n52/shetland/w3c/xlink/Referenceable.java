@@ -17,12 +17,10 @@
 package org.n52.shetland.w3c.xlink;
 
 import java.net.URI;
+import java.util.Objects;
+import java.util.function.Function;
 
 import org.n52.shetland.w3c.Nillable;
-
-import com.google.common.base.Function;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
 
 public abstract class Referenceable<T> {
 
@@ -36,7 +34,12 @@ public abstract class Referenceable<T> {
 
     public abstract boolean isAbsent();
 
-    public abstract <X> Referenceable<X> transform(Function<T, X> fun);
+    public abstract <X> Referenceable<X> map(Function<T, X> fun);
+
+    @Deprecated
+    public <X> Referenceable<X> transform(Function<T, X> fun) {
+        return map(fun);
+    }
 
     @Override
     public abstract int hashCode();
@@ -64,7 +67,7 @@ public abstract class Referenceable<T> {
         private final Nillable<T> obj;
 
         Instance(Nillable<T> obj) {
-            this.obj = Preconditions.checkNotNull(obj);
+            this.obj = Objects.requireNonNull(obj);
         }
 
         @Override
@@ -95,7 +98,7 @@ public abstract class Referenceable<T> {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof Instance && Objects
-                   .equal(this.getInstance(), ((Instance) obj).getInstance());
+                   .equals(this.getInstance(), ((Instance) obj).getInstance());
         }
 
         @Override
@@ -109,10 +112,9 @@ public abstract class Referenceable<T> {
         }
 
         @Override
-        public <X> Referenceable<X> transform(Function<T, X> fun) {
-            return Referenceable.of(getInstance().transform(fun));
+        public <X> Referenceable<X> map(Function<T, X> fun) {
+            return Referenceable.of(getInstance().map(fun));
         }
-
     }
 
     private static class Ref extends Referenceable<Object> {
@@ -144,13 +146,13 @@ public abstract class Referenceable<T> {
 
         @Override
         public int hashCode() {
-            return Objects.hashCode(getReference());
+            return Objects.hash(getReference());
         }
 
         @Override
         public boolean equals(Object obj) {
             return obj instanceof Ref && Objects
-                   .equal(getReference(), ((Ref) obj).getReference());
+                   .equals(getReference(), ((Ref) obj).getReference());
         }
 
         @Override
@@ -169,7 +171,7 @@ public abstract class Referenceable<T> {
         }
 
         @Override
-        public <X> Referenceable<X> transform(Function<Object, X> fun) {
+        public <X> Referenceable<X> map(Function<Object, X> fun) {
             return cast();
         }
     }

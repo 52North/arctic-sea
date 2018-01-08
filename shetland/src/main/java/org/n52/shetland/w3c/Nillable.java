@@ -16,11 +16,9 @@
  */
 package org.n52.shetland.w3c;
 
+import java.util.Objects;
 import java.util.Optional;
-
-import com.google.common.base.Function;
-import com.google.common.base.Objects;
-import com.google.common.base.Preconditions;
+import java.util.function.Function;
 
 /**
  * Represents a tri-state object: can be nil (with an optional message), absent
@@ -76,7 +74,12 @@ public abstract class Nillable<T> {
      *
      * @return the {@code Nillable}
      */
-    public abstract <X> Nillable<X> transform(Function<? super T, X> fun);
+    @Deprecated
+    public <X> Nillable<X> transform(Function<? super T, X> fun) {
+        return map(fun);
+    }
+
+    public abstract <X> Nillable<X> map(Function<? super T, X> fun);
 
     /**
      * Checks if this {@code Nillable} is {@code null}.
@@ -268,7 +271,7 @@ public abstract class Nillable<T> {
         private final T obj;
 
         Present(T obj) {
-            this.obj = Preconditions.checkNotNull(obj);
+            this.obj = Objects.requireNonNull(obj);
         }
 
         @Override
@@ -297,7 +300,7 @@ public abstract class Nillable<T> {
         }
 
         @Override
-        public <X> Nillable<X> transform(Function<? super T, X> fun) {
+        public <X> Nillable<X> map(Function<? super T, X> fun) {
             return new Present<>(fun.apply(get()));
         }
 
@@ -309,7 +312,7 @@ public abstract class Nillable<T> {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof Present && Objects
-                   .equal(get(), ((Present) obj).get());
+                   .equals(get(), ((Present) obj).get());
         }
 
         @Override
@@ -356,7 +359,7 @@ public abstract class Nillable<T> {
         }
 
         @Override
-        public <X> Nillable<X> transform(Function<? super Object, X> fun) {
+        public <X> Nillable<X> map(Function<? super Object, X> fun) {
             return this.cast();
         }
 
@@ -368,7 +371,7 @@ public abstract class Nillable<T> {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof Nil && Objects
-                   .equal(getNilReason(), ((Nil) obj).getNilReason());
+                   .equals(getNilReason(), ((Nil) obj).getNilReason());
         }
 
         @SuppressWarnings("unchecked")
@@ -416,7 +419,7 @@ public abstract class Nillable<T> {
         }
 
         @Override
-        public <X> Nillable<X> transform(Function<? super Object, X> fun) {
+        public <X> Nillable<X> map(Function<? super Object, X> fun) {
             return this.cast();
         }
 
