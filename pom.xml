@@ -832,7 +832,7 @@
                     </includes>
                     <strictCheck>true</strictCheck>
                     <properties>
-                        <year>${inceptionYear}-${currentYear}</year>
+                        <year>${project.inceptionYear}-${currentYear}</year>
                     </properties>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
