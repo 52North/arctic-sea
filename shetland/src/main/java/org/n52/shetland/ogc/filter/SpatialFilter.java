@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,7 @@ import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.util.ReferencedEnvelope;
 
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 /**
  * Spatial filter class

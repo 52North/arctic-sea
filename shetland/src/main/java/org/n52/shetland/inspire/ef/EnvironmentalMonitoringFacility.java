@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 public class EnvironmentalMonitoringFacility
         extends AbstractMonitoringFeature {
