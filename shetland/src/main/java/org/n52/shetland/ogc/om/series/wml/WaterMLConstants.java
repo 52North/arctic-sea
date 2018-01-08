@@ -24,7 +24,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 
 /**
  * @since 1.0.0
- * @see http://www.opengeospatial.org/standards/waterml
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
  */
 public interface WaterMLConstants {
     String NS_WML_20 = "http://www.opengis.net/waterml/2.0";
