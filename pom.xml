@@ -812,9 +812,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>
-                                project.properties['currentYearDynamic'] = java.text.MessageFormat.format("{0,date,yyyy}", new java.util.Date())
-                            </source>
+                            <source>project.properties['currentYear'] = java.time.Year.now().toString()</source>
                         </configuration>
                     </execution>
                 </executions>
@@ -832,7 +830,7 @@
                     </includes>
                     <strictCheck>true</strictCheck>
                     <properties>
-                        <year>${project.inceptionYear}-${currentYearDynamic}</year>
+                        <year>${inceptionYear}-${currentYear}</year>
                     </properties>
                     <mapping>
                         <java>SLASHSTAR_STYLE</java>
