@@ -56,10 +56,10 @@ public class ResponseWriterRepository
             .synchronizedMap();
 
     @Autowired(required = false)
-    private Optional<Collection<ResponseWriter<?>>> components = Optional.of(Collections.emptyList());
+    private Optional<Collection<ResponseWriter<?>>> components = Optional.empty();
 
     @Autowired(required = false)
-    private Optional<Collection<ResponseWriterFactory>> componentFactories = Optional.of(Collections.emptyList());
+    private Optional<Collection<ResponseWriterFactory>> componentFactories = Optional.empty();
 
     @Override
     public void init() {

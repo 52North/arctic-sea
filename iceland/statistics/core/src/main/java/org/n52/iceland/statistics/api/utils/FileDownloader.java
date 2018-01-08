@@ -27,13 +27,15 @@ import java.util.Objects;
 
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FileDownloader {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileDownloader.class);
+
+    private FileDownloader() {
+    }
 
     /**
      * Download the url to the specified location
@@ -65,21 +67,17 @@ public class FileDownloader {
             outPath = file.getAbsolutePath().substring(0, file.getAbsolutePath().length() - 3);
         }
 
-        FileOutputStream out = null;
-        GzipCompressorInputStream gzFile = null;
-        try {
-            out = new FileOutputStream(outPath);
-            gzFile = new GzipCompressorInputStream(new BufferedInputStream(new FileInputStream(file)));
+        try (FileOutputStream fout = new FileOutputStream(outPath);
+             FileInputStream fin = new FileInputStream(file);
+             BufferedInputStream bin = new BufferedInputStream(fin);
+             GzipCompressorInputStream gzipin = new GzipCompressorInputStream(bin);) {
             int n = 0;
-            while (-1 != (n = gzFile.read(buff))) {
-                out.write(buff, 0, n);
+            while (-1 != (n = gzipin.read(buff))) {
+                fout.write(buff, 0, n);
             }
             LOG.debug("Extracted file path {}", outPath);
         } catch (IOException e) {
             throw e;
-        } finally {
-            IOUtils.closeQuietly(out);
-            IOUtils.closeQuietly(gzFile);
         }
     }
 

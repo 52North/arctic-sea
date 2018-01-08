@@ -351,7 +351,7 @@ public class UnknownGeometry extends Geometry {
 
     @Override
     public Geometry copy() {
-        return new UnknownGeometry((Geometry) geom.copy());
+        return new UnknownGeometry(geom.copy());
     }
 
     @Override

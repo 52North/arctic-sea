@@ -47,6 +47,11 @@ import org.apache.olingo.server.api.uri.queryoption.expression.MethodKind;
 import org.apache.olingo.server.api.uri.queryoption.expression.UnaryOperatorKind;
 import org.apache.olingo.server.core.ODataImpl;
 import org.apache.olingo.server.core.uri.parser.Parser;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,11 +82,6 @@ import org.n52.svalbard.odata.expr.ValueExpr;
 
 import com.google.common.escape.Escaper;
 import com.google.common.net.PercentEscaper;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.PrecisionModel;
-import org.locationtech.jts.io.ParseException;
-import org.locationtech.jts.io.WKTReader;
 
 /**
  * Class to parse OData-based {@code $filter} expression into FES filters. See {@link ObservationCsdlEdmProvider} for

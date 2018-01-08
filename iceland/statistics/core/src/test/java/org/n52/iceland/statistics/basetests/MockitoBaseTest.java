@@ -17,7 +17,7 @@
 package org.n52.iceland.statistics.basetests;
 
 import org.junit.runner.RunWith;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public abstract class MockitoBaseTest {

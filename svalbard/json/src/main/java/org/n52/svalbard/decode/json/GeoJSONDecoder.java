@@ -16,13 +16,6 @@
  */
 package org.n52.svalbard.decode.json;
 
-import org.n52.svalbard.coding.json.GeoJSONDecodingException;
-import org.n52.svalbard.coding.json.JSONConstants;
-import org.n52.svalbard.coding.json.JSONValidator;
-import org.n52.svalbard.coding.json.SchemaConstants;
-import org.n52.svalbard.decode.exception.DecodingException;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryCollection;
@@ -35,6 +28,14 @@ import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
+
+import org.n52.svalbard.coding.json.GeoJSONDecodingException;
+import org.n52.svalbard.coding.json.JSONConstants;
+import org.n52.svalbard.coding.json.JSONValidator;
+import org.n52.svalbard.coding.json.SchemaConstants;
+import org.n52.svalbard.decode.exception.DecodingException;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * TODO JavaDoc
@@ -111,22 +112,23 @@ public class GeoJSONDecoder
         final JsonNode node = (JsonNode) o;
         final String type = getType(node);
         final GeometryFactory factory = getGeometryFactory(node, parentFactory);
-        if (type.equals(JSONConstants.POINT)) {
-            return decodePoint(node, factory);
-        } else if (type.equals(JSONConstants.MULTI_POINT)) {
-            return decodeMultiPoint(node, factory);
-        } else if (type.equals(JSONConstants.LINE_STRING)) {
-            return decodeLineString(node, factory);
-        } else if (type.equals(JSONConstants.MULTI_LINE_STRING)) {
-            return decodeMultiLineString(node, factory);
-        } else if (type.equals(JSONConstants.POLYGON)) {
-            return decodePolygon(node, factory);
-        } else if (type.equals(JSONConstants.MULTI_POLYGON)) {
-            return decodeMultiPolygon(node, factory);
-        } else if (type.equals(JSONConstants.GEOMETRY_COLLECTION)) {
-            return decodeGeometryCollection(node, factory);
-        } else {
-            throw new GeoJSONDecodingException("Unkown geometry type: " + type);
+        switch (type) {
+            case JSONConstants.POINT:
+                return decodePoint(node, factory);
+            case JSONConstants.MULTI_POINT:
+                return decodeMultiPoint(node, factory);
+            case JSONConstants.LINE_STRING:
+                return decodeLineString(node, factory);
+            case JSONConstants.MULTI_LINE_STRING:
+                return decodeMultiLineString(node, factory);
+            case JSONConstants.POLYGON:
+                return decodePolygon(node, factory);
+            case JSONConstants.MULTI_POLYGON:
+                return decodeMultiPolygon(node, factory);
+            case JSONConstants.GEOMETRY_COLLECTION:
+                return decodeGeometryCollection(node, factory);
+            default:
+                throw new GeoJSONDecodingException("Unkown geometry type: " + type);
         }
     }
 
@@ -150,7 +152,7 @@ public class GeoJSONDecoder
     protected MultiPoint decodeMultiPoint(JsonNode node, GeometryFactory fac)
             throws GeoJSONDecodingException {
         Coordinate[] coordinates = decodeCoordinates(requireCoordinates(node));
-        return fac.createMultiPoint(coordinates);
+        return fac.createMultiPointFromCoords(coordinates);
     }
 
     protected Point decodePoint(JsonNode node, GeometryFactory fac)
@@ -195,12 +197,13 @@ public class GeoJSONDecoder
         }
         String type = node.path(JSONConstants.CRS).path(JSONConstants.TYPE).textValue();
         JsonNode properties = node.path(JSONConstants.CRS).path(JSONConstants.PROPERTIES);
-        if (type.equals(JSONConstants.NAME)) {
-            return decodeNamedCRS(properties, factory);
-        } else if (type.equals(JSONConstants.LINK)) {
-            return decodeLinkedCRS(properties, factory);
-        } else {
-            throw new GeoJSONDecodingException("Unknown CRS type: " + type);
+        switch (type) {
+            case JSONConstants.NAME:
+                return decodeNamedCRS(properties, factory);
+            case JSONConstants.LINK:
+                return decodeLinkedCRS(properties, factory);
+            default:
+                throw new GeoJSONDecodingException("Unknown CRS type: " + type);
         }
     }
 

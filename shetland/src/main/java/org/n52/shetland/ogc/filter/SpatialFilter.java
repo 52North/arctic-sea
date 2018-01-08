@@ -16,11 +16,11 @@
  */
 package org.n52.shetland.ogc.filter;
 
+import org.locationtech.jts.geom.Geometry;
+
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.shetland.util.ReferencedEnvelope;
-
-import org.locationtech.jts.geom.Geometry;
 
 /**
  * Spatial filter class

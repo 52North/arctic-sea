@@ -34,6 +34,8 @@ import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class RequestResponseModifierRepository
         extends
         AbstractComponentRepository<RequestResponseModifierKey, RequestResponseModifier, RequestResponseModifierFactory>

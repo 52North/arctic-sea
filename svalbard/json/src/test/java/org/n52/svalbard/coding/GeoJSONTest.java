@@ -27,17 +27,6 @@ import java.util.Random;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
-
-import org.n52.svalbard.coding.json.GeoJSONDecodingException;
-import org.n52.svalbard.coding.json.SchemaConstants;
-import org.n52.svalbard.coding.json.matchers.ValidationMatchers;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.json.GeoJSONDecoder;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.json.GeoJSONEncoder;
-import org.n52.svalbard.encode.json.JSONEncodingException;
-
-import com.fasterxml.jackson.databind.JsonNode;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 import org.locationtech.jts.geom.CoordinateSequenceComparator;
@@ -56,6 +45,17 @@ import org.locationtech.jts.geom.MultiPolygon;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
+
+import org.n52.svalbard.coding.json.GeoJSONDecodingException;
+import org.n52.svalbard.coding.json.SchemaConstants;
+import org.n52.svalbard.coding.json.matchers.ValidationMatchers;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.json.GeoJSONDecoder;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.json.GeoJSONEncoder;
+import org.n52.svalbard.encode.json.JSONEncodingException;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * TODO JavaDoc
@@ -115,7 +115,7 @@ public class GeoJSONTest {
     }
 
     private MultiPoint randomMultiPoint(int srid) {
-        MultiPoint geometry = geometryFactory.createMultiPoint(new Coordinate[] { randomCoordinate(),
+        MultiPoint geometry = geometryFactory.createMultiPointFromCoords(new Coordinate[] { randomCoordinate(),
                 randomCoordinate(), randomCoordinate(), randomCoordinate(), randomCoordinate(), randomCoordinate() });
         geometry.setSRID(srid);
         return geometry;
