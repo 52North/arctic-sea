@@ -21,9 +21,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 /**
- * Represents a tri-state object: can be nil (with an optional message), absent
- * (or null) or present. {@link #isNil()}, {@link #isAbsent()} and
- * {@link #isPresent()} are mutually exclusive {@code true}.
+ * Represents a tri-state object: can be nil (with an optional message), absent (or null) or present.
+ * {@link #isNil()}, {@link #isAbsent()} and {@link #isPresent()} are mutually exclusive {@code true}.
  *
  * @author Christian Autermann
  * @param <T> the instance type
@@ -155,8 +154,7 @@ public abstract class Nillable<T> {
     }
 
     /**
-     * Creates a new {@code Nillable} that is {@code nil} because of optionally
-     * supplied reason.
+     * Creates a new {@code Nillable} that is {@code nil} because of optionally supplied reason.
      *
      * @param <T>    the type
      * @param reason the reason (may be {@code null})
@@ -201,8 +199,7 @@ public abstract class Nillable<T> {
     }
 
     /**
-     * Creates a new {@code Nillable}, that is nil because it is a template
-     * value.
+     * Creates a new {@code Nillable}, that is nil because it is a template value.
      *
      * @param <T> the type
      *
@@ -235,8 +232,7 @@ public abstract class Nillable<T> {
     }
 
     /**
-     * Creates a new {@code Nillable} that is either present (if {@code obj} is
-     * not {@code null}), or absent.
+     * Creates a new {@code Nillable} that is either present (if {@code obj} is not {@code null}), or absent.
      *
      * @param <T> the type
      * @param obj the object (may be {@code null})
@@ -248,8 +244,8 @@ public abstract class Nillable<T> {
     }
 
     /**
-     * Creates a new {@code Nillable} that is either present (if {@code obj} is
-     * not {@code null}), nil (if {@code reason} is not {@code null}) or absent.
+     * Creates a new {@code Nillable} that is either present (if {@code obj} is not {@code null}), nil (if
+     * {@code reason} is not {@code null}) or absent.
      *
      * @param <T>    the type
      * @param obj    the object (may be {@code null})
@@ -381,7 +377,7 @@ public abstract class Nillable<T> {
 
         @Override
         public String toString() {
-            return "Nillable.nil(\"" + getNilReason().orElse("null")+ "\")";
+            return "Nillable.nil(\"" + getNilReason().orElse("null") + "\")";
         }
     }
 
