@@ -33,7 +33,7 @@ public class EXIObject<T> {
     private final T doc;
 
     /**
-     * @param doc the {@link XmlObject} to encode
+     * @param doc the XML object to encode
      */
     public EXIObject(T doc) {
         this.doc = doc;
