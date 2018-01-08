@@ -9,7 +9,7 @@
 
 The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules.
 <p align="center">
-<img src="https://github.com/52North/arctic-sea/raw/master/overview.png" width='60%'/>
+<img src="https://github.com/52North/arctic-sea/raw/master/etc/overview.png" width='60%'/>
 </p>
 
 
