@@ -28,6 +28,7 @@ import org.n52.shetland.ogc.sos.ResultFilter;
 import org.n52.shetland.ogc.sos.ResultFilterConstants;
 import org.n52.shetland.ogc.sos.SosSpatialFilter;
 import org.n52.shetland.ogc.sos.SosSpatialFilterConstants;
+import org.n52.shetland.ogc.sos.request.SpatialFeatureQueryRequest;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
@@ -39,7 +40,12 @@ import com.google.common.base.Strings;
  *
  * @since 1.0.0
  */
-public class GetDataAvailabilityRequest extends OwsServiceRequest implements ResponseFormat {
+public class GetDataAvailabilityRequest
+        extends
+        OwsServiceRequest
+        implements
+        ResponseFormat,
+        SpatialFeatureQueryRequest {
 
     private List<String> procedures = new LinkedList<>();
     private List<String> observedProperties = new LinkedList<>();
@@ -222,8 +228,17 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest implements Res
         return null;
     }
 
-    public GetDataAvailabilityRequest setSpatialFilter(SpatialFilter filter) {
+    public void setSpatialFilter(SpatialFilter filter) {
         addExtension(new SosSpatialFilter(filter));
-        return this;
+    }
+
+    @Override
+    public List<String> getFeatureIdentifiers() {
+        return getFeaturesOfInterest();
+    }
+
+    @Override
+    public void setFeatureIdentifiers(List<String> featureIdentifiers) {
+       setFeatureOfInterest(featureIdentifiers);
     }
 }
