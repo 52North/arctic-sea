@@ -25,7 +25,7 @@ Svalbard consists of various decoders and encoders for OGC models like [SensorML
 
 Faroe is a configuration API currently featuring a JSON and a SQLite backend. It enables the injection and automatic configuration of settings of various types in classes, including a Spring `BeanPostprocessor`.
 
-#### Shetland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-seav/shetland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:shetland)
+#### Shetland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/shetland.svg)](https://search.maven.org/#search|gav|1|g:org.n52.arctic-sea%20AND%20a:shetland)
 
 Shetland compromises classes for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon) and various service requests and responses. These are shared accross different service implementations.
 
@@ -44,7 +44,7 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>3.0.0-SNAPSHOT</version.iceland>
+  <version.arctic-sea>3.0.0</version.iceland>
 </properties>
 <dependencies>
   <dependency>
@@ -140,6 +140,9 @@ Development versions can be optained from the Sonatype OSS snapshot repository:
     </snapshots>
   </repository>
 </repositories>
+<properties>
+  <version.arctic-sea>3.1.0-SNAPSHOT</version.iceland>
+</properties>
 ```
 
 For details on how to use the components, consult their respective documentation.
