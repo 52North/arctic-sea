@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -56,10 +56,10 @@ public class ResponseWriterRepository
             .synchronizedMap();
 
     @Autowired(required = false)
-    private Collection<ResponseWriter<?>> components;
+    private Optional<Collection<ResponseWriter<?>>> components = Optional.of(Collections.emptyList());
 
     @Autowired(required = false)
-    private Collection<ResponseWriterFactory> componentFactories;
+    private Optional<Collection<ResponseWriterFactory>> componentFactories = Optional.of(Collections.emptyList());
 
     @Override
     public void init() {

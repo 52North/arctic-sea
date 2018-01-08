@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,11 +20,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
@@ -57,10 +58,10 @@ public class RequestOperatorRepository
 
     private final ActivationListeners<RequestOperatorKey> activation = new ActivationListeners<>(true);
 
-    @Autowired(required = false)
-    private Collection<RequestOperator> components;
-    @Autowired(required = false)
-    private Collection<RequestOperatorFactory> componentFactories;
+    @Inject
+    private Optional<Collection<RequestOperator>> components = Optional.of(Collections.emptyList());
+    @Inject
+    private Optional<Collection<RequestOperatorFactory>> componentFactories = Optional.of(Collections.emptyList());
 
     @Override
     public void init() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +21,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
@@ -37,6 +36,8 @@ import org.n52.janmayen.Producers;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.lifecycle.Constructable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
@@ -62,16 +63,16 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
     private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
     private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
 
-    private Collection<Binding> components;
-    private Collection<BindingFactory> componentFactories;
+    private Optional<Collection<Binding>> components;
+    private Optional<Collection<BindingFactory>> componentFactories;
 
-    @Autowired(required = false)
-    public void setComponentFactories(Collection<BindingFactory> componentFactories) {
+    @Inject
+    public void setComponentFactories(Optional<Collection<BindingFactory>> componentFactories) {
         this.componentFactories = componentFactories;
     }
 
-    @Autowired(required = false)
-    public void setComponents(Collection<Binding> components) {
+    @Inject
+    public void setComponents(Optional<Collection<Binding>> components) {
         this.components = components;
     }
 

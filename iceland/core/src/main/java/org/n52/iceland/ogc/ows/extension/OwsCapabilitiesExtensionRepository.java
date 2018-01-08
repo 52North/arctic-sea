@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,6 +19,7 @@ package org.n52.iceland.ogc.ows.extension;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -28,8 +29,6 @@ import java.util.Set;
 import java.util.stream.Stream;
 
 import javax.inject.Inject;
-
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.n52.iceland.request.operator.RequestOperatorKey;
 import org.n52.iceland.request.operator.RequestOperatorRepository;
@@ -63,10 +62,11 @@ public class OwsCapabilitiesExtensionRepository
     private final Map<OwsCapabilitiesExtensionKey, Set<Producer<OwsCapabilitiesExtensionProvider>>> providers
             = new HashMap<>();
 
-    @Autowired(required = false)
-    private Collection<OwsCapabilitiesExtensionProvider> components;
-    @Autowired(required = false)
-    private Collection<OwsCapabilitiesExtensionProviderFactory> componentFactories;
+    @Inject
+    private Optional<Collection<OwsCapabilitiesExtensionProvider>> components = Optional.of(Collections.emptyList());
+    @Inject
+    private Optional<Collection<OwsCapabilitiesExtensionProviderFactory>> componentFactories =
+            Optional.of(Collections.emptyList());
 
     @Override
     public void init() {

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,10 +25,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
@@ -53,10 +54,10 @@ public class ServiceOperatorRepository
     private final Map<OwsServiceKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
     private final Map<String, Set<String>> supportedVersions = Maps.newHashMap();
 
-    @Autowired(required = false)
-    private Collection<ServiceOperator> components;
-    @Autowired(required = false)
-    private Collection<ServiceOperatorFactory> componentFactories;
+    @Inject
+    private Optional<Collection<ServiceOperator>> components = Optional.of(Collections.emptyList());
+    @Inject
+    private Optional<Collection<ServiceOperatorFactory>> componentFactories = Optional.of(Collections.emptyList());
 
     @Override
     public void init() {

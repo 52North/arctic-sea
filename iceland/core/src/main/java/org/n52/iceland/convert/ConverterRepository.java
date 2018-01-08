@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,12 +17,14 @@
 package org.n52.iceland.convert;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
@@ -44,19 +46,19 @@ public class ConverterRepository
     @Deprecated
     private static ConverterRepository instance;
 
-    private Collection<Converter<?, ?>> components;
-    private Collection<ConverterFactory> componentFactories;
+    private Optional<Collection<Converter<?, ?>>> components = Optional.of(Collections.emptyList());
+    private Optional<Collection<ConverterFactory>> componentFactories = Optional.of(Collections.emptyList());
 
     private final Map<ConverterKey, Producer<Converter<?, ?>>> converter
             = new HashMap<>(0);
 
-    @Autowired(required = false)
-    public void setComponentFactories(Collection<ConverterFactory> componentFactories) {
+    @Inject
+    public void setComponentFactories(Optional<Collection<ConverterFactory>> componentFactories) {
         this.componentFactories = componentFactories;
     }
 
-    @Autowired(required = false)
-    public void setComponents(Collection<Converter<?, ?>> components) {
+    @Inject
+    public void setComponents(Optional<Collection<Converter<?, ?>>> components) {
         this.components = components;
     }
 

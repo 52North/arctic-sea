@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,9 +27,10 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.iceland.util.activation.Activatables;
 import org.n52.iceland.util.activation.ActivationListener;
@@ -66,11 +67,13 @@ public class OwsOperationMetadataExtensionProviderRepository
     private final Map<OwsOperationMetadataExtensionProviderKey, Producer<OwsOperationMetadataExtensionProvider>>
             extendedCapabilitiesProvider = new HashMap<>();
 
-    @Autowired(required = false)
-    private Collection<OwsOperationMetadataExtensionProvider> components;
+    @Inject
+    private Optional<Collection<OwsOperationMetadataExtensionProvider>> components =
+            Optional.of(Collections.emptyList());
 
-    @Autowired(required = false)
-    private Collection<OwsOperationMetadataExtensionProviderFactory> componentFactories;
+    @Inject
+    private Optional<Collection<OwsOperationMetadataExtensionProviderFactory>> componentFactories =
+            Optional.of(Collections.emptyList());
 
     private final ActivationListeners<OwsOperationMetadataExtensionProviderKey> activations
             = new ActivationListeners<>(true);

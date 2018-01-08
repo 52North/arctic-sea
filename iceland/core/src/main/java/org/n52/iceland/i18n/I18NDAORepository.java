@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +17,11 @@
 package org.n52.iceland.i18n;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.inject.Inject;
 
 import org.n52.iceland.i18n.metadata.AbstractI18NMetadata;
 import org.n52.janmayen.Producer;
@@ -38,10 +40,10 @@ public class I18NDAORepository extends AbstractComponentRepository<I18NDAOKey, I
         implements Constructable {
     private final Map<I18NDAOKey, Producer<I18NDAO<?>>> daos = Maps.newHashMap();
 
-    @Autowired(required = false)
-    private Collection<I18NDAO<?>> components;
-    @Autowired(required = false)
-    private Collection<I18NDAOFactory> componentFactories;
+    @Inject
+    private Optional<Collection<I18NDAO<?>>> components = Optional.of(Collections.emptyList());
+    @Inject
+    private Optional<Collection<I18NDAOFactory>> componentFactories = Optional.of(Collections.emptyList());
 
     @Override
     public void init() {
