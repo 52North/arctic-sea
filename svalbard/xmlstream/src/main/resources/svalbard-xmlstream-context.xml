@@ -1,0 +1,59 @@
+<!--
+
+    Copyright 2015-2018 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+    <!-- reader -->
+    <bean class="org.n52.svalbard.read.AddressAreaReader"/>
+    <bean class="org.n52.svalbard.read.AddressReader"/>
+    <bean class="org.n52.svalbard.read.AddressRepresentationReader"/>
+    <bean class="org.n52.svalbard.read.AdminUnitReader"/>
+    <bean class="org.n52.svalbard.read.CodeTypeReader"/>
+    <bean class="org.n52.svalbard.read.ContactReader"/>
+    <bean class="org.n52.svalbard.read.FreeTextReader"/>
+    <bean class="org.n52.svalbard.read.GeographicalNameReader"/>
+    <bean class="org.n52.svalbard.read.InpireIDReader"/>
+    <bean class="org.n52.svalbard.read.LocatorNameReader"/>
+    <bean class="org.n52.svalbard.read.NillableCodeTypeReader"/>
+    <bean class="org.n52.svalbard.read.NillableContactReader"/>
+    <bean class="org.n52.svalbard.read.NillableFreeTextReader"/>
+    <bean class="org.n52.svalbard.read.NillableGeographicalNameReader"/>
+    <bean class="org.n52.svalbard.read.NillableReferenceReader"/>
+    <bean class="org.n52.svalbard.read.NillableStringReader"/>
+    <bean class="org.n52.svalbard.read.PostNameReader"/>
+    <bean class="org.n52.svalbard.read.PronounciationReader"/>
+    <bean class="org.n52.svalbard.read.PronunciationOfNameReader"/>
+    <bean class="org.n52.svalbard.read.ReferenceableFeatureReader"/>
+    <bean class="org.n52.svalbard.read.ReferenceReader"/>
+    <bean class="org.n52.svalbard.read.RelatedPartyReader"/>
+    <bean class="org.n52.svalbard.read.ReportingAuthorityReader"/>
+    <bean class="org.n52.svalbard.read.ReportingHeaderReader"/>
+    <bean class="org.n52.svalbard.read.ReportingPeriodReader"/>
+    <bean class="org.n52.svalbard.read.SpellingOfNameReader"/>
+    <bean class="org.n52.svalbard.read.SpellingReader"/>
+    <bean class="org.n52.svalbard.read.StringReader"/>
+    <bean class="org.n52.svalbard.read.ThoroughfareReader"/>
+    <bean class="org.n52.svalbard.read.TimeInstantReader"/>
+    <bean class="org.n52.svalbard.read.TimePeriodReader"/>
+    <bean class="org.n52.svalbard.read.TimeReader"/>
+
+    <!-- writer -->
+
+</beans>

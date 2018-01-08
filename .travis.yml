@@ -1,0 +1,15 @@
+language: java
+jdk:
+- oraclejdk8
+install: true
+script: mvn -fae -U -B clean install -P check
+after_success:
+- curl -Ls https://git.io/deploy-maven-snapshot | bash
+- curl -Ls https://git.io/trigger-build | bash -s -- 52North/sos feature/5.x
+- curl -Ls https://git.io/trigger-build | bash -s -- 52North/javaPS
+cache:
+  directories:
+  - "$HOME/.m2"
+notifications:
+  slack:
+    secure: roF0KDMEq9UEJlNCT4ZZPuZ159c2bCy2ASZlY7w6Jmk6S4it4Lp5PkPn4wle2p6vV0R72oFaxO0LBGHL09d4hWajZlhoApnd2wcvBPQTjyM/P9bQPEHHW7vxw9Eqqf0nyEYXJNPI5Czheq8TFDjTS+tCDX44Ad4q1OC/eshpv7KVA4rkcRR3JkZ8KU0M35qXz/S08jBfY8F8cd/iwKtzQIgMBnz/tpfMkjnAJcVY3eIAMzLWnI9cBjHlHy6oeAFnuypI2Fft/N7rVOQkxG48P5KSsoh1qygqaYX4ARtGYAFU++62wD4GlfEvszMAvnnDqbZiAfUE6pcwvBN70k4Wr2Ii9kOyyMYA4n4MAeTqkQmNMjptFt2+JUPptEQiy5dt/TaghSfJAwnWQD6O6DSfsVP7vxBijcj1tGATweDSo144RwNeyOghSPx1/GIB+UbuzI8FfBzerjELj+qZET3ZQ6VJLY7cvzGlWWJHXb0eMTnlXVXKqpqVQeDEQfNp5vlYxBhH6hUbPz5l4USgQAJOyKKG5cnrh2HpyHw4oaHM++mAWDECuSi5qgPtRLXgBf/+B4I4kjqfc9cilgOdEq65h+XR8zT9GLwr3NkW4sF20dzL9xLx4HQNto7qUZ8nH09nNJBK8GHnaQPfBfSpM90qSzuz1QIXzBuscEBJOmd8Y1c=
