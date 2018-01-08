@@ -16,12 +16,25 @@
  */
 package org.n52.svalbard.encode;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.sampling.x20.SFProcessPropertyType;
+import net.opengis.samplingSpecimen.x20.LocationPropertyType;
+import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;
+import net.opengis.samplingSpecimen.x20.SFSpecimenType;
+import net.opengis.samplingSpecimen.x20.SFSpecimenType.Size;
+
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
+
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -31,25 +44,17 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.SfSpecimen;
 import org.n52.shetland.ogc.sos.FeatureType;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Show;
+import org.n52.shetland.w3c.xlink.Type;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
-
-import net.opengis.sampling.x20.SFProcessPropertyType;
-import net.opengis.samplingSpecimen.x20.LocationPropertyType;
-import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;
-import net.opengis.samplingSpecimen.x20.SFSpecimenType;
-import net.opengis.samplingSpecimen.x20.SFSpecimenType.Size;
 
 public class SpecimenEncoderv20
         extends SamplingEncoderv20 {
@@ -162,29 +167,16 @@ public class SpecimenEncoderv20
             if (!specimen.getSamplingMethod().getInstance().isPresent()) {
                 sfst.addNewSamplingMethod()
                         .setHref(specimen.getSamplingMethod().getReference().getHref().get().toString());
-                Reference ref = specimen.getCurrentLocation().getReference();
+                Reference reference = specimen.getCurrentLocation().getReference();
                 SFProcessPropertyType sfppt = sfst.addNewSamplingMethod();
-                if (ref.getHref().isPresent()) {
-                    sfppt.setHref(ref.getHref().get().toString());
-                }
-                if (ref.getTitle().isPresent()) {
-                    sfppt.setTitle(ref.getTitle().get());
-                }
-                if (ref.getActuate().isPresent()) {
-                    sfppt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
-                }
-                if (ref.getArcrole().isPresent()) {
-                    sfppt.setArcrole(ref.getArcrole().get());
-                }
-                if (ref.getRole().isPresent()) {
-                    sfppt.setRole(ref.getRole().get());
-                }
-                if (ref.getShow().isPresent()) {
-                    sfppt.setShow(ShowType.Enum.forString(ref.getShow().get()));
-                }
-                if (ref.getType().isPresent()) {
-                    sfppt.setType(TypeType.Enum.forString(ref.getType().get()));
-                }
+                reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                        .ifPresent(sfppt::setActuate);
+                reference.getArcrole().ifPresent(sfppt::setArcrole);
+                reference.getHref().map(URI::toString).ifPresent(sfppt::setHref);
+                reference.getRole().ifPresent(sfppt::setRole);
+                reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(sfppt::setShow);
+                reference.getTitle().ifPresent(sfppt::setTitle);
+                reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(sfppt::setType);
             }
         }
     }
@@ -218,29 +210,16 @@ public class SpecimenEncoderv20
     private void addCurrentLocation(SFSpecimenType sfst, SfSpecimen specimen) {
         if (specimen.isSetCurrentLocation()) {
             if (!specimen.getCurrentLocation().getInstance().isPresent()) {
-                Reference ref = specimen.getCurrentLocation().getReference();
+                Reference reference = specimen.getCurrentLocation().getReference();
                 LocationPropertyType lpt = sfst.addNewCurrentLocation();
-                if (ref.getHref().isPresent()) {
-                    lpt.setHref(ref.getHref().get().toString());
-                }
-                if (ref.getTitle().isPresent()) {
-                    lpt.setTitle(ref.getTitle().get());
-                }
-                if (ref.getActuate().isPresent()) {
-                    lpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
-                }
-                if (ref.getArcrole().isPresent()) {
-                    lpt.setArcrole(ref.getArcrole().get());
-                }
-                if (ref.getRole().isPresent()) {
-                    lpt.setRole(ref.getRole().get());
-                }
-                if (ref.getShow().isPresent()) {
-                    lpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
-                }
-                if (ref.getType().isPresent()) {
-                    lpt.setType(TypeType.Enum.forString(ref.getType().get()));
-                }
+                reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                        .ifPresent(lpt::setActuate);
+                reference.getArcrole().ifPresent(lpt::setArcrole);
+                reference.getHref().map(URI::toString).ifPresent(lpt::setHref);
+                reference.getRole().ifPresent(lpt::setRole);
+                reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(lpt::setShow);
+                reference.getTitle().ifPresent(lpt::setTitle);
+                reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(lpt::setType);
             }
         }
     }

@@ -41,7 +41,7 @@ public class NillableJSONEncoder extends JSONEncoder<Nillable<?>> {
         } else if (t.isNil()) {
             return nodeFactory().objectNode()
                     .put(AQDJSONConstants.NIL, true)
-                    .put(AQDJSONConstants.REASON, t.getNilReason().orNull());
+                    .put(AQDJSONConstants.REASON, t.getNilReason().orElse(null));
         } else {
             return encodeObjectToJson(t.get());
         }

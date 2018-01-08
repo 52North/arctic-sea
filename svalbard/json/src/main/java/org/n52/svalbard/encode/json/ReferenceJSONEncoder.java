@@ -42,7 +42,7 @@ public class ReferenceJSONEncoder extends JSONEncoder<Reference> {
             ref.put(AQDJSONConstants.HREF, t.getHref().get().toString());
         }
         if (t.getActuate().isPresent()) {
-            ref.put(AQDJSONConstants.ACTUATE, t.getActuate().get());
+            ref.put(AQDJSONConstants.ACTUATE, t.getActuate().get().toString());
         }
         if (t.getArcrole().isPresent()) {
             ref.put(AQDJSONConstants.ARCROLE, t.getArcrole().get());
@@ -54,13 +54,13 @@ public class ReferenceJSONEncoder extends JSONEncoder<Reference> {
             ref.put(AQDJSONConstants.ROLE, t.getRole().get());
         }
         if (t.getShow().isPresent()) {
-            ref.put(AQDJSONConstants.SHOW, t.getShow().get());
+            ref.put(AQDJSONConstants.SHOW, t.getShow().get().toString());
         }
         if (t.getTitle().isPresent()) {
             ref.put(AQDJSONConstants.TITLE, t.getTitle().get());
         }
         if (t.getType().isPresent()) {
-            ref.put(AQDJSONConstants.TYPE, t.getType().get());
+            ref.put(AQDJSONConstants.TYPE, t.getType().get().toString());
         }
         return ref;
     }

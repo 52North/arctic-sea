@@ -16,11 +16,24 @@
  */
 package org.n52.svalbard.encode;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+
+import net.opengis.gml.x32.VerticalDatumPropertyType;
+import net.opengis.gml.x32.VerticalDatumType;
+import net.opengis.om.x20.OMObservationDocument;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.samplingSpatial.x20.ShapeType;
+import net.opengis.waterml.x20.CollectionDocument;
+import net.opengis.waterml.x20.CollectionType;
+import net.opengis.waterml.x20.MonitoringPointDocument;
+import net.opengis.waterml.x20.MonitoringPointType;
+import net.opengis.waterml.x20.ObservationProcessDocument;
+import net.opengis.waterml.x20.ObservationProcessType;
 
 import org.apache.xmlbeans.GDuration;
 import org.apache.xmlbeans.XmlException;
@@ -28,6 +41,13 @@ import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
 import org.isotc211.x2005.gmd.CIResponsiblePartyType;
 import org.joda.time.DateTime;
+import org.locationtech.jts.geom.Geometry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.iso.gmd.CiResponsibleParty;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -56,35 +76,20 @@ import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.w3c.Nillable;
+import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.shetland.w3c.xlink.Show;
+import org.n52.shetland.w3c.xlink.Type;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import org.locationtech.jts.geom.Geometry;
-
-import net.opengis.gml.x32.VerticalDatumPropertyType;
-import net.opengis.gml.x32.VerticalDatumType;
-import net.opengis.om.x20.OMObservationDocument;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.samplingSpatial.x20.ShapeType;
-import net.opengis.waterml.x20.CollectionDocument;
-import net.opengis.waterml.x20.CollectionType;
-import net.opengis.waterml.x20.MonitoringPointDocument;
-import net.opengis.waterml.x20.MonitoringPointType;
-import net.opengis.waterml.x20.ObservationProcessDocument;
-import net.opengis.waterml.x20.ObservationProcessType;
 
 /**
  * Abstract encoder class for WaterML 2.0
@@ -522,27 +527,14 @@ public abstract class AbstractWmlEncoderv20
             VerticalDatumPropertyType vdpt = mpt.addNewVerticalDatum();
             if (verticalDatum.isReference()) {
                 Reference reference = verticalDatum.getReference();
-                if (reference.getActuate().isPresent()) {
-                    vdpt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-                }
-                if (reference.getArcrole().isPresent()) {
-                    vdpt.setHref(reference.getArcrole().get());
-                }
-                if (reference.getHref().isPresent()) {
-                    vdpt.setHref(reference.getHref().get().toString());
-                }
-                if (reference.getRole().isPresent()) {
-                    vdpt.setRole(reference.getRole().get());
-                }
-                if (reference.getShow().isPresent()) {
-                    vdpt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-                }
-                if (reference.getTitle().isPresent()) {
-                    vdpt.setTitle(reference.getTitle().get());
-                }
-                if (reference.getType().isPresent()) {
-                    vdpt.setType(TypeType.Enum.forString(reference.getType().get()));
-                }
+                reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                        .ifPresent(vdpt::setActuate);
+                reference.getArcrole().ifPresent(vdpt::setArcrole);
+                reference.getHref().map(URI::toString).ifPresent(vdpt::setHref);
+                reference.getRole().ifPresent(vdpt::setRole);
+                reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(vdpt::setShow);
+                reference.getTitle().ifPresent(vdpt::setTitle);
+                reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(vdpt::setType);
             } else {
                 if (verticalDatum.isInstance()) {
                     Nillable<VerticalDatum> nillable = verticalDatum.getInstance();
@@ -748,27 +740,14 @@ public abstract class AbstractWmlEncoderv20
             CIResponsiblePartyPropertyType citppt = mpt.addNewRelatedParty();
             if (relatedParty.isReference()) {
                 Reference reference = relatedParty.getReference();
-                if (reference.getActuate().isPresent()) {
-                    citppt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-                }
-                if (reference.getArcrole().isPresent()) {
-                    citppt.setHref(reference.getArcrole().get());
-                }
-                if (reference.getHref().isPresent()) {
-                    citppt.setHref(reference.getHref().get().toString());
-                }
-                if (reference.getRole().isPresent()) {
-                    citppt.setRole(reference.getRole().get());
-                }
-                if (reference.getShow().isPresent()) {
-                    citppt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-                }
-                if (reference.getTitle().isPresent()) {
-                    citppt.setTitle(reference.getTitle().get());
-                }
-                if (reference.getType().isPresent()) {
-                    citppt.setType(TypeType.Enum.forString(reference.getType().get()));
-                }
+                reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                        .ifPresent(citppt::setActuate);
+                reference.getArcrole().ifPresent(citppt::setArcrole);
+                reference.getHref().map(URI::toString).ifPresent(citppt::setHref);
+                reference.getRole().ifPresent(citppt::setRole);
+                reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(citppt::setShow);
+                reference.getTitle().ifPresent(citppt::setTitle);
+                reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(citppt::setType);
             } else {
                 if (relatedParty.isInstance()) {
                     Nillable<CiResponsibleParty> nillable = relatedParty.getInstance();

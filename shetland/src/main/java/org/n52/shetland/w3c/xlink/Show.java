@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import java.util.Arrays;
+
 /**
  * TODO JavaDoc
  *
@@ -31,6 +33,16 @@ public enum Show {
     @Override
     public String toString() {
         return this.name().toLowerCase();
+    }
+
+    public static Show fromString(String str) {
+        if (str == null || str.isEmpty()) {
+            return null;
+        }
+
+        return Arrays.stream(values())
+                .filter(show -> show.name().equalsIgnoreCase(str))
+                .findAny().orElse(null);
     }
 
 }

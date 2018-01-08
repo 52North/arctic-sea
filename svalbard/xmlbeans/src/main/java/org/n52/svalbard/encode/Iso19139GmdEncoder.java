@@ -16,12 +16,17 @@
  */
 package org.n52.svalbard.encode;
 
+import java.net.URI;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
+
+import net.opengis.gml.x32.AbstractCRSType;
+import net.opengis.gml.x32.BaseUnitType;
+import net.opengis.gml.x32.CodeType;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
@@ -69,6 +74,12 @@ import org.isotc211.x2005.gmd.MDMetadataPropertyType;
 import org.isotc211.x2005.gmd.MDMetadataType;
 import org.isotc211.x2005.gmd.PTFreeTextType;
 import org.isotc211.x2005.gsr.SCCRSPropertyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
+
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.iso.gco.Role;
 import org.n52.shetland.iso.gmd.AbstractMDIdentification;
@@ -98,25 +109,19 @@ import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.shetland.w3c.xlink.Show;
+import org.n52.shetland.w3c.xlink.Type;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-
-import net.opengis.gml.x32.AbstractCRSType;
-import net.opengis.gml.x32.BaseUnitType;
-import net.opengis.gml.x32.CodeType;
 
 /**
  * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic MetaData
@@ -429,27 +434,14 @@ public class Iso19139GmdEncoder
     private void encodeContact(CIContactPropertyType cicpt, Referenceable<CiContact> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
-            if (reference.getActuate().isPresent()) {
-                cicpt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                cicpt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                cicpt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                cicpt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                cicpt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                cicpt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                cicpt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(cicpt::setActuate);
+            reference.getArcrole().ifPresent(cicpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(cicpt::setHref);
+            reference.getRole().ifPresent(cicpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(cicpt::setShow);
+            reference.getTitle().ifPresent(cicpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(cicpt::setType);
         } else {
             if (referenceable.isInstance()) {
                 Nillable<CiContact> nillable = referenceable.getInstance();
@@ -512,27 +504,14 @@ public class Iso19139GmdEncoder
     private void encodeCiAddress(CIAddressPropertyType ciapt, Referenceable<CiAddress> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
-            if (reference.getActuate().isPresent()) {
-                ciapt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                ciapt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                ciapt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                ciapt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                ciapt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                ciapt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                ciapt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(ciapt::setActuate);
+            reference.getArcrole().ifPresent(ciapt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(ciapt::setHref);
+            reference.getRole().ifPresent(ciapt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(ciapt::setShow);
+            reference.getTitle().ifPresent(ciapt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(ciapt::setType);
         } else {
             if (referenceable.isInstance()) {
                 Nillable<CiAddress> nillable = referenceable.getInstance();
@@ -601,27 +580,14 @@ public class Iso19139GmdEncoder
     private void encodePhone(CITelephonePropertyType citpt, Referenceable<CiTelephone> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
-            if (reference.getActuate().isPresent()) {
-                citpt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                citpt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                citpt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                citpt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                citpt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                citpt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                citpt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(citpt::setActuate);
+            reference.getArcrole().ifPresent(citpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(citpt::setHref);
+            reference.getRole().ifPresent(citpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(citpt::setShow);
+            reference.getTitle().ifPresent(citpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(citpt::setType);
         } else {
             if (referenceable.isInstance()) {
                 Nillable<CiTelephone> nillable = referenceable.getInstance();
@@ -786,27 +752,14 @@ public class Iso19139GmdEncoder
             Referenceable<CiOnlineResource> referenceable) {
         if (referenceable.isReference()) {
             Reference reference = referenceable.getReference();
-            if (reference.getActuate().isPresent()) {
-                ciorpt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                ciorpt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                ciorpt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                ciorpt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                ciorpt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                ciorpt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                ciorpt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(ciorpt::setActuate);
+            reference.getArcrole().ifPresent(ciorpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(ciorpt::setHref);
+            reference.getRole().ifPresent(ciorpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(ciorpt::setShow);
+            reference.getTitle().ifPresent(ciorpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(ciorpt::setType);
         } else {
             if (referenceable.isInstance()) {
                 Nillable<CiOnlineResource> nillable = referenceable.getInstance();
@@ -835,7 +788,7 @@ public class Iso19139GmdEncoder
         // protocol
         if (onlineResource.isSetProtocol()) {
             if (onlineResource.getProtocol().isPresent()) {
-                ciort.addNewProtocol().setCharacterString(onlineResource.getProtocol().get().toString());
+                ciort.addNewProtocol().setCharacterString(onlineResource.getProtocol().get());
             } else {
                 if (onlineResource.getProtocol().getNilReason().isPresent()) {
                     ciort.addNewProtocol().setNilReason(onlineResource.getProtocol().getNilReason().get());
@@ -887,27 +840,14 @@ public class Iso19139GmdEncoder
                 EXVerticalExtentPropertyType exvept = exet.addNewVerticalElement();
                 if (verticalExtent.isReference()) {
                     Reference reference = verticalExtent.getReference();
-                    if (reference.getActuate().isPresent()) {
-                        exvept.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-                    }
-                    if (reference.getArcrole().isPresent()) {
-                        exvept.setHref(reference.getArcrole().get());
-                    }
-                    if (reference.getHref().isPresent()) {
-                        exvept.setHref(reference.getHref().get().toString());
-                    }
-                    if (reference.getRole().isPresent()) {
-                        exvept.setRole(reference.getRole().get());
-                    }
-                    if (reference.getShow().isPresent()) {
-                        exvept.setShow(ShowType.Enum.forString(reference.getShow().get()));
-                    }
-                    if (reference.getTitle().isPresent()) {
-                        exvept.setTitle(reference.getTitle().get());
-                    }
-                    if (reference.getType().isPresent()) {
-                        exvept.setType(TypeType.Enum.forString(reference.getType().get()));
-                    }
+                    reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                            .ifPresent(exvept::setActuate);
+                    reference.getArcrole().ifPresent(exvept::setArcrole);
+                    reference.getHref().map(URI::toString).ifPresent(exvept::setHref);
+                    reference.getRole().ifPresent(exvept::setRole);
+                    reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(exvept::setShow);
+                    reference.getTitle().ifPresent(exvept::setTitle);
+                    reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(exvept::setType);
                 } else {
                     if (verticalExtent.isInstance()) {
                         Nillable<EXVerticalExtent> nillable = verticalExtent.getInstance();
@@ -983,27 +923,14 @@ public class Iso19139GmdEncoder
         Referenceable<ScCRS> verticalCRS = exVerticalExtent.getVerticalCRS();
         if (verticalCRS.isReference()) {
             Reference reference = verticalCRS.getReference();
-            if (reference.getActuate().isPresent()) {
-                sccrspt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                sccrspt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                sccrspt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                sccrspt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                sccrspt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                sccrspt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                sccrspt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(sccrspt::setActuate);
+            reference.getArcrole().ifPresent(sccrspt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(sccrspt::setHref);
+            reference.getRole().ifPresent(sccrspt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(sccrspt::setShow);
+            reference.getTitle().ifPresent(sccrspt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(sccrspt::setType);
         } else {
             if (verticalCRS.isInstance()) {
                 Nillable<ScCRS> nillable = verticalCRS.getInstance();

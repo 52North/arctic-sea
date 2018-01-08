@@ -16,10 +16,11 @@
  */
 package org.n52.shetland.w3c;
 
-import com.google.common.base.Preconditions;
+import java.util.Optional;
+
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
-import com.google.common.base.Optional;
+import com.google.common.base.Preconditions;
 
 /**
  * Represents a tri-state object: can be nil (with an optional message), absent
@@ -326,7 +327,7 @@ public abstract class Nillable<T> {
         private final Optional<String> reason;
 
         Nil(String reason) {
-            this.reason = Optional.fromNullable(reason);
+            this.reason = Optional.ofNullable(reason);
         }
 
         @Override
@@ -377,7 +378,7 @@ public abstract class Nillable<T> {
 
         @Override
         public String toString() {
-            return "Nillable.nil(\"" + getNilReason().orNull() + "\")";
+            return "Nillable.nil(\"" + getNilReason().orElse("null")+ "\")";
         }
     }
 

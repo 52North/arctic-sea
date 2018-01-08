@@ -81,6 +81,13 @@ import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.EXExtentType;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.util.PolygonExtracter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3.x1999.xlink.ActuateType;
@@ -127,8 +134,11 @@ import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.shetland.w3c.xlink.Show;
+import org.n52.shetland.w3c.xlink.Type;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -138,13 +148,6 @@ import org.n52.svalbard.util.XmlHelper;
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.MultiLineString;
-import org.locationtech.jts.geom.MultiPoint;
-import org.locationtech.jts.geom.Point;
-import org.locationtech.jts.geom.Polygon;
-import org.locationtech.jts.geom.util.PolygonExtracter;
 
 /**
  * @since 1.0.0
@@ -871,27 +874,14 @@ public class GmlEncoderv321
             Referenceable<DomainOfValidity> domainOfValidity = abstractDatum.getDomainOfValidity();
             if (domainOfValidity.isReference()) {
                 Reference reference = domainOfValidity.getReference();
-                if (reference.getActuate().isPresent()) {
-                    dov.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-                }
-                if (reference.getArcrole().isPresent()) {
-                    dov.setHref(reference.getArcrole().get());
-                }
-                if (reference.getHref().isPresent()) {
-                    dov.setHref(reference.getHref().get().toString());
-                }
-                if (reference.getRole().isPresent()) {
-                    dov.setRole(reference.getRole().get());
-                }
-                if (reference.getShow().isPresent()) {
-                    dov.setShow(ShowType.Enum.forString(reference.getShow().get()));
-                }
-                if (reference.getTitle().isPresent()) {
-                    dov.setTitle(reference.getTitle().get());
-                }
-                if (reference.getType().isPresent()) {
-                    dov.setType(TypeType.Enum.forString(reference.getType().get()));
-                }
+                reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                        .ifPresent(dov::setActuate);
+                reference.getArcrole().ifPresent(dov::setArcrole);
+                reference.getHref().map(URI::toString).ifPresent(dov::setHref);
+                reference.getRole().ifPresent(dov::setRole);
+                reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(dov::setShow);
+                reference.getTitle().ifPresent(dov::setTitle);
+                reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(dov::setType);
             } else {
                 if (domainOfValidity.isInstance()) {
                     Nillable<DomainOfValidity> nillable = domainOfValidity.getInstance();
@@ -944,27 +934,14 @@ public class GmlEncoderv321
         VerticalCSPropertyType vcspt = vcrst.addNewVerticalCS();
         if (verticalCS.isReference()) {
             Reference reference = verticalCS.getReference();
-            if (reference.getActuate().isPresent()) {
-                vcspt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                vcspt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                vcspt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                vcspt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                vcspt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                vcspt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                vcspt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(vcspt::setActuate);
+            reference.getArcrole().ifPresent(vcspt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(vcspt::setHref);
+            reference.getRole().ifPresent(vcspt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(vcspt::setShow);
+            reference.getTitle().ifPresent(vcspt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(vcspt::setType);
         } else {
             if (verticalCS.isInstance()) {
                 Nillable<VerticalCS> nillable = verticalCS.getInstance();
@@ -991,27 +968,14 @@ public class GmlEncoderv321
         VerticalDatumPropertyType vdpt = vcrst.addNewVerticalDatum();
         if (verticalDatum.isReference()) {
             Reference reference = verticalDatum.getReference();
-            if (reference.getActuate().isPresent()) {
-                vdpt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-            }
-            if (reference.getArcrole().isPresent()) {
-                vdpt.setHref(reference.getArcrole().get());
-            }
-            if (reference.getHref().isPresent()) {
-                vdpt.setHref(reference.getHref().get().toString());
-            }
-            if (reference.getRole().isPresent()) {
-                vdpt.setRole(reference.getRole().get());
-            }
-            if (reference.getShow().isPresent()) {
-                vdpt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-            }
-            if (reference.getTitle().isPresent()) {
-                vdpt.setTitle(reference.getTitle().get());
-            }
-            if (reference.getType().isPresent()) {
-                vdpt.setType(TypeType.Enum.forString(reference.getType().get()));
-            }
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(vdpt::setActuate);
+            reference.getArcrole().ifPresent(vdpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(vdpt::setHref);
+            reference.getRole().ifPresent(vdpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(vdpt::setShow);
+            reference.getTitle().ifPresent(vdpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(vdpt::setType);
         } else {
             if (verticalDatum.isInstance()) {
                 Nillable<VerticalDatum> nillable = verticalDatum.getInstance();
@@ -1064,27 +1028,14 @@ public class GmlEncoderv321
                 net.opengis.gml.x32.DomainOfValidityDocument.DomainOfValidity dov = acrst.addNewDomainOfValidity();
                 if (domainOfValidity.isReference()) {
                     Reference reference = domainOfValidity.getReference();
-                    if (reference.getActuate().isPresent()) {
-                        dov.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-                    }
-                    if (reference.getArcrole().isPresent()) {
-                        dov.setHref(reference.getArcrole().get());
-                    }
-                    if (reference.getHref().isPresent()) {
-                        dov.setHref(reference.getHref().get().toString());
-                    }
-                    if (reference.getRole().isPresent()) {
-                        dov.setRole(reference.getRole().get());
-                    }
-                    if (reference.getShow().isPresent()) {
-                        dov.setShow(ShowType.Enum.forString(reference.getShow().get()));
-                    }
-                    if (reference.getTitle().isPresent()) {
-                        dov.setTitle(reference.getTitle().get());
-                    }
-                    if (reference.getType().isPresent()) {
-                        dov.setType(TypeType.Enum.forString(reference.getType().get()));
-                    }
+                    reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                            .ifPresent(dov::setActuate);
+                    reference.getArcrole().ifPresent(dov::setArcrole);
+                    reference.getHref().map(URI::toString).ifPresent(dov::setHref);
+                    reference.getRole().ifPresent(dov::setRole);
+                    reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(dov::setShow);
+                    reference.getTitle().ifPresent(dov::setTitle);
+                    reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(dov::setType);
                 } else {
                     if (domainOfValidity.isInstance()) {
                         Nillable<DomainOfValidity> nillable = domainOfValidity.getInstance();
@@ -1140,27 +1091,14 @@ public class GmlEncoderv321
             CoordinateSystemAxisPropertyType csapt = acst.addNewAxis();
             if (coordinateSystemAxis.isReference()) {
                 Reference reference = coordinateSystemAxis.getReference();
-                if (reference.getActuate().isPresent()) {
-                    csapt.setActuate(ActuateType.Enum.forString(reference.getActuate().get()));
-                }
-                if (reference.getArcrole().isPresent()) {
-                    csapt.setHref(reference.getArcrole().get());
-                }
-                if (reference.getHref().isPresent()) {
-                    csapt.setHref(reference.getHref().get().toString());
-                }
-                if (reference.getRole().isPresent()) {
-                    csapt.setRole(reference.getRole().get());
-                }
-                if (reference.getShow().isPresent()) {
-                    csapt.setShow(ShowType.Enum.forString(reference.getShow().get()));
-                }
-                if (reference.getTitle().isPresent()) {
-                    csapt.setTitle(reference.getTitle().get());
-                }
-                if (reference.getType().isPresent()) {
-                    csapt.setType(TypeType.Enum.forString(reference.getType().get()));
-                }
+                reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                        .ifPresent(csapt::setActuate);
+                reference.getArcrole().ifPresent(csapt::setArcrole);
+                reference.getHref().map(URI::toString).ifPresent(csapt::setHref);
+                reference.getRole().ifPresent(csapt::setRole);
+                reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(csapt::setShow);
+                reference.getTitle().ifPresent(csapt::setTitle);
+                reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(csapt::setType);
             } else {
                 if (coordinateSystemAxis.isInstance()) {
                     Nillable<CoordinateSystemAxis> nillable = coordinateSystemAxis.getInstance();
