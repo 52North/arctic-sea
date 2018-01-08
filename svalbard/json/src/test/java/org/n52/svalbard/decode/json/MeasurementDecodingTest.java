@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
@@ -31,10 +31,12 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
+
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -57,8 +59,6 @@ import org.n52.svalbard.decode.json.ObservationDecoder;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.github.fge.jackson.JsonLoader;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.Point;
 
 /**
  * TODO JavaDoc
@@ -67,7 +67,6 @@ import org.locationtech.jts.geom.Point;
  *
  * @since 1.0.0
  */
-@Ignore
 public class MeasurementDecodingTest {
     @ClassRule
     public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
@@ -243,7 +242,7 @@ public class MeasurementDecodingTest {
         assertThat(af2.getName(), is(notNullValue()));
         assertThat(af2.getName().size(), is(1));
         assertThat(af2.getName().get(0), is(not(nullValue())));
-        assertThat(af2.getName().get(0).getCodeSpace(), is(equalTo(UNKNOWN_CODESPACE)));
+        assertThat(af2.getName().get(0).getCodeSpace().toString(), is(equalTo(UNKNOWN_CODESPACE)));
         assertThat(af2.getName().get(0).getValue(), is(equalTo("sampledFeature2")));
         assertThat(af2, is(instanceOf(SamplingFeature.class)));
         SamplingFeature sf2 = (SamplingFeature) af2;
@@ -281,13 +280,13 @@ public class MeasurementDecodingTest {
         assertThat(name.size(), is(3));
         assertThat(name.get(0), is(notNullValue()));
         assertThat(name.get(0).getValue(), is(equalTo(FEATURE_NAME)));
-        assertThat(name.get(0).getCodeSpace(), is(equalTo("http://x.y/z")));
+        assertThat(name.get(0).getCodeSpace().toString(), is(equalTo("http://x.y/z")));
         assertThat(name.get(1), is(notNullValue()));
         assertThat(name.get(1).getValue(), is(equalTo("othername1")));
-        assertThat(name.get(1).getCodeSpace(), is(equalTo(UNKNOWN_CODESPACE)));
+        assertThat(name.get(1).getCodeSpace().toString(), is(equalTo(UNKNOWN_CODESPACE)));
         assertThat(name.get(2), is(notNullValue()));
         assertThat(name.get(2).getValue(), is(equalTo("othername2")));
-        assertThat(name.get(2).getCodeSpace(), is(equalTo(UNKNOWN_CODESPACE)));
+        assertThat(name.get(2).getCodeSpace().toString(), is(equalTo(UNKNOWN_CODESPACE)));
     }
 
     @Test

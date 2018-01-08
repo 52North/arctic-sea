@@ -54,7 +54,7 @@ public class EncoderRepository
     }
 
     @VisibleForTesting
-    void setEncoders(Collection<Encoder<?, ?>> encoders) {
+    public void setEncoders(Collection<Encoder<?, ?>> encoders) {
         this.encoders = Optional.of(encoders);
     }
 

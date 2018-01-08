@@ -20,6 +20,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
+import org.locationtech.jts.geom.Geometry;
+
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -53,7 +55,6 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
 
 /**
  * TODO JavaDoc
@@ -218,22 +219,23 @@ public class ObservationDecoder
     private ObservationValue<?> parseValue(JsonNode node)
             throws DecodingException {
         String type = parseObservationType(node);
-        if (type.equals(OmConstants.OBS_TYPE_MEASUREMENT)) {
-            return parseMeasurementValue(node);
-        } else if (type.equals(OmConstants.OBS_TYPE_TEXT_OBSERVATION)) {
-            return parseTextObservationValue(node);
-        } else if (type.equals(OmConstants.OBS_TYPE_COUNT_OBSERVATION)) {
-            return parseCountObservationValue(node);
-        } else if (type.equals(OmConstants.OBS_TYPE_TRUTH_OBSERVATION)) {
-            return parseTruthObservationValue(node);
-        } else if (type.equals(OmConstants.OBS_TYPE_CATEGORY_OBSERVATION)) {
-            return parseCategoryObservationValue(node);
-        } else if (type.equals(OmConstants.OBS_TYPE_REFERENCE_OBSERVATION)) {
-            return parseReferenceObservationValue(node);
-        } else if (type.equals(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION)) {
-            return parseGeometryObservation(node);
-        } else {
-            throw new JSONDecodingException("Unsupported observationType: " + type);
+        switch (type) {
+            case OmConstants.OBS_TYPE_MEASUREMENT:
+                return parseMeasurementValue(node);
+            case OmConstants.OBS_TYPE_TEXT_OBSERVATION:
+                return parseTextObservationValue(node);
+            case OmConstants.OBS_TYPE_COUNT_OBSERVATION:
+                return parseCountObservationValue(node);
+            case OmConstants.OBS_TYPE_TRUTH_OBSERVATION:
+                return parseTruthObservationValue(node);
+            case OmConstants.OBS_TYPE_CATEGORY_OBSERVATION:
+                return parseCategoryObservationValue(node);
+            case OmConstants.OBS_TYPE_REFERENCE_OBSERVATION:
+                return parseReferenceObservationValue(node);
+            case OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION:
+                return parseGeometryObservation(node);
+            default:
+                throw new JSONDecodingException("Unsupported observationType: " + type);
         }
     }
 
@@ -290,12 +292,12 @@ public class ObservationDecoder
     private ObservationValue<?> parseGeometryObservation(JsonNode node)
             throws DecodingException {
         GeometryValue v = new GeometryValue(geometryDecoder.decodeJSON(node.path(JSONConstants.RESULT), false));
-        return new SingleObservationValue<Geometry>(parsePhenomenonTime(node), v);
+        return new SingleObservationValue<>(parsePhenomenonTime(node), v);
     }
 
     private ObservationValue<?> parseReferenceObservationValue(JsonNode node) throws DecodingException {
         ReferenceValue v = new ReferenceValue(parseReferenceValue(node.path(JSONConstants.RESULT)));
-        return new SingleObservationValue<ReferenceType>(parsePhenomenonTime(node), v);
+        return new SingleObservationValue<>(parsePhenomenonTime(node), v);
     }
 
     private ReferenceType parseReferenceValue(JsonNode node) {

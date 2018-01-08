@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.encode;
+package org.n52.svalbard.encode.json;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
 
 import org.joda.time.DateTime;
-import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
+
 import org.n52.janmayen.Json;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
@@ -41,9 +41,11 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.svalbard.ConfiguredSettingsManager;
+import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.json.EReportingHeaderJSONEncoder;
+import org.n52.svalbard.encode.json.base.StringJSONEncoder;
+import org.n52.svalbard.encode.json.base.TimeJSONEncoder;
+import org.n52.svalbard.encode.json.base.URIJSONEncoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -52,11 +54,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @author Christian Autermann
  */
-@Ignore
 public class EReportingHeaderJSONEncoderTest {
-
-    @ClassRule
-    public static final ConfiguredSettingsManager CSM = new ConfiguredSettingsManager();
 
     @Test
     public void test()
@@ -117,8 +115,88 @@ public class EReportingHeaderJSONEncoderTest {
                                                 .setPronunciation(new Pronunciation().setIPA("asdfasdf")
                                                         .setSoundLink(URI.create("http://asdfasdf")))))));
 
-        JsonNode o = new EReportingHeaderJSONEncoder().encode(header);
+        JsonNode o = getEncoder().encode(header);
 
         System.out.println(Json.print(o));
+    }
+
+    private EReportingHeaderJSONEncoder getEncoder() {
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+        EReportingHeaderJSONEncoder eReportingHeaderJSONEncoder = new EReportingHeaderJSONEncoder();
+        eReportingHeaderJSONEncoder.setEncoderRepository(encoderRepository);
+
+        EReportingChangeJSONEncoder eReportingChangeJSONEncoder = new EReportingChangeJSONEncoder();
+        eReportingChangeJSONEncoder.setEncoderRepository(encoderRepository);
+
+
+        InspireIDJSONEncoder inspireIDJSONEncoder = new InspireIDJSONEncoder();
+        inspireIDJSONEncoder.setEncoderRepository(encoderRepository);
+
+        NillableJSONEncoder nillableJSONEncoder = new NillableJSONEncoder();
+        nillableJSONEncoder.setEncoderRepository(encoderRepository);
+
+        IterableJSONEncoder iterableJSONEncoder = new IterableJSONEncoder();
+        iterableJSONEncoder.setEncoderRepository(encoderRepository);
+
+        RelatedPartyJSONEncoder relatedPartyJSONEncoder = new RelatedPartyJSONEncoder();
+        relatedPartyJSONEncoder.setEncoderRepository(encoderRepository);
+
+        ContactJSONEncoder contactJSONEncoder = new ContactJSONEncoder();
+        contactJSONEncoder.setEncoderRepository(encoderRepository);
+
+        AddressJSONEncoder addressJSONEncoder = new AddressJSONEncoder();
+        addressJSONEncoder.setEncoderRepository(encoderRepository);
+
+        GeographicNameJSONEncoder geographicNameJSONEncoder = new GeographicNameJSONEncoder();
+        geographicNameJSONEncoder.setEncoderRepository(encoderRepository);
+
+        CodeTypeJSONEncoder codeTypeJSONEncoder = new CodeTypeJSONEncoder();
+        codeTypeJSONEncoder.setEncoderRepository(encoderRepository);
+
+        StringJSONEncoder stringJSONEncoder = new StringJSONEncoder();
+        stringJSONEncoder.setEncoderRepository(encoderRepository);
+
+        PronunciationJSONEncoder pronunciationJSONEncoder = new PronunciationJSONEncoder();
+        pronunciationJSONEncoder.setEncoderRepository(encoderRepository);
+
+        URIJSONEncoder uriJSONEncoder = new URIJSONEncoder();
+        uriJSONEncoder.setEncoderRepository(encoderRepository);
+
+        SpellingJSONEncoder spellingJSONEncoder = new SpellingJSONEncoder();
+        spellingJSONEncoder.setEncoderRepository(encoderRepository);
+
+        ReferenceJSONEncoder referenceJSONEncoder = new ReferenceJSONEncoder();
+        referenceJSONEncoder.setEncoderRepository(encoderRepository);
+
+        PTFreeTextJSONEncoder ptFreeTextJSONEncoder = new PTFreeTextJSONEncoder();
+        ptFreeTextJSONEncoder.setEncoderRepository(encoderRepository);
+
+        ReferenceableJSONEncoder referenceableJSONEncoder = new ReferenceableJSONEncoder();
+        referenceableJSONEncoder.setEncoderRepository(encoderRepository);
+
+        TimeJSONEncoder timeJSONEncoder = new TimeJSONEncoder();
+        timeJSONEncoder.setEncoderRepository(encoderRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(eReportingHeaderJSONEncoder,
+                                                    eReportingChangeJSONEncoder,
+                                                    inspireIDJSONEncoder,
+                                                    nillableJSONEncoder,
+                                                    iterableJSONEncoder,
+                                                    relatedPartyJSONEncoder,
+                                                    contactJSONEncoder,
+                                                    addressJSONEncoder,
+                                                    geographicNameJSONEncoder,
+                                                    codeTypeJSONEncoder,
+                                                    stringJSONEncoder,
+                                                    pronunciationJSONEncoder,
+                                                    uriJSONEncoder,
+                                                    spellingJSONEncoder,
+                                                    referenceJSONEncoder,
+                                                    ptFreeTextJSONEncoder,
+                                                    referenceableJSONEncoder,
+                                                    timeJSONEncoder));
+        encoderRepository.init();
+        return eReportingHeaderJSONEncoder;
     }
 }

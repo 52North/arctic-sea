@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -24,11 +24,11 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -37,12 +37,17 @@ import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.request.GetObservationRequest;
+import org.n52.shetland.util.EnvelopeOrGeometry;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.json.GeoJSONDecoder;
 import org.n52.svalbard.decode.json.GetObservationRequestDecoder;
+import org.n52.svalbard.decode.json.SpatialFilterDecoder;
+import org.n52.svalbard.decode.json.TemporalFilterDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import org.locationtech.jts.geom.Point;
+
+import org.n52.svalbard.decode.DecoderRepository;
 
 /**
  * TODO JavaDoc
@@ -51,10 +56,7 @@ import org.locationtech.jts.geom.Point;
  *
  * @since 1.0.0
  */
-@Ignore
 public class GetObservationRequestDecoderTest {
-//    @ClassRule
-//    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private GetObservationRequestDecoder decoder;
 
@@ -63,7 +65,21 @@ public class GetObservationRequestDecoderTest {
 
     @Before
     public void before() {
+        DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new GetObservationRequestDecoder();
+        this.decoder.setDecoderRepository(decoderRepository);
+
+        SpatialFilterDecoder spatialFilterDecoder = new SpatialFilterDecoder();
+        spatialFilterDecoder.setDecoderRepository(decoderRepository);
+        TemporalFilterDecoder temporalFilterDecoder = new TemporalFilterDecoder();
+        temporalFilterDecoder.setDecoderRepository(decoderRepository);
+        GeoJSONDecoder geoJSONDecoder = new GeoJSONDecoder();
+        geoJSONDecoder.setDecoderRepository(decoderRepository);
+        decoderRepository.setDecoders(Arrays.asList(decoder,
+                                                    spatialFilterDecoder,
+                                                    temporalFilterDecoder,
+                                                    geoJSONDecoder));
+        decoderRepository.init();
     }
 
     @Test
@@ -183,11 +199,12 @@ public class GetObservationRequestDecoderTest {
         assertThat(req.getSpatialFilter().getValueReference(),
                 is("om:featureOfInterest/sams:SF_SpatialSamplingFeature/sams:shape"));
         assertThat(req.getSpatialFilter().getGeometry(), is(notNullValue()));
-        assertThat(req.getSpatialFilter().getGeometry(), is(instanceOf(Point.class)));
-        assertThat(req.getSpatialFilter().getGeometry().getSRID(), is(4326));
-        assertThat(req.getSpatialFilter().getGeometry().getCoordinate().x, is(51.0));
-        assertThat(req.getSpatialFilter().getGeometry().getCoordinate().y, is(8.0));
-        assertThat(Double.isNaN(req.getSpatialFilter().getGeometry().getCoordinate().z), is(true));
+        assertThat(req.getSpatialFilter().getGeometry(), is(instanceOf(EnvelopeOrGeometry.class)));
+        assertThat(req.getSpatialFilter().getGeometry().isGeometry(), is(true));
+        assertThat(req.getSpatialFilter().getGeometry().getGeometry().get().getSRID(), is(4326));
+        assertThat(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().x, is(51.0));
+        assertThat(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().y, is(8.0));
+        assertThat(Double.isNaN(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().z), is(true));
     }
 
     @Test

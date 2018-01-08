@@ -61,9 +61,10 @@ public class BatchRequestDecoder extends AbstractSosRequestDecoder<BatchRequest>
     }
 
     private Decoder<OwsServiceRequest, JsonNode> getDecoder(JsonNode n) throws DecodingException {
-        OperationDecoderKey k =
-                new OperationDecoderKey(n.path(JSONConstants.SERVICE).textValue(), n.path(JSONConstants.VERSION)
-                        .textValue(), n.path(JSONConstants.REQUEST).textValue(), MediaTypes.APPLICATION_JSON);
+        String service = n.path(JSONConstants.SERVICE).textValue();
+        String version = n.path(JSONConstants.VERSION).textValue();
+        String request = n.path(JSONConstants.REQUEST).textValue();
+        OperationDecoderKey k = new OperationDecoderKey(service, version, request, MediaTypes.APPLICATION_JSON);
         Decoder<OwsServiceRequest, JsonNode> decoder = getDecoder(k);
         if (decoder == null) {
             // TODO other exception?

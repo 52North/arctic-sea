@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static com.github.fge.jackson.JsonLoader.fromResource;
 import static org.hamcrest.Matchers.equalTo;
@@ -35,12 +35,15 @@ import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
-import org.n52.shetland.ogc.om.values.CountValue;
+import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.svalbard.ConfiguredSettingsManager;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.ObservationDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
 
 /**
  * TODO JavaDoc
@@ -49,7 +52,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @since 1.0.0
  */
-public class CountObservationDecodingTest {
+public class GeometryObservationDecodingTest {
     @ClassRule
     public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
@@ -64,7 +67,7 @@ public class CountObservationDecodingTest {
     @BeforeClass
     public static void beforeClass() {
         try {
-            json = fromResource("/examples/count-observation.json");
+            json = fromResource("/examples/geometry-observation.json");
             phenomenonTime = parseIsoString2DateTime("2013-01-01T00:00:00+02:00");
         } catch (Exception ex) {
             throw new RuntimeException(ex);
@@ -82,15 +85,20 @@ public class CountObservationDecodingTest {
     public void testObservation() {
         assertThat(observation, is(notNullValue()));
         final String type = observation.getObservationConstellation().getObservationType();
-        assertThat(type, is(equalTo(OmConstants.OBS_TYPE_COUNT_OBSERVATION)));
+        assertThat(type, is(equalTo(OmConstants.OBS_TYPE_GEOMETRY_OBSERVATION)));
         final ObservationValue<?> value = observation.getValue();
         assertThat(value, is(instanceOf(SingleObservationValue.class)));
         assertThat(value.getPhenomenonTime(), is(instanceOf(TimeInstant.class)));
         TimeInstant pt = (TimeInstant) value.getPhenomenonTime();
         assertThat(pt.getValue(), is(equalTo(phenomenonTime)));
-        assertThat(value.getValue(), is(instanceOf(CountValue.class)));
-        CountValue v = (CountValue) value.getValue();
-        assertThat(v.getValue(), is(1));
+        assertThat(value.getValue(), is(instanceOf(GeometryValue.class)));
+        GeometryValue v = (GeometryValue) value.getValue();
         assertThat(v.getUnit(), is(nullValue()));
+        Geometry g = v.getValue();
+        assertThat(g, is(instanceOf(LineString.class)));
+        assertThat(g.getSRID(), is(2000));
+        assertThat(g.getNumPoints(), is(2));
+        assertThat(g.getCoordinates()[0], is(equalTo(new Coordinate(52, 7))));
+        assertThat(g.getCoordinates()[1], is(equalTo(new Coordinate(51, 7))));
     }
 }

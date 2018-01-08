@@ -45,7 +45,7 @@ public class DecoderRepository
     private Optional<Collection<DecoderFactory>> decoderFactories = Optional.of(Collections.emptyList());
 
     @VisibleForTesting
-    void setDecoders(Collection<Decoder<?, ?>> decoders) {
+    public void setDecoders(Collection<Decoder<?, ?>> decoders) {
         this.decoders = Optional.of(decoders);
     }
 

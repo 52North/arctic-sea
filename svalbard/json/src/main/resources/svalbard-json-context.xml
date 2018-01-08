@@ -92,5 +92,6 @@
     <bean class="org.n52.svalbard.encode.json.ReportObligationJSONEncoder"/>
     <bean class="org.n52.svalbard.encode.json.SpellingJSONEncoder"/>
     <bean class="org.n52.svalbard.encode.json.UpdateSensorResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.json.PTFreeTextJSONEncoder"/>
 
 </beans>

@@ -29,8 +29,8 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
 public class RequestResponseModifierKeyTypeTest {
-    private static final String service = "SOS";
-    private static final String version = "2.0.0";
+    private static final String SERVICE = "SOS";
+    private static final String VERSION = "2.0.0";
     private final OwsServiceRequest request = new RequestImpl();
     private final OwsServiceResponse response = new ResponseImpl();
 
@@ -39,32 +39,36 @@ public class RequestResponseModifierKeyTypeTest {
 
     @Test
     public void testHashCode() {
-        errors.checkThat(new RequestResponseModifierKey(service, version, request).hashCode(), is(equalTo(new RequestResponseModifierKey(service, version, request).hashCode())));
-        errors.checkThat(new RequestResponseModifierKey(service, version, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(service, version, request, response).hashCode())));
-        errors.checkThat(new RequestResponseModifierKey(service, version, request).hashCode(), is(equalTo(new RequestResponseModifierKey(service, version, getModifiedRequest()).hashCode())));
-        errors.checkThat(new RequestResponseModifierKey(service, version, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(service, version, getModifiedRequest(), getModifiedResponse()).hashCode())));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode())));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode())));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, getModifiedRequest()).hashCode())));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, getModifiedRequest(), getModifiedResponse()).hashCode())));
 
     }
 
     @Test
     @Ignore("sounds like this would offend the equals contract...")
     public void testEquals() {
-        errors.checkThat(new RequestResponseModifierKey(service, version, request), is(equalTo(new RequestResponseModifierKey(service, version, request))));
-        errors.checkThat(new RequestResponseModifierKey(service, version, request, response), is(equalTo(new RequestResponseModifierKey(service, version, request, response))));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request),
+                         is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request))));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
+                         is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response))));
         // for production
-        errors.checkThat(new RequestResponseModifierKey(service, version, request, response), is(equalTo(new RequestResponseModifierKey(service, version, request))));
-        errors.checkThat(new RequestResponseModifierKey(service, version, request, response), is(equalTo(new RequestResponseModifierKey(service, version, request, response))));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
+                         is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request))));
+        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
+                         is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response))));
     }
 
     private OwsServiceRequest getModifiedRequest() {
         OwsServiceRequest request = new RequestImpl();
-        request.setService(service).setVersion(version);
+        request.setService(SERVICE).setVersion(VERSION);
         return request;
     }
 
     private OwsServiceResponse getModifiedResponse() {
         OwsServiceResponse response = new ResponseImpl();
-        response.setService(service).setVersion(version);
+        response.setService(SERVICE).setVersion(VERSION);
         return response;
     }
 

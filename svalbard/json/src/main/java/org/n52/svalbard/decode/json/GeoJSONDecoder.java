@@ -44,14 +44,13 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @since 1.0.0
  */
-public class GeoJSONDecoder
-        extends JSONDecoder<Geometry> {
+public class GeoJSONDecoder extends JSONDecoder<Geometry> {
 
     public static final int DIM_2D = 2;
     public static final int DIM_3D = 3;
 
-    private static final String[] SRS_LINK_PREFIXES =
-            { "http://www.opengis.net/def/crs/EPSG/0/", "http://spatialreference.org/ref/epsg/" };
+    private static final String[] SRS_LINK_PREFIXES = { "http://www.opengis.net/def/crs/EPSG/0/",
+                                                        "http://spatialreference.org/ref/epsg/" };
     private static final String[] SRS_NAME_PREFIXES = { "urn:ogc:def:crs:EPSG::", "EPSG::", "EPSG:" };
     private static final int DEFAULT_SRID = 4326;
     private static final String EXPECTED_ARRAY = "expected array";

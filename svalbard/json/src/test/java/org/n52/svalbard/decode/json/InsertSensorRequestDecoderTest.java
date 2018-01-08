@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static java.util.Collections.singleton;
 import static org.hamcrest.Matchers.is;
@@ -26,19 +26,23 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Test;
+
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.request.InsertSensorRequest;
-import org.n52.svalbard.ConfiguredSettingsManager;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.InsertSensorRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 import com.google.common.collect.Sets;
+
+import org.n52.svalbard.decode.DecoderRepository;
+import org.n52.svalbard.decode.GmlDecoderv311;
+import org.n52.svalbard.decode.SensorMLDecoderV101;
+import org.n52.svalbard.decode.SweCommonDecoderV101;
 
 /**
  * TODO JavaDoc
@@ -47,10 +51,7 @@ import com.google.common.collect.Sets;
  *
  * @since 1.0.0
  */
-@Ignore
 public class InsertSensorRequestDecoderTest {
-//    @ClassRule
-//    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private InsertSensorRequestDecoder decoder;
 
@@ -59,7 +60,27 @@ public class InsertSensorRequestDecoderTest {
     @Before
     public void setUp()
             throws DecodingException, IOException {
+        DecoderRepository decoderRepository = new DecoderRepository();
+
         this.decoder = new InsertSensorRequestDecoder();
+        this.decoder.setDecoderRepository(decoderRepository);
+
+        SensorMLDecoderV101 sensorMLDecoder = new SensorMLDecoderV101();
+        sensorMLDecoder.setXmlOptions(XmlOptions::new);
+        sensorMLDecoder.setDecoderRepository(decoderRepository);
+
+        SweCommonDecoderV101 sweCommonDecoder = new SweCommonDecoderV101();
+        sweCommonDecoder.setXmlOptions(XmlOptions::new);
+        sweCommonDecoder.setDecoderRepository(decoderRepository);
+
+        GmlDecoderv311 gmlDecoderv311 = new GmlDecoderv311();
+
+        decoderRepository.setDecoders(Arrays.asList(decoder,
+                                                    sensorMLDecoder,
+                                                    sweCommonDecoder,
+                                                    gmlDecoderv311));
+
+        decoderRepository.init();
         final JsonNode json = JsonLoader.fromResource("/examples/sos/InsertSensorRequest.json");
         this.req = decoder.decode(json);
         assertThat(req, is(notNullValue()));
@@ -100,11 +121,11 @@ public class InsertSensorRequestDecoderTest {
     public void testObservableProperties()
             throws OwsExceptionReport, IOException {
         assertThat(req.getObservableProperty(),
-                is(Arrays.asList("http://www.52north.org/test/observableProperty/9_1",
-                        "http://www.52north.org/test/observableProperty/9_2",
-                        "http://www.52north.org/test/observableProperty/9_3",
-                        "http://www.52north.org/test/observableProperty/9_4",
-                        "http://www.52north.org/test/observableProperty/9_5")));
+                   is(Arrays.asList("http://www.52north.org/test/observableProperty/9_1",
+                                    "http://www.52north.org/test/observableProperty/9_2",
+                                    "http://www.52north.org/test/observableProperty/9_3",
+                                    "http://www.52north.org/test/observableProperty/9_4",
+                                    "http://www.52north.org/test/observableProperty/9_5")));
     }
 
     @Test
@@ -119,7 +140,7 @@ public class InsertSensorRequestDecoderTest {
             throws OwsExceptionReport, IOException {
         assertThat(req.getMetadata(), is(notNullValue()));
         assertThat(req.getMetadata().getFeatureOfInterestTypes(),
-                is(singleton("http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint")));
+                   is(singleton("http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint")));
     }
 
     @Test
@@ -127,12 +148,12 @@ public class InsertSensorRequestDecoderTest {
             throws OwsExceptionReport, IOException {
         assertThat(req.getMetadata(), is(notNullValue()));
         assertThat(req.getMetadata().getObservationTypes(),
-                is((Set<String>) Sets.newHashSet(
-                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement",
-                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CategoryObservation",
-                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CountObservation",
-                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TextObservation",
-                        "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TruthObservation")));
+                   is((Set<String>) Sets.newHashSet(
+                           "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Measurement",
+                           "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CategoryObservation",
+                           "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_CountObservation",
+                           "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TextObservation",
+                           "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TruthObservation")));
     }
 
     @Test
