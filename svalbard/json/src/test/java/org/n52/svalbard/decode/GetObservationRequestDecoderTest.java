@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -42,7 +42,7 @@ import org.n52.svalbard.decode.json.GetObservationRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 /**
  * TODO JavaDoc

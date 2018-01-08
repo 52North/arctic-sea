@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -77,11 +77,11 @@ import org.n52.svalbard.odata.expr.ValueExpr;
 
 import com.google.common.escape.Escaper;
 import com.google.common.net.PercentEscaper;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.PrecisionModel;
-import com.vividsolutions.jts.io.ParseException;
-import com.vividsolutions.jts.io.WKTReader;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.io.ParseException;
+import org.locationtech.jts.io.WKTReader;
 
 /**
  * Class to parse OData-based {@code $filter} expression into FES filters. See {@link ObservationCsdlEdmProvider} for

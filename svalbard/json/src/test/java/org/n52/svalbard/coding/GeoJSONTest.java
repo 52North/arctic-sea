@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,24 +38,24 @@ import org.n52.svalbard.encode.json.GeoJSONEncoder;
 import org.n52.svalbard.encode.json.JSONEncodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.CoordinateFilter;
-import com.vividsolutions.jts.geom.CoordinateSequenceComparator;
-import com.vividsolutions.jts.geom.CoordinateSequenceFilter;
-import com.vividsolutions.jts.geom.Envelope;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.GeometryCollection;
-import com.vividsolutions.jts.geom.GeometryComponentFilter;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.GeometryFilter;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.LinearRing;
-import com.vividsolutions.jts.geom.MultiLineString;
-import com.vividsolutions.jts.geom.MultiPoint;
-import com.vividsolutions.jts.geom.MultiPolygon;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.PrecisionModel;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.CoordinateFilter;
+import org.locationtech.jts.geom.CoordinateSequenceComparator;
+import org.locationtech.jts.geom.CoordinateSequenceFilter;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
+import org.locationtech.jts.geom.GeometryComponentFilter;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.GeometryFilter;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.PrecisionModel;
 
 /**
  * TODO JavaDoc
@@ -399,6 +399,16 @@ public class GeoJSONTest {
         @Override
         protected int compareToSameClass(Object o, CoordinateSequenceComparator comp) {
             return delegate.compareTo(o, comp);
+        }
+
+        @Override
+        public Geometry copy() {
+            return delegate.copy();
+        }
+
+        @Override
+        protected int getSortIndex() {
+            return 0;
         }
     }
 

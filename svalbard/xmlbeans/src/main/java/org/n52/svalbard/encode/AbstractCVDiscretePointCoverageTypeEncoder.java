@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -55,7 +55,7 @@ import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
-import com.vividsolutions.jts.geom.Point;
+import org.locationtech.jts.geom.Point;
 
 import net.opengis.cv.x02.gml32.CVDiscretePointCoverageType;
 import net.opengis.cv.x02.gml32.CVPointValuePairPropertyType;

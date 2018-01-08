@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -72,7 +72,7 @@ import org.w3.x1999.xlink.TypeType;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 import net.opengis.gml.x32.VerticalDatumPropertyType;
 import net.opengis.gml.x32.VerticalDatumType;

@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -40,7 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
-import com.vividsolutions.jts.geom.Geometry;
+import org.locationtech.jts.geom.Geometry;
 
 import net.opengis.gml.CodeType;
 import net.opengis.gml.CoordinatesType;
@@ -54,7 +54,7 @@ import net.opengis.gml.TimePeriodDocument;
 import net.opengis.gml.TimePeriodType;
 import net.opengis.gml.TimePositionType;
 
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.io.ParseException;
 
 /**
  * @since 1.0.0

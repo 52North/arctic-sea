@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,11 +37,11 @@ import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.svalbard.decode.exception.DecodingException;
 
-import com.vividsolutions.jts.geom.Coordinate;
-import com.vividsolutions.jts.geom.GeometryFactory;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.PrecisionModel;
-import com.vividsolutions.jts.io.WKTWriter;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.io.WKTWriter;
 
 /**
  * @author Christian Autermann

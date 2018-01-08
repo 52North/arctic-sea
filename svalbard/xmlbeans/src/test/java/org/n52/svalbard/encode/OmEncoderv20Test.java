@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -71,7 +71,7 @@ import org.w3c.dom.Node;
 
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.Iterators;
-import com.vividsolutions.jts.io.ParseException;
+import org.locationtech.jts.io.ParseException;
 
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.sampling.x20.SFSamplingFeatureDocument;

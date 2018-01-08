@@ -1,5 +1,5 @@
 /*
- * Copyright 2015-2017 52°North Initiative for Geospatial Open Source
+ * Copyright 2015-2018 52°North Initiative for Geospatial Open Source
  * Software GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -67,11 +67,11 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
-import com.vividsolutions.jts.geom.Geometry;
-import com.vividsolutions.jts.geom.LineString;
-import com.vividsolutions.jts.geom.Point;
-import com.vividsolutions.jts.geom.Polygon;
-import com.vividsolutions.jts.geom.util.PolygonExtracter;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
+import org.locationtech.jts.geom.util.PolygonExtracter;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -110,7 +110,7 @@ public class GmlEncoderv311
     private static final Logger LOGGER = LoggerFactory.getLogger(GmlEncoderv311.class);
 
     private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(GmlConstants.NS_GML,
-            org.n52.shetland.ogc.gml.time.Time.class, com.vividsolutions.jts.geom.Geometry.class,
+            org.n52.shetland.ogc.gml.time.Time.class, org.locationtech.jts.geom.Geometry.class,
             org.n52.shetland.ogc.om.values.CategoryValue.class, org.n52.shetland.ogc.gml.ReferenceType.class,
             org.n52.shetland.ogc.om.values.QuantityValue.class, org.n52.shetland.ogc.gml.CodeWithAuthority.class,
             org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class,
