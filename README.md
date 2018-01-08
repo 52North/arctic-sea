@@ -44,7 +44,7 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>3.0.0</version.iceland>
+  <version.arctic-sea>3.0.0</version.arctic-sea>
 </properties>
 <dependencies>
   <dependency>
