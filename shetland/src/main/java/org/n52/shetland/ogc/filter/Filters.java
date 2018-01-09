@@ -25,7 +25,11 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
  *
  * @author Christian Autermann
  */
-public class Filters {
+public final class Filters {
+
+    /**
+     * Private utility class constructor.
+     */
     private Filters() {
     }
 
