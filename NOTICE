@@ -49,6 +49,7 @@ This project includes:
   Apache HttpCore under Apache License, Version 2.0
   Byte Buddy (without dependencies) under The Apache Software License, Version 2.0
   Byte Buddy Java agent under The Apache Software License, Version 2.0
+  Checker Qual under GNU General Public License, version 2 (GPL2), with the classpath exception or The MIT License
   Commons Lang under The Apache Software License, Version 2.0
   Compress-LZF under Apache License 2.0
   Elasticsearch SecureSM under The Apache Software License, Version 2.0
