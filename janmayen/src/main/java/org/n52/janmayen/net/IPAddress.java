@@ -16,114 +16,289 @@
  */
 package org.n52.janmayen.net;
 
-
 import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.ByteBuffer;
+import java.util.Objects;
+import java.util.regex.Pattern;
 
-import com.google.common.base.Objects;
+import org.n52.janmayen.Comparables;
+
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.net.InetAddresses;
-import com.google.common.primitives.Ints;
 
 /**
- * Encapsulation of an IPv4 address.
+ * Encapsulation of an IP address.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public class IPAddress implements Comparable<IPAddress> {
-    private final int address;
+
+    public static final int IPV6_BYTE_SIZE = 16;
+    public static final int IPV4_BYTE_SIZE = 4;
+    public static final int IPV6_BIT_SIZE = IPV6_BYTE_SIZE * Byte.SIZE;
+    public static final int IPV4_BIT_SIZE = IPV4_BYTE_SIZE * Byte.SIZE;
+
+    private static final String V4_PATTERN_STRING
+            = "(?:(?:25[0-5]|(?:2[0-4]|1?[0-9])?[0-9])\\.){3}(?:25[0-5]|(?:2[0-4]|1?[0-9])?[0-9])";
+    private static final String V6_PATTERN_STRING
+            = "(?:" +
+              "(?:[0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}" +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,7}:" +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}" +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}" +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}" +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}" +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}" +
+              "|" +
+              "[0-9a-fA-F]{1,4}:(?:(?::[0-9a-fA-F]{1,4}){1,6})" +
+              "|" +
+              ":(?:(?::[0-9a-fA-F]{1,4}){1,7}|:)" +
+              "|" +
+              "::(?:ffff(?::0{1,4})?:)?" + V4_PATTERN_STRING +
+              "|" +
+              "(?:[0-9a-fA-F]{1,4}:){1,4}:" + V4_PATTERN_STRING +
+              ")";
+    private static final Pattern V4_PATTERN = Pattern.compile(V4_PATTERN_STRING);
+    private static final Pattern V6_PATTERN = Pattern.compile(V6_PATTERN_STRING, Pattern.CASE_INSENSITIVE);
+    private final InetAddress address;
 
     /**
-     * Creates a new IPAddress from an 32-Bit integer.
+     * Creates a new {@code IPAddress} from an 32-Bit integer.
      *
      * @param address the address
      */
     public IPAddress(int address) {
-        this.address = address;
+        this.address = InetAddresses.fromInteger(address);
     }
 
     /**
-     * Creates a new IPAddress from an four element byte array.
+     * Creates a new {@code IPAddress} from two 64-Bit integers.
+     *
+     * @param upperBits the 64 upper bits of the address
+     * @param lowerBits the 64 lower bits of the address
+     */
+    public IPAddress(long upperBits, long lowerBits) {
+        try {
+            byte[] bytes = ByteBuffer.allocate(2 * Long.BYTES).putLong(upperBits).putLong(lowerBits).array();
+            this.address = InetAddress.getByAddress(bytes);
+        } catch (UnknownHostException ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
+    /**
+     * Creates a new {@code IPAddress} from an four element byte array.
      *
      * @param address the address
      */
     public IPAddress(byte[] address) {
-        this(Ints.fromByteArray(address));
+        try {
+            this.address = InetAddress.getByAddress(address);
+        } catch (UnknownHostException ex) {
+            throw new IllegalArgumentException(ex);
+        }
     }
 
     /**
-     * Creates a new IPAddress from its string representation.
+     * Creates a new {@code IPAddress} from its string representation.
      *
      * @param address the address
      */
     public IPAddress(String address) {
-        this(parse(address));
+        this(InetAddresses.forString(address));
     }
 
     /**
-     * Creates a new IPAddress from an {@link Inet4Address}.
+     * Creates a new {@code IPAddress} from an {@link InetAddress}.
      *
      * @param address the address
      */
-    public IPAddress(Inet4Address address) {
-        this(address.getAddress());
+    public IPAddress(InetAddress address) {
+        this.address = Objects.requireNonNull(address);
     }
 
     /**
      * @return the IP address as an 32-bit integer
+     *
+     * @deprecated {@linkplain  Inet6Address IPv6 addresses} can not be represented by an integer
      */
+    @Deprecated
     public int asInt() {
-        return this.address;
+        return InetAddresses.coerceToInteger(this.address);
+    }
+
+    /**
+     * Checks if this address is IPv4.
+     *
+     * @return if it is IPv4
+     */
+    public boolean isIPv4() {
+        return this.address instanceof Inet4Address;
+    }
+
+    /**
+     * Get the number of bits the address contains.
+     *
+     * @return the number of bits
+     */
+    public int getBitSize() {
+        return getByteSize() * Byte.SIZE;
+    }
+
+    /**
+     * Get the number of bytes the address contains.
+     *
+     * @return the number of bytes
+     */
+    public int getByteSize() {
+        if (isIPv4()) {
+            return IPV4_BYTE_SIZE;
+        } else if (isIPv6()) {
+            return IPV6_BYTE_SIZE;
+        } else {
+            throw new AssertionError();
+        }
+    }
+
+    /**
+     * Checks if this address is IPv6.
+     *
+     * @return if it is IPv6
+     */
+    public boolean isIPv6() {
+        return this.address instanceof Inet6Address;
+    }
+
+    /**
+     * @return the IP address as an {@code Inet4Address}
+     *
+     * @deprecated use {@link #getInetAddress() }
+     */
+    @Deprecated
+    public InetAddress asInetAddress() {
+        return getInetAddress();
     }
 
     /**
      * @return the IP address as an {@code Inet4Address}
      */
-    public Inet4Address asInetAddress() {
-        return InetAddresses.fromInteger(this.address);
+    public InetAddress getInetAddress() {
+        return this.address;
     }
 
     /**
-     * @return the IP address as an 4 element byte array.
+     * @return the IP address as an byte array.
+     *
+     * @deprecated use {@link #getBytes() }
      */
+    @Deprecated
     public byte[] asByteArray() {
-        return Ints.toByteArray(this.address);
+        return getBytes();
+    }
+
+    /**
+     * @return the IP address as an byte array.
+     */
+    public byte[] getBytes() {
+        return this.address.getAddress();
     }
 
     /**
      * @return the IP address as a string
+     *
+     * @deprecated use {@link #toString() }
      */
+    @Deprecated
     public String asString() {
-        return asInetAddress().getHostAddress();
+        return toString();
     }
 
     @Override
     public int compareTo(IPAddress o) {
-        return Integer.compare(this.address, java.util.Objects.requireNonNull(o).asInt());
+        return compareLittleEndianUnsignedByte(getBytes(), o.getBytes());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.address);
+        return Objects.hash(this.address);
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof IPAddress) {
             IPAddress other = (IPAddress) obj;
-            return this.address == other.asInt();
+            return this.address.equals(other.getInetAddress());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return asString();
+        return this.address.getHostAddress();
     }
 
-    private static Inet4Address parse(String address) {
-        try {
-            return (Inet4Address) InetAddresses.forString(address);
-        } catch (ClassCastException e) {
-            throw new IllegalArgumentException("IPv6 addresses are not supported.", e);
+    /**
+     * Compares to {@code byte} arrays. Each element is compared with the corresponding element in the other array. If
+     * the array sizes differ the shorter array is treated as it would contain <i>leading</i> zeros.
+     *
+     * @param a the first {@code byte} array
+     * @param b the second {@code byte} array
+     *
+     * @return the value {@code 0} if {@code a == b}; a value less than {@code 0} if {@code a < b}; and a value greater
+     *         than {@code 0} if {@code a > b}
+     */
+    @VisibleForTesting
+    static int compareLittleEndianUnsignedByte(byte[] a, byte[] b) {
+        int la = a.length;
+        int lb = b.length;
+        int i = 0;
+        int dl = la - lb;
+
+        if (dl < 0) {
+            return -compareLittleEndianUnsignedByte(b, a);
         }
+
+        for (; i < dl; ++i) {
+            int result = Comparables.compareUnsignedByte(a[i], (byte) 0);
+            if (result != 0) {
+                return result;
+            }
+        }
+
+        for (; i < la; ++i) {
+            int result = Comparables.compareUnsignedByte(a[i], b[i - dl]);
+            if (result != 0) {
+                return result;
+            }
+        }
+        return 0;
     }
+
+    /**
+     * Get the regular expression matching an IPv4. No capturing groups are included in the pattern.
+     *
+     * @return the pattern
+     */
+    public static Pattern getV4Pattern() {
+        return V4_PATTERN;
+    }
+
+    /**
+     * Get the regular expression matching an IPv6. No capturing groups are included in the pattern.
+     *
+     * @return the pattern
+     */
+    public static Pattern getV6Pattern() {
+        return V6_PATTERN;
+    }
+
 }

@@ -17,50 +17,56 @@
 package org.n52.janmayen.net;
 
 import java.util.Objects;
+import java.util.function.Predicate;
 
-import com.google.common.base.Preconditions;
-import com.google.common.base.Predicate;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Range;
 import com.google.common.primitives.Ints;
 
 /**
- * Representation of an IPv4 address range based on an address and a subnet
- * mask.
+ * Representation of an IPv4 address range based on an address and a subnet mask.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
-public class IPAddressRange implements Predicate<IPAddress> {
-    private static final int CIDR_MAX = 32;
-    private static final int CIDR_MIN = 0;
-    private static final String NOT_VALID_ERR_MSG = "Not a valid CIDR address!";
+public class IPAddressRange implements Predicate<IPAddress>, com.google.common.base.Predicate<IPAddress> {
+    private static final String NOT_VALID_ERR_MSG = "Not a valid range address!";
     private static final String RANGE_SEPERATOR = "/";
+    private static final long MAX_UNSIGNED_LONG = 0xffffffffffffffffL;
+    private static final int MAX_UNSIGNED_INT = 0xffffffff;
     private final IPAddress address;
-    private final IPAddress mask;
+    private final int prefix;
+    private IPAddress high;
+    private IPAddress low;
 
     /**
-     * Creates a new address range from its string representation. This can be
-     * either a CIDR or subnet notation.
+     * Creates a new address range from its string representation. This can be either a CIDR or subnet notation.
      * <br/>
      * Examples:
      * <pre>
      * 192.168.1.1/24
      * 192.168.1.1/255.255.255.0
+     * 2001:db8:abcd:0012::0/64
+     * 2001:db8:abcd:0012::0/ffff:ffff:ffff:ffff::
      * </pre>
      *
      * @param string the string representation
      */
     public IPAddressRange(String string) {
-        Preconditions.checkNotNull(string);
-        final String[] split = string.split(RANGE_SEPERATOR, 2);
-        Preconditions.checkArgument(split.length == 2, NOT_VALID_ERR_MSG);
-        address = new IPAddress(split[0]);
-        final Integer cidr = Ints.tryParse(split[1]);
-        if (cidr != null) {
-            Preconditions.checkArgument(cidr >= CIDR_MIN && cidr <= CIDR_MAX, NOT_VALID_ERR_MSG);
-            mask = new IPAddress(-1 << (CIDR_MAX - cidr));
+        String[] split = Objects.requireNonNull(string).split(RANGE_SEPERATOR, 2);
+
+        this.address = new IPAddress(split[0]);
+
+        if (split.length == 1) {
+            this.prefix = this.address.getBitSize();
         } else {
-            mask = new IPAddress(split[1]);
+            Integer sn = Ints.tryParse(split[1]);
+            if (sn == null) {
+                this.prefix = IPAddressRange.getPrefixForMask(new IPAddress(split[1]));
+            } else {
+                this.prefix = sn;
+            }
         }
+        init();
     }
 
     /**
@@ -70,36 +76,106 @@ public class IPAddressRange implements Predicate<IPAddress> {
      * @param mask    the subnet mask
      */
     public IPAddressRange(IPAddress address, IPAddress mask) {
+        this(address, getPrefixForMask(mask));
+    }
+
+    /**
+     * Creates a new address range from the an address and an prefix.
+     *
+     * @param address the address
+     * @param prefix  the prefix
+     */
+    public IPAddressRange(IPAddress address, int prefix) {
         this.address = Objects.requireNonNull(address);
-        this.mask = Objects.requireNonNull(mask);
+        this.prefix = prefix;
+        init();
+    }
+
+    private void init() {
+
+        if (this.prefix < 0 || this.prefix > this.address.getBitSize()) {
+            throw new IllegalArgumentException(NOT_VALID_ERR_MSG);
+        }
+
+        byte[] bytes = this.address.getBytes();
+        byte[] maskBytes = getSubnetMask().getBytes();
+        byte[] highBytes = new byte[bytes.length];
+        byte[] lowBytes = new byte[bytes.length];
+
+        for (int i = 0; i < bytes.length; ++i) {
+            highBytes[i] = (byte) (bytes[i] + ~maskBytes[i]);
+            lowBytes[i] = (byte) (bytes[i] & maskBytes[i]);
+        }
+
+        this.low = new IPAddress(lowBytes);
+        this.high = new IPAddress(highBytes);
+    }
+
+    /**
+     * Checks if this address range is IPv4.
+     *
+     * @return if it is IPv4
+     */
+    public boolean isIPv4() {
+        return this.address.isIPv4();
+    }
+
+    /**
+     * Checks if this address range is IPv6.
+     *
+     * @return if it is IPv6
+     */
+    public boolean isIPv6() {
+        return this.address.isIPv6();
     }
 
     /**
      * @return the IP address
      */
     public IPAddress getAddress() {
-        return address;
+        return this.address;
     }
 
     /**
      * @return the subnet mask
      */
+    public int getPrefix() {
+        return this.prefix;
+    }
+
+    /**
+     * Get the subnet mask described by this prefix.
+     *
+     * @return the mask
+     *
+     * @deprecated use {@link #getMask() }
+     */
+    @Deprecated
     public IPAddress getSubnetMask() {
-        return mask;
+        return getMaskForPrefix(this.prefix, this.address.getBitSize());
+    }
+
+    /**
+     * Get the mask described by this prefix.
+     *
+     * @return the mask
+     */
+    public IPAddress getMask() {
+        return getMaskForPrefix(this.prefix, this.address.getBitSize());
     }
 
     /**
      * @return the highest IP address in this range
      */
     public IPAddress getHigh() {
-        return new IPAddress(getLow().asInt() + (~getSubnetMask().asInt()));
+        return this.high;
     }
 
     /**
      * @return the lowest IP address in this range
      */
     public IPAddress getLow() {
-        return new IPAddress(getAddress().asInt() & getSubnetMask().asInt());
+        return this.low;
     }
 
     /**
@@ -122,13 +198,19 @@ public class IPAddressRange implements Predicate<IPAddress> {
     }
 
     @Override
+    @Deprecated
     public boolean apply(IPAddress input) {
+        return test(input);
+    }
+
+    @Override
+    public boolean test(IPAddress input) {
         return contains(input);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getAddress(), getSubnetMask());
+        return Objects.hash(getAddress(), getPrefix());
     }
 
     @Override
@@ -136,13 +218,61 @@ public class IPAddressRange implements Predicate<IPAddress> {
         if (obj instanceof IPAddressRange) {
             IPAddressRange other = (IPAddressRange) obj;
             return Objects.equals(getAddress(), other.getAddress()) &&
-                   Objects.equals(getSubnetMask(), other.getSubnetMask());
+                   Objects.equals(getPrefix(), other.getPrefix());
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return getAddress() + RANGE_SEPERATOR + getSubnetMask();
+        return getAddress() + RANGE_SEPERATOR + getPrefix();
+    }
+
+    @VisibleForTesting
+    static int getPrefixForMask(IPAddress mask) {
+        int prefix = 0;
+        boolean zero = false;
+        for (byte b : mask.getBytes()) {
+            for (int i = 1; i <= Byte.SIZE; i++) {
+                int result = b & (1 << (Byte.SIZE - i));
+                if (result == 0) {
+                    zero = true;
+                } else if (zero) {
+                    throw new IllegalArgumentException("Invalid netmask.");
+                } else {
+                    prefix++;
+                }
+            }
+        }
+        return prefix;
+    }
+
+    @VisibleForTesting
+    static IPAddress getMaskForPrefix(int prefix, int numBits) {
+        if (prefix < 0 || prefix > numBits) {
+            throw new IllegalArgumentException();
+        }
+        switch (numBits) {
+            case IPAddress.IPV6_BIT_SIZE:
+                if (prefix == IPAddress.IPV6_BIT_SIZE) {
+                    return new IPAddress(MAX_UNSIGNED_LONG, MAX_UNSIGNED_LONG);
+                } else if (prefix == Long.SIZE) {
+                    return new IPAddress(MAX_UNSIGNED_LONG, 0L);
+                } else if (prefix == 0) {
+                    return new IPAddress(0, 0);
+                } else if (prefix > Long.SIZE) {
+                    return new IPAddress(MAX_UNSIGNED_LONG, MAX_UNSIGNED_LONG << (IPAddress.IPV6_BIT_SIZE - prefix));
+                } else {
+                    return new IPAddress(MAX_UNSIGNED_LONG << (Long.SIZE - prefix), 0L);
+                }
+            case IPAddress.IPV4_BIT_SIZE:
+                if (prefix == 0) {
+                    return new IPAddress(0);
+                } else {
+                    return new IPAddress(MAX_UNSIGNED_INT << (IPAddress.IPV4_BIT_SIZE - prefix));
+                }
+            default:
+                throw new IllegalArgumentException();
+        }
     }
 }
