@@ -22,8 +22,4 @@ package org.n52.shetland.ogc.om.series;
  */
 public interface AbstractInterpolationType {
 
-    String getIdentifier();
-
-    String getTitle();
-
 }
