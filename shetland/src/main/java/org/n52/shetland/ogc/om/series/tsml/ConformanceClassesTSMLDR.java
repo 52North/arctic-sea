@@ -14,18 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
-
-import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
+package org.n52.shetland.ogc.om.series.tsml;
 
 /**
- * @since 1.0.0
+ * @since 1.0.0 TODO
  *
  */
-public class ObservationProcess extends AbstractObservationProcess {
+public class ConformanceClassesTSMLDR {
 
-    @Override
-    public String getDefaultElementEncoding() {
-        return WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING;
-    }
 }

@@ -163,6 +163,7 @@
     <bean class="org.n52.svalbard.encode.SweCommonEncoderv20"/>
     <bean class="org.n52.svalbard.encode.TimeLocationValueTripleTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.TrajectoryObservationTypeEncoder"/>
+    <bean class="org.n52.svalbard.encode.TsmlTVPEncoderv10"/>
     <bean class="org.n52.svalbard.encode.UpdateSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.WmlTDREncoderv20"/>
     <bean class="org.n52.svalbard.encode.WmlTVPEncoderv20"/>

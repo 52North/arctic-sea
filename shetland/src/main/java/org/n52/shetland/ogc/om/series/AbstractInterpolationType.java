@@ -14,18 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
-
-import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
+package org.n52.shetland.ogc.om.series;
 
 /**
- * @since 1.0.0
  *
+ * @author specki
  */
-public class ObservationProcess extends AbstractObservationProcess {
+public interface AbstractInterpolationType {
 
-    @Override
-    public String getDefaultElementEncoding() {
-        return WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING;
-    }
+    String getIdentifier();
+
+    String getTitle();
+
 }

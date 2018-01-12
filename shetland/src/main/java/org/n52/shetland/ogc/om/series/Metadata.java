@@ -14,15 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
+package org.n52.shetland.ogc.om.series;
 
 /**
- * This class implements the <a href="https://portal.opengeospatial.org/files/?artifact_id=48531">OGC WaterML 2.0</a>
+ * TODO(specki): update header
+ * This class implements the OGC TimeseriesML 1.0 standard
  * element <code>metadata</code>. See <code>/req/uml-timeseries-observation/metadata</code>.
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
- * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
+ * @see http://www.opengeospatial.org/standards/tsml
  */
 public class Metadata {
 

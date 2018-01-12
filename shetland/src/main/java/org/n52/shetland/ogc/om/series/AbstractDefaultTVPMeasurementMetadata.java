@@ -14,18 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
-
-import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
+package org.n52.shetland.ogc.om.series;
 
 /**
- * @since 1.0.0
+ * This class implements the OGC TimeseriesML 1.0 element
+ * <code>MeasurementTimeseries > defaultPointMetadata > DefaultTVPMeasurementMetadata</code>.
  *
+ * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
+ *
+ * @since 1.0.0
+ * @see http://www.opengeospatial.org/standards/waterml
  */
-public class ObservationProcess extends AbstractObservationProcess {
+public interface AbstractDefaultTVPMeasurementMetadata {
 
-    @Override
-    public String getDefaultElementEncoding() {
-        return WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING;
-    }
+    boolean isSetInterpolationType();
+
+    AbstractInterpolationType getInterpolationtype();
+
+    AbstractDefaultTVPMeasurementMetadata setInterpolationtype(AbstractInterpolationType interpolationtype);
+
 }

@@ -16,8 +16,8 @@
  */
 package org.n52.shetland.ogc.om;
 
-import org.n52.shetland.ogc.om.series.wml.DefaultPointMetadata;
-import org.n52.shetland.ogc.om.series.wml.Metadata;
+import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
+import org.n52.shetland.ogc.om.series.Metadata;
 import org.n52.shetland.ogc.om.values.Value;
 
 public abstract class AbstractObservationValue<T extends Value<?>>

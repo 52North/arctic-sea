@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
+package org.n52.shetland.ogc.om.series;
 
 /**
  * This class implements the OGC WaterML 2.0 element
@@ -27,18 +27,18 @@ package org.n52.shetland.ogc.om.series.wml;
  */
 public class DefaultPointMetadata {
 
-    private DefaultTVPMeasurementMetadata defaultTVPMeasurementMetadata;
+    protected AbstractDefaultTVPMeasurementMetadata defaultTVPMeasurementMetadata;
 
     public boolean isSetDefaultTVPMeasurementMetadata() {
         return defaultTVPMeasurementMetadata != null;
     }
 
-    public DefaultTVPMeasurementMetadata getDefaultTVPMeasurementMetadata() {
+    public AbstractDefaultTVPMeasurementMetadata getDefaultTVPMeasurementMetadata() {
         return defaultTVPMeasurementMetadata;
     }
 
     public DefaultPointMetadata setDefaultTVPMeasurementMetadata(
-            DefaultTVPMeasurementMetadata defaultTVPMeasurementMetadata) {
+            AbstractDefaultTVPMeasurementMetadata defaultTVPMeasurementMetadata) {
         this.defaultTVPMeasurementMetadata = defaultTVPMeasurementMetadata;
         return this;
     }
