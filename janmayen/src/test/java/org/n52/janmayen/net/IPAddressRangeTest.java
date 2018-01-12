@@ -206,52 +206,52 @@ public class IPAddressRangeTest {
 
     @Test
     public void testGetMaskForPrefixIPv6() {
-        testGetMaskForPrefix("ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff", 128);
-        testGetMaskForPrefix("ffff:ffff:ffff:ffff:ffff:ffff:ffff::", 112);
-        testGetMaskForPrefix("ffff:ffff:ffff:ffff:ffff:ffff::", 96);
-        testGetMaskForPrefix("ffff:ffff:ffff:ffff:ffff::", 80);
-        testGetMaskForPrefix("ffff:ffff:ffff:ffff::", 64);
-        testGetMaskForPrefix("ffff:ffff:ffff::", 48);
-        testGetMaskForPrefix("ffff:ffff::", 32);
-        testGetMaskForPrefix("ffff::", 16);
-        testGetMaskForPrefix("::", 0);
+        testGetMaskForPrefix(128, "ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff");
+        testGetMaskForPrefix(112, "ffff:ffff:ffff:ffff:ffff:ffff:ffff::");
+        testGetMaskForPrefix(96, "ffff:ffff:ffff:ffff:ffff:ffff::");
+        testGetMaskForPrefix(80, "ffff:ffff:ffff:ffff:ffff::");
+        testGetMaskForPrefix(64, "ffff:ffff:ffff:ffff::");
+        testGetMaskForPrefix(48, "ffff:ffff:ffff::");
+        testGetMaskForPrefix(32, "ffff:ffff::");
+        testGetMaskForPrefix(16, "ffff::");
+        testGetMaskForPrefix(0, "::");
     }
 
     @Test
     public void testGetMaskForPrefixIPv4() {
-        testGetMaskForPrefix("255.255.255.255", 32);
-        testGetMaskForPrefix("255.255.255.254", 31);
-        testGetMaskForPrefix("255.255.255.252", 30);
-        testGetMaskForPrefix("255.255.255.248", 29);
-        testGetMaskForPrefix("255.255.255.240", 28);
-        testGetMaskForPrefix("255.255.255.224", 27);
-        testGetMaskForPrefix("255.255.255.192", 26);
-        testGetMaskForPrefix("255.255.255.128", 25);
-        testGetMaskForPrefix("255.255.255.0", 24);
-        testGetMaskForPrefix("255.255.254.0", 23);
-        testGetMaskForPrefix("255.255.252.0", 22);
-        testGetMaskForPrefix("255.255.248.0", 21);
-        testGetMaskForPrefix("255.255.240.0", 20);
-        testGetMaskForPrefix("255.255.224.0", 19);
-        testGetMaskForPrefix("255.255.192.0", 18);
-        testGetMaskForPrefix("255.255.128.0", 17);
-        testGetMaskForPrefix("255.255.0.0", 16);
-        testGetMaskForPrefix("255.254.0.0", 15);
-        testGetMaskForPrefix("255.252.0.0", 14);
-        testGetMaskForPrefix("255.248.0.0", 13);
-        testGetMaskForPrefix("255.240.0.0", 12);
-        testGetMaskForPrefix("255.224.0.0", 11);
-        testGetMaskForPrefix("255.192.0.0", 10);
-        testGetMaskForPrefix("255.128.0.0", 9);
-        testGetMaskForPrefix("255.0.0.0", 8);
-        testGetMaskForPrefix("254.0.0.0", 7);
-        testGetMaskForPrefix("252.0.0.0", 6);
-        testGetMaskForPrefix("248.0.0.0", 5);
-        testGetMaskForPrefix("240.0.0.0", 4);
-        testGetMaskForPrefix("224.0.0.0", 3);
-        testGetMaskForPrefix("192.0.0.0", 2);
-        testGetMaskForPrefix("128.0.0.0", 1);
-        testGetMaskForPrefix("0.0.0.0", 0);
+        testGetMaskForPrefix(32, "255.255.255.255");
+        testGetMaskForPrefix(31, "255.255.255.254");
+        testGetMaskForPrefix(30, "255.255.255.252");
+        testGetMaskForPrefix(29, "255.255.255.248");
+        testGetMaskForPrefix(28, "255.255.255.240");
+        testGetMaskForPrefix(27, "255.255.255.224");
+        testGetMaskForPrefix(26, "255.255.255.192");
+        testGetMaskForPrefix(25, "255.255.255.128");
+        testGetMaskForPrefix(24, "255.255.255.0");
+        testGetMaskForPrefix(23, "255.255.254.0");
+        testGetMaskForPrefix(22, "255.255.252.0");
+        testGetMaskForPrefix(21, "255.255.248.0");
+        testGetMaskForPrefix(20, "255.255.240.0");
+        testGetMaskForPrefix(19, "255.255.224.0");
+        testGetMaskForPrefix(18, "255.255.192.0");
+        testGetMaskForPrefix(17, "255.255.128.0");
+        testGetMaskForPrefix(16, "255.255.0.0");
+        testGetMaskForPrefix(15, "255.254.0.0");
+        testGetMaskForPrefix(14, "255.252.0.0");
+        testGetMaskForPrefix(13, "255.248.0.0");
+        testGetMaskForPrefix(12, "255.240.0.0");
+        testGetMaskForPrefix(11, "255.224.0.0");
+        testGetMaskForPrefix(10, "255.192.0.0");
+        testGetMaskForPrefix(9, "255.128.0.0");
+        testGetMaskForPrefix(8, "255.0.0.0");
+        testGetMaskForPrefix(7, "254.0.0.0");
+        testGetMaskForPrefix(6, "252.0.0.0");
+        testGetMaskForPrefix(5, "248.0.0.0");
+        testGetMaskForPrefix(4, "240.0.0.0");
+        testGetMaskForPrefix(3, "224.0.0.0");
+        testGetMaskForPrefix(2, "192.0.0.0");
+        testGetMaskForPrefix(1, "128.0.0.0");
+        testGetMaskForPrefix(0, "0.0.0.0");
     }
 
     private boolean isAddressInRange(String range, String address) {
@@ -282,7 +282,7 @@ public class IPAddressRangeTest {
     }
 
 
-    private void testGetMaskForPrefix(String address, int subnet) {
+    private void testGetMaskForPrefix(int subnet, String address) {
         IPAddress ipAddress = new IPAddress(address);
         errors.checkThat(IPAddressRange.getMaskForPrefix(subnet, ipAddress.getBitSize()), is(ipAddress));
     }

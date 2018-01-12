@@ -27,10 +27,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import net.opengis.gml.ReferenceType;
 import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
 import net.opengis.sos.x10.ContentsDocument;
 import net.opengis.sos.x10.FilterCapabilitiesDocument;
 import net.opengis.sos.x10.ObservationOfferingType;
+import net.opengis.swe.x101.PhenomenonPropertyType;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,9 +130,7 @@ public class CapabilitiesDecoder extends AbstractCapabilitiesBaseTypeDecoder<Cap
         return Optional.ofNullable(obsOffType.getProcedureArray())
                 .map(Arrays::stream)
                 .orElseGet(Stream::empty)
-                .map((procedure) -> {
-                    return procedure.getHref();
-                })
+                .map(ReferenceType::getHref)
                 .collect(toSet());
     }
 
@@ -143,9 +143,7 @@ public class CapabilitiesDecoder extends AbstractCapabilitiesBaseTypeDecoder<Cap
         return Optional.ofNullable(obsOffType.getObservedPropertyArray())
                 .map(Arrays::stream)
                 .orElseGet(Stream::empty)
-                .map((obsProp) -> {
-                    return obsProp.getHref();
-                })
+                .map(PhenomenonPropertyType::getHref)
                 .collect(toSet());
     }
 
@@ -175,9 +173,7 @@ public class CapabilitiesDecoder extends AbstractCapabilitiesBaseTypeDecoder<Cap
         return Optional.ofNullable(obsOffType.getFeatureOfInterestArray())
                 .map(Arrays::stream)
                 .orElseGet(Stream::empty)
-                .map((foi) -> {
-                    return foi.getHref();
-                })
+                .map(ReferenceType::getHref)
                 .collect(toSet());
     }
 

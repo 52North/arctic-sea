@@ -77,7 +77,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
             return null;
         }
 
-        return ip2SpatialData(ip.asInetAddress());
+        return ip2SpatialData(ip.getInetAddress());
     }
 
     @Override
@@ -99,7 +99,7 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
             return null;
         }
         try {
-            Map<String, Object> holder = new HashMap<>();
+            Map<String, Object> holder = new HashMap<>(3);
             if (dbType == LocationDatabaseType.COUNTRY) {
                 Country country = reader.country(ip).getCountry();
                 holder.put(ObjectEsParameterFactory.GEOLOC_COUNTRY_CODE.getName(), country.getIsoCode());
@@ -151,7 +151,6 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
                 LOG.error("DatabaseType {} not match with the databasefile {}. Exiting.",
                              type.toString(), pathToDatabase);
                 destroy();
-                return;
             }
         } catch (Throwable e) {
             LOG.error("Couldn't initation geolocation database ", e);
@@ -252,19 +251,17 @@ public class StatisticsLocationUtil implements IStatisticsLocationUtil, IAdminSt
                 }
             }
             // db type
-            String pathToDatabase = null;
+            String pathToDatabase;
             if (dbType == LocationDatabaseType.CITY) {
                 if (isAutoDownload) {
                     pathToDatabase = downloadFolderPath + "/" + GeoLiteFileDownloader.CITY_FILE_NAME;
                 } else {
                     pathToDatabase = cityDbLoc;
                 }
+            } else if (isAutoDownload) {
+                pathToDatabase = downloadFolderPath + "/" + GeoLiteFileDownloader.COUNTRY_FILE_NAME;
             } else {
-                if (isAutoDownload) {
-                    pathToDatabase = downloadFolderPath + "/" + GeoLiteFileDownloader.COUNTRY_FILE_NAME;
-                } else {
-                    pathToDatabase = countryDbLoc;
-                }
+                pathToDatabase = countryDbLoc;
             }
             if (pathToDatabase == null) {
                 LOG.error("Path to type {} database can't be empty. Check your location database type or the path",

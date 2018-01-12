@@ -18,7 +18,12 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
+import net.opengis.swes.x20.DescribeSensorResponseDocument;
+import net.opengis.swes.x20.DescribeSensorResponseType;
+import net.opengis.swes.x20.SensorDescriptionType;
+
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
@@ -32,10 +37,6 @@ import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Sets;
-
-import net.opengis.swes.x20.DescribeSensorResponseDocument;
-import net.opengis.swes.x20.DescribeSensorResponseType;
-import net.opengis.swes.x20.SensorDescriptionType;
 
 /**
  * TODO JavaDoc
