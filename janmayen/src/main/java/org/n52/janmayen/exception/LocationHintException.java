@@ -18,7 +18,7 @@ package org.n52.janmayen.exception;
 
 import java.util.Optional;
 
-import com.google.common.base.Strings;
+import javax.annotation.Nullable;
 
 /**
  * Exception with an additional location hint.
@@ -29,45 +29,61 @@ public abstract class LocationHintException extends StringInterpolationException
     private static final long serialVersionUID = -5034943514826747244L;
     private final String location;
 
-    public LocationHintException(String message, Object... args) {
+    public LocationHintException(@Nullable String message,
+                                 @Nullable Object... args) {
         this(null, (String) null, message, args);
     }
 
-    public LocationHintException(String message, Throwable cause) {
+    public LocationHintException(@Nullable String message,
+                                 @Nullable Throwable cause) {
         this(cause, (String) null, message, (Object[]) null);
     }
 
-    public LocationHintException(Throwable cause) {
+    public LocationHintException(@Nullable Throwable cause) {
         this(cause, (String) null, null, (Object[]) null);
     }
 
-    public LocationHintException(Throwable cause, String location) {
+    public LocationHintException(@Nullable Throwable cause,
+                                 @Nullable String location) {
         this(cause, location, null, (Object[]) null);
     }
 
-    public LocationHintException(Throwable cause, Enum<?> location) {
+    public LocationHintException(@Nullable Throwable cause,
+                                 @Nullable Enum<?> location) {
         this(cause, location, null, (Object[]) null);
     }
 
-    public LocationHintException(String location, String message, Object... args) {
+    public LocationHintException(@Nullable String location,
+                                 @Nullable String message,
+                                 @Nullable Object... args) {
         this(null, location, message, args);
     }
 
-    public LocationHintException(Enum<?> location, String message, Object... args) {
+    public LocationHintException(@Nullable Enum<?> location,
+                                 @Nullable String message,
+                                 @Nullable Object... args) {
         this(null, location, message, args);
     }
 
-    public LocationHintException(Throwable cause, String message, Object... args) {
+    public LocationHintException(@Nullable Throwable cause,
+                                 @Nullable String message,
+                                 @Nullable Object... args) {
         this(cause, (String) null, message, args);
     }
 
-    public LocationHintException(Throwable cause, Enum<?> location, String message, Object... args) {
+    public LocationHintException(@Nullable Throwable cause,
+                                 @Nullable Enum<?> location,
+                                 @Nullable String message,
+                                 @Nullable Object... args) {
         this(cause, location == null ? (String) null : location.name(), message, args);
     }
 
-    public LocationHintException(Throwable cause, String location, String message, Object... args) {
+    public LocationHintException(@Nullable Throwable cause,
+                                 @Nullable String location,
+                                 @Nullable String message,
+                                 @Nullable Object... args) {
         super(cause, message, args);
-        this.location = Strings.emptyToNull(location);
+        this.location = (location == null || location.isEmpty()) ? null : location;
     }
 
     public Optional<String> getLocation() {
