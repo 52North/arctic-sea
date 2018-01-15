@@ -61,6 +61,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
  * <tr><td>featureOfInterest</td><td>string</td><td>om:featureOfInterest</td></tr>
  * <tr><td>featureOfInterest/id</td><td>string</td><td>om:featureOfInterest</td></tr>
  * <tr><td>featureOfInterest/shape</td><td>geometry</td><td>om:featureOfInterest/&#x2a;/sams:shape</td></tr>
+ * <tr><td>feature</td><td>geometry</td><td>om:featureOfInterest/&#x2a;/sams:shape</td></tr>
  * <tr><td>id</td><td>string</td><td>gml:identifier</td></tr>
  * <tr><td>identifier</td><td>string</td><td>gml:identifier</td></tr>
  * <tr><td>observedProperty</td><td>string</td><td>om:observedProperty</td></tr>
@@ -196,6 +197,7 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
                             newProperty(Prop.VALID_TIME, FQN.TIME_PERIOD),
                             newProperty(Prop.OBSERVED_PROPERTY, FQN.STRING),
                             newProperty(Prop.PROCEDURE, FQN.STRING),
+                            newProperty(Prop.FEATURE, FQN.FEATURE_OF_INTEREST),
                             newProperty(Prop.FEATURE_OF_INTEREST, FQN.FEATURE_OF_INTEREST),
                             newProperty(Prop.SAMPLING_GEOMETRY, FQN.GEOMETRY_POINT),
                             newProperty(Prop.OFFERING, FQN.STRING)));
