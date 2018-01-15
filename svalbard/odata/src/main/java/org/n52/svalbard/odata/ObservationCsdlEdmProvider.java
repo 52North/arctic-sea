@@ -154,6 +154,7 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
             case Prop.FEATURE_OF_INTEREST_ID:
             case Prop.FEATURE_OF_INTEREST:
                 return ValueReference.FEATURE_OF_INTEREST;
+            case Prop.FEATURE:
             case Prop.FEATURE_OF_INTEREST_SHAPE:
                 return ValueReference.FEATURE_OF_INTEREST_SHAPE;
 
@@ -321,6 +322,7 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
         String EN_END_POSITION = GmlConstants.EN_END_POSITION;
         String EN_BEGIN_POSITION = GmlConstants.EN_BEGIN_POSITION;
 
+        String FEATURE = "feature";
         String FEATURE_OF_INTEREST_ID = "featureOfInterest/id";
         String FEATURE_OF_INTEREST_SHAPE = "featureOfInterest/shape";
 
