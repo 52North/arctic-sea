@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.SortedMap;
@@ -80,6 +81,10 @@ public class RectifiedGridCoverage
     }
 
     public void addValue(Double from, Double to, Value<?> value) {
+       addValue(new BigDecimal(from), new BigDecimal(to), value);
+    }
+
+    public void addValue(BigDecimal from, BigDecimal to, Value<?> value) {
         this.value.put(new QuantityRangeValue(from, to), value);
     }
 

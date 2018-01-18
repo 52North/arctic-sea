@@ -200,7 +200,7 @@ public class SpecimenEncoderv20
     private void addSize(SFSpecimenType sfst, SfSpecimen specimen) {
         if (specimen.isSetSize()) {
             Size size = sfst.addNewSize();
-            size.setDoubleValue(specimen.getSize().getValue());
+            size.setDoubleValue(specimen.getSize().getValue().doubleValue());
             if (specimen.getSize().isSetUnit()) {
                 size.setUom(specimen.getSize().getUnit());
             }

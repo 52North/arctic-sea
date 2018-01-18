@@ -237,7 +237,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweQuantity.class)));
         SweQuantity swe = (SweQuantity) field.getElement();
-        errors.checkThat(swe.getValue(), is(QUANTITY_VALUE_START));
+        errors.checkThat(swe.getValue().doubleValue(), is(QUANTITY_VALUE_START));
         errors.checkThat(swe.getUom(), is(UOM));
     }
 
@@ -263,8 +263,8 @@ public class FieldDecoderTest {
         SweQuantityRange swe = (SweQuantityRange) field.getElement();
         errors.checkThat(swe.getUom(), is(UOM));
         errors.checkThat(swe.getValue(), is(notNullValue()));
-        errors.checkThat(swe.getValue().getRangeStart(), is(QUANTITY_VALUE_START));
-        errors.checkThat(swe.getValue().getRangeEnd(), is(QUANTITY_VALUE_END));
+        errors.checkThat(swe.getValue().getRangeStart().doubleValue(), is(QUANTITY_VALUE_START));
+        errors.checkThat(swe.getValue().getRangeEnd().doubleValue(), is(QUANTITY_VALUE_END));
     }
 
     @Test

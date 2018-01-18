@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.decode;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -260,20 +261,20 @@ public abstract class AbstractGmlDecoderv321<T, S>
             namedValue.setValue((GeometryValue) value);
             return namedValue;
         } else if (value instanceof QuantityValue) {
-            NamedValue<Double> namedValue = new NamedValue<>();
+            NamedValue<BigDecimal> namedValue = new NamedValue<>();
             namedValue.setValue((QuantityValue) value);
             return namedValue;
         } else if (value instanceof GmlMeasureType) {
-            NamedValue<Double> namedValue = new NamedValue<>();
+            NamedValue<BigDecimal> namedValue = new NamedValue<>();
             namedValue.setValue(
                     new QuantityValue(((GmlMeasureType) value).getValue(), ((GmlMeasureType) value).getUnit()));
             return namedValue;
         } else if (value instanceof SweQuantity) {
-            NamedValue<Double> namedValue = new NamedValue<>();
+            NamedValue<BigDecimal> namedValue = new NamedValue<>();
             namedValue.setValue(new QuantityValue(((SweQuantity) value).getValue(), ((SweQuantity) value).getUom()));
             return namedValue;
         } else if (value instanceof Double) {
-            NamedValue<Double> namedValue = new NamedValue<>();
+            NamedValue<BigDecimal> namedValue = new NamedValue<>();
             namedValue.setValue(new QuantityValue((Double) value));
             return namedValue;
         } else if (value instanceof TextValue) {

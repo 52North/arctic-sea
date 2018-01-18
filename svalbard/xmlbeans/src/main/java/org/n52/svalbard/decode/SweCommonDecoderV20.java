@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.decode;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -445,13 +446,13 @@ public class SweCommonDecoderV20
         return uom;
     }
 
-    private RangeValue<Double> parseRangeValue(List<?> value) throws DecodingException {
+    private RangeValue<BigDecimal> parseRangeValue(List<?> value) throws DecodingException {
         if (value == null || value.isEmpty() || value.size() != 2) {
             throw new DecodingException("?:QuantityRange/?:value",
                     "The 'swe:value' element of an 'swe:QuantityRange' is not set correctly");
         }
-        return new RangeValue<>(Double.parseDouble(value.get(0).toString()),
-                Double.parseDouble(value.get(1).toString()));
+        return new RangeValue<>(new BigDecimal(value.get(0).toString()),
+                new BigDecimal(value.get(1).toString()));
     }
 
     private SweText parseText(final TextType xbText) {

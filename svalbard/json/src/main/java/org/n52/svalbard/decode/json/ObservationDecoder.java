@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.decode.json;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
@@ -199,7 +200,7 @@ public class ObservationDecoder
                 nv.setValue(parseCategroyValue(value));
                 return nv;
             } else if (value.has(JSONConstants.UOM)) {
-                NamedValue<Double> nv = new NamedValue<>();
+                NamedValue<BigDecimal> nv = new NamedValue<>();
                 nv.setValue(parseQuantityValue(value));
                 return nv;
             } else if (value.has(JSONConstants.COORDINATES)) {

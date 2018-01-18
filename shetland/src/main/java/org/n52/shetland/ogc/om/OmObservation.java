@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -663,7 +664,7 @@ public class OmObservation
      *
      * @return Height parameter
      */
-    public NamedValue<Double> getHeightParameter() {
+    public NamedValue<BigDecimal> getHeightParameter() {
         return parameterHolder.getHeightParameter();
     }
 
@@ -681,7 +682,7 @@ public class OmObservation
      *
      * @return Depth parameter
      */
-    public NamedValue<Double> getDepthParameter() {
+    public NamedValue<BigDecimal> getDepthParameter() {
         return parameterHolder.getDepthParameter();
     }
 
@@ -689,7 +690,7 @@ public class OmObservation
         return parameterHolder.isSetHeightDepthParameter();
     }
 
-    public NamedValue<Double> getHeightDepthParameter() {
+    public NamedValue<BigDecimal> getHeightDepthParameter() {
         return parameterHolder.getHeightDepthParameter();
     }
 

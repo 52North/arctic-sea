@@ -839,7 +839,7 @@ public class SweCommonEncoderv20
                 xml.setAxisID(component.getAxisID());
             }
             if (component.isSetValue()) {
-                xml.setValue(component.getValue());
+                xml.setValue(component.getValue().doubleValue());
             }
             if (component.isSetUom()) {
                 xml.setUom(createUnitReference(component.getUomObject()));
