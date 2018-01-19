@@ -188,7 +188,7 @@ public class CapabilitiesTypeDecoder extends
 
     private Time parsePhenomenonTime(ObservationOfferingType obsOff) {
         return Optional.ofNullable(obsOff.getPhenomenonTime())
-                .map((phenTime) -> {
+                .map(phenTime -> {
                     try {
                         return (Time) decodeXmlElement(phenTime.getTimePeriod());
                     } catch (DecodingException ex) {
@@ -213,7 +213,7 @@ public class CapabilitiesTypeDecoder extends
     }
 
     private ReferencedEnvelope parseObservedArea(ObservationOfferingType obsOff) {
-        return Optional.ofNullable(obsOff.getObservedArea()).map((obsArea) -> {
+        return Optional.ofNullable(obsOff.getObservedArea()).map(obsArea -> {
             try {
                 EnvelopeType envelope = obsArea.getEnvelope();
                 Object decodeXmlElement = decodeXmlElement(envelope);
@@ -230,7 +230,7 @@ public class CapabilitiesTypeDecoder extends
         for (RelatedFeature releatedFeature : obsOff.getRelatedFeatureArray()) {
             String feature = releatedFeature.getFeatureRelationship().getTarget().getHref();
             String role = releatedFeature.getFeatureRelationship().getRole();
-            Set<String> roles = map.computeIfAbsent(feature, (key) -> new HashSet<>(1));
+            Set<String> roles = map.computeIfAbsent(feature, key -> new HashSet<>(1));
             if (role != null) {
                 roles.add(role);
             }
@@ -240,7 +240,7 @@ public class CapabilitiesTypeDecoder extends
 
     private Time parseResultTime(ObservationOfferingType obsOff) {
         return Optional.ofNullable(obsOff.getResultTime())
-                .map((resultTime) -> {
+                .map(resultTime -> {
                     try {
                         return (Time) decodeXmlElement(resultTime.getTimePeriod());
                     } catch (DecodingException ex) {

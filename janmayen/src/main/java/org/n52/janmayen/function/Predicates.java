@@ -116,7 +116,7 @@ public final class Predicates {
      */
     public static <T, U> Predicate<U> curryFirst(@Nonnull BiPredicate<T, U> predicate, T t) {
         Objects.requireNonNull(predicate);
-        return (u) -> predicate.test(t, u);
+        return u -> predicate.test(t, u);
     }
 
     /**
@@ -131,6 +131,6 @@ public final class Predicates {
      */
     public static <T, U> Predicate<T> currySecond(@Nonnull BiPredicate<T, U> predicate, U u) {
         Objects.requireNonNull(predicate);
-        return (t) -> predicate.test(t, u);
+        return t -> predicate.test(t, u);
     }
 }

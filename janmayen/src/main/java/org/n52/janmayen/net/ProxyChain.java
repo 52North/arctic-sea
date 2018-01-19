@@ -24,6 +24,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,19 +35,28 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 
 /**
- * Representation of a proxy chain as found in HTTP {@code X-Forwarded-For}
- * header.
+ * Representation of a proxy chain as found in HTTP {@code X-Forwarded-For} header.
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public class ProxyChain {
     private static final Logger LOG = LoggerFactory.getLogger(ProxyChain.class);
+    private static final Pattern PATTERN = Pattern
+            .compile("^\\s*" +
+                     "(?:" +
+                     "\\[(" + IPAddress.getV6Pattern().pattern() + ")\\](?::\\d+)?" +
+                     "|" +
+                     "(" + IPAddress.getV6Pattern().pattern() + ")" +
+                     "|" +
+                     "(" + IPAddress.getV4Pattern().pattern() + ")(?::\\d+)?" +
+                     ")" +
+                     "\\s*$");
+
     private final List<IPAddress> proxies;
     private final IPAddress origin;
 
     /**
-     * Creates a new chain from a origin (the original client) and all
-     * intermediate proxies.
+     * Creates a new chain from a origin (the original client) and all intermediate proxies.
      *
      * @param origin  the origin
      * @param proxies the proxies
@@ -59,8 +70,8 @@ public class ProxyChain {
     }
 
     /**
-     * Creates a new chain from a list of addresses as found in the
-     * {@code X-Forwarded-For} header. The list has to have at least one member.
+     * Creates a new chain from a list of addresses as found in the {@code X-Forwarded-For} header. The list has to have
+     * at least one member.
      *
      * @param chain the chain
      */
@@ -119,8 +130,7 @@ public class ProxyChain {
      *
      * @param header the {@code X-Forwarded-For} header
      *
-     * @return a {@code ProxyChain} if the header is present, non empty and well
-     *         formed.
+     * @return a {@code ProxyChain} if the header is present, non empty and well formed.
      */
     public static Optional<ProxyChain> fromForwardedForHeader(String header) {
         return Optional.ofNullable(header)
@@ -135,11 +145,21 @@ public class ProxyChain {
 
     @VisibleForTesting
     static IPAddress getIPAddress(String address) {
-        try {
-            return new IPAddress(address.split(":")[0].trim());
-        } catch (IllegalArgumentException e) {
-            LOG.warn("Ignoring invalid IP address in X-Forwared-For header: " + address, e);
-            return null;
+        Matcher matcher = PATTERN.matcher(address);
+        if (matcher.find()) {
+            for (int i = 1; i <= matcher.groupCount(); ++i) {
+                if (matcher.group(i) != null) {
+                    try {
+                        return new IPAddress(matcher.group(i));
+                    } catch (IllegalArgumentException e) {
+                        LOG.warn("Ignoring invalid IP address in X-Forwared-For header: " + address, e);
+                        return null;
+                    }
+                }
+            }
         }
+        LOG.warn("Ignoring invalid IP address in X-Forwared-For header: {}", address);
+        return null;
+
     }
 }

@@ -29,12 +29,13 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>
  * @author <a href="mailto:e.h.juerrens@52north.org">J6uuml;rrens, Eike Hinderk</a>
+ * @param <T> the request type
  */
 public abstract class AbstractSwesRequestEncoder<T extends OwsServiceRequest> extends AbstractRequestEncoder<T> {
 
     public AbstractSwesRequestEncoder(String operation, Class<T> responseType) {
         super(SosConstants.SOS, Sos2Constants.SERVICEVERSION, operation, SwesConstants.NS_SWES_20,
-                SwesConstants.NS_SWES_PREFIX, responseType);
+              SwesConstants.NS_SWES_PREFIX, responseType);
     }
 
     @Override

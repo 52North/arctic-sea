@@ -475,12 +475,10 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
 
         @Override
         public Filter<?> visitComparison(ComparisonExpr expr) throws DecodingException {
-            MemberValueExprPair orElseThrow = getMemberValuePair(expr)
-                    .orElseThrow(this::unsupported);
-            Filter<?> f;
+            MemberValueExprPair memberValuePair = getMemberValuePair(expr).orElseThrow(this::unsupported);
             return new ComparisonFilter(expr.getOperator(),
-                                        orElseThrow.getMember().getValue(),
-                                        orElseThrow.getValue().getValue());
+                                        memberValuePair.getMember().getValue(),
+                                        memberValuePair.getValue().getValue());
         }
 
         @Override

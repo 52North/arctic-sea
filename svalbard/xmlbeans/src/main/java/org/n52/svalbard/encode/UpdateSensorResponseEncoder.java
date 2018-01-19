@@ -18,6 +18,9 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
+import net.opengis.swes.x20.UpdateSensorDescriptionResponseDocument;
+import net.opengis.swes.x20.UpdateSensorDescriptionResponseType;
+
 import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -28,9 +31,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
 
-import net.opengis.swes.x20.UpdateSensorDescriptionResponseDocument;
-import net.opengis.swes.x20.UpdateSensorDescriptionResponseType;
-
 /**
  * TODO JavaDoc
  *
@@ -39,6 +39,7 @@ import net.opengis.swes.x20.UpdateSensorDescriptionResponseType;
  * @since 1.0.0
  */
 public class UpdateSensorResponseEncoder extends AbstractSwesResponseEncoder<UpdateSensorResponse> {
+
     public UpdateSensorResponseEncoder() {
         super(Sos2Constants.Operations.UpdateSensorDescription.name(), UpdateSensorResponse.class);
     }

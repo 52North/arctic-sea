@@ -265,7 +265,7 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
     private List<SoapHeader> checkSoapHeaders(List<SoapHeader> headers) {
         if (CollectionHelper.isNotEmpty(headers)) {
-            return headers.stream().map((header) -> {
+            return headers.stream().map(header -> {
                 if (header instanceof WsaMessageIDHeader) {
                     return ((WsaMessageIDHeader) header).getRelatesToHeader();
                 } else if (header instanceof WsaReplyToHeader) {

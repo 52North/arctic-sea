@@ -27,6 +27,7 @@ import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
 import org.n52.janmayen.Times;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
@@ -302,7 +303,7 @@ public final class DateTimeHelper {
      *            The DateTime.
      * @return Returns formatted time String.
      *
-     * @throws DateTimeFormatException,
+     * @throws DateTimeFormatException
      *             If an error occurs.
      */
     public static String formatDateTime2YearMonthDayDateStringYMD(DateTime dateTime) {

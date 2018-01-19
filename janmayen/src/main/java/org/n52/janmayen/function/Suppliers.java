@@ -65,6 +65,6 @@ public final class Suppliers {
      * @return the function
      */
     public static <U, V> Function<U, V> asFunction(Supplier<V> supplier) {
-        return (u) -> supplier.get();
+        return u -> supplier.get();
     }
 }

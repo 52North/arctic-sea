@@ -16,8 +16,11 @@
  */
 package org.n52.janmayen.http;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Objects;
 
 import org.n52.janmayen.similar.Similar;
@@ -25,10 +28,8 @@ import org.n52.janmayen.similar.Similar;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Multimap;
-
-
 
 /**
  * TODO JavaDoc
@@ -49,7 +50,6 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
     public static final String TEXT_TYPE = "text";
     public static final String WILDCARD_TYPE = "*";
     private static final String QUALITY_PARAMETER = "q";
-    private static final ImmutableListMultimap<String, String> EMPTY_MULTI_MAP = ImmutableListMultimap.of();
 
     private static final MediaType ANY = new MediaType(WILDCARD_TYPE, WILDCARD_TYPE);
     private static final MediaType ANY_APPLICATION = application(WILDCARD_TYPE);
@@ -67,66 +67,71 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
      * Constructs a <code>*&#47;*</code> media type.
      */
     public MediaType() {
-        this(WILDCARD_TYPE, WILDCARD_TYPE, EMPTY_MULTI_MAP);
+        this(WILDCARD_TYPE, WILDCARD_TYPE, Collections.emptyMap());
     }
 
     /**
      * Constructs a <code>type&#47;*</code> media type.
      *
-     * @param type
-     *            the type (may be <code>null</code> for a wild card)
+     * @param type the type (may be <code>null</code> for a wild card)
      */
     public MediaType(String type) {
-        this(type, WILDCARD_TYPE, EMPTY_MULTI_MAP);
+        this(type, WILDCARD_TYPE, Collections.emptyMap());
     }
 
     /**
      * Constructs a <code>type&#47;subtype</code> media type.
      *
-     * @param type
-     *            the type (may be <code>null</code> for a wild card)
-     * @param subtype
-     *            the subtype (may be <code>null</code> for a wild card)
+     * @param type    the type (may be <code>null</code> for a wild card)
+     * @param subtype the subtype (may be <code>null</code> for a wild card)
      */
     public MediaType(String type, String subtype) {
-        this(type, subtype, EMPTY_MULTI_MAP);
+        this(type, subtype, Collections.emptyMap());
     }
 
     /**
      * Constructs a <code>type&#47;subtype;parameter="name"</code> media type.
      *
-     * @param type
-     *            the type (may be <code>null</code> for a wild card)
-     * @param subtype
-     *            the subtype (may be <code>null</code> for a wild card)
-     * @param parameter
-     *            the parameter
-     * @param parameterValue
-     *            the parameter value
+     * @param type           the type (may be <code>null</code> for a wild card)
+     * @param subtype        the subtype (may be <code>null</code> for a wild card)
+     * @param parameter      the parameter
+     * @param parameterValue the parameter value
      */
-    public MediaType(String type, String subtype, String parameter, String parameterValue) {
-        this(type, subtype, ImmutableListMultimap.of(
-                Objects.requireNonNull(parameter).toLowerCase(Locale.ROOT),
-                Objects.requireNonNull(parameterValue)));
+    public MediaType(String type,
+                     String subtype,
+                     String parameter,
+                     String parameterValue) {
+        this(type, subtype, Collections.singletonMap(
+             Objects.requireNonNull(parameter).toLowerCase(Locale.ROOT),
+             Collections.singletonList(Objects.requireNonNull(parameterValue))));
     }
 
     /**
      * Constructs a media type using the supplied parameters.
      *
-     * @param type
-     *            the type (may be <code>null</code> for a wild card)
-     * @param subtype
-     *            the subtype (may be <code>null</code> for a wild card)
-     * @param parameters
-     *            the parameter map
+     * @param type       the type (may be <code>null</code> for a wild card)
+     * @param subtype    the subtype (may be <code>null</code> for a wild card)
+     * @param parameters the parameter map
      */
+    public MediaType(String type, String subtype, Map<String, ? extends Collection<String>> parameters) {
+        this(com.google.common.net.MediaType.create(type, subtype).withParameters(asMultiMap(parameters)));
+    }
+
+    /**
+     * Constructs a media type using the supplied parameters.
+     *
+     * @param type       the type (may be <code>null</code> for a wild card)
+     * @param subtype    the subtype (may be <code>null</code> for a wild card)
+     * @param parameters the parameter map
+     * @deprecated use {@link #MediaType(java.lang.String, java.lang.String, java.util.Map) }
+     */
+    @Deprecated
     public MediaType(String type, String subtype, Multimap<String, String> parameters) {
-        this(com.google.common.net.MediaType.create(type, subtype)
-                .withParameters(Objects.requireNonNull(parameters)));
+        this(type, subtype, parameters.asMap());
     }
 
     private MediaType(com.google.common.net.MediaType mediaType) {
-        this.delegate = mediaType;
+        this.delegate = Objects.requireNonNull(mediaType);
     }
 
     public String getType() {
@@ -137,8 +142,8 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return getDelegate().subtype();
     }
 
-    public ImmutableListMultimap<String, String> getParameters() {
-        return getDelegate().parameters();
+    public Map<String, Collection<String>> getParameters() {
+        return getDelegate().parameters().asMap();
     }
 
     public boolean isWildcard() {
@@ -167,7 +172,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return false;
     }
 
-    public List<String> getParameter(String parameter) {
+    public Collection<String> getParameter(String parameter) {
         return getParameters().get(parameter.toLowerCase(Locale.ROOT));
     }
 
@@ -177,7 +182,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
 
     public float getQuality() {
         if (hasParameter(QUALITY_PARAMETER)) {
-            return Float.valueOf(getParameter(QUALITY_PARAMETER).get(0));
+            return Float.valueOf(getParameter(QUALITY_PARAMETER).iterator().next());
         } else {
             return 1;
         }
@@ -200,7 +205,7 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return new MediaType(getDelegate().withParameter(value, value));
     }
 
-    public MediaType withParameters(Multimap<String, String> parameters) {
+    public MediaType withParameters(Map<String, ? extends Collection<String>> parameters) {
         return new MediaType(getType(), getSubtype(), parameters);
     }
 
@@ -208,9 +213,9 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         if (!hasParameter(parameter)) {
             return this;
         }
-        ArrayListMultimap<String, String> parameters = ArrayListMultimap.create(getParameters());
-        parameters.removeAll(parameter);
-        return new MediaType(getDelegate().withParameters(parameters));
+        Map<String, Collection<String>> parameters = new HashMap<>(getParameters());
+        parameters.remove(parameter);
+        return withParameters(parameters);
     }
 
     public MediaType withoutQuality() {
@@ -271,17 +276,24 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return delegate;
     }
 
+    private static <K, V> Multimap<K, V> asMultiMap(Map<K, ? extends Collection<V>> map) {
+        Objects.requireNonNull(map);
+        ListMultimap<K, V> multiMap = ArrayListMultimap.create();
+        map.forEach(multiMap::putAll);
+        return multiMap;
+    }
+
     public static MediaType parse(String string) {
         Preconditions.checkArgument(string != null);
         return new MediaType(com.google.common.net.MediaType.parse(string.trim()));
     }
 
     /**
-     * Normalize mime type string by processing it through the MediaType parser.
-     * Handles differing spaces between type and subtype, etc.
+     * Normalize mime type string by processing it through the MediaType parser. Handles differing spaces between type
+     * and subtype, etc.
      *
-     * @param string
-     *            Mime type string to normalize
+     * @param string Mime type string to normalize
+     *
      * @return Normalized mime type string
      */
     public static String normalizeString(String string) {
@@ -360,5 +372,3 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         return ANY_MULTIPART;
     }
 }
-
-

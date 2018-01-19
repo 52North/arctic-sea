@@ -23,12 +23,12 @@
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>10</version>
+        <version>11</version>
     </parent>
 
     <groupId>org.n52.arctic-sea</groupId>
     <artifactId>arctic-sea</artifactId>
-    <version>3.1.0-SNAPSHOT</version>
+    <version>3.2.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>52°North Arctic Sea</name>
@@ -259,7 +259,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>23.6-jre</version>
+                <version>23.4-jre</version>
                 <exclusions>
                     <exclusion>
                         <groupId>com.google.code.findbugs</groupId>

@@ -57,7 +57,7 @@ public abstract class CompositeParallelAction<A extends ThreadableAction> extend
             countDownLatch = new CountDownLatch(getActions().size());
 
             //preprocess and submit actions
-            getActions().stream().forEachOrdered((action) -> {
+            getActions().stream().forEachOrdered(action -> {
                 action.setParentCountDownLatch(countDownLatch);
                 pre(action);
                 executor.submit(action);
