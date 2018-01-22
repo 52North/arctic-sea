@@ -16,35 +16,32 @@
  */
 package org.n52.svalbard.encode.json;
 
-import org.n52.shetland.w3c.Nillable;
+import org.n52.janmayen.stream.MoreCollectors;
+import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.svalbard.coding.json.AQDJSONConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class NillableJSONEncoder extends JSONEncoder<Nillable<?>> {
+public class PTFreeTextJSONEncoder extends JSONEncoder<PT_FreeText> {
 
-    public NillableJSONEncoder() {
-        super(Nillable.class);
+    public PTFreeTextJSONEncoder() {
+        super(PT_FreeText.class);
     }
 
     @Override
-    public JsonNode encodeJSON(Nillable<?> t)
-            throws EncodingException {
-        if (t.isAbsent()) {
-            return nodeFactory().nullNode();
-        } else if (t.isNil()) {
-            return nodeFactory().objectNode()
-                    .put(AQDJSONConstants.NIL, true)
-                    .put(AQDJSONConstants.REASON, t.getNilReason().orElse(null));
-        } else {
-            return encodeObjectToJson(t.get());
-        }
+    public JsonNode encodeJSON(PT_FreeText t) throws EncodingException {
+        return t.getTextGroup().stream()
+                .map(string -> nodeFactory().objectNode()
+                .put(AQDJSONConstants.LANGUAGE, string.getLocale())
+                .put(AQDJSONConstants.TEXT, string.getValue()))
+                .collect(MoreCollectors.collector(nodeFactory()::arrayNode, ArrayNode::add, ArrayNode::addAll));
     }
 
 }

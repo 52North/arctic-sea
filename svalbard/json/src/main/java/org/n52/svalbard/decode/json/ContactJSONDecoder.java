@@ -25,8 +25,7 @@ import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class ContactJSONDecoder
-        extends AbstractJSONDecoder<Contact> {
+public class ContactJSONDecoder extends AbstractJSONDecoder<Contact> {
 
     public ContactJSONDecoder() {
         super(Contact.class);
@@ -38,10 +37,10 @@ public class ContactJSONDecoder
         Contact contact = new Contact();
         contact.setAddress(decodeJsonToNillable(node.path(AQDJSONConstants.ADDRESS), AddressRepresentation.class));
         contact.setContactInstructions(
-                parseNillableString(node.path(AQDJSONConstants.CONTACT_INSTRUCTIONS)).transform(this::parseFreeText));
+                parseNillableString(node.path(AQDJSONConstants.CONTACT_INSTRUCTIONS)).map(this::parseFreeText));
         contact.setElectronicMailAddress(parseNillableString(node.path(AQDJSONConstants.ELECTRONIC_MAIL_ADDRESS)));
         contact.setHoursOfService(
-                parseNillableString(node.path(AQDJSONConstants.HOURS_OF_SERVICE)).transform(this::parseFreeText));
+                parseNillableString(node.path(AQDJSONConstants.HOURS_OF_SERVICE)).map(this::parseFreeText));
         contact.setWebsite(parseNillableString(node.path(AQDJSONConstants.WEBSITE)));
         for (JsonNode n : node.path(AQDJSONConstants.TELEPHONE_FACSIMILE)) {
             contact.addTelephoneFacsimile(parseNillableString(n));

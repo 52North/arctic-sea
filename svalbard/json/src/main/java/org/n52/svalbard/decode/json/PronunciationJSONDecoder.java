@@ -46,7 +46,7 @@ public class PronunciationJSONDecoder extends AbstractJSONDecoder<Pronunciation>
         pronunciation
                 .setIPA(parseNillableString(node.path(AQDJSONConstants.IPA)));
         pronunciation.setSoundLink(parseNillableString(node
-                .path(AQDJSONConstants.SOUND_LINK)).transform(stringToURI()));
+                .path(AQDJSONConstants.SOUND_LINK)).map(stringToURI()));
         return pronunciation;
     }
 

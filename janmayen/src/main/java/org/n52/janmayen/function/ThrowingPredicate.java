@@ -59,7 +59,7 @@ public interface ThrowingPredicate<T, X extends Exception> {
      */
     default ThrowingPredicate<T, X> and(ThrowingPredicate<? super T, ? extends X> other) {
         Objects.requireNonNull(other);
-        return (t) -> test(t) && other.test(t);
+        return t -> test(t) && other.test(t);
     }
 
     /**
@@ -68,7 +68,7 @@ public interface ThrowingPredicate<T, X extends Exception> {
      * @return a predicate that represents the logical negation of this predicate
      */
     default ThrowingPredicate<T, X> negate() {
-        return (t) -> !test(t);
+        return t -> !test(t);
     }
 
     /**
@@ -89,7 +89,7 @@ public interface ThrowingPredicate<T, X extends Exception> {
      */
     default ThrowingPredicate<T, X> or(ThrowingPredicate<? super T, ? extends X> other) {
         Objects.requireNonNull(other);
-        return (t) -> test(t) || other.test(t);
+        return t -> test(t) || other.test(t);
     }
 
 }

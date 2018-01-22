@@ -39,11 +39,11 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
     }
 
     protected Nillable<String> parseNillableString(JsonNode node) {
-        return parseNillable(node).transform(JsonNode::textValue);
+        return parseNillable(node).map(JsonNode::textValue);
     }
 
     protected Nillable<PT_FreeText> parseNillablePTFreeText(JsonNode node) {
-        return parseNillable(node).transform(this::parsePTFreeText);
+        return parseNillable(node).map(this::parsePTFreeText);
     }
 
     protected Nillable<JsonNode> parseNillable(JsonNode node) {
@@ -56,7 +56,7 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
     }
 
     protected Nillable<Reference> parseNillableReference(JsonNode node) {
-        return parseNillable(node).transform(this::parseReference);
+        return parseNillable(node).map(this::parseReference);
     }
 
     protected Referenceable<JsonNode> parseReferenceable(JsonNode node) {
@@ -93,7 +93,7 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
     }
 
     protected Referenceable<Time> parseReferenceableTime(JsonNode node) {
-        return parseReferenceable(node).transform(node1 -> {
+        return parseReferenceable(node).map(node1 -> {
             try {
                 return parseTime(node1);
             } catch (DateTimeParseException ex) {
@@ -103,7 +103,7 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
     }
 
     protected Nillable<CodeType> parseNillableCodeType(JsonNode node) {
-        return parseNillable(node).transform(this::parseCodeType);
+        return parseNillable(node).map(this::parseCodeType);
     }
 
     protected <T> Nillable<T> decodeJsonToNillable(JsonNode node, final Class<T> type)
@@ -117,7 +117,7 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
             }
         };
 
-        Nillable<T> result = parseNillable(node).transform(fun);
+        Nillable<T> result = parseNillable(node).map(fun);
 
         if (fun.hasErrors()) {
             fun.propagateIfPossible(DecodingException.class);
@@ -136,7 +136,7 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
             }
         };
 
-        Referenceable<T> result = parseReferenceable(node).transform(fun);
+        Referenceable<T> result = parseReferenceable(node).map(fun);
 
         if (fun.hasErrors()) {
             fun.propagateIfPossible(DecodingException.class);

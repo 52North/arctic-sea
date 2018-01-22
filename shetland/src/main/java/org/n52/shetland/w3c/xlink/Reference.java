@@ -17,10 +17,10 @@
 package org.n52.shetland.w3c.xlink;
 
 import java.net.URI;
+import java.util.Objects;
+import java.util.Optional;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
-import com.google.common.base.Optional;
 import com.google.common.base.Strings;
 
 /**
@@ -30,21 +30,25 @@ import com.google.common.base.Strings;
  */
 public class Reference {
 
-    private Optional<URI> href = Optional.absent();
-    private Optional<String> type = Optional.absent();
-    private Optional<String> role = Optional.absent();
-    private Optional<String> arcrole = Optional.absent();
-    private Optional<String> title = Optional.absent();
-    private Optional<String> show = Optional.absent();
-    private Optional<String> actuate = Optional.absent();
-    private Optional<String> remoteSchema = Optional.absent();
+    private Optional<URI> href = Optional.empty();
+    private Optional<Type> type = Optional.empty();
+    private Optional<String> role = Optional.empty();
+    private Optional<String> arcrole = Optional.empty();
+    private Optional<String> title = Optional.empty();
+    private Optional<Show> show = Optional.empty();
+    private Optional<Actuate> actuate = Optional.empty();
+    private Optional<String> remoteSchema = Optional.empty();
 
-    public Optional<String> getType() {
+    public Optional<Type> getType() {
         return type;
     }
 
     public Reference setType(String type) {
-        this.type = Optional.fromNullable(Strings.emptyToNull(type));
+        return setType(Type.fromString(type));
+    }
+
+    public Reference setType(Type type) {
+        this.type = Optional.ofNullable(type);
         return this;
     }
 
@@ -53,7 +57,7 @@ public class Reference {
     }
 
     public Reference setHref(URI href) {
-        this.href = Optional.fromNullable(href);
+        this.href = Optional.ofNullable(href);
         return this;
 
     }
@@ -63,7 +67,7 @@ public class Reference {
     }
 
     public Reference setRole(String role) {
-        this.role = Optional.fromNullable(Strings.emptyToNull(role));
+        this.role = Optional.ofNullable(Strings.emptyToNull(role));
         return this;
     }
 
@@ -72,7 +76,7 @@ public class Reference {
     }
 
     public Reference setArcrole(String arcrole) {
-        this.arcrole = Optional.fromNullable(Strings.emptyToNull(arcrole));
+        this.arcrole = Optional.ofNullable(Strings.emptyToNull(arcrole));
         return this;
     }
 
@@ -81,25 +85,33 @@ public class Reference {
     }
 
     public Reference setTitle(String title) {
-        this.title = Optional.fromNullable(Strings.emptyToNull(title));
+        this.title = Optional.ofNullable(Strings.emptyToNull(title));
         return this;
     }
 
-    public Optional<String> getShow() {
+    public Optional<Show> getShow() {
         return show;
     }
 
     public Reference setShow(String show) {
-        this.show = Optional.fromNullable(Strings.emptyToNull(show));
+        return setShow(Show.fromString(show));
+    }
+
+    public Reference setShow(Show show) {
+        this.show = Optional.ofNullable(show);
         return this;
     }
 
-    public Optional<String> getActuate() {
+    public Optional<Actuate> getActuate() {
         return actuate;
     }
 
     public Reference setActuate(String actuate) {
-        this.actuate = Optional.fromNullable(Strings.emptyToNull(actuate));
+        return setActuate(Actuate.fromString(actuate));
+    }
+
+    public Reference setActuate(Actuate actuate) {
+        this.actuate = Optional.ofNullable(actuate);
         return this;
     }
 
@@ -108,28 +120,28 @@ public class Reference {
     }
 
     public Reference setRemoteSchema(String remoteSchema) {
-        this.remoteSchema = Optional.fromNullable(Strings.emptyToNull(remoteSchema));
+        this.remoteSchema = Optional.ofNullable(Strings.emptyToNull(remoteSchema));
         return this;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(getActuate(), getArcrole(), getHref(),
-            getRemoteSchema(), getRole(), getShow(), getTitle(), getType());
+        return Objects.hash(getActuate(), getArcrole(), getHref(),
+                            getRemoteSchema(), getRole(), getShow(), getTitle(), getType());
     }
 
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Reference) {
             Reference that = (Reference) obj;
-            return Objects.equal(getActuate(), that.getActuate()) &&
-                   Objects.equal(getArcrole(), that.getArcrole()) &&
-                   Objects.equal(getHref(), that.getHref()) &&
-                   Objects.equal(getRemoteSchema(), that.getRemoteSchema()) &&
-                   Objects.equal(getRole(), that.getRole()) &&
-                   Objects.equal(getShow(), that.getShow()) &&
-                   Objects.equal(getTitle(), that.getTitle()) &&
-                   Objects.equal(getType(), that.getType());
+            return Objects.equals(getActuate(), that.getActuate()) &&
+                   Objects.equals(getArcrole(), that.getArcrole()) &&
+                   Objects.equals(getHref(), that.getHref()) &&
+                   Objects.equals(getRemoteSchema(), that.getRemoteSchema()) &&
+                   Objects.equals(getRole(), that.getRole()) &&
+                   Objects.equals(getShow(), that.getShow()) &&
+                   Objects.equals(getTitle(), that.getTitle()) &&
+                   Objects.equals(getType(), that.getType());
         }
         return false;
     }
@@ -138,17 +150,15 @@ public class Reference {
     public String toString() {
         return MoreObjects.toStringHelper(this)
                 .omitNullValues()
-                .add("actuate", getActuate().orNull())
-                .add("arcrole", getArcrole().orNull())
-                .add("href", getHref().orNull())
-                .add("remoteSchema", getRemoteSchema().orNull())
-                .add("role", getRole().orNull())
-                .add("show", getShow().orNull())
-                .add("title", getTitle().orNull())
-                .add("type", getType().orNull())
+                .add("actuate", getActuate().orElse(null))
+                .add("arcrole", getArcrole().orElse(null))
+                .add("href", getHref().orElse(null))
+                .add("remoteSchema", getRemoteSchema().orElse(null))
+                .add("role", getRole().orElse(null))
+                .add("show", getShow().orElse(null))
+                .add("title", getTitle().orElse(null))
+                .add("type", getType().orElse(null))
                 .toString();
     }
-
-
 
 }

@@ -392,7 +392,7 @@ public class SensorMLEncoderv101
 
     private ContactList createContactList(final List<SmlContact> contacts) {
         final ContactList xbContacts = ContactList.Factory.newInstance();
-        contacts.forEach((smlContact) -> {
+        contacts.forEach(smlContact -> {
             if (smlContact.isSetHref()) {
                 ContactList.Member member = xbContacts.addNewMember();
                 member.setHref(smlContact.getHref());
@@ -905,7 +905,7 @@ public class SensorMLEncoderv101
      * @return XML Documentation array
      */
     protected Documentation[] createDocumentationArray(final List<AbstractSmlDocumentation> sosDocumentation) {
-        return sosDocumentation.stream().map((abstractSosSMLDocumentation) -> {
+        return sosDocumentation.stream().map(abstractSosSMLDocumentation -> {
             Documentation documentation = Documentation.Factory.newInstance();
             if (abstractSosSMLDocumentation instanceof SmlDocumentation) {
                 documentation.setDocument(createDocument((SmlDocumentation) abstractSosSMLDocumentation));
@@ -961,11 +961,11 @@ public class SensorMLEncoderv101
             documentList.addNewDescription().setStringValue(sosDocumentationList.getDescription());
         }
         if (sosDocumentationList.isSetMembers()) {
-            sosDocumentationList.getMember().forEach((sosMmember) -> {
+            sosDocumentationList.getMember().forEach(sosMember -> {
                 net.opengis.sensorML.x101.DocumentListDocument.DocumentList.Member member =
                         documentList.addNewMember();
-                member.setName(sosMmember.getName());
-                member.setDocument(createDocument(sosMmember.getDocumentation()));
+                member.setName(sosMember.getName());
+                member.setDocument(createDocument(sosMember.getDocumentation()));
             });
         }
         return documentList;

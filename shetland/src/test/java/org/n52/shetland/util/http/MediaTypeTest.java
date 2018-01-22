@@ -16,14 +16,14 @@
  */
 package org.n52.shetland.util.http;
 
-import org.n52.janmayen.http.MediaType;
-
 import static org.hamcrest.Matchers.is;
 
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 import org.junit.rules.ExpectedException;
+
+import org.n52.janmayen.http.MediaType;
 
 /**
  * TODO JavaDoc
@@ -56,7 +56,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -65,7 +65,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -74,7 +74,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -83,7 +83,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -92,7 +92,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -101,7 +101,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -110,7 +110,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
     }
 
     @Test
@@ -119,8 +119,8 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(2));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
-        errors.checkThat(mt.getParameter("v").get(0), is("2"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
+        errors.checkThat(mt.getParameter("v").iterator().next(), is("2"));
     }
 
     @Test
@@ -129,8 +129,8 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(2));
-        errors.checkThat(mt.getParameter("q").get(0), is("1"));
-        errors.checkThat(mt.getParameter("v").get(0), is("2"));
+        errors.checkThat(mt.getParameter("q").iterator().next(), is("1"));
+        errors.checkThat(mt.getParameter("v").iterator().next(), is("2"));
     }
 
     @Test
@@ -139,7 +139,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("a").get(0), is("asdf"));
+        errors.checkThat(mt.getParameter("a").iterator().next(), is("asdf"));
     }
 
     @Test
@@ -148,7 +148,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("a").get(0), is("asdf"));
+        errors.checkThat(mt.getParameter("a").iterator().next(), is("asdf"));
     }
 
     @Test
@@ -157,7 +157,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("a").get(0), is("as df"));
+        errors.checkThat(mt.getParameter("a").iterator().next(), is("as df"));
     }
 
     @Test
@@ -166,7 +166,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("a").get(0), is("as = df"));
+        errors.checkThat(mt.getParameter("a").iterator().next(), is("as = df"));
     }
 
     @Test
@@ -175,7 +175,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getType(), is("application"));
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
-        errors.checkThat(mt.getParameter("a").get(0), is("as\" = df"));
+        errors.checkThat(mt.getParameter("a").iterator().next(), is("as\" = df"));
     }
 
     @Test
@@ -203,7 +203,7 @@ public class MediaTypeTest {
         errors.checkThat(mt.getSubtype(), is("xml"));
         errors.checkThat(mt.getParameters().size(), is(1));
         errors.checkThat(mt.getParameter("a").size(), is(1));
-        errors.checkThat(mt.getParameter("a").get(0), is("a\\b"));
+        errors.checkThat(mt.getParameter("a").iterator().next(), is("a\\b"));
     }
 
     @Test

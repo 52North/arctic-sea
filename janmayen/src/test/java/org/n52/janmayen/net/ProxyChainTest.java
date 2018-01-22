@@ -16,30 +16,70 @@
  */
 package org.n52.janmayen.net;
 
+import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.core.Is.is;
 
-import org.n52.janmayen.net.ProxyChain;
-
-import static org.junit.Assert.assertEquals;
-
+import org.junit.Rule;
 import org.junit.Test;
-
+import org.junit.rules.ErrorCollector;
 
 public class ProxyChainTest {
 
-    private String ip = "192.168.52.123";
+    @Rule
+    public final ErrorCollector errors = new ErrorCollector();
 
-    private String port = "50684";
-
-    private String ipPort = ip + ":" + port;
 
     @Test
-    public void shouldHandleIp() {
-        assertEquals("192.168.52.123", ProxyChain.getIPAddress(ip).asString());
-     }
+    public void shouldReturnNullOnInvalidIPv4() {
+        isInvalid("192.168.52.123:");
+        isInvalid("192.168.52.");
+        isInvalid("192.168.52");
+        isInvalid("192.168.");
+        isInvalid("192.168");
+        isInvalid("192.");
+        isInvalid("192");
+        isInvalid("");
+        isInvalid("256.168.52.123");
+        isInvalid("192.256.52.123");
+        isInvalid("192.168.256.123");
+        isInvalid("192.168.52.256");
+    }
 
     @Test
-    public void shouldHandleIpWithPort() {
-        assertEquals("192.168.52.123", ProxyChain.getIPAddress(ipPort).asString());
-     }
+    public void shouldReturnNullOnInvalidIPv6() {
+        isInvalid("[2a02:2e0:40c:ffff::3]:");
+        isInvalid("[2a02:2e0:40c:ffff::3");
+        isInvalid("2a02:2e0:40c:ffff::3]");
+    }
+
+    @Test
+    public void shouldHandleIPv4() {
+        isValid("192.168.52.123", "192.168.52.123");
+        isValid("192.168.52.123:50684", "192.168.52.123");
+    }
+
+    @Test
+    public void shouldHandleIPv6() {
+        isValid("[2a02:2e0:40c:ffff::3]:80", "2a02:2e0:40c:ffff:0:0:0:3");
+        isValid("[2a02:2e0:40c:ffff::3]", "2a02:2e0:40c:ffff:0:0:0:3");
+        isValid("2a02:2e0:40c:ffff::3", "2a02:2e0:40c:ffff:0:0:0:3");
+        isValid("::192.168.52.123", "0:0:0:0:0:0:c0a8:347b");
+        isValid("::ffff:192.168.52.123", "192.168.52.123");
+        isValid("::ffff:0:192.168.52.123", "0:0:0:0:ffff:0:c0a8:347b");
+        isValid("[::192.168.52.123]", "0:0:0:0:0:0:c0a8:347b");
+        isValid("[::ffff:192.168.52.123]", "192.168.52.123");
+        isValid("[::ffff:0:192.168.52.123]", "0:0:0:0:ffff:0:c0a8:347b");
+        isValid("[::192.168.52.123]:80", "0:0:0:0:0:0:c0a8:347b");
+        isValid("[::ffff:192.168.52.123]:80", "192.168.52.123");
+        isValid("[::ffff:0:192.168.52.123]:80", "0:0:0:0:ffff:0:c0a8:347b");
+    }
+
+    private void isInvalid(String addr) {
+        errors.checkThat(ProxyChain.getIPAddress(addr), is(nullValue()));
+    }
+
+    private void isValid(String input, String expected) {
+        errors.checkThat(ProxyChain.getIPAddress(input).toString(), is(expected));
+    }
 
 }

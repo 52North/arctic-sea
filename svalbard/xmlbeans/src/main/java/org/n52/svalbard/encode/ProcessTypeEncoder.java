@@ -20,8 +20,13 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import net.opengis.gml.x32.FeaturePropertyType;
+
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.inspire.base.InspireBaseConstants;
 import org.n52.shetland.inspire.base2.DocumentCitation;
@@ -43,8 +48,6 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableMap;
@@ -55,7 +58,6 @@ import eu.europa.ec.inspire.schemas.ompr.x30.ProcessDocument;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessPropertyType;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType.InspireId;
-import net.opengis.gml.x32.FeaturePropertyType;
 
 public class ProcessTypeEncoder
         extends AbstractGmlEncoderv321<XmlObject, Process>

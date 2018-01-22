@@ -16,7 +16,7 @@
  */
 package org.n52.janmayen.exception;
 
-import com.google.common.base.Strings;
+import javax.annotation.Nullable;
 
 /**
  * Exception with additional formatting parameters.
@@ -26,19 +26,30 @@ import com.google.common.base.Strings;
 public abstract class StringInterpolationException extends Exception {
     private static final long serialVersionUID = -3972285029743751087L;
 
-    public StringInterpolationException(String message, Object... args) {
+    public StringInterpolationException(@Nullable String message,
+                                        @Nullable Object... args) {
         this(null, message, args);
     }
 
-    public StringInterpolationException(Throwable cause) {
+    public StringInterpolationException(@Nullable Throwable cause) {
         this(cause, null, (Object[]) null);
     }
 
-    public StringInterpolationException(Throwable cause, String message, Object... args) {
+    public StringInterpolationException(@Nullable Throwable cause,
+                                        @Nullable String message,
+                                        @Nullable Object... args) {
         super(format(message, args), cause);
     }
 
-    private static String format(String message, Object[] args) {
-        return args != null && args.length > 0 ? String.format(message, args) : Strings.emptyToNull(message);
+    @Nullable
+    private static String format(@Nullable String message,
+                                 @Nullable Object[] args) {
+        if (message == null || message.isEmpty()) {
+            return null;
+        }
+        if (args != null && args.length > 0) {
+            return String.format(message, args);
+        }
+        return message;
     }
 }

@@ -16,7 +16,11 @@
  */
 package org.n52.svalbard.encode;
 
+import net.opengis.swes.x20.InsertSensorDocument;
+import net.opengis.swes.x20.InsertSensorType;
+
 import org.apache.xmlbeans.XmlObject;
+
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
@@ -25,9 +29,6 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
-
-import net.opengis.swes.x20.InsertSensorDocument;
-import net.opengis.swes.x20.InsertSensorType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>

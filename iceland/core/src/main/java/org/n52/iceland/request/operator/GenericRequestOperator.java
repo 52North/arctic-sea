@@ -155,9 +155,8 @@ public class GenericRequestOperator<Q extends OwsServiceRequest, A extends OwsSe
         List<RequestResponseModifier> defaultModifier = new LinkedList<>();
         List<RequestResponseModifier> remover = new LinkedList<>();
         List<RequestResponseModifier> merger = new LinkedList<>();
-        this.modifierRepository
-                .getRequestResponseModifier(request, response).stream()
-                .forEach((modifier) -> {
+        this.modifierRepository.getRequestResponseModifier(request, response).stream()
+                .forEach(modifier -> {
                     if (modifier.getFacilitator().isMerger()) {
                         merger.add(modifier);
                     } else if (modifier.getFacilitator().isAdderRemover()) {

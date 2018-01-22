@@ -44,7 +44,7 @@ public final class Consumers {
      */
     public static <T, U> Consumer<U> curryFirst(@Nonnull BiConsumer<T, U> consumer, T t) {
         Objects.requireNonNull(consumer);
-        return (u) -> consumer.accept(t, u);
+        return u -> consumer.accept(t, u);
     }
 
     /**
@@ -59,7 +59,7 @@ public final class Consumers {
      */
     public static <T, U> Consumer<T> currySecond(@Nonnull BiConsumer<T, U> consumer, U u) {
         Objects.requireNonNull(consumer);
-        return (t) -> consumer.accept(t, u);
+        return t -> consumer.accept(t, u);
     }
 
     /**

@@ -25,21 +25,12 @@ import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.inspire.Pronunciation;
 import org.n52.svalbard.decode.exception.DecodingException;
 
-import com.google.common.base.Function;
-
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
 public class PronunciationOfNameReader extends XmlReader<Pronunciation> {
-    private static final Function<String, URI> STRING_TO_URI
-            = new Function<String, URI>() {
-                @Override
-                public URI apply(String input) {
-                    return URI.create(input);
-                }
-            };
     private Pronunciation pronunciation;
 
     @Override
@@ -51,7 +42,7 @@ public class PronunciationOfNameReader extends XmlReader<Pronunciation> {
     protected void read(QName name)
             throws XMLStreamException, DecodingException {
         if (name.equals(AqdConstants.QN_GN_PRONUNCIATION_SOUND_LINK)) {
-            this.pronunciation.setSoundLink(delegate(new NillableStringReader()).transform(STRING_TO_URI));
+            this.pronunciation.setSoundLink(delegate(new NillableStringReader()).map(URI::create));
         } else if (name.equals(AqdConstants.QN_GN_PRONUNCIATION_IPA)) {
             this.pronunciation.setIPA(delegate(new NillableStringReader()));
         } else {

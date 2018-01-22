@@ -19,16 +19,17 @@ package org.n52.svalbard.decode;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+import net.opengis.swes.x20.InsertSensorResponseDocument;
+import net.opengis.swes.x20.InsertSensorResponseType;
+
 import org.apache.xmlbeans.XmlObject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import org.n52.shetland.ogc.sos.response.InsertSensorResponse;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
-
-import net.opengis.swes.x20.InsertSensorResponseDocument;
-import net.opengis.swes.x20.InsertSensorResponseType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>

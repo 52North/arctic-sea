@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.encode.json;
 
+
 import org.n52.janmayen.Json;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.svalbard.coding.json.AQDJSONConstants;

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
@@ -24,9 +24,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -40,19 +40,19 @@ import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.json.FieldDecoder;
 import org.n52.svalbard.decode.json.InsertResultTemplateRequestDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
 
+import org.n52.svalbard.decode.DecoderRepository;
+
 /**
  * @since 1.0.0
  *
  */
-@Ignore
 public class InsertResultTemplateRequestDecoderTest {
-//    @ClassRule
-//    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private InsertResultTemplateRequestDecoder decoder;
 
@@ -61,7 +61,13 @@ public class InsertResultTemplateRequestDecoderTest {
 
     @Before
     public void before() {
+        DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new InsertResultTemplateRequestDecoder();
+        this.decoder.setDecoderRepository(decoderRepository);
+        FieldDecoder fieldDecoder = new FieldDecoder();
+        fieldDecoder.setDecoderRepository(decoderRepository);
+        decoderRepository.setDecoders(Arrays.asList(this.decoder, fieldDecoder));
+        decoderRepository.init();
     }
 
     @Test
@@ -147,7 +153,7 @@ public class InsertResultTemplateRequestDecoderTest {
     @Test
     public void identifier()
             throws IOException, DecodingException {
-        assertThat(load().getIdentifier(), is("http://www.52north.org/test/procedure/6/template/1"));
+        assertThat(load().getIdentifier().getValue(), is("http://www.52north.org/test/procedure/6/template/1"));
     }
 
     protected InsertResultTemplateRequest load()

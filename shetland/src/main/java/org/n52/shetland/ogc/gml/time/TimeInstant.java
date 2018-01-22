@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.Instant;
 
 /**
  * Class represents a GML conform timeInstant element
@@ -58,6 +59,15 @@ public class TimeInstant
      */
     public TimeInstant(DateTime dateTime) {
         this(dateTime, 0, null);
+    }
+
+    /**
+     * Creates a new {@code TimeInstant}.
+     *
+     * @param instant the instant
+     */
+    public TimeInstant(Instant instant) {
+        this(instant != null ? instant.toDateTime() : null, 0, null);
     }
 
     /**

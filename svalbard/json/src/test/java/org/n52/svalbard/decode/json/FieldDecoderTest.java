@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -26,7 +26,6 @@ import static org.junit.Assert.fail;
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.ClassRule;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -207,16 +206,6 @@ public class FieldDecoderTest {
         assertThat(field.getElement(), is(instanceOf(SweObservableProperty.class)));
         SweObservableProperty swe = (SweObservableProperty) field.getElement();
         errors.checkThat(swe.getValue(), is(nullValue()));
-    }
-
-    @Test
-    @Ignore("not yet supported")
-    public void testQualityWithValue() {
-    }
-
-    @Test
-    @Ignore("not yet supported")
-    public void testQuality() {
     }
 
     @Test

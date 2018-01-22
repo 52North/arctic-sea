@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static com.github.fge.jackson.JsonLoader.fromResource;
 import static org.hamcrest.Matchers.hasSize;
@@ -23,14 +23,16 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
 import java.util.Arrays;
 
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
+
 import org.n52.shetland.ogc.sos.BatchConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -40,9 +42,19 @@ import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
 import org.n52.shetland.ogc.sos.request.InsertSensorRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.BatchRequestDecoder;
+import org.n52.svalbard.decode.json.FieldDecoder;
+import org.n52.svalbard.decode.json.InsertObservationRequestDecoder;
+import org.n52.svalbard.decode.json.InsertResultRequestDecoder;
+import org.n52.svalbard.decode.json.InsertResultTemplateRequestDecoder;
 import org.n52.svalbard.decode.json.InsertSensorRequestDecoder;
+import org.n52.svalbard.decode.json.ObservationDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
+
+import org.n52.svalbard.decode.DecoderRepository;
+import org.n52.svalbard.decode.GmlDecoderv311;
+import org.n52.svalbard.decode.SensorMLDecoderV101;
+import org.n52.svalbard.decode.SweCommonDecoderV101;
 
 /**
  * TODO JavaDoc
@@ -51,7 +63,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @since 1.0.0
  */
-@Ignore
+//@Ignore
 public class BatchRequestDecodingTest {
 //    @ClassRule
 //    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
@@ -69,7 +81,7 @@ public class BatchRequestDecodingTest {
     public static void beforeClass() {
         try {
             json = fromResource("/examples/sos/BatchRequest.json");
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -79,30 +91,68 @@ public class BatchRequestDecodingTest {
             throws DecodingException {
         DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new BatchRequestDecoder();
-        decoder.setDecoderRepository(decoderRepository);
-        decoderRepository.setDecoders(Arrays.asList(decoder, new InsertSensorRequestDecoder()));
+        this.decoder.setDecoderRepository(decoderRepository);
+
+        InsertSensorRequestDecoder insertSensorRequestDecoder = new InsertSensorRequestDecoder();
+        insertSensorRequestDecoder.setDecoderRepository(decoderRepository);
+
+        InsertObservationRequestDecoder insertObservationRequestDecoder = new InsertObservationRequestDecoder();
+        insertObservationRequestDecoder.setDecoderRepository(decoderRepository);
+
+        SensorMLDecoderV101 sensorMLDecoder = new SensorMLDecoderV101();
+        sensorMLDecoder.setXmlOptions(XmlOptions::new);
+        sensorMLDecoder.setDecoderRepository(decoderRepository);
+
+        SweCommonDecoderV101 sweCommonDecoder = new SweCommonDecoderV101();
+        sweCommonDecoder.setXmlOptions(XmlOptions::new);
+        sweCommonDecoder.setDecoderRepository(decoderRepository);
+
+        GmlDecoderv311 gmlDecoderv311 = new GmlDecoderv311();
+
+        ObservationDecoder observationDecoder = new ObservationDecoder();
+        observationDecoder.setDecoderRepository(decoderRepository);
+
+        InsertResultTemplateRequestDecoder insertResultTemplateRequestDecoder = new InsertResultTemplateRequestDecoder();
+        insertResultTemplateRequestDecoder.setDecoderRepository(decoderRepository);
+
+        InsertResultRequestDecoder insertResultRequestDecoder = new InsertResultRequestDecoder();
+        insertResultRequestDecoder.setDecoderRepository(decoderRepository);
+
+        FieldDecoder fieldDecoder = new FieldDecoder();
+        fieldDecoder.setDecoderRepository(decoderRepository);
+
+        decoderRepository.setDecoders(Arrays.asList(decoder,
+                                                    insertSensorRequestDecoder,
+                                                    insertObservationRequestDecoder,
+                                                    insertResultTemplateRequestDecoder,
+                                                    insertResultRequestDecoder,
+                                                    sensorMLDecoder,
+                                                    sweCommonDecoder,
+                                                    observationDecoder,
+                                                    fieldDecoder,
+                                                    gmlDecoderv311));
         decoderRepository.init();
 
         this.request = decoder.decodeJSON(json, true);
     }
 
     @Test
-    public void testService() {
+    public void testService() throws DecodingException {
         assertThat(request.getService(), is(SosConstants.SOS));
     }
 
     @Test
-    public void testVersion() {
+    public void testVersion() throws DecodingException {
         assertThat(request.getVersion(), is(Sos2Constants.SERVICEVERSION));
     }
 
     @Test
-    public void testOperationName() {
+    public void testOperationName() throws DecodingException {
         assertThat(request.getOperationName(), is(BatchConstants.OPERATION_NAME));
     }
 
     @Test
-    public void testParsedRequests() {
+    public void testParsedRequests() throws DecodingException {
         assertThat(request.getRequests(), is(notNullValue()));
         assertThat(request.getRequests(), hasSize(19));
         errors.checkThat(request.getRequests().get(0), is(instanceOf(InsertSensorRequest.class)));

@@ -16,15 +16,19 @@
  */
 package org.n52.svalbard.decode.json;
 
+import static java.util.stream.Collectors.toList;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.OGCConstants;
@@ -43,8 +47,6 @@ import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.JsonDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -92,9 +94,11 @@ public abstract class JSONDecoder<T>
         Decoder<T, JsonNode> decoder = getDecoder(type);
         if (node.isArray()) {
             CompositeException exceptions = new CompositeException();
-            List<T> list =
-                    Streams.stream(node).filter(JsonNode::isObject).map(exceptions.wrapFunction(decoder::decode))
-                            .filter(Optional::isPresent).map(Optional::get).collect(Collectors.toList());
+            List<T> list = Streams.stream(node)
+                    .filter(JsonNode::isObject)
+                    .map(exceptions.wrapFunction(decoder::decode))
+                    .filter(Optional::isPresent).map(Optional::get)
+                    .collect(toList());
             exceptions.throwIfNotEmpty(DecodingException::new);
             return list;
         } else if (node.isObject()) {

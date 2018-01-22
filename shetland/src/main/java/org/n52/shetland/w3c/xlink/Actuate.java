@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import java.util.Arrays;
+
 /**
  * TODO JavaDoc
  *
@@ -39,8 +41,18 @@ public enum Actuate {
             case OTHER:
                 return "other";
             default:
-                throw new AssertionError(this.name());
+                throw new AssertionError(name());
         }
+    }
+
+    public static Actuate fromString(String str) {
+        if (str == null || str.isEmpty()) {
+            return null;
+        }
+
+        return Arrays.stream(values())
+                .filter(actuate -> actuate.name().equalsIgnoreCase(str) || actuate.toString().equalsIgnoreCase(str))
+                .findAny().orElse(null);
     }
 
 }

@@ -19,6 +19,7 @@ package org.n52.svalbard.encode;
 import static java.util.stream.Collectors.joining;
 
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -109,8 +110,11 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
+import org.n52.shetland.w3c.xlink.Show;
+import org.n52.shetland.w3c.xlink.Type;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NotYetSupportedEncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -525,28 +529,15 @@ public class SweCommonEncoderv101
         if (constraint.isInstance()) {
             createAllowedValues(avpt.addNewAllowedValues(), constraint.getInstance());
         } else if (constraint.isReference()) {
-            Reference ref = constraint.getReference();
-            if (ref.getHref().isPresent()) {
-                avpt.setHref(ref.getHref().get().toString());
-            }
-            if (ref.getTitle().isPresent()) {
-                avpt.setTitle(ref.getTitle().get());
-            }
-            if (ref.getActuate().isPresent()) {
-                avpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
-            }
-            if (ref.getArcrole().isPresent()) {
-                avpt.setArcrole(ref.getArcrole().get());
-            }
-            if (ref.getRole().isPresent()) {
-                avpt.setRole(ref.getRole().get());
-            }
-            if (ref.getShow().isPresent()) {
-                avpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
-            }
-            if (ref.getType().isPresent()) {
-                avpt.setType(TypeType.Enum.forString(ref.getType().get()));
-            }
+            Reference reference = constraint.getReference();
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(avpt::setActuate);
+            reference.getArcrole().ifPresent(avpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(avpt::setHref);
+            reference.getRole().ifPresent(avpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(avpt::setShow);
+            reference.getTitle().ifPresent(avpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(avpt::setType);
         }
         return avpt;
     }
@@ -556,28 +547,15 @@ public class SweCommonEncoderv101
         if (constraint.isInstance()) {
             createAllowedTokens(atpt.addNewAllowedTokens(), constraint.getInstance());
         } else if (constraint.isReference()) {
-            Reference ref = constraint.getReference();
-            if (ref.getHref().isPresent()) {
-                atpt.setHref(ref.getHref().get().toString());
-            }
-            if (ref.getTitle().isPresent()) {
-                atpt.setTitle(ref.getTitle().get());
-            }
-            if (ref.getActuate().isPresent()) {
-                atpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
-            }
-            if (ref.getArcrole().isPresent()) {
-                atpt.setArcrole(ref.getArcrole().get());
-            }
-            if (ref.getRole().isPresent()) {
-                atpt.setRole(ref.getRole().get());
-            }
-            if (ref.getShow().isPresent()) {
-                atpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
-            }
-            if (ref.getType().isPresent()) {
-                atpt.setType(TypeType.Enum.forString(ref.getType().get()));
-            }
+            Reference reference = constraint.getReference();
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(atpt::setActuate);
+            reference.getArcrole().ifPresent(atpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(atpt::setHref);
+            reference.getRole().ifPresent(atpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(atpt::setShow);
+            reference.getTitle().ifPresent(atpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(atpt::setType);
         }
         return atpt;
     }
@@ -587,28 +565,15 @@ public class SweCommonEncoderv101
         if (constraint.isInstance()) {
             createAllowedTimes(atpt.addNewAllowedTimes(), constraint.getInstance());
         } else if (constraint.isReference()) {
-            Reference ref = constraint.getReference();
-            if (ref.getHref().isPresent()) {
-                atpt.setHref(ref.getHref().get().toString());
-            }
-            if (ref.getTitle().isPresent()) {
-                atpt.setTitle(ref.getTitle().get());
-            }
-            if (ref.getActuate().isPresent()) {
-                atpt.setActuate(ActuateType.Enum.forString(ref.getActuate().get()));
-            }
-            if (ref.getArcrole().isPresent()) {
-                atpt.setArcrole(ref.getArcrole().get());
-            }
-            if (ref.getRole().isPresent()) {
-                atpt.setRole(ref.getRole().get());
-            }
-            if (ref.getShow().isPresent()) {
-                atpt.setShow(ShowType.Enum.forString(ref.getShow().get()));
-            }
-            if (ref.getType().isPresent()) {
-                atpt.setType(TypeType.Enum.forString(ref.getType().get()));
-            }
+            Reference reference = constraint.getReference();
+            reference.getActuate().map(Actuate::toString).map(ActuateType.Enum::forString)
+                    .ifPresent(atpt::setActuate);
+            reference.getArcrole().ifPresent(atpt::setArcrole);
+            reference.getHref().map(URI::toString).ifPresent(atpt::setHref);
+            reference.getRole().ifPresent(atpt::setRole);
+            reference.getShow().map(Show::toString).map(ShowType.Enum::forString).ifPresent(atpt::setShow);
+            reference.getTitle().ifPresent(atpt::setTitle);
+            reference.getType().map(Type::toString).map(TypeType.Enum::forString).ifPresent(atpt::setType);
         }
         return atpt;
     }

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.decode;
+package org.n52.svalbard.decode.json;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
@@ -24,9 +24,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ErrorCollector;
@@ -35,9 +35,12 @@ import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sos.request.InsertObservationRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.InsertObservationRequestDecoder;
+import org.n52.svalbard.decode.json.ObservationDecoder;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
+
+import org.n52.svalbard.decode.DecoderRepository;
 
 /**
  * TODO JavaDoc
@@ -46,10 +49,7 @@ import com.github.fge.jackson.JsonLoader;
  *
  * @since 1.0.0
  */
-@Ignore
 public class InsertObservationRequestDecoderTest {
-//    @ClassRule
-//    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private InsertObservationRequestDecoder decoder;
 
@@ -58,7 +58,13 @@ public class InsertObservationRequestDecoderTest {
 
     @Before
     public void before() {
+        DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new InsertObservationRequestDecoder();
+        this.decoder.setDecoderRepository(decoderRepository);
+        ObservationDecoder observationDecoder = new ObservationDecoder();
+        observationDecoder.setDecoderRepository(decoderRepository);
+        decoderRepository.setDecoders(Arrays.asList(decoder, observationDecoder));
+        decoderRepository.init();
     }
 
     @Test

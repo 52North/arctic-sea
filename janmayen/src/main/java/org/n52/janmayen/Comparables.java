@@ -36,43 +36,161 @@ public final class Comparables {
                     .comparing(QName::getPrefix, Comparator.nullsLast(String::compareTo))
                     .thenComparing(QName::getLocalPart, Comparator.nullsLast(String::compareTo)));
 
+    /**
+     * Private utility class constructor.
+     */
     private Comparables() {
     }
 
+    /**
+     * Compares two {@code int} values numerically.
+     *
+     * @param x The first {@code int} to compare
+     * @param y The second {@code int} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Integer#compare(int, int)
+     */
     public static int compare(int x, int y) {
         return Integer.compare(x, y);
     }
 
+    /**
+     * Compares two {@code byte} values numerically.
+     *
+     * @param x The first {@code byte} to compare
+     * @param y The second {@code byte} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Byte#compare(byte, byte)
+     */
     public static int compare(byte x, byte y) {
         return Byte.compare(x, y);
     }
 
+    /**
+     * Compares two {@code short} values numerically.
+     *
+     * @param x The first {@code short} to compare
+     * @param y The second {@code short} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Short#compare(short, short)
+     */
     public static int compare(short x, short y) {
         return Short.compare(x, y);
     }
 
+    /**
+     * Compares two {@code char} values numerically.
+     *
+     * @param x The first {@code char} to compare
+     * @param y The second {@code char} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Character#compare(char, char)
+     */
     public static int compare(char x, char y) {
         return Character.compare(x, y);
     }
 
+    /**
+     * Compares two {@code long} values numerically.
+     *
+     * @param x The first {@code long} to compare
+     * @param y The second {@code long} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Long#compare(long, long)
+     */
     public static int compare(long x, long y) {
         return Long.compare(x, y);
     }
 
+    /**
+     * Compares two {@code boolean} values.
+     *
+     * @param x The first {@code boolean} to compare
+     * @param y The second {@code boolean} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code !x && y}; and a value
+     *         greater than {@code 0} if {@code x && !y}
+     *
+     * @see Boolean#compare(boolean, boolean)
+     */
     public static int compare(boolean x, boolean y) {
         return Boolean.compare(x, y);
     }
 
-    public static int compare(float a, float b) {
-        return Float.compare(a, b);
+    /**
+     * Compares two {@code float} values numerically.
+     *
+     * @param x The first {@code float} to compare
+     * @param y The second {@code float} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Float#compare(float, float)
+     */
+    public static int compare(float x, float y) {
+        return Float.compare(x, y);
     }
 
-    public static int compare(double a, double b) {
-        return Double.compare(a, b);
+    /**
+     * Compares two {@code double} values numerically.
+     *
+     * @param x The first {@code double} to compare
+     * @param y The second {@code double} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Double#compare(double, double)
+     */
+    public static int compare(double x, double y) {
+        return Double.compare(x, y);
     }
 
-    public static <T extends Comparable<T>> int compare(T a, T b) {
-        return (a == b) ? EQUAL : a == null ? LESS : b == null ? GREATER : a.compareTo(b);
+    /**
+     * Compares two values {@code x} and {@code y}. {@code null} values are considered less than all other values.
+     *
+     * @param <T> the comparable type
+     * @param x   The first value to compare
+     * @param y   The second value to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Double#compare(double, double)
+     */
+    public static <T extends Comparable<T>> int compare(T x, T y) {
+        return (x == y) ? EQUAL : x == null ? LESS : y == null ? GREATER : x.compareTo(y);
+    }
+
+    /**
+     * Compares two {@code byte} values numerically, but handle the {@code byte} value as an unsigned byte.
+     *
+     * @param x The first {@code byte} to compare
+     * @param y The second {@code byte} to compare
+     *
+     * @return the value {@code 0} if {@code x == y}; a value less than {@code 0} if {@code x < y}; and a value greater
+     *         than {@code 0} if {@code x > y}
+     *
+     * @see Byte#compare(byte, byte)
+     */
+    public static int compareUnsignedByte(byte x, byte y) {
+        return (x & 0xff) - (y & 0xff);
     }
 
     public static <T> Comparator<T> allowNull(Comparator<T> delegate) {

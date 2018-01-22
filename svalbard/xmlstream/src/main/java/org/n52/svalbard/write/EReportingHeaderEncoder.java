@@ -19,11 +19,13 @@ package org.n52.svalbard.write;
 import java.io.OutputStream;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
 import org.joda.time.DateTime;
+
 import org.n52.janmayen.NcName;
 import org.n52.shetland.aqd.AqdConstants;
 import org.n52.shetland.aqd.EReportingChange;
@@ -53,8 +55,6 @@ import org.n52.shetland.w3c.xlink.Reference;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
-
-import com.google.common.base.Optional;
 
 public class EReportingHeaderEncoder
         extends XmlStreamWriter<EReportingHeader> {

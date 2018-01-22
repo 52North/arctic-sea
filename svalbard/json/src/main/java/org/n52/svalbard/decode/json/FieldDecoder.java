@@ -17,6 +17,7 @@
 package org.n52.svalbard.decode.json;
 
 import org.joda.time.DateTime;
+
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweField;
