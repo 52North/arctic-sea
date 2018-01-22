@@ -277,6 +277,22 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
         this.aggregation = aggregation;
         return this;
     }
+    
+    public SosProcedureDescription<T> add(SosProcedureDescription desc) {
+        setChildProcedures(desc.getChildProcedures());
+        setFeaturesOfInterest(desc.getFeaturesOfInterest());
+        setFeaturesOfInterestMap(desc.getFeaturesOfInterestMap());
+        setInsitu(desc.isInsitu());
+        setIsAggregation(desc.isAggregation());
+        setMobile(desc.isMobile());
+        setParentProcedure(desc.getParentProcedure());
+        setPhenomenon(desc.getPhenomenon());
+        setTypeOf(desc.getTypeOf());
+        setValidTime(desc.getValidTime());
+        addOfferings(desc.getOfferings());
+        addPhenomenon(desc.getPhenomenon());
+        return this;
+    }
 
     @Override
     public String getDefaultElementEncoding() {
