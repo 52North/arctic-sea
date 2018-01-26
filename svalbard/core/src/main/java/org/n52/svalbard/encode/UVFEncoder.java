@@ -486,7 +486,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
                     && o.getObservationConstellation().getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
                     && o.getObservationConstellation().getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
                             .isSetInterpolationType()) {
-                return getFunctionFor(o.getObservationConstellation().getDefaultPointMetadata()
+                return getFunctionFor((InterpolationType) o.getObservationConstellation().getDefaultPointMetadata()
                         .getDefaultTVPMeasurementMetadata().getInterpolationtype());
 
             }
@@ -500,7 +500,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
             if (o.getValue().isSetDefaultPointMetadata()
                     && o.getValue().getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata() && o.getValue()
                             .getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
-                return getFunctionFor(o.getValue().getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
+                return getFunctionFor((InterpolationType) o.getValue().getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
                         .getInterpolationtype());
             }
         }

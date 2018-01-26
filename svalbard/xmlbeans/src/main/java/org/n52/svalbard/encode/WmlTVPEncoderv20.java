@@ -397,6 +397,7 @@ public class WmlTVPEncoderv20
                     throw new NoApplicableCodeException().withMessage("The types of values '%s' is not yet supported",
                             mov.getValue().getClass().getSimpleName());
                 }
+
                 addValuesToMeasurementTVP(measurementTimeseries.addNewPoint().addNewMeasurementTVP(), time, value);
             }
         }

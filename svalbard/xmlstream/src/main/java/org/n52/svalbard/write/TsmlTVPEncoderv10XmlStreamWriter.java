@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
+
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -34,9 +35,8 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
-import org.n52.shetland.ogc.om.series.wml.MeasurementTimeseriesMetadata;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
+import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants;
+import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
@@ -52,16 +52,17 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import com.google.common.base.Strings;
 
 /**
+ * TODO(specki): update javadoc
  * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0
  * encoded {@link OmObservation}s to stream
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  *
  */
-public class WmlTVPEncoderv20XmlStreamWriter
+
+public class TsmlTVPEncoderv10XmlStreamWriter
         extends AbstractOmV20XmlStreamWriter {
-    public WmlTVPEncoderv20XmlStreamWriter(
+    public TsmlTVPEncoderv10XmlStreamWriter(
             EncodingContext context,
             OutputStream outputStream,
             OmObservation element)
@@ -72,11 +73,11 @@ public class WmlTVPEncoderv20XmlStreamWriter
     @Override
     protected void writeResult() throws XMLStreamException, EncodingException {
         start(OmConstants.QN_OM_20_RESULT);
-        namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
-        start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
+        namespace(TimeseriesMLConstants.NS_TSML_10_PREFIX, TimeseriesMLConstants.NS_TSML_10);
+        start(TimeseriesMLConstants.QN_MEASUREMENT_TIMESERIES);
         OmObservation observation = getElement();
         attr(GmlConstants.QN_ID_32, "timeseries." + observation.getObservationID());
-        writeMeasurementTimeseriesMetadata(observation);
+        writeMeasurementTimeseriesMLMetadata(observation);
         if (observation.getValue() instanceof SingleObservationValue) {
             SingleObservationValue<?> observationValue = (SingleObservationValue<?>) observation.getValue();
             writeDefaultPointMetadata(observationValue, observationValue.getValue().getUnit());
@@ -128,7 +129,7 @@ public class WmlTVPEncoderv20XmlStreamWriter
 
     @Override
     protected void writeAddtitionalNamespaces() throws XMLStreamException {
-        namespace(WaterMLConstants.NS_WML_20_PREFIX, WaterMLConstants.NS_WML_20);
+        namespace(TimeseriesMLConstants.NS_TSML_10_PREFIX, TimeseriesMLConstants.NS_TSML_10);
     }
 
     @Override
@@ -161,13 +162,13 @@ public class WmlTVPEncoderv20XmlStreamWriter
     }
 
     /**
-     * Close written wml:MeasurementTimeseries and om:result tags
+     * Close written wml:MeasurementTimeseriesML and om:result tags
      *
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      */
     private void close() throws XMLStreamException {
-        end(WaterMLConstants.QN_MEASUREMENT_TIMESERIES);
+        end(TimeseriesMLConstants.QN_MEASUREMENT_TIMESERIES);
         end(OmConstants.QN_OM_20_RESULT);
     }
 
@@ -180,20 +181,20 @@ public class WmlTVPEncoderv20XmlStreamWriter
      * @throws XMLStreamException
      *             If an error occurs when writing to stream
      */
-    private void writeMeasurementTimeseriesMetadata(OmObservation o) throws XMLStreamException {
-        start(WaterMLConstants.QN_METADATA);
-        start(WaterMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
-        empty(WaterMLConstants.QN_TEMPORAL_EXTENT);
+    private void writeMeasurementTimeseriesMLMetadata(OmObservation o) throws XMLStreamException {
+        start(TimeseriesMLConstants.QN_METADATA);
+        start(TimeseriesMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
+        empty(TimeseriesMLConstants.QN_TEMPORAL_EXTENT);
         addXlinkHrefAttr("#" + o.getPhenomenonTime().getGmlId());
         if (o.isSetValue() && o.getValue().isSetMetadata() && o.getValue().getMetadata().isSetTimeseriesMetadata()
-                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
-            start(WaterMLConstants.QN_CUMULATIVE);
-            chars(Boolean.toString(((MeasurementTimeseriesMetadata) o.getValue().getMetadata().getTimeseriesmetadata())
+                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof TimeseriesMetadataType) {
+            start(TimeseriesMLConstants.QN_CUMULATIVE);
+            chars(Boolean.toString(((TimeseriesTVPType) o.getValue().getMetadata().getTimeseriesmetadata())
                     .isCumulative()));
-            endInline(WaterMLConstants.QN_CUMULATIVE);
+            endInline(TimeseriesMLConstants.QN_CUMULATIVE);
         }
-        end(WaterMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
-        end(WaterMLConstants.QN_METADATA);
+        end(TimeseriesMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
+        end(TimeseriesMLConstants.QN_METADATA);
     }
 
     /**
@@ -206,12 +207,12 @@ public class WmlTVPEncoderv20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     private void writeDefaultPointMetadata(ObservationValue<?> value, String unit) throws XMLStreamException {
-        start(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
-        start(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
+        start(TimeseriesMLConstants.QN_DEFAULT_POINT_METADATA);
+        start(TimeseriesMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         writeUOM(unit);
         writeInterpolationType(value);
-        end(WaterMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
-        end(WaterMLConstants.QN_DEFAULT_POINT_METADATA);
+        end(TimeseriesMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
+        end(TimeseriesMLConstants.QN_DEFAULT_POINT_METADATA);
     }
 
     /**
@@ -225,7 +226,7 @@ public class WmlTVPEncoderv20XmlStreamWriter
      */
     private void writeUOM(String code) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(code)) {
-            empty(WaterMLConstants.UOM);
+            empty(TimeseriesMLConstants.UOM);
             attr("code", code);
         }
     }
@@ -237,7 +238,7 @@ public class WmlTVPEncoderv20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     private void writeInterpolationType(ObservationValue<?> value) throws XMLStreamException {
-        empty(WaterMLConstants.QN_INTERPOLATION_TYPE);
+        empty(TimeseriesMLConstants.QN_INTERPOLATION_TYPE);
         if (value != null && value.isSetMetadata()
                 && value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
                 && value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
@@ -297,9 +298,9 @@ public class WmlTVPEncoderv20XmlStreamWriter
      */
     private void writePoint(String time, String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(time)) {
-            start(WaterMLConstants.QN_POINT);
+            start(TimeseriesMLConstants.QN_POINT);
             writeMeasurementTVP(time, value);
-            end(WaterMLConstants.QN_POINT);
+            end(TimeseriesMLConstants.QN_POINT);
         }
     }
 
@@ -315,10 +316,10 @@ public class WmlTVPEncoderv20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     private void writeMeasurementTVP(String time, String value) throws XMLStreamException {
-        start(WaterMLConstants.QN_MEASUREMENT_TVP);
+        start(TimeseriesMLConstants.QN_MEASUREMENT_TVP);
         writeTime(time);
         writeValue(value);
-        end(WaterMLConstants.QN_MEASUREMENT_TVP);
+        end(TimeseriesMLConstants.QN_MEASUREMENT_TVP);
     }
 
     /**
@@ -331,9 +332,9 @@ public class WmlTVPEncoderv20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     private void writeTime(String time) throws XMLStreamException {
-        start(WaterMLConstants.QN_TIME);
+        start(TimeseriesMLConstants.QN_TIME);
         chars(time);
-        endInline(WaterMLConstants.QN_TIME);
+        endInline(TimeseriesMLConstants.QN_TIME);
     }
 
     /**
@@ -347,11 +348,11 @@ public class WmlTVPEncoderv20XmlStreamWriter
      */
     private void writeValue(String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(value)) {
-            start(WaterMLConstants.QN_VALUE);
+            start(TimeseriesMLConstants.QN_VALUE);
             chars(value);
-            endInline(WaterMLConstants.QN_VALUE);
+            endInline(TimeseriesMLConstants.QN_VALUE);
         } else {
-            empty(WaterMLConstants.QN_VALUE);
+            empty(TimeseriesMLConstants.QN_VALUE);
             attr(W3CConstants.QN_XSI_NIL, "true");
             writeValueMetadata();
         }
@@ -364,18 +365,18 @@ public class WmlTVPEncoderv20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     private void writeValueMetadata() throws XMLStreamException {
-        start(WaterMLConstants.QN_METADATA);
-        start(WaterMLConstants.QN_TVP_MEASUREMENT_METADATA);
-        empty(WaterMLConstants.QN_NIL_REASON);
+        start(TimeseriesMLConstants.QN_METADATA);
+        start(TimeseriesMLConstants.QN_TVP_MEASUREMENT_METADATA);
+        empty(TimeseriesMLConstants.QN_NIL_REASON);
         addXlinkHrefAttr("missing");
-        endInline(WaterMLConstants.QN_TVP_MEASUREMENT_METADATA);
-        endInline(WaterMLConstants.QN_METADATA);
+        endInline(TimeseriesMLConstants.QN_TVP_MEASUREMENT_METADATA);
+        endInline(TimeseriesMLConstants.QN_METADATA);
 
     }
 
     @Override
     protected Optional<String> getDefaultFeatureEncodingNamespace() {
-        return Optional.of(WaterMLConstants.NS_WML_20);
+        return Optional.of(TimeseriesMLConstants.NS_TSML_10);
     }
 
 }
