@@ -120,4 +120,6 @@ public interface SensorMLConstants {
     String REMOTE = "remote";
 
     String FIXED = "fixed";
+
+    String ELEMENT_NAME_REFERENCE_VALUES = "referenceValues";
 }
