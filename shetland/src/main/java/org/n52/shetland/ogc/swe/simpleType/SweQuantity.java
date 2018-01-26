@@ -101,13 +101,20 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
         return value;
     }
 
+    public Double getValueAsDouble() {
+        if (isSetValue()) {
+            return value.doubleValue();
+        }
+        return null;
+    }
+
     @Override
     public SweQuantity setValue(final BigDecimal value) {
         this.value = value;
         return this;
     }
 
-    public SweQuantity setValue(final double value) {
+    public SweQuantity setValue(final Double value) {
         return setValue(new BigDecimal(value));
     }
 
@@ -141,7 +148,7 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
     @Override
     public String getStringValue() {
         if (isSetValue()) {
-            return Double.toString(value.intValue());
+            return value.toPlainString();
         }
         return null;
     }
