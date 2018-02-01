@@ -81,7 +81,7 @@ public class RectifiedGridCoverage
     }
 
     public void addValue(Double from, Double to, Value<?> value) {
-       addValue(new BigDecimal(from), new BigDecimal(to), value);
+        addValue(new BigDecimal(from), new BigDecimal(to), value);
     }
 
     public void addValue(BigDecimal from, BigDecimal to, Value<?> value) {
