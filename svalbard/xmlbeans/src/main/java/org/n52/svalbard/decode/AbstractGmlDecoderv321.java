@@ -293,7 +293,7 @@ public abstract class AbstractGmlDecoderv321<T, S>
             NamedValue<Geometry> namedValue = new NamedValue<>();
             namedValue.setValue(new GeometryValue((AbstractGeometry) value));
             return namedValue;
-        } else if (value instanceof ReferenceType) {
+        } else if (value instanceof org.n52.shetland.ogc.gml.ReferenceType) {
             NamedValue<org.n52.shetland.ogc.gml.ReferenceType> namedValue = new NamedValue<>();
             namedValue.setValue(new ReferenceValue((org.n52.shetland.ogc.gml.ReferenceType) value));
             return namedValue;
