@@ -564,7 +564,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
-            return null;
+            return encodeGWML(value, EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
         }
 
         @Override
