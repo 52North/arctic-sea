@@ -112,8 +112,6 @@ public class OmObservation
 
     private String additionalMergeIndicator;
 
-    private String seriesType;
-
     private final Set<OmObservationContext> relatedObservations = new HashSet<>();
 
     /**
@@ -725,7 +723,6 @@ public class OmObservation
         clone.setTokenSeparator(this.getTokenSeparator());
         clone.setTupleSeparator(this.getTupleSeparator());
         clone.setDecimalSeparator(this.getDecimalSeparator());
-        clone.setSeriesType(this.getSeriesType());
         return clone;
     }
 
@@ -852,25 +849,6 @@ public class OmObservation
 
     public boolean isSetAdditionalMergeIndicator() {
         return getAdditionalMergeIndicator() != null && !getAdditionalMergeIndicator().isEmpty();
-    }
-
-    /**
-     * @return the seriesType
-     */
-    public String getSeriesType() {
-        return seriesType;
-    }
-
-    /**
-     * @param seriesType
-     *            the seriesType to set
-     */
-    public void setSeriesType(String seriesType) {
-        this.seriesType = seriesType;
-    }
-
-    public boolean isSetSeriesType() {
-        return !Strings.isNullOrEmpty(getSeriesType());
     }
 
     public boolean checkForMerge(OmObservation observation) {
