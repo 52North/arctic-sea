@@ -148,7 +148,8 @@ public class ProfileObservation
             // }
             // }
             return true;
+        } else {
+            return super.mergeValues(observationValue);
         }
-        return false;
     }
 }

@@ -31,6 +31,7 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
+import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
@@ -404,10 +405,16 @@ public class OmObservation
      * @param observationValue
      *            Observation to merge
      */
-    private void mergeValues(final ObservationValue<?> observationValue) {
+    protected boolean mergeValues(final ObservationValue<?> observationValue) {
         TVPValue tvpValue;
         if (getValue() instanceof SingleObservationValue) {
-            tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
+            if (getValue().getValue() instanceof ProfileValue && observationValue.getValue() instanceof ProfileValue) {
+                ((ProfileValue) getValue().getValue())
+                        .addValues(((ProfileValue) observationValue.getValue()).getValue());
+                return true;
+            } else {
+                tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
+            }
         } else {
             tvpValue = (TVPValue) ((MultiObservationValues<?>) value).getValue();
         }
@@ -419,6 +426,7 @@ public class OmObservation
         } else if (observationValue instanceof MultiObservationValues) {
             tvpValue.addValues(((TVPValue) ((MultiObservationValues<?>) observationValue).getValue()).getValue());
         }
+        return true;
     }
 
     /**
