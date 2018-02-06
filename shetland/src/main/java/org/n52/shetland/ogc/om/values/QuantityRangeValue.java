@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.math.BigDecimal;
+
 import org.n52.janmayen.Comparables;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
@@ -23,7 +25,7 @@ import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantityRange;
 
 public class QuantityRangeValue extends SweQuantityRange
-        implements ComparableValue<RangeValue<Double>, QuantityRangeValue> {
+        implements ComparableValue<RangeValue<BigDecimal>, QuantityRangeValue> {
 
     /**
      * Creates a new {@code QuantityRangeValue}.
@@ -31,7 +33,7 @@ public class QuantityRangeValue extends SweQuantityRange
      * @param rangeStart the start of the range
      * @param rangeEnd   the end of the range
      */
-    public QuantityRangeValue(Double rangeStart, Double rangeEnd) {
+    public QuantityRangeValue(BigDecimal rangeStart, BigDecimal rangeEnd) {
         super();
         super.setValue(new RangeValue<>(rangeStart, rangeEnd));
     }
@@ -43,13 +45,13 @@ public class QuantityRangeValue extends SweQuantityRange
      * @param rangeEnd   the end of the range
      * @param unit Unit of measure
      */
-    public QuantityRangeValue(Double rangeStart, Double rangeEnd, String unit) {
+    public QuantityRangeValue(BigDecimal rangeStart, BigDecimal rangeEnd, String unit) {
         this(rangeStart, rangeEnd);
         this.setUnit(unit);
     }
 
     @Override
-    public QuantityRangeValue setValue(RangeValue<Double> value) {
+    public QuantityRangeValue setValue(RangeValue<BigDecimal> value) {
         super.setValue(value);
         return this;
     }

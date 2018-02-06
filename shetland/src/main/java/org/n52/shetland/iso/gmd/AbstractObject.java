@@ -45,6 +45,13 @@ public abstract class AbstractObject extends AbtractGmd {
         this.id = id;
     }
 
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id.toString();
+    }
+
     public boolean isSetId() {
         return id != null && !id.isEmpty();
     }

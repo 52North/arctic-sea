@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
+import java.math.BigDecimal;
+
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
@@ -28,10 +30,10 @@ import org.n52.shetland.w3c.xlink.Referenceable;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> implements SweQuality {
+public class SweQuantityRange extends SweAbstractUomType<RangeValue<BigDecimal>> implements SweQuality {
 
     private String axisID;
-    private RangeValue<Double> value;
+    private RangeValue<BigDecimal> value;
     private Referenceable<SweAllowedValues> constraint;
 
     /**
@@ -62,12 +64,12 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<Double>> imp
     }
 
     @Override
-    public RangeValue<Double> getValue() {
+    public RangeValue<BigDecimal> getValue() {
         return value;
     }
 
     @Override
-    public SweQuantityRange setValue(RangeValue<Double> value) {
+    public SweQuantityRange setValue(RangeValue<BigDecimal> value) {
         this.value = value;
         return this;
     }

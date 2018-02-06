@@ -64,11 +64,11 @@ public class IndeterminateValue implements Serializable {
     }
 
     public boolean isNow() {
-        return equals(AFTER);
+        return equals(NOW);
     }
 
     public boolean isTemplate() {
-        return equals(AFTER);
+        return equals(TEMPLATE);
     }
 
     public boolean isUnknown() {

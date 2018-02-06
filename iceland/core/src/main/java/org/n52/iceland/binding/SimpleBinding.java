@@ -135,6 +135,8 @@ public abstract class SimpleBinding extends Binding {
             OwsExceptionReport oer;
             if (ex instanceof OwsEncodingException) {
                 oer = ((OwsEncodingException) ex).getCause();
+            } else if (ex.getCause() instanceof OwsExceptionReport) {
+                oer = (OwsExceptionReport) ex.getCause();
             } else {
                 oer = new NoApplicableCodeException().withMessage(ex.getMessage()).causedBy(ex);
             }

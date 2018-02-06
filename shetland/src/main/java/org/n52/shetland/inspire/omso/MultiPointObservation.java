@@ -112,8 +112,9 @@ public class MultiPointObservation
                 }
             }
             return true;
+        } else {
+            return super.mergeValues(observationValue);
         }
-        return false;
     }
 
     /**

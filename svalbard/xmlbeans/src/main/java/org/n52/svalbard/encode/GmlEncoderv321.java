@@ -840,7 +840,7 @@ public class GmlEncoderv321
             throw missingValueParameter(MeasureType.class.getName());
         }
         MeasureType measureType = MeasureType.Factory.newInstance(getXmlOptions());
-        measureType.setDoubleValue(quantityValue.getValue());
+        measureType.setDoubleValue(quantityValue.getValue().doubleValue());
         measureType.setUom(Optional.ofNullable(quantityValue.getUnit()).filter(Predicates.not(String::isEmpty))
                 .orElse(OGCConstants.UNKNOWN));
         return measureType;

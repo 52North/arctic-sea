@@ -28,7 +28,8 @@ import com.google.common.collect.Sets;
 import net.opengis.gwmlWell.x22.GWGeologyLogCoveragePropertyType;
 
 public class GWGeologyLogCoveragePropertyTypeEncoder
-        extends AbstractGWGeologyLogCoverageType<GWGeologyLogCoveragePropertyType> {
+        extends
+        AbstractGWGeologyLogCoverageType<GWGeologyLogCoveragePropertyType> {
 
     private static final Set<EncoderKey> ENCODER_KEYS =
             Sets.newHashSet(new ClassToClassEncoderKey(ProfileValue.class, GWGeologyLogCoveragePropertyType.class),
@@ -40,7 +41,8 @@ public class GWGeologyLogCoveragePropertyTypeEncoder
     }
 
     @Override
-    public GWGeologyLogCoveragePropertyType encode(ProfileValue gwGeologyLogCoverage) throws EncodingException {
+    public GWGeologyLogCoveragePropertyType encode(ProfileValue gwGeologyLogCoverage)
+            throws EncodingException {
         return encode(gwGeologyLogCoverage, EncodingContext.empty());
     }
 

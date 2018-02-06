@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.inject.Inject;
+
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
@@ -132,10 +134,16 @@ public class OmEncoderv100
                     GetObservationResponse.class, GetObservationByIdResponse.class));
     private static final String RESULT_TIME_ID_PREFIX = "resultTime_";
     private static final String OBSERVATION_ID_PREFIX = "o_";
+    private SweHelper sweHelper;
 
     public OmEncoderv100() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(ENCODER_KEYS));
+    }
+
+    @Inject
+    public void setSweHelper(SweHelper sweHelper) {
+        this.sweHelper = sweHelper;
     }
 
     @Override
@@ -513,7 +521,7 @@ public class OmEncoderv100
             }
         } else if (OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(observationType)
                 || OmConstants.RESULT_MODEL_OBSERVATION.getLocalPart().equals(observationType)) {
-            SweDataArray dataArray = new SweHelper().createSosSweDataArray(sosObservation);
+            SweDataArray dataArray = sweHelper.createSosSweDataArray(sosObservation);
             xbResult.set(encodeObjectToXml(SweConstants.NS_SWE_101, dataArray,
                     EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION)));
         }
@@ -521,7 +529,7 @@ public class OmEncoderv100
 
     private void addMultiObservationValueToResult(XmlObject xbResult, OmObservation sosObservation)
             throws EncodingException {
-        SweDataArray dataArray = new SweHelper().createSosSweDataArray(sosObservation);
+        SweDataArray dataArray = sweHelper.createSosSweDataArray(sosObservation);
         xbResult.set(encodeObjectToXml(SweConstants.NS_SWE_101, dataArray,
                 EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION)));
     }

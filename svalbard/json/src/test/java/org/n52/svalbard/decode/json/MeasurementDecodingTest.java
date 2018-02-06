@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.n52.shetland.util.DateTimeHelper.parseIsoString2DateTime;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -162,7 +163,7 @@ public class MeasurementDecodingTest {
         assertThat(ov.getValue(), is(instanceOf(QuantityValue.class)));
         QuantityValue qv = (QuantityValue) ov.getValue();
         assertThat(qv.getUnit(), is(equalTo("testunit1")));
-        assertThat(qv.getValue(), is(equalTo(new Double("123123"))));
+        assertThat(qv.getValue(), is(equalTo(new BigDecimal("123123"))));
     }
 
     @Test
