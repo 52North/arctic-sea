@@ -382,6 +382,32 @@ public class GetObservationRequest
                 && !isSetTemporalFilter() && !isSetSpatialFilter();
     }
 
+    @Override
+    public boolean hasSpatialFilteringProfileSpatialFilter() {
+        return isSetSpatialFilter()
+                && (getSpatialFilter().getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)
+                        || (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
+                                && ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER)).getValue()
+                                .getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)));
+    }
+
+    public boolean hasResultFilter() {
+        return isSetExtensions() && hasExtension(ResultFilterConstants.RESULT_FILTER)
+                && getExtension(ResultFilterConstants.RESULT_FILTER) instanceof ResultFilter;
+    }
+
+    public ComparisonFilter getResultFilter() {
+        if (hasResultFilter()) {
+            return ((ResultFilter)getExtension(ResultFilterConstants.RESULT_FILTER)).getValue();
+        }
+        return null;
+    }
+
+    public GetObservationRequest setResultFilter(ComparisonFilter filter) {
+        addExtension(new ResultFilter(filter));
+        return this;
+    }
+
     public boolean isSetRequestString() {
         return !Strings.isNullOrEmpty(getRequestString());
     }
@@ -418,8 +444,11 @@ public class GetObservationRequest
                 .filter(this::isFesFilterExtension).collect(toSet());
     }
 
-    private boolean isFesFilterExtension(Extension<?> extension) {
-        return extension.getValue() instanceof Filter<?>;
+    private boolean isFesFilterExtension(SwesExtension<?> extension) {
+        return !((extension instanceof ResultFilter)
+                || (extension instanceof SpatialFilter)
+                || (extension instanceof SosSpatialFilter))
+                && extension.getValue() instanceof Filter<?>;
     }
 
     private boolean isFirstLatest(IndeterminateValue v) {
