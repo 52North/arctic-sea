@@ -26,13 +26,10 @@ import java.util.Optional;
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.om.x20.OMObservationType;
-
 import org.apache.xmlbeans.SchemaType;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.joda.time.DateTime;
-
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractMetaData;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -60,6 +57,8 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 
 import com.google.common.base.Strings;
+
+import net.opengis.om.x20.OMObservationType;
 
 /**
  * Abstract implementation of {@link XmlStreamWriter} for writing
@@ -327,11 +326,7 @@ public abstract class AbstractOmV20XmlStreamWriter
      *             If an error occurs when creating elements to be written
      */
     protected void writeParameter() throws XMLStreamException, EncodingException {
-//        Optional<ObservationEncoder<XmlObject, Object>> encoder = this.<XmlObject, Object> getEncoder()
-//                .filter(e -> e instanceof ObservationEncoder).map(e -> (ObservationEncoder<XmlObject, Object>) e);
-
         XmlEncoderKey key = new XmlEncoderKey(OmConstants.NS_OM_2, NamedValue.class);
-
         Encoder<XmlObject, NamedValue<?>> encoder = getEncoder(key);
         if (encoder != null) {
             for (NamedValue<?> namedValue : getElement().getParameter()) {

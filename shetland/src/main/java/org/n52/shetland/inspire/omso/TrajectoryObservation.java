@@ -141,8 +141,9 @@ public class TrajectoryObservation
             checkForFeature(valuesToMerge);
             return true;
 
+        } else {
+            return super.mergeValues(observationValue);
         }
-        return false;
     }
 
     /**

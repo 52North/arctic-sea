@@ -50,6 +50,7 @@ import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.gwml.GWMLConstants;
 import org.n52.shetland.ogc.om.AbstractPhenomenon;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.ObservationValue;
@@ -627,6 +628,14 @@ public abstract class AbstractOmEncoderv20
 
     protected XmlObject encodeSweCommon(Object o, EncodingContext context) throws EncodingException {
         return encodeObjectToXml(SweConstants.NS_SWE_20, o, context);
+    }
+
+    protected XmlObject encodeGWML(Object o) throws EncodingException {
+        return encodeGWML(o, EncodingContext.empty());
+    }
+
+    protected XmlObject encodeGWML(Object o, EncodingContext context) throws EncodingException {
+        return encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, o, context);
     }
 
     private static String generateObservationGMLId() {

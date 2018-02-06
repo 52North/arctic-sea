@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.decode;
 
+import java.math.BigDecimal;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -455,8 +456,8 @@ public class SweCommonDecoderV101
         if (xbQuantityRange.isSetValue()) {
             try {
                 List<?> value = xbQuantityRange.getValue();
-                Double rangeStart = Double.parseDouble(value.get(0).toString());
-                Double rangeEnd = Double.parseDouble(value.get(1).toString());
+                BigDecimal rangeStart = new BigDecimal(value.get(0).toString());
+                BigDecimal rangeEnd = new BigDecimal(value.get(1).toString());
                 sosQuantityRange.setValue(new RangeValue<>(rangeStart, rangeEnd));
             } catch (final NumberFormatException | NullPointerException | IndexOutOfBoundsException nfe) {
                 throw createParsingException(nfe);

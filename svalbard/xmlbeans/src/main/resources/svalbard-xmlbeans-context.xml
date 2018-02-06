@@ -53,6 +53,7 @@
     <bean class="org.n52.svalbard.decode.ProcessDocumentDecoder"/>
     <bean class="org.n52.svalbard.decode.ProcessPropertyTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.ProcessTypeDecoder"/>
+    <bean class="org.n52.svalbard.decode.ResultFilterDecoder"/>
     <bean class="org.n52.svalbard.decode.RelatedOfferingTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.RelatedPartyTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.SamplingDecoderv20"/>
@@ -64,6 +65,7 @@
     <bean class="org.n52.svalbard.decode.Soap12StringDecoder"/>
     <bean class="org.n52.svalbard.decode.SosDecoderv100"/>
     <bean class="org.n52.svalbard.decode.SosDecoderv20"/>
+    <bean class="org.n52.svalbard.decode.SosSpatialFilterDecoder"/>
     <bean class="org.n52.svalbard.decode.SosStringDecoderv100"/>
     <bean class="org.n52.svalbard.decode.SosStringDecoderv20"/>
     <bean class="org.n52.svalbard.decode.SpecimenDecoderv20"/>

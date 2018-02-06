@@ -25,20 +25,8 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
-import net.opengis.waterml.x20.MeasureTVPType;
-import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
-import net.opengis.waterml.x20.MeasurementTimeseriesMetadataType;
-import net.opengis.waterml.x20.MeasurementTimeseriesType;
-import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
-import net.opengis.waterml.x20.TVPMeasurementMetadataType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
 import org.n52.shetland.ogc.om.MultiObservationValues;
@@ -70,11 +58,22 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.WmlTVPEncoderv20XmlStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.waterml.x20.DefaultTVPMeasurementMetadataDocument;
+import net.opengis.waterml.x20.MeasureTVPType;
+import net.opengis.waterml.x20.MeasurementTimeseriesDocument;
+import net.opengis.waterml.x20.MeasurementTimeseriesMetadataType;
+import net.opengis.waterml.x20.MeasurementTimeseriesType;
+import net.opengis.waterml.x20.TVPDefaultMetadataPropertyType;
+import net.opengis.waterml.x20.TVPMeasurementMetadataType;
 
 /**
  * Encoder class for WaterML 2.0 TimeseriesValuePair (TVP)
@@ -343,8 +342,8 @@ public class WmlTVPEncoderv20
             String value = null;
             if (singleObservationValue.getValue() instanceof QuantityValue) {
                 QuantityValue quantityValue = (QuantityValue) singleObservationValue.getValue();
-                if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
-                    value = Double.toString(quantityValue.getValue());
+                if (quantityValue.isSetValue()) {
+                    value = quantityValue.getValue().toPlainString();
                 }
             } else if (singleObservationValue.getValue() instanceof CountValue) {
                 CountValue countValue = (CountValue) singleObservationValue.getValue();
@@ -357,7 +356,7 @@ public class WmlTVPEncoderv20
                     if (profileValue.getValue().iterator().next().getSimpleValue() instanceof QuantityValue) {
                         QuantityValue quantityValue =
                                 (QuantityValue) profileValue.getValue().iterator().next().getSimpleValue();
-                        if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
+                        if (quantityValue.isSetValue()) {
                             value = Double.toString(quantityValue.getValue().doubleValue());
                         }
                     }
@@ -374,8 +373,8 @@ public class WmlTVPEncoderv20
                 String value = null;
                 if (timeValuePair.getValue() instanceof QuantityValue) {
                     QuantityValue quantityValue = (QuantityValue) timeValuePair.getValue();
-                    if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
-                        value = Double.toString(quantityValue.getValue());
+                    if (quantityValue.isSetValue()) {
+                        value = quantityValue.getValue().toPlainString();
                     }
                 } else if (timeValuePair.getValue() instanceof ProfileValue) {
                     ProfileValue profileValue = (ProfileValue) timeValuePair.getValue();
@@ -383,7 +382,7 @@ public class WmlTVPEncoderv20
                         if (profileValue.getValue().iterator().next().getSimpleValue() instanceof QuantityValue) {
                             QuantityValue quantityValue =
                                     (QuantityValue) profileValue.getValue().iterator().next().getSimpleValue();
-                            if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
+                            if (quantityValue.isSetValue()) {
                                 value = Double.toString(quantityValue.getValue().doubleValue());
                             }
                         }

@@ -16,6 +16,8 @@
  */
 package org.n52.svalbard.decode.json;
 
+import java.math.BigDecimal;
+
 import org.joda.time.DateTime;
 
 import org.n52.shetland.ogc.swe.RangeValue;
@@ -163,9 +165,9 @@ public class FieldDecoder extends JSONDecoder<SweField> {
     protected SweAbstractDataComponent decodeQuantityRange(JsonNode node) {
         SweQuantityRange swe = new SweQuantityRange();
         if (node.hasNonNull(JSONConstants.VALUE)) {
-            double start = node.path(JSONConstants.VALUE).path(0).doubleValue();
-            double end = node.path(JSONConstants.VALUE).path(1).doubleValue();
-            swe.setValue(new RangeValue<Double>(start, end));
+            BigDecimal start = BigDecimal.valueOf(node.path(JSONConstants.VALUE).path(0).doubleValue());
+            BigDecimal end = BigDecimal.valueOf(node.path(JSONConstants.VALUE).path(1).doubleValue());
+            swe.setValue(new RangeValue<BigDecimal>(start, end));
         }
         return swe.setUom(node.path(JSONConstants.UOM).textValue());
     }

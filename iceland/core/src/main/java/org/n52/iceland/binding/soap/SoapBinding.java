@@ -47,6 +47,7 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
@@ -118,6 +119,7 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
         final SoapChain chain = new SoapChain(httpRequest, httpResponse);
         try {
             parseSoapRequest(chain);
+            checkForContext(chain, getRequestContext(httpRequest));
             createSoapResponse(chain);
             if (!chain.getSoapRequest().hasSoapFault()) {
                 // parseBodyRequest(chain);
@@ -126,6 +128,17 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
             writeResponse(chain);
         } catch (OwsExceptionReport t) {
             writeOwsExceptionReport(chain, t);
+        }
+    }
+
+    private void checkForContext(SoapChain chain, OwsServiceRequestContext requestContext) {
+        if (chain != null) {
+            if (chain.getBodyRequest() != null) {
+                chain.getBodyRequest().setRequestContext(requestContext);
+            }
+            if (chain.getSoapRequest() != null && chain.getSoapRequest().getSoapBodyContent() != null) {
+                chain.getSoapRequest().getSoapBodyContent().setRequestContext(requestContext);
+            }
         }
     }
 

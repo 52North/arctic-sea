@@ -51,6 +51,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     private boolean mobile;
     private ReferenceType typeOf;
     private boolean aggregation;
+    private boolean reference;
 
     public SosProcedureDescription(T description) {
         super(description.getIdentifier());
@@ -58,7 +59,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public T getProcedureDescription() {
-        return this.description;
+        return description;
     }
 
     public Time getValidTime() {
@@ -71,7 +72,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public boolean isSetValidTime() {
-        return this.validTime != null && !this.validTime.isEmpty();
+        return validTime != null && !validTime.isEmpty();
     }
 
     public String getDescriptionFormat() {
@@ -113,12 +114,12 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public boolean isSetParentProcedure() {
-        return this.parentProcedure != null;
+        return parentProcedure != null;
     }
 
     public SosProcedureDescription<T> addChildProcedure(AbstractSensorML process) {
         if (process != null) {
-            this.childProcedures.add(process);
+            childProcedures.add(process);
         }
         return this;
     }
@@ -141,7 +142,7 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public boolean isSetChildProcedures() {
-        return this.childProcedures != null && !childProcedures.isEmpty();
+        return childProcedures != null && !childProcedures.isEmpty();
     }
 
     public Map<String, AbstractFeature> getFeaturesOfInterestMap() {
@@ -175,11 +176,11 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     }
 
     public boolean isSetFeaturesOfInterestMap() {
-        return this.featuresOfInterestMap != null && !this.featuresOfInterestMap.isEmpty();
+        return featuresOfInterestMap != null && !featuresOfInterestMap.isEmpty();
     }
 
     public boolean isSetFeaturesOfInterest() {
-        return this.featuresOfInterest != null && !this.featuresOfInterest.isEmpty();
+        return featuresOfInterest != null && !featuresOfInterest.isEmpty();
     }
 
     public SosProcedureDescription<T> setFeaturesOfInterest(Collection<String> featuresOfInterest) {
@@ -275,6 +276,36 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
 
     public SosProcedureDescription<T> setIsAggregation(boolean aggregation) {
         this.aggregation = aggregation;
+        return this;
+    }
+
+    /**
+     * Flag used by the REST API for displaying reference values. Not used by OGC SOS interface
+     *
+     * @return the reference flag state
+     */
+    public boolean isReference() {
+        return reference;
+    }
+
+    public void setReference(boolean isReference) {
+        reference = isReference;
+    }
+
+    public SosProcedureDescription<T> add(SosProcedureDescription<?> desc) {
+        setChildProcedures(desc.getChildProcedures());
+        setFeaturesOfInterest(desc.getFeaturesOfInterest());
+        setFeaturesOfInterestMap(desc.getFeaturesOfInterestMap());
+        setInsitu(desc.isInsitu());
+        setIsAggregation(desc.isAggregation());
+        setReference(desc.isReference());
+        setMobile(desc.isMobile());
+        setParentProcedure(desc.getParentProcedure());
+        setPhenomenon(desc.getPhenomenon());
+        setTypeOf(desc.getTypeOf());
+        setValidTime(desc.getValidTime());
+        addOfferings(desc.getOfferings());
+        addPhenomenon(desc.getPhenomenon());
         return this;
     }
 

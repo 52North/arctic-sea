@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.om.values;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -37,12 +38,12 @@ public class ProfileValueTest {
 
     @Test
     public void testFromLevel() {
-        assertThat(profileValue.getFromLevel().getValue(), is(0.0));
+        assertThat(profileValue.getFromLevel().getValue(), is(new BigDecimal(0.0)));
     }
 
     @Test
     public void testToLevel() {
-        assertThat(profileValue.getToLevel().getValue(), is(30.0));
+        assertThat(profileValue.getToLevel().getValue(), is(new BigDecimal(30.0)));
     }
 
     private ProfileValue createProfileValue(boolean fromDepth, boolean toDepth) {

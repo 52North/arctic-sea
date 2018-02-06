@@ -130,7 +130,7 @@ public class ProfileValue
                     if (profileLevel.isSetLevelStart()) {
                         if (from == null) {
                             from = profileLevel.getLevelStart();
-                        } else if (profileLevel.getLevelStart().getValue() < from.getValue()) {
+                        } else if (profileLevel.getLevelStart().getValue().compareTo(from.getValue()) < 0) {
                             from = profileLevel.getLevelStart();
                         }
                     }
@@ -175,7 +175,7 @@ public class ProfileValue
                     if (profileLevel.isSetLevelEnd()) {
                         if (to == null) {
                             to = profileLevel.getLevelEnd();
-                        } else if (profileLevel.getLevelEnd().getValue() > to.getValue()) {
+                        } else if (profileLevel.getLevelEnd().getValue().compareTo(to.getValue()) > 0) {
                             to = profileLevel.getLevelEnd();
                         }
                     }

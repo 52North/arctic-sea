@@ -23,6 +23,7 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertThat;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
 
@@ -529,9 +530,9 @@ public class SweCommonEncoderv101Test {
     @Test public void
     should_encode_count_with_quality_QuantityRange()
             throws EncodingException {
-        final RangeValue<Double> qualityQuantityRangeValue = new RangeValue<>(1.0, 2.0);
-        final SweCount sosCount = (SweCount) new SweCount().setQuality(Lists.newArrayList((SweQuality)new SweQuantityRange().setValue(qualityQuantityRangeValue)));
-
+        final RangeValue<BigDecimal> qualityQuantityRangeValue = new RangeValue<>(BigDecimal.valueOf(1.0), BigDecimal.valueOf(2.0));
+        final SweCount sosCount = (SweCount) new SweCount().setQuality(
+                Lists.newArrayList((SweQuality) new SweQuantityRange().setValue(qualityQuantityRangeValue)));
 
         final XmlObject encode = sweCommonEncoderv101.encode(sosCount);
 
@@ -541,8 +542,8 @@ public class SweCommonEncoderv101Test {
         assertThat(xbCount.getQualityArray(), is(not(nullValue())));
         assertThat(xbCount.getQualityArray().length, is(1));
         assertThat(xbCount.getQualityArray(0).isSetQuantityRange(), is(true));
-        assertThat((Double)xbCount.getQualityArray(0).getQuantityRange().getValue().get(0),is(qualityQuantityRangeValue.getRangeStart()));
-        assertThat((Double)xbCount.getQualityArray(0).getQuantityRange().getValue().get(1),is(qualityQuantityRangeValue.getRangeEnd()));
+        assertThat(BigDecimal.valueOf((Double)xbCount.getQualityArray(0).getQuantityRange().getValue().get(0)),is(qualityQuantityRangeValue.getRangeStart()));
+        assertThat(BigDecimal.valueOf((Double)xbCount.getQualityArray(0).getQuantityRange().getValue().get(1)),is(qualityQuantityRangeValue.getRangeEnd()));
     }
 
     @Test

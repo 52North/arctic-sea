@@ -67,8 +67,8 @@ public class JsonSettingsEncoder {
     public ObjectNode encode(Set<SettingDefinition<?>> settings) {
         return settings.stream().sorted()
                 .collect(nodeFactory::objectNode,
-                         (j, def) -> j.set(def.getKey(), encode(def)),
-                         ObjectNode::setAll);
+                    (j, def) -> j.set(def.getKey(), encode(def)),
+                    ObjectNode::setAll);
     }
 
     public ObjectNode encode(SettingDefinition<?> def) {

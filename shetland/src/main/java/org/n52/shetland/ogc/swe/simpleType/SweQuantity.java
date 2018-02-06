@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 
 import org.n52.shetland.ogc.UoM;
@@ -30,10 +31,10 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public class SweQuantity extends SweAbstractUomType<Double> implements SweQuality {
+public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQuality {
 
     private String axisID;
-    private Double value;
+    private BigDecimal value;
     private Referenceable<SweAllowedValues> constraint;
 
     /**
@@ -45,7 +46,7 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
     /**
      * constructor
      */
-    public SweQuantity(Double value, String uom) {
+    public SweQuantity(BigDecimal value, String uom) {
         this.value = value;
         setUom(uom);
     }
@@ -53,8 +54,24 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
     /**
      * constructor
      */
-    public SweQuantity(Double value, UoM uom) {
+    public SweQuantity(BigDecimal value, UoM uom) {
         this.value = value;
+        setUom(uom);
+    }
+
+    /**
+     * constructor
+     */
+    public SweQuantity(Double value, String uom) {
+        this.value = new BigDecimal(value);
+        setUom(uom);
+    }
+
+    /**
+     * constructor
+     */
+    public SweQuantity(Double value, UoM uom) {
+        this.value = new BigDecimal(value);
         setUom(uom);
     }
 
@@ -80,14 +97,25 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
     }
 
     @Override
-    public Double getValue() {
+    public BigDecimal getValue() {
         return value;
     }
 
+    public Double getValueAsDouble() {
+        if (isSetValue()) {
+            return value.doubleValue();
+        }
+        return null;
+    }
+
     @Override
-    public SweQuantity setValue(final Double value) {
+    public SweQuantity setValue(final BigDecimal value) {
         this.value = value;
         return this;
+    }
+
+    public SweQuantity setValue(final Double value) {
+        return setValue(new BigDecimal(value));
     }
 
     @Override
@@ -120,7 +148,7 @@ public class SweQuantity extends SweAbstractUomType<Double> implements SweQualit
     @Override
     public String getStringValue() {
         if (isSetValue()) {
-            return Double.toString(value.intValue());
+            return value.toPlainString();
         }
         return null;
     }

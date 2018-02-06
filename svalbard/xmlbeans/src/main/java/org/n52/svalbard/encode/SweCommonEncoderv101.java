@@ -452,7 +452,7 @@ public class SweCommonEncoderv101
             xml.setAxisID(component.getAxisID());
         }
         if (component.isSetValue()) {
-            xml.setValue(component.getValue());
+            xml.setValue(component.getValue().doubleValue());
         }
         if (component.isSetUom()) {
             xml.addNewUom().set(createUom(component.getUomObject()));
