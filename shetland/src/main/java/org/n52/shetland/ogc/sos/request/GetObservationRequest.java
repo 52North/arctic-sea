@@ -29,6 +29,7 @@ import java.util.stream.Stream;
 
 import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.function.Predicates;
+import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.filter.Filter;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.filter.TemporalFilter;
@@ -37,7 +38,12 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.ExtendedIndeterminateTime;
+import org.n52.shetland.ogc.sos.ResultFilter;
+import org.n52.shetland.ogc.sos.ResultFilterConstants;
+import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.SosSpatialFilter;
+import org.n52.shetland.ogc.sos.SosSpatialFilterConstants;
 import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
 
@@ -229,7 +235,17 @@ public class GetObservationRequest
      */
     @SuppressWarnings("rawtypes")
     public Filter getResultFilter() {
+        if (getExtension(ResultFilterConstants.RESULT_FILTER).isPresent()) {
+            return ((ResultFilter) getExtension(ResultFilterConstants.RESULT_FILTER).get()).getValue();
+        }
         return resultFilter;
+    }
+
+
+    public GetObservationRequest setResultFilter(ComparisonFilter filter) {
+        this.resultFilter = filter;
+        addExtension(new ResultFilter(filter));
+        return this;
     }
 
     /**
@@ -241,6 +257,9 @@ public class GetObservationRequest
     @SuppressWarnings("rawtypes")
     public void setResultFilter(Filter resultFilter) {
         this.resultFilter = resultFilter;
+        if (resultFilter instanceof ComparisonFilter) {
+            addExtension(new ResultFilter((ComparisonFilter) resultFilter));
+        }
     }
 
     /**
@@ -249,11 +268,11 @@ public class GetObservationRequest
      * @return <code>true</code>, if a result filter is set
      */
     public boolean isSetResultFilter() {
-        return getResultFilter() != null;
+        return hasResultFilter();
     }
 
     public boolean hasResultFilter() {
-        return getResultFilter() != null;
+        return resultFilter != null || hasExtension(ResultFilterConstants.RESULT_FILTER);
     }
 
     /**
@@ -384,28 +403,11 @@ public class GetObservationRequest
 
     @Override
     public boolean hasSpatialFilteringProfileSpatialFilter() {
-        return isSetSpatialFilter()
-                && (getSpatialFilter().getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)
-                        || (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
-                                && ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER)).getValue()
+        return isSetSpatialFilter() && (getSpatialFilter().getValueReference()
+                .equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)
+                || (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)
+                        && ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue()
                                 .getValueReference().equals(Sos2Constants.VALUE_REFERENCE_SPATIAL_FILTERING_PROFILE)));
-    }
-
-    public boolean hasResultFilter() {
-        return isSetExtensions() && hasExtension(ResultFilterConstants.RESULT_FILTER)
-                && getExtension(ResultFilterConstants.RESULT_FILTER) instanceof ResultFilter;
-    }
-
-    public ComparisonFilter getResultFilter() {
-        if (hasResultFilter()) {
-            return ((ResultFilter)getExtension(ResultFilterConstants.RESULT_FILTER)).getValue();
-        }
-        return null;
-    }
-
-    public GetObservationRequest setResultFilter(ComparisonFilter filter) {
-        addExtension(new ResultFilter(filter));
-        return this;
     }
 
     public boolean isSetRequestString() {
@@ -444,7 +446,7 @@ public class GetObservationRequest
                 .filter(this::isFesFilterExtension).collect(toSet());
     }
 
-    private boolean isFesFilterExtension(SwesExtension<?> extension) {
+    private boolean isFesFilterExtension(Extension<?> extension) {
         return !((extension instanceof ResultFilter)
                 || (extension instanceof SpatialFilter)
                 || (extension instanceof SosSpatialFilter))
