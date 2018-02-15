@@ -56,7 +56,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.write.WmlTDREncoderv20XmlStreamWriter;
+import org.n52.svalbard.write.TsmlTDREncoderv10XmlStreamWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -176,7 +176,7 @@ public class TsmlTDREncoderv10
             throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new WmlTDREncoderv20XmlStreamWriter(ctx.with(StreamingEncoderFlags.ENCODER, this), outputStream,
+                new TsmlTDREncoderv10XmlStreamWriter(ctx.with(StreamingEncoderFlags.ENCODER, this), outputStream,
                         (OmObservation) objectToEncode).write();
             } catch (XMLStreamException xmlse) {
                 throw new EncodingException("Error while writing element to stream!", xmlse);

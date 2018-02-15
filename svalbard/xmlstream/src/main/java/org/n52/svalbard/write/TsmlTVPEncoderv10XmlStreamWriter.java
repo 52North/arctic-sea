@@ -35,6 +35,7 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
+import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
 import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants;
 import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
@@ -187,9 +188,9 @@ public class TsmlTVPEncoderv10XmlStreamWriter
         empty(TimeseriesMLConstants.QN_TEMPORAL_EXTENT);
         addXlinkHrefAttr("#" + o.getPhenomenonTime().getGmlId());
         if (o.isSetValue() && o.getValue().isSetMetadata() && o.getValue().getMetadata().isSetTimeseriesMetadata()
-                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof TimeseriesMetadataType) {
+                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
             start(TimeseriesMLConstants.QN_CUMULATIVE);
-            chars(Boolean.toString(((TimeseriesTVPType) o.getValue().getMetadata().getTimeseriesmetadata())
+            chars(Boolean.toString(((MeasurementTimeseriesMetadata) o.getValue().getMetadata().getTimeseriesmetadata())
                     .isCumulative()));
             endInline(TimeseriesMLConstants.QN_CUMULATIVE);
         }

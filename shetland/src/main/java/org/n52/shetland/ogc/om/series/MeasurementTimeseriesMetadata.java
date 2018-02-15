@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.tsml;
-
-import org.n52.shetland.ogc.om.series.TimeseriesMetadata;
+package org.n52.shetland.ogc.om.series;
 
 /**
- * This class implements the OGC TimeseriesML 1.0 element <code>metadata</code>. See
+ * This class implements the OGC WaterML 2.0 element <code>metadata</code>. See
  * <code>/req/uml-timeseries-observation/metadata</code>.
  *
- * @see http://www.opengeospatial.org/standards/waterml
+ * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
+ *         J&uuml;rrens</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
  * @since 1.0.0
  */
 public class MeasurementTimeseriesMetadata

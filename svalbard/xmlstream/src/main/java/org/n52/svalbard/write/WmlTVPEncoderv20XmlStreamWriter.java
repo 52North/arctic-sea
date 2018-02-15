@@ -34,7 +34,7 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.StreamingValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
-import org.n52.shetland.ogc.om.series.wml.MeasurementTimeseriesMetadata;
+import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
 import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
