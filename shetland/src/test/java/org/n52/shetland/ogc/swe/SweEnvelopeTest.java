@@ -19,6 +19,7 @@ package org.n52.shetland.ogc.swe;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.junit.Test;
@@ -45,6 +46,11 @@ public class SweEnvelopeTest {
         final double y1 = 2;
         final double y2 = 3;
         final double x2 = 4;
+
+        final BigDecimal bx1 = new BigDecimal(x1);
+        final BigDecimal by1 = new BigDecimal(y1);
+        final BigDecimal by2 = new BigDecimal(y2);
+        final BigDecimal bx2 = new BigDecimal(x2);
         final String uom = "deg";
         final ReferencedEnvelope sosEnvelope = new ReferencedEnvelope(new Envelope(x1, x2, y1, y2), srid);
         final SweEnvelope sweEnvelope = new SweEnvelope(sosEnvelope, uom, false);
@@ -53,14 +59,14 @@ public class SweEnvelopeTest {
         assertThat(sweEnvelope.getReferenceFrame(), is(Integer.toString(srid)));
         // x1
         final List<? extends SweCoordinate<?>> lcCoordinates = sweEnvelope.getLowerCorner().getCoordinates();
-        assertThat(((Double) lcCoordinates.get(0).getValue().getValue()), is(x1));
+        assertThat(((BigDecimal) lcCoordinates.get(0).getValue().getValue()), is(bx1));
         // y1
-        assertThat(((Double) lcCoordinates.get(1).getValue().getValue()), is(y1));
+        assertThat(((BigDecimal) lcCoordinates.get(1).getValue().getValue()), is(by1));
         // x2
         final List<? extends SweCoordinate<?>> ucCoordinates = sweEnvelope.getUpperCorner().getCoordinates();
-        assertThat(((Double) ucCoordinates.get(0).getValue().getValue()), is(x2));
+        assertThat(((BigDecimal) ucCoordinates.get(0).getValue().getValue()), is(bx2));
         // y2
-        assertThat(((Double) ucCoordinates.get(1).getValue().getValue()), is(y2));
+        assertThat(((BigDecimal) ucCoordinates.get(1).getValue().getValue()), is(by2));
         // uom
         assertThat(((SweQuantity) lcCoordinates.get(0).getValue()).getUom(), is(uom));
         assertThat(((SweQuantity) lcCoordinates.get(1).getValue()).getUom(), is(uom));

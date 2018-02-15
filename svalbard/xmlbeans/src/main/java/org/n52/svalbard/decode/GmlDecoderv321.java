@@ -402,7 +402,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             if (srid == -1 && xbPositions[0].getSrsName() != null && !(xbPositions[0].getSrsName().isEmpty())) {
                 srid = CRSHelper.parseSrsName(xbPositions[0].getSrsName());
             }
-            geomWKT = "LINESTRING" + getString4PosArray(xbLineStringType.getPosArray()) + "";
+            geomWKT = "LINESTRING" + getString4PosArray(xbLineStringType.getPosArray(), false) + "";
         } else if (xbLineStringType.getPosList() != null) {
             StringBuilder builder = new StringBuilder();
             builder.append("LINESTRING(");
@@ -588,7 +588,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
         } else if (xbCoordinates != null && !(xbCoordinates.getStringValue().isEmpty())) {
             result = getString4Coordinates(xbCoordinates);
         } else if (xbPosArray != null && xbPosArray.length > 0) {
-            result = getString4PosArray(xbPosArray);
+            result = getString4PosArray(xbPosArray, true);
         } else {
             throw new DecodingException("The Polygon must contain the following elements " +
                                         "<gml:exterior><gml:LinearRing><gml:posList>, " +
@@ -617,14 +617,18 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
      *
      * @return Returns String with coordinates for WKT.
      */
-    private String getString4PosArray(DirectPositionType[] xbPosArray) {
+    private String getString4PosArray(DirectPositionType[] xbPosArray, boolean polygon) {
         StringBuilder coordinateString = new StringBuilder();
         coordinateString.append("(");
         for (DirectPositionType directPositionType : xbPosArray) {
             coordinateString.append(directPositionType.getStringValue());
             coordinateString.append(", ");
         }
-        coordinateString.append(xbPosArray[0].getStringValue());
+        if (polygon) {
+            coordinateString.append(xbPosArray[0].getStringValue());
+        } else {
+            coordinateString.delete(coordinateString.length() - 2, coordinateString.length());
+        }
         coordinateString.append(")");
 
         return coordinateString.toString();

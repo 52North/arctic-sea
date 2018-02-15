@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.SortedSet;
@@ -96,11 +97,11 @@ public class ParameterHolder {
      * @return Height parameter
      */
     @SuppressWarnings("unchecked")
-    public NamedValue<Double> getHeightParameter() {
+    public NamedValue<BigDecimal> getHeightParameter() {
         if (isSetParameter()) {
             for (NamedValue<?> namedValue : getParameter()) {
                 if (isHeightParameter(namedValue)) {
-                    return (NamedValue<Double>) namedValue;
+                    return (NamedValue<BigDecimal>) namedValue;
                 }
             }
         }
@@ -131,11 +132,11 @@ public class ParameterHolder {
      * @return Depth parameter
      */
     @SuppressWarnings("unchecked")
-    public NamedValue<Double> getDepthParameter() {
+    public NamedValue<BigDecimal> getDepthParameter() {
         if (isSetParameter()) {
             for (NamedValue<?> namedValue : getParameter()) {
                 if (isHeightDepthParameter(namedValue)) {
-                    return (NamedValue<Double>) namedValue;
+                    return (NamedValue<BigDecimal>) namedValue;
                 }
             }
         }
@@ -153,7 +154,7 @@ public class ParameterHolder {
         return getParameter().stream().anyMatch(this::isHeightDepthParameter);
     }
 
-    public NamedValue<Double> getHeightDepthParameter() {
+    public NamedValue<BigDecimal> getHeightDepthParameter() {
         return isSetDepthParameter() ? getDepthParameter() : getHeightParameter();
     }
 
@@ -190,15 +191,15 @@ public class ParameterHolder {
     }
 
     @SuppressWarnings("unchecked")
-    public NamedValue<Double> getToParameter() {
+    public NamedValue<BigDecimal> getToParameter() {
         return getParameter().stream().filter(this::isToParameter)
-                .findFirst().map(nv -> (NamedValue<Double>) nv).orElse(null);
+                .findFirst().map(nv -> (NamedValue<BigDecimal>) nv).orElse(null);
     }
 
     @SuppressWarnings("unchecked")
-    public NamedValue<Double> getFromParameter() {
+    public NamedValue<BigDecimal> getFromParameter() {
         return getParameter().stream().filter(this::isFromParameter)
-                .findFirst().map(nv -> (NamedValue<Double>) nv).orElse(null);
+                .findFirst().map(nv -> (NamedValue<BigDecimal>) nv).orElse(null);
     }
 
     /**

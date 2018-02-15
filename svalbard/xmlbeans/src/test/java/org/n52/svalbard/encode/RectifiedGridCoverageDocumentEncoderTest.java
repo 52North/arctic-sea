@@ -20,6 +20,7 @@ import static java.lang.Boolean.TRUE;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import net.opengis.gml.x32.RectifiedGridCoverageDocument;
@@ -83,9 +84,9 @@ public class RectifiedGridCoverageDocumentEncoderTest {
         RectifiedGridCoverage rgc = new RectifiedGridCoverage("category");
         rgc.setUnit("d");
         rgc.setRangeParameters("category_param");
-        rgc.addValue(new QuantityRangeValue(0.0, 5.0, "m"), new CategoryValue("test category"));
-        rgc.addValue(new QuantityRangeValue(5.0, 10.0, "m"), new CategoryValue("test category 2"));
-        rgc.addValue(new QuantityRangeValue(10.0, 15.0, "m"), new CategoryValue("test category 2 test"));
+        rgc.addValue(new QuantityRangeValue(BigDecimal.valueOf(0.0), BigDecimal.valueOf(5.0), "m"), new CategoryValue("test category"));
+        rgc.addValue(new QuantityRangeValue(BigDecimal.valueOf(5.0), BigDecimal.valueOf(10.0), "m"), new CategoryValue("test category 2"));
+        rgc.addValue(new QuantityRangeValue(BigDecimal.valueOf(10.0), BigDecimal.valueOf(15.0), "m"), new CategoryValue("test category 2 test"));
         return rgc;
     }
 
@@ -93,9 +94,9 @@ public class RectifiedGridCoverageDocumentEncoderTest {
         RectifiedGridCoverage rgc = new RectifiedGridCoverage("text");
         rgc.setUnit("d");
         rgc.setRangeParameters("text_param");
-        rgc.addValue(new QuantityRangeValue(0.0, 5.0, "m"), new TextValue("test text"));
-        rgc.addValue(new QuantityRangeValue(5.0, 10.0, "m"), new TextValue("test text 2"));
-        rgc.addValue(new QuantityRangeValue(10.0, 15.0, "m"), new TextValue("test text 2 test"));
+        rgc.addValue(new QuantityRangeValue(BigDecimal.valueOf(0.0), BigDecimal.valueOf(5.0), "m"), new TextValue("test text"));
+        rgc.addValue(new QuantityRangeValue(BigDecimal.valueOf(5.0), BigDecimal.valueOf(10.0), "m"), new TextValue("test text 2"));
+        rgc.addValue(new QuantityRangeValue(BigDecimal.valueOf(10.0), BigDecimal.valueOf(15.0), "m"), new TextValue("test text 2 test"));
         return rgc;
     }
 }

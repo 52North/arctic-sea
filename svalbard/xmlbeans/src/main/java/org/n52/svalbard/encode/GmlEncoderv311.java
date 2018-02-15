@@ -472,7 +472,7 @@ public class GmlEncoderv311
             measureType.setUom("");
         }
         if (quantityValue.getValue() != null) {
-            measureType.setDoubleValue(quantityValue.getValue());
+            measureType.setDoubleValue(quantityValue.getValue().doubleValue());
         } else {
             measureType.setNil();
         }

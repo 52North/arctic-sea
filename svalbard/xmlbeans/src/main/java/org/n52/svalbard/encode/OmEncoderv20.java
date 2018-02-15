@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
 import net.opengis.gml.x32.FeaturePropertyType;
@@ -138,9 +139,16 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             SosConstants.SOS,
             Collections.singletonMap(Sos2Constants.SERVICEVERSION, Collections.singleton(OmConstants.NS_OM_2)));
 
+    private SweHelper sweHelper;
+
     public OmEncoderv20() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(ENCODER_KEYS));
+    }
+
+    @Inject
+    public void setSweHelper(SweHelper sweHelper) {
+        this.sweHelper = sweHelper;
     }
 
     @Override
@@ -363,7 +371,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
             observationType = OMHelper.getObservationTypeFor(observationValue.getValue());
         }
         if (observationType.equals(OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION)) {
-            SweDataArray dataArray = new SweHelper().createSosSweDataArray(observationValue);
+            SweDataArray dataArray = sweHelper.createSosSweDataArray(observationValue);
             return encodeSWE(dataArray, EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
         }
 
@@ -373,7 +381,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
     private XmlObject createMultiObservationValueToResult(MultiObservationValues<?> observationValue)
             throws EncodingException {
-        SweDataArray dataArray = new SweHelper().createSosSweDataArray(observationValue);
+        SweDataArray dataArray = sweHelper.createSosSweDataArray(observationValue);
 
         return encodeObjectToXml(SweConstants.NS_SWE_20, dataArray,
                 EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
@@ -564,7 +572,7 @@ public class OmEncoderv20 extends AbstractOmEncoderv20 {
 
         @Override
         public XmlObject visit(ProfileValue value) throws EncodingException {
-            return null;
+            return encodeGWML(value, EncodingContext.of(XmlBeansEncodingFlags.FOR_OBSERVATION));
         }
 
         @Override

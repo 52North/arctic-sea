@@ -18,6 +18,7 @@ package org.n52.svalbard.encode;
 
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
@@ -61,7 +62,7 @@ public class GmlV321EncoderTest {
 
     @Test(expected = EncodingException.class)
     public void throwsIllegalArgumentExceptionWhenConstructorValueNullTest() throws EncodingException {
-        QuantityValue quantity = new QuantityValue(null);
+        QuantityValue quantity = new QuantityValue();
         encoder.encode(quantity);
     }
 

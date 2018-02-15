@@ -29,7 +29,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePosition;
 import org.n52.shetland.util.DateTimeHelper;

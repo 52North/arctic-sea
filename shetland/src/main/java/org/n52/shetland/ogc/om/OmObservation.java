@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.om;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -30,6 +31,7 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
+import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
@@ -110,8 +112,6 @@ public class OmObservation
     private Set<OmResultQuality> qualityList = Sets.newHashSet();
 
     private String additionalMergeIndicator;
-
-    private String seriesType;
 
     private final Set<OmObservationContext> relatedObservations = new HashSet<>();
 
@@ -405,10 +405,16 @@ public class OmObservation
      * @param observationValue
      *            Observation to merge
      */
-    private void mergeValues(final ObservationValue<?> observationValue) {
+    protected boolean mergeValues(final ObservationValue<?> observationValue) {
         TVPValue tvpValue;
         if (getValue() instanceof SingleObservationValue) {
-            tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
+            if (getValue().getValue() instanceof ProfileValue && observationValue.getValue() instanceof ProfileValue) {
+                ((ProfileValue) getValue().getValue())
+                        .addValues(((ProfileValue) observationValue.getValue()).getValue());
+                return true;
+            } else {
+                tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
+            }
         } else {
             tvpValue = (TVPValue) ((MultiObservationValues<?>) value).getValue();
         }
@@ -420,6 +426,7 @@ public class OmObservation
         } else if (observationValue instanceof MultiObservationValues) {
             tvpValue.addValues(((TVPValue) ((MultiObservationValues<?>) observationValue).getValue()).getValue());
         }
+        return true;
     }
 
     /**
@@ -663,7 +670,7 @@ public class OmObservation
      *
      * @return Height parameter
      */
-    public NamedValue<Double> getHeightParameter() {
+    public NamedValue<BigDecimal> getHeightParameter() {
         return parameterHolder.getHeightParameter();
     }
 
@@ -681,7 +688,7 @@ public class OmObservation
      *
      * @return Depth parameter
      */
-    public NamedValue<Double> getDepthParameter() {
+    public NamedValue<BigDecimal> getDepthParameter() {
         return parameterHolder.getDepthParameter();
     }
 
@@ -689,7 +696,7 @@ public class OmObservation
         return parameterHolder.isSetHeightDepthParameter();
     }
 
-    public NamedValue<Double> getHeightDepthParameter() {
+    public NamedValue<BigDecimal> getHeightDepthParameter() {
         return parameterHolder.getHeightDepthParameter();
     }
 
@@ -724,7 +731,6 @@ public class OmObservation
         clone.setTokenSeparator(this.getTokenSeparator());
         clone.setTupleSeparator(this.getTupleSeparator());
         clone.setDecimalSeparator(this.getDecimalSeparator());
-        clone.setSeriesType(this.getSeriesType());
         return clone;
     }
 
@@ -851,25 +857,6 @@ public class OmObservation
 
     public boolean isSetAdditionalMergeIndicator() {
         return getAdditionalMergeIndicator() != null && !getAdditionalMergeIndicator().isEmpty();
-    }
-
-    /**
-     * @return the seriesType
-     */
-    public String getSeriesType() {
-        return seriesType;
-    }
-
-    /**
-     * @param seriesType
-     *            the seriesType to set
-     */
-    public void setSeriesType(String seriesType) {
-        this.seriesType = seriesType;
-    }
-
-    public boolean isSetSeriesType() {
-        return !Strings.isNullOrEmpty(getSeriesType());
     }
 
     public boolean checkForMerge(OmObservation observation) {

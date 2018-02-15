@@ -91,7 +91,7 @@ public class ProfileObservation
                 }
                 if (level.isSetLocation()) {
                     Coordinate coordinate = level.getLocation().getCoordinate();
-                    coordinate.z = level.getLevelStart().getValue();
+                    coordinate.z = level.getLevelStart().getValue().doubleValue();
                     coordinates.add(coordinate);
                     if (srid == 0) {
                         srid = level.getLocation().getSRID();
@@ -148,7 +148,8 @@ public class ProfileObservation
             // }
             // }
             return true;
+        } else {
+            return super.mergeValues(observationValue);
         }
-        return false;
     }
 }

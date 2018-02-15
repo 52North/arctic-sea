@@ -42,9 +42,11 @@ public class UoM {
     /**
      * @param uom
      *            the uom to set
+     * @return
      */
-    public void setUom(String uom) {
+    public UoM setUom(String uom) {
         this.uom = uom;
+        return this;
     }
 
     /**
@@ -57,9 +59,11 @@ public class UoM {
     /**
      * @param name
      *            the name to set
+     * @return
      */
-    public void setName(String name) {
+    public UoM setName(String name) {
         this.name = name;
+        return this;
     }
 
     public boolean isSetName() {
@@ -76,9 +80,11 @@ public class UoM {
     /**
      * @param link
      *            the link to set
+     * @return
      */
-    public void setLink(String link) {
+    public UoM setLink(String link) {
         this.link = link;
+        return this;
     }
 
     public boolean isSetLink() {
