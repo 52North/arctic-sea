@@ -78,13 +78,12 @@ public class ActivationListeners<K> implements ActivationManager<K> {
 
     @Override
     public void activate(K key) {
-        if (setState(key, true)) {
-            this.lock.readLock().lock();
-            try {
-                this.listeners.forEach(l -> l.activated(key));
-            } finally {
-                this.lock.readLock().unlock();
-            }
+        setState(key, true);
+        this.lock.readLock().lock();
+        try {
+            this.listeners.forEach(l -> l.activated(key));
+        } finally {
+            this.lock.readLock().unlock();
         }
     }
 
