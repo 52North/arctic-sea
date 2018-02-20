@@ -346,7 +346,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
      */
     private void checkFormatWithNamespace(String procedureDescriptionFormat, String namespace)
             throws DecodingException {
-        if (!procedureDescriptionFormat.equals(namespace)) {
+        if (!procedureDescriptionFormat.equals(namespace) && !procedureDescriptionFormat.contains(namespace)) {
             throw new DecodingException(
                     "The procedure description namespace '%s' does not match the procedureDescriptionFormat '%s'",
                     namespace, procedureDescriptionFormat);
