@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Set;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -35,7 +36,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.Binding;
 import org.n52.iceland.binding.BindingRepository;
 import org.n52.iceland.event.events.ExceptionEvent;
@@ -50,6 +52,9 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 
 import com.google.common.base.Stopwatch;
+import com.google.common.util.concurrent.SimpleTimeLimiter;
+import com.google.common.util.concurrent.TimeLimiter;
+import com.google.common.util.concurrent.UncheckedTimeoutException;
 
 /**
  * The servlet of the Service which receives the incoming HttpPost and HttpGet requests and sends the operation result
@@ -57,22 +62,27 @@ import com.google.common.base.Stopwatch;
  *
  * @since 1.0.0
  */
+@Configurable
 @Controller
 @RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")
 public class Service extends HttpServlet {
+    public static final String REQUEST_TIMEOUT = "service.request.timeout";
     private static final long serialVersionUID = -2103692310137045855L;
     private static final String BINDING_DELETE_METHOD = "doDeleteOperation";
     private static final String BINDING_PUT_METHOD = "doPutOperation";
     private static final String BINDING_POST_METHOD = "doPostOperation";
     private static final String BINDING_GET_METHOD = "doGetOperation";
     private static final AtomicLong COUNTER = new AtomicLong(0);
+    private static final TimeLimiter TIME_LIMITER = SimpleTimeLimiter.create(Executors.newCachedThreadPool());
     private static final Logger LOGGER = LoggerFactory.getLogger(Service.class);
+    private Integer requestTimeout = 0;
 
     @Inject
     private transient BindingRepository bindingRepository;
 
     @Inject
     private transient EventBus serviceEventBus;
+
 
     private long logRequest(HttpServletRequest request) {
         long count = COUNTER.incrementAndGet();
@@ -233,6 +243,15 @@ public class Service extends HttpServlet {
                     throw new HTTPException(HTTPStatus.UNSUPPORTED_MEDIA_TYPE);
                 }
             } else {
+                if (requestTimeout > 0) {
+                    try {
+                        return TIME_LIMITER.newProxy(binding, Binding.class, requestTimeout, TimeUnit.SECONDS);
+                    } catch (UncheckedTimeoutException ute) {
+                        HTTPException httpException = new HTTPException(HTTPStatus.GATEWAY_TIME_OUT);
+                        httpException.addSuppressed(ute);
+                        throw httpException;
+                    }
+                }
                 return binding;
             }
         }
@@ -311,4 +330,12 @@ public class Service extends HttpServlet {
             return parent;
         }
     }
+
+    @Setting(REQUEST_TIMEOUT)
+    public void setRequestTimeout(Integer requestTimeout) {
+        if (requestTimeout != null) {
+            this.requestTimeout = requestTimeout;
+        }
+    }
+
 }

@@ -38,7 +38,7 @@ import org.n52.svalbard.ConformanceClass;
  *
  * @since 1.0.0
  */
-public abstract class Binding implements ConformanceClass, Component<BindingKey>, EncodingExceptionHandler {
+public interface Binding extends ConformanceClass, Component<BindingKey>, EncodingExceptionHandler {
 
     /**
      * HTTP DELETE request handling method.
@@ -49,7 +49,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      * @throws HTTPException if the encoding of an exception failed
      * @throws IOException   if an IO error occurs
      */
-    public void doDeleteOperation(HttpServletRequest request, HttpServletResponse response)
+    default void doDeleteOperation(HttpServletRequest request, HttpServletResponse response)
             throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
@@ -63,7 +63,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      * @throws HTTPException if the encoding of an exception failed
      * @throws IOException   if an IO error occurs
      */
-    public void doGetOperation(HttpServletRequest request, HttpServletResponse response)
+    default void doGetOperation(HttpServletRequest request, HttpServletResponse response)
             throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
@@ -77,7 +77,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      * @throws HTTPException if the encoding of an exception failed
      * @throws IOException   if an IO error occurs
      */
-    public void doOptionsOperation(HttpServletRequest request, HttpServletResponse response)
+    default void doOptionsOperation(HttpServletRequest request, HttpServletResponse response)
             throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
@@ -91,7 +91,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      * @throws HTTPException if the encoding of an exception failed
      * @throws IOException   if an IO error occurs
      */
-    public void doPostOperation(HttpServletRequest request, HttpServletResponse response)
+    default void doPostOperation(HttpServletRequest request, HttpServletResponse response)
             throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
@@ -105,7 +105,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      * @throws HTTPException if the encoding of an exception failed
      * @throws IOException   if an IO error occurs
      */
-    public void doPutOperation(HttpServletRequest request, HttpServletResponse response)
+    default void doPutOperation(HttpServletRequest request, HttpServletResponse response)
             throws HTTPException, IOException {
         throw new HTTPException(HTTPStatus.METHOD_NOT_ALLOWED);
     }
@@ -119,7 +119,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpDeleteSupported(OwsOperationKey operation) throws HTTPException {
+    default boolean checkOperationHttpDeleteSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
@@ -132,7 +132,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpGetSupported(OwsOperationKey operation) throws HTTPException {
+    default boolean checkOperationHttpGetSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
@@ -145,7 +145,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpPostSupported(OwsOperationKey operation) throws HTTPException {
+    default boolean checkOperationHttpPostSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
@@ -158,7 +158,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpOptionsSupported(OwsOperationKey operation) throws HTTPException {
+    default boolean checkOperationHttpOptionsSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
@@ -171,7 +171,7 @@ public abstract class Binding implements ConformanceClass, Component<BindingKey>
      *
      * @throws HTTPException if an error occurs
      */
-    public boolean checkOperationHttpPutSupported(OwsOperationKey operation) throws HTTPException {
+    default boolean checkOperationHttpPutSupported(OwsOperationKey operation) throws HTTPException {
         return false;
     }
 
