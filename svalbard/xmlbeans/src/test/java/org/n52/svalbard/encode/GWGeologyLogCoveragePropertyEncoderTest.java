@@ -21,10 +21,13 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -36,6 +39,8 @@ import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.Value;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
@@ -46,84 +51,95 @@ import net.opengis.gwmlWell.x22.GWGeologyLogCoveragePropertyType;
 
 public class GWGeologyLogCoveragePropertyEncoderTest {
 
-//    @BeforeClass
-//    public static void initSettingsManager() {
-//        SettingsManager.getInstance();
-//    }
-//
-//    @AfterClass
-//    public static void cleanupSettingManager() {
-//        SettingsManager.getInstance().cleanup();
-//    }
-//
-//    @Test
-//    public void should_encode_GWGeologyLogCoverage_only_value() throws EncodingException {
-//        ProfileValue coverage = createGWGeologyLogCoverage(false, false);
-//        XmlObject encodedObject = CodingHelper.encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, coverage);
-//        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
-//        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
-//    }
-//
-//    @Test
-//    public void should_encode_GWGeologyLogCoverage_full() throws EncodingException {
-//        ProfileValue coverage = createGWGeologyLogCoverage(true, true);
-//        XmlObject encodedObject = CodingHelper.encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, coverage);
-//        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
-//        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
-//    }
-//
-//    @Test
-//    public void should_encode_GWGeologyLogCoverage_fromDepth() throws EncodingException {
-//        ProfileValue coverage = createGWGeologyLogCoverage(true, false);
-//        XmlObject encodedObject = CodingHelper.encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, coverage);
-//        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
-//        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
-//    }
-//
-//    @Test
-//    public void should_encode_GWGeologyLogCoverage_toDepth() throws EncodingException {
-//        ProfileValue coverage = createGWGeologyLogCoverage(false, true);
-//        XmlObject encodedObject = CodingHelper.encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, coverage);
-//        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
-//        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
-//    }
-//
-//    private ProfileValue createGWGeologyLogCoverage(boolean fromDepth, boolean toDepth) {
-//        ProfileValue coverage = new ProfileValue();
-//        coverage.addValue(createLogValue(fromDepth, toDepth, 0.0));
-//        coverage.addValue(createLogValue(fromDepth, toDepth, 10.0));
-//        return coverage;
-//    }
-//
-//    private ProfileLevel createLogValue(boolean fromDepth, boolean toDepth, double start) {
-//        ProfileLevel profileLevel = new ProfileLevel();
-//        if (fromDepth) {
-//            profileLevel.setLevelStart(createQuantity("fromDepth", start, "m"));
-//        }
-//        if (toDepth) {
-//            profileLevel.setLevelEnd(createQuantity("toDepth", start + 10.0, "m"));
-//        }
-//        profileLevel.setValue(createProfileLevel());
-//        return profileLevel;
-//    }
-//
-//    private QuantityValue createQuantity(String definition, double value, String unit) {
-//        QuantityValue quantity = new QuantityValue(value, unit);
-//        quantity.setValue(value).setUom(unit).setDefinition(definition);
-//        return quantity;
-//    }
-//
-//    private List<Value<?>> createProfileLevel() {
-//        List<Value<?>> list = Lists.newArrayList();
-//        CategoryValue category = new CategoryValue("weathered grey brown basalt", "unknown");
-//        category.setDefinition("http://www.opengis.net/def/gwml/2.0/observedProperty/earthMaterial");
-//        category.addName(new CodeType("lithology"));
-//        list.add(category);
-//        TextValue text = new TextValue("weathered grey brown basalt");
-//        text.setDefinition("http://www.opengis.net/def/gwml/2.0/observedProperty/earthMaterial");
-//        text.addName(new CodeType("text"));
-//        list.add(text);
-//        return list;
-//    }
+    private GWGeologyLogCoveragePropertyTypeEncoder encoder;
+
+    @Before
+    public void setup() {
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoder = new GWGeologyLogCoveragePropertyTypeEncoder();
+        encoder.setXmlOptions(XmlOptions::new);
+        encoder.setEncoderRepository(encoderRepository);
+
+        LogValuePropertyTypeEncoder logValuePropertyTypeEncoder = new LogValuePropertyTypeEncoder();
+        logValuePropertyTypeEncoder.setXmlOptions(XmlOptions::new);
+        logValuePropertyTypeEncoder.setEncoderRepository(encoderRepository);
+
+        SweCommonEncoderv20 sweCommonEncoderv20 = new SweCommonEncoderv20();
+        sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
+        sweCommonEncoderv20.setEncoderRepository(encoderRepository);
+
+        encoderRepository.setEncoders(Arrays.asList(encoder, logValuePropertyTypeEncoder, sweCommonEncoderv20));
+        encoderRepository.init();
+    }
+
+    @Test
+    public void should_encode_GWGeologyLogCoverage_only_value() throws EncodingException, DecodingException {
+        ProfileValue coverage = createGWGeologyLogCoverage(false, false);
+        XmlObject encodedObject = encoder.encode(coverage);
+        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
+        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
+    }
+
+    @Test
+    public void should_encode_GWGeologyLogCoverage_full() throws EncodingException, DecodingException {
+        ProfileValue coverage = createGWGeologyLogCoverage(true, true);
+        XmlObject encodedObject = encoder.encode(coverage);
+        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
+        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
+    }
+
+    @Test
+    public void should_encode_GWGeologyLogCoverage_fromDepth() throws EncodingException, DecodingException {
+        ProfileValue coverage = createGWGeologyLogCoverage(true, false);
+        XmlObject encodedObject = encoder.encode(coverage);
+        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
+        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
+    }
+
+    @Test
+    public void should_encode_GWGeologyLogCoverage_toDepth() throws EncodingException, DecodingException {
+        ProfileValue coverage = createGWGeologyLogCoverage(false, true);
+        XmlObject encodedObject = encoder.encode(coverage);
+        assertThat(XmlHelper.validateDocument(encodedObject), is(TRUE));
+        assertThat(encodedObject, instanceOf(GWGeologyLogCoveragePropertyType.class));
+    }
+
+    private ProfileValue createGWGeologyLogCoverage(boolean fromDepth, boolean toDepth) {
+        ProfileValue coverage = new ProfileValue("");
+        coverage.addValue(createLogValue(fromDepth, toDepth, 0.0));
+        coverage.addValue(createLogValue(fromDepth, toDepth, 10.0));
+        return coverage;
+    }
+
+    private ProfileLevel createLogValue(boolean fromDepth, boolean toDepth, double start) {
+        ProfileLevel profileLevel = new ProfileLevel();
+        if (fromDepth) {
+            profileLevel.setLevelStart(createQuantity("fromDepth", start, "m"));
+        }
+        if (toDepth) {
+            profileLevel.setLevelEnd(createQuantity("toDepth", start + 10.0, "m"));
+        }
+        profileLevel.setValue(createProfileLevel());
+        return profileLevel;
+    }
+
+    private QuantityValue createQuantity(String definition, double value, String unit) {
+        QuantityValue quantity = new QuantityValue(value, unit);
+        quantity.setValue(value).setUom(unit).setDefinition(definition);
+        return quantity;
+    }
+
+    private List<Value<?>> createProfileLevel() {
+        List<Value<?>> list = Lists.newArrayList();
+        CategoryValue category = new CategoryValue("weathered grey brown basalt", "unknown");
+        category.setDefinition("http://www.opengis.net/def/gwml/2.0/observedProperty/earthMaterial");
+        category.addName(new CodeType("lithology"));
+        list.add(category);
+        TextValue text = new TextValue("weathered grey brown basalt");
+        text.setDefinition("http://www.opengis.net/def/gwml/2.0/observedProperty/earthMaterial");
+        text.addName(new CodeType("text"));
+        list.add(text);
+        return list;
+    }
 
 }
