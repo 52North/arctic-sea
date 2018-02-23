@@ -16,12 +16,12 @@
  */
 package org.n52.svalbard.encode;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -59,18 +59,8 @@ public class InsertObservationRequestEncoder extends AbstractSwesRequestEncoder<
     private void addObservations(List<OmObservation> observations, InsertObservationType insertObservation)
             throws EncodingException {
         Observation ob = insertObservation.addNewObservation();
-        final List<EncodingException> thrownExceptions = new LinkedList<>();
-        observations.stream().forEach(o -> {
-            try {
-                if (thrownExceptions.isEmpty()) {
-                    ob.addNewOMObservation().set(encodeObjectToXmlDocument(OmConstants.NS_OM_2, o));
-                }
-            } catch (EncodingException e) {
-                thrownExceptions.add(e);
-            }
-        });
-        if (!thrownExceptions.isEmpty()) {
-            throw thrownExceptions.get(0);
+        for (OmObservation o : observations) {
+            ob.addNewOMObservation().set(encodeObjectToXmlDocument(OmConstants.NS_OM_2, o));
         }
     }
 
@@ -79,18 +69,8 @@ public class InsertObservationRequestEncoder extends AbstractSwesRequestEncoder<
         if (extensions == null || extensions.isEmpty()) {
             return;
         }
-        final List<EncodingException> thrownExceptions = new LinkedList<>();
-        extensions.getExtensions().stream().forEach(o -> {
-            try {
-                if (thrownExceptions.isEmpty()) {
-                    insertObservation.addNewExtension().set(encodeObjectToXml(SwesConstants.NS_SWES_20, o));
-                }
-            } catch (EncodingException e) {
-                thrownExceptions.add(e);
-            }
-        });
-        if (!thrownExceptions.isEmpty()) {
-            throw thrownExceptions.get(0);
+        for (Extension<?> o : extensions.getExtensions()) {
+            insertObservation.addNewExtension().set(encodeObjectToXml(SwesConstants.NS_SWES_20, o));
         }
     }
 
