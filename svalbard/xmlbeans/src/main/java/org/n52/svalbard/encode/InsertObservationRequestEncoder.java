@@ -22,11 +22,14 @@ import java.util.List;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.om.OmObservation;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.InsertObservationRequest;
+import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
 import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
 import net.opengis.sos.x20.InsertObservationType.Observation;
@@ -47,6 +50,7 @@ public class InsertObservationRequestEncoder extends AbstractSwesRequestEncoder<
         InsertObservationType insertObservation = doc.addNewInsertObservation();
         insertObservation.setService(request.getService());
         insertObservation.setVersion(request.getVersion());
+        addExtensions(request.getExtensions(), insertObservation);
         addOfferings(request.getOfferings(), insertObservation);
         addObservations(request.getObservations(), insertObservation);
         return doc;
@@ -60,6 +64,26 @@ public class InsertObservationRequestEncoder extends AbstractSwesRequestEncoder<
             try {
                 if (thrownExceptions.isEmpty()) {
                     ob.addNewOMObservation().set(encodeObjectToXmlDocument(OmConstants.NS_OM_2, o));
+                }
+            } catch (EncodingException e) {
+                thrownExceptions.add(e);
+            }
+        });
+        if (!thrownExceptions.isEmpty()) {
+            throw thrownExceptions.get(0);
+        }
+    }
+
+    private void addExtensions(Extensions extensions, InsertObservationType insertObservation)
+            throws EncodingException {
+        if (extensions == null || extensions.isEmpty()) {
+            return;
+        }
+        final List<EncodingException> thrownExceptions = new LinkedList<>();
+        extensions.getExtensions().stream().forEach(o -> {
+            try {
+                if (thrownExceptions.isEmpty()) {
+                    insertObservation.addNewExtension().set(encodeObjectToXml(SwesConstants.NS_SWES_20, o));
                 }
             } catch (EncodingException e) {
                 thrownExceptions.add(e);
