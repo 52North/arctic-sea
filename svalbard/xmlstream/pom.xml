@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>4.0.0</version>
+        <version>4.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>svalbard-xmlstream</artifactId>
     <name>52°North Svalbard XML Stream</name>
