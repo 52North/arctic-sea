@@ -133,6 +133,12 @@ public class ProfileValue
                         } else if (profileLevel.getLevelStart().getValue().compareTo(from.getValue()) < 0) {
                             from = profileLevel.getLevelStart();
                         }
+                    } else if (profileLevel.isSetLevelEnd()) {
+                        if (from == null) {
+                            from = profileLevel.getLevelEnd();
+                        } else if (profileLevel.getLevelEnd().getValue().compareTo(from.getValue()) < 0) {
+                            from = profileLevel.getLevelEnd();
+                        }
                     }
                 }
                 if (from != null) {
@@ -177,6 +183,12 @@ public class ProfileValue
                             to = profileLevel.getLevelEnd();
                         } else if (profileLevel.getLevelEnd().getValue().compareTo(to.getValue()) > 0) {
                             to = profileLevel.getLevelEnd();
+                        }
+                    } else if (profileLevel.isSetLevelStart()) {
+                        if (to == null) {
+                            to = profileLevel.getLevelStart();
+                        } else if (profileLevel.getLevelStart().getValue().compareTo(to.getValue()) > 0) {
+                            to = profileLevel.getLevelStart();
                         }
                     }
                 }

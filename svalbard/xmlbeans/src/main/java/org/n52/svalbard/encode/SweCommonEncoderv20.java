@@ -441,7 +441,7 @@ public class SweCommonEncoderv20
             throws EncodingException {
         Coordinate xbCoordinate = Coordinate.Factory.newInstance(getXmlOptions());
         xbCoordinate.setName(coordinate.getName());
-        xbCoordinate.setQuantity((QuantityType) createAbstractDataComponent((SweQuantity) coordinate.getValue(),
+        xbCoordinate.setQuantity((QuantityType) createAbstractDataComponent(coordinate.getValue(),
                 EncodingContext.empty()));
         return xbCoordinate;
     }

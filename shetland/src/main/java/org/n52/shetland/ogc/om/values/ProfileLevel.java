@@ -22,15 +22,17 @@ import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.om.NamedValue;
+import org.n52.shetland.ogc.om.values.visitor.ProfileLevelVisitor;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 
 import com.google.common.collect.Lists;
-import org.locationtech.jts.geom.Geometry;
 
 /**
  * Represents the level of a profile
@@ -282,5 +284,9 @@ public class ProfileLevel
             parameter.add(new NamedValue<>(new ReferenceType(getLevelEnd().getDefinition()), getLevelEnd()));
         }
         return parameter;
+    }
+
+    public <X> Collection<X> accept(ProfileLevelVisitor<X> visitor) throws OwsExceptionReport {
+        return visitor.visit(this);
     }
 }

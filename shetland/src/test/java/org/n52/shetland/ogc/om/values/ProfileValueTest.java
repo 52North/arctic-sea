@@ -35,6 +35,8 @@ import com.google.common.collect.Lists;
 public class ProfileValueTest {
 
     private ProfileValue profileValue = createProfileValue(true, true);
+    private ProfileValue profileValueFrom = createProfileValue(true, false);
+    private ProfileValue profileValueTo = createProfileValue(false, true);
 
     @Test
     public void testFromLevel() {
@@ -44,6 +46,26 @@ public class ProfileValueTest {
     @Test
     public void testToLevel() {
         assertThat(profileValue.getToLevel().getValue(), is(new BigDecimal(30.0)));
+    }
+
+    @Test
+    public void testFromLevel4FromOnly() {
+        assertThat(profileValueFrom.getFromLevel().getValue(), is(new BigDecimal(0.0)));
+    }
+
+    @Test
+    public void testToLevel4FromOnly() {
+        assertThat(profileValueFrom.getToLevel().getValue(), is(new BigDecimal(20.0)));
+    }
+
+    @Test
+    public void testFromLevel4ToOnly() {
+        assertThat(profileValueTo.getFromLevel().getValue(), is(new BigDecimal(10.0)));
+    }
+
+    @Test
+    public void testToLevel4ToOnly() {
+        assertThat(profileValueTo.getToLevel().getValue(), is(new BigDecimal(30.0)));
     }
 
     private ProfileValue createProfileValue(boolean fromDepth, boolean toDepth) {

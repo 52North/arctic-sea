@@ -302,6 +302,9 @@ public class GetObservationRequest
      */
     @Override
     public SpatialFilter getSpatialFilter() {
+        if (hasExtension(SosSpatialFilterConstants.SPATIAL_FILTER)) {
+            return ((SosSpatialFilter) getExtension(SosSpatialFilterConstants.SPATIAL_FILTER).get()).getValue();
+        }
         return spatialFilter;
     }
 

@@ -30,8 +30,10 @@
     <bean class="org.n52.svalbard.decode.CapabilitiesTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.CapabilitiesV1DocumentDecoder"/>
     <bean class="org.n52.svalbard.decode.DeleteObservationDecoder"/>
+    <bean class="org.n52.svalbard.decode.DeleteObservationStringDecoder"/>
     <bean class="org.n52.svalbard.decode.DeleteObservationV20Decoder"/>
     <bean class="org.n52.svalbard.decode.DeleteResultTemplateDecoder"/>
+    <bean class="org.n52.svalbard.decode.DeleteResultTemplateStringDecoder"/>
     <bean class="org.n52.svalbard.decode.DocumentCitationTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.FesDecoderv20"/>
     <bean class="org.n52.svalbard.decode.GetDataAvailabilityResponseDecoder"/>
@@ -45,6 +47,7 @@
     <bean class="org.n52.svalbard.decode.GmlDecoderv321"/>
     <bean class="org.n52.svalbard.decode.InpspireOMSODecoder"/>
     <bean class="org.n52.svalbard.decode.InsertFeatureOfInterestDecoder"/>
+    <bean class="org.n52.svalbard.decode.InsertFeatureOfInterestStringDecoder"/>
     <bean class="org.n52.svalbard.decode.InspireXmlDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GcoDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GmdDecoder"/>

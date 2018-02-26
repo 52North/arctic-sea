@@ -36,7 +36,11 @@ public class SosV1DescribeSensorResponseEncoder extends AbstractSosV1ResponseEnc
 
     @Override
     protected XmlObject create(DescribeSensorResponse response) throws EncodingException {
-        return encodeObjectToXml(response.getOutputFormat(), response.getProcedureDescriptions().get(0));
+        if (response.isSetProcedureDescriptions()) {
+            return encodeObjectToXml(response.getOutputFormat(),
+                    response.getProcedureDescriptions().iterator().next().getProcedureDescription());
+        }
+        return null;
     }
 
 }

@@ -72,7 +72,7 @@ import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
  *
  * @since 1.0.0
  */
-public abstract class SimpleBinding extends Binding {
+public abstract class SimpleBinding implements Binding {
     private static final String HTTP_MEDIA_TYPE_QUALITY_PARAM = "q";
     private static final Logger LOG = LoggerFactory.getLogger(SimpleBinding.class);
 

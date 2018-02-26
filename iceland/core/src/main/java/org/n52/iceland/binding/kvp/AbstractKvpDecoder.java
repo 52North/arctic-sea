@@ -78,7 +78,9 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
 
     @Override
     public R decode(Map<String, String> parameters) throws DecodingException {
-
+        if (parameters == null) {
+            throw new DecodingException("The request does not contain any parameter!");
+        }
         CompositeException exceptions = new CompositeException();
         R request = this.supplier.get();
 
@@ -97,7 +99,6 @@ public abstract class AbstractKvpDecoder<R extends OwsServiceRequest> implements
         builder.add(OWSConstants.RequestParams.service, OwsServiceRequest::setService);
         builder.add(OWSConstants.RequestParams.version, OwsServiceRequest::setVersion);
         builder.add(OWSConstants.RequestParams.request, OwsServiceRequest::setOperationName);
-
     }
 
     protected List<String> decodeList(String value) {
