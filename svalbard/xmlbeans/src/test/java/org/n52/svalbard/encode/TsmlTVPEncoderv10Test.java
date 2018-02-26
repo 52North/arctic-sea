@@ -80,15 +80,15 @@ public class TsmlTVPEncoderv10Test {
     public void shouldSetDefaultCumulativeProperty() throws EncodingException {
         XmlObject encodedElement = encoder.encode(mv);
 
-        Assert.assertThat(encodedElement, CoreMatchers.instanceOf(MeasurementTVPDocument.class));
-        final MeasurementTVPDocument measurementTimeseriesDocument =
-                (MeasurementTVPDocument) encodedElement;
-        Assert.assertThat(measurementTimeseriesDocument.getMeasurementTVP().isSetMetadata(), Is.is(true));
-        Assert.assertThat(measurementTimeseriesDocument.getMeasurementTVP().getMetadata().getPointMetadata(),
+        Assert.assertThat(encodedElement, CoreMatchers.instanceOf(TimeseriesTVPDocument.class));
+        final TimeseriesTVPDocument timeseriesDocument =
+                (TimeseriesTVPDocument) encodedElement;
+        Assert.assertThat(timeseriesDocument.getTimeseriesTVP().isSetMetadata(), Is.is(true));
+        Assert.assertThat(timeseriesDocument.getTimeseriesTVP().getMetadata().getTimeseriesMetadata(),
                 CoreMatchers.instanceOf(TimeseriesMetadataType.class));
         final TimeseriesMetadataType measurementTimeseriesMetadataType =
-                (TimeseriesMetadataType) measurementTimeseriesDocument.getMeasurementTVP().getMetadata()
-                        .getPointMetadata();
+                timeseriesDocument.getTimeseriesTVP().getMetadata()
+                        .getTimeseriesMetadata();
         Assert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
         Assert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
     }
@@ -134,11 +134,11 @@ public class TsmlTVPEncoderv10Test {
         ReferenceType interpolationType =
                 tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
         Assert.assertThat(interpolationType.getHref(),
-                Is.is("http://www.opengis.net/def/timeseries/interpolationCode/Continuous"));
+                Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/Continuous"));
         Assert.assertThat(interpolationType.getTitle(), Is.is("Continuous"));
     }
 
-    
+
     // TODO add tests für sosObservation or remove duplicate code in
     // WmlTVPEncoderv20
 

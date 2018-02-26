@@ -234,7 +234,7 @@ public class TsmlTVPEncoderv10
         TimeseriesTVPDocument measurementTimeseriesDoc = TimeseriesTVPDocument.Factory.newInstance();
         TimeseriesTVPType measurementTimeseries = measurementTimeseriesDoc.addNewTimeseriesTVP();
         ((AbstractGMLType)measurementTimeseries).setId(TIMESERIES_ID_PREFIX + sosObservation.getObservationID());
-        
+
         // Default value
         TimeseriesMetadata timeseriesMetadata = new MeasurementTimeseriesMetadata().setCumulative(false);
         if (sosObservation.isSetValue() && sosObservation.getValue().isSetValue()
@@ -290,7 +290,7 @@ public class TsmlTVPEncoderv10
         TimeseriesTVPDocument measurementTimeseriesDoc = TimeseriesTVPDocument.Factory.newInstance();
         TimeseriesTVPType measurementTimeseries = measurementTimeseriesDoc.addNewTimeseriesTVP();
         ((AbstractGMLType)measurementTimeseries).setId(TIMESERIES_ID_PREFIX + observationValue.getObservationID());
-        
+
         // Default value
         TimeseriesMetadata timeseriesMetadata = new MeasurementTimeseriesMetadata().setCumulative(false);
         if (observationValue.isSetValue() && observationValue.isSetMetadata()
@@ -348,7 +348,7 @@ public class TsmlTVPEncoderv10
             if (singleObservationValue.getValue() instanceof QuantityValue) {
                 QuantityValue quantityValue = (QuantityValue) singleObservationValue.getValue();
                 if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
-                    value = Double.toString(quantityValue.getValue());
+                    value = Double.toString(quantityValue.getValue().doubleValue());
                 }
             } else if (singleObservationValue.getValue() instanceof CountValue) {
                 CountValue countValue = (CountValue) singleObservationValue.getValue();
@@ -380,7 +380,7 @@ public class TsmlTVPEncoderv10
                 if (timeValuePair.getValue() instanceof QuantityValue) {
                     QuantityValue quantityValue = (QuantityValue) timeValuePair.getValue();
                     if (quantityValue.isSetValue() && !quantityValue.getValue().equals(Double.NaN)) {
-                        value = Double.toString(quantityValue.getValue());
+                        value = Double.toString(quantityValue.getValue().doubleValue());
                     }
                 } else if (timeValuePair.getValue() instanceof ProfileValue) {
                     ProfileValue profileValue = (ProfileValue) timeValuePair.getValue();
@@ -429,7 +429,7 @@ public class TsmlTVPEncoderv10
         }
         return measurementTVP;
     }
-    
+
     private void addTimeseriesMetadata(TimeseriesTVPType mtt, String gmlId,
             TimeseriesMetadata timeseriesMetadata) {
         TimeseriesMetadataType mtmt =

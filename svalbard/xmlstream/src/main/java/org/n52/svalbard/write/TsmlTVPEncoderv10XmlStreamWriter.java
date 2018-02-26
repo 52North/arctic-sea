@@ -268,7 +268,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter
         if (value != null && value.isSetValue()) {
             if (value instanceof QuantityValue) {
                 QuantityValue quantityValue = (QuantityValue) value;
-                return Double.toString(quantityValue.getValue());
+                return Double.toString(quantityValue.getValue().doubleValue());
             } else if (value instanceof ProfileValue) {
                 ProfileValue gwglcValue = (ProfileValue) value;
                 if (gwglcValue.isSetValue()) {

@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.om.series.wml;
 
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
 
 /**
@@ -23,6 +24,22 @@ import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
  *
  */
 public class ObservationProcess extends AbstractObservationProcess {
+
+    public ObservationProcess() {
+        super();
+    }
+
+    public ObservationProcess(String identifier) {
+        super(identifier);
+    }
+
+    public ObservationProcess(CodeWithAuthority featureIdentifier) {
+        super(featureIdentifier);
+    }
+
+    public ObservationProcess(CodeWithAuthority featureIdentifier, String gmlId) {
+        super(featureIdentifier, gmlId);
+    }
 
     @Override
     public String getDefaultElementEncoding() {

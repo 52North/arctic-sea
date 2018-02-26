@@ -29,7 +29,7 @@ import org.n52.shetland.ogc.om.NamedValue;
  * @since 1.0.0
  *
  */
-public class AbstractObservationProcess extends AbstractFeature {
+public abstract class AbstractObservationProcess extends AbstractFeature {
 
     /*
      * Multiplicity: 1 A defintion of the type of process used in the
