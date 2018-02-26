@@ -56,7 +56,6 @@ import org.n52.shetland.ogc.sensorML.elements.SmlDocumentationList;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlLink;
-import org.n52.shetland.ogc.sensorML.elements.SmlLocation;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
 import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
@@ -113,7 +112,6 @@ import net.opengis.sensorml.x20.ConnectionListPropertyType;
 import net.opengis.sensorml.x20.ConnectionListType;
 import net.opengis.sensorml.x20.ContactListType;
 import net.opengis.sensorml.x20.DataComponentOrObservablePropertyType;
-import net.opengis.sensorml.x20.DataInterfaceType;
 import net.opengis.sensorml.x20.DescribedObjectType;
 import net.opengis.sensorml.x20.DescribedObjectType.Capabilities;
 import net.opengis.sensorml.x20.DescribedObjectType.Characteristics;
@@ -628,7 +626,7 @@ public class SensorMLEncoderv20
                             cl.addNewContact().set(xml);
                         } else {
                             XmlObject encodeObjectToXml =
-                                    encodeObjectToXml(GmdConstants.NS_GMD, (SmlResponsibleParty) contact);
+                                    encodeObjectToXml(GmdConstants.NS_GMD, contact);
                             if (encodeObjectToXml != null) {
                                 cl.addNewContact().addNewCIResponsibleParty().set(encodeObjectToXml);
                             }
@@ -1135,20 +1133,20 @@ public class SensorMLEncoderv20
         }
     }
 
-    /**
-     * Creates the location section of the SensorML description.
-     *
-     * @param dot
-     *            the described object
-     * @param location
-     *            SOS location representation.
-     *
-     * @throws EncodingException
-     *             if an error occurs
-     */
-    private void createLocation(DescribedObjectType dot, SmlLocation location) throws EncodingException {
-        dot.addNewLocation().addNewAbstractGeometry().set(encodeObjectToXmlGml32(location.getPoint()));
-    }
+//    /**
+//     * Creates the location section of the SensorML description.
+//     *
+//     * @param dot
+//     *            the described object
+//     * @param location
+//     *            SOS location representation.
+//     *
+//     * @throws EncodingException
+//     *             if an error occurs
+//     */
+//    private void createLocation(DescribedObjectType dot, SmlLocation location) throws EncodingException {
+//        dot.addNewLocation().addNewAbstractGeometry().set(encodeObjectToXmlGml32(location.getPoint()));
+//    }
 
     /**
      * Creates the inputs section of the SensorML description.
@@ -1403,10 +1401,6 @@ public class SensorMLEncoderv20
         if (observableProperty.isSetLabel()) {
             opt.setLabel(observableProperty.getLabel());
         }
-    }
-
-    private void addValueToDataInterface(DataInterfaceType addNewDataInterface, SweAbstractDataComponent ioValue) {
-        // TODO Auto-generated method stub
     }
 
     /**
