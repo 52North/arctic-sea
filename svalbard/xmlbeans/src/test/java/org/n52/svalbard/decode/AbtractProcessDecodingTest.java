@@ -30,15 +30,8 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.rules.ErrorCollector;
 import org.n52.janmayen.Producer;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.decode.DecoderRepository;
-import org.n52.svalbard.decode.ProcessDocumentDecoder;
-import org.n52.svalbard.decode.SosDecoderv20;
-import org.n52.svalbard.decode.SweCommonDecoderV20;
-import org.n52.svalbard.decode.SwesExtensionDecoderv20;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.util.CodingHelper;
 import org.n52.shetland.inspire.ompr.Process;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 public abstract class AbtractProcessDecodingTest {
 
