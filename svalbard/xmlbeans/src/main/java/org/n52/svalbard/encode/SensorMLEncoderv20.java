@@ -1233,6 +1233,7 @@ public class SensorMLEncoderv20
             featuresToAdd.addAll(feature.getFeaturesOfInterest());
         }
         if (feature.isSetFeaturesOfInterestMap()) {
+            // TODO add more than only identifiers (check for features with geometry!)
             featuresToAdd.addAll(feature.getFeaturesOfInterestMap().keySet());
         }
         for (int i = 0; i < featureList.sizeOfFeatureArray(); i++) {
