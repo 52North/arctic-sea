@@ -274,7 +274,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     private File encodeToUvf(ObservationStream observationStream, File tempDir, MediaType contentType)
             throws IOException, EncodingException {
         List<OmObservation> mergeObservations = mergeTotoList(observationStream);
-        String lineEnding = getLineEnding(contentType);
+        String ending = getLineEnding(contentType);
         String filename = getFilename(mergeObservations);
         File uvfFile = new File(tempDir, filename);
         try (Writer fw = new OutputStreamWriter(new FileOutputStream(uvfFile), "UTF-8");) {
@@ -292,24 +292,24 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
                 /*
                  * HEADER: Metadata
                  */
-                writeFunktionInterpretation(fw, o, lineEnding);
-                writeIndex(fw, lineEnding);
-                writeMessGroesse(fw, o, lineEnding);
-                writeMessEinheit(fw, o, lineEnding);
-                writeMessStellennummer(fw, o, lineEnding);
-                writeMessStellenname(fw, o, lineEnding);
+                writeFunktionInterpretation(fw, o, ending);
+                writeIndex(fw, ending);
+                writeMessGroesse(fw, o, ending);
+                writeMessEinheit(fw, o, ending);
+                writeMessStellennummer(fw, o, ending);
+                writeMessStellenname(fw, o, ending);
                 /*
                  * HEADER: Lines 1 - 4
                  */
-                writeLine1(fw, lineEnding);
+                writeLine1(fw, ending);
                 TimePeriod temporalBBox = getTemporalBBoxFromObservations(mergeObservations);
-                writeLine2(fw, o, temporalBBox, lineEnding);
-                writeLine3(fw, o, lineEnding);
-                writeLine4(fw, temporalBBox, lineEnding);
+                writeLine2(fw, o, temporalBBox, ending);
+                writeLine3(fw, o, ending);
+                writeLine4(fw, temporalBBox, ending);
                 /*
                  * Observation Data
                  */
-                writeObservationValue(fw, o, lineEnding);
+                writeObservationValue(fw, o, ending);
             }
         }
         return uvfFile;
@@ -678,17 +678,6 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         sb.trimToSize();
     }
 
-    private MediaType getContentType(AbstractObservationResponse aor) {
-        if (aor.isSetResponseFormat()) {
-            try {
-                return MediaType.parse(aor.getResponseFormat());
-            } catch (IllegalArgumentException e) {
-                LOGGER.debug("ResponseFormat '{}' is not a mediy type!", aor.getResponseFormat());
-            }
-        }
-        return aor.getContentType();
-    }
-
     private void writeToFile(Writer fw, String string, String lineEnding) throws IOException {
         fw.write(string + lineEnding);
         fw.flush();
@@ -773,6 +762,17 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     @Override
     public MediaType getContentType() {
         return UVFConstants.CONTENT_TYPE_UVF;
+    }
+
+    private MediaType getContentType(AbstractObservationResponse aor) {
+        if (aor.isSetResponseFormat()) {
+            try {
+                return MediaType.parse(aor.getResponseFormat());
+            } catch (IllegalArgumentException e) {
+                LOGGER.debug("ResponseFormat '{}' is not a mediy type!", aor.getResponseFormat());
+            }
+        }
+        return aor.getContentType();
     }
 
     @Override
