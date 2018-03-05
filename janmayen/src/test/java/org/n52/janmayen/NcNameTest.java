@@ -40,4 +40,10 @@ public class NcNameTest {
     public void shouldThrowIllegalArgumentExceptionOnNullInput() {
         NcName.makeValid(null);
     }
+
+    @Test
+    public void testHyphen() {
+        String test = "test-nc-name";
+        assertEquals(test, NcName.makeValid(test));
+    }
 }

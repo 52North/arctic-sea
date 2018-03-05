@@ -124,7 +124,7 @@ public final class CharacterClass {
      */
     public static CharacterClass forChars(Character... characters) {
         return new CharacterClass(Arrays.stream(characters)
-                .map(Character::getNumericValue).collect(Collectors.toSet()));
+                .map(c -> (int) c).collect(Collectors.toSet()));
     }
 
     /**
