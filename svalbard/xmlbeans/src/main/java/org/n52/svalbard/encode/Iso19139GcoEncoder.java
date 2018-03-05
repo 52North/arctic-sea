@@ -26,6 +26,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.iso.GcoConstants;
+import org.n52.shetland.iso.gco.AbstractRole;
 import org.n52.shetland.ogc.sensorML.Role;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -48,8 +49,8 @@ public class Iso19139GcoEncoder extends AbstractIso19139GcoEncoder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Iso19139GcoEncoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEYS
-            = CodingHelper.encoderKeysForElements(GcoConstants.NS_GCO, Role.class);
+    private static final Set<EncoderKey> ENCODER_KEYS = CodingHelper.encoderKeysForElements(GcoConstants.NS_GCO,
+            Role.class, org.n52.shetland.iso.gco.Role.class, AbstractRole.class);
 
     public Iso19139GcoEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -75,8 +76,8 @@ public class Iso19139GcoEncoder extends AbstractIso19139GcoEncoder {
     public XmlObject encode(Object element, EncodingContext additionalValues)
             throws EncodingException, UnsupportedEncoderInputException {
         XmlObject encodedObject = null;
-        if (element instanceof Role) {
-            encodedObject = encodeRole((Role) element);
+        if (element instanceof AbstractRole) {
+            encodedObject = encodeRole((AbstractRole) element);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -84,7 +85,7 @@ public class Iso19139GcoEncoder extends AbstractIso19139GcoEncoder {
         return encodedObject;
     }
 
-    private XmlObject encodeRole(Role role) {
+    private XmlObject encodeRole(AbstractRole role) {
         CodeListValueType circ = CodeListValueType.Factory.newInstance(getXmlOptions());
         circ.setStringValue(role.getValue());
         circ.setCodeList(role.getCodeList());

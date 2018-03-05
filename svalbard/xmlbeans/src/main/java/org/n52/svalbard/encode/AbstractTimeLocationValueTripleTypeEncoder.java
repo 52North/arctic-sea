@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import java.math.BigDecimal;
 import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
@@ -103,8 +102,8 @@ public abstract class AbstractTimeLocationValueTripleTypeEncoder<T>
         String value = null;
         if (timeLocationValueTriple.getValue() instanceof QuantityValue) {
             QuantityValue quantityValue = (QuantityValue) timeLocationValueTriple.getValue();
-            if (!quantityValue.getValue().equals(BigDecimal.valueOf(Double.NaN))) {
-                value = Double.toString(quantityValue.getValue().doubleValue());
+            if (quantityValue.isSetValue()) {
+                value = quantityValue.getValue().toPlainString();
             }
         } else if (timeLocationValueTriple.getValue() instanceof CountValue) {
             CountValue countValue = (CountValue) timeLocationValueTriple.getValue();

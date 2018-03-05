@@ -21,7 +21,12 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
+
+import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
+import org.junit.Before;
 import org.junit.Test;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.om.TimeLocationValueTriple;
@@ -43,48 +48,81 @@ import net.opengis.waterml.x20.TimeValuePairType;
 
 public class TimeLocationValueTripleTypeEncoderTest {
 
-//    private TimeLocationValueTripleTypeEncoder encoder = new TimeLocationValueTripleTypeEncoder();
-//
-//
-//    @Test
-//    public void test_Quantity() throws EncodingException, DecodingException, ParseException {
-//        TimeValuePairType encoded = encoder.encode(getQuantityTimeLocationValueTriple());
-//        assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
-//        assertThat(encoded, instanceOf(MeasurementTimeLocationValueTripleType.class));
-//    }
-//
-//    @Test
-//    public void test_Count() throws EncodingException, DecodingException, ParseException {
-//        TimeValuePairType encoded = encoder.encode(getCountTimeLocationValueTriple());
-//        assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
-//        assertThat(encoded, instanceOf(MeasurementTimeLocationValueTripleType.class));
-//    }
-//
-//    @Test
-//    public void test_Categorical() throws EncodingException, DecodingException, ParseException {
-//        TimeValuePairType encoded = encoder.encode(getCategoricalTimeLocationValueTriple());
-//        assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
-//        assertThat(encoded, instanceOf(CategoricalTimeLocationValueTripleType.class));
-//    }
-//
-//    private TimeLocationValueTriple getQuantityTimeLocationValueTriple() throws EncodingException, ParseException {
-//        return getTimeLocationValueTriple(new QuantityValue(15.6, "C"));
-//    }
-//
-//    private TimeLocationValueTriple getCountTimeLocationValueTriple() throws EncodingException, ParseException {
-//        return getTimeLocationValueTriple(new CountValue(15));
-//    }
-//
-//    private TimeLocationValueTriple getCategoricalTimeLocationValueTriple() throws EncodingException, ParseException {
-//        return getTimeLocationValueTriple(new CategoryValue("test", "test_voc"));
-//    }
-//
-//    private TimeLocationValueTriple getTimeLocationValueTriple(Value<?> value) throws EncodingException, ParseException {
-//        return new TimeLocationValueTriple(new TimeInstant(new DateTime()), value, getGeometry() );
-//    }
-//
-//    private Geometry getGeometry() throws ParseException {
-//        final String wktString = "POINT (52.7 7.52)";
-//        return JTSHelper.createGeometryFromWKT(wktString, 4326);
-//    }
+    private TimeLocationValueTripleTypeEncoder encoder = new TimeLocationValueTripleTypeEncoder();
+
+    @Before
+    public void setup() {
+        encoder = new TimeLocationValueTripleTypeEncoder();
+        encoder.setXmlOptions(XmlOptions::new);
+
+        GmlEncoderv321 gmlEncoderv321 = new GmlEncoderv321();
+        gmlEncoderv321.setXmlOptions(XmlOptions::new);
+
+        SensorMLEncoderv20 sensorMLEncoderv20 = new SensorMLEncoderv20();
+        sensorMLEncoderv20.setXmlOptions(XmlOptions::new);
+
+        SweCommonEncoderv20 sweCommonEncoderv20 = new SweCommonEncoderv20();
+        sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
+
+        SamplingEncoderv20 samsEncoderv20 = new SamplingEncoderv20();
+        samsEncoderv20.setXmlOptions(XmlOptions::new);
+
+        SweCommonEncoderv20 sweEncoderv20 = new SweCommonEncoderv20();
+        sweEncoderv20.setXmlOptions(XmlOptions::new);
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoderRepository.setEncoders(Arrays.asList(encoder,
+                gmlEncoderv321,
+                sensorMLEncoderv20,
+                sweCommonEncoderv20,
+                samsEncoderv20,
+                sweEncoderv20));
+        encoderRepository.init();
+
+        encoderRepository.getEncoders().stream()
+            .forEach(e -> ((AbstractDelegatingEncoder<?,?>)e).setEncoderRepository(encoderRepository));
+
+    }
+
+    @Test
+    public void test_Quantity() throws EncodingException, DecodingException, ParseException {
+        TimeValuePairType encoded = encoder.encode(getQuantityTimeLocationValueTriple());
+        assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
+        assertThat(encoded, instanceOf(MeasurementTimeLocationValueTripleType.class));
+    }
+
+    @Test
+    public void test_Count() throws EncodingException, DecodingException, ParseException {
+        TimeValuePairType encoded = encoder.encode(getCountTimeLocationValueTriple());
+        assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
+        assertThat(encoded, instanceOf(MeasurementTimeLocationValueTripleType.class));
+    }
+
+    @Test
+    public void test_Categorical() throws EncodingException, DecodingException, ParseException {
+        TimeValuePairType encoded = encoder.encode(getCategoricalTimeLocationValueTriple());
+        assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
+        assertThat(encoded, instanceOf(CategoricalTimeLocationValueTripleType.class));
+    }
+
+    private TimeLocationValueTriple getQuantityTimeLocationValueTriple() throws EncodingException, ParseException {
+        return getTimeLocationValueTriple(new QuantityValue(BigDecimal.valueOf(Double.valueOf("15.6")), "C"));
+    }
+
+    private TimeLocationValueTriple getCountTimeLocationValueTriple() throws EncodingException, ParseException {
+        return getTimeLocationValueTriple(new CountValue(15));
+    }
+
+    private TimeLocationValueTriple getCategoricalTimeLocationValueTriple() throws EncodingException, ParseException {
+        return getTimeLocationValueTriple(new CategoryValue("test", "test_voc"));
+    }
+
+    private TimeLocationValueTriple getTimeLocationValueTriple(Value<?> value) throws EncodingException, ParseException {
+        return new TimeLocationValueTriple(new TimeInstant(new DateTime()), value, getGeometry() );
+    }
+
+    private Geometry getGeometry() throws ParseException {
+        final String wktString = "POINT (52.7 7.52)";
+        return JTSHelper.createGeometryFromWKT(wktString, 4326);
+    }
 }

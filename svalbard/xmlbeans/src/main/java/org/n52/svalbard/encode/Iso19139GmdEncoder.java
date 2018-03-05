@@ -19,6 +19,7 @@ package org.n52.svalbard.encode;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -149,7 +150,9 @@ public class Iso19139GmdEncoder
 
     private static final Set<EncoderKey> ENCODER_KEYS = CollectionHelper.union(
             CodingHelper.encoderKeysForElements(GmdConstants.NS_GMD, SmlResponsibleParty.class,
-                    GmdQuantitativeResult.class, GmdConformanceResult.class),
+                    GmdQuantitativeResult.class, GmdConformanceResult.class, CiResponsibleParty.class,
+                    MDMetadata.class, PT_FreeText.class, CiOnlineResource.class, EXExtent.class,
+                    EXVerticalExtent.class),
             CodingHelper.encoderKeysForElements(null, GmdQuantitativeResult.class, GmdConformanceResult.class));
 
     public Iso19139GmdEncoder() {
@@ -235,7 +238,7 @@ public class Iso19139GmdEncoder
                     encodeResponsibleParty(contact, EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE, true)));
         }
         // add dateStamp
-        mdmt.addNewDateStamp().setDateTime(mdMetadata.getDateStamp().toCalendar(null));
+        mdmt.addNewDateStamp().setDateTime(mdMetadata.getDateStamp().toCalendar(Locale.ROOT));
         // add identificationInfo
         for (AbstractMDIdentification identificationInfo : mdMetadata.getIdentificationInfo()) {
             if (identificationInfo.isSetSimpleAttrs()) {
@@ -248,7 +251,8 @@ public class Iso19139GmdEncoder
                     mdipt.setRole(identificationInfo.getSimpleAttrs().getRole());
                 }
             } else {
-                mdmt.addNewIdentificationInfo().addNewAbstractMDIdentification().set(encode(identificationInfo));
+                mdmt.addNewIdentificationInfo()
+                        .set(encode(identificationInfo, EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE)));
                 // TODO substitution???
             }
         }

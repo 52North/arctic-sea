@@ -24,7 +24,7 @@ import org.n52.shetland.util.CollectionHelper;
 
 public interface UVFConstants {
 
-    String LINE_ENDING = "lineEnding";
+    String LINE_ENDING = "lineending";
 
     MediaType CONTENT_TYPE_UVF = new MediaType("application", "uvf");
 

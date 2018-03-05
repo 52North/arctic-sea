@@ -44,7 +44,7 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>3.1.0</version.arctic-sea>
+  <version.arctic-sea>4.0.0</version.arctic-sea>
 </properties>
 <dependencies>
   <dependency>
@@ -141,7 +141,7 @@ Development versions can be optained from the Sonatype OSS snapshot repository:
   </repository>
 </repositories>
 <properties>
-  <version.arctic-sea>3.2.0-SNAPSHOT</version.arctic-sea>
+  <version.arctic-sea>4.1.0-SNAPSHOT</version.arctic-sea>
 </properties>
 ```
 

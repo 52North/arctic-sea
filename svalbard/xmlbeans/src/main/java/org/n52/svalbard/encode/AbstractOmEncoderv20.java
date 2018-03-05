@@ -95,8 +95,11 @@ import org.n52.svalbard.util.XmlHelper;
 import com.google.common.base.Strings;
 
 public abstract class AbstractOmEncoderv20
-        extends AbstractXmlEncoder<XmlObject, Object>
-        implements ObservationEncoder<XmlObject, Object>, StreamingEncoder<XmlObject, Object> {
+        extends
+        AbstractXmlEncoder<XmlObject, Object>
+        implements
+        ObservationEncoder<XmlObject, Object>,
+        StreamingEncoder<XmlObject, Object> {
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractOmEncoderv20.class);
 
@@ -111,9 +114,11 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             if an error occurs
      */
-    protected abstract XmlObject createResult(OmObservation sosObservation) throws EncodingException;
+    protected abstract XmlObject createResult(OmObservation sosObservation)
+            throws EncodingException;
 
-    protected abstract XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException;
+    protected abstract XmlObject encodeResult(ObservationValue<?> observationValue)
+            throws EncodingException;
 
     /**
      * Method to add the observation type to the om:Observation. Subclasses
@@ -154,7 +159,8 @@ public abstract class AbstractOmEncoderv20
             throws EncodingException;
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext additionalValues)
+            throws EncodingException {
         XmlObject encodedObject = null;
         if (element instanceof OmObservation) {
             encodedObject = encodeOmObservation((OmObservation) element, additionalValues);
@@ -185,14 +191,14 @@ public abstract class AbstractOmEncoderv20
     }
 
     @Override
-    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx) throws EncodingException {
+    public void encode(Object objectToEncode, OutputStream outputStream, EncodingContext ctx)
+            throws EncodingException {
         try {
             XmlOptions xmlOptions = getXmlOptions();
             if (ctx.has(StreamingEncoderFlags.EMBEDDED)) {
                 xmlOptions.setSaveNoXmlDecl();
             }
-            encode(objectToEncode, ctx.with(StreamingEncoderFlags.ENCODER, this))
-                    .save(outputStream, xmlOptions);
+            encode(objectToEncode, ctx.with(StreamingEncoderFlags.ENCODER, this)).save(outputStream, xmlOptions);
         } catch (IOException ioe) {
             throw new EncodingException("Error while writing element to stream!", ioe);
         } finally {
@@ -289,7 +295,8 @@ public abstract class AbstractOmEncoderv20
         }
     }
 
-    private void setResult(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setResult(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         XmlObject result = createResult(observation);
         if (result != null) {
             xb.addNewResult().set(result);
@@ -298,13 +305,15 @@ public abstract class AbstractOmEncoderv20
         }
     }
 
-    private void setFeatureOfInterest(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setFeatureOfInterest(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         AbstractFeature foi = observation.getObservationConstellation().getFeatureOfInterest();
         XmlObject xbFoi = encodeFeatureOfInterest(foi);
         xb.addNewFeatureOfInterest().set(xbFoi);
     }
 
-    private void setObservationIdentifier(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setObservationIdentifier(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         // set observation identifier if available
         if (observation.isSetIdentifier()) {
             XmlObject xbId = encodeGML(observation.getIdentifierCodeWithAuthority());
@@ -312,7 +321,8 @@ public abstract class AbstractOmEncoderv20
         }
     }
 
-    private void setObservationName(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setObservationName(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         // set observation identifier if available
         if (observation.isSetIdentifier()) {
             for (CodeType name : observation.getName()) {
@@ -355,7 +365,8 @@ public abstract class AbstractOmEncoderv20
         oct.addNewRelatedObservation().set(encodeGML(observationContext.getRelatedObservation()));
     }
 
-    private void setPhenomenonTime(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setPhenomenonTime(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         // set validTime
         Time phenomenonTime = observation.getPhenomenonTime();
         if (phenomenonTime.getGmlId() == null) {
@@ -364,17 +375,20 @@ public abstract class AbstractOmEncoderv20
         addPhenomenonTime(xb.addNewPhenomenonTime(), phenomenonTime);
     }
 
-    private void setResultTime(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setResultTime(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         // set resultTime
         addResultTime(xb, observation);
     }
 
-    private void setProcedure(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setProcedure(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         // set procedure
         addProcedure(xb.addNewProcedure(), observation.getObservationConstellation().getProcedure());
     }
 
-    private void setParameter(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setParameter(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         // set parameter
         if (observation.isSetParameter()) {
             addParameter(xb, observation.getParameter());
@@ -420,8 +434,8 @@ public abstract class AbstractOmEncoderv20
                 encodedProcedure = encodeObjectToXml(procedureDescription.getDefaultElementEncoding(),
                         ((SosProcedureDescription<?>) procedureDescription).getProcedureDescription());
             } else {
-                encodedProcedure =
-                        encodeObjectToXml(procedureDescription.getDefaultElementEncoding(), procedureDescription);
+                encodedProcedure = encodeObjectToXmlPropertyType(procedureDescription.getDefaultElementEncoding(),
+                        procedureDescription);
             }
             // encode procedure or add reference
 
@@ -450,7 +464,8 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             If an error occurs
      */
-    private void addPhenomenonTime(TimeObjectPropertyType timeObjectPropertyType, Time time) throws EncodingException {
+    private void addPhenomenonTime(TimeObjectPropertyType timeObjectPropertyType, Time time)
+            throws EncodingException {
         XmlObject xmlObject = encodeGML(time);
         XmlObject substitution = timeObjectPropertyType.addNewAbstractTimeObject()
                 .substitute(GmlHelper.getGml321QnameForITime(time), xmlObject.schemaType());
@@ -467,7 +482,8 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             If an error occurs.
      */
-    private void addResultTime(OMObservationType xbObs, OmObservation sosObservation) throws EncodingException {
+    private void addResultTime(OMObservationType xbObs, OmObservation sosObservation)
+            throws EncodingException {
         TimeInstant resultTime = sosObservation.getResultTime();
         Time phenomenonTime = sosObservation.getPhenomenonTime();
         // get result time from SOS result time representation
@@ -499,7 +515,8 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             If an error occurs.
      */
-    private void addResultTime(OMObservationType xbObs, TimeInstant time) throws EncodingException {
+    private void addResultTime(OMObservationType xbObs, TimeInstant time)
+            throws EncodingException {
         XmlObject xmlObject = encodeGML(time);
         xbObs.addNewResultTime().addNewTimeInstant().set(xmlObject);
         XmlObject substitution = xbObs.getResultTime().getTimeInstant()
@@ -507,7 +524,8 @@ public abstract class AbstractOmEncoderv20
         substitution.set(xmlObject);
     }
 
-    private void setValidTime(OmObservation observation, OMObservationType xb) throws EncodingException {
+    private void setValidTime(OmObservation observation, OMObservationType xb)
+            throws EncodingException {
         Time validTime = observation.getValidTime();
         if (validTime == null) {
             return;
@@ -534,7 +552,8 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             If an error occurs.
      */
-    private XmlObject encodeFeatureOfInterest(AbstractFeature feature) throws EncodingException {
+    private XmlObject encodeFeatureOfInterest(AbstractFeature feature)
+            throws EncodingException {
         String namespace = null;
         if (!Strings.isNullOrEmpty(getDefaultFeatureEncodingNamespace())) {
             namespace = getDefaultFeatureEncodingNamespace();
@@ -553,7 +572,8 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             If an error occurs.
      */
-    protected NamedValueType createNamedValue(NamedValue<?> sosNamedValue) throws EncodingException {
+    protected NamedValueType createNamedValue(NamedValue<?> sosNamedValue)
+            throws EncodingException {
         // encode value (any)
         XmlObject namedValuePropertyValue = getNamedValueValue(sosNamedValue.getValue());
         if (namedValuePropertyValue != null) {
@@ -577,7 +597,8 @@ public abstract class AbstractOmEncoderv20
      * @throws EncodingException
      *             If an error occurs.
      */
-    private XmlObject getNamedValueValue(Value<?> value) throws EncodingException {
+    private XmlObject getNamedValueValue(Value<?> value)
+            throws EncodingException {
         if (value.isSetValue()) {
             return value.accept(new NamedValueValueEncoder());
         }
@@ -606,35 +627,43 @@ public abstract class AbstractOmEncoderv20
         }
     }
 
-    protected XmlObject encodeXLINK(Object o) throws EncodingException {
+    protected XmlObject encodeXLINK(Object o)
+            throws EncodingException {
         return encodeObjectToXml(W3CConstants.NS_XLINK, o);
     }
 
-    protected XmlObject encodeXLINK(Object o, EncodingContext context) throws EncodingException {
+    protected XmlObject encodeXLINK(Object o, EncodingContext context)
+            throws EncodingException {
         return encodeObjectToXml(W3CConstants.NS_XLINK, o, context);
     }
 
-    protected XmlObject encodeGML(Object o) throws EncodingException {
+    protected XmlObject encodeGML(Object o)
+            throws EncodingException {
         return encodeObjectToXml(GmlConstants.NS_GML_32, o);
     }
 
-    protected XmlObject encodeGML(Object o, EncodingContext context) throws EncodingException {
+    protected XmlObject encodeGML(Object o, EncodingContext context)
+            throws EncodingException {
         return encodeObjectToXml(GmlConstants.NS_GML_32, o, context);
     }
 
-    protected XmlObject encodeSweCommon(Object o) throws EncodingException {
+    protected XmlObject encodeSweCommon(Object o)
+            throws EncodingException {
         return encodeObjectToXml(SweConstants.NS_SWE_20, o);
     }
 
-    protected XmlObject encodeSweCommon(Object o, EncodingContext context) throws EncodingException {
+    protected XmlObject encodeSweCommon(Object o, EncodingContext context)
+            throws EncodingException {
         return encodeObjectToXml(SweConstants.NS_SWE_20, o, context);
     }
 
-    protected XmlObject encodeGWML(Object o) throws EncodingException {
+    protected XmlObject encodeGWML(Object o)
+            throws EncodingException {
         return encodeGWML(o, EncodingContext.empty());
     }
 
-    protected XmlObject encodeGWML(Object o, EncodingContext context) throws EncodingException {
+    protected XmlObject encodeGWML(Object o, EncodingContext context)
+            throws EncodingException {
         return encodeObjectToXmlPropertyType(GWMLConstants.NS_GWML_22, o, context);
     }
 
@@ -644,7 +673,8 @@ public abstract class AbstractOmEncoderv20
     }
 
     private class NamedValueValueEncoder
-            implements ValueVisitor<XmlObject, EncodingException> {
+            implements
+            ValueVisitor<XmlObject, EncodingException> {
 
         @Override
         public XmlObject visit(BooleanValue value) {
@@ -654,7 +684,8 @@ public abstract class AbstractOmEncoderv20
         }
 
         @Override
-        public XmlObject visit(CategoryValue value) throws EncodingException {
+        public XmlObject visit(CategoryValue value)
+                throws EncodingException {
             return encodeGML(value, createHelperValues(value));
         }
 
@@ -671,12 +702,14 @@ public abstract class AbstractOmEncoderv20
         }
 
         @Override
-        public XmlObject visit(GeometryValue value) throws EncodingException {
+        public XmlObject visit(GeometryValue value)
+                throws EncodingException {
             return encodeGML(value, createHelperValues(value));
         }
 
         @Override
-        public XmlObject visit(HrefAttributeValue value) throws EncodingException {
+        public XmlObject visit(HrefAttributeValue value)
+                throws EncodingException {
             return encodeXLINK(value.getValue(), createHelperValues(value));
         }
 
@@ -686,17 +719,20 @@ public abstract class AbstractOmEncoderv20
         }
 
         @Override
-        public XmlObject visit(QuantityValue value) throws EncodingException {
+        public XmlObject visit(QuantityValue value)
+                throws EncodingException {
             return encodeGML(value, createHelperValues(value));
         }
 
         @Override
-        public XmlObject visit(QuantityRangeValue value) throws EncodingException {
+        public XmlObject visit(QuantityRangeValue value)
+                throws EncodingException {
             return defaultValue(value);
         }
 
         @Override
-        public XmlObject visit(ReferenceValue value) throws EncodingException {
+        public XmlObject visit(ReferenceValue value)
+                throws EncodingException {
             return encodeGML(value.getValue(), createHelperValues(value));
         }
 
@@ -723,38 +759,45 @@ public abstract class AbstractOmEncoderv20
         }
 
         @Override
-        public XmlObject visit(TLVTValue value) throws EncodingException {
+        public XmlObject visit(TLVTValue value)
+                throws EncodingException {
             return defaultValue(value);
         }
 
         @Override
-        public XmlObject visit(CvDiscretePointCoverage value) throws EncodingException {
+        public XmlObject visit(CvDiscretePointCoverage value)
+                throws EncodingException {
             return defaultValue(value);
         }
 
         @Override
-        public XmlObject visit(MultiPointCoverage value) throws EncodingException {
+        public XmlObject visit(MultiPointCoverage value)
+                throws EncodingException {
             return defaultValue(value);
         }
 
         @Override
-        public XmlObject visit(RectifiedGridCoverage value) throws EncodingException {
+        public XmlObject visit(RectifiedGridCoverage value)
+                throws EncodingException {
             return defaultValue(value);
         }
 
         @Override
-        public XmlObject visit(ProfileValue value) throws EncodingException {
+        public XmlObject visit(ProfileValue value)
+                throws EncodingException {
             return defaultValue(value);
         }
 
         @Override
-        public XmlObject visit(TimeRangeValue value) throws EncodingException {
+        public XmlObject visit(TimeRangeValue value)
+                throws EncodingException {
             return encodeObjectToXml(SweConstants.NS_SWE_20, value,
-                                     EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
+                    EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
         }
 
         @Override
-        public XmlObject visit(XmlValue<?> value) throws EncodingException {
+        public XmlObject visit(XmlValue<?> value)
+                throws EncodingException {
             if (value.getValue() instanceof XmlObject) {
                 return (XmlObject) value.getValue();
             }
