@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class NcNameTest {
+
     @Test
     public void testFixNcName() {
         String noFixString = "this_one_needs_no_fixing";
