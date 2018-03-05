@@ -30,4 +30,14 @@ public class NcNameTest {
         assertEquals(noFixString, NcName.makeValid(noFixString));
         assertEquals(fixedString, NcName.makeValid(needsFixString));
     }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionOnEmptyStringInput() {
+        NcName.makeValid("");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionOnNullInput() {
+        NcName.makeValid(null);
+    }
 }

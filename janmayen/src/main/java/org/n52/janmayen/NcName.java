@@ -208,9 +208,11 @@ public class NcName {
      * @param replacement the replacement character
      *
      * @return the valid NCName
+     *
+     * @throws IllegalArgumentException when receiving empty or null for name, or replacement is not '_' or a letter.
      */
     public static String makeValid(String name, char replacement) {
-        if (replacement != '_' && !LETTER.includes(replacement)) {
+        if (replacement != '_' && !LETTER.includes(replacement) || name == null || name.isEmpty()) {
             throw new IllegalArgumentException();
         }
         if (isValid(name)) {
