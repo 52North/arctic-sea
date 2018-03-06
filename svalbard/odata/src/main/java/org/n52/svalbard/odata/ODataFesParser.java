@@ -126,7 +126,7 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
 
     @Override
     public Filter<?> decode(String objectToDecode) throws DecodingException {
-        LOG.info("Parsing filter: {}", objectToDecode);
+        LOG.debug("Parsing filter: {}", objectToDecode);
         if (objectToDecode == null || objectToDecode.isEmpty()) {
             return null;
         }
