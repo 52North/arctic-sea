@@ -775,17 +775,6 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         return UVFConstants.CONTENT_TYPE_UVF;
     }
 
-    private MediaType getContentType(AbstractObservationResponse aor) {
-        if (aor.isSetResponseFormat()) {
-            try {
-                return MediaType.parse(aor.getResponseFormat());
-            } catch (IllegalArgumentException e) {
-                LOGGER.debug("ResponseFormat '{}' is not a mediy type!", aor.getResponseFormat());
-            }
-        }
-        return aor.getContentType();
-    }
-
     @Override
     public boolean isObservationAndMeasurmentV20Type() {
         return false;
