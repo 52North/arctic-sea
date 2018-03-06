@@ -59,7 +59,7 @@ public final class CharacterClass {
      * @return if it is included
      */
     public boolean includes(int c) {
-        return this.characters.contains(c);
+        return characters.contains(c);
     }
 
     /**
@@ -67,7 +67,7 @@ public final class CharacterClass {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.characters);
+        return Objects.hash(characters);
     }
 
     /**
@@ -75,8 +75,8 @@ public final class CharacterClass {
      */
     @Override
     public boolean equals(Object obj) {
-        return this == obj || (obj != null && getClass() == obj.getClass() &&
-                               Objects.equals(chars(), ((CharacterClass) obj).chars()));
+        return this == obj || obj != null && getClass() == obj.getClass() &&
+                               Objects.equals(chars(), ((CharacterClass) obj).chars());
     }
 
     /**
@@ -124,7 +124,7 @@ public final class CharacterClass {
      */
     public static CharacterClass forChars(Character... characters) {
         return new CharacterClass(Arrays.stream(characters)
-                .map(Character::getNumericValue).collect(Collectors.toSet()));
+                .map(c -> (int) c).collect(Collectors.toSet()));
     }
 
     /**

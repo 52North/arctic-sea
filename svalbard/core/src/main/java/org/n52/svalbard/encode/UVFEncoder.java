@@ -183,7 +183,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
 
     private DateTimeZone timeZone;
 
-    private LineEnding lineEnding = LineEnding.Unix;
+    private LineEnding fileLineEnding = LineEnding.Unix;
 
     public UVFEncoder() {
         LOGGER.debug("Encoder for the following keys initialized successfully: {}!",
@@ -224,11 +224,11 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     }
 
     @Setting(UVFSettingsProvider.UVF_LINE_ENDING_KEY)
-    public void setLineEnding(String lineEnding) {
-        if (!Strings.isNullOrEmpty(lineEnding)) {
-            this.lineEnding = UVFConstants.LineEnding.valueOf(lineEnding.trim());
+    public void setLineEnding(String lineEndingParameter) {
+        if (!Strings.isNullOrEmpty(lineEndingParameter)) {
+            this.fileLineEnding = UVFConstants.LineEnding.valueOf(lineEndingParameter.trim());
         } else {
-            this.lineEnding = UVFConstants.LineEnding.Unix;
+            this.fileLineEnding = UVFConstants.LineEnding.Unix;
         }
     }
 
@@ -256,7 +256,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         File tempDir = Files.createTempDir();
         BinaryAttachmentResponse response = null;
         try {
-            File uvfFile = encodeToUvf(aor.getObservationCollection(), tempDir, getContentType(aor));
+            File uvfFile = encodeToUvf(aor.getObservationCollection(), tempDir, identifyContentType(aor));
             response = new BinaryAttachmentResponse(Files.toByteArray(uvfFile), getContentType(),
                     String.format(uvfFile.getName(), makeDateSafe(new DateTime(DateTimeZone.UTC))));
         } catch (IOException e) {
@@ -678,7 +678,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         sb.trimToSize();
     }
 
-    private MediaType getContentType(AbstractObservationResponse aor) {
+    private MediaType identifyContentType(AbstractObservationResponse aor) {
         if (aor.isSetResponseFormat()) {
             try {
                 return MediaType.parse(aor.getResponseFormat());
@@ -708,7 +708,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     }
 
     private String getDefaultLineEnding() {
-        switch (lineEnding) {
+        switch (fileLineEnding) {
             case Unix:
                 return UVFConstants.LINE_ENDING_UNIX;
             case Windows:
