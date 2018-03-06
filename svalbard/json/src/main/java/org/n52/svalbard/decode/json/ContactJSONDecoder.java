@@ -18,8 +18,6 @@ package org.n52.svalbard.decode.json;
 
 import org.n52.shetland.inspire.ad.AddressRepresentation;
 import org.n52.shetland.inspire.base2.Contact;
-import org.n52.shetland.iso.gmd.LocalisedCharacterString;
-import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.svalbard.coding.json.AQDJSONConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 
@@ -37,10 +35,10 @@ public class ContactJSONDecoder extends AbstractJSONDecoder<Contact> {
         Contact contact = new Contact();
         contact.setAddress(decodeJsonToNillable(node.path(AQDJSONConstants.ADDRESS), AddressRepresentation.class));
         contact.setContactInstructions(
-                parseNillableString(node.path(AQDJSONConstants.CONTACT_INSTRUCTIONS)).map(this::parseFreeText));
+                parseNillable(node.path(AQDJSONConstants.CONTACT_INSTRUCTIONS)).map(this::parseFreeText));
         contact.setElectronicMailAddress(parseNillableString(node.path(AQDJSONConstants.ELECTRONIC_MAIL_ADDRESS)));
         contact.setHoursOfService(
-                parseNillableString(node.path(AQDJSONConstants.HOURS_OF_SERVICE)).map(this::parseFreeText));
+                parseNillable(node.path(AQDJSONConstants.HOURS_OF_SERVICE)).map(this::parseFreeText));
         contact.setWebsite(parseNillableString(node.path(AQDJSONConstants.WEBSITE)));
         for (JsonNode n : node.path(AQDJSONConstants.TELEPHONE_FACSIMILE)) {
             contact.addTelephoneFacsimile(parseNillableString(n));
@@ -51,7 +49,4 @@ public class ContactJSONDecoder extends AbstractJSONDecoder<Contact> {
         return contact;
     }
 
-    private PT_FreeText parseFreeText(String s) {
-        return new PT_FreeText().addTextGroup(new LocalisedCharacterString(s));
-    }
 }

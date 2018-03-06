@@ -243,7 +243,7 @@ public class MeasurementDecodingTest {
         assertThat(af2.getName(), is(notNullValue()));
         assertThat(af2.getName().size(), is(1));
         assertThat(af2.getName().get(0), is(not(nullValue())));
-        assertThat(af2.getName().get(0).getCodeSpace().toString(), is(equalTo(UNKNOWN_CODESPACE)));
+        assertThat(af2.getName().get(0).isSetCodeSpace(), is(false));
         assertThat(af2.getName().get(0).getValue(), is(equalTo("sampledFeature2")));
         assertThat(af2, is(instanceOf(SamplingFeature.class)));
         SamplingFeature sf2 = (SamplingFeature) af2;
@@ -284,10 +284,10 @@ public class MeasurementDecodingTest {
         assertThat(name.get(0).getCodeSpace().toString(), is(equalTo("http://x.y/z")));
         assertThat(name.get(1), is(notNullValue()));
         assertThat(name.get(1).getValue(), is(equalTo("othername1")));
-        assertThat(name.get(1).getCodeSpace().toString(), is(equalTo(UNKNOWN_CODESPACE)));
+        assertThat(name.get(1).isSetCodeSpace(), is(false));
         assertThat(name.get(2), is(notNullValue()));
         assertThat(name.get(2).getValue(), is(equalTo("othername2")));
-        assertThat(name.get(2).getCodeSpace().toString(), is(equalTo(UNKNOWN_CODESPACE)));
+        assertThat(name.get(2).isSetCodeSpace(), is(false));
     }
 
     @Test

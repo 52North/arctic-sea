@@ -177,15 +177,13 @@ public abstract class JSONDecoder<T>
     protected CodeType parseCodeType(JsonNode node) {
         try {
             if (node.isObject()) {
-                String value = node.path(JSONConstants.VALUE).textValue();
-                String codespace = node.path(JSONConstants.CODESPACE).textValue();
-                if (codespace == null || codespace.isEmpty()) {
-                    codespace = OGCConstants.UNKNOWN;
+                CodeType ct = new CodeType(node.path(JSONConstants.VALUE).textValue());
+                if (node.has(JSONConstants.CODESPACE)) {
+                    ct.setCodeSpace(new URI(node.path(JSONConstants.CODESPACE).textValue()));
                 }
-                return (CodeType) new CodeType(value).setCodeSpace(new URI(codespace));
+                return ct;
             } else if (node.isTextual()) {
-
-                return (CodeType) new CodeType(node.textValue()).setCodeSpace(new URI(OGCConstants.UNKNOWN));
+                return (CodeType) new CodeType(node.textValue());
             }
         } catch (URISyntaxException e) {
             LOGGER.error("Error while creating URI!", e);

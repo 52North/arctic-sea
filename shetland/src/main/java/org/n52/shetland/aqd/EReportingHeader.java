@@ -23,6 +23,8 @@ import java.util.List;
 import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.inspire.base2.RelatedParty;
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.AbstractGML;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.Nillable;
@@ -53,12 +55,21 @@ public class EReportingHeader extends AbstractEReportingHeader {
         return this;
     }
 
+    @Override
+    public AbstractGML setIdentifier(CodeWithAuthority identifier) {
+        if (identifier instanceof Identifier) {
+            setInspireID((Identifier) identifier);
+        }
+        return super.setIdentifier(identifier);
+    }
+
     public Identifier getInspireID() {
         return inspireID;
     }
 
     public EReportingHeader setInspireID(Identifier inspireID) {
         this.inspireID = Preconditions.checkNotNull(inspireID);
+        super.setIdentifier(inspireID);
         return this;
     }
 
