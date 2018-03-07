@@ -247,9 +247,9 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
                     if (getGeometryTransformer() != null && Sos2Constants.HREF_PARAMETER_SPATIAL_FILTERING_PROFILE
                             .equals(namedValue.getName().getHref())) {
                         NamedValue<Geometry> spatialFilteringProfileParameter = (NamedValue<Geometry>) namedValue;
-                        spatialFilteringProfileParameter.getValue().setValue(getGeometryTransformer()
-                                .transform(spatialFilteringProfileParameter.getValue().getValue(),
-                                        !Double.isNaN(spatialFilteringProfileParameter.getValue().getValue().getCoordinate().z)
+                        spatialFilteringProfileParameter.getValue().setValue(getGeometryTransformer().transform(
+                                spatialFilteringProfileParameter.getValue().getValue(),
+                                !Double.isNaN(spatialFilteringProfileParameter.getValue().getValue().getCoordinate().z)
                                         ? target3DCRS
                                         : targetCRS));
                     }
