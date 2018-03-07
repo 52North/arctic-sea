@@ -40,11 +40,21 @@ public class ContactJSONDecoder extends AbstractJSONDecoder<Contact> {
         contact.setHoursOfService(
                 parseNillable(node.path(AQDJSONConstants.HOURS_OF_SERVICE)).map(this::parseFreeText));
         contact.setWebsite(parseNillableString(node.path(AQDJSONConstants.WEBSITE)));
-        for (JsonNode n : node.path(AQDJSONConstants.TELEPHONE_FACSIMILE)) {
-            contact.addTelephoneFacsimile(parseNillableString(n));
+        JsonNode tfNode = node.path(AQDJSONConstants.TELEPHONE_FACSIMILE);
+        if (tfNode.isArray()) {
+            for (JsonNode n : tfNode) {
+                contact.addTelephoneFacsimile(parseNillableString(n));
+            }
+        } else {
+            contact.addTelephoneFacsimile(parseNillableString(tfNode));
         }
-        for (JsonNode n : node.path(AQDJSONConstants.TELEPHONE_VOICE)) {
-            contact.addTelephoneVoice(parseNillableString(n));
+        JsonNode tvNode = node.path(AQDJSONConstants.TELEPHONE_VOICE);
+        if (tvNode.isArray()) {
+            for (JsonNode n : tvNode) {
+                contact.addTelephoneVoice(parseNillableString(n));
+            }
+        } else {
+            contact.addTelephoneVoice(parseNillableString(tvNode));
         }
         return contact;
     }

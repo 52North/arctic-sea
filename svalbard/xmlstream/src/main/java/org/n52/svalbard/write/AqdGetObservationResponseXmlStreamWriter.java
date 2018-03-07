@@ -123,7 +123,11 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
                         throw new EncodingException(ex);
                     }
                 } else {
-                    writeMember(abstractFeature, encoder);
+                    if (encoder instanceof XmlStreamWriter) {
+                        encoder.encode(abstractFeature, getContext());
+                    } else {
+                        writeMember(abstractFeature, encoder);
+                    }
                 }
             } else {
                 writeMember(abstractFeature, encoder);
@@ -245,6 +249,11 @@ public class AqdGetObservationResponseXmlStreamWriter extends XmlStreamWriter<Fe
      * {@link WriteTimerTask}, Cancel {@link Timer} and set to <code>null</code>.
      */
     private void cleanup() {
+        try {
+            finish();
+        } catch (XMLStreamException e) {
+            LOGGER.warn("Error while cleanup writer", e);
+        }
         stopTimer();
         timerTask = null;
         if (timer != null) {
