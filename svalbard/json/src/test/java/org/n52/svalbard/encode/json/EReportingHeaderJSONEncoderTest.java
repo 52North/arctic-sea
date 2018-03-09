@@ -19,10 +19,11 @@ package org.n52.svalbard.encode.json;
 import java.net.URISyntaxException;
 
 import org.junit.Test;
+
 import org.n52.janmayen.Json;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
-import org.n52.svalbard.coding.AbstractEReportingHeaderConding;
+import org.n52.svalbard.coding.AbstractEReportingHeaderCoding;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -32,7 +33,7 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @author Christian Autermann
  */
-public class EReportingHeaderJSONEncoderTest extends AbstractEReportingHeaderConding {
+public class EReportingHeaderJSONEncoderTest extends AbstractEReportingHeaderCoding {
 
     @Test
     public void test()

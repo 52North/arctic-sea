@@ -25,6 +25,7 @@ import java.net.URISyntaxException;
 import java.util.Iterator;
 
 import org.junit.Test;
+
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.inspire.GeographicalName;
 import org.n52.shetland.inspire.ad.AddressRepresentation;
@@ -33,7 +34,7 @@ import org.n52.shetland.iso.gmd.LocalisedCharacterString;
 import org.n52.shetland.iso.gmd.PT_FreeText;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.w3c.Nillable;
-import org.n52.svalbard.coding.AbstractEReportingHeaderConding;
+import org.n52.svalbard.coding.AbstractEReportingHeaderCoding;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 public class EReportingHeaderJSONDecoderTest
         extends
-        AbstractEReportingHeaderConding {
+        AbstractEReportingHeaderCoding {
 
     @Test
     public void test()

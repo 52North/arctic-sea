@@ -67,7 +67,7 @@ import org.n52.svalbard.encode.json.base.StringJSONEncoder;
 import org.n52.svalbard.encode.json.base.TimeJSONEncoder;
 import org.n52.svalbard.encode.json.base.URIJSONEncoder;
 
-public abstract class AbstractEReportingHeaderConding {
+public abstract class AbstractEReportingHeaderCoding {
 
     protected EReportingHeader getHeader() throws URISyntaxException {
         return new EReportingHeader()
