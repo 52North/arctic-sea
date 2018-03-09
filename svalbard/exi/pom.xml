@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>4.1.0-SNAPSHOT</version>
+        <version>4.1.0</version>
     </parent>
     <artifactId>svalbard-exi</artifactId>
     <name>52°North Svalbard Exi</name>
