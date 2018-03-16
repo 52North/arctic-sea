@@ -200,6 +200,9 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
             EncodingContext context = ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                     .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions);
             new EReportingHeaderEncoder(context, baos, element).write();
+            if (context.has(XmlStreamEncoderFlags.XML_WRITER)) {
+                return null;
+            }
             return XmlObject.Factory.parse(baos.toString("UTF8"));
         } catch (XMLStreamException | XmlException | UnsupportedEncodingException xmlse) {
             throw new EncodingException("Error encoding response", xmlse);

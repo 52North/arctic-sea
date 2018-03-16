@@ -17,6 +17,7 @@
 package org.n52.svalbard.decode.json;
 
 import java.net.URI;
+import java.util.Iterator;
 
 import org.n52.janmayen.function.ThrowableFunction;
 import org.n52.shetland.iso.gmd.LocalisedCharacterString;
@@ -31,6 +32,7 @@ import org.n52.svalbard.coding.json.AQDJSONConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
 
@@ -104,6 +106,24 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
 
     protected Nillable<CodeType> parseNillableCodeType(JsonNode node) {
         return parseNillable(node).map(this::parseCodeType);
+    }
+
+    protected PT_FreeText parseFreeText(JsonNode n) {
+        LocalisedCharacterString localisedCharacterString = new LocalisedCharacterString("");
+        if (n.isArray()) {
+            ArrayNode arrayNode = (ArrayNode) n;
+            Iterator<JsonNode> it = arrayNode.iterator();
+            while (it.hasNext()) {
+                final JsonNode next = it.next();
+                if (next.has(AQDJSONConstants.TEXT)) {
+                    localisedCharacterString.setValue(next.get(AQDJSONConstants.TEXT).asText());
+                } else if (next.has(AQDJSONConstants.LANGUAGE)) {
+                    localisedCharacterString.setLocale(next.get(AQDJSONConstants.LANGUAGE).asText());
+
+                }
+            }
+        }
+        return new PT_FreeText().addTextGroup(localisedCharacterString);
     }
 
     protected <T> Nillable<T> decodeJsonToNillable(JsonNode node, final Class<T> type)

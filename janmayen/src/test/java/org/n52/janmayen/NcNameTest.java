@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 public class NcNameTest {
+
     @Test
     public void testFixNcName() {
         String noFixString = "this_one_needs_no_fixing";
@@ -28,5 +29,21 @@ public class NcNameTest {
         String fixedString = "_string__needs_fixing";
         assertEquals(noFixString, NcName.makeValid(noFixString));
         assertEquals(fixedString, NcName.makeValid(needsFixString));
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionOnEmptyStringInput() {
+        NcName.makeValid("");
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionOnNullInput() {
+        NcName.makeValid(null);
+    }
+
+    @Test
+    public void testHyphen() {
+        String test = "test-nc-name";
+        assertEquals(test, NcName.makeValid(test));
     }
 }

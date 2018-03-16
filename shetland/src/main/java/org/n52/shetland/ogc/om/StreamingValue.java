@@ -27,6 +27,9 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.response.AbstractStreaming;
 import org.n52.shetland.util.GeometryTransformer;
+import org.n52.shetland.util.JavaHelper;
+
+import java.util.List;
 
 import org.locationtech.jts.geom.Geometry;
 
@@ -224,18 +227,31 @@ public abstract class StreamingValue<S> extends AbstractStreaming {
         if (isSetAdditionalRequestParams() && contains(AdditionalRequestParams.crs)) {
             Object additionalRequestParam = getAdditionalRequestParams(AdditionalRequestParams.crs);
             int targetCRS = -1;
+            int target3DCRS = -1;
             if (additionalRequestParam instanceof Integer) {
                 targetCRS = (Integer) additionalRequestParam;
+                target3DCRS = targetCRS;
             } else if (additionalRequestParam instanceof String) {
                 targetCRS = Integer.parseInt((String) additionalRequestParam);
+                target3DCRS = targetCRS;
+            } else if (additionalRequestParam instanceof List && ((List) additionalRequestParam).size() > 0) {
+                targetCRS = JavaHelper.asInteger(((List) additionalRequestParam).get(0));
+                if (((List) additionalRequestParam).size() == 2) {
+                    target3DCRS = JavaHelper.asInteger(((List) additionalRequestParam).get(1));
+                } else {
+                    target3DCRS = targetCRS;
+                }
             }
             if (observation.isSetParameter()) {
                 for (NamedValue<?> namedValue : observation.getParameter()) {
                     if (getGeometryTransformer() != null && Sos2Constants.HREF_PARAMETER_SPATIAL_FILTERING_PROFILE
                             .equals(namedValue.getName().getHref())) {
                         NamedValue<Geometry> spatialFilteringProfileParameter = (NamedValue<Geometry>) namedValue;
-                        spatialFilteringProfileParameter.getValue().setValue(getGeometryTransformer()
-                                .transform(spatialFilteringProfileParameter.getValue().getValue(), targetCRS));
+                        spatialFilteringProfileParameter.getValue().setValue(getGeometryTransformer().transform(
+                                spatialFilteringProfileParameter.getValue().getValue(),
+                                !Double.isNaN(spatialFilteringProfileParameter.getValue().getValue().getCoordinate().z)
+                                        ? target3DCRS
+                                        : targetCRS));
                     }
                 }
             }

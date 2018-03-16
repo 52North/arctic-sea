@@ -198,7 +198,7 @@ public class Contact {
         if (this.telephoneFacsimile.isAbsent() || this.telephoneFacsimile.isNil()) {
             this.telephoneFacsimile = Nillable.of((List<Nillable<String>>) Lists.<Nillable<String>> newArrayList());
         }
-        if (telephoneFacsimile.isPresent()) {
+        if (this.telephoneFacsimile.isPresent()) {
             this.telephoneFacsimile.get().add(telephoneFacsimile);
         }
         return this;

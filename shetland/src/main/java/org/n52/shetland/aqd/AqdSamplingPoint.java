@@ -94,5 +94,8 @@ public class AqdSamplingPoint extends EfEnvironmentalMonitoringFacility {
         return getNetwork() != null;
     }
 
+    public boolean hasAssessmentType() {
+        return getAssessmentType() != null;
+    }
 
 }

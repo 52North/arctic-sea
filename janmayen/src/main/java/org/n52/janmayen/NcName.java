@@ -171,7 +171,7 @@ public class NcName {
     }
 
     public boolean isValid() {
-        return isValid(this.name);
+        return isValid(name);
     }
 
     /**
@@ -182,7 +182,7 @@ public class NcName {
      * @return if the name is valid
      */
     public static boolean isValid(String name) {
-        if (name.isEmpty() || (name.charAt(0) != '_' && !LETTER.includes(name.charAt(0)))) {
+        if (name.isEmpty() || name.charAt(0) != '_' && !LETTER.includes(name.charAt(0))) {
             return false;
         }
         for (int i = 1; i < name.length(); ++i) {
@@ -194,11 +194,11 @@ public class NcName {
     }
 
     public void makeValid(char replacement) {
-        this.name = makeValid(name, replacement);
+        name = makeValid(name, replacement);
     }
 
     public void makeValid() {
-        this.name = makeValid(name);
+        name = makeValid(name);
     }
 
     /**
@@ -208,9 +208,11 @@ public class NcName {
      * @param replacement the replacement character
      *
      * @return the valid NCName
+     *
+     * @throws IllegalArgumentException when receiving empty or null for name, or replacement is not '_' or a letter.
      */
     public static String makeValid(String name, char replacement) {
-        if (replacement != '_' && !LETTER.includes(replacement)) {
+        if (replacement != '_' && !LETTER.includes(replacement) || name == null || name.isEmpty()) {
             throw new IllegalArgumentException();
         }
         if (isValid(name)) {
