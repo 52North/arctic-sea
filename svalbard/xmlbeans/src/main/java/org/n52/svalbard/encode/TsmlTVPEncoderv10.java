@@ -60,7 +60,7 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.write.WmlTVPEncoderv20XmlStreamWriter;
+import org.n52.svalbard.write.TsmlTVPEncoderv10XmlStreamWriter;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
@@ -70,6 +70,7 @@ import net.opengis.gml.x32.AbstractGMLType;
 
 import net.opengis.om.x20.OMObservationType;
 
+import net.opengis.tsml.x10.MeasurementTVPPropertyType;
 import net.opengis.tsml.x10.MeasurementTVPType;
 import net.opengis.tsml.x10.PointMetadataDocument;
 import net.opengis.tsml.x10.PointMetadataType;
@@ -80,13 +81,11 @@ import net.opengis.tsml.x10.TimeseriesTVPType;
 /**
  * Encoder class for TimeseriesML 1.0 TimeseriesValuePair (TVP)
  *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
  */
 public class TsmlTVPEncoderv10
         extends AbstractTsmlEncoderv10 {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WmlTVPEncoderv20.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TsmlTVPEncoderv10.class);
 
     // TODO: change to correct conformance class
     private static final Set<String> CONFORMANCE_CLASSES = Sets.newHashSet(
@@ -145,7 +144,7 @@ public class TsmlTVPEncoderv10
 
     @Override
     public Set<SchemaLocation> getSchemaLocations() {
-        return Sets.newHashSet(TimeseriesMLConstants.TSML_10_SCHEMA_LOCATION, TimeseriesMLConstants.WML_20_TS_SCHEMA_LOCATION);
+        return Sets.newHashSet(TimeseriesMLConstants.TSML_10_SCHEMA_LOCATION, TimeseriesMLConstants.TSML_10_TS_SCHEMA_LOCATION);
     }
 
     @Override
@@ -168,7 +167,7 @@ public class TsmlTVPEncoderv10
             throws EncodingException {
         if (objectToEncode instanceof OmObservation) {
             try {
-                new WmlTVPEncoderv20XmlStreamWriter(
+                new TsmlTVPEncoderv10XmlStreamWriter(
                         ctx.with(EncoderFlags.ENCODER_REPOSITORY, getEncoderRepository())
                                 .with(XmlEncoderFlags.XML_OPTIONS, (Supplier<XmlOptions>) this::getXmlOptions),
                         outputStream, (OmObservation) objectToEncode).write();
@@ -214,8 +213,9 @@ public class TsmlTVPEncoderv10
 
     @Override
     protected OMObservationType createOmObservationType() {
+        return OMObservationType.Factory.newInstance(getXmlOptions());
         // TODO Auto-generated method stub
-        return null;
+        //return null;
     }
 
     /**
@@ -367,8 +367,7 @@ public class TsmlTVPEncoderv10
                     }
                 }
             }
-            measurementTimeseries.addNewPoint().setTimeValuePair(this.createMeasurementTVP(time, value));
-            //addValuesToMeasurementTVP((MeasurementTVPType)measurementTimeseries.addNewPoint().addNewTimeValuePair(), time, value);
+            measurementTimeseries.addNewPoint().set(this.createMeasurementTVP(time, value));
         } else if (observationValue instanceof MultiObservationValues) {
             MultiObservationValues<?> mov = (MultiObservationValues<?>) observationValue;
             TVPValue tvpValue = (TVPValue) mov.getValue();
@@ -402,8 +401,7 @@ public class TsmlTVPEncoderv10
                     throw new NoApplicableCodeException().withMessage("The types of values '%s' is not yet supported",
                             mov.getValue().getClass().getSimpleName());
                 }
-                measurementTimeseries.addNewPoint().setTimeValuePair(this.createMeasurementTVP(time, value));
-                //addValuesToMeasurementTVP((MeasurementTVPType)), time, value);
+                measurementTimeseries.addNewPoint().set(this.createMeasurementTVP(time, value));
             }
         }
 
@@ -418,8 +416,10 @@ public class TsmlTVPEncoderv10
      * @param value
      *            value as string
      */
-    private MeasurementTVPType createMeasurementTVP(String time, String value) {
+    private MeasurementTVPPropertyType createMeasurementTVP(String time, String value) {
         MeasurementTVPType measurementTVP = MeasurementTVPType.Factory.newInstance();
+        MeasurementTVPPropertyType measurementTVPProperty = MeasurementTVPPropertyType.Factory.newInstance();
+
         measurementTVP.addNewTime().setStringValue(time);
         if (Strings.isNullOrEmpty(value)) {
             measurementTVP.addNewValue().setNil();
@@ -427,7 +427,8 @@ public class TsmlTVPEncoderv10
         } else {
             measurementTVP.addNewValue().setStringValue(value);
         }
-        return measurementTVP;
+        measurementTVPProperty.setMeasurementTVP(measurementTVP);
+        return measurementTVPProperty;
     }
 
     private void addTimeseriesMetadata(TimeseriesTVPType mtt, String gmlId,

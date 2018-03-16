@@ -30,7 +30,7 @@ public interface TimeseriesMLConstants {
 
     String NS_TSML_10_PREFIX = "tsml";
 
-    String NS_TSML_10_PROCEDURE_ENCODING = "http://www.opengis.net/waterml/2.0/observationProcess"; //TODO
+    String NS_TSML_10_PROCEDURE_ENCODING = "http://www.opengis.net/def/timeseries/observationProcess";
 
     String PROCESS_TYPE_SIMULATION = "http://www.opengis.net/def/timeseries/ProcessTypeCode/Simulation";
 
@@ -64,9 +64,9 @@ public interface TimeseriesMLConstants {
 
     String SCHEMA_LOCATION_URL_TSML_10 = "http://schemas.opengis.net/tsml/1.0/timeseriesML.xsd";
 
-    String SCHEMA_LOCATION_URL_TSML_10_DR = SCHEMA_LOCATION_URL_TSML_10;
+    String SCHEMA_LOCATION_URL_TSML_10_DR = "http://schemas.opengis.net/tsml/1.0/timeseriesDR.xsd";
 
-    String SCHEMA_LOCATION_URL_WML_20_TS = "http://schemas.opengis.net/waterml/2.0/timeseries.xsd"; // TODO
+    String SCHEMA_LOCATION_URL_TSML_10_TS = "http://schemas.opengis.net/tsml/1.0/timeseriesTVP.xsd";
 
     String SCHEMA_LOCATION_URL_TSML_10_MF = "http://schemas.opengis.net/tsml/1.0/monitoringFeature.xsd";
 
@@ -74,7 +74,7 @@ public interface TimeseriesMLConstants {
 
     SchemaLocation TSML_10_DR_SCHEMA_LOCATION = new SchemaLocation(NS_TSML_10, SCHEMA_LOCATION_URL_TSML_10_DR);
 
-    SchemaLocation WML_20_TS_SCHEMA_LOCATION = new SchemaLocation(NS_TSML_10, SCHEMA_LOCATION_URL_WML_20_TS); //TODO
+    SchemaLocation TSML_10_TS_SCHEMA_LOCATION = new SchemaLocation(NS_TSML_10, SCHEMA_LOCATION_URL_TSML_10_TS);
 
     SchemaLocation TSML_10_MF_SCHEMA_LOCATION = new SchemaLocation(NS_TSML_10, SCHEMA_LOCATION_URL_TSML_10_MF);
 

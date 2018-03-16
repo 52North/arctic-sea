@@ -17,11 +17,11 @@
 package org.n52.shetland.ogc.om.series;
 
 /**
- * TODO(specki): update header
- * This class implements the OGC TimeseriesML 1.0 standard
+ * This class implements the OGC TimeseriesML 1.0 and OGC WaterML 2.0 Metadata Element
  * element <code>metadata</code>. See <code>/req/uml-timeseries-observation/metadata</code>.
  *
  * @see http://www.opengeospatial.org/standards/tsml
+ * @see http://www.opengeospatial.org/standards/waterml
  */
 public class Metadata {
 

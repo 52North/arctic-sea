@@ -17,8 +17,7 @@
 package org.n52.shetland.ogc.om.series;
 
 /**
- *
- * @author specki
+ * @author Jan Speckamp
  */
 public interface AbstractInterpolationType {
 

@@ -24,9 +24,6 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 public class TsmlMonitoringFeature
         extends AbstractMonitoringFeature {
 
-    // private representativePoint
-    // TODO(specki): Add representative Point
-
     public TsmlMonitoringFeature(CodeWithAuthority featureIdentifier) {
         this(featureIdentifier, null);
     }
@@ -38,9 +35,7 @@ public class TsmlMonitoringFeature
 
     @Override
     public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {
-        //TODO(specki): refactor visitor to also accept TsmlMonitoringPoint OR refactor to general MonitoringPoint
-        //return visitor.visit(this);
-        return null;
+        return visitor.visit(this);
     }
 
     @Override
