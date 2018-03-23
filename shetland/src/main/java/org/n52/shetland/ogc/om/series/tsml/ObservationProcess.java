@@ -19,7 +19,6 @@ package org.n52.shetland.ogc.om.series.tsml;
 import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
 
 /**
- * @since 1.0.0
  *
  */
 public class ObservationProcess extends AbstractObservationProcess {
