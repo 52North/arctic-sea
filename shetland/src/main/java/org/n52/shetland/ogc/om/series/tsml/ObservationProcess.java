@@ -18,9 +18,6 @@ package org.n52.shetland.ogc.om.series.tsml;
 
 import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
 
-/**
- *
- */
 public class ObservationProcess extends AbstractObservationProcess {
     @Override
     public String getDefaultElementEncoding() {

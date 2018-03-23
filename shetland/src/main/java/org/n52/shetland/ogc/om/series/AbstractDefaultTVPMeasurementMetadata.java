@@ -17,13 +17,13 @@
 package org.n52.shetland.ogc.om.series;
 
 /**
- * This class implements the OGC TimeseriesML 1.0 element
+ * This class implements the OGC TimeseriesML 1.0 and OGC WaterML 2.0 element
  * <code>MeasurementTimeseries > defaultPointMetadata > DefaultTVPMeasurementMetadata</code>.
  *
  * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *
- * @since 1.0.0
  * @see http://www.opengeospatial.org/standards/waterml
+ * @see http://www.opengeospatial.org/standards/tsml
  */
 public interface AbstractDefaultTVPMeasurementMetadata {
 

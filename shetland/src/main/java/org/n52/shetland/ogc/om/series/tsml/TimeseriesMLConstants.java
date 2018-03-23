@@ -153,9 +153,6 @@ public interface TimeseriesMLConstants {
 
     /**
      * Hold allowed values for element <code>interpolationType</code>.
-     *
-     * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>. //TODO
-     *
      */
     enum InterpolationType implements AbstractInterpolationType {
 

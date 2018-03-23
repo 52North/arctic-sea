@@ -26,7 +26,6 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.NamedValue;
 
 /**
- * @since 1.0.0
  *
  */
 public abstract class AbstractObservationProcess extends AbstractFeature {

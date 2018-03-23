@@ -16,10 +16,6 @@
  */
 package org.n52.shetland.ogc.om.series.tsml;
 
-/**
- * @since 1.0.0 TODO
- *
- */
 public interface ConformanceClassesTSML {
 
     String UML_TIMESERIES_OBSERVATION = "http://www.opengis.net/spec/timeseries/1.0/conf/uml-timeseries-observation";
