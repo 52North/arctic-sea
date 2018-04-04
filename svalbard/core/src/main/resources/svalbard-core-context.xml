@@ -27,6 +27,8 @@
     <!-- XML options helper -->
     <bean id="xmlOptionsHelper" class="org.n52.svalbard.util.XmlOptionsHelper" />
 
+    <bean id="schemaRepository" class="org.n52.svalbard.encode.SchemaRepository" />
+
     <!-- encoder -->
     <bean id="uvfEncoder" class="org.n52.svalbard.encode.UVFEncoder" />
     <bean id="sweHelper" class="org.n52.svalbard.util.SweHelper" />
