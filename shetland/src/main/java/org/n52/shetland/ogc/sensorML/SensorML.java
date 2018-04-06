@@ -19,6 +19,8 @@ package org.n52.shetland.ogc.sensorML;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.n52.shetland.ogc.UoM;
+
 /**
  * SOS internal representation of a sensor description
  *
@@ -93,11 +95,18 @@ public class SensorML extends AbstractSensorML {
         return null;
     }
 
-
     @Override
     public String getObservablePropertyDescription(String observableProperty) {
         if (isWrapper()) {
             return getMembers().iterator().next().getObservablePropertyDescription(observableProperty);
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getObservablePropertyUnit(String observableProperty) {
+        if (isWrapper()) {
+            return getMembers().iterator().next().getObservablePropertyUnit(observableProperty);
         }
         return null;
     }
