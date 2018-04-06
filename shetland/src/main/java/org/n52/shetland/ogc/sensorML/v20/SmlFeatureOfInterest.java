@@ -30,7 +30,6 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 
 /**
  * Class that represents SensorML 2.0 FeatrureOfInterest
@@ -40,8 +39,6 @@ import com.google.common.collect.Sets;
  *
  */
 public class SmlFeatureOfInterest extends SweAbstractDataComponent {
-
-    private final Set<String> featuresOfInterest = Sets.newLinkedHashSet();
 
     private final Map<String, AbstractFeature> featuresOfInterestMap = Maps.newHashMap();
 
@@ -71,7 +68,7 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     public Set<String> getFeaturesOfInterest() {
-        return featuresOfInterest;
+        return getFeaturesOfInterestMap().keySet();
     }
 
     public boolean isSetFeaturesOfInterest() {
