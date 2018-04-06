@@ -514,7 +514,9 @@ public class SensorMLEncoderv20
         if (!describedObject.isSetGmlID()) {
             describedObject.setGmlId("do_" + JavaHelper.generateID(describedObject.toString()));
         }
-        dot.setId(describedObject.getGmlId());
+        if (dot.getId() == null || dot.getId().isEmpty()) {
+            dot.setId(describedObject.getGmlId());
+        }
 
         // update/set gml:identifier
         if (describedObject.isSetIdentifier()) {

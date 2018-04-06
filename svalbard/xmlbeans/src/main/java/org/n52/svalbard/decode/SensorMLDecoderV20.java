@@ -324,6 +324,9 @@ public class SensorMLDecoderV20
 
     private void parseDescribedObject(DescribedObjectType dot, DescribedObject describedObject)
             throws DecodingException {
+        if (dot.getId() != null && !dot.getId().isEmpty()) {
+            describedObject.setGmlId(dot.getId());
+        }
         if (dot.isSetIdentifier()) {
             describedObject.setIdentifier((CodeWithAuthority) decodeXmlElement(dot.getIdentifier()));
             checkIdentifierCodeSpace(describedObject);
