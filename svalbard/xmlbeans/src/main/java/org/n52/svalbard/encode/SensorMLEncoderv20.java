@@ -29,6 +29,7 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.iso.gmd.GmdConstants;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
@@ -1224,25 +1225,21 @@ public class SensorMLEncoderv20
             if (feature.isSetLabel()) {
                 featureList.setLabel(feature.getLabel());
             }
+
             return foi;
         }
         return null;
     }
 
-    private void addFeatures(FeatureListType featureList, SmlFeatureOfInterest feature) {
-        Set<String> featuresToAdd = Sets.newHashSet();
-        if (feature.isSetFeaturesOfInterest()) {
-            featuresToAdd.addAll(feature.getFeaturesOfInterest());
-        }
+    private void addFeatures(FeatureListType featureList, SmlFeatureOfInterest feature) throws EncodingException {
         if (feature.isSetFeaturesOfInterestMap()) {
-            // TODO add more than only identifiers (check for features with geometry!)
-            featuresToAdd.addAll(feature.getFeaturesOfInterestMap().keySet());
+            for (int i = 0; i < featureList.sizeOfFeatureArray(); i++) {
+                featureList.removeFeature(i);
+            }
+            for (AbstractFeature abstractFeature : feature.getFeaturesOfInterestMap().values()) {
+                featureList.addNewFeature().set(encodeObjectToXmlGml32(abstractFeature));
+            }
         }
-        for (int i = 0; i < featureList.sizeOfFeatureArray(); i++) {
-            featureList.removeFeature(i);
-        }
-        // TODO encode in GML 3.2.1 encoder
-        featuresToAdd.forEach(featureIdentifier -> featureList.addNewFeature().setHref(featureIdentifier));
     }
 
     /**
