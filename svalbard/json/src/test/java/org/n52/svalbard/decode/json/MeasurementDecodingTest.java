@@ -163,7 +163,7 @@ public class MeasurementDecodingTest {
         assertThat(ov.getValue(), is(instanceOf(QuantityValue.class)));
         QuantityValue qv = (QuantityValue) ov.getValue();
         assertThat(qv.getUnit(), is(equalTo("testunit1")));
-        assertThat(qv.getValue(), is(equalTo(new BigDecimal("123123"))));
+        assertThat(qv.getValue(), is(equalTo(BigDecimal.valueOf(123123.0))));
     }
 
     @Test

@@ -47,10 +47,10 @@ public class SweEnvelopeTest {
         final double y2 = 3;
         final double x2 = 4;
 
-        final BigDecimal bx1 = new BigDecimal(x1);
-        final BigDecimal by1 = new BigDecimal(y1);
-        final BigDecimal by2 = new BigDecimal(y2);
-        final BigDecimal bx2 = new BigDecimal(x2);
+        final BigDecimal bx1 = BigDecimal.valueOf(x1);
+        final BigDecimal by1 = BigDecimal.valueOf(y1);
+        final BigDecimal by2 = BigDecimal.valueOf(y2);
+        final BigDecimal bx2 = BigDecimal.valueOf(x2);
         final String uom = "deg";
         final ReferencedEnvelope sosEnvelope = new ReferencedEnvelope(new Envelope(x1, x2, y1, y2), srid);
         final SweEnvelope sweEnvelope = new SweEnvelope(sosEnvelope, uom, false);
