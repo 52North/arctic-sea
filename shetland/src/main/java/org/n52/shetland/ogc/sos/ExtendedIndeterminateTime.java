@@ -24,5 +24,5 @@ import org.n52.shetland.ogc.gml.time.IndeterminateValue;
  */
 public interface ExtendedIndeterminateTime {
     IndeterminateValue FIRST = new IndeterminateValue("first", "getFirst");
-    IndeterminateValue LATEST = new IndeterminateValue("latest");
+    IndeterminateValue LATEST = new IndeterminateValue("latest", "getLatest", "getLast");
 }

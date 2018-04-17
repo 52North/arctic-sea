@@ -44,8 +44,10 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 
 public class TsmlObservationProcessDecoderv10
-        extends AbstractOmDecoderv20
-        implements ProcedureDecoder<Object, Object> {
+        extends
+        AbstractOmDecoderv20
+        implements
+        ProcedureDecoder<Object, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TsmlObservationProcessDecoderv10.class);
 
@@ -85,7 +87,8 @@ public class TsmlObservationProcessDecoderv10
     }
 
     @Override
-    public Object decode(Object object) throws DecodingException {
+    public Object decode(Object object)
+            throws DecodingException {
         if (object instanceof ObservationProcessDocument) {
             return parseObservationProcess(((ObservationProcessDocument) object).getObservationProcess());
         } else if (object instanceof ObservationProcessPropertyType) {
@@ -96,7 +99,8 @@ public class TsmlObservationProcessDecoderv10
         return super.decode(object);
     }
 
-    private Object parseObservationProcess(ObservationProcessType opt) throws DecodingException {
+    private Object parseObservationProcess(ObservationProcessType opt)
+            throws DecodingException {
         ObservationProcess observationProcess = new ObservationProcess();
         observationProcess.setGmlId(opt.getId());
         // parse identifier, names, description, locations
@@ -126,15 +130,16 @@ public class TsmlObservationProcessDecoderv10
     private void parseOriginatingProcess(ObservationProcessType opt, ObservationProcess observationProcess)
             throws DecodingException {
         if (opt.isSetOriginatingProcess()) {
-           observationProcess.setOriginatingProcess(convertToReferenceType(opt.getOriginatingProcess()));
+            observationProcess.setOriginatingProcess(convertToReferenceType(opt.getOriginatingProcess()));
         }
     }
-    
-    /* 
-     * FIXME: Implement OMProcessPropertyType in shetland instead of
-     * truncating OM:ProcessPropertyType to GML:ReferenceType.
+
+    /*
+     * FIXME: Implement OMProcessPropertyType in shetland instead of truncating
+     * OM:ProcessPropertyType to GML:ReferenceType.
      */
-    private org.n52.shetland.ogc.gml.ReferenceType convertToReferenceType(net.opengis.om.x20.OMProcessPropertyType rt) {
+    private org.n52.shetland.ogc.gml.ReferenceType convertToReferenceType(
+            net.opengis.om.x20.OMProcessPropertyType rt) {
         org.n52.shetland.ogc.gml.ReferenceType referenceType = new org.n52.shetland.ogc.gml.ReferenceType("UNKNOWN");
         if (rt.isSetTitle() && !Strings.isNullOrEmpty(rt.getTitle())) {
             referenceType.setTitle(rt.getTitle());

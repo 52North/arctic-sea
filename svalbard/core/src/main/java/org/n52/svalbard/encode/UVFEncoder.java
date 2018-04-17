@@ -500,8 +500,8 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
             if (o.getValue().isSetDefaultPointMetadata()
                     && o.getValue().getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata() && o.getValue()
                             .getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
-                return getFunctionFor((InterpolationType) o.getValue().getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
-                        .getInterpolationtype());
+                return getFunctionFor((InterpolationType) o.getValue().getDefaultPointMetadata()
+                        .getDefaultTVPMeasurementMetadata().getInterpolationtype());
             }
         }
         return null;

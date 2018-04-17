@@ -244,7 +244,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter
                 && value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
                 && value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
             InterpolationType interpolationtype =
-                        (InterpolationType)value
+                        (InterpolationType) value
                             .getDefaultPointMetadata()
                             .getDefaultTVPMeasurementMetadata()
                             .getInterpolationtype();

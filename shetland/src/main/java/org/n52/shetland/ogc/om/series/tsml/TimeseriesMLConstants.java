@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
- * @see http://www.opengeospatial.org/standards/tsml
+ * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  */
 public interface TimeseriesMLConstants {
     String NS_TSML_10 = "http://www.opengis.net/tsml/1.0";

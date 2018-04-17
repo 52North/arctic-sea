@@ -83,7 +83,8 @@ import net.opengis.waterml.x20.TVPMeasurementMetadataType;
  *
  */
 public class WmlTVPEncoderv20
-        extends AbstractWmlEncoderv20 {
+        extends
+        AbstractWmlEncoderv20 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WmlTVPEncoderv20.class);
 
@@ -154,7 +155,8 @@ public class WmlTVPEncoderv20
 
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues)
-            throws EncodingException, UnsupportedEncoderInputException {
+            throws EncodingException,
+            UnsupportedEncoderInputException {
         if (element instanceof ObservationValue) {
             return encodeResult((ObservationValue<?>) element);
         } else {
@@ -180,7 +182,8 @@ public class WmlTVPEncoderv20
     }
 
     @Override
-    protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
+    protected XmlObject createResult(OmObservation sosObservation)
+            throws EncodingException {
         try {
             return createMeasurementTimeseries(sosObservation);
         } catch (OwsExceptionReport ce) {
@@ -190,7 +193,8 @@ public class WmlTVPEncoderv20
     }
 
     @Override
-    protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
+    protected XmlObject encodeResult(ObservationValue<?> observationValue)
+            throws EncodingException {
         try {
             return createMeasurementTimeseries((AbstractObservationValue<?>) observationValue);
         } catch (OwsExceptionReport ce) {
@@ -229,7 +233,8 @@ public class WmlTVPEncoderv20
      * @throws CodedException
      *             if the encoding fails
      */
-    private XmlObject createMeasurementTimeseries(OmObservation sosObservation) throws OwsExceptionReport {
+    private XmlObject createMeasurementTimeseries(OmObservation sosObservation)
+            throws OwsExceptionReport {
         MeasurementTimeseriesDocument measurementTimeseriesDoc = MeasurementTimeseriesDocument.Factory.newInstance();
         MeasurementTimeseriesType measurementTimeseries = measurementTimeseriesDoc.addNewMeasurementTimeseries();
         measurementTimeseries.setId(TIMESERIES_ID_PREFIX + sosObservation.getObservationID());
@@ -259,8 +264,8 @@ public class WmlTVPEncoderv20
                         .isSetDefaultTVPMeasurementMetadata()
                 && sosObservation.getObservationConstellation().getDefaultPointMetadata()
                         .getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
-            interpolationType = (InterpolationType)sosObservation.getObservationConstellation().getDefaultPointMetadata()
-                    .getDefaultTVPMeasurementMetadata().getInterpolationtype();
+            interpolationType = (InterpolationType) sosObservation.getObservationConstellation()
+                    .getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().getInterpolationtype();
         }
 
         defaultTVPMeasurementMetadata.addNewInterpolationType().setHref(interpolationType.getIdentifier());
@@ -282,7 +287,8 @@ public class WmlTVPEncoderv20
         return measurementTimeseriesDoc;
     }
 
-    private XmlObject createMeasurementTimeseries(AbstractObservationValue<?> observationValue) throws CodedException {
+    private XmlObject createMeasurementTimeseries(AbstractObservationValue<?> observationValue)
+            throws CodedException {
         MeasurementTimeseriesDocument measurementTimeseriesDoc = MeasurementTimeseriesDocument.Factory.newInstance();
         MeasurementTimeseriesType measurementTimeseries = measurementTimeseriesDoc.addNewMeasurementTimeseries();
         measurementTimeseries.setId(TIMESERIES_ID_PREFIX + observationValue.getObservationID());
@@ -306,8 +312,8 @@ public class WmlTVPEncoderv20
         if (observationValue.isSetValue() && observationValue.isSetDefaultPointMetadata()
                 && observationValue.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata() && observationValue
                         .getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
-            interpolationType = (InterpolationType)observationValue.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
-                    .getInterpolationtype();
+            interpolationType = (InterpolationType) observationValue.getDefaultPointMetadata()
+                    .getDefaultTVPMeasurementMetadata().getInterpolationtype();
         }
 
         defaultTVPMeasurementMetadata.addNewInterpolationType().setHref(interpolationType.getIdentifier());
