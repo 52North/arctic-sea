@@ -22,8 +22,8 @@ package org.n52.shetland.ogc.om.series;
  *
  * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *
- * @see http://www.opengeospatial.org/standards/waterml
- * @see http://www.opengeospatial.org/standards/tsml
+ * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
 public interface AbstractDefaultTVPMeasurementMetadata {
 

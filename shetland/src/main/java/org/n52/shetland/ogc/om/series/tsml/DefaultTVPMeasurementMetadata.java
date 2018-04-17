@@ -27,7 +27,7 @@ import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationTy
  * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *
  * @since 1.0.0
- * @see http://www.opengeospatial.org/standards/waterml
+ * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  */
 public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurementMetadata {
 

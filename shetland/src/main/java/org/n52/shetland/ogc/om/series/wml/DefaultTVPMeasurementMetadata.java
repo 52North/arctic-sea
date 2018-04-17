@@ -28,7 +28,7 @@ import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">http://www.opengeospatial.org/standards/waterml</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
 public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurementMetadata {
 

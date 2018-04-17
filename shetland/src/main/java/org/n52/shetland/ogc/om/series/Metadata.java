@@ -20,8 +20,8 @@ package org.n52.shetland.ogc.om.series;
  * This class implements the OGC TimeseriesML 1.0 and OGC WaterML 2.0 Metadata Element
  * element <code>metadata</code>. See <code>/req/uml-timeseries-observation/metadata</code>.
  *
- * @see http://www.opengeospatial.org/standards/tsml
- * @see http://www.opengeospatial.org/standards/waterml
+ * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
+ * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
  */
 public class Metadata {
 

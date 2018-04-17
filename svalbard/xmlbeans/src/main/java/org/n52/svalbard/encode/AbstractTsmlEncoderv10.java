@@ -91,29 +91,34 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 
-
 /**
  * Abstract encoder class for TimeseriesML 1.0
  *
  * @since 1.0.0
  */
 public abstract class AbstractTsmlEncoderv10
-        extends AbstractOmEncoderv20
-        implements ProcedureEncoder<XmlObject, Object> {
+        extends
+        AbstractOmEncoderv20
+        implements
+        ProcedureEncoder<XmlObject, Object> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractTsmlEncoderv10.class);
 
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =
-            ImmutableMap.of(SosConstants.SOS, ImmutableMap.<String, Set<String>> builder()
-                    .put(Sos2Constants.SERVICEVERSION, ImmutableSet.of(TimeseriesMLConstants.NS_TSML_10_PROCEDURE_ENCODING))
-                    .build());
+            ImmutableMap
+                    .of(SosConstants.SOS,
+                            ImmutableMap.<String, Set<String>> builder()
+                                    .put(Sos2Constants.SERVICEVERSION,
+                                            ImmutableSet.of(TimeseriesMLConstants.NS_TSML_10_PROCEDURE_ENCODING))
+                                    .build());
 
     private static final String PROCESS_ID_PREFIX = "process.";
 
     private static final String SF_ID_PREFIX = "sf_";
 
-    private static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper
-            .union(CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_10, AbstractFeature.class), CodingHelper
-                    .encoderKeysForElements(TimeseriesMLConstants.NS_TSML_10_PROCEDURE_ENCODING, ObservationProcess.class));
+    private static final Set<EncoderKey> DEFAULT_ENCODER_KEYS = CollectionHelper.union(
+            CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_10, AbstractFeature.class),
+            CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_10_PROCEDURE_ENCODING,
+                    ObservationProcess.class));
 
     protected static Set<EncoderKey> getDefaultEncoderKeys() {
         return Collections.unmodifiableSet(DEFAULT_ENCODER_KEYS);
@@ -149,7 +154,8 @@ public abstract class AbstractTsmlEncoderv10
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext context) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext context)
+            throws EncodingException {
         if (element instanceof ObservationProcess) {
             return createObservationProcess((ObservationProcess) element, context);
         } else if (element instanceof OmObservation) {
@@ -162,7 +168,8 @@ public abstract class AbstractTsmlEncoderv10
     }
 
     private XmlObject encodeAbstractFeature(AbstractFeature abstractFeature, EncodingContext context)
-            throws UnsupportedEncoderInputException, EncodingException {
+            throws UnsupportedEncoderInputException,
+            EncodingException {
         if (abstractFeature instanceof OmObservation) {
             return super.encode(abstractFeature, context);
         } else {
@@ -242,7 +249,8 @@ public abstract class AbstractTsmlEncoderv10
     }
 
     private OMObservationType encodeObservation(OmObservation observation,
-            Map<CodeWithAuthority, String> gmlID4sfIdentifier, int sfIdCounter) throws EncodingException {
+            Map<CodeWithAuthority, String> gmlID4sfIdentifier, int sfIdCounter)
+            throws EncodingException {
         EncodingContext foiContext;
         String gmlId;
         // FIXME CodeWithAuthority VS. String keys
@@ -272,7 +280,8 @@ public abstract class AbstractTsmlEncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    protected XmlObject createMonitoringPoint(AbstractFeature absFeature) throws EncodingException {
+    protected XmlObject createMonitoringPoint(AbstractFeature absFeature)
+            throws EncodingException {
         if (absFeature instanceof AbstractSamplingFeature) {
             AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
             StringBuilder builder = new StringBuilder();
@@ -280,7 +289,8 @@ public abstract class AbstractTsmlEncoderv10
             builder.append(JavaHelper.generateID(absFeature.getIdentifierCodeWithAuthority().getValue()));
             absFeature.setGmlId(builder.toString());
 
-            MonitoringFeatureDocument monitoringPointDoc = MonitoringFeatureDocument.Factory.newInstance(getXmlOptions());
+            MonitoringFeatureDocument monitoringPointDoc =
+                    MonitoringFeatureDocument.Factory.newInstance(getXmlOptions());
             if (sampFeat.isSetXml()) {
                 try {
                     XmlObject feature = XmlObject.Factory.parse(sampFeat.getXml());
@@ -385,7 +395,8 @@ public abstract class AbstractTsmlEncoderv10
      *             If an error occurs
      */
     protected ObservationProcessDocument createObservationProcess(ObservationProcess procedure,
-            EncodingContext context) throws EncodingException {
+            EncodingContext context)
+            throws EncodingException {
         XmlObject encodedObject = null;
         try {
             if (procedure.isSetXml()) {
@@ -401,8 +412,7 @@ public abstract class AbstractTsmlEncoderv10
                     observationProcess.setId(PROCESS_ID_PREFIX + JavaHelper.generateID(procedure.toString()));
                 }
                 if (procedure.isSetIdentifier()) {
-                    observationProcess.addNewIdentifier()
-                            .set(encodeGML(procedure.getIdentifierCodeWithAuthority()));
+                    observationProcess.addNewIdentifier().set(encodeGML(procedure.getIdentifierCodeWithAuthority()));
                 }
                 if (procedure.isSetName()) {
                     for (final CodeType sosName : procedure.getName()) {
@@ -430,7 +440,8 @@ public abstract class AbstractTsmlEncoderv10
         return (ObservationProcessDocument) encodedObject;
     }
 
-    private void checkAndAddIdentifier(ObservationProcess op, ObservationProcessType opt) throws EncodingException {
+    private void checkAndAddIdentifier(ObservationProcess op, ObservationProcessType opt)
+            throws EncodingException {
         if (op.isSetIdentifier() && !opt.isSetIdentifier()) {
             CodeWithAuthority codeWithAuthority = op.getIdentifierCodeWithAuthority();
             Encoder<?, CodeWithAuthority> encoder =
@@ -673,7 +684,8 @@ public abstract class AbstractTsmlEncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    private XmlObject encodeReferenceType(ReferenceType sosReferenceType) throws EncodingException {
+    private XmlObject encodeReferenceType(ReferenceType sosReferenceType)
+            throws EncodingException {
         Encoder<XmlObject, ReferenceType> encoder =
                 getEncoder(getEncoderKey(GmlConstants.NS_GML_32, sosReferenceType));
         if (encoder != null) {
@@ -693,7 +705,8 @@ public abstract class AbstractTsmlEncoderv10
      * @throws DateTimeFormatException
      *             If a formatting error occurs
      */
-    protected String getTimeString(Time time) throws DateTimeFormatException {
+    protected String getTimeString(Time time)
+            throws DateTimeFormatException {
         DateTime dateTime = getTime(time);
         return DateTimeHelper.formatDateTime2String(dateTime, time.getTimeFormat());
     }

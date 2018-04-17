@@ -85,7 +85,8 @@ import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants;
  *
  */
 public class TsmlTDREncoderv10
-        extends AbstractTsmlEncoderv10 {
+        extends
+        AbstractTsmlEncoderv10 {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TsmlTDREncoderv10.class);
 
@@ -153,7 +154,8 @@ public class TsmlTDREncoderv10
 
     @Override
     public Set<SchemaLocation> getSchemaLocations() {
-        return Sets.newHashSet(TimeseriesMLConstants.TSML_10_SCHEMA_LOCATION, TimeseriesMLConstants.TSML_10_DR_SCHEMA_LOCATION,
+        return Sets.newHashSet(TimeseriesMLConstants.TSML_10_SCHEMA_LOCATION,
+                TimeseriesMLConstants.TSML_10_DR_SCHEMA_LOCATION,
                 GmlCoverageConstants.GML_COVERAGE_10_SCHEMA_LOCATION);
     }
 
@@ -163,7 +165,8 @@ public class TsmlTDREncoderv10
     }
 
     @Override
-    public XmlObject encode(Object element, EncodingContext additionalValues) throws EncodingException {
+    public XmlObject encode(Object element, EncodingContext additionalValues)
+            throws EncodingException {
         if (element instanceof ObservationValue) {
             return encodeResult((ObservationValue<?>) element);
         } else {
@@ -187,12 +190,14 @@ public class TsmlTDREncoderv10
     }
 
     @Override
-    protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
+    protected XmlObject createResult(OmObservation sosObservation)
+            throws EncodingException {
         return createMeasurementDomainRange(sosObservation);
     }
 
     @Override
-    protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
+    protected XmlObject encodeResult(ObservationValue<?> observationValue)
+            throws EncodingException {
         return createMeasurementDomainRange((AbstractObservationValue<?>) observationValue);
     }
 
@@ -223,7 +228,8 @@ public class TsmlTDREncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    private XmlObject createMeasurementDomainRange(OmObservation sosObservation) throws EncodingException {
+    private XmlObject createMeasurementDomainRange(OmObservation sosObservation)
+            throws EncodingException {
         if (!sosObservation.getObservationConstellation().isSetObservationType()
                 || (sosObservation.getObservationConstellation().isSetObservationType() && isInvalidObservationType(
                         sosObservation.getObservationConstellation().getObservationType()))) {
@@ -333,7 +339,8 @@ public class TsmlTDREncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    private XmlObject createDataRecord(OmObservation sosObservation) throws EncodingException {
+    private XmlObject createDataRecord(OmObservation sosObservation)
+            throws EncodingException {
         AbstractPhenomenon observableProperty = sosObservation.getObservationConstellation().getObservableProperty();
         SweQuantity quantity = new SweQuantity();
         quantity.setDefinition(observableProperty.getIdentifier());
@@ -355,7 +362,8 @@ public class TsmlTDREncoderv10
         return createDataRecord(quantity, observationValue.getObservationID());
     }
 
-    private XmlObject createDataRecord(SweQuantity quantity, String observationId) throws EncodingException {
+    private XmlObject createDataRecord(SweQuantity quantity, String observationId)
+            throws EncodingException {
         SweField field = new SweField("observed_value", quantity);
         SweDataRecord dataRecord = new SweDataRecord();
         dataRecord.setIdentifier(DATA_RECORD_ID_PREFIX + observationId);
@@ -373,7 +381,8 @@ public class TsmlTDREncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    private TimePositionListDocument getTimePositionList(OmObservation sosObservation) throws EncodingException {
+    private TimePositionListDocument getTimePositionList(OmObservation sosObservation)
+            throws EncodingException {
         TimePositionListDocument timePositionListDoc = TimePositionListDocument.Factory.newInstance();
         TimePositionListType timePositionList = timePositionListDoc.addNewTimePositionList();
         timePositionList.setId(TIME_POSITION_LIST_ID_PREFIX + sosObservation.getObservationID());
@@ -404,7 +413,8 @@ public class TsmlTDREncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues) throws EncodingException {
+    private List<String> getTimeArray(MultiObservationValues<?> sosObservationValues)
+            throws EncodingException {
         return ((TVPValue) sosObservationValues.getValue()).getValue().stream().map(TimeValuePair::getTime)
                 .map(this::getTimeString).collect(toList());
     }
@@ -418,7 +428,8 @@ public class TsmlTDREncoderv10
      * @throws EncodingException
      *             If an error occurs
      */
-    private List<Object> getValueList(List<TimeValuePair> timeValuePairs) throws EncodingException {
+    private List<Object> getValueList(List<TimeValuePair> timeValuePairs)
+            throws EncodingException {
         return timeValuePairs.stream().map(TimeValuePair::getValue).map(value -> {
             if (value != null && (value instanceof CountValue || value instanceof QuantityValue)) {
                 return value.getValue();

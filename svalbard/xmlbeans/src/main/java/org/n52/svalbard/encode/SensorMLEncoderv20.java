@@ -147,7 +147,8 @@ import net.opengis.sensorml.x20.TermType;
  *
  */
 public class SensorMLEncoderv20
-        extends AbstractSensorMLEncoder {
+        extends
+        AbstractSensorMLEncoder {
     private static final Logger LOGGER = LoggerFactory.getLogger(SensorMLEncoderv20.class);
 
     private static final ImmutableSet<SupportedType> SUPPORTED_TYPES = ImmutableSet.<SupportedType> builder()
@@ -206,7 +207,8 @@ public class SensorMLEncoderv20
     }
 
     @Override
-    public XmlObject encode(Object objectToEncode, EncodingContext additionalValues) throws EncodingException {
+    public XmlObject encode(Object objectToEncode, EncodingContext additionalValues)
+            throws EncodingException {
         XmlObject encodedObject = null;
         try {
             if (objectToEncode instanceof AbstractSensorML) {
@@ -341,7 +343,8 @@ public class SensorMLEncoderv20
         return element;
     }
 
-    private void addValuesToXmlObject(XmlObject element, AbstractSensorML description) throws EncodingException {
+    private void addValuesToXmlObject(XmlObject element, AbstractSensorML description)
+            throws EncodingException {
         if (element instanceof PhysicalSystemDocument) {
             addPhysicalSystemValues(((PhysicalSystemDocument) element).getPhysicalSystem(),
                     (PhysicalSystem) description);
@@ -438,7 +441,8 @@ public class SensorMLEncoderv20
     }
 
     private XmlObject encodeAbstractPhysicalProcess(AbstractPhysicalProcess abstractPhysicalProcess,
-            EncodingContext additionalValues) throws EncodingException {
+            EncodingContext additionalValues)
+            throws EncodingException {
         XmlObject absPhysObj = null;
         if (abstractPhysicalProcess instanceof PhysicalSystem) {
             absPhysObj = encodePhysicalSystem((PhysicalSystem) abstractPhysicalProcess, additionalValues);
@@ -451,7 +455,8 @@ public class SensorMLEncoderv20
     }
 
     private XmlObject encodePhysicalComponent(PhysicalComponent abstractPhysicalProcess,
-            EncodingContext additionalValues) throws EncodingException {
+            EncodingContext additionalValues)
+            throws EncodingException {
         PhysicalComponentPropertyType pcpt = PhysicalComponentPropertyType.Factory.newInstance(getXmlOptions());
         addPhysicalComponentValues(pcpt.addNewPhysicalComponent(), abstractPhysicalProcess);
         if (additionalValues.has(XmlBeansEncodingFlags.DOCUMENT)) {
@@ -625,8 +630,7 @@ public class SensorMLEncoderv20
                                     EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
                             cl.addNewContact().set(xml);
                         } else {
-                            XmlObject encodeObjectToXml =
-                                    encodeObjectToXml(GmdConstants.NS_GMD, contact);
+                            XmlObject encodeObjectToXml = encodeObjectToXml(GmdConstants.NS_GMD, contact);
                             if (encodeObjectToXml != null) {
                                 cl.addNewContact().addNewCIResponsibleParty().set(encodeObjectToXml);
                             }
@@ -680,7 +684,8 @@ public class SensorMLEncoderv20
     }
 
     private void addAbstractPhysicalProcessValues(AbstractPhysicalProcessType appt,
-            AbstractPhysicalProcess absPhysicalProcess) throws EncodingException {
+            AbstractPhysicalProcess absPhysicalProcess)
+            throws EncodingException {
         // set attachedTo
         if (absPhysicalProcess.isSetAttachedTo()) {
             if (appt.isSetAttachedTo()) {
@@ -704,7 +709,8 @@ public class SensorMLEncoderv20
 
     }
 
-    private List<SmlComponent> checkForComponents(AbstractProcess abstractProcess) throws EncodingException {
+    private List<SmlComponent> checkForComponents(AbstractProcess abstractProcess)
+            throws EncodingException {
         List<SmlComponent> smlComponents = Lists.newArrayList();
         if (abstractProcess instanceof HasComponents<?> && ((HasComponents<?>) abstractProcess).isSetComponents()) {
             smlComponents.addAll(((HasComponents<?>) abstractProcess).getComponents());
@@ -712,7 +718,8 @@ public class SensorMLEncoderv20
         return smlComponents;
     }
 
-    private void addNamesToAbstractProcess(DescribedObjectType dot, List<CodeType> names) throws EncodingException {
+    private void addNamesToAbstractProcess(DescribedObjectType dot, List<CodeType> names)
+            throws EncodingException {
         for (CodeType codeType : names) {
             dot.addNewName().set(encodeObjectToXmlGml32(codeType));
         }
@@ -904,7 +911,8 @@ public class SensorMLEncoderv20
         }
     }
 
-    private Capabilities createCapability(final SmlCapabilities capabilities) throws EncodingException {
+    private Capabilities createCapability(final SmlCapabilities capabilities)
+            throws EncodingException {
         Capabilities xbCapabilities = null;
         if (capabilities.isSetAbstractDataComponents()) {
             xbCapabilities = Capabilities.Factory.newInstance(getXmlOptions());
@@ -965,7 +973,7 @@ public class SensorMLEncoderv20
                 IdentifierListPropertyType.Factory.newInstance(getXmlOptions());
         final IdentifierListType xbIdentifierList = xbIdentification.addNewIdentifierList();
         identifications.forEach(
-            sosSMLIdentifier -> createTerm(xbIdentifierList.addNewIdentifier2().addNewTerm(), sosSMLIdentifier));
+                sosSMLIdentifier -> createTerm(xbIdentifierList.addNewIdentifier2().addNewTerm(), sosSMLIdentifier));
         return new IdentifierListPropertyType[] { xbIdentification };
     }
 
@@ -1120,7 +1128,8 @@ public class SensorMLEncoderv20
      * @throws EncodingException
      *             if an error occurs
      */
-    private void createPosition(PositionUnionPropertyType pupt, final SmlPosition position) throws EncodingException {
+    private void createPosition(PositionUnionPropertyType pupt, final SmlPosition position)
+            throws EncodingException {
         if (position.isSetVector()) {
             pupt.addNewVector().set(encodeObjectToXmlSwe20(position.getVector()));
         } else if (position.isSetAbstractDataComponent()) {
@@ -1133,20 +1142,21 @@ public class SensorMLEncoderv20
         }
     }
 
-//    /**
-//     * Creates the location section of the SensorML description.
-//     *
-//     * @param dot
-//     *            the described object
-//     * @param location
-//     *            SOS location representation.
-//     *
-//     * @throws EncodingException
-//     *             if an error occurs
-//     */
-//    private void createLocation(DescribedObjectType dot, SmlLocation location) throws EncodingException {
-//        dot.addNewLocation().addNewAbstractGeometry().set(encodeObjectToXmlGml32(location.getPoint()));
-//    }
+    // /**
+    // * Creates the location section of the SensorML description.
+    // *
+    // * @param dot
+    // * the described object
+    // * @param location
+    // * SOS location representation.
+    // *
+    // * @throws EncodingException
+    // * if an error occurs
+    // */
+    // private void createLocation(DescribedObjectType dot, SmlLocation
+    // location) throws EncodingException {
+    // dot.addNewLocation().addNewAbstractGeometry().set(encodeObjectToXmlGml32(location.getPoint()));
+    // }
 
     /**
      * Creates the inputs section of the SensorML description.
@@ -1159,7 +1169,8 @@ public class SensorMLEncoderv20
      * @throws EncodingException
      *             if an error occurs
      */
-    private Inputs createInputs(final List<SmlIo> inputs) throws EncodingException {
+    private Inputs createInputs(final List<SmlIo> inputs)
+            throws EncodingException {
         final Inputs xbInputs = Inputs.Factory.newInstance(getXmlOptions());
         final InputListType xbInputList = xbInputs.addNewInputList();
         int counter = 1;
@@ -1185,7 +1196,8 @@ public class SensorMLEncoderv20
      * @throws org.n52.svalbard.encode.exception.EncodingException
      *             if the encoding fails
      */
-    private Outputs createOutputs(final List<SmlIo> sosOutputs) throws EncodingException {
+    private Outputs createOutputs(final List<SmlIo> sosOutputs)
+            throws EncodingException {
         final Outputs outputs = Outputs.Factory.newInstance(getXmlOptions());
         final OutputListType outputList = outputs.addNewOutputList();
         final Set<String> definitions = Sets.newHashSet();
@@ -1233,7 +1245,8 @@ public class SensorMLEncoderv20
             featuresToAdd.addAll(feature.getFeaturesOfInterest());
         }
         if (feature.isSetFeaturesOfInterestMap()) {
-            // TODO add more than only identifiers (check for features with geometry!)
+            // TODO add more than only identifiers (check for features with
+            // geometry!)
             featuresToAdd.addAll(feature.getFeaturesOfInterestMap().keySet());
         }
         for (int i = 0; i < featureList.sizeOfFeatureArray(); i++) {
@@ -1350,7 +1363,8 @@ public class SensorMLEncoderv20
      * @throws EncodingException
      *             if the encoding fails
      */
-    private void addInput(final Input input, final SmlIo sosSMLIO) throws EncodingException {
+    private void addInput(final Input input, final SmlIo sosSMLIO)
+            throws EncodingException {
         input.setName(sosSMLIO.getIoName());
         addDataComponentOrObservablePropertyType(input, sosSMLIO);
         // if (sosSMLIO.isSetHref()) {
@@ -1415,7 +1429,8 @@ public class SensorMLEncoderv20
      * @throws org.n52.svalbard.encode.exception.EncodingException
      *             if the encoding fails
      */
-    private void addOutput(final Output output, final SmlIo sosSMLIO) throws EncodingException {
+    private void addOutput(final Output output, final SmlIo sosSMLIO)
+            throws EncodingException {
         output.setName(sosSMLIO.getIoName());
         addDataComponentOrObservablePropertyType(output, sosSMLIO);
         // substitute(output.addNewAbstractDataComponent(),
@@ -1428,11 +1443,13 @@ public class SensorMLEncoderv20
         // substituteElement.set(encodeObjectToXml);
     }
 
-    private XmlObject encodeObjectToXmlGml32(Object o) throws EncodingException {
+    private XmlObject encodeObjectToXmlGml32(Object o)
+            throws EncodingException {
         return encodeObjectToXml(GmlConstants.NS_GML_32, o);
     }
 
-    private XmlObject encodeObjectToXmlSwe20(Object o) throws EncodingException {
+    private XmlObject encodeObjectToXmlSwe20(Object o)
+            throws EncodingException {
         return encodeObjectToXml(SweConstants.NS_SWE_20, o);
     }
 }
