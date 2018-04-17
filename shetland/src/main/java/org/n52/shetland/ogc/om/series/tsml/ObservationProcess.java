@@ -14,35 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
+package org.n52.shetland.ogc.om.series.tsml;
 
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.series.AbstractObservationProcess;
 
-/**
- * @since 1.0.0
- *
- */
 public class ObservationProcess extends AbstractObservationProcess {
-
-    public ObservationProcess() {
-        super();
-    }
-
-    public ObservationProcess(String identifier) {
-        super(identifier);
-    }
-
-    public ObservationProcess(CodeWithAuthority featureIdentifier) {
-        super(featureIdentifier);
-    }
-
-    public ObservationProcess(CodeWithAuthority featureIdentifier, String gmlId) {
-        super(featureIdentifier, gmlId);
-    }
-
     @Override
     public String getDefaultElementEncoding() {
-        return WaterMLConstants.NS_WML_20_PROCEDURE_ENCODING;
+        return TimeseriesMLConstants.NS_TSML_10_PROCEDURE_ENCODING;
     }
 }

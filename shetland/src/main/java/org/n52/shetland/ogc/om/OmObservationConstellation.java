@@ -22,8 +22,8 @@ import java.util.Set;
 
 import org.n52.janmayen.Copyable;
 import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.om.series.wml.DefaultPointMetadata;
-import org.n52.shetland.ogc.om.series.wml.Metadata;
+import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
+import org.n52.shetland.ogc.om.series.Metadata;
 import org.n52.shetland.w3c.Nillable;
 
 import com.google.common.base.Objects;

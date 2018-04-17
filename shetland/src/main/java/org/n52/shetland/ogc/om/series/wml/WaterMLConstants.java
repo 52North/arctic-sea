@@ -20,6 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
@@ -168,7 +169,7 @@ public interface WaterMLConstants {
      *         J&uuml;rrens</a>
      * @since 1.0.0
      */
-    enum InterpolationType {
+    enum InterpolationType implements AbstractInterpolationType {
 
         /**
          * Continuous/Instantaneous

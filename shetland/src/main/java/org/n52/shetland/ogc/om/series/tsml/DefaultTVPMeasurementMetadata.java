@@ -14,21 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.om.series.wml;
+package org.n52.shetland.ogc.om.series.tsml;
 
 import org.n52.shetland.ogc.om.series.AbstractDefaultTVPMeasurementMetadata;
 import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
-import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
+import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationType;
 
 /**
- * This class implements the OGC WaterML 2.0 element
+ * This class implements the OGC TimeseriesML 1.0 element
  * <code>MeasurementTimeseries > defaultPointMetadata > DefaultTVPMeasurementMetadata</code>.
  *
- * See <code>/req/xsd-measurement-timeseries-tvp/interpolation-type</code>.
+ * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *
- * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
  * @since 1.0.0
- * @see <a href="http://www.opengeospatial.org/standards/waterml">OGC WaterML</a>
+ * @see <a href="http://www.opengeospatial.org/standards/tsml">OGC TSML</a>
  */
 public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurementMetadata {
 
@@ -40,7 +39,7 @@ public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurem
     }
 
     @Override
-    public AbstractInterpolationType getInterpolationtype() {
+    public InterpolationType getInterpolationtype() {
         return interpolationtype;
     }
 
@@ -49,5 +48,6 @@ public class DefaultTVPMeasurementMetadata implements AbstractDefaultTVPMeasurem
         this.interpolationtype = (InterpolationType) interpolationtype;
         return this;
     }
+
 
 }

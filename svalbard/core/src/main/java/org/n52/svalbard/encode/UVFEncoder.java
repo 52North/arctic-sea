@@ -51,7 +51,7 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.TimeValuePair;
 import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
-import org.n52.shetland.ogc.om.series.wml.MeasurementTimeseriesMetadata;
+import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
 import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.MultiValue;
@@ -486,7 +486,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
                     && o.getObservationConstellation().getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
                     && o.getObservationConstellation().getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
                             .isSetInterpolationType()) {
-                return getFunctionFor(o.getObservationConstellation().getDefaultPointMetadata()
+                return getFunctionFor((InterpolationType) o.getObservationConstellation().getDefaultPointMetadata()
                         .getDefaultTVPMeasurementMetadata().getInterpolationtype());
 
             }
@@ -500,8 +500,8 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
             if (o.getValue().isSetDefaultPointMetadata()
                     && o.getValue().getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata() && o.getValue()
                             .getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
-                return getFunctionFor(o.getValue().getDefaultPointMetadata().getDefaultTVPMeasurementMetadata()
-                        .getInterpolationtype());
+                return getFunctionFor((InterpolationType) o.getValue().getDefaultPointMetadata()
+                        .getDefaultTVPMeasurementMetadata().getInterpolationtype());
             }
         }
         return null;
