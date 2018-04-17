@@ -16,18 +16,25 @@
  */
 package org.n52.shetland.ogc;
 
+import com.google.common.base.Strings;
+
 public interface PhenomenonNameDescriptionProvider {
 
     default boolean isSetObservablePropertyName(String observableProperty) {
-        return getObservablePropertyName(observableProperty) != null;
+        return !Strings.isNullOrEmpty(getObservablePropertyName(observableProperty));
     }
 
     String getObservablePropertyName(String observableProperty);
 
     default boolean isSetObservablePropertyDescription(String observableProperty) {
-        return getObservablePropertyDescription(observableProperty) != null;
+        return !Strings.isNullOrEmpty(getObservablePropertyDescription(observableProperty));
     }
 
     String getObservablePropertyDescription(String observableProperty);
 
+    default boolean isSetObservablePropertyUnit(String observableProperty) {
+        return getObservablePropertyUnit(observableProperty) != null;
+    }
+
+    UoM getObservablePropertyUnit(String observableProperty);
 }

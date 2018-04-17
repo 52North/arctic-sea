@@ -40,32 +40,32 @@ public class ProfileValueTest {
 
     @Test
     public void testFromLevel() {
-        assertThat(profileValue.getFromLevel().getValue(), is(new BigDecimal(0.0)));
+        assertThat(profileValue.getFromLevel().getValue(), is(BigDecimal.valueOf(0.0)));
     }
 
     @Test
     public void testToLevel() {
-        assertThat(profileValue.getToLevel().getValue(), is(new BigDecimal(30.0)));
+        assertThat(profileValue.getToLevel().getValue(), is(BigDecimal.valueOf(30.0)));
     }
 
     @Test
     public void testFromLevel4FromOnly() {
-        assertThat(profileValueFrom.getFromLevel().getValue(), is(new BigDecimal(0.0)));
+        assertThat(profileValueFrom.getFromLevel().getValue(), is(BigDecimal.valueOf(0.0)));
     }
 
     @Test
     public void testToLevel4FromOnly() {
-        assertThat(profileValueFrom.getToLevel().getValue(), is(new BigDecimal(20.0)));
+        assertThat(profileValueFrom.getToLevel().getValue(), is(BigDecimal.valueOf(20.0)));
     }
 
     @Test
     public void testFromLevel4ToOnly() {
-        assertThat(profileValueTo.getFromLevel().getValue(), is(new BigDecimal(10.0)));
+        assertThat(profileValueTo.getFromLevel().getValue(), is(BigDecimal.valueOf(10.0)));
     }
 
     @Test
     public void testToLevel4ToOnly() {
-        assertThat(profileValueTo.getToLevel().getValue(), is(new BigDecimal(30.0)));
+        assertThat(profileValueTo.getToLevel().getValue(), is(BigDecimal.valueOf(30.0)));
     }
 
     private ProfileValue createProfileValue(boolean fromDepth, boolean toDepth) {

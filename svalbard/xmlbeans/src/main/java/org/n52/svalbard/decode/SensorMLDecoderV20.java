@@ -44,6 +44,8 @@ import net.opengis.sensorml.x20.ClassifierListType.Classifier;
 import net.opengis.sensorml.x20.ComponentListPropertyType;
 import net.opengis.sensorml.x20.ComponentListType;
 import net.opengis.sensorml.x20.ComponentListType.Component;
+import net.opengis.sensorml.x20.ConnectionListPropertyType;
+import net.opengis.sensorml.x20.ConnectionListType.Connection;
 import net.opengis.sensorml.x20.ContactListPropertyType;
 import net.opengis.sensorml.x20.DataComponentOrObservablePropertyType;
 import net.opengis.sensorml.x20.DataInterfaceType;
@@ -54,6 +56,7 @@ import net.opengis.sensorml.x20.IdentifierListPropertyType;
 import net.opengis.sensorml.x20.IdentifierListType.Identifier;
 import net.opengis.sensorml.x20.InputListType.Input;
 import net.opengis.sensorml.x20.KeywordListPropertyType;
+import net.opengis.sensorml.x20.LinkType;
 import net.opengis.sensorml.x20.ObservablePropertyType;
 import net.opengis.sensorml.x20.OutputListType.Output;
 import net.opengis.sensorml.x20.PhysicalComponentDocument;
@@ -67,7 +70,6 @@ import net.opengis.sensorml.x20.SimpleProcessDocument;
 import net.opengis.sensorml.x20.SimpleProcessPropertyType;
 import net.opengis.sensorml.x20.SimpleProcessType;
 import net.opengis.sensorml.x20.TermType;
-import net.opengis.swe.x20.DataStreamPropertyType;
 
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
@@ -91,8 +93,10 @@ import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristic;
 import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
 import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
+import org.n52.shetland.ogc.sensorML.elements.SmlLink;
 import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
 import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
 import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
@@ -102,13 +106,13 @@ import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
 import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
 import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
 import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
-import org.n52.shetland.ogc.sensorML.v20.SmlDataStreamPropertyType;
 import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
 import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweDataStream;
 import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.util.CollectionHelper;
@@ -135,9 +139,10 @@ public class SensorMLDecoderV20
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SensorMLDecoderV20.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            SensorML20Constants.NS_SML_20, DescribedObjectDocument.class, SimpleProcessDocument.class,
-            PhysicalComponentDocument.class, PhysicalSystemDocument.class, AbstractProcessDocument.class);
+    private static final Set<DecoderKey> DECODER_KEYS =
+            CodingHelper.decoderKeysForElements(SensorML20Constants.NS_SML_20, DescribedObjectDocument.class,
+                    SimpleProcessDocument.class, PhysicalComponentDocument.class, PhysicalSystemDocument.class,
+                    AggregateProcessDocument.class, AbstractProcessDocument.class);
 
     private static final Set<String> REMOVABLE_CAPABILITIES_NAMES =
             Sets.newHashSet(SensorMLConstants.ELEMENT_NAME_OFFERINGS);
@@ -311,11 +316,17 @@ public class SensorMLDecoderV20
                 describedObject.unsetComponents();
             }
         }
+        if (describedObject.isSetConnections()) {
+            ap.setConnections(parseConnections(describedObject.getConnections()));
+        }
         return ap;
     }
 
     private void parseDescribedObject(DescribedObjectType dot, DescribedObject describedObject)
             throws DecodingException {
+        if (dot.getId() != null && !dot.getId().isEmpty()) {
+            describedObject.setGmlId(dot.getId());
+        }
         if (dot.isSetIdentifier()) {
             describedObject.setIdentifier((CodeWithAuthority) decodeXmlElement(dot.getIdentifier()));
             checkIdentifierCodeSpace(describedObject);
@@ -703,6 +714,21 @@ public class SensorMLDecoderV20
 
     }
 
+    private SmlConnection parseConnections(ConnectionListPropertyType connections)
+            throws DecodingException {
+        SmlConnection sosSmlConnection = new SmlConnection();
+        if (connections.isSetConnectionList() && connections.getConnectionList().getConnectionArray() != null) {
+            for (final Connection connection : connections.getConnectionList().getConnectionArray()) {
+                if (connection.getLink() != null) {
+                    LinkType link = connection.getLink();
+                    sosSmlConnection
+                            .addConnection(new SmlLink(link.getDestination().getRef(), link.getSource().getRef()));
+                }
+            }
+        }
+        return sosSmlConnection;
+    }
+
     private boolean checkIdentifierCodeSpace(AbstractProcessV20 ap) throws DecodingException {
         if (ap.getIdentifierCodeWithAuthority().isSetCodeSpace()
                 && OGCConstants.UNIQUE_ID.equals(ap.getIdentifierCodeWithAuthority().getCodeSpace())) {
@@ -826,20 +852,18 @@ public class SensorMLDecoderV20
         // TODO implement- no funding at the moment available
         // When starting implementation: Do not forget to activate the already
         // available unit tests
-        // dataInterface.setData(parseDataStreamPropertyType(xbDataInterface.getData()));
-        // if (xbDataInterface.isSetInterfaceParameters()) {
-        // final Object decodedObject =
-        // CodingHelper.decodeXmlElement(xbDataInterface.getInterfaceParameters());
-        // if (decodedObject instanceof SweDataRecord) {
-        // dataInterface.setInputParameters((SweDataRecord)decodedObject);
-        // }
-        // // TODO throw exception if not instance of SweDataRecord
-        // }
+        Object data = decodeXmlElement(xbDataInterface.getData());
+        if (data instanceof SweDataStream) {
+            dataInterface.setData((SweDataStream) data);
+        }
+        if (xbDataInterface.isSetInterfaceParameters()) {
+            Object parameter = decodeXmlElement(xbDataInterface.getInterfaceParameters());
+            if (parameter instanceof SweDataRecord) {
+                dataInterface.setInputParameters((SweDataRecord) parameter);
+            }
+            // TODO throw exception if not instance of SweDataRecord
+        }
         return dataInterface;
-    }
-
-    protected SmlDataStreamPropertyType parseDataStreamPropertyType(DataStreamPropertyType data) {
-        return new SmlDataStreamPropertyType();
     }
 
     /**

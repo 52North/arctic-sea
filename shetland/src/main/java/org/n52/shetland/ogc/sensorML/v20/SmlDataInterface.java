@@ -20,6 +20,7 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweDataStream;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
 
 /**
@@ -30,7 +31,7 @@ import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
  */
 public class SmlDataInterface extends SweAbstractDataComponent {
 
-    private SmlDataStreamPropertyType smlDataStreamPropertyType;
+    private SweDataStream sweDataStream;
 
     private SweDataRecord inputParameters;
 
@@ -39,12 +40,12 @@ public class SmlDataInterface extends SweAbstractDataComponent {
         return null;
     }
 
-    public SmlDataStreamPropertyType getData() {
-        return smlDataStreamPropertyType;
+    public SweDataStream getData() {
+        return sweDataStream;
     }
 
-    public void setData(SmlDataStreamPropertyType smlDataStreamPropertyType) {
-        this.smlDataStreamPropertyType = smlDataStreamPropertyType;
+    public void setData(SweDataStream sweDataStream) {
+        this.sweDataStream = sweDataStream;
     }
 
     public Boolean isSetInterfaceParameters() {

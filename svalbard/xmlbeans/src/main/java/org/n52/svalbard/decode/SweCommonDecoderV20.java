@@ -37,6 +37,7 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweCoordinate;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweDataStream;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.encoding.SweAbstractEncoding;
@@ -96,6 +97,10 @@ import net.opengis.swe.x20.DataRecordDocument;
 import net.opengis.swe.x20.DataRecordPropertyType;
 import net.opengis.swe.x20.DataRecordType;
 import net.opengis.swe.x20.DataRecordType.Field;
+import net.opengis.swe.x20.DataStreamDocument;
+import net.opengis.swe.x20.DataStreamPropertyType;
+import net.opengis.swe.x20.DataStreamType;
+import net.opengis.swe.x20.DataStreamType.ElementType;
 import net.opengis.swe.x20.EncodedValuesPropertyType;
 import net.opengis.swe.x20.QualityPropertyType;
 import net.opengis.swe.x20.QuantityPropertyType;
@@ -125,7 +130,8 @@ public class SweCommonDecoderV20
             CategoryType.class, CountPropertyType.class, CountType.class, DataArrayDocument.class,
             DataArrayPropertyType.class, DataArrayType.class, DataRecordDocument.class, DataRecordPropertyType.class,
             DataRecordType.class, QuantityPropertyType.class, QuantityType.class, TextEncodingDocument.class,
-            TextEncodingType.class, TextPropertyType.class, TextType.class);
+            TextEncodingType.class, TextPropertyType.class, TextType.class, DataStreamPropertyType.class,
+            DataStreamType.class, DataStreamDocument.class);
 
     public SweCommonDecoderV20() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
@@ -175,6 +181,12 @@ public class SweCommonDecoderV20
             return parseAbstractDataComponent(((CategoryPropertyType) element).getCategory());
         } else if (element instanceof QuantityPropertyType) {
             return parseAbstractDataComponent(((QuantityPropertyType) element).getQuantity());
+        } else if (element instanceof DataStreamPropertyType) {
+            return parseDataStream(((DataStreamPropertyType) element).getDataStream());
+        } else if (element instanceof DataStreamType) {
+            return parseDataStream((DataStreamType) element);
+        } else if (element instanceof DataStreamDocument) {
+            return parseDataStream(((DataStreamDocument) element).getDataStream());
         } else if (element instanceof XmlObject) {
             throw new UnsupportedDecoderXmlInputException(this, (XmlObject) element);
         } else {
@@ -274,6 +286,34 @@ public class SweCommonDecoderV20
         return sosSweDataArray;
     }
 
+    private SweDataStream parseDataStream(DataStreamType dataStream) throws DecodingException {
+        SweDataStream sweDataStream = new SweDataStream();
+
+        if (dataStream.isSetElementCount() && dataStream.getElementCount().getCount() != null) {
+            sweDataStream.setElementCount(parseCount(dataStream.getElementCount().getCount()));
+        }
+
+        // parse data record to elementType
+        ElementType xbElementType = dataStream.getElementType();
+        if (xbElementType != null && xbElementType.getAbstractDataComponent() != null) {
+            sweDataStream.setElementType(parseAbstractDataComponent(xbElementType.getAbstractDataComponent()));
+        }
+        if (dataStream.getEncoding() != null && dataStream.getEncoding().getAbstractEncoding() != null) {
+            sweDataStream.setEncoding(parseEncoding(dataStream.getEncoding().getAbstractEncoding()));
+        }
+
+        // parse values
+        if (dataStream.getValues() != null) {
+            sweDataStream.setValues(parseValues(sweDataStream.getElementCount(), sweDataStream.getElementType(),
+                    sweDataStream.getEncoding(), dataStream.getValues()));
+        }
+        // set XML
+        DataStreamDocument dataStreamDoc = DataStreamDocument.Factory.newInstance(getXmlOptions());
+        dataStreamDoc.setDataStream(dataStream);
+        sweDataStream.setXml(dataStreamDoc.xmlText(getXmlOptions()));
+        return sweDataStream;
+    }
+
     private List<List<String>> parseValues(final SweCount elementCount, final SweAbstractDataComponent elementType,
             final SweAbstractEncoding encoding, final EncodedValuesPropertyType encodedValuesPropertyType)
             throws DecodingException {
@@ -305,7 +345,6 @@ public class SweCommonDecoderV20
                 }
             }
         }
-        assert false;
         return null;
     }
 

@@ -392,7 +392,7 @@ public class GetObservationRequest
             } else {
                 return temporalFilter;
             }
-        }).collect(toList());
+        }).filter(Objects::nonNull).collect(toList());
     }
 
     public boolean hasTemporalFilters() {

@@ -63,7 +63,7 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
      * constructor
      */
     public SweQuantity(Double value, String uom) {
-        this.value = new BigDecimal(value);
+        this.value = BigDecimal.valueOf(value);
         setUom(uom);
     }
 
@@ -71,7 +71,7 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
      * constructor
      */
     public SweQuantity(Double value, UoM uom) {
-        this.value = new BigDecimal(value);
+        this.value = BigDecimal.valueOf(value);
         setUom(uom);
     }
 
@@ -115,7 +115,7 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
     }
 
     public SweQuantity setValue(final Double value) {
-        return setValue(new BigDecimal(value));
+        return setValue(BigDecimal.valueOf(value));
     }
 
     @Override

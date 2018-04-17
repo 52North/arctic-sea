@@ -22,11 +22,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
+import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlIoPredicates;
+import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
 
 /**
  * @since 1.0.0
@@ -169,14 +171,20 @@ public class AbstractProcess extends AbstractSensorML {
     public String getObservablePropertyDescription(String observableProperty) {
         if (isOutputSet(createSmlIoPredicate(observableProperty))) {
             SmlIo smlIo = findOutputs(createSmlIoPredicate(observableProperty)).get();
-            if (smlIo.getIoValue().isSetName()) {
-                return smlIo.getIoValue().getName().getValue();
+            if (smlIo.getIoValue().isSetDescription()) {
+                return smlIo.getIoValue().getDescription();
             }
-            if (smlIo.isSetTitle()) {
-                return smlIo.getTitle();
-            }
-            if (smlIo.isSetName()) {
-                return smlIo.getIoName();
+        }
+        return null;
+    }
+
+    @Override
+    public UoM getObservablePropertyUnit(String observableProperty) {
+        if (isOutputSet(createSmlIoPredicate(observableProperty))) {
+            SmlIo smlIo = findOutputs(createSmlIoPredicate(observableProperty)).get();
+            if (smlIo.getIoValue() instanceof SweAbstractUomType
+                    && ((SweAbstractUomType) smlIo.getIoValue()).isSetUom()) {
+                return ((SweAbstractUomType) smlIo.getIoValue()).getUomObject();
             }
         }
         return null;

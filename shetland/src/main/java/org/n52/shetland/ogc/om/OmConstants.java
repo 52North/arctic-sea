@@ -230,6 +230,9 @@ public interface OmConstants {
     String OBS_TYPE_GEOMETRY_OBSERVATION =
             "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_GeometryObservation";
 
+    String OBS_TYPE_TEMPORAL_OBSERVATION =
+            "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TemporalObservation";
+
     String OBS_TYPE_TRUTH_OBSERVATION = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_TruthObservation";
 
     String OBS_TYPE_OBSERVATION = "http://www.opengis.net/def/observationType/OGC-OM/2.0/OM_Observation";
@@ -318,6 +321,7 @@ public interface OmConstants {
     ObservationType OBS_TYPE_GEOMETRY_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_GEOMETRY_OBSERVATION);
     ObservationType OBS_TYPE_TEXT_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TEXT_OBSERVATION);
     ObservationType OBS_TYPE_SWE_ARRAY_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_SWE_ARRAY_OBSERVATION);
+    ObservationType OBS_TYPE_TEMPORAL_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TEMPORAL_OBSERVATION);
     ObservationType OBS_TYPE_TRUTH_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_TRUTH_OBSERVATION);
     ObservationType OBS_TYPE_MEASUREMENT_TYPE = new ObservationType(OBS_TYPE_MEASUREMENT);
     ObservationType OBS_TYPE_REFERENCE_OBSERVATION_TYPE = new ObservationType(OBS_TYPE_REFERENCE_OBSERVATION);

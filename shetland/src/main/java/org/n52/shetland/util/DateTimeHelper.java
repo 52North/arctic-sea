@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.util;
 
-import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -27,7 +26,6 @@ import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
-
 import org.n52.janmayen.Times;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
@@ -505,8 +503,7 @@ public final class DateTimeHelper {
      * @return Days with precisions between the two {@link DateTime}s
      */
     public static double getDaysSinceWithPrecision(DateTime start, DateTime end) {
-        double value = Days.daysBetween(start, end).getDays() + end.getSecondOfDay() / SECONDS_OF_DAY;
-        return new BigDecimal(value).doubleValue();
+        return Days.daysBetween(start, end).getDays() + end.getSecondOfDay() / SECONDS_OF_DAY;
     }
 
     /**
