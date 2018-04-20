@@ -129,6 +129,7 @@
     <bean class="org.n52.svalbard.encode.InsertResultResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertResultTemplateResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertSensorResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.InsertSensorRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.InspireOmObservationEncoder"/>
     <bean class="org.n52.svalbard.encode.InspireXmlEncoder"/>
     <bean class="org.n52.svalbard.encode.Iso19139GcoEncoder"/>
