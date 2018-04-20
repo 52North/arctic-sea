@@ -159,6 +159,7 @@
     <bean class="org.n52.svalbard.encode.SensorMLEncoderv20"/>
     <bean class="org.n52.svalbard.encode.Soap11Encoder"/>
     <bean class="org.n52.svalbard.encode.Soap12Encoder"/>
+    <bean class="org.n52.svalbard.encode.SosInsertionMetadataTypeEncoder" />
     <bean class="org.n52.svalbard.encode.SosRequestEncoderv20"/>
     <bean class="org.n52.svalbard.encode.SosV1DescribeSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.SosV1GetCapabilitiesResponseEncoder"/>
