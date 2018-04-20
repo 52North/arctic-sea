@@ -48,6 +48,7 @@
     <bean class="org.n52.svalbard.decode.InpspireOMSODecoder"/>
     <bean class="org.n52.svalbard.decode.InsertFeatureOfInterestDecoder"/>
     <bean class="org.n52.svalbard.decode.InsertFeatureOfInterestStringDecoder"/>
+    <bean class="org.n52.svalbard.decode.InsertSensorResponseDecoder" />
     <bean class="org.n52.svalbard.decode.InspireXmlDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GcoDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GmdDecoder"/>
