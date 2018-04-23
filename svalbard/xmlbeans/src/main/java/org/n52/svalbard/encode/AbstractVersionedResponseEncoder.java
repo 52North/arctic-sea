@@ -28,9 +28,9 @@ import org.slf4j.LoggerFactory;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 
-public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceResponse>
+public abstract class AbstractVersionedResponseEncoder<T extends OwsServiceResponse>
         extends AbstractResponseEncoder<T> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbtractVersionedResponseEncoder.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractVersionedResponseEncoder.class);
 
     private final Set<EncoderKey> encoderKeys;
 
@@ -52,7 +52,7 @@ public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceRespon
      * @param validationEnabled
      *            Indicator if the created/encoded object can be validated
      */
-    public AbtractVersionedResponseEncoder(
+    public AbstractVersionedResponseEncoder(
             String service, String version, String operation, String namespace, String prefix, Class<T> responseType,
             boolean validationEnabled, String operationVersion) {
         super(service, version, operationVersion, namespace, prefix, responseType, validationEnabled);
@@ -80,7 +80,7 @@ public abstract class AbtractVersionedResponseEncoder<T extends OwsServiceRespon
      * @param responseType
      *            Response type
      */
-    public AbtractVersionedResponseEncoder(
+    public AbstractVersionedResponseEncoder(
             String service, String version, String operation, String namespace, String prefix, Class<T> responseType,
             String operationVersion) {
         this(service, version, operation, namespace, prefix, responseType, true, operationVersion);

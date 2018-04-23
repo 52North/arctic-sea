@@ -36,7 +36,7 @@ import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
  *         J&uuml;rrens</a>
  * @since 1.0.0
  */
-public class DeleteObservationV20Encoder extends AbtractVersionedResponseEncoder<DeleteObservationResponse> {
+public class DeleteObservationV20Encoder extends AbstractVersionedResponseEncoder<DeleteObservationResponse> {
     public static final SchemaLocation SCHEMA_LOCATION = new SchemaLocation(DeleteObservationConstants.NS_SOSDO_2_0,
             DeleteObservationConstants.NS_SOSDO_2_0_SCHEMA_LOCATION);
 
