@@ -37,14 +37,14 @@ Jan Mayen contains various utility classes shared accross the Arctic Sea.
 All components are licensed under the [Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
 
 ## Changelog
-See the release pages of the various components.
+... can be found on the [release page](https://github.com/52North/arctic-sea/releases).
 
 ## Quick Start
 All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>4.1.0</version.arctic-sea>
+  <version.arctic-sea>5.0.0</version.arctic-sea>
 </properties>
 <dependencies>
   <dependency>
@@ -125,7 +125,7 @@ For convenience the [52°North Maven parent](https://github.com/52North/maven-pa
 <parent>
     <groupId>org.n52</groupId>
     <artifactId>parent</artifactId>
-    <version>11</version>
+    <version>12</version>
 </parent>
 ```
 
@@ -141,7 +141,7 @@ Development versions can be optained from the Sonatype OSS snapshot repository:
   </repository>
 </repositories>
 <properties>
-  <version.arctic-sea>4.2.0-SNAPSHOT</version.arctic-sea>
+  <version.arctic-sea>5.1.0-SNAPSHOT</version.arctic-sea>
 </properties>
 ```
 
