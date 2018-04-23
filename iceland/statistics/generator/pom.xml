@@ -23,7 +23,7 @@
 	<parent>
 		<groupId>org.n52.arctic-sea</groupId>
 		<artifactId>iceland-parent</artifactId>
-		<version>5.0.0</version>
+		<version>5.1.0-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
 
