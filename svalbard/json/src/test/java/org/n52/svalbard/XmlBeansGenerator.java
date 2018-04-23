@@ -40,7 +40,7 @@ public class XmlBeansGenerator {
             System.out.println("    <bean class=\"" + coder + "\"/>");
         }
     }
-        
+
     private Set<String> getClasses(String packageName, Class<?> clazz) {
         return new Reflections(packageName).getSubTypesOf(clazz).stream()
                 .filter(d -> !Modifier.isAbstract(d.getModifiers())).map(d -> d.getName()).collect(Collectors.toSet());
