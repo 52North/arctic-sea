@@ -22,6 +22,7 @@
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
     <!-- decoder -->
+    <bean class="org.n52.svalbard.decode.AbstractCapabilitiesBaseTypeDecoderTest$TestSeam"/>
     <bean class="org.n52.svalbard.decode.AqdDecoderv10"/>
     <bean class="org.n52.svalbard.decode.AqdStringDecoderv10"/>
     <bean class="org.n52.svalbard.decode.CapabilitiesBaseTypeDecoder"/>
@@ -48,8 +49,10 @@
     <bean class="org.n52.svalbard.decode.InpspireOMSODecoder"/>
     <bean class="org.n52.svalbard.decode.InsertFeatureOfInterestDecoder"/>
     <bean class="org.n52.svalbard.decode.InsertFeatureOfInterestStringDecoder"/>
-    <bean class="org.n52.svalbard.decode.InsertSensorResponseDecoder" />
-    <bean class="org.n52.svalbard.decode.InspireXmlDecoder"/>
+    <bean class="org.n52.svalbard.decode.InsertObservationResponseV20Decoder"/>
+    <bean class="org.n52.svalbard.decode.InsertResultResponseDecoder"/>
+    <bean class="org.n52.svalbard.decode.InsertResultTemplateResponseDecoder"/>
+    <bean class="org.n52.svalbard.decode.InsertSensorResponseDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GcoDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GmdDecoder"/>
     <bean class="org.n52.svalbard.decode.OgcDecoderv100"/>
@@ -58,9 +61,9 @@
     <bean class="org.n52.svalbard.decode.ProcessDocumentDecoder"/>
     <bean class="org.n52.svalbard.decode.ProcessPropertyTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.ProcessTypeDecoder"/>
-    <bean class="org.n52.svalbard.decode.ResultFilterDecoder"/>
     <bean class="org.n52.svalbard.decode.RelatedOfferingTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.RelatedPartyTypeDecoder"/>
+    <bean class="org.n52.svalbard.decode.ResultFilterDecoder"/>
     <bean class="org.n52.svalbard.decode.SamplingDecoderv20"/>
     <bean class="org.n52.svalbard.decode.SensorMLDecoderV101"/>
     <bean class="org.n52.svalbard.decode.SensorMLDecoderV20"/>
@@ -87,6 +90,7 @@
 
 
         <!-- encoder -->
+    <bean class="org.n52.svalbard.encode.AbstractSwesRequestEncoderTest$AbstractSwesRequestEncoderSeam"/>
     <bean class="org.n52.svalbard.encode.AqdDescribeSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdGetCapabilitiesResponseEncoder"/>
@@ -106,6 +110,8 @@
     <bean class="org.n52.svalbard.encode.EnvironmentalMonitoringFaciltityPropertyTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.EnvironmentalMonitoringFaciltityTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.FesEncoderv20"/>
+    <bean class="org.n52.svalbard.encode.GWGeologyLogCoveragePropertyTypeEncoder"/>
+    <bean class="org.n52.svalbard.encode.GWGeologyLogObservationTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.GetCapabilitiesRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.GetCapabilitiesResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.GetCapabilitiesV1RequestEncoder"/>
@@ -121,17 +127,18 @@
     <bean class="org.n52.svalbard.encode.GetResultTemplateResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.GmlEncoderv311"/>
     <bean class="org.n52.svalbard.encode.GmlEncoderv321"/>
-    <bean class="org.n52.svalbard.encode.GWGeologyLogCoveragePropertyTypeEncoder"/>
-    <bean class="org.n52.svalbard.encode.GWGeologyLogObservationTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.GwmlEncoderv22"/>
     <bean class="org.n52.svalbard.encode.IdentifierPropertyTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.IdentifierTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertFeatureOfInterestEncoder"/>
+    <bean class="org.n52.svalbard.encode.InsertObservationRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertObservationResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.InsertResultRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertResultResponseEncoder"/>
+    <bean class="org.n52.svalbard.encode.InsertResultTemplateRequestEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertResultTemplateResponseEncoder"/>
-    <bean class="org.n52.svalbard.encode.InsertSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.InsertSensorRequestEncoder"/>
+    <bean class="org.n52.svalbard.encode.InsertSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.InspireOmObservationEncoder"/>
     <bean class="org.n52.svalbard.encode.InspireXmlEncoder"/>
     <bean class="org.n52.svalbard.encode.Iso19139GcoEncoder"/>
@@ -161,7 +168,7 @@
     <bean class="org.n52.svalbard.encode.SensorMLEncoderv20"/>
     <bean class="org.n52.svalbard.encode.Soap11Encoder"/>
     <bean class="org.n52.svalbard.encode.Soap12Encoder"/>
-    <bean class="org.n52.svalbard.encode.SosInsertionMetadataTypeEncoder" />
+    <bean class="org.n52.svalbard.encode.SosInsertionMetadataTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.SosRequestEncoderv20"/>
     <bean class="org.n52.svalbard.encode.SosV1DescribeSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.SosV1GetCapabilitiesResponseEncoder"/>
@@ -171,9 +178,13 @@
     <bean class="org.n52.svalbard.encode.SpecimenEncoderv20"/>
     <bean class="org.n52.svalbard.encode.SweCommonEncoderv101"/>
     <bean class="org.n52.svalbard.encode.SweCommonEncoderv20"/>
+    <bean class="org.n52.svalbard.encode.SwesExtensionEncoderv20"/>
+    <bean class="org.n52.svalbard.encode.TestAbstractSensorMLEncoder"/>
     <bean class="org.n52.svalbard.encode.TimeLocationValueTripleTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.TrajectoryObservationTypeEncoder"/>
+    <bean class="org.n52.svalbard.encode.TsmlTDREncoderv10"/>
     <bean class="org.n52.svalbard.encode.TsmlTVPEncoderv10"/>
+    <bean class="org.n52.svalbard.encode.UVFEncoder"/>
     <bean class="org.n52.svalbard.encode.UpdateSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.WmlTDREncoderv20"/>
     <bean class="org.n52.svalbard.encode.WmlTVPEncoderv20"/>

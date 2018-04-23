@@ -21,6 +21,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
     <!-- reader -->
+    <bean class="org.n52.svalbard.read.AbstractFeatureReader"/>
     <bean class="org.n52.svalbard.read.AddressAreaReader"/>
     <bean class="org.n52.svalbard.read.AddressReader"/>
     <bean class="org.n52.svalbard.read.AddressRepresentationReader"/>
@@ -37,11 +38,13 @@
     <bean class="org.n52.svalbard.read.NillableGeographicalNameReader"/>
     <bean class="org.n52.svalbard.read.NillableReferenceReader"/>
     <bean class="org.n52.svalbard.read.NillableStringReader"/>
+    <bean class="org.n52.svalbard.read.NillableSubtagReader$NillableSubtagReaderDelegate"/>
     <bean class="org.n52.svalbard.read.PostNameReader"/>
     <bean class="org.n52.svalbard.read.PronounciationReader"/>
     <bean class="org.n52.svalbard.read.PronunciationOfNameReader"/>
-    <bean class="org.n52.svalbard.read.ReferenceableFeatureReader"/>
     <bean class="org.n52.svalbard.read.ReferenceReader"/>
+    <bean class="org.n52.svalbard.read.ReferenceableFeatureReader"/>
+    <bean class="org.n52.svalbard.read.ReferenceableReader$NillableReaderImpl"/>
     <bean class="org.n52.svalbard.read.RelatedPartyReader"/>
     <bean class="org.n52.svalbard.read.ReportingAuthorityReader"/>
     <bean class="org.n52.svalbard.read.ReportingHeaderReader"/>
@@ -53,6 +56,7 @@
     <bean class="org.n52.svalbard.read.TimeInstantReader"/>
     <bean class="org.n52.svalbard.read.TimePeriodReader"/>
     <bean class="org.n52.svalbard.read.TimeReader"/>
+
 
     <!-- writer -->
 
