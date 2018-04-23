@@ -38,13 +38,11 @@
     <bean class="org.n52.svalbard.read.NillableGeographicalNameReader"/>
     <bean class="org.n52.svalbard.read.NillableReferenceReader"/>
     <bean class="org.n52.svalbard.read.NillableStringReader"/>
-    <bean class="org.n52.svalbard.read.NillableSubtagReader$NillableSubtagReaderDelegate"/>
     <bean class="org.n52.svalbard.read.PostNameReader"/>
     <bean class="org.n52.svalbard.read.PronounciationReader"/>
     <bean class="org.n52.svalbard.read.PronunciationOfNameReader"/>
     <bean class="org.n52.svalbard.read.ReferenceReader"/>
     <bean class="org.n52.svalbard.read.ReferenceableFeatureReader"/>
-    <bean class="org.n52.svalbard.read.ReferenceableReader$NillableReaderImpl"/>
     <bean class="org.n52.svalbard.read.RelatedPartyReader"/>
     <bean class="org.n52.svalbard.read.ReportingAuthorityReader"/>
     <bean class="org.n52.svalbard.read.ReportingHeaderReader"/>

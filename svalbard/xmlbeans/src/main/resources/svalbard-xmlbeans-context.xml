@@ -22,7 +22,6 @@
                            http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
 
     <!-- decoder -->
-    <bean class="org.n52.svalbard.decode.AbstractCapabilitiesBaseTypeDecoderTest$TestSeam"/>
     <bean class="org.n52.svalbard.decode.AqdDecoderv10"/>
     <bean class="org.n52.svalbard.decode.AqdStringDecoderv10"/>
     <bean class="org.n52.svalbard.decode.CapabilitiesBaseTypeDecoder"/>
@@ -90,7 +89,6 @@
 
 
         <!-- encoder -->
-    <bean class="org.n52.svalbard.encode.AbstractSwesRequestEncoderTest$AbstractSwesRequestEncoderSeam"/>
     <bean class="org.n52.svalbard.encode.AqdDescribeSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdGetCapabilitiesResponseEncoder"/>
