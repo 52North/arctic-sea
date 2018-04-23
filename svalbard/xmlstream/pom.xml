@@ -79,6 +79,11 @@
             <classifier>tests</classifier>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.reflections</groupId>
+            <artifactId>reflections</artifactId>
+            <scope>test</scope>
+        </dependency>
         <!-- XML -->
         <dependency>
             <groupId>org.n52.sensorweb</groupId>

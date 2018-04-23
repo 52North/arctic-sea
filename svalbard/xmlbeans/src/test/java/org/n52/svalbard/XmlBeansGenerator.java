@@ -26,7 +26,7 @@ import org.n52.svalbard.encode.Encoder;
 
 public class XmlBeansGenerator extends AbstractXmlBeansGenerator {
 
-//    @Ignore
+    @Ignore
     @Test
     public void test() {
         SortedSet<String> set = new TreeSet<>();

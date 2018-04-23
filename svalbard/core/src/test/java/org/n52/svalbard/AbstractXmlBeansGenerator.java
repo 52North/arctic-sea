@@ -34,6 +34,7 @@ public abstract class AbstractXmlBeansGenerator {
     protected Set<String> getClasses(String packageName, Class<?> clazz) {
         return new Reflections(packageName).getSubTypesOf(clazz).stream()
                 .filter(d -> !Modifier.isAbstract(d.getModifiers()) && !d.isMemberClass()).map(d -> d.getName())
+                .filter(n -> !n.contains("Abstract") || !n.contains("Test"))
                 .collect(Collectors.toSet());
     }
 }
