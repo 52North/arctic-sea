@@ -73,6 +73,12 @@
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>svalbard</artifactId>
+            <classifier>tests</classifier>
+            <scope>test</scope>
+        </dependency>
         <!-- XML -->
         <dependency>
             <groupId>org.n52.sensorweb</groupId>
@@ -106,12 +112,6 @@
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

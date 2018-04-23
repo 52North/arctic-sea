@@ -16,19 +16,15 @@
  */
 package org.n52.svalbard;
 
-import java.lang.reflect.Modifier;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.stream.Collectors;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.encode.Encoder;
-import org.reflections.Reflections;
 
-public class XmlBeansGenerator {
+public class XmlBeansGenerator extends AbstractXmlBeansGenerator {
 
     @Ignore
     @Test
@@ -36,13 +32,8 @@ public class XmlBeansGenerator {
         SortedSet<String> set = new TreeSet<>();
         set.addAll(getClasses("org.n52.svalbard.decode.json", Decoder.class));
         set.addAll(getClasses("org.n52.svalbard.encode.json", Encoder.class));
-        for (String coder : set) {
-            System.out.println("    <bean class=\"" + coder + "\"/>");
-        }
+        printBeans(set);
     }
 
-    private Set<String> getClasses(String packageName, Class<?> clazz) {
-        return new Reflections(packageName).getSubTypesOf(clazz).stream()
-                .filter(d -> !Modifier.isAbstract(d.getModifiers())).map(d -> d.getName()).collect(Collectors.toSet());
-    }
+
 }
