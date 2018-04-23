@@ -177,7 +177,6 @@
     <bean class="org.n52.svalbard.encode.SweCommonEncoderv101"/>
     <bean class="org.n52.svalbard.encode.SweCommonEncoderv20"/>
     <bean class="org.n52.svalbard.encode.SwesExtensionEncoderv20"/>
-    <bean class="org.n52.svalbard.encode.TestAbstractSensorMLEncoder"/>
     <bean class="org.n52.svalbard.encode.TimeLocationValueTripleTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.TrajectoryObservationTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.TsmlTDREncoderv10"/>
