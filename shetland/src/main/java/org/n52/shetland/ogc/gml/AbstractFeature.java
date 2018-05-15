@@ -37,7 +37,7 @@ public abstract class AbstractFeature extends AbstractGML implements HasDefaultE
 
     private String defaultEncoding;
     private String xml;
-    private boolean wasEncoded = false;
+    private boolean wasEncoded;
 
     public AbstractFeature(String identifier) {
         super(identifier);
