@@ -299,7 +299,7 @@ public class GmlEncoderv321
             return featurePropertyType;
         } else {
             AbstractSamplingFeature samplingFeature = (AbstractSamplingFeature) feature;
-            if (samplingFeature.isSetGmlID()) {
+            if (samplingFeature.isSetGmlID() && samplingFeature.isEncoded()) {
                 featurePropertyType.setHref("#" + samplingFeature.getGmlId());
                 return featurePropertyType;
             } else {

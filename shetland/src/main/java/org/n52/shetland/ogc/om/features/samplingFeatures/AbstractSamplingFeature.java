@@ -75,8 +75,6 @@ public abstract class AbstractSamplingFeature
      */
     private Collection<SamplingFeatureComplex> relatedSamplingFeatures;
 
-    private boolean wasEncoded;
-
     /**
      * constructor
      *
@@ -101,7 +99,7 @@ public abstract class AbstractSamplingFeature
 
     @Override
     public boolean isSetGmlID() {
-        return super.isSetGmlID() && wasEncoded;
+        return super.isSetGmlID();
     }
 
     @Override
@@ -226,10 +224,6 @@ public abstract class AbstractSamplingFeature
      */
     public void setEncode(final boolean encode) {
         this.encode = encode;
-    }
-
-    public void wasEncoded() {
-        this.wasEncoded = true;
     }
 
     /**

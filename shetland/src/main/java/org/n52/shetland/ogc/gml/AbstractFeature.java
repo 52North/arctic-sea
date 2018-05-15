@@ -37,6 +37,7 @@ public abstract class AbstractFeature extends AbstractGML implements HasDefaultE
 
     private String defaultEncoding;
     private String xml;
+    private boolean wasEncoded = false;
 
     public AbstractFeature(String identifier) {
         super(identifier);
@@ -98,6 +99,14 @@ public abstract class AbstractFeature extends AbstractGML implements HasDefaultE
 
     public boolean isSetXml() {
         return !Strings.isNullOrEmpty(getXml());
+    }
+
+    public boolean isEncoded() {
+        return wasEncoded;
+    }
+
+    public void wasEncoded() {
+        this.wasEncoded  = true;
     }
 
     public <X> X accept(FeatureOfInterestVisitor<X> visitor) throws OwsExceptionReport {

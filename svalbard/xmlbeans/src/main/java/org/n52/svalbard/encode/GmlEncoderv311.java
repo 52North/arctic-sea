@@ -482,7 +482,7 @@ public class GmlEncoderv311
     private XmlObject createFeature(AbstractFeature sosAbstractFeature) throws EncodingException {
         if (sosAbstractFeature instanceof SamplingFeature) {
             SamplingFeature sampFeat = (SamplingFeature) sosAbstractFeature;
-            if (sosAbstractFeature.isSetGmlID()) {
+            if (sosAbstractFeature.isSetGmlID() && sosAbstractFeature.isEncoded()) {
                 FeaturePropertyType featureProperty = FeaturePropertyType.Factory.newInstance(getXmlOptions());
                 featureProperty.setHref("#" + sosAbstractFeature.getGmlId());
                 return featureProperty;
