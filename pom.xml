@@ -73,13 +73,9 @@
     <mailingLists>
         <mailingList>
             <name>Sensor Web Community Mailing List</name>
-            <subscribe>http://list.52north.org/mailman/listinfo/swe</subscribe>
-            <unsubscribe>http://list.52north.org/mailman/listinfo/swe</unsubscribe>
-            <post>swe@52north.org</post>
-            <archive>http://list.52north.org/pipermail/swe</archive>
-            <otherArchives>
-                <otherArchive>http://sensorweb.forum.52north.org</otherArchive>
-            </otherArchives>
+            <subscribe>http://list.52north.org/mailman/listinfo/sensorweb</subscribe>
+            <unsubscribe>http://list.52north.org/mailman/listinfo/sensorweb</unsubscribe>
+            <archive>http://list.52north.org/pipermail/sensorweb</archive>
         </mailingList>
     </mailingLists>
 
