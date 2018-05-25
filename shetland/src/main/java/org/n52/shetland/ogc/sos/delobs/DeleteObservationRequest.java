@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.sos.delobs;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.n52.shetland.ogc.filter.TemporalFilter;
@@ -45,7 +46,7 @@ public class DeleteObservationRequest extends OwsServiceRequest implements Respo
 
     private Set<String> offerings = new HashSet<>();
 
-    private Set<TemporalFilter> temporalFilters = new HashSet<>();
+    private Set<TemporalFilter> temporalFilters = new LinkedHashSet<>();
 
     private String responseFormat;
 
