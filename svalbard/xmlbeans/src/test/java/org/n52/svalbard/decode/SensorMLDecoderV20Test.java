@@ -16,6 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
+import java.io.IOException;
+import java.io.InputStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -25,11 +27,19 @@ import java.util.Arrays;
 import net.opengis.sensorml.x20.DataInterfaceType;
 import net.opengis.swe.x20.DataRecordPropertyType;
 import net.opengis.swe.x20.DataRecordType.Field;
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
 
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.CoreMatchers;
+import static org.hamcrest.Matchers.*;
+import org.junit.Before;
 import org.junit.Ignore;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ErrorCollector;
+import org.n52.shetland.ogc.sensorML.AbstractSensorML;
+import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
 
 import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
 import org.n52.shetland.ogc.swe.SweDataRecord;
@@ -41,6 +51,41 @@ import org.n52.svalbard.decode.exception.DecodingException;
  * @since 1.0.0
  */
 public class SensorMLDecoderV20Test {
+
+    @Rule
+    public final ErrorCollector errors = new ErrorCollector();
+
+    private SensorMLDecoderV20 decoder;
+
+    @Before
+    public void setup() {
+        DecoderRepository decoderRepository = new DecoderRepository();
+
+        decoder = new SensorMLDecoderV20();
+        decoder.setDecoderRepository(decoderRepository);
+        decoder.setXmlOptions(XmlOptions::new);
+
+        SweCommonDecoderV20 sweCommonDecoder = new SweCommonDecoderV20();
+        sweCommonDecoder.setDecoderRepository(decoderRepository);
+        sweCommonDecoder.setXmlOptions(XmlOptions::new);
+
+        GmlDecoderv321 gmlDecoder = new GmlDecoderv321();
+        gmlDecoder.setDecoderRepository(decoderRepository);
+        gmlDecoder.setXmlOptions(XmlOptions::new);
+
+        decoderRepository.setDecoders(Arrays.asList(decoder, sweCommonDecoder, gmlDecoder));
+        decoderRepository.init();
+    }
+
+    @Test
+    @Ignore("not yet implemented")
+    public void bla() throws IOException, XmlException, DecodingException {
+        try (InputStream stream = SensorMLDecoderV20Test.class.getResourceAsStream("/AggregateProcess-dwd.xml")) {
+            XmlObject object = XmlObject.Factory.parse(stream);
+            AbstractSensorML ssml = decoder.decode(object);
+            errors.checkThat(ssml, is(instanceOf(AggregateProcess.class)));
+        }
+    }
 
     @Test
     @Ignore("not yet implemented")

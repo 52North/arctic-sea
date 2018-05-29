@@ -1,0 +1,902 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2015-2018 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<sml:AggregateProcess gml:id="sdc"
+                      xmlns:swe="http://www.opengis.net/swe/2.0"
+                      xmlns:sml="http://www.opengis.net/sensorml/2.0"
+                      xmlns:gml="http://www.opengis.net/gml/3.2"
+                      xmlns:om="http://www.opengis.net/om/2.0"
+                      xmlns:sams="http://www.opengis.net/samplingSpatial/2.0"
+                      xmlns:sf="http://www.opengis.net/sampling/2.0"
+                      xmlns:xlink="http://www.w3.org/1999/xlink"
+                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      xmlns:gco="http://www.isotc211.org/2005/gco"
+                      xmlns:gmd="http://www.isotc211.org/2005/gmd"
+                      xsi:schemaLocation="http://www.opengis.net/sensorml/2.0 http://schemas.opengis.net/sensorML/2.0/sensorML.xsd http://www.opengis.net/samplingSpatial/2.0 http://schemas.opengis.net/samplingSpatial/2.0/spatialSamplingFeature.xsd">
+    <sml:components>
+        <sml:ComponentList>
+            <!-- FTP Source -->
+            <!-- CSVFile Filter -->
+            <!-- FileTimestampFilter -->
+            <!-- CSV PRocessor -->
+            <sml:component name="source_output">
+                <sml:PhysicalSystem gml:id="dwd-opendata">
+                    <sml:outputs>
+                        <sml:OutputList>
+                            <sml:output name="streamOutput">
+                                <sml:DataInterface>
+                                    <sml:data>
+                                        <swe:DataStream>
+                                            <swe:elementType name="dwdOutputStream">
+                                                <swe:DataRecord>
+                                                    <swe:field name="date">
+                                                        <swe:Time definition="http://www.opengis.net/def/property/OGC/0/PhenomenonTime#date">
+                                                            <swe:label>Date</swe:label>
+                                                            <swe:uom/>
+                                                        </swe:Time>
+                                                    </swe:field>
+                                                    <swe:field name="time">
+                                                        <swe:Time definition="http://www.opengis.net/def/property/OGC/0/PhenomenonTime#time">
+                                                            <swe:uom/>
+                                                        </swe:Time>
+                                                    </swe:field>
+                                                    <swe:field name="cloud_coverage">
+                                                        <swe:Quantity definition="http://asdfasdf/cloud_coverage">
+                                                            <swe:uom code="%" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="daily_mean_temperature_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/daily_mean_temperature_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="depth_of_new_snow">
+                                                        <swe:Quantity definition="http://asdfasdf/depth_of_new_snow">
+                                                            <swe:uom code="cm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="dew_point_temperature_at_2_meter_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/dew_point_temperature_at_2_meter_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="diffuse_solar_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/diffuse_solar_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="direct_solar_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/direct_solar_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="dry_bulb_temperature_at_2_meter_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/dry_bulb_temperature_at_2_meter_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="evaporation_evapotranspiration_last_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/evaporation_evapotranspiration_last_24_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="global_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/global_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="global_radiation_past_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/global_radiation_past_24_hours">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="height_of_base_of_lowest_cloud_above_station">
+                                                        <swe:Quantity definition="http://asdfasdf/height_of_base_of_lowest_cloud_above_station">
+                                                            <swe:uom code="m" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="horizontal_visibility">
+                                                        <swe:Quantity definition="http://asdfasdf/horizontal_visibility">
+                                                            <swe:uom code="km" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_of_10_minutes_mean_of_wind_speed_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_of_10_minutes_mean_of_wind_speed_for_previous_day">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_of_temperature_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_of_temperature_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_temperature_last_12_hours_2_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_temperature_last_12_hours_2_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_as_10_minutes_mean_during_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_as_10_minutes_mean_during_last_hour">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_during_last_6_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_during_last_6_hours">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_for_previous_day">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_last_hour">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="mean_wind_direction_during_last_10_min_at_10_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/mean_wind_direction_during_last_10_min_at_10_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="mean_wind_speed_during_last_10_min_at_10_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/mean_wind_speed_during_last_10_min_at_10_meters_above_ground">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_of_temperature_at_5_cm_above_ground_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_of_temperature_at_5_cm_above_ground_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_of_temperature_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_of_temperature_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_temperature_last_12_hours_2_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_temperature_last_12_hours_2_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_temperature_last_12_hours_5_cm_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_temperature_last_12_hours_5_cm_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="past_weather_1">
+                                                        <swe:Quantity definition="http://asdfasdf/past_weather_1">
+                                                            <swe:uom/>
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="past_weather_2">
+                                                        <swe:Quantity definition="http://asdfasdf/past_weather_2">
+                                                            <swe:uom/>
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_24_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_3_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_3_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_6_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_6_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_hour">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_last_12_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_last_12_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="present_weather">
+                                                        <swe:Quantity definition="http://asdfasdf/present_weather">
+                                                            <swe:uom />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="pressure_reduced_to_mean_sea_level">
+                                                        <swe:Quantity definition="http://asdfasdf/pressure_reduced_to_mean_sea_level">
+                                                            <swe:uom code="hPa" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="relative_humidity">
+                                                        <swe:Quantity definition="http://asdfasdf/relative_humidity">
+                                                            <swe:uom code="%" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="sea_water_temperature">
+                                                        <swe:Quantity definition="http://asdfasdf/sea_water_temperature">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="temperature_at_5_cm_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/temperature_at_5_cm_above_ground">
+                                                            <swe:uom code="C" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_snow_depth">
+                                                        <swe:Quantity definition="http://asdfasdf/total_snow_depth">
+                                                            <swe:uom code="cm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_time_of_sunshine_during_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/total_time_of_sunshine_during_last_hour">
+                                                            <swe:uom code="min" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_time_of_sunshine_past_day">
+                                                        <swe:Quantity definition="http://asdfasdf/total_time_of_sunshine_past_day">
+                                                            <swe:uom code="h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                </swe:DataRecord>
+                                            </swe:elementType>
+                                            <swe:encoding>
+                                                <!-- Abhängig vom EncodingTypen den Processor wählen.-->
+                                                <!-- Es gibt \{TextEncoding} auch: {XmlEncoding, BinaryEncoding}-->
+                                                <swe:TextEncoding tokenSeparator=";" blockSeparator="\n"/>
+                                            </swe:encoding>
+                                            <swe:values/>
+                                        </swe:DataStream>
+                                    </sml:data>
+                                    <sml:interfaceParameters>
+                                        <swe:DataRecord definition="https://52north.org/swe-ingestion/ftp">
+                                            <swe:field name="ftp_host">
+                                                <swe:Text definition="https://52north.org/swe-ingestion/ftp#host">
+                                                    <swe:value>opendata.dwd.de</swe:value>
+                                                </swe:Text>
+                                            </swe:field>
+                                            <!-- optional, default: guest -->
+                                            <swe:field name="ftp_password">
+                                                <swe:Text definition="https://52north.org/swe-ingestion/ftp#password">
+                                                    <swe:value>guest</swe:value>
+                                                </swe:Text>
+                                            </swe:field>
+                                            <!-- optional, default: anonymous -->
+                                            <swe:field name="ftp_username">
+                                                <swe:Text definition="https://52north.org/swe-ingestion/ftp#username">
+                                                    <swe:value>anonymous</swe:value>
+                                                </swe:Text>
+                                            </swe:field>
+                                            <swe:field name="ftp_remote-dir">
+                                                <swe:Text definition="https://52north.org/swe-ingestion/ftp#remote-dir">
+                                                    <swe:value>/weather/weather_reports/poi</swe:value>
+                                                </swe:Text>
+                                            </swe:field>
+                                            <swe:field name="ftp_filename-pattern">
+                                                <swe:Text definition="https://52north.org/swe-ingestion/ftp#filename-pattern">
+                                                    <swe:value>*01-BEOB.csv</swe:value>
+                                                </swe:Text>
+                                            </swe:field>
+                                        </swe:DataRecord>
+                                    </sml:interfaceParameters>
+                                </sml:DataInterface>
+                            </sml:output>
+                        </sml:OutputList>
+                    </sml:outputs>
+                </sml:PhysicalSystem>
+            </sml:component>
+            <sml:component name="the_name_needs_to_be_present_and_must_not_contain_spaces">
+                <sml:SimpleProcess gml:id="csvFileFilter">
+                    <sml:inputs>
+                        <sml:InputList>
+                            <sml:input name="streamInput">
+                                <sml:DataInterface>
+                                    <sml:data>
+                                        <swe:DataStream>
+                                            <swe:elementType name="inputStream">
+                                                <swe:DataRecord>
+                                                    <swe:field name="date">
+                                                        <swe:Time definition="http://www.opengis.net/def/property/OGC/0/PhenomenonTime#date">
+                                                            <swe:label>Date</swe:label>
+                                                            <swe:uom/>
+                                                        </swe:Time>
+                                                    </swe:field>
+                                                    <swe:field name="time">
+                                                        <swe:Time definition="http://www.opengis.net/def/property/OGC/0/PhenomenonTime#time">
+                                                            <swe:uom/>
+                                                        </swe:Time>
+                                                    </swe:field>
+                                                    <swe:field name="cloud_coverage">
+                                                        <swe:Quantity definition="http://asdfasdf/cloud_coverage">
+                                                            <swe:uom code="%" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="daily_mean_temperature_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/daily_mean_temperature_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="depth_of_new_snow">
+                                                        <swe:Quantity definition="http://asdfasdf/depth_of_new_snow">
+                                                            <swe:uom code="cm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="dew_point_temperature_at_2_meter_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/dew_point_temperature_at_2_meter_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="diffuse_solar_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/diffuse_solar_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="direct_solar_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/direct_solar_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="dry_bulb_temperature_at_2_meter_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/dry_bulb_temperature_at_2_meter_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="evaporation_evapotranspiration_last_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/evaporation_evapotranspiration_last_24_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="global_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/global_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="global_radiation_past_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/global_radiation_past_24_hours">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="height_of_base_of_lowest_cloud_above_station">
+                                                        <swe:Quantity definition="http://asdfasdf/height_of_base_of_lowest_cloud_above_station">
+                                                            <swe:uom code="m" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="horizontal_visibility">
+                                                        <swe:Quantity definition="http://asdfasdf/horizontal_visibility">
+                                                            <swe:uom code="km" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_of_10_minutes_mean_of_wind_speed_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_of_10_minutes_mean_of_wind_speed_for_previous_day">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_of_temperature_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_of_temperature_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_temperature_last_12_hours_2_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_temperature_last_12_hours_2_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_as_10_minutes_mean_during_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_as_10_minutes_mean_during_last_hour">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_during_last_6_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_during_last_6_hours">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_for_previous_day">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_last_hour">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="mean_wind_direction_during_last_10_min_at_10_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/mean_wind_direction_during_last_10_min_at_10_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="mean_wind_speed_during_last_10_min_at_10_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/mean_wind_speed_during_last_10_min_at_10_meters_above_ground">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_of_temperature_at_5_cm_above_ground_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_of_temperature_at_5_cm_above_ground_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_of_temperature_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_of_temperature_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_temperature_last_12_hours_2_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_temperature_last_12_hours_2_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_temperature_last_12_hours_5_cm_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_temperature_last_12_hours_5_cm_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="past_weather_1">
+                                                        <swe:Quantity definition="http://asdfasdf/past_weather_1">
+                                                            <swe:uom/>
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="past_weather_2">
+                                                        <swe:Quantity definition="http://asdfasdf/past_weather_2">
+                                                            <swe:uom/>
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_24_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_3_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_3_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_6_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_6_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_hour">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_last_12_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_last_12_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="present_weather">
+                                                        <swe:Quantity definition="http://asdfasdf/present_weather">
+                                                            <swe:uom />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="pressure_reduced_to_mean_sea_level">
+                                                        <swe:Quantity definition="http://asdfasdf/pressure_reduced_to_mean_sea_level">
+                                                            <swe:uom code="hPa" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="relative_humidity">
+                                                        <swe:Quantity definition="http://asdfasdf/relative_humidity">
+                                                            <swe:uom code="%" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="sea_water_temperature">
+                                                        <swe:Quantity definition="http://asdfasdf/sea_water_temperature">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="temperature_at_5_cm_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/temperature_at_5_cm_above_ground">
+                                                            <swe:uom code="C" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_snow_depth">
+                                                        <swe:Quantity definition="http://asdfasdf/total_snow_depth">
+                                                            <swe:uom code="cm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_time_of_sunshine_during_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/total_time_of_sunshine_during_last_hour">
+                                                            <swe:uom code="min" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_time_of_sunshine_past_day">
+                                                        <swe:Quantity definition="http://asdfasdf/total_time_of_sunshine_past_day">
+                                                            <swe:uom code="h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                </swe:DataRecord>
+                                            </swe:elementType>
+                                            <swe:encoding>
+                                                <!-- Abhängig vom EncodingTypen den Processor wählen.-->
+                                                <!-- Es gibt \{TextEncoding} auch: {XmlEncoding, BinaryEncoding}-->
+                                                <swe:TextEncoding tokenSeparator=";" blockSeparator="\n"/>
+                                            </swe:encoding>
+                                            <swe:values/>
+                                        </swe:DataStream>
+                                    </sml:data>
+                                </sml:DataInterface>
+                            </sml:input>
+                        </sml:InputList>
+                    </sml:inputs>
+                    <sml:outputs>
+                        <sml:OutputList>
+                            <sml:output name="streamOutput">
+                                <sml:DataInterface>
+                                    <sml:data>
+                                        <swe:DataStream>
+                                            <swe:elementType name="fluorometerOutputStream">
+                                                <swe:DataRecord>
+                                                    <swe:field name="date">
+                                                        <swe:Time definition="http://www.opengis.net/def/property/OGC/0/PhenomenonTime#date">
+                                                            <swe:label>Date</swe:label>
+                                                            <swe:uom/>
+                                                        </swe:Time>
+                                                    </swe:field>
+                                                    <swe:field name="time">
+                                                        <swe:Time definition="http://www.opengis.net/def/property/OGC/0/PhenomenonTime#time">
+                                                            <swe:uom/>
+                                                        </swe:Time>
+                                                    </swe:field>
+                                                    <swe:field name="cloud_coverage">
+                                                        <swe:Quantity definition="http://asdfasdf/cloud_coverage">
+                                                            <swe:uom code="%" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="daily_mean_temperature_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/daily_mean_temperature_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="depth_of_new_snow">
+                                                        <swe:Quantity definition="http://asdfasdf/depth_of_new_snow">
+                                                            <swe:uom code="cm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="dew_point_temperature_at_2_meter_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/dew_point_temperature_at_2_meter_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="diffuse_solar_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/diffuse_solar_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="direct_solar_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/direct_solar_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="dry_bulb_temperature_at_2_meter_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/dry_bulb_temperature_at_2_meter_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="evaporation_evapotranspiration_last_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/evaporation_evapotranspiration_last_24_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="global_radiation_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/global_radiation_last_hour">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="global_radiation_past_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/global_radiation_past_24_hours">
+                                                            <swe:uom code="W/m²" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="height_of_base_of_lowest_cloud_above_station">
+                                                        <swe:Quantity definition="http://asdfasdf/height_of_base_of_lowest_cloud_above_station">
+                                                            <swe:uom code="m" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="horizontal_visibility">
+                                                        <swe:Quantity definition="http://asdfasdf/horizontal_visibility">
+                                                            <swe:uom code="km" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_of_10_minutes_mean_of_wind_speed_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_of_10_minutes_mean_of_wind_speed_for_previous_day">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_of_temperature_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_of_temperature_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_temperature_last_12_hours_2_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_temperature_last_12_hours_2_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_as_10_minutes_mean_during_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_as_10_minutes_mean_during_last_hour">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_during_last_6_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_during_last_6_hours">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_for_previous_day">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="maximum_wind_speed_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/maximum_wind_speed_last_hour">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="mean_wind_direction_during_last_10_min_at_10_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/mean_wind_direction_during_last_10_min_at_10_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="mean_wind_speed_during_last_10_min_at_10_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/mean_wind_speed_during_last_10_min_at_10_meters_above_ground">
+                                                            <swe:uom code="km/h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_of_temperature_at_5_cm_above_ground_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_of_temperature_at_5_cm_above_ground_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_of_temperature_for_previous_day">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_of_temperature_for_previous_day">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_temperature_last_12_hours_2_meters_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_temperature_last_12_hours_2_meters_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="minimum_temperature_last_12_hours_5_cm_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/minimum_temperature_last_12_hours_5_cm_above_ground">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="past_weather_1">
+                                                        <swe:Quantity definition="http://asdfasdf/past_weather_1">
+                                                            <swe:uom/>
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="past_weather_2">
+                                                        <swe:Quantity definition="http://asdfasdf/past_weather_2">
+                                                            <swe:uom/>
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_24_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_24_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_3_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_3_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_6_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_6_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_amount_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_amount_last_hour">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="precipitation_last_12_hours">
+                                                        <swe:Quantity definition="http://asdfasdf/precipitation_last_12_hours">
+                                                            <swe:uom code="mm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="present_weather">
+                                                        <swe:Quantity definition="http://asdfasdf/present_weather">
+                                                            <swe:uom />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="pressure_reduced_to_mean_sea_level">
+                                                        <swe:Quantity definition="http://asdfasdf/pressure_reduced_to_mean_sea_level">
+                                                            <swe:uom code="hPa" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="relative_humidity">
+                                                        <swe:Quantity definition="http://asdfasdf/relative_humidity">
+                                                            <swe:uom code="%" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="sea_water_temperature">
+                                                        <swe:Quantity definition="http://asdfasdf/sea_water_temperature">
+                                                            <swe:uom code="c" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="temperature_at_5_cm_above_ground">
+                                                        <swe:Quantity definition="http://asdfasdf/temperature_at_5_cm_above_ground">
+                                                            <swe:uom code="C" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_snow_depth">
+                                                        <swe:Quantity definition="http://asdfasdf/total_snow_depth">
+                                                            <swe:uom code="cm" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_time_of_sunshine_during_last_hour">
+                                                        <swe:Quantity definition="http://asdfasdf/total_time_of_sunshine_during_last_hour">
+                                                            <swe:uom code="min" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                    <swe:field name="total_time_of_sunshine_past_day">
+                                                        <swe:Quantity definition="http://asdfasdf/total_time_of_sunshine_past_day">
+                                                            <swe:uom code="h" />
+                                                        </swe:Quantity>
+                                                    </swe:field>
+                                                </swe:DataRecord>
+                                            </swe:elementType>
+                                            <swe:encoding>
+                                                <!-- Abhängig vom EncodingTypen den Processor wählen.-->
+                                                <!-- Es gibt \{TextEncoding} auch: {XmlEncoding, BinaryEncoding}-->
+                                                <swe:TextEncoding tokenSeparator=";" blockSeparator="\n"/>
+                                            </swe:encoding>
+                                            <swe:values/>
+                                        </swe:DataStream>
+                                    </sml:data>
+                                </sml:DataInterface>
+                            </sml:output>
+                        </sml:OutputList>
+                    </sml:outputs>
+                    <sml:parameters>
+                        <sml:ParameterList>
+                            <sml:parameter name="configuration">
+                                <swe:Count definition="https://52north.org/swe-ingestion/csv-file-filter#header-line-count">
+                                    <swe:label>Header Line Count</swe:label>
+                                    <swe:description>The number of lines to strip from the csv file</swe:description>
+                                    <swe:value>3</swe:value>
+                                </swe:Count>
+                            </sml:parameter>
+                        </sml:ParameterList>
+                    </sml:parameters>
+                    <sml:method xlink:href="https://52north.org/swe-ingestion/csv-file-filter"/>
+                </sml:SimpleProcess>
+            </sml:component>
+
+            <sml:component name="sos_input">
+                <sml:PhysicalSystem gml:id="dwd-opendata-weather">
+                    <gml:identifier codeSpace="uniqueID">DWD-OPENDATA-163</gml:identifier>
+                    <sml:identification>
+                        <sml:IdentifierList>
+                            <sml:identifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W07/current/IDEN0002/">
+                                    <sml:label>Long name</sml:label>
+                                    <sml:value>Galway Bay Cable Observatory Fluorometer</sml:value>
+                                </sml:Term>
+                            </sml:identifier>
+                            <sml:identifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W07/current/IDEN0006/">
+                                    <sml:label>Short name</sml:label>
+                                    <sml:value>Galway Bay Cable Observatory Fluorometer</sml:value>
+                                </sml:Term>
+                            </sml:identifier>
+                            <sml:identifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W07/current/IDEN0012/">
+                                    <sml:label>Manufacturer</sml:label>
+                                    <sml:value>WetLabs</sml:value>
+                                </sml:Term>
+                            </sml:identifier>
+                            <sml:identifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W07/current/IDEN0003/">
+                                    <sml:label>Model name</sml:label>
+                                    <sml:value>ECO-FLNTU</sml:value>
+                                </sml:Term>
+                            </sml:identifier>
+                            <sml:identifier>
+                                <sml:Term definition="http://vocab.nerc.ac.uk/collection/W07/current/IDEN0005/">
+                                    <sml:label>Serial number</sml:label>
+                                    <sml:value>3137</sml:value>
+                                </sml:Term>
+                            </sml:identifier>
+                        </sml:IdentifierList>
+                    </sml:identification>
+                    <sml:featuresOfInterest>
+                        <sml:FeatureList definition="http://www.opengis.net/def/featureOfInterest/identifier">
+                            <swe:label>Galway Bay Cable Observatory</swe:label>
+                            <sml:feature>
+                                <sams:SF_SpatialSamplingFeature gml:id="sf_galway-bay-cable-observatory">
+                                    <gml:identifier codeSpace="">Galway Bay Cable Observatory</gml:identifier>
+                                    <gml:name>Galway Bay Cable Observatory</gml:name>
+                                    <sf:type xlink:href="http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint" />
+                                    <sf:sampledFeature xlink:href="http://www.opengis.net/def/nil/OGC/0/unknown" />
+                                    <sams:shape>
+                                        <gml:Point gml:id="p-galway-bay-cable-observatory">
+                                            <gml:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4326">53.22733 -9.26629</gml:pos>
+                                        </gml:Point>
+                                    </sams:shape>
+                                </sams:SF_SpatialSamplingFeature>
+                            </sml:feature>
+                        </sml:FeatureList>
+                    </sml:featuresOfInterest>
+                    <sml:outputs>
+                        <sml:OutputList>
+                            <sml:output name="Fluorescence">
+                                <swe:Count definition="http://vocab.nerc.ac.uk/collection/B39/current/fluorescence/">
+                                    <swe:label>Fluorescence</swe:label>
+                                    <swe:description>Chlorophyll fluorometer instrument output (counts) (no units)</swe:description>
+                                </swe:Count>
+                            </sml:output>
+                            <sml:output name="Turbidity">
+                                <swe:Count definition="http://vocab.nerc.ac.uk/collection/P01/current/TURBXXXX/">
+                                    <swe:label>Turbidity</swe:label>
+                                    <swe:description>Optical scattering turbidity sensor instrument output (counts) (no units)</swe:description>
+                                </swe:Count>
+                            </sml:output>
+                        </sml:OutputList>
+                    </sml:outputs>
+                    <sml:position>
+                        <swe:Vector referenceFrame="urn:ogc:def:crs:EPSG::4326">
+                            <swe:coordinate name="easting">
+                                <swe:Quantity axisID="x">
+                                    <swe:uom code="degree"/>
+                                    <swe:value>-9.26629</swe:value>
+                                </swe:Quantity>
+                            </swe:coordinate>
+                            <swe:coordinate name="northing">
+                                <swe:Quantity axisID="y">
+                                    <swe:uom code="degree"/>
+                                    <swe:value>53.22733</swe:value>
+                                </swe:Quantity>
+                            </swe:coordinate>
+                            <swe:coordinate name="altitude">
+                                <swe:Quantity axisID="z">
+                                    <swe:uom code="m"/>
+                                    <swe:value>52.0</swe:value>
+                                </swe:Quantity>
+                            </swe:coordinate>
+                        </swe:Vector>
+                    </sml:position>
+                </sml:PhysicalSystem>
+            </sml:component>
+        </sml:ComponentList>
+    </sml:components>
+    <sml:connections>
+        <sml:ConnectionList>
+            <sml:connection>
+                <sml:Link>
+                    <sml:source ref="components/marine-fluo/outputs/Fluorescence"/>
+                    <sml:destination ref="components/marine-fluo-sos/outputs/Fluorescence"/>
+                </sml:Link>
+            </sml:connection>
+            <sml:connection>
+                <sml:Link>
+                    <sml:source ref="components/marine-fluo/outputs/Turbidity"/>
+                    <sml:destination ref="components/marine-fluo-sos/outputs/Turbidity"/>
+                </sml:Link>
+            </sml:connection>
+        </sml:ConnectionList>
+    </sml:connections>
+</sml:AggregateProcess>

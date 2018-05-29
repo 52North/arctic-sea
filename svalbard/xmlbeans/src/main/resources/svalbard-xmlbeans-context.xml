@@ -52,6 +52,7 @@
     <bean class="org.n52.svalbard.decode.InsertResultResponseDecoder"/>
     <bean class="org.n52.svalbard.decode.InsertResultTemplateResponseDecoder"/>
     <bean class="org.n52.svalbard.decode.InsertSensorResponseDecoder"/>
+    <bean class="org.n52.svalbard.decode.InspireXmlDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GcoDecoder"/>
     <bean class="org.n52.svalbard.decode.Iso19139GmdDecoder"/>
     <bean class="org.n52.svalbard.decode.OgcDecoderv100"/>
@@ -88,7 +89,7 @@
 
 
 
-        <!-- encoder -->
+    <!-- encoder -->
     <bean class="org.n52.svalbard.encode.AqdDescribeSensorResponseEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdEncoder"/>
     <bean class="org.n52.svalbard.encode.AqdGetCapabilitiesResponseEncoder"/>
