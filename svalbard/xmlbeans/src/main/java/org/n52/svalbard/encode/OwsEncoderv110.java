@@ -130,7 +130,7 @@ public class OwsEncoderv110 extends AbstractXmlEncoder<XmlObject, Object> {
                     new ExceptionEncoderKey(MediaTypes.APPLICATION_XML)),
             CodingHelper.encoderKeysForElements(OWSConstants.NS_OWS, OwsServiceIdentification.class,
                     OwsServiceProvider.class, OwsOperationsMetadata.class, OwsExceptionReport.class, OwsMetadata.class,
-                    OwsDomain.class));
+                    OwsDomain.class, OwsSections.class));
 
     private boolean includeStackTraceInExceptionReport;
 
