@@ -20,28 +20,29 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
 /**
  *
- * @author Maurin Radtke <m.radtke@52north.org>
+ * @author <a href="mailto:m.radtke@52north.org">Maurin Radtke</a>
  */
 public class Parameter {
-        private String name;
-        private SweAbstractDataComponent parameter;
 
-        public Parameter() {
-        }
+    private String name;
+    private SweAbstractDataComponent parameter;
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public SweAbstractDataComponent getParameter() {
-            return parameter;
-        }
-
-        public void setParameter(SweAbstractDataComponent parameters) {
-            this.parameter = parameters;
-        }
+    public Parameter() {
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public SweAbstractDataComponent getParameter() {
+        return parameter;
+    }
+
+    public void setParameter(SweAbstractDataComponent parameters) {
+        this.parameter = parameters;
+    }
+}

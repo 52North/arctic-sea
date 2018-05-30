@@ -616,9 +616,11 @@ public class SensorMLDecoderV20
         return smlContacts;
     }
 
-    private List<org.n52.shetland.ogc.sensorML.v20.Parameter> parseParameters(Parameters parameters) throws DecodingException {
+    private List<org.n52.shetland.ogc.sensorML.v20.Parameter> parseParameters(Parameters parameters)
+            throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(parameters.getParameterList().getParameterArray())) {
-            final List<org.n52.shetland.ogc.sensorML.v20.Parameter> sweComponents = new ArrayList<>(parameters.getParameterList().getParameterArray().length);
+            final List<org.n52.shetland.ogc.sensorML.v20.Parameter> sweComponents
+                    = new ArrayList<>(parameters.getParameterList().getParameterArray().length);
             for (final Parameter sweComponent : parameters.getParameterList().getParameterArray()) {
                 sweComponents.add(parseSweParameter(sweComponent));
             }
@@ -790,7 +792,8 @@ public class SensorMLDecoderV20
     }
 
     @SuppressWarnings({"rawtypes"})
-    private org.n52.shetland.ogc.sensorML.v20.Parameter parseSweParameter(Parameter xbParameter) throws DecodingException {
+    private org.n52.shetland.ogc.sensorML.v20.Parameter parseSweParameter(Parameter xbParameter)
+            throws DecodingException {
         String name = xbParameter.getName();
         Object parameter = decodeXmlElement(xbParameter.getAbstractDataComponent());
         if (parameter instanceof SweAbstractDataComponent) {

@@ -39,10 +39,8 @@ public class AbstractProcess extends AbstractSensorML {
 
     private List<SmlIo> inputs = new ArrayList<>(0);
     private List<SmlIo> outputs = new ArrayList<>(0);
-//    private List<String> parameters = new ArrayList<>(0);
     private List<Parameter> parameters = new ArrayList<>(0);
     private List<Time> validTime = new ArrayList<>(0);
-
 
     public AbstractProcess setDescriptions(List<String> descriptions) {
         if (descriptions != null) {
@@ -92,15 +90,6 @@ public class AbstractProcess extends AbstractSensorML {
         this.outputs = outputs;
         return this;
     }
-
-//    public List<String> getParameters() {
-//        return parameters;
-//    }
-//
-//    public AbstractProcess setParameters(final List<String> parameters) {
-//        this.parameters = parameters;
-//        return this;
-//    }
 
     public List<Parameter> getParameters() {
         return parameters;

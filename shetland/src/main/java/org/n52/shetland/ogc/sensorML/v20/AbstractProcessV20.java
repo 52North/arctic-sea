@@ -16,12 +16,9 @@
  */
 package org.n52.shetland.ogc.sensorML.v20;
 
-import java.util.List;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.sensorML.AbstractProcess;
 import org.n52.shetland.ogc.sensorML.SensorML20Constants;
-import org.n52.shetland.ogc.sensorML.v20.Parameter;
-import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
 /**
  * Class that represents SensorML 2.0 AbstractProcess
@@ -36,17 +33,8 @@ public class AbstractProcessV20 extends AbstractProcess {
     private SmlFeatureOfInterest featureOfInterest;
     private AbstractModes modes;
     private String definition;
-//    private List<Parameter> parameters;
 
     private ReferenceType typeOf;
-
-//    public List<Parameter> getSweParameters() {
-//        return parameters;
-//    }
-//
-//    public void setSweParameters(List<Parameter> parameters) {
-//        this.parameters = parameters;
-//    }
 
     public AbstractProcessV20 setSmlFeatureOfInterest(SmlFeatureOfInterest featureOfInterest) {
         this.featureOfInterest = featureOfInterest;
