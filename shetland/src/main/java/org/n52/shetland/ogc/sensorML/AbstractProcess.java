@@ -28,6 +28,7 @@ import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlIoPredicates;
+import org.n52.shetland.ogc.sensorML.v20.Parameter;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
 
 /**
@@ -38,9 +39,8 @@ public class AbstractProcess extends AbstractSensorML {
 
     private List<SmlIo> inputs = new ArrayList<>(0);
     private List<SmlIo> outputs = new ArrayList<>(0);
-    private List<String> parameters = new ArrayList<>(0);
+    private List<Parameter> parameters = new ArrayList<>(0);
     private List<Time> validTime = new ArrayList<>(0);
-
 
     public AbstractProcess setDescriptions(List<String> descriptions) {
         if (descriptions != null) {
@@ -91,13 +91,12 @@ public class AbstractProcess extends AbstractSensorML {
         return this;
     }
 
-    public List<String> getParameters() {
+    public List<Parameter> getParameters() {
         return parameters;
     }
 
-    public AbstractProcess setParameters(final List<String> parameters) {
+    public void setParameters(List<Parameter> parameters) {
         this.parameters = parameters;
-        return this;
     }
 
     public boolean isSetInputs() {

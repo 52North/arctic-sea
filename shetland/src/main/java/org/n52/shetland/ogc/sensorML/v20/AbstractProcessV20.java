@@ -33,6 +33,7 @@ public class AbstractProcessV20 extends AbstractProcess {
     private SmlFeatureOfInterest featureOfInterest;
     private AbstractModes modes;
     private String definition;
+
     private ReferenceType typeOf;
 
     public AbstractProcessV20 setSmlFeatureOfInterest(SmlFeatureOfInterest featureOfInterest) {
