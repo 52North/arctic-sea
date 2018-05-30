@@ -23,6 +23,62 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.xmlbeans.XmlObject;
+import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.SupportedType;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.ReferenceType;
+import org.n52.shetland.ogc.sensorML.AbstractProcess;
+import org.n52.shetland.ogc.sensorML.AbstractSensorML;
+import org.n52.shetland.ogc.sensorML.SensorML20Constants;
+import org.n52.shetland.ogc.sensorML.SensorMLConstants;
+import org.n52.shetland.ogc.sensorML.SmlContact;
+import org.n52.shetland.ogc.sensorML.Term;
+import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
+import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
+import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristic;
+import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
+import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
+import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
+import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
+import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
+import org.n52.shetland.ogc.sensorML.elements.SmlIo;
+import org.n52.shetland.ogc.sensorML.elements.SmlLink;
+import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
+import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
+import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
+import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
+import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
+import org.n52.shetland.ogc.sensorML.v20.DescribedObject;
+import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
+import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
+import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
+import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
+import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
+import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweDataStream;
+import org.n52.shetland.ogc.swe.SweVector;
+import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.sensorml.x20.AbstractPhysicalProcessType;
 import net.opengis.sensorml.x20.AbstractProcessDocument;
@@ -30,6 +86,7 @@ import net.opengis.sensorml.x20.AbstractProcessType;
 import net.opengis.sensorml.x20.AbstractProcessType.FeaturesOfInterest;
 import net.opengis.sensorml.x20.AbstractProcessType.Inputs;
 import net.opengis.sensorml.x20.AbstractProcessType.Outputs;
+import net.opengis.sensorml.x20.AbstractProcessType.Parameters;
 import net.opengis.sensorml.x20.AggregateProcessDocument;
 import net.opengis.sensorml.x20.AggregateProcessPropertyType;
 import net.opengis.sensorml.x20.AggregateProcessType;
@@ -59,6 +116,7 @@ import net.opengis.sensorml.x20.KeywordListPropertyType;
 import net.opengis.sensorml.x20.LinkType;
 import net.opengis.sensorml.x20.ObservablePropertyType;
 import net.opengis.sensorml.x20.OutputListType.Output;
+import net.opengis.sensorml.x20.ParameterListType.Parameter;
 import net.opengis.sensorml.x20.PhysicalComponentDocument;
 import net.opengis.sensorml.x20.PhysicalComponentPropertyType;
 import net.opengis.sensorml.x20.PhysicalComponentType;
@@ -70,64 +128,6 @@ import net.opengis.sensorml.x20.SimpleProcessDocument;
 import net.opengis.sensorml.x20.SimpleProcessPropertyType;
 import net.opengis.sensorml.x20.SimpleProcessType;
 import net.opengis.sensorml.x20.TermType;
-
-import org.apache.xmlbeans.XmlObject;
-import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.ogc.SupportedType;
-import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.CodeWithAuthority;
-import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.ogc.sensorML.AbstractProcess;
-import org.n52.shetland.ogc.sensorML.AbstractSensorML;
-import org.n52.shetland.ogc.sensorML.SensorML20Constants;
-import org.n52.shetland.ogc.sensorML.SensorMLConstants;
-import org.n52.shetland.ogc.sensorML.SmlContact;
-import org.n52.shetland.ogc.sensorML.Term;
-import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
-import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
-import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristic;
-import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
-import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
-import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
-import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
-import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
-import org.n52.shetland.ogc.sensorML.elements.SmlIo;
-import org.n52.shetland.ogc.sensorML.elements.SmlLink;
-import org.n52.shetland.ogc.sensorML.elements.SmlPosition;
-import org.n52.shetland.ogc.sensorML.v20.AbstractPhysicalProcess;
-import org.n52.shetland.ogc.sensorML.v20.AbstractProcessV20;
-import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
-import org.n52.shetland.ogc.sensorML.v20.DescribedObject;
-import org.n52.shetland.ogc.sensorML.v20.PhysicalComponent;
-import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
-import org.n52.shetland.ogc.sensorML.v20.SimpleProcess;
-import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
-import org.n52.shetland.ogc.sensorML.v20.SmlFeatureOfInterest;
-import org.n52.shetland.ogc.sos.ProcedureDescriptionFormat;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
-import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.shetland.ogc.swe.SweDataStream;
-import org.n52.shetland.ogc.swe.SweVector;
-import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
-import org.n52.svalbard.util.CodingHelper;
-import org.n52.svalbard.util.XmlHelper;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import net.opengis.sensorml.x20.AbstractProcessType.Parameters;
-import net.opengis.sensorml.x20.ParameterListType.Parameter;
 
 /**
  * {@link AbstractSensorMLDecoder} class to decode OGC SensorML 2.0
@@ -616,10 +616,10 @@ public class SensorMLDecoderV20
         return smlContacts;
     }
 
-    private List<org.n52.shetland.ogc.sensorML.v20.Parameter> parseParameters(Parameters parameters)
+    private List<SmlParameter> parseParameters(Parameters parameters)
             throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(parameters.getParameterList().getParameterArray())) {
-            final List<org.n52.shetland.ogc.sensorML.v20.Parameter> sweComponents
+            final List<SmlParameter> sweComponents
                     = new ArrayList<>(parameters.getParameterList().getParameterArray().length);
             for (final Parameter sweComponent : parameters.getParameterList().getParameterArray()) {
                 sweComponents.add(parseSweParameter(sweComponent));
@@ -783,16 +783,15 @@ public class SensorMLDecoderV20
             if (components.getComponentList() == null) {
                 removeComponents = true;
             } else if (components.getComponentList().getComponentArray() == null
-                    || ((components.getComponentList().getComponentArray() != null
-                    && components.getComponentList().getComponentArray().length == 0))) {
+                    || components.getComponentList().getComponentArray() != null
+                    && components.getComponentList().getComponentArray().length == 0) {
                 removeComponents = true;
             }
         }
         return removeComponents;
     }
 
-    @SuppressWarnings({"rawtypes"})
-    private org.n52.shetland.ogc.sensorML.v20.Parameter parseSweParameter(Parameter xbParameter)
+    private SmlParameter parseSweParameter(Parameter xbParameter)
             throws DecodingException {
         String name = xbParameter.getName();
         Object parameter = decodeXmlElement(xbParameter.getAbstractDataComponent());
@@ -801,7 +800,7 @@ public class SensorMLDecoderV20
                     && !xbParameter.getName().isEmpty()) {
                 ((SweAbstractDataComponent) parameter).setName(name);
             }
-            org.n52.shetland.ogc.sensorML.v20.Parameter param = new org.n52.shetland.ogc.sensorML.v20.Parameter();
+            SmlParameter param = new SmlParameter();
             param.setName(name);
             param.setParameter((SweAbstractDataComponent) parameter);
             return param;
@@ -811,7 +810,6 @@ public class SensorMLDecoderV20
         }
     }
 
-    @SuppressWarnings({"rawtypes"})
     private SmlIo parseInput(Input xbInput) throws DecodingException {
         final SmlIo sosIo = new SmlIo();
         sosIo.setIoName(xbInput.getName());
@@ -832,7 +830,6 @@ public class SensorMLDecoderV20
 
     }
 
-    @SuppressWarnings({"rawtypes"})
     private SmlIo parseOutput(Output xbOutput) throws DecodingException {
         final SmlIo sosIo = new SmlIo();
         sosIo.setIoName(xbOutput.getName());

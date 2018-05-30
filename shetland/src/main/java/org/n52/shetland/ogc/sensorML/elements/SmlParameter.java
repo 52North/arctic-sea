@@ -14,20 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.sensorML.v20;
+package org.n52.shetland.ogc.sensorML.elements;
 
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 
 /**
- *
  * @author <a href="mailto:m.radtke@52north.org">Maurin Radtke</a>
  */
-public class Parameter {
+public class SmlParameter {
 
     private String name;
     private SweAbstractDataComponent parameter;
 
-    public Parameter() {
+    public SmlParameter() {
     }
 
     public String getName() {
@@ -43,6 +42,6 @@ public class Parameter {
     }
 
     public void setParameter(SweAbstractDataComponent parameters) {
-        this.parameter = parameters;
+        parameter = parameters;
     }
 }
