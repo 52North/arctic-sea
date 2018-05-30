@@ -114,6 +114,7 @@ import com.google.common.collect.Sets;
 import org.locationtech.jts.geom.Point;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import org.n52.shetland.ogc.sensorML.v20.Parameter;
 
 /**
  * @since 1.0.0
@@ -551,8 +552,8 @@ public class SensorMLDecoderV101 extends AbstractSensorMLDecoder {
         return null;
     }
 
-    private List<String> parseParameters(final Parameters parameters) {
-        final List<String> sosParameters = new ArrayList<>(0);
+    private List<Parameter> parseParameters(final Parameters parameters) {
+        final List<Parameter> sosParameters = new ArrayList<>(0);
         // TODO Auto-generated method stub
         return sosParameters;
     }

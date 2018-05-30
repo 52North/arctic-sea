@@ -36,17 +36,17 @@ public class AbstractProcessV20 extends AbstractProcess {
     private SmlFeatureOfInterest featureOfInterest;
     private AbstractModes modes;
     private String definition;
-    private List<Parameter> parameters;
+//    private List<Parameter> parameters;
 
     private ReferenceType typeOf;
 
-    public List<Parameter> getSweParameters() {
-        return parameters;
-    }
-
-    public void setSweParameters(List<Parameter> parameters) {
-        this.parameters = parameters;
-    }
+//    public List<Parameter> getSweParameters() {
+//        return parameters;
+//    }
+//
+//    public void setSweParameters(List<Parameter> parameters) {
+//        this.parameters = parameters;
+//    }
 
     public AbstractProcessV20 setSmlFeatureOfInterest(SmlFeatureOfInterest featureOfInterest) {
         this.featureOfInterest = featureOfInterest;

@@ -402,7 +402,7 @@ public class SensorMLDecoderV20
             abstractProcess.setOutputs(parseOutputs(apt.getOutputs()));
         }
         if (apt.isSetParameters()) {
-            abstractProcess.setSweParameters(parseParameters(apt.getParameters()));
+            abstractProcess.setParameters(parseParameters(apt.getParameters()));
         }
         // if (CollectionHelper.isNotNullOrEmpty(apt.getModesArray())) {
         //
