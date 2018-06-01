@@ -61,7 +61,7 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.n52.janmayen.NcName;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -204,7 +204,7 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                     feature.addName(new org.n52.shetland.ogc.gml.CodeType(featurePropertyType.getTitle()));
                 }
             }
-            feature.setGmlId(featurePropertyType.getHref());
+            feature.setGmlId("ssf_" + NcName.makeValid(featurePropertyType.getHref()));
         } else {
             // if feature is encoded
             XmlObject abstractFeature = null;
