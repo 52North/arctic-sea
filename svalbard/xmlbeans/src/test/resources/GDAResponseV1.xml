@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright 2015-2018 52°North Initiative for Geospatial Open Source
+    Software GmbH
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<gda:GetDataAvailabilityResponse
+    xmlns:gda="http://www.opengis.net/sosgda/1.0"
+    xmlns:gml="http://www.opengis.net/gml/3.2"
+    xmlns:swe="http://www.opengis.net/swe/2.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.opengis.net/sosgda/1.0 http://waterml2.org/schemas/gda/1.0/gda.xsd">
+    <gda:dataAvailabilityMember
+        gml:id="dam_1">
+        <gda:procedure xlink:href="AIRMAR-RINVILLE-1" xlink:title="AIRMAR-RINVILLE-1" />
+        <gda:observedProperty xlink:href="http://vocab.nerc.ac.uk/collection/B39/current/airtemp/" xlink:title="air temperature" />
+        <gda:featureOfInterest xlink:href="Marine Institute" xlink:title="Marine Institute Ireland" />
+        <gda:phenomenonTime>
+            <gml:TimePeriod gml:id="tp_1">
+                <gml:beginPosition>2018-06-01T09:05:56.977Z</gml:beginPosition>
+                <gml:endPosition>2018-06-01T09:15:49.560Z</gml:endPosition>
+            </gml:TimePeriod>
+        </gda:phenomenonTime>
+        <gda:extension>
+            <swe:Text definition="offering">
+                <swe:value>AIRMAR-RINVILLE-1/observations</swe:value>
+            </swe:Text>
+        </gda:extension>
+    </gda:dataAvailabilityMember>
+</gda:GetDataAvailabilityResponse>
+
+

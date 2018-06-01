@@ -51,7 +51,7 @@ public class GetDataAvailabilityXmlDecoder
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityXmlDecoder.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
-            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA, XmlObject.class),
+            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA, GetDataAvailabilityDocument.class),
             CodingHelper.xmlDecoderKeysForOperation(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
                     GetDataAvailabilityConstants.OPERATION_NAME));
 

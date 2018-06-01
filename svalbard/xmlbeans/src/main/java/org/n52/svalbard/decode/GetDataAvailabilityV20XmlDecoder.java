@@ -48,8 +48,8 @@ public class GetDataAvailabilityV20XmlDecoder
 
     private static final Logger LOG = LoggerFactory.getLogger(GetDataAvailabilityV20XmlDecoder.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS =
-            CodingHelper.decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20, XmlObject.class);
+    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper
+            .decoderKeysForElements(GetDataAvailabilityConstants.NS_GDA_20, GetDataAvailabilityDocument.class);
 
     /**
      * Constructs a new {@code GetDataAvailabilityDecoder}.
