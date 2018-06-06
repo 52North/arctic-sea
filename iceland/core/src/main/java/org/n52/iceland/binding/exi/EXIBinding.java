@@ -39,6 +39,10 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+import com.siemens.ct.exi.core.EXIFactory;
+import com.siemens.ct.exi.core.exceptions.EXIException;
+import com.siemens.ct.exi.main.api.sax.EXISource;
+
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
@@ -59,9 +63,6 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
 
-import com.siemens.ct.exi.EXIFactory;
-import com.siemens.ct.exi.api.sax.EXISource;
-import com.siemens.ct.exi.exceptions.EXIException;
 
 /**
  * Binding implementation for EXI - Efficient XML Interchange See See

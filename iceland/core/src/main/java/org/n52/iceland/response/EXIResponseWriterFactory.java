@@ -27,7 +27,7 @@ import org.n52.janmayen.component.SingleTypeComponentFactory;
 import org.n52.shetland.exi.EXIObject;
 import org.n52.svalbard.encode.EncoderRepository;
 
-import com.siemens.ct.exi.EXIFactory;
+import com.siemens.ct.exi.core.EXIFactory;
 
 /**
  * Writer factory class for {@link EXIObject} and {@link EXIResponseWriter}
