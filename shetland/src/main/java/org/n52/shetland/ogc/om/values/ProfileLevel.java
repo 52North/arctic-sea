@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.gml.ReferenceType;
@@ -270,6 +271,13 @@ public class ProfileLevel
                     name = "component_" + counter++;
                 }
                 dataRecord.addField(new SweField(name, adc));
+            }
+        }
+        if (counter == 1 && dataRecord.getFields().size() > 1
+                && dataRecord.getFields().stream().map(f -> f.getName().getValue()).collect(Collectors.toSet())
+                        .size() != dataRecord.getFields().size()) {
+            for (SweField field : dataRecord.getFields()) {
+                    field.getName().setValue(field.getName().getValue() + "_" + counter++);
             }
         }
         return dataRecord;
