@@ -258,7 +258,7 @@ public class ProfileLevel
     }
 
     public SweDataRecord valueAsDataRecord(SweDataRecord dataRecord) {
-        int counter = 0;
+        int counter = 1;
         for (Value<?> v : getValue()) {
             if (v instanceof SweAbstractDataComponent) {
                 SweAbstractDataComponent adc = (SweAbstractDataComponent) v;
