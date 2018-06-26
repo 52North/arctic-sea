@@ -46,7 +46,7 @@ import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.StreamingValue;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.values.BooleanValue;
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.CountValue;
@@ -101,8 +101,10 @@ import net.opengis.om.x10.TruthObservationType;
  *
  */
 public class OmEncoderv100
-        extends AbstractXmlEncoder<XmlObject, Object>
-        implements ObservationEncoder<XmlObject, Object> {
+        extends
+        AbstractXmlEncoder<XmlObject, Object>
+        implements
+        ObservationEncoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OmEncoderv100.class);
 
@@ -314,9 +316,12 @@ public class OmEncoderv100
     private ReferencedEnvelope getEnvelope(List<OmObservation> sosObservationCollection) {
         ReferencedEnvelope sosEnvelope = new ReferencedEnvelope();
         sosObservationCollection.stream()
-                .map(o -> (SamplingFeature) o.getObservationConstellation().getFeatureOfInterest()).forEach(f -> {
-                    sosEnvelope.setSrid(f.getGeometry().getSRID());
-                    sosEnvelope.expandToInclude(f.getGeometry().getEnvelopeInternal());
+                .map(o -> (AbstractSamplingFeature) o.getObservationConstellation().getFeatureOfInterest())
+                .forEach(f -> {
+                    if (f.isSetGeometry()) {
+                        sosEnvelope.setSrid(f.getGeometry().getSRID());
+                        sosEnvelope.expandToInclude(f.getGeometry().getEnvelopeInternal());
+                    }
                 });
         return sosEnvelope;
     }

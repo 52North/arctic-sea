@@ -228,6 +228,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
     protected void processObservation(OmObservation observation, TimePeriod timePeriod, TimeInstant resultTime,
             FeatureCollection featureCollection, AbstractEReportingHeader eReportingHeader, int counter) {
         if (observation.isSetPhenomenonTime()) {
+            observation.setObservationID(Integer.toString(counter));
             // generate gml:id
             observation.setGmlId(getObservationId(counter));
             // add xlink:href to eReportingHeader.content

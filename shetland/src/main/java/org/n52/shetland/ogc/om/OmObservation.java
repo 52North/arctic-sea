@@ -32,6 +32,7 @@ import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.quality.OmResultQuality;
 import org.n52.shetland.ogc.om.values.NilTemplateValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
+import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
@@ -408,6 +409,13 @@ public class OmObservation
             if (getValue().getValue() instanceof ProfileValue && observationValue.getValue() instanceof ProfileValue) {
                 ((ProfileValue) getValue().getValue())
                         .addValues(((ProfileValue) observationValue.getValue()).getValue());
+                return true;
+            } else if (getValue().getValue() instanceof SweDataArrayValue
+                    && observationValue.getValue() instanceof SweDataArrayValue
+                    && ((SweDataArray) getValue().getValue().getValue()).getElementType()
+                            .equals(((SweDataArray) observationValue.getValue().getValue()).getElementType())) {
+                ((SweDataArray) getValue().getValue().getValue())
+                        .addAll(((SweDataArray) observationValue.getValue().getValue()).getValues());
                 return true;
             } else {
                 tvpValue = convertSingleValueToMultiValue((SingleObservationValue<?>) value);
@@ -861,7 +869,7 @@ public class OmObservation
     }
 
     public boolean checkForMerge(OmObservation observation, ObservationMergeIndicator indicator) {
-        return checkMergeIndicator(observation) && checkObservationTypeForMerging(observation)
+        return checkMergeIndicator(observation) && checkObservationTypeForMerging(indicator, observation)
                 && checkProcedure(indicator, observation) && checkOfferings(indicator, observation)
                 && checkFeatureOfInterest(indicator, observation) && checkObservableProperty(indicator, observation)
                 && checkPhenomenonTime(indicator, observation) && checkResultTime(indicator, observation)
@@ -876,12 +884,16 @@ public class OmObservation
      *
      * @return <code>true</code>, if the observation can be merged
      */
-    private boolean checkObservationTypeForMerging(OmObservation observation) {
-        OmObservationConstellation oc = observation.getObservationConstellation();
-        return oc.isSetObservationType() && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(oc.getObservationType())
-                && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(oc.getObservationType())
-                && !OmConstants.OBS_TYPE_OBSERVATION.equals(oc.getObservationType())
-                && !OmConstants.OBS_TYPE_UNKNOWN.equals(oc.getObservationType());
+    private boolean checkObservationTypeForMerging(ObservationMergeIndicator indicator, OmObservation observation) {
+        if (indicator.isObservationType()) {
+            OmObservationConstellation oc = observation.getObservationConstellation();
+            return oc.isSetObservationType()
+                    && !OmConstants.OBS_TYPE_SWE_ARRAY_OBSERVATION.equals(oc.getObservationType())
+                    && !OmConstants.OBS_TYPE_COMPLEX_OBSERVATION.equals(oc.getObservationType())
+                    && !OmConstants.OBS_TYPE_OBSERVATION.equals(oc.getObservationType())
+                    && !OmConstants.OBS_TYPE_UNKNOWN.equals(oc.getObservationType());
+        }
+        return true;
     }
 
     private boolean checkProcedure(ObservationMergeIndicator indicator, OmObservation observation) {

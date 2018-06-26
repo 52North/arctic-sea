@@ -145,6 +145,15 @@ public class ObservationMergeIndicator {
     }
 
     /**
+     * Sets that the observation type should be checked to merge two observations.
+     *
+     * @return {@code this}
+     */
+    public ObservationMergeIndicator withObservationType() {
+        return with(Param.OBSERVATION_TYPE);
+    }
+
+    /**
      * Sets that the procedure does not need to be equal to merge two observations.
      *
      * @return {@code this}
@@ -208,6 +217,15 @@ public class ObservationMergeIndicator {
     }
 
     /**
+     * Sets that the observation type does not need to be checked to merge two observations.
+     *
+     * @return {@code this}
+     */
+    public ObservationMergeIndicator withoutObservationType() {
+        return without(Param.OBSERVATION_TYPE);
+    }
+
+    /**
      * Checks if the procedure should be equal to merge two observations.
      *
      * @return if the procedure should be equal
@@ -268,6 +286,15 @@ public class ObservationMergeIndicator {
      */
     public boolean isSamplingGeometry() {
         return is(Param.SAMPLING_GEOMETRY);
+    }
+
+    /**
+     * Checks if the observation type should be checked to merge two observations.
+     *
+     * @return if the observation type should be checked
+     */
+    public boolean isObservationType() {
+        return is(Param.OBSERVATION_TYPE);
     }
 
     /**
@@ -357,6 +384,17 @@ public class ObservationMergeIndicator {
         return samplingGeometry ? withSamplingGeometry() : withoutSamplingGeometry();
     }
 
+    /**
+     * Sets whether the observation type should be checked to merge two observations.
+     *
+     * @param observationType if the observation type should be checked
+     *
+     * @return {@code this}
+     */
+    public ObservationMergeIndicator setObservationType(boolean observationType) {
+        return observationType ? withObservationType() : withoutObservationType();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hashCode(this.parameters);
@@ -384,8 +422,8 @@ public class ObservationMergeIndicator {
      * @return the indicator
      */
     public static ObservationMergeIndicator sameObservationConstellation() {
-        return new ObservationMergeIndicator(EnumSet
-                .of(Param.PROCEDURE, Param.OBSERVABLE_PROPERTY, Param.FEATURE_OF_INTEREST, Param.OFFERING));
+        return new ObservationMergeIndicator(EnumSet.of(Param.PROCEDURE, Param.OBSERVABLE_PROPERTY,
+                Param.FEATURE_OF_INTEREST, Param.OFFERING, Param.OBSERVATION_TYPE));
     }
 
     /**
@@ -398,7 +436,8 @@ public class ObservationMergeIndicator {
         OFFERING,
         PHENOMENON_TIME,
         RESULT_TIME,
-        SAMPLING_GEOMETRY
+        SAMPLING_GEOMETRY,
+        OBSERVATION_TYPE
     }
 
 }

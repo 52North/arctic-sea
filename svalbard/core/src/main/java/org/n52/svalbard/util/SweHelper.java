@@ -324,7 +324,7 @@ public final class SweHelper {
 
             @Override
             public SweAbstractDataComponent visit(SweDataArrayValue value) throws EncodingException {
-                throw notSupported();
+                return ((SweDataArrayValue) iValue).getValue();
             }
 
             @Override

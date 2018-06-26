@@ -976,8 +976,7 @@ public class SensorMLEncoderv20
                 IdentifierListPropertyType.Factory.newInstance(getXmlOptions());
         final IdentifierListType xbIdentifierList = xbIdentification.addNewIdentifierList();
         identifications.forEach(
-                sosSMLIdentifier -> createTerm(xbIdentifierList.addNewIdentifier2().addNewTerm(),
-                        sosSMLIdentifier));
+            sosSMLIdentifier -> createTerm(xbIdentifierList.addNewIdentifier2().addNewTerm(), sosSMLIdentifier));
         return new IdentifierListPropertyType[] { xbIdentification };
     }
 
@@ -1244,7 +1243,8 @@ public class SensorMLEncoderv20
         return null;
     }
 
-    private void addFeatures(FeatureListType featureList, SmlFeatureOfInterest feature) throws EncodingException {
+    private void addFeatures(FeatureListType featureList, SmlFeatureOfInterest feature)
+            throws EncodingException {
         if (feature.isSetFeaturesOfInterestMap()) {
             for (int i = 0; i < featureList.sizeOfFeatureArray(); i++) {
                 featureList.removeFeature(i);

@@ -20,7 +20,12 @@ import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 
 /**
+ * TODO JavaDoc
+ *
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
+ * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
+ *
+ * @since 1.0.0
  */
 public class OperationRequestEncoderKey extends OperationEncoderKey {
 

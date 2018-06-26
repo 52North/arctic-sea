@@ -236,12 +236,7 @@ public abstract class AbstractOmEncoderv20
         if (!sosObservation.isSetGmlID()) {
             sosObservation.setGmlId(OBSERVATION_ID_PREFIX + observationID);
         }
-        // set a unique gml:id
         xbObservation.setId(generateObservationGMLId());
-        if (!sosObservation.isSetObservationID()) {
-            sosObservation.setObservationID(xbObservation.getId().replace(OBSERVATION_ID_PREFIX, ""));
-        }
-
         setObservationIdentifier(sosObservation, xbObservation);
         setObservationName(sosObservation, xbObservation);
         setDescription(sosObservation, xbObservation);

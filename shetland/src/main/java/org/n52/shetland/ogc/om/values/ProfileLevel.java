@@ -277,7 +277,7 @@ public class ProfileLevel
                 && dataRecord.getFields().stream().map(f -> f.getName().getValue()).collect(Collectors.toSet())
                         .size() != dataRecord.getFields().size()) {
             for (SweField field : dataRecord.getFields()) {
-                    field.getName().setValue(field.getName().getValue() + "_" + counter++);
+                field.getName().setValue(field.getName().getValue() + "_" + counter++);
             }
         }
         return dataRecord;
