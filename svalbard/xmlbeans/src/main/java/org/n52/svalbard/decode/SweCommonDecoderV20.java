@@ -229,6 +229,8 @@ public class SweCommonDecoderV20
             dataArrayDoc.setDataArray1((DataArrayType) abstractDataComponent);
             sosDataArray.setXml(dataArrayDoc.xmlText(getXmlOptions()));
             sosAbstractDataComponent = sosDataArray;
+        } else if (abstractDataComponent == null) {
+
         } else {
             throw new UnsupportedDecoderXmlInputException(this, abstractDataComponent);
         }
