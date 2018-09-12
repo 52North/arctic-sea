@@ -122,6 +122,7 @@ import net.opengis.swe.x20.VectorType.Coordinate;
  */
 public class SweCommonDecoderV20
         extends AbstractXmlDecoder<Object, Object> {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SweCommonDecoderV20.class);
 
     private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(SweConstants.NS_SWE_20,
@@ -229,6 +230,8 @@ public class SweCommonDecoderV20
             dataArrayDoc.setDataArray1((DataArrayType) abstractDataComponent);
             sosDataArray.setXml(dataArrayDoc.xmlText(getXmlOptions()));
             sosAbstractDataComponent = sosDataArray;
+        } else if (abstractDataComponent == null) {
+            LOGGER.debug("abstractDataComponent is null");
         } else {
             throw new UnsupportedDecoderXmlInputException(this, abstractDataComponent);
         }
@@ -251,8 +254,8 @@ public class SweCommonDecoderV20
 
     private Object parseAbstractDataComponentDocument(final AbstractDataComponentDocument abstractDataComponentDoc)
             throws DecodingException {
-        SweAbstractDataComponent sosAbstractDataComponent =
-                parseAbstractDataComponent(abstractDataComponentDoc.getAbstractDataComponent());
+        SweAbstractDataComponent sosAbstractDataComponent
+                = parseAbstractDataComponent(abstractDataComponentDoc.getAbstractDataComponent());
         sosAbstractDataComponent.setXml(abstractDataComponentDoc.xmlText(getXmlOptions()));
         return sosAbstractDataComponent;
     }
@@ -641,7 +644,7 @@ public class SweCommonDecoderV20
         }
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private SweAllowedValues parseAllowedValues(AllowedValuesType avt) {
         SweAllowedValues allowedValues = new SweAllowedValues();
         if (avt.isSetId()) {
@@ -744,7 +747,7 @@ public class SweCommonDecoderV20
         return sweVector;
     }
 
-    @SuppressWarnings({ "rawtypes", "unchecked" })
+    @SuppressWarnings({"rawtypes", "unchecked"})
     private List<SweCoordinate<?>> parseCoordinates(Coordinate[] coordinateArray) throws DecodingException {
         List<SweCoordinate<?>> sosCoordinates = new ArrayList<>(coordinateArray.length);
         for (final Coordinate xbCoordinate : coordinateArray) {
