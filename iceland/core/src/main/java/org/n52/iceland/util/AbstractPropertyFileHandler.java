@@ -47,14 +47,11 @@ public class AbstractPropertyFileHandler {
         this.propertiesFile = new File(name);
     }
 
-    public File getFile(boolean create) throws IOException {
-        if (propertiesFile.exists() || (create && propertiesFile.createNewFile())) {
-            return propertiesFile;
-        }
-        return null;
+    public AbstractPropertyFileHandler(File file) {
+        this.propertiesFile = file;
     }
 
-    private Properties load() throws IOException {
+    protected Properties load() throws IOException {
         if (this.cache == null) {
             File f = getFile(false);
             if (f == null) {
@@ -69,7 +66,7 @@ public class AbstractPropertyFileHandler {
         return cache;
     }
 
-    private void save(Properties p) throws IOException {
+    protected void save(Properties p) throws IOException {
         try (OutputStream os = new FileOutputStream(getFile(true))) {
             p.store(os, null);
             this.cache = p;
@@ -87,6 +84,21 @@ public class AbstractPropertyFileHandler {
         } finally {
             lock.writeLock().unlock();
         }
+    }
+
+    protected void setCache(Properties p) {
+        this.cache = p;
+    }
+
+    protected Properties getCache() {
+        return cache;
+    }
+
+    public File getFile(boolean create) throws IOException {
+        if (propertiesFile.exists() || (create && propertiesFile.createNewFile())) {
+            return propertiesFile;
+        }
+        return null;
     }
 
     public String get(String m) throws ConfigurationError {

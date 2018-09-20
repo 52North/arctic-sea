@@ -37,8 +37,8 @@
             <artifactId>svalbard-xmlstream</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>findbugs-annotations</artifactId>
+            <groupId>com.github.spotbugs</groupId>
+            <artifactId>spotbugs-annotations</artifactId>
             <scope>provided</scope>
         </dependency>
         <dependency>
