@@ -64,6 +64,9 @@ public class GetObservationResponseEncoder extends AbstractObservationResponseEn
         try {
             GetObservationResponseDocument doc = GetObservationResponseDocument.Factory.newInstance(getXmlOptions());
             GetObservationResponseType xbResponse = doc.addNewGetObservationResponse();
+            if (response.hasExtensions()) {
+                createExtension(xbResponse, response.getExtensions());
+            }
             ObservationStream observationCollection = response.getObservationCollection();
             while (observationCollection.hasNext()) {
                 xbResponse.addNewObservationData()

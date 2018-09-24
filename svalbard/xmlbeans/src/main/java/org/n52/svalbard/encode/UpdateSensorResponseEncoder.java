@@ -49,6 +49,9 @@ public class UpdateSensorResponseEncoder extends AbstractSwesResponseEncoder<Upd
         final UpdateSensorDescriptionResponseDocument document =
                 UpdateSensorDescriptionResponseDocument.Factory.newInstance(getXmlOptions());
         final UpdateSensorDescriptionResponseType usdr = document.addNewUpdateSensorDescriptionResponse();
+        if (response.hasExtensions()) {
+            createExtension(usdr, response.getExtensions());
+        }
         usdr.setUpdatedProcedure(response.getUpdatedProcedure());
         return document;
     }

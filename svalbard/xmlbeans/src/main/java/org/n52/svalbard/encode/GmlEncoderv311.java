@@ -113,7 +113,7 @@ public class GmlEncoderv311
             org.n52.shetland.ogc.gml.time.Time.class, org.locationtech.jts.geom.Geometry.class,
             org.n52.shetland.ogc.om.values.CategoryValue.class, org.n52.shetland.ogc.gml.ReferenceType.class,
             org.n52.shetland.ogc.om.values.QuantityValue.class, org.n52.shetland.ogc.gml.CodeWithAuthority.class,
-            org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class,
+            org.n52.shetland.ogc.gml.CodeType.class, AbstractFeature.class, GenericMetaData.class,
             org.n52.shetland.util.ReferencedEnvelope.class, org.n52.shetland.util.EnvelopeOrGeometry.class);
 
     private String srsNamePrefix;

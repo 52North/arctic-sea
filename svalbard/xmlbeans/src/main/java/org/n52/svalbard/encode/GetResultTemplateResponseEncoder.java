@@ -56,6 +56,9 @@ public class GetResultTemplateResponseEncoder
             throws EncodingException {
         GetResultTemplateResponseDocument doc = GetResultTemplateResponseDocument.Factory.newInstance(getXmlOptions());
         GetResultTemplateResponseType xbResponse = doc.addNewGetResultTemplateResponse();
+        if (response.hasExtensions()) {
+            createExtension(xbResponse, response.getExtensions());
+        }
         xbResponse.setResultEncoding(createResultEncoding(response.getResultEncoding()));
         xbResponse.setResultStructure(createResultStructure(response.getResultStructure()));
         return doc;

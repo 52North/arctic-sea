@@ -47,6 +47,9 @@ public class InsertSensorResponseEncoder extends AbstractSwesResponseEncoder<Ins
     protected XmlObject create(InsertSensorResponse response) throws EncodingException {
         InsertSensorResponseDocument document = InsertSensorResponseDocument.Factory.newInstance(getXmlOptions());
         InsertSensorResponseType isr = document.addNewInsertSensorResponse();
+        if (response.hasExtensions()) {
+            createExtension(isr, response.getExtensions());
+        }
         isr.setAssignedProcedure(response.getAssignedProcedure());
         isr.setAssignedOffering(response.getAssignedOffering());
         return document;

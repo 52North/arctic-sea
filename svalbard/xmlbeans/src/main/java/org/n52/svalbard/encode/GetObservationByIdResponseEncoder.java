@@ -62,7 +62,9 @@ public class GetObservationByIdResponseEncoder
         GetObservationByIdResponseDocument doc =
                 GetObservationByIdResponseDocument.Factory.newInstance(getXmlOptions());
         GetObservationByIdResponseType xbResponse = doc.addNewGetObservationByIdResponse();
-
+        if (response.hasExtensions()) {
+            createExtension(xbResponse, response.getExtensions());
+        }
         ObservationStream observations = getObservationsAndCheckForStreaming(response, encoder);
         HashMap<CodeWithAuthority, String> gmlID4sfIdentifier = new HashMap<>();
         try {

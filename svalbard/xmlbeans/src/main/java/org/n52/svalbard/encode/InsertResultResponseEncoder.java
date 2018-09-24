@@ -45,6 +45,9 @@ public class InsertResultResponseEncoder extends AbstractSosResponseEncoder<Inse
     protected XmlObject create(InsertResultResponse response) throws EncodingException {
         final InsertResultResponseDocument doc = InsertResultResponseDocument.Factory.newInstance(getXmlOptions());
         doc.addNewInsertResultResponse();
+        if (response.hasExtensions()) {
+            createExtension(doc.getInsertResultResponse(), response.getExtensions());
+        }
         return doc;
     }
 

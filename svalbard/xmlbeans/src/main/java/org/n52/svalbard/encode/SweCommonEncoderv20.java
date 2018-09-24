@@ -111,6 +111,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweCoordinate;
 import org.n52.shetland.ogc.swe.SweDataArray;
@@ -430,10 +431,12 @@ public class SweCommonEncoderv20
             xmlField.setName(NcName.makeValid(field.getName().getValue()));
         }
 
-        XmlObject encodeObjectToXml = createAbstractDataComponent(element, EncodingContext.empty());
-        XmlObject substituteElement =
-                XmlHelper.substituteElement(xmlField.addNewAbstractDataComponent(), encodeObjectToXml);
-        substituteElement.set(encodeObjectToXml);
+        if (element != null) {
+            XmlObject encodeObjectToXml = createAbstractDataComponent(element, EncodingContext.empty());
+            XmlObject substituteElement =
+                    XmlHelper.substituteElement(xmlField.addNewAbstractDataComponent(), encodeObjectToXml);
+            substituteElement.set(encodeObjectToXml);
+        }
         return xmlField;
     }
 
@@ -726,7 +729,7 @@ public class SweCommonEncoderv20
                 } else {
                     elementType.setName(SweCommonEncoderv20.DEFAULT_ELEMENT_TYPE_NAME);
                 }
-                List<SweField> sosFields = ((SweDataRecord) component.getElementType()).getFields();
+                List<SweField> sosFields = ((SweAbstractDataRecord) component.getElementType()).getFields();
                 DataRecordType xbDataRecord = DataRecordType.Factory.newInstance(getXmlOptions());
                 if (sosFields == null) {
                     LOGGER.error(DATA_RECORD_HAS_NO_FIELDS);

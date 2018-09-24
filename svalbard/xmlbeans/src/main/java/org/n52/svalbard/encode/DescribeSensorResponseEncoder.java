@@ -56,6 +56,9 @@ public class DescribeSensorResponseEncoder
             throws EncodingException {
         DescribeSensorResponseDocument doc = DescribeSensorResponseDocument.Factory.newInstance(getXmlOptions());
         DescribeSensorResponseType dsr = doc.addNewDescribeSensorResponse();
+        if (response.hasExtensions()) {
+            createExtension(dsr, response.getExtensions());
+        }
         dsr.setProcedureDescriptionFormat(response.getOutputFormat());
         for (SosProcedureDescription<?> sosProcedureDescription : response.getProcedureDescriptions()) {
             SensorDescriptionType sensorDescription = dsr.addNewDescription().addNewSensorDescription();

@@ -18,11 +18,13 @@ package org.n52.svalbard.encode;
 
 import java.io.OutputStream;
 import java.util.Collections;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.inspire.omso.ProfileObservation;
+import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gmlcov.GmlCoverageConstants;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
@@ -103,5 +105,11 @@ public class ProfileObservationTypeEncoder
 
     protected OMObservationType createOmObservationType() {
         return ProfileObservationType.Factory.newInstance(getXmlOptions());
+    }
+
+    @Override
+    public void addNamespacePrefixToMap(Map<String, String> nameSpacePrefixMap) {
+        super.addNamespacePrefixToMap(nameSpacePrefixMap);
+        nameSpacePrefixMap.put(GmlConstants.NS_GML_33_CE, GmlConstants.SCHEMA_LOCATION_URL_GML_33_CE);
     }
 }

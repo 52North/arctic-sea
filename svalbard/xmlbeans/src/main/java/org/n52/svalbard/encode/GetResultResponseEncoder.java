@@ -48,6 +48,9 @@ public class GetResultResponseEncoder extends AbstractSosResponseEncoder<GetResu
     protected XmlObject create(GetResultResponse response) throws EncodingException {
         GetResultResponseDocument doc = GetResultResponseDocument.Factory.newInstance(getXmlOptions());
         GetResultResponseType gtr = doc.addNewGetResultResponse();
+        if (response.hasExtensions()) {
+            createExtension(gtr, response.getExtensions());
+        }
         XmlObject resultValues = gtr.addNewResultValues();
         if (response.hasResultValues()) {
             XmlString xmlString = XmlString.Factory.newInstance();

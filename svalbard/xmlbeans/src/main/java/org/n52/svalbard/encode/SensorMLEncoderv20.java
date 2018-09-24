@@ -439,6 +439,9 @@ public class SensorMLEncoderv20
             }
         }
         // set connections
+        if (abstractProcess.isSetConnections() && !apt.isSetConnections()) {
+            apt.setConnections(createConnections(abstractProcess.getConnections()));
+        }
     }
 
     private XmlObject encodeAbstractPhysicalProcess(AbstractPhysicalProcess abstractPhysicalProcess,
@@ -617,7 +620,9 @@ public class SensorMLEncoderv20
         // set legalConstraints
         // set characteristics
         if (describedObject.isSetCharacteristics()) {
-            dot.setCharacteristicsArray(createCharacteristics(describedObject.getCharacteristics()));
+            if (CollectionHelper.isNullOrEmpty(dot.getCharacteristicsArray())) {
+                dot.setCharacteristicsArray(createCharacteristics(describedObject.getCharacteristics()));
+            }
         }
         // set contacts if contacts aren't already present in the abstract
         // process

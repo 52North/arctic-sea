@@ -19,24 +19,14 @@ package org.n52.svalbard.decode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.ogc.BBOXType;
-import net.opengis.ogc.BinarySpatialOpType;
-import net.opengis.ogc.BinaryTemporalOpType;
-import net.opengis.ogc.PropertyNameDocument;
-import net.opengis.ogc.PropertyNameType;
-import net.opengis.ogc.SpatialOperatorType;
-import net.opengis.ogc.TemporalOperatorType;
-import net.opengis.ogc.impl.BBOXTypeImpl;
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.NodeList;
-
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.filter.TemporalFilter;
@@ -46,33 +36,48 @@ import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
 
 import com.google.common.base.Joiner;
-import org.locationtech.jts.geom.Geometry;
+
+import net.opengis.ogc.BBOXType;
+import net.opengis.ogc.BinaryComparisonOpType;
+import net.opengis.ogc.BinarySpatialOpType;
+import net.opengis.ogc.BinaryTemporalOpType;
+import net.opengis.ogc.ComparisonOpsType;
+import net.opengis.ogc.LiteralType;
+import net.opengis.ogc.PropertyIsBetweenType;
+import net.opengis.ogc.PropertyIsLikeType;
+import net.opengis.ogc.PropertyIsNullType;
+import net.opengis.ogc.PropertyNameDocument;
+import net.opengis.ogc.PropertyNameType;
+import net.opengis.ogc.SpatialOperatorType;
+import net.opengis.ogc.TemporalOperatorType;
+import net.opengis.ogc.impl.BBOXTypeImpl;
 
 /**
  * @since 1.0.0
  *
  */
-public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
+public class OgcDecoderv100
+        extends
+        AbstractXmlDecoder<XmlObject, Object> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(OgcDecoderv100.class);
 
-    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(
-            OGCConstants.NS_OGC,
-            SpatialOperatorType.class,
-            TemporalOperatorType.class,
-            BinarySpatialOpType.class,
-            BinaryTemporalOpType.class,
-            BBOXType.class,
-            PropertyNameDocument.class);
+    private static final Set<DecoderKey> DECODER_KEYS = CodingHelper.decoderKeysForElements(OGCConstants.NS_OGC,
+            SpatialOperatorType.class, TemporalOperatorType.class, BinarySpatialOpType.class,
+            BinaryTemporalOpType.class, BBOXType.class, PropertyNameDocument.class);
 
     public OgcDecoderv100() {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
-                     Joiner.on(", ").join(DECODER_KEYS));
+                Joiner.on(", ").join(DECODER_KEYS));
     }
 
     @Override
@@ -81,7 +86,8 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
     }
 
     @Override
-    public Object decode(XmlObject xmlObject) throws DecodingException {
+    public Object decode(XmlObject xmlObject)
+            throws DecodingException {
         // validate document
 
         // FIXME Validation currently fails against abstract types
@@ -104,6 +110,9 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
         if (xmlObject instanceof BBOXType) {
             return parseBBOXFilterType((BBOXTypeImpl) xmlObject);
         }
+        if (xmlObject instanceof ComparisonOpsType) {
+            return parseComparisonOpsType((ComparisonOpsType) xmlObject);
+        }
         if (xmlObject instanceof BBOXTypeImpl) {
             return parseBBOXFilterType((BBOXTypeImpl) xmlObject);
         } else {
@@ -115,16 +124,20 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
     }
 
     /**
-     * parses a single temporal filter of the requests and returns SOS temporal filter
+     * parses a single temporal filter of the requests and returns SOS temporal
+     * filter
      *
-     * @param xbBinaryTemporalOp XmlObject representing the temporal filter
+     * @param xbBinaryTemporalOp
+     *            XmlObject representing the temporal filter
      *
      * @return Returns SOS representation of temporal filter
      *
      *
-     * @throws DecodingException if parsing of the element failed
+     * @throws DecodingException
+     *             if parsing of the element failed
      */
-    private Object parseTemporalOperatorType(BinaryTemporalOpType xbBinaryTemporalOp) throws DecodingException {
+    private Object parseTemporalOperatorType(BinaryTemporalOpType xbBinaryTemporalOp)
+            throws DecodingException {
 
         TemporalFilter temporalFilter = new TemporalFilter();
         // FIXME local workaround against SOSHelper check value reference
@@ -134,8 +147,8 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
             NodeList nodes = xbBinaryTemporalOp.getDomNode().getChildNodes();
             for (int i = 0; i < nodes.getLength(); i++) {
 
-                if (nodes.item(i).getNamespaceURI() != null &&
-                         !nodes.item(i).getLocalName().equals(FilterConstants.EN_VALUE_REFERENCE)) {
+                if (nodes.item(i).getNamespaceURI() != null
+                        && !nodes.item(i).getLocalName().equals(FilterConstants.EN_VALUE_REFERENCE)) {
                     // GML decoder will return TimeInstant or TimePriod
                     Object timeObject = decodeXmlElement(XmlObject.Factory.parse(nodes.item(i)));
 
@@ -182,14 +195,19 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
     /**
      * Parses the spatial filter of a request.
      *
-     * @param xbBBOX XmlBean representing the feature of interest parameter of the request
+     * @param xbBBOX
+     *            XmlBean representing the feature of interest parameter of the
+     *            request
      *
-     * @return Returns SpatialFilter created from the passed foi request parameter
+     * @return Returns SpatialFilter created from the passed foi request
+     *         parameter
      *
      *
-     * @throws DecodingException * if creation of the SpatialFilter failed
+     * @throws DecodingException
+     *             * if creation of the SpatialFilter failed
      */
-    private SpatialFilter parseBBOXFilterType(BBOXTypeImpl xbBBOX) throws DecodingException {
+    private SpatialFilter parseBBOXFilterType(BBOXTypeImpl xbBBOX)
+            throws DecodingException {
 
         SpatialFilter spatialFilter = new SpatialFilter();
         // FIXME local workaround for SOSHelper check value reference
@@ -223,7 +241,8 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
         return spatialFilter;
     }
 
-    private Object parseSpatialOperatorType(BinarySpatialOpType xbSpatialOpsType) throws DecodingException {
+    private Object parseSpatialOperatorType(BinarySpatialOpType xbSpatialOpsType)
+            throws DecodingException {
         SpatialFilter spatialFilter = new SpatialFilter();
         try {
             if (xbSpatialOpsType instanceof BBOXTypeImpl) {
@@ -250,6 +269,155 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
         return spatialFilter;
     }
 
+    private ComparisonFilter parseComparisonOpsType(ComparisonOpsType comparisonOpsType)
+            throws DecodingException {
+        if (comparisonOpsType instanceof BinaryComparisonOpType) {
+            return parseBinaryComparisonFilter((BinaryComparisonOpType) comparisonOpsType);
+        } else if (comparisonOpsType instanceof PropertyIsLikeType) {
+            return parsePropertyIsLikeFilter((PropertyIsLikeType) comparisonOpsType);
+        } else if (comparisonOpsType instanceof PropertyIsNullType) {
+            return parsePropertyIsNullFilter((PropertyIsNullType) comparisonOpsType);
+        } else if (comparisonOpsType instanceof PropertyIsBetweenType) {
+            return parsePropertyIsBetweenFilter((PropertyIsBetweenType) comparisonOpsType);
+        } else {
+            throw new UnsupportedDecoderInputException(this, comparisonOpsType);
+        }
+    }
+
+    private ComparisonFilter parseBinaryComparisonFilter(BinaryComparisonOpType comparisonOpsType)
+            throws DecodingException {
+        ComparisonFilter comparisonFilter = new ComparisonFilter();
+        String localName = XmlHelper.getLocalName(comparisonOpsType);
+        if (ComparisonOperator.PropertyIsEqualTo.name().equals(localName)) {
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsEqualTo);
+        } else if (ComparisonOperator.PropertyIsNotEqualTo.name().equals(localName)) {
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsNotEqualTo);
+        } else if (ComparisonOperator.PropertyIsLessThan.name().equals(localName)) {
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsLessThan);
+        } else if (ComparisonOperator.PropertyIsGreaterThan.name().equals(localName)) {
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsGreaterThan);
+        } else if (ComparisonOperator.PropertyIsLessThanOrEqualTo.name().equals(localName)) {
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsLessThanOrEqualTo);
+        } else if (ComparisonOperator.PropertyIsGreaterThanOrEqualTo.name().equals(localName)) {
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsGreaterThanOrEqualTo);
+        } else {
+            throw new UnsupportedDecoderInputException(this, comparisonOpsType);
+        }
+        if (comparisonOpsType.isSetMatchCase()) {
+            comparisonFilter.setMatchCase(comparisonOpsType.getMatchCase());
+        }
+        parseExpressions(comparisonOpsType.getExpressionArray(), comparisonFilter);
+        return comparisonFilter;
+    }
+
+    private ComparisonFilter parsePropertyIsLikeFilter(PropertyIsLikeType comparisonOpsType)
+            throws DecodingException {
+        try {
+            ComparisonFilter comparisonFilter = new ComparisonFilter();
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsLike);
+            comparisonFilter.setEscapeString(comparisonOpsType.getEscapeChar());
+            comparisonFilter.setSingleChar(comparisonOpsType.getSingleChar());
+            comparisonFilter.setWildCard(comparisonOpsType.getWildCard());
+            comparisonFilter.setValueReference(parsePropertyName(comparisonOpsType.getPropertyName()));
+            parseExpressions(comparisonOpsType.getLiteral(), comparisonFilter);
+            return comparisonFilter;
+        } catch (XmlException xmle) {
+            throw new DecodingException("Error while parsing PropertyIsLikeType element!", xmle);
+        }
+    }
+
+    private ComparisonFilter parsePropertyIsNullFilter(PropertyIsNullType comparisonOpsType)
+            throws DecodingException {
+        try {
+            ComparisonFilter comparisonFilter = new ComparisonFilter();
+            comparisonFilter.setOperator(ComparisonOperator.PropertyIsNull);
+            comparisonFilter.setValueReference(parsePropertyName(comparisonOpsType.getPropertyName()));
+            return comparisonFilter;
+        } catch (XmlException xmle) {
+            throw new DecodingException("Error while parsing PropertyIsNullType element!", xmle);
+        }
+    }
+
+    private ComparisonFilter parsePropertyIsBetweenFilter(PropertyIsBetweenType comparisonOpsType)
+            throws DecodingException {
+        ComparisonFilter comparisonFilter = new ComparisonFilter();
+        comparisonFilter.setOperator(ComparisonOperator.PropertyIsBetween);
+        try {
+            comparisonFilter.setValueReference(parsePropertyName(comparisonOpsType.getExpression()));
+            comparisonFilter.setValue(parseStringFromExpression(comparisonOpsType.getLowerBoundary().getExpression()));
+            comparisonFilter
+                    .setValueUpper(parseStringFromExpression(comparisonOpsType.getUpperBoundary().getExpression()));
+        } catch (XmlException xmle) {
+            throw new DecodingException("Error while parsing between filter element!", xmle);
+        }
+        return comparisonFilter;
+    }
+
+    /**
+     * Parse XML expression array
+     *
+     * @param expressionArray
+     *            XML expression array
+     * @param comparisonFilter
+     *            SOS comparison filter
+     * @throws DecodingException
+     *             if an error occurs
+     */
+    private void parseExpressions(XmlObject[] expressionArray, ComparisonFilter comparisonFilter)
+            throws DecodingException {
+        for (XmlObject xmlObject : expressionArray) {
+            parseExpressions(xmlObject, comparisonFilter);
+        }
+    }
+
+    private void parseExpressions(XmlObject xmlObject, ComparisonFilter comparisonFilter)
+            throws DecodingException {
+        if (isPropertyNameExpression(xmlObject)) {
+            try {
+                comparisonFilter.setValueReference(parsePropertyName(xmlObject));
+            } catch (XmlException xmle) {
+                throw new DecodingException("Error while parsing propertyName element!", xmle);
+            }
+        } else if (xmlObject instanceof LiteralType) {
+            // TODO is this the best way?
+            comparisonFilter.setValue(parseLiteralValue((LiteralType) xmlObject));
+        }
+    }
+
+    private String parseLiteralValue(LiteralType literalType) {
+        return parseStringFromExpression(literalType);
+    }
+
+    /**
+     * Check if the XmlObject is a propertyName element
+     *
+     * @param xmlObject
+     *            Element to check
+     * @return <code>true</code>, if XmlObject is a propertyName element
+     */
+    private boolean isPropertyNameExpression(XmlObject xmlObject) {
+        return FilterConstants.EN_PROPERTY_NAME.equals(XmlHelper.getLocalName(xmlObject));
+    }
+
+    /**
+     * Parse XML propertyName element
+     *
+     * @param xmlObject
+     *            XML propertyName
+     * @return ValueReference string
+     * @throws XmlException
+     *             If an error occurs
+     */
+    private String parsePropertyName(XmlObject xmlObject)
+            throws XmlException {
+        PropertyNameDocument propertyName = PropertyNameDocument.Factory.parse(xmlObject.getDomNode());
+        return parseStringFromExpression(propertyName.getPropertyName());
+    }
+
+    private String parseStringFromExpression(XmlObject xmlObject) {
+        return xmlObject.getDomNode().getFirstChild().getNodeValue().trim();
+    }
+
     private static DecodingException unsupportedSpatialFilterOperand() {
         return new DecodingException("The requested spatial filter operand is not supported by this SOS!");
     }
@@ -264,6 +432,6 @@ public class OgcDecoderv100 extends AbstractXmlDecoder<XmlObject, Object> {
 
     private static DecodingException unsupportedTemporalFilterOperand() {
         return new DecodingException(Sos1Constants.GetObservationParams.eventTime,
-                                     "The requested temporal filter operand is not supported by this SOS!");
+                "The requested temporal filter operand is not supported by this SOS!");
     }
 }

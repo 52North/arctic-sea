@@ -69,7 +69,7 @@ public class InspireOmObservationEncoder
     @Override
     public XmlObject encode(Object element, EncodingContext ec) throws EncodingException {
         if (element instanceof OmObservation) {
-            return encodeInspireOmsoType((OmObservation) element);
+            return encodeInspireOmsoType((OmObservation) element, ec);
         }
         throw new UnsupportedEncoderInputException(this, element);
     }
@@ -97,8 +97,8 @@ public class InspireOmObservationEncoder
         }
     }
 
-    protected XmlObject encodeInspireOmsoType(OmObservation o) throws EncodingException {
-        return encodeObjectToXml(InspireOMSOConstants.NS_OMSO_30, o);
+    protected XmlObject encodeInspireOmsoType(OmObservation o, EncodingContext ctx) throws EncodingException {
+        return encodeObjectToXml(InspireOMSOConstants.NS_OMSO_30, o, ctx);
     }
 
     @Override

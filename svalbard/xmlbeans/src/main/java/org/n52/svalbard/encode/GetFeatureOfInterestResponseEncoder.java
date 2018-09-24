@@ -22,7 +22,7 @@ import org.apache.xmlbeans.XmlObject;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
@@ -52,12 +52,15 @@ public class GetFeatureOfInterestResponseEncoder extends AbstractSosResponseEnco
         GetFeatureOfInterestResponseDocument document =
                 GetFeatureOfInterestResponseDocument.Factory.newInstance(getXmlOptions());
         GetFeatureOfInterestResponseType xbGetFoiResponse = document.addNewGetFeatureOfInterestResponse();
+        if (response.hasExtensions()) {
+            createExtension(xbGetFoiResponse, response.getExtensions());
+        }
         AbstractFeature feature = response.getAbstractFeature();
         if (feature instanceof FeatureCollection) {
             for (AbstractFeature f : (FeatureCollection) feature) {
                 addFeatureOfInterest(f, xbGetFoiResponse);
             }
-        } else if (feature instanceof SamplingFeature) {
+        } else if (feature instanceof AbstractSamplingFeature) {
             addFeatureOfInterest(feature, xbGetFoiResponse);
         }
         XmlHelper.makeGmlIdsUnique(document.getDomNode());

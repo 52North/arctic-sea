@@ -29,6 +29,7 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.Sos2StreamingConstants;
 import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
+import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.EncodingContext;
@@ -46,7 +47,7 @@ import com.google.common.collect.Sets;
  *
  */
 public class GetFeatureOfInterestXmlStreamWriter
-        extends XmlStreamWriter<GetFeatureOfInterestResponse> {
+        extends AbstractSwesXmlStreamWriter<GetFeatureOfInterestResponse> {
 
     public GetFeatureOfInterestXmlStreamWriter(
             OutputStream outputStream, EncodingContext context, GetFeatureOfInterestResponse element)
@@ -66,8 +67,12 @@ public class GetFeatureOfInterestXmlStreamWriter
         start(Sos2StreamingConstants.QN_GET_FEATURE_OF_INTEREST_RESPONSE);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
         namespace(Sos2Constants.NS_SOS_PREFIX, Sos2Constants.NS_SOS_20);
+        namespace(SwesConstants.NS_SWES_PREFIX, SwesConstants.NS_SWES_20);
         // write schemaLocation
         schemaLocation(getSchemaLocation());
+        if (getElement().hasExtensions()) {
+            writeExtensions(getElement().getExtensions());
+        }
         AbstractFeature feature = getElement().getAbstractFeature();
         if (feature instanceof FeatureCollection) {
             for (AbstractFeature f : (FeatureCollection) feature) {
@@ -82,6 +87,7 @@ public class GetFeatureOfInterestXmlStreamWriter
     private Set<SchemaLocation> getSchemaLocation() {
         Set<SchemaLocation> schemaLocations = Sets.newHashSet();
         schemaLocations.add(Sos2Constants.SOS_GET_FEATURE_OF_INTEREST_SCHEMA_LOCATION);
+        schemaLocations.add(GmlConstants.GML_32_SCHEMAL_LOCATION);
         return schemaLocations;
     }
 

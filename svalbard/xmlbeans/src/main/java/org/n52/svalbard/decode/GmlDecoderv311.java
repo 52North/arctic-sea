@@ -256,4 +256,5 @@ public class GmlDecoderv311 implements Decoder<Object, XmlObject> {
             throw new DecodingException("No SrsName is specified for geometry!");
         }
     }
+
 }

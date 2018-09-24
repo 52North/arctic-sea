@@ -36,12 +36,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.n52.shetland.ogc.gml.CodeType;
+import org.n52.shetland.ogc.gml.GenericMetaData;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 import org.n52.shetland.ogc.ows.OwsOperationsMetadata;
 import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.ows.extension.StringBasedExtension;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -51,6 +53,7 @@ import org.n52.shetland.ogc.sos.SosInsertionCapabilities;
 import org.n52.shetland.ogc.sos.SosObservationOffering;
 import org.n52.shetland.ogc.sos.SosOffering;
 import org.n52.shetland.ogc.sos.extension.SosObservationOfferingExtension;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -77,7 +80,9 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
     protected XmlObject create(GetCapabilitiesResponse response) throws EncodingException {
         CapabilitiesDocument doc = CapabilitiesDocument.Factory.newInstance(getXmlOptions());
         CapabilitiesType xbCaps = doc.addNewCapabilities();
-
+        if (response.hasExtensions()) {
+            createExtension(xbCaps, response.getExtensions());
+        }
         if (response.isStatic()) {
             String xml = response.getXmlString();
             LOGGER.trace("Response is static. XML-String:\n{}\n", xml);
@@ -105,6 +110,15 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
             encodeExtensions(caps, xbCaps);
         }
         return doc;
+    }
+
+    private void createExtension(CapabilitiesType xbCaps, Extensions extensions) throws EncodingException {
+        for (Extension<?> extension : extensions.getExtensions()) {
+            if (extension.getValue() instanceof SweAbstractDataComponent) {
+                xbCaps.addNewExtension()
+                        .set(encodeGML32(new GenericMetaData(extension.getValue())));
+            }
+        }
     }
 
     private void setExtensions(XmlObject xml, OwsCapabilitiesExtension extension) throws EncodingException {
@@ -407,5 +421,9 @@ public class GetCapabilitiesResponseEncoder extends AbstractSosResponseEncoder<G
 
     private static EncodingException errorEncodingSwesExtension(XmlException ex) {
         return new EncodingException("Error encoding SwesExtension", ex);
+    }
+
+    protected XmlObject encodeGML32(Object o) throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML_32, o);
     }
 }

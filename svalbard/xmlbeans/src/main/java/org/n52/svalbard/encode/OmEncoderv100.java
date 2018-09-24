@@ -34,6 +34,7 @@ import org.joda.time.DateTime;
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.GenericMetaData;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -54,11 +55,15 @@ import org.n52.shetland.ogc.om.values.GeometryValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.response.AbstractObservationResponse;
 import org.n52.shetland.ogc.sos.response.GetObservationByIdResponse;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.util.CollectionHelper;
@@ -219,11 +224,11 @@ public class OmEncoderv100
         } else if (element instanceof GetObservationResponse) {
             GetObservationResponse response = (GetObservationResponse) element;
             encodedObject =
-                    createObservationCollection(response.getObservationCollection(), response.getResultModel());
+                    createObservationCollection(response);
         } else if (element instanceof GetObservationByIdResponse) {
             GetObservationByIdResponse response = (GetObservationByIdResponse) element;
             encodedObject =
-                    createObservationCollection(response.getObservationCollection(), response.getResultModel());
+                    createObservationCollection(response);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
@@ -265,20 +270,26 @@ public class OmEncoderv100
         return OmConstants.OBS_TYPE_OBSERVATION;
     }
 
-    private XmlObject createObservationCollection(ObservationStream sosObservationCollectionIterable,
-            String resultModel)
+    private XmlObject createObservationCollection(AbstractObservationResponse response)
             throws EncodingException {
+        ObservationStream sosObservationCollectionIterable = response.getObservationCollection();
+        String resultModel =  response.getResultModel();
         ObservationCollectionDocument xbObservationCollectionDoc =
                 ObservationCollectionDocument.Factory.newInstance(getXmlOptions());
         ObservationCollectionType xbObservationCollection = xbObservationCollectionDoc.addNewObservationCollection();
         xbObservationCollection.setId(SosConstants.OBS_COL_ID_PREFIX + new DateTime().getMillis());
+        if (response.hasExtensions()) {
+            createMetadataProperty(xbObservationCollection, response.getExtensions());
+        }
         if (sosObservationCollectionIterable != null) {
             List<OmObservation> sosObservationCollection = new LinkedList<>();
             try {
                 sosObservationCollectionIterable.forEachRemaining(sosObservationCollection::add);
                 ReferencedEnvelope sosEnvelope = getEnvelope(sosObservationCollection);
-                Encoder<XmlObject, ReferencedEnvelope> envEncoder = getEncoder(GmlConstants.NS_GML, sosEnvelope);
-                xbObservationCollection.addNewBoundedBy().addNewEnvelope().set(envEncoder.encode(sosEnvelope));
+                if (sosEnvelope.isSetEnvelope()) {
+                    Encoder<XmlObject, ReferencedEnvelope> envEncoder = getEncoder(GmlConstants.NS_GML, sosEnvelope);
+                    xbObservationCollection.addNewBoundedBy().addNewEnvelope().set(envEncoder.encode(sosEnvelope));
+                }
                 for (OmObservation sosObservation : sosObservationCollection) {
                     String observationType = checkObservationType(sosObservation);
                     if (Strings.isNullOrEmpty(resultModel)
@@ -558,4 +569,23 @@ public class OmEncoderv100
         observation.addNewFeatureOfInterest().set(encodeObjectToXml);
     }
 
+    private void createMetadataProperty(ObservationCollectionType xbObservationCollection, Extensions extensions)
+            throws EncodingException {
+        for (Extension<?> extension : extensions.getExtensions()) {
+            if (extension.getValue() instanceof SweAbstractDataComponent) {
+                xbObservationCollection.addNewMetaDataProperty()
+                        .set(encodeGML311(new GenericMetaData(extension.getValue())));
+            }
+        }
+    }
+
+    protected XmlObject encodeGML311(Object o)
+            throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML, o);
+    }
+
+    protected XmlObject encodeGML311(Object o, EncodingContext context)
+            throws EncodingException {
+        return encodeObjectToXml(GmlConstants.NS_GML, o, context);
+    }
 }

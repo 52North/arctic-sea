@@ -23,14 +23,19 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.swes.x20.ExtensibleResponseType;
 
 /**
  * TODO JavaDoc
@@ -97,4 +102,13 @@ public abstract class AbstractSosResponseEncoder<T extends OwsServiceResponse> e
         return encodeObjectToXml(SweConstants.NS_SWE_20, o, helperValues);
     }
 
+    protected void createExtension(ExtensibleResponseType xbResponse, Extensions extensions) throws EncodingException {
+        EncodingContext ctx = new EncodingContext().with(XmlBeansEncodingFlags.PROPERTY_TYPE, "true");
+        for (Extension<?> extension : extensions.getExtensions()) {
+            if (extension.getValue() instanceof SweAbstractDataComponent) {
+                xbResponse.addNewExtension()
+                        .set(encodeSwe(ctx, extension.getValue()));
+            }
+        }
+    }
 }

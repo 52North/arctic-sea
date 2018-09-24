@@ -90,6 +90,10 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
         return (T) this;
     }
 
+    default boolean hasExtensions() {
+        return getExtensions() != null && !getExtensions().isEmpty();
+    }
+
     /**
      * Check if {@link Extension}s are set
      *

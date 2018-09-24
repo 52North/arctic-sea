@@ -48,6 +48,9 @@ public class DeleteSensorResponseEncoder extends AbstractSwesResponseEncoder<Del
         DeleteSensorResponseDocument document =
                 DeleteSensorResponseDocument.Factory.newInstance(getXmlOptions());
         DeleteSensorResponseType dsr = document.addNewDeleteSensorResponse();
+        if (response.hasExtensions()) {
+            createExtension(dsr, response.getExtensions());
+        }
         dsr.setDeletedProcedure(response.getDeletedProcedure());
         return document;
     }

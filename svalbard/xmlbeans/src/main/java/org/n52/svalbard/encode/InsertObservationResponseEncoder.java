@@ -46,6 +46,9 @@ public class InsertObservationResponseEncoder extends AbstractSosResponseEncoder
     protected XmlObject create(InsertObservationResponse response) throws EncodingException {
         InsertObservationResponseDocument doc = InsertObservationResponseDocument.Factory.newInstance(getXmlOptions());
         doc.addNewInsertObservationResponse();
+        if (response.hasExtensions()) {
+            createExtension(doc.getInsertObservationResponse(), response.getExtensions());
+        }
         return doc;
     }
 

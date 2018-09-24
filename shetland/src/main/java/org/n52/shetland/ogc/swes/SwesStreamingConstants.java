@@ -14,17 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc;
+package org.n52.shetland.ogc.swes;
 
-import com.google.common.base.Strings;
+import javax.xml.namespace.QName;
 
-public interface HasDefaultEncoding<T extends HasDefaultEncoding<T>> {
+public interface SwesStreamingConstants extends SwesConstants {
 
-    T setDefaultElementEncoding(String defaultEncoding);
+    String EN_EXTENSION = "extension";
 
-    String getDefaultElementEncoding();
-
-    default boolean isSetDefaultElementEncoding() {
-        return !Strings.isNullOrEmpty(getDefaultElementEncoding());
-    }
+    QName QN_EXTENSION = new QName(NS_SWES_20, EN_EXTENSION, NS_SWES_PREFIX);
 }

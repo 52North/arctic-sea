@@ -25,25 +25,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import net.opengis.sos.x10.DescribeSensorDocument;
-import net.opengis.sos.x10.DescribeSensorDocument.DescribeSensor;
-import net.opengis.sos.x10.GetCapabilitiesDocument;
-import net.opengis.sos.x10.GetCapabilitiesDocument.GetCapabilities;
-import net.opengis.sos.x10.GetFeatureOfInterestDocument;
-import net.opengis.sos.x10.GetFeatureOfInterestDocument.GetFeatureOfInterest;
-import net.opengis.sos.x10.GetFeatureOfInterestDocument.GetFeatureOfInterest.Location;
-import net.opengis.sos.x10.GetObservationByIdDocument;
-import net.opengis.sos.x10.GetObservationByIdDocument.GetObservationById;
-import net.opengis.sos.x10.GetObservationDocument;
-import net.opengis.sos.x10.GetObservationDocument.GetObservation;
-import net.opengis.sos.x10.GetObservationDocument.GetObservation.FeatureOfInterest;
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.filter.TemporalFilter;
 import org.n52.shetland.ogc.om.OmConstants;
@@ -59,14 +44,29 @@ import org.n52.shetland.ogc.sos.request.GetObservationRequest;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.OMHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.NotYetSupportedDecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import net.opengis.sos.x10.DescribeSensorDocument;
+import net.opengis.sos.x10.DescribeSensorDocument.DescribeSensor;
+import net.opengis.sos.x10.GetCapabilitiesDocument;
+import net.opengis.sos.x10.GetCapabilitiesDocument.GetCapabilities;
+import net.opengis.sos.x10.GetFeatureOfInterestDocument;
+import net.opengis.sos.x10.GetFeatureOfInterestDocument.GetFeatureOfInterest;
+import net.opengis.sos.x10.GetFeatureOfInterestDocument.GetFeatureOfInterest.Location;
+import net.opengis.sos.x10.GetObservationByIdDocument;
+import net.opengis.sos.x10.GetObservationByIdDocument.GetObservationById;
+import net.opengis.sos.x10.GetObservationDocument;
+import net.opengis.sos.x10.GetObservationDocument.GetObservation;
+import net.opengis.sos.x10.GetObservationDocument.GetObservation.FeatureOfInterest;
+import net.opengis.sos.x10.GetObservationDocument.GetObservation.Result;
 
 /**
  * @since 1.0.0
@@ -76,7 +76,6 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SosDecoderv100.class);
 
-    @SuppressWarnings("unchecked")
     private static final Set<DecoderKey> DECODER_KEYS = CollectionHelper.union(
             CodingHelper.decoderKeysForElements(Sos1Constants.NS_SOS, GetCapabilitiesDocument.class,
                     DescribeSensorDocument.class, GetObservationDocument.class, GetFeatureOfInterestDocument.class,
@@ -233,9 +232,8 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
             }
         }
 
-        // TODO implement result filtering
         if (getObs.isSetResult()) {
-            throw new NotYetSupportedDecodingException("Result filtering");
+            getObsRequest.setResultFilter(parseResultFilter(getObs.getResult()));
         }
 
         // return error message
@@ -348,6 +346,16 @@ public class SosDecoderv100 extends AbstractXmlDecoder<XmlObject, OwsServiceComm
             }
         }
         return sosTemporalFilters;
+    }
+
+    private ComparisonFilter parseResultFilter(Result result) throws DecodingException {
+        if (result != null && result.getComparisonOps() != null) {
+            Object decodeXmlElement = decodeXmlElement(result.getComparisonOps());
+            if (decodeXmlElement instanceof ComparisonFilter) {
+                return (ComparisonFilter) decodeXmlElement;
+            }
+        }
+        return null;
     }
 
     private String decodeResponseFormat(String responseFormat) throws DecodingException {

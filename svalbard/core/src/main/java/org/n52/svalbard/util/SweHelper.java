@@ -427,7 +427,7 @@ public final class SweHelper {
      *
      * @return TextEncoding
      */
-    private SweAbstractEncoding createTextEncoding(String tuple, String token, String decimal) {
+    public SweAbstractEncoding createTextEncoding(String tuple, String token, String decimal) {
         SweTextEncoding sosTextEncoding = new SweTextEncoding();
         sosTextEncoding.setBlockSeparator(tuple);
         sosTextEncoding.setTokenSeparator(token);

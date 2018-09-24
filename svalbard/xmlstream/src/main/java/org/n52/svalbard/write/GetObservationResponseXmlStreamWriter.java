@@ -35,6 +35,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.Sos2StreamingConstants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
+import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.Encoder;
@@ -55,7 +56,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * @since 1.0.0
  *
  */
-public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetObservationResponse> {
+public class GetObservationResponseXmlStreamWriter extends AbstractSwesXmlStreamWriter<GetObservationResponse> {
     public GetObservationResponseXmlStreamWriter(EncodingContext context, OutputStream outputStream,
                                                  GetObservationResponse element) throws XMLStreamException {
         super(context, outputStream, element);
@@ -79,6 +80,7 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
         start(Sos2StreamingConstants.GET_OBSERVATION_RESPONSE);
         namespace(W3CConstants.NS_XLINK_PREFIX, W3CConstants.NS_XLINK);
         namespace(SosConstants.NS_SOS_PREFIX, Sos2Constants.NS_SOS_20);
+        namespace(SwesConstants.NS_SWES_PREFIX, SwesConstants.NS_SWES_20);
         GetObservationResponse response = getElement();
         // get observation encoder
         ObservationEncoder<XmlObject, OmObservation> encoder = findObservationEncoder(response.getResponseFormat());
@@ -90,6 +92,9 @@ public class GetObservationResponseXmlStreamWriter extends XmlStreamWriter<GetOb
                 .with(StreamingEncoderFlags.EMBEDDED)
                 .without(XmlBeansEncodingFlags.PROPERTY_TYPE)
                 .without(XmlBeansEncodingFlags.TYPE);
+        if (response.hasExtensions()) {
+            writeExtensions(response.getExtensions());
+        }
         try {
             ObservationStream stream = response.getObservationCollection();
             if (encoder.shouldObservationsWithSameXBeMerged()) {

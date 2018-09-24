@@ -467,10 +467,16 @@ public class SweCommonEncoderv101Test {
         assertThat(field2.getQuantity().getUom().getHref(), is(unit2));
     }
 
-    @Test(expected = EncodingException.class)
-    public void should_throw_exception_if_received_simpleDataRecord_with_field_with_null_element()
+    @Test
+    public void should_encode_simpleDataRecord_with_field_with_null_element()
             throws EncodingException {
-        sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField("field-name", null)));
+        final XmlObject encode = sweCommonEncoderv101.encode(new SweSimpleDataRecord().addField(new SweField("field-name", null)));
+        assertThat(encode, instanceOf(SimpleDataRecordType.class));
+        final SimpleDataRecordType xbSimpleDataRecord = (SimpleDataRecordType) encode;
+        assertThat(xbSimpleDataRecord.getFieldArray().length, is(1));
+        final AnyScalarPropertyType field = xbSimpleDataRecord.getFieldArray(0);
+        assertThat(field.getName(), is("field-name"));
+        assertThat(field.getQuantity() == null, is(true));
     }
 
     @Test public void
