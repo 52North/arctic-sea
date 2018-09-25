@@ -393,4 +393,9 @@ public class UnknownGeometry extends Geometry {
     protected int getSortIndex() {
         return 0;
     }
+
+    @Override
+    protected Geometry copyInternal() {
+        return new UnknownGeometry(geom.copy());
+    }
 }

@@ -204,7 +204,7 @@ public class GetObservationRequestDecoderTest {
         assertThat(req.getSpatialFilter().getGeometry().getGeometry().get().getSRID(), is(4326));
         assertThat(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().x, is(51.0));
         assertThat(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().y, is(8.0));
-        assertThat(Double.isNaN(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().z), is(true));
+        assertThat(Double.isNaN(req.getSpatialFilter().getGeometry().getGeometry().get().getCoordinate().getZ()), is(true));
     }
 
     @Test

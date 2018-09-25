@@ -294,7 +294,7 @@ public class GeoJSONTest {
             implements CoordinateFilter {
         @Override
         public void filter(Coordinate coord) {
-            coord.z = random.nextInt(1000);
+            coord.setZ(random.nextInt(1000));
         }
     }
 
@@ -409,6 +409,12 @@ public class GeoJSONTest {
         @Override
         protected int getSortIndex() {
             return 0;
+        }
+
+        @Override
+        protected Geometry copyInternal() {
+            // TODO Auto-generated method stub
+            return null;
         }
     }
 

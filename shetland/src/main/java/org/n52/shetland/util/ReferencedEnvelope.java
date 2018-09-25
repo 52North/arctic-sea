@@ -25,12 +25,15 @@ import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
 
 /**
- * Class for internal Envelope representation TODO should this class offer merging capabilities like
- * SosEnvelope.expandTo(SosEnvelope) considering coordinate transformations?
+ * Class for internal Envelope representation TODO should this class offer
+ * merging capabilities like SosEnvelope.expandTo(SosEnvelope) considering
+ * coordinate transformations?
  *
  * @since 1.0.0
  */
-public class ReferencedEnvelope implements Serializable {
+public class ReferencedEnvelope
+        implements
+        Serializable {
     private static final long serialVersionUID = 6525679408878064331L;
 
     /**
@@ -43,6 +46,10 @@ public class ReferencedEnvelope implements Serializable {
      */
     private int srid = -1;
 
+    private Double minZ;
+
+    private Double maxZ;
+
     public ReferencedEnvelope() {
     }
 
@@ -53,8 +60,10 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * constructor
      *
-     * @param envelope JTS envelope
-     * @param srid     SRID
+     * @param envelope
+     *            JTS envelope
+     * @param srid
+     *            SRID
      */
     public ReferencedEnvelope(Envelope envelope, int srid) {
         this.envelope = envelope != null ? envelope : new Envelope();
@@ -73,7 +82,8 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Expand this envelope to include the given envelope.
      *
-     * @param e the envelope (may be <code>null</code>)
+     * @param e
+     *            the envelope (may be <code>null</code>)
      */
     public void expandToInclude(Envelope e) {
         if (e != null) {
@@ -88,7 +98,8 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Expand this envelope to include the given envelope.
      *
-     * @param e the envelope (may be <code>null</code>)
+     * @param e
+     *            the envelope (may be <code>null</code>)
      */
     public void expandToInclude(ReferencedEnvelope e) {
         if (e != null && e.isSetEnvelope()) {
@@ -99,7 +110,8 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Set envelope
      *
-     * @param envelope the envelope to set
+     * @param envelope
+     *            the envelope to set
      *
      * @return {@code this}
      */
@@ -109,15 +121,15 @@ public class ReferencedEnvelope implements Serializable {
     }
 
     /**
-     * Creates the minimum and maximum values of this envelope in the default EPSG.
+     * Creates the minimum and maximum values of this envelope in the default
+     * EPSG.
      *
      * @return the {@code MinMax} describing the envelope
      */
     public MinMax<String> getMinMaxFromEnvelope() {
         if (isSetEnvelope()) {
             Joiner joiner = Joiner.on(' ');
-            return new MinMax<String>()
-                    .setMaximum(joiner.join(envelope.getMaxX(), envelope.getMaxY()))
+            return new MinMax<String>().setMaximum(joiner.join(envelope.getMaxX(), envelope.getMaxY()))
                     .setMinimum(joiner.join(envelope.getMinX(), envelope.getMinY()));
         }
         return new MinMax<>();
@@ -139,13 +151,50 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Set SRID
      *
-     * @param srid the srid to set
+     * @param srid
+     *            the srid to set
      *
      * @return {@code this}
      */
     public ReferencedEnvelope setSrid(int srid) {
         this.srid = srid;
         return this;
+    }
+
+    /**
+     * @return the minZ
+     */
+    public Double getMinZ() {
+        return minZ;
+    }
+
+    /**
+     * @param minZ
+     *            the minZ to set
+     */
+    public ReferencedEnvelope setMinZ(Double minZ) {
+        this.minZ = minZ;
+        return this;
+    }
+
+    /**
+     * @return the maxZ
+     */
+    public Double getMaxZ() {
+        return maxZ;
+    }
+
+    /**
+     * @param maxZ
+     *            the maxZ to set
+     */
+    public ReferencedEnvelope setMaxZ(Double maxZ) {
+        this.maxZ = maxZ;
+        return this;
+    }
+
+    public boolean isSetMinMaxZ() {
+        return getMinZ() != null && getMaxZ() != null;
     }
 
     public boolean isSetEnvelope() {
@@ -212,12 +261,21 @@ public class ReferencedEnvelope implements Serializable {
     /**
      * Static method to check if an SosEnvelope is not null and is not empty
      *
-     * @param envelope SosEnvelope to check
+     * @param envelope
+     *            SosEnvelope to check
      *
      * @return <code>true</code>, if SosEnvelope is not null and not empty.
      */
     public static boolean isNotNullOrEmpty(ReferencedEnvelope envelope) {
         return envelope != null && envelope.isSetEnvelope();
+    }
+
+    public ReferencedEnvelope copy() {
+        if (isSetEnvelope()) {
+            return new ReferencedEnvelope(new Envelope(getEnvelope()), getSrid()).setMinZ(getMinZ())
+                    .setMaxZ(getMaxZ());
+        }
+        return new ReferencedEnvelope(null, getSrid()).setMinZ(getMinZ()).setMaxZ(getMaxZ());
     }
 
 }

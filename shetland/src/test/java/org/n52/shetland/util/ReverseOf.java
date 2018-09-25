@@ -62,7 +62,7 @@ public class ReverseOf extends BaseMatcher<Geometry> {
     }
 
     protected boolean isSwitched(Coordinate a, Coordinate b) {
-        return equal(a.x, b.y) && equal(a.y, b.x) && equal(a.z, b.z);
+        return equal(a.getX(), b.getY()) && equal(a.getY(), b.getX()) && equal(a.getZ(), b.getZ());
     }
 
     @Override
