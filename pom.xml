@@ -121,9 +121,9 @@
     
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <version.spring>4.3.12.RELEASE</version.spring>
+        <version.spring>4.3.18.RELEASE</version.spring>
         <version.slf4j>1.7.25</version.slf4j>
-        <version.jackson>2.9.2</version.jackson>
+        <version.jackson>2.9.5</version.jackson>
         <version.xmlbeans>3.0.1</version.xmlbeans>
         <version.exificient>1.0.0</version.exificient>
         <version.n52CommonXML>2.5.0</version.n52CommonXML>
