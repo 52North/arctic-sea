@@ -84,14 +84,17 @@ import com.google.common.escape.Escaper;
 import com.google.common.net.PercentEscaper;
 
 /**
- * Class to parse OData-based {@code $filter} expression into FES filters. See {@link ObservationCsdlEdmProvider} for
- * the available properties, their types and the resulting value references.
+ * Class to parse OData-based {@code $filter} expression into FES filters. See
+ * {@link ObservationCsdlEdmProvider} for the available properties, their types
+ * and the resulting value references.
  *
  * @author Christian Autermann
  *
  * @see ObservationCsdlEdmProvider
  */
-public class ODataFesParser implements Decoder<Filter<?>, String> {
+public class ODataFesParser
+        implements
+        Decoder<Filter<?>, String> {
     private static final String METHOD_CONTAINS = "contains";
     private static final String METHOD_STARTS_WITH = "startswith";
     private static final String METHOD_ENDS_WITH = "endswith";
@@ -103,6 +106,7 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     private static final String GEOGRAPHY_TYPE = "geography";
     private static final String SRID_PREFIX = "SRID=";
     private static final String GEOMETRY_TYPE = "geometry";
+    private static final String FEATURE_EQUALS = "featureOfInterest eq '";
     private final Escaper urlEscaper;
     private final Edm edm;
     private final Parser parser;
@@ -118,30 +122,31 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         this.csdlProvider = new ObservationCsdlEdmProvider();
         this.edm = new EdmProviderImpl(this.csdlProvider);
         // >=4.2.0
-        // this.parser = new Parser(this.edm, this.odata);
+        this.parser = new Parser(this.edm, this.odata);
         // >=4.0.0 <4.2.0
-        this.parser = new Parser();
+        // this.parser = new Parser();
 
     }
 
     @Override
-    public Filter<?> decode(String objectToDecode) throws DecodingException {
+    public Filter<?> decode(String objectToDecode)
+            throws DecodingException {
         LOG.debug("Parsing filter: {}", objectToDecode);
         if (objectToDecode == null || objectToDecode.isEmpty()) {
             return null;
         }
         try {
-            String encode = urlEscaper.escape(objectToDecode);
+            String encode = urlEscaper.escape(checkForGeoFitler(objectToDecode));
             // >=4.4.0
-            // UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode, FRAGMENT, BASE_URI);
+            UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode, FRAGMENT, BASE_URI);
             // >=4.2.0 <4.4.0
-            // UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode, FRAGMENT);
+            // UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode,
+            // FRAGMENT);
             // >=4.0.0 <4.2.0
-            UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode, FRAGMENT, this.edm);
-            return parseUri.getFilterOption().getExpression()
-                    .accept(new ExpressionGenerator())
-                    .accept(new RenamingVisitor(csdlProvider::mapProperty))
-                    .accept(new FilterGenerator());
+            // UriInfo parseUri = parser.parseUri(PATH, "$filter=" + encode,
+            // FRAGMENT, this.edm);
+            return parseUri.getFilterOption().getExpression().accept(new ExpressionGenerator())
+                    .accept(new RenamingVisitor(csdlProvider::mapProperty)).accept(new FilterGenerator());
         } catch (ODataException ex) {
             throw new DecodingException(ex);
         }
@@ -153,17 +158,31 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         return Collections.emptySet();
     }
 
+    private String checkForGeoFitler(String objectToDecode) {
+        String modified = objectToDecode;
+        if (objectToDecode.contains("geo.")) {
+            modified = objectToDecode.replace(",'SRID", ",geometry'SRID").replace("(featureOfInterest,",
+                    "(featureOfInterest/shape,");
+        } else if (objectToDecode.contains(FEATURE_EQUALS)) {
+            modified = modified.replace(FEATURE_EQUALS, "featureOfInterest/id eq '");
+        }
+        return modified;
+    }
+
     /**
-     * Parse the value expression as an {@code Geometry} in WKT or EWKT format. Geographies are handled as if they would
-     * be geometries.
+     * Parse the value expression as an {@code Geometry} in WKT or EWKT format.
+     * Geographies are handled as if they would be geometries.
      *
-     * @param val the geometry value
+     * @param val
+     *            the geometry value
      *
      * @return the geometry
      *
-     * @throws DecodingException if the geometry is invalid
+     * @throws DecodingException
+     *             if the geometry is invalid
      */
-    private static Geometry parseGeometry(ValueExpr val) throws DecodingException {
+    private static Geometry parseGeometry(ValueExpr val)
+            throws DecodingException {
         String value = val.getValue();
         if (value.startsWith(GEOGRAPHY_TYPE)) {
             value = value.substring(GEOGRAPHY_TYPE.length());
@@ -198,25 +217,27 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     }
 
     /**
-     * Get the the pair of value and member expression from the to expressions or {@code Optional.empty()} if the
-     * expression do not match the types.
+     * Get the the pair of value and member expression from the to expressions
+     * or {@code Optional.empty()} if the expression do not match the types.
      *
-     * @param first  the first expression
-     * @param second the second expression
+     * @param first
+     *            the first expression
+     * @param second
+     *            the second expression
      *
      * @return the member-value-pair
      */
     private static Optional<MemberValueExprPair> getMemberValuePair(Expr first, Expr second) {
-        return Optionals.or(first.asMember(), second.asMember())
-                .flatMap(member -> Optionals.or(first.asValue(), second.asValue())
-                .map(value -> new MemberValueExprPair(member, value)));
+        return Optionals.or(first.asMember(), second.asMember()).flatMap(member -> Optionals
+                .or(first.asValue(), second.asValue()).map(value -> new MemberValueExprPair(member, value)));
     }
 
     /**
-     * Get the the pair of value and member expression from the to expressions or {@code Optional.empty()} if the
-     * expression do not match the types.
+     * Get the the pair of value and member expression from the to expressions
+     * or {@code Optional.empty()} if the expression do not match the types.
      *
-     * @param expr the binary expression
+     * @param expr
+     *            the binary expression
      *
      * @return the member-value-pair
      */
@@ -225,10 +246,11 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     }
 
     /**
-     * Get the the pair of value and member expression from the to expressions or {@code Optional.empty()} if the
-     * expression do not match the types.
+     * Get the the pair of value and member expression from the to expressions
+     * or {@code Optional.empty()} if the expression do not match the types.
      *
-     * @param expr the binary expression
+     * @param expr
+     *            the binary expression
      *
      * @return the member-value-pair
      */
@@ -243,22 +265,27 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     /**
      * Strip any enclosing single quotes from the string.
      *
-     * @param value the string value
+     * @param value
+     *            the string value
      *
      * @return the string value without quotes
      */
     @CheckReturnValue
     private static String stripQuotes(String value) {
         return value != null && value.length() >= 2 && value.startsWith("'") && value.endsWith("'")
-                       ? value.substring(1, value.length() - 1) : value;
+                ? value.substring(1, value.length() - 1)
+                : value;
     }
 
     /**
-     * Get the {@code ComparisonOperator} matching the supplied {@code BinaryOperatorKind}.
+     * Get the {@code ComparisonOperator} matching the supplied
+     * {@code BinaryOperatorKind}.
      *
-     * @param op the operator
+     * @param op
+     *            the operator
      *
-     * @return the {@code ComparisonOperator} or {@code Optional.empty()} if none matches
+     * @return the {@code ComparisonOperator} or {@code Optional.empty()} if
+     *         none matches
      */
     private static Optional<ComparisonOperator> getComparisonOperator(BinaryOperatorKind op) {
         switch (op) {
@@ -280,11 +307,14 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     }
 
     /**
-     * Get the {@code BinaryLogicOperator} matching the supplied {@code BinaryOperatorKind}.
+     * Get the {@code BinaryLogicOperator} matching the supplied
+     * {@code BinaryOperatorKind}.
      *
-     * @param op the operator
+     * @param op
+     *            the operator
      *
-     * @return the {@code BinaryLogicOperator} or {@code Optional.empty()} if none matches
+     * @return the {@code BinaryLogicOperator} or {@code Optional.empty()} if
+     *         none matches
      */
     private static Optional<BinaryLogicOperator> getLogicOperator(BinaryOperatorKind op) {
         switch (op) {
@@ -298,9 +328,11 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     }
 
     /**
-     * Createa new {@code DecodingException} indicating that the geometry in {@code val} is invalid.
+     * Createa new {@code DecodingException} indicating that the geometry in
+     * {@code val} is invalid.
      *
-     * @param val the value containing the invalid geometry
+     * @param val
+     *            the value containing the invalid geometry
      *
      * @return the exception
      */
@@ -309,10 +341,13 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     }
 
     /**
-     * Createa new {@code DecodingException} indicating that the geometry in {@code val} is invalid.
+     * Createa new {@code DecodingException} indicating that the geometry in
+     * {@code val} is invalid.
      *
-     * @param val   the value containing the invalid geometry
-     * @param cause the exception describing the invalidity
+     * @param val
+     *            the value containing the invalid geometry
+     * @param cause
+     *            the exception describing the invalidity
      *
      * @return the exception
      */
@@ -330,8 +365,10 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         /**
          * Create a new {@code MemberValueExprPair}.
          *
-         * @param member the member
-         * @param value  the value
+         * @param member
+         *            the member
+         * @param value
+         *            the value
          */
         MemberValueExprPair(MemberExpr member, ValueExpr value) {
             this.member = Objects.requireNonNull(member);
@@ -360,13 +397,15 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     /**
      * Class to generate a {@code Expr} from the Olingo structures.
      */
-    private static final class ExpressionGenerator implements ExpressionVisitor<Expr> {
+    private static final class ExpressionGenerator
+            implements
+            ExpressionVisitor<Expr> {
 
         @Override
         public Expr visitBinaryOperator(BinaryOperatorKind op, Expr left, Expr right)
                 throws ExpressionVisitException {
-            Supplier<ExpressionVisitException> exceptionSupplier = () -> new ExpressionVisitException(String
-                    .format("Operator %s is not supported: %s %s %s", op, left, op, right));
+            Supplier<ExpressionVisitException> exceptionSupplier = () -> new ExpressionVisitException(
+                    String.format("Operator %s is not supported: %s %s %s", op, left, op, right));
             switch (op) {
                 case AND:
                 case OR: {
@@ -402,13 +441,14 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         }
 
         @Override
-        public UnaryExpr<?> visitUnaryOperator(UnaryOperatorKind op, Expr operand) throws ExpressionVisitException {
-            Supplier<ExpressionVisitException> exceptionSupplier = () -> new ExpressionVisitException(String
-                    .format("Operator is not supported: %s %s", op, operand));
+        public UnaryExpr<?> visitUnaryOperator(UnaryOperatorKind op, Expr operand)
+                throws ExpressionVisitException {
+            Supplier<ExpressionVisitException> exceptionSupplier =
+                    () -> new ExpressionVisitException(String.format("Operator is not supported: %s %s", op, operand));
             switch (op) {
                 case NOT:
                     return new BooleanUnaryExpr(UnaryLogicOperator.Not,
-                                                operand.asBoolean().orElseThrow(exceptionSupplier));
+                            operand.asBoolean().orElseThrow(exceptionSupplier));
                 case MINUS:
                 default:
                     throw exceptionSupplier.get();
@@ -417,40 +457,47 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         }
 
         @Override
-        public Expr visitLambdaExpression(String fun, String var, Expression expr) throws ExpressionVisitException {
+        public Expr visitLambdaExpression(String fun, String var, Expression expr)
+                throws ExpressionVisitException {
             throw new ExpressionVisitException("Lambda expressions are not supported");
         }
 
         // >=4.2.0
-        // @Override
-        public Expr visitMember(Member member) throws ExpressionVisitException {
+        @Override
+        public Expr visitMember(Member member)
+                throws ExpressionVisitException {
             return visitMember(member.getResourcePath());
         }
 
         // >=4.0.0<=4.2.0
-        @Override
-        public Expr visitMember(UriInfoResource member) throws ExpressionVisitException {
-            return new MemberExpr(member.getUriResourceParts().stream()
-                    .map(UriResource::getSegmentValue).collect(Collectors.joining("/")));
+        // @Override
+        public Expr visitMember(UriInfoResource member)
+                throws ExpressionVisitException {
+            return new MemberExpr(member.getUriResourceParts().stream().map(UriResource::getSegmentValue)
+                    .collect(Collectors.joining("/")));
         }
 
         @Override
-        public Expr visitAlias(String aliasName) throws ExpressionVisitException {
+        public Expr visitAlias(String aliasName)
+                throws ExpressionVisitException {
             throw new ExpressionVisitException("aliases are not supported");
         }
 
         @Override
-        public Expr visitTypeLiteral(EdmType type) throws ExpressionVisitException {
+        public Expr visitTypeLiteral(EdmType type)
+                throws ExpressionVisitException {
             throw new ExpressionVisitException("type literals are not supported");
         }
 
         @Override
-        public Expr visitLambdaReference(String variableName) throws ExpressionVisitException {
+        public Expr visitLambdaReference(String variableName)
+                throws ExpressionVisitException {
             throw new ExpressionVisitException("Lambda references are not supported");
         }
 
         @Override
-        public Expr visitEnum(EdmEnumType type, List<String> enumValues) throws ExpressionVisitException {
+        public Expr visitEnum(EdmEnumType type, List<String> enumValues)
+                throws ExpressionVisitException {
             throw new ExpressionVisitException("enums are not supported");
         }
     }
@@ -518,17 +565,20 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         }
 
         @Override
-        public Filter<?> visitMember(MemberExpr expr) throws DecodingException {
+        public Filter<?> visitMember(MemberExpr expr)
+                throws DecodingException {
             throw new DecodingException("unexpected member expression '%s'", expr.getValue());
         }
 
         @Override
-        public Filter<?> visitValue(ValueExpr expr) throws DecodingException {
+        public Filter<?> visitValue(ValueExpr expr)
+                throws DecodingException {
             throw new DecodingException("unexpected value expression '%s'", expr.getValue());
         }
 
         /**
-         * Creates an {@code DecodingException} indicating that the supplied expression is not supported.
+         * Creates an {@code DecodingException} indicating that the supplied
+         * expression is not supported.
          *
          * @return the exception
          */
@@ -540,12 +590,16 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     /**
      * Abstract transforming visitor that is able to modify expression.
      *
-     * @param <T> The exception type
+     * @param <T>
+     *            The exception type
      */
-    private static class AbstractExprTransformer<T extends Throwable> implements ExprVisitor<Expr, T> {
+    private static class AbstractExprTransformer<T extends Throwable>
+            implements
+            ExprVisitor<Expr, T> {
 
         @Override
-        public Expr visitBooleanBinary(BooleanBinaryExpr expr) throws T {
+        public Expr visitBooleanBinary(BooleanBinaryExpr expr)
+                throws T {
             BinaryLogicOperator op = expr.getOperator();
             BooleanExpr left = expr.getLeft().accept(this).asBoolean().orElseThrow(Error::new);
             BooleanExpr right = expr.getRight().accept(this).asBoolean().orElseThrow(Error::new);
@@ -553,14 +607,16 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         }
 
         @Override
-        public Expr visitBooleanUnary(BooleanUnaryExpr expr) throws T {
+        public Expr visitBooleanUnary(BooleanUnaryExpr expr)
+                throws T {
             UnaryLogicOperator op = expr.getOperator();
             BooleanExpr operand = expr.getOperand().accept(this).asBoolean().orElseThrow(Error::new);
             return new BooleanUnaryExpr(op, operand);
         }
 
         @Override
-        public Expr visitComparison(ComparisonExpr expr) throws T {
+        public Expr visitComparison(ComparisonExpr expr)
+                throws T {
             ComparisonOperator op = expr.getOperator();
             Expr left = expr.getLeft().accept(this);
             Expr right = expr.getRight().accept(this);
@@ -568,7 +624,8 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
         }
 
         @Override
-        public Expr visitMethodCall(MethodCallExpr expr) throws T {
+        public Expr visitMethodCall(MethodCallExpr expr)
+                throws T {
             String name = expr.getName();
             List<Expr> list = new ArrayList<>(expr.getParameters().size());
             for (Expr e : expr.getParameters()) {
@@ -593,14 +650,17 @@ public class ODataFesParser implements Decoder<Filter<?>, String> {
     /**
      * Transformer for expression that modifies the member referneces.
      */
-    private static class RenamingVisitor extends AbstractExprTransformer<Error> {
+    private static class RenamingVisitor
+            extends
+            AbstractExprTransformer<Error> {
 
         private final Function<String, String> mapper;
 
         /**
          * Create a new {@code RenamingVisitor}.
          *
-         * @param mapper the mapper used to modifiy the member references
+         * @param mapper
+         *            the mapper used to modifiy the member references
          */
         RenamingVisitor(Function<String, String> mapper) {
             this.mapper = mapper;

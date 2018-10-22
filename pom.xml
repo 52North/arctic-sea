@@ -127,7 +127,7 @@
         <version.xmlbeans>3.0.1</version.xmlbeans>
         <version.exificient>1.0.0</version.exificient>
         <version.n52CommonXML>2.5.0</version.n52CommonXML>
-        <version.olingo>4.1.0</version.olingo>
+        <version.olingo>4.5.0</version.olingo>
         <version.findbugs>3.0.1</version.findbugs>
         <version.spotbugs>3.1.6</version.spotbugs>
     </properties>

@@ -37,14 +37,12 @@ This project includes:
   52°North Svalbard Parent under The Apache Software License, Version 2.0
   52°North Svalbard XML Stream under The Apache Software License, Version 2.0
   52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
-  abego TreeLayout Core under BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)
+  aalto-xml under The Apache Software License, Version 2.0
   Animal Sniffer Annotations under MIT license
-  ANTLR 4 Runtime under BSD 3-Clause License
   Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
   Apache Commons IO under Apache License, Version 2.0
-  Apache Commons Lang under The Apache Software License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
   Commons Lang under The Apache Software License, Version 2.0
@@ -107,6 +105,7 @@ This project includes:
   MaxMind GeoIP2 API under Apache License, Version 2.0
   Mozilla Rhino under Mozilla Public License, Version 2.0
   Netty under Apache License, Version 2.0
+  Netty/All-in-One under Apache License, Version 2.0
   null under Lesser General Public License, version 3 or greater or Apache Software License, version 2.0
   OASIS WS-N specification schemas - including WS-BrokeredNotification (v1.3) under The Apache Software License, Version 2.0
   OASIS WS-Resources specification schemas v1.2 under The Apache Software License, Version 2.0
@@ -156,6 +155,7 @@ This project includes:
   Spring Context under Apache License, Version 2.0
   Spring Expression Language (SpEL) under Apache License, Version 2.0
   Spring Web under Apache License, Version 2.0
+  Stax2 API under The BSD License
   T-Digest under The Apache Software License, Version 2.0
   W3C SOAP specification recommondation (v1.2 part 1) under The Apache Software License, Version 2.0
   W3C WS-Addressing specification schemas (v1.0) under The Apache Software License, Version 2.0
