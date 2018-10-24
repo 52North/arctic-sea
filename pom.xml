@@ -885,11 +885,6 @@
                     <licenseMapping>
                         <param>http://52north.github.io/cdn/licenses/license-mappings.xml</param>
                     </licenseMapping>
-                    <generateChildNotices>false</generateChildNotices>
-                    <excludeScopes>
-                        <excludeScopes>test</excludeScopes>
-                        <excludeScopes>provided</excludeScopes>
-                    </excludeScopes>
                 </configuration>
                 <executions>
                     <execution>
