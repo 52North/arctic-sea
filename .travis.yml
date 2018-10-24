@@ -1,6 +1,9 @@
 language: java
 jdk:
 - oraclejdk8
+- oraclejdk9
+- openjdk10
+- openjdk11
 install: true
 script: mvn -fae -U -B clean install -P check
 after_success:
