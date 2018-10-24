@@ -155,8 +155,8 @@ public class TsmlTVPEncoderv10Test {
 
         XmlObject encodedElement = encoder.encode(mv);
 
-        Assert.assertThat(((TimeseriesMetadataType) ((TimeseriesTVPDocument) encodedElement)
-                .getTimeseriesTVP().getMetadata().getTimeseriesMetadata()).getCumulative(), Is.is(true));
+        Assert.assertThat(((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
+                .getMetadata().getTimeseriesMetadata().getCumulative(), Is.is(true));
     }
 
     @Test

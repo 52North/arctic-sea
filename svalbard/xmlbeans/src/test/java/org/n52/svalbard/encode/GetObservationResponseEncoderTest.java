@@ -123,7 +123,7 @@ public class GetObservationResponseEncoderTest {
         assertThat(parse, instanceOf(DataArrayPropertyType.class));
         DataArrayPropertyType dad = (DataArrayPropertyType) parse;
         assertThat(dad.getDataArray1(), instanceOf(DataArrayType.class));
-        DataArrayType dat = (DataArrayType) dad.getDataArray1();
+        DataArrayType dat = dad.getDataArray1();
         assertThat(dat.getElementType().isSetAbstractDataComponent(), is (true));
         assertThat(dat.getElementType().getAbstractDataComponent(), instanceOf(DataRecordType.class));
     }

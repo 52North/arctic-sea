@@ -183,7 +183,7 @@ public abstract class JSONDecoder<T>
                 }
                 return ct;
             } else if (node.isTextual()) {
-                return (CodeType) new CodeType(node.textValue());
+                return new CodeType(node.textValue());
             }
         } catch (URISyntaxException e) {
             LOGGER.error("Error while creating URI!", e);
