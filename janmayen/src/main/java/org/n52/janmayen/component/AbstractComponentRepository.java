@@ -18,6 +18,7 @@ package org.n52.janmayen.component;
 
 import static java.util.stream.Collectors.groupingBy;
 import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.mapping;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -79,7 +80,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     protected Map<K, Set<Producer<C>>> getProviders(Collection<? extends C> components,
                                                     Collection<? extends F> factories) {
         return createProviders(factories, components)
-                .collect(groupingBy(KeyedProducer::getKey, toSet()));
+                .collect(groupingBy(KeyedProducer::getKey, mapping(x -> (Producer<C>)x, toSet())));
     }
 
     private Stream<KeyedProducer<K, C>> createProviders(Collection<? extends F> factories,
