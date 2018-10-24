@@ -424,17 +424,17 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
                         .isSetGeometry()) {
             AbstractSamplingFeature sf = (AbstractSamplingFeature) f;
             // Rechtswert
-            String xString = sf.isSetGeometry() ? Double.toString(sf.getGeometry().getCoordinate().y) : "";
+            String xString = sf.isSetGeometry() ? Double.toString(sf.getGeometry().getCoordinate().getY()) : "";
             xString = ensureValueLength(xString, 10);
             sb.append(xString);
             fillWithSpaces(sb, 25);
             // Hochwert
-            String yString = sf.isSetGeometry() ? Double.toString(sf.getGeometry().getCoordinate().x) : "";
+            String yString = sf.isSetGeometry() ? Double.toString(sf.getGeometry().getCoordinate().getX()) : "";
             yString = ensureValueLength(yString, 10);
             sb.append(yString);
             fillWithSpaces(sb, 35);
-            if (sf.isSetGeometry() && !Double.isNaN(sf.getGeometry().getCoordinate().z)) {
-                String zString = Double.toString(sf.getGeometry().getCoordinate().z);
+            if (sf.isSetGeometry() && !Double.isNaN(sf.getGeometry().getCoordinate().getZ())) {
+                String zString = Double.toString(sf.getGeometry().getCoordinate().getZ());
                 zString = ensureValueLength(zString, 10);
                 sb.append(zString);
             }
