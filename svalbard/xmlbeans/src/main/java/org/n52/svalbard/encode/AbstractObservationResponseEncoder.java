@@ -101,7 +101,7 @@ public abstract class AbstractObservationResponseEncoder<T extends AbstractObser
     }
 
     /**
-     * Create a response using the provided O&M2 compatible observation encoder.
+     * Create a response using the provided O&amp;M2 compatible observation encoder.
      *
      * @param encoder  the encoder
      * @param response the response

@@ -32,7 +32,7 @@ import org.n52.svalbard.ConformanceClass;
 public interface ObservationEncoder<S, T> extends ConformanceClass, Encoder<S, T> {
 
     /**
-     * Indicator whether the ObservationEncoder of type or subtype Observation&Measurement 2.0
+     * Indicator whether the ObservationEncoder of type or subtype Observation &amp; Measurement 2.0
      *
      * @return Of type or not
      */

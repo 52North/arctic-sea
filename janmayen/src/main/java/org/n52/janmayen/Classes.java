@@ -34,7 +34,7 @@ public class Classes {
      * @param superClass the super class
      * @param clazz      the class
      *
-     * @return 0 for equality, -1 for non-hierarchy classes, >0 the lower the more similiar
+     * @return 0 for equality, -1 for non-hierarchy classes, &gt;0 the lower the more similiar
      *
      * @see Similar
      */

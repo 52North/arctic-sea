@@ -27,9 +27,9 @@ import org.n52.shetland.w3c.SchemaLocation;
 import com.google.common.collect.ImmutableSet;
 
 /**
- * Class contains element names and namespaces used to encode the O&M responses.
+ * Class contains element names and namespaces used to encode the O&amp;M responses.
  *
- * Interface contains element names and namespaces used to encode the OGC O&M
+ * Interface contains element names and namespaces used to encode the OGC O&amp;M
  * responses.
  *
  * @since 1.0.0

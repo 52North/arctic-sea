@@ -42,7 +42,7 @@ import com.google.common.collect.Sets;
 import org.locationtech.jts.geom.Geometry;
 
 /**
- * Class represents a SOS/O&M observation
+ * Class represents a SOS/O&amp;M observation
  *
  * @since 1.0.0
  */

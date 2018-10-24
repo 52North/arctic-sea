@@ -40,14 +40,14 @@ import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.XmlPropertyTypeEncoderKey;
 
 /**
- * TODO implement encodeToXml(Object o) using a Map from o.getClass().getName()
- * -> namespaces
+ *
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
  * @since 1.0.0
  *
  */
+// TODO implement encodeToXml(Object o) using a Map from o.getClass().getName() -> namespaces
 public final class CodingHelper {
 
     private CodingHelper() {

@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.om.series;
 
 /**
  * This class implements the OGC WaterML 2.0 and OGC TimeseriesML 1.0 element
- * <code>MeasurementTimeseries > defaultPointMetadata</code>. See
+ * <code>MeasurementTimeseries &gt; defaultPointMetadata</code>. See
  * <code>/req/xsd-timeseries-tvp/defaultPointMetadata</code>.
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>

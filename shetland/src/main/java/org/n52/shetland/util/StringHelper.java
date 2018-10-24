@@ -50,7 +50,7 @@ public final class StringHelper {
      *                    the string to normalize
      *
      * @return a normalized String for use in a file path, i.e. all
-     *         [\,/,:,*,?,",<,>,;] characters are replaced by '_'.
+     *         [\,/,:,*,?,",&lt;,&gt;,;] characters are replaced by '_'.
      */
     public static String normalize(String toNormalize) {
         // toNormalize = toNormalize.replaceAll("ä", "ae");

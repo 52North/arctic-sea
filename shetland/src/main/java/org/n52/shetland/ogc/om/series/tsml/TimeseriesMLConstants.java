@@ -20,6 +20,7 @@ import javax.xml.namespace.QName;
 
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.om.series.AbstractInterpolationType;
+import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
 import org.n52.shetland.w3c.SchemaLocation;
 
 /**
