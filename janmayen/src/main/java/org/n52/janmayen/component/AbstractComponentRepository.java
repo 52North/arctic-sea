@@ -80,7 +80,7 @@ public abstract class AbstractComponentRepository<K, C extends Component<K>, F e
     protected Map<K, Set<Producer<C>>> getProviders(Collection<? extends C> components,
                                                     Collection<? extends F> factories) {
         return createProviders(factories, components)
-                .collect(groupingBy(KeyedProducer::getKey, mapping(x -> (Producer<C>)x, toSet())));
+                .collect(groupingBy(KeyedProducer::getKey, mapping(x -> (Producer<C>) x, toSet())));
     }
 
     private Stream<KeyedProducer<K, C>> createProviders(Collection<? extends F> factories,
