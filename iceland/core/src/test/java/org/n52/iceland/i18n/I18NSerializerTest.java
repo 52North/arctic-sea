@@ -61,7 +61,7 @@ public class I18NSerializerTest {
     private void test(MultilingualString string) {
         errors.checkThat(string, is(notNullValue()));
         String encoded = new I18NSerializer().encode(string);
-        System.out.println(encoded);
+        //System.out.println(encoded);
         errors.checkThat(encoded.isEmpty(), is(string.isEmpty()));
         MultilingualString decoded = new I18NSerializer().decode(encoded);
         errors.checkThat(decoded, is(equalTo(string)));

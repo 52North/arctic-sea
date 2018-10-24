@@ -82,7 +82,7 @@ public class GetDataAvailabilityXmlEncoderTest {
                                                           featureOfInterest, offering, timePeriod, count));
         XmlObject encoded = encoder.encode(response);
 
-        System.out.println(encoded.xmlText());
+        //System.out.println(encoded.xmlText());
 
         errors.checkThat(encoded.xmlText(), is(String
                          .format("<gda:GetDataAvailabilityResponse xsi:schemaLocation=\"http://www.opengis.net/sosgda/1.0 http://waterml2.org/schemas/gda/1.0/gda.xsd\" " +

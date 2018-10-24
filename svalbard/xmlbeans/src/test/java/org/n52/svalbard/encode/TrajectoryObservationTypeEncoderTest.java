@@ -128,7 +128,7 @@ public class TrajectoryObservationTypeEncoderTest extends AbtractProcessDecoding
     public void test_multi_quantity() throws EncodingException, ParseException, DecodingException, XmlException, IOException {
         XmlObject encoded = encoder.encode(getQuantityObservation());
         assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
-        System.out.println(encoded.xmlText(encoder.getXmlOptions()));
+        //System.out.println(encoded.xmlText(encoder.getXmlOptions()));
         assertThat(encoded, instanceOf(TrajectoryObservationType.class));
     }
 
@@ -136,7 +136,7 @@ public class TrajectoryObservationTypeEncoderTest extends AbtractProcessDecoding
     public void test_multi_count() throws EncodingException, ParseException, DecodingException, XmlException, IOException {
         XmlObject encoded = encoder.encode(getCountObservation());
         assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
-        System.out.println(encoded.xmlText(encoder.getXmlOptions()));
+        //System.out.println(encoded.xmlText(encoder.getXmlOptions()));
         assertThat(encoded, instanceOf(TrajectoryObservationType.class));
     }
 
@@ -144,7 +144,7 @@ public class TrajectoryObservationTypeEncoderTest extends AbtractProcessDecoding
     public void test_multi_categoy() throws EncodingException, ParseException, DecodingException, XmlException, IOException {
         XmlObject encoded = encoder.encode(getCategoricalObservation());
         assertThat(XmlHelper.validateDocument(encoded), is(TRUE));
-        System.out.println(encoded.xmlText(encoder.getXmlOptions()));
+        //System.out.println(encoded.xmlText(encoder.getXmlOptions()));
         assertThat(encoded, instanceOf(TrajectoryObservationType.class));
     }
 

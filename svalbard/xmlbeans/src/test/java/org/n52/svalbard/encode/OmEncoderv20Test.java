@@ -156,7 +156,7 @@ public class OmEncoderv20Test {
         XmlObject xb = omEncoderv20.encode(observation, EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
         Node node = xb.getDomNode();
         Checker checker = new Checker(new NamespaceContextImpl());
-        System.out.println(xb.xmlText());
+        //System.out.println(xb.xmlText());
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:observedProperty[@xlink:href='http://example.tld/phenomenon/parent']"));
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/@xsi:type", containsString("DataRecordPropertyType")));
         errors.checkThat(node, checker.hasXPath("/om:OM_Observation/om:result/swe:DataRecord/swe:field[@name='child1']/swe:Quantity[@definition='http://example.tld/phenomenon/child/1']"));

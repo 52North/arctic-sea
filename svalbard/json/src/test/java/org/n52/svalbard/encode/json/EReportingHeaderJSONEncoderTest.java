@@ -42,7 +42,7 @@ public class EReportingHeaderJSONEncoderTest extends AbstractEReportingHeaderCod
 
         JsonNode o = getEncoder().encode(header);
 
-        System.out.println(Json.print(o));
+        //System.out.println(Json.print(o));
     }
 
 }

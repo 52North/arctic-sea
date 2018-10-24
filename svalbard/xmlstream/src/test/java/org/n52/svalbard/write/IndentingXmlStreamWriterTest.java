@@ -101,8 +101,8 @@ public class IndentingXmlStreamWriterTest {
                           "    </wrapper1>\n" +
                           "</document>";
 
-        System.out.println(baos.toString("UTF-8"));
-        System.out.println(expected);
+        //System.out.println(baos.toString("UTF-8"));
+        //System.out.println(expected);
         Assert.assertThat(baos.toString("UTF-8"), is(expected));
     }
 

@@ -168,7 +168,7 @@ public class EReportingHeaderEncoderTest {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             new EReportingHeaderEncoder(EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, new EncoderRepository()),
                     baos, header).write();
-            System.out.println(baos.toString("UTF-8"));
+            //System.out.println(baos.toString("UTF-8"));
             // xmlValidation(baos);
         }
     }
