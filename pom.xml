@@ -130,6 +130,8 @@
         <version.olingo>4.5.0</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
         <version.spotbugs>3.1.8</version.spotbugs>
+        <version.javax-annotation-api>1.3.2</version.javax-annotation-api>            
+        <version.javax-xml-soap>1.4.0</version.javax-xml-soap>
     </properties>
     
     <dependencyManagement>
@@ -244,6 +246,16 @@
                 <groupId>javax.inject</groupId>
                 <artifactId>javax.inject</artifactId>
                 <version>1</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.annotation</groupId>
+                <artifactId>javax.annotation-api</artifactId>
+                <version>${version.javax-annotation-api}</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.xml.soap</groupId>
+                <artifactId>javax.xml.soap-api</artifactId>
+                <version>${version.javax-xml-soap}</version>
             </dependency>
             
             <!-- Findbugs -->
