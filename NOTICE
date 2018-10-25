@@ -45,7 +45,7 @@ This project includes:
   Apache Commons IO under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
-  Checker Qual under GNU General Public License, version 2 (GPL2), with the classpath exception or The MIT License
+  Checker Qual under The MIT License
   Commons Lang under The Apache Software License, Version 2.0
   Compress-LZF under Apache License 2.0
   Elasticsearch SecureSM under The Apache Software License, Version 2.0
@@ -57,6 +57,8 @@ This project includes:
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Geographic Common (GCO) schema (version 2012-07-13) under The Apache Software License, Version 2.0
   Geographic MetaData (GMD) schema (version 2012-07-13) under The Apache Software License, Version 2.0
+  Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
+  Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   HdrHistogram under Public Domain, per Creative Commons CC0
   HPPC Collections under The Apache Software License, Version 2.0

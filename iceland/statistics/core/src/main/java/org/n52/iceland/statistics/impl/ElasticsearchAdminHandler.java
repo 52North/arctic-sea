@@ -235,7 +235,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
                 try {
                     String[] split = i.split(":");
                     address = new InetSocketTransportAddress(InetAddress.getByName(split[0]),
-                                                             Integer.valueOf(split[1]));
+                                                             Integer.parseInt(split[1]));
                 } catch (UnknownHostException e) {
                     logConnectionError(i, e);
                 }

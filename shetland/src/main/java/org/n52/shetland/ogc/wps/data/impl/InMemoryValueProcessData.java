@@ -27,6 +27,9 @@ import org.n52.shetland.ogc.wps.data.ValueProcessData;
 
 import com.google.common.base.MoreObjects;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+@SuppressFBWarnings(value = "EI_EXPOSE_REP2")
 public class InMemoryValueProcessData extends ValueProcessData {
 
     private final byte[] bytes;

@@ -23,9 +23,7 @@ import com.google.common.base.Strings;
 public class UoM {
 
     private String uom;
-
     private String name;
-
     private String link;
 
     public UoM(String uom) {
@@ -40,9 +38,9 @@ public class UoM {
     }
 
     /**
-     * @param uom
-     *            the uom to set
-     * @return
+     * @param uom the uom to set
+     *
+     * @return {@code this}
      */
     public UoM setUom(String uom) {
         this.uom = uom;
@@ -57,9 +55,9 @@ public class UoM {
     }
 
     /**
-     * @param name
-     *            the name to set
-     * @return
+     * @param name the name to set
+     *
+     * @return {@code this}
      */
     public UoM setName(String name) {
         this.name = name;
@@ -78,9 +76,9 @@ public class UoM {
     }
 
     /**
-     * @param link
-     *            the link to set
-     * @return
+     * @param link the link to set
+     *
+     * @return {@code this}
      */
     public UoM setLink(String link) {
         this.link = link;

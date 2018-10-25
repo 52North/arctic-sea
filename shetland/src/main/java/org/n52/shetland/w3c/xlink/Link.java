@@ -20,7 +20,11 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -35,16 +39,22 @@ public class Link {
     private final Optional<Show> show;
     private final Optional<Actuate> actuate;
 
-    public Link(URI href) {
+    public Link(@Nullable URI href) {
         this(href, null, null, null, null, null);
     }
 
-    public Link(URI href, String title) {
+    public Link(@Nullable URI href,
+                @Nullable String title) {
         this(href, null, null, title, null, null);
     }
 
-    public Link(URI href, URI role, URI arcrole, String title, Show show,
-                Actuate actuate) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public Link(@Nullable URI href,
+                @Nullable URI role,
+                @Nullable URI arcrole,
+                @Nullable String title,
+                @Nullable Show show,
+                @Nullable Actuate actuate) {
         this.href = Optional.ofNullable(href);
         this.role = Optional.ofNullable(role);
         this.arcrole = Optional.ofNullable(arcrole);

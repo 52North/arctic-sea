@@ -30,6 +30,8 @@ import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public final class FileDownloader {
 
     private static final Logger LOG = LoggerFactory.getLogger(FileDownloader.class);
@@ -56,6 +58,7 @@ public final class FileDownloader {
         FileUtils.copyURLToFile(fileUrl, out);
     }
 
+    @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
     public static void gunzipFile(String filePath) throws IOException {
         File file = new File(filePath);
         String outPath = null;

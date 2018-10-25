@@ -22,6 +22,8 @@ import static java.util.stream.Collectors.toList;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -31,26 +33,29 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 
 /**
- * Helper class for String objects. Contains methods to join Strings, convert
- * streams to Strings or to check for null and emptiness.
+ * Helper class for String objects. Contains methods to join Strings, convert streams to Strings or to check for null
+ * and emptiness.
  *
  * @since 1.0.0
  *
  */
 public final class StringHelper {
+    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+
     private StringHelper() {
     }
 
     /**
-     * @param toNormalize
-     *                    the string to normalize
+     * @param toNormalize the string to normalize
      *
-     * @return a normalized String for use in a file path, i.e. all
-     *         [\,/,:,*,?,",&lt;,&gt;,;] characters are replaced by '_'.
+     * @return a normalized String for use in a file path, i.e. all [\,/,:,*,?,",&lt;,&gt;,;] characters are replaced by
+     *         '_'.
      */
     public static String normalize(String toNormalize) {
         // toNormalize = toNormalize.replaceAll("ä", "ae");
@@ -66,8 +71,7 @@ public final class StringHelper {
     /**
      * Check if string is not null and not empty
      *
-     * @param string
-     *               string to check
+     * @param string string to check
      *
      * @return empty or not
      *
@@ -78,8 +82,9 @@ public final class StringHelper {
         return !Strings.isNullOrEmpty(string);
     }
 
-    public static String convertStreamToString(InputStream is, String charset) throws IOException {
-        try (InputStreamReader reader = new InputStreamReader(is, Strings.emptyToNull(charset))) {
+    public static String convertStreamToString(InputStream is, @Nullable String charset) throws IOException {
+        String cs = Optional.ofNullable(charset).map(Strings::emptyToNull).orElseGet(DEFAULT_CHARSET::name);
+        try (InputStreamReader reader = new InputStreamReader(is, cs)) {
             return CharStreams.toString(reader);
         } catch (IOException ex) {
             throw new IOException("Error while reading content of HTTP request", ex);

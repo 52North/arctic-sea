@@ -38,6 +38,8 @@ import org.n52.iceland.statistics.api.utils.FileDownloader;
 
 import com.google.common.collect.ImmutableList;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 public class EmbeddedElasticsearch {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmbeddedElasticsearch.class);
@@ -62,6 +64,7 @@ public class EmbeddedElasticsearch {
         }
     }
 
+    @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
     public void init() {
         Objects.requireNonNull(homePath);
 
@@ -84,7 +87,7 @@ public class EmbeddedElasticsearch {
         String resource = RESOURCE_BASE + CONFIG_PATH;
         Builder setting;
         try (InputStream stream = getClass().getResourceAsStream(RESOURCE_BASE + CONFIG_PATH)) {
-            setting = Settings.settingsBuilder() .loadFromStream(resource, stream);
+            setting = Settings.settingsBuilder().loadFromStream(resource, stream);
         } catch (IOException ex) {
             LOG.error(ex.getMessage(), ex);
             return;

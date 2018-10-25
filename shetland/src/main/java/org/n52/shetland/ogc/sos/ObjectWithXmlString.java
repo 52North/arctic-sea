@@ -19,9 +19,13 @@ package org.n52.shetland.ogc.sos;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import org.n52.janmayen.Optionals;
 
 import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -33,15 +37,16 @@ public class ObjectWithXmlString<T> {
     private Optional<T> object;
     private Optional<String> xml;
 
-    public ObjectWithXmlString(T object) {
+    public ObjectWithXmlString(@Nullable T object) {
         this(object, null);
     }
 
-    public ObjectWithXmlString(String xml) {
+    public ObjectWithXmlString(@Nullable String xml) {
         this(null, xml);
     }
 
-    public ObjectWithXmlString(T object, String xml) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public ObjectWithXmlString(@Nullable T object, @Nullable String xml) {
         this.object = Optional.ofNullable(object);
         this.xml = Optional.ofNullable(Strings.emptyToNull(xml));
         if (!Optionals.any(this.object, this.xml)) {

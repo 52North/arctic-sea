@@ -20,8 +20,12 @@ import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -33,16 +37,17 @@ public class OwsDomainMetadata {
     private final URI reference;
     private final String value;
 
-    public OwsDomainMetadata(URI reference, String value) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public OwsDomainMetadata(@Nullable URI reference, @Nullable String value) {
         this.reference = reference;
         this.value = Strings.emptyToNull(value);
     }
 
-    public OwsDomainMetadata(String value) {
+    public OwsDomainMetadata(@Nullable String value) {
         this(null, value);
     }
 
-    public OwsDomainMetadata(URI reference) {
+    public OwsDomainMetadata(@Nullable URI reference) {
         this(reference, null);
     }
 

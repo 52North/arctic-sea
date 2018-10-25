@@ -18,6 +18,7 @@ package org.n52.shetland.ogc.sos;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -112,5 +113,33 @@ public class SosInsertionCapabilities implements OwsCapabilitiesExtension, Merga
         addObservationTypes(insertionCapabilities.getObservationTypes());
         addProcedureDescriptionFormats(insertionCapabilities.getProcedureDescriptionFormats());
         addSupportedEncodings(insertionCapabilities.getSupportedEncodings());
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 31 * hash + Objects.hashCode(this.featureOfInterestTypes);
+        hash = 31 * hash + Objects.hashCode(this.observationTypes);
+        hash = 31 * hash + Objects.hashCode(this.procedureDescriptionFormats);
+        hash = 31 * hash + Objects.hashCode(this.supportedEncodings);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final SosInsertionCapabilities other = (SosInsertionCapabilities) obj;
+        return Objects.equals(this.featureOfInterestTypes, other.featureOfInterestTypes) &&
+               Objects.equals(this.observationTypes, other.observationTypes) &&
+               Objects.equals(this.procedureDescriptionFormats, other.procedureDescriptionFormats) &&
+               Objects.equals(this.supportedEncodings, other.supportedEncodings);
     }
 }

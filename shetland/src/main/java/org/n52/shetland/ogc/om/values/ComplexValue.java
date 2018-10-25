@@ -16,12 +16,13 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.Objects;
+
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.SweAbstractDataRecord;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 
 public class ComplexValue
         implements Value<SweAbstractDataRecord> {
@@ -78,21 +79,36 @@ public class ComplexValue
 
     @Override
     public String toString() {
-        return MoreObjects.toStringHelper(this).add("value", this.value).add("unit", this.unit).toString();
+        return MoreObjects.toStringHelper(this)
+                .add("value", this.value)
+                .add("unit", this.unit)
+                .toString();
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(this.value, this.unit);
+        return Objects.hash(this.value, this.unit);
     }
 
     @Override
     public boolean equals(Object obj) {
-        return Objects.equal(this, obj);
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ComplexValue other = (ComplexValue) obj;
+        return Objects.equals(this.value, other.value) &&
+               Objects.equals(this.unit, other.unit);
     }
 
     @Override
     public <X, E extends Exception> X accept(ValueVisitor<X, E> visitor) throws E {
         return visitor.visit(this);
     }
+
 }

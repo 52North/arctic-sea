@@ -26,6 +26,12 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import org.n52.iceland.coding.DocumentBuilderProvider;
 import org.n52.iceland.coding.decode.OwsDecodingException;
 import org.n52.iceland.util.http.HttpUtils;
@@ -44,11 +50,6 @@ import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.XmlNamespaceOperationDecoderKey;
 import org.n52.svalbard.decode.XmlStringOperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
@@ -155,7 +156,7 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
                 elementName = splittedNodeName[0];
             }
             // TODO get namespace for prefix
-            if (Strings.isNullOrEmpty(prefix)) {
+            if (prefix == null || prefix.isEmpty()) {
                 name = W3CConstants.AN_XMLNS;
             } else {
                 name = W3CConstants.PREFIX_XMLNS + prefix;

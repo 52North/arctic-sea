@@ -19,7 +19,11 @@ package org.n52.shetland.ogc.ows;
 import java.net.URI;
 import java.util.Objects;
 
+import javax.annotation.Nullable;
+
 import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * Reference to externally specified list of all the valid values and/or ranges
@@ -32,7 +36,8 @@ public class OwsValuesReference implements OwsPossibleValues {
     private final URI reference;
     private final String value;
 
-    public OwsValuesReference(URI reference, String value) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public OwsValuesReference(URI reference, @Nullable String value) {
         this.reference = Objects.requireNonNull(reference);
         this.value = Strings.nullToEmpty(value);
     }
