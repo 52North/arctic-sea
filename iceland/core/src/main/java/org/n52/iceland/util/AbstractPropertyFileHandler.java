@@ -30,6 +30,8 @@ import org.slf4j.LoggerFactory;
 
 import org.n52.faroe.ConfigurationError;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * @since 1.0.0
  *
@@ -51,13 +53,14 @@ public class AbstractPropertyFileHandler {
         this.propertiesFile = file;
     }
 
+    @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION", justification = "false positive")
     protected Properties load() throws IOException {
         if (this.cache == null) {
             File f = getFile(false);
             if (f == null) {
                 return new Properties();
             }
-            try (InputStream is = new FileInputStream(getFile(true))) {
+            try (InputStream is = new FileInputStream(f)) {
                 Properties p = new Properties();
                 p.load(is);
                 cache = p;
@@ -66,6 +69,7 @@ public class AbstractPropertyFileHandler {
         return cache;
     }
 
+    @SuppressFBWarnings(value = "OBL_UNSATISFIED_OBLIGATION", justification = "false positive")
     protected void save(Properties p) throws IOException {
         try (OutputStream os = new FileOutputStream(getFile(true))) {
             p.store(os, null);
@@ -139,7 +143,7 @@ public class AbstractPropertyFileHandler {
         lock.writeLock().lock();
         try {
             Properties p = load();
-            properties.stringPropertyNames().forEach(key -> p.setProperty(key, properties.getProperty(key)));
+            copyTo(properties, p);
             save(p);
         } catch (IOException e) {
             throw new ConfigurationError(ERROR_WRITING_MESSAGE, e);
@@ -172,9 +176,14 @@ public class AbstractPropertyFileHandler {
         }
     }
 
+    private static void copyTo(Properties source, Properties target) {
+        source.stringPropertyNames()
+                .forEach(key -> target.setProperty(key, source.getProperty(key)));
+    }
+
     private static Properties copyOf(Properties p) {
         Properties np = new Properties();
-        p.stringPropertyNames().forEach(s -> np.put(s, p.get(s)));
+        copyTo(p, np);
         return np;
     }
 }
