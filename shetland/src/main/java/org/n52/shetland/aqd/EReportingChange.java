@@ -16,15 +16,20 @@
  */
 package org.n52.shetland.aqd;
 
+import java.util.Objects;
+
+import javax.annotation.Nullable;
+
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Optional;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 public class EReportingChange {
     private boolean changed;
     private Optional<String> description;
 
-    public EReportingChange(String description) {
+    public EReportingChange(@Nullable String description) {
         this(true, description);
     }
 
@@ -36,7 +41,8 @@ public class EReportingChange {
         this(changed, null);
     }
 
-    public EReportingChange(boolean changed, String description) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public EReportingChange(boolean changed, @Nullable String description) {
         this.changed = changed;
         this.description = Optional.fromNullable(description);
     }
@@ -49,7 +55,8 @@ public class EReportingChange {
         return description;
     }
 
-    public void setDescription(String description) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public void setDescription(@Nullable String description) {
         this.description = Optional.fromNullable(description);
     }
 
@@ -60,9 +67,8 @@ public class EReportingChange {
 
     @Override
     public boolean equals(Object obj) {
-        return obj instanceof EReportingChange && Objects
-               .equal(getDescription(), ((EReportingChange) obj)
-                      .getDescription());
+        return obj instanceof EReportingChange &&
+               java.util.Objects.equals(getDescription(), ((EReportingChange) obj).getDescription());
     }
 
     @Override

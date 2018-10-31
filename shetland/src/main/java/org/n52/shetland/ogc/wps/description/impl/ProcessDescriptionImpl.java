@@ -136,6 +136,38 @@ public class ProcessDescriptionImpl
         return version;
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 97 * hash + Objects.hashCode(this.inputs);
+        hash = 97 * hash + Objects.hashCode(this.outputs);
+        hash = 97 * hash + (this.storeSupported ? 1 : 0);
+        hash = 97 * hash + (this.statusSupported ? 1 : 0);
+        hash = 97 * hash + Objects.hashCode(this.version);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ProcessDescriptionImpl other = (ProcessDescriptionImpl) obj;
+
+        return this.storeSupported != other.storeSupported &&
+               this.statusSupported != other.statusSupported &&
+               Objects.equals(this.version, other.version) &&
+               Objects.equals(this.inputs, other.inputs) &&
+               Objects.equals(this.outputs, other.outputs);
+    }
+
+
     public abstract static class AbstractBuilder<T extends ProcessDescription,
                                                  B extends ProcessDescription.Builder<T, B>>
             extends AbstractDescription.AbstractBuilder<T, B>

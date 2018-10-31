@@ -54,9 +54,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * @since 1.0.0
  */
 public class Json {
-    private static final JsonNodeFactory FACTORY = JsonNodeFactory.withExactBigDecimals(false);
-    private static final ObjectReader READER;
-    private static final ObjectWriter WRITER;
+    private static JsonNodeFactory FACTORY = JsonNodeFactory.withExactBigDecimals(false);
+    private static ObjectReader READER;
+    private static ObjectWriter WRITER;
 
     static {
         ObjectMapper mapper = new ObjectMapper()
@@ -104,45 +104,47 @@ public class Json {
         }
     }
 
-    public static void print(final Writer writer, final JsonNode node) throws IOException {
+    public static void print(Writer writer, JsonNode node) throws IOException {
         writer().writeValue(writer, node);
     }
 
-    public static void print(final OutputStream writer, final JsonNode node) throws IOException {
+    public static void print(OutputStream writer, JsonNode node) throws IOException {
         writer().writeValue(writer, node);
     }
 
-    public static JsonNode loadURL(final URL url) throws IOException {
-        return reader().readTree(url.openStream());
-    }
-
-    public static JsonNode loadPath(final String path) throws IOException {
-        try (FileInputStream in = new FileInputStream(path)) {
-            return reader().readTree(in);
+    public static JsonNode loadURL(URL url) throws IOException {
+        try (InputStream stream = url.openStream()) {
+            return loadStream(stream);
         }
     }
 
-    public static JsonNode loadPath(final Path path) throws IOException {
+    public static JsonNode loadPath(String path) throws IOException {
+        try (InputStream in = new FileInputStream(path)) {
+            return loadStream(in);
+        }
+    }
+
+    public static JsonNode loadPath(Path path) throws IOException {
         try (InputStream in = Files.newInputStream(path)) {
-            return reader().readTree(in);
+            return loadStream(in);
         }
     }
 
-    public static JsonNode loadFile(final File file) throws IOException {
-        try (FileInputStream in = new FileInputStream(file)) {
-            return reader().readTree(in);
+    public static JsonNode loadFile(File file) throws IOException {
+        try (InputStream in = new FileInputStream(file)) {
+            return loadStream(in);
         }
     }
 
-    public static JsonNode loadStream(final InputStream in) throws IOException {
+    public static JsonNode loadStream(InputStream in) throws IOException {
         return reader().readTree(in);
     }
 
-    public static JsonNode loadReader(final Reader reader) throws IOException {
+    public static JsonNode loadReader(Reader reader) throws IOException {
         return reader().readTree(reader);
     }
 
-    public static JsonNode loadString(final String json) {
+    public static JsonNode loadString(String json) {
         try {
             return loadReader(new StringReader(json));
         } catch (IOException ex) {

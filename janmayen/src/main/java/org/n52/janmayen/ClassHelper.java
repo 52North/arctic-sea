@@ -29,7 +29,7 @@ public final class ClassHelper {
      *
      * @param superClass the super class
      * @param clazz the class
-     * @return 0 for equality, -1 for non-hierarchy classes, >0 the lower the
+     * @return 0 for equality, -1 for non-hierarchy classes, &gt;0 the lower the
      *         more similiar
      */
     public static int getSimiliarity(Class<?> superClass, Class<?> clazz) {

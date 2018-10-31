@@ -93,7 +93,7 @@ public class SweDataArrayValue
     }
 
     /**
-     * Adds the given block - a {@link List}<{@link String}> - add the end of
+     * Adds the given block - a {@link List}&lt;{@link String}&gt; - add the end of
      * the current list of blocks
      *
      * @param blockOfTokensToAddAtTheEnd

@@ -45,6 +45,7 @@ This project includes:
   Apache Commons IO under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
+  Checker Qual under The MIT License
   Commons Lang under The Apache Software License, Version 2.0
   Compress-LZF under Apache License 2.0
   Elasticsearch SecureSM under The Apache Software License, Version 2.0
@@ -56,6 +57,8 @@ This project includes:
   FindBugs-jsr305 under The Apache Software License, Version 2.0
   Geographic Common (GCO) schema (version 2012-07-13) under The Apache Software License, Version 2.0
   Geographic MetaData (GMD) schema (version 2012-07-13) under The Apache Software License, Version 2.0
+  Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
+  Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
   HdrHistogram under Public Domain, per Creative Commons CC0
   HPPC Collections under The Apache Software License, Version 2.0
@@ -80,6 +83,7 @@ This project includes:
   Jackson-core under The Apache Software License, Version 2.0
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
+  Java Architecture for XML Binding under CDDL 1.1 or GPL2 w/ CPE
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
   javax.inject under The Apache Software License, Version 2.0
@@ -144,6 +148,8 @@ This project includes:
   OGC WaterML DR schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC WaterML schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC XML schemas under The Apache Software License, Version 2.0
+  Old JAXB Core under CDDL+GPL License
+  Old JAXB Runtime under CDDL+GPL License
   org.locationtech.jts:jts-core under Eclipse Publish License, Version 1.0 or Eclipse Distribution License - v 1.0
   Portele Schape Change schema (spec. v3.0) under The Apache Software License, Version 2.0
   Saxon-HE under Mozilla Public License Version 2.0

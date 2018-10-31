@@ -26,7 +26,7 @@ import org.n52.shetland.ogc.om.features.SfConstants;
 import org.n52.svalbard.encode.EncodingContext;
 
 /**
- * Implementation of {@link AbstractOmV20XmlStreamWriter} to write O&M 2.0
+ * Implementation of {@link AbstractOmV20XmlStreamWriter} to write O&amp;M 2.0
  * encoded {@link OmObservation}s to stream
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>

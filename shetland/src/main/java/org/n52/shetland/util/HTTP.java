@@ -39,11 +39,14 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import com.google.common.io.ByteStreams;
 import com.google.common.io.CharStreams;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
+@SuppressFBWarnings(value = "RCN_REDUNDANT_NULLCHECK_WOULD_HAVE_BEEN_A_NPE", justification = "spotbugs false positive")
 public final class HTTP {
     private static final CloseableHttpClient CLIENT = HttpClientBuilder.create()
             .useSystemProperties()

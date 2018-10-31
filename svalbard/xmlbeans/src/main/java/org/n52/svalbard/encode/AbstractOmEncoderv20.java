@@ -122,7 +122,7 @@ public abstract class AbstractOmEncoderv20
 
     /**
      * Method to add the observation type to the om:Observation. Subclasses
-     * should have mappings to set the correct type, e.g. O&M .../Measurement ==
+     * should have mappings to set the correct type, e.g. O&amp;M .../Measurement ==
      * .../MeasurementTimeseriesTVPObservation in WaterML 2.0
      *
      * @param xbObservation
@@ -214,13 +214,13 @@ public abstract class AbstractOmEncoderv20
     }
 
     /**
-     * Method to create an O&M 2.0 observation XmlBeans object
+     * Method to create an O&amp;M 2.0 observation XmlBeans object
      *
      * @param sosObservation
      *            SosObservation to be encoded
      * @param context
      *            Additional values which are used during the encoding
-     * @return XmlBeans representation of O&M 2.0 observation
+     * @return XmlBeans representation of O&amp;M 2.0 observation
      * @throws EncodingException
      *             If an error occurs
      */

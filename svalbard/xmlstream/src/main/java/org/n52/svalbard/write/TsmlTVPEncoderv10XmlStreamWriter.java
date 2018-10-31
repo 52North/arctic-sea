@@ -20,7 +20,7 @@ import java.io.OutputStream;
 import java.util.List;
 import java.util.Optional;
 
-
+import javax.annotation.Nullable;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.commons.lang.StringEscapeUtils;
@@ -53,21 +53,19 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import com.google.common.base.Strings;
 
 /**
- * TODO(specki): update javadoc
- * Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0
- * encoded {@link OmObservation}s to stream
+ * TODO(specki): update javadoc Implementation of {@link AbstractOmV20XmlStreamWriter} to write WaterML 2.0 encoded
+ * {@link OmObservation}s to stream
  *
  * @since 1.0.0
  *
  */
-
 public class TsmlTVPEncoderv10XmlStreamWriter
         extends AbstractOmV20XmlStreamWriter {
     public TsmlTVPEncoderv10XmlStreamWriter(
             EncodingContext context,
             OutputStream outputStream,
             OmObservation element)
-                    throws XMLStreamException {
+            throws XMLStreamException {
         super(context, outputStream, element);
     }
 
@@ -103,12 +101,13 @@ public class TsmlTVPEncoderv10XmlStreamWriter
             if (observationValue.isSetUnit()) {
                 writeDefaultPointMetadata(observationValue, observationValue.getUnit());
             } else if (observation.getObservationConstellation()
-                    .getObservableProperty() instanceof OmObservableProperty
-                    && ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
-                            .isSetUnit()) {
+                    .getObservableProperty() instanceof OmObservableProperty &&
+                       ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
+                               .isSetUnit()) {
                 writeDefaultPointMetadata(observationValue,
-                        ((OmObservableProperty) observation.getObservationConstellation().getObservableProperty())
-                                .getUnit());
+                                          ((OmObservableProperty) observation.getObservationConstellation()
+                                                  .getObservableProperty())
+                                                  .getUnit());
             } else {
                 writeDefaultPointMetadata(observationValue, null);
             }
@@ -165,8 +164,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Close written wml:MeasurementTimeseriesML and om:result tags
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void close() throws XMLStreamException {
         end(TimeseriesMLConstants.QN_MEASUREMENT_TIMESERIES);
@@ -176,19 +174,17 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write timeseries metadata to stream
      *
-     * @param id
-     *            Observation id
+     * @param o the observation
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeMeasurementTimeseriesMLMetadata(OmObservation o) throws XMLStreamException {
         start(TimeseriesMLConstants.QN_METADATA);
         start(TimeseriesMLConstants.QN_MEASUREMENT_TIMESERIES_METADATA);
         empty(TimeseriesMLConstants.QN_TEMPORAL_EXTENT);
         addXlinkHrefAttr("#" + o.getPhenomenonTime().getGmlId());
-        if (o.isSetValue() && o.getValue().isSetMetadata() && o.getValue().getMetadata().isSetTimeseriesMetadata()
-                && o.getValue().getMetadata().getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
+        if (o.isSetValue() && o.getValue().isSetMetadata() && o.getValue().getMetadata().isSetTimeseriesMetadata() &&
+            o.getValue().getMetadata().getTimeseriesmetadata() instanceof MeasurementTimeseriesMetadata) {
             start(TimeseriesMLConstants.QN_CUMULATIVE);
             chars(Boolean.toString(((MeasurementTimeseriesMetadata) o.getValue().getMetadata().getTimeseriesmetadata())
                     .isCumulative()));
@@ -201,13 +197,13 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write wml:defaultPointMetadata to stream
      *
-     * @param unit
-     *            the unit
+     * @param value the observation value
+     * @param unit  the unit
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
-    private void writeDefaultPointMetadata(ObservationValue<?> value, String unit) throws XMLStreamException {
+    private void writeDefaultPointMetadata(@Nullable ObservationValue<?> value, @Nullable String unit)
+            throws XMLStreamException {
         start(TimeseriesMLConstants.QN_DEFAULT_POINT_METADATA);
         start(TimeseriesMLConstants.QN_DEFAULT_TVP_MEASUREMENT_METADATA);
         writeUOM(unit);
@@ -219,14 +215,12 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write UOM attribute to stream
      *
-     * @param code
-     *            UOM code
+     * @param code UOM code
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
-    private void writeUOM(String code) throws XMLStreamException {
-        if (!Strings.isNullOrEmpty(code)) {
+    private void writeUOM(@Nullable String code) throws XMLStreamException {
+        if (code != null && !code.isEmpty()) {
             empty(TimeseriesMLConstants.UOM);
             attr("code", code);
         }
@@ -235,19 +229,19 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write wml:interpolationType to stream
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @param value the value
+     *
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
-    private void writeInterpolationType(ObservationValue<?> value) throws XMLStreamException {
+    private void writeInterpolationType(@Nullable ObservationValue<?> value) throws XMLStreamException {
         empty(TimeseriesMLConstants.QN_INTERPOLATION_TYPE);
-        if (value != null && value.isSetMetadata()
-                && value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata()
-                && value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
-            InterpolationType interpolationtype =
-                        (InterpolationType) value
-                            .getDefaultPointMetadata()
-                            .getDefaultTVPMeasurementMetadata()
-                            .getInterpolationtype();
+        if (value != null && value.isSetMetadata() &&
+            value.getDefaultPointMetadata().isSetDefaultTVPMeasurementMetadata() &&
+            value.getDefaultPointMetadata().getDefaultTVPMeasurementMetadata().isSetInterpolationType()) {
+            InterpolationType interpolationtype = (InterpolationType) value
+                    .getDefaultPointMetadata()
+                    .getDefaultTVPMeasurementMetadata()
+                    .getInterpolationtype();
             addXlinkHrefAttr(interpolationtype.getIdentifier());
             addXlinkTitleAttr(interpolationtype.getTitle());
         } else {
@@ -259,8 +253,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Get the {@link String} representation of {@link Value}
      *
-     * @param value
-     *            {@link Value} to get {@link String} representation from
+     * @param value {@link Value} to get {@link String} representation from
      *
      * @return {@link String} representation of {@link Value}
      */
@@ -289,13 +282,10 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write wml:point to stream
      *
-     * @param time
-     *            time as {@link String}
-     * @param value
-     *            value as {@link String}
+     * @param time  time as {@link String}
+     * @param value value as {@link String}
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writePoint(String time, String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(time)) {
@@ -308,13 +298,10 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write wml:MeasurementTVP to stream
      *
-     * @param time
-     *            time as {@link String}
-     * @param value
-     *            value as {@link String}
+     * @param time  time as {@link String}
+     * @param value value as {@link String}
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeMeasurementTVP(String time, String value) throws XMLStreamException {
         start(TimeseriesMLConstants.QN_MEASUREMENT_TVP);
@@ -326,11 +313,9 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write wml:time to stream
      *
-     * @param time
-     *            time to write
+     * @param time time to write
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeTime(String time) throws XMLStreamException {
         start(TimeseriesMLConstants.QN_TIME);
@@ -341,11 +326,9 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write wml:value to stream
      *
-     * @param value
-     *            value to write
+     * @param value value to write
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeValue(String value) throws XMLStreamException {
         if (!Strings.isNullOrEmpty(value)) {
@@ -362,8 +345,7 @@ public class TsmlTVPEncoderv10XmlStreamWriter
     /**
      * Write missing value metadata to stream
      *
-     * @throws XMLStreamException
-     *             If an error occurs when writing to stream
+     * @throws XMLStreamException If an error occurs when writing to stream
      */
     private void writeValueMetadata() throws XMLStreamException {
         start(TimeseriesMLConstants.QN_METADATA);

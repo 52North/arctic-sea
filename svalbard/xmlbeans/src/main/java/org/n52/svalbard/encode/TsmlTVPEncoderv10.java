@@ -25,6 +25,16 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
+import net.opengis.gml.x32.AbstractGMLType;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.tsml.x10.MeasurementTVPPropertyType;
+import net.opengis.tsml.x10.MeasurementTVPType;
+import net.opengis.tsml.x10.PointMetadataDocument;
+import net.opengis.tsml.x10.PointMetadataType;
+import net.opengis.tsml.x10.TimeseriesMetadataType;
+import net.opengis.tsml.x10.TimeseriesTVPDocument;
+import net.opengis.tsml.x10.TimeseriesTVPType;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.slf4j.Logger;
@@ -66,17 +76,6 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import net.opengis.gml.x32.AbstractGMLType;
-
-import net.opengis.om.x20.OMObservationType;
-
-import net.opengis.tsml.x10.MeasurementTVPPropertyType;
-import net.opengis.tsml.x10.MeasurementTVPType;
-import net.opengis.tsml.x10.PointMetadataDocument;
-import net.opengis.tsml.x10.PointMetadataType;
-import net.opengis.tsml.x10.TimeseriesMetadataType;
-import net.opengis.tsml.x10.TimeseriesTVPDocument;
-import net.opengis.tsml.x10.TimeseriesTVPType;
 
 /**
  * Encoder class for TimeseriesML 1.0 TimeseriesValuePair (TVP)
@@ -421,7 +420,7 @@ public class TsmlTVPEncoderv10
         MeasurementTVPPropertyType measurementTVPProperty = MeasurementTVPPropertyType.Factory.newInstance();
 
         measurementTVP.addNewTime().setStringValue(time);
-        if (Strings.isNullOrEmpty(value)) {
+        if (value == null || value.isEmpty()) {
             measurementTVP.addNewValue().setNil();
             measurementTVP.addNewMetadata().addNewPointMetadata().addNewNilReason().setNilReason("missing");
         } else {

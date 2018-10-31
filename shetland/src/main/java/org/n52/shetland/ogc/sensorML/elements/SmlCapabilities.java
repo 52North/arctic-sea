@@ -16,11 +16,12 @@
  */
 package org.n52.shetland.ogc.sensorML.elements;
 
+import static java.util.stream.Collectors.toList;
+
 import java.util.List;
 
-import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.ogc.swe.DataRecord;
-import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
+import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
 
@@ -31,21 +32,19 @@ import com.google.common.collect.Lists;
  */
 public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabilities> {
 
-
     private List<SmlCapability> capabilities = Lists.newArrayList();
 
     /**
      * default constructor
      */
     public SmlCapabilities() {
-       super();
+        super();
     }
 
     /**
      * constructor
      *
-     * @param name
-     *            Type
+     * @param name Type
      */
     public SmlCapabilities(String name) {
         setName(name);
@@ -54,10 +53,8 @@ public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabi
     /**
      * constructor
      *
-     * @param name
-     *            Type
-     * @param dataRecord
-     *            DataRecord
+     * @param name       Type
+     * @param dataRecord DataRecord
      */
     public SmlCapabilities(String name, DataRecord dataRecord) {
         super(dataRecord);
@@ -69,8 +66,7 @@ public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabi
      */
     public List<SmlCapability> getCapabilities() {
         if (!hasCapabilities() && isSetAbstractDataComponents()) {
-            List<SmlCapability> caps = Lists.newArrayList();
-            for (SweAbstractDataComponent component : getAbstractDataComponents()) {
+            return getAbstractDataComponents().stream().map(component -> {
                 SmlCapability smlCapability = new SmlCapability();
                 if (component.isSetName()) {
                     smlCapability.setName(component.getName().getValue());
@@ -78,9 +74,9 @@ public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabi
                     smlCapability.setName(component.getDefinition());
                 }
                 smlCapability.setAbstractDataComponent(component);
-                caps.add(smlCapability);
-            }
-            return caps;
+                return smlCapability;
+            }).collect(toList());
+
         }
         return this.capabilities;
     }
@@ -91,9 +87,10 @@ public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabi
     public void setCapabilities(List<SmlCapability> capabilities) {
         if (CollectionHelper.isNotEmpty(capabilities)) {
             this.capabilities = capabilities;
-            for (SmlCapability smlCapability : capabilities) {
-                addAbstractDataComponents(smlCapability.getAbstractDataComponent());
-            }
+            capabilities.stream()
+                    .map(SmlCapability::getAbstractDataComponent)
+                    .forEach(this::addAbstractDataComponents);
+
         }
     }
 
@@ -102,9 +99,9 @@ public class SmlCapabilities extends AbstractSmlDataComponentContainer<SmlCapabi
      */
     public void addCapabilities(List<SmlCapability> capabilities) {
         this.capabilities.addAll(capabilities);
-        for (SmlCapability smlCapability : capabilities) {
-            addAbstractDataComponents(smlCapability.getAbstractDataComponent());
-        }
+        capabilities.stream()
+                    .map(SmlCapability::getAbstractDataComponent)
+                    .forEach(this::addAbstractDataComponents);
     }
 
     /**

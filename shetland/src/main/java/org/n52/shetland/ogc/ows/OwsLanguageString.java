@@ -20,11 +20,15 @@ import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
 
+import javax.annotation.Nullable;
+
 import org.n52.janmayen.Optionals;
 import org.n52.janmayen.i18n.LocalizedString;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -39,7 +43,8 @@ public class OwsLanguageString implements Comparable<OwsLanguageString> {
     private final String lang;
     private final String value;
 
-    public OwsLanguageString(String lang, String value) {
+    @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
+    public OwsLanguageString(@Nullable String lang, String value) {
         this.lang = Strings.emptyToNull(lang);
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
     }

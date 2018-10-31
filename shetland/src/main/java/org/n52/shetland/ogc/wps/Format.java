@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.ogc.wps;
 
-
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -58,11 +57,15 @@ public class Format implements Comparable<Format> {
     private final Optional<String> schema;
 
     public Format(String mimeType) {
-        this(mimeType, (String) null, null);
+        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
+             Optional.empty(),
+             Optional.empty());
     }
 
     public Format(String mimeType, String encoding) {
-        this(mimeType, encoding, null);
+        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
+             Optional.ofNullable(Strings.emptyToNull(encoding)),
+             Optional.empty());
     }
 
     public Format(String mimeType, String encoding, String schema) {
@@ -71,22 +74,28 @@ public class Format implements Comparable<Format> {
              Optional.ofNullable(Strings.emptyToNull(schema)));
     }
 
+    public Format(String mimeType, Charset encoding) {
+        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
+             Optional.ofNullable(encoding).map(Charset::name),
+             Optional.empty());
+    }
+
+    public Format(String mimeType, Charset encoding, String schema) {
+        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
+             Optional.ofNullable(encoding).map(Charset::name),
+             Optional.ofNullable(Strings.emptyToNull(schema)));
+    }
+
+    public Format() {
+        this(Optional.empty(),
+             Optional.empty(),
+             Optional.empty());
+    }
+
     private Format(Optional<String> mimeType, Optional<String> encoding, Optional<String> schema) {
         this.mimeType = Objects.requireNonNull(mimeType);
         this.encoding = Objects.requireNonNull(encoding);
         this.schema = Objects.requireNonNull(schema);
-    }
-
-    public Format(String mimeType, Charset encoding) {
-        this(mimeType, encoding, null);
-    }
-
-    public Format(String mimeType, Charset encoding, String schema) {
-        this(mimeType, encoding == null ? null : encoding.name(), schema);
-    }
-
-    public Format() {
-        this(null, (String) null, null);
     }
 
     public Optional<String> getMimeType() {
@@ -236,8 +245,8 @@ public class Format implements Comparable<Format> {
     }
 
     public boolean isCompatible(Format that) {
-        if (!((!this.hasEncoding() && (!that.hasEncoding() || that.isCharacterEncoding()))
-                || this.hasEncoding(that))) {
+        if (!((!this.hasEncoding() && (!that.hasEncoding() || that.isCharacterEncoding())) ||
+              this.hasEncoding(that))) {
             return false;
         }
 

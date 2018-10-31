@@ -17,9 +17,9 @@
 package org.n52.shetland.ogc.swe.simpleType;
 
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
-import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 /**
  * @since 1.0.0
@@ -60,11 +60,11 @@ public class SweCount extends SweAbstractSimpleType<Integer> {
     }
 
     public void increaseCount() {
-        value++;
+        increaseCount(1);
     }
 
     public void increaseCount(int count) {
-        value += count;
+        this.value += count;
     }
 
     /**

@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.Value;
 
 /**
- * Class representing a O&M conform NamedValue
+ * Class representing a O&amp;M conform NamedValue
  *
  * @since 1.0.0
  *

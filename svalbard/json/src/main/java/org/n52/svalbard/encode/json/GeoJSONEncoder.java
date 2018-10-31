@@ -162,10 +162,10 @@ public class GeoJSONEncoder
 
     protected ArrayNode encodeCoordinate(Coordinate coordinate) {
 
-        ArrayNode array = jsonFactory.arrayNode().add(coordinate.x).add(coordinate.y);
+        ArrayNode array = jsonFactory.arrayNode().add(coordinate.getX()).add(coordinate.getY());
 
-        if (!Double.isNaN(coordinate.z)) {
-            array.add(coordinate.z);
+        if (!Double.isNaN(coordinate.getZ())) {
+            array.add(coordinate.getZ());
         }
 
         return array;
