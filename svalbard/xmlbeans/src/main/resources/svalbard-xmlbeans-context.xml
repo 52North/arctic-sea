@@ -64,6 +64,7 @@
     <bean class="org.n52.svalbard.decode.RelatedOfferingTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.RelatedPartyTypeDecoder"/>
     <bean class="org.n52.svalbard.decode.ResultFilterDecoder"/>
+    <bean class="org.n52.svalbard.decode.ResultFilterDecoderv20"/>
     <bean class="org.n52.svalbard.decode.SamplingDecoderv20"/>
     <bean class="org.n52.svalbard.decode.SensorMLDecoderV101"/>
     <bean class="org.n52.svalbard.decode.SensorMLDecoderV20"/>

@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.filter.Filter;
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.ResponseFormat;
@@ -195,7 +196,7 @@ public class GetDataAvailabilityRequest extends OwsServiceRequest
                getExtension(ResultFilterConstants.RESULT_FILTER).get() instanceof ResultFilter;
     }
 
-    public ComparisonFilter getResultFilter() {
+    public Filter<?> getResultFilter() {
         if (hasResultFilter()) {
             return ((ResultFilter) getExtension(ResultFilterConstants.RESULT_FILTER).get()).getValue();
         }

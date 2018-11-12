@@ -17,6 +17,7 @@
 package org.n52.shetland.ogc.filter;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
@@ -95,7 +96,7 @@ public class BinaryLogicFilter
      * @param filterPredicates
      *            the filterPredicates to add
      */
-    public BinaryLogicFilter addFilterPredicates(Set<Filter<?>> filterPredicates) {
+    public BinaryLogicFilter addFilterPredicates(Collection<Filter<?>> filterPredicates) {
         this.filterPredicates.addAll(filterPredicates);
         return this;
     }
