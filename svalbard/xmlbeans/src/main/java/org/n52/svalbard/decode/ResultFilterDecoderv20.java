@@ -45,15 +45,15 @@ public class ResultFilterDecoderv20 extends AbstractXmlDecoder<XmlObject, Result
     public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
     }
+
     @Override
-    public ResultFilter decode(XmlObject xmlObject)
-            throws DecodingException {
+    public ResultFilter decode(XmlObject xmlObject) throws DecodingException {
         if (xmlObject instanceof ResultFilterType) {
             return parseType((ResultFilterType) xmlObject);
         } else if (xmlObject instanceof ResultFilterPropertyType) {
-            return parseType(((ResultFilterPropertyType)xmlObject).getResultFilter());
+            return parseType(((ResultFilterPropertyType) xmlObject).getResultFilter());
         } else if (xmlObject instanceof ResultFilterDocument) {
-            return parseType(((ResultFilterDocument)xmlObject).getResultFilter());
+            return parseType(((ResultFilterDocument) xmlObject).getResultFilter());
         } else {
             throw new UnsupportedDecoderInputException(this, xmlObject);
         }
@@ -63,8 +63,8 @@ public class ResultFilterDecoderv20 extends AbstractXmlDecoder<XmlObject, Result
         return new ResultFilter((Filter<?>) decodeXmlElement(xmlObject.getFilter()));
     }
 
-//    @Override
-//    public Set<String> getConformanceClasses() {
-//        return Sets.newHashSet(ResultFilterConstants.CONFORMANCE_CLASS_XML_20);
-//    }
+    // @Override
+    // public Set<String> getConformanceClasses() {
+    // return Sets.newHashSet(ResultFilterConstants.CONFORMANCE_CLASS_XML_20);
+    // }
 }
