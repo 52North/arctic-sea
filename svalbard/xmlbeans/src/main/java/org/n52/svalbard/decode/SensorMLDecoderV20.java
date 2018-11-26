@@ -254,7 +254,7 @@ public class SensorMLDecoderV20
                 SimpleProcessDocument spd = SimpleProcessDocument.Factory.newInstance(getXmlOptions());
                 spd.setSimpleProcess(((SimpleProcessPropertyType) xml).getSimpleProcess());
                 xmlToString = spd;
-            } else if (xml instanceof SimpleProcessPropertyType) {
+            } else if (xml instanceof SimpleProcessType) {
                 SimpleProcessDocument spd = SimpleProcessDocument.Factory.newInstance(getXmlOptions());
                 spd.setSimpleProcess((SimpleProcessType) xml);
                 xmlToString = spd;
