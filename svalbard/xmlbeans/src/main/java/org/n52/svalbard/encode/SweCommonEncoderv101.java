@@ -491,7 +491,7 @@ public class SweCommonEncoderv101
     /**
      * Adds values to SWE text
      *
-     * @param text
+     * @param component
      *            SOS internal representation
      *
      * @return the text

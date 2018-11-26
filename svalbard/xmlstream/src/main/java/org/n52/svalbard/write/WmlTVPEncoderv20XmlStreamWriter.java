@@ -174,7 +174,7 @@ public class WmlTVPEncoderv20XmlStreamWriter
     /**
      * Write timeseries metadata to stream
      *
-     * @param id Observation id
+     * @param o {@link OmObservation}
      *
      * @throws XMLStreamException If an error occurs when writing to stream
      */
