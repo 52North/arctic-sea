@@ -166,7 +166,7 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
                 schemaLocations.add(N52XmlHelper.getSchemaLocationForSOAP12());
                 if (value != null && !value.isEmpty()) {
                     String[] split = value.split(" ");
-                    for (int i = 0; i < split.length; i += 2) {
+                    for (int i = 0; i <= split.length - 2; i += 2) {
                         schemaLocations.add(new SchemaLocation(split[i], split[i + 1]));
                     }
                 }
