@@ -489,8 +489,6 @@ public class ObservationEncoder
             def = new SweText();
         } else if (value instanceof NilTemplateValue) {
             def = new SweText();
-        } else if (value instanceof BooleanValue) {
-            def = new SweBoolean();
         } else if (value instanceof GeometryValue) {
             def = new SweText();
         } else {
