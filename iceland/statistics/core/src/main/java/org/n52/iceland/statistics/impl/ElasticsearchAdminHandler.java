@@ -119,8 +119,10 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
             json = IOUtils.toString(this.getClass().getResourceAsStream("/kibana/kibana_config.json"),
                                     StandardCharsets.UTF_8);
         } else {
-            logger.info("Use content of path {}", settings.getKibanaConfPath());
-            json = IOUtils.toString(new FileInputStream(settings.getKibanaConfPath()), StandardCharsets.UTF_8);
+            try (FileInputStream fio = new FileInputStream(settings.getKibanaConfPath());) {
+                logger.info("Use content of path {}", settings.getKibanaConfPath());
+                json = IOUtils.toString(fio, StandardCharsets.UTF_8);
+            }
         }
         new KibanaImporter(client, ".kibana", settings.getIndexId()).importJson(json);
         // set to false after successful import
