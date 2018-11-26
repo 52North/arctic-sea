@@ -110,8 +110,8 @@ public final class OMHelper {
         }
         // TODO Check for missing types
         throw new NoApplicableCodeException()
-                .withMessage("Not able to derive observation type from swe:AbstractDataComponent element '{}'.",
-                        component)
+                .withMessage("Not able to derive observation type from swe:AbstractDataComponent element '%s'.",
+                        component.getClass().getSimpleName())
                 .setStatus(HTTPStatus.BAD_REQUEST);
     }
 

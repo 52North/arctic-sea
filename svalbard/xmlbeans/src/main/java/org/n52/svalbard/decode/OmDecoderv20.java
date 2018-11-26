@@ -317,7 +317,7 @@ public class OmDecoderv20 extends AbstractOmDecoderv20 {
                 return new SingleObservationValue<>(new ComplexValue((SweDataRecord) decodedObject));
             }
             throw new DecodingException(Sos2Constants.InsertObservationParams.observation,
-                    "The requested result type '{}' is not supported by this service!",
+                    "The requested result type '%s' is not supported by this service!",
                     decodedObject.getClass().getSimpleName());
         }
     }

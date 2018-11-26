@@ -168,7 +168,7 @@ public class ElasticsearchSettings {
         if (node.contains(":")) {
             String[] split = node.split(":");
             if (split.length != 2) {
-                throw new ConfigurationError("Illegal format expected host[:port]", node);
+                throw new ConfigurationError("Illegal format expected host[:port] but found %s", node);
             }
             try {
                 Integer.valueOf(split[1]);

@@ -388,7 +388,7 @@ public class SwesDecoderv20 extends AbstractSwesDecoderv20<OwsServiceCommunicati
     private static DecodingException unsupportedValidTime(Enum<?> parameter,
                                                           AbstractTimeGeometricPrimitiveType validTime) {
         return new DecodingException(parameter,
-                                     "The validTime element ({}) is not supported",
-                                     validTime.schemaType());
+                                     "The validTime element (%s) is not supported",
+                                     validTime.schemaType().getShortJavaName());
     }
 }
