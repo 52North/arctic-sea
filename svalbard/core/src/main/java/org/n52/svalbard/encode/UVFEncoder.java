@@ -277,7 +277,8 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
         String ending = getLineEnding(contentType);
         String filename = getFilename(mergeObservations);
         File uvfFile = new File(tempDir, filename);
-        try (Writer fw = new OutputStreamWriter(new FileOutputStream(uvfFile), "UTF-8");) {
+        try (FileOutputStream fos = new FileOutputStream(uvfFile);
+                Writer fw = new OutputStreamWriter(fos, "UTF-8");) {
             for (OmObservation o : mergeObservations) {
                 if (o.isSetValue() && !checkForSingleObservationValue(o.getValue())
                         && !checkForMultiObservationValue(o.getValue())) {
