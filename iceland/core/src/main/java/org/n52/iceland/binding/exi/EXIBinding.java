@@ -37,6 +37,8 @@ import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
 import com.siemens.ct.exi.core.EXIFactory;
@@ -178,6 +180,7 @@ public class EXIBinding extends SimpleBinding {
             // decode EXI encoded InputStream
             EXISource exiSource = new EXISource(ef);
             XMLReader exiReader = exiSource.getXMLReader();
+            exiReader.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
             InputSource inputSource = new InputSource(request.getInputStream());
             inputSource.setEncoding(request.getCharacterEncoding());
             SAXSource saxSource = new SAXSource(inputSource);
@@ -186,7 +189,7 @@ public class EXIBinding extends SimpleBinding {
 
             // create XmlObject from OutputStream
             return XmlHelper.parseXmlString(os.toString(StandardCharsets.UTF_8.name()));
-        } catch (IOException | EXIException ex) {
+        } catch (IOException | EXIException | SAXNotRecognizedException | SAXNotSupportedException ex) {
             throw new NoApplicableCodeException().causedBy(ex).withMessage("Error while reading request! Message: %s",
                     ex.getMessage());
         } catch (TransformerException ex) {
