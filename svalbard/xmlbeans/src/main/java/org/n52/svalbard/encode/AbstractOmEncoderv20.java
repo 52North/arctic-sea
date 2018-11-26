@@ -177,10 +177,10 @@ public abstract class AbstractOmEncoderv20
             } else {
                 encodedObject = nvt;
             }
-        } else if (element instanceof AbstractFeature) {
-            encodedObject = encodeFeatureOfInterest((AbstractFeature) element);
         } else if (element instanceof SosProcedureDescription) {
             encodedObject = encodeProcedureDescription((SosProcedureDescription<?>) element);
+        } else if (element instanceof AbstractFeature) {
+            encodedObject = encodeFeatureOfInterest((AbstractFeature) element);
         } else {
             throw new UnsupportedEncoderInputException(this, element);
         }
