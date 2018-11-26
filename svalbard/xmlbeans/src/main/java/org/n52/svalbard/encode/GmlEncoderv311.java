@@ -546,12 +546,14 @@ public class GmlEncoderv311
             xbFeatColDoc.addNewFeatureCollection();
             xmlObject = xbFeatColDoc;
         }
-        XmlCursor cursor = xmlObject.newCursor();
-        boolean isAFC = cursor.toChild(new QName(GmlConstants.NS_GML, GmlConstants.EN_ABSTRACT_FEATURE_COLLECTION));
-        if (isAFC) {
-            cursor.setName(new QName(GmlConstants.NS_GML, GmlConstants.EN_FEATURE_COLLECTION));
+        if (xmlObject != null) {
+            XmlCursor cursor = xmlObject.newCursor();
+            boolean isAFC = cursor.toChild(new QName(GmlConstants.NS_GML, GmlConstants.EN_ABSTRACT_FEATURE_COLLECTION));
+            if (isAFC) {
+                cursor.setName(new QName(GmlConstants.NS_GML, GmlConstants.EN_FEATURE_COLLECTION));
+            }
+            cursor.dispose();
         }
-        cursor.dispose();
         return xmlObject;
     }
 
