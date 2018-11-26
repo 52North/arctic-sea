@@ -113,11 +113,7 @@ public class OgcDecoderv100
         if (xmlObject instanceof ComparisonOpsType) {
             return parseComparisonOpsType((ComparisonOpsType) xmlObject);
         }
-        if (xmlObject instanceof BBOXTypeImpl) {
-            return parseBBOXFilterType((BBOXTypeImpl) xmlObject);
-        } else {
-            throw new UnsupportedDecoderXmlInputException(this, xmlObject);
-        }
+        throw new UnsupportedDecoderXmlInputException(this, xmlObject);
         // TODO more spatial filters (contains, intersects, overlaps Point
         // Linestring Polygon, not supported by this SOS yet
         // return error message
