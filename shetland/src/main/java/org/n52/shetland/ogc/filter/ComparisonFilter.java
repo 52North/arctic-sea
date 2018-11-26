@@ -109,7 +109,7 @@ public class ComparisonFilter extends Filter<ComparisonOperator> {
             this.valueUpper = valueUpper;
         } else {
             throw new NoApplicableCodeException()
-                    .withMessage("Use other constructor for ComparisonFilter! This constructor can only" +
+                    .withMessage("Use other constructor for ComparisonFilter! This constructor can only " +
                                  "be used for operator 'PropertyIsBetween'");
         }
     }
