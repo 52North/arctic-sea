@@ -139,7 +139,7 @@
         <version.slf4j>1.7.25</version.slf4j>
         <version.jackson>2.9.7</version.jackson>
         <version.xmlbeans>3.0.2</version.xmlbeans>
-        <version.exificient>1.0.1</version.exificient>
+        <version.exificient>1.0.4</version.exificient>
         <version.n52CommonXML>2.6.1</version.n52CommonXML>
         <version.olingo>4.5.0</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
