@@ -284,7 +284,9 @@ public class SettingsServiceImpl implements SettingsService {
             if (cos != null) {
                 for (ConfigurableObject co : cos) {
                     try {
-                        co.configure(newValue.getValue());
+                        if (newValue != null) {
+                            co.configure(newValue.getValue());
+                        }
                     } catch (ConfigurationError ce) {
                         e = ce;
                         break;
