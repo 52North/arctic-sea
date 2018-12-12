@@ -17,19 +17,32 @@
 package org.n52.iceland.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Properties;
+
+import org.n52.faroe.ConfigurationError;
 
 /**
- * @since 1.0.0
- * @deprecated misleading name, use {@link PropertyFileHandler}.
+ * TODO JavaDoc
+ * @author Christian Autermann
  */
-@Deprecated
-public class AbstractPropertyFileHandler extends PropertyFileHandlerImpl {
-    public AbstractPropertyFileHandler(String name) {
-        super(name);
-    }
+public interface PropertyFileHandler {
+    void delete(String m) throws ConfigurationError;
 
-    public AbstractPropertyFileHandler(File file) {
-        super(file);
-    }
+    boolean delete();
+
+    boolean exists();
+
+    String get(String m) throws ConfigurationError;
+
+    Properties getAll() throws ConfigurationError;
+
+    File getFile(boolean create) throws IOException;
+
+    String getPath();
+
+    void save(String m, String value) throws ConfigurationError;
+
+    void saveAll(Properties properties) throws ConfigurationError;
 
 }

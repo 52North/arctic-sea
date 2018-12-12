@@ -16,14 +16,11 @@
  */
 package org.n52.iceland.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 
-import org.n52.faroe.ConfigurationError;
+import org.n52.iceland.util.DelegatingPropertyFileHandler;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
 import org.n52.janmayen.lifecycle.Constructable;
 
@@ -33,20 +30,18 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-public class DatabaseSettingsHandler implements Constructable {
+public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler implements Constructable {
 
     public static final String INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION
             = "datasourceConfigLocation";
 
     @Deprecated
     private static DatabaseSettingsHandler instance;
-    private ServletContextPropertyFileHandler handler;
 
     @Inject
     public void setServletContext(ServletContext ctx) {
-        String name = ctx
-                .getInitParameter(INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION);
-        this.handler = new ServletContextPropertyFileHandler(ctx, name);
+        String name = ctx.getInitParameter(INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION);
+        setDelegate(new ServletContextPropertyFileHandler(ctx, name));
     }
 
     @Override
@@ -54,47 +49,6 @@ public class DatabaseSettingsHandler implements Constructable {
     @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
     public void init() {
         DatabaseSettingsHandler.instance = this;
-    }
-
-    public boolean delete() {
-        return this.handler.delete();
-    }
-
-    public void delete(String key) {
-        this.handler.delete(key);
-    }
-
-    public boolean exists() {
-        return this.handler.exists();
-    }
-
-    public String get(String m)
-            throws ConfigurationError {
-        return this.handler.get(m);
-    }
-
-    public Properties getAll()
-            throws ConfigurationError {
-        return this.handler.getAll();
-    }
-
-    public File getFile(boolean create)
-            throws IOException {
-        return this.handler.getFile(create);
-    }
-
-    public String getPath() {
-        return this.handler.getPath();
-    }
-
-    public void save(String m, String value)
-            throws ConfigurationError {
-        this.handler.save(m, value);
-    }
-
-    public void saveAll(Properties properties)
-            throws ConfigurationError {
-        this.handler.saveAll(properties);
     }
 
     @Deprecated
