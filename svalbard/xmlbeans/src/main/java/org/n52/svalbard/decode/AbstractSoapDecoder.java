@@ -129,7 +129,7 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
                         }
                     }
                 } else {
-                    LOGGER.info("The SOAP-Header elements for namespace '{}' are not supported by this server!",
+                    LOGGER.warn("The SOAP-Header elements for namespace '{}' are not supported by this server!",
                             namespace);
                 }
             } catch (DecodingException owse) {

@@ -48,7 +48,7 @@ public class InsertResultResponseDecoder extends AbstractXmlDecoder<XmlObject, I
                     Sos2Constants.Operations.InsertResult));
 
     public InsertResultResponseDecoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 

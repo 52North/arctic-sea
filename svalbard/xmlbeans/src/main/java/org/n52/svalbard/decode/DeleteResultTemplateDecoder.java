@@ -54,7 +54,7 @@ public class DeleteResultTemplateDecoder
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteResultTemplateDecoder.class);
 
     public DeleteResultTemplateDecoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 

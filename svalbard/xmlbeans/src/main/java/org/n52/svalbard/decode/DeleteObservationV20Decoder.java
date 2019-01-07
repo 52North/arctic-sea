@@ -57,7 +57,7 @@ public class DeleteObservationV20Decoder
     private static final Logger LOGGER = LoggerFactory.getLogger(DeleteObservationV20Decoder.class);
 
     public DeleteObservationV20Decoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 

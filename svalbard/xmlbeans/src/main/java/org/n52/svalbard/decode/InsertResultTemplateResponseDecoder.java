@@ -49,7 +49,7 @@ public class InsertResultTemplateResponseDecoder extends AbstractXmlDecoder<XmlO
                     Sos2Constants.Operations.InsertResultTemplate));
 
     public InsertResultTemplateResponseDecoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 

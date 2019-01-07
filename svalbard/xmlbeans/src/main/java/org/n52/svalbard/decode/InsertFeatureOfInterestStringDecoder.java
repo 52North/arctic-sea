@@ -41,7 +41,7 @@ public class InsertFeatureOfInterestStringDecoder
     private static final Logger LOGGER = LoggerFactory.getLogger(InsertFeatureOfInterestStringDecoder.class);
 
     public InsertFeatureOfInterestStringDecoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 

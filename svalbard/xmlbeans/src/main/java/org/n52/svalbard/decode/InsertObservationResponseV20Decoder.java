@@ -49,7 +49,7 @@ public class InsertObservationResponseV20Decoder extends AbstractXmlDecoder<XmlO
                     SosConstants.Operations.InsertObservation));
 
     public InsertObservationResponseV20Decoder() {
-        LOGGER.info("Decoder for the following keys initialized successfully: {}!",
+        LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
 
