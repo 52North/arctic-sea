@@ -81,7 +81,7 @@ public class QuantityValue
      *            Measurement value
      */
     public QuantityValue(Double value) {
-        this(BigDecimal.valueOf(value));
+        this(value != null ? BigDecimal.valueOf(value) : null);
     }
 
     /**
