@@ -16,11 +16,18 @@
  */
 package org.n52.svalbard.encode;
 
-import org.apache.xmlbeans.XmlObject;
+import java.util.Set;
 
+import org.apache.xmlbeans.XmlObject;
+import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.sensorML.AbstractProcess;
+import org.n52.shetland.ogc.sensorML.SensorML;
+import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.DescribeSensorResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
+
+import com.google.common.collect.Sets;
 
 /**
  * TODO JavaDoc
@@ -37,10 +44,30 @@ public class SosV1DescribeSensorResponseEncoder extends AbstractSosV1ResponseEnc
     @Override
     protected XmlObject create(DescribeSensorResponse response) throws EncodingException {
         if (response.isSetProcedureDescriptions()) {
-            return encodeObjectToXml(response.getOutputFormat(),
-                    response.getProcedureDescriptions().iterator().next().getProcedureDescription());
+            AbstractFeature procedureDescription =
+                    response.getProcedureDescriptions().iterator().next().getProcedureDescription();
+            if (checkFormat(response.getOutputFormat()) && !(procedureDescription instanceof SensorML)
+                    && procedureDescription instanceof AbstractProcess) {
+                procedureDescription = new SensorML().addMember((AbstractProcess) procedureDescription);
+            }
+            return encodeObjectToXml(response.getOutputFormat(), procedureDescription);
         }
         return null;
+    }
+
+    private boolean checkFormat(String outputFormat) {
+        return checkForUrlVsMimeType(outputFormat).contains(SensorMLConstants.SENSORML_OUTPUT_FORMAT_MIME_TYPE);
+    }
+
+    private Set<String> checkForUrlVsMimeType(String procedureDescriptionFormat) {
+        Set<String> possibleFormats = Sets.newHashSet();
+        possibleFormats.add(procedureDescriptionFormat);
+        if (SensorMLConstants.SENSORML_OUTPUT_FORMAT_MIME_TYPE.equalsIgnoreCase(procedureDescriptionFormat)) {
+            possibleFormats.add(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL);
+        } else if (SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL.equalsIgnoreCase(procedureDescriptionFormat)) {
+            possibleFormats.add(SensorMLConstants.SENSORML_OUTPUT_FORMAT_MIME_TYPE);
+        }
+        return possibleFormats;
     }
 
 }
