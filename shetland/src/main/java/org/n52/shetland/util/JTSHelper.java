@@ -16,17 +16,26 @@
  */
 package org.n52.shetland.util;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
+import org.locationtech.jts.geom.CoordinateSequence;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryCollection;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.LinearRing;
+import org.locationtech.jts.geom.MultiLineString;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.MultiPolygon;
+import org.locationtech.jts.geom.Point;
+import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.geom.impl.CoordinateArraySequence;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Utility class for the Java Topology Suite.
@@ -37,12 +46,15 @@ import org.locationtech.jts.io.WKTReader;
 public class JTSHelper {
 
     public static final String WKT_POLYGON = "Polygon";
+
     public static final String WKT_POINT = "Point";
+
     public static final CoordinateFilter COORDINATE_SWITCHING_FILTER = coord -> {
         double tmp = coord.x;
         coord.x = coord.y;
         coord.y = tmp;
     };
+
     private static final Logger LOGGER = LoggerFactory.getLogger(JTSHelper.class);
 
     protected JTSHelper() {
@@ -62,8 +74,7 @@ public class JTSHelper {
      * @throws ParseException
      *             If an error occurs
      */
-    public static Geometry createGeometryFromWKT(String wkt, int srid)
-            throws ParseException {
+    public static Geometry createGeometryFromWKT(String wkt, int srid) throws ParseException {
         WKTReader wktReader = getWKTReaderForSRID(srid);
         LOGGER.debug("FOI Geometry: {}", wkt);
         return wktReader.read(wkt);
@@ -96,12 +107,12 @@ public class JTSHelper {
     }
 
     protected static StringBuilder getCoordinateString(StringBuilder builder, Coordinate coordinate) {
-        builder.append(coordinate.x);
+        builder.append(coordinate.getX());
         builder.append(' ');
-        builder.append(coordinate.y);
-        if (!Double.isNaN(coordinate.z)) {
+        builder.append(coordinate.getY());
+        if (!Double.isNaN(coordinate.getZ())) {
             builder.append(' ');
-            builder.append(coordinate.z);
+            builder.append(coordinate.getZ());
         }
         return builder;
     }
@@ -156,12 +167,8 @@ public class JTSHelper {
 
     public static Geometry createPolygonFromEnvelope(double minx, double miny, double maxx, double maxy, int srid) {
         GeometryFactory fac = getGeometryFactoryForSRID(srid);
-        return fac.createPolygon(new Coordinate[] {
-            new Coordinate(minx, miny),
-            new Coordinate(minx, maxy),
-            new Coordinate(maxx, maxy),
-            new Coordinate(maxx, miny),
-            new Coordinate(minx, miny) });
+        return fac.createPolygon(new Coordinate[] { new Coordinate(minx, miny), new Coordinate(minx, maxy),
+                new Coordinate(maxx, maxy), new Coordinate(maxx, miny), new Coordinate(minx, miny) });
     }
 
     /**
@@ -178,7 +185,10 @@ public class JTSHelper {
             return null;
         }
         @SuppressWarnings("unchecked")
-        G geom = (G) geometry.copy();
+        // if (geometry instanceof LinearRing) {
+        // getSwitchCoordinateGeometryFactoryForSRID(geometry.getSRID()).createLinearRing(geometry.getCoordinates())
+        // }
+        G geom = (G) getSwitchCoordinateGeometryFactoryForSRID(geometry.getSRID()).convertSequence(geometry);
         geom.apply(COORDINATE_SWITCHING_FILTER);
         geom.geometryChanged();
         return geom;
@@ -196,6 +206,10 @@ public class JTSHelper {
         return new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING), srid);
     }
 
+    public static SwitchCoordinateGeometryFactory getSwitchCoordinateGeometryFactoryForSRID(int srid) {
+        return new SwitchCoordinateGeometryFactory(new PrecisionModel(PrecisionModel.FLOATING), srid);
+    }
+
     /**
      * Creates a WKT Point string form coordinate string.
      *
@@ -209,6 +223,83 @@ public class JTSHelper {
 
     public static boolean isNotEmpty(Geometry geometry) {
         return geometry != null && !geometry.isEmpty();
+    }
+
+    private static class SwitchCoordinateGeometryFactory extends GeometryFactory {
+
+        private static final long serialVersionUID = -4397568293678841518L;
+
+        SwitchCoordinateGeometryFactory(PrecisionModel precisionModel, int srid) {
+            super(precisionModel, srid);
+        }
+
+        public Geometry convertSequence(Geometry geometry) {
+            if (geometry instanceof Point) {
+                return createPoint(((Point) geometry).getCoordinateSequence());
+            } else if (geometry instanceof LinearRing) {
+                return createLinearRing(((LinearRing) geometry).getCoordinates());
+            } else if (geometry instanceof LineString) {
+                return createLineString(((LineString) geometry).getCoordinates());
+            } else if (geometry instanceof Polygon) {
+                LinearRing[] linearRings = new LinearRing[((Polygon) geometry).getNumInteriorRing()];
+                for (int i = 0; i < ((Polygon) geometry).getNumInteriorRing(); i++) {
+                    linearRings[i] = (LinearRing) convertSequence(((Polygon) geometry).getInteriorRingN(i));
+                }
+                return createPolygon((LinearRing) convertSequence(((Polygon) geometry).getExteriorRing()),
+                        linearRings);
+            } else if (geometry instanceof MultiPoint) {
+                return createMultiPointFromCoords(((MultiPoint) geometry).getCoordinates());
+            } else if (geometry instanceof MultiLineString) {
+                LineString[] lineStrings = new LineString[((MultiLineString) geometry).getNumGeometries()];
+                for (int i = 0; i < ((MultiLineString) geometry).getNumGeometries(); i++) {
+                    lineStrings[i] = (LineString) convertSequence(((MultiLineString) geometry).getGeometryN(i));
+                }
+                return createMultiLineString(lineStrings);
+            } else if (geometry instanceof MultiPolygon) {
+                Polygon[] polygons = new Polygon[((MultiPolygon) geometry).getNumGeometries()];
+                for (int i = 0; i < ((MultiPolygon) geometry).getNumGeometries(); i++) {
+                    polygons[i] = (Polygon) convertSequence(((MultiPolygon) geometry).getGeometryN(i));
+                }
+                return createMultiPolygon(polygons);
+            } else if (geometry instanceof GeometryCollection) {
+                Geometry[] geometries = new Geometry[((GeometryCollection) geometry).getNumGeometries()];
+                for (int i = 0; i < ((GeometryCollection) geometry).getNumGeometries(); i++) {
+                    geometries[i] = convertSequence(((GeometryCollection) geometry).getGeometryN(i));
+                }
+                return createGeometryCollection(geometries);
+            }
+            return geometry;
+        }
+
+        @Override
+        public Point createPoint(CoordinateSequence coordinates) {
+            return super.createPoint(convert(coordinates));
+        }
+
+        @Override
+        public LineString createLineString(CoordinateSequence coordinates) {
+            return super.createLineString(convert(coordinates));
+        }
+
+        @Override
+        public Polygon createPolygon(CoordinateSequence coordinates) {
+            return super.createPolygon(convert(coordinates));
+        }
+
+        @Override
+        public LinearRing createLinearRing(CoordinateSequence coordinates) {
+            return super.createLinearRing(convert(coordinates));
+        }
+
+        @Override
+        public MultiPoint createMultiPoint(CoordinateSequence coordinates) {
+            return super.createMultiPoint(convert(coordinates));
+        }
+
+        private CoordinateSequence convert(CoordinateSequence coordinates) {
+            return new CoordinateArraySequence(coordinates);
+        }
+
     }
 
 }

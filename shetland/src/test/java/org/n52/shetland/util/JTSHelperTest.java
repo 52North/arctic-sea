@@ -22,11 +22,16 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.sameInstance;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertThat;
 import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinate;
 import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinateRing;
 import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinates;
 
+import org.geolatte.geom.C2D;
+import org.geolatte.geom.Point;
+import org.geolatte.geom.crs.CoordinateReferenceSystems;
+import org.geolatte.geom.jts.JTS;
 import org.junit.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -65,6 +70,25 @@ public class JTSHelperTest extends JTSHelper {
         g = factory.createPoint(new Coordinate(1, 2));
         assertThat(g, is(notNullValue()));
         assertThat(g.getSRID(), is(4326));
+    }
+
+
+    @Test
+    public void shouldPointSwitchCoordinatesDefault() throws ParseException {
+        String coordinates = "52.0 7.0";
+        StringBuilder builder = new StringBuilder();
+        builder.append(WKT_POINT);
+        builder.append("(");
+        builder.append(coordinates);
+        builder.append(")");
+        Geometry geom = createGeometryFromWKT(createWKTPointFromCoordinateString(coordinates), 4326);
+        assertNotEquals(geom, switchCoordinateAxisOrder(geom));
+    }
+
+    @Test
+    public void shouldPointSwitchCoordinatesWithPackedPositionSequence() throws ParseException {
+        Geometry geometry = JTS.to(new Point(new C2D(52.0, 7.0), CoordinateReferenceSystems.WGS84));
+        assertNotEquals(geometry, switchCoordinateAxisOrder(geometry));
     }
 
     @Test
@@ -171,11 +195,6 @@ public class JTSHelperTest extends JTSHelper {
                                 factory.createLinearRing(randomCoordinateRing(13)) }),
                 getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(10)),
                 getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(10)) }));
-    }
-
-    @Test
-    public void shouldReverseUnknownGeometry() throws OwsExceptionReport {
-        testReverse(new UnknownGeometry(getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(5))));
     }
 
     protected void testReverse(Geometry geometry) throws OwsExceptionReport {
