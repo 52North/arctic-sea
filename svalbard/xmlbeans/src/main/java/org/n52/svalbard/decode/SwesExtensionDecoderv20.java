@@ -44,8 +44,7 @@ import com.google.common.base.Joiner;
  *
  * @since 1.0.0
  */
-public class SwesExtensionDecoderv20
-        extends AbstractXmlDecoder<XmlObject, SwesExtension<?>> {
+public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, SwesExtension<?>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SwesDecoderv20.class);
 
@@ -64,21 +63,29 @@ public class SwesExtensionDecoderv20
     }
 
     @Override
-    public SwesExtension<?> decode(XmlObject xmlObject)
-            throws DecodingException, UnsupportedDecoderInputException {
+    public SwesExtension<?> decode(XmlObject xmlObject) throws DecodingException, UnsupportedDecoderInputException {
 
         if (isSwesExtension(xmlObject)) {
             XmlObject[] children = xmlObject.selectPath("./*");
             if (children.length == 1) {
                 Object xmlObj = decodeXmlElement(children[0]);
-                if (xmlObj instanceof SweAbstractDataComponent) {
-                    SwesExtension<SweAbstractDataComponent> extension = new SwesExtension<>();
-                    extension.setValue((SweAbstractDataComponent) xmlObj);
+                if (xmlObj instanceof SwesExtension) {
+                    return (SwesExtension<?>) xmlObj;
+                } else {
+                    final SwesExtension<Object> extension = new SwesExtension<Object>();
+                    extension.setValue(xmlObj);
+                    if (isSweAbstractDataComponent(xmlObj)) {
+                        extension.setDefinition(((SweAbstractDataComponent) xmlObj).getDefinition());
+                    }
                     return extension;
                 }
             }
         }
         throw new UnsupportedDecoderXmlInputException(this, xmlObject);
+    }
+
+    private boolean isSweAbstractDataComponent(final Object xmlObj) {
+        return xmlObj instanceof SweAbstractDataComponent && ((SweAbstractDataComponent) xmlObj).isSetDefinition();
     }
 
     private boolean isSwesExtension(XmlObject xmlObject) {
