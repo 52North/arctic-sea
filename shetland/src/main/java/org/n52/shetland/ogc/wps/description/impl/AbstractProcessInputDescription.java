@@ -77,7 +77,7 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
         @Override
         public B withMinimalOccurence(BigInteger min) {
             if (min != null) {
-                Preconditions.checkArgument(min.compareTo(BigInteger.ZERO) > 0, "minimalOccurence");
+                Preconditions.checkArgument(min.compareTo(BigInteger.ZERO) >= 0, "minimalOccurence");
                 this.minimalOccurence = min;
             } else {
                 this.minimalOccurence = BigInteger.ONE;
