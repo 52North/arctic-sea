@@ -14,17 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.wps;
+package org.n52.shetland.ogc.wps.exception;
+
+import org.n52.shetland.ogc.ows.exception.CodedException;
 
 /**
- * @author Christian Autermann
+ * @author <a href="mailto:b.pross@52north.org">Benjamin Pross</a>
+ *
+ * @since 5.3.0
  */
-public interface WPS200Constants {
-    String VERSION = "2.0.0";
+public abstract class CodedWpsException extends CodedException {
 
-    String REASON_NO_SUCH_JOB =
-            "No job found for the requested id.";
+    private static final long serialVersionUID = 6428684723492121464L;
 
-    String REASON_RESULT_NOT_READY =
-            "The result for the requested id is not ready.";
+    public CodedWpsException(WpsExceptionCode code) {
+        super(code);
+    }
 }
