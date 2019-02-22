@@ -28,7 +28,7 @@ import org.n52.shetland.ogc.wps.WPSConstants;
 public class DescribeProcessRequest extends OwsServiceRequest {
     public static final String ALL_KEYWORD = "ALL";
 
-    private final List<OwsCode> identifiers = new LinkedList<>();
+    private List<OwsCode> identifiers;
 
     public DescribeProcessRequest() {
         super(null, null, WPSConstants.Operations.DescribeProcess.name());
@@ -43,7 +43,7 @@ public class DescribeProcessRequest extends OwsServiceRequest {
     }
 
     public List<OwsCode> getProcessIdentifier() {
-        return Collections.unmodifiableList(identifiers);
+        return identifiers == null ? null : Collections.unmodifiableList(identifiers);
     }
 
     public void addProcessIdentifier(String identifier) {
@@ -51,16 +51,22 @@ public class DescribeProcessRequest extends OwsServiceRequest {
     }
 
     public void addProcessIdentifier(OwsCode identifier) {
+        if (identifiers == null) {
+            identifiers = new LinkedList<>();
+        }
         this.identifiers.add(Objects.requireNonNull(identifier));
     }
 
     public void addProcessIdentifiers(List<String> identifiers) {
-        identifiers.forEach(this::addProcessIdentifier);
+        if (identifiers.isEmpty()) {
+            this.identifiers = new LinkedList<>();
+        } else {
+            identifiers.forEach(this::addProcessIdentifier);
+        }
     }
 
     public boolean isAll() {
-        return getProcessIdentifier().stream()
-                .filter(id -> !id.getCodeSpace().isPresent())
+        return getProcessIdentifier().stream().filter(id -> !id.getCodeSpace().isPresent())
                 .anyMatch(id -> id.getValue().equalsIgnoreCase(ALL_KEYWORD));
     }
 

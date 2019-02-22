@@ -69,6 +69,8 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
 
     private DocumentBuilderProvider documentFactory;
 
+    private final String MISSING_PARAMETER = "The parameter '%s' is missing.";
+
     @Inject
     public void setDocumentFactory(DocumentBuilderProvider documentFactory) {
         this.documentFactory = documentFactory;
@@ -82,30 +84,34 @@ public abstract class AbstractXmlBinding<T> extends SimpleBinding {
         LOGGER.trace("Found decoder key: {}", key);
         Decoder<T, String> decoder = getDecoder(key);
         if (decoder == null) {
-            // if this a GetCapabilities request, then the service is not supported
-            String opOrType = null;
+            // the service or version parameter is not set or not supported
             Optional<String> service = Optional.empty();
-            if (key instanceof XmlNamespaceOperationDecoderKey) {
-                XmlNamespaceOperationDecoderKey xmlNamespaceKey = (XmlNamespaceOperationDecoderKey) key;
-                opOrType = xmlNamespaceKey.getType();
-            } else if (key instanceof XmlStringOperationDecoderKey) {
+            Optional<String> version = Optional.empty();
+            if (key instanceof XmlStringOperationDecoderKey) {
                 XmlStringOperationDecoderKey xmlStringKey = (XmlStringOperationDecoderKey) key;
-                opOrType = xmlStringKey.getOperation();
-                service = Optional.of(xmlStringKey.getService());
+                service = Optional.ofNullable(xmlStringKey.getService());
+                version = Optional.ofNullable(xmlStringKey.getVersion());
             }
-            if (OWSConstants.Operations.GetCapabilities.toString().equalsIgnoreCase(opOrType)) {
-                if (service.isPresent()) {
-                    throw new InvalidParameterValueException(OWSConstants.GetCapabilitiesParams.service, service.get())
-                            .withMessage("The service '%s' is not supported.", service);
-                } else {
-                    throw new MissingParameterValueException(OWSConstants.GetCapabilitiesParams.service)
-                            .withMessage("The parameter '%s' is missing.", OWSConstants.GetCapabilitiesParams.service);
+            if (service.isPresent()) {
+                String serviceString = service.get();
+                if (!isServiceSupported(serviceString)) {
+                    throw new InvalidParameterValueException(OWSConstants.RequestParams.service, serviceString)
+                            .withMessage("The service '%s' is not supported.", serviceString);
                 }
             } else {
-                throw new InvalidParameterValueException()
-                        .withMessage("No decoder found for incoming message " +
-                                     "based on derived decoder key: %s\nMessage: %s", key, xmlString);
+                throw new MissingParameterValueException(OWSConstants.RequestParams.service)
+                        .withMessage(MISSING_PARAMETER, OWSConstants.RequestParams.service);
             }
+
+            if (version.isPresent()) {
+                String versionString = version.get();
+                throw new InvalidParameterValueException(OWSConstants.RequestParams.version, versionString)
+                        .withMessage("The version '%s' is not supported.", versionString);
+            } else {
+                throw new MissingParameterValueException(OWSConstants.RequestParams.version)
+                        .withMessage(MISSING_PARAMETER, OWSConstants.RequestParams.version);
+            }
+
         } else {
             LOGGER.trace("Using decoder: {}", decoder);
         }
