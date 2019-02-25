@@ -78,11 +78,88 @@ public final class LocaleHelper {
         if (tokens.length > 3) {
             throw new IllegalArgumentException("Unparsable language parameter: " + locale);
         }
-        String language = tokens.length > 0 ? tokens[0].toLowerCase() : "";
+        String language = tokens.length > 0 ? checkForIsoB(tokens[0].toLowerCase()) : "";
         String country = tokens.length > 1 ? tokens[1].toUpperCase() : "";
         String variant = tokens.length > 2 ? tokens[2] : "";
         country = ISO_COUNTRY_ALPHA_3_TO_ALPHA_2.getOrDefault(country, country);
+
         language = ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2.getOrDefault(language, language);
         return new Locale(language, country, variant);
+    }
+
+    private static String checkForIsoB(String language) {
+        try {
+            return ISO6392B.fromValue(language).getIso();
+        } catch (IllegalArgumentException e) {
+            return language;
+        }
+    }
+
+    public enum ISO6392B {
+        ALB("alb","sqi"),
+        ARM("arm","hye"),
+        BAS("baq","eus"),
+        BUR("bur","mya"),
+        CHI("chi","zho"),
+        CRO("scr","hrv"),
+        CZE("cze","ces"),
+        DUT("dut","nld"),
+        FRE("fre","fra"),
+        GEO("geo","kat"),
+        GER("ger","deu"),
+        GRE("gre","ell"),
+        ICE("ice","isl"),
+        MAC("mac","mkd"),
+        MAL("may","msa"),
+        MAO("mao","mri"),
+        PER("per","fas"),
+        SER("scc","srp"),
+        SLO("slo","slk"),
+        TIB("tib","bod"),
+        WEL("wel","cym");
+
+        private final String iso;
+
+        private final String isoBib;
+
+        ISO6392B(String isoBib, String iso) {
+            this.iso = iso;
+            this.isoBib = isoBib;
+        }
+
+        public String getIso() {
+            return iso;
+        }
+
+        public String getIsoBib() {
+            return isoBib;
+        }
+
+        public static ISO6392B fromValue(String v) {
+            for (ISO6392B c : ISO6392B.values()) {
+                if (c.getIso().equalsIgnoreCase(v) || c.getIsoBib().equalsIgnoreCase(v)) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(v);
+        }
+
+        public static ISO6392B fromValue(ISO6392B v) {
+            for (ISO6392B c : ISO6392B.values()) {
+                if (c.getIso().equalsIgnoreCase(v.getIso()) || c.getIsoBib().equalsIgnoreCase(v.getIsoBib())) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(v.getIso() + " or " + v.getIsoBib());
+        }
+
+        public static ISO6392B fromValue(Locale v) {
+            for (ISO6392B c : ISO6392B.values()) {
+                if (c.getIso().equalsIgnoreCase(v.getISO3Country()) || c.getIsoBib().equalsIgnoreCase(v.getISO3Country())) {
+                    return c;
+                }
+            }
+            throw new IllegalArgumentException(v.getISO3Country());
+        }
     }
 }

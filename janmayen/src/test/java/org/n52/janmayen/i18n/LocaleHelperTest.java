@@ -57,6 +57,7 @@ public class LocaleHelperTest {
         errors.checkThat(LocaleHelper.decode("de-de", null), is(Locale.GERMANY));
         errors.checkThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
         errors.checkThat(LocaleHelper.decode("deu", null), is(Locale.GERMAN));
+        errors.checkThat(LocaleHelper.decode("ger", null), is(Locale.GERMAN));
         errors.checkThat(LocaleHelper.decode("eng", null), is(Locale.ENGLISH));
     }
 }
