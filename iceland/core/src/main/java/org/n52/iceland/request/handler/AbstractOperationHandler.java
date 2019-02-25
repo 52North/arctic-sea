@@ -93,7 +93,7 @@ public abstract class AbstractOperationHandler implements OperationHandler {
 
     @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
     public void setDefaultLanguage(String defaultLanguage) {
-        this.defaultLanguage = new Locale(defaultLanguage);
+        this.defaultLanguage = LocaleHelper.decode(defaultLanguage);
     }
 
     protected Locale getDefaultLanguage() {

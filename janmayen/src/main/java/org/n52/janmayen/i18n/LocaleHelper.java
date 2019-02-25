@@ -75,6 +75,9 @@ public final class LocaleHelper {
 
     private static Locale decode1(String locale) {
         String[] tokens = locale.split("[-_# ]");
+        if (tokens.length > 3) {
+            throw new IllegalArgumentException("Unparsable language parameter: " + locale);
+        }
         String language = tokens.length > 0 ? tokens[0].toLowerCase() : "";
         String country = tokens.length > 1 ? tokens[1].toUpperCase() : "";
         String variant = tokens.length > 2 ? tokens[2] : "";

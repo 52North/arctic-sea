@@ -38,7 +38,7 @@ public class MultilingualString implements Serializable, StreamingIterable<Local
     private final Map<Locale, LocalizedString> localizations = new HashMap<>();
 
     public MultilingualString addLocalization(String lang, String value) {
-        return addLocalization(new LocalizedString(new Locale(lang), value));
+        return addLocalization(new LocalizedString(LocaleHelper.decode(lang), value));
     }
 
     public MultilingualString addLocalization(Locale lang, String value) {

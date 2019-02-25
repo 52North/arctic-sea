@@ -35,6 +35,7 @@ import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
+import org.n52.janmayen.i18n.LocaleHelper;
 import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
@@ -69,7 +70,7 @@ public class OwsServiceIdentificationFactory
 
     @Setting(I18NSettings.I18N_DEFAULT_LANGUAGE)
     public void setDefaultLanguage(String lang) {
-        this.defaultLocale = new Locale(lang);
+        this.defaultLocale = LocaleHelper.decode(lang);
     }
 
     @Setting(OwsServiceIdentificationFactorySettings.KEYWORDS)
