@@ -27,6 +27,7 @@ import java.util.function.Predicate;
 
 import org.n52.shetland.ogc.PhenomenonNameDescriptionProvider;
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.sensorML.elements.AbstractSmlDocumentation;
 import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
@@ -34,6 +35,7 @@ import org.n52.shetland.ogc.sensorML.elements.SmlCapability;
 import org.n52.shetland.ogc.sensorML.elements.SmlCharacteristics;
 import org.n52.shetland.ogc.sensorML.elements.SmlClassifier;
 import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
+import org.n52.shetland.ogc.sensorML.elements.SmlIdentifierPredicates;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
@@ -107,6 +109,36 @@ public abstract class AbstractSensorML
     public AbstractSensorML setIdentifier(String identifier) {
         super.setIdentifier(identifier);
         return this;
+    }
+
+    protected Predicate<SmlIdentifier> createSmlIdentifierPredicate(String name) {
+        return createSmlIdentifierPredicate(name, name);
+    }
+
+    protected Predicate<SmlIdentifier> createSmlIdentifierPredicate(String name, String definition) {
+        return SmlIdentifierPredicates.nameOrDefinition(name, definition);
+    }
+
+    private boolean isSetShortName() {
+        return isIdentificationSet(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME));
+    }
+
+    private String getShortName() {
+        if (isSetShortName()) {
+           return findIdentification(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME)).get()
+                    .getValue();
+        }
+        return null;
+    }
+
+    @Override
+    public boolean isSetName() {
+        return super.isSetName() || isSetShortName();
+    }
+
+    @Override
+    public CodeType getFirstName() {
+        return isSetName() ? super.isSetName() ? super.getFirstName() : new CodeType(getShortName()) : null;
     }
 
     public List<String> getKeywords() {
