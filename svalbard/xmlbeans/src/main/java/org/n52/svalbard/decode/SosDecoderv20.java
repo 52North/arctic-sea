@@ -240,20 +240,6 @@ public class SosDecoderv20
         return getObsRequest;
     }
 
-    // private SwesExtensions parseSwesExtensions(final XmlObject[]
-    // extensionArray) throws OwsExceptionReport
-    // {
-    // final SwesExtensions extensions = new SwesExtensions();
-    // for (final XmlObject xbSwesExtension : extensionArray) {
-    //
-    // final Object obj = CodingHelper.decodeXmlElement(xbSwesExtension);
-    // if (obj instanceof SwesExtension<?>) {
-    // extensions.addSwesExtension((SwesExtension<?>) obj);
-    // }
-    // }
-    // return extensions;
-    // }
-
     /**
      * parses the passes XmlBeans document and creates a SOS
      * getFeatureOfInterest request

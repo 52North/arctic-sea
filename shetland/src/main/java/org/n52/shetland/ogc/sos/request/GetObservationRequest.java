@@ -44,7 +44,6 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosSpatialFilter;
 import org.n52.shetland.ogc.sos.SosSpatialFilterConstants;
-import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.base.Strings;
@@ -430,9 +429,9 @@ public class GetObservationRequest
     }
 
     /**
-     * Check if the {@link SwesExtensions} contains {@link Filter}
+     * Check if the {@link Extensions} contains {@link Filter}
      *
-     * @return <code>true</code>, if the {@link SwesExtensions} contains
+     * @return <code>true</code>, if the {@link Extensions} contains
      *         {@link Filter}
      */
     public boolean isSetFesFilterExtension() {
@@ -440,9 +439,9 @@ public class GetObservationRequest
     }
 
     /**
-     * Get all {@link SwesExtensions} with {@link Filter}
+     * Get all {@link Extensions} with {@link Filter}
      *
-     * @return All {@link SwesExtensions} with {@link Filter}
+     * @return All {@link Extensions} with {@link Filter}
      */
     public Set<Extension<?>> getFesFilterExtensions() {
         return Optional.ofNullable(getExtensions()).map(Extensions::stream).orElseGet(Stream::empty)

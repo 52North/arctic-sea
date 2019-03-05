@@ -19,30 +19,30 @@ package org.n52.svalbard.decode;
 import net.opengis.swes.x20.ExtensibleRequestType;
 
 import org.apache.xmlbeans.XmlObject;
-
+import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesExtension;
-import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 public abstract class AbstractSwesDecoderv20<S>
         extends AbstractXmlDecoder<XmlObject, S> {
 
-    protected SwesExtensions parseExtensibleRequest(ExtensibleRequestType extensibleRequestType)
+    protected Extensions parseExtensibleRequest(ExtensibleRequestType extensibleRequestType)
             throws DecodingException {
         return parseExtensibleRequestExtension(extensibleRequestType.getExtensionArray());
     }
 
-    protected SwesExtensions parseExtensibleRequestExtension(XmlObject[] extensionArray)
+    protected Extensions parseExtensibleRequestExtension(XmlObject[] extensionArray)
             throws DecodingException {
         if (CollectionHelper.isNotNullOrEmpty(extensionArray)) {
-            final SwesExtensions extensions = new SwesExtensions();
-            for (XmlObject xbSwesExtension : extensionArray) {
+            final Extensions extensions = new Extensions();
+            for (XmlObject xbExtension : extensionArray) {
 
-                Object obj = decodeXmlElement(xbSwesExtension);
-                if (obj instanceof SwesExtension<?>) {
-                    extensions.addExtension((SwesExtension<?>) obj);
+                Object obj = decodeXmlElement(xbExtension);
+                if (obj instanceof Extension<?>) {
+                    extensions.addExtension((Extension<?>) obj);
                 } else if (obj instanceof SweAbstractDataComponent) {
                     SwesExtension<SweAbstractDataComponent> swesExtension =
                             new SwesExtension<SweAbstractDataComponent>();

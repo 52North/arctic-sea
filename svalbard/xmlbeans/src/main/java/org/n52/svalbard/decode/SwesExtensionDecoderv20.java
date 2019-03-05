@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.impl.values.XmlAnyTypeImpl;
-
+import org.n52.shetland.ogc.ows.extension.Extension;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.ogc.swes.SwesExtension;
@@ -44,7 +44,7 @@ import com.google.common.base.Joiner;
  *
  * @since 1.0.0
  */
-public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, SwesExtension<?>> {
+public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, Extension<?>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SwesDecoderv20.class);
 
@@ -63,14 +63,14 @@ public class SwesExtensionDecoderv20 extends AbstractXmlDecoder<XmlObject, SwesE
     }
 
     @Override
-    public SwesExtension<?> decode(XmlObject xmlObject) throws DecodingException, UnsupportedDecoderInputException {
+    public Extension<?> decode(XmlObject xmlObject) throws DecodingException, UnsupportedDecoderInputException {
 
         if (isSwesExtension(xmlObject)) {
             XmlObject[] children = xmlObject.selectPath("./*");
             if (children.length == 1) {
                 Object xmlObj = decodeXmlElement(children[0]);
-                if (xmlObj instanceof SwesExtension) {
-                    return (SwesExtension<?>) xmlObj;
+                if (xmlObj instanceof Extension) {
+                    return (Extension<?>) xmlObj;
                 } else {
                     final SwesExtension<Object> extension = new SwesExtension<Object>();
                     extension.setValue(xmlObj);

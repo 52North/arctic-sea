@@ -31,20 +31,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.junit.Before;
 import org.junit.Test;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
-import org.n52.shetland.ogc.swes.SwesExtensions;
-import org.n52.svalbard.encode.AbstractDelegatingEncoder;
-import org.n52.svalbard.encode.EncoderFlags;
-import org.n52.svalbard.encode.EncoderRepository;
-import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.GmlEncoderv321;
-import org.n52.svalbard.encode.OmEncoderv20;
-import org.n52.svalbard.encode.SamplingEncoderv20;
-import org.n52.svalbard.encode.SchemaRepository;
-import org.n52.svalbard.encode.SensorMLEncoderv20;
-import org.n52.svalbard.encode.SweCommonEncoderv20;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.write.GetFeatureOfInterestXmlStreamWriter;
 
@@ -111,7 +101,7 @@ public class GetFeatureOfInterestXmlStreamWriterTest extends AbstractMetadataTes
         response.setService(SosConstants.SOS);
         response.setVersion(Sos2Constants.SERVICEVERSION);
 
-        SwesExtensions swesExtensions = new SwesExtensions();
+        Extensions swesExtensions = new Extensions();
         swesExtensions.addExtension(createExtension());
         response.setExtensions(swesExtensions);
         return response;

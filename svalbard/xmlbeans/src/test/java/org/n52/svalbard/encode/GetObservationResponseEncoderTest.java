@@ -30,7 +30,6 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -43,6 +42,7 @@ import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -53,7 +53,6 @@ import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.SweSimpleDataRecord;
 import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swes.SwesExtension;
-import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.SweHelper;
 
@@ -152,7 +151,7 @@ public class GetObservationResponseEncoderTest {
         obs.setValue(obsVal);
         response.setObservationCollection(ObservationStream.of(obs));
 
-        SwesExtensions swesExtensions = new SwesExtensions();
+        Extensions swesExtensions = new Extensions();
         swesExtensions.addExtension(createExtension());
         response.setExtensions(swesExtensions);
         return response;

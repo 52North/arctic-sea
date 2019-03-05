@@ -31,9 +31,7 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -45,15 +43,12 @@ import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
-import org.n52.shetland.ogc.swes.SwesExtensions;
-import org.n52.svalbard.encode.EncoderFlags;
-import org.n52.svalbard.encode.EncoderRepository;
-import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.write.GetObservationResponseXmlStreamWriter;
 
@@ -141,7 +136,7 @@ public class GetObservationResponseXmlStreamWriterTest extends AbstractMetadataT
         obs.setValue(obsVal);
         response.setObservationCollection(ObservationStream.of(obs));
 
-        SwesExtensions swesExtensions = new SwesExtensions();
+        Extensions swesExtensions = new Extensions();
         swesExtensions.addExtension(createExtension());
         response.setExtensions(swesExtensions);
         return response;

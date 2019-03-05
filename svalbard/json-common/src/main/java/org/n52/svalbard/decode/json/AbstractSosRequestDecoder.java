@@ -27,12 +27,12 @@ import org.n52.janmayen.http.MediaTypes;
 import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.ows.extension.Extension;
+import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.shetland.ogc.swes.SwesExtension;
-import org.n52.shetland.ogc.swes.SwesExtensions;
 import org.n52.svalbard.coding.json.JSONConstants;
 import org.n52.svalbard.coding.json.JSONValidator;
 import org.n52.svalbard.decode.DecoderKey;
@@ -92,8 +92,8 @@ public abstract class AbstractSosRequestDecoder<T extends OwsServiceRequest>
 
     }
 
-    protected SwesExtensions parseExtensions(JsonNode node) {
-        SwesExtensions extensions = new SwesExtensions();
+    protected Extensions parseExtensions(JsonNode node) {
+        Extensions extensions = new Extensions();
         if (node.isArray()) {
             for (JsonNode n : node) {
                 Extension<SweAbstractDataComponent> extension = parseExtension(n);

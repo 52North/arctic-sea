@@ -28,6 +28,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
@@ -51,7 +52,6 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
-import org.locationtech.jts.io.ParseException;
 
 import net.opengis.sos.x20.InsertObservationDocument;
 import net.opengis.sos.x20.InsertObservationType;
@@ -181,7 +181,7 @@ public class InsertObservationRequestEncoderTest {
     }
 
     @Test
-    public void shouldEncodeSwesExtensions() throws InvalidSridException, ParseException, EncodingException, DecodingException {
+    public void shouldEncodeExtensions() throws InvalidSridException, ParseException, EncodingException, DecodingException {
         String definition = Sos2Constants.Extensions.SplitDataArrayIntoObservations.name();
         boolean value = true;
 
