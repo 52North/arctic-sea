@@ -35,7 +35,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweText;
  *
  * @since 1.0.0
  */
-public class SwesExtensionsTest {
+public class ExtensionsTest {
 
     private static final String DEFINITION_1 = TestDefinitions.definition1.name();
     private static final String DEFINITION_2 = TestDefinitions.definition2.name();
