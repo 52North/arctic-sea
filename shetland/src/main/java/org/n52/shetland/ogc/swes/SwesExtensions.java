@@ -23,7 +23,9 @@ import org.n52.shetland.ogc.ows.extension.Extensions;
  *         J&uuml;rrens</a>
  *
  * @since 1.0.0
+ * @deprecated Use {@link Extensions}
  */
+@Deprecated
 public class SwesExtensions extends Extensions {
 
 
