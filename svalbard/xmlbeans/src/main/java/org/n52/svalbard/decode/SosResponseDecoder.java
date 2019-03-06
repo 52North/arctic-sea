@@ -19,7 +19,6 @@ package org.n52.svalbard.decode;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.svalbard.encode.ExtensibleResponseDecoder;
 
 public interface SosResponseDecoder extends ExtensibleResponseDecoder {
 
