@@ -22,6 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
@@ -47,7 +50,7 @@ public class PropertyFileHandlerImpl implements PropertyFileHandler {
     private Properties cache;
 
     public PropertyFileHandlerImpl(String name) {
-        this.propertiesFile = new File(name);
+        this(new File(name));
     }
 
     public PropertyFileHandlerImpl(File file) {
@@ -102,6 +105,16 @@ public class PropertyFileHandlerImpl implements PropertyFileHandler {
 
     @Override
     public File getFile(boolean create) throws IOException {
+        try {
+            Path parent = Paths.get(propertiesFile.getParent());
+            if (parent != null) {
+                Files.createDirectories(parent);
+            } else {
+                throw new RuntimeException("Error while creating path!");
+            }
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
         if (propertiesFile.exists() || (create && propertiesFile.createNewFile())) {
             return propertiesFile;
         }
