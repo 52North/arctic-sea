@@ -89,7 +89,7 @@ public class SosOffering
      */
     public SosOffering(final String identifier, final CodeType name) {
         super(identifier);
-        if (!name.isSetValue()) {
+        if (name != null && !name.isSetValue()) {
             name.setValue(OFFERING_NAME_PREFIX + identifier);
         }
         this.setName(name);
