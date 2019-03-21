@@ -50,6 +50,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AbstractPersistingCachePersistenceStrategy.class);
     private static final String CACHE_FILE = "cache.tmp";
+    private static final String TMP_PATH = "tmp";
     private Path cacheFile;
     private ConfigLocationProvider configLocationProvider;
     private Path cacheFileFolder;
@@ -62,7 +63,17 @@ public abstract class AbstractPersistingCachePersistenceStrategy
 
     @Override
     public void init() {
-        this.cacheFile = getBasePath().resolve(CACHE_FILE);
+        this.cacheFile = getBasePath().resolve(TMP_PATH).resolve(CACHE_FILE);
+        try {
+            Path parent = cacheFile.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            } else {
+                throw new RuntimeException("Error while creating tmp file path.");
+            }
+        } catch (IOException ioe) {
+            throw new RuntimeException(ioe);
+        }
     }
 
     public Path getCacheFile() {
