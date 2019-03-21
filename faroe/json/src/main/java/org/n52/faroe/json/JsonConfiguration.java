@@ -19,7 +19,9 @@ package org.n52.faroe.json;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
@@ -54,6 +56,7 @@ public class JsonConfiguration implements Destroyable,
     private static final Logger LOG = LoggerFactory.getLogger(JsonConfiguration.class);
     private static final String DEFAULT_FILE_NAME = "configuration.json";
     private static final int DEFAULT_WRITE_TIMEOUT = 1000;
+    private static final String CONFIG_PATH = "config";
     private String fileName = DEFAULT_FILE_NAME;
     private int writeTimeout = DEFAULT_WRITE_TIMEOUT;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -70,9 +73,17 @@ public class JsonConfiguration implements Destroyable,
         writeLock().lock();
         try {
             this.debouncer = new Debouncer(this.writeTimeout, this::persist);
-            File directory = new File(this.configLocationProvider.get());
-            this.file = new File(directory, this.fileName);
+            Path path = Paths.get(this.configLocationProvider.get(), CONFIG_PATH, this.fileName);
+            Path parent = path.getParent();
+            if (parent != null) {
+                Files.createDirectories(parent);
+            } else {
+                throw new RuntimeException("Error while creating config file path.");
+            }
+            this.file = path.toFile();
             this.refresh();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         } finally {
             writeLock().unlock();
         }
