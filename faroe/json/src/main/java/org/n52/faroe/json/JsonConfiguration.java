@@ -57,6 +57,7 @@ public class JsonConfiguration implements Destroyable,
     private static final String DEFAULT_FILE_NAME = "configuration.json";
     private static final int DEFAULT_WRITE_TIMEOUT = 1000;
     private static final String CONFIG_PATH = "config";
+    private static final String WEB_INF_PATH = "WEB-INF";
     private String fileName = DEFAULT_FILE_NAME;
     private int writeTimeout = DEFAULT_WRITE_TIMEOUT;
     private final ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -73,7 +74,7 @@ public class JsonConfiguration implements Destroyable,
         writeLock().lock();
         try {
             this.debouncer = new Debouncer(this.writeTimeout, this::persist);
-            Path path = Paths.get(this.configLocationProvider.get(), CONFIG_PATH, this.fileName);
+            Path path = Paths.get(this.configLocationProvider.get(), WEB_INF_PATH, CONFIG_PATH, this.fileName);
             Path parent = path.getParent();
             if (parent != null) {
                 Files.createDirectories(parent);
