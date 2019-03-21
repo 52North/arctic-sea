@@ -51,6 +51,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
             .getLogger(AbstractPersistingCachePersistenceStrategy.class);
     private static final String CACHE_FILE = "cache.tmp";
     private static final String TMP_PATH = "tmp";
+    private static final String WEB_INF_PATH = "WEB-INF";
     private Path cacheFile;
     private ConfigLocationProvider configLocationProvider;
     private Path cacheFileFolder;
@@ -63,7 +64,7 @@ public abstract class AbstractPersistingCachePersistenceStrategy
 
     @Override
     public void init() {
-        this.cacheFile = getBasePath().resolve(TMP_PATH).resolve(CACHE_FILE);
+        this.cacheFile = getBasePath().resolve(WEB_INF_PATH).resolve(TMP_PATH).resolve(CACHE_FILE);
         try {
             Path parent = cacheFile.getParent();
             if (parent != null) {
