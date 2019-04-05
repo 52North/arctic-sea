@@ -102,7 +102,7 @@ public abstract class SweAbstractSimpleType<T>
             return false;
         }
         final SweAbstractSimpleType<?> other = (SweAbstractSimpleType<?>) obj;
-        return Objects.equals(this.quality, other.quality) &&
+        return Objects.equals(this.getQuality(), other.getQuality()) &&
                Objects.equals(getValue(), other.getValue());
     }
 
