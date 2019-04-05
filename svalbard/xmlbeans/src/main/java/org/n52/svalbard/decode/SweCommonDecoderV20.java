@@ -384,7 +384,7 @@ public class SweCommonDecoderV20
         if (xbBoolean.isSetValue()) {
             sosBoolean.setValue(xbBoolean.getValue());
         }
-        if (xbBoolean.getQualityArray() != null) {
+        if (xbBoolean.getQualityArray() != null && xbBoolean.getQualityArray().length > 0) {
             sosBoolean.setQuality(parseQuality(xbBoolean.getQualityArray()));
         }
         return sosBoolean;
@@ -401,7 +401,7 @@ public class SweCommonDecoderV20
         if (xbCategory.isSetConstraint()) {
             sosSweCategory.setConstraint(parseConstraint(xbCategory.getConstraint()));
         }
-        if (xbCategory.getQualityArray() != null) {
+        if (xbCategory.getQualityArray() != null && xbCategory.getQualityArray().length > 0) {
             sosSweCategory.setQuality(parseQuality(xbCategory.getQualityArray()));
         }
         return sosSweCategory;
@@ -409,7 +409,7 @@ public class SweCommonDecoderV20
 
     private SweCount parseCount(CountType count) throws DecodingException {
         final SweCount sosCount = new SweCount();
-        if (count.getQualityArray() != null) {
+        if (count.getQualityArray() != null && count.getQualityArray().length > 0) {
             sosCount.setQuality(parseQuality(count.getQualityArray()));
         }
         if (count.isSetValue()) {
@@ -430,7 +430,7 @@ public class SweCommonDecoderV20
         if (xbQuantity.isSetAxisID()) {
             sosQuantity.setAxisID(xbQuantity.getAxisID());
         }
-        if (xbQuantity.getQualityArray() != null) {
+        if (xbQuantity.getQualityArray() != null && xbQuantity.getQualityArray().length > 0) {
             sosQuantity.setQuality(parseQuality(xbQuantity.getQualityArray()));
         }
 
@@ -464,7 +464,7 @@ public class SweCommonDecoderV20
         if (quantityRange.isSetConstraint()) {
             sweQuantityRange.setConstraint(parseConstraint(quantityRange.getConstraint()));
         }
-        if (quantityRange.getQualityArray() != null) {
+        if (quantityRange.getQualityArray() != null && quantityRange.getQualityArray().length > 0) {
             sweQuantityRange.setQuality(parseQuality(quantityRange.getQualityArray()));
         }
         return sweQuantityRange;
@@ -519,7 +519,7 @@ public class SweCommonDecoderV20
         if (xbTime.isSetConstraint()) {
             sosTime.setConstraint(parseConstraint(xbTime.getConstraint()));
         }
-        if (xbTime.getQualityArray() != null) {
+        if (xbTime.getQualityArray() != null && xbTime.getQualityArray().length > 0) {
             sosTime.setQuality(parseQuality(xbTime.getQualityArray()));
         }
         return sosTime;
@@ -547,7 +547,7 @@ public class SweCommonDecoderV20
         if (xbTime.isSetConstraint()) {
             sosTimeRange.setConstraint(parseConstraint(xbTime.getConstraint()));
         }
-        if (xbTime.getQualityArray() != null) {
+        if (xbTime.getQualityArray() != null && xbTime.getQualityArray().length > 0) {
             sosTimeRange.setQuality(parseQuality(xbTime.getQualityArray()));
         }
         return sosTimeRange;

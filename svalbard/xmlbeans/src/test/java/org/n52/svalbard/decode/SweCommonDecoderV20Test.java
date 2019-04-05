@@ -18,6 +18,7 @@ package org.n52.svalbard.decode;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
@@ -80,6 +81,7 @@ public class SweCommonDecoderV20Test {
 
         assertThat(sosBoolean.getValue(), is(value));
         assertThat(sosBoolean.getDefinition(), is(definition));
+        assertThat(sosBoolean.getQuality() , nullValue());
     }
 
     @Test
@@ -102,6 +104,7 @@ public class SweCommonDecoderV20Test {
         assertThat(sosCategory.getValue(), is(value));
         assertThat(sosCategory.getDefinition(), is(definition));
         assertThat(sosCategory.getCodeSpace(), is(codeSpace));
+        assertThat(sosCategory.getQuality() , nullValue());
     }
 
     @Test
@@ -122,5 +125,6 @@ public class SweCommonDecoderV20Test {
          assertThat(sweTimeRange.isSetValue(), is(true));
          assertThat(sweTimeRange.getValue().getRangeStart(), is(startDate));
          assertThat(sweTimeRange.getValue().getRangeEnd(), is(endDate));
+         assertThat(sweTimeRange.getQuality() , nullValue());
      }
 }
