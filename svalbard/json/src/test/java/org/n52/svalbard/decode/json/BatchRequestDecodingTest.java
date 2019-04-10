@@ -21,17 +21,15 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.sos.BatchConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -74,10 +72,8 @@ public class BatchRequestDecodingTest {
 
     private BatchRequest request;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         try {
             json = fromResource("/examples/sos/BatchRequest.json");
@@ -86,7 +82,7 @@ public class BatchRequestDecodingTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void before()
             throws DecodingException {
         DecoderRepository decoderRepository = new DecoderRepository();
@@ -155,24 +151,24 @@ public class BatchRequestDecodingTest {
     public void testParsedRequests() throws DecodingException {
         assertThat(request.getRequests(), is(notNullValue()));
         assertThat(request.getRequests(), hasSize(19));
-        errors.checkThat(request.getRequests().get(0), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(1), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(2), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(3), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(4), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(5), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(6), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(7), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(8), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(9), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(10), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(11), is(instanceOf(InsertResultTemplateRequest.class)));
-        errors.checkThat(request.getRequests().get(12), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(13), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(14), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(15), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(16), is(instanceOf(InsertObservationRequest.class)));
-        errors.checkThat(request.getRequests().get(17), is(instanceOf(InsertSensorRequest.class)));
-        errors.checkThat(request.getRequests().get(18), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(0), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(1), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(2), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(3), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(4), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(5), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(6), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(7), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(8), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(9), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(10), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(11), is(instanceOf(InsertResultTemplateRequest.class)));
+        assertThat(request.getRequests().get(12), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(13), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(14), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(15), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(16), is(instanceOf(InsertObservationRequest.class)));
+        assertThat(request.getRequests().get(17), is(instanceOf(InsertSensorRequest.class)));
+        assertThat(request.getRequests().get(18), is(instanceOf(InsertObservationRequest.class)));
     }
 }

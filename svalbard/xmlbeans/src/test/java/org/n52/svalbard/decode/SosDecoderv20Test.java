@@ -17,27 +17,25 @@
 package org.n52.svalbard.decode;
 
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.sos.request.GetObservationRequest;
-import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
 import org.n52.shetland.ogc.swe.simpleType.SweText;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import net.opengis.sos.x20.GetObservationDocument;
-import net.opengis.sos.x20.InsertResultTemplateDocument;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -49,7 +47,7 @@ public class SosDecoderv20Test {
 
     private SosDecoderv20 decoder;
 
-    @Before
+    @BeforeEach
     public void initDecoder() {
         DecoderRepository decoderRepository = new DecoderRepository();
         Producer<XmlOptions> options = () -> new XmlOptions();
@@ -73,7 +71,7 @@ public class SosDecoderv20Test {
         decoder = sosDecoderv20;
     }
 
-    @After
+    @AfterEach
     public void nullDecoder() {
         decoder = null;
     }

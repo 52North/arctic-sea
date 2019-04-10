@@ -16,19 +16,20 @@
  */
 package org.n52.iceland.statistics.api.utils;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.n52.iceland.event.events.CountingOutputStreamEvent;
-import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.iceland.statistics.api.interfaces.StatisticsServiceEventHandler;
 import org.n52.iceland.statistics.impl.handlers.CountingOutputStreamEventHandler;
 import org.n52.iceland.statistics.impl.handlers.DefaultServiceEventHandler;
 import org.n52.iceland.statistics.impl.handlers.exceptions.CodedExceptionEventHandler;
 import org.n52.shetland.ogc.ows.exception.OperationNotSupportedException;
+import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 
 public class EventHandlerFinderTest {
 
@@ -40,19 +41,20 @@ public class EventHandlerFinderTest {
         CountingOutputStreamEvent request = new CountingOutputStreamEvent();
         handlers.put(request.getClass().getSimpleName(), handler);
 
-        Assert.assertNotNull(EventHandlerFinder.findHandler(request, handlers));
+        Assertions.assertNotNull(EventHandlerFinder.findHandler(request, handlers));
     }
 
-    @Test(
-            expected = NullPointerException.class)
+    @Test
     public void findNoHandlers() {
-        Map<String, StatisticsServiceEventHandler<?>> handlers = new HashMap<>();
-        DefaultServiceEventHandler handler = new DefaultServiceEventHandler();
+        assertThrows(NullPointerException.class, () -> {
+            Map<String, StatisticsServiceEventHandler<?>> handlers = new HashMap<>();
+            DefaultServiceEventHandler handler = new DefaultServiceEventHandler();
 
-        handlers.put("morpheus", handler);
-        GetCapabilitiesRequest request = new GetCapabilitiesRequest("SOS");
+            handlers.put("morpheus", handler);
+            GetCapabilitiesRequest request = new GetCapabilitiesRequest("SOS");
 
-        EventHandlerFinder.findHandler(request, handlers);
+            EventHandlerFinder.findHandler(request, handlers);
+        });
     }
 
     @Test
@@ -64,6 +66,6 @@ public class EventHandlerFinderTest {
 
         handlers.put("CodedException", handler);
 
-        Assert.assertNotNull(EventHandlerFinder.findHandler(exception, handlers));
+        Assertions.assertNotNull(EventHandlerFinder.findHandler(exception, handlers));
     }
 }

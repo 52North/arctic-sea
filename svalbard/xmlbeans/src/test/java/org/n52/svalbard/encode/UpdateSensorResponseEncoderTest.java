@@ -18,25 +18,23 @@ package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.swes.x20.UpdateSensorDescriptionResponseDocument;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -44,9 +42,10 @@ import org.n52.shetland.ogc.sos.response.UpdateSensorResponse;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Maps;
+
+import net.opengis.swes.x20.UpdateSensorDescriptionResponseDocument;
 
 /**
  * TODO JavaDoc
@@ -58,7 +57,8 @@ import com.google.common.collect.Maps;
 public class UpdateSensorResponseEncoderTest {
 
     private UpdateSensorResponseEncoder encoder;
-    @Before
+
+    @BeforeEach
     public void setup() {
 
         EncoderRepository encoderRepository = new EncoderRepository();
@@ -127,11 +127,17 @@ public class UpdateSensorResponseEncoderTest {
         assertThat(schemLoc.getSchemaFileUrl(), is("http://schemas.opengis.net/swes/2.0/swes.xsd"));
     }
 
-    @Test(expected = UnsupportedEncoderInputException.class)
+    @Test
     public void should_return_exception_if_received_null() throws EncodingException {
-        encoder.encode(null);
-        encoder.encode(null, new ByteArrayOutputStream());
-        encoder.encode(null, EncodingContext.empty());
+        assertThrows(EncodingException.class, () -> {
+            encoder.encode(null);
+        });
+        assertThrows(EncodingException.class, () -> {
+            encoder.encode(null, new ByteArrayOutputStream());
+        });
+        assertThrows(EncodingException.class, () -> {
+            encoder.encode(null, EncodingContext.empty());
+        });
     }
 
     @Test

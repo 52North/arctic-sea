@@ -16,13 +16,12 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -33,28 +32,28 @@ public class TimeInstantTest {
 
     @Test
     public void isEmptyForDefaultConstructorTest() {
-        assertTrue("new TimeInstant is NOT empty", new TimeInstant().isEmpty());
+        assertTrue(new TimeInstant().isEmpty(), "new TimeInstant is NOT empty");
     }
 
     @Test
     public void isEmptyForConstructorWithNullTimeTest() {
-        assertTrue("new TimeInstant(null) is NOT empty", new TimeInstant((DateTime) null).isEmpty());
+        assertTrue(new TimeInstant((DateTime) null).isEmpty(), "new TimeInstant(null) is NOT empty");
     }
 
     @Test
     public void isNotEmptyForConstructorWithTimeAndNullIndeterminateValueTest() {
-        assertFalse("new TimeInstant(new DateTime()) is empty", new TimeInstant(new DateTime(), null).isEmpty());
+        assertFalse(new TimeInstant(new DateTime(), null).isEmpty(), "new TimeInstant(new DateTime()) is empty");
     }
 
     @Test
     public void isNotEmptyForConstructorWithNullTimeAndIndeterminateValueTest() {
-        assertFalse("new TimeInstant(null) is empty", new TimeInstant((IndeterminateValue) null)
-                .setIndeterminateValue(IndeterminateValue.NOW).isEmpty());
+        assertFalse(new TimeInstant((IndeterminateValue) null)
+                .setIndeterminateValue(IndeterminateValue.NOW).isEmpty(), "new TimeInstant(null) is empty");
     }
 
     @Test
     public void isNotEmptyForConstructorWithDate() {
-        assertFalse("new TimeInstant(new DateTime()) is empty", new TimeInstant(new Date()).isEmpty());
+        assertFalse(new TimeInstant(new Date()).isEmpty(), "new TimeInstant(new DateTime()) is empty");
     }
 
     @Test
@@ -62,7 +61,7 @@ public class TimeInstantTest {
         DateTime dateTime = new DateTime();
         TimeInstant timeInstant = new TimeInstant(dateTime);
         TimeInstant equalTimeInstant = new TimeInstant(dateTime);
-        assertTrue("TimeInstants are NOT equal", timeInstant.equals(equalTimeInstant));
+        assertTrue(timeInstant.equals(equalTimeInstant), "TimeInstants are NOT equal");
     }
 
     @Test
@@ -70,7 +69,7 @@ public class TimeInstantTest {
         IndeterminateValue tiv = IndeterminateValue.AFTER;
         TimeInstant timeInstant = new TimeInstant(tiv);
         TimeInstant equalTimeInstant = new TimeInstant(tiv);
-        assertTrue("TimeInstants are NOT equal", timeInstant.equals(equalTimeInstant));
+        assertTrue(timeInstant.equals(equalTimeInstant), "TimeInstants are NOT equal");
     }
 
     @Test
@@ -79,14 +78,14 @@ public class TimeInstantTest {
         IndeterminateValue tiv = IndeterminateValue.AFTER;
         TimeInstant timeInstant = new TimeInstant(dateTime, tiv);
         TimeInstant equalTimeInstant = new TimeInstant(dateTime, tiv);
-        assertTrue("TimeInstants are NOT equal", timeInstant.equals(equalTimeInstant));
+        assertTrue(timeInstant.equals(equalTimeInstant), "TimeInstants are NOT equal");
     }
 
     @Test
     public void testCompareTo() {
         TimeInstant timeInstantOne = new TimeInstant();
         TimeInstant timeInstantTwo = new TimeInstant();
-        assertTrue("TimeInstants are equal", (timeInstantOne.compareTo(timeInstantTwo) == 0));
+        assertTrue((timeInstantOne.compareTo(timeInstantTwo) == 0), "TimeInstants are equal");
     }
 
 }

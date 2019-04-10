@@ -22,19 +22,19 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.n52.shetland.util.DateTimeHelper.parseIsoString2DateTime;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.Point;
 
@@ -56,6 +56,7 @@ import org.n52.svalbard.coding.json.JSONConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.JSONDecodingException;
 import org.n52.svalbard.decode.json.ObservationDecoder;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -68,9 +69,8 @@ import com.github.fge.jackson.JsonLoader;
  *
  * @since 1.0.0
  */
+@ExtendWith(ConfiguredSettingsManager.class)
 public class MeasurementDecodingTest {
-    @ClassRule
-    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     public static final String PROCEDURE = "http://52north.org/example/procedure/1";
 
@@ -98,10 +98,7 @@ public class MeasurementDecodingTest {
 
     private OmObservation observation;
 
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
-
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         try {
             resultTime = parseIsoString2DateTime("2013-01-01T00:00:00+02:00");
@@ -114,7 +111,7 @@ public class MeasurementDecodingTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void before()
             throws DecodingException {
         this.decoder = new ObservationDecoder();
@@ -316,9 +313,11 @@ public class MeasurementDecodingTest {
         final String type = "someType";
         final ObjectNode c = json.deepCopy();
         c.put(JSONConstants.TYPE, type);
-        thrown.expect(JSONDecodingException.class);
-        thrown.expectMessage(is("Unsupported observationType: " + type));
-        decoder.decode(c);
+
+        JSONDecodingException assertThrows = assertThrows(JSONDecodingException.class, () -> {
+            decoder.decode(c);
+        });
+        assertEquals("Unsupported observationType: " + type, assertThrows.getMessage());
     }
 
     @Test

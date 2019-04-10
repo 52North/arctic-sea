@@ -19,27 +19,27 @@ package org.n52.iceland.statistics.api.utils;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.Path;
 
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 public class GeoLiteFileDownloaderIT {
 
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    @TempDir
+    static Path folder;
 
     @Test
     public void downloadFiletoCDriveTemp() throws URISyntaxException, IOException {
-        String basePath = folder.newFolder().getAbsolutePath();
+        String basePath = folder.toAbsolutePath().toString();
         GeoLiteFileDownloader.downloadDefaultDatabases(basePath);
 
         File city = new File(basePath + "/city.mmdb");
         File country = new File(basePath + "/country.mmdb");
 
-        Assert.assertTrue(city.exists());
-        Assert.assertTrue(country.exists());
+        Assertions.assertTrue(city.exists());
+        Assertions.assertTrue(country.exists());
 
     }
 }

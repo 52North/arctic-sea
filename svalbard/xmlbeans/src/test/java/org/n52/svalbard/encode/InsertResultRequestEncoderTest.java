@@ -16,21 +16,21 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.InsertResultRequest;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import net.opengis.sos.x20.InsertResultDocument;
 import net.opengis.sos.x20.InsertResultType;
@@ -42,10 +42,7 @@ public class InsertResultRequestEncoderTest {
 
     private InsertResultRequestEncoder encoder;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Before
+    @BeforeEach
     public void setup() {
         encoder = new InsertResultRequestEncoder();
         encoder.setXmlOptions(XmlOptions::new);
@@ -53,55 +50,85 @@ public class InsertResultRequestEncoderTest {
 
     @Test
     public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(null);
+        });
+        assertEquals("Encoder " +
                 InsertResultRequestEncoder.class.getSimpleName() +
-                " can not encode 'null'"));
-
-        encoder.create(null);
+                " can not encode 'null'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertResultRequest());
+        });
+        assertEquals("Encoder " +
                 InsertResultRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing service'"));
-
-        encoder.create(new InsertResultRequest());
+                " can not encode 'missing service'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertResultRequest("SOS", ""));
+        });
+        assertEquals("Encoder " +
                 InsertResultRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing version'"));
-
-        encoder.create(new InsertResultRequest("service", ""));
+                " can not encode 'missing version'", assertThrows.getMessage());
     }
+//
+//    @Test
+//    public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
+//        thrown.expect(UnsupportedEncoderInputException.class);
+//        thrown.expectMessage(Is.is("Encoder " +
+//                InsertResultRequestEncoder.class.getSimpleName() +
+//                " can not encode 'null'"));
+//
+//        encoder.create(null);
+//    }
+//
+//    @Test
+//    public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
+//        thrown.expect(UnsupportedEncoderInputException.class);
+//        thrown.expectMessage(Is.is("Encoder " +
+//                InsertResultRequestEncoder.class.getSimpleName() +
+//                " can not encode 'missing service'"));
+//
+//        encoder.create(new InsertResultRequest());
+//    }
+//
+//    @Test
+//    public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
+//        thrown.expect(UnsupportedEncoderInputException.class);
+//        thrown.expectMessage(Is.is("Encoder " +
+//                InsertResultRequestEncoder.class.getSimpleName() +
+//                " can not encode 'missing version'"));
+//
+//        encoder.create(new InsertResultRequest("service", ""));
+//    }
 
     @Test
     public void shouldThrowExceptionIfTemplateIdIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertResultRequest("service", "version"));
+        });
+        assertEquals("Encoder " +
                 InsertResultRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing templateIdentifier'"));
-
-        encoder.create(new InsertResultRequest("service", "version"));
+                " can not encode 'missing templateIdentifier'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfResultValuesAreMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            InsertResultRequest request = new InsertResultRequest("service", "version");
+            request.setTemplateIdentifier("templateIdentifier");
+
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertResultRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing resultValues'"));
-
-        InsertResultRequest request = new InsertResultRequest("service", "version");
-        request.setTemplateIdentifier("templateIdentifier");
-
-        encoder.create(request);
+                " can not encode 'missing resultValues'", assertThrows.getMessage());
     }
 
     @Test
@@ -115,14 +142,14 @@ public class InsertResultRequestEncoderTest {
         request.setResultValues(resultValues);
 
         XmlObject encodedRequest = encoder.create(request);
-        Assert.assertThat(encodedRequest, Matchers.instanceOf(InsertResultDocument.class));
-        Assert.assertThat(((InsertResultDocument)encodedRequest).getInsertResult(), Matchers.notNullValue());
+        assertThat(encodedRequest, Matchers.instanceOf(InsertResultDocument.class));
+        assertThat(((InsertResultDocument)encodedRequest).getInsertResult(), Matchers.notNullValue());
         InsertResultType xbRequest = ((InsertResultDocument)encodedRequest).getInsertResult();
-        Assert.assertThat(xbRequest.getService(), Is.is(service));
-        Assert.assertThat(xbRequest.getVersion(), Is.is(version));
-        Assert.assertThat(xbRequest.getTemplate(), Is.is(templateIdentifier));
-        Assert.assertThat(xbRequest.getResultValues(), Matchers.instanceOf(XmlString.class));
-        Assert.assertThat(((XmlString)xbRequest.getResultValues()).getStringValue(), Is.is(resultValues));
+        assertThat(xbRequest.getService(), Is.is(service));
+        assertThat(xbRequest.getVersion(), Is.is(version));
+        assertThat(xbRequest.getTemplate(), Is.is(templateIdentifier));
+        assertThat(xbRequest.getResultValues(), Matchers.instanceOf(XmlString.class));
+        assertThat(((XmlString)xbRequest.getResultValues()).getStringValue(), Is.is(resultValues));
     }
 
 }

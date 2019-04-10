@@ -16,16 +16,16 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+
 import java.util.Set;
 
-import net.opengis.ows.x11.CapabilitiesBaseType;
-
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.OwsCapabilities;
 import org.n52.svalbard.decode.exception.DecodingException;
+
+import net.opengis.ows.x11.CapabilitiesBaseType;
 
 public class AbstractCapabilitiesBaseTypeDecoderTest {
 
@@ -35,7 +35,7 @@ public class AbstractCapabilitiesBaseTypeDecoderTest {
         CapabilitiesBaseType cbt = CapabilitiesBaseType.Factory.newInstance();
         cbt.setVersion("2.0.0");
         cbt.setUpdateSequence("nothing-to-see-here");
-        Assert.assertThat(decoder.parseCapabilitiesBaseType("SOS", cbt).getServiceIdentification().isPresent(), Is.is(false));
+        assertThat(decoder.parseCapabilitiesBaseType("SOS", cbt).getServiceIdentification().isPresent(), Is.is(false));
     }
 
     private class TestSeam extends AbstractCapabilitiesBaseTypeDecoder<CapabilitiesBaseType, OwsCapabilities> {

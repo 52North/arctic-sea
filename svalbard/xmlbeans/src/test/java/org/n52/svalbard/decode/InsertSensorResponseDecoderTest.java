@@ -16,54 +16,21 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+
+import org.apache.xmlbeans.XmlObject;
+import org.junit.jupiter.api.Test;
+import org.n52.shetland.ogc.sos.response.InsertSensorResponse;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import net.opengis.swes.x20.InsertSensorResponseDocument;
 import net.opengis.swes.x20.InsertSensorResponseType;
 
-import org.apache.xmlbeans.XmlObject;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import org.n52.shetland.ogc.sos.response.InsertSensorResponse;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
-
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  */
-public class InsertSensorResponseDecoderTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void shouldThrowExceptionOnWrongInputType() throws DecodingException {
-        thrown.expect(UnsupportedDecoderInputException.class);
-        thrown.expectMessage(
-                "Decoder InsertSensorResponseDecoder can not decode 'org.apache.xmlbeans.impl.values.XmlAnyTypeImpl'");
-
-        new InsertSensorResponseDecoder().decode(XmlObject.Factory.newInstance());
-    }
-
-    @Test
-    public void shouldThrowExceptionOnNullInput() throws DecodingException {
-        thrown.expect(UnsupportedDecoderInputException.class);
-        thrown.expectMessage(
-                "Decoder InsertSensorResponseDecoder can not decode 'null'");
-
-        new InsertSensorResponseDecoder().decode(null);
-    }
-
-    @Test
-    public void shouldThrowExceptionOnMissingTypeInDocument() throws DecodingException {
-        thrown.expect(DecodingException.class);
-        thrown.expectMessage("Received XML document is not valid. Set log level to debug to get more details");
-
-        new InsertSensorResponseDecoder().decode(InsertSensorResponseDocument.Factory.newInstance());
-    }
+public class InsertSensorResponseDecoderTest implements InsertDecoderTest {
 
     @Test
     public void shouldCreateInsertSensorResponse() throws DecodingException {
@@ -78,6 +45,16 @@ public class InsertSensorResponseDecoderTest {
 
         assertThat(decodedResponse.getAssignedOffering(), is(offering));
         assertThat(decodedResponse.getAssignedProcedure(), is(procedure));
+    }
+
+    @Override
+    public Decoder<?, XmlObject> getDecoder() {
+        return new InsertSensorResponseDecoder();
+    }
+
+    @Override
+    public XmlObject getDocument() {
+        return InsertSensorResponseDocument.Factory.newInstance();
     }
 
 }

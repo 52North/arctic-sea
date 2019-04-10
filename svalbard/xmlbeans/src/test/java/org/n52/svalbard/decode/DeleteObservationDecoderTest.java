@@ -16,9 +16,9 @@
  */
 package org.n52.svalbard.decode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.n52.shetland.ogc.sos.SosConstants.SOS;
 import static org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants.NS_SOSDO_1_0;
 import static org.n52.shetland.util.CollectionHelper.union;
@@ -30,11 +30,9 @@ import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
@@ -47,14 +45,26 @@ import net.opengis.sosdo.x10.DeleteObservationDocument;
  *         J&uuml;rrens</a>
  * @since 1.0.0
  */
-public class DeleteObservationDecoderTest {
-
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
+public class DeleteObservationDecoderTest implements DeleteDecoderTest{
 
     private DeleteObservationDecoder decoder;
 
-    @Before
+    private static Set<DecoderKey> dkt;
+
+    private static XmlObject incorrectXmlObject;
+
+    /*
+     * <?xml version="1.0" encoding="UTF-8"?> <sosdo:DeleteObservation
+     * version="2.0" service="SOS"
+     * xmlns:sosdo="http://www.opengis.net/sosdo/1.0">
+     * <sosdo:observation>test-observation-identifier</sosdo:observation>
+     * </sosdo:DeleteObservation>
+     */
+    private static DeleteObservationDocument correctXmlObject;
+
+    private static String observationId = "test_obs_id";
+
+    @BeforeEach
     public void setup() {
         DecoderRepository decoderRepository = new DecoderRepository();
 
@@ -72,26 +82,7 @@ public class DeleteObservationDecoderTest {
 
         decoderRepository.setDecoders(Arrays.asList(decoder));
         decoderRepository.init();
-    }
 
-    private static Set<DecoderKey> dkt;
-
-    private static XmlObject incorrectXmlObject;
-
-    /*
-     * <?xml version="1.0" encoding="UTF-8"?> <sosdo:DeleteObservation
-     * version="2.0" service="SOS"
-     * xmlns:sosdo="http://www.opengis.net/sosdo/1.0">
-     * <sosdo:observation>test-observation-identifier</sosdo:observation>
-     * </sosdo:DeleteObservation>
-     */
-    private static DeleteObservationDocument correctXmlObject;
-
-    private static String observationId = "test_obs_id";
-
-    @Before
-    public void initdecoder() {
-        decoder = new DeleteObservationDecoder();
         correctXmlObject = DeleteObservationDocument.Factory.newInstance();
         correctXmlObject.addNewDeleteObservation().setObservation(observationId);
     }
@@ -99,54 +90,52 @@ public class DeleteObservationDecoderTest {
     @Test
     public void constructorReturnsdecoder() {
         String className = DeleteObservationDecoder.class.getName();
-        assertNotNull("decoder is null. Constructor failed", decoder);
-        assertTrue("decoder of constructed object is not of class" + className,
-                decoder.getClass().getName().equals(className));
+        assertNotNull(decoder, "decoder is null. Constructor failed");
+        assertTrue(decoder.getClass().getName().equals(className),
+                "decoder of constructed object is not of class" + className);
     }
 
     @Test
     public void testGetDecoderKeyTypes() {
-        assertNotNull("DecoderKey is null", decoder.getKeys());
-        assertTrue("DecoderKey does NOT equal " + dkt, decoder.getKeys().equals(dkt));
+        assertNotNull(decoder.getKeys(), "DecoderKey is null");
+        assertTrue(decoder.getKeys().equals(dkt), "DecoderKey does NOT equal " + dkt);
     }
 
     @Test
     public void getSupportedTypesReturnsEmptyList() {
-        assertNotNull("Supported Types is null", decoder.getSupportedTypes());
-        assertEquals("Supported Types size ", 0, decoder.getSupportedTypes().size());
-    }
-
-    @Test(expected = DecodingException.class)
-    public void decodeNullThrowsOwsExceptionReport() throws DecodingException {
-        decoder.decode(null);
-    }
-
-    @Test(expected = DecodingException.class)
-    public void decodingIncorrectXmlObjectThrowsOwsExceptionReport() throws DecodingException {
-        decoder.decode(incorrectXmlObject);
+        assertNotNull(decoder.getSupportedTypes(), "Supported Types is null");
+        assertEquals(0, decoder.getSupportedTypes().size(), "Supported Types size ");
     }
 
     @Test
     public void decodingCorrectXmlObjectReturnsCorrectServiceRequest() throws DecodingException {
         String className = DeleteObservationRequest.class.getName();
-        assertNotNull("Decoding of correct XmlObject returned null", decoder.decode(correctXmlObject));
-        assertEquals("Class of Result ", className, decoder.decode(correctXmlObject).getClass().getName());
-        assertEquals("Id of observation to delete", observationId,
-                decoder.decode(correctXmlObject).getObservationIdentifiers().iterator().next());
+        assertNotNull(decoder.decode(correctXmlObject), "Decoding of correct XmlObject returned null");
+        assertEquals(className, decoder.decode(correctXmlObject).getClass().getName(), "Class of Result ");
+        assertEquals(observationId,
+                decoder.decode(correctXmlObject).getObservationIdentifiers().iterator().next(),"Id of observation to delete");
     }
 
-    @Test(expected = DecodingException.class)
-    public void should_throw_OwsExceptionReport_when_receving_invalid_DeleteObservationDocument()
-            throws DecodingException {
-        correctXmlObject = DeleteObservationDocument.Factory.newInstance();
-        decoder.decode(correctXmlObject);
-    }
-
-    @BeforeClass
+    @BeforeAll
     public static void initFixtures() {
         incorrectXmlObject = XmlObject.Factory.newInstance();
         dkt = union(decoderKeysForElements(NS_SOSDO_1_0, DeleteObservationDocument.class), xmlDecoderKeysForOperation(
                 SOS, Sos2Constants.SERVICEVERSION, DeleteObservationConstants.Operations.DeleteObservation));
+    }
+
+    @Override
+    public Decoder<?, XmlObject> getDecoder() {
+        return decoder;
+    }
+
+    @Override
+    public XmlObject getIncorrectXmlObject() {
+        return incorrectXmlObject;
+    }
+
+    @Override
+    public XmlObject getCorrectXmlObject() {
+        return DeleteObservationDocument.Factory.newInstance();
     }
 
 }

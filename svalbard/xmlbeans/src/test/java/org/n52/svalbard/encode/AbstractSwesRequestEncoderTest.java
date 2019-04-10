@@ -16,17 +16,16 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.apache.xmlbeans.XmlObject;
 import org.hamcrest.Matchers;
-import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
@@ -38,37 +37,35 @@ public class AbstractSwesRequestEncoderTest {
 
     private AbstractSwesRequestEncoder<OwsServiceRequest> encoder = new AbstractSwesRequestEncoderSeam();
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.validateInput(null);
+        });
+        assertEquals("Encoder " +
                 AbstractSwesRequestEncoderSeam.class.getSimpleName() +
-                " can not encode 'null'"));
-
-        encoder.validateInput(null);
+                " can not encode 'null'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.validateInput(new OwsServiceRequest() {});
+        });
+        assertEquals("Encoder " +
                 AbstractSwesRequestEncoderSeam.class.getSimpleName() +
-                " can not encode 'missing service'"));
-
-        encoder.validateInput(new OwsServiceRequest() {});
+                " can not encode 'missing service'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.validateInput(new OwsServiceRequest("SOS", "") {});
+        });
+        assertEquals("Encoder " +
                 AbstractSwesRequestEncoderSeam.class.getSimpleName() +
-                " can not encode 'missing version'"));
-
-        encoder.validateInput(new OwsServiceRequest("SOS", "") {});
+                " can not encode 'missing version'", assertThrows.getMessage());
     }
 
     @Test
@@ -78,8 +75,8 @@ public class AbstractSwesRequestEncoderTest {
 
     @Test
     public void shouldReturnTheCorrectSchemaLocation() {
-        Assert.assertThat(encoder.getConcreteSchemaLocations(), Matchers.hasSize(1));
-        Assert.assertThat(encoder.getConcreteSchemaLocations(), Matchers.hasItem(SwesConstants.SWES_20_SCHEMA_LOCATION));
+        assertThat(encoder.getConcreteSchemaLocations(), Matchers.hasSize(1));
+        assertThat(encoder.getConcreteSchemaLocations(), Matchers.hasItem(SwesConstants.SWES_20_SCHEMA_LOCATION));
     }
 
     private class AbstractSwesRequestEncoderSeam extends AbstractSwesRequestEncoder<OwsServiceRequest> {

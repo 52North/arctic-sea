@@ -18,16 +18,13 @@ package org.n52.svalbard.odata;
 
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Set;
 
 import org.hamcrest.Matchers;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Polygon;
@@ -46,18 +43,12 @@ import org.n52.svalbard.decode.exception.DecodingException;
  */
 public class ODataFesParserTest {
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
-
     private ODataFesParser parser;
     private Polygon polygon;
     private GeometryFactory geometryFactory;
     private String wktGeometry;
 
-    @Before
+    @BeforeEach
     public void setup() {
         this.parser = new ODataFesParser();
         this.geometryFactory = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING_SINGLE), 4326);
@@ -72,8 +63,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("featureOfInterest eq '213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:featureOfInterest"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:featureOfInterest"));
     }
 
     @Test
@@ -81,8 +72,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("featureOfInterest/id eq '213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:featureOfInterest"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:featureOfInterest"));
     }
 
     @Test
@@ -90,8 +81,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("id eq '213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("gml:identifier"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("gml:identifier"));
     }
 
     @Test
@@ -99,8 +90,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("identifier eq '213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("gml:identifier"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("gml:identifier"));
     }
 
     @Test
@@ -108,8 +99,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("result eq 'a213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("a213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("a213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
 
     @Test
@@ -117,8 +108,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("values eq '213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
 
     // >=4.0.0 <4.2.0
@@ -127,8 +118,8 @@ public class ODataFesParserTest {
 //            throws Exception {
 //        Filter<?> filter = parser.decode("values eq 213");
 //        assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-//        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-//        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+//        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+//        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
 //    }
 
     @Test
@@ -136,8 +127,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("textValue eq '213'");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
     // >=4.0.0 <4.2.0
 
@@ -146,8 +137,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("numericValue eq 213");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
 
     @Test
@@ -155,8 +146,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("countValue eq 213");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
 
     @Test
@@ -164,8 +155,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("numericValue eq 213.12");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213.12"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213.12"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
 
     @Test
@@ -173,8 +164,8 @@ public class ODataFesParserTest {
             throws Exception {
         Filter<?> filter = parser.decode("countValue eq 213.12");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
-        errors.checkThat(((ComparisonFilter) filter).getValue(), is("213.12"));
-        errors.checkThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
+        assertThat(((ComparisonFilter) filter).getValue(), is("213.12"));
+        assertThat(((ComparisonFilter) filter).getValueReference(), is("om:result"));
     }
 
     @Test
@@ -184,10 +175,10 @@ public class ODataFesParserTest {
         Filter<?> filter = parser.decode("countValue lt 10 and textValue eq 'thetext'");
         assertThat(filter, is(instanceOf(BinaryLogicFilter.class)));
         BinaryLogicFilter blf = (BinaryLogicFilter) filter;
-        errors.checkThat(blf.getOperator(), is(BinaryLogicOperator.And));
+        assertThat(blf.getOperator(), is(BinaryLogicOperator.And));
         Set<Filter<?>> filterPredicates = blf.getFilterPredicates();
 
-        errors.checkThat(filterPredicates, Matchers.containsInAnyOrder(Matchers.instanceOf(ComparisonFilter.class),
+        assertThat(filterPredicates, Matchers.containsInAnyOrder(Matchers.instanceOf(ComparisonFilter.class),
                 Matchers.instanceOf(ComparisonFilter.class)));
     }
 
@@ -198,9 +189,9 @@ public class ODataFesParserTest {
         Filter<?> filter = parser.decode("countValue lt 10 or textValue eq 'thetext'");
         assertThat(filter, is(instanceOf(BinaryLogicFilter.class)));
         BinaryLogicFilter blf = (BinaryLogicFilter) filter;
-        errors.checkThat(blf.getOperator(), is(BinaryLogicOperator.Or));
+        assertThat(blf.getOperator(), is(BinaryLogicOperator.Or));
         Set<Filter<?>> filterPredicates = blf.getFilterPredicates();
-        errors.checkThat(filterPredicates, Matchers.containsInAnyOrder(Matchers.instanceOf(ComparisonFilter.class),
+        assertThat(filterPredicates, Matchers.containsInAnyOrder(Matchers.instanceOf(ComparisonFilter.class),
                 Matchers.instanceOf(ComparisonFilter.class)));
     }
 
@@ -210,9 +201,9 @@ public class ODataFesParserTest {
         Filter<?> filter = parser.decode("contains(textValue,'as%df')");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
         ComparisonFilter cf = (ComparisonFilter) filter;
-        errors.checkThat(cf.getOperator(), is(ComparisonOperator.PropertyIsLike));
-        errors.checkThat(cf.getValue(), is("%as%df%"));
-        errors.checkThat(cf.getValueReference(), is("om:result"));
+        assertThat(cf.getOperator(), is(ComparisonOperator.PropertyIsLike));
+        assertThat(cf.getValue(), is("%as%df%"));
+        assertThat(cf.getValueReference(), is("om:result"));
     }
 
     @Test
@@ -221,9 +212,9 @@ public class ODataFesParserTest {
         Filter<?> filter = parser.decode("startswith(textValue,'asdf')");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
         ComparisonFilter cf = (ComparisonFilter) filter;
-        errors.checkThat(cf.getOperator(), is(ComparisonOperator.PropertyIsLike));
-        errors.checkThat(cf.getValue(), is("asdf%"));
-        errors.checkThat(cf.getValueReference(), is("om:result"));
+        assertThat(cf.getOperator(), is(ComparisonOperator.PropertyIsLike));
+        assertThat(cf.getValue(), is("asdf%"));
+        assertThat(cf.getValueReference(), is("om:result"));
     }
 
     @Test
@@ -232,9 +223,9 @@ public class ODataFesParserTest {
         Filter<?> filter = parser.decode("endswith(textValue,'asdf')");
         assertThat(filter, is(instanceOf(ComparisonFilter.class)));
         ComparisonFilter cf = (ComparisonFilter) filter;
-        errors.checkThat(cf.getOperator(), is(ComparisonOperator.PropertyIsLike));
-        errors.checkThat(cf.getValue(), is("%asdf"));
-        errors.checkThat(cf.getValueReference(), is("om:result"));
+        assertThat(cf.getOperator(), is(ComparisonOperator.PropertyIsLike));
+        assertThat(cf.getValue(), is("%asdf"));
+        assertThat(cf.getValueReference(), is("om:result"));
     }
 
     @Test
@@ -250,11 +241,11 @@ public class ODataFesParserTest {
 
         assertThat(filter, is(instanceOf(SpatialFilter.class)));
         SpatialFilter sf = (SpatialFilter) filter;
-        errors.checkThat(sf.getSrid(), is(4326));
-        errors.checkThat(sf.getGeometry().isEnvelope(), is(false));
-        errors.checkThat(sf.getGeometry().isGeometry(), is(true));
-        errors.checkThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
-        errors.checkThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
+        assertThat(sf.getSrid(), is(4326));
+        assertThat(sf.getGeometry().isEnvelope(), is(false));
+        assertThat(sf.getGeometry().isGeometry(), is(true));
+        assertThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
+        assertThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
     }
 
     @Test
@@ -266,11 +257,11 @@ public class ODataFesParserTest {
 
         assertThat(filter, is(instanceOf(SpatialFilter.class)));
         SpatialFilter sf = (SpatialFilter) filter;
-        errors.checkThat(sf.getSrid(), is(4326));
-        errors.checkThat(sf.getGeometry().isEnvelope(), is(false));
-        errors.checkThat(sf.getGeometry().isGeometry(), is(true));
-        errors.checkThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
-        errors.checkThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
+        assertThat(sf.getSrid(), is(4326));
+        assertThat(sf.getGeometry().isEnvelope(), is(false));
+        assertThat(sf.getGeometry().isGeometry(), is(true));
+        assertThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
+        assertThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
     }
 
     @Test
@@ -282,11 +273,11 @@ public class ODataFesParserTest {
 
         assertThat(filter, is(instanceOf(SpatialFilter.class)));
         SpatialFilter sf = (SpatialFilter) filter;
-        errors.checkThat(sf.getSrid(), is(4326));
-        errors.checkThat(sf.getGeometry().isEnvelope(), is(false));
-        errors.checkThat(sf.getGeometry().isGeometry(), is(true));
-        errors.checkThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
-        errors.checkThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
+        assertThat(sf.getSrid(), is(4326));
+        assertThat(sf.getGeometry().isEnvelope(), is(false));
+        assertThat(sf.getGeometry().isGeometry(), is(true));
+        assertThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
+        assertThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
     }
 
     @Test
@@ -297,11 +288,11 @@ public class ODataFesParserTest {
 
         assertThat(filter, is(instanceOf(SpatialFilter.class)));
         SpatialFilter sf = (SpatialFilter) filter;
-        errors.checkThat(sf.getSrid(), is(4326));
-        errors.checkThat(sf.getGeometry().isEnvelope(), is(false));
-        errors.checkThat(sf.getGeometry().isGeometry(), is(true));
-        errors.checkThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
-        errors.checkThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
+        assertThat(sf.getSrid(), is(4326));
+        assertThat(sf.getGeometry().isEnvelope(), is(false));
+        assertThat(sf.getGeometry().isGeometry(), is(true));
+        assertThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
+        assertThat(sf.getValueReference(), is("om:featureOfInterest/*/sams:shape"));
     }
 
     @Test
@@ -313,11 +304,11 @@ public class ODataFesParserTest {
 
         assertThat(filter, is(instanceOf(SpatialFilter.class)));
         SpatialFilter sf = (SpatialFilter) filter;
-        errors.checkThat(sf.getSrid(), is(4326));
-        errors.checkThat(sf.getGeometry().isEnvelope(), is(false));
-        errors.checkThat(sf.getGeometry().isGeometry(), is(true));
-        errors.checkThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
-        errors.checkThat(sf.getValueReference(), is("http://www.opengis.net/req/omxml/2.0/data/samplingGeometry"));
+        assertThat(sf.getSrid(), is(4326));
+        assertThat(sf.getGeometry().isEnvelope(), is(false));
+        assertThat(sf.getGeometry().isGeometry(), is(true));
+        assertThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
+        assertThat(sf.getValueReference(), is("http://www.opengis.net/req/omxml/2.0/data/samplingGeometry"));
     }
 
     @Test
@@ -329,11 +320,11 @@ public class ODataFesParserTest {
 
         assertThat(filter, is(instanceOf(SpatialFilter.class)));
         SpatialFilter sf = (SpatialFilter) filter;
-        errors.checkThat(sf.getSrid(), is(4326));
-        errors.checkThat(sf.getGeometry().isEnvelope(), is(false));
-        errors.checkThat(sf.getGeometry().isGeometry(), is(true));
-        errors.checkThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
-        errors.checkThat(sf.getValueReference(), is("http://www.opengis.net/req/omxml/2.0/data/samplingGeometry"));
+        assertThat(sf.getSrid(), is(4326));
+        assertThat(sf.getGeometry().isEnvelope(), is(false));
+        assertThat(sf.getGeometry().isGeometry(), is(true));
+        assertThat(sf.getGeometry().getGeometry().get(), is(instanceOf(Polygon.class)));
+        assertThat(sf.getValueReference(), is("http://www.opengis.net/req/omxml/2.0/data/samplingGeometry"));
     }
 
 }

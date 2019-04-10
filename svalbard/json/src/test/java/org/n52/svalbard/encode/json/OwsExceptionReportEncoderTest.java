@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.n52.svalbard.coding.json.JSONConstants.EXCEPTIONS;
 import static org.n52.svalbard.coding.json.JSONConstants.LOCATOR;
 import static org.n52.svalbard.coding.json.JSONConstants.TEXT;
@@ -31,10 +31,8 @@ import static org.n52.svalbard.coding.json.matchers.JSONMatchers.exist;
 import static org.n52.svalbard.coding.json.matchers.JSONMatchers.isObject;
 import static org.n52.svalbard.coding.json.matchers.ValidationMatchers.instanceOf;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.svalbard.coding.json.SchemaConstants;
 import org.n52.svalbard.encode.exception.EncoderResponseUnsupportedException;
 import org.n52.svalbard.encode.json.JSONEncodingException;
@@ -52,10 +50,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 public class OwsExceptionReportEncoderTest {
     private OwsExceptionReportEncoder enc;
 
-    @Rule
-    public final ErrorCollector e = new ErrorCollector();
-
-    @Before
+    @BeforeEach
     public void setUp() {
         enc = new OwsExceptionReportEncoder();
     }
@@ -68,11 +63,11 @@ public class OwsExceptionReportEncoderTest {
         final JsonNode json = enc.encodeJSON(owse);
         assertThat(json, is(notNullValue()));
         final String message = "The encoder response is not supported!";
-        e.checkThat(json, is(instanceOf(SchemaConstants.Common.EXCEPTION_REPORT)));
-        e.checkThat(json.path(VERSION).asText(), is(equalTo("2.0.0")));
-        e.checkThat(json.path(EXCEPTIONS), is(arrayOfLength(1)));
-        e.checkThat(json.path(EXCEPTIONS).path(0), isObject());
-        e.checkThat(json.path(EXCEPTIONS).path(0).path(LOCATOR), does(not(exist())));
-        e.checkThat(json.path(EXCEPTIONS).path(0).path(TEXT).asText(), is(equalTo(message)));
+        assertThat(json, is(instanceOf(SchemaConstants.Common.EXCEPTION_REPORT)));
+        assertThat(json.path(VERSION).asText(), is(equalTo("2.0.0")));
+        assertThat(json.path(EXCEPTIONS), is(arrayOfLength(1)));
+        assertThat(json.path(EXCEPTIONS).path(0), isObject());
+        assertThat(json.path(EXCEPTIONS).path(0).path(LOCATOR), does(not(exist())));
+        assertThat(json.path(EXCEPTIONS).path(0).path(TEXT).asText(), is(equalTo(message)));
     }
 }

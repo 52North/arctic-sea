@@ -19,8 +19,8 @@ package org.n52.shetland.util;
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.n52.shetland.util.CollectionHelper.unionOfListOfLists;
 
 import java.util.ArrayList;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.util.CollectionHelper;
 

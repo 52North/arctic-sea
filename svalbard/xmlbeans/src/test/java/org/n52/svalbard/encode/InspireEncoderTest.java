@@ -30,11 +30,11 @@ import javax.xml.validation.Validator;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.inspire.InspireConformity;
 import org.n52.shetland.inspire.InspireConformity.InspireDegreeOfConformity;
@@ -75,7 +75,7 @@ public class InspireEncoderTest {
 
     Set<SupportedType> supportedTypes = Sets.newHashSet();
 
-    @Before
+    @BeforeEach
     public void setup() {
         encoderRepository = new EncoderRepository();
 
@@ -108,11 +108,11 @@ public class InspireEncoderTest {
 
     @Test
     public void test_observationTypes() {
-        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION), Matchers.is(true));
-        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION), Matchers.is(true));
-        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION), Matchers.is(true));
-        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_PROFILE_OBSERVATION), Matchers.is(true));
-        Assert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION), Matchers.is(true));
+        MatcherAssert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_POINT_OBSERVATION), Matchers.is(true));
+        MatcherAssert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_POINT_TIME_SERIES_OBSERVATION), Matchers.is(true));
+        MatcherAssert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_TRAJECTORY_OBSERVATION), Matchers.is(true));
+        MatcherAssert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_PROFILE_OBSERVATION), Matchers.is(true));
+        MatcherAssert.assertThat(getObservationTypesAsString().contains(InspireOMSOConstants.OBS_TYPE_MULTI_POINT_OBSERVATION), Matchers.is(true));
     }
 
     /*

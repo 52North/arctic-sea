@@ -16,8 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.inspire.ef.EnvironmentalMonitoringFacility;
 import org.n52.shetland.ogc.gml.ReferenceType;

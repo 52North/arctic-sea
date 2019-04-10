@@ -16,29 +16,26 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.custommonkey.xmlunit.Diff;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 public class GetCapabilitiesResponseEncoderTest {
 
     private GetCapabilitiesResponseEncoder encoder;
-    @Rule
-    public final ExpectedException expectedEx = ExpectedException.none();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         EncoderRepository encoderRepository = new EncoderRepository();
         SchemaRepository schemaRepository = new SchemaRepository();
@@ -66,9 +63,10 @@ public class GetCapabilitiesResponseEncoderTest {
 
     @Test
     public void should_throw_Exception_when_static_content_is_invalid() throws Exception {
-        expectedEx.expect(EncodingException.class);
-        expectedEx.expectMessage("Error encoding static capabilities");
-        encoder.encode(badCapabilities());
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.encode(badCapabilities());
+        });
+        assertEquals("Error encoding static capabilities", assertThrows.getMessage());
     }
 
     private GetCapabilitiesResponse minimalCapabilities() {

@@ -21,17 +21,15 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
@@ -60,10 +58,7 @@ public class GetObservationRequestDecoderTest {
 
     private GetObservationRequestDecoder decoder;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-    @Before
+    @BeforeEach
     public void before() {
         DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new GetObservationRequestDecoder();

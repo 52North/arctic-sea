@@ -17,34 +17,26 @@
 package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
-
-import net.opengis.swe.x101.AnyScalarPropertyType;
-import net.opengis.swe.x101.CountDocument.Count;
-import net.opengis.swe.x101.DataComponentPropertyType;
-import net.opengis.swe.x101.DataRecordType;
-import net.opengis.swe.x101.EnvelopeType;
-import net.opengis.swe.x101.SimpleDataRecordType;
-import net.opengis.swe.x101.VectorType.Coordinate;
 
 import org.apache.xmlbeans.XmlCalendar;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Envelope;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
@@ -68,7 +60,14 @@ import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Lists;
-import org.locationtech.jts.geom.Envelope;
+
+import net.opengis.swe.x101.AnyScalarPropertyType;
+import net.opengis.swe.x101.CountDocument.Count;
+import net.opengis.swe.x101.DataComponentPropertyType;
+import net.opengis.swe.x101.DataRecordType;
+import net.opengis.swe.x101.EnvelopeType;
+import net.opengis.swe.x101.SimpleDataRecordType;
+import net.opengis.swe.x101.VectorType.Coordinate;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
@@ -76,11 +75,9 @@ import org.locationtech.jts.geom.Envelope;
  * @since 1.0.0
  */
 public class SweCommonEncoderv101Test {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
     private SweCommonEncoderv101 sweCommonEncoderv101;
 
-    @Before
+    @BeforeEach
     public void setup() {
         EncoderRepository encoderRepository = new EncoderRepository();
 
@@ -302,32 +299,33 @@ public class SweCommonEncoderv101Test {
     @Test
     public void should_throw_NoApplicableCodeException_with_DataRecord_and_field_with_not_supported_element()
             throws EncodingException {
-        thrown.expect(EncodingException.class);
-        thrown.expectMessage("The element type '"+getClass().getName()+"$1' "
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField("test",
+                    new SweAbstractDataComponent() {
+
+                        @Override
+                        public SweDataComponentType getDataComponentType() {
+                            return null;
+                        }
+
+                        @Override
+                        public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) {
+                            return null;
+                        }
+
+                        @Override
+                        public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) {
+                        }
+
+                        @Override
+                        public SweAbstractDataComponent copy() {
+                            return null;
+                        }
+                    })));
+        });
+        assertEquals("The element type '"+getClass().getName()+"$1' "
                 + "of the received '"+ SweField.class.getName() + "' is not supported"
-                + " by this encoder '"+SweCommonEncoderv101.class.getName()+"'.");
-        sweCommonEncoderv101.encode(new SweDataRecord().addField(new SweField("test",
-                new SweAbstractDataComponent() {
-
-                    @Override
-                    public SweDataComponentType getDataComponentType() {
-                        return null;
-                    }
-
-                    @Override
-                    public <T, X extends Throwable> T accept(SweDataComponentVisitor<T, X> visitor) {
-                        return null;
-                    }
-
-                    @Override
-                    public <X extends Throwable> void accept(VoidSweDataComponentVisitor<X> visitor) {
-                    }
-
-                    @Override
-                    public SweAbstractDataComponent copy() {
-                        return null;
-                    }
-                })));
+                + " by this encoder '"+SweCommonEncoderv101.class.getName()+"'.", assertThrows.getMessage());
     }
 
     @Test

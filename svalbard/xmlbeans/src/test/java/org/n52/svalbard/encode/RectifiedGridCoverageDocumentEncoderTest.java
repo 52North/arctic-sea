@@ -17,18 +17,15 @@
 package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import net.opengis.gml.x32.RectifiedGridCoverageDocument;
-
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.QuantityRangeValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
@@ -38,11 +35,13 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.XmlHelper;
 
+import net.opengis.gml.x32.RectifiedGridCoverageDocument;
+
 public class RectifiedGridCoverageDocumentEncoderTest {
 
     private RectifiedGridCoverageDocumentEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void setup() {
         EncoderRepository encoderRepository = new EncoderRepository();
         encoder = new RectifiedGridCoverageDocumentEncoder();

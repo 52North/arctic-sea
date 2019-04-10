@@ -16,17 +16,14 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 import org.apache.xmlbeans.XmlObject;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.response.InsertResultResponse;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
 
 import net.opengis.sos.x20.InsertResultResponseDocument;
 
@@ -34,36 +31,7 @@ import net.opengis.sos.x20.InsertResultResponseDocument;
  * @author <a href="mailto:e.h.juerrens@52north.org">J&uuml;rrens, Eike Hinderk</a>
  *
  */
-public class InsertResultResponseDecoderTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Test
-    public void shouldThrowExceptionOnWrongInputType() throws DecodingException {
-        thrown.expect(UnsupportedDecoderInputException.class);
-        thrown.expectMessage(
-                "Decoder InsertResultResponseDecoder can not decode 'org.apache.xmlbeans.impl.values.XmlAnyTypeImpl'");
-
-        new InsertResultResponseDecoder().decode(XmlObject.Factory.newInstance());
-    }
-
-    @Test
-    public void shouldThrowExceptionOnNullInput() throws DecodingException {
-        thrown.expect(UnsupportedDecoderInputException.class);
-        thrown.expectMessage(
-                "Decoder InsertResultResponseDecoder can not decode 'null'");
-
-        new InsertResultResponseDecoder().decode(null);
-    }
-
-    @Test
-    public void shouldThrowExceptionOnMissingTypeInDocument() throws DecodingException {
-        thrown.expect(DecodingException.class);
-        thrown.expectMessage("Received XML document is not valid. Set log level to debug to get more details");
-
-        new InsertResultResponseDecoder().decode(InsertResultResponseDocument.Factory.newInstance());
-    }
+public class InsertResultResponseDecoderTest implements InsertDecoderTest {
 
     @Test
     public void shouldCreateInsertResultResponse() throws DecodingException {
@@ -72,6 +40,16 @@ public class InsertResultResponseDecoderTest {
         InsertResultResponse decodedResponse = new InsertResultResponseDecoder().decode(isrd);
 
         assertThat(decodedResponse, is(notNullValue(InsertResultResponse.class)));
+    }
+
+    @Override
+    public Decoder<?, XmlObject> getDecoder() {
+        return new InsertResultResponseDecoder();
+    }
+
+    @Override
+    public XmlObject getDocument() {
+        return InsertResultResponseDocument.Factory.newInstance();
     }
 
 }

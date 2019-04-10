@@ -16,6 +16,10 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.Supplier;
@@ -25,11 +29,9 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.OmConstants;
@@ -51,10 +53,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweTime;
 import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
-
-import org.locationtech.jts.io.ParseException;
 
 import net.opengis.om.x20.OMObservationType;
 import net.opengis.sampling.x20.SFSamplingFeatureDocument;
@@ -71,9 +70,6 @@ import net.opengis.swe.x20.TextEncodingType;
 import net.opengis.swe.x20.TimeType;
 
 public class InsertResultTemplateRequestEncoderTest {
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     private String templateIdentifier = "test-template-identifier";
 
@@ -103,7 +99,7 @@ public class InsertResultTemplateRequestEncoderTest {
 
     private String field1Uom = "test-field-1-uom";
 
-    @Before
+    @BeforeEach
     public void setup() throws InvalidSridException, ParseException {
         SensorML procedure = new SensorML();
         procedure.setIdentifier(procedureIdentifier);
@@ -165,86 +161,86 @@ public class InsertResultTemplateRequestEncoderTest {
     }
 
     @Test
-    public void shouldThrowExceptionOnNullInput() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+    public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(null);
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'null'"));
-
-        encoder.create(null);
+                " can not encode 'null'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertResultTemplateRequest());
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing service'"));
-
-        encoder.create(new InsertResultTemplateRequest());
+                " can not encode 'missing service'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertResultTemplateRequest("SOS", ""));
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing version'"));
-
-        encoder.create(new InsertResultTemplateRequest("service", ""));
+                " can not encode 'missing version'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenObservationTemplateIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertResultTemplateRequest("service", "version"));
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing ObservationTemplate'"));
-
-        encoder.create(new InsertResultTemplateRequest("service", "version"));
+                " can not encode 'missing ObservationTemplate'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenOfferingIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            request = new InsertResultTemplateRequest("service", "version");
+            request.setObservationTemplate(new OmObservationConstellation());
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing offering'"));
-
-        request = new InsertResultTemplateRequest("service", "version");
-        request.setObservationTemplate(new OmObservationConstellation());
-        encoder.create(request);
+                " can not encode 'missing offering'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenResultStructureIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            request = new InsertResultTemplateRequest("service", "version");
+            request.setObservationTemplate(new OmObservationConstellation());
+            OmObservationConstellation observationTemplate = new OmObservationConstellation();
+            observationTemplate.addOffering(offering);
+            request.setObservationTemplate(observationTemplate);
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing resultStructure'"));
-
-        request = new InsertResultTemplateRequest("service", "version");
-        request.setObservationTemplate(new OmObservationConstellation());
-        OmObservationConstellation observationTemplate = new OmObservationConstellation();
-        observationTemplate.addOffering(offering);
-        request.setObservationTemplate(observationTemplate);
-        encoder.create(request);
+                " can not encode 'missing resultStructure'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenResultEncodingIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            request = new InsertResultTemplateRequest("service", "version");
+            request.setObservationTemplate(new OmObservationConstellation());
+            request.setResultStructure(new SosResultStructure(new SweDataRecord()));
+            OmObservationConstellation observationTemplate = new OmObservationConstellation();
+            observationTemplate.addOffering(offering);
+            request.setObservationTemplate(observationTemplate);
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertResultTemplateRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing resultEncoding'"));
-
-        request = new InsertResultTemplateRequest("service", "version");
-        request.setObservationTemplate(new OmObservationConstellation());
-        request.setResultStructure(new SosResultStructure(new SweDataRecord()));
-        OmObservationConstellation observationTemplate = new OmObservationConstellation();
-        observationTemplate.addOffering(offering);
-        request.setObservationTemplate(observationTemplate);
-        encoder.create(request);
+                " can not encode 'missing resultEncoding'", assertThrows.getMessage());
     }
 
     @Test
@@ -252,8 +248,8 @@ public class InsertResultTemplateRequestEncoderTest {
         InsertResultTemplateType encodedRequest = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate();
 
-        Assert.assertThat(encodedRequest.getService(), Is.is(SosConstants.SOS));
-        Assert.assertThat(encodedRequest.getVersion(), Is.is(Sos2Constants.SERVICEVERSION));
+        assertThat(encodedRequest.getService(), Is.is(SosConstants.SOS));
+        assertThat(encodedRequest.getVersion(), Is.is(Sos2Constants.SERVICEVERSION));
     }
 
     @Test
@@ -261,8 +257,8 @@ public class InsertResultTemplateRequestEncoderTest {
         ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
 
-        Assert.assertThat(template.isSetIdentifier(), Is.is(true));
-        Assert.assertThat(template.getIdentifier(), Is.is(templateIdentifier));
+        assertThat(template.isSetIdentifier(), Is.is(true));
+        assertThat(template.getIdentifier(), Is.is(templateIdentifier));
     }
 
     @Test
@@ -270,8 +266,8 @@ public class InsertResultTemplateRequestEncoderTest {
         ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
 
-        Assert.assertThat(template.getOffering(), Matchers.notNullValue());
-        Assert.assertThat(template.getOffering(), Is.is(offering));
+        assertThat(template.getOffering(), Matchers.notNullValue());
+        assertThat(template.getOffering(), Is.is(offering));
     }
 
     @Test
@@ -279,7 +275,7 @@ public class InsertResultTemplateRequestEncoderTest {
         ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
 
-        Assert.assertThat(template.getObservationTemplate(), Matchers.notNullValue());
+        assertThat(template.getObservationTemplate(), Matchers.notNullValue());
     }
 
     @Test
@@ -288,29 +284,29 @@ public class InsertResultTemplateRequestEncoderTest {
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
 
         ObservationTemplate observationTemplate = template.getObservationTemplate();
-        Assert.assertThat(observationTemplate, Matchers.notNullValue());
-        Assert.assertThat(observationTemplate, Matchers.instanceOf(ObservationTemplate.class));
+        assertThat(observationTemplate, Matchers.notNullValue());
+        assertThat(observationTemplate, Matchers.instanceOf(ObservationTemplate.class));
 
         OMObservationType omObservation = observationTemplate.getOMObservation();
-        Assert.assertThat(omObservation, Matchers.instanceOf(OMObservationType.class));
-        Assert.assertThat(omObservation.getType().getHref(), Is.is(OmConstants.OBS_TYPE_MEASUREMENT));
-        Assert.assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(false));
-        Assert.assertThat(omObservation.getPhenomenonTime().isSetNilReason(), Is.is(true));
-        Assert.assertThat(omObservation.getPhenomenonTime().getNilReason(), Is.is("template"));
-        Assert.assertThat(omObservation.getResultTime().isNil(), Is.is(false));
-        Assert.assertThat(omObservation.getResultTime().isSetNilReason(), Is.is(true));
-        Assert.assertThat(omObservation.getResultTime().getNilReason(), Is.is("template"));
-        Assert.assertThat(omObservation.getProcedure().isNil(), Is.is(false));
-        Assert.assertThat(omObservation.getProcedure().getHref(), Is.is(procedureIdentifier));
-        Assert.assertThat(omObservation.getObservedProperty().isNil(), Is.is(false));
-        Assert.assertThat(omObservation.getObservedProperty().getHref(), Is.is(observedProperty));
-        Assert.assertThat(omObservation.getFeatureOfInterest(), Matchers.notNullValue());
+        assertThat(omObservation, Matchers.instanceOf(OMObservationType.class));
+        assertThat(omObservation.getType().getHref(), Is.is(OmConstants.OBS_TYPE_MEASUREMENT));
+        assertThat(omObservation.getPhenomenonTime().isNil(), Is.is(false));
+        assertThat(omObservation.getPhenomenonTime().isSetNilReason(), Is.is(true));
+        assertThat(omObservation.getPhenomenonTime().getNilReason(), Is.is("template"));
+        assertThat(omObservation.getResultTime().isNil(), Is.is(false));
+        assertThat(omObservation.getResultTime().isSetNilReason(), Is.is(true));
+        assertThat(omObservation.getResultTime().getNilReason(), Is.is("template"));
+        assertThat(omObservation.getProcedure().isNil(), Is.is(false));
+        assertThat(omObservation.getProcedure().getHref(), Is.is(procedureIdentifier));
+        assertThat(omObservation.getObservedProperty().isNil(), Is.is(false));
+        assertThat(omObservation.getObservedProperty().getHref(), Is.is(observedProperty));
+        assertThat(omObservation.getFeatureOfInterest(), Matchers.notNullValue());
         XmlObject xmlObject = XmlObject.Factory.parse(omObservation.getFeatureOfInterest().newInputStream());
-        Assert.assertThat(xmlObject, Matchers.instanceOf(SFSamplingFeatureDocument.class));
+        assertThat(xmlObject, Matchers.instanceOf(SFSamplingFeatureDocument.class));
         SFSamplingFeatureType feature = ((SFSamplingFeatureDocument) xmlObject).getSFSamplingFeature();
-        Assert.assertThat(feature.getIdentifier().getStringValue(), Is.is(featureIdentifier));
-        Assert.assertThat(feature.getNameArray().length, Is.is(1));
-        Assert.assertThat(feature.getNameArray(0).getStringValue(), Is.is(featureName));
+        assertThat(feature.getIdentifier().getStringValue(), Is.is(featureIdentifier));
+        assertThat(feature.getNameArray().length, Is.is(1));
+        assertThat(feature.getNameArray(0).getStringValue(), Is.is(featureName));
     }
 
     @Test
@@ -320,13 +316,13 @@ public class InsertResultTemplateRequestEncoderTest {
 
         XmlHelper.validateDocument(template);
 
-        Assert.assertThat(template.getResultEncoding(), Matchers.notNullValue());
-        Assert.assertThat(template.getResultEncoding().getAbstractEncoding(), Matchers.notNullValue());
+        assertThat(template.getResultEncoding(), Matchers.notNullValue());
+        assertThat(template.getResultEncoding().getAbstractEncoding(), Matchers.notNullValue());
         AbstractEncodingType resultEncoding = template.getResultEncoding().getAbstractEncoding();
-        Assert.assertThat(resultEncoding, Matchers.instanceOf(TextEncodingType.class));
+        assertThat(resultEncoding, Matchers.instanceOf(TextEncodingType.class));
         TextEncodingType xbTextEncoding = (TextEncodingType) resultEncoding;
-        Assert.assertThat(xbTextEncoding.getBlockSeparator(), Is.is(blockSeparator));
-        Assert.assertThat(xbTextEncoding.getTokenSeparator(), Is.is(tokenSeparator));
+        assertThat(xbTextEncoding.getBlockSeparator(), Is.is(blockSeparator));
+        assertThat(xbTextEncoding.getTokenSeparator(), Is.is(tokenSeparator));
     }
 
     @Test
@@ -334,18 +330,18 @@ public class InsertResultTemplateRequestEncoderTest {
         ResultTemplateType template = ((InsertResultTemplateDocument) encoder.create(request))
                 .getInsertResultTemplate().getProposedTemplate().getResultTemplate();
 
-        Assert.assertThat(template.getResultStructure(), Matchers.notNullValue());
+        assertThat(template.getResultStructure(), Matchers.notNullValue());
         AbstractDataComponentType abstractDataComponent = template.getResultStructure().getAbstractDataComponent();
-        Assert.assertThat(abstractDataComponent, Matchers.notNullValue());
-        Assert.assertThat(abstractDataComponent, Matchers.instanceOf(DataRecordType.class));
+        assertThat(abstractDataComponent, Matchers.notNullValue());
+        assertThat(abstractDataComponent, Matchers.instanceOf(DataRecordType.class));
         DataRecordType xbResultStructure = (DataRecordType) abstractDataComponent;
-        Assert.assertThat(xbResultStructure.getFieldArray().length, Is.is(1));
-        Assert.assertThat(xbResultStructure.getFieldArray(0), Matchers.instanceOf(Field.class));
-        Assert.assertThat(xbResultStructure.getFieldArray(0).getName(), Is.is(field1Name));
-        Assert.assertThat(xbResultStructure.getFieldArray(0).getAbstractDataComponent(),
+        assertThat(xbResultStructure.getFieldArray().length, Is.is(1));
+        assertThat(xbResultStructure.getFieldArray(0), Matchers.instanceOf(Field.class));
+        assertThat(xbResultStructure.getFieldArray(0).getName(), Is.is(field1Name));
+        assertThat(xbResultStructure.getFieldArray(0).getAbstractDataComponent(),
                 Matchers.instanceOf(TimeType.class));
         TimeType xbTime = (TimeType) xbResultStructure.getFieldArray(0).getAbstractDataComponent();
-        Assert.assertThat(xbTime.getDefinition(), Is.is(field1Definition));
-        Assert.assertThat(xbTime.getUom().getCode(), Is.is(field1Uom));
+        assertThat(xbTime.getDefinition(), Is.is(field1Definition));
+        assertThat(xbTime.getUom().getCode(), Is.is(field1Uom));
     }
 }

@@ -16,20 +16,18 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 /**
  * @since 1.0.0
@@ -39,7 +37,7 @@ public class GmlV321EncoderTest {
 
     private GmlEncoderv321 encoder;
 
-    @Before
+    @BeforeEach
     public void setup() {
         EncoderRepository encoderRepository = new EncoderRepository();
         encoder = new GmlEncoderv321();
@@ -50,27 +48,33 @@ public class GmlV321EncoderTest {
         encoderRepository.init();
     }
 
-    @Test(expected = EncodingException.class)
+    @Test
     public void throwIAEForEncodeNullTest() throws EncodingException {
-        encoder.encode(null);
+        assertThrows(EncodingException.class, () -> {
+            encoder.encode(null);
+        });
     }
 
-    @Test(expected = UnsupportedEncoderInputException.class)
+    @Test
     public void isNullForNotSupportedObjectTest() throws OwsExceptionReport, EncodingException {
-        encoder.encode(5);
+        assertThrows(EncodingException.class, () -> {
+            encoder.encode(5);
+        });
     }
 
-    @Test(expected = EncodingException.class)
+    @Test
     public void throwsIllegalArgumentExceptionWhenConstructorValueNullTest() throws EncodingException {
-        QuantityValue quantity = new QuantityValue();
-        encoder.encode(quantity);
+        assertThrows(EncodingException.class, () -> {
+            QuantityValue quantity = new QuantityValue();
+            encoder.encode(quantity);
+        });
     }
 
     @Test
     public void isMeasureTypeValidWithoutUnitTest() throws OwsExceptionReport, EncodingException {
         QuantityValue quantity = new QuantityValue(2.2);
         XmlObject encode = encoder.encode(quantity);
-        assertTrue("Encoded Object is NOT valid", encode.validate());
+        assertTrue(encode.validate(), "Encoded Object is NOT valid");
     }
 
     @Test
@@ -78,7 +82,7 @@ public class GmlV321EncoderTest {
         QuantityValue quantity = new QuantityValue(2.2);
         quantity.setUnit("cm");
         XmlObject encode = encoder.encode(quantity);
-        assertTrue("Encoded Object is NOT valid", encode.validate());
+        assertTrue(encode.validate(), "Encoded Object is NOT valid");
     }
 
 }

@@ -17,9 +17,10 @@
 package org.n52.iceland.binding;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.svalbard.decode.DecoderKey;

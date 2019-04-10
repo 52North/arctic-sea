@@ -16,22 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
-
-import org.n52.shetland.ogc.sensorML.AbstractProcess;
-import org.n52.shetland.ogc.sensorML.System;
-import org.n52.shetland.ogc.sensorML.elements.SmlCapabilities;
-import org.n52.shetland.ogc.sensorML.elements.SmlCapabilitiesPredicates;
-import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.shetland.ogc.swe.SweField;
-import org.n52.shetland.ogc.swe.simpleType.SweText;
-
-import com.google.common.base.Optional;
-import com.google.common.collect.Sets;
-
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0

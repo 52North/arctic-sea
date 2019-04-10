@@ -17,10 +17,10 @@
 package org.n52.svalbard.decode;
 
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.List;
@@ -29,9 +29,8 @@ import java.util.stream.Stream;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
@@ -47,7 +46,7 @@ public class GetFeatureOfInterestResponseDecoderTest {
 
     private DecoderRepository decoderRepository;
 
-    @Before
+    @BeforeEach
     public void setup() {
 
         decoderRepository = new DecoderRepository();

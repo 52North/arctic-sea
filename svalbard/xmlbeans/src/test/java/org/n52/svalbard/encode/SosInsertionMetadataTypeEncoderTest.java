@@ -21,11 +21,11 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.SosInsertionMetadata;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -41,7 +41,7 @@ public class SosInsertionMetadataTypeEncoderTest {
 
     private SosInsertionMetadataTypeEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void prepare() {
         insertionMetadata = new SosInsertionMetadata();
         insertionMetadata.setObservationTypes(CollectionHelper.list("type-1", "type-2"));
@@ -54,10 +54,10 @@ public class SosInsertionMetadataTypeEncoderTest {
     public void shouldEncodeObservationTypes() throws EncodingException {
         SosInsertionMetadataType encoded = encoder.encode(insertionMetadata);
 
-        Assert.assertThat(encoded.getObservationTypeArray().length, Is.is(2));
+        MatcherAssert.assertThat(encoded.getObservationTypeArray().length, Is.is(2));
         List<String> observationTypes = Arrays.asList(encoded.getObservationTypeArray());
         Collections.sort(observationTypes);
-        Assert.assertThat(observationTypes, Matchers.contains("type-1", "type-2"));
+        MatcherAssert.assertThat(observationTypes, Matchers.contains("type-1", "type-2"));
     }
 
     @Test
@@ -67,9 +67,9 @@ public class SosInsertionMetadataTypeEncoderTest {
         encoder.setXmlOptions(() -> new XmlOptions());
         SosInsertionMetadataType encoded = encoder.encode(insertionMetadata);
 
-        Assert.assertThat(encoded.getFeatureOfInterestTypeArray().length, Is.is(2));
+        MatcherAssert.assertThat(encoded.getFeatureOfInterestTypeArray().length, Is.is(2));
         List<String> featureTypes = Arrays.asList(encoded.getFeatureOfInterestTypeArray());
-        Assert.assertThat(featureTypes, Matchers.containsInAnyOrder("f-type-1", "f-type-2"));
+        MatcherAssert.assertThat(featureTypes, Matchers.containsInAnyOrder("f-type-1", "f-type-2"));
     }
 
 }

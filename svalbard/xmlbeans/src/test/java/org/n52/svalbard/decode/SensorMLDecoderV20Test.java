@@ -16,34 +16,31 @@
  */
 package org.n52.svalbard.decode;
 
-import java.io.IOException;
-import java.io.InputStream;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
+
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.CoreMatchers;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.n52.shetland.ogc.sensorML.AbstractSensorML;
+import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
+import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
+import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import net.opengis.sensorml.x20.DataInterfaceType;
 import net.opengis.swe.x20.DataRecordPropertyType;
 import net.opengis.swe.x20.DataRecordType.Field;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlObject;
-
-import org.apache.xmlbeans.XmlOptions;
-import org.hamcrest.CoreMatchers;
-import static org.hamcrest.Matchers.*;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-import org.n52.shetland.ogc.sensorML.AbstractSensorML;
-import org.n52.shetland.ogc.sensorML.v20.AggregateProcess;
-
-import org.n52.shetland.ogc.sensorML.v20.SmlDataInterface;
-import org.n52.shetland.ogc.swe.SweDataRecord;
-import org.n52.svalbard.decode.exception.DecodingException;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>
@@ -52,12 +49,9 @@ import org.n52.svalbard.decode.exception.DecodingException;
  */
 public class SensorMLDecoderV20Test {
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
     private SensorMLDecoderV20 decoder;
 
-    @Before
+    @BeforeEach
     public void setup() {
         DecoderRepository decoderRepository = new DecoderRepository();
 
@@ -78,17 +72,17 @@ public class SensorMLDecoderV20Test {
     }
 
     @Test
-    @Ignore("not yet implemented")
+    @Disabled("not yet implemented")
     public void bla() throws IOException, XmlException, DecodingException {
         try (InputStream stream = SensorMLDecoderV20Test.class.getResourceAsStream("/AggregateProcess-dwd.xml")) {
             XmlObject object = XmlObject.Factory.parse(stream);
             AbstractSensorML ssml = decoder.decode(object);
-            errors.checkThat(ssml, is(instanceOf(AggregateProcess.class)));
+            assertThat(ssml, is(instanceOf(AggregateProcess.class)));
         }
     }
 
     @Test
-    @Ignore("not yet implemented")
+    @Disabled("not yet implemented")
     public void shouldDecodeDataInterface() throws DecodingException {
         DataInterfaceType xbDataInterface = DataInterfaceType.Factory.newInstance();
         SmlDataInterface parsedDataInterface = getDecoder().parseDataInterfaceType(xbDataInterface);
@@ -96,7 +90,7 @@ public class SensorMLDecoderV20Test {
     }
 
     @Test
-    @Ignore("not yet implemented")
+    @Disabled("not yet implemented")
     public void shouldDecodeDataInterfaceData() throws DecodingException {
         DataInterfaceType xbDataInterface = DataInterfaceType.Factory.newInstance();
         xbDataInterface.addNewData();
@@ -105,7 +99,7 @@ public class SensorMLDecoderV20Test {
     }
 
     @Test
-    @Ignore("not yet implemented")
+    @Disabled("not yet implemented")
     public void shouldDecodeDataInterfaceInterfaceParameters() throws DecodingException {
         DataInterfaceType xbDataInterface = DataInterfaceType.Factory.newInstance();
         DataRecordPropertyType xbInterfaceParameters = xbDataInterface.addNewInterfaceParameters();

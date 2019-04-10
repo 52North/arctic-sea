@@ -17,14 +17,12 @@
 package org.n52.shetland.ogc.om.features.samplingFeatures;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeatureComplex;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeatureComplex;
 
 /**
@@ -36,34 +34,46 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeatureComplex;
  */
 public class SamplingFeatureComplexTest {
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructor_should_throw_exception_when_role_is_not_provided_1() {
-        new SamplingFeatureComplex(null, new SamplingFeature(new CodeWithAuthority("test-feature")));
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SamplingFeatureComplex(null, new SamplingFeature(new CodeWithAuthority("test-feature")));
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructor_should_throw_exception_when_role_is_not_provided_2() {
-        new SamplingFeatureComplex("", new SamplingFeature(new CodeWithAuthority("test-feature")));
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SamplingFeatureComplex("", new SamplingFeature(new CodeWithAuthority("test-feature")));
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructor_should_throw_exception_when_feature_is_not_provided_1() {
-        new SamplingFeatureComplex("test-role", null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SamplingFeatureComplex("test-role", null);
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructor_should_throw_exception_when_feature_is_not_provided_2() {
-        new SamplingFeatureComplex("test-role", new SamplingFeature(null));
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SamplingFeatureComplex("test-role", new SamplingFeature(null));
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructor_should_throw_exception_when_feature_is_not_provided_3() {
-        new SamplingFeatureComplex(null, new SamplingFeature(new CodeWithAuthority(null)));
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SamplingFeatureComplex(null, new SamplingFeature(new CodeWithAuthority(null)));
+        });
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void constructor_should_throw_exception_when_feature_is_not_provided_4() {
-        new SamplingFeatureComplex(null, new SamplingFeature(new CodeWithAuthority("")));
+        assertThrows(IllegalArgumentException.class, () -> {
+            new SamplingFeatureComplex(null, new SamplingFeature(new CodeWithAuthority("")));
+        });
     }
 
     @Test

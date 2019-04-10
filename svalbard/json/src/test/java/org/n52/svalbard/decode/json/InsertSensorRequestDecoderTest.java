@@ -20,15 +20,15 @@ import static java.util.Collections.singleton;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.request.InsertSensorRequest;
@@ -57,7 +57,7 @@ public class InsertSensorRequestDecoderTest {
 
     private InsertSensorRequest req;
 
-    @Before
+    @BeforeEach
     public void setUp()
             throws DecodingException, IOException {
         DecoderRepository decoderRepository = new DecoderRepository();

@@ -24,19 +24,16 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.core.Is;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.gml.AbstractFeature;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
-import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.MultiObservationValues;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmConstants;
@@ -44,6 +41,7 @@ import org.n52.shetland.ogc.om.OmObservableProperty;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.om.TimeValuePair;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.series.DefaultPointMetadata;
 import org.n52.shetland.ogc.om.series.MeasurementTimeseriesMetadata;
 import org.n52.shetland.ogc.om.series.Metadata;
@@ -53,17 +51,17 @@ import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationTy
 import org.n52.shetland.ogc.om.values.MultiValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
+import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.svalbard.util.XmlHelper;
-import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
 
 import net.opengis.gml.x32.ReferenceType;
 import net.opengis.tsml.x10.PointMetadataDocument;
 import net.opengis.tsml.x10.TimeseriesMetadataType;
 import net.opengis.tsml.x10.TimeseriesTVPDocument;
 import net.opengis.tsml.x10.TimeseriesTVPType;
-import org.n52.shetland.ogc.om.values.CategoryValue;
 
 /**
  *
@@ -83,7 +81,7 @@ public class TsmlTVPEncoderv10Test {
     private static final String TOKEN_SEPERATOR = "##";
     private static final String TUPLE_SEPERATOR = "@@";
 
-    @Before
+    @BeforeEach
     public void initObjects() {
         encoder = new TsmlTVPEncoderv10();
         encoder.setXmlOptions(XmlOptions::new);
@@ -136,17 +134,17 @@ public class TsmlTVPEncoderv10Test {
     public void shouldSetDefaultCumulativeProperty() throws EncodingException {
         XmlObject encodedElement = encoder.encode(mv);
 
-        Assert.assertThat(encodedElement, CoreMatchers.instanceOf(TimeseriesTVPDocument.class));
+        MatcherAssert.assertThat(encodedElement, CoreMatchers.instanceOf(TimeseriesTVPDocument.class));
         final TimeseriesTVPDocument timeseriesDocument =
                 (TimeseriesTVPDocument) encodedElement;
-        Assert.assertThat(timeseriesDocument.getTimeseriesTVP().isSetMetadata(), Is.is(true));
-        Assert.assertThat(timeseriesDocument.getTimeseriesTVP().getMetadata().getTimeseriesMetadata(),
+        MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP().isSetMetadata(), Is.is(true));
+        MatcherAssert.assertThat(timeseriesDocument.getTimeseriesTVP().getMetadata().getTimeseriesMetadata(),
                 CoreMatchers.instanceOf(TimeseriesMetadataType.class));
         final TimeseriesMetadataType measurementTimeseriesMetadataType =
                 timeseriesDocument.getTimeseriesTVP().getMetadata()
                         .getTimeseriesMetadata();
-        Assert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
-        Assert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
+        MatcherAssert.assertThat(measurementTimeseriesMetadataType.isSetCumulative(), Is.is(true));
+        MatcherAssert.assertThat(measurementTimeseriesMetadataType.getCumulative(), Is.is(false));
     }
 
     @Test
@@ -155,7 +153,7 @@ public class TsmlTVPEncoderv10Test {
 
         XmlObject encodedElement = encoder.encode(mv);
 
-        Assert.assertThat(((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
+        MatcherAssert.assertThat(((TimeseriesTVPDocument) encodedElement).getTimeseriesTVP()
                 .getMetadata().getTimeseriesMetadata().getCumulative(), Is.is(true));
     }
 
@@ -174,9 +172,9 @@ public class TsmlTVPEncoderv10Test {
                 PointMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
         ReferenceType interpolationType =
                 tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
-        Assert.assertThat(interpolationType.getHref(),
+        MatcherAssert.assertThat(interpolationType.getHref(),
                 Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/MinPrec"));
-        Assert.assertThat(interpolationType.getTitle(), Is.is("MinPrec"));
+        MatcherAssert.assertThat(interpolationType.getTitle(), Is.is("MinPrec"));
     }
 
     @Test
@@ -189,16 +187,16 @@ public class TsmlTVPEncoderv10Test {
                 PointMetadataDocument.Factory.parse(defaultPointMetadata.xmlText());
         ReferenceType interpolationType =
                 tvpMeasurementMetadataDocument.getPointMetadata().getInterpolationType();
-        Assert.assertThat(interpolationType.getHref(),
+        MatcherAssert.assertThat(interpolationType.getHref(),
                 Is.is("http://www.opengis.net/def/timeseries/InterpolationCode/Continuous"));
-        Assert.assertThat(interpolationType.getTitle(), Is.is("Continuous"));
+        MatcherAssert.assertThat(interpolationType.getTitle(), Is.is("Continuous"));
     }
 
    @Test
     public void shouldEncodeOMObservation() throws EncodingException, XmlException, DecodingException {
         XmlObject encodedElement = encoder.encode(createObservation(), EncodingContext.of(XmlBeansEncodingFlags.DOCUMENT));
 
-        Assert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
+        MatcherAssert.assertThat(XmlHelper.validateDocument(encodedElement), Is.is(true));
     }
 
     private OmObservation createObservation() {

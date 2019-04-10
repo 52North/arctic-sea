@@ -16,13 +16,10 @@
  */
 package org.n52.shetland.ogc.gml.time;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import org.joda.time.DateTime;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -34,63 +31,64 @@ public class TimePeriodTest {
 
     @Test
     public void isEmptyForDefaultConstructorTest() {
-        assertTrue("new Timeperiod is NOT empty", new TimePeriod().isEmpty());
+        assertTrue(new TimePeriod().isEmpty(), "new Timeperiod is NOT empty");
     }
 
     @Test
     public void isEmptyForConstructorWithNullStartAndEndTimeTest() {
-        assertTrue("new TimePeriod(null, null) is NOT empty",
-                new TimePeriod((DateTime) null, (DateTime) null).isEmpty());
+        assertTrue(new TimePeriod((DateTime) null, (DateTime) null).isEmpty(),
+                "new TimePeriod(null, null) is NOT empty");
     }
 
     @Test
     public void isEmptyForConstructorWithAllNullTest() {
-        assertTrue("new TimePeriod(null, null, null) is NOT empty", new TimePeriod(null, null, null).isEmpty());
+        assertTrue(new TimePeriod(null, null, null).isEmpty(), "new TimePeriod(null, null, null) is NOT empty");
     }
 
     @Test
     public void isEmptyForConstructorWithNullStartAndEndTimeAndGmlIdTest() {
-        assertTrue("new TimePeriod(null, null, \"gmlId\") is NOT empty", new TimePeriod(null, null, "gmlId").isEmpty());
+        assertTrue(new TimePeriod(null, null, "gmlId").isEmpty(),
+                "new TimePeriod(null, null, \"gmlId\") is NOT empty");
     }
 
     @Test
     public void isEmptyForConstructorWithStartTimeAndNullEndTimeTest() {
-        assertFalse("new TimePeriod(new DateTime(), null) is empty", new TimePeriod(new DateTime(), null).isEmpty());
+        assertFalse(new TimePeriod(new DateTime(), null).isEmpty(), "new TimePeriod(new DateTime(), null) is empty");
     }
 
     @Test
     public void isEmptyForConstructorWithNullStartTimeAndEndTimeTest() {
-        assertFalse("new TimePeriod(null, ew DateTime()) is empty", new TimePeriod(null, new DateTime()).isEmpty());
+        assertFalse(new TimePeriod(null, new DateTime()).isEmpty(), "new TimePeriod(null, ew DateTime()) is empty");
     }
 
     @Test
     public void isEmptyForConstructorWithNullStartAndEndTimeInstantTest() {
-        assertTrue("new TimePeriod(null, null) is NOT empty",
-                new TimePeriod((TimeInstant) null, (TimeInstant) null).isEmpty());
+        assertTrue(new TimePeriod((TimeInstant) null, (TimeInstant) null).isEmpty(),
+                "new TimePeriod(null, null) is NOT empty");
     }
 
     @Test
     public void isSetStartTest() {
-        assertTrue("new TimePeriod(new DateTime(),null).isSetStart() == false",
-                new TimePeriod(new DateTime(), null).isSetStart());
+        assertTrue(new TimePeriod(new DateTime(), null).isSetStart(),
+                "new TimePeriod(new DateTime(),null).isSetStart() == false");
     }
 
     @Test
     public void isSetEndTest() {
-        assertTrue("new TimePeriod(null,new DateTime()).isSetEnd() == false",
-                new TimePeriod(null, new DateTime()).isSetEnd());
+        assertTrue(new TimePeriod(null, new DateTime()).isSetEnd(),
+                "new TimePeriod(null,new DateTime()).isSetEnd() == false");
     }
 
     @Test
     public void isSetStartTestTimeInstant() {
-        assertTrue("new TimePeriod(new DateTime(),null).isSetStart() == false", new TimePeriod(new TimeInstant(
-                new DateTime()), null).isSetStart());
+        assertTrue(new TimePeriod(new TimeInstant(new DateTime()), null).isSetStart(),
+                "new TimePeriod(new DateTime(),null).isSetStart() == false");
     }
 
     @Test
     public void isSetEndTestTimeInstant() {
-        assertTrue("new TimePeriod(null,new DateTime()).isSetEnd() == false", new TimePeriod(null, new TimeInstant(
-                new DateTime())).isSetEnd());
+        assertTrue(new TimePeriod(null, new TimeInstant(new DateTime())).isSetEnd(),
+                "new TimePeriod(null,new DateTime()).isSetEnd() == false");
     }
 
     @Test
@@ -99,25 +97,25 @@ public class TimePeriodTest {
 
         timePeriod.extendToContain(new TimeInstant(new DateTime()));
 
-        assertFalse("TimePeriod is emtpy after extending", timePeriod.isEmpty());
-        assertTrue("Start value not set", timePeriod.isSetStart());
-        assertTrue("End value not set", timePeriod.isSetEnd());
+        assertFalse(timePeriod.isEmpty(), "TimePeriod is emtpy after extending");
+        assertTrue(timePeriod.isSetStart(), "Start value not set");
+        assertTrue(timePeriod.isSetEnd(), "End value not set");
     }
 
     @Test
     public void shouldRemoveReferencPrefixForGetGmlIdTest() {
         TimePeriod timePeriod = new TimePeriod();
         timePeriod.setGmlId("#test");
-        assertTrue("GmlId starts with '#' for getGmlId()", !timePeriod.getGmlId().startsWith("#"));
+        assertTrue(!timePeriod.getGmlId().startsWith("#"), "GmlId starts with '#' for getGmlId()");
     }
 
     @Test
     public void isReferencedTest() {
         TimePeriod timePeriod = new TimePeriod();
         timePeriod.setGmlId("#test");
-        assertTrue("TimePeriod is NOT referenced", timePeriod.isReferenced());
+        assertTrue(timePeriod.isReferenced(), "TimePeriod is NOT referenced");
         timePeriod.setGmlId("test");
-        assertFalse("TimePeriod is referenced", timePeriod.isReferenced());
+        assertFalse(timePeriod.isReferenced(), "TimePeriod is referenced");
     }
 
     @Test
@@ -125,10 +123,11 @@ public class TimePeriodTest {
         TimePeriod timePeriod = new TimePeriod(null, IndeterminateValue.NOW, new DateTime(), null);
         DateTime beforeAccess = new DateTime();
         DateTime nowValue = timePeriod.resolveStart();
-        assertNotNull("TimePeriod start now value is null", nowValue);
-        assertTrue("TimePeriod start now value is too early", nowValue.isAfter(beforeAccess) || nowValue.isEqual(beforeAccess));
+        assertNotNull(nowValue, "TimePeriod start now value is null");
+        assertTrue(nowValue.isAfter(beforeAccess) || nowValue.isEqual(beforeAccess),
+                "TimePeriod start now value is too early");
         DateTime now = new DateTime();
-        assertTrue("TimePeriod start now value is too late", nowValue.isBefore(now) || nowValue.isEqual(now));
+        assertTrue(nowValue.isBefore(now) || nowValue.isEqual(now), "TimePeriod start now value is too late");
     }
 
     @Test
@@ -136,9 +135,11 @@ public class TimePeriodTest {
         DateTime beforeResolve = new DateTime();
         DateTime resolvedValue = new TimePeriod(new DateTime(), null, null, IndeterminateValue.NOW).resolveEnd();
         DateTime afterResolve = new DateTime();
-        assertNotNull("TimePeriod end now value is null", resolvedValue);
-        assertTrue("TimePeriod end now value is too early", resolvedValue.isAfter(beforeResolve) || resolvedValue.isEqual(beforeResolve));
-        assertTrue("TimePeriod end now value is too late", resolvedValue.isBefore(afterResolve)|| resolvedValue.isEqual(afterResolve));
+        assertNotNull(resolvedValue, "TimePeriod end now value is null");
+        assertTrue(resolvedValue.isAfter(beforeResolve) || resolvedValue.isEqual(beforeResolve),
+                "TimePeriod end now value is too early");
+        assertTrue(resolvedValue.isBefore(afterResolve) || resolvedValue.isEqual(afterResolve),
+                "TimePeriod end now value is too late");
     }
 
 }

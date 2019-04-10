@@ -19,12 +19,11 @@ package org.n52.shetland.ogc.wps;
 import org.n52.shetland.ogc.wps.Format;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 
 /**
  * TODO JavaDoc
@@ -32,20 +31,17 @@ import org.junit.rules.ErrorCollector;
  * @author Christian Autermann
  */
 public class FormatTest {
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
     @Test
     public void test() {
-        errors.checkThat(new Format("text/xml").isCompatible(new Format("application/xml")), is(true));
-        errors.checkThat(new Format("text/*").isCompatible(new Format("text/plain")), is(true));
-        errors.checkThat(new Format("text/xml", StandardCharsets.UTF_8).isCompatible(new Format("text/xml")), is(false));
-        errors.checkThat(new Format("text/xml", StandardCharsets.UTF_8).isCompatible(new Format("text/xml", StandardCharsets.UTF_8)), is(true));
-        errors.checkThat(new Format("text/xml", StandardCharsets.ISO_8859_1).isCompatible(new Format("text/xml", StandardCharsets.UTF_8)), is(false));
-        errors.checkThat(new Format("text/xml").isCompatible(new Format("text/xml", StandardCharsets.UTF_8)), is(true));
-        errors.checkThat(new Format("text/xml").isCompatible(new Format("text/xml", Format.BASE64_ENCODING)), is(false));
-        errors.checkThat(new Format("text/*").isCompatible(new Format("text/plain")), is(true));
-        errors.checkThat(new Format("*/*").isCompatible(new Format("text/*")), is(true));
-        errors.checkThat(new Format("*/*").isCompatible(new Format("*/*")), is(true));
+        assertThat(new Format("text/xml").isCompatible(new Format("application/xml")), is(true));
+        assertThat(new Format("text/*").isCompatible(new Format("text/plain")), is(true));
+        assertThat(new Format("text/xml", StandardCharsets.UTF_8).isCompatible(new Format("text/xml")), is(false));
+        assertThat(new Format("text/xml", StandardCharsets.UTF_8).isCompatible(new Format("text/xml", StandardCharsets.UTF_8)), is(true));
+        assertThat(new Format("text/xml", StandardCharsets.ISO_8859_1).isCompatible(new Format("text/xml", StandardCharsets.UTF_8)), is(false));
+        assertThat(new Format("text/xml").isCompatible(new Format("text/xml", StandardCharsets.UTF_8)), is(true));
+        assertThat(new Format("text/xml").isCompatible(new Format("text/xml", Format.BASE64_ENCODING)), is(false));
+        assertThat(new Format("text/*").isCompatible(new Format("text/plain")), is(true));
+        assertThat(new Format("*/*").isCompatible(new Format("text/*")), is(true));
+        assertThat(new Format("*/*").isCompatible(new Format("*/*")), is(true));
     }
 }

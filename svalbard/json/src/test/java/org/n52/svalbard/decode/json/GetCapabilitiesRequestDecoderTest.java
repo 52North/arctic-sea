@@ -19,14 +19,12 @@ package org.n52.svalbard.decode.json;
 import static com.github.fge.jackson.JsonLoader.fromResource;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -44,9 +42,8 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @since 1.0.0
  */
+@ExtendWith(ConfiguredSettingsManager.class)
 public class GetCapabilitiesRequestDecoderTest {
-    @ClassRule
-    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private static JsonNode json;
 
@@ -54,10 +51,7 @@ public class GetCapabilitiesRequestDecoderTest {
 
     private GetCapabilitiesRequest request;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         try {
             json = fromResource("/examples/sos/GetCapabilitiesRequest.json");
@@ -66,7 +60,7 @@ public class GetCapabilitiesRequestDecoderTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void before()
             throws DecodingException {
         this.decoder = new GetCapabilitiesRequestDecoder();

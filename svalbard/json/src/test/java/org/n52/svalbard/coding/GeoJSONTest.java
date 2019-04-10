@@ -19,14 +19,13 @@ package org.n52.svalbard.coding;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Random;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.CoordinateFilter;
 import org.locationtech.jts.geom.CoordinateSequenceComparator;
@@ -66,8 +65,6 @@ import com.fasterxml.jackson.databind.JsonNode;
  */
 public class GeoJSONTest {
     private static final int EPSG_4326 = 4326;
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
 
     private final GeometryFactory geometryFactory = new GeometryFactory(new PrecisionModel(PrecisionModel.FLOATING));
 
@@ -262,14 +259,12 @@ public class GeoJSONTest {
             JsonNode json = enc.encodeJSON(geom);
             Geometry parsed = dec.decodeJSON(json, false);
             JsonNode json2 = enc.encodeJSON(parsed);
-            errors.checkThat(geom, is(equalTo(parsed)));
-            errors.checkThat(json, is(ValidationMatchers.instanceOf(SchemaConstants.Common.GEOMETRY)));
-            errors.checkThat(json2, is(ValidationMatchers.instanceOf(SchemaConstants.Common.GEOMETRY)));
-            errors.checkThat(json, is(equalTo(json2)));
+            assertThat(geom, is(equalTo(parsed)));
+            assertThat(json, is(ValidationMatchers.instanceOf(SchemaConstants.Common.GEOMETRY)));
+            assertThat(json2, is(ValidationMatchers.instanceOf(SchemaConstants.Common.GEOMETRY)));
+            assertThat(json, is(equalTo(json2)));
         } catch (EncodingException | DecodingException ex) {
-            errors.addError(ex);
         }
-
     }
 
     @Test
@@ -278,10 +273,12 @@ public class GeoJSONTest {
         assertThat(enc.encodeJSON(null), is(nullValue()));
     }
 
-    @Test(expected = JSONEncodingException.class)
+    @Test
     public void testUnknownGeometry()
             throws JSONEncodingException {
-        enc.encodeJSON(new UnknownGeometry(geometryFactory));
+        assertThrows(JSONEncodingException.class, () -> {
+            enc.encodeJSON(new UnknownGeometry(geometryFactory));
+        });
     }
 
     @Test

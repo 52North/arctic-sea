@@ -33,13 +33,13 @@ package org.n52.iceland.statistics.impl.geolocation;
  * limitations under the License.
  */
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
 import org.n52.iceland.statistics.api.StatisticsLocationUtilSettingsKeys;
 import org.n52.iceland.statistics.api.interfaces.geolocation.IAdminStatisticsLocation.LocationDatabaseType;
@@ -53,14 +53,15 @@ public class StatisticsLocationUtilIT {
     private static String cityDb = null;
     private static StatisticsLocationUtil loc = new StatisticsLocationUtil();
 
-    @ClassRule
-    public static final TemporaryFolder folder = new TemporaryFolder();
+    @TempDir
+    static Path folder;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() {
-        GeoLiteFileDownloader.downloadDefaultDatabases(folder.getRoot().getAbsolutePath());
-        countryDb = folder.getRoot().getAbsolutePath() + "/country.mmdb";
-        cityDb = folder.getRoot().getAbsolutePath() + "/city.mmdb";
+        String root = folder.getParent().toAbsolutePath().toString();
+        GeoLiteFileDownloader.downloadDefaultDatabases(root);
+        countryDb = root + "/country.mmdb";
+        cityDb = root + "/city.mmdb";
     }
 
     @Test
@@ -68,11 +69,11 @@ public class StatisticsLocationUtilIT {
         StatisticsLocationUtil loc = new StatisticsLocationUtil();
         loc.setEnabled(true);
         loc.setAutoDownload(StatisticsLocationUtilSettingsKeys.DATABASE_DOWNLOADER_AUTO);
-        loc.setDownloadFolderPath(folder.newFolder("tmp").getAbsolutePath());
+        loc.setDownloadFolderPath(folder.resolve("tmp").toAbsolutePath().toString());
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_CITY);
 
         loc.init();
-        Assert.assertNotNull(loc.ip2SpatialData("67.20.172.183"));
+        Assertions.assertNotNull(loc.ip2SpatialData("67.20.172.183"));
     }
 
     @Test
@@ -85,7 +86,7 @@ public class StatisticsLocationUtilIT {
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_CITY);
 
         loc.init();
-        Assert.assertNotNull(loc.ip2SpatialData("67.20.172.183"));
+        Assertions.assertNotNull(loc.ip2SpatialData("67.20.172.183"));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class StatisticsLocationUtilIT {
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_COUNTRY);
 
         loc.init();
-        Assert.assertNotNull(loc.ip2SpatialData("67.20.172.183"));
+        Assertions.assertNotNull(loc.ip2SpatialData("67.20.172.183"));
     }
 
     @Test
@@ -111,7 +112,7 @@ public class StatisticsLocationUtilIT {
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_COUNTRY);
 
         loc.init();
-        Assert.assertNull(loc.ip2SpatialData("67.20.172.183"));
+        Assertions.assertNull(loc.ip2SpatialData("67.20.172.183"));
     }
 
     @Test
@@ -123,7 +124,7 @@ public class StatisticsLocationUtilIT {
         loc.setDbType(StatisticsLocationUtilSettingsKeys.DATABASE_TYPE_COUNTRY);
 
         loc.init();
-        Assert.assertNull(loc.ip2SpatialData("67.20.172.183"));
+        Assertions.assertNull(loc.ip2SpatialData("67.20.172.183"));
     }
 
     @Test
@@ -133,7 +134,7 @@ public class StatisticsLocationUtilIT {
         IPAddress ip = new IPAddress("67.20.172.183");
 
         Map<String, Object> map = loc.ip2SpatialData(ip);
-        Assert.assertEquals("US", map.get(ObjectEsParameterFactory.GEOLOC_COUNTRY_CODE.getName()));
+        Assertions.assertEquals("US", map.get(ObjectEsParameterFactory.GEOLOC_COUNTRY_CODE.getName()));
     }
 
     @Test
@@ -144,10 +145,10 @@ public class StatisticsLocationUtilIT {
 
         Map<String, Object> map = loc.ip2SpatialData(ip);
 
-        Assert.assertNotNull(map);
-        Assert.assertEquals("US", map.get(ObjectEsParameterFactory.GEOLOC_COUNTRY_CODE.getName()));
-        Assert.assertNotNull(map.get(ObjectEsParameterFactory.GEOLOC_CITY_NAME.getName()));
-        Assert.assertNotNull(map.get(ObjectEsParameterFactory.GEOLOC_GEO_POINT.getName()));
+        Assertions.assertNotNull(map);
+        Assertions.assertEquals("US", map.get(ObjectEsParameterFactory.GEOLOC_COUNTRY_CODE.getName()));
+        Assertions.assertNotNull(map.get(ObjectEsParameterFactory.GEOLOC_CITY_NAME.getName()));
+        Assertions.assertNotNull(map.get(ObjectEsParameterFactory.GEOLOC_GEO_POINT.getName()));
     }
 
     @Test
@@ -155,7 +156,7 @@ public class StatisticsLocationUtilIT {
         loc.setEnabled(true);
         loc.initDatabase(LocationDatabaseType.CITY, countryDb);
         IPAddress ip = new IPAddress("67.20.172.183");
-        Assert.assertNull(loc.ip2SpatialData(ip));
+        Assertions.assertNull(loc.ip2SpatialData(ip));
         // no harm done
     }
 
@@ -164,6 +165,6 @@ public class StatisticsLocationUtilIT {
         loc.setEnabled(true);
         loc.initDatabase(LocationDatabaseType.COUNTRY, countryDb);
         IPAddress ip = new IPAddress("127.0.0.1");
-        Assert.assertNull(loc.ip2SpatialData(ip));
+        Assertions.assertNull(loc.ip2SpatialData(ip));
     }
 }

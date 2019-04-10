@@ -16,22 +16,21 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+
+import org.apache.xmlbeans.XmlString;
+import org.junit.jupiter.api.Test;
+import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.decode.exception.DecodingException;
 
 import net.opengis.fes.x20.BinaryComparisonOpType;
 import net.opengis.fes.x20.FilterDocument;
 import net.opengis.fes.x20.FilterType;
 import net.opengis.fes.x20.LiteralType;
 import net.opengis.fes.x20.PropertyIsEqualToDocument;
-
-import org.apache.xmlbeans.XmlString;
-import org.junit.Test;
-import org.n52.svalbard.decode.FesDecoderv20;
-import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.shetland.ogc.filter.ComparisonFilter;
-import org.n52.shetland.ogc.filter.FilterConstants;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * FES 2.0 decoder test class

@@ -21,15 +21,13 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.om.OmObservationConstellation;
 import org.n52.shetland.ogc.sos.request.InsertResultTemplateRequest;
@@ -56,10 +54,7 @@ public class InsertResultTemplateRequestDecoderTest {
 
     private InsertResultTemplateRequestDecoder decoder;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-    @Before
+    @BeforeEach
     public void before() {
         DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new InsertResultTemplateRequestDecoder();
@@ -79,8 +74,8 @@ public class InsertResultTemplateRequestDecoderTest {
         assertThat(req.getResultEncoding().isEncoded(), is(false));
         assertThat(req.getResultEncoding().get().get(), is(instanceOf(SweTextEncoding.class)));
         SweTextEncoding encoding = (SweTextEncoding) req.getResultEncoding().get().get();
-        errors.checkThat(encoding.getTokenSeparator(), is(","));
-        errors.checkThat(encoding.getBlockSeparator(), is("#"));
+        assertThat(encoding.getTokenSeparator(), is(","));
+        assertThat(encoding.getBlockSeparator(), is("#"));
     }
 
     @Test
@@ -97,28 +92,28 @@ public class InsertResultTemplateRequestDecoderTest {
 
         SweField field1 = structure.getFields().get(0);
         assertThat(field1, is(notNullValue()));
-        errors.checkThat(field1.getName().getValue(), is("phenomenonTime"));
+        assertThat(field1.getName().getValue(), is("phenomenonTime"));
         assertThat(field1.getElement(), is(instanceOf(SweTimeRange.class)));
         SweTimeRange phenomenonTime = (SweTimeRange) field1.getElement();
-        errors.checkThat(phenomenonTime.getDefinition(),
+        assertThat(phenomenonTime.getDefinition(),
                 is("http://www.opengis.net/def/property/OGC/0/PhenomenonTime"));
-        errors.checkThat(phenomenonTime.getUom(), is("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"));
+        assertThat(phenomenonTime.getUom(), is("http://www.opengis.net/def/uom/ISO-8601/0/Gregorian"));
 
         SweField field2 = structure.getFields().get(1);
         assertThat(field2, is(notNullValue()));
-        errors.checkThat(field2.getName().getValue(), is("resultTime"));
+        assertThat(field2.getName().getValue(), is("resultTime"));
         assertThat(field2.getElement(), is(instanceOf(SweTime.class)));
         SweTime resultTime = (SweTime) field2.getElement();
-        errors.checkThat(resultTime.getDefinition(), is("http://www.opengis.net/def/property/OGC/0/ResultTime"));
-        errors.checkThat(resultTime.getUom(), is("testunit1"));
+        assertThat(resultTime.getDefinition(), is("http://www.opengis.net/def/property/OGC/0/ResultTime"));
+        assertThat(resultTime.getUom(), is("testunit1"));
 
         SweField field3 = structure.getFields().get(2);
         assertThat(field3, is(notNullValue()));
-        errors.checkThat(field3.getName().getValue(), is("observable_property_6"));
+        assertThat(field3.getName().getValue(), is("observable_property_6"));
         assertThat(field3.getElement(), is(instanceOf(SweQuantity.class)));
         SweQuantity quantity = (SweQuantity) field3.getElement();
-        errors.checkThat(quantity.getDefinition(), is("http://www.52north.org/test/observableProperty/6"));
-        errors.checkThat(quantity.getUom(), is("test_unit_6"));
+        assertThat(quantity.getDefinition(), is("http://www.52north.org/test/observableProperty/6"));
+        assertThat(quantity.getUom(), is("test_unit_6"));
     }
 
     @Test

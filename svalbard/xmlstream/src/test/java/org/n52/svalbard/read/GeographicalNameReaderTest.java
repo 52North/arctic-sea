@@ -17,6 +17,7 @@
 package org.n52.svalbard.read;
 
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
@@ -25,9 +26,7 @@ import java.net.URISyntaxException;
 
 import javax.xml.stream.XMLStreamException;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.inspire.GeographicalName;
 import org.n52.shetland.inspire.Spelling;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -41,9 +40,6 @@ import org.n52.svalbard.decode.exception.DecodingException;
  * @author Christian Autermann
  */
 public class GeographicalNameReaderTest {
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
     @Test
     public void test() throws UnsupportedEncodingException, XMLStreamException, URISyntaxException, DecodingException {
 
@@ -72,20 +68,20 @@ public class GeographicalNameReaderTest {
         GeographicalName gn = new GeographicalNameReader()
                 .read(new ByteArrayInputStream(xml.getBytes("UTF-8")));
 
-        errors.checkThat(gn.getGrammaticalGender(), is(Nillable.of(new CodeType("a", new URI("b")))));
-        errors.checkThat(gn.getGrammaticalNumber(), is(Nillable.of(new CodeType("c", new URI("d")))));
-        errors.checkThat(gn.getLanguage(), is(Nillable.of("eng")));
-        errors.checkThat(gn.getNativeness(), is(Nillable.of(new CodeType("<asdfasdf"))));
-        errors.checkThat(gn.getNameStatus(), is(Nillable.<CodeType>unknown()));
+        assertThat(gn.getGrammaticalGender(), is(Nillable.of(new CodeType("a", new URI("b")))));
+        assertThat(gn.getGrammaticalNumber(), is(Nillable.of(new CodeType("c", new URI("d")))));
+        assertThat(gn.getLanguage(), is(Nillable.of("eng")));
+        assertThat(gn.getNativeness(), is(Nillable.of(new CodeType("<asdfasdf"))));
+        assertThat(gn.getNameStatus(), is(Nillable.<CodeType>unknown()));
 
         for (Spelling sp : gn.getSpelling()) {
-            errors.checkThat(sp.getText(), is("asdfasdf"));
-            errors.checkThat(sp.getScript(), is(Nillable.of("asdfasdf")));
-            errors.checkThat(sp.getTransliterationScheme(), is(Nillable.of("asdfasdfasdf")));
+            assertThat(sp.getText(), is("asdfasdf"));
+            assertThat(sp.getScript(), is(Nillable.of("asdfasdf")));
+            assertThat(sp.getTransliterationScheme(), is(Nillable.of("asdfasdfasdf")));
         }
 
-        errors.checkThat(gn.getPronunciation().get().getIPA(), is(Nillable.of("asdfasdf")));
-        errors.checkThat(gn.getPronunciation().get().getSoundLink(), is(Nillable.of(URI.create("http://asdfasdf"))));
+        assertThat(gn.getPronunciation().get().getIPA(), is(Nillable.of("asdfasdf")));
+        assertThat(gn.getPronunciation().get().getSoundLink(), is(Nillable.of(URI.create("http://asdfasdf"))));
 
     }
 }

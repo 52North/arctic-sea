@@ -16,20 +16,18 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -37,10 +35,8 @@ import org.n52.svalbard.util.XmlHelper;
 
 public class GetDataAvailabilityRequestDecoderTest {
     private DecoderRepository decoderRepository;
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
 
-    @Before
+    @BeforeEach
     public void init() {
 
         this.decoderRepository = new DecoderRepository();
@@ -100,19 +96,19 @@ public class GetDataAvailabilityRequestDecoderTest {
         Class<? extends XmlObject> clazz = document.getClass();
         XmlNamespaceDecoderKey key = new XmlNamespaceDecoderKey(namespace, clazz);
         Decoder<GetDataAvailabilityRequest, XmlObject> decoder = decoderRepository.getDecoder(key);
-        Assert.assertNotNull(decoder);
+        assertNotNull(decoder);
         return decoder;
 
     }
 
     private void checkRequest(GetDataAvailabilityRequest request, String namespace) {
-        errors.checkThat(request, is(notNullValue()));
-        errors.checkThat(request.getNamespace(), is(namespace));
-        errors.checkThat(request.getResponseFormat(), is(namespace));
-        errors.checkThat(request.getFeaturesOfInterest(), contains("featureOfInterest1", "featureOfInterest2"));
-        errors.checkThat(request.getOfferings(), contains("offering1", "offering2"));
-        errors.checkThat(request.getProcedures(), contains("procedure1", "procedure2"));
-        errors.checkThat(request.getObservedProperties(), contains("observedProperty1", "observedProperty2"));
+        assertThat(request, is(notNullValue()));
+        assertThat(request.getNamespace(), is(namespace));
+        assertThat(request.getResponseFormat(), is(namespace));
+        assertThat(request.getFeaturesOfInterest(), contains("featureOfInterest1", "featureOfInterest2"));
+        assertThat(request.getOfferings(), contains("offering1", "offering2"));
+        assertThat(request.getProcedures(), contains("procedure1", "procedure2"));
+        assertThat(request.getObservedProperties(), contains("observedProperty1", "observedProperty2"));
     }
 
 }

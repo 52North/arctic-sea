@@ -16,16 +16,17 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.drt.DeleteResultTemplateRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderInputException;
@@ -48,7 +49,7 @@ public class DeleteResultTemplateDecoderTest {
 
     private DeleteResultTemplateType drtt;
 
-    @Before
+    @BeforeEach
     public void setup() {
         DecoderRepository decoderRepository = new DecoderRepository();
 
@@ -65,57 +66,53 @@ public class DeleteResultTemplateDecoderTest {
         drtt.setVersion("test-version");
     }
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+    @Test
+    public void shouldThrowExceptionOnWrongInput() throws DecodingException {
+        UnsupportedDecoderInputException assertThrows = assertThrows(UnsupportedDecoderInputException.class, () -> {
+            decoder.decode(XmlObject.Factory.newInstance());
+        });
+        assertEquals("Decoder " + decoder.getClass().getSimpleName() + " can not decode '"
+                + XmlObject.Factory.newInstance().getClass().getName() + "'", assertThrows.getMessage());
+    }
 
+    @Test
+    public void shouldDecodeServiceAndVersion() throws DecodingException {
+        addResultTemplate();
 
-//    @Test
-//    public void shouldThrowExceptionOnWrongInput() throws DecodingException {
-//        thrown.expect(UnsupportedDecoderInputException.class);
-//        thrown.expectMessage(
-//                "null can not be decoded by " + decoder.getClass().getName() + " because it is not yet implemented!");
-//
-//        decoder.decode(XmlObject.Factory.newInstance());
-//    }
-//
-//    @Test
-//    public void shouldDecodeServiceAndVersion() throws DecodingException {
-//        addResultTemplate();
-//
-//        DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
-//
-//        Assert.assertThat(decodedRequest.getService(), Is.is("test-service"));
-//        Assert.assertThat(decodedRequest.getVersion(), Is.is("test-version"));
-//    }
-//
-//    @Test
-//    public void shouldDecodeResultTemplates() throws DecodingException {
-//        addResultTemplate();
-//
-//        DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
-//
-//        Assert.assertThat(decodedRequest.isSetResultTemplates(), Is.is(true));
-//        Assert.assertThat(decodedRequest.getResultTemplates().size(), Is.is(1));
-//        Assert.assertThat(decodedRequest.getResultTemplates().get(0), Is.is("test-template"));
-//    }
-//
-//    @Test
-//    public void shouldDecodeObservedPropertyOfferingTuples() throws DecodingException {
-//        addObservedPropertyOfferingTuple();
-//
-//        DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
-//
-//        Assert.assertThat(decodedRequest.isSetObservedPropertyOfferingPairs(), Is.is(true));
-//        Assert.assertThat(decodedRequest.getObservedPropertyOfferingPairs().size(), Is.is(1));
-//        Assert.assertThat(decodedRequest.getObservedPropertyOfferingPairs().get(0).getKey(), Is.is("test-property"));
-//        Assert.assertThat(decodedRequest.getObservedPropertyOfferingPairs().get(0).getValue(), Is.is("test-offering"));
-//    }
-//
-//    private void addObservedPropertyOfferingTuple() {
-//        Tuple t = drtt.addNewTuple();
-//        t.setOffering("test-offering");
-//        t.setObservedProperty("test-property");
-//    }
+        DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
+
+        assertThat(decodedRequest.getService(), Is.is("test-service"));
+        assertThat(decodedRequest.getVersion(), Is.is("test-version"));
+    }
+
+    @Test
+    public void shouldDecodeResultTemplates() throws DecodingException {
+        addResultTemplate();
+
+        DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
+
+        assertThat(decodedRequest.isSetResultTemplates(), Is.is(true));
+        assertThat(decodedRequest.getResultTemplates().size(), Is.is(1));
+        assertThat(decodedRequest.getResultTemplates().get(0), Is.is("test-template"));
+    }
+
+    @Test
+    public void shouldDecodeObservedPropertyOfferingTuples() throws DecodingException {
+        addObservedPropertyOfferingTuple();
+
+        DeleteResultTemplateRequest decodedRequest = decoder.decode(encodedRequest);
+
+        assertThat(decodedRequest.isSetObservedPropertyOfferingPairs(), Is.is(true));
+        assertThat(decodedRequest.getObservedPropertyOfferingPairs().size(), Is.is(1));
+        assertThat(decodedRequest.getObservedPropertyOfferingPairs().get(0).getKey(), Is.is("test-property"));
+        assertThat(decodedRequest.getObservedPropertyOfferingPairs().get(0).getValue(), Is.is("test-offering"));
+    }
+
+    private void addObservedPropertyOfferingTuple() {
+        Tuple t = drtt.addNewTuple();
+        t.setOffering("test-offering");
+        t.setObservedProperty("test-property");
+    }
 
     private void addResultTemplate() {
         drtt.addNewResultTemplate().setStringValue("test-template");

@@ -18,16 +18,11 @@ package org.n52.janmayen.net;
 
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 
 public class ProxyChainTest {
-
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
 
     @Test
     public void shouldReturnNullOnInvalidIPv4() {
@@ -75,11 +70,11 @@ public class ProxyChainTest {
     }
 
     private void isInvalid(String addr) {
-        errors.checkThat(ProxyChain.getIPAddress(addr), is(nullValue()));
+        assertThat(ProxyChain.getIPAddress(addr), is(nullValue()));
     }
 
     private void isValid(String input, String expected) {
-        errors.checkThat(ProxyChain.getIPAddress(input).toString(), is(expected));
+        assertThat(ProxyChain.getIPAddress(input).toString(), is(expected));
     }
 
 }

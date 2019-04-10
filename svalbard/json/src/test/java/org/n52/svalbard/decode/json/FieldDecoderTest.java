@@ -20,16 +20,13 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.n52.janmayen.Json;
 import org.n52.shetland.ogc.swe.SweField;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
@@ -60,9 +57,8 @@ import com.github.fge.jsonschema.core.report.ProcessingReport;
  *
  * @since 1.0.0
  */
+@ExtendWith(ConfiguredSettingsManager.class)
 public class FieldDecoderTest {
-    @ClassRule
-    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private static final String DEFINITION = "definition";
 
@@ -96,8 +92,6 @@ public class FieldDecoderTest {
 
     private static final String CATEGORY_VALUE = "category";
 
-    private final ErrorCollector errors = new ErrorCollector();
-
     private DateTime timeStart;
 
     private DateTime timeEnd;
@@ -106,7 +100,7 @@ public class FieldDecoderTest {
 
     private FieldDecoder decoder;
 
-    @Before
+    @BeforeEach
     public void before()
             throws DecodingException {
         this.decoder = new FieldDecoder();
@@ -123,7 +117,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweCount.class)));
         SweCount swe = (SweCount) field.getElement();
-        errors.checkThat(swe.getValue(), is(COUNT_VALUE_START));
+        assertThat(swe.getValue(), is(COUNT_VALUE_START));
     }
 
     @Test
@@ -142,7 +136,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweBoolean.class)));
         SweBoolean swe = (SweBoolean) field.getElement();
-        errors.checkThat(swe.getValue(), is(true));
+        assertThat(swe.getValue(), is(true));
     }
 
     @Test
@@ -153,7 +147,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweBoolean.class)));
         SweBoolean swe = (SweBoolean) field.getElement();
-        errors.checkThat(swe.getValue(), is(false));
+        assertThat(swe.getValue(), is(false));
     }
 
     @Test
@@ -173,8 +167,8 @@ public class FieldDecoderTest {
         assertThat(field.getElement(), is(instanceOf(SweCountRange.class)));
         SweCountRange swe = (SweCountRange) field.getElement();
         assertThat(swe.getValue(), is(notNullValue()));
-        errors.checkThat(swe.getValue().getRangeStart(), is(COUNT_VALUE_START));
-        errors.checkThat(swe.getValue().getRangeEnd(), is(COUNT_VALUE_END));
+        assertThat(swe.getValue().getRangeStart(), is(COUNT_VALUE_START));
+        assertThat(swe.getValue().getRangeEnd(), is(COUNT_VALUE_END));
     }
 
     @Test
@@ -195,7 +189,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweObservableProperty.class)));
         SweObservableProperty swe = (SweObservableProperty) field.getElement();
-        errors.checkThat(swe.getValue(), is(OBSERVED_PROPERTY_VALUE));
+        assertThat(swe.getValue(), is(OBSERVED_PROPERTY_VALUE));
     }
 
     @Test
@@ -205,7 +199,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweObservableProperty.class)));
         SweObservableProperty swe = (SweObservableProperty) field.getElement();
-        errors.checkThat(swe.getValue(), is(nullValue()));
+        assertThat(swe.getValue(), is(nullValue()));
     }
 
     @Test
@@ -216,7 +210,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweText.class)));
         SweText swe = (SweText) field.getElement();
-        errors.checkThat(swe.getValue(), is(TEXT_VALUE));
+        assertThat(swe.getValue(), is(TEXT_VALUE));
     }
 
     @Test
@@ -226,7 +220,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweText.class)));
         SweText swe = (SweText) field.getElement();
-        errors.checkThat(swe.getValue(), is(nullValue()));
+        assertThat(swe.getValue(), is(nullValue()));
     }
 
     @Test
@@ -237,8 +231,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweQuantity.class)));
         SweQuantity swe = (SweQuantity) field.getElement();
-        errors.checkThat(swe.getValue().doubleValue(), is(QUANTITY_VALUE_START));
-        errors.checkThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue().doubleValue(), is(QUANTITY_VALUE_START));
+        assertThat(swe.getUom(), is(UOM));
     }
 
     @Test
@@ -249,7 +243,7 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweQuantity.class)));
         SweQuantity swe = (SweQuantity) field.getElement();
-        errors.checkThat(swe.getUom(), is(UOM));
+        assertThat(swe.getUom(), is(UOM));
     }
 
     @Test
@@ -261,10 +255,10 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweQuantityRange.class)));
         SweQuantityRange swe = (SweQuantityRange) field.getElement();
-        errors.checkThat(swe.getUom(), is(UOM));
-        errors.checkThat(swe.getValue(), is(notNullValue()));
-        errors.checkThat(swe.getValue().getRangeStart().doubleValue(), is(QUANTITY_VALUE_START));
-        errors.checkThat(swe.getValue().getRangeEnd().doubleValue(), is(QUANTITY_VALUE_END));
+        assertThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue(), is(notNullValue()));
+        assertThat(swe.getValue().getRangeStart().doubleValue(), is(QUANTITY_VALUE_START));
+        assertThat(swe.getValue().getRangeEnd().doubleValue(), is(QUANTITY_VALUE_END));
     }
 
     @Test
@@ -275,8 +269,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweQuantityRange.class)));
         SweQuantityRange swe = (SweQuantityRange) field.getElement();
-        errors.checkThat(swe.getUom(), is(UOM));
-        errors.checkThat(swe.getValue(), is(nullValue()));
+        assertThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue(), is(nullValue()));
     }
 
     @Test
@@ -287,8 +281,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweTime.class)));
         SweTime swe = (SweTime) field.getElement();
-        errors.checkThat(swe.getValue(), is(timeStart));
-        errors.checkThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue(), is(timeStart));
+        assertThat(swe.getUom(), is(UOM));
     }
 
     @Test
@@ -298,8 +292,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweTime.class)));
         SweTime swe = (SweTime) field.getElement();
-        errors.checkThat(swe.getValue(), is(nullValue()));
-        errors.checkThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue(), is(nullValue()));
+        assertThat(swe.getUom(), is(UOM));
     }
 
     @Test
@@ -311,10 +305,10 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweTimeRange.class)));
         SweTimeRange swe = (SweTimeRange) field.getElement();
-        errors.checkThat(swe.getUom(), is(UOM));
-        errors.checkThat(swe.getValue(), is(notNullValue()));
-        errors.checkThat(swe.getValue().getRangeStart(), is(timeStart));
-        errors.checkThat(swe.getValue().getRangeEnd(), is(timeEnd));
+        assertThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue(), is(notNullValue()));
+        assertThat(swe.getValue().getRangeStart(), is(timeStart));
+        assertThat(swe.getValue().getRangeEnd(), is(timeEnd));
 
     }
 
@@ -326,8 +320,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweTimeRange.class)));
         SweTimeRange swe = (SweTimeRange) field.getElement();
-        errors.checkThat(swe.getUom(), is(UOM));
-        errors.checkThat(swe.getValue(), is(nullValue()));
+        assertThat(swe.getUom(), is(UOM));
+        assertThat(swe.getValue(), is(nullValue()));
 
     }
 
@@ -339,8 +333,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, true);
         assertThat(field.getElement(), is(instanceOf(SweCategory.class)));
         SweCategory swe = (SweCategory) field.getElement();
-        errors.checkThat(swe.getValue(), is(CATEGORY_VALUE));
-        errors.checkThat(swe.getCodeSpace(), is(CODESPACE));
+        assertThat(swe.getValue(), is(CATEGORY_VALUE));
+        assertThat(swe.getCodeSpace(), is(CODESPACE));
     }
 
     @Test
@@ -351,8 +345,8 @@ public class FieldDecoderTest {
         SweField field = checkCommon(json, false);
         assertThat(field.getElement(), is(instanceOf(SweCategory.class)));
         SweCategory swe = (SweCategory) field.getElement();
-        errors.checkThat(swe.getValue(), is(nullValue()));
-        errors.checkThat(swe.getCodeSpace(), is(CODESPACE));
+        assertThat(swe.getValue(), is(nullValue()));
+        assertThat(swe.getCodeSpace(), is(CODESPACE));
     }
 
     protected SweField validateWithValueAndDecode(ObjectNode json, boolean withValue)
@@ -376,17 +370,13 @@ public class FieldDecoderTest {
             throws DecodingException {
         SweField field = validateWithValueAndDecode(json, withValue);
         assertThat(field, is(notNullValue()));
-        errors.checkThat(field.getName().getValue(), is(NAME));
+        assertThat(field.getName().getValue(), is(NAME));
         assertThat(field.getElement(), is(notNullValue()));
-        errors.checkThat(field.getElement().getDefinition(), is(DEFINITION));
-        errors.checkThat(field.getElement().getDescription(), is(DESCRIPTION));
-        errors.checkThat(field.getElement().getIdentifier(), is(IDENTIFIER));
-        errors.checkThat(field.getElement().getLabel(), is(LABEL));
+        assertThat(field.getElement().getDefinition(), is(DEFINITION));
+        assertThat(field.getElement().getDescription(), is(DESCRIPTION));
+        assertThat(field.getElement().getIdentifier(), is(IDENTIFIER));
+        assertThat(field.getElement().getLabel(), is(LABEL));
         return field;
     }
 
-    @Rule
-    public ErrorCollector getErrorCollectorRule() {
-        return errors;
-    }
 }

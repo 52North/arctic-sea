@@ -17,12 +17,12 @@
 package org.n52.shetland.ogc.swe;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.swe.SweConstants.SweCoordinateNames;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;

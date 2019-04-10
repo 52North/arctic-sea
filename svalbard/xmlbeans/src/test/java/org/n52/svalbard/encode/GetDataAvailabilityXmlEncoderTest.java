@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
 import java.util.Arrays;
@@ -25,11 +26,8 @@ import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.ISODateTimeFormat;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
@@ -43,11 +41,9 @@ import org.n52.svalbard.encode.exception.EncodingException;
  * @author Christian Autermann
  */
 public class GetDataAvailabilityXmlEncoderTest {
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
     private GetDataAvailabilityXmlEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void init() {
         encoder = new GetDataAvailabilityXmlEncoder();
         EncoderRepository encoderRepository = new EncoderRepository();
@@ -84,7 +80,7 @@ public class GetDataAvailabilityXmlEncoderTest {
 
         //System.out.println(encoded.xmlText());
 
-        errors.checkThat(encoded.xmlText(), is(String
+        assertThat(encoded.xmlText(), is(String
                          .format("<gda:GetDataAvailabilityResponse xsi:schemaLocation=\"http://www.opengis.net/sosgda/1.0 http://waterml2.org/schemas/gda/1.0/gda.xsd\" " +
                                  "xmlns:gda=\"http://www.opengis.net/sosgda/1.0\" " +
                                  "xmlns:gml=\"http://www.opengis.net/gml/3.2\" " +

@@ -135,15 +135,15 @@
     
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <version.spring>5.1.3.RELEASE</version.spring>
-        <version.slf4j>1.7.25</version.slf4j>
+        <version.spring>5.1.6.RELEASE</version.spring>
+        <version.slf4j>1.7.26</version.slf4j>
         <version.jackson>2.9.8</version.jackson>
-        <version.xmlbeans>3.0.2</version.xmlbeans>
+        <version.xmlbeans>3.1.0</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
         <version.n52CommonXML>2.6.1</version.n52CommonXML>
         <version.olingo>4.5.0</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
-        <version.spotbugs>3.1.8</version.spotbugs>
+        <version.spotbugs>3.1.12</version.spotbugs>
         <version.javax-annotation-api>1.3.2</version.javax-annotation-api>            
         <version.javax-xml-soap>1.4.0</version.javax-xml-soap>
     </properties>
@@ -333,6 +333,7 @@
             
             
             <!-- Testing --> 
+            <!-- 
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
@@ -344,9 +345,33 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+             -->
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.4.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>5.4.1</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-params</artifactId>
+                <version>5.4.1</version>
+                <scope>test</scope>
+            </dependency>
             <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-all</artifactId>
+                <version>1.3</version>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-core</artifactId>
                 <version>1.3</version>
             </dependency>
             <dependency>
@@ -363,13 +388,18 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>2.23.0</version>
+                <version>2.26.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.hamcrest</groupId>
                         <artifactId>hamcrest-core</artifactId>
                     </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>2.26.0</version>
             </dependency>
             <dependency>
                 <groupId>xmlunit</groupId>
@@ -883,6 +913,19 @@
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-sossf-v10</artifactId>
                 <version>${version.n52CommonXML}</version>
+            </dependency>
+            
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-surefire-provider</artifactId>
+                <version>1.3.2</version>
+                <scope>test</scope>
+                <exclusions>
+                  <exclusion>
+                  <groupId>org.junit.platform</groupId>
+                  <artifactId>junit-platform-commons</artifactId>
+                  </exclusion>
+                </exclusions>
             </dependency>
         </dependencies>
     </dependencyManagement>

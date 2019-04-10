@@ -18,7 +18,7 @@ package org.n52.svalbard.encode.json;
 
 import java.net.URISyntaxException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.n52.janmayen.Json;
 import org.n52.shetland.aqd.EReportingHeader;

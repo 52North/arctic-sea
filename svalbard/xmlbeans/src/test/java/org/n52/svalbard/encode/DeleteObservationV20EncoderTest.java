@@ -16,29 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static java.lang.Boolean.TRUE;
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.n52.janmayen.http.MediaTypes;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
-import org.n52.shetland.ogc.sos.delobs.DeleteObservationResponse;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-
-import net.opengis.sosdo.x20.DeleteObservationResponseDocument;
-
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>

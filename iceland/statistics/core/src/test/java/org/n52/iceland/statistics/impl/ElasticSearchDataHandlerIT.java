@@ -22,8 +22,8 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.elasticsearch.action.search.SearchResponse;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
 
 public class ElasticSearchDataHandlerIT extends ElasticsearchAwareTest {
@@ -42,6 +42,6 @@ public class ElasticSearchDataHandlerIT extends ElasticsearchAwareTest {
         Thread.sleep(2500);
 
         SearchResponse response = getEmbeddedClient().prepareSearch(clientSettings.getIndexId()).setTypes(clientSettings.getTypeId()).get();
-        Assert.assertEquals("korte", response.getHits().getHits()[0].getSource().get("alma"));
+        Assertions.assertEquals("korte", response.getHits().getHits()[0].getSource().get("alma"));
     }
 }

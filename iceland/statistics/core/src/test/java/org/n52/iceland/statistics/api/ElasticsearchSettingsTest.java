@@ -16,10 +16,14 @@
  */
 package org.n52.iceland.statistics.api;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import org.n52.faroe.ConfigurationError;
+import org.n52.svalbard.encode.exception.EncodingException;
 
 public class ElasticsearchSettingsTest {
 
@@ -27,31 +31,33 @@ public class ElasticsearchSettingsTest {
     public void checkSingleClusterNodes() {
         ElasticsearchSettings s = new ElasticsearchSettings();
         s.setClusterNodes("localhost");
-        Assert.assertEquals(1, s.getClusterNodes().size());
+        Assertions.assertEquals(1, s.getClusterNodes().size());
 
         s.setClusterNodes("localhost:1234");
-        Assert.assertEquals(1, s.getClusterNodes().size());
+        Assertions.assertEquals(1, s.getClusterNodes().size());
     }
 
-    @Test(
-            expected = ConfigurationError.class)
+    @Test
     public void emptyClusterNodesException() {
-        ElasticsearchSettings s = new ElasticsearchSettings();
-        s.setClusterNodes("");
+        assertThrows(ConfigurationError.class, () -> {
+            ElasticsearchSettings s = new ElasticsearchSettings();
+            s.setClusterNodes("");
+        });
     }
 
     @Test
     public void multipleClusterNodes() {
         ElasticsearchSettings s = new ElasticsearchSettings();
         s.setClusterNodes("picsanadrag.ru,localhost:7894,lofaszjanos:789");
-        Assert.assertEquals(3, s.getClusterNodes().size());
+        Assertions.assertEquals(3, s.getClusterNodes().size());
     }
 
-    @Test(
-            expected = ConfigurationError.class)
+    @Test
     public void multipleClusterNodesException() {
-        ElasticsearchSettings s = new ElasticsearchSettings();
-        s.setClusterNodes("abcd,localhost:notnumber,lofaszjanos:789");
+        assertThrows(ConfigurationError.class, () -> {
+            ElasticsearchSettings s = new ElasticsearchSettings();
+            s.setClusterNodes("abcd,localhost:notnumber,lofaszjanos:789");
+        });
     }
 
 }

@@ -17,18 +17,16 @@
 package org.n52.svalbard.coding.json;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.n52.svalbard.coding.json.matchers.ValidationMatchers.validSchema;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.fge.jackson.JsonLoader;
@@ -40,7 +38,6 @@ import com.github.fge.jackson.JsonLoader;
  *
  * @since 1.0.0
  */
-@RunWith(Parameterized.class)
 public class JSONSchemaValidationTest {
     private static final String[] SCHEMATA = { "BaseObservation", "CategoryObservation", "CodeType",
             "ComplexObservation", "CountObservation", "Envelope", "ExceptionReport", "FeatureOfInterest", "Field",
@@ -57,25 +54,13 @@ public class JSONSchemaValidationTest {
             "sos/response/GetResult", "sos/response/GetResultTemplate", "sos/response/UpdateSensorDescription",
             "sos/response/DeleteSensor", "sos/response/DescribeSensor", "sos/response/GetCapabilities" };
 
-    private String name;
-
-    private JsonNode schema;
-
-    public JSONSchemaValidationTest(String name) {
-        this.name = name;
-    }
-
-    @Before
-    public void setUp() throws IOException {
-        schema = JsonLoader.fromResource("/schema/" + name + ".json");
-    }
-
-    @Test
-    public void isValidSchema() throws IOException {
+    @ParameterizedTest
+    @MethodSource("schemata")
+    public void isValidSchema(String name) throws IOException {
+        JsonNode schema = JsonLoader.fromResource("/schema/" + name + ".json");
         assertThat(name + " is not valid", schema, is(validSchema()));
     }
 
-    @Parameters(name = "{0}")
     public static List<String[]> schemata() {
         String[][] params = new String[SCHEMATA.length][];
         for (int i = 0; i < params.length; ++i) {

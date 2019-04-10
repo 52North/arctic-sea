@@ -23,7 +23,7 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
 import org.n52.svalbard.encode.EncoderFlags;
 import org.n52.svalbard.encode.EncoderRepository;
