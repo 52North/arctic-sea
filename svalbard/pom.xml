@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>arctic-sea</artifactId>
-        <version>6.0.0</version>
+        <version>6.1.0-SNAPSHOT</version>
     </parent>
     <artifactId>svalbard-parent</artifactId>
     <packaging>pom</packaging>
