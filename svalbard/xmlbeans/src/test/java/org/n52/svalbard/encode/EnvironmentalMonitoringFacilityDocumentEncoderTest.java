@@ -16,17 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-
-import org.apache.xmlbeans.XmlObject;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-import org.n52.svalbard.encode.exception.EncodingException;
-
-import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityDocument;
-
 public class EnvironmentalMonitoringFacilityDocumentEncoderTest
         extends AbstractEnvironmentalMonitoringFacilityEncoderTest {
 //

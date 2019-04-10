@@ -20,7 +20,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.rules.ExternalResource;
+import org.junit.jupiter.api.extension.AfterTestExecutionCallback;
+import org.junit.jupiter.api.extension.BeforeTestExecutionCallback;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,21 +33,19 @@ import org.slf4j.LoggerFactory;
  *
  * @since 1.0.0
  */
-public class ConfiguredSettingsManager
-        extends ExternalResource {
+public class ConfiguredSettingsManager implements BeforeTestExecutionCallback, AfterTestExecutionCallback {
     private static final Logger LOG = LoggerFactory.getLogger(ConfiguredSettingsManager.class);
 
     private File tempDir;
 
     @Override
-    protected void before()
-            throws Throwable {
-        createDirectory();
+    public void afterTestExecution(ExtensionContext context) throws Exception {
+        deleteDirectory();
     }
 
     @Override
-    protected void after() {
-        deleteDirectory();
+    public void beforeTestExecution(ExtensionContext context) throws Exception {
+        createDirectory();
     }
 
     protected void createDirectory()

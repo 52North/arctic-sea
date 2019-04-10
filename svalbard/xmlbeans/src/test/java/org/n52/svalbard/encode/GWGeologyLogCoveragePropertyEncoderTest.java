@@ -17,32 +17,26 @@
 package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.ogc.gwml.GWMLConstants;
 import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.ProfileLevel;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.Value;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
 
 import com.google.common.collect.Lists;
@@ -53,7 +47,7 @@ public class GWGeologyLogCoveragePropertyEncoderTest {
 
     private GWGeologyLogCoveragePropertyTypeEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void setup() {
         EncoderRepository encoderRepository = new EncoderRepository();
         encoder = new GWGeologyLogCoveragePropertyTypeEncoder();

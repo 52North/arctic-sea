@@ -21,15 +21,14 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.n52.shetland.util.DateTimeHelper.parseIsoString2DateTime;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.ClassRule;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmConstants;
@@ -49,9 +48,9 @@ import com.fasterxml.jackson.databind.JsonNode;
  *
  * @since 1.0.0
  */
+@ExtendWith(ConfiguredSettingsManager.class)
 public class CategoryObservationDecodingTest {
-    @ClassRule
-    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
+
 
     private static DateTime phenomenonTime;
 
@@ -61,7 +60,7 @@ public class CategoryObservationDecodingTest {
 
     private OmObservation observation;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() {
         try {
             json = fromResource("/examples/category-observation.json");
@@ -71,7 +70,7 @@ public class CategoryObservationDecodingTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void before()
             throws DecodingException {
         this.decoder = new ObservationDecoder();

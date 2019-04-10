@@ -18,20 +18,20 @@ package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.fes.x20.BBOXType;
-
 import org.apache.xmlbeans.XmlObject;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Envelope;
+import org.locationtech.jts.geom.GeometryFactory;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
@@ -41,16 +41,13 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.encode.EncoderKey;
-import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.FesEncoderv20;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 
 import com.google.common.collect.Maps;
-import org.locationtech.jts.geom.Envelope;
-import org.locationtech.jts.geom.GeometryFactory;
+
+import net.opengis.fes.x20.BBOXType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -113,11 +110,14 @@ public class FesEncoderv20Test {
         assertThat(schemLoc.getSchemaFileUrl(), is("http://schemas.opengis.net/filter/2.0/filterAll.xsd"));
     }
 
-    @Test(expected = UnsupportedEncoderInputException.class)
+    @Test
     public final void should_return_exception_if_received_null() throws OwsExceptionReport, EncodingException {
-        fesEncoder.encode(null);
-        fesEncoder.encode(null, null);
-        fesEncoder.encode(null, EncodingContext.empty());
+        assertThrows(UnsupportedEncoderInputException.class, () -> {
+            fesEncoder.encode(null);
+            fesEncoder.encode(null, null);
+            fesEncoder.encode(null, EncodingContext.empty());
+        });
+
     }
 
     // @Test

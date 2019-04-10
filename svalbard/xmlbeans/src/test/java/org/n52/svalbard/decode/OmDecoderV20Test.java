@@ -16,22 +16,19 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
 
 import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.SingleObservationValue;
 import org.n52.shetland.ogc.om.values.ComplexValue;
@@ -104,13 +101,9 @@ public class OmDecoderV20Test {
                "</om:OM_Observation>";
     }
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-
     private OmDecoderv20 omDecoderv20;
 
-    @Before
+    @BeforeEach
     public void setup() {
         DecoderRepository decoderRepository = new DecoderRepository();
 
@@ -160,17 +153,17 @@ public class OmDecoderV20Test {
         SweField field4 = dataRecord.getFields().get(3);
         SweField field5 = dataRecord.getFields().get(4);
 
-        errors.checkThat(field1.getElement().getDefinition(), is("http://example.tld/phenomenon/child/1"));
-        errors.checkThat(field2.getElement().getDefinition(), is("http://example.tld/phenomenon/child/2"));
-        errors.checkThat(field3.getElement().getDefinition(), is("http://example.tld/phenomenon/child/3"));
-        errors.checkThat(field4.getElement().getDefinition(), is("http://example.tld/phenomenon/child/4"));
-        errors.checkThat(field5.getElement().getDefinition(), is("http://example.tld/phenomenon/child/5"));
+        assertThat(field1.getElement().getDefinition(), is("http://example.tld/phenomenon/child/1"));
+        assertThat(field2.getElement().getDefinition(), is("http://example.tld/phenomenon/child/2"));
+        assertThat(field3.getElement().getDefinition(), is("http://example.tld/phenomenon/child/3"));
+        assertThat(field4.getElement().getDefinition(), is("http://example.tld/phenomenon/child/4"));
+        assertThat(field5.getElement().getDefinition(), is("http://example.tld/phenomenon/child/5"));
 
-        errors.checkThat(field1.getElement().getDataComponentType(), is(SweDataComponentType.Quantity));
-        errors.checkThat(field2.getElement().getDataComponentType(), is(SweDataComponentType.Boolean));
-        errors.checkThat(field3.getElement().getDataComponentType(), is(SweDataComponentType.Count));
-        errors.checkThat(field4.getElement().getDataComponentType(), is(SweDataComponentType.Text));
-        errors.checkThat(field5.getElement().getDataComponentType(), is(SweDataComponentType.Category));
+        assertThat(field1.getElement().getDataComponentType(), is(SweDataComponentType.Quantity));
+        assertThat(field2.getElement().getDataComponentType(), is(SweDataComponentType.Boolean));
+        assertThat(field3.getElement().getDataComponentType(), is(SweDataComponentType.Count));
+        assertThat(field4.getElement().getDataComponentType(), is(SweDataComponentType.Text));
+        assertThat(field5.getElement().getDataComponentType(), is(SweDataComponentType.Category));
 
     }
 }

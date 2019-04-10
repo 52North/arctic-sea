@@ -16,9 +16,9 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -29,8 +29,8 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.extension.Extensions;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
@@ -44,7 +44,7 @@ import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
 public class GetFeatureOfInterestXmlStreamWriterTest extends AbstractMetadataTest {
     private EncoderRepository encoderRepository;
 
-    @Before
+    @BeforeEach
     public void init() {
         encoderRepository = new EncoderRepository();
 

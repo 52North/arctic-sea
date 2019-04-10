@@ -18,18 +18,18 @@ package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -37,11 +37,6 @@ import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.DescribeSensorResponse;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.encode.DescribeSensorResponseEncoder;
-import org.n52.svalbard.encode.EncoderKey;
-import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.OperationResponseEncoderKey;
-import org.n52.svalbard.encode.XmlEncoderKey;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
@@ -106,10 +101,12 @@ public class DescribeSensorResponseEncoderTest {
         assertThat(schemLoc.getSchemaFileUrl(), is("http://schemas.opengis.net/swes/2.0/swes.xsd"));
     }
 
-    @Test(expected = UnsupportedEncoderInputException.class)
+    @Test
     public void should_return_exception_if_received_null() throws OwsExceptionReport, EncodingException {
-        new DescribeSensorResponseEncoder().encode(null);
-        new DescribeSensorResponseEncoder().encode(null, new ByteArrayOutputStream());
-        new DescribeSensorResponseEncoder().encode(null, EncodingContext.empty());
+        assertThrows(UnsupportedEncoderInputException.class, () -> {
+            new DescribeSensorResponseEncoder().encode(null);
+            new DescribeSensorResponseEncoder().encode(null, new ByteArrayOutputStream());
+            new DescribeSensorResponseEncoder().encode(null, EncodingContext.empty());
+        });
     }
 }

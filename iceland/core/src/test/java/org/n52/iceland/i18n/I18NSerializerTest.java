@@ -19,13 +19,11 @@ package org.n52.iceland.i18n;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 
 import org.n52.janmayen.i18n.MultilingualString;
 
@@ -35,11 +33,6 @@ import org.n52.janmayen.i18n.MultilingualString;
  * @author Christian Autermann
  */
 public class I18NSerializerTest {
-
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testSingle() {
@@ -59,12 +52,12 @@ public class I18NSerializerTest {
     }
 
     private void test(MultilingualString string) {
-        errors.checkThat(string, is(notNullValue()));
+        assertThat(string, is(notNullValue()));
         String encoded = new I18NSerializer().encode(string);
         //System.out.println(encoded);
-        errors.checkThat(encoded.isEmpty(), is(string.isEmpty()));
+        assertThat(encoded.isEmpty(), is(string.isEmpty()));
         MultilingualString decoded = new I18NSerializer().decode(encoded);
-        errors.checkThat(decoded, is(equalTo(string)));
+        assertThat(decoded, is(equalTo(string)));
     }
 
 }

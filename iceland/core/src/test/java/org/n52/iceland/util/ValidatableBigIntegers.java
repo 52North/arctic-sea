@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 package org.n52.iceland.util;
-
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  *
@@ -31,37 +31,43 @@ public class ValidatableBigIntegers {
     @Test
     public void validPositive() {
         PositiveBigInteger pbi = new PositiveBigInteger("52");
-        Assert.assertThat(pbi.intValue(), is(equalTo(52)));
+        assertThat(pbi.intValue(), is(equalTo(52)));
     }
 
     @Test
     public void validNonNegative() {
         NonNegativeBigInteger nnbi = new NonNegativeBigInteger("52");
-        Assert.assertThat(nnbi.intValue(), is(equalTo(52)));
+        assertThat(nnbi.intValue(), is(equalTo(52)));
 
         nnbi = new NonNegativeBigInteger("0");
-        Assert.assertThat(nnbi.intValue(), is(equalTo(0)));
+        assertThat(nnbi.intValue(), is(equalTo(0)));
     }
 
     @Test
     public void validNonNegativeZero() {
         NonNegativeBigInteger nnbi = new NonNegativeBigInteger("0");
-        Assert.assertThat(nnbi.intValue(), is(equalTo(0)));
+        assertThat(nnbi.intValue(), is(equalTo(0)));
     }
 
-    @Test (expected = IllegalArgumentException.class )
+    @Test
     public void invalidPositive() {
-        PositiveBigInteger pbi = new PositiveBigInteger("-1");
+        assertThrows(IllegalArgumentException.class, () -> {
+            PositiveBigInteger pbi = new PositiveBigInteger("-1");
+        });
     }
 
-    @Test (expected = IllegalArgumentException.class )
+    @Test
     public void invalidPositiveZero() {
-        PositiveBigInteger pbi = new PositiveBigInteger("0");
+        assertThrows(IllegalArgumentException.class, () -> {
+            PositiveBigInteger pbi = new PositiveBigInteger("0");
+        });
     }
 
-    @Test (expected = IllegalArgumentException.class )
+    @Test
     public void invalidNonNegative() {
-        NonNegativeBigInteger nnbi = new NonNegativeBigInteger("-1");
+        assertThrows(IllegalArgumentException.class, () -> {
+            NonNegativeBigInteger nnbi = new NonNegativeBigInteger("-1");
+        });
     }
 
 }

@@ -19,13 +19,12 @@ package org.n52.svalbard;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.n52.svalbard.read.XmlReader;
 
 public class XmlBeansGenerator extends AbstractXmlBeansGenerator {
 
-    @Ignore
     @Test
     public void test() {
         SortedSet<String> set = new TreeSet<>();

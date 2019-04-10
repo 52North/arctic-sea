@@ -21,9 +21,10 @@ import org.n52.shetland.ogc.filter.FilterConstants;
 
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
@@ -41,15 +42,15 @@ public class ComparisonFilterTest {
         original.setWildCard("wild");
         ComparisonFilter copy = original.copy();
 
-        Assert.assertThat(copy.getEscapeString(), is(original.getEscapeString()));
-        Assert.assertThat(copy.getSingleChar(), is(original.getSingleChar()));
-        Assert.assertThat(copy.getValue(), is(original.getValue()));
-        Assert.assertThat(copy.getValueReference(), is(original.getValueReference()));
-        Assert.assertThat(copy.getValueUpper(), is(original.getValueUpper()));
-        Assert.assertThat(copy.getWildCard(), is(original.getWildCard()));
+        assertThat(copy.getEscapeString(), is(original.getEscapeString()));
+        assertThat(copy.getSingleChar(), is(original.getSingleChar()));
+        assertThat(copy.getValue(), is(original.getValue()));
+        assertThat(copy.getValueReference(), is(original.getValueReference()));
+        assertThat(copy.getValueUpper(), is(original.getValueUpper()));
+        assertThat(copy.getWildCard(), is(original.getWildCard()));
 
-        Assert.assertThat(copy, is(not(original)));
-        Assert.assertThat("copy is not equal to original, equal to is not implemented", not(copy.equals(original)));
+        assertThat(copy, is(not(original)));
+        assertThat("copy is not equal to original, equal to is not implemented", not(copy.equals(original)));
     }
 
 }

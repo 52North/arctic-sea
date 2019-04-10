@@ -18,12 +18,10 @@ package org.n52.iceland.converter;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Ignore;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.n52.iceland.convert.RequestResponseModifierKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
@@ -34,29 +32,26 @@ public class RequestResponseModifierKeyTypeTest {
     private final OwsServiceRequest request = new RequestImpl();
     private final OwsServiceResponse response = new ResponseImpl();
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
     @Test
     public void testHashCode() {
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode())));
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode())));
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, getModifiedRequest()).hashCode())));
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, getModifiedRequest(), getModifiedResponse()).hashCode())));
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode())));
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode())));
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, getModifiedRequest()).hashCode())));
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response).hashCode(), is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, getModifiedRequest(), getModifiedResponse()).hashCode())));
 
     }
 
     @Test
-    @Ignore("sounds like this would offend the equals contract...")
+    @Disabled("sounds like this would offend the equals contract...")
     public void testEquals() {
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request),
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request),
                          is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request))));
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
                          is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response))));
         // for production
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
                          is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request))));
-        errors.checkThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
+        assertThat(new RequestResponseModifierKey(SERVICE, VERSION, request, response),
                          is(equalTo(new RequestResponseModifierKey(SERVICE, VERSION, request, response))));
     }
 

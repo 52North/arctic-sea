@@ -24,9 +24,8 @@ import javax.inject.Inject;
 import org.apache.commons.io.IOUtils;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.search.SearchHit;
-import org.junit.Assert;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
 import org.n52.iceland.statistics.impl.ElasticsearchAdminHandler;
@@ -48,29 +47,28 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
                                        StandardCharsets.UTF_8);
         new KibanaImporter(getEmbeddedClient(), ".kibana", "my-index").importJson(json);
         Thread.sleep(1500);
-        Assert.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
+        Assertions.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
 
         SearchResponse resp = getEmbeddedClient().prepareSearch(".kibana").setTypes("visualization").get();
-        Assert.assertTrue(resp.getHits().getTotalHits() > 0);
+        Assertions.assertTrue(resp.getHits().getTotalHits() > 0);
 
         for (SearchHit hit : resp.getHits().getHits()) {
-            Assert.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
+            Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
         }
 
         SearchResponse resp2 = getEmbeddedClient().prepareSearch(".kibana").setTypes("dashboard").get();
-        Assert.assertTrue(resp2.getHits().getTotalHits() > 0);
+        Assertions.assertTrue(resp2.getHits().getTotalHits() > 0);
 
         for (SearchHit hit : resp2.getHits().getHits()) {
-            Assert.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
+            Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
         }
     }
 
-    @Test(
-            expected = JsonParseException.class)
+    @Test
     public void importInvalidJson() throws InterruptedException, JsonParseException, JsonMappingException, IOException {
         new KibanaImporter(getEmbeddedClient(), "local-index", "").importJson("semmi latnivali nincs itt");
         Thread.sleep(1500);
-        Assert.assertFalse(getEmbeddedClient().prepareExists(".kibana").get().exists());
+        Assertions.assertFalse(getEmbeddedClient().prepareExists(".kibana").get().exists());
     }
 
     @Test
@@ -78,7 +76,7 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
         settings.setKibanaConfigEnable(true);
         admin.init();
 
-        Assert.assertFalse(settings.isKibanaConfigEnable());
+        Assertions.assertFalse(settings.isKibanaConfigEnable());
     }
 
 }

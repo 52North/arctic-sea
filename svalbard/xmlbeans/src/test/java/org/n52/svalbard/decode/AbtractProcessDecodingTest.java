@@ -18,7 +18,7 @@ package org.n52.svalbard.decode;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,9 +26,7 @@ import java.util.Arrays;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.inspire.ompr.Process;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -38,10 +36,7 @@ public abstract class AbtractProcessDecodingTest {
     private final String file = "/process.xml";
     private ProcessDocumentDecoder decoder;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-    @Before
+    @BeforeEach
     public void initDecoder() {
         DecoderRepository decoderRepository = new DecoderRepository();
         Producer<XmlOptions> options = () -> new XmlOptions();

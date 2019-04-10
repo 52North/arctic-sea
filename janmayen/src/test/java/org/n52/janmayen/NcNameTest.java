@@ -16,9 +16,10 @@
  */
 package org.n52.janmayen;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class NcNameTest {
 
@@ -31,14 +32,18 @@ public class NcNameTest {
         assertEquals(fixedString, NcName.makeValid(needsFixString));
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void shouldThrowIllegalArgumentExceptionOnEmptyStringInput() {
-        NcName.makeValid("");
+        assertThrows(IllegalArgumentException.class, () -> {
+            NcName.makeValid("");
+        });
     }
 
-    @Test(expected=IllegalArgumentException.class)
+    @Test
     public void shouldThrowIllegalArgumentExceptionOnNullInput() {
-        NcName.makeValid(null);
+        assertThrows(IllegalArgumentException.class, () -> {
+            NcName.makeValid(null);
+        });
     }
 
     @Test

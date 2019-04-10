@@ -205,10 +205,14 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
             throws EncodingException {
         if (objectToEncode instanceof AbstractObservationResponse) {
             AbstractObservationResponse aor = (AbstractObservationResponse) objectToEncode;
-            if (aor.getObservationCollection() != null) {
-                return encodeGetObsResponse(aor);
-            } else {
-                return createEmptyFile();
+            try {
+                if (aor.getObservationCollection() != null && aor.getObservationCollection().hasNext()) {
+                    return encodeGetObsResponse(aor);
+                } else {
+                    return createEmptyFile();
+                }
+            } catch (OwsExceptionReport e) {
+                throw new EncodingException(e);
             }
         }
         throw new UnsupportedEncoderInputException(this, objectToEncode);

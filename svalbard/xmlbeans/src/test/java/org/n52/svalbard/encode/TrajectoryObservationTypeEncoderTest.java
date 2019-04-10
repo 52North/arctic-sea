@@ -17,9 +17,9 @@
 package org.n52.svalbard.encode;
 
 import static java.lang.Boolean.TRUE;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,8 +30,8 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.inspire.ompr.Process;
@@ -65,7 +65,7 @@ public class TrajectoryObservationTypeEncoderTest extends AbtractProcessDecoding
     private static final String CODE_SPACE = "codespace";
     private TrajectoryObservationTypeEncoder encoder;
 
-    @Before
+    @BeforeEach
     public void setup() {
         super.initDecoder();
         encoder = new TrajectoryObservationTypeEncoder();

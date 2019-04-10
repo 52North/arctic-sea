@@ -18,7 +18,7 @@ package org.n52.svalbard.encode;
 
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,28 +26,24 @@ import java.util.Arrays;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.Producer;
+import org.n52.shetland.inspire.ompr.Process;
 import org.n52.svalbard.decode.AbtractProcessDecodingTest;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessDocument;
 import eu.europa.ec.inspire.schemas.ompr.x30.ProcessType;
-import org.n52.shetland.inspire.ompr.Process;
 
 public class ProcessDocumentEncoderTest extends AbtractProcessDecodingTest {
 
     private ProcessDocumentEncoder docEncoder;
     private ProcessTypeEncoder typeEncoder;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
 
-    @Before
+    @BeforeEach
     public void initDecoder() {
         super.initDecoder();
         EncoderRepository encoderRepository = new EncoderRepository();

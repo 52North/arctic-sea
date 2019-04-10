@@ -18,11 +18,10 @@ package org.n52.shetland.ogc.om;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.values.GeometryValue;

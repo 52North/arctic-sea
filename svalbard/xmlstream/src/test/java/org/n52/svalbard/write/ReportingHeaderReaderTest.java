@@ -18,16 +18,14 @@ package org.n52.svalbard.write;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
 
-import org.apache.xmlbeans.XmlOptions;
 import org.joda.time.DateTime;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.aqd.EReportingChange;
 import org.n52.shetland.aqd.EReportingHeader;
 import org.n52.shetland.inspire.GeographicalName;
@@ -55,9 +53,6 @@ import org.n52.svalbard.read.ReportingHeaderReader;
  * @author Christian Autermann
  */
 public class ReportingHeaderReaderTest {
-
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
 
     @Test
     public void testValidity() throws Exception {
@@ -162,40 +157,38 @@ public class ReportingHeaderReaderTest {
             ByteArrayInputStream in = new ByteArrayInputStream(baos.toByteArray());
             EReportingHeader read = new ReportingHeaderReader().read(in);
 
-            errors.checkThat(read.getChange(), is(equalTo(header.getChange())));
-            errors.checkThat(read.getContent(), is(equalTo(header.getContent())));
-            errors.checkThat(read.getDelete(), is(equalTo(header.getDelete())));
-            errors.checkThat(read.getInspireID(), is(equalTo(header.getInspireID())));
-            errors.checkThat(read.getReportingPeriod(), is(equalTo(header.getReportingPeriod())));
-            errors.checkThat(read.getReportingAuthority(), is(equalTo(header.getReportingAuthority())));
-            errors.checkThat(read.getReportingAuthority().getIndividualName(),
+            assertThat(read.getChange(), is(equalTo(header.getChange())));
+            assertThat(read.getContent(), is(equalTo(header.getContent())));
+            assertThat(read.getDelete(), is(equalTo(header.getDelete())));
+            assertThat(read.getInspireID(), is(equalTo(header.getInspireID())));
+            assertThat(read.getReportingPeriod(), is(equalTo(header.getReportingPeriod())));
+            assertThat(read.getReportingAuthority(), is(equalTo(header.getReportingAuthority())));
+            assertThat(read.getReportingAuthority().getIndividualName(),
                              is(header.getReportingAuthority().getIndividualName()));
-            errors.checkThat(read.getReportingAuthority().getOrganisationName().get(),
+            assertThat(read.getReportingAuthority().getOrganisationName().get(),
                              is(header.getReportingAuthority().getOrganisationName().get()));
-            errors.checkThat(read.getReportingAuthority().getPositionName().get(),
+            assertThat(read.getReportingAuthority().getPositionName().get(),
                              is(header.getReportingAuthority().getPositionName().get()));
             Contact c1 = read.getReportingAuthority().getContact().get();
             Contact c2 = header.getReportingAuthority().getContact().get();
-            errors.checkThat(c1, is(c2));
-            errors.checkThat(c1.getContactInstructions(), is(c2.getContactInstructions()));
-            errors.checkThat(c1.getElectronicMailAddress(), is(c2.getElectronicMailAddress()));
-            errors.checkThat(c1.getHoursOfService().get(), is(c2.getHoursOfService().get()));
-            errors.checkThat(c1.getTelephoneFacsimile(), is(c2.getTelephoneFacsimile()));
-            errors.checkThat(c1.getTelephoneVoice(), is(c2.getTelephoneVoice()));
-            errors.checkThat(c1.getWebsite(), is(c2.getWebsite()));
+            assertThat(c1, is(c2));
+            assertThat(c1.getContactInstructions(), is(c2.getContactInstructions()));
+            assertThat(c1.getElectronicMailAddress(), is(c2.getElectronicMailAddress()));
+            assertThat(c1.getHoursOfService().get(), is(c2.getHoursOfService().get()));
+            assertThat(c1.getTelephoneFacsimile(), is(c2.getTelephoneFacsimile()));
+            assertThat(c1.getTelephoneVoice(), is(c2.getTelephoneVoice()));
+            assertThat(c1.getWebsite(), is(c2.getWebsite()));
             AddressRepresentation a1 = c1.getAddress().get();
             AddressRepresentation a2 = c2.getAddress().get();
 
-            errors.checkThat(a1.getAddressAreas(), is(a2.getAddressAreas()));
-            errors.checkThat(a1.getAddressFeature(), is(a2.getAddressFeature()));
-            errors.checkThat(a1.getAdminUnits(), is(a2.getAdminUnits()));
-            errors.checkThat(a1.getLocatorDesignators(), is(a2.getLocatorDesignators()));
-            errors.checkThat(a1.getLocatorNames(), is(a2.getLocatorNames()));
-            errors.checkThat(a1.getPostCode(), is(a2.getPostCode()));
-            errors.checkThat(a1.getPostNames(), is(a2.getPostNames()));
-            errors.checkThat(a1.getThoroughfares(), is(a2.getThoroughfares()));
-        } catch (Exception e) {
-           errors.addError(e);
+            assertThat(a1.getAddressAreas(), is(a2.getAddressAreas()));
+            assertThat(a1.getAddressFeature(), is(a2.getAddressFeature()));
+            assertThat(a1.getAdminUnits(), is(a2.getAdminUnits()));
+            assertThat(a1.getLocatorDesignators(), is(a2.getLocatorDesignators()));
+            assertThat(a1.getLocatorNames(), is(a2.getLocatorNames()));
+            assertThat(a1.getPostCode(), is(a2.getPostCode()));
+            assertThat(a1.getPostNames(), is(a2.getPostNames()));
+            assertThat(a1.getThoroughfares(), is(a2.getThoroughfares()));
         }
     }
 

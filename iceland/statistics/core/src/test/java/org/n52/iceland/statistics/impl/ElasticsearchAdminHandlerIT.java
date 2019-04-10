@@ -16,6 +16,8 @@
  */
 package org.n52.iceland.statistics.impl;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,9 +29,9 @@ import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.IndicesAdminClient;
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
-import org.junit.Test;
-
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
@@ -54,13 +56,13 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
         IndicesAdminClient indices = getEmbeddedClient().admin().indices();
 
         IndicesExistsResponse index = indices.prepareExists(clientSettings.getIndexId()).get();
-        Assert.assertTrue(index.isExists());
+        Assertions.assertTrue(index.isExists());
 
         GetResponse resp = getEmbeddedClient()
                 .prepareGet(clientSettings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME, MetadataDataMapping.METADATA_ROW_ID)
                 .setOperationThreaded(false).get();
 
-        Assert.assertEquals(1, resp.getSourceAsMap().get(MetadataDataMapping.METADATA_VERSION_FIELD.getName()));
+        Assertions.assertEquals(1, resp.getSourceAsMap().get(MetadataDataMapping.METADATA_VERSION_FIELD.getName()));
     }
 
     @Test
@@ -82,17 +84,16 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
                 .setOperationThreaded(false).get();
 
         Map<String, Object> map = resp.getSourceAsMap();
-        Assert.assertNotNull(map.get(MetadataDataMapping.METADATA_CREATION_TIME_FIELD.getName()));
-        Assert.assertNotNull(map.get(MetadataDataMapping.METADATA_UUIDS_FIELD.getName()));
-        Assert.assertNotNull(map.get(MetadataDataMapping.METADATA_UPDATE_TIME_FIELD.getName()));
+        Assertions.assertNotNull(map.get(MetadataDataMapping.METADATA_CREATION_TIME_FIELD.getName()));
+        Assertions.assertNotNull(map.get(MetadataDataMapping.METADATA_UUIDS_FIELD.getName()));
+        Assertions.assertNotNull(map.get(MetadataDataMapping.METADATA_UPDATE_TIME_FIELD.getName()));
 
         List<String> object = (List<String>) map.get(MetadataDataMapping.METADATA_UUIDS_FIELD.getName());
-        Assert.assertEquals(2, object.size());
-        Assert.assertThat(object, CoreMatchers.hasItem("lofasz janos"));
+        Assertions.assertEquals(2, object.size());
+        MatcherAssert.assertThat(object, CoreMatchers.hasItem("lofasz janos"));
     }
 
-    @Test(
-            expected = ConfigurationError.class)
+    @Test
     public void failOnVersionMismatch()
             throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException, InterruptedException {
         Map<String, Object> data = new HashMap<>();
@@ -102,7 +103,9 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
         Thread.sleep(1500);
 
-        adminHandler.createSchema();
+        assertThrows(ConfigurationError.class, () -> {
+            adminHandler.createSchema();
+        });
     }
 
     @Test
@@ -117,7 +120,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
         Thread.sleep(2000);
 
         String ret = getEmbeddedClient().prepareGet(idx.getIndex(), idx.getType(), idx.getId()).get().getSourceAsString();
-        Assert.assertNotNull(ret);
+        Assertions.assertNotNull(ret);
     }
 
     @Test
@@ -132,7 +135,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
         Thread.sleep(2000);
 
         String ret = getEmbeddedClient().prepareGet(idx.getIndex(), idx.getType(), idx.getId()).get().getSourceAsString();
-        Assert.assertNotNull(ret);
+        Assertions.assertNotNull(ret);
     }
 
     @Test
@@ -144,6 +147,6 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
         Thread.sleep(2500);
 
-        Assert.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
+        Assertions.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
     }
 }

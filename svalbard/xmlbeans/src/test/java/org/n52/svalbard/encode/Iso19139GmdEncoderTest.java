@@ -16,6 +16,7 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasXPath;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
@@ -31,16 +32,11 @@ import org.isotc211.x2005.gmd.DQDomainConsistencyDocument;
 import org.isotc211.x2005.gmd.DQDomainConsistencyPropertyType;
 import org.isotc211.x2005.gmd.DQDomainConsistencyType;
 import org.isotc211.x2005.gmd.MDMetadataPropertyType;
-import org.isotc211.x2005.gmd.MDMetadataType;
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-import org.w3c.dom.Node;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.iso.CodeList;
 import org.n52.shetland.iso.GcoConstants;
-import org.n52.shetland.iso.gco.Role;
 import org.n52.shetland.iso.gmd.CiResponsibleParty;
 import org.n52.shetland.iso.gmd.GmdCitation;
 import org.n52.shetland.iso.gmd.GmdCitationDate;
@@ -53,14 +49,11 @@ import org.n52.shetland.iso.gmd.MDDataIdentification;
 import org.n52.shetland.iso.gmd.MDMetadata;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.w3c.W3CConstants;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 import org.n52.svalbard.decode.exception.DecodingException;
-import org.n52.svalbard.encode.EncodingContext;
-import org.n52.svalbard.encode.Iso19139GmdEncoder;
-import org.n52.svalbard.encode.XmlBeansEncodingFlags;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.NamespaceContextBuilder;
 import org.n52.svalbard.util.XmlHelper;
+import org.w3c.dom.Node;
 
 public class Iso19139GmdEncoderTest {
     private static final EncodingContext TYPE = EncodingContext.of(XmlBeansEncodingFlags.TYPE);
@@ -74,12 +67,10 @@ public class Iso19139GmdEncoderTest {
             .build();
 
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
     private Iso19139GmdEncoder encoder;
 
 
-    @Before
+    @BeforeEach
     public void setup() {
         encoder = new Iso19139GmdEncoder();
         encoder.setXmlOptions(XmlOptions::new);
@@ -99,48 +90,48 @@ public class Iso19139GmdEncoderTest {
     public void checkReturnType() throws Exception {
         GmdConformanceResult cr = GmdDomainConsistency.dataCapture(true);
         GmdQuantitativeResult qr = GmdDomainConsistency.uncertaintyEstimation(20);
-        errors.checkThat(encoder.encode(cr), is(instanceOf(DQDomainConsistencyType.class)));
-        errors.checkThat(encoder.encode(cr, DOCUMENT_TYPE), is(instanceOf(DQDomainConsistencyDocument.class)));
-        errors.checkThat(encoder.encode(cr, PROPERTY_TYPE), is(instanceOf(DQDomainConsistencyPropertyType.class)));
-        errors.checkThat(encoder.encode(cr, TYPE), is(instanceOf(DQDomainConsistencyType.class)));
-        errors.checkThat(encoder.encode(qr), is(instanceOf(DQDomainConsistencyType.class)));
-        errors.checkThat(encoder.encode(qr, DOCUMENT_TYPE), is(instanceOf(DQDomainConsistencyDocument.class)));
-        errors.checkThat(encoder.encode(qr, PROPERTY_TYPE), is(instanceOf(DQDomainConsistencyPropertyType.class)));
-        errors.checkThat(encoder.encode(qr, TYPE), is(instanceOf(DQDomainConsistencyType.class)));
+        assertThat(encoder.encode(cr), is(instanceOf(DQDomainConsistencyType.class)));
+        assertThat(encoder.encode(cr, DOCUMENT_TYPE), is(instanceOf(DQDomainConsistencyDocument.class)));
+        assertThat(encoder.encode(cr, PROPERTY_TYPE), is(instanceOf(DQDomainConsistencyPropertyType.class)));
+        assertThat(encoder.encode(cr, TYPE), is(instanceOf(DQDomainConsistencyType.class)));
+        assertThat(encoder.encode(qr), is(instanceOf(DQDomainConsistencyType.class)));
+        assertThat(encoder.encode(qr, DOCUMENT_TYPE), is(instanceOf(DQDomainConsistencyDocument.class)));
+        assertThat(encoder.encode(qr, PROPERTY_TYPE), is(instanceOf(DQDomainConsistencyPropertyType.class)));
+        assertThat(encoder.encode(qr, TYPE), is(instanceOf(DQDomainConsistencyType.class)));
     }
 
     @Test
     public void checkValidity() throws EncodingException , DecodingException {
-        errors.checkThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.dataCapture(GmlConstants.NilReason.unknown), DOCUMENT_TYPE)), is(true));
-        errors.checkThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.dataCapture(true), DOCUMENT_TYPE)), is(true));
-        errors.checkThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.timeCoverage(GmlConstants.NilReason.unknown), DOCUMENT_TYPE)), is(true));
-        errors.checkThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.timeCoverage(true), DOCUMENT_TYPE)), is(true));
-        errors.checkThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.uncertaintyEstimation(5), DOCUMENT_TYPE)), is(true));
-        errors.checkThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.uncertaintyEstimation(GmlConstants.NilReason.unknown), DOCUMENT_TYPE)), is(true));
+        assertThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.dataCapture(GmlConstants.NilReason.unknown), DOCUMENT_TYPE)), is(true));
+        assertThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.dataCapture(true), DOCUMENT_TYPE)), is(true));
+        assertThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.timeCoverage(GmlConstants.NilReason.unknown), DOCUMENT_TYPE)), is(true));
+        assertThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.timeCoverage(true), DOCUMENT_TYPE)), is(true));
+        assertThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.uncertaintyEstimation(5), DOCUMENT_TYPE)), is(true));
+        assertThat(XmlHelper.validateDocument(encoder.encode(GmdDomainConsistency.uncertaintyEstimation(GmlConstants.NilReason.unknown), DOCUMENT_TYPE)), is(true));
     }
 
     @Test
     public void checkConformanceResult() throws EncodingException {
         Node node = encoder.encode(GmdDomainConsistency.dataCapture(true), DOCUMENT_TYPE).getDomNode();
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency", NS_CTX));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString", NS_CTX, is("EC/50/2008")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date", NS_CTX, is("2008")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode", NS_CTX, is("publication")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeList", NS_CTX, is("eng")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue", NS_CTX, is("publication")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString", NS_CTX, is("Data Capture")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean", NS_CTX, is("true")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency", NS_CTX));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:title/gco:CharacterString", NS_CTX, is("EC/50/2008")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:date/gco:Date", NS_CTX, is("2008")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode", NS_CTX, is("publication")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeList", NS_CTX, is("eng")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:specification/gmd:CI_Citation/gmd:date/gmd:CI_Date/gmd:dateType/gmd:CI_DateTypeCode/@codeListValue", NS_CTX, is("publication")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:explanation/gco:CharacterString", NS_CTX, is("Data Capture")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_ConformanceResult/gmd:pass/gco:Boolean", NS_CTX, is("true")));
     }
 
     @Test
     public void checkQuantitativeResult() throws EncodingException {
         Node node = encoder.encode(GmdDomainConsistency.uncertaintyEstimation(5), DOCUMENT_TYPE).getDomNode();
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/@gml:id", NS_CTX, startsWith("PercentageUnit")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:identifier/@codeSpace", NS_CTX, is("http://dd.eionet.europa.eu/vocabularies/aq/resultquality/uncertaintyestimation/")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:catalogSymbol/@codeSpace", NS_CTX, is("http://www.opengis.net/def/uom/UCUM/")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:catalogSymbol", NS_CTX, is("%")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:unitsSystem/@xlink:href", NS_CTX, is("http://www.opengis.net/def/uom/UCUM/")));
-        errors.checkThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record", NS_CTX, is("5.0")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/@gml:id", NS_CTX, startsWith("PercentageUnit")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:identifier/@codeSpace", NS_CTX, is("http://dd.eionet.europa.eu/vocabularies/aq/resultquality/uncertaintyestimation/")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:catalogSymbol/@codeSpace", NS_CTX, is("http://www.opengis.net/def/uom/UCUM/")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:catalogSymbol", NS_CTX, is("%")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:valueUnit/gml:BaseUnit/gml:unitsSystem/@xlink:href", NS_CTX, is("http://www.opengis.net/def/uom/UCUM/")));
+        assertThat(node, hasXPath("/gmd:DQ_DomainConsistency/gmd:result/gmd:DQ_QuantitativeResult/gmd:value/gco:Record", NS_CTX, is("5.0")));
     }
 
 //    @Test
@@ -148,7 +139,7 @@ public class Iso19139GmdEncoderTest {
 //        MDMetadata mdMmetadata = new MDMetadata(new SimpleAttrs().setHref("href").setTitle("title"));
 //        XmlObject xmlObject = encoder.encode(mdMmetadata);
 //        xmlObject.validate();
-//        errors.checkThat(xmlObject, instanceOf(MDMetadataPropertyType.class));
+//        assertThat(xmlObject, instanceOf(MDMetadataPropertyType.class));
 //    }
 
     @Test
@@ -157,6 +148,6 @@ public class Iso19139GmdEncoderTest {
         MDMetadata mdMmetadata = new MDMetadata(new CiResponsibleParty(new org.n52.shetland.iso.gco.Role(CodeList.CiRoleCodes.CI_RoleCode_author.name())), DateTime.now(), identificationInfo);
         XmlObject xmlObject = encoder.encode(mdMmetadata, EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE));
         xmlObject.validate();
-        errors.checkThat(xmlObject, instanceOf(MDMetadataPropertyType.class));
+        assertThat(xmlObject, instanceOf(MDMetadataPropertyType.class));
     }
 }

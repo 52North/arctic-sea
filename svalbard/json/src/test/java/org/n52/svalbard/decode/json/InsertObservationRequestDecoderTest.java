@@ -21,15 +21,13 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sos.request.InsertObservationRequest;
@@ -53,10 +51,7 @@ public class InsertObservationRequestDecoderTest {
 
     private InsertObservationRequestDecoder decoder;
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
-    @Before
+    @BeforeEach
     public void before() {
         DecoderRepository decoderRepository = new DecoderRepository();
         this.decoder = new InsertObservationRequestDecoder();
@@ -73,11 +68,11 @@ public class InsertObservationRequestDecoderTest {
         final JsonNode json =
                 JsonLoader.fromResource("/examples/sos/InsertObservationRequest-single-observation.json");
         final InsertObservationRequest req = decoder.decodeJSON(json, true);
-        errors.checkThat(req.getService(), is(equalTo("SOS")));
-        errors.checkThat(req.getVersion(), is(equalTo("2.0.0")));
-        errors.checkThat(req.getOperationName(), is(equalTo("InsertObservation")));
+        assertThat(req.getService(), is(equalTo("SOS")));
+        assertThat(req.getVersion(), is(equalTo("2.0.0")));
+        assertThat(req.getOperationName(), is(equalTo("InsertObservation")));
         assertThat(req.getOfferings(), is(notNullValue()));
-        errors.checkThat(req.getOfferings(), hasSize(1));
+        assertThat(req.getOfferings(), hasSize(1));
         assertThat(req.getOfferings().get(0), is(equalTo("offering2")));
         assertThat(req.getObservations(), is(notNullValue()));
         assertThat(req.getObservations(), hasSize(1));
@@ -92,11 +87,11 @@ public class InsertObservationRequestDecoderTest {
                 JsonLoader.fromResource("/examples/sos/InsertObservationRequest-multiple-observations.json");
         final InsertObservationRequest req = decoder.decodeJSON(json, true);
         assertThat(req, is(notNullValue()));
-        errors.checkThat(req.getService(), is(equalTo("SOS")));
-        errors.checkThat(req.getVersion(), is(equalTo("2.0.0")));
-        errors.checkThat(req.getOperationName(), is(equalTo("InsertObservation")));
+        assertThat(req.getService(), is(equalTo("SOS")));
+        assertThat(req.getVersion(), is(equalTo("2.0.0")));
+        assertThat(req.getOperationName(), is(equalTo("InsertObservation")));
         assertThat(req.getOfferings(), is(notNullValue()));
-        errors.checkThat(req.getOfferings(), hasSize(2));
+        assertThat(req.getOfferings(), hasSize(2));
         assertThat(req.getOfferings().get(0), is(equalTo("offering1")));
         assertThat(req.getOfferings().get(1), is(equalTo("offering2")));
         assertThat(req.getObservations(), is(notNullValue()));
@@ -112,11 +107,11 @@ public class InsertObservationRequestDecoderTest {
             throws IOException, DecodingException {
         final JsonNode json = JsonLoader.fromResource("/examples/sos/InsertObservationRequest-single-offering.json");
         final InsertObservationRequest req = decoder.decodeJSON(json, true);
-        errors.checkThat(req.getService(), is(equalTo("SOS")));
-        errors.checkThat(req.getVersion(), is(equalTo("2.0.0")));
-        errors.checkThat(req.getOperationName(), is(equalTo("InsertObservation")));
+        assertThat(req.getService(), is(equalTo("SOS")));
+        assertThat(req.getVersion(), is(equalTo("2.0.0")));
+        assertThat(req.getOperationName(), is(equalTo("InsertObservation")));
         assertThat(req.getOfferings(), is(notNullValue()));
-        errors.checkThat(req.getOfferings(), hasSize(1));
+        assertThat(req.getOfferings(), hasSize(1));
         assertThat(req.getOfferings().get(0), is(equalTo("offering2")));
         assertThat(req.getObservations(), is(notNullValue()));
         assertThat(req.getObservations(), hasSize(1));
@@ -131,11 +126,11 @@ public class InsertObservationRequestDecoderTest {
                 JsonLoader.fromResource("/examples/sos/InsertObservationRequest-multiple-offerings.json");
         final InsertObservationRequest req = decoder.decodeJSON(json, true);
         assertThat(req, is(notNullValue()));
-        errors.checkThat(req.getService(), is(equalTo("SOS")));
-        errors.checkThat(req.getVersion(), is(equalTo("2.0.0")));
-        errors.checkThat(req.getOperationName(), is(equalTo("InsertObservation")));
+        assertThat(req.getService(), is(equalTo("SOS")));
+        assertThat(req.getVersion(), is(equalTo("2.0.0")));
+        assertThat(req.getOperationName(), is(equalTo("InsertObservation")));
         assertThat(req.getOfferings(), is(notNullValue()));
-        errors.checkThat(req.getOfferings(), hasSize(2));
+        assertThat(req.getOfferings(), hasSize(2));
         assertThat(req.getOfferings().get(0), is(equalTo("offering1")));
         assertThat(req.getOfferings().get(1), is(equalTo("offering2")));
         assertThat(req.getObservations(), is(notNullValue()));

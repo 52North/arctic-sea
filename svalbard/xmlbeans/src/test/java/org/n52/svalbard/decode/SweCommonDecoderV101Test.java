@@ -16,28 +16,17 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.opengis.swe.x101.BooleanDocument;
-import net.opengis.swe.x101.CategoryDocument;
-import net.opengis.swe.x101.CountDocument;
-import net.opengis.swe.x101.QuantityDocument;
-import net.opengis.swe.x101.QuantityRangeDocument;
-import net.opengis.swe.x101.QuantityRangeDocument.QuantityRange;
-import net.opengis.swe.x101.TimeRangeDocument;
-import net.opengis.swe.x101.TimeRangeDocument.TimeRange;
-import net.opengis.swe.x101.UomPropertyType;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swe.simpleType.SweCategory;
@@ -49,6 +38,16 @@ import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import com.google.common.collect.Lists;
+
+import net.opengis.swe.x101.BooleanDocument;
+import net.opengis.swe.x101.CategoryDocument;
+import net.opengis.swe.x101.CountDocument;
+import net.opengis.swe.x101.QuantityDocument;
+import net.opengis.swe.x101.QuantityRangeDocument;
+import net.opengis.swe.x101.QuantityRangeDocument.QuantityRange;
+import net.opengis.swe.x101.TimeRangeDocument;
+import net.opengis.swe.x101.TimeRangeDocument.TimeRange;
+import net.opengis.swe.x101.UomPropertyType;
 
 /**
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>

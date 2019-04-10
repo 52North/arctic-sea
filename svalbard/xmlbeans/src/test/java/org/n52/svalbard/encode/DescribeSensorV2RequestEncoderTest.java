@@ -16,37 +16,34 @@
  */
 package org.n52.svalbard.encode;
 
-import org.hamcrest.core.Is;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.request.DescribeSensorRequest;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 public class DescribeSensorV2RequestEncoderTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
     @Test
     public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        UnsupportedEncoderInputException assertThrows = assertThrows(UnsupportedEncoderInputException.class, () -> {
+            new DescribeSensorV2RequestEncoder().create(new DescribeSensorRequest());
+        });
+        assertEquals("Encoder " +
                 DescribeSensorV2RequestEncoder.class.getSimpleName() +
-                " can not encode 'missing service'"));
-
-        new DescribeSensorV2RequestEncoder().create(new DescribeSensorRequest());
+                " can not encode 'missing service'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        UnsupportedEncoderInputException assertThrows = assertThrows(UnsupportedEncoderInputException.class, () -> {
+            new DescribeSensorV2RequestEncoder().create(new DescribeSensorRequest("service", ""));
+        });
+        assertEquals("Encoder " +
                 DescribeSensorV2RequestEncoder.class.getSimpleName() +
-                " can not encode 'missing version'"));
-
-        new DescribeSensorV2RequestEncoder().create(new DescribeSensorRequest("service", ""));
+                " can not encode 'missing version'", assertThrows.getMessage());
     }
 
 }

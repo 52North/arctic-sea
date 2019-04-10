@@ -18,12 +18,11 @@ package org.n52.svalbard.encode;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
@@ -44,7 +43,7 @@ import net.opengis.swe.x20.TextEncodingType;
 public class SweCommonEncoderv20Test {
     private SweCommonEncoderv20 sweCommonEncoderv20;
 
-    @Before
+    @BeforeEach
     public void setup() {
         sweCommonEncoderv20 = new SweCommonEncoderv20();
         sweCommonEncoderv20.setXmlOptions(XmlOptions::new);
@@ -72,10 +71,10 @@ public class SweCommonEncoderv20Test {
 
         XmlObject encodedEncoding = sweCommonEncoderv20.encode(textEncoding);
 
-        Assert.assertThat(encodedEncoding, Matchers.instanceOf(TextEncodingType.class));
+        MatcherAssert.assertThat(encodedEncoding, Matchers.instanceOf(TextEncodingType.class));
         TextEncodingType xbTextEncoding = (TextEncodingType) encodedEncoding;
-        Assert.assertThat(xbTextEncoding.getBlockSeparator(), Is.is(blockSeparator));
-        Assert.assertThat(xbTextEncoding.getTokenSeparator(), Is.is(tokenSeparator));
+        MatcherAssert.assertThat(xbTextEncoding.getBlockSeparator(), Is.is(blockSeparator));
+        MatcherAssert.assertThat(xbTextEncoding.getTokenSeparator(), Is.is(tokenSeparator));
     }
 
 }

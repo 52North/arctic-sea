@@ -25,8 +25,8 @@ import javax.xml.stream.FactoryConfigurationError;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 
 import org.n52.svalbard.write.util.IndentingXMLStreamWriter;
 
@@ -103,7 +103,7 @@ public class IndentingXmlStreamWriterTest {
 
         //System.out.println(baos.toString("UTF-8"));
         //System.out.println(expected);
-        Assert.assertThat(baos.toString("UTF-8"), is(expected));
+        MatcherAssert.assertThat(baos.toString("UTF-8"), is(expected));
     }
 
     private void writeXML(ByteArrayOutputStream baos) throws FactoryConfigurationError, XMLStreamException,

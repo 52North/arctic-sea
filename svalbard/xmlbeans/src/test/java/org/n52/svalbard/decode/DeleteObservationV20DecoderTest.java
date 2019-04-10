@@ -16,36 +16,35 @@
  */
 package org.n52.svalbard.decode;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Arrays;
 
-import net.opengis.sosdo.x20.DeleteObservationDocument;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationRequest;
 import org.n52.svalbard.decode.exception.DecodingException;
+
+import net.opengis.sosdo.x20.DeleteObservationDocument;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
  *         J&uuml;rrens</a>
  * @since 1.0.0
  */
-public class DeleteObservationV20DecoderTest {
+public class DeleteObservationV20DecoderTest implements DeleteDecoderTest {
 
     private static String observationId = "test_obs_id";
     private static XmlObject incorrectXmlObject;
     private static DeleteObservationDocument correctXmlObject;
     private DeleteObservationV20Decoder decoder;
 
-    @Before
+    @BeforeEach
     public void setup() {
         DecoderRepository decoderRepository = new DecoderRepository();
 
@@ -67,7 +66,7 @@ public class DeleteObservationV20DecoderTest {
      * <sosdo:observation>test-observation-identifier</sosdo:observation>
      * </sosdo:DeleteObservation>
      */
-    @BeforeClass
+    @BeforeAll
     public static void initFixtures() {
         incorrectXmlObject = XmlObject.Factory.newInstance();
     }
@@ -75,44 +74,42 @@ public class DeleteObservationV20DecoderTest {
     @Test
     public void constructorReturnsdecoder() {
         String className = DeleteObservationV20Decoder.class.getName();
-        assertNotNull("decoder is null. Constructor failed", decoder);
-        assertTrue("decoder of constructed object is not of class" + className,
-                decoder.getClass().getName().equals(className));
+        assertNotNull(decoder, "decoder is null. Constructor failed");
+        assertTrue(
+                decoder.getClass().getName().equals(className), "decoder of constructed object is not of class" + className);
     }
 
     @Test
     public void testGetDecoderKeyTypes() {
-        assertNotNull("DecoderKey is null", decoder.getKeys());
+        assertNotNull(decoder.getKeys(), "DecoderKey is null");
     }
 
     @Test
     public void getSupportedTypesReturnsEmptyList() {
-        assertNotNull("Supported Types is null", decoder.getSupportedTypes());
-        assertEquals("Supported Types size ", 0, decoder.getSupportedTypes().size());
-    }
-
-    @Test(expected = DecodingException.class)
-    public void decodeNullThrowsDecodingException() throws DecodingException {
-        decoder.decode(null);
-    }
-
-    @Test(expected = DecodingException.class)
-    public void decodingIncorrectXmlObjectThrowsDecodingException() throws DecodingException {
-        decoder.decode(incorrectXmlObject);
+        assertNotNull(decoder.getSupportedTypes(), "Supported Types is null");
+        assertEquals(0, decoder.getSupportedTypes().size(), "Supported Types size ");
     }
 
     @Test
     public void decodingCorrectXmlObjectReturnsCorrectServiceRequest() throws DecodingException {
         String className = DeleteObservationRequest.class.getName();
-        assertNotNull("Decoding of correct XmlObject returned null", decoder.decode(correctXmlObject));
-        assertEquals("Class of Result ", className, decoder.decode(correctXmlObject).getClass().getName());
+        assertNotNull(decoder.decode(correctXmlObject), "Decoding of correct XmlObject returned null");
+        assertEquals(className, decoder.decode(correctXmlObject).getClass().getName(), "Class of Result ");
     }
 
-    @Test(expected = DecodingException.class)
-    public void should_throw_DecodingException_when_receving_invalid_DeleteObservationDocument()
-            throws DecodingException {
-        correctXmlObject = DeleteObservationDocument.Factory.newInstance();
-        decoder.decode(correctXmlObject);
+    @Override
+    public Decoder getDecoder() {
+        return decoder;
+    }
+
+    @Override
+    public XmlObject getIncorrectXmlObject() {
+        return incorrectXmlObject;
+    }
+
+    @Override
+    public XmlObject getCorrectXmlObject() {
+        return DeleteObservationDocument.Factory.newInstance();
     }
 
 }

@@ -16,17 +16,12 @@
  */
 package org.n52.svalbard.decode;
 
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.assertThat;
-
-import org.junit.Test;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.NamedValue;
+import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
 import org.n52.shetland.ogc.om.values.ReferenceValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.sensorML.SensorMLConstants;
-import org.n52.shetland.ogc.om.series.wml.ObservationProcess;
-import org.n52.svalbard.decode.WmlObservationProcessDecoderv20;
 
 /**
  * Test class for {@link WmlObservationProcessDecoderv20}

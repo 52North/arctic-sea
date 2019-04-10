@@ -16,20 +16,22 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
 import org.n52.shetland.ogc.swes.SwesExtension;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
 import net.opengis.swe.x20.BooleanPropertyType;
 import net.opengis.swe.x20.BooleanType;
 
@@ -42,10 +44,7 @@ public class SwesExtensionEncoderv20Test {
 
     private SwesExtensionEncoderv20 encoder;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Before
+    @BeforeEach
     public void setup() {
         encoder = new SwesExtensionEncoderv20();
         encoder.setXmlOptions(XmlOptions::new);
@@ -62,34 +61,34 @@ public class SwesExtensionEncoderv20Test {
 
     @Test
     public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        UnsupportedEncoderInputException assertThrows = assertThrows(UnsupportedEncoderInputException.class, () -> {
+            encoder.encode(null);
+        });
+        assertEquals("Encoder " +
                 SwesExtensionEncoderv20.class.getSimpleName() +
-                " can not encode 'null'"));
-
-        encoder.encode(null);
+                " can not encode 'null'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenEmptyExtensionReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        UnsupportedEncoderInputException assertThrows = assertThrows(UnsupportedEncoderInputException.class, () -> {
+            encoder.encode(new SwesExtension<>());
+        });
+        assertEquals("Encoder " +
                 SwesExtensionEncoderv20.class.getSimpleName() +
-                " can not encode 'null extension content'"));
-
-        encoder.encode(new SwesExtension<>());
+                " can not encode 'null extension content'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenExtensioneWithoutSweTypeReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        UnsupportedEncoderInputException assertThrows = assertThrows(UnsupportedEncoderInputException.class, () -> {
+            SwesExtension<Boolean> extension = new SwesExtension<>();
+            extension.setValue(Boolean.TRUE);
+            encoder.encode(extension);
+        });
+        assertEquals("Encoder " +
                 SwesExtensionEncoderv20.class.getSimpleName() +
-                " can not encode 'java.lang.Boolean'"));
-
-        SwesExtension<Boolean> extension = new SwesExtension<>();
-        extension.setValue(Boolean.TRUE);
-        encoder.encode(extension);
+                " can not encode 'java.lang.Boolean'", assertThrows.getMessage());
     }
 
     @Test
@@ -108,11 +107,11 @@ public class SwesExtensionEncoderv20Test {
 
         XmlObject encodedObject = encoder.encode(extension);
 
-        Assert.assertThat(encodedObject, Matchers.instanceOf(BooleanPropertyType.class));
+        MatcherAssert.assertThat(encodedObject, Matchers.instanceOf(BooleanPropertyType.class));
         BooleanType xbBoolean = ((BooleanPropertyType) encodedObject).getBoolean();
-        Assert.assertThat(xbBoolean.getDefinition(), Is.is(definition));
-        Assert.assertThat(xbBoolean.getIdentifier(), Is.is(identifier));
-        Assert.assertThat(xbBoolean.getValue(), Is.is(value));
+        MatcherAssert.assertThat(xbBoolean.getDefinition(), Is.is(definition));
+        MatcherAssert.assertThat(xbBoolean.getIdentifier(), Is.is(identifier));
+        MatcherAssert.assertThat(xbBoolean.getValue(), Is.is(value));
     }
 
 }

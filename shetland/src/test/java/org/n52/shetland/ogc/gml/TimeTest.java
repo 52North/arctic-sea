@@ -18,13 +18,13 @@ package org.n52.shetland.ogc.gml;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.NoSuchElementException;
 
 import org.joda.time.DateTime;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.gml.time.IndeterminateValue;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePosition;
@@ -52,16 +52,20 @@ public class TimeTest {
                 is(equalTo(timePositionWithDefaultFormat.getTimeFormat())));
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void missingIndeterminateValue() {
-        TimePosition timePosition = new TimePosition(DateTime.now());
-        timePosition.getIndeterminateValue();
+        assertThrows(NoSuchElementException.class, () -> {
+            TimePosition timePosition = new TimePosition(DateTime.now());
+            timePosition.getIndeterminateValue();
+        });
     }
 
-    @Test(expected = NoSuchElementException.class)
+    @Test
     public void missingTime() {
-        TimePosition timePosition = new TimePosition(IndeterminateValue.UNKNOWN);
-        timePosition.getTime();
+        assertThrows(NoSuchElementException.class, () -> {
+            TimePosition timePosition = new TimePosition(IndeterminateValue.UNKNOWN);
+            timePosition.getTime();
+        });
     }
 
     @Test

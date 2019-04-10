@@ -16,8 +16,8 @@
  */
 package org.n52.svalbard.decode;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 import net.opengis.sosgda.x10.GetDataAvailabilityDocument;
@@ -28,7 +28,7 @@ public class GetDataAvailabilityDecoderTest {
 
     private GetDataAvailabilityDocument doc;
 
-    @Before
+    @BeforeEach
     public void init() {
         decoder = new GetDataAvailabilityXmlDecoder();
         doc = GetDataAvailabilityDocument.Factory.newInstance();

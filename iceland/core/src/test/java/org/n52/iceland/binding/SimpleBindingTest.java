@@ -18,14 +18,15 @@ package org.n52.iceland.binding;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import org.n52.iceland.exception.HTTPException;
@@ -58,7 +59,7 @@ public class SimpleBindingTest {
 
     private MediaType defaultContentType;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         this.response = new TestResponse();
         this.binding = new TestBinding();
@@ -87,9 +88,11 @@ public class SimpleBindingTest {
         assertThat(chosenContentTypeWithAccept(XML), is(defaultContentType));
     }
 
-    @Test(expected = HTTPException.class)
+    @Test
     public void should_Accept_NotSupported_ContentType() throws HTTPException {
-        assertThat(chosenContentTypeWithAccept(JSON), is(MediaTypes.APPLICATION_JSON));
+        assertThrows(HTTPException.class, () -> {
+            assertThat(chosenContentTypeWithAccept(JSON), is(MediaTypes.APPLICATION_JSON));
+        });
     }
 
     @Test
@@ -97,10 +100,12 @@ public class SimpleBindingTest {
         assertThat(chosenContentTypeWithAccept(ANYTHING), is(defaultContentType));
     }
 
-    @Test(expected = HTTPException.class)
+    @Test
     public void should_ResponseFormat_NotSupported_ContentType() throws HTTPException {
-        response.setContentType(MediaTypes.APPLICATION_NETCDF);
-        assertThat(chosenContentTypeWithAccept(NOTHING), is(defaultContentType));
+        assertThrows(HTTPException.class, () -> {
+            response.setContentType(MediaTypes.APPLICATION_NETCDF);
+            assertThat(chosenContentTypeWithAccept(NOTHING), is(defaultContentType));
+        });
     }
 
     @Test
@@ -109,10 +114,12 @@ public class SimpleBindingTest {
         assertThat(chosenContentTypeWithAccept(XML), is(defaultContentType));
     }
 
-    @Test(expected = HTTPException.class)
+    @Test
     public void should_Accept_NotContains_ResponseFormat_ContentType() throws HTTPException {
-        response.setContentType(MediaTypes.APPLICATION_NETCDF);
-        assertThat(chosenContentTypeWithAccept(XML_AND_JSON), is(defaultContentType));
+        assertThrows(HTTPException.class, () -> {
+            response.setContentType(MediaTypes.APPLICATION_NETCDF);
+            assertThat(chosenContentTypeWithAccept(XML_AND_JSON), is(defaultContentType));
+        });
     }
 
     @Test

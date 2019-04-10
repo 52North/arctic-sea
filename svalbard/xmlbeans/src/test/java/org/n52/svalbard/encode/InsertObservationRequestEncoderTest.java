@@ -16,6 +16,10 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Arrays;
 import java.util.Date;
 
@@ -23,11 +27,8 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
@@ -50,7 +51,6 @@ import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.XmlHelper;
 
 import net.opengis.sos.x20.InsertObservationDocument;
@@ -67,10 +67,8 @@ public class InsertObservationRequestEncoderTest {
 
     private InsertObservationRequestEncoder encoder;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
-    @Before
+    @BeforeEach
     public void setup() {
         encoder = new InsertObservationRequestEncoder();
         encoder.setXmlOptions(XmlOptions::new);
@@ -102,64 +100,64 @@ public class InsertObservationRequestEncoderTest {
 
     @Test
     public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(null);
+        });
+        assertEquals("Encoder " +
                 InsertObservationRequestEncoder.class.getSimpleName() +
-                " can not encode 'null'"));
-
-        encoder.create(null);
+                " can not encode 'null'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertObservationRequest());
+        });
+        assertEquals("Encoder " +
                 InsertObservationRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing service'"));
-
-        encoder.create(new InsertObservationRequest());
+                " can not encode 'missing service'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertObservationRequest("SOS", ""));
+        });
+        assertEquals("Encoder " +
                 InsertObservationRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing version'"));
-
-        encoder.create(new InsertObservationRequest("SOS", ""));
+                " can not encode 'missing version'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsNot200Missing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertObservationRequest("SOS", "1.0.0"));
+        });
+        assertEquals("Encoder " +
                 InsertObservationRequestEncoder.class.getSimpleName() +
-                " can not encode 'SOS 1.0.0 insert observation request'"));
-
-        encoder.create(new InsertObservationRequest("SOS", "1.0.0"));
+                " can not encode 'SOS 1.0.0 insert observation request'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfOfferingsAreMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertObservationRequest("SOS", "2.0.0"));
+        });
+        assertEquals("Encoder " +
                 InsertObservationRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing offering(s)'"));
-
-        encoder.create(new InsertObservationRequest("SOS", "2.0.0"));
+                " can not encode 'missing offering(s)'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfObservationsAreMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            InsertObservationRequest request = new InsertObservationRequest("SOS", "2.0.0");
+            request.setOfferings(Arrays.asList(OFFERING_ID));
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertObservationRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing observation(s)'"));
-
-        InsertObservationRequest request = new InsertObservationRequest("SOS", "2.0.0");
-        request.setOfferings(Arrays.asList(OFFERING_ID));
-        encoder.create(request);
+                " can not encode 'missing observation(s)'", assertThrows.getMessage());
     }
 
     @Test
@@ -169,14 +167,14 @@ public class InsertObservationRequestEncoderTest {
         XmlObject encodedRequest = encoder.create(request);
 
         XmlHelper.validateDocument(encodedRequest);
-        Assert.assertThat(encodedRequest, Matchers.notNullValue());
-        Assert.assertThat(encodedRequest, Matchers.instanceOf(InsertObservationDocument.class));
+        assertThat(encodedRequest, Matchers.notNullValue());
+        assertThat(encodedRequest, Matchers.instanceOf(InsertObservationDocument.class));
         InsertObservationType insertObservation = ((InsertObservationDocument) encodedRequest).getInsertObservation();
-        Assert.assertThat(insertObservation.getOfferingArray(), Matchers.notNullValue());
-        Assert.assertThat(insertObservation.getOfferingArray().length, Is.is(1));
-        Assert.assertThat(insertObservation.getOfferingArray(0), Is.is(OFFERING_ID));
-        Assert.assertThat(insertObservation.getObservationArray(), Matchers.notNullValue());
-        Assert.assertThat(insertObservation.getObservationArray().length, Is.is(1));
+        assertThat(insertObservation.getOfferingArray(), Matchers.notNullValue());
+        assertThat(insertObservation.getOfferingArray().length, Is.is(1));
+        assertThat(insertObservation.getOfferingArray(0), Is.is(OFFERING_ID));
+        assertThat(insertObservation.getObservationArray(), Matchers.notNullValue());
+        assertThat(insertObservation.getObservationArray().length, Is.is(1));
         // no check for observation values, because that MUST be part of OmEncoderv20Test
     }
 
@@ -200,12 +198,12 @@ public class InsertObservationRequestEncoderTest {
         encodedRequest.xmlText();
         XmlHelper.validateDocument(encodedRequest);
         InsertObservationType insertObservation = ((InsertObservationDocument) encodedRequest).getInsertObservation();
-        Assert.assertThat(insertObservation.sizeOfExtensionArray(), Is.is(1));
+        assertThat(insertObservation.sizeOfExtensionArray(), Is.is(1));
         XmlObject xbExtension = insertObservation.getExtensionArray(0);
-        Assert.assertThat(xbExtension, Matchers.instanceOf(BooleanPropertyType.class));
+        assertThat(xbExtension, Matchers.instanceOf(BooleanPropertyType.class));
         BooleanType xbBoolean = ((BooleanPropertyType) xbExtension).getBoolean();
-        Assert.assertThat(xbBoolean.getDefinition(), Is.is(definition));
-        Assert.assertThat(xbBoolean.getValue(), Is.is(value));
+        assertThat(xbBoolean.getDefinition(), Is.is(definition));
+        assertThat(xbBoolean.getValue(), Is.is(value));
         // no check for observation values, because that MUST be part of OmEncoderv20Test
     }
 

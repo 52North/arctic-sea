@@ -16,6 +16,10 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -24,11 +28,8 @@ import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sensorML.SensorML20Constants;
 import org.n52.shetland.ogc.sensorML.v20.PhysicalSystem;
 import org.n52.shetland.ogc.sos.SosInsertionMetadata;
@@ -36,7 +37,6 @@ import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.ogc.sos.request.InsertSensorRequest;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import net.opengis.sos.x20.SosInsertionMetadataType;
 import net.opengis.swes.x20.InsertSensorDocument;
@@ -50,10 +50,7 @@ public class InsertSensorRequestEncoderTest {
     private InsertSensorRequest request;
     private InsertSensorRequestEncoder encoder;
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Before
+    @BeforeEach
     public void prepare() {
         request = new InsertSensorRequest("service", "version");
         request.setProcedureDescriptionFormat(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL);
@@ -92,123 +89,129 @@ public class InsertSensorRequestEncoderTest {
         return new SosProcedureDescription<>(description);
     }
 
+
     @Test
     public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(null);
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'null'"));
-        encoder.create(null);
+                " can not encode 'null'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertSensorRequest());
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing service'"));
-
-        encoder.create(new InsertSensorRequest());
+                " can not encode 'missing service'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertSensorRequest("SOS", ""));
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'missing version'"));
-
-        encoder.create(new InsertSensorRequest("service", ""));
+                " can not encode 'missing version'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenProcedureDescriptionFormatIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            encoder.create(new InsertSensorRequest("service", "version"));
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'procedure description format missing'"));
-        encoder.create(new InsertSensorRequest("service", "version"));
+                " can not encode 'procedure description format missing'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenProcedureDescriptionIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            InsertSensorRequest request = new InsertSensorRequest("service", "version");
+            request.setProcedureDescriptionFormat("test-format");
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'procedure description missing'"));
-        InsertSensorRequest request = new InsertSensorRequest("service", "version");
-        request.setProcedureDescriptionFormat("test-format");
-        encoder.create(request);
+                " can not encode 'procedure description missing'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenObservablePropertyIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            InsertSensorRequest request = new InsertSensorRequest("service", "version");
+            request.setProcedureDescriptionFormat("test-format");
+            request.setProcedureDescription(createProcedureDescription());
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'observed property missing'"));
-        InsertSensorRequest request = new InsertSensorRequest("service", "version");
-        request.setProcedureDescriptionFormat("test-format");
-        request.setProcedureDescription(createProcedureDescription());
-        encoder.create(request);
+                " can not encode 'observed property missing'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldThrowExceptionWhenMetadataIsMissing() throws EncodingException {
-        thrown.expect(UnsupportedEncoderInputException.class);
-        thrown.expectMessage(Is.is("Encoder " +
+        EncodingException assertThrows = assertThrows(EncodingException.class, () -> {
+            InsertSensorRequest request = new InsertSensorRequest("service", "version");
+            request.setProcedureDescriptionFormat("test-format");
+            request.setProcedureDescription(createProcedureDescription());
+            request.setObservableProperty(CollectionHelper.list("test-property"));
+            encoder.create(request);
+        });
+        assertEquals("Encoder " +
                 InsertSensorRequestEncoder.class.getSimpleName() +
-                " can not encode 'metadata field missing'"));
-        InsertSensorRequest request = new InsertSensorRequest("service", "version");
-        request.setProcedureDescriptionFormat("test-format");
-        request.setProcedureDescription(createProcedureDescription());
-        request.setObservableProperty(CollectionHelper.list("test-property"));
-        encoder.create(request);
+                " can not encode 'metadata field missing'", assertThrows.getMessage());
     }
 
     @Test
     public void shouldEncodeProcedureDescriptionFormat() throws EncodingException {
         XmlObject xmlObject = encoder.create(request);
-        Assert.assertThat(xmlObject, CoreMatchers.instanceOf(InsertSensorDocument.class));
-        Assert.assertThat(((InsertSensorDocument)xmlObject).getInsertSensor().getProcedureDescriptionFormat(),
+        assertThat(xmlObject, CoreMatchers.instanceOf(InsertSensorDocument.class));
+        assertThat(((InsertSensorDocument)xmlObject).getInsertSensor().getProcedureDescriptionFormat(),
                 Is.is(SensorML20Constants.SENSORML_20_OUTPUT_FORMAT_URL));
     }
 
     @Test
     public void shouldEncodeObservableProperty() throws EncodingException {
         XmlObject xmlObject = encoder.create(request);
-        Assert.assertThat(xmlObject, CoreMatchers.instanceOf(InsertSensorDocument.class));
+        assertThat(xmlObject, CoreMatchers.instanceOf(InsertSensorDocument.class));
         List<String> observableProperties =
                 Arrays.asList(((InsertSensorDocument)xmlObject).getInsertSensor().getObservablePropertyArray());
-        Assert.assertThat(observableProperties, Matchers.hasSize(2));
-        Assert.assertThat(observableProperties, Matchers.containsInAnyOrder("test-property-1", "test-property-2"));
+        assertThat(observableProperties, Matchers.hasSize(2));
+        assertThat(observableProperties, Matchers.containsInAnyOrder("test-property-1", "test-property-2"));
     }
 
     @Test
     public void shouldEncodeSosInsertionMetadata() throws EncodingException {
         InsertSensorDocument isd = (InsertSensorDocument) encoder.create(request);
 
-        Assert.assertThat(isd.getInsertSensor().getMetadataArray().length, Is.is(1));
-        Assert.assertThat(isd.getInsertSensor().getMetadataArray(0).getInsertionMetadata(),
+        assertThat(isd.getInsertSensor().getMetadataArray().length, Is.is(1));
+        assertThat(isd.getInsertSensor().getMetadataArray(0).getInsertionMetadata(),
                 CoreMatchers.instanceOf(SosInsertionMetadataType.class));
         SosInsertionMetadataType insertionMetadata =
                 (SosInsertionMetadataType) isd.getInsertSensor().getMetadataArray(0).getInsertionMetadata();
-        Assert.assertThat(insertionMetadata.getFeatureOfInterestTypeArray(), CoreMatchers.notNullValue());
+        assertThat(insertionMetadata.getFeatureOfInterestTypeArray(), CoreMatchers.notNullValue());
         List<String> foiTypes = Arrays.asList(insertionMetadata.getFeatureOfInterestTypeArray());
-        Assert.assertThat(foiTypes, Matchers.hasSize(2));
-        Assert.assertThat(foiTypes, Matchers.containsInAnyOrder("test-foi-type-1", "test-foi-type-2"));
-        Assert.assertThat(insertionMetadata.getObservationTypeArray(), CoreMatchers.notNullValue());
+        assertThat(foiTypes, Matchers.hasSize(2));
+        assertThat(foiTypes, Matchers.containsInAnyOrder("test-foi-type-1", "test-foi-type-2"));
+        assertThat(insertionMetadata.getObservationTypeArray(), CoreMatchers.notNullValue());
         List<String> oTypes = Arrays.asList(insertionMetadata.getObservationTypeArray());
-        Assert.assertThat(oTypes, Matchers.hasSize(2));
-        Assert.assertThat(oTypes, Matchers.containsInAnyOrder("test-observation-type-1", "test-observation-type-2"));
+        assertThat(oTypes, Matchers.hasSize(2));
+        assertThat(oTypes, Matchers.containsInAnyOrder("test-observation-type-1", "test-observation-type-2"));
     }
 
     @Test
     public void shouldEncodeProcedureDescription() throws EncodingException {
         InsertSensorDocument isd = (InsertSensorDocument) encoder.create(request);
         ProcedureDescription description = isd.getInsertSensor().getProcedureDescription();
-        Assert.assertThat(description, CoreMatchers.notNullValue());
-        Assert.assertThat(description, CoreMatchers.instanceOf(ProcedureDescription.class));
+        assertThat(description, CoreMatchers.notNullValue());
+        assertThat(description, CoreMatchers.instanceOf(ProcedureDescription.class));
     }
 
 }

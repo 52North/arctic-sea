@@ -16,22 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import org.hamcrest.CoreMatchers;
-import org.hamcrest.core.Is;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.n52.shetland.ogc.ows.exception.MissingServiceParameterException;
-import org.n52.shetland.ogc.ows.exception.MissingVersionParameterException;
-import org.n52.shetland.ogc.sos.drt.DeleteResultTemplateResponse;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-
-import com.google.common.collect.Lists;
-
-import net.opengis.drt.x10.DeleteResultTemplateResponseDocument;
-import net.opengis.drt.x10.DeleteResultTemplateResponseType;
 /**
  *
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

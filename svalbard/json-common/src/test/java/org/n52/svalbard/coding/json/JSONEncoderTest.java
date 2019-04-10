@@ -20,13 +20,13 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.internal.matchers.ThrowableMessageMatcher.hasMessage;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.n52.svalbard.coding.json.matchers.JSONMatchers.equalTo;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.jupiter.api.Test;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.svalbard.encode.EncodingContext;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -45,9 +45,6 @@ public class JSONEncoderTest {
 
     private final JSONEncoder<String> encoder = new JSONEncoderForTesting(String.class);
     private final JSONEncoder<String> throwingEncoder = new JSONEncoderForExceptionTesting(String.class);
-
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testEncoderKeyTypes() {
@@ -79,8 +76,10 @@ public class JSONEncoderTest {
 
     @Test
     public void testThrowingEncoder() throws EncodingException {
-        thrown.expect(JSONEncodingException.class);
-        thrown.expect(hasMessage(is("message")));
-        throwingEncoder.encode("test");
+        JSONEncodingException assertThrows = assertThrows(JSONEncodingException.class, () -> {
+            throwingEncoder.encode("test");
+        });
+        assertTrue(assertThrows.getMessage() != null);
+        assertEquals("message", assertThrows.getMessage());
     }
 }

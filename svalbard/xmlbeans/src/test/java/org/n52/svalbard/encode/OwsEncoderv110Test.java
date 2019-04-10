@@ -16,23 +16,18 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.net.URI;
 import java.util.Arrays;
 
-import net.opengis.ows.x11.ExceptionDocument;
-import net.opengis.ows.x11.ExceptionReportDocument;
-import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.ows.OWSConstants;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsServiceIdentification;
@@ -41,6 +36,10 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.svalbard.SosHelperValues;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
+
+import net.opengis.ows.x11.ExceptionDocument;
+import net.opengis.ows.x11.ExceptionReportDocument;
+import net.opengis.ows.x11.ServiceIdentificationDocument.ServiceIdentification;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -55,7 +54,7 @@ public class OwsEncoderv110Test {
 
     private EncoderRepository encoderRepository = new EncoderRepository();
 
-    @Before
+    @BeforeEach
     public void init() {
         encoder.setXmlOptions(XmlOptions::new);
         encoder.setEncoderRepository(encoderRepository);

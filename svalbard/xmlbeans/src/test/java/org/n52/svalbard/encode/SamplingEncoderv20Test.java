@@ -20,10 +20,11 @@ import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
+import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.features.SfConstants;
@@ -31,8 +32,6 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.util.JTSHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
-
-import org.locationtech.jts.io.ParseException;
 
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureDocument;
 import net.opengis.samplingSpatial.x20.SFSpatialSamplingFeatureType;
@@ -43,7 +42,7 @@ public class SamplingEncoderv20Test {
     private EncodingContext ctx;
     private SamplingFeature featureOfInterest;
 
-    @Before
+    @BeforeEach
     public void setup() throws InvalidSridException, ParseException {
         EncoderRepository encoderRepository = new EncoderRepository();
 
@@ -85,14 +84,14 @@ public class SamplingEncoderv20Test {
     public void shouldEncodeAbstractFeatureWithEncodingContextAsPropertyType() throws EncodingException {
         ctx = EncodingContext.empty().with(XmlBeansEncodingFlags.PROPERTY_TYPE);
         XmlObject encode = encoder.encode(featureOfInterest, ctx);
-        Assert.assertThat(encode, Matchers.instanceOf(SFSpatialSamplingFeatureType.class));
+        MatcherAssert.assertThat(encode, Matchers.instanceOf(SFSpatialSamplingFeatureType.class));
     }
 
     @Test
     public void shouldEncodeAbstractFeatureWithOutEncodingContextAsDocument() throws EncodingException {
         ctx = EncodingContext.empty();
         XmlObject encode = encoder.encode(featureOfInterest, ctx);
-        Assert.assertThat(encode, Matchers.instanceOf(SFSpatialSamplingFeatureDocument.class));
+        MatcherAssert.assertThat(encode, Matchers.instanceOf(SFSpatialSamplingFeatureDocument.class));
     }
 
 }

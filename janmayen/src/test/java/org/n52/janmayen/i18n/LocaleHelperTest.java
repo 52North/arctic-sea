@@ -17,29 +17,22 @@
 package org.n52.janmayen.i18n;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
-import org.junit.rules.ExpectedException;
-
+import org.junit.jupiter.api.Test;
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
 public class LocaleHelperTest {
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-    @Rule
-    public final ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testSerialization() {
         String string = LocaleHelper.encode(Locale.GERMAN);
-        errors.checkThat(LocaleHelper.decode(string, null), is(Locale.GERMAN));
+        assertThat(LocaleHelper.decode(string, null), is(Locale.GERMAN));
     }
 
     @Test
@@ -49,15 +42,15 @@ public class LocaleHelperTest {
         // ISO 639 alpha-2 or alpha-3
         String string = LocaleHelper.encode(Locale.GERMAN);
         //System.out.println(Locale.GERMAN.toLanguageTag());
-        errors.checkThat(LocaleHelper.decode(string, null), is(Locale.GERMAN));
-        errors.checkThat(LocaleHelper.decode("de_DE", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("de_DE", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("de DE", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("de-de", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
-        errors.checkThat(LocaleHelper.decode("deu", null), is(Locale.GERMAN));
-        errors.checkThat(LocaleHelper.decode("ger", null), is(Locale.GERMAN));
-        errors.checkThat(LocaleHelper.decode("eng", null), is(Locale.ENGLISH));
+        assertThat(LocaleHelper.decode(string, null), is(Locale.GERMAN));
+        assertThat(LocaleHelper.decode("de_DE", null), is(Locale.GERMANY));
+        assertThat(LocaleHelper.decode("de_DE", null), is(Locale.GERMANY));
+        assertThat(LocaleHelper.decode("de DE", null), is(Locale.GERMANY));
+        assertThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
+        assertThat(LocaleHelper.decode("de-de", null), is(Locale.GERMANY));
+        assertThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
+        assertThat(LocaleHelper.decode("deu", null), is(Locale.GERMAN));
+        assertThat(LocaleHelper.decode("ger", null), is(Locale.GERMAN));
+        assertThat(LocaleHelper.decode("eng", null), is(Locale.ENGLISH));
     }
 }

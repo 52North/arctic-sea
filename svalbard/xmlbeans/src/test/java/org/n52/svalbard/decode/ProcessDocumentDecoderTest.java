@@ -16,17 +16,13 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-import org.n52.janmayen.Producer;
+import org.junit.jupiter.api.Test;
 import org.n52.shetland.inspire.ompr.Process;
 import org.n52.svalbard.decode.exception.DecodingException;
 

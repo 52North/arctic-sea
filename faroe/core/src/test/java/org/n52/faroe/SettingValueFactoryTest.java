@@ -18,13 +18,12 @@ package org.n52.faroe;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.Locale;
 import java.util.Optional;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.Test;
 
 import org.n52.janmayen.i18n.LocalizedString;
 import org.n52.janmayen.i18n.MultilingualString;
@@ -36,18 +35,15 @@ import org.n52.janmayen.i18n.MultilingualString;
  */
 public class SettingValueFactoryTest {
 
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
-
     @Test
     public void testMultilingualStringParsing() {
         String s = "{\"de\":\"Hallo\",\"en\":\"Hello\"}";
 
         MultilingualString ms = SettingValueFactory.decodeMultiLingualStringValue(s);
 
-        errors.checkThat(ms, is(notNullValue()));
-        errors.checkThat(ms.getLocalization(Locale.ENGLISH), is(Optional.of(new LocalizedString(Locale.ENGLISH, "Hello"))));
-        errors.checkThat(ms.getLocalization(Locale.GERMAN), is(Optional.of(new LocalizedString(Locale.GERMAN, "Hallo"))));
+        assertThat(ms, is(notNullValue()));
+        assertThat(ms.getLocalization(Locale.ENGLISH), is(Optional.of(new LocalizedString(Locale.ENGLISH, "Hello"))));
+        assertThat(ms.getLocalization(Locale.GERMAN), is(Optional.of(new LocalizedString(Locale.GERMAN, "Hallo"))));
 
     }
 }

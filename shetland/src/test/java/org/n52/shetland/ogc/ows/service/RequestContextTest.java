@@ -16,9 +16,9 @@
  */
 package org.n52.shetland.ogc.ows.service;
 
-
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
@@ -31,11 +31,11 @@ public class RequestContextTest {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.setRemoteAddr("::ffff:217.173.34.182");
         OwsServiceRequestContext fromRequest = OwsServiceRequestContext.fromRequest(mockRequest);
-        Assert.assertEquals("217.173.34.182", fromRequest.getIPAddress().get().toString());
+        assertEquals("217.173.34.182", fromRequest.getIPAddress().get().toString());
 
         mockRequest.setRemoteAddr("0:0:0:0:0:ffff:217.173.34.182");
         fromRequest = OwsServiceRequestContext.fromRequest(mockRequest);
-        Assert.assertEquals("217.173.34.182", fromRequest.getIPAddress().get().toString());
+        assertEquals("217.173.34.182", fromRequest.getIPAddress().get().toString());
     }
 
     @Test
@@ -43,12 +43,12 @@ public class RequestContextTest {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.setRemoteAddr("::101.45.75.219");
         OwsServiceRequestContext fromRequest = OwsServiceRequestContext.fromRequest(mockRequest);
-        Assert.assertEquals("101.45.75.219", fromRequest.getIPAddress().get().toString());
+        assertEquals("101.45.75.219", fromRequest.getIPAddress().get().toString());
 
         mockRequest.setRemoteAddr("0:0:0:0:0:0:101.45.75.219");
         fromRequest = OwsServiceRequestContext.fromRequest(mockRequest);
 
-        Assert.assertEquals("101.45.75.219", fromRequest.getIPAddress().get().toString());
+        assertEquals("101.45.75.219", fromRequest.getIPAddress().get().toString());
     }
 
     @Test
@@ -56,7 +56,7 @@ public class RequestContextTest {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.setRemoteAddr("::1");
         OwsServiceRequestContext fromRequest = OwsServiceRequestContext.fromRequest(mockRequest);
-        Assert.assertEquals("127.0.0.1", fromRequest.getIPAddress().get().toString());
+        assertEquals("127.0.0.1", fromRequest.getIPAddress().get().toString());
     }
 
     @Test
@@ -64,7 +64,7 @@ public class RequestContextTest {
         MockHttpServletRequest mockRequest = new MockHttpServletRequest();
         mockRequest.setRemoteAddr("2002:836b:1714::836b:1714");
         OwsServiceRequestContext fromRequest = OwsServiceRequestContext.fromRequest(mockRequest);
-        Assert.assertEquals("131.107.23.20", fromRequest.getIPAddress().get().toString());
+        assertEquals("131.107.23.20", fromRequest.getIPAddress().get().toString());
     }
 
 }

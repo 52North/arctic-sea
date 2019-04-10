@@ -16,9 +16,11 @@
  */
 package org.n52.svalbard.coding.json;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * TODO JavaDoc
@@ -28,8 +30,10 @@ import org.junit.Test;
  * @since 1.0.0
  */
 public class JSONValidatorTest {
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testNonExistingSchema() throws IOException {
-        JSONValidator.getInstance().isValid("{}", "htto:/x.y/z");
+        assertThrows(IllegalArgumentException.class, () -> {
+            JSONValidator.getInstance().isValid("{}", "htto:/x.y/z");
+        });
     }
 }

@@ -16,38 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.TRUE;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.instanceOf;
-import static org.hamcrest.Matchers.is;
-import static org.hamcrest.Matchers.not;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.assertThat;
-
-import java.io.ByteArrayOutputStream;
-import java.util.Arrays;
-import java.util.Map;
-import java.util.Set;
-
-import net.opengis.swes.x20.DeleteSensorResponseDocument;
-
-import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
-import org.n52.janmayen.http.MediaTypes;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.shetland.ogc.sos.response.DeleteSensorResponse;
-import org.n52.shetland.ogc.swes.SwesConstants;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-
-import com.google.common.collect.Maps;
-
 /**
  * TODO JavaDoc
  *

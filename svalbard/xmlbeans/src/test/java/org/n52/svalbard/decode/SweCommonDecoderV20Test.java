@@ -16,32 +16,30 @@
  */
 package org.n52.svalbard.decode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
 
 import java.util.List;
+
+import org.apache.xmlbeans.XmlException;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
+import org.n52.shetland.ogc.swe.simpleType.SweCategory;
+import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
+import org.n52.svalbard.decode.exception.DecodingException;
+
+import com.google.common.collect.Lists;
 
 import net.opengis.swe.x20.BooleanType;
 import net.opengis.swe.x20.CategoryType;
 import net.opengis.swe.x20.TimeRangeDocument;
 import net.opengis.swe.x20.TimeRangeType;
-
-import org.apache.xmlbeans.XmlException;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
-import org.n52.shetland.ogc.swe.simpleType.SweBoolean;
-import org.n52.shetland.ogc.swe.simpleType.SweCategory;
-import org.n52.shetland.ogc.swe.simpleType.SweTimeRange;
-import org.n52.svalbard.decode.SweCommonDecoderV20;
-import org.n52.svalbard.decode.exception.DecodingException;
-
-import com.google.common.collect.Lists;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk
@@ -55,12 +53,12 @@ public class SweCommonDecoderV20Test {
 
     private String definition = "test-definition";
 
-    @Before
+    @BeforeEach
     public void initDecoder() {
         decoder = new SweCommonDecoderV20();
     }
 
-    @After
+    @AfterEach
     public void nullDecoder() {
         decoder = null;
     }

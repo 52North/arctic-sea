@@ -16,15 +16,30 @@
  */
 package org.n52.svalbard.encode;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.sensorML.SensorML;
+import org.n52.shetland.ogc.sensorML.SmlPerson;
+import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
+import org.n52.shetland.ogc.sensorML.System;
+import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.util.XmlHelper;
+
+import com.google.common.collect.Lists;
 
 import net.opengis.sensorML.x101.CapabilitiesDocument.Capabilities;
 import net.opengis.sensorML.x101.ContactInfoDocument.ContactInfo;
@@ -41,22 +56,6 @@ import net.opengis.sensorML.x101.SystemType;
 import net.opengis.swe.x101.AnyScalarPropertyType;
 import net.opengis.swe.x101.SimpleDataRecordType;
 
-import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Test;
-
-import org.n52.shetland.ogc.OGCConstants;
-import org.n52.shetland.ogc.sensorML.SensorML;
-import org.n52.shetland.ogc.sensorML.SmlPerson;
-import org.n52.shetland.ogc.sensorML.SmlResponsibleParty;
-import org.n52.shetland.ogc.sensorML.System;
-import org.n52.shetland.ogc.sensorML.elements.SmlIdentifier;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.util.XmlHelper;
-
-import com.google.common.collect.Lists;
-
 
 /**
  * @author Shane StClair
@@ -72,7 +71,7 @@ public class SensorMLEncoderV101Test {
     private static final String TEST_CHILD_1 = "test-id-child-1";
     private SensorMLEncoderv101 sensorMLEncoderv101 = new SensorMLEncoderv101();
 
-    @Before
+    @BeforeEach
     public void setup() {
         EncoderRepository encoderRepository = new EncoderRepository();
         SchemaRepository schemaRepository = new SchemaRepository();

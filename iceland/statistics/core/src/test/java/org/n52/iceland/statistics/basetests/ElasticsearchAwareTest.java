@@ -27,9 +27,9 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.impl.ElasticsearchAdminHandler;
 
@@ -43,7 +43,7 @@ public abstract class ElasticsearchAwareTest extends SpringBaseTest {
     @Inject
     protected ElasticsearchAdminHandler adminHandler;
 
-    @BeforeClass
+    @BeforeAll
     public static void init() throws IOException, InterruptedException {
 
         logger.debug("Starting embedded node");
@@ -58,7 +58,7 @@ public abstract class ElasticsearchAwareTest extends SpringBaseTest {
 
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws InterruptedException {
         try {
             logger.info("Deleting {} index", clientSettings.getIndexId());
@@ -73,7 +73,7 @@ public abstract class ElasticsearchAwareTest extends SpringBaseTest {
     protected void setUpHook() {
     }
 
-    @AfterClass
+    @AfterAll
     public static void destroy() throws IOException {
         logger.debug("Closing embedded node");
         embeddedNode.close();

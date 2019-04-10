@@ -22,20 +22,16 @@ import java.util.Arrays;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ErrorCollector;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.n52.svalbard.decode.exception.DecodingException;
 
 public class GetDataAvailabilityResponseDecoderTest {
 
     private DecoderRepository decoderRepository;
-    @Rule
-    public final ErrorCollector errors = new ErrorCollector();
     private GetDataAvailabilityResponseDecoder gda;
 
-    @Before
+    @BeforeEach
     public void init() {
 
         this.decoderRepository = new DecoderRepository();
