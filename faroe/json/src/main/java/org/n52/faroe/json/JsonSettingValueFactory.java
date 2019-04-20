@@ -24,6 +24,7 @@ import org.joda.time.DateTime;
 import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
 import org.n52.faroe.SettingValueFactory;
+import org.n52.faroe.Pair;
 import org.n52.janmayen.i18n.MultilingualString;
 
 /**
@@ -75,5 +76,10 @@ public class JsonSettingValueFactory implements SettingValueFactory {
     @Override
     public SettingValue<MultilingualString> newMultiLingualStringSettingValue(String key, MultilingualString value) {
         return new JsonSettingValue<>(SettingType.MULTILINGUAL_STRING, key, value);
+    }
+
+    @Override
+    public SettingValue<Pair<?, ?>> newPairSettingValue(String key, Pair<?,?> value) {
+        return new JsonSettingValue<>(SettingType.PAIR, key, value);
     }
 }

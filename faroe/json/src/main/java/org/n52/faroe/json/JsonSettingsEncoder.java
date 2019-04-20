@@ -33,6 +33,7 @@ import org.n52.faroe.SettingType;
 import org.n52.faroe.SettingValue;
 import org.n52.faroe.settings.ChoiceSettingDefinition;
 import org.n52.faroe.settings.IntegerSettingDefinition;
+import org.n52.faroe.settings.PairSettingDefinition;
 import org.n52.janmayen.Json;
 import org.n52.janmayen.Times;
 import org.n52.janmayen.i18n.LocaleHelper;
@@ -96,6 +97,8 @@ public class JsonSettingsEncoder {
             ObjectNode options = j.putObject(JSONSettingConstants.OPTIONS_KEY);
             cDef.getOptions().entrySet().forEach(o -> options.put(o.getKey(), o.getValue()));
         }
+
+        //TODO Ask how pair setting should show up in setting.json
         return j;
     }
 
