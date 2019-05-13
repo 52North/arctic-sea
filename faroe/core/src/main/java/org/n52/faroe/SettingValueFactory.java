@@ -31,7 +31,6 @@ import org.n52.faroe.settings.FileSettingDefinition;
 import org.n52.faroe.settings.IntegerSettingDefinition;
 import org.n52.faroe.settings.MultilingualStringSettingDefinition;
 import org.n52.faroe.settings.NumericSettingDefinition;
-import org.n52.faroe.settings.PairSettingDefinition;
 import org.n52.faroe.settings.StringSettingDefinition;
 import org.n52.faroe.settings.UriSettingDefinition;
 import org.n52.janmayen.Json;
@@ -358,27 +357,6 @@ public interface SettingValueFactory {
     SettingValue<String> newChoiceSettingValue(String key, String stringValue);
 
     /**
-     * Constructs a new {@code Pair} setting value from the supplied key and value.
-     * 
-     * @param setting
-     * @param settingValue
-     * @return
-     */
-    default SettingValue<Pair<?, ?>> newPairSettingValue(PairSettingDefinition setting, String settingValue) {
-        return newPairSettingValue(setting.getKey(), decodePairStringValue(settingValue));
-    }
-
-    /**
-     * Constructs a new {@code Pair} setting value from the supplied key and value.
-     * 
-     * @param key           the setting key
-     * @param settingValue  the value
-     * 
-     * @return  the implementation specific {@code SettingValue}
-     */
-    SettingValue<Pair<?, ?>> newPairSettingValue(String key, Pair <?, ?> settingValue);
-
-    /**
      * Constructs a new generic setting value from the supplied definition and string value.
      *
      * @param setting the setting definition
@@ -407,8 +385,6 @@ public interface SettingValueFactory {
                 return newMultiLingualStringSettingValue(key, value);
             case CHOICE:
                 return newChoiceSettingValue((ChoiceSettingDefinition) setting, value);
-            case PAIR:
-                return newPairSettingValue((PairSettingDefinition)setting, value);
             default:
                 throw new IllegalArgumentException(String.format("Type %s not supported", setting.getType()));
         }
@@ -458,15 +434,6 @@ public interface SettingValueFactory {
         return ms;
     }
 
-    static Pair decodePairStringValue(String stringValue) {
-        Pair pair = null;
-        if(!nullOrEmpty(stringValue)) {
-            String first = stringValue.split(",")[0].trim();
-            String second = stringValue.split(",")[1].trim();
-            pair = Pair.of(first, second);
-        }
-        return pair;
-    }
     /**
      * @param stringValue
      *

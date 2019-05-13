@@ -46,6 +46,6 @@ public interface JSONSettingConstants {
     String TIME_INSTANT_TYPE = "timeInstant";
     String FILE_TYPE = "file";
     String URI_TYPE = "uri";
-    String PAIR_TYPE = "pair";
+
 
 }

@@ -68,11 +68,7 @@ public enum SettingType {
     /**
      * Type for a selection.
      */
-    CHOICE,
-    /**
-     * Type for a pair
-     */
-    PAIR;
+    CHOICE;
 
     public static SettingType fromString(String type) {
         switch (type) {
@@ -94,8 +90,6 @@ public enum SettingType {
                 return SettingType.MULTILINGUAL_STRING;
             case JSONSettingConstants.CHOICE_TYPE:
                 return SettingType.CHOICE;
-            case JSONSettingConstants.PAIR_TYPE:
-                return SettingType.PAIR;
             default:
                 throw unknownType(type);
         }
@@ -121,8 +115,6 @@ public enum SettingType {
                 return JSONSettingConstants.MULTILINGUAL_TYPE;
             case CHOICE:
                 return JSONSettingConstants.CHOICE_TYPE;
-            case PAIR:
-                return JSONSettingConstants.PAIR_TYPE;
             default:
                 throw unknownType(type);
         }
