@@ -139,9 +139,9 @@ function set_setting_json() {
     *) log "WARN: unsupported settings type: ${TYPE}" ;;
   esac
 
-  local TEMP=$(mktemp)
-  jq --arg key "${KEY}" --argjson value "${VALUE}" '.settings[$key].value = $value' "${FAROE_CONFIGURATION}" > ${TEMP}
-  mv -f ${TEMP} ${FAROE_CONFIGURATION}
+  local TEMP="$(mktemp)"
+  jq --arg key "${KEY}" --argjson value "${VALUE}" '.settings[$key].value = $value' "${FAROE_CONFIGURATION}" > "${TEMP}"
+  mv -f "${TEMP}" "${FAROE_CONFIGURATION}"
 }
 
 if [ -z "${FAROE_CONFIGURATION}" ]; then
@@ -149,12 +149,12 @@ if [ -z "${FAROE_CONFIGURATION}" ]; then
   exit 1
 fi
 
-if [ ! -f ${FAROE_CONFIGURATION} ]; then
+if [ ! -f "${FAROE_CONFIGURATION}" ]; then
   log "${FAROE_CONFIGURATION} does not exist"
   exit 1
 fi
 
-case ${FAROE_CONFIGURATION} in 
+case "${FAROE_CONFIGURATION}" in 
   *json) process_settings_json ;;
   *db) process_settings_sqlite ;;
   *) log "Unrecognized settings format"; exit 1 ;;
