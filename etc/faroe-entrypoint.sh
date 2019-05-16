@@ -30,13 +30,13 @@
 
 set -e
 
-function log() { echo $* >&2; }
+function log { echo $* >&2; }
 
-function identifier_to_env() {
+function identifier_to_env {
    sed -E -e 's|([a-z])([A-Z])|\1_\2|g; s|[-.]|_|g' | tr '[:lower:]' '[:upper:]'
 }
 
-function process_settings_sqlite() {
+function process_settings_sqlite {
   local ENV_VARIABLE KEY VALUE TYPE
   get_setting_identifiers_sqlite | while read KEY; do
     ENV_VARIABLE="$(echo "${KEY}" | identifier_to_env)"
@@ -49,11 +49,11 @@ function process_settings_sqlite() {
   done
 }
 
-function get_setting_identifiers_sqlite() {
+function get_setting_identifiers_sqlite {
   sqlite3 "${FAROE_CONFIGURATION}" 'select identifier from settings;' | sort 
 }
 
-function get_setting_type_sqlite() {
+function get_setting_type_sqlite {
   sqlite3 "${FAROE_CONFIGURATION}" "
     SELECT 'boolean' As type FROM boolean_settings WHERE identifier = '$KEY'
     UNION SELECT 'file' As type FROM file_settings WHERE identifier = '$KEY'
@@ -65,7 +65,7 @@ function get_setting_type_sqlite() {
     UNION SELECT 'multilingual' As type FROM multilingual_string_settings WHERE identifier = '$KEY'"
 }
 
-function set_setting_sqlite() {
+function set_setting_sqlite {
   local KEY="$1"
   local VALUE="$2"
   local TYPE="$3"
@@ -102,7 +102,7 @@ function set_setting_sqlite() {
 
 }
 
-function process_settings_json() {
+function process_settings_json {
   local ENV_VARIABLE KEY VALUE TYPE
   get_setting_identifiers_json | while read KEY; do
     ENV_VARIABLE="$(echo "${KEY}" | identifier_to_env)"
@@ -115,16 +115,16 @@ function process_settings_json() {
   done
 }
 
-function get_setting_identifiers_json() {
+function get_setting_identifiers_json {
   jq -r '.settings | keys[]' "${FAROE_CONFIGURATION}"
 }
 
-function get_setting_type_json() {
+function get_setting_type_json {
   local KEY="$1"
   jq -r --arg key "${KEY}" '.settings[$key].type' "${FAROE_CONFIGURATION}"
 }
 
-function set_setting_json() {
+function set_setting_json {
   local KEY="$1"
   local VALUE="$2"
   local TYPE="$3"
