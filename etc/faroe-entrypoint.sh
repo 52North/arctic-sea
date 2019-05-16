@@ -28,7 +28,7 @@
 #
 
 
-set -e -o pipefail
+set -e
 
 function log() { echo $* >&2; }
 
