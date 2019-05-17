@@ -49,22 +49,6 @@ public interface SwesConstants {
     SchemaLocation SWES_20_DELETE_SENSOR_SCHEMA_LOCATION =
             new SchemaLocation(NS_SWES_20, "http://schemas.opengis.net/swes/2.0/swesDeleteSensor.xsd");
 
-    @Deprecated
-    String SCHEMA_LOCATION_URL_SWES_20 = SWES_20_SCHEMA_LOCATION.getSchemaFileUrl();
-
-    @Deprecated
-    String SCHEMA_LOCATION_URL_SWES_20_DESCRIBE_SENSOR = SWES_20_DESCRIBE_SENSOR_SCHEMA_LOCATION.getSchemaFileUrl();
-
-    @Deprecated
-    String SCHEMA_LOCATION_URL_SWES_20_DELETE_SENSOR = SWES_20_DELETE_SENSOR_SCHEMA_LOCATION.getSchemaFileUrl();
-
-    @Deprecated
-    String SCHEMA_LOCATION_URL_SWES_20_INSERT_SENSOR = SWES_20_INSERT_SENSOR_SCHEMA_LOCATION.getSchemaFileUrl();
-
-    @Deprecated
-    String SCHEMA_LOCATION_URL_SWES_20_UPDATE_SENSOR_DESCRIPTION =
-            SWES_20_UPDATE_SENSOR_DESCRIPTION_SCHEMA_LOCATION.getSchemaFileUrl();
-
     // element names
     String EN_EXTENSION = "extension";
 

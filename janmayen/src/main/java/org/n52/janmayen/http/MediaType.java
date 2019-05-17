@@ -117,19 +117,6 @@ public class MediaType implements Comparable<MediaType>, Similar<MediaType> {
         this(com.google.common.net.MediaType.create(type, subtype).withParameters(asMultiMap(parameters)));
     }
 
-    /**
-     * Constructs a media type using the supplied parameters.
-     *
-     * @param type       the type (may be <code>null</code> for a wild card)
-     * @param subtype    the subtype (may be <code>null</code> for a wild card)
-     * @param parameters the parameter map
-     * @deprecated use {@link #MediaType(java.lang.String, java.lang.String, java.util.Map) }
-     */
-    @Deprecated
-    public MediaType(String type, String subtype, Multimap<String, String> parameters) {
-        this(type, subtype, parameters.asMap());
-    }
-
     private MediaType(com.google.common.net.MediaType mediaType) {
         this.delegate = Objects.requireNonNull(mediaType);
     }

@@ -17,13 +17,11 @@
 package org.n52.janmayen;
 
 import java.util.Comparator;
-import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import javax.xml.namespace.QName;
 
-import com.google.common.collect.ComparisonChain;
 import com.google.common.collect.Ordering;
 
 public final class Comparables {
@@ -195,12 +193,6 @@ public final class Comparables {
 
     public static <T> Comparator<T> allowNull(Comparator<T> delegate) {
         return Comparator.nullsFirst(delegate);
-    }
-
-    @Deprecated
-    public static ComparisonChain chain(Object o) {
-        Objects.requireNonNull(o);
-        return ComparisonChain.start();
     }
 
     public static <T> Ordering<T> inheritance() {

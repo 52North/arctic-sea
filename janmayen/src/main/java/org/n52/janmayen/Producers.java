@@ -60,12 +60,6 @@ public final class Producers {
         return new InstanceProducer<>(instance);
     }
 
-    @SuppressWarnings("unchecked")
-    @Deprecated
-    public static <T> Function<Producer<T>, T> producingFunction() {
-        return (ProducingFunction<T>) ProducingFunction.getInstance();
-    }
-
     private static class ProducingFunction<T> implements
             Function<Producer<T>, T> {
         private static final ProducingFunction<?> INSTANCE

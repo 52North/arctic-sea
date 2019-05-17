@@ -28,9 +28,6 @@ import java.util.stream.Collector;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.BindingKey;
@@ -56,12 +53,11 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.OperationDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
 
@@ -75,9 +71,6 @@ public class KvpBinding extends SimpleBinding {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(KvpBinding.class);
 
-    @Deprecated
-    private static final Set<String> CONFORMANCE_CLASSES = Collections
-            .singleton(ConformanceClasses.SOS_V2_KVP_CORE_BINDING);
     private static final Set<BindingKey> KEYS =
             Collections.singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_KVP));
 
@@ -103,14 +96,6 @@ public class KvpBinding extends SimpleBinding {
     @Override
     public Set<BindingKey> getKeys() {
         return Collections.unmodifiableSet(KEYS);
-    }
-
-    @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
-            return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
-        }
-        return Collections.emptySet();
     }
 
     @Override

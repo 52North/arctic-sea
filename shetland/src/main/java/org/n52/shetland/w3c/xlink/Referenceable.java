@@ -36,11 +36,6 @@ public abstract class Referenceable<T> {
 
     public abstract <X> Referenceable<X> map(Function<T, X> fun);
 
-    @Deprecated
-    public <X> Referenceable<X> transform(Function<T, X> fun) {
-        return map(fun);
-    }
-
     @Override
     public abstract int hashCode();
 

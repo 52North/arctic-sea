@@ -36,16 +36,12 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.Sets;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
 public class SupportedTypeRepository {
-    @Deprecated
-    private static SupportedTypeRepository instance;
     private final Set<Activatable<SupportedType>> supportedTypes = Sets.newHashSet();
     private final LoadingCache<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> cache;
 
@@ -59,7 +55,6 @@ public class SupportedTypeRepository {
     public void init(DecoderRepository decoderRepository, EncoderRepository encoderRepository) {
         this.decoderRepository = decoderRepository;
         this.encoderRepository = encoderRepository;
-        setStaticInstance();
         this.supportedTypes.clear();
 
         this.decoderRepository.getDecoders().stream()
@@ -101,17 +96,6 @@ public class SupportedTypeRepository {
 
     private Set<String> getSupportedTypeAsString(Set<? extends AbstractSupportedStringType> types) {
         return types.stream().map(AbstractSupportedStringType::getValue).collect(toSet());
-    }
-
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        SupportedTypeRepository.instance = this;
-    }
-
-    @Deprecated
-    public static SupportedTypeRepository getInstance() {
-        return instance;
     }
 
     private class CacheLoaderImpl extends CacheLoader<Class<? extends SupportedType>, Set<Activatable<SupportedType>>> {

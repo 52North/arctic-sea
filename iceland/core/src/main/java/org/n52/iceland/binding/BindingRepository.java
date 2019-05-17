@@ -41,8 +41,6 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Maps;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -53,14 +51,8 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
                    ActivationSource<BindingKey>,
                    Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(BindingRepository.class);
-    @Deprecated
-    private static BindingRepository instance;
-
     private final ActivationListeners<BindingKey> activation = new ActivationListeners<>(true);
 
-    @Deprecated
-    private final Map<PathBindingKey, Producer<Binding>> byPath = Maps.newHashMap();
-    private final Map<MediaTypeBindingKey, Producer<Binding>> byMediaType = Maps.newHashMap();
     private final Map<BindingKey, Producer<Binding>> bindings = Maps.newHashMap();
 
     private Optional<Collection<Binding>> components;
@@ -121,21 +113,13 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
 
     @Override
     public void init() {
-        setStaticInstance();
         Map<BindingKey, Producer<Binding>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.bindings.clear();
-        this.byMediaType.clear();
-        this.byPath.clear();
         for (Entry<BindingKey, Producer<Binding>> entry : implementations.entrySet()) {
             BindingKey key = entry.getKey();
             Producer<Binding> binding = entry.getValue();
             this.bindings.put(key, binding);
-            if (key instanceof MediaTypeBindingKey) {
-                byMediaType.put((MediaTypeBindingKey) key, binding);
-            } else if (key instanceof PathBindingKey) {
-                byPath.put((PathBindingKey) key, binding);
-            }
         }
         if (this.bindings.isEmpty()) {
             final StringBuilder exceptionText = new StringBuilder();
@@ -178,60 +162,30 @@ public class BindingRepository extends AbstractComponentRepository<BindingKey, B
         return Producers.produce(actives);
     }
 
-    @Deprecated
-    public Map<String, Binding> getBindingsByPath() {
-        Map<String, Binding> map = new HashMap<>(this.byPath.size());
-        for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
-            PathBindingKey key = entry.getKey();
-            Producer<Binding> producer = entry.getValue();
-            if (isActive(key)) {
-                map.put(key.getPath(), producer.get());
+    public Map<MediaType, Binding> getBindingsByMediaType() {
+        Map<MediaType, Binding> map = new HashMap<>(this.bindings.size());
+        for (Entry<BindingKey, Producer<Binding>> entry : this.bindings.entrySet()) {
+            if (entry.getKey() instanceof MediaTypeBindingKey) {
+                MediaTypeBindingKey key = (MediaTypeBindingKey) entry.getKey();
+                Producer<Binding> producer = entry.getValue();
+                if (isActive(key)) {
+                    map.put(key.getMediaType(), producer.get());
+                }
             }
         }
         return map;
     }
 
-    public Map<MediaType, Binding> getBindingsByMediaType() {
-        Map<MediaType, Binding> map = new HashMap<>(this.byMediaType.size());
-        for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
-            MediaTypeBindingKey key = entry.getKey();
-            Producer<Binding> producer = entry.getValue();
-            if (isActive(key)) {
+    public Map<MediaType, Binding> getAllBindingsByMediaType() {
+        Map<MediaType, Binding> map = new HashMap<>(this.bindings.size());
+        for (Entry<BindingKey, Producer<Binding>> entry : this.bindings.entrySet()) {
+            if (entry.getKey() instanceof MediaTypeBindingKey) {
+                MediaTypeBindingKey key = (MediaTypeBindingKey) entry.getKey();
+                Producer<Binding> producer = entry.getValue();
                 map.put(key.getMediaType(), producer.get());
             }
         }
         return map;
     }
 
-    @Deprecated
-    public Map<String, Binding> getAllBindingsByPath() {
-        Map<String, Binding> map = new HashMap<>(this.byPath.size());
-        for (Entry<PathBindingKey, Producer<Binding>> entry : this.byPath.entrySet()) {
-            PathBindingKey key = entry.getKey();
-            Producer<Binding> producer = entry.getValue();
-            map.put(key.getPath(), producer.get());
-        }
-        return map;
-    }
-
-    public Map<MediaType, Binding> getAllBindingsByMediaType() {
-        Map<MediaType, Binding> map = new HashMap<>(this.byMediaType.size());
-        for (Entry<MediaTypeBindingKey, Producer<Binding>> entry : this.byMediaType.entrySet()) {
-            MediaTypeBindingKey key = entry.getKey();
-            Producer<Binding> producer = entry.getValue();
-            map.put(key.getMediaType(), producer.get());
-        }
-        return map;
-    }
-
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        BindingRepository.instance = this;
-    }
-
-    @Deprecated
-    public static BindingRepository getInstance() {
-        return BindingRepository.instance;
-    }
 }

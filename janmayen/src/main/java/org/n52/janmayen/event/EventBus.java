@@ -38,7 +38,6 @@ import org.n52.janmayen.GroupedAndNamedThreadFactory;
 import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.lifecycle.Constructable;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * The {@link EventListener} are registered to the {@link EventBus} which delegates the fired {@link Event} to the
@@ -48,11 +47,8 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  * @since 1.0.0
  */
-@SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
 public class EventBus implements Constructable {
     private static final Logger LOG = LoggerFactory.getLogger(EventBus.class);
-    @Deprecated
-    private static EventBus instance;
     private static final int THREAD_POOL_SIZE = 3;
     private static final String THREAD_GROUP_NAME = "EventBus-Worker";
 
@@ -79,7 +75,6 @@ public class EventBus implements Constructable {
 
     @Override
     public void init() {
-        EventBus.instance = this;
     }
 
     private boolean checkEvent(Event event) {
@@ -187,16 +182,6 @@ public class EventBus implements Constructable {
         } else {
             LOG.warn("Listener {} was not registered for SosEvent Type {}", listener, eventType);
         }
-    }
-
-    @Deprecated
-    public static EventBus getInstance() {
-        return EventBus.instance;
-    }
-
-    @Deprecated
-    public static void fire(Event event) {
-        getInstance().submit(event);
     }
 
     private static class ClassCache {

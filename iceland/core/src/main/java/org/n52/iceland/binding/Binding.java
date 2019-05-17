@@ -25,7 +25,6 @@ import org.n52.iceland.exception.HTTPException;
 import org.n52.janmayen.component.Component;
 import org.n52.janmayen.http.HTTPStatus;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
-import org.n52.svalbard.ConformanceClass;
 
 /**
  * Abstract Super class for binding implementations.
@@ -38,7 +37,7 @@ import org.n52.svalbard.ConformanceClass;
  *
  * @since 1.0.0
  */
-public interface Binding extends ConformanceClass, Component<BindingKey>, EncodingExceptionHandler {
+public interface Binding extends Component<BindingKey>, EncodingExceptionHandler {
 
     /**
      * HTTP DELETE request handling method.

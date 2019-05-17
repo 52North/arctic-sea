@@ -25,9 +25,6 @@ package org.n52.iceland.ogc.ows;
  */
 public interface OwsServiceProviderFactorySettings {
 
-    @Deprecated
-    String FILE = "serviceProvider.file";
-
     String STATE = "serviceProvider.state";
 
     String PHONE = "serviceProvider.phone";

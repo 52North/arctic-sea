@@ -24,17 +24,8 @@ package org.n52.iceland.ogc.ows;
  * @since 1.0.0
  */
 public interface OwsServiceIdentificationFactorySettings {
-    @Deprecated
-    String SERVICE_TYPE = "serviceIdentification.serviceType";
-
-    @Deprecated
-    String SERVICE_TYPE_CODE_SPACE
-            = "serviceIdentification.serviceTypeCodeSpace";
 
     String ACCESS_CONSTRAINTS = "serviceIdentification.accessConstraints";
-
-    @Deprecated
-    String FILE = "serviceIdentification.file";
 
     String TITLE = "serviceIdentification.title";
 

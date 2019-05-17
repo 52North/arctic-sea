@@ -71,16 +71,6 @@ public class Json {
     protected Json() {
     }
 
-    @Deprecated
-    public static ObjectReader getReader() {
-        return reader();
-    }
-
-    @Deprecated
-    public static ObjectWriter getWriter() {
-        return writer();
-    }
-
     private static ObjectWriter writer() {
         return WRITER;
     }

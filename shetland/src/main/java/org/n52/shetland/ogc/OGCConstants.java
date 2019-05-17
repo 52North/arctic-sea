@@ -45,12 +45,6 @@ public interface OGCConstants {
     /** Constant for prefixes of procedures */
     String URN_PHENOMENON_PREFIX = "urn:ogc:def:phenomenon:OGC:1.0.30:";
 
-    /**
-     * @deprecated IFGI!?
-     */
-    @Deprecated
-    String URN_PROCEDURE_PREFIX = "urn:ogc:object:feature:Sensor:IFGI:";
-
     String URN_PROPERTY_NAME_LOCATION = "urn:ogc:data:location";
 
     String URN_PROPERTY_NAME_SAMPLING_GEOMETRY = "urn:ogc:data:samplingGeometry";

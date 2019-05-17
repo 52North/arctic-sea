@@ -17,7 +17,6 @@
 package org.n52.shetland.ogc.gml;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 import org.n52.janmayen.Copyable;
 import org.n52.janmayen.i18n.LocalizedString;
@@ -36,11 +35,6 @@ public class CodeType extends AbstractCodeType implements Copyable<CodeType> {
 
     public CodeType(final String value) {
         super(value);
-    }
-
-    @Deprecated
-    public CodeType(String value, String codespace) throws URISyntaxException {
-        super(value, new URI(codespace));
     }
 
     public CodeType(String value, URI codespace) {

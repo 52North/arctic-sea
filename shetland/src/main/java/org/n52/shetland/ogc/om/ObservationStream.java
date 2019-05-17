@@ -295,24 +295,6 @@ public interface ObservationStream
     }
 
     /**
-     * Iterate over each remaining element in this stream.
-     *
-     * @param consumer
-     *            the consumer
-     *
-     * @throws OwsExceptionReport
-     *             if the consumer throws an error
-     * @deprecated use
-     *             {@link #forEachRemaining(org.n52.janmayen.function.ThrowingConsumer)}
-     *             as the name makes it more clear that this object can only be
-     *             iterated once.
-     */
-    @Deprecated
-    default void forEach(ThrowingConsumer<OmObservation, OwsExceptionReport> consumer) throws OwsExceptionReport {
-        this.forEachRemaining(consumer);
-    }
-
-    /**
      * Creates an empty observation stream.
      *
      * @return the stream

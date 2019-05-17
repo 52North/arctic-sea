@@ -54,8 +54,4 @@ public interface Decoder<T, S> extends Component<DecoderKey> {
         return Collections.emptySet();
     }
 
-    @Deprecated
-    default Set<DecoderKey> getDecoderKeyTypes() {
-        return getKeys();
-    }
 }

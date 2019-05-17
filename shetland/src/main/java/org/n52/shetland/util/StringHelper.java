@@ -68,20 +68,6 @@ public final class StringHelper {
         return toNormalize.replaceAll("[\\\\/:\\*?\"<>;,#%=@]", "_");
     }
 
-    /**
-     * Check if string is not null and not empty
-     *
-     * @param string string to check
-     *
-     * @return empty or not
-     *
-     * @deprecated use {@link Strings#isNullOrEmpty(java.lang.String) }
-     */
-    @Deprecated
-    public static boolean isNotEmpty(String string) {
-        return !Strings.isNullOrEmpty(string);
-    }
-
     public static String convertStreamToString(InputStream is, @Nullable String charset) throws IOException {
         String cs = Optional.ofNullable(charset).map(Strings::emptyToNull).orElseGet(DEFAULT_CHARSET::name);
         try (InputStreamReader reader = new InputStreamReader(is, cs)) {
@@ -93,16 +79,6 @@ public final class StringHelper {
 
     public static String convertStreamToString(InputStream is) throws IOException {
         return convertStreamToString(is, null);
-    }
-
-    @Deprecated
-    public static boolean checkIfCharacterOccursXTimesIgnoreCase(String toCheck, char character, int count) {
-        return getCharacterCountIgnoreCase(toCheck, character) >= count;
-    }
-
-    @Deprecated
-    public static boolean checkIfCharacterOccursXTimes(String toCheck, char character, int count) {
-        return getCharacterCount(toCheck, character) >= count;
     }
 
     public static List<String> splitToList(String string) {

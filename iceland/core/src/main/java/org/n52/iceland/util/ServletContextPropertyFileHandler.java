@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
  * @since 1.0.0
  *
  */
-public class ServletContextPropertyFileHandler extends AbstractPropertyFileHandler {
+public class ServletContextPropertyFileHandler extends PropertyFileHandlerImpl {
 
     public ServletContextPropertyFileHandler(ServletContext ctx, String name) {
         super(ctx.getRealPath(name));

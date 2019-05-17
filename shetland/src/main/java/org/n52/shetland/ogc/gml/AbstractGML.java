@@ -344,14 +344,7 @@ public abstract class AbstractGML {
      *
      * @throws java.net.URISyntaxException
      *             if the code space is not a valid URI
-     * @deprecated Use {@link AbstractGML}{@link #addName(String, URI)}
      */
-    @Deprecated
-    public AbstractGML addName(final String name, final String codespace) throws URISyntaxException {
-        addName(new CodeType(name, codespace));
-        return this;
-    }
-
     public AbstractGML addName(final String name, final URI codespace) throws URISyntaxException {
         addName(new CodeType(name, codespace));
         return this;

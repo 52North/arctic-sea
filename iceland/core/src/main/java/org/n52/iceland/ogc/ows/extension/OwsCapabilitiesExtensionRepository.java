@@ -38,8 +38,6 @@ import org.n52.janmayen.function.Suppliers;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.ogc.ows.OwsCapabilitiesExtension;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Repository for {@link OwsCapabilitiesExtension} implementations
  *
@@ -51,8 +49,6 @@ public class OwsCapabilitiesExtensionRepository
                                             OwsCapabilitiesExtensionProvider,
                                             OwsCapabilitiesExtensionProviderFactory>
         implements Constructable {
-    @Deprecated
-    private static OwsCapabilitiesExtensionRepository instance;
     @Inject
     private RequestOperatorRepository requestOperatorRepository;
 
@@ -70,8 +66,6 @@ public class OwsCapabilitiesExtensionRepository
 
     @Override
     public void init() {
-        setStaticInstance();
-
         Map<OwsCapabilitiesExtensionKey, Set<Producer<OwsCapabilitiesExtensionProvider>>> implementations
                 = getProviders(this.components, this.componentFactories);
         this.providers.clear();
@@ -133,17 +127,6 @@ public class OwsCapabilitiesExtensionRepository
                                                         key.getVersion(),
                                                         relatedOperation);
         return this.requestOperatorRepository.isActive(rok);
-    }
-
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        OwsCapabilitiesExtensionRepository.instance = this;
-    }
-
-    @Deprecated
-    public static OwsCapabilitiesExtensionRepository getInstance() {
-        return OwsCapabilitiesExtensionRepository.instance;
     }
 
 }

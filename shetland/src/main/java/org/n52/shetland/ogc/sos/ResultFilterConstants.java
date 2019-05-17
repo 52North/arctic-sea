@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.sos;
 
 public interface ResultFilterConstants {
 
-String NS_RF = "http://www.opengis.net/sosrf/1.0";
+    String NS_RF = "http://www.opengis.net/sosrf/1.0";
 
     String NS_RF_20 = "http://www.opengis.net/sosrf/2.0";
 

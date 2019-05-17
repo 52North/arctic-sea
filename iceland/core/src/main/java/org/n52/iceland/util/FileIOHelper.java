@@ -17,17 +17,11 @@
 package org.n52.iceland.util;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import org.n52.iceland.exception.ows.concrete.GenericThrowableWrapperException;
-import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
 /**
  * Utility class for file handling
@@ -44,27 +38,6 @@ public final class FileIOHelper {
     private static final String READ_MODE = "r";
 
     private FileIOHelper() {
-    }
-
-    /**
-     * Loads a file and returns an InputStream
-     *
-     *
-     *
-     * @param file File to load
-     *
-     * @return InputStream of the file
-     *
-     * @throws OwsExceptionReport If and error occurs;
-     * @deprecated use {@link FileInputStream}
-     */
-    @Deprecated
-    public static InputStream loadInputStreamFromFile(File file) throws OwsExceptionReport {
-        try {
-            return new FileInputStream(file);
-        } catch (FileNotFoundException fnfe) {
-            throw new GenericThrowableWrapperException(fnfe);
-        }
     }
 
     /* TODO refactor this */

@@ -37,11 +37,6 @@ public class TestBinding extends SimpleBinding {
     }
 
     @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        return Collections.emptySet();
-    }
-
-    @Override
     protected MediaType getDefaultContentType() {
         return MediaTypes.APPLICATION_XML;
     }

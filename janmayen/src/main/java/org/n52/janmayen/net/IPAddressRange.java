@@ -98,7 +98,7 @@ public class IPAddressRange implements Predicate<IPAddress>, com.google.common.b
         }
 
         byte[] bytes = this.address.getBytes();
-        byte[] maskBytes = getSubnetMask().getBytes();
+        byte[] maskBytes = getMask().getBytes();
         byte[] highBytes = new byte[bytes.length];
         byte[] lowBytes = new byte[bytes.length];
 
@@ -141,18 +141,6 @@ public class IPAddressRange implements Predicate<IPAddress>, com.google.common.b
      */
     public int getPrefix() {
         return this.prefix;
-    }
-
-    /**
-     * Get the subnet mask described by this prefix.
-     *
-     * @return the mask
-     *
-     * @deprecated use {@link #getMask() }
-     */
-    @Deprecated
-    public IPAddress getSubnetMask() {
-        return getMaskForPrefix(this.prefix, this.address.getBitSize());
     }
 
     /**

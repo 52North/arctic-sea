@@ -48,8 +48,6 @@ import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.soap.SoapChain;
 import org.n52.shetland.w3c.soap.SoapHeader;
@@ -59,7 +57,6 @@ import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.shetland.w3c.wsa.WsaMessageIDHeader;
 import org.n52.shetland.w3c.wsa.WsaReplyToHeader;
 import org.n52.shetland.w3c.wsa.WsaToHeader;
-import org.n52.svalbard.ConformanceClasses;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncoderKey;
 import org.n52.svalbard.encode.XmlEncoderKey;
@@ -73,10 +70,6 @@ import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
  *
  */
 public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
-
-    @Deprecated
-    private static final Set<String> CONFORMANCE_CLASSES = Collections
-            .singleton(ConformanceClasses.SOS_V2_SOAP_BINDING);
 
     private static final Set<BindingKey> KEYS = Collections
             .singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_SOAP_XML));
@@ -97,15 +90,6 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     @Override
     protected boolean isUseHttpResponseCodes() {
         return false;
-    }
-
-    @Deprecated
-    @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
-            return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
-        }
-        return Collections.emptySet();
     }
 
     @Override

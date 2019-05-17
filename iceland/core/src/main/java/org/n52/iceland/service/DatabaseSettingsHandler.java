@@ -22,21 +22,15 @@ import javax.servlet.ServletContext;
 
 import org.n52.iceland.util.DelegatingPropertyFileHandler;
 import org.n52.iceland.util.ServletContextPropertyFileHandler;
-import org.n52.janmayen.lifecycle.Constructable;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * @since 1.0.0
  *
  */
-public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler implements Constructable {
+public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler {
 
     public static final String INIT_PARAM_DATA_SOURCE_CONFIG_LOCATION
             = "datasourceConfigLocation";
-
-    @Deprecated
-    private static DatabaseSettingsHandler instance;
 
     @Inject
     public void setServletContext(ServletContext ctx) {
@@ -44,21 +38,5 @@ public class DatabaseSettingsHandler extends DelegatingPropertyFileHandler imple
         setDelegate(new ServletContextPropertyFileHandler(ctx, name));
     }
 
-    @Override
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    public void init() {
-        DatabaseSettingsHandler.instance = this;
-    }
-
-    @Deprecated
-    public static DatabaseSettingsHandler getInstance() {
-        return instance;
-    }
-
-    @Deprecated
-    public static DatabaseSettingsHandler getInstance(ServletContext ctx) {
-        return instance;
-    }
 
 }

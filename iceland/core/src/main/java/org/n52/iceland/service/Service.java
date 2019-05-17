@@ -27,7 +27,6 @@ import java.util.concurrent.atomic.AtomicLong;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -65,9 +64,8 @@ import com.google.common.util.concurrent.UncheckedTimeoutException;
 @Configurable
 @Controller
 @RequestMapping(value = "/service", consumes = "*/*", produces = "*/*")
-public class Service extends HttpServlet {
+public class Service {
     public static final String REQUEST_TIMEOUT = "service.request.timeout";
-    private static final long serialVersionUID = -2103692310137045855L;
     private static final String BINDING_DELETE_METHOD = "doDeleteOperation";
     private static final String BINDING_PUT_METHOD = "doPutOperation";
     private static final String BINDING_POST_METHOD = "doPostOperation";
@@ -110,12 +108,6 @@ public class Service extends HttpServlet {
                      count, response.isCommitted(), elapsed);
     }
 
-    @Override
-    @Deprecated
-    public void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        delete(request, response);
-    }
-
     @RequestMapping(method = RequestMethod.DELETE)
     public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
@@ -127,13 +119,6 @@ public class Service extends HttpServlet {
         } finally {
             logResponse(request, response, currentCount, stopwatch);
         }
-    }
-
-    @Deprecated
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        get(request, response);
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -150,13 +135,6 @@ public class Service extends HttpServlet {
         }
     }
 
-    @Deprecated
-    @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        post(request, response);
-    }
-
     @RequestMapping(method = RequestMethod.POST)
     public void post(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -171,13 +149,6 @@ public class Service extends HttpServlet {
         }
     }
 
-    @Deprecated
-    @Override
-    public void doPut(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        put(request, response);
-    }
-
     @RequestMapping(method = RequestMethod.PUT)
     public void put(HttpServletRequest request, HttpServletResponse response)
             throws IOException {
@@ -190,13 +161,6 @@ public class Service extends HttpServlet {
         } finally {
             logResponse(request, response, currentCount, stopwatch);
         }
-    }
-
-    @Deprecated
-    @Override
-    public void doOptions(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        options(request, response);
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
