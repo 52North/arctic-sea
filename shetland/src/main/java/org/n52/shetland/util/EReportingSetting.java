@@ -33,8 +33,6 @@ public interface EReportingSetting {
 
     String EREPORTING_PROCEDURE_PREFIX_KEY = "eReporting.procedure.prefix";
 
-    // String EREPORTING_OBSERVABLE_PROPERTY_PREFIX_KEY =
-    // "eReporting.obervableProperty.prefix";
     String EREPORTING_FEATURE_OF_INTEREST_PREFIX_KEY = "eReporting.featureOfInterest.prefix";
 
     String EREPORTING_SAMPLING_POINT_PREFIX_KEY = "eReporting.samplingPoint.prefix";
