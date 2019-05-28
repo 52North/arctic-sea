@@ -25,7 +25,7 @@ import com.google.common.base.Strings;
  * @since 1.0.0
  *
  */
-public class InspireUniqueResourceIdentifier {
+public class InspireUniqueResourceIdentifier implements InspireObject {
 
     /* Element Code 1..1 */
     private String code;

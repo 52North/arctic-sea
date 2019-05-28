@@ -90,14 +90,14 @@ public final class LocaleHelper {
 
     /**
      * Strips quality factors weights after semicolon, e.g. {@code de-DE,de;q=0.9}.
-     * 
+     *
      * @param locale the locale potentially containing quality factor weights
      * @return the locale without quality factor weights
      */
     private static String stripQualityFactorWeights(String locale) {
         int semicolonIndex = locale.indexOf(";");
         boolean hasQualityFactorWeights = semicolonIndex != -1;
-        return hasQualityFactorWeights 
+        return hasQualityFactorWeights
                 ? locale.substring(0, semicolonIndex)
                 : locale;
     }

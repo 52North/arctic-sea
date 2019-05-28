@@ -35,6 +35,7 @@ import org.n52.shetland.inspire.InspireConstants;
 import org.n52.shetland.inspire.InspireObject;
 import org.n52.shetland.inspire.InspireSupportedCRS;
 import org.n52.shetland.inspire.InspireSupportedLanguages;
+import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
 import org.n52.shetland.inspire.dls.FullInspireExtendedCapabilities;
 import org.n52.shetland.inspire.dls.InspireExtendedCapabilities;
 import org.n52.shetland.inspire.dls.MinimalInspireExtendedCapabilities;
@@ -106,6 +107,7 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
     private void checkIfSupported(InspireObject objectToEncode) throws EncodingException {
         if (!(objectToEncode instanceof InspireSupportedLanguages) &&
             !(objectToEncode instanceof InspireSupportedCRS) &&
+            !(objectToEncode instanceof InspireUniqueResourceIdentifier) &&
             !(objectToEncode instanceof FullInspireExtendedCapabilities) &&
             !(objectToEncode instanceof MinimalInspireExtendedCapabilities)) {
             throw new UnsupportedEncoderInputException(this, objectToEncode);

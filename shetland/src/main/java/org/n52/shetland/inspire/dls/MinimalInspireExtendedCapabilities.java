@@ -20,7 +20,6 @@ import java.util.Collection;
 
 import org.n52.shetland.inspire.InspireLanguageISO6392B;
 import org.n52.shetland.inspire.InspireResourceLocator;
-import org.n52.shetland.inspire.InspireSupportedCRS;
 import org.n52.shetland.inspire.InspireSupportedLanguages;
 import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
 import org.n52.shetland.inspire.dls.InspireCapabilities.InspireExtendedCapabilitiesMetadataURL;
@@ -49,13 +48,11 @@ public class MinimalInspireExtendedCapabilities extends InspireExtendedCapabilit
      *            Response language to set
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
-     *  @param supportedCRS
-     *            Supported CRSes to set
      */
     public MinimalInspireExtendedCapabilities(InspireResourceLocator metadataUrl,
             InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifier, InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier, supportedCRS);
+            Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifier) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier);
         setMetadataUrl(metadataUrl);
     }
 

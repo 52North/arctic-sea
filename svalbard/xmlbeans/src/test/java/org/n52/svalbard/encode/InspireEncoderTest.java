@@ -49,7 +49,6 @@ import org.n52.shetland.inspire.InspireMandatoryKeywordValue;
 import org.n52.shetland.inspire.InspireMetadataPointOfContact;
 import org.n52.shetland.inspire.InspireOriginatingControlledVocabulary;
 import org.n52.shetland.inspire.InspireResourceLocator;
-import org.n52.shetland.inspire.InspireSupportedCRS;
 import org.n52.shetland.inspire.InspireSupportedLanguages;
 import org.n52.shetland.inspire.InspireTemporalReference;
 import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
@@ -203,7 +202,7 @@ public class InspireEncoderTest {
         spatialDataSetIdentifier.add(iuri);
         // --------------------
         return new MinimalInspireExtendedCapabilities(resourceLocator, inspireSupportedLanguages, responseLanguage,
-                spatialDataSetIdentifier,new InspireSupportedCRS("4326"));
+                spatialDataSetIdentifier);
     }
 
     private void validate(XmlObject xmlObject) throws SAXException, IOException {
@@ -249,7 +248,7 @@ public class InspireEncoderTest {
         iuri.setNamespace("http://test.org");
         // --------------------
         FullInspireExtendedCapabilities inspireExtendedCapabilities =
-                new FullInspireExtendedCapabilities(resourceLocator, inspireSupportedLanguages, responseLanguage, iuri, new InspireSupportedCRS("4326"));
+                new FullInspireExtendedCapabilities(resourceLocator, inspireSupportedLanguages, responseLanguage, iuri);
         inspireExtendedCapabilities.setResourceType(InspireServiceSpatialDataResourceType.service);
         inspireExtendedCapabilities.addKeyword(new InspireKeyword("test"));
         inspireExtendedCapabilities.addMandatoryKeyword(inspireMandatoryKeyword);

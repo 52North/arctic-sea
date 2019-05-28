@@ -21,11 +21,9 @@ import java.util.Set;
 
 import org.n52.shetland.inspire.InspireConstants;
 import org.n52.shetland.inspire.InspireLanguageISO6392B;
-import org.n52.shetland.inspire.InspireSupportedCRS;
 import org.n52.shetland.inspire.InspireSupportedLanguages;
 import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
 import org.n52.shetland.inspire.dls.InspireCapabilities.InspireExtendedCapabilitiesSpatialDataSetIdentifier;
-import org.n52.shetland.inspire.dls.InspireCapabilities.InspireExtendedCapabilitiesSupportedCRS;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Sets;
@@ -40,11 +38,10 @@ import com.google.common.collect.Sets;
  */
 public abstract class InspireExtendedCapabilitiesDLS
         extends InspireExtendedCapabilities
-        implements InspireExtendedCapabilitiesSpatialDataSetIdentifier, InspireExtendedCapabilitiesSupportedCRS {
+        implements InspireExtendedCapabilitiesSpatialDataSetIdentifier {
 
     /* SpatialDataSetIdentifier 1..* */
     private Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifier = Sets.newHashSet();
-    private InspireSupportedCRS supportedCRS;
 
     /**
      * constructor
@@ -55,15 +52,12 @@ public abstract class InspireExtendedCapabilitiesDLS
      *            Response language to set
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
-     * @param supportedCRS
-     *            Supported CRSes to set
      */
     public InspireExtendedCapabilitiesDLS(
             InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            InspireUniqueResourceIdentifier spatialDataSetIdentifier, InspireSupportedCRS supportedCRS) {
+            InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
         super(supportedLanguages, responseLanguage);
         addSpatialDataSetIdentifier(spatialDataSetIdentifier);
-        setSupportedCRS(supportedCRS);
     }
 
     /**
@@ -75,15 +69,12 @@ public abstract class InspireExtendedCapabilitiesDLS
      *            Response language to set
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
-     * @param supportedCRS
-     *            Supported CRSes to set
      */
     public InspireExtendedCapabilitiesDLS(
             InspireSupportedLanguages supportedLanguages, InspireLanguageISO6392B responseLanguage,
-            Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers, InspireSupportedCRS supportedCRS) {
+            Collection<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
         super(supportedLanguages, responseLanguage);
         setSpatialDataSetIdentifier(spatialDataSetIdentifiers);
-        setSupportedCRS(supportedCRS);
     }
 
     @Override
@@ -117,22 +108,6 @@ public abstract class InspireExtendedCapabilitiesDLS
     @Override
     public boolean isSetSpatialDataSetIdentifier() {
         return CollectionHelper.isNotEmpty(getSpatialDataSetIdentifier());
-    }
-
-    @Override
-    public InspireExtendedCapabilitiesSupportedCRS setSupportedCRS(InspireSupportedCRS supportedCRS) {
-        this.supportedCRS = supportedCRS;
-        return this;
-    }
-
-    @Override
-    public InspireSupportedCRS getSupportedCRS() {
-        return supportedCRS;
-    }
-
-    @Override
-    public boolean isSetSupportedCRS() {
-        return getSupportedCRS() != null;
     }
 
 }
