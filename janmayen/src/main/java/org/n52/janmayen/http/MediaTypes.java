@@ -28,12 +28,6 @@ import com.google.common.collect.ImmutableSetMultimap;
  */
 public final class MediaTypes {
 
-    @Deprecated
-    public static final MediaType WILD_CARD = MediaType.any();
-    @Deprecated
-    public static final String APPLICATION = MediaType.APPLICATION_TYPE;
-    @Deprecated
-    public static final String TEXT = MediaType.TEXT_TYPE;
     private static final String SUBTYPE_XML = "xml";
     private static final String SUBTYPE_PLAIN = "plain";
     private static final String SUBTYPE_ZIP = "zip";
@@ -54,8 +48,6 @@ public final class MediaTypes {
     private static final String SUBTYPE_X_NETCDF = "x-netcdf";
     private static final String SUBTYPE_X_ZIPPED_SHAPE = "x-zipped-shp";
     private static final String PARAM_VERSION = "version";
-    @Deprecated
-    public static final String XML = SUBTYPE_XML;
 
 
     public static final MediaType APPLICATION_X_GEOTIFF = MediaType.application(SUBTYPE_X_GEOTIFF);

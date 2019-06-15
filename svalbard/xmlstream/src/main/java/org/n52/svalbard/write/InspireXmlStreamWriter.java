@@ -83,6 +83,8 @@ public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> imple
             writeSupportedLanguages((InspireSupportedLanguages) getElement(), true);
         } else if (getElement() instanceof InspireSupportedCRS) {
             writeSupportedCRS((InspireSupportedCRS) getElement(), true);
+        } else if (getElement() instanceof InspireUniqueResourceIdentifier) {
+            writeSpatialDataSetIdentifier((InspireUniqueResourceIdentifier) getElement(), true);
         }
         finish();
     }
@@ -106,9 +108,8 @@ public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> imple
         writeResponseLanguage(minimalInspireExtendedCapabilities.getResponseLanguage());
         for (InspireUniqueResourceIdentifier inspireUniqueResourceIdentifier : minimalInspireExtendedCapabilities
                 .getSpatialDataSetIdentifier()) {
-            writeSpatialDataSetIdentifier(inspireUniqueResourceIdentifier);
+            writeSpatialDataSetIdentifier(inspireUniqueResourceIdentifier, false);
         }
-        writeSupportedCRS(minimalInspireExtendedCapabilities.getSupportedCRS(), false);
         end(QN_EXTENDED_CAPABILITIES);
     }
 
@@ -155,9 +156,8 @@ public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> imple
         }
         for (InspireUniqueResourceIdentifier inspireUniqueResourceIdentifier : fullInspireExtendedCapabilities
                 .getSpatialDataSetIdentifier()) {
-            writeSpatialDataSetIdentifier(inspireUniqueResourceIdentifier);
+            writeSpatialDataSetIdentifier(inspireUniqueResourceIdentifier, false);
         }
-        writeSupportedCRS(fullInspireExtendedCapabilities.getSupportedCRS(), false);
         end(QN_EXTENDED_CAPABILITIES);
     }
 
@@ -678,12 +678,19 @@ public class InspireXmlStreamWriter extends XmlStreamWriter<InspireObject> imple
      * @param inspireUniqueResourceIdentifier
      *            {@link InspireUniqueResourceIdentifier} to write as spatial
      *            dataset identifier element to stream
+     * @param root
+     *            indicator if this is a root element and namespaces should be
+     *            added
      * @throws XMLStreamException
      *             If an error occurs when writing the object to stream
      */
-    private void writeSpatialDataSetIdentifier(InspireUniqueResourceIdentifier inspireUniqueResourceIdentifier)
-            throws XMLStreamException {
+    private void writeSpatialDataSetIdentifier(InspireUniqueResourceIdentifier inspireUniqueResourceIdentifier,
+            boolean root) throws XMLStreamException {
         start(QN_SPATIAL_DATASET_IDENTIFIER);
+        if (root) {
+            writeInspireDLSNamespaces();
+            writeInspireCommonNamespaces(root);
+        }
         writeUniqueResourceIdentifierContent(inspireUniqueResourceIdentifier);
         endInline(QN_SPATIAL_DATASET_IDENTIFIER);
     }

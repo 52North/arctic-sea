@@ -33,7 +33,7 @@ import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsServiceIdentification;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.svalbard.SosHelperValues;
+
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 
@@ -77,7 +77,7 @@ public class OwsEncoderv110Test {
     // http://www.angelikalanger.com/GenericsFAQ/FAQSections/ProgrammingIdioms.html#FAQ300
     // for more details
     private EncodingContext encodeInObservationMap() {
-        return EncodingContext.of(SosHelperValues.ENCODE_OWS_EXCEPTION_ONLY);
+        return EncodingContext.of(XmlBeansEncodingFlags.ENCODE_OWS_EXCEPTION_ONLY);
     }
 
     private NoApplicableCodeException generateException() {

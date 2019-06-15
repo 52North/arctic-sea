@@ -127,16 +127,6 @@ public class IPAddress implements Comparable<IPAddress> {
     }
 
     /**
-     * @return the IP address as an 32-bit integer
-     *
-     * @deprecated {@linkplain  Inet6Address IPv6 addresses} can not be represented by an integer
-     */
-    @Deprecated
-    public int asInt() {
-        return InetAddresses.coerceToInteger(this.address);
-    }
-
-    /**
      * Checks if this address is IPv4.
      *
      * @return if it is IPv4
@@ -180,16 +170,6 @@ public class IPAddress implements Comparable<IPAddress> {
 
     /**
      * @return the IP address as an {@code Inet4Address}
-     *
-     * @deprecated use {@link #getInetAddress() }
-     */
-    @Deprecated
-    public InetAddress asInetAddress() {
-        return getInetAddress();
-    }
-
-    /**
-     * @return the IP address as an {@code Inet4Address}
      */
     public InetAddress getInetAddress() {
         return this.address;
@@ -197,29 +177,9 @@ public class IPAddress implements Comparable<IPAddress> {
 
     /**
      * @return the IP address as an byte array.
-     *
-     * @deprecated use {@link #getBytes() }
-     */
-    @Deprecated
-    public byte[] asByteArray() {
-        return getBytes();
-    }
-
-    /**
-     * @return the IP address as an byte array.
      */
     public byte[] getBytes() {
         return this.address.getAddress();
-    }
-
-    /**
-     * @return the IP address as a string
-     *
-     * @deprecated use {@link #toString() }
-     */
-    @Deprecated
-    public String asString() {
-        return toString();
     }
 
     @Override

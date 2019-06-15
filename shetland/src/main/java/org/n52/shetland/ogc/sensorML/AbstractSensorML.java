@@ -125,7 +125,7 @@ public abstract class AbstractSensorML
 
     private String getShortName() {
         if (isSetShortName()) {
-           return findIdentification(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME)).get()
+            return findIdentification(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME)).get()
                     .getValue();
         }
         return null;

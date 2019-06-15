@@ -38,8 +38,6 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.collect.Maps;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -49,8 +47,6 @@ public class ServiceOperatorRepository
         extends AbstractComponentRepository<OwsServiceKey, ServiceOperator, ServiceOperatorFactory>
         implements Constructable {
 
-    @Deprecated
-    private static ServiceOperatorRepository instance;
     private final Map<OwsServiceKey, Producer<ServiceOperator>> serviceOperators = Maps.newHashMap();
     private final Map<String, Set<String>> supportedVersions = Maps.newHashMap();
 
@@ -61,7 +57,6 @@ public class ServiceOperatorRepository
 
     @Override
     public void init() {
-        setStaticInstance();
         Map<OwsServiceKey, Producer<ServiceOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.serviceOperators.clear();
@@ -76,11 +71,6 @@ public class ServiceOperatorRepository
      */
     public Map<OwsServiceKey, ServiceOperator> getServiceOperators() {
         return this.serviceOperators.entrySet().stream().collect(toMap(Entry::getKey, e -> e.getValue().get()));
-    }
-
-    @Deprecated
-    public Set<OwsServiceKey> getServiceOperatorKeyTypes() {
-        return getServiceOperatorKeys();
     }
 
     public Set<OwsServiceKey> getServiceOperatorKeys() {
@@ -137,17 +127,6 @@ public class ServiceOperatorRepository
 
     public boolean isServiceSupported(String service) {
         return this.supportedVersions.containsKey(service);
-    }
-
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        ServiceOperatorRepository.instance = this;
-    }
-
-    @Deprecated
-    public static ServiceOperatorRepository getInstance() {
-        return ServiceOperatorRepository.instance;
     }
 
 }

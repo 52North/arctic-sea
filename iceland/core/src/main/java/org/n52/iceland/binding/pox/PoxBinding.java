@@ -23,9 +23,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.faroe.annotation.Configurable;
 import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.binding.AbstractXmlBinding;
@@ -40,9 +37,8 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
-import org.n52.svalbard.ConformanceClasses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.ImmutableSet;
 
@@ -54,10 +50,6 @@ import com.google.common.collect.ImmutableSet;
  */
 @Configurable
 public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
-
-    @Deprecated
-    private static final Set<String> CONFORMANCE_CLASSES = Collections
-            .singleton(ConformanceClasses.SOS_V2_POX_BINDING);
 
     private static final Set<BindingKey> KEYS = ImmutableSet.<BindingKey>builder()
             .add(new MediaTypeBindingKey(MediaTypes.APPLICATION_XML))
@@ -102,14 +94,6 @@ public class PoxBinding extends AbstractXmlBinding<OwsServiceRequest> {
 
     protected OwsServiceRequest parseRequest(HttpServletRequest request) throws OwsExceptionReport {
         return decode(request).setRequestContext(getRequestContext(request));
-    }
-
-    @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
-            return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
-        }
-        return Collections.emptySet();
     }
 
     @Override

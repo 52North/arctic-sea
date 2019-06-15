@@ -53,4 +53,33 @@ public class LocaleHelperTest {
         assertThat(LocaleHelper.decode("ger", null), is(Locale.GERMAN));
         assertThat(LocaleHelper.decode("eng", null), is(Locale.ENGLISH));
     }
+
+    @Test
+    public void parseFirstOfMultipleLanguages() {
+        String multiLanguageString = "de-DE,en";
+        Locale locale = LocaleHelper.decode(multiLanguageString);
+        assertThat(locale, is(Locale.GERMANY));
+    }
+
+    @Test
+    public void parseWithEmptyRelativeQualityFactors() {
+        String headerWithQualityFactors = "de-DE;";
+        Locale locale = LocaleHelper.decode(headerWithQualityFactors);
+        assertThat(locale, is(Locale.GERMANY));
+    }
+
+    @Test
+    public void parseWithSingleRelativeQualityFactors() {
+        String headerWithQualityFactors = "de-DE;q=0.9";
+        Locale locale = LocaleHelper.decode(headerWithQualityFactors);
+        assertThat(locale, is(Locale.GERMANY));
+    }
+
+    @Test
+    public void parseWithMultipleRelativeQualityFactors() {
+        String headerWithQualityFactors = "de-DE,en;q=0.9,en-GB;q=0.8,en;q=0.7,en-US;q=0.6";
+        Locale locale = LocaleHelper.decode(headerWithQualityFactors);
+        assertThat(locale, is(Locale.GERMANY));
+    }
+
 }

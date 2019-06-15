@@ -74,7 +74,9 @@ public final class LocaleHelper {
     }
 
     private static Locale decode1(String locale) {
-        String[] tokens = locale.split("[-_# ]");
+        String strippedQualifiers = stripQualityFactorWeights(locale);
+        String firstLanguage = getFirstLanguageCode(strippedQualifiers);
+        String[] tokens = firstLanguage.split("[-_# ]");
         if (tokens.length > 3) {
             throw new IllegalArgumentException("Unparsable language parameter: " + locale);
         }
@@ -84,6 +86,24 @@ public final class LocaleHelper {
         country = ISO_COUNTRY_ALPHA_3_TO_ALPHA_2.getOrDefault(country, country);
         language = ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2.getOrDefault(language, language);
         return new Locale(language, country, variant);
+    }
+
+    /**
+     * Strips quality factors weights after semicolon, e.g. {@code de-DE,de;q=0.9}.
+     *
+     * @param locale the locale potentially containing quality factor weights
+     * @return the locale without quality factor weights
+     */
+    private static String stripQualityFactorWeights(String locale) {
+        int semicolonIndex = locale.indexOf(";");
+        boolean hasQualityFactorWeights = semicolonIndex != -1;
+        return hasQualityFactorWeights
+                ? locale.substring(0, semicolonIndex)
+                : locale;
+    }
+
+    private static String getFirstLanguageCode(String locale) {
+        return locale.split(",")[0];
     }
 
     private static String checkForIsoB(String language) {

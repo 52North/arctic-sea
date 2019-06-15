@@ -16,9 +16,6 @@
  */
 package org.n52.iceland.ogc.ows.extension;
 
-
-import java.util.Set;
-
 import org.n52.janmayen.component.Component;
 import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -45,10 +42,5 @@ public interface OwsOperationMetadataExtensionProvider extends Component<OwsOper
     OwsOperationMetadataExtension getOwsExtendedCapabilities(GetCapabilitiesRequest request) throws OwsExceptionReport;
 
     boolean hasExtendedCapabilitiesFor(GetCapabilitiesRequest request);
-
-    @Deprecated
-    default Set<OwsOperationMetadataExtensionProviderKey> getExtendedCapabilitiesKeyType() {
-        return getKeys();
-    }
 
 }

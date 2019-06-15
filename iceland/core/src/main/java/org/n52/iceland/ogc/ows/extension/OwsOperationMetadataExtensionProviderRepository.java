@@ -45,8 +45,6 @@ import org.n52.shetland.ogc.ows.OwsOperationMetadataExtension;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * Repository for {@link OwsOperationMetadataExtension}. Loads all implemented
  * {@link OwsOperationMetadataExtensionProvider} and adds to this repository.
@@ -61,8 +59,6 @@ public class OwsOperationMetadataExtensionProviderRepository
         implements ActivationManager<OwsOperationMetadataExtensionProviderKey>,
                    ActivationSource<OwsOperationMetadataExtensionProviderKey>,
                    Constructable {
-    @Deprecated
-    private static OwsOperationMetadataExtensionProviderRepository instance;
 
     private final Map<OwsOperationMetadataExtensionProviderKey, Producer<OwsOperationMetadataExtensionProvider>>
             extendedCapabilitiesProvider = new HashMap<>();
@@ -80,7 +76,6 @@ public class OwsOperationMetadataExtensionProviderRepository
 
     @Override
     public void init() {
-        setStaticInstance();
         Map<OwsOperationMetadataExtensionProviderKey, Producer<OwsOperationMetadataExtensionProvider>> implemtations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.extendedCapabilitiesProvider.clear();
@@ -268,24 +263,6 @@ public class OwsOperationMetadataExtensionProviderRepository
                 .stream()
                 .map(OwsOperationMetadataExtensionProviderKey::getDomain)
                 .collect(toSet());
-    }
-
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        OwsOperationMetadataExtensionProviderRepository.instance = this;
-    }
-
-    /**
-     * For singleton use
-     *
-     * @return The single instance
-     *
-     * @deprecated use injection
-     */
-    @Deprecated
-    public static OwsOperationMetadataExtensionProviderRepository getInstance() {
-        return OwsOperationMetadataExtensionProviderRepository.instance;
     }
 
 }

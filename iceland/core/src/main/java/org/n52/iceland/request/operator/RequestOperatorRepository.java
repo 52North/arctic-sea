@@ -39,8 +39,6 @@ import org.n52.shetland.ogc.ows.service.OwsServiceKey;
 
 import com.google.common.collect.Maps;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  *
@@ -51,8 +49,6 @@ public class RequestOperatorRepository
         implements ActivationManager<RequestOperatorKey>,
                    ActivationSource<RequestOperatorKey>,
                    Constructable {
-    @Deprecated
-    private static RequestOperatorRepository instance;
 
     private final Map<RequestOperatorKey, Producer<RequestOperator>> requestOperators = Maps.newHashMap();
 
@@ -65,7 +61,6 @@ public class RequestOperatorRepository
 
     @Override
     public void init() {
-        setStaticInstance();
         Map<RequestOperatorKey, Producer<RequestOperator>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.requestOperators.clear();
@@ -126,11 +121,6 @@ public class RequestOperatorRepository
                 .filter(e -> e.getKey().getServiceOperatorKey().equals(sok));
     }
 
-    @Deprecated
-    public Set<RequestOperatorKey> getAllRequestOperatorKeys() {
-        return getKeys();
-    }
-
     @Override
     public boolean isActive(RequestOperatorKey rok) {
         return this.activation.isActive(rok);
@@ -161,14 +151,4 @@ public class RequestOperatorRepository
         return Collections.unmodifiableSet(this.requestOperators.keySet());
     }
 
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        RequestOperatorRepository.instance = this;
-    }
-
-    @Deprecated
-    public static RequestOperatorRepository getInstance() {
-        return RequestOperatorRepository.instance;
-    }
 }

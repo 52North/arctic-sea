@@ -24,18 +24,15 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.n52.janmayen.ClassHelper;
 import org.n52.janmayen.Comparables;
 import org.n52.janmayen.Producer;
 import org.n52.janmayen.component.AbstractComponentRepository;
 import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.shetland.util.CollectionHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.common.collect.Sets;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
@@ -49,9 +46,6 @@ public class ResponseWriterRepository
         extends AbstractComponentRepository<ResponseWriterKey, ResponseWriter<?>, ResponseWriterFactory>
         implements Constructable {
 
-    @Deprecated
-    private static ResponseWriterRepository instance;
-
     private final Map<ResponseWriterKey, Producer<ResponseWriter<?>>> writersByClass = CollectionHelper
             .synchronizedMap();
 
@@ -63,7 +57,6 @@ public class ResponseWriterRepository
 
     @Override
     public void init() {
-        setStaticInstance();
         Map<ResponseWriterKey, Producer<ResponseWriter<?>>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
         this.writersByClass.clear();
@@ -93,17 +86,6 @@ public class ResponseWriterRepository
         }
         Comparator<Class<?>> comparator = new ClassSimilarityComparator(clazz);
         return new ResponseWriterKey(Collections.min(compatible, comparator));
-    }
-
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        ResponseWriterRepository.instance = this;
-    }
-
-    @Deprecated
-    public static ResponseWriterRepository getInstance() {
-        return ResponseWriterRepository.instance;
     }
 
     private static class ClassSimilarityComparator implements Serializable, Comparator<Class<?>> {

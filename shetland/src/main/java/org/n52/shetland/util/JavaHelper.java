@@ -27,10 +27,7 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
-import com.google.common.base.Strings;
-
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 
 /**
  * Helper class for Java objects.
@@ -91,14 +88,6 @@ public final class JavaHelper {
             buffer.append(Character.forDigit(bytes[i] & 0xF, 16));
         }
         return buffer.toString();
-    }
-
-    @Deprecated
-    public static void appendTextToStringBuilderWithLineBreak(StringBuilder stringBuilder, String message) {
-        if (stringBuilder != null && !Strings.isNullOrEmpty(message)) {
-            stringBuilder.append(message);
-            stringBuilder.append("\n");
-        }
     }
 
     /**

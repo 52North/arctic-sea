@@ -31,15 +31,12 @@ import org.n52.janmayen.Producer;
 import org.n52.janmayen.function.Consumers;
 import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.function.Predicates;
-import org.n52.janmayen.lifecycle.Constructable;
 import org.n52.janmayen.lifecycle.Destroyable;
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.CodingSettings;
 import org.n52.svalbard.encode.EncoderRepository;
 import org.n52.svalbard.encode.SchemaAwareEncoder;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * XML utility class
@@ -48,9 +45,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *
  */
 @Configurable
-public final class XmlOptionsHelper implements Constructable, Destroyable, Producer<XmlOptions> {
-    @Deprecated
-    private static XmlOptionsHelper instance;
+public final class XmlOptionsHelper implements Destroyable, Producer<XmlOptions> {
 
     private EncoderRepository encoderRepository;
 
@@ -65,12 +60,6 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
     @Inject
     public void setEncoderRepository(EncoderRepository encoderRepository) {
         this.encoderRepository = encoderRepository;
-    }
-
-    @Override
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    public void init() {
-        XmlOptionsHelper.instance = this;
     }
 
     // TODO: To be used by other encoders to have common prefixes
@@ -166,22 +155,4 @@ public final class XmlOptionsHelper implements Constructable, Destroyable, Produ
         return getXmlOptions();
     }
 
-    /**
-     * Get INSTANCE from class with default character encoding UTF-8
-     *
-     * @return INSTANCE
-     *
-     * @deprecated Use injection:
-     *
-     * <pre>
-     * &#064;Inject
-     * private Provider&lt;XmlOptioon&gt; xmloptions;
-     * ...
-     * XmlOptions options = this.xmlOptions.get();
-     * </pre>
-     */
-    @Deprecated
-    public static XmlOptionsHelper getInstance() {
-        return instance;
-    }
 }

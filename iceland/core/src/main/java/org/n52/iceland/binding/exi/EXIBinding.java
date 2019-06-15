@@ -34,17 +34,6 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
-import org.xml.sax.XMLReader;
-
-import com.siemens.ct.exi.core.EXIFactory;
-import com.siemens.ct.exi.core.exceptions.EXIException;
-import com.siemens.ct.exi.main.api.sax.EXISource;
-
 import org.n52.iceland.binding.BindingKey;
 import org.n52.iceland.binding.MediaTypeBindingKey;
 import org.n52.iceland.binding.SimpleBinding;
@@ -58,12 +47,20 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
-import org.n52.shetland.ogc.sos.Sos2Constants;
-import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.svalbard.decode.Decoder;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
+import org.xml.sax.XMLReader;
+
+import com.siemens.ct.exi.core.EXIFactory;
+import com.siemens.ct.exi.core.exceptions.EXIException;
+import com.siemens.ct.exi.main.api.sax.EXISource;
 
 
 /**
@@ -75,8 +72,6 @@ import org.n52.svalbard.util.XmlHelper;
  *
  */
 public class EXIBinding extends SimpleBinding {
-    private static final Set<String> CONFORMANCE_CLASSES =
-            Collections.singleton("http://www.opengis.net/spec/SOS/2.0/conf/exi");
     private static final Logger LOGGER = LoggerFactory.getLogger(EXIBinding.class);
     private static final Set<BindingKey> KEYS =
             Collections.singleton(new MediaTypeBindingKey(MediaTypes.APPLICATION_EXI));
@@ -85,14 +80,6 @@ public class EXIBinding extends SimpleBinding {
     @Inject
     public EXIBinding(EXIUtils exiUtils) {
         this.exiUtils = exiUtils;
-    }
-
-    @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        if (SosConstants.SOS.equals(service) && Sos2Constants.SERVICEVERSION.equals(version)) {
-            return Collections.unmodifiableSet(CONFORMANCE_CLASSES);
-        }
-        return Collections.emptySet();
     }
 
     @Override

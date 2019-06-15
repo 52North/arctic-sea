@@ -72,13 +72,7 @@ public abstract class Nillable<T> {
      * @param fun the transformation function
      *
      * @return the {@code Nillable}
-     * @deprecated use {@link #map(java.util.function.Function)}
      */
-    @Deprecated
-    public <X> Nillable<X> transform(Function<? super T, X> fun) {
-        return map(fun);
-    }
-
     public abstract <X> Nillable<X> map(Function<? super T, X> fun);
 
     /**

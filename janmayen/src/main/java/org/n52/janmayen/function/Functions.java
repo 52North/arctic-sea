@@ -46,26 +46,6 @@ public final class Functions {
     }
 
     /**
-     * Creates a {@link Predicate} that checks if it's input is an instance of
-     * {@code clazz}.
-     *
-     * @param <T>
-     *            The input type.
-     * @param <U>
-     *            The type of which the input has to be an instance of.
-     * @param clazz
-     *            The class of which the input has to be an instance of.
-     *
-     * @return The predicate.
-     *
-     * @deprecated use {@link Predicates#instanceOf(java.lang.Class)}
-     */
-    @Deprecated
-    public static <T, U extends T> Predicate<T> instanceOf(@Nonnull Class<? extends U> clazz) {
-        return Predicates.instanceOf(clazz);
-    }
-
-    /**
      * Casts it's input argument to any type.
      *
      * @param <T>
@@ -221,25 +201,6 @@ public final class Functions {
     public static <T1, T2, R> Function<T1, R> currySecond(@Nonnull BiFunction<T1, T2, R> bifunction, T2 t2) {
         Objects.requireNonNull(bifunction);
         return t1 -> bifunction.apply(t1, t2);
-    }
-
-    /**
-     * Reverses the parameter order of the BiConsumer
-     *
-     * @param <A>
-     *            the first parameter type
-     * @param <B>
-     *            the second parameter type
-     * @param consumer
-     *            the consumer
-     *
-     * @return the consumer with switched parameters
-     *
-     * @deprecated use {@link Consumers#reverse(java.util.function.BiConsumer)}
-     */
-    @Deprecated
-    public static <A, B> BiConsumer<B, A> reverse(@Nonnull BiConsumer<A, B> consumer) {
-        return Consumers.reverse(consumer);
     }
 
     public static <T> BinaryOperator<T> mergeLeft(@Nonnull BiConsumer<T, T> merger) {

@@ -28,7 +28,7 @@ import org.n52.faroe.SettingDefinitionGroup;
  *
  * @since 1.0.0
  */
-public interface Datasource extends ConnectionProviderIdentificator, DatasourceDaoIdentifier {
+public interface Datasource {
 
     SettingDefinitionGroup BASE_GROUP = new SettingDefinitionGroup("Database Configuration", 1);
     SettingDefinitionGroup ADVANCED_GROUP = new SettingDefinitionGroup("Advanced Database Configuration", 2);

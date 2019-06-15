@@ -19,7 +19,6 @@ package org.n52.iceland.util.http;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -159,21 +158,6 @@ public class HttpUtils {
             return new ServiceResponseWritable((ServiceResponse) writeOwsExceptionReport);
         }
         return new GenericWritable(writeOwsExceptionReport, contentType);
-    }
-
-    @Deprecated
-    public static boolean supportsGzipEncoding(HttpServletRequest req) {
-        return HTTPHeaders.supportsGzipEncoding(req);
-    }
-
-    @Deprecated
-    public static boolean isGzipEncoded(HttpServletRequest req) {
-        return HTTPHeaders.isGzipEncoded(req);
-    }
-
-    @Deprecated
-    public static List<MediaType> getAcceptHeader(HttpServletRequest req) {
-        return HTTPHeaders.getAcceptHeader(req);
     }
 
     public static InputStream getInputStream(HttpServletRequest req) throws IOException {

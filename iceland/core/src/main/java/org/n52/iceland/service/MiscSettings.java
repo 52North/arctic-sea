@@ -25,37 +25,8 @@ package org.n52.iceland.service;
  */
 public interface MiscSettings {
 
-    @Deprecated
-    String DEFAULT_OFFERING_PREFIX = "misc.defaultOfferingPrefix";
-
-    @Deprecated
-    String DEFAULT_PROCEDURE_PREFIX = "misc.defaultProcedurePrefix";
-
-    @Deprecated
-    String DEFAULT_OBSERVABLEPROPERTY_PREFIX
-            = "misc.defaultObservablePropertyPrefix";
-
-    @Deprecated
-    String DEFAULT_FEATURE_PREFIX = "misc.defaultFeaturePrefix";
-
     String HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING
             = "misc.httpResponseCodeUseInKvpAndPoxBinding";
-
-    @Deprecated
-    String RELATED_SAMPLING_FEATURE_ROLE_FOR_CHILD_FEATURES
-            = "misc.relatedSamplingFeatureRoleForChildFeatures";
-
-    @Deprecated
-    String HYDRO_MAX_NUMBER_OF_RETURNED_VALUES
-            = "profile.hydrology.maxReturnedValue";
-
-    @Deprecated
-    String HYDRO_MAX_NUMBER_OF_RETURNED_TIME_SERIES
-            = "profile.hydrology.maxReturnedTimeSeries";
-
-    @Deprecated
-    String RETURN_OVERALL_EXTREMA_FOR_FIRST_LATEST
-            = "profile.hydrology.overallExtrema";
 
     String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
 

@@ -220,6 +220,13 @@ public interface Sos2Constants
     String HREF_PARAMETER_SPATIAL_FILTERING_PROFILE =
             "http://www.opengis.net/def/param-name/OGC-OM/2.0/samplingGeometry";
 
+    String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
+            "Observations for the requested combination of observedProperty and offering do not use "
+            + "SWE Common encoded results.";
+
+    String SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT =
+            "The requested result set exceeds the response size limit of this service and thus cannot be delivered.";
+
     /**
      * The names of the extensions that we know off and might support
      */
@@ -366,5 +373,13 @@ public interface Sos2Constants
         procedureDescriptionFormat,
         description,
         validTime;
+    }
+
+    /**
+     * Enumeration for related feature role
+     */
+    enum RelatedFeatureRole {
+        featureOfInterestID,
+        relatedFeatureID
     }
 }

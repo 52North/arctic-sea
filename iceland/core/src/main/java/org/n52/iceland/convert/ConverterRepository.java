@@ -32,8 +32,6 @@ import org.n52.janmayen.lifecycle.Constructable;
 
 import com.google.common.collect.Sets;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
-
 /**
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
@@ -43,8 +41,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class ConverterRepository
         extends AbstractComponentRepository<ConverterKey, Converter<?, ?>, ConverterFactory>
         implements Constructable {
-    @Deprecated
-    private static ConverterRepository instance;
 
     private Optional<Collection<Converter<?, ?>>> components = Optional.of(Collections.emptyList());
     private Optional<Collection<ConverterFactory>> componentFactories = Optional.of(Collections.emptyList());
@@ -64,7 +60,6 @@ public class ConverterRepository
 
     @Override
     public void init() {
-        setStaticInstance();
         // TODO check for encoder/decoder used by converter
         Map<ConverterKey, Producer<Converter<?, ?>>> implementations
                 = getUniqueProviders(this.components, this.componentFactories);
@@ -137,14 +132,4 @@ public class ConverterRepository
         return this.converter.containsKey(key);
     }
 
-    @Deprecated
-    @SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
-    private void setStaticInstance() {
-        ConverterRepository.instance = this;
-    }
-
-    @Deprecated
-    public static ConverterRepository getInstance() {
-        return ConverterRepository.instance;
-    }
 }

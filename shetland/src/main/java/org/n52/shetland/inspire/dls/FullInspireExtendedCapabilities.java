@@ -26,7 +26,6 @@ import org.n52.shetland.inspire.InspireLanguageISO6392B;
 import org.n52.shetland.inspire.InspireMandatoryKeyword;
 import org.n52.shetland.inspire.InspireMetadataPointOfContact;
 import org.n52.shetland.inspire.InspireResourceLocator;
-import org.n52.shetland.inspire.InspireSupportedCRS;
 import org.n52.shetland.inspire.InspireSupportedLanguages;
 import org.n52.shetland.inspire.InspireTemporalReference;
 import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
@@ -105,14 +104,11 @@ public class FullInspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
-     * @param supportedCRS
-     *            Supported CRSes to set
      */
     public FullInspireExtendedCapabilities(
             InspireResourceLocator resourceLocator, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier,
-            InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier, supportedCRS);
+            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier);
         addResourceLocator(resourceLocator);
     }
 
@@ -127,14 +123,11 @@ public class FullInspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifier
      *            Spatial dataset identifier to set
-     * @param supportedCRS
-     *            Supported CRSes to set
      */
     public FullInspireExtendedCapabilities(
             List<InspireResourceLocator> resourceLocators, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier,
-            InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier, supportedCRS);
+            InspireLanguageISO6392B responseLanguage, InspireUniqueResourceIdentifier spatialDataSetIdentifier) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifier);
         setResourceLocator(resourceLocators);
     }
 
@@ -149,14 +142,11 @@ public class FullInspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
-     * @param supportedCRS
-     *            Supported CRSes to set
      */
     public FullInspireExtendedCapabilities(
             InspireResourceLocator resourceLocator, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers,
-            InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers, supportedCRS);
+            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers);
         addResourceLocator(resourceLocator);
     }
 
@@ -171,14 +161,11 @@ public class FullInspireExtendedCapabilities
      *            Response language to set
      * @param spatialDataSetIdentifiers
      *            Spatial dataset identifiers to set
-     * @param supportedCRS
-     *            Supported CRSes to set
      */
     public FullInspireExtendedCapabilities(
             List<InspireResourceLocator> resourceLocators, InspireSupportedLanguages supportedLanguages,
-            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers,
-            InspireSupportedCRS supportedCRS) {
-        super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers, supportedCRS);
+            InspireLanguageISO6392B responseLanguage, Set<InspireUniqueResourceIdentifier> spatialDataSetIdentifiers) {
+        super(supportedLanguages, responseLanguage, spatialDataSetIdentifiers);
         setResourceLocator(resourceLocators);
     }
 

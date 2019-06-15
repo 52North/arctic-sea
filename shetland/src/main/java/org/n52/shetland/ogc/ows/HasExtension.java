@@ -95,18 +95,6 @@ public interface HasExtension<T extends HasExtension<? extends T>> {
     }
 
     /**
-     * Check if {@link Extension}s are set
-     *
-     * @return <code>true</code>, if {@link Extensions} is not null or empty
-     *
-     * @deprecated {@link #getExtensions() } will never return {@code null}
-     */
-    @Deprecated
-    default boolean isSetExtensions() {
-        return true;
-    }
-
-    /**
      * Check if {@link Extension} for identifier is set
      *
      * @param identifier Identifier to check

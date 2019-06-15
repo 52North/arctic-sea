@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>arctic-sea</artifactId>
-        <version>6.1.0-SNAPSHOT</version>
+        <version>7.0.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>janmayen</artifactId>
@@ -76,6 +76,11 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.hamcrest</groupId>

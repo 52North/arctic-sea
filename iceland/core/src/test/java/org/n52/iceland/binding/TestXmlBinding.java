@@ -52,11 +52,6 @@ public class TestXmlBinding extends AbstractXmlBinding<OwsServiceRequest> {
     }
 
     @Override
-    public Set<String> getConformanceClasses(String service, String version) {
-        return Collections.emptySet();
-    }
-
-    @Override
     protected MediaType getDefaultContentType() {
         return MEDIA_TYPE_KEY.getMediaType();
     }

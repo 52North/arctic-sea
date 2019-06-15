@@ -39,16 +39,6 @@ public class ResponseFormatKey {
         this(null, null);
     }
 
-    @Deprecated
-    public OwsServiceKey getServiceOperatorKeyType() {
-        return getServiceOperatorKey();
-    }
-
-    @Deprecated
-    public void setServiceOperatorKeyType(OwsServiceKey serviceOperatorKeyType) {
-        setServiceOperatorKey(serviceOperatorKeyType);
-    }
-
     public OwsServiceKey getServiceOperatorKey() {
         return this.serviceOperatorKey;
     }

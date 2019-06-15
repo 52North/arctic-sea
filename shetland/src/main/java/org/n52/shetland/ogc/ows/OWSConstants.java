@@ -77,15 +77,6 @@ public interface OWSConstants {
             "The list of versions in the ‘AcceptVersions’ parameter value of the GetCapabilities operation "
             + "request did not include any version supported by this server.";
 
-    String SOAP_REASON_RESPONSE_EXCEEDS_SIZE_LIMIT =
-            "The requested result set exceeds the response size limit of this service and thus cannot be delivered.";
-
-    // SOS-specific
-    @Deprecated
-    String SOAP_REASON_INVALID_PROPERTY_OFFERING_COMBINATION =
-            "Observations for the requested combination of observedProperty and offering do not use "
-            + "SWE Common encoded results.";
-
     String SOAP_REASON_UNKNOWN = SOAP_REASON_NO_APPLICABLE_CODE;
 
     String EN_EXCEPTION = "Exception";
@@ -189,15 +180,6 @@ public interface OWSConstants {
      */
     enum Operations {
         GetCapabilities;
-    }
-
-    /**
-     * Enumeration for related feature role
-     * @deprecated SOS-specific
-     */
-    @Deprecated
-    enum RelatedFeatureRole {
-        featureOfInterestID, relatedFeatureID
     }
 
     /** enum with names of get request parameters for all requests */
