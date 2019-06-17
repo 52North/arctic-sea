@@ -33,6 +33,6 @@
         <module>core</module>
         <module>annotations</module>
         <module>utils</module>
-      <module>api</module>
+        <module>api</module>
     </modules>
 </project>

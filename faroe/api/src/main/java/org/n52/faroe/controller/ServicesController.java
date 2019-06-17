@@ -1,5 +1,29 @@
+/*
+ * Copyright 2015-2019 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.faroe.controller;
 
+import com.google.gson.Gson;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.inject.Inject;
+import org.n52.faroe.dao.ServicesDao;
+import org.n52.faroe.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -14,7 +38,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * This controller is responsible for registering, listing & deleting new services from faroe instance
+ * This controller is responsible for registering, listing & deleting new services from faroe
+ * instance
  */
 
 @RestController
@@ -22,12 +47,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServicesController {
 
   private static final Logger LOG = LoggerFactory.getLogger(ServicesController.class);
+  private static final Gson gson = new Gson();
+  @Inject
+  private ServicesDao servicesDao;
 
   @GetMapping
   public ResponseEntity<Object> getServices() {
     LOG.info("Getting Services");
     try {
-      return new ResponseEntity<>(HttpStatus.OK);
+      List<Service> services = servicesDao.getServices();
+      List<String> serviceJsonArray = new ArrayList<>();
+      final Map<String, Object> response = new HashMap<>();
+      response.put("services", services);
+      //services.forEach(service -> serviceJsonArray.add(gson.toJson(service)));
+      return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOG.error("Couldn't fetch list of settings");
       e.printStackTrace();
@@ -35,14 +68,16 @@ public class ServicesController {
     }
   }
 
-  @GetMapping(value = "/{id}")
-  public ResponseEntity<Object> getServiceById(@PathVariable("id") Long id) {
-    return new ResponseEntity<>(HttpStatus.OK);
+  @GetMapping(value = "/{name}")
+  public ResponseEntity<Object> getServiceByName(@PathVariable("name") String name) {
+    final Service service = servicesDao.getServiceByName(name);
+    return new ResponseEntity<>(gson.toJson(service), HttpStatus.OK);
   }
 
-  @PutMapping(value = "/{id}")
+  @PutMapping(value = "/{name}")
   @ResponseStatus(HttpStatus.OK)
-  public void updateService(@PathVariable( "id" ) Long id, @NonNull @RequestBody Object object) {
+  public void updateService(@PathVariable("name") String name,
+      @NonNull @RequestBody Object object) {
 
   }
 }
