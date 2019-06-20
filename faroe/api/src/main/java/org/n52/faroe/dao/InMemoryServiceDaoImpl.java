@@ -21,7 +21,7 @@ public class InMemoryServiceDaoImpl implements ServicesDao {
   }
 
   public Service getServiceByName(final String name) {
-    return services.stream().filter(service -> service.getName() == name).findFirst()
-        .orElseGet(null);
+    return services.stream().filter(service -> service.getName()==name).findFirst()
+            .orElseGet(null);
   }
 }

@@ -11,7 +11,7 @@ public class TestUtils {
   }
 
   public static SettingDefinitionGroup getSettingDefinitionGroup(final String title,
-      final String description) {
+                                                                 final String description) {
     SettingDefinitionGroup settingDefinitionGroup = new SettingDefinitionGroup();
     settingDefinitionGroup.setTitle(title);
     settingDefinitionGroup.setDescription(description);
@@ -21,11 +21,11 @@ public class TestUtils {
 
   public static SettingDefinition<Boolean> getBooleanSettingDefinition() {
     return getBooleanSettingDefinition("test boolean setting title", "test boolean setting key",
-        "test boolean setting description");
+            "test boolean setting description");
   }
 
   public static SettingDefinition<Boolean> getBooleanSettingDefinition(final String title,
-      final String key, final String description) {
+                                                                       final String key, final String description) {
     BooleanSettingDefinition booleanSettingDefinition = new BooleanSettingDefinition();
     booleanSettingDefinition.setDefaultValue(true);
     booleanSettingDefinition.setDescription(description);
