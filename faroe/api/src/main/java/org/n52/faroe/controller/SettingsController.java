@@ -17,11 +17,14 @@
 package org.n52.faroe.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.util.Map;
+import javax.inject.Inject;
 import org.n52.faroe.SettingDefinition;
 import org.n52.faroe.SettingValue;
-import org.n52.faroe.dao.InMemoryServiceDaoImpl;
 import org.n52.faroe.dao.ServicesDao;
+import org.n52.faroe.service.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -44,29 +47,32 @@ public class SettingsController {
 
   private static final Logger LOG = LoggerFactory.getLogger(SettingsController.class);
   private static final Gson gson = new Gson();
-  private ServicesDao service = new InMemoryServiceDaoImpl();
-
-  @PostMapping
-  public ResponseEntity<Object> updateSettings(@PathVariable("service") Long serviceId,
-      @RequestBody String newSettings) {
-    LOG.info("Updating Settings");
-    try {
-      return new ResponseEntity<>(HttpStatus.OK);
-    } catch (Exception e) {
-      LOG.error("Update Request Failed");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-  }
+  @Inject
+  private ServicesDao servicesDao;
 
   @GetMapping
   public ResponseEntity<Object> getSettings(@PathVariable("service") String serviceName) {
     LOG.info("Getting Settings");
     try {
-      Map<SettingDefinition<?>, SettingValue<?>> settingsMap = service.getServiceByName(serviceName)
+      Map<SettingDefinition<?>, SettingValue<?>> settings = servicesDao.getServiceByName(serviceName)
           .getSettingsService().getSettings();
+      return new ResponseEntity<>(settings, HttpStatus.OK);
+    } catch (Exception e) {
+      LOG.error(String.format("Couldn't fetch settings for service %s", serviceName));
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @PostMapping
+  public ResponseEntity<Object> updateSettings(@PathVariable("service") String serviceName,
+      @RequestBody String newSettings) {
+    LOG.info("Updating Settings");
+    try {
+      final JsonObject settings = new JsonParser().parse(newSettings).getAsJsonObject();
+      final Service service = servicesDao.getServiceByName(serviceName).getSettingsService().getSetting()
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {
-      LOG.error("Couldn't fetch settings");
+      LOG.error("Update Request Failed");
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
   }
@@ -75,7 +81,7 @@ public class SettingsController {
   public ResponseEntity<Object> deleteSettings(@PathVariable("service") String serviceName) {
     LOG.info("Deleting Settings");
     try {
-      service.getServiceByName(serviceName).getSettingsService().deleteAll();
+      servicesDao.getServiceByName(serviceName).getSettingsService().deleteAll();
       return new ResponseEntity<>(HttpStatus.OK);
     } catch (Exception e) {
       LOG.error("Couldn't delete all settings!");

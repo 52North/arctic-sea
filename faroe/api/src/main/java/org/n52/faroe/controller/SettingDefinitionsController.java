@@ -17,11 +17,15 @@
 package org.n52.faroe.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import javax.inject.Inject;
 import org.n52.faroe.SettingDefinition;
+import org.n52.faroe.SettingDefinitionGroup;
 import org.n52.faroe.dao.ServicesDao;
 import org.n52.faroe.service.Service;
 import org.slf4j.Logger;
@@ -31,6 +35,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -89,9 +94,45 @@ public class SettingDefinitionsController {
     }
   }
 
+  /**
+   *
+   */
   @PutMapping(value = "/{id}")
-  public void updateSettingDefinition(@PathVariable("service") String serviceName,
-      @PathVariable("id") String definitionId) {
-
+  public ResponseEntity<Object> updateSettingDefinition(@PathVariable("service") String serviceName,
+      @PathVariable("id") String definitionId, @RequestBody String body) {
+    LOG.info(String.format("Updating definition for service %s", serviceName));
+    try {
+      final Service service = servicesDao.getServiceByName(serviceName);
+      final JsonObject settingDefinitionRequestBody = new JsonParser().parse(body)
+          .getAsJsonObject();
+      final JsonObject settingDefinitionGroupRequestBody = settingDefinitionRequestBody
+          .getAsJsonObject("SettingDefinitionGroup");
+      final SettingDefinition<?> requiredSettingDefinition = service.getSettingsService()
+          .getSettingDefinitions().stream()
+          .filter(settingDefinition -> settingDefinition.getKey().equals(definitionId)).findFirst()
+          .orElseGet(null);
+      final SettingDefinitionGroup requiredSettingDefinitionGroup = requiredSettingDefinition
+          .getGroup();
+      Optional.ofNullable(settingDefinitionRequestBody.get("Description")).ifPresent(
+          description -> requiredSettingDefinition.setDescription(description.getAsString()));
+      Optional.ofNullable(settingDefinitionRequestBody.get("Title"))
+          .ifPresent(title -> requiredSettingDefinition.setTitle(title.getAsString()));
+      Optional.ofNullable(settingDefinitionRequestBody.get("Optional"))
+          .ifPresent(optional -> requiredSettingDefinition.setOptional(optional.getAsBoolean()));
+      Optional.ofNullable(settingDefinitionRequestBody.get("Key"))
+          .ifPresent(key -> requiredSettingDefinition.setKey(key.getAsString()));
+      Optional.ofNullable(settingDefinitionRequestBody.get("Order"))
+          .ifPresent(order -> requiredSettingDefinition.setOrder(order.getAsFloat()));
+      Optional.ofNullable(settingDefinitionGroupRequestBody.get("Title"))
+          .ifPresent(title -> requiredSettingDefinitionGroup.setTitle(title.getAsString()));
+      Optional.ofNullable(settingDefinitionGroupRequestBody.get("Description")).ifPresent(
+          description -> requiredSettingDefinitionGroup.setDescription(description.getAsString()));
+      requiredSettingDefinition.setGroup(requiredSettingDefinitionGroup);
+      return new ResponseEntity<>(requiredSettingDefinition, HttpStatus.OK);
+    } catch (Exception e) {
+      LOG.error(String.format("Couldn't update setting definition %s for service %s", definitionId,serviceName));
+      e.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 }

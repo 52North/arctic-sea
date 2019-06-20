@@ -56,10 +56,8 @@ public class ServicesController {
     LOG.info("Getting Services");
     try {
       List<Service> services = servicesDao.getServices();
-      List<String> serviceJsonArray = new ArrayList<>();
       final Map<String, Object> response = new HashMap<>();
       response.put("services", services);
-      //services.forEach(service -> serviceJsonArray.add(gson.toJson(service)));
       return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (Exception e) {
       LOG.error("Couldn't fetch list of settings");
@@ -71,9 +69,10 @@ public class ServicesController {
   @GetMapping(value = "/{name}")
   public ResponseEntity<Object> getServiceByName(@PathVariable("name") String name) {
     final Service service = servicesDao.getServiceByName(name);
-    return new ResponseEntity<>(gson.toJson(service), HttpStatus.OK);
+    return new ResponseEntity<>(service, HttpStatus.OK);
   }
 
+  //TODO Find better usage of this
   @PutMapping(value = "/{name}")
   @ResponseStatus(HttpStatus.OK)
   public void updateService(@PathVariable("name") String name,
