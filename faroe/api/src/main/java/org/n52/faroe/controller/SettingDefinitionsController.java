@@ -79,7 +79,8 @@ public class SettingDefinitionsController {
         LOG.info(String.format("Getting definition for service %s", serviceName));
         try {
             final Service service = servicesDao.getServiceByName(serviceName);
-            final SettingDefinition<?> requiredDefinition = service.getSettingsService().getDefinitionByKey(definitionId);
+            final SettingDefinition<?> requiredDefinition = service.getSettingsService()
+                    .getDefinitionByKey(definitionId);
             final Map<String, Object> response = new HashMap<>();
             response.put(Constants.NAME, service.getName());
             response.put(Constants.SETTING_DEFINITION, GSON.toJson(requiredDefinition));
@@ -98,7 +99,8 @@ public class SettingDefinitionsController {
      */
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object> updateSettingDefinition(@PathVariable("service") String serviceName,
-                                                          @PathVariable("id") String definitionId, @RequestBody String body) {
+                                                          @PathVariable("id") String definitionId,
+                                                          @RequestBody String body) {
         LOG.info(String.format("Updating definition for service %s", serviceName));
         try {
             final Service service = servicesDao.getServiceByName(serviceName);
@@ -106,7 +108,8 @@ public class SettingDefinitionsController {
                     .getAsJsonObject();
             final JsonObject settingDefinitionGroupRequestBody = settingDefinitionRequestBody
                     .getAsJsonObject("SettingDefinitionGroup");
-            final SettingDefinition<?> requiredSettingDefinition = service.getSettingsService().getDefinitionByKey(definitionId);
+            final SettingDefinition<?> requiredSettingDefinition = service.getSettingsService()
+                    .getDefinitionByKey(definitionId);
             final SettingDefinitionGroup requiredSettingDefinitionGroup = requiredSettingDefinition
                     .getGroup();
             Optional.ofNullable(settingDefinitionRequestBody.get(Constants.DESCRIPTION)).ifPresent(
@@ -126,7 +129,8 @@ public class SettingDefinitionsController {
             requiredSettingDefinition.setGroup(requiredSettingDefinitionGroup);
             return new ResponseEntity<>(requiredSettingDefinition, HttpStatus.OK);
         } catch (Exception e) {
-            LOG.error(String.format("Couldn't update setting definition %s for service %s", definitionId, serviceName));
+            LOG.error(String.format("Couldn't update setting definition %s for service %s",
+                                definitionId, serviceName));
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

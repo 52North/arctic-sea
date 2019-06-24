@@ -45,13 +45,15 @@ public class ServicesControllerTest {
         serviceList.add(service1);
         serviceList.add(service2);
         Mockito.when(servicesDao.getServices()).thenReturn(serviceList);
-        mvc.perform(MockMvcRequestBuilders.get("/services").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        mvc.perform(MockMvcRequestBuilders.get("/services").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void testGetServiceByName() throws Exception {
         Service service = new DummyService();
         Mockito.when(servicesDao.getServiceByName(Mockito.anyString())).thenReturn(service);
-        mvc.perform(MockMvcRequestBuilders.get("/services/test service").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        mvc.perform(MockMvcRequestBuilders.get("/services/test service").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }

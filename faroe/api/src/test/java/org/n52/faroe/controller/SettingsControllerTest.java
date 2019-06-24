@@ -54,27 +54,37 @@ public class SettingsControllerTest {
     @Test
     public void testGetSettings() throws Exception {
         createSettings();
-        mvc.perform(MockMvcRequestBuilders.get("/services/dummy_service/settings").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        mvc.perform(MockMvcRequestBuilders.get("/services/dummy_service/settings")
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test
     public void testGetSettings_badRequest() throws Exception {
         Mockito.when(settingsService.getSettings()).thenThrow(new RuntimeException());
-        mvc.perform(MockMvcRequestBuilders.get("/services/dummy_service/settings").accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mvc.perform(MockMvcRequestBuilders.get("/services/dummy_service/settings")
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
     }
 
     @Test
     public void testAddNewSettings() throws Exception {
         final Map<SettingDefinition<?>, SettingValue<?>> settingValueMap = new HashMap<>();
         SettingValue<Boolean> settingValue = Mockito.mock(SettingValue.class);
-        Mockito.when(settingValueFactory.newBooleanSettingValue(Mockito.anyString(), Mockito.anyString())).thenReturn(settingValue);
-        mvc.perform(MockMvcRequestBuilders.post("/services/dummy_service/settings").content("{\"Type\":\"Boolean\", \"Key\":\"new-boolean-setting\", \"Value\":\"false\"}").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        Mockito.when(settingValueFactory.newBooleanSettingValue(Mockito.anyString(), Mockito.anyString())).
+                thenReturn(settingValue);
+        mvc.perform(MockMvcRequestBuilders.post("/services/dummy_service/settings")
+                .content("{\"Type\":\"Boolean\", \"Key\":\"new-boolean-setting\", \"Value\":\"false\"}")
+                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
     public void testAddNewSettings_badRequest() throws Exception {
         Mockito.when(settingsService.getSettingFactory()).thenThrow(new RuntimeException());
-        mvc.perform(MockMvcRequestBuilders.post("/services/dummy_service/settings").content("{\"Type\":\"Boolean\", \"Key\":\"new-boolean-setting\", \"Value\":\"false\"}").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isBadRequest());
+        mvc.perform(MockMvcRequestBuilders
+                .post("/services/dummy_service/settings")
+                .content("{\"Type\":\"Boolean\", \"Key\":\"new-boolean-setting\", \"Value\":\"false\"}")
+                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -87,16 +97,24 @@ public class SettingsControllerTest {
     public void testUpdateSettings() throws Exception {
         createSettings();
         SettingValue<Boolean> settingValue = Mockito.mock(SettingValue.class);
-        Mockito.when(settingValueFactory.newBooleanSettingValue(Mockito.anyString(), Mockito.anyString())).thenReturn(settingValue);
-        mvc.perform(MockMvcRequestBuilders.put("/services/dummy_service/settings/key setting 1").content("{\"Type\":\"Boolean\", \"Key\":\"key setting 1\", \"Value\":\"false\"}").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+        Mockito.when(settingValueFactory.newBooleanSettingValue(Mockito.anyString(), Mockito.anyString()))
+                .thenReturn(settingValue);
+        mvc.perform(MockMvcRequestBuilders.put("/services/dummy_service/settings/key setting 1")
+                .content("{\"Type\":\"Boolean\", \"Key\":\"key setting 1\", \"Value\":\"false\"}")
+                .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     private void createSettings() {
         final Map<SettingDefinition<?>, SettingValue<?>> settingValueMap = new HashMap<>();
-        final SettingDefinition<?> settingDefinition1 = TestUtils.getBooleanSettingDefinition("title def 1", "key def 1", "title def desc1");
-        final SettingDefinition<?> settingDefinition2 = TestUtils.getBooleanSettingDefinition("title def 2", "key def 2", "title def desc2");
-        final SettingValue<?> settingValue1 = new JsonSettingValueFactory().newBooleanSettingValue("key setting 2", "false");
-        final SettingValue<?> settingValue2 = new JsonSettingValueFactory().newBooleanSettingValue("key setting 1", "true");
+        final SettingDefinition<?> settingDefinition1 = TestUtils.getBooleanSettingDefinition("title def 1",
+                "key def 1", "title def desc1");
+        final SettingDefinition<?> settingDefinition2 = TestUtils.getBooleanSettingDefinition("title def 2",
+                "key def 2", "title def desc2");
+        final SettingValue<?> settingValue1 = new JsonSettingValueFactory()
+                .newBooleanSettingValue("key setting 2", "false");
+        final SettingValue<?> settingValue2 = new JsonSettingValueFactory()
+                .newBooleanSettingValue("key setting 1", "true");
         settingValueMap.put(settingDefinition1, settingValue1);
         settingValueMap.put(settingDefinition2, settingValue2);
         Mockito.when(settingsService.getSettings()).thenReturn(settingValueMap);

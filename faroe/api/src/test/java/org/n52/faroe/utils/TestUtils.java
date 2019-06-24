@@ -7,7 +7,8 @@ import org.n52.faroe.settings.BooleanSettingDefinition;
 public class TestUtils {
 
     public static SettingDefinitionGroup getSettingDefinitionGroup() {
-        return getSettingDefinitionGroup("test setting group title", "test setting group description");
+        return getSettingDefinitionGroup("test setting group title",
+                "test setting group description");
     }
 
     public static SettingDefinitionGroup getSettingDefinitionGroup(final String title,
@@ -20,7 +21,8 @@ public class TestUtils {
     }
 
     public static SettingDefinition<Boolean> getBooleanSettingDefinition() {
-        return getBooleanSettingDefinition("test boolean setting title", "test boolean setting key",
+        return getBooleanSettingDefinition("test boolean setting title",
+                "test boolean setting key",
                 "test boolean setting description");
     }
 

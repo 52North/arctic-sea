@@ -7,7 +7,7 @@ import java.util.List;
 
 public class InMemoryServiceDaoImpl implements ServicesDao {
 
-    List<Service> services = new ArrayList<>();
+    private List<Service> services = new ArrayList<>();
 
     @Override
     public List<Service> getServices() {

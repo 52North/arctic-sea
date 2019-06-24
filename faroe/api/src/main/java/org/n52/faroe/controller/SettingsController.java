@@ -88,10 +88,12 @@ public class SettingsController {
     }
 
     @DeleteMapping({"/{settingId}"})
-    public ResponseEntity<Object> deleteSettings(@PathVariable("service") String serviceName, @PathVariable("settingId") String settingId) {
+    public ResponseEntity<Object> deleteSettings(@PathVariable("service") String serviceName,
+                                                 @PathVariable("settingId") String settingId) {
         LOG.info(String.format("Deleting setting id %s for service %s", settingId, serviceName));
         try {
-            final SettingsService settingsService = servicesDao.getServiceByName(serviceName).getSettingsService();
+            final SettingsService settingsService = servicesDao.getServiceByName(serviceName)
+                    .getSettingsService();
             settingsService.deleteSetting(settingsService.getDefinitionByKey(settingId));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
@@ -101,16 +103,20 @@ public class SettingsController {
     }
 
     @PutMapping({"/{definitionId}"})
-    public ResponseEntity<Object> updateSettings(@PathVariable("service") String serviceName, @PathVariable("definitionId") String settingId, @RequestBody String newSettings) {
+    public ResponseEntity<Object> updateSettings(@PathVariable("service") String serviceName,
+                                                 @PathVariable("definitionId") String settingId,
+                                                 @RequestBody String newSettings) {
         LOG.info(String.format("Updating Setting with id %s for service %s", settingId, serviceName));
         try {
             final JsonObject newSettingsJson = new JsonParser().parse(newSettings).getAsJsonObject();
             final SettingsService settingsService = servicesDao.getServiceByName(serviceName).getSettingsService();
-            final SettingValue updatedValue = newSettingGenerator(newSettingsJson, settingsService.getSettingFactory());
+            final SettingValue updatedValue = newSettingGenerator(newSettingsJson,
+                    settingsService.getSettingFactory());
             settingsService.changeSetting(updatedValue);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            LOG.error(String.format("Couldn't update settings with setting id %s for service %s ", settingId, serviceName));
+            LOG.error(String.format("Couldn't update settings with setting id %s for service %s ",
+                        settingId, serviceName));
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
@@ -125,21 +131,29 @@ public class SettingsController {
             Preconditions.checkNotNull(newSettings.get(Constants.VALUE));
             switch (type.getAsString().toLowerCase()) {
                 case "boolean":
-                    return settingValueFactory.newBooleanSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newBooleanSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 case "file":
-                    return settingValueFactory.newFileSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newFileSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 case "uri":
-                    return settingValueFactory.newUriSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newUriSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 case "numeric":
-                    return settingValueFactory.newNumericSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newNumericSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 case "datetime":
-                    return settingValueFactory.newDateTimeSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newDateTimeSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 case "integer":
-                    return settingValueFactory.newIntegerSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newIntegerSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 case "multilingual":
-                    return settingValueFactory.newMultiLingualStringSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newMultiLingualStringSettingValue(newSettings.get(Constants.KEY)
+                                    .getAsString(), newSettings.get(Constants.VALUE).getAsString());
                 case "string":
-                    return settingValueFactory.newStringSettingValue(newSettings.get(Constants.KEY).getAsString(), newSettings.get(Constants.VALUE).getAsString());
+                    return settingValueFactory.newStringSettingValue(newSettings.get(Constants.KEY).getAsString(),
+                            newSettings.get(Constants.VALUE).getAsString());
                 default:
                     throw new UnsupportedOperationException();
             }
