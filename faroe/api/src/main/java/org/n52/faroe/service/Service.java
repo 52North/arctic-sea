@@ -4,7 +4,7 @@ import org.n52.faroe.SettingsService;
 
 public interface Service {
 
-  String getName();
+    String getName();
 
-  SettingsService getSettingsService();
+    SettingsService getSettingsService();
 }
