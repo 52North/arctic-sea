@@ -1,26 +1,26 @@
 package org.n52.faroe.dao;
 
-import com.google.gson.Gson;
+import org.n52.faroe.service.Service;
+
 import java.util.ArrayList;
 import java.util.List;
-import org.n52.faroe.service.Service;
 
 public class InMemoryServiceDaoImpl implements ServicesDao {
 
-  List<Service> services = new ArrayList<>();
+	List<Service> services = new ArrayList<>();
 
-  @Override
-  public List<Service> getServices() {
-    return services;
-  }
+	@Override
+	public List<Service> getServices() {
+		return services;
+	}
 
-  @Override
-  public void createService(Service s) {
-    services.add(s);
-  }
+	@Override
+	public void createService(Service s) {
+		services.add(s);
+	}
 
-  public Service getServiceByName(final String name) {
-    return services.stream().filter(service -> service.getName().equals(name)).findFirst()
-            .orElseGet(null);
-  }
+	public Service getServiceByName(final String name) {
+		return services.stream().filter(service -> service.getName().equals(name)).findFirst()
+				.orElseGet(null);
+	}
 }

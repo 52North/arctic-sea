@@ -1,16 +1,17 @@
 package org.n52.faroe.dao;
 
-import java.util.List;
 import org.n52.faroe.service.Service;
+
+import java.util.List;
 
 /**
  *
  */
 public interface ServicesDao {
 
-  List getServices();
+	List getServices();
 
-  void createService(Service s);
+	void createService(Service s);
 
-  Service getServiceByName(String name);
+	Service getServiceByName(String name);
 }
