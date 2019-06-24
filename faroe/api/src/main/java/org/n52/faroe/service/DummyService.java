@@ -5,14 +5,13 @@ import org.n52.faroe.SettingsService;
 
 public class DummyService implements Service {
 
-  private String name;
 
   @Inject
   private SettingsService settingsService;
 
   @Override
   public String getName() {
-    return this.name;
+    return "name";
   }
 
   @Override

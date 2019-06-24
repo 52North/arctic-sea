@@ -8,7 +8,6 @@ import org.n52.faroe.service.Service;
 public class InMemoryServiceDaoImpl implements ServicesDao {
 
   List<Service> services = new ArrayList<>();
-  Gson gson = new Gson();
 
   @Override
   public List<Service> getServices() {
@@ -21,7 +20,7 @@ public class InMemoryServiceDaoImpl implements ServicesDao {
   }
 
   public Service getServiceByName(final String name) {
-    return services.stream().filter(service -> service.getName()==name).findFirst()
+    return services.stream().filter(service -> service.getName().equals(name)).findFirst()
             .orElseGet(null);
   }
 }
