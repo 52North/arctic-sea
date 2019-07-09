@@ -125,7 +125,7 @@ public class JsonSettingsDao extends AbstractJsonDao implements SettingsDao {
                 }
                 return node.intValue();
             case NUMERIC:
-                if (!node.isDouble()) {
+                if (!(node.isDouble() || node.isBigDecimal())) {
                     numberDecodeError(type, node);
                 }
                 return node.doubleValue();
