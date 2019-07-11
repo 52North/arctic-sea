@@ -113,7 +113,8 @@ public class ParameterHolder {
                (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_HEIGHT_URL) ||
                 namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_HEIGHT) ||
                 namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_ELEVATION) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_DEPTH)) &&
+                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_HEIGHT) ||
+               namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_HEIGHT)) &&
                namedValue.getValue() instanceof QuantityValue;
     }
 
@@ -145,8 +146,10 @@ public class ParameterHolder {
 
     private boolean isDepthParameter(NamedValue<?> namedValue) {
         return namedValue.isSetName() && namedValue.getName().isSetHref() &&
-               (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH_URL) ||
-                namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH)) &&
+                (namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH_URL) ||
+                        namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_DEPTH) ||
+                        namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_FROM_DEPTH) ||
+                       namedValue.getName().getHref().equals(OmConstants.PARAMETER_NAME_TO_DEPTH)) &&
                namedValue.getValue() instanceof QuantityValue;
     }
 
