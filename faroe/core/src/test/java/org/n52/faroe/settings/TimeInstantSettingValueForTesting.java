@@ -23,6 +23,8 @@ import org.n52.faroe.SettingValue;
 
 public class TimeInstantSettingValueForTesting implements SettingValue<DateTime> {
 
+    private static final long serialVersionUID = 4229148095795282142L;
+
     private String key;
 
     private DateTime value;

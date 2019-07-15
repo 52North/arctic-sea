@@ -27,6 +27,8 @@ import org.n52.faroe.SettingType;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  */
 public class NumericSettingDefinition extends AbstractSettingDefinition<Double> {
+    private static final long serialVersionUID = 3695487073826792196L;
+
     /**
      * Constructs a new {@code BooleanSettingDefinition}.
      */

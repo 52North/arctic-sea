@@ -28,6 +28,8 @@ import org.n52.faroe.SettingType;
  */
 public class StringSettingDefinition extends AbstractSettingDefinition<String> {
 
+    private static final long serialVersionUID = -7311142312519344325L;
+
     /**
      * Constructs a new {@code StringSettingDefinition}.
      */

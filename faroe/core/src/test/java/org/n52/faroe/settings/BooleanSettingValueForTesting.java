@@ -25,6 +25,8 @@ import org.n52.faroe.SettingValue;
  */
 public class BooleanSettingValueForTesting implements SettingValue<Boolean> {
 
+    private static final long serialVersionUID = 2591791402790665055L;
+
     private String key;
 
     private Boolean value;

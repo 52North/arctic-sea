@@ -23,6 +23,8 @@ import org.n52.janmayen.i18n.MultilingualString;
 public class MultilingualStringValueForTesting implements
         SettingValue<MultilingualString> {
 
+    private static final long serialVersionUID = 5191915361015161989L;
+
     private String key;
 
     private MultilingualString value;

@@ -31,6 +31,8 @@ import org.n52.faroe.SettingType;
  */
 public class UriSettingDefinition extends AbstractSettingDefinition<URI> {
 
+    private static final long serialVersionUID = 548103745187277581L;
+
     /**
      * Constructs a new {@code UriSettingDefinition}.
      */

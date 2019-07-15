@@ -31,6 +31,7 @@ import com.google.common.base.MoreObjects;
  */
 public class JsonSettingValue<T> implements SettingValue<T> {
 
+    private static final long serialVersionUID = 5229173471522674423L;
     private final SettingType type;
     private String key;
     private T value;

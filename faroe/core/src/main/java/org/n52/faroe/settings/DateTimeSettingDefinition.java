@@ -29,6 +29,8 @@ import org.n52.janmayen.Times;
  */
 public class DateTimeSettingDefinition extends AbstractSettingDefinition<DateTime> {
 
+    private static final long serialVersionUID = 7547015368818138572L;
+
     /**
      * constructor
      */

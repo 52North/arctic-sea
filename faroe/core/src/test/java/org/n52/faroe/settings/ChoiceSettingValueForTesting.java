@@ -21,6 +21,8 @@ import org.n52.faroe.SettingType;
 
 public class ChoiceSettingValueForTesting extends StringSettingValueForTesting {
 
+    private static final long serialVersionUID = 5723329315795285451L;
+
     @Override
     public SettingType getType() {
         return SettingType.CHOICE;

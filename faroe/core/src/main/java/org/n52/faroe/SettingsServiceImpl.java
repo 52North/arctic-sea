@@ -422,6 +422,7 @@ public class SettingsServiceImpl implements SettingsService {
 
     private static final class NullSettingValue<T> implements SettingValue<T> {
 
+        private static final long serialVersionUID = -8873828673362504798L;
         private final String key;
 
         NullSettingValue(String key) {

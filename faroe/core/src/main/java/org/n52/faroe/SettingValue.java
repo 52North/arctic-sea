@@ -16,6 +16,8 @@
  */
 package org.n52.faroe;
 
+import java.io.Serializable;
+
 /**
  * Holder for generic settings. Implementations are {@link SettingsService} specific.
  *
@@ -24,7 +26,7 @@ package org.n52.faroe;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public interface SettingValue<T> {
+public interface SettingValue<T> extends Serializable {
 
     /**
      * @return the key of this setting

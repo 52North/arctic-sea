@@ -29,6 +29,8 @@ import org.n52.faroe.SettingType;
  */
 public class BooleanSettingDefinition extends AbstractSettingDefinition<Boolean> {
 
+    private static final long serialVersionUID = -8168046718662570066L;
+
     /**
      * Constructs a new {@code BooleanSettingDefinition}.
      */

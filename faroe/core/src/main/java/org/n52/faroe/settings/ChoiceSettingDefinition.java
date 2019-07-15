@@ -42,6 +42,7 @@ import org.n52.janmayen.stream.MoreCollectors;
  */
 public class ChoiceSettingDefinition extends AbstractSettingDefinition<String> {
 
+    private static final long serialVersionUID = 4783164088023177712L;
     private final Map<String, String> options = new HashMap<>();
 
     public ChoiceSettingDefinition() {

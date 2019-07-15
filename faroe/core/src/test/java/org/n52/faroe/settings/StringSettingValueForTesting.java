@@ -25,6 +25,8 @@ import org.n52.faroe.SettingValue;
  */
 public class StringSettingValueForTesting implements SettingValue<String> {
 
+    private static final long serialVersionUID = -4039693152730867188L;
+
     private String key;
 
     private String value;

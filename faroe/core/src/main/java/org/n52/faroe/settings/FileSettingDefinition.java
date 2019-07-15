@@ -30,6 +30,8 @@ import org.n52.faroe.SettingType;
  */
 public class FileSettingDefinition extends AbstractSettingDefinition<File> {
 
+    private static final long serialVersionUID = 8677688442689675380L;
+
     /**
      * Constructs a new {@code FileSettingDefinition}.
      */

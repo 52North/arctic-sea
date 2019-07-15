@@ -28,6 +28,7 @@ import org.n52.faroe.SettingType;
  */
 public class IntegerSettingDefinition extends AbstractSettingDefinition<Integer> {
 
+    private static final long serialVersionUID = 5224951859986317447L;
     private Integer minimum;
     private Integer maximum;
     private boolean exclusiveMaximum;

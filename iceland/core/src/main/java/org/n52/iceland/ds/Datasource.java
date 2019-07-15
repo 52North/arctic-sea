@@ -16,6 +16,7 @@
  */
 package org.n52.iceland.ds;
 
+import java.io.Serializable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -28,7 +29,7 @@ import org.n52.faroe.SettingDefinitionGroup;
  *
  * @since 1.0.0
  */
-public interface Datasource {
+public interface Datasource extends Serializable {
 
     SettingDefinitionGroup BASE_GROUP = new SettingDefinitionGroup("Database Configuration", 1);
     SettingDefinitionGroup ADVANCED_GROUP = new SettingDefinitionGroup("Advanced Database Configuration", 2);

@@ -27,6 +27,8 @@ import org.n52.faroe.SettingValue;
  */
 public class UriSettingValueForTesting implements SettingValue<URI> {
 
+    private static final long serialVersionUID = -3212846305178900109L;
+
     private String key;
 
     private URI value;

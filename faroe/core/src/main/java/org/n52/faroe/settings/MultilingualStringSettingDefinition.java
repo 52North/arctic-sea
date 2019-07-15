@@ -22,6 +22,8 @@ import org.n52.janmayen.i18n.MultilingualString;
 
 public class MultilingualStringSettingDefinition extends AbstractSettingDefinition<MultilingualString> {
 
+    private static final long serialVersionUID = -3680807551449370597L;
+
     public MultilingualStringSettingDefinition() {
         super(SettingType.MULTILINGUAL_STRING);
     }

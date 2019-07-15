@@ -16,6 +16,7 @@
  */
 package org.n52.faroe;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 /**
@@ -36,7 +37,7 @@ import java.util.Optional;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public interface SettingDefinition<T> extends Ordered {
+public interface SettingDefinition<T> extends Ordered, Serializable {
     /**
      * @return the unique key of this definition
      */

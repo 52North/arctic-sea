@@ -27,6 +27,8 @@ import org.n52.faroe.SettingValue;
  */
 public class FileSettingValueForTesting implements SettingValue<File> {
 
+    private static final long serialVersionUID = 861199163939435975L;
+
     private String key;
 
     private File value;
