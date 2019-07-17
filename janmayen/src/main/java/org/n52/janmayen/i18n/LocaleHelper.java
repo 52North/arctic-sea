@@ -83,7 +83,7 @@ public final class LocaleHelper {
         String language = tokens.length > 0 ? checkForIsoB(tokens[0].toLowerCase()) : "";
         String country = tokens.length > 1 ? tokens[1].toUpperCase() : "";
         String variant = tokens.length > 2 ? tokens[2] : "";
-        country = ISO_COUNTRY_ALPHA_3_TO_ALPHA_2.getOrDefault(country, country);
+        country = ISO_COUNTRY_ALPHA_3_TO_ALPHA_2.getOrDefault(country.toUpperCase(), country);
         language = ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2.getOrDefault(language, language);
         return new Locale(language, country, variant);
     }
