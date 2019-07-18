@@ -25,9 +25,9 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.search.SearchHit;
-
+import org.elasticsearch.transport.client.PreBuiltTransportClient;
 import org.n52.iceland.statistics.api.utils.dto.KibanaConfigEntryDto;
 import org.n52.iceland.statistics.api.utils.dto.KibanaConfigHolderDto;
 
@@ -52,16 +52,16 @@ public class KibanaExporter {
 
         // set ES address
         String split[] = args[0].split(":");
-        InetSocketTransportAddress address = new InetSocketTransportAddress(
+        TransportAddress  address = new TransportAddress (
                 InetAddress.getByName(split[0]),
                 Integer.parseInt(split[1], 10));
 
         // set cluster name
-        Builder tcSettings = Settings.settingsBuilder();
+        Builder tcSettings = Settings.builder();
         tcSettings.put("cluster.name", args[1]);
         System.out.println("Connection to " + args[1]);
 
-        client = TransportClient.builder().settings(tcSettings).build();
+        client = new PreBuiltTransportClient(tcSettings.build(), null, null);
         client.addTransportAddress(address);
 
         // search index pattern for needle

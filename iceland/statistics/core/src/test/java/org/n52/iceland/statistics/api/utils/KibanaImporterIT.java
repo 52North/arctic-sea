@@ -47,17 +47,17 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
                                        StandardCharsets.UTF_8);
         new KibanaImporter(getEmbeddedClient(), ".kibana", "my-index").importJson(json);
         Thread.sleep(1500);
-        Assertions.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
+        Assertions.assertTrue(getEmbeddedClient().admin().indices().prepareExists(".kibana").get() != null);
 
         SearchResponse resp = getEmbeddedClient().prepareSearch(".kibana").setTypes("visualization").get();
-        Assertions.assertTrue(resp.getHits().getTotalHits() > 0);
+        Assertions.assertTrue(resp.getHits().getTotalHits().value > 0);
 
         for (SearchHit hit : resp.getHits().getHits()) {
             Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
         }
 
         SearchResponse resp2 = getEmbeddedClient().prepareSearch(".kibana").setTypes("dashboard").get();
-        Assertions.assertTrue(resp2.getHits().getTotalHits() > 0);
+        Assertions.assertTrue(resp2.getHits().getTotalHits().value > 0);
 
         for (SearchHit hit : resp2.getHits().getHits()) {
             Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
@@ -68,7 +68,7 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
     public void importInvalidJson() throws InterruptedException, JsonParseException, JsonMappingException, IOException {
         new KibanaImporter(getEmbeddedClient(), "local-index", "").importJson("semmi latnivali nincs itt");
         Thread.sleep(1500);
-        Assertions.assertFalse(getEmbeddedClient().prepareExists(".kibana").get().exists());
+        Assertions.assertFalse(getEmbeddedClient().admin().indices().prepareExists(".kibana").get() != null);
     }
 
     @Test

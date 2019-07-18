@@ -61,10 +61,7 @@ import org.n52.svalbard.decode.SweCommonDecoderV101;
  *
  * @since 1.0.0
  */
-//@Ignore
 public class BatchRequestDecodingTest {
-//    @ClassRule
-//    public static final ConfiguredSettingsManager csm = new ConfiguredSettingsManager();
 
     private static JsonNode json;
 

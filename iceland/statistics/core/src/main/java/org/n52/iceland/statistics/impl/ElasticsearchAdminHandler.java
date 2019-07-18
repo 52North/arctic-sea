@@ -18,7 +18,6 @@ package org.n52.iceland.statistics.impl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
@@ -37,15 +36,8 @@ import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.client.IndicesAdminClient;
-import org.elasticsearch.client.transport.TransportClient;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
 import org.joda.time.DateTimeZone;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.faroe.ConfigurationError;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.iceland.statistics.api.ElasticsearchSettingsKeys;
@@ -54,33 +46,39 @@ import org.n52.iceland.statistics.api.mappings.MetadataDataMapping;
 import org.n52.iceland.statistics.api.utils.KibanaImporter;
 import org.n52.iceland.statistics.impl.schemabuilders.DefaultElasticsearchSchemas;
 import org.n52.iceland.statistics.impl.server.EmbeddedElasticsearch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.google.common.base.Joiner;
 
 public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(ElasticsearchAdminHandler.class);
 
     private Client client;
+
     private Node node;
+
     @Inject
     private ElasticsearchSettings settings;
+
     private EmbeddedElasticsearch embeddedServer;
+
     @Inject
     private ServletContext context;
+
     @Inject
     private DefaultElasticsearchSchemas schemas;
 
     @Override
     public synchronized void deleteIndex(String index) {
-        client.admin().indices().prepareDelete(index).get();
+        getClient().admin().indices().prepareDelete(index).get();
     }
 
     @Override
     public synchronized void createSchema() {
-        IndicesAdminClient indices = client.admin().indices();
+        IndicesAdminClient indices = getClient().admin().indices();
 
         if (indices.prepareExists(settings.getIndexId()).get().isExists()) {
             logger.info("Index {} already exists", settings.getIndexId());
@@ -90,12 +88,12 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
             logger.info("Elasticsearch schema version is {}", version);
             if (version == null) {
                 throw new ConfigurationError("Database inconsistency. Metadata version not found in type %s",
-                                             MetadataDataMapping.METADATA_TYPE_NAME);
+                        MetadataDataMapping.METADATA_TYPE_NAME);
             }
             if (version != schemas.getSchemaVersion()) {
                 throw new ConfigurationError(
-                        "Database schema version inconsistency. Version numbers don't match. " +
-                        "Database version number %d <-> Application version number %d",
+                        "Database schema version inconsistency. Version numbers don't match. "
+                                + "Database version number %d <-> Application version number %d",
                         version, schemas.getSchemaVersion());
             }
             addUuidToMetadataIfNeeded(settings.getUuid());
@@ -104,8 +102,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
             // create metadata table and index table table
             CreateIndexResponse response = indices.prepareCreate(settings.getIndexId())
                     .addMapping(MetadataDataMapping.METADATA_TYPE_NAME, schemas.getMetadataSchema())
-                    .addMapping(settings.getTypeId(), schemas.getSchema())
-                    .get();
+                    .addMapping(settings.getTypeId(), schemas.getSchema()).get();
             logger.debug("Created indices: {}", response);
             // insert metadata values
             createMetadataType(schemas.getSchemaVersion());
@@ -117,14 +114,14 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         if (settings.getKibanaConfPath() == null || settings.getKibanaConfPath().trim().isEmpty()) {
             logger.info("No path is defined. Use default settings values");
             json = IOUtils.toString(this.getClass().getResourceAsStream("/kibana/kibana_config.json"),
-                                    StandardCharsets.UTF_8);
+                    StandardCharsets.UTF_8);
         } else {
             try (FileInputStream fio = new FileInputStream(settings.getKibanaConfPath());) {
                 logger.info("Use content of path {}", settings.getKibanaConfPath());
                 json = IOUtils.toString(fio, StandardCharsets.UTF_8);
             }
         }
-        new KibanaImporter(client, ".kibana", settings.getIndexId()).importJson(json);
+        new KibanaImporter(getClient(), ".kibana", settings.getIndexId()).importJson(json);
         // set to false after successful import
         settings.saveBooleanValueToConfigFile(ElasticsearchSettingsKeys.KIBANA_CONFIG_ENABLE, false);
         settings.setKibanaConfigEnable(false);
@@ -132,17 +129,14 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
     }
 
     private Integer getCurrentVersion() {
-        GetResponse resp = client.prepareGet(settings.getIndexId(),
-                                             MetadataDataMapping.METADATA_TYPE_NAME,
-                                             MetadataDataMapping.METADATA_ROW_ID)
-                .setOperationThreaded(false).get();
+        GetResponse resp = getClient().prepareGet(settings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME,
+                MetadataDataMapping.METADATA_ROW_ID).get();
         if (resp.isExists()) {
             Object versionString = resp.getSourceAsMap().get(MetadataDataMapping.METADATA_VERSION_FIELD.getName());
             if (versionString == null) {
-                throw new ElasticsearchException(String
-                        .format("Database inconsistency. Version can't be found in row %s/%s/%s",
-                                settings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME,
-                                MetadataDataMapping.METADATA_ROW_ID));
+                throw new ElasticsearchException(String.format(
+                        "Database inconsistency. Version can't be found in row %s/%s/%s", settings.getIndexId(),
+                        MetadataDataMapping.METADATA_TYPE_NAME, MetadataDataMapping.METADATA_ROW_ID));
             }
             return Integer.valueOf(versionString.toString());
         } else {
@@ -152,10 +146,8 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
     @SuppressWarnings("unchecked")
     private void addUuidToMetadataIfNeeded(String uuid) throws ElasticsearchException {
-        GetResponse resp = client
-                .prepareGet(settings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME,
-                            MetadataDataMapping.METADATA_ROW_ID)
-                .setOperationThreaded(false).get();
+        GetResponse resp = getClient().prepareGet(settings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME,
+                MetadataDataMapping.METADATA_ROW_ID).get();
 
         Object retValues = resp.getSourceAsMap().get(MetadataDataMapping.METADATA_UUIDS_FIELD.getName());
         List<String> values;
@@ -167,7 +159,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
             values = (List<String>) retValues;
         } else {
             throw new ConfigurationError("Invalid %s field type %s should have String or java.util.Collection<String>",
-                                         MetadataDataMapping.METADATA_UUIDS_FIELD, retValues.getClass());
+                    MetadataDataMapping.METADATA_UUIDS_FIELD, retValues.getClass());
         }
 
         // add new uuid if needed
@@ -175,10 +167,10 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
             Map<String, Object> uuids = new HashMap<>();
             values.add(uuid);
             uuids.put(MetadataDataMapping.METADATA_UUIDS_FIELD.getName(), values);
-            uuids.put(MetadataDataMapping.METADATA_UPDATE_TIME_FIELD.getName(), Calendar.getInstance(DateTimeZone.UTC
-                      .toTimeZone()));
-            client.prepareUpdate(settings.getIndexId(),
-                                 MetadataDataMapping.METADATA_TYPE_NAME, "1").setDoc(uuids).get();
+            uuids.put(MetadataDataMapping.METADATA_UPDATE_TIME_FIELD.getName(),
+                    Calendar.getInstance(DateTimeZone.UTC.toTimeZone()));
+            getClient().prepareUpdate(settings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME, "1").setDoc(uuids)
+                    .get();
             logger.info("UUID {} is added to the {} type", uuid, MetadataDataMapping.METADATA_TYPE_NAME);
         }
     }
@@ -190,80 +182,77 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         data.put(MetadataDataMapping.METADATA_UPDATE_TIME_FIELD.getName(), time);
         data.put(MetadataDataMapping.METADATA_VERSION_FIELD.getName(), version);
         data.put(MetadataDataMapping.METADATA_UUIDS_FIELD.getName(), settings.getUuid());
-        client.prepareIndex(settings.getIndexId(),
-                            MetadataDataMapping.METADATA_TYPE_NAME,
-                            MetadataDataMapping.METADATA_ROW_ID)
-                .setSource(data).get();
-        logger.info("Initial metadata is created ceated in {}/{}",
-                    settings.getIndexId(),
-                    MetadataDataMapping.METADATA_TYPE_NAME);
+        getClient().prepareIndex(settings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME,
+                MetadataDataMapping.METADATA_ROW_ID).setSource(data).get();
+        logger.info("Initial metadata is created ceated in {}/{}", settings.getIndexId(),
+                MetadataDataMapping.METADATA_TYPE_NAME);
     }
 
-    /**
-     * Starts client mode in local Node mode.
-     */
-    private void initNodeMode() {
-        Objects.requireNonNull(settings.getClusterName());
-        Objects.requireNonNull(settings.getClusterNodes());
-
-        Settings.Builder settingsBuilder = Settings.settingsBuilder();
-        settingsBuilder.put("discovery.zen.ping.unicast.hosts", Joiner.on(",").join(settings.getClusterNodes()));
-
-        node = NodeBuilder.nodeBuilder().settings(settingsBuilder)
-                .client(true)
-                .clusterName(settings.getClusterName())
-                .node();
-        client = node.client();
-        logger.info("ElasticSearch data handler starting in LAN mode");
-
-    }
-
-    /**
-     * Starts client mode in {@link TransportClient} remote mode
-     */
-    private void initTransportMode() {
-        Objects.requireNonNull(settings.getClusterName());
-        Objects.requireNonNull(settings.getClusterNodes());
-
-        Settings.Builder tcSettings = Settings.settingsBuilder();
-        tcSettings.put("cluster.name", settings.getClusterName());
-
-        TransportClient cl = TransportClient.builder()
-                .settings(tcSettings).build();
-        // nodes has format host[:port]
-        settings.getClusterNodes().stream().forEach(i -> {
-            InetSocketTransportAddress address = null;
-            if (i.contains(":")) {
-                try {
-                    String[] split = i.split(":");
-                    address = new InetSocketTransportAddress(InetAddress.getByName(split[0]),
-                                                             Integer.parseInt(split[1]));
-                } catch (UnknownHostException e) {
-                    logConnectionError(i, e);
-                }
-            } else {
-                try {
-                    // default communication port
-                    address = new InetSocketTransportAddress(InetAddress.getByName(i), 9300);
-                } catch (UnknownHostException e) {
-                    logConnectionError(i, e);
-                }
-            }
-
-            if (address != null) {
-                cl.addTransportAddress(address);
-            }
-        });
-        this.client = cl;
-        logger.info("ElasticSearch data handler starting in Remote mode");
-
-    }
+    // /**
+    // * Starts client mode in local Node mode.
+    // */
+    // private void initNodeMode() {
+    // Objects.requireNonNull(settings.getClusterName());
+    // Objects.requireNonNull(settings.getClusterNodes());
+    //
+    // Settings.Builder settingsBuilder = Settings.builder();
+    // settingsBuilder.put("discovery.zen.ping.unicast.hosts",
+    // Joiner.on(",").join(settings.getClusterNodes()));
+    // node = NodeBuilder.nodeBuilder().settings(settingsBuilder)
+    // .client(true)
+    // .clusterName(settings.getClusterName())
+    // .node();
+    // client = node.client();
+    // logger.info("ElasticSearch data handler starting in LAN mode");
+    //
+    // }
+    //
+    // /**
+    // * Starts client mode in {@link TransportClient} remote mode
+    // */
+    // private void initTransportMode() {
+    // Objects.requireNonNull(settings.getClusterName());
+    // Objects.requireNonNull(settings.getClusterNodes());
+    //
+    // Settings.Builder tcSettings = Settings.settingsBuilder();
+    // tcSettings.put("cluster.name", settings.getClusterName());
+    //
+    // TransportClient cl = TransportClient.builder()
+    // .settings(tcSettings).build();
+    // // nodes has format host[:port]
+    // settings.getClusterNodes().stream().forEach(i -> {
+    // InetSocketTransportAddress address = null;
+    // if (i.contains(":")) {
+    // try {
+    // String[] split = i.split(":");
+    // address = new InetSocketTransportAddress(InetAddress.getByName(split[0]),
+    // Integer.parseInt(split[1]));
+    // } catch (UnknownHostException e) {
+    // logConnectionError(i, e);
+    // }
+    // } else {
+    // try {
+    // // default communication port
+    // address = new InetSocketTransportAddress(InetAddress.getByName(i), 9300);
+    // } catch (UnknownHostException e) {
+    // logConnectionError(i, e);
+    // }
+    // }
+    //
+    // if (address != null) {
+    // cl.addTransportAddress(address);
+    // }
+    // });
+    // this.client = cl;
+    // logger.info("ElasticSearch data handler starting in Remote mode");
+    //
+    // }
 
     private void initEmbeddedMode() {
         embeddedServer = new EmbeddedElasticsearch();
         embeddedServer.setHomePath(context.getRealPath("/WEB-INF").concat("/elasticsearch"));
         embeddedServer.init();
-        client = embeddedServer.getClient();
+        setClient(embeddedServer.getClient());
         logger.info("ElasticSearch data handler starting in EMBEDDED mode");
     }
 
@@ -281,15 +270,18 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         if (settings.isLoggingEnabled()) {
             // init client and local node or embedded mode
             if (settings.getNodeConnectionMode().equalsIgnoreCase(ElasticsearchSettingsKeys.CONNECTION_MODE_NODE)) {
-                initNodeMode();
+                // initNodeMode();
+                logger.info("Node mode is currently not supported! Embedded mode would be used!");
             } else if (settings.getNodeConnectionMode()
                     .equalsIgnoreCase(ElasticsearchSettingsKeys.CONNECTION_MODE_TRANSPORT_CLIENT)) {
-                initTransportMode();
+                // initTransportMode();
+                logger.info("Transport client mode is currently not supported! Embedded mode would be used!");
             } else {
                 initEmbeddedMode();
             }
+            initEmbeddedMode();
 
-            if (client != null) {
+            if (getClient() != null) {
                 // create schema
                 try {
                     createSchema();
@@ -320,9 +312,9 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
             if (embeddedServer != null) {
                 embeddedServer.destroy();
             }
-            if (client != null) {
+            if (getClient() != null) {
                 logger.info("Closing ElasticSearch client");
-                client.close();
+                getClient().close();
             }
             if (node != null) {
                 if (!node.isClosed()) {
@@ -330,7 +322,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
                     node.close();
                 }
             }
-        } catch (ElasticsearchException e) {
+        } catch (ElasticsearchException | IOException e) {
             logger.error(e.getMessage(), e);
         }
     }
@@ -342,7 +334,15 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
 
     @Override
     public Client getElasticsearchClient() {
+        return getClient();
+    }
+
+    private synchronized Client getClient() {
         return client;
+    }
+
+    private synchronized void setClient(Client client) {
+        this.client = client;
     }
 
     private void logConnectionError(String i, UnknownHostException e) {

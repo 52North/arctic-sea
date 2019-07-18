@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,8 +30,9 @@ import org.apache.commons.io.IOUtils;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
+import org.elasticsearch.env.Environment;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.node.NodeValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,11 +62,15 @@ public class EmbeddedElasticsearch {
         }
         LOG.info("Closing embedded elasticsearch node");
         if (embeddedNode != null) {
-            embeddedNode.close();
+            try {
+                embeddedNode.close();
+            } catch (IOException e) {
+               LOG.error("Error while closing embedded node", e);
+            }
         }
     }
 
-    @SuppressFBWarnings("OBL_UNSATISFIED_OBLIGATION")
+    @SuppressFBWarnings({"OBL_UNSATISFIED_OBLIGATION", "DMI_HARDCODED_ABSOLUTE_FILENAME"})
     public void init() {
         Objects.requireNonNull(homePath);
 
@@ -87,7 +93,7 @@ public class EmbeddedElasticsearch {
         String resource = RESOURCE_BASE + CONFIG_PATH;
         Builder setting;
         try (InputStream stream = getClass().getResourceAsStream(RESOURCE_BASE + CONFIG_PATH)) {
-            setting = Settings.settingsBuilder().loadFromStream(resource, stream);
+            setting = Settings.builder().loadFromStream(resource, stream, false);
         } catch (IOException ex) {
             LOG.error(ex.getMessage(), ex);
             return;
@@ -99,8 +105,12 @@ public class EmbeddedElasticsearch {
 
         Settings esSettings = setting.build();
         // LogConfigurator.configure(esSettings);
-        embeddedNode = NodeBuilder.nodeBuilder().settings(esSettings).build();
-        embeddedNode.start();
+        embeddedNode = new Node(new Environment(esSettings, Paths.get(resource)));
+        try {
+            embeddedNode.start();
+        } catch (NodeValidationException e1) {
+           LOG.error("Error while starting node", e1);
+        }
         try {
             LOG.info("Waiting 8 seconds to startup the Elasticsearch");
             Thread.sleep(8000);

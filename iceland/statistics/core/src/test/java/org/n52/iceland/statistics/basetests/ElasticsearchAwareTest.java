@@ -18,6 +18,7 @@ package org.n52.iceland.statistics.basetests;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.inject.Inject;
 
@@ -25,8 +26,9 @@ import org.apache.commons.io.FileUtils;
 import org.elasticsearch.ElasticsearchException;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.env.Environment;
 import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeBuilder;
+import org.elasticsearch.node.NodeValidationException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,14 +46,14 @@ public abstract class ElasticsearchAwareTest extends SpringBaseTest {
     protected ElasticsearchAdminHandler adminHandler;
 
     @BeforeAll
-    public static void init() throws IOException, InterruptedException {
+    public static void init() throws IOException, InterruptedException, NodeValidationException {
 
         logger.debug("Starting embedded node");
         String resource = "elasticsearch_embedded.yml";
-        Settings.Builder settings = Settings.settingsBuilder()
-                .loadFromStream(resource, ElasticsearchAwareTest.class.getResourceAsStream(resource));
+        Settings.Builder settings = Settings.builder()
+                .loadFromStream(resource, ElasticsearchAwareTest.class.getResourceAsStream(resource), false);
 
-        embeddedNode = NodeBuilder.nodeBuilder().settings(settings).build();
+        embeddedNode = new Node(new Environment(settings.build(), Paths.get(resource)));
         embeddedNode.start();
 
         logger.debug("Started embedded node");

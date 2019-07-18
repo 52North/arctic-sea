@@ -60,7 +60,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
         GetResponse resp = getEmbeddedClient()
                 .prepareGet(clientSettings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME, MetadataDataMapping.METADATA_ROW_ID)
-                .setOperationThreaded(false).get();
+                .get();
 
         Assertions.assertEquals(1, resp.getSourceAsMap().get(MetadataDataMapping.METADATA_VERSION_FIELD.getName()));
     }
@@ -81,7 +81,7 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
         GetResponse resp = getEmbeddedClient()
                 .prepareGet(clientSettings.getIndexId(), MetadataDataMapping.METADATA_TYPE_NAME, MetadataDataMapping.METADATA_ROW_ID)
-                .setOperationThreaded(false).get();
+                .get();
 
         Map<String, Object> map = resp.getSourceAsMap();
         Assertions.assertNotNull(map.get(MetadataDataMapping.METADATA_CREATION_TIME_FIELD.getName()));
@@ -147,6 +147,6 @@ public class ElasticsearchAdminHandlerIT extends ElasticsearchAwareTest {
 
         Thread.sleep(2500);
 
-        Assertions.assertTrue(getEmbeddedClient().prepareExists(".kibana").get().exists());
+        Assertions.assertTrue(getEmbeddedClient().admin().indices().prepareExists(".kibana").get() != null);
     }
 }
