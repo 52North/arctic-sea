@@ -250,6 +250,10 @@ public class ProfileValue
         return dataRecord;
     }
 
+    public boolean isSetPhenomenonTime() {
+        return values.stream().anyMatch(l -> l.isSetPhenomenonTime());
+    }
+    
     public Time getPhenomenonTime() {
         TimePeriod time = new TimePeriod();
         for (ProfileLevel profileLevel : values) {
