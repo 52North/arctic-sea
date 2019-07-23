@@ -36,6 +36,14 @@ public class SweCategoryRange extends SweAbstractUomType<RangeValue<String>> imp
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty() && s.contains("/")) {
+            String[] split = s.split("/");
+            setValue(new RangeValue<String>(split[0], split[1]));
+        }
+    }
+
+    @Override
     public String getStringValue() {
         return value.toString();
     }

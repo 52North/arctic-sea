@@ -48,6 +48,13 @@ public class SweTime extends SweAbstractUomType<DateTime> {
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty()) {
+            setValue(DateTimeHelper.parseIsoString2DateTime(s));
+        }
+    }
+
+    @Override
     public String getStringValue() {
         if (isSetValue()) {
             return DateTimeHelper.formatDateTime2IsoString(value);

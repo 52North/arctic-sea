@@ -146,6 +146,13 @@ public class SweQuantity extends SweAbstractUomType<BigDecimal> implements SweQu
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty()) {
+            setValue(new BigDecimal(s));
+        }
+    }
+
+    @Override
     public String getStringValue() {
         if (isSetValue()) {
             return value.toPlainString();

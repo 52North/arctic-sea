@@ -48,6 +48,14 @@ public class SweCountRange extends SweAbstractSimpleType<RangeValue<Integer>> {
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty() && s.contains("/")) {
+            String[] split = s.split("/");
+            setValue(new RangeValue<Integer>(Integer.parseInt(split[0]), Integer.parseInt(split[1])));
+        }
+    }
+
+    @Override
     public String getStringValue() {
         return value.toString();
     }

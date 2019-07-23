@@ -56,6 +56,13 @@ public class SweText extends SweAbstractSimpleType<String> implements Comparable
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty()) {
+            setValue(s);
+        }
+    }
+
+    @Override
     public String getStringValue() {
         return value;
     }

@@ -81,6 +81,13 @@ public class SweCategory extends SweAbstractUomType<String> implements SweQualit
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty()) {
+            setValue(s);
+        }
+    }
+
+    @Override
     public String getStringValue() {
         return value;
     }

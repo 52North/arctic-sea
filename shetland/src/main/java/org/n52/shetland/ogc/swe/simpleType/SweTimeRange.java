@@ -16,10 +16,13 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
+import java.math.BigDecimal;
+
 import org.joda.time.DateTime;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.RangeValue;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
+import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
 import org.n52.shetland.ogc.swe.VoidSweDataComponentVisitor;
@@ -56,6 +59,15 @@ public class SweTimeRange
     @Override
     public RangeValue<DateTime> getValue() {
         return value;
+    }
+
+    @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty() && s.contains("/")) {
+            String[] split = s.split("/");
+            setValue(new RangeValue<DateTime>(DateTimeHelper.parseIsoString2DateTime(split[0]),
+                    DateTimeHelper.parseIsoString2DateTime(split[1])));
+        }
     }
 
     @Override

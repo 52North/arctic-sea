@@ -50,6 +50,13 @@ public class SweObservableProperty extends SweAbstractSimpleType<String> {
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty()) {
+            setValue(s);
+        }
+    }
+
+    @Override
     public String getStringValue() {
         return value;
     }

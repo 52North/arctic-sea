@@ -99,6 +99,14 @@ public class SweQuantityRange extends SweAbstractUomType<RangeValue<BigDecimal>>
     }
 
     @Override
+    public void setStringValue(String s) {
+        if (s != null && !s.isEmpty() && s.contains("/")) {
+            String[] split = s.split("/");
+            setValue(new RangeValue<BigDecimal>(new BigDecimal(split[0]), new BigDecimal(split[1])));
+        }
+    }
+
+    @Override
     public String getStringValue() {
         return value.toString();
     }

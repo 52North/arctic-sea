@@ -39,6 +39,8 @@ public abstract class SweAbstractSimpleType<T>
     // TODO quality needs to be a collection
     private Collection<SweQuality> quality;
 
+    public abstract void setStringValue(String s);
+
     /**
      * Get quality information
      *
