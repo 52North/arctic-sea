@@ -66,7 +66,7 @@ This project includes:
   geolatte-geom under LGPL 3.0
   Guava InternalFutureFailureAccess and InternalFutures under The Apache Software License, Version 2.0
   Guava ListenableFuture only under The Apache Software License, Version 2.0
-  Guava: Google Core Libraries for Java under The Apache Software License, Version 2.0
+  Guava: Google Core Libraries for Java under Apache License, Version 2.0
   HdrHistogram under Public Domain, per Creative Commons CC0
   HPPC Collections under The Apache Software License, Version 2.0
   INSPIRE Addresses schema (spec. v4.0) under The Apache Software License, Version 2.0
@@ -95,7 +95,7 @@ This project includes:
   JavaMail API jar under CDDL or GPLv2+CE
   javax.inject under The Apache Software License, Version 2.0
   JCL 1.2 implemented over SLF4J under MIT License
-  Joda-Time under Apache 2
+  Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
   lang-mustache under The Apache Software License, Version 2.0
   libphonenumber under The Apache Software License, Version 2.0

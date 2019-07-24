@@ -135,7 +135,7 @@
     
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <version.spring>5.1.6.RELEASE</version.spring>
+        <version.spring>5.1.8.RELEASE</version.spring>
         <version.slf4j>1.7.26</version.slf4j>
         <version.jackson>2.9.9</version.jackson>
         <version.xmlbeans>3.1.0</version.xmlbeans>
@@ -249,7 +249,7 @@
             <dependency>
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
-                <version>3.1.0</version>
+                <version>4.0.1</version>
             </dependency>
             <dependency>
                 <groupId>javax.activation</groupId>
@@ -288,7 +288,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>27.0-jre</version>
+                <version>28.0-jre</version>
             </dependency>
             
             
@@ -296,12 +296,12 @@
             <dependency>
                 <groupId>joda-time</groupId>
                 <artifactId>joda-time</artifactId>
-                <version>2.10.1</version>
+                <version>2.10.3</version>
             </dependency>
             <dependency>
                 <groupId>org.locationtech.jts</groupId>
                 <artifactId>jts-core</artifactId>
-                <version>1.16.0</version>
+                <version>1.16.1</version>
             </dependency>
             <dependency>
                 <groupId>org.geolatte</groupId>
@@ -349,19 +349,19 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-api</artifactId>
-                <version>5.4.1</version>
+                <version>5.5.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
-                <version>5.4.1</version>
+                <version>5.5.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-params</artifactId>
-                <version>5.4.1</version>
+                <version>5.5.1</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -372,7 +372,7 @@
             <dependency>
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-core</artifactId>
-                <version>1.3</version>
+                <version>2.1</version>
             </dependency>
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -388,7 +388,7 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-core</artifactId>
-                <version>2.26.0</version>
+                <version>3.0.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.hamcrest</groupId>
@@ -399,7 +399,7 @@
             <dependency>
                 <groupId>org.mockito</groupId>
                 <artifactId>mockito-junit-jupiter</artifactId>
-                <version>2.26.0</version>
+                <version>3.0.0</version>
             </dependency>
             <dependency>
                 <groupId>xmlunit</groupId>
@@ -417,12 +417,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.10</version>
+                <version>4.4.11</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.5.6</version>
+                <version>4.5.9</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.apache.httpcomponents</groupId>
@@ -444,7 +444,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.11</version>
+                <version>1.12</version>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
@@ -526,7 +526,7 @@
             <dependency>
                 <groupId>net.sf.saxon</groupId>
                 <artifactId>Saxon-HE</artifactId>
-                <version>9.9.0-1</version>
+                <version>9.9.1-4</version>
             </dependency>
             
 
@@ -561,7 +561,7 @@
             <dependency>
                 <groupId>org.apache.lucene</groupId>
                 <artifactId>lucene-core</artifactId>
-                 <version>8.0.0</version>
+                 <version>8.1.1</version>
             </dependency>
             <dependency>
                 <groupId>com.maxmind.db</groupId>

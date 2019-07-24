@@ -31,6 +31,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
+import javax.servlet.ServletRegistration.Dynamic;
 import javax.servlet.SessionCookieConfig;
 import javax.servlet.SessionTrackingMode;
 import javax.servlet.descriptor.JspConfigDescriptor;
@@ -297,6 +298,48 @@ public class MockServletContext implements ServletContext {
     @Override
     public String getVirtualServerName() {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Dynamic addJspFile(String servletName, String jspFile) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int getSessionTimeout() {
+        // TODO Auto-generated method stub
+        return 0;
+    }
+
+    @Override
+    public void setSessionTimeout(int sessionTimeout) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public String getRequestCharacterEncoding() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setRequestCharacterEncoding(String encoding) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public String getResponseCharacterEncoding() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void setResponseCharacterEncoding(String encoding) {
+        // TODO Auto-generated method stub
+
     }
 
 }
