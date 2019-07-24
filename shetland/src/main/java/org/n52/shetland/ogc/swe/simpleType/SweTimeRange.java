@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.ogc.swe.simpleType;
 
-import java.math.BigDecimal;
-
 import org.joda.time.DateTime;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.swe.RangeValue;
