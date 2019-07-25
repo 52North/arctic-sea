@@ -28,48 +28,51 @@ import com.google.common.collect.ImmutableSetMultimap;
  */
 public final class MediaTypes {
 
-    private static final String SUBTYPE_XML = "xml";
-    private static final String SUBTYPE_PLAIN = "plain";
-    private static final String SUBTYPE_ZIP = "zip";
-    private static final String SUBTYPE_JSON = "json";
-    private static final String SUBTYPE_STA = "sta+json";
-    private static final String SUBTYPE_EXI = "exi";
-    private static final String SUBTYPE_KVP = "x-kvp";
-    private static final String SUBTYPE_SOAP = "soap+xml";
-    private static final String SUBTYPE_NETCDF = "netcdf";
-    private static final String SUBTYPE_CSV = "csv";
-    private static final String SUBTYPE_RDATA = "rData";
-    private static final String SUBTYPE_X_RDATA = "x-rData";
-    private static final String SUBTYPE_GML = "gml+xml";
-    private static final String SUBTYPE_OM = "om+xml";
-    private static final String SUBTYPE_HTML = "html";
-    private static final String SUBTYPE_GEOTIFF = "geotiff";
-    private static final String SUBTYPE_X_GEOTIFF = "x-geotiff";
-    private static final String SUBTYPE_X_NETCDF = "x-netcdf";
-    private static final String SUBTYPE_X_ZIPPED_SHAPE = "x-zipped-shp";
     private static final String PARAM_VERSION = "version";
 
+    private static final String SUBTYPE_CSV            = "csv";
+    private static final String SUBTYPE_EXI            = "exi";
+    private static final String SUBTYPE_GEOTIFF        = "geotiff";
+    private static final String SUBTYPE_GML            = "gml+xml";
+    private static final String SUBTYPE_HTML           = "html";
+    private static final String SUBTYPE_JSON           = "json";
+    private static final String SUBTYPE_KVP            = "x-kvp";
+    private static final String SUBTYPE_NETCDF         = "netcdf";
+    private static final String SUBTYPE_OCTET_STREAM   = "octet-stream";
+    private static final String SUBTYPE_OM             = "om+xml";
+    private static final String SUBTYPE_PLAIN          = "plain";
+    private static final String SUBTYPE_RDATA          = "rData";
+    private static final String SUBTYPE_SOAP           = "soap+xml";
+    private static final String SUBTYPE_STA            = "sta+json";
+    private static final String SUBTYPE_XML            = "xml";
+    private static final String SUBTYPE_X_GEOTIFF      = "x-geotiff";
+    private static final String SUBTYPE_X_NETCDF       = "x-netcdf";
+    private static final String SUBTYPE_X_RDATA        = "x-rData";
+    private static final String SUBTYPE_X_ZIPPED_SHAPE = "x-zipped-shp";
+    private static final String SUBTYPE_ZIP            = "zip";
 
-    public static final MediaType APPLICATION_X_GEOTIFF = MediaType.application(SUBTYPE_X_GEOTIFF);
-    public static final MediaType APPLICATION_GEOTIFF = MediaType.application(SUBTYPE_GEOTIFF);
-    public static final MediaType APPLICATION_X_NETCDF = MediaType.application(SUBTYPE_X_NETCDF);
-    public static final MediaType TEXT_HTML = MediaType.text(SUBTYPE_HTML);
-    public static final MediaType TEXT_CSV = MediaType.text(SUBTYPE_CSV);
-    public static final MediaType TEXT_PLAIN = MediaType.text(SUBTYPE_PLAIN);
-    public static final MediaType TEXT_XML = MediaType.text(SUBTYPE_XML);
-    public static final MediaType APPLICATION_XML = MediaType.application(SUBTYPE_XML);
-    public static final MediaType APPLICATION_ZIP = MediaType.application(SUBTYPE_ZIP);
-    public static final MediaType APPLICATION_JSON = MediaType.application(SUBTYPE_JSON);
-    public static final MediaType APPLICATION_STA = MediaType.application(SUBTYPE_STA);
-    public static final MediaType APPLICATION_EXI = MediaType.application(SUBTYPE_EXI);
-    public static final MediaType APPLICATION_KVP = MediaType.application(SUBTYPE_KVP);
-    public static final MediaType APPLICATION_SOAP_XML = MediaType.application(SUBTYPE_SOAP);
-    public static final MediaType APPLICATION_NETCDF = MediaType.application(SUBTYPE_NETCDF);
-    public static final MediaType APPLICATION_GML_32 = MediaType.application(SUBTYPE_GML, PARAM_VERSION, "3.2");
-    public static final MediaType APPLICATION_OM_20 = MediaType.application(SUBTYPE_OM, PARAM_VERSION, "2.0");
-    public static final MediaType APPLICATION_RDATA = MediaType.application(SUBTYPE_RDATA);
-    public static final MediaType APPLICATION_X_RDATA = MediaType.application(SUBTYPE_X_RDATA);
+    public static final MediaType APPLICATION_EXI          = MediaType.application(SUBTYPE_EXI);
+    public static final MediaType APPLICATION_GEOTIFF      = MediaType.application(SUBTYPE_GEOTIFF);
+    public static final MediaType APPLICATION_GML_32       = MediaType.application(SUBTYPE_GML, PARAM_VERSION, "3.2");
+    public static final MediaType APPLICATION_JSON         = MediaType.application(SUBTYPE_JSON);
+    public static final MediaType APPLICATION_KVP          = MediaType.application(SUBTYPE_KVP);
+    public static final MediaType APPLICATION_NETCDF       = MediaType.application(SUBTYPE_NETCDF);
+    public static final MediaType APPLICATION_OCTET_STREAM = MediaType.application(SUBTYPE_OCTET_STREAM);
+    public static final MediaType APPLICATION_OM_20        = MediaType.application(SUBTYPE_OM, PARAM_VERSION, "2.0");
+    public static final MediaType APPLICATION_RDATA        = MediaType.application(SUBTYPE_RDATA);
+    public static final MediaType APPLICATION_SOAP_XML     = MediaType.application(SUBTYPE_SOAP);
+    public static final MediaType APPLICATION_STA          = MediaType.application(SUBTYPE_STA);
+    public static final MediaType APPLICATION_XML          = MediaType.application(SUBTYPE_XML);
+    public static final MediaType APPLICATION_X_GEOTIFF    = MediaType.application(SUBTYPE_X_GEOTIFF);
+    public static final MediaType APPLICATION_X_NETCDF     = MediaType.application(SUBTYPE_X_NETCDF);
+    public static final MediaType APPLICATION_X_RDATA      = MediaType.application(SUBTYPE_X_RDATA);
     public static final MediaType APPLICATION_X_ZIPPED_SHP = MediaType.application(SUBTYPE_X_ZIPPED_SHAPE);
+    public static final MediaType APPLICATION_ZIP          = MediaType.application(SUBTYPE_ZIP);
+
+    public static final MediaType TEXT_CSV                 = MediaType.text(SUBTYPE_CSV);
+    public static final MediaType TEXT_HTML                = MediaType.text(SUBTYPE_HTML);
+    public static final MediaType TEXT_PLAIN               = MediaType.text(SUBTYPE_PLAIN);
+    public static final MediaType TEXT_XML                 = MediaType.text(SUBTYPE_XML);
 
     public static final ImmutableSetMultimap<MediaType, MediaType> COMPATIBLE_TYPES
             = new ImmutableSetMultimap.Builder<MediaType, MediaType>()
