@@ -307,6 +307,12 @@
                 <groupId>org.geolatte</groupId>
                 <artifactId>geolatte-geom</artifactId>
                 <version>1.4.0</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.locationtech.jts</groupId>
+                        <artifactId>jts-core</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <!-- Logging -->
