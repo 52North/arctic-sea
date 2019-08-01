@@ -137,7 +137,7 @@
         <timestamp>${maven.build.timestamp}</timestamp>
         <version.spring>5.1.8.RELEASE</version.spring>
         <version.slf4j>1.7.26</version.slf4j>
-        <version.jackson>2.9.9</version.jackson>
+        <version.jackson>2.10.0.pr1</version.jackson>
         <version.xmlbeans>3.1.0</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
         <version.n52CommonXML>2.6.1</version.n52CommonXML>
