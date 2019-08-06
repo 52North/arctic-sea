@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import java.io.Serializable;
 import java.net.URI;
 import java.util.Comparator;
 import java.util.Objects;
@@ -31,13 +32,13 @@ import com.google.common.base.Strings;
  *
  * @author Christian Autermann
  */
-public class OwsCode implements Comparable<OwsCode> {
+public class OwsCode implements Comparable<OwsCode>, Serializable {
     private static final Comparator<OwsCode> COMPARATOR
             = Comparator.nullsLast(Comparator.comparing(OwsCode::getCodeSpace, Optionals.nullsLast())
                     .thenComparing(Comparator.comparing(OwsCode::getValue)));
 
     private final String value;
-    private final Optional<URI> codeSpace;
+    private final transient Optional<URI> codeSpace;
 
     public OwsCode(String value, URI codeSpace) {
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
