@@ -33,6 +33,8 @@ import com.google.common.base.Strings;
  * @author Christian Autermann
  */
 public class OwsCode implements Comparable<OwsCode>, Serializable {
+    private static final long serialVersionUID = -1884521299174349193L;
+
     private static final Comparator<OwsCode> COMPARATOR
             = Comparator.nullsLast(Comparator.comparing(OwsCode::getCodeSpace, Optionals.nullsLast())
                     .thenComparing(Comparator.comparing(OwsCode::getValue)));
