@@ -16,19 +16,7 @@
  */
 package org.n52.shetland.util;
 
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.hamcrest.CoreMatchers.sameInstance;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinate;
-import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinateRing;
-import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinates;
-
-import org.geolatte.geom.C2D;
+import org.geolatte.geom.G2D;
 import org.geolatte.geom.Point;
 import org.geolatte.geom.crs.CoordinateReferenceSystems;
 import org.geolatte.geom.jts.JTS;
@@ -42,11 +30,22 @@ import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.io.ParseException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.not;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.sameInstance;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinate;
+import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinateRing;
+import static org.n52.shetland.util.JTSHelperForTesting.randomCoordinates;
+
 /**
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
  * @since 4.0.0
  */
 public class JTSHelperTest extends JTSHelper {
@@ -72,7 +71,6 @@ public class JTSHelperTest extends JTSHelper {
         assertThat(g.getSRID(), is(4326));
     }
 
-
     @Test
     public void shouldPointSwitchCoordinatesDefault() throws ParseException {
         String coordinates = "52.0 7.0";
@@ -87,7 +85,9 @@ public class JTSHelperTest extends JTSHelper {
 
     @Test
     public void shouldPointSwitchCoordinatesWithPackedPositionSequence() throws ParseException {
-        Geometry geometry = JTS.to(new Point(new C2D(52.0, 7.0), CoordinateReferenceSystems.WGS84));
+        G2D c2D = new G2D(52.0, 7.0);
+        Point<G2D> geometry1 = new Point<G2D>(c2D, CoordinateReferenceSystems.WGS84);
+        Geometry geometry = JTS.to(geometry1);
         assertNotEquals(geometry, switchCoordinateAxisOrder(geometry));
     }
 
@@ -101,7 +101,7 @@ public class JTSHelperTest extends JTSHelper {
         builder.append(")");
         assertEquals(builder.toString(), createWKTPointFromCoordinateString(coordinates));
         assertEquals(createGeometryFromWKT(builder.toString(), 4326),
-                createGeometryFromWKT(createWKTPointFromCoordinateString(coordinates), 4326));
+                     createGeometryFromWKT(createWKTPointFromCoordinateString(coordinates), 4326));
     }
 
     @Test
@@ -124,9 +124,9 @@ public class JTSHelperTest extends JTSHelper {
         final GeometryFactory factory = getGeometryFactoryForSRID(4326);
         testReverse(factory.createPolygon(
                 factory.createLinearRing(randomCoordinateRing(10)),
-                new LinearRing[] { factory.createLinearRing(randomCoordinateRing(10)),
-                        factory.createLinearRing(randomCoordinateRing(41)),
-                        factory.createLinearRing(randomCoordinateRing(13)) }));
+                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(10)),
+                                 factory.createLinearRing(randomCoordinateRing(41)),
+                                 factory.createLinearRing(randomCoordinateRing(13))}));
     }
 
     @Test
@@ -138,63 +138,64 @@ public class JTSHelperTest extends JTSHelper {
     @Test
     public void shouldReverseMultiLineString() throws OwsExceptionReport {
         final GeometryFactory factory = getGeometryFactoryForSRID(4326);
-        testReverse(factory.createMultiLineString(new LineString[] {
+        testReverse(factory.createMultiLineString(new LineString[]{
                 factory.createLineString(randomCoordinateRing(21)),
                 factory.createLineString(randomCoordinateRing(21)),
-                factory.createLineString(randomCoordinateRing(15)), }));
+                factory.createLineString(randomCoordinateRing(15)),}));
     }
 
     @Test
     public void shouldReverseMultiPolygon() throws OwsExceptionReport {
         final GeometryFactory factory = getGeometryFactoryForSRID(4326);
-        testReverse(factory.createMultiPolygon(new Polygon[] {
+        testReverse(factory.createMultiPolygon(new Polygon[]{
                 factory.createPolygon(
                         factory.createLinearRing(randomCoordinateRing(13)),
-                        new LinearRing[] { factory.createLinearRing(randomCoordinateRing(130)),
-                                factory.createLinearRing(randomCoordinateRing(4121)),
-                                factory.createLinearRing(randomCoordinateRing(12)) }),
+                        new LinearRing[]{factory.createLinearRing(randomCoordinateRing(130)),
+                                         factory.createLinearRing(randomCoordinateRing(4121)),
+                                         factory.createLinearRing(randomCoordinateRing(12))}),
                 factory.createPolygon(
                         factory.createLinearRing(randomCoordinateRing(8)),
-                        new LinearRing[] { factory.createLinearRing(randomCoordinateRing(1101)),
-                                factory.createLinearRing(randomCoordinateRing(413)),
-                                factory.createLinearRing(randomCoordinateRing(123)) }),
+                        new LinearRing[]{factory.createLinearRing(randomCoordinateRing(1101)),
+                                         factory.createLinearRing(randomCoordinateRing(413)),
+                                         factory.createLinearRing(randomCoordinateRing(123))}),
                 factory.createPolygon(
                         factory.createLinearRing(randomCoordinateRing(89)),
-                        new LinearRing[] { factory.createLinearRing(randomCoordinateRing(112)),
-                                factory.createLinearRing(randomCoordinateRing(4)),
-                                factory.createLinearRing(randomCoordinateRing(43)) }) }));
+                        new LinearRing[]{factory.createLinearRing(randomCoordinateRing(112)),
+                                         factory.createLinearRing(randomCoordinateRing(4)),
+                                         factory.createLinearRing(randomCoordinateRing(43))})}));
     }
 
     @Test
     public void shouldReverseGeometryCollection() throws OwsExceptionReport {
         final GeometryFactory factory = getGeometryFactoryForSRID(4326);
-        testReverse(factory.createGeometryCollection(new Geometry[] {
-                factory.createMultiPolygon(new Polygon[] {
+        testReverse(factory.createGeometryCollection(new Geometry[]{
+                factory.createMultiPolygon(new Polygon[]{
                         factory.createPolygon(
                                 factory.createLinearRing(randomCoordinateRing(13)),
-                                new LinearRing[] { factory.createLinearRing(randomCoordinateRing(130)),
-                                        factory.createLinearRing(randomCoordinateRing(4121)),
-                                        factory.createLinearRing(randomCoordinateRing(12)) }),
+                                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(130)),
+                                                 factory.createLinearRing(randomCoordinateRing(4121)),
+                                                 factory.createLinearRing(randomCoordinateRing(12))}),
                         factory.createPolygon(
                                 factory.createLinearRing(randomCoordinateRing(8)),
-                                new LinearRing[] { factory.createLinearRing(randomCoordinateRing(1101)),
-                                        factory.createLinearRing(randomCoordinateRing(413)),
-                                        factory.createLinearRing(randomCoordinateRing(123)) }),
+                                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(1101)),
+                                                 factory.createLinearRing(randomCoordinateRing(413)),
+                                                 factory.createLinearRing(randomCoordinateRing(123))}),
                         factory.createPolygon(
                                 factory.createLinearRing(randomCoordinateRing(89)),
-                                new LinearRing[] { factory.createLinearRing(randomCoordinateRing(112)),
-                                        factory.createLinearRing(randomCoordinateRing(4)),
-                                        factory.createLinearRing(randomCoordinateRing(43)) }) }),
-                factory.createMultiLineString(new LineString[] { factory.createLineString(randomCoordinateRing(21)),
+                                new LinearRing[]{factory.createLinearRing(randomCoordinateRing(112)),
+                                                 factory.createLinearRing(randomCoordinateRing(4)),
+                                                 factory.createLinearRing(randomCoordinateRing(43))})}),
+                factory.createMultiLineString(new LineString[]{
                         factory.createLineString(randomCoordinateRing(21)),
-                        factory.createLineString(randomCoordinateRing(15)), }),
+                        factory.createLineString(randomCoordinateRing(21)),
+                        factory.createLineString(randomCoordinateRing(15)),}),
                 factory.createPolygon(
                         factory.createLinearRing(randomCoordinateRing(10)),
-                        new LinearRing[] { factory.createLinearRing(randomCoordinateRing(10)),
-                                factory.createLinearRing(randomCoordinateRing(41)),
-                                factory.createLinearRing(randomCoordinateRing(13)) }),
+                        new LinearRing[]{factory.createLinearRing(randomCoordinateRing(10)),
+                                         factory.createLinearRing(randomCoordinateRing(41)),
+                                         factory.createLinearRing(randomCoordinateRing(13))}),
                 getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(10)),
-                getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(10)) }));
+                getGeometryFactoryForSRID(4326).createLineString(randomCoordinates(10))}));
     }
 
     protected void testReverse(Geometry geometry) throws OwsExceptionReport {

@@ -22,7 +22,7 @@ import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationTy
 
 /**
  * This class implements the OGC TimeseriesML 1.0 element
- * <code>MeasurementTimeseries > defaultPointMetadata > DefaultTVPMeasurementMetadata</code>.
+ * <code>MeasurementTimeseries &gt; defaultPointMetadata &gt; DefaultTVPMeasurementMetadata</code>.
  *
  * See <code>/req/xsd-measurement-timeseries-tvp/</code>.
  *

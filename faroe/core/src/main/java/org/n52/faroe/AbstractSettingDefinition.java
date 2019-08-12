@@ -16,6 +16,8 @@
  */
 package org.n52.faroe;
 
+import java.io.Serializable;
+
 /**
  * Generic implementation of <code>SettingDefinition</code>.
  *
@@ -24,8 +26,9 @@ package org.n52.faroe;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public abstract class AbstractSettingDefinition<T> extends AbstractOrdered implements SettingDefinition<T> {
-
+public abstract class AbstractSettingDefinition<T> extends AbstractOrdered
+        implements SettingDefinition<T>, Serializable {
+    private static final long serialVersionUID = -4844522246101262287L;
     private boolean optional;
     private String identifier;
     private String title;
