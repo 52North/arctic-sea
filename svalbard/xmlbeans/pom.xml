@@ -77,6 +77,10 @@
             <groupId>javax.inject</groupId>
             <artifactId>javax.inject</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+        </dependency>
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

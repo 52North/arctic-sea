@@ -41,7 +41,6 @@
         <module>shetland</module>
         <module>svalbard</module>
         <module>iceland</module>
-        <module>rdf</module>
     </modules>
     
     <developers>
