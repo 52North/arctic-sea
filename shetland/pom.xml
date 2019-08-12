@@ -129,7 +129,6 @@
             <artifactId>spotbugs-annotations</artifactId>
             <scope>provided</scope>
         </dependency>
-        
     </dependencies>
     <profiles>
         <profile>
@@ -142,6 +141,7 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>3.1.1</version>
                         <dependencies>
                             <dependency>
                                 <groupId>javax.xml.soap</groupId>
