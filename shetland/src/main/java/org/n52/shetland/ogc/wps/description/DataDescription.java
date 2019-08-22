@@ -17,11 +17,9 @@
 package org.n52.shetland.ogc.wps.description;
 
 /**
- *
  * @author Christian Autermann
  */
 public interface DataDescription extends Description {
-
     default boolean isBoundingBox() {
         return false;
     }
@@ -38,9 +36,5 @@ public interface DataDescription extends Description {
         return false;
     }
 
-    interface Builder<T extends DataDescription, B extends Builder<T, B>>
-            extends Description.Builder<T, B> {
-
-    }
-
+    interface Builder<T extends DataDescription, B extends Builder<T, B>> extends Description.Builder<T, B> {}
 }

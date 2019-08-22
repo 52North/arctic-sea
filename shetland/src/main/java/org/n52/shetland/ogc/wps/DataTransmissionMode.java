@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Optional;
 
 /**
@@ -32,10 +35,12 @@ public enum DataTransmissionMode {
         return getValue();
     }
 
+    @JsonValue
     public String getValue() {
         return name().toLowerCase();
     }
 
+    @JsonCreator
     public static Optional<DataTransmissionMode> fromString(String string) {
         for (DataTransmissionMode t : values()) {
             if (t.name().equalsIgnoreCase(string)) {

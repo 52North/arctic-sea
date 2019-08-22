@@ -16,18 +16,12 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import java.math.BigInteger;
-import java.util.Objects;
-import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
+import com.google.common.base.Preconditions;
 import org.n52.shetland.ogc.wps.InputOccurence;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
 
-import com.google.common.base.Preconditions;
+import java.math.BigInteger;
 
 /**
  * TODO JavaDoc
@@ -39,25 +33,9 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
 
     private final InputOccurence occurence;
 
-    protected AbstractProcessInputDescription(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             new InputOccurence(builder.getMinimalOccurence(),
-                                builder.getMaximalOccurence()));
-    }
-
-    public AbstractProcessInputDescription(OwsCode id,
-                                           OwsLanguageString title,
-                                           OwsLanguageString abstrakt,
-                                           Set<OwsKeyword> keywords,
-                                           Set<OwsMetadata> metadata,
-                                           InputOccurence occurence) {
-        super(id, title, abstrakt, keywords, metadata);
-        this.occurence = Objects.requireNonNull(occurence, "occurence");
+    protected AbstractProcessInputDescription(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.occurence = new InputOccurence(builder.getMinimalOccurence(), builder.getMaximalOccurence());
     }
 
     @Override
@@ -65,15 +43,24 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
         return this.occurence;
     }
 
-    protected abstract static class AbstractBuilder<T extends ProcessInputDescription,
-                                                    B extends ProcessInputDescription.Builder<T, B>>
+    protected abstract static class AbstractBuilder<T extends ProcessInputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessInputDescription.Builder<T, B> {
 
         private BigInteger minimalOccurence = BigInteger.ONE;
         private BigInteger maximalOccurence = BigInteger.ONE;
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  ProcessInputDescription entity) {
+            super(factory, entity);
+            this.minimalOccurence = entity.getOccurence().getMin();
+            this.maximalOccurence = entity.getOccurence().getMax().orElse(null);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public B withMinimalOccurence(BigInteger min) {
             if (min != null) {
@@ -82,10 +69,9 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
             } else {
                 this.minimalOccurence = BigInteger.ONE;
             }
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withMaximalOccurence(BigInteger max) {
             if (max != null) {
@@ -94,7 +80,7 @@ public abstract class AbstractProcessInputDescription extends AbstractDataDescri
             } else {
                 this.maximalOccurence = BigInteger.ONE;
             }
-            return (B) this;
+            return self();
         }
 
         public BigInteger getMinimalOccurence() {

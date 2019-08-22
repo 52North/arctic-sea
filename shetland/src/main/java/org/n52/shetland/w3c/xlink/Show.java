@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 /**
@@ -31,10 +34,12 @@ public enum Show {
     NONE;
 
     @Override
+    @JsonValue
     public String toString() {
         return this.name().toLowerCase();
     }
 
+    @JsonCreator
     public static Show fromString(String str) {
         if (str == null || str.isEmpty()) {
             return null;

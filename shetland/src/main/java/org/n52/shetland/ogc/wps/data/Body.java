@@ -25,8 +25,7 @@ import java.net.URI;
  * @author Christian Autermann
  */
 public abstract class Body {
-    public abstract String getBody()
-            throws IOException;
+    public abstract String getBody() throws IOException;
 
     public boolean isReferenced() {
         return false;

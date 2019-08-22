@@ -44,6 +44,8 @@ public interface ComplexInputDescription extends ComplexDescription,
         return visitor.visit(this);
     }
 
+    Builder<?, ?> newBuilder();
+
     interface Builder<T extends ComplexInputDescription, B extends Builder<T, B>>
             extends ProcessInputDescription.Builder<T, B>, ComplexDescription.Builder<T, B> {
 

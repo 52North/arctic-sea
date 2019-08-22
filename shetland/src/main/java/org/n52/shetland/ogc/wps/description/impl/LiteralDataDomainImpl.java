@@ -16,37 +16,31 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import java.util.Objects;
-import java.util.Optional;
-
+import org.n52.janmayen.AbstractBuildable;
 import org.n52.shetland.ogc.ows.OwsAnyValue;
 import org.n52.shetland.ogc.ows.OwsDomainMetadata;
 import org.n52.shetland.ogc.ows.OwsPossibleValues;
 import org.n52.shetland.ogc.ows.OwsValue;
 import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-public class LiteralDataDomainImpl implements LiteralDataDomain {
+import java.util.Objects;
+import java.util.Optional;
 
+public class LiteralDataDomainImpl
+        extends AbstractBuildable<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>>
+        implements LiteralDataDomain {
     private final OwsPossibleValues possibleValues;
-    private final Optional<OwsDomainMetadata> dataType;
-    private final Optional<OwsDomainMetadata> uom;
-    private final Optional<OwsValue> defaultValue;
+    private final OwsDomainMetadata dataType;
+    private final OwsDomainMetadata uom;
+    private final OwsValue defaultValue;
 
-    public LiteralDataDomainImpl(AbstractLiteralDataDomainBuilder<?, ?> builder) {
-        this(builder.getPossibleValues(),
-             builder.getDataType(),
-             builder.getUOM(),
-             builder.getDefaultValue());
-    }
-
-    public LiteralDataDomainImpl(OwsPossibleValues possibleValues,
-                                 OwsDomainMetadata dataType,
-                                 OwsDomainMetadata uom,
-                                 OwsValue defaultValue) {
-        this.possibleValues = Objects.requireNonNull(possibleValues, "possibleValues");
-        this.dataType = Optional.ofNullable(dataType);
-        this.uom = Optional.ofNullable(uom);
-        this.defaultValue = Optional.ofNullable(defaultValue);
+    protected LiteralDataDomainImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.possibleValues = Objects.requireNonNull(builder.getPossibleValues(), "possibleValues");
+        this.dataType = builder.getDataType();
+        this.uom = builder.getUOM();
+        this.defaultValue = builder.getDefaultValue();
     }
 
     @Override
@@ -56,27 +50,45 @@ public class LiteralDataDomainImpl implements LiteralDataDomain {
 
     @Override
     public Optional<OwsDomainMetadata> getDataType() {
-        return this.dataType;
+        return Optional.ofNullable(this.dataType);
     }
 
     @Override
     public Optional<OwsDomainMetadata> getUOM() {
-        return this.uom;
+        return Optional.ofNullable(this.uom);
     }
 
     @Override
     public Optional<OwsValue> getDefaultValue() {
-        return this.defaultValue;
+        return Optional.ofNullable(this.defaultValue);
     }
 
-    public abstract static class AbstractLiteralDataDomainBuilder<T extends LiteralDataDomain,
-                                                                  B extends AbstractLiteralDataDomainBuilder<T, B>>
-            implements LiteralDataDomain.Builder<T, B> {
+    @Override
+    public LiteralDataDomain.Builder<?, ?> newBuilder() {
+        return getFactory().literalDataDomain(this);
+    }
 
+    public abstract static class AbstractBuilder<T extends LiteralDataDomain, B extends AbstractBuilder<T, B>>
+            extends
+            AbstractBuildable.AbstractBuilder<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>, T, B>
+            implements LiteralDataDomain.Builder<T, B> {
         private OwsPossibleValues possibleValues = OwsAnyValue.instance();
         private OwsDomainMetadata dataType;
         private OwsDomainMetadata uom;
         private OwsValue defaultValue;
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  LiteralDataDomain entity) {
+            super(factory);
+            this.possibleValues = entity.getPossibleValues();
+            this.dataType = entity.getDataType().orElse(null);
+            this.uom = entity.getUOM().orElse(null);
+            this.defaultValue = entity.getDefaultValue().orElse(null);
+        }
 
         OwsPossibleValues getPossibleValues() {
             return possibleValues;
@@ -95,40 +107,46 @@ public class LiteralDataDomainImpl implements LiteralDataDomain {
         }
 
         @Override
-        @SuppressWarnings(value = "unchecked")
         public B withDataType(OwsDomainMetadata dataType) {
             this.dataType = Objects.requireNonNull(dataType);
-            return (B) this;
+            return self();
         }
 
         @Override
-        @SuppressWarnings(value = "unchecked")
         public B withDefaultValue(OwsValue value) {
             this.defaultValue = Objects.requireNonNull(value);
-            return (B) this;
+            return self();
         }
 
         @Override
-        @SuppressWarnings(value = "unchecked")
         public B withUOM(OwsDomainMetadata uom) {
             this.uom = uom;
-            return (B) this;
+            return self();
         }
 
         @Override
-        @SuppressWarnings(value = "unchecked")
         public B withValueDescription(OwsPossibleValues possibleValues) {
             if (this.possibleValues == null) {
                 this.possibleValues = OwsAnyValue.instance();
             } else {
                 this.possibleValues = possibleValues;
             }
-            return (B) this;
+            return self();
         }
 
     }
 
-    public static class Builder extends AbstractLiteralDataDomainBuilder<LiteralDataDomain, Builder> {
+    public static class Builder extends AbstractBuilder<LiteralDataDomain, Builder> {
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          LiteralDataDomain entity) {
+            super(factory, entity);
+        }
+
         @Override
         public LiteralDataDomain build() {
             return new LiteralDataDomainImpl(this);

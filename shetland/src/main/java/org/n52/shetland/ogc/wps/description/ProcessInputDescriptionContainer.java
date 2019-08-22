@@ -16,15 +16,15 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.ows.OwsCode;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-
 /**
- *
  * @author Christian Autermann
  */
 public interface ProcessInputDescriptionContainer extends Description {
@@ -40,7 +40,7 @@ public interface ProcessInputDescriptionContainer extends Description {
     Set<OwsCode> getInputs();
 
     interface Builder<T extends ProcessInputDescriptionContainer,
-                      B extends ProcessInputDescriptionContainer.Builder<T, B>>
+                             B extends ProcessInputDescriptionContainer.Builder<T, B>>
             extends Description.Builder<T, B> {
 
         B withInput(ProcessInputDescription input);
@@ -49,18 +49,13 @@ public interface ProcessInputDescriptionContainer extends Description {
             return withInput(input.build());
         }
 
-        @SuppressWarnings(value = "unchecked")
         default B withInput(Stream<? extends ProcessInputDescription> input) {
             input.forEach(this::withInput);
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         default B withInput(Iterable<ProcessInputDescription> inputs) {
-            for (ProcessInputDescription input : inputs) {
-                withInput(input);
-            }
-            return (B) this;
+            return withInput(Streams.stream(inputs));
         }
 
         default B withInput(ProcessInputDescription... inputs) {

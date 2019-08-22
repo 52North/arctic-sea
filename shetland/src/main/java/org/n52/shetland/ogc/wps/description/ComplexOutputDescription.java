@@ -43,6 +43,8 @@ public interface ComplexOutputDescription extends ComplexDescription, ProcessOut
         return visitor.visit(this);
     }
 
+    Builder<?, ?> newBuilder();
+
     interface Builder<T extends ComplexOutputDescription, B extends Builder<T, B>>
             extends ProcessOutputDescription.Builder<T, B>, ComplexDescription.Builder<T, B> {
     }

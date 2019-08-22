@@ -43,6 +43,8 @@ public interface BoundingBoxOutputDescription extends BoundingBoxDescription, Pr
         return visitor.visit(this);
     }
 
+    Builder<?, ?> newBuilder();
+
     interface Builder<T extends BoundingBoxOutputDescription, B extends Builder<T, B>>
             extends ProcessOutputDescription.Builder<T, B>, BoundingBoxDescription.Builder<T, B> {
     }

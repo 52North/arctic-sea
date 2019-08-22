@@ -16,6 +16,14 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
+import org.n52.janmayen.Optionals;
+import org.n52.janmayen.http.MediaType;
+
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -28,16 +36,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-import org.n52.janmayen.Optionals;
-import org.n52.janmayen.http.MediaType;
-
-import com.google.common.base.Strings;
-
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Format implements Comparable<Format> {
 
     public static final String BASE64_ENCODING = "base64";
@@ -45,77 +49,71 @@ public class Format implements Comparable<Format> {
     public static final Format TEXT_PLAIN = new Format("text/plain");
     public static final Format APPLICATION_XML = new Format("application/xml");
     public static final Format TEXT_XML = new Format("text/xml");
-    private static final Comparator<Format> COMPARATOR = Comparator.nullsLast(Comparator
-            .comparing(Format::getMimeType, Optionals.nullsFirst()))
-            .thenComparing(Format::getSchema, Optionals.nullsFirst())
-            .thenComparing(Format::getEncoding, Optionals.nullsFirst());
+    private static final Comparator<Format> COMPARATOR =
+            Comparator.nullsLast(Comparator.comparing(Format::getMimeType, Optionals.nullsFirst()))
+                      .thenComparing(Format::getSchema, Optionals.nullsFirst())
+                      .thenComparing(Format::getEncoding, Optionals.nullsFirst());
     private static final String STAR_SLASH_STAR = "*/*";
     private static final Set<String> CHARSETS = new HashSet<>(Charset.availableCharsets().keySet());
+    private static final String SCHEMA = "schema";
+    private static final String ENCODING = "encoding";
+    private static final String MIME_TYPE = "mimeType";
 
-    private final Optional<String> mimeType;
-    private final Optional<String> encoding;
-    private final Optional<String> schema;
+    private final String mimeType;
+    private final String encoding;
+    private final String schema;
+
+    @JsonCreator
+    public Format(@JsonProperty(MIME_TYPE) String mimeType,
+                  @JsonProperty(ENCODING) String encoding,
+                  @JsonProperty(SCHEMA) String schema) {
+        this.mimeType = Strings.emptyToNull(mimeType);
+        this.encoding = Strings.emptyToNull(encoding);
+        this.schema = Strings.emptyToNull(schema);
+    }
 
     public Format(String mimeType) {
-        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
-             Optional.empty(),
-             Optional.empty());
+        this(mimeType, (String) null, null);
     }
 
     public Format(String mimeType, String encoding) {
-        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
-             Optional.ofNullable(Strings.emptyToNull(encoding)),
-             Optional.empty());
-    }
-
-    public Format(String mimeType, String encoding, String schema) {
-        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
-             Optional.ofNullable(Strings.emptyToNull(encoding)),
-             Optional.ofNullable(Strings.emptyToNull(schema)));
+        this(mimeType, encoding, null);
     }
 
     public Format(String mimeType, Charset encoding) {
-        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
-             Optional.ofNullable(encoding).map(Charset::name),
-             Optional.empty());
+        this(mimeType, encoding == null ? null : encoding.name(), null);
     }
 
     public Format(String mimeType, Charset encoding, String schema) {
-        this(Optional.ofNullable(Strings.emptyToNull(mimeType)),
-             Optional.ofNullable(encoding).map(Charset::name),
-             Optional.ofNullable(Strings.emptyToNull(schema)));
+        this(mimeType, encoding == null ? null : encoding.name(), schema);
     }
 
     public Format() {
-        this(Optional.empty(),
-             Optional.empty(),
-             Optional.empty());
+        this(null, (String) null, null);
     }
 
-    private Format(Optional<String> mimeType, Optional<String> encoding, Optional<String> schema) {
-        this.mimeType = Objects.requireNonNull(mimeType);
-        this.encoding = Objects.requireNonNull(encoding);
-        this.schema = Objects.requireNonNull(schema);
-    }
-
+    @JsonProperty(MIME_TYPE)
     public Optional<String> getMimeType() {
-        return mimeType;
+        return Optional.ofNullable(mimeType);
     }
 
+    @JsonProperty(ENCODING)
     public Optional<String> getEncoding() {
-        return encoding;
+        return Optional.ofNullable(encoding);
     }
 
+    @JsonProperty(SCHEMA)
     public Optional<String> getSchema() {
-        return schema;
+        return Optional.ofNullable(schema);
     }
 
+    @JsonIgnore
     public boolean isEmpty() {
         return !hasMimeType() && !hasEncoding() && !hasSchema();
     }
 
     public boolean hasSchema() {
-        return getSchema().isPresent();
+        return this.schema != null;
     }
 
     public boolean hasSchema(String schema) {
@@ -127,7 +125,7 @@ public class Format implements Comparable<Format> {
     }
 
     public boolean hasEncoding() {
-        return getEncoding().isPresent();
+        return this.encoding != null;
     }
 
     public boolean hasEncoding(String encoding) {
@@ -139,7 +137,7 @@ public class Format implements Comparable<Format> {
     }
 
     public boolean hasMimeType() {
-        return getMimeType().isPresent();
+        return this.mimeType != null;
     }
 
     public boolean hasMimeType(String mimeType) {
@@ -179,7 +177,7 @@ public class Format implements Comparable<Format> {
     }
 
     public Format withEncoding(String encoding) {
-        return new Format(getMimeType(), Optional.ofNullable(encoding), getSchema());
+        return new Format(this.mimeType, encoding, this.schema);
     }
 
     public Format withBase64Encoding() {
@@ -191,29 +189,28 @@ public class Format implements Comparable<Format> {
     }
 
     public Format withSchema(String schema) {
-        return new Format(getMimeType(), getEncoding(), Optional.ofNullable(schema));
+        return new Format(this.mimeType, this.encoding, schema);
     }
 
     public Format withMimeType(String mimeType) {
-        return new Format(Optional.ofNullable(mimeType), getEncoding(), getSchema());
+        return new Format(mimeType, this.encoding, this.schema);
     }
 
     public Format withoutMimeType() {
-        return new Format(Optional.empty(), getEncoding(), getSchema());
+        return new Format(null, this.encoding, this.schema);
     }
 
     public Format withoutEncoding() {
-        return new Format(getMimeType(), Optional.empty(), getSchema());
+        return new Format(this.mimeType, (String) null, this.schema);
     }
 
     public Format withoutSchema() {
-        return new Format(getMimeType(), getEncoding(), Optional.empty());
+        return new Format(this.mimeType, this.encoding, null);
     }
 
     @Override
     public String toString() {
-        return "Format{" + "mimeType=" + mimeType.orElse(null) + ", encoding=" + encoding.orElse(null) + ", schema=" +
-               schema.orElse(null) + '}';
+        return String.format("Format{mimeType=%s, encoding=%s, schema=%s}", mimeType, encoding, schema);
     }
 
     @Override
@@ -225,9 +222,9 @@ public class Format implements Comparable<Format> {
     public boolean equals(Object obj) {
         if (obj instanceof Format) {
             final Format that = (Format) obj;
-            return Objects.equals(this.mimeType, that.getMimeType()) &&
-                   Objects.equals(this.encoding, that.getEncoding()) &&
-                   Objects.equals(this.schema, that.getSchema());
+            return Objects.equals(this.mimeType, that.mimeType) &&
+                   Objects.equals(this.encoding, that.encoding) &&
+                   Objects.equals(this.schema, that.schema);
         }
         return false;
     }
@@ -251,7 +248,7 @@ public class Format implements Comparable<Format> {
         }
 
         if (!MediaType.parse(that.getMimeType().orElse(STAR_SLASH_STAR))
-                .isCompatible(MediaType.parse(this.getMimeType().orElse(STAR_SLASH_STAR)))) {
+                      .isCompatible(MediaType.parse(this.getMimeType().orElse(STAR_SLASH_STAR)))) {
             return false;
         }
 
@@ -269,22 +266,27 @@ public class Format implements Comparable<Format> {
         return comparator().compare(this, that);
     }
 
+    @JsonIgnore
     public boolean isXML() {
         return getMimeType().map(String::toLowerCase).filter(x -> x.endsWith("xml")).isPresent();
     }
 
+    @JsonIgnore
     public boolean isCharacterEncoding() {
         return getEncoding().filter(getAvailableCharsets()::contains).isPresent();
     }
 
+    @JsonIgnore
     public Optional<Charset> getEncodingAsCharset() {
         return getEncoding().filter(getAvailableCharsets()::contains).map(Charset::forName);
     }
 
+    @JsonIgnore
     public Charset getEncodingAsCharsetOrDefault() {
         return getEncodingAsCharset().orElse(StandardCharsets.UTF_8);
     }
 
+    @JsonIgnore
     public boolean isBase64() {
         return getEncoding().filter(BASE64_ENCODING::equalsIgnoreCase).isPresent();
     }

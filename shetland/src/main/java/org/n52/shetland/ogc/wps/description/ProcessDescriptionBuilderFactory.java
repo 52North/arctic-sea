@@ -18,34 +18,54 @@ package org.n52.shetland.ogc.wps.description;
 
 @SuppressWarnings("checkstyle:interfacetypeparametername")
 public interface ProcessDescriptionBuilderFactory<
-        PD extends ProcessDescription,
-        GID extends GroupInputDescription,
-        GOD extends GroupOutputDescription,
-        LID extends LiteralInputDescription,
-        LOD extends LiteralOutputDescription,
-        CID extends ComplexInputDescription,
-        COD extends ComplexOutputDescription,
-        BID extends BoundingBoxInputDescription,
-        BOD extends BoundingBoxOutputDescription,
-        LDD extends LiteralDataDomain> {
+                                                         PD extends ProcessDescription,
+                                                         GID extends GroupInputDescription,
+                                                         GOD extends GroupOutputDescription,
+                                                         LID extends LiteralInputDescription,
+                                                         LOD extends LiteralOutputDescription,
+                                                         CID extends ComplexInputDescription,
+                                                         COD extends ComplexOutputDescription,
+                                                         BID extends BoundingBoxInputDescription,
+                                                         BOD extends BoundingBoxOutputDescription,
+                                                         LDD extends LiteralDataDomain> {
 
-    ProcessDescription.Builder<PD, ?> process();
+    ProcessDescription.Builder<? extends PD, ?> process();
 
-    GroupOutputDescription.Builder<GOD, ?> groupOutput();
+    ProcessDescription.Builder<? extends PD, ?> process(ProcessDescription entity);
 
-    GroupInputDescription.Builder<GID, ?> groupInput();
+    GroupOutputDescription.Builder<? extends GOD, ?> groupOutput();
 
-    LiteralInputDescription.Builder<LID, ?> literalInput();
+    GroupOutputDescription.Builder<? extends GOD, ?> groupOutput(GroupOutputDescription entity);
 
-    LiteralOutputDescription.Builder<LOD, ?> literalOutput();
+    GroupInputDescription.Builder<? extends GID, ?> groupInput();
 
-    ComplexInputDescription.Builder<CID, ?> complexInput();
+    GroupInputDescription.Builder<? extends GID, ?> groupInput(GroupInputDescription entity);
 
-    ComplexOutputDescription.Builder<COD, ?> complexOutput();
+    LiteralInputDescription.Builder<? extends LID, ?> literalInput();
 
-    BoundingBoxInputDescription.Builder<BID, ?> boundingBoxInput();
+    LiteralInputDescription.Builder<? extends LID, ?> literalInput(LiteralInputDescription entity);
 
-    BoundingBoxOutputDescription.Builder<BOD, ?> boundingBoxOutput();
+    LiteralOutputDescription.Builder<? extends LOD, ?> literalOutput();
 
-    LiteralDataDomain.Builder<LDD, ?> literalDataDomain();
+    LiteralOutputDescription.Builder<? extends LOD, ?> literalOutput(LiteralOutputDescription entity);
+
+    ComplexInputDescription.Builder<? extends CID, ?> complexInput();
+
+    ComplexInputDescription.Builder<? extends CID, ?> complexInput(ComplexInputDescription entity);
+
+    ComplexOutputDescription.Builder<? extends COD, ?> complexOutput();
+
+    ComplexOutputDescription.Builder<? extends COD, ?> complexOutput(ComplexOutputDescription entity);
+
+    BoundingBoxInputDescription.Builder<? extends BID, ?> boundingBoxInput();
+
+    BoundingBoxInputDescription.Builder<? extends BID, ?> boundingBoxInput(BoundingBoxInputDescription entity);
+
+    BoundingBoxOutputDescription.Builder<? extends BOD, ?> boundingBoxOutput();
+
+    BoundingBoxOutputDescription.Builder<? extends BOD, ?> boundingBoxOutput(BoundingBoxOutputDescription entity);
+
+    LiteralDataDomain.Builder<? extends LDD, ?> literalDataDomain();
+
+    LiteralDataDomain.Builder<? extends LDD, ?> literalDataDomain(LiteralDataDomain entity);
 }

@@ -16,18 +16,17 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+import org.n52.shetland.ogc.wps.InputOccurence;
+
 import java.math.BigInteger;
 import java.util.Objects;
-
-import org.n52.shetland.ogc.wps.InputOccurence;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public interface ProcessInputDescription
-        extends DataDescription {
+public interface ProcessInputDescription extends DataDescription {
 
     default BoundingBoxInputDescription asBoundingBox() {
         throw new UnsupportedOperationException();

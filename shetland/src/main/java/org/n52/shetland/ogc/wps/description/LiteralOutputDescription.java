@@ -43,6 +43,8 @@ public interface LiteralOutputDescription extends LiteralDescription, ProcessOut
         return visitor.visit(this);
     }
 
+    Builder<?, ?> newBuilder();
+
     interface Builder<T extends LiteralOutputDescription, B extends Builder<T, B>>
             extends LiteralDescription.Builder<T, B>, ProcessOutputDescription.Builder<T, B> {
 
