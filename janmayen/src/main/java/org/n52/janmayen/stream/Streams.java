@@ -49,9 +49,7 @@ public final class Streams {
      *
      * @param from the inclusive lower bound
      * @param to   the inclusive upper bound
-     *
      * @return the reverse range
-     *
      * @see IntStream#range(int, int)
      */
     public static IntStream reverseRangeClosed(int from, int to) {
@@ -64,9 +62,7 @@ public final class Streams {
      *
      * @param from the inclusive lower bound
      * @param to   the exclusive upper bound
-     *
      * @return the reverse range
-     *
      * @see IntStream#range(int, int)
      */
     public static IntStream reverseRange(int from, int to) {
@@ -74,13 +70,13 @@ public final class Streams {
     }
 
     /**
-     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original
+     * order.
      *
      * @param <T>            the element type of the stream
      * @param array          the array
      * @param startInclusive the lowest index (i.e. the last element to return)
      * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
-     *
      * @return the reversed stream
      */
     public static <T> Stream<T> reverseStream(T[] array, int startInclusive, int endInclusive) {
@@ -88,12 +84,12 @@ public final class Streams {
     }
 
     /**
-     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original
+     * order.
      *
      * @param array          the array
      * @param startInclusive the lowest index (i.e. the last element to return)
      * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
-     *
      * @return the reversed stream
      */
     public static LongStream reverseStream(long[] array, int startInclusive, int endInclusive) {
@@ -101,12 +97,12 @@ public final class Streams {
     }
 
     /**
-     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original
+     * order.
      *
      * @param array          the array
      * @param startInclusive the lowest index (i.e. the last element to return)
      * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
-     *
      * @return the reversed stream
      */
     public static IntStream reverseStream(int[] array, int startInclusive, int endInclusive) {
@@ -114,12 +110,12 @@ public final class Streams {
     }
 
     /**
-     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original order.
+     * Returns a reversed stream of the array values. Note that the index boundaries are given using the original
+     * order.
      *
      * @param array          the array
      * @param startInclusive the lowest index (i.e. the last element to return)
      * @param endInclusive   index immediately past the highest index (i.e. the index after the first returned value
-     *
      * @return the reversed stream
      */
     public static DoubleStream reverseStream(double[] array, int startInclusive, int endInclusive) {
@@ -131,7 +127,6 @@ public final class Streams {
      *
      * @param <T>   the element type of the stream
      * @param array the array
-     *
      * @return the reversed stream
      */
     public static <T> Stream<T> reverseStream(T[] array) {
@@ -142,7 +137,6 @@ public final class Streams {
      * Returns a reversed stream of the array values.
      *
      * @param array the array
-     *
      * @return the reversed stream
      */
     public static LongStream reverseStream(long[] array) {
@@ -153,7 +147,6 @@ public final class Streams {
      * Returns a reversed stream of the array values.
      *
      * @param array the array
-     *
      * @return the reversed stream
      */
     public static IntStream reverseStream(int[] array) {
@@ -164,7 +157,6 @@ public final class Streams {
      * Returns a reversed stream of the array values.
      *
      * @param array the array
-     *
      * @return the reversed stream
      */
     public static DoubleStream reverseStream(double[] array) {
@@ -176,11 +168,12 @@ public final class Streams {
      *
      * @param <T>         the element type
      * @param enumeration the enumeration
-     *
      * @return the stream
      */
     public static <T> Stream<T> stream(Enumeration<T> enumeration) {
-        Objects.requireNonNull(enumeration);
+        if (enumeration == null) {
+            return Stream.empty();
+        }
         return stream(new Iterator<T>() {
             @Override
             public boolean hasNext() {
@@ -199,10 +192,12 @@ public final class Streams {
      *
      * @param <T>      the element type
      * @param iterator the iterator
-     *
      * @return the stream
      */
     public static <T> Stream<T> stream(Iterator<T> iterator) {
+        if (iterator == null) {
+            return Stream.empty();
+        }
         return StreamSupport.stream(Spliterators.spliteratorUnknownSize(iterator, Spliterator.ORDERED), false);
     }
 
@@ -211,10 +206,12 @@ public final class Streams {
      *
      * @param <T>      the element type
      * @param iterable the iterable
-     *
      * @return the stream
      */
     public static <T> Stream<T> stream(Iterable<T> iterable) {
+        if (iterable == null) {
+            return Stream.empty();
+        }
         return StreamSupport.stream(iterable.spliterator(), false);
     }
 
@@ -223,10 +220,12 @@ public final class Streams {
      *
      * @param <T>   the element type
      * @param array the array
-     *
      * @return the stream
      */
     public static <T> Stream<T> stream(T[] array) {
+        if (array == null) {
+            return Stream.empty();
+        }
         return Arrays.stream(array);
     }
 
@@ -234,10 +233,12 @@ public final class Streams {
      * Factory function for creating a {@code Stream} from an array.
      *
      * @param array the array
-     *
      * @return the stream
      */
     public static IntStream stream(int[] array) {
+        if (array == null) {
+            return IntStream.empty();
+        }
         return Arrays.stream(array);
     }
 
@@ -245,10 +246,12 @@ public final class Streams {
      * Factory function for creating a {@code Stream} from an array.
      *
      * @param array the array
-     *
      * @return the stream
      */
     public static LongStream stream(long[] array) {
+        if (array == null) {
+            return LongStream.empty();
+        }
         return Arrays.stream(array);
     }
 
@@ -256,10 +259,12 @@ public final class Streams {
      * Factory function for creating a {@code Stream} from an array.
      *
      * @param array the array
-     *
      * @return the stream
      */
     public static DoubleStream stream(double[] array) {
+        if (array == null) {
+            return DoubleStream.empty();
+        }
         return Arrays.stream(array);
     }
 
@@ -268,10 +273,12 @@ public final class Streams {
      *
      * @param <T>        the element type
      * @param collection the collection
-     *
      * @return the stream
      */
     public static <T> Stream<T> stream(Collection<T> collection) {
+        if (collection == null) {
+            return Stream.empty();
+        }
         return collection.stream();
     }
 
@@ -280,16 +287,15 @@ public final class Streams {
      *
      * @param <T>               the operators input and result type
      * @param exceptionSupplier the exception factory
-     *
-     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator)
-     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator, java.util.function.Supplier)
-     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator)
-     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator, java.util.function.Supplier)
      * @return the operator
+     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator)
+     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator, java.util.function.Supplier)
+     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator)
+     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator, java.util.function.Supplier)
      */
     public static <T> BinaryOperator<T> throwingMerger(Supplier<? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);
@@ -300,16 +306,15 @@ public final class Streams {
      * Creates a {@code BinaryOperator} that throws an {@link IllegalStateException} if invoked.
      *
      * @param <T> the operators input and result type
-     *
-     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator)
-     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator, java.util.function.Supplier)
-     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator)
-     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator, java.util.function.Supplier)
      * @return the operator
+     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator)
+     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator, java.util.function.Supplier)
+     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator)
+     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator, java.util.function.Supplier)
      */
     public static <T> BinaryOperator<T> throwingMerger() {
         return throwingMerger((a, b) -> new IllegalStateException(String.format("Duplicate key %s", a)));
@@ -320,16 +325,15 @@ public final class Streams {
      *
      * @param <T>               the operators input and result type
      * @param exceptionSupplier the exception factory
-     *
-     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator)
-     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator, java.util.function.Supplier)
-     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator)
-     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
-     * java.util.function.BinaryOperator, java.util.function.Supplier)
      * @return the operator
+     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator)
+     * @see Collectors#toMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator, java.util.function.Supplier)
+     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator)
+     * @see Collectors#toConcurrentMap(java.util.function.Function, java.util.function.Function,
+     *         java.util.function.BinaryOperator, java.util.function.Supplier)
      */
     public static <T> BinaryOperator<T> throwingMerger(BiFunction<T, T, ? extends RuntimeException> exceptionSupplier) {
         Objects.requireNonNull(exceptionSupplier);

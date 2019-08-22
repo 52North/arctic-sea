@@ -16,16 +16,29 @@
  */
 package org.n52.janmayen;
 
-/**
- * @param <T> the object to build
- * @param <B> the concrete builder type
- * @author Christian Autermann
- */
-public interface Builder<T, B extends Builder<T, B>> {
-    T build();
+import java.util.Objects;
 
-    @SuppressWarnings("unchecked")
-    default B self() {
-        return (B) this;
+public class AbstractBuildable<F> {
+    private final F factory;
+
+    protected AbstractBuildable(AbstractBuilder<F, ?, ?> builder) {
+        this.factory = Objects.requireNonNull(builder.getFactory(), "factory");
+    }
+
+    protected F getFactory() {
+        return factory;
+    }
+
+    public abstract static class AbstractBuilder<F, T, B extends AbstractBuilder<F, T, B>> implements Builder<T, B> {
+        private final F factory;
+
+        protected AbstractBuilder(F factory) {
+            this.factory = Objects.requireNonNull(factory);
+        }
+
+        protected F getFactory() {
+            return factory;
+        }
+
     }
 }
