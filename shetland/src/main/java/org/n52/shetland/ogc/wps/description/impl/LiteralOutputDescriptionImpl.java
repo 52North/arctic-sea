@@ -16,54 +16,31 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.collect.ImmutableSet;
+import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
+import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
-import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class LiteralOutputDescriptionImpl
-        extends AbstractProcessOutputDescription
-        implements LiteralOutputDescription {
+public class LiteralOutputDescriptionImpl extends AbstractProcessOutputDescription implements LiteralOutputDescription {
 
     private final LiteralDataDomain defaultLiteralDataDomain;
     private final Set<LiteralDataDomain> supportedLiteralDataDomains;
 
-    protected LiteralOutputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             builder.getDefaultLiteralDataDomain(),
-             builder.getSupportedLiteralDataDomains());
-    }
-
-    public LiteralOutputDescriptionImpl(OwsCode id, OwsLanguageString title,
-                                        OwsLanguageString abstrakt,
-                                        Set<OwsKeyword> keywords,
-                                        Set<OwsMetadata> metadata,
-                                        LiteralDataDomain defaultLiteralDataDomain,
-                                        Set<LiteralDataDomain> supportedLiteralDataDomains) {
-        super(id, title, abstrakt, keywords, metadata);
-        this.defaultLiteralDataDomain = Objects
-                .requireNonNull(defaultLiteralDataDomain, "defaultLiteralDataDomain");
-        this.supportedLiteralDataDomains = supportedLiteralDataDomains == null
-                                                   ? Collections.emptySet()
-                                                   : supportedLiteralDataDomains;
+    protected LiteralOutputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.defaultLiteralDataDomain = Objects.requireNonNull(builder.getDefaultLiteralDataDomain(),
+                                                               "defaultLiteralDataDomain");
+        this.supportedLiteralDataDomains = Objects.requireNonNull(builder.getSupportedLiteralDataDomains(),
+                                                                  "supportedLiteralDataDomains");
     }
 
     @Override
@@ -76,13 +53,28 @@ public class LiteralOutputDescriptionImpl
         return this.defaultLiteralDataDomain;
     }
 
+    @Override
+    public LiteralOutputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().literalOutput(this);
+    }
+
     public abstract static class AbstractBuilder<T extends LiteralOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements LiteralOutputDescription.Builder<T, B> {
 
         private LiteralDataDomain defaultLiteralDataDomain;
-        private final ImmutableSet.Builder<LiteralDataDomain> supportedLiteralDataDomains
-                = ImmutableSet.builder();
+        private final ImmutableSet.Builder<LiteralDataDomain> supportedLiteralDataDomains = ImmutableSet.builder();
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  LiteralOutputDescription entity) {
+            super(factory, entity);
+            this.defaultLiteralDataDomain = entity.getDefaultLiteralDataDomain();
+            this.supportedLiteralDataDomains.addAll(entity.getSupportedLiteralDataDomains());
+        }
 
         public LiteralDataDomain getDefaultLiteralDataDomain() {
             return this.defaultLiteralDataDomain;
@@ -93,25 +85,30 @@ public class LiteralOutputDescriptionImpl
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public B withDefaultLiteralDataDomain(
-                LiteralDataDomain literalDataDomain) {
-            this.defaultLiteralDataDomain = Objects
-                    .requireNonNull(literalDataDomain);
-            return (B) this;
+        public B withDefaultLiteralDataDomain(LiteralDataDomain literalDataDomain) {
+            this.defaultLiteralDataDomain = Objects.requireNonNull(literalDataDomain);
+            return self();
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public B withSupportedLiteralDataDomain(LiteralDataDomain domain) {
             if (domain != null) {
                 this.supportedLiteralDataDomains.add(domain);
             }
-            return (B) this;
+            return self();
         }
     }
 
     public static class Builder extends AbstractBuilder<LiteralOutputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          LiteralOutputDescription entity) {
+            super(factory, entity);
+        }
+
         @Override
         public LiteralOutputDescription build() {
             return new LiteralOutputDescriptionImpl(this);

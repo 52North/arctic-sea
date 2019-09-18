@@ -16,56 +16,31 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.collect.ImmutableSet;
+import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
+import org.n52.shetland.ogc.wps.description.LiteralInputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.InputOccurence;
-import org.n52.shetland.ogc.wps.description.LiteralDataDomain;
-import org.n52.shetland.ogc.wps.description.LiteralInputDescription;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class LiteralInputDescriptionImpl
-        extends AbstractProcessInputDescription
-        implements LiteralInputDescription {
+public class LiteralInputDescriptionImpl extends AbstractProcessInputDescription implements LiteralInputDescription {
 
     private final LiteralDataDomain defaultLiteralDataDomain;
     private final Set<LiteralDataDomain> supportedLiteralDataDomains;
 
-    protected LiteralInputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             new InputOccurence(builder.getMinimalOccurence(),
-                                builder.getMaximalOccurence()),
-             builder.getDefaultLiteralDataDomain(),
-             builder.getSupportedLiteralDataDomains());
-    }
-
-    public LiteralInputDescriptionImpl(OwsCode id, OwsLanguageString title,
-                                       OwsLanguageString abstrakt,
-                                       Set<OwsKeyword> keywords,
-                                       Set<OwsMetadata> metadata,
-                                       InputOccurence occurence,
-                                       LiteralDataDomain defaultLiteralDataDomain,
-                                       Set<LiteralDataDomain> supportedLiteralDataDomains) {
-        super(id, title, abstrakt, keywords, metadata, occurence);
-        this.defaultLiteralDataDomain = Objects.requireNonNull(defaultLiteralDataDomain, "defaultLiteralDataDomain");
-        this.supportedLiteralDataDomains = supportedLiteralDataDomains == null ? Collections.emptySet()
-                                                   : supportedLiteralDataDomains;
+    protected LiteralInputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.defaultLiteralDataDomain = Objects.requireNonNull(builder.getDefaultLiteralDataDomain(),
+                                                               "defaultLiteralDataDomain");
+        this.supportedLiteralDataDomains = Objects.requireNonNull(builder.getSupportedLiteralDataDomains(),
+                                                                  "supportedLiteralDataDomains");
     }
 
     @Override
@@ -78,14 +53,28 @@ public class LiteralInputDescriptionImpl
         return Collections.unmodifiableSet(supportedLiteralDataDomains);
     }
 
-    public abstract static class AbstractBuilder<T extends LiteralInputDescription,
-                                                 B extends LiteralInputDescription.Builder<T, B>>
+    @Override
+    public LiteralInputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().literalInput(this);
+    }
+
+    public abstract static class AbstractBuilder<T extends LiteralInputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements LiteralInputDescription.Builder<T, B> {
 
         private LiteralDataDomain defaultLiteralDataDomain;
-        private final ImmutableSet.Builder<LiteralDataDomain> supportedLiteralDataDomains
-                = ImmutableSet.builder();
+        private final ImmutableSet.Builder<LiteralDataDomain> supportedLiteralDataDomains = ImmutableSet.builder();
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  LiteralInputDescription entity) {
+            super(factory, entity);
+            this.defaultLiteralDataDomain = entity.getDefaultLiteralDataDomain();
+            this.supportedLiteralDataDomains.addAll(entity.getSupportedLiteralDataDomains());
+        }
 
         public LiteralDataDomain getDefaultLiteralDataDomain() {
             return this.defaultLiteralDataDomain;
@@ -96,26 +85,31 @@ public class LiteralInputDescriptionImpl
         }
 
         @Override
-        @SuppressWarnings("unchecked")
-        public B withDefaultLiteralDataDomain(
-                LiteralDataDomain literalDataDomain) {
-            this.defaultLiteralDataDomain = Objects
-                    .requireNonNull(literalDataDomain);
-            return (B) this;
+        public B withDefaultLiteralDataDomain(LiteralDataDomain literalDataDomain) {
+            this.defaultLiteralDataDomain = Objects.requireNonNull(literalDataDomain);
+            return self();
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public B withSupportedLiteralDataDomain(LiteralDataDomain domain) {
             if (domain != null) {
                 this.supportedLiteralDataDomains.add(domain);
             }
-            return (B) this;
+            return self();
         }
 
     }
 
     public static class Builder extends AbstractBuilder<LiteralInputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          LiteralInputDescription entity) {
+            super(factory, entity);
+        }
+
         @Override
         public LiteralInputDescription build() {
             return new LiteralInputDescriptionImpl(this);

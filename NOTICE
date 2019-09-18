@@ -163,8 +163,8 @@ This project includes:
   OGC WaterML DR schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC WaterML schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC XML schemas under The Apache Software License, Version 2.0
-  Old JAXB Core under CDDL+GPL License
-  Old JAXB Runtime under CDDL+GPL License
+  Old JAXB Core under CDDL 1.1 or GPL2 w/ CPE
+  Old JAXB Runtime under CDDL 1.1 or GPL2 w/ CPE
   org.locationtech.jts:jts-core under Eclipse Publish License, Version 1.0 or Eclipse Distribution License - v 1.0
   parent-join under The Apache Software License, Version 2.0
   percolator under The Apache Software License, Version 2.0

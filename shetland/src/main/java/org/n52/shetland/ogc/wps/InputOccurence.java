@@ -16,6 +16,11 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigInteger;
 import java.util.Optional;
 
@@ -24,56 +29,80 @@ import java.util.Optional;
  *
  * @author Christian Autermann
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class InputOccurence {
-
+    private static final String MIN_OCCURS = "minOccurs";
+    private static final String MAX_OCCURS = "maxOccurs";
     private final BigInteger min;
-    private final Optional<BigInteger> max;
+    private final BigInteger max;
 
-    public InputOccurence(BigInteger min, BigInteger max) {
+    @JsonCreator
+    public InputOccurence(@JsonProperty(value = MIN_OCCURS, required = true) BigInteger min,
+                          @JsonProperty(MAX_OCCURS) BigInteger max) {
         this.min = min == null ? BigInteger.ONE : min;
 
         if (max == null) {
-            this.max = Optional.of(BigInteger.ONE);
+            this.max = null;
         } else if (max.compareTo(BigInteger.ZERO) < 0) {
-            this.max = Optional.empty();
+            this.max = null;
         } else {
-            this.max = Optional.of(max);
+            this.max = max;
         }
 
         if (this.min.compareTo(BigInteger.ZERO) < 0) {
             throw new IllegalArgumentException("minimum < 0");
         }
-        if (this.max.isPresent() && this.max.get().compareTo(BigInteger.ZERO) <= 0) {
+        if (this.max != null && this.max.compareTo(BigInteger.ZERO) <= 0) {
             throw new IllegalArgumentException("maximum <= 0");
         }
-        if (this.max.isPresent() && this.min.compareTo(this.max.get()) > 0) {
+        if (this.max != null && this.min.compareTo(this.max) > 0) {
             throw new IllegalArgumentException("minimum > maximum");
         }
     }
 
+    @JsonProperty(MIN_OCCURS)
     public BigInteger getMin() {
         return this.min;
     }
 
+    @JsonProperty(MAX_OCCURS)
     public Optional<BigInteger> getMax() {
-        return this.max;
+        return Optional.ofNullable(this.max);
     }
 
+    @JsonIgnore
     public boolean isRequired() {
         return this.min.compareTo(BigInteger.ZERO) > 0;
     }
 
+    @JsonIgnore
     public boolean isMultiple() {
-        return !this.max.isPresent() || this.max.get().compareTo(BigInteger.ONE) > 0;
+        return this.max == null || this.max.compareTo(BigInteger.ONE) > 0;
     }
 
     public boolean isInBounds(BigInteger occurence) {
         return this.min.compareTo(occurence) <= 0 &&
-               (!this.max.isPresent() || this.max.get().compareTo(occurence) >= 0);
+               (this.max == null || this.max.compareTo(occurence) >= 0);
     }
 
     @Override
     public String toString() {
-        return String.format("[%s, %s]", this.min, this.max.map(Object::toString).orElse(""));
+        return String.format("[%s, %s]", this.min, this.max);
+    }
+
+    public static InputOccurence zeroOrOne() {
+        return new InputOccurence(BigInteger.ZERO, BigInteger.ONE);
+    }
+
+    public static InputOccurence one() {
+        return new InputOccurence(BigInteger.ONE, BigInteger.ONE);
+    }
+
+    public static InputOccurence zeroOrMore() {
+        return new InputOccurence(BigInteger.ZERO, null);
+    }
+
+    public static InputOccurence oneOrMore() {
+        return new InputOccurence(BigInteger.ONE, null);
     }
 }

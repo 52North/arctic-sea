@@ -21,8 +21,7 @@ package org.n52.shetland.ogc.wps.description;
  *
  * @author Christian Autermann
  */
-public interface BoundingBoxInputDescription
-        extends BoundingBoxDescription, ProcessInputDescription {
+public interface BoundingBoxInputDescription extends BoundingBoxDescription, ProcessInputDescription {
 
     @Override
     default boolean isBoundingBox() {
@@ -43,6 +42,8 @@ public interface BoundingBoxInputDescription
     default <T, X extends Exception> T visit(ThrowingReturningVisitor<T, X> visitor) throws X {
         return visitor.visit(this);
     }
+
+    Builder<?, ?> newBuilder();
 
     interface Builder<T extends BoundingBoxInputDescription, B extends Builder<T, B>>
             extends ProcessInputDescription.Builder<T, B>, BoundingBoxDescription.Builder<T, B> {

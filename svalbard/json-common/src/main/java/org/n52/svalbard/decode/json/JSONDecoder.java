@@ -16,19 +16,9 @@
  */
 package org.n52.svalbard.decode.json;
 
-import static java.util.stream.Collectors.toList;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.stream.Streams;
 import org.n52.shetland.ogc.OGCConstants;
@@ -47,15 +37,23 @@ import org.n52.svalbard.decode.DecoderKey;
 import org.n52.svalbard.decode.JsonDecoderKey;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
  * @since 1.0.0
  */
 public abstract class JSONDecoder<T>
@@ -64,7 +62,11 @@ public abstract class JSONDecoder<T>
     private final Set<DecoderKey> decoderKeys;
 
     public JSONDecoder(Class<T> type) {
-        this(Collections.<DecoderKey> singleton(new JsonDecoderKey(type)));
+        this(Collections.singleton(new JsonDecoderKey(type)));
+    }
+
+    public JSONDecoder(DecoderKey... keys) {
+        this(Streams.stream(keys).collect(toSet()));
     }
 
     public JSONDecoder(Set<DecoderKey> keys) {
@@ -95,10 +97,10 @@ public abstract class JSONDecoder<T>
         if (node.isArray()) {
             CompositeException exceptions = new CompositeException();
             List<T> list = Streams.stream(node)
-                    .filter(JsonNode::isObject)
-                    .map(exceptions.wrapFunction(decoder::decode))
-                    .filter(Optional::isPresent).map(Optional::get)
-                    .collect(toList());
+                                  .filter(JsonNode::isObject)
+                                  .map(exceptions.wrapFunction(decoder::decode))
+                                  .filter(Optional::isPresent).map(Optional::get)
+                                  .collect(toList());
             exceptions.throwIfNotEmpty(DecodingException::new);
             return list;
         } else if (node.isObject()) {

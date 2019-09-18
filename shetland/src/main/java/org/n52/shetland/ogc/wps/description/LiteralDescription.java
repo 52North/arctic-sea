@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+import org.n52.janmayen.stream.Streams;
+
 import java.util.Set;
 
 /**
@@ -28,14 +30,11 @@ public interface LiteralDescription {
 
     LiteralDataDomain getDefaultLiteralDataDomain();
 
-    interface Builder<T extends LiteralDescription, B extends org.n52.janmayen.Builder<T, B>> {
+    interface Builder<T extends LiteralDescription, B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
 
-        @SuppressWarnings("unchecked")
         default B withSupportedLiteralDataDomain(Iterable<LiteralDataDomain> domains) {
-            for (LiteralDataDomain domain : domains) {
-                withDefaultLiteralDataDomain(domain);
-            }
-            return (B) this;
+            Streams.stream(domains).forEach(this::withDefaultLiteralDataDomain);
+            return self();
         }
 
         B withSupportedLiteralDataDomain(LiteralDataDomain domain);

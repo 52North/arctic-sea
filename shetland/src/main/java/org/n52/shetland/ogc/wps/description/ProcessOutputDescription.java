@@ -21,8 +21,7 @@ package org.n52.shetland.ogc.wps.description;
  *
  * @author Christian Autermann
  */
-public interface ProcessOutputDescription
-        extends DataDescription {
+public interface ProcessOutputDescription extends DataDescription {
 
     default BoundingBoxOutputDescription asBoundingBox() {
         throw new UnsupportedOperationException();

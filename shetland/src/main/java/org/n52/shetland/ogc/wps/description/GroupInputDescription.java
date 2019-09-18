@@ -21,6 +21,9 @@ package org.n52.shetland.ogc.wps.description;
  */
 public interface GroupInputDescription extends ProcessInputDescription,
                                                ProcessInputDescriptionContainer {
+
+    Builder<?, ?> newBuilder();
+
     interface Builder<T extends GroupInputDescription, B extends Builder<T, B>>
             extends ProcessInputDescription.Builder<T, B>,
                     ProcessInputDescriptionContainer.Builder<T, B> {

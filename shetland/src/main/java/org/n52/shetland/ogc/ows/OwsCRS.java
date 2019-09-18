@@ -59,10 +59,7 @@ public class OwsCRS {
             return false;
         }
         final OwsCRS other = (OwsCRS) obj;
-        if (!Objects.equals(this.value, other.value)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.value, other.value);
     }
 
     @Override

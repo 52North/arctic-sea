@@ -16,64 +16,34 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.collect.ImmutableSet;
+import org.n52.shetland.ogc.wps.Format;
+import org.n52.shetland.ogc.wps.description.ComplexInputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.Format;
-import org.n52.shetland.ogc.wps.InputOccurence;
-import org.n52.shetland.ogc.wps.description.ComplexInputDescription;
-
-import com.google.common.collect.ImmutableSet;
-
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class ComplexInputDescriptionImpl
-        extends AbstractProcessInputDescription
+public class ComplexInputDescriptionImpl extends AbstractProcessInputDescription
         implements ComplexInputDescription {
 
     private final Format defaultFormat;
     private final Set<Format> supportedFormats;
-    private final Optional<BigInteger> maximumMegabytes;
+    private final BigInteger maximumMegabytes;
 
-    protected ComplexInputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             new InputOccurence(builder.getMinimalOccurence(),
-                                builder.getMaximalOccurence()),
-             builder.getDefaultFormat(),
-             builder.getSupportedFormats(),
-             builder.getMaximumMegabytes());
-    }
-
-    public ComplexInputDescriptionImpl(OwsCode id,
-                                       OwsLanguageString title,
-                                       OwsLanguageString abstrakt,
-                                       Set<OwsKeyword> keywords,
-                                       Set<OwsMetadata> metadata,
-                                       InputOccurence occurence,
-                                       Format defaultFormat,
-                                       Set<Format> supportedFormats,
-                                       BigInteger maximumMegabytes) {
-        super(id, title, abstrakt, keywords, metadata, occurence);
-        this.defaultFormat = Objects
-                .requireNonNull(defaultFormat, "defaultFormat");
-        this.supportedFormats = supportedFormats == null ? Collections
-                .emptySet() : supportedFormats;
-        this.maximumMegabytes = Optional.ofNullable(maximumMegabytes);
+    protected ComplexInputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.defaultFormat = Objects.requireNonNull(builder.getDefaultFormat(), "defaultFormat");
+        this.supportedFormats = Objects.requireNonNull(builder.getSupportedFormats(), "supportedFormats");
+        this.maximumMegabytes = builder.getMaximumMegabytes();
     }
 
     @Override
@@ -88,7 +58,12 @@ public class ComplexInputDescriptionImpl
 
     @Override
     public Optional<BigInteger> getMaximumMegabytes() {
-        return this.maximumMegabytes;
+        return Optional.ofNullable(this.maximumMegabytes);
+    }
+
+    @Override
+    public ComplexInputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().complexInput(this);
     }
 
     public abstract static class AbstractBuilder<T extends ComplexInputDescription, B extends AbstractBuilder<T, B>>
@@ -99,31 +74,40 @@ public class ComplexInputDescriptionImpl
         private Format defaultFormat;
         private BigInteger maximumMegabytes;
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  ComplexInputDescription entity) {
+            super(factory, entity);
+            this.defaultFormat = entity.getDefaultFormat();
+            this.supportedFormats.addAll(entity.getSupportedFormats());
+            this.maximumMegabytes = entity.getMaximumMegabytes().orElse(null);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public B withMaximumMegabytes(BigInteger maximumMegabytes) {
             if (maximumMegabytes == null ||
-                                        maximumMegabytes.compareTo(BigInteger.ZERO) > 0) {
+                maximumMegabytes.compareTo(BigInteger.ZERO) > 0) {
                 this.maximumMegabytes = maximumMegabytes;
             }
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withDefaultFormat(Format format) {
             this.defaultFormat = Objects.requireNonNull(format);
             this.supportedFormats.add(format);
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withSupportedFormat(Format format) {
             if (format != null) {
                 this.supportedFormats.add(format);
             }
-            return (B) this;
+            return self();
         }
 
         public Set<Format> getSupportedFormats() {
@@ -141,8 +125,17 @@ public class ComplexInputDescriptionImpl
     }
 
     public static class Builder extends AbstractBuilder<ComplexInputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          ComplexInputDescription entity) {
+            super(factory, entity);
+        }
+
         @Override
-        public ComplexInputDescriptionImpl build() {
+        public ComplexInputDescription build() {
             return new ComplexInputDescriptionImpl(this);
         }
     }

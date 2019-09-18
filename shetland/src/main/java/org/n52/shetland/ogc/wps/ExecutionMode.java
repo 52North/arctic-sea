@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Optional;
 
 /**
@@ -28,6 +31,13 @@ public enum ExecutionMode {
     ASYNC,
     AUTO;
 
+    @JsonValue
+    @Override
+    public String toString() {
+        return super.toString();
+    }
+
+    @JsonCreator
     public static Optional<ExecutionMode> fromString(String string) {
         for (ExecutionMode t : values()) {
             if (t.name().equalsIgnoreCase(string)) {

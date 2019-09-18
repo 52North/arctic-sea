@@ -16,62 +16,33 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-
-
-import static java.util.stream.Collectors.groupingBy;
+import com.google.common.collect.ImmutableSet;
+import org.n52.janmayen.stream.MoreCollectors;
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.description.Description;
+import org.n52.shetland.ogc.wps.description.GroupOutputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collector;
-
-import org.n52.janmayen.stream.MoreCollectors;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.description.Description;
-import org.n52.shetland.ogc.wps.description.GroupOutputDescription;
-import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
-
-import com.google.common.collect.ImmutableSet;
+import java.util.stream.Collectors;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
-        implements GroupOutputDescription {
+public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription implements GroupOutputDescription {
 
     private final Map<OwsCode, ProcessOutputDescription> outputs;
 
-    protected GroupOutputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             builder.getOutputs());
-    }
-
-    public GroupOutputDescriptionImpl(OwsCode id,
-                                      OwsLanguageString title,
-                                      OwsLanguageString abstrakt,
-                                      Set<OwsKeyword> keywords,
-                                      Set<OwsMetadata> metadata,
-                                      Set<? extends ProcessOutputDescription> outputs) {
-        super(id, title, abstrakt, keywords, metadata);
-        Function<ProcessOutputDescription, OwsCode> keyFunc = Description::getId;
-        Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector =
-                MoreCollectors.toSingleResult();
-        Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector =
-                groupingBy(keyFunc, outputDownstreamCollector);
-        this.outputs = Optional.ofNullable(outputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
+    protected GroupOutputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.outputs = builder.getOutputs().stream()
+                              .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
     }
 
     @Override
@@ -101,20 +72,33 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
         return Collections.unmodifiableSet(outputs.keySet());
     }
 
+    @Override
+    public GroupOutputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().groupOutput(this);
+    }
+
     public abstract static class AbstractBuilder<T extends GroupOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements GroupOutputDescription.Builder<T, B> {
 
-        private final ImmutableSet.Builder<ProcessOutputDescription> inputs
-                = ImmutableSet.builder();
+        private final ImmutableSet.Builder<ProcessOutputDescription> inputs = ImmutableSet.builder();
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  GroupOutputDescription entity) {
+            super(factory, entity);
+            this.inputs.addAll(entity.getOutputDescriptions());
+        }
+
         @Override
         public B withOutput(ProcessOutputDescription input) {
             if (input != null) {
                 this.inputs.add(input);
             }
-            return (B) this;
+            return self();
         }
 
         public Set<ProcessOutputDescription> getOutputs() {
@@ -124,6 +108,15 @@ public class GroupOutputDescriptionImpl extends AbstractProcessOutputDescription
     }
 
     public static class Builder extends AbstractBuilder<GroupOutputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          GroupOutputDescription entity) {
+            super(factory, entity);
+        }
+
         @Override
         public GroupOutputDescription build() {
             return new GroupOutputDescriptionImpl(this);

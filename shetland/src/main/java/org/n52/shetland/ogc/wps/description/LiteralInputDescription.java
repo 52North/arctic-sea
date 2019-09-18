@@ -43,6 +43,8 @@ public interface LiteralInputDescription extends LiteralDescription, ProcessInpu
         return visitor.visit(this);
     }
 
+    Builder<?, ?> newBuilder();
+
     interface Builder<T extends LiteralInputDescription, B extends Builder<T, B>>
             extends ProcessInputDescription.Builder<T, B>, LiteralDescription.Builder<T, B> {
 

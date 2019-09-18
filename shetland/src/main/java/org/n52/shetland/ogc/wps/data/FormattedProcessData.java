@@ -16,10 +16,10 @@
  */
 package org.n52.shetland.ogc.wps.data;
 
-import java.util.Objects;
-
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.wps.Format;
+
+import java.util.Objects;
 
 /**
  * TODO JavaDoc

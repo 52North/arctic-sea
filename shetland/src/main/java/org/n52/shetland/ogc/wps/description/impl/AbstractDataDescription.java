@@ -16,42 +16,28 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
 import org.n52.shetland.ogc.wps.description.DataDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
 /**
- *
  * @author Christian Autermann
  */
-public abstract class AbstractDataDescription extends AbstractDescription
-        implements DataDescription {
+public abstract class AbstractDataDescription extends AbstractDescription implements DataDescription {
 
-    public AbstractDataDescription(AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata());
+    protected AbstractDataDescription(AbstractBuilder<?, ?> builder) {
+        super(builder);
     }
 
-    public AbstractDataDescription(OwsCode id,
-                                   OwsLanguageString title,
-                                   OwsLanguageString abstrakt,
-                                   Set<OwsKeyword> keywords,
-                                   Set<OwsMetadata> metadata) {
-        super(id, title, abstrakt, keywords, metadata);
-    }
-
-
-
-    public abstract static class AbstractBuilder<T extends DataDescription, B extends DataDescription.Builder<T, B>>
+    public abstract static class AbstractBuilder<T extends DataDescription, B extends AbstractBuilder<T, B>>
             extends AbstractDescription.AbstractBuilder<T, B>
             implements DataDescription.Builder<T, B> {
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  DataDescription entity) {
+            super(factory, entity);
+        }
 
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
     }
 }

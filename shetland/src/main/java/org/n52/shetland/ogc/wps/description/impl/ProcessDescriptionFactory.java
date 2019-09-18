@@ -28,68 +28,124 @@ import org.n52.shetland.ogc.wps.description.LiteralOutputDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescription;
 import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 
-public class ProcessDescriptionFactory implements ProcessDescriptionBuilderFactory
-        <
-            ProcessDescription,
-            GroupInputDescription,
-            GroupOutputDescription,
-            LiteralInputDescription,
-            LiteralOutputDescription,
-            ComplexInputDescription,
-            ComplexOutputDescription,
-            BoundingBoxInputDescription,
-            BoundingBoxOutputDescription,
-            LiteralDataDomain
-        > {
+public class ProcessDescriptionFactory
+        implements ProcessDescriptionBuilderFactory<
+                                                           ProcessDescription,
+                                                           GroupInputDescription,
+                                                           GroupOutputDescription,
+                                                           LiteralInputDescription,
+                                                           LiteralOutputDescription,
+                                                           ComplexInputDescription,
+                                                           ComplexOutputDescription,
+                                                           BoundingBoxInputDescription,
+                                                           BoundingBoxOutputDescription,
+                                                           LiteralDataDomain
+                                                           > {
+
+    private static final ProcessDescriptionFactory INSTANCE = new ProcessDescriptionFactory();
 
     @Override
     public ProcessDescriptionImpl.Builder process() {
-        return new ProcessDescriptionImpl.Builder();
+        return new ProcessDescriptionImpl.Builder(this);
     }
 
     @Override
-    public GroupOutputDescriptionImpl.Builder groupOutput() {
-        return new GroupOutputDescriptionImpl.Builder();
+    public ProcessDescriptionImpl.Builder process(ProcessDescription entity) {
+        return new ProcessDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public GroupInputDescriptionImpl.Builder groupInput() {
-        return new GroupInputDescriptionImpl.Builder();
+        return new GroupInputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public GroupInputDescriptionImpl.Builder groupInput(GroupInputDescription entity) {
+        return new GroupInputDescriptionImpl.Builder(this, entity);
+    }
+
+    @Override
+    public GroupOutputDescriptionImpl.Builder groupOutput() {
+        return new GroupOutputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public GroupOutputDescriptionImpl.Builder groupOutput(GroupOutputDescription entity) {
+        return new GroupOutputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public LiteralInputDescriptionImpl.Builder literalInput() {
-        return new LiteralInputDescriptionImpl.Builder();
+        return new LiteralInputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public LiteralInputDescriptionImpl.Builder literalInput(LiteralInputDescription entity) {
+        return new LiteralInputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public LiteralOutputDescriptionImpl.Builder literalOutput() {
-        return new LiteralOutputDescriptionImpl.Builder();
+        return new LiteralOutputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public LiteralOutputDescriptionImpl.Builder literalOutput(LiteralOutputDescription entity) {
+        return new LiteralOutputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public ComplexInputDescriptionImpl.Builder complexInput() {
-        return new ComplexInputDescriptionImpl.Builder();
+        return new ComplexInputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public ComplexInputDescriptionImpl.Builder complexInput(ComplexInputDescription entity) {
+        return new ComplexInputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public ComplexOutputDescriptionImpl.Builder complexOutput() {
-        return new ComplexOutputDescriptionImpl.Builder();
+        return new ComplexOutputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public ComplexOutputDescriptionImpl.Builder complexOutput(ComplexOutputDescription entity) {
+        return new ComplexOutputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public BoundingBoxInputDescriptionImpl.Builder boundingBoxInput() {
-        return new BoundingBoxInputDescriptionImpl.Builder();
+        return new BoundingBoxInputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public BoundingBoxInputDescriptionImpl.Builder boundingBoxInput(BoundingBoxInputDescription entity) {
+        return new BoundingBoxInputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public BoundingBoxOutputDescriptionImpl.Builder boundingBoxOutput() {
-        return new BoundingBoxOutputDescriptionImpl.Builder();
+        return new BoundingBoxOutputDescriptionImpl.Builder(this);
+    }
+
+    @Override
+    public BoundingBoxOutputDescriptionImpl.Builder boundingBoxOutput(BoundingBoxOutputDescription entity) {
+        return new BoundingBoxOutputDescriptionImpl.Builder(this, entity);
     }
 
     @Override
     public LiteralDataDomainImpl.Builder literalDataDomain() {
-        return new LiteralDataDomainImpl.Builder();
+        return new LiteralDataDomainImpl.Builder(this);
+    }
+
+    @Override
+    public LiteralDataDomainImpl.Builder literalDataDomain(LiteralDataDomain entity) {
+        return new LiteralDataDomainImpl.Builder(this, entity);
+    }
+
+    public static ProcessDescriptionFactory instance() {
+        return INSTANCE;
     }
 
 }

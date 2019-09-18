@@ -16,28 +16,28 @@
  */
 package org.n52.shetland.ogc.wps.data;
 
+import com.google.common.base.MoreObjects;
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.Format;
+
 import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.wps.Format;
-
-import com.google.common.base.MoreObjects;
-
 /**
  * TODO JavaDoc
+ *
  * @author Christian Autermann
  */
 public class ReferenceProcessData extends FormattedProcessData {
 
     private URI uri;
-    private Optional<Body> body;
+    private Body body;
 
     public ReferenceProcessData(OwsCode id, Format format, URI uri, Body body) {
         super(id, format);
         this.uri = uri;
-        this.body = Optional.ofNullable(body);
+        this.body = body;
     }
 
     public ReferenceProcessData(OwsCode id, Format format) {
@@ -61,11 +61,11 @@ public class ReferenceProcessData extends FormattedProcessData {
     }
 
     public Optional<Body> getBody() {
-        return body;
+        return Optional.ofNullable(body);
     }
 
     public void setBody(Body body) {
-        this.body = Optional.ofNullable(body);
+        this.body = body;
     }
 
     @Override
@@ -81,7 +81,7 @@ public class ReferenceProcessData extends FormattedProcessData {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this).omitNullValues().add("id", getId()).add("format", getFormat())
-                .add("uri", getURI()).add("body", getBody().orElse(null)).toString();
+                          .add("uri", getURI()).add("body", getBody().orElse(null)).toString();
     }
 
     @Override
