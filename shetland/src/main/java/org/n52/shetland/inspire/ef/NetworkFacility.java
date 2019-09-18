@@ -18,14 +18,9 @@ package org.n52.shetland.inspire.ef;
 
 import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 public class NetworkFacility
-        extends AbstractGML
-        implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+        extends AbstractGML {
 
     /**
      * 1..1
@@ -42,25 +37,11 @@ public class NetworkFacility
      */
     private EnvironmentalMonitoringFacility contains;
 
-    public NetworkFacility(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
     public NetworkFacility(
             Time linkingTime, EnvironmentalMonitoringNetwork belongsTo, EnvironmentalMonitoringFacility contains) {
         this.linkingTime = linkingTime;
         this.belongsTo = belongsTo;
         this.contains = contains;
-    }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
     }
 
     /**

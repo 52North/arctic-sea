@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import java.io.OutputStream;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.sos.response.AbstractObservationResponse;
 import org.n52.svalbard.encode.exception.EncodingException;

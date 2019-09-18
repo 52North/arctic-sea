@@ -76,10 +76,18 @@ public class GetFeatureOfInterestXmlStreamWriter
         AbstractFeature feature = getElement().getAbstractFeature();
         if (feature instanceof FeatureCollection) {
             for (AbstractFeature f : (FeatureCollection) feature) {
-                writeFeatureMember(f);
+                if (f instanceof AbstractSamplingFeature && ((AbstractSamplingFeature) f).isSetGeometry()) {
+                    writeFeatureMember(f);
+                } else {
+                    writeReferencedFeatureMember(f);
+                }
             }
         } else if (feature instanceof AbstractSamplingFeature) {
-            writeFeatureMember(feature);
+            if (((AbstractSamplingFeature) feature).isSetGeometry()) {
+                writeFeatureMember(feature);
+            } else {
+                writeReferencedFeatureMember(feature);
+            }
         }
         end(Sos2StreamingConstants.QN_GET_FEATURE_OF_INTEREST_RESPONSE);
     }
@@ -98,6 +106,14 @@ public class GetFeatureOfInterestXmlStreamWriter
             start(Sos2StreamingConstants.QN_FEATURE_MEMBER);
             rawText(((XmlObject) o).xmlText(getXmlOptions()));
             end(Sos2StreamingConstants.QN_FEATURE_MEMBER);
+        }
+    }
+
+    private void writeReferencedFeatureMember(AbstractFeature af) throws XMLStreamException {
+        empty(Sos2StreamingConstants.QN_FEATURE_MEMBER);
+        addXlinkHrefAttr(af.getIdentifier());
+        if (af.isSetName()) {
+            addXlinkTitleAttr(af.getFirstName().getValue());
         }
     }
 

@@ -21,6 +21,29 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.xmlbeans.XmlObject;
+import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
+import org.n52.shetland.ogc.filter.SpatialFilter;
+import org.n52.shetland.ogc.filter.TemporalFilter;
+import org.n52.shetland.ogc.gml.GmlConstants;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.gml.time.TimePeriod;
+import org.n52.shetland.ogc.ows.OWSConstants;
+import org.n52.shetland.ogc.ows.OwsDomain;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.ConformanceClass;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
+
 import net.opengis.fes.x20.BBOXDocument;
 import net.opengis.fes.x20.BBOXType;
 import net.opengis.fes.x20.BinaryTemporalOpType;
@@ -42,30 +65,6 @@ import net.opengis.fes.x20.ValueReferenceDocument;
 import net.opengis.fes.x20.impl.ComparisonOperatorNameTypeImpl;
 import net.opengis.fes.x20.impl.SpatialOperatorNameTypeImpl;
 import net.opengis.fes.x20.impl.TemporalOperatorNameTypeImpl;
-
-import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.shetland.ogc.filter.FilterConstants;
-import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
-import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
-import org.n52.shetland.ogc.filter.FilterConstants.TimeOperator;
-import org.n52.shetland.ogc.filter.SpatialFilter;
-import org.n52.shetland.ogc.filter.TemporalFilter;
-import org.n52.shetland.ogc.gml.GmlConstants;
-import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.ows.OWSConstants;
-import org.n52.shetland.ogc.ows.OwsDomain;
-import org.n52.shetland.w3c.SchemaLocation;
-import org.n52.svalbard.ConformanceClass;
-import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-import org.n52.svalbard.util.CodingHelper;
-
-import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
 
 /**
  * @since 1.0.0

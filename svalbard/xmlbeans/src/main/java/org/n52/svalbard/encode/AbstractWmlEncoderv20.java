@@ -23,18 +23,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 
-import net.opengis.gml.x32.VerticalDatumPropertyType;
-import net.opengis.gml.x32.VerticalDatumType;
-import net.opengis.om.x20.OMObservationDocument;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.samplingSpatial.x20.ShapeType;
-import net.opengis.waterml.x20.CollectionDocument;
-import net.opengis.waterml.x20.CollectionType;
-import net.opengis.waterml.x20.MonitoringPointDocument;
-import net.opengis.waterml.x20.MonitoringPointType;
-import net.opengis.waterml.x20.ObservationProcessDocument;
-import net.opengis.waterml.x20.ObservationProcessType;
-
 import org.apache.xmlbeans.GDuration;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
@@ -42,12 +30,6 @@ import org.isotc211.x2005.gmd.CIResponsiblePartyPropertyType;
 import org.isotc211.x2005.gmd.CIResponsiblePartyType;
 import org.joda.time.DateTime;
 import org.locationtech.jts.geom.Geometry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.iso.gmd.CiResponsibleParty;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -86,10 +68,27 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
+
+import net.opengis.gml.x32.VerticalDatumPropertyType;
+import net.opengis.gml.x32.VerticalDatumType;
+import net.opengis.om.x20.OMObservationDocument;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.samplingSpatial.x20.ShapeType;
+import net.opengis.waterml.x20.CollectionDocument;
+import net.opengis.waterml.x20.CollectionType;
+import net.opengis.waterml.x20.MonitoringPointDocument;
+import net.opengis.waterml.x20.MonitoringPointType;
+import net.opengis.waterml.x20.ObservationProcessDocument;
+import net.opengis.waterml.x20.ObservationProcessType;
 
 /**
  * Abstract encoder class for WaterML 2.0

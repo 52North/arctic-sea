@@ -37,7 +37,6 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.N52XmlHelper;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

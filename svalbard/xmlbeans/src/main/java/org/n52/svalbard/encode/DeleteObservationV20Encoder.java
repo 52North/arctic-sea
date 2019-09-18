@@ -29,7 +29,7 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Sets;
 
-import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
+import net.opengis.sosdo.x20.DeleteObservationResponseDocument;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk

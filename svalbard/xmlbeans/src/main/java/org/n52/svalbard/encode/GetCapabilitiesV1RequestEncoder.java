@@ -18,10 +18,7 @@ package org.n52.svalbard.encode;
 
 import java.util.Set;
 
-import net.opengis.sos.x10.GetCapabilitiesDocument;
-
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.ows.OwsAcceptVersions;
 import org.n52.shetland.ogc.ows.OwsSections;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;
@@ -31,6 +28,8 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.sos.x10.GetCapabilitiesDocument;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>

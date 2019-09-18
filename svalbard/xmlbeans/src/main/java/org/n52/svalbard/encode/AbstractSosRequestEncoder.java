@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.ows.OWSConstants;

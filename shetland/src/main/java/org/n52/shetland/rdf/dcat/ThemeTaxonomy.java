@@ -14,25 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.w3c.xlink;
+package org.n52.shetland.rdf.dcat;
 
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.vocabulary.DCAT;
+import org.n52.shetland.rdf.AbstractResource;
 
-/**
- *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- * @since
- *
- * @deprecated Change to usage of {@link Reference}
- */
-@Deprecated
-public interface AttributeSimpleAttrs {
+public class ThemeTaxonomy extends AbstractResource implements DcatRdfPrefix {
 
-    void setSimpleAttrs(SimpleAttrs simpleAttrs);
+    public ThemeTaxonomy(String value) {
+        super(value);
+    }
 
-    SimpleAttrs getSimpleAttrs();
-
-    default boolean isSetSimpleAttrs() {
-        return getSimpleAttrs() != null && getSimpleAttrs().isSetHref();
+    @Override
+    public Property getProperty() {
+        return DCAT.themeTaxonomy;
     }
 
 }

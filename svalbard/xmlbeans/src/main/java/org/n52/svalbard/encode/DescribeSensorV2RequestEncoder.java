@@ -16,12 +16,13 @@
  */
 package org.n52.svalbard.encode;
 
-import net.opengis.swes.x20.DescribeSensorDocument;
-import net.opengis.swes.x20.DescribeSensorType;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.DescribeSensorRequest;
 import org.n52.svalbard.encode.exception.EncodingException;
+
+import net.opengis.swes.x20.DescribeSensorDocument;
+import net.opengis.swes.x20.DescribeSensorType;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>

@@ -60,6 +60,10 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.jena</groupId>
+            <artifactId>jena-core</artifactId>
+        </dependency>
         <!-- Testing dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>

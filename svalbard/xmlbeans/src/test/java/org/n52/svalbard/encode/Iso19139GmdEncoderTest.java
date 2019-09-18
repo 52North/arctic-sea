@@ -22,6 +22,7 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.startsWith;
 
+import java.net.URI;
 import java.util.Arrays;
 
 import javax.xml.namespace.NamespaceContext;
@@ -49,6 +50,8 @@ import org.n52.shetland.iso.gmd.MDDataIdentification;
 import org.n52.shetland.iso.gmd.MDMetadata;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.NamespaceContextBuilder;
@@ -136,7 +139,7 @@ public class Iso19139GmdEncoderTest {
 
 //    @Test
 //    public void checkMDMetadataReferenceEncoding() throws EncodingException {
-//        MDMetadata mdMmetadata = new MDMetadata(new SimpleAttrs().setHref("href").setTitle("title"));
+//        Referenceable<MDMetadata> mdMmetadata = Referenceable.of(new Reference().setHref(URI.create("href")).setTitle("title"));
 //        XmlObject xmlObject = encoder.encode(mdMmetadata);
 //        xmlObject.validate();
 //        assertThat(xmlObject, instanceOf(MDMetadataPropertyType.class));

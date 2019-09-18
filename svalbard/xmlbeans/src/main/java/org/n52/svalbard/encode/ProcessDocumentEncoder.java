@@ -21,9 +21,9 @@ import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.ompr.InspireOMPRConstants;
+import org.n52.shetland.inspire.ompr.Process;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.svalbard.encode.exception.EncodingException;
-import org.n52.shetland.inspire.ompr.Process;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

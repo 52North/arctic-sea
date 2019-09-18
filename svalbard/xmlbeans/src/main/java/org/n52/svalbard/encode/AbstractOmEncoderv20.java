@@ -22,17 +22,6 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.om.x20.NamedValueDocument;
-import net.opengis.om.x20.NamedValuePropertyType;
-import net.opengis.om.x20.NamedValueType;
-import net.opengis.om.x20.OMObservationDocument;
-import net.opengis.om.x20.OMObservationPropertyType;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.om.x20.OMProcessPropertyType;
-import net.opengis.om.x20.ObservationContextPropertyType;
-import net.opengis.om.x20.ObservationContextType;
-import net.opengis.om.x20.TimeObjectPropertyType;
-
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
@@ -40,9 +29,6 @@ import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
 import org.isotc211.x2005.gmd.AbstractDQElementDocument;
 import org.isotc211.x2005.gmd.DQElementPropertyType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractMetaData;
 import org.n52.shetland.ogc.gml.CodeType;
@@ -91,8 +77,21 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Strings;
+
+import net.opengis.om.x20.NamedValueDocument;
+import net.opengis.om.x20.NamedValuePropertyType;
+import net.opengis.om.x20.NamedValueType;
+import net.opengis.om.x20.OMObservationDocument;
+import net.opengis.om.x20.OMObservationPropertyType;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.om.x20.OMProcessPropertyType;
+import net.opengis.om.x20.ObservationContextPropertyType;
+import net.opengis.om.x20.ObservationContextType;
+import net.opengis.om.x20.TimeObjectPropertyType;
 
 public abstract class AbstractOmEncoderv20
         extends

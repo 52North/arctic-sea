@@ -20,14 +20,8 @@ import java.util.Set;
 
 import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
-
 
 public class EnvironmentalMonitoringNetwork extends AbstractMonitoringFeature {
-
-    public EnvironmentalMonitoringNetwork(SimpleAttrs simpleAttrs) {
-        super(simpleAttrs);
-    }
 
     public EnvironmentalMonitoringNetwork(Identifier inspireId, ReferenceType mediaMonitored) {
         super(inspireId, mediaMonitored);

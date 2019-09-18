@@ -28,7 +28,6 @@ import javax.xml.stream.XMLStreamException;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-
 import org.n52.shetland.ogc.sos.ro.RelatedOfferingConstants;
 import org.n52.shetland.ogc.sos.ro.RelatedOfferings;
 import org.n52.svalbard.encode.exception.EncodingException;

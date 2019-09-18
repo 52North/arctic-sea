@@ -24,16 +24,11 @@ import org.n52.shetland.inspire.base2.RelatedParty;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
 
 public class EnvironmentalMonitoringActivity
-        extends AbstractFeature
-        implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+        extends AbstractFeature {
 
     /**
      * 1..1
@@ -75,11 +70,6 @@ public class EnvironmentalMonitoringActivity
      */
     private Set<AbstractMonitoringFeature> uses = Sets.newHashSet();
 
-    public EnvironmentalMonitoringActivity(SimpleAttrs simpleAttrs) {
-        super("");
-        this.simpleAttrs = simpleAttrs;
-    }
-
     public EnvironmentalMonitoringActivity(
             Time activityTime, String activityConditions, RelatedParty responsibleParty, Identifier inspireId) {
         super(inspireId);
@@ -87,16 +77,6 @@ public class EnvironmentalMonitoringActivity
         this.activityConditions = activityConditions;
         this.responsibleParty = responsibleParty;
         this.inspireId = inspireId;
-    }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
     }
 
     /**

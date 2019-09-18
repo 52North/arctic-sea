@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.ows.OwsAcceptVersions;
 import org.n52.shetland.ogc.ows.OwsSections;
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesRequest;

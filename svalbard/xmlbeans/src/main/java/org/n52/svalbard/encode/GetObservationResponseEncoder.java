@@ -22,12 +22,8 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.sos.x20.GetObservationResponseDocument;
-import net.opengis.sos.x20.GetObservationResponseType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-
 import org.n52.shetland.ogc.om.ObservationStream;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
@@ -40,6 +36,9 @@ import org.n52.svalbard.util.XmlHelper;
 import org.n52.svalbard.write.GetObservationResponseXmlStreamWriter;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.sos.x20.GetObservationResponseDocument;
+import net.opengis.sos.x20.GetObservationResponseType;
 
 /**
  * TODO JavaDoc

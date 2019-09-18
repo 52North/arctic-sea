@@ -158,6 +158,7 @@
     <bean class="org.n52.svalbard.encode.ProcessPropertyTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.ProcessTypeEncoder"/>
     <bean class="org.n52.svalbard.encode.ProfileObservationTypeEncoder"/>
+    <bean class="org.n52.svalbard.encode.RdfEncoder"/>
     <bean class="org.n52.svalbard.encode.RectifiedGridCoverageDocumentEncoder"/>
     <bean class="org.n52.svalbard.encode.RelatedOfferingsEncoder"/>
     <bean class="org.n52.svalbard.encode.RelatedPartyTypeEncoder"/>

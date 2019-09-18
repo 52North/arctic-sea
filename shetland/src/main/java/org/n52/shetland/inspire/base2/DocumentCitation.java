@@ -16,32 +16,18 @@
  */
 package org.n52.shetland.inspire.base2;
 
-
 import java.util.List;
 
 import org.joda.time.DateTime;
 import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.w3c.Nillable;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Lists;
 
-public class DocumentCitation extends AbstractGML implements AttributeSimpleAttrs  {
+public class DocumentCitation extends AbstractGML {
 
-    private SimpleAttrs simpleAttrs;
     private Nillable<DateTime> date;
     private List<Nillable<String>> links = Lists.newArrayList();
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
-    }
 
     /**
      * @return the date

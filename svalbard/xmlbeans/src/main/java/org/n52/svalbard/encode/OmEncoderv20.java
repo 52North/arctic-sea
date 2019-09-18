@@ -28,20 +28,11 @@ import java.util.function.Supplier;
 import javax.inject.Inject;
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.gml.x32.FeaturePropertyType;
-import net.opengis.gml.x32.TimeInstantPropertyType;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.om.x20.OMProcessPropertyType;
-import net.opengis.om.x20.TimeObjectPropertyType;
-
 import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -90,10 +81,18 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.SweHelper;
 import org.n52.svalbard.write.OmV20XmlStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.FeaturePropertyType;
+import net.opengis.gml.x32.TimeInstantPropertyType;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.om.x20.OMProcessPropertyType;
+import net.opengis.om.x20.TimeObjectPropertyType;
 
 /**
  * @since 1.0.0

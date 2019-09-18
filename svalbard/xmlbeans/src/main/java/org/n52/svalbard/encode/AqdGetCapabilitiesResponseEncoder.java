@@ -20,7 +20,6 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.ows.service.GetCapabilitiesResponse;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.w3c.SchemaLocation;

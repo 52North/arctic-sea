@@ -20,14 +20,13 @@ import java.io.OutputStream;
 import java.util.Collections;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;

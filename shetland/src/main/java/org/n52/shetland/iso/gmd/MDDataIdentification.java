@@ -16,15 +16,9 @@
  */
 package org.n52.shetland.iso.gmd;
 
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
-
 public class MDDataIdentification extends AbstractMDIdentification {
 
     private String language;
-
-    public MDDataIdentification(SimpleAttrs simpleAttrs) {
-        super(simpleAttrs);
-    }
 
     public MDDataIdentification(GmdCitation citation, String abstrakt, String language) {
         super(citation, abstrakt);

@@ -19,28 +19,7 @@ package org.n52.svalbard.encode;
 import java.util.Collection;
 import java.util.Set;
 
-import net.opengis.ogc.ComparisonOperatorType;
-import net.opengis.ogc.GeometryOperandsType;
-import net.opengis.ogc.IdCapabilitiesType;
-import net.opengis.ogc.ScalarCapabilitiesType;
-import net.opengis.ogc.SpatialCapabilitiesType;
-import net.opengis.ogc.SpatialOperatorNameType;
-import net.opengis.ogc.SpatialOperatorType;
-import net.opengis.ogc.SpatialOperatorsType;
-import net.opengis.ogc.TemporalCapabilitiesType;
-import net.opengis.ogc.TemporalOperandsType;
-import net.opengis.ogc.TemporalOperatorNameType;
-import net.opengis.ogc.TemporalOperatorType;
-import net.opengis.ogc.TemporalOperatorsType;
-import net.opengis.sos.x10.CapabilitiesDocument;
-import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
-import net.opengis.sos.x10.ContentsDocument.Contents;
-import net.opengis.sos.x10.ContentsDocument.Contents.ObservationOfferingList;
-import net.opengis.sos.x10.FilterCapabilitiesDocument.FilterCapabilities;
-import net.opengis.sos.x10.ObservationOfferingType;
-
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.janmayen.NcName;
 import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
@@ -60,6 +39,26 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.N52XmlHelper;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.ogc.ComparisonOperatorType;
+import net.opengis.ogc.GeometryOperandsType;
+import net.opengis.ogc.IdCapabilitiesType;
+import net.opengis.ogc.ScalarCapabilitiesType;
+import net.opengis.ogc.SpatialCapabilitiesType;
+import net.opengis.ogc.SpatialOperatorNameType;
+import net.opengis.ogc.SpatialOperatorType;
+import net.opengis.ogc.SpatialOperatorsType;
+import net.opengis.ogc.TemporalCapabilitiesType;
+import net.opengis.ogc.TemporalOperandsType;
+import net.opengis.ogc.TemporalOperatorNameType;
+import net.opengis.ogc.TemporalOperatorType;
+import net.opengis.ogc.TemporalOperatorsType;
+import net.opengis.sos.x10.CapabilitiesDocument;
+import net.opengis.sos.x10.CapabilitiesDocument.Capabilities;
+import net.opengis.sos.x10.ContentsDocument.Contents;
+import net.opengis.sos.x10.ContentsDocument.Contents.ObservationOfferingList;
+import net.opengis.sos.x10.FilterCapabilitiesDocument.FilterCapabilities;
+import net.opengis.sos.x10.ObservationOfferingType;
 
 /**
  * @since 1.0.0

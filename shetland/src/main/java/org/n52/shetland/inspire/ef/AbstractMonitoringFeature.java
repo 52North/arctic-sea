@@ -23,7 +23,6 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
 
@@ -42,11 +41,7 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * 0..*
      */
-    private Set<EnvironmentalMonitoringActivity> involvedIn = Sets.newHashSet();
-
-    public AbstractMonitoringFeature(SimpleAttrs simpleAttrs) {
-        super(simpleAttrs);
-    }
+    private Set<Referenceable<EnvironmentalMonitoringActivity>> involvedIn = Sets.newHashSet();
 
     public AbstractMonitoringFeature(Identifier inspireId, ReferenceType mediaMonitored) {
         super(inspireId, mediaMonitored);
@@ -111,14 +106,14 @@ public abstract class AbstractMonitoringFeature extends AbstractMonitoringObject
     /**
      * @return the involvedIn
      */
-    public Set<EnvironmentalMonitoringActivity> getInvolvedIn() {
+    public Set<Referenceable<EnvironmentalMonitoringActivity>> getInvolvedIn() {
         return involvedIn;
     }
 
     /**
      * @param involvedIn the involvedIn to set
      */
-    public void setInvolvedIn(Set<EnvironmentalMonitoringActivity> involvedIn) {
+    public void setInvolvedIn(Set<Referenceable<EnvironmentalMonitoringActivity>> involvedIn) {
         this.involvedIn.clear();
         this.involvedIn = involvedIn;
     }

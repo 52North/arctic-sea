@@ -30,10 +30,6 @@ import javax.xml.soap.SOAPFault;
 import javax.xml.soap.SOAPMessage;
 
 import org.apache.xmlbeans.XmlObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.ows.OWSConstants;
@@ -53,6 +49,9 @@ import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
 import org.n52.svalbard.util.N52XmlHelper;
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import com.google.common.collect.ImmutableSet;
 

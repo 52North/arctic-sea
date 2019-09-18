@@ -19,7 +19,6 @@ package org.n52.svalbard.encode;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.filter.SpatialFilter;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;

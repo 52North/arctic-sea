@@ -25,12 +25,7 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.om.x20.OMObservationType;
-
 import org.apache.xmlbeans.XmlOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gwml.GWMLConstants;
@@ -47,9 +42,13 @@ import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.GwmlV22XmlStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
+
+import net.opengis.om.x20.OMObservationType;
 
 public class GwmlEncoderv22
         extends OmEncoderv20 {

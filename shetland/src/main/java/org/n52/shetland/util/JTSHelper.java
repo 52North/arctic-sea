@@ -168,7 +168,7 @@ public class JTSHelper {
     public static Geometry createPolygonFromEnvelope(double minx, double miny, double maxx, double maxy, int srid) {
         GeometryFactory fac = getGeometryFactoryForSRID(srid);
         return fac.createPolygon(new Coordinate[] { new Coordinate(minx, miny), new Coordinate(minx, maxy),
-                new Coordinate(maxx, maxy), new Coordinate(maxx, miny), new Coordinate(minx, miny) });
+            new Coordinate(maxx, maxy), new Coordinate(maxx, miny), new Coordinate(minx, miny) });
     }
 
     /**

@@ -20,11 +20,11 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Point;
 
 import net.opengis.gml.x32.PointPropertyType;
 import net.opengis.gml.x32.PointType;

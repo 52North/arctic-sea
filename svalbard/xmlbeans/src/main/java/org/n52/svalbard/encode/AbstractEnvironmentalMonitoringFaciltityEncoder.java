@@ -20,9 +20,11 @@ import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.inspire.ef.AnyDomainLink;
 import org.n52.shetland.inspire.ef.EnvironmentalMonitoringFacility;
 import org.n52.shetland.inspire.ef.NetworkFacility;
+import org.n52.shetland.inspire.ef.OperationalActivityPeriod;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityDocument;
@@ -31,8 +33,7 @@ import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.B
 import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType.RelatedTo;
 import net.opengis.gml.x32.FeaturePropertyType;
 
-public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder
-        extends AbstractMonitoringFeatureEncoder {
+public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends AbstractMonitoringFeatureEncoder {
 
     //
     // private static final Map<SupportedTypeKey, Set<String>> SUPPORTED_TYPES =
@@ -65,8 +66,8 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder
         }
         EnvironmentalMonitoringFacilityType emft =
                 createEnvironmentalMonitoringFaciltityType((EnvironmentalMonitoringFacility) abstractFeature);
-        EnvironmentalMonitoringFacilityDocument emfd = EnvironmentalMonitoringFacilityDocument.Factory
-                .newInstance(getXmlOptions());
+        EnvironmentalMonitoringFacilityDocument emfd =
+                EnvironmentalMonitoringFacilityDocument.Factory.newInstance(getXmlOptions());
         emfd.setEnvironmentalMonitoringFacility(emft);
         return emfd;
     }
@@ -138,17 +139,18 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder
     private void setOperationalActivityPeriod(EnvironmentalMonitoringFacilityType emft,
             EnvironmentalMonitoringFacility envMoniFac) throws EncodingException {
         if (envMoniFac.isSetOperationalActivityPeriod()) {
-            for (org.n52.shetland.inspire.ef.OperationalActivityPeriod operationalActivityPeriod : envMoniFac
+            for (Referenceable<OperationalActivityPeriod> operationalActivityPeriod : envMoniFac
                     .getOperationalActivityPeriod()) {
-                if (operationalActivityPeriod.isSetSimpleAttrs()) {
+                if (operationalActivityPeriod.isReference()) {
                     EnvironmentalMonitoringFacilityType.OperationalActivityPeriod oap =
                             emft.addNewOperationalActivityPeriod();
-                    oap.setHref(operationalActivityPeriod.getSimpleAttrs().getHref());
-                    if (operationalActivityPeriod.getSimpleAttrs().isSetTitle()) {
-                        oap.setTitle(operationalActivityPeriod.getSimpleAttrs().getTitle());
+                    oap.setHref(operationalActivityPeriod.getReference().getHref().toString());
+                    if (operationalActivityPeriod.getReference().getTitle().isPresent()) {
+                        oap.setTitle(operationalActivityPeriod.getReference().getTitle().toString());
                     }
                 } else {
-                    emft.addNewOperationalActivityPeriod().set(encodeEF(operationalActivityPeriod));
+                    emft.addNewOperationalActivityPeriod()
+                            .set(encodeEF(operationalActivityPeriod.getInstance().get()));
                 }
             }
         } else {
@@ -159,15 +161,15 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder
     private void setRelatedTo(EnvironmentalMonitoringFacilityType emft,
             EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetRelatedTo()) {
-            for (AnyDomainLink relatedTo : environmentalMonitoringFacility.getRelatedTo()) {
-                if (relatedTo.isSetSimpleAttrs()) {
+            for (Referenceable<AnyDomainLink> relatedTo : environmentalMonitoringFacility.getRelatedTo()) {
+                if (relatedTo.isReference()) {
                     RelatedTo rt = emft.addNewRelatedTo();
-                    rt.setHref(relatedTo.getSimpleAttrs().getHref());
-                    if (relatedTo.getSimpleAttrs().isSetTitle()) {
-                        rt.setTitle(relatedTo.getSimpleAttrs().getTitle());
+                    rt.setHref(relatedTo.getReference().getHref().toString());
+                    if (relatedTo.getReference().getTitle().isPresent()) {
+                        rt.setTitle(relatedTo.getReference().getTitle().toString());
                     }
                 } else {
-                    emft.addNewRelatedTo().addNewAnyDomainLink().set(encodeEF(relatedTo));
+                    emft.addNewRelatedTo().addNewAnyDomainLink().set(encodeEF(relatedTo.getInstance().get()));
                 }
             }
         }
@@ -176,15 +178,15 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder
     private void setBelongsTo(EnvironmentalMonitoringFacilityType emft,
             EnvironmentalMonitoringFacility environmentalMonitoringFacility) throws EncodingException {
         if (environmentalMonitoringFacility.isSetBelongsTo()) {
-            for (NetworkFacility belongsTo : environmentalMonitoringFacility.getBelongsTo()) {
-                if (belongsTo.isSetSimpleAttrs()) {
+            for (Referenceable<NetworkFacility> belongsTo : environmentalMonitoringFacility.getBelongsTo()) {
+                if (belongsTo.isReference()) {
                     BelongsTo bt = emft.addNewBelongsTo();
-                    bt.setHref(belongsTo.getSimpleAttrs().getHref());
-                    if (belongsTo.getSimpleAttrs().isSetTitle()) {
-                        bt.setTitle(belongsTo.getSimpleAttrs().getTitle());
+                    bt.setHref(belongsTo.getReference().getHref().toString());
+                    if (belongsTo.getReference().getTitle().isPresent()) {
+                        bt.setTitle(belongsTo.getReference().getTitle().toString());
                     }
                 } else {
-                    emft.addNewBelongsTo().addNewNetworkFacility().set(encodeEF(belongsTo));
+                    emft.addNewBelongsTo().addNewNetworkFacility().set(encodeEF(belongsTo.getInstance().get()));
                 }
             }
         }

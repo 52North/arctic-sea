@@ -21,20 +21,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-import net.opengis.sampling.x20.SFProcessPropertyType;
-import net.opengis.samplingSpecimen.x20.LocationPropertyType;
-import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;
-import net.opengis.samplingSpecimen.x20.SFSpecimenType;
-import net.opengis.samplingSpecimen.x20.SFSpecimenType.Size;
-
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
-
 import org.n52.shetland.ogc.OGCConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.AbstractFeature;
@@ -52,9 +40,20 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.GmlHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
+
+import net.opengis.sampling.x20.SFProcessPropertyType;
+import net.opengis.samplingSpecimen.x20.LocationPropertyType;
+import net.opengis.samplingSpecimen.x20.SFSpecimenDocument;
+import net.opengis.samplingSpecimen.x20.SFSpecimenType;
+import net.opengis.samplingSpecimen.x20.SFSpecimenType.Size;
 
 public class SpecimenEncoderv20
         extends SamplingEncoderv20 {

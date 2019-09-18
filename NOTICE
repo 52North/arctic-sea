@@ -38,18 +38,29 @@ This project includes:
   52°North Svalbard XML Stream under The Apache Software License, Version 2.0
   52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
   Animal Sniffer Annotations under MIT license
+  Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
+  Apache Commons CSV under Apache License, Version 2.0
   Apache Commons IO under Apache License, Version 2.0
+  Apache Commons Lang under Apache License, Version 2.0
   Apache HttpAsyncClient under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
+  Apache HttpClient Cache under Apache License, Version 2.0
   Apache HttpCore under Apache License, Version 2.0
   Apache HttpCore NIO under Apache License, Version 2.0
+  Apache Jena - ARQ (SPARQL 1.1 Query Engine) under The Apache Software License, Version 2.0
+  Apache Jena - Base Common Environment under The Apache Software License, Version 2.0
+  Apache Jena - Core under The Apache Software License, Version 2.0
+  Apache Jena - IRI under The Apache Software License, Version 2.0
+  Apache Jena - Shadowed external libraries under The Apache Software License, Version 2.0
   Apache Log4j API under Apache License, Version 2.0
+  Apache Thrift under The Apache Software License, Version 2.0
   Checker Qual under The MIT License
   Commons Lang under The Apache Software License, Version 2.0
   Commons Logging under The Apache Software License, Version 2.0
   compiler under Apache License 2.0
+  dexx under MIT License
   Elastic JNA Distribution under The Apache Software License, Version 2.0
   elasticsearch-cli under The Apache Software License, Version 2.0
   elasticsearch-core under The Apache Software License, Version 2.0
@@ -98,6 +109,7 @@ This project includes:
   JCL 1.2 implemented over SLF4J under MIT License
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
+  JSONLD Java :: Core under Revised BSD License
   lang-mustache under The Apache Software License, Version 2.0
   libphonenumber under The Apache Software License, Version 2.0
   Lucene Common Analyzers under Apache 2

@@ -25,12 +25,14 @@ import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
 import org.hamcrest.Matchers;
 import org.hamcrest.core.Is;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.InsertResultRequest;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import net.opengis.sos.x20.InsertResultDocument;
 import net.opengis.sos.x20.InsertResultType;
@@ -77,36 +79,6 @@ public class InsertResultRequestEncoderTest {
                 InsertResultRequestEncoder.class.getSimpleName() +
                 " can not encode 'missing version'", assertThrows.getMessage());
     }
-//
-//    @Test
-//    public void shouldThrowExceptionWhenNullValueReceived() throws EncodingException {
-//        thrown.expect(UnsupportedEncoderInputException.class);
-//        thrown.expectMessage(Is.is("Encoder " +
-//                InsertResultRequestEncoder.class.getSimpleName() +
-//                " can not encode 'null'"));
-//
-//        encoder.create(null);
-//    }
-//
-//    @Test
-//    public void shouldThrowExceptionIfServiceIsMissing() throws EncodingException {
-//        thrown.expect(UnsupportedEncoderInputException.class);
-//        thrown.expectMessage(Is.is("Encoder " +
-//                InsertResultRequestEncoder.class.getSimpleName() +
-//                " can not encode 'missing service'"));
-//
-//        encoder.create(new InsertResultRequest());
-//    }
-//
-//    @Test
-//    public void shouldThrowExceptionIfVersionIsMissing() throws EncodingException {
-//        thrown.expect(UnsupportedEncoderInputException.class);
-//        thrown.expectMessage(Is.is("Encoder " +
-//                InsertResultRequestEncoder.class.getSimpleName() +
-//                " can not encode 'missing version'"));
-//
-//        encoder.create(new InsertResultRequest("service", ""));
-//    }
 
     @Test
     public void shouldThrowExceptionIfTemplateIdIsMissing() throws EncodingException {

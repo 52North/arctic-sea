@@ -19,11 +19,11 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.gmlcov.x10.ReferenceableGridCoverageDocument;
-
 import org.n52.shetland.ogc.om.values.ReferencableGridCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
+import net.opengis.gmlcov.x10.ReferenceableGridCoverageDocument;
 
 /**
  * {@link Encoder} implementation to encode {@link ReferencableGridCoverage} to

@@ -16,15 +16,18 @@
  */
 package org.n52.svalbard.encode;
 
-import com.google.common.collect.Sets;
 import java.util.Set;
-import net.opengis.sos.x10.DescribeSensorDocument;
+
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.DescribeSensorRequest;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
+
+import com.google.common.collect.Sets;
+
+import net.opengis.sos.x10.DescribeSensorDocument;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>

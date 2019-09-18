@@ -19,63 +19,52 @@ package org.n52.shetland.iso.gmd;
 import java.util.Set;
 
 import org.joda.time.DateTime;
-
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Sets;
 
-public class MDMetadata
-        extends AbstractObject
-        implements AttributeSimpleAttrs {
+public class MDMetadata extends AbstractObject {
 
-    private SimpleAttrs simpleAttrs;
-
-    private Set<CiResponsibleParty> contact = Sets.newHashSet();
+    private Set<Referenceable<CiResponsibleParty>> contact = Sets.newHashSet();
 
     private DateTime dateStamp;
 
-    private Set<AbstractMDIdentification> identificationInfo = Sets.newHashSet();
+    private Set<Referenceable<AbstractMDIdentification>> identificationInfo = Sets.newHashSet();
 
-    public MDMetadata(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    public MDMetadata(CiResponsibleParty contact, DateTime dateStamp, AbstractMDIdentification identificationInfo) {
+    public MDMetadata(Referenceable<CiResponsibleParty> contact, DateTime dateStamp,
+            Referenceable<AbstractMDIdentification> identificationInfo) {
         this(Sets.newHashSet(contact), dateStamp, Sets.newHashSet(identificationInfo));
     }
 
-    public MDMetadata(
-            Set<CiResponsibleParty> contact, DateTime dateStamp, Set<AbstractMDIdentification> identificationInfo) {
+    public MDMetadata(CiResponsibleParty contact, DateTime dateStamp, AbstractMDIdentification identificationInfo) {
+        this(Referenceable.of(contact), dateStamp, Referenceable.of(identificationInfo));
+    }
+
+    public MDMetadata(Set<Referenceable<CiResponsibleParty>> contact, DateTime dateStamp,
+            Set<Referenceable<AbstractMDIdentification>> identificationInfo) {
         super();
         this.contact = contact;
         this.dateStamp = dateStamp;
         this.identificationInfo = identificationInfo;
     }
 
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
-    }
-
     /**
      * @return the contact
      */
-    public Set<CiResponsibleParty> getContact() {
+    public Set<Referenceable<CiResponsibleParty>> getContact() {
         return contact;
     }
 
-    public MDMetadata addContact(CiResponsibleParty contact) {
+    public MDMetadata addContact(Referenceable<CiResponsibleParty> contact) {
         this.contact.add(contact);
         return this;
     }
 
-    public MDMetadata addContacts(Set<CiResponsibleParty> contacts) {
+    public MDMetadata addContact(CiResponsibleParty contact) {
+        return addContact(Referenceable.of(contact));
+    }
+
+    public MDMetadata addContacts(Set<Referenceable<CiResponsibleParty>> contacts) {
         this.contact.addAll(contacts);
         return this;
     }
@@ -90,16 +79,20 @@ public class MDMetadata
     /**
      * @return the identificationInfo
      */
-    public Set<AbstractMDIdentification> getIdentificationInfo() {
+    public Set<Referenceable<AbstractMDIdentification>> getIdentificationInfo() {
         return identificationInfo;
     }
 
     public MDMetadata addIdentificationInfo(AbstractMDIdentification identificationInfo) {
+        return addIdentificationInfo(Referenceable.of(identificationInfo));
+    }
+
+    public MDMetadata addIdentificationInfo(Referenceable<AbstractMDIdentification> identificationInfo) {
         this.identificationInfo.add(identificationInfo);
         return this;
     }
 
-    public MDMetadata addIdentificationInfos(Set<AbstractMDIdentification> identificationInfos) {
+    public MDMetadata addIdentificationInfos(Set<Referenceable<AbstractMDIdentification>> identificationInfos) {
         this.identificationInfo.addAll(identificationInfos);
         return this;
     }

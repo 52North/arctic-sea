@@ -28,7 +28,6 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-
 import org.n52.shetland.inspire.omso.InspireOMSOConstants;
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.OmObservation;

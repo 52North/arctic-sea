@@ -22,16 +22,6 @@ import org.n52.shetland.ogc.gml.ReferenceType;
 
 public abstract class AbstractEnvironmentalMonitoringFacilityEncoderTest {
 
-//    @BeforeClass
-//    public static void initSettingsManager() {
-//        SettingsManager.getInstance();
-//    }
-//
-//    @AfterClass
-//    public static void cleanupSettingManager() {
-//        SettingsManager.getInstance().cleanup();
-//    }
-
     protected EnvironmentalMonitoringFacility getEnvironmentalMonitoringFacility() {
         return new EnvironmentalMonitoringFacility(new Identifier("localId", "namespace"), new ReferenceType("mediaMonitored"));
     }

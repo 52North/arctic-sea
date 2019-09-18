@@ -16,20 +16,53 @@
  */
 package org.n52.svalbard.encode;
 
+import java.util.Arrays;
+
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.n52.janmayen.Producer;
+import org.n52.svalbard.encode.exception.EncodingException;
+
+import eu.europa.ec.inspire.schemas.ef.x40.EnvironmentalMonitoringFacilityType;
+
 public class EnvironmentalMonitoringFacilityTypeEncoderTest
         extends AbstractEnvironmentalMonitoringFacilityEncoderTest {
-//
-//    @Rule
-//    public final ErrorCollector errors = new ErrorCollector();
-//
-//    private final EnvironmentalMonitoringFaciltityTypeEncoder typeEncoder =
-//            new EnvironmentalMonitoringFaciltityTypeEncoder();
-//
-//    @Test
-//    public void encodeEnvironmentalMonitoringFacility() throws EncodingException {
-//        XmlObject xmlObject = typeEncoder.encode(getEnvironmentalMonitoringFacility());
-//        errors.checkThat(xmlObject.validate(), is(true));
-//        errors.checkThat(xmlObject, instanceOf(EnvironmentalMonitoringFacilityType.class));
-//    }
+
+    private static EnvironmentalMonitoringFaciltityTypeEncoder instance;
+
+    @BeforeAll
+    public static void initInstance() {
+        instance = new EnvironmentalMonitoringFaciltityTypeEncoder();
+        Producer<XmlOptions> options = () -> new XmlOptions();
+        instance.setXmlOptions(options);
+
+        InspireXmlEncoder inspireXmlEncoder = new InspireXmlEncoder();
+        IdentifierPropertyTypeEncoder identifierPropertyTypeEncoder = new IdentifierPropertyTypeEncoder();
+        GmlEncoderv321 gmlEncoderv321 = new GmlEncoderv321();
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoderRepository.setEncoders(
+                Arrays.asList(instance, inspireXmlEncoder, identifierPropertyTypeEncoder, gmlEncoderv321));
+        encoderRepository.init();
+
+        instance.setEncoderRepository(encoderRepository);
+        instance.setXmlOptions(options);
+        inspireXmlEncoder.setEncoderRepository(encoderRepository);
+        inspireXmlEncoder.setXmlOptions(options);
+        identifierPropertyTypeEncoder.setEncoderRepository(encoderRepository);
+        identifierPropertyTypeEncoder.setXmlOptions(options);
+        gmlEncoderv321.setEncoderRepository(encoderRepository);
+        gmlEncoderv321.setXmlOptions(options);
+    }
+
+    @Test
+    public void encodeEnvironmentalMonitoringFacility() throws EncodingException {
+        XmlObject xmlObject = instance.encode(getEnvironmentalMonitoringFacility());
+        Assertions.assertEquals(xmlObject.validate(), true);
+        Assertions.assertTrue(xmlObject instanceof EnvironmentalMonitoringFacilityType);
+    }
 
 }

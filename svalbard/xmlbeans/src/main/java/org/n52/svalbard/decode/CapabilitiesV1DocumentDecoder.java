@@ -52,6 +52,7 @@ public class CapabilitiesV1DocumentDecoder extends AbstractXmlDecoder<Capabiliti
             GetCapabilitiesResponse response = new GetCapabilitiesResponse();
             OwsCapabilities capabilities = (OwsCapabilities) decodeXmlObject(cd.getCapabilities());
             response.setCapabilities(capabilities);
+            response.setXmlString(cd.xmlText(getXmlOptions()));
             return response;
         }
         throw new UnsupportedDecoderInputException(this, cd);

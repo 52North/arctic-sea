@@ -24,9 +24,9 @@ import org.n52.shetland.inspire.ef.ObservingCapability;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
+import org.n52.shetland.w3c.xlink.Reference;
+import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
-
 
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectPropertyType;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType;
@@ -100,14 +100,15 @@ public abstract class AbstractMonitoringObjectEncoder
     private void setLegalBackground(AbstractMonitoringObjectType amot,
             AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         if (abstractMonitoringObject.isSetLegalBackground()) {
-            for (LegislationCitation legislationCitation : abstractMonitoringObject.getLegalBackground()) {
-                if (legislationCitation.isSetSimpleAttrs()) {
-                    SimpleAttrs simpleAttrs = legislationCitation.getSimpleAttrs();
-                    if (simpleAttrs.isSetHref()) {
+            for (Referenceable<LegislationCitation> legislationCitation : abstractMonitoringObject
+                    .getLegalBackground()) {
+                if (legislationCitation.isReference()) {
+                    Reference reference = legislationCitation.getReference();
+                    if (reference.getHref().isPresent()) {
                         LegalBackground lb = amot.addNewLegalBackground();
-                        lb.setHref(simpleAttrs.getHref());
-                        if (simpleAttrs.isSetTitle()) {
-                            lb.setTitle(simpleAttrs.getTitle());
+                        lb.setHref(reference.getHref().get().toString());
+                        if (reference.getTitle().isPresent()) {
+                            lb.setTitle(reference.getTitle().get());
                         }
                     }
                 } else {
@@ -159,13 +160,14 @@ public abstract class AbstractMonitoringObjectEncoder
     private void setObservingCapability(AbstractMonitoringObjectType amot,
             AbstractMonitoringObject abstractMonitoringObject) throws EncodingException {
         if (abstractMonitoringObject.isSetObservingCapability()) {
-            for (ObservingCapability observingCapability : abstractMonitoringObject.getObservingCapability()) {
-                if (observingCapability.isSetHref()) {
+            for (Referenceable<ObservingCapability> observingCapability : abstractMonitoringObject
+                    .getObservingCapability()) {
+                if (observingCapability.isReference() && observingCapability.getReference().getHref().isPresent()) {
                     eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringObjectType.ObservingCapability oc =
                             amot.addNewObservingCapability();
-                    oc.setHref(observingCapability.getHref());
-                    if (observingCapability.isSetTitle()) {
-                        oc.setTitle(observingCapability.getTitle());
+                    oc.setHref(observingCapability.getReference().getHref().get().toString());
+                    if (observingCapability.getReference().getTitle().isPresent()) {
+                        oc.setTitle(observingCapability.getReference().getTitle().get());
                     }
                 } else {
                     amot.addNewObservingCapability().addNewObservingCapability().set(encodeEF(observingCapability));
@@ -177,15 +179,15 @@ public abstract class AbstractMonitoringObjectEncoder
     private void setBroader(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
             throws EncodingException {
         if (abstractMonitoringObject.isSetBroader()) {
-            Hierarchy broader = abstractMonitoringObject.getBroader();
-            if (broader.isSetSimpleAttrs()) {
+            Referenceable<Hierarchy> broader = abstractMonitoringObject.getBroader();
+            if (broader.isReference()) {
                 Broader b = amot.addNewBroader();
-                b.setHref(broader.getSimpleAttrs().getHref());
-                if (broader.getSimpleAttrs().isSetTitle()) {
-                    b.setTitle(broader.getSimpleAttrs().getTitle());
+                b.setHref(broader.getReference().getHref().get().toString());
+                if (broader.getReference().getTitle().isPresent()) {
+                    b.setTitle(broader.getReference().getTitle().get());
                 }
             } else {
-                amot.addNewBroader().addNewHierarchy().set(encodeEF(broader));
+                amot.addNewBroader().addNewHierarchy().set(encodeEF(broader.getInstance().get()));
             }
         }
     }
@@ -193,15 +195,15 @@ public abstract class AbstractMonitoringObjectEncoder
     private void setNarrower(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
             throws EncodingException {
         if (abstractMonitoringObject.isSetNarrower()) {
-            for (Hierarchy narrower : abstractMonitoringObject.getNarrower()) {
-                if (narrower.isSetSimpleAttrs()) {
+            for (Referenceable<Hierarchy> narrower : abstractMonitoringObject.getNarrower()) {
+                if (narrower.isReference()) {
                     Narrower n = amot.addNewNarrower();
-                    n.setHref(narrower.getSimpleAttrs().getHref());
-                    if (narrower.getSimpleAttrs().isSetTitle()) {
-                        n.setTitle(narrower.getSimpleAttrs().getTitle());
+                    n.setHref(narrower.getReference().getHref().get().toString());
+                    if (narrower.getReference().getTitle().isPresent()) {
+                        n.setTitle(narrower.getReference().getTitle().get());
                     }
                 } else {
-                    amot.addNewNarrower().addNewHierarchy().set(encodeEF(narrower));
+                    amot.addNewNarrower().addNewHierarchy().set(encodeEF(narrower.getInstance().get()));
                 }
             }
         }
@@ -210,15 +212,16 @@ public abstract class AbstractMonitoringObjectEncoder
     private void setSupersedes(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
             throws EncodingException {
         if (abstractMonitoringObject.isSetSupersedes()) {
-            for (AbstractMonitoringObject supersedes : abstractMonitoringObject.getSupersedes()) {
-                if (supersedes.isSetSimpleAttrs()) {
+            for (Referenceable<AbstractMonitoringObject> supersedes : abstractMonitoringObject.getSupersedes()) {
+                if (supersedes.isReference()) {
                     Supersedes s = amot.addNewSupersedes();
-                    s.setHref(supersedes.getSimpleAttrs().getHref());
-                    if (supersedes.getSimpleAttrs().isSetTitle()) {
-                        s.setTitle(supersedes.getSimpleAttrs().getTitle());
+                    s.setHref(supersedes.getReference().getHref().get().toString());
+                    if (supersedes.getReference().getTitle().isPresent()) {
+                        s.setTitle(supersedes.getReference().getTitle().get());
                     }
                 } else {
-                    amot.addNewSupersedes().addNewAbstractMonitoringObject().set(encodeEF(supersedes));
+                    amot.addNewSupersedes().addNewAbstractMonitoringObject()
+                            .set(encodeEF(supersedes.getInstance().get()));
                 }
             }
         }
@@ -227,15 +230,16 @@ public abstract class AbstractMonitoringObjectEncoder
     private void setSupersededBy(AbstractMonitoringObjectType amot, AbstractMonitoringObject abstractMonitoringObject)
             throws EncodingException {
         if (abstractMonitoringObject.isSetSupersededBy()) {
-            for (AbstractMonitoringObject supersededBy : abstractMonitoringObject.getSupersededBy()) {
-                if (supersededBy.isSetSimpleAttrs()) {
+            for (Referenceable<AbstractMonitoringObject> supersededBy : abstractMonitoringObject.getSupersededBy()) {
+                if (supersededBy.isReference()) {
                     AbstractMonitoringObjectPropertyType sb = amot.addNewSupersededBy();
-                    sb.setHref(supersededBy.getSimpleAttrs().getHref());
-                    if (supersededBy.getSimpleAttrs().isSetTitle()) {
-                        sb.setTitle(supersededBy.getSimpleAttrs().getTitle());
+                    sb.setHref(supersededBy.getReference().getHref().get().toString());
+                    if (supersededBy.getReference().getTitle().isPresent()) {
+                        sb.setTitle(supersededBy.getReference().getTitle().get());
                     }
                 } else {
-                    amot.addNewSupersededBy().addNewAbstractMonitoringObject().set(encodeEF(supersededBy));
+                    amot.addNewSupersededBy().addNewAbstractMonitoringObject()
+                            .set(encodeEF(supersededBy.getInstance().get()));
                 }
             }
         }
