@@ -23,6 +23,7 @@ import org.apache.xmlbeans.XmlBoolean;
 import org.apache.xmlbeans.XmlInteger;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlString;
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.cv.CvConstants;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.PointValuePair;
@@ -54,8 +55,6 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
-
-import org.locationtech.jts.geom.Point;
 
 import net.opengis.cv.x02.gml32.CVDiscretePointCoverageType;
 import net.opengis.cv.x02.gml32.CVPointValuePairPropertyType;

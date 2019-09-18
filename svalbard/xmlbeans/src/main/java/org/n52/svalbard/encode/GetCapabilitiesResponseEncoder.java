@@ -19,22 +19,9 @@ package org.n52.svalbard.encode;
 import java.util.Collection;
 import java.util.Set;
 
-import net.opengis.sos.x20.CapabilitiesDocument;
-import net.opengis.sos.x20.CapabilitiesType;
-import net.opengis.sos.x20.CapabilitiesType.Contents;
-import net.opengis.sos.x20.ContentsType;
-import net.opengis.sos.x20.InsertionCapabilitiesDocument;
-import net.opengis.sos.x20.InsertionCapabilitiesType;
-import net.opengis.sos.x20.ObservationOfferingType;
-import net.opengis.swes.x20.AbstractContentsType.Offering;
-import net.opengis.swes.x20.FeatureRelationshipType;
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.GenericMetaData;
 import org.n52.shetland.ogc.gml.GmlConstants;
@@ -57,8 +44,20 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.sos.x20.CapabilitiesDocument;
+import net.opengis.sos.x20.CapabilitiesType;
+import net.opengis.sos.x20.CapabilitiesType.Contents;
+import net.opengis.sos.x20.ContentsType;
+import net.opengis.sos.x20.InsertionCapabilitiesDocument;
+import net.opengis.sos.x20.InsertionCapabilitiesType;
+import net.opengis.sos.x20.ObservationOfferingType;
+import net.opengis.swes.x20.AbstractContentsType.Offering;
+import net.opengis.swes.x20.FeatureRelationshipType;
 
 /**
  * TODO JavaDoc

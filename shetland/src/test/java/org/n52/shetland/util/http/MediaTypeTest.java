@@ -24,6 +24,8 @@ import org.junit.jupiter.api.Test;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.n52.janmayen.http.MediaType;
+import org.n52.shetland.ogc.OGCConstants;
+import org.n52.shetland.ogc.sensorML.SensorMLConstants;
 
 /**
  * TODO JavaDoc
@@ -315,23 +317,26 @@ public class MediaTypeTest {
         assertThat(mt.toString(), is("a/b; x=\"a/1\""));
     }
 
-//    @Test
-//    public void testUrn() {
-//        thrown.expect(IllegalArgumentException.class);
-//        MediaType.parse(OGCConstants.URN_IDENTIFIER_IDENTIFICATION);
-//    }
-//
-//    @Test
-//    public void testOgcUrlUnknown() {
-//        thrown.expect(IllegalArgumentException.class);
-//        MediaType.parse(OGCConstants.UNKNOWN);
-//    }
-//
-//    @Test
-//    public void testSensorMLUrl() {
-//        thrown.expect(IllegalArgumentException.class);
-//        MediaType.parse(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL);
-//    }
+    @Test
+    public void testUrn() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            MediaType.parse(OGCConstants.URN_IDENTIFIER_IDENTIFICATION);
+        });
+    }
+
+    @Test
+    public void testOgcUrlUnknown() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            MediaType.parse(OGCConstants.UNKNOWN);
+        });
+    }
+
+    @Test
+    public void testSensorMLUrl() {
+        assertThrows(IllegalArgumentException.class, () -> {
+            MediaType.parse(SensorMLConstants.SENSORML_OUTPUT_FORMAT_URL);
+        });
+    }
 
     @Test
     public void testCompatibleXmlTypes() {

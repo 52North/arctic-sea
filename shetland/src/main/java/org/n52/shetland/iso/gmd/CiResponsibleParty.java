@@ -18,9 +18,7 @@ package org.n52.shetland.iso.gmd;
 
 import org.n52.shetland.iso.gco.Role;
 import org.n52.shetland.w3c.Nillable;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
 import org.n52.shetland.w3c.xlink.Referenceable;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 /**
  * Internal representation of the ISO GMD ResponsibleParty.
@@ -29,9 +27,7 @@ import org.n52.shetland.w3c.xlink.SimpleAttrs;
  * @since 1.0.0
  *
  */
-public class CiResponsibleParty extends AbstractObject implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+public class CiResponsibleParty extends AbstractObject {
 
     private String individualName;
 
@@ -43,8 +39,7 @@ public class CiResponsibleParty extends AbstractObject implements AttributeSimpl
 
     private Nillable<Role> role;
 
-    public CiResponsibleParty(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
+    public CiResponsibleParty() {
         this.role = Nillable.<Role>missing();
     }
 
@@ -54,16 +49,6 @@ public class CiResponsibleParty extends AbstractObject implements AttributeSimpl
 
     public CiResponsibleParty(Nillable<Role> role) {
         this.role = role;
-    }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
     }
 
     public boolean isSetIndividualName() {

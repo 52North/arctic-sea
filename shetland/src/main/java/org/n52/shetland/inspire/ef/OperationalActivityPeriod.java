@@ -18,12 +18,8 @@ package org.n52.shetland.inspire.ef;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
-public class OperationalActivityPeriod extends AbstractFeature implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+public class OperationalActivityPeriod extends AbstractFeature {
 
     /**
      * 1..1
@@ -41,15 +37,4 @@ public class OperationalActivityPeriod extends AbstractFeature implements Attrib
     public Time getActivityTime() {
         return activityTime;
     }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
-    }
-
 }

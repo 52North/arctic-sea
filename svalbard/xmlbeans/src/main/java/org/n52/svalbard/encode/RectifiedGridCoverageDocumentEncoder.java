@@ -19,13 +19,13 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.gml.x32.RectifiedGridCoverageDocument;
-
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.values.RectifiedGridCoverage;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.RectifiedGridCoverageDocument;
 
 /**
  * {@link Encoder} implementation for {@link RectifiedGridCoverage} to

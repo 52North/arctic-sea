@@ -19,16 +19,15 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.sos.x20.GetObservationByIdDocument;
-import net.opengis.sos.x20.GetObservationByIdType;
-
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.request.GetObservationByIdRequest;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
+
+import net.opengis.sos.x20.GetObservationByIdDocument;
+import net.opengis.sos.x20.GetObservationByIdType;
 
 /**
  * @author <a href="mailto:j.schulte@52north.org">Jan Schulte</a>

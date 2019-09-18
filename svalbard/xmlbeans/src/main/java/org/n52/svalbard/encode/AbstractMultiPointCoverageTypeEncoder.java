@@ -19,15 +19,14 @@ package org.n52.svalbard.encode;
 import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.MultiPoint;
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage.PointValueLists;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
-
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.MultiPoint;
-import org.locationtech.jts.geom.Point;
 
 import net.opengis.gml.x32.DiscreteCoverageType;
 import net.opengis.gml.x32.DomainSetType;

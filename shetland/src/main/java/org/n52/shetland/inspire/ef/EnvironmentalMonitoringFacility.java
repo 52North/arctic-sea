@@ -22,7 +22,7 @@ import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JavaHelper;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Sets;
 import org.locationtech.jts.geom.Point;
@@ -58,23 +58,19 @@ public class EnvironmentalMonitoringFacility
     /**
      * 1..*, nillable
      */
-    private Set<OperationalActivityPeriod> operationalActivityPeriod = Sets.newHashSet();
+    private Set<Referenceable<OperationalActivityPeriod>> operationalActivityPeriod = Sets.newHashSet();
 
     /**
      * 0..*
      */
-    private Set<AnyDomainLink> relatedTo = Sets.newHashSet();
+    private Set<Referenceable<AnyDomainLink>> relatedTo = Sets.newHashSet();
 
     /**
      * 0..*
      */
-    private Set<NetworkFacility> belongsTo = Sets.newHashSet();
+    private Set<Referenceable<NetworkFacility>> belongsTo = Sets.newHashSet();
 
     private boolean wasEncoded;
-
-    public EnvironmentalMonitoringFacility(SimpleAttrs simpleAttrs) {
-        super(simpleAttrs);
-    }
 
     public EnvironmentalMonitoringFacility(Identifier inspireId, ReferenceType mediaMonitored) {
         super(inspireId, mediaMonitored);
@@ -86,7 +82,7 @@ public class EnvironmentalMonitoringFacility
 
     public EnvironmentalMonitoringFacility(
             Identifier inspireId, ReferenceType mediaMonitored, ReferenceType measurementRegime, boolean mobile,
-            OperationalActivityPeriod operationalActivityPeriod) {
+            Referenceable<OperationalActivityPeriod> operationalActivityPeriod) {
         super(inspireId, mediaMonitored);
         this.measurementRegime = measurementRegime;
         this.mobile = mobile;
@@ -96,7 +92,7 @@ public class EnvironmentalMonitoringFacility
 
     public EnvironmentalMonitoringFacility(
             Identifier inspireId, Set<ReferenceType> mediaMonitored, ReferenceType measurementRegime, boolean mobile,
-            Set<OperationalActivityPeriod> operationalActivityPeriod) {
+            Set<Referenceable<OperationalActivityPeriod>> operationalActivityPeriod) {
         super(inspireId, mediaMonitored);
         this.measurementRegime = measurementRegime;
         this.mobile = mobile;
@@ -219,7 +215,7 @@ public class EnvironmentalMonitoringFacility
     /**
      * @return the operationalActivityPeriod
      */
-    public Set<OperationalActivityPeriod> getOperationalActivityPeriod() {
+    public Set<Referenceable<OperationalActivityPeriod>> getOperationalActivityPeriod() {
         return operationalActivityPeriod;
     }
 
@@ -227,7 +223,7 @@ public class EnvironmentalMonitoringFacility
      * @param operationalActivityPeriod
      *            the operationalActivityPeriod to set
      */
-    public void setOperationalActivityPeriod(Set<OperationalActivityPeriod> operationalActivityPeriod) {
+    public void setOperationalActivityPeriod(Set<Referenceable<OperationalActivityPeriod>> operationalActivityPeriod) {
         this.operationalActivityPeriod = operationalActivityPeriod;
     }
 
@@ -238,7 +234,7 @@ public class EnvironmentalMonitoringFacility
     /**
      * @return the relatedTo
      */
-    public Set<AnyDomainLink> getRelatedTo() {
+    public Set<Referenceable<AnyDomainLink>> getRelatedTo() {
         return relatedTo;
     }
 
@@ -246,7 +242,7 @@ public class EnvironmentalMonitoringFacility
      * @param relatedTo
      *            the relatedTo to set
      */
-    public void setRelatedTo(Set<AnyDomainLink> relatedTo) {
+    public void setRelatedTo(Set<Referenceable<AnyDomainLink>> relatedTo) {
         this.relatedTo.clear();
         this.relatedTo = relatedTo;
     }
@@ -258,7 +254,7 @@ public class EnvironmentalMonitoringFacility
     /**
      * @return the belongsTo
      */
-    public Set<NetworkFacility> getBelongsTo() {
+    public Set<Referenceable<NetworkFacility>> getBelongsTo() {
         return belongsTo;
     }
 
@@ -266,7 +262,7 @@ public class EnvironmentalMonitoringFacility
      * @param belongsTo
      *            the belongsTo to set
      */
-    public void setBelongsTo(Set<NetworkFacility> belongsTo) {
+    public void setBelongsTo(Set<Referenceable<NetworkFacility>> belongsTo) {
         this.belongsTo.clear();
         this.belongsTo = belongsTo;
     }

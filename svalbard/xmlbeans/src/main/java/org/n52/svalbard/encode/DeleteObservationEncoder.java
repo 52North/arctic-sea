@@ -19,11 +19,7 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
-import net.opengis.sosdo.x10.DeleteObservationResponseType;
-
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.delobs.DeleteObservationConstants;
@@ -33,6 +29,9 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
 import com.google.common.collect.Sets;
+
+import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
+import net.opengis.sosdo.x10.DeleteObservationResponseType;
 
 /**
  * @author <a href="mailto:e.h.juerrens@52north.org">Eike Hinderk J&uuml;rrens</a>

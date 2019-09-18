@@ -25,21 +25,8 @@ import java.util.function.Supplier;
 
 import javax.xml.stream.XMLStreamException;
 
-import net.opengis.gml.x32.AbstractGMLType;
-import net.opengis.om.x20.OMObservationType;
-import net.opengis.tsml.x10.MeasurementTVPPropertyType;
-import net.opengis.tsml.x10.MeasurementTVPType;
-import net.opengis.tsml.x10.PointMetadataDocument;
-import net.opengis.tsml.x10.PointMetadataType;
-import net.opengis.tsml.x10.TimeseriesMetadataType;
-import net.opengis.tsml.x10.TimeseriesTVPDocument;
-import net.opengis.tsml.x10.TimeseriesTVPType;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
 import org.n52.shetland.ogc.om.MultiObservationValues;
@@ -71,11 +58,23 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.write.TsmlTVPEncoderv10XmlStreamWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.AbstractGMLType;
+import net.opengis.om.x20.OMObservationType;
+import net.opengis.tsml.x10.MeasurementTVPPropertyType;
+import net.opengis.tsml.x10.MeasurementTVPType;
+import net.opengis.tsml.x10.PointMetadataDocument;
+import net.opengis.tsml.x10.PointMetadataType;
+import net.opengis.tsml.x10.TimeseriesMetadataType;
+import net.opengis.tsml.x10.TimeseriesTVPDocument;
+import net.opengis.tsml.x10.TimeseriesTVPType;
 
 /**
  * Encoder class for TimeseriesML 1.0 TimeseriesValuePair (TVP)

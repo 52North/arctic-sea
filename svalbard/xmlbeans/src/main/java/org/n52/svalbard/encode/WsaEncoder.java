@@ -20,14 +20,6 @@ import java.util.Collections;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x2005.x08.addressing.ActionDocument;
-import org.w3.x2005.x08.addressing.MessageIDDocument;
-import org.w3.x2005.x08.addressing.RelatesToDocument;
-import org.w3.x2005.x08.addressing.ReplyToDocument;
-import org.w3.x2005.x08.addressing.ToDocument;
-
 import org.n52.janmayen.http.MediaType;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.w3c.wsa.WsaActionHeader;
@@ -40,6 +32,13 @@ import org.n52.shetland.w3c.wsa.WsaToHeader;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x2005.x08.addressing.ActionDocument;
+import org.w3.x2005.x08.addressing.MessageIDDocument;
+import org.w3.x2005.x08.addressing.RelatesToDocument;
+import org.w3.x2005.x08.addressing.ReplyToDocument;
+import org.w3.x2005.x08.addressing.ToDocument;
 
 import com.google.common.base.Joiner;
 

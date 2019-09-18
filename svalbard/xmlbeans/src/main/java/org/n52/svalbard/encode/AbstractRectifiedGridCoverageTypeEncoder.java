@@ -21,15 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
 
-import net.opengis.gml.x32.DirectPositionListType;
-import net.opengis.gml.x32.DiscreteCoverageType;
-import net.opengis.gml.x32.LineStringDocument;
-import net.opengis.gml.x32.LineStringType;
-import net.opengis.gml.x33.ce.SimpleMultiPointDocument;
-import net.opengis.gml.x33.ce.SimpleMultiPointType;
-
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.janmayen.function.Predicates;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.values.ComparableValue;
@@ -40,6 +32,13 @@ import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.DirectPositionListType;
+import net.opengis.gml.x32.DiscreteCoverageType;
+import net.opengis.gml.x32.LineStringDocument;
+import net.opengis.gml.x32.LineStringType;
+import net.opengis.gml.x33.ce.SimpleMultiPointDocument;
+import net.opengis.gml.x33.ce.SimpleMultiPointType;
 
 /**
  * Abstract {@link Encoder} implementation for {@link RectifiedGridCoverage}

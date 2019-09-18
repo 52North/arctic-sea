@@ -18,14 +18,9 @@ package org.n52.shetland.inspire.ef;
 
 import org.n52.shetland.ogc.gml.AbstractGML;
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 public class Hierarchy
-        extends AbstractGML
-        implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+        extends AbstractGML {
 
     /**
      * 0..1
@@ -41,16 +36,6 @@ public class Hierarchy
      * 0..1
      */
     private AbstractMonitoringObject narrower;
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
-    }
 
     /**
      * @return the linkingTime

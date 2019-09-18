@@ -27,8 +27,7 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType;
 import eu.europa.ec.inspire.schemas.ef.x40.AbstractMonitoringFeatureType.InvolvedIn;
 
-public abstract class AbstractMonitoringFeatureEncoder
-        extends AbstractMonitoringObjectEncoder {
+public abstract class AbstractMonitoringFeatureEncoder extends AbstractMonitoringObjectEncoder {
 
     protected void encodeAbstractMonitoringFeature(AbstractMonitoringFeatureType amft,
             AbstractMonitoringFeature abstractMonitoringFeature) throws EncodingException {
@@ -64,17 +63,17 @@ public abstract class AbstractMonitoringFeatureEncoder
     private void setInvolvedIn(AbstractMonitoringFeatureType amft, AbstractMonitoringFeature abstractMonitoringFeature)
             throws EncodingException {
         if (abstractMonitoringFeature.isSetInvolvedIn()) {
-            for (EnvironmentalMonitoringActivity environmentalMonitoringActivity : abstractMonitoringFeature
+            for (Referenceable<EnvironmentalMonitoringActivity> ema : abstractMonitoringFeature
                     .getInvolvedIn()) {
-                if (environmentalMonitoringActivity.isSetSimpleAttrs()) {
+                if (ema.isReference()) {
                     InvolvedIn ii = amft.addNewInvolvedIn();
-                    ii.setHref(environmentalMonitoringActivity.getSimpleAttrs().getHref());
-                    if (environmentalMonitoringActivity.getSimpleAttrs().isSetTitle()) {
-                        ii.setTitle(environmentalMonitoringActivity.getSimpleAttrs().getTitle());
+                    ii.setHref(ema.getReference().getHref().get().toString());
+                    if (ema.getReference().getTitle().isPresent()) {
+                        ii.setTitle(ema.getReference().getTitle().get());
                     }
                 } else {
                     amft.addNewInvolvedIn().addNewEnvironmentalMonitoringActivity()
-                            .set(encodeEF(environmentalMonitoringActivity));
+                            .set(encodeEF(ema.getInstance().get()));
                 }
             }
         }

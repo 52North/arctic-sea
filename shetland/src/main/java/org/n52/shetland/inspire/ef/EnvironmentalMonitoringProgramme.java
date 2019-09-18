@@ -21,7 +21,6 @@ import java.util.Set;
 import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 import com.google.common.collect.Sets;
 
@@ -31,10 +30,6 @@ public class EnvironmentalMonitoringProgramme extends AbstractMonitoringObject {
      * 0..1
      */
     private Set<EnvironmentalMonitoringActivity> triggers = Sets.newHashSet();
-
-    public EnvironmentalMonitoringProgramme(SimpleAttrs simpleAttrs) {
-        super(simpleAttrs);
-    }
 
     public EnvironmentalMonitoringProgramme(Identifier inspireId, ReferenceType mediaMonitored) {
         super(inspireId, mediaMonitored);

@@ -25,10 +25,6 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import net.opengis.gml.x32.AbstractCRSType;
-import net.opengis.gml.x32.BaseUnitType;
-import net.opengis.gml.x32.CodeType;
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlObject;
 import org.isotc211.x2005.gco.CharacterStringPropertyType;
@@ -75,12 +71,6 @@ import org.isotc211.x2005.gmd.MDMetadataPropertyType;
 import org.isotc211.x2005.gmd.MDMetadataType;
 import org.isotc211.x2005.gmd.PTFreeTextType;
 import org.isotc211.x2005.gsr.SCCRSPropertyType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3.x1999.xlink.ActuateType;
-import org.w3.x1999.xlink.ShowType;
-import org.w3.x1999.xlink.TypeType;
-
 import org.n52.shetland.iso.GcoConstants;
 import org.n52.shetland.iso.gco.Role;
 import org.n52.shetland.iso.gmd.AbstractMDIdentification;
@@ -119,10 +109,19 @@ import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3.x1999.xlink.ActuateType;
+import org.w3.x1999.xlink.ShowType;
+import org.w3.x1999.xlink.TypeType;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+
+import net.opengis.gml.x32.AbstractCRSType;
+import net.opengis.gml.x32.BaseUnitType;
+import net.opengis.gml.x32.CodeType;
 
 /**
  * {@link AbstractXmlEncoder} class to decode ISO TC211 Geographic MetaData
@@ -218,41 +217,42 @@ public class Iso19139GmdEncoder
     }
 
     private XmlObject encodeMDMetadata(MDMetadata mdMetadata, EncodingContext context) throws EncodingException {
-        if (mdMetadata.isSetSimpleAttrs()) {
-            MDMetadataPropertyType mdmpt =
-                    MDMetadataPropertyType.Factory.newInstance(getXmlOptions());
-            mdmpt.setHref(mdMetadata.getSimpleAttrs().getHref());
-            if (mdMetadata.getSimpleAttrs().isSetTitle()) {
-                mdmpt.setTitle(mdMetadata.getSimpleAttrs().getTitle());
-            }
-            if (mdMetadata.getSimpleAttrs().isSetRole()) {
-                mdmpt.setRole(mdMetadata.getSimpleAttrs().getRole());
-            }
-            return mdmpt;
-        }
         MDMetadataType mdmt = MDMetadataType.Factory.newInstance(getXmlOptions());
         encodeAbstractObject(mdmt, mdMetadata);
         // add contacts
-        for (CiResponsibleParty contact : mdMetadata.getContact()) {
-            mdmt.addNewContact().set(
-                    encodeResponsibleParty(contact, EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE, true)));
+        for (Referenceable<CiResponsibleParty> contact : mdMetadata.getContact()) {
+            if (contact.isReference()) {
+                CIResponsiblePartyPropertyType cirppt =
+                        CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
+                cirppt.setHref(contact.getReference().getHref().get().toString());
+                if (contact.getReference().getTitle().isPresent()) {
+                    cirppt.setTitle(contact.getReference().getTitle().get());
+                }
+                if (contact.getReference().getRole().isPresent()) {
+                    cirppt.setRole(contact.getReference().getRole().get());
+                }
+                return cirppt;
+            } else if (!contact.isAbsent()) {
+                mdmt.addNewContact().set(encodeResponsibleParty(contact.getInstance().get(),
+                        EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE, true)));
+            }
         }
         // add dateStamp
         mdmt.addNewDateStamp().setDateTime(mdMetadata.getDateStamp().toCalendar(Locale.ROOT));
         // add identificationInfo
-        for (AbstractMDIdentification identificationInfo : mdMetadata.getIdentificationInfo()) {
-            if (identificationInfo.isSetSimpleAttrs()) {
+        for (Referenceable<AbstractMDIdentification> identificationInfo : mdMetadata.getIdentificationInfo()) {
+            if (identificationInfo.isReference()) {
                 MDIdentificationPropertyType mdipt = mdmt.addNewIdentificationInfo();
-                mdipt.setHref(identificationInfo.getSimpleAttrs().getHref());
-                if (identificationInfo.getSimpleAttrs().isSetTitle()) {
-                    mdipt.setTitle(identificationInfo.getSimpleAttrs().getTitle());
+                mdipt.setHref(identificationInfo.getReference().getHref().get().toString());
+                if (identificationInfo.getReference().getTitle().isPresent()) {
+                    mdipt.setTitle(identificationInfo.getReference().getTitle().get());
                 }
-                if (identificationInfo.getSimpleAttrs().isSetRole()) {
-                    mdipt.setRole(identificationInfo.getSimpleAttrs().getRole());
+                if (identificationInfo.getReference().getRole().isPresent()) {
+                    mdipt.setRole(identificationInfo.getReference().getRole().get());
                 }
-            } else {
-                mdmt.addNewIdentificationInfo()
-                        .set(encode(identificationInfo, EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE)));
+            } else if (!identificationInfo.isAbsent()) {
+                mdmt.addNewIdentificationInfo().set(encode(identificationInfo.getInstance().get(),
+                        EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE)));
                 // TODO substitution???
             }
         }
@@ -282,48 +282,26 @@ public class Iso19139GmdEncoder
     }
 
     private void encodeCiCitation(CICitationPropertyType cicpt, GmdCitation citation) {
-        if (citation.isSetSimpleAttrs()) {
-            cicpt.setHref(citation.getSimpleAttrs().getHref());
-            if (citation.getSimpleAttrs().isSetTitle()) {
-                cicpt.setTitle(citation.getSimpleAttrs().getTitle());
-            }
-            if (citation.getSimpleAttrs().isSetRole()) {
-                cicpt.setRole(citation.getSimpleAttrs().getRole());
-            }
-        } else {
-            CICitationType cict = cicpt.addNewCICitation();
-            cict.addNewTitle().setCharacterString(citation.getTitle());
-            CIDateType cidt = cict.addNewDate().addNewCIDate();
-            CodeListValueType clvt = cidt.addNewDateType().addNewCIDateTypeCode();
-            GmdCitationDate gmdCitationDate = citation.getDate();
-            GmdDateType gmdDateType = gmdCitationDate.getDateType();
-            clvt.setCodeList(gmdDateType.getCodeList());
-            clvt.setCodeListValue(gmdDateType.getCodeListValue());
-            if (gmdDateType.getCodeSpace() != null && !gmdDateType.getCodeSpace().isEmpty()) {
-                clvt.setCodeSpace(gmdDateType.getCodeSpace());
-            }
-            clvt.setStringValue(gmdDateType.getValue());
-            XmlCursor newCursor = cidt.addNewDate().newCursor();
-            newCursor.toNextToken();
-            newCursor.beginElement(QN_GCO_DATE);
-            newCursor.insertChars(gmdCitationDate.getDate());
-            newCursor.dispose();
+        CICitationType cict = cicpt.addNewCICitation();
+        cict.addNewTitle().setCharacterString(citation.getTitle());
+        CIDateType cidt = cict.addNewDate().addNewCIDate();
+        CodeListValueType clvt = cidt.addNewDateType().addNewCIDateTypeCode();
+        GmdCitationDate gmdCitationDate = citation.getDate();
+        GmdDateType gmdDateType = gmdCitationDate.getDateType();
+        clvt.setCodeList(gmdDateType.getCodeList());
+        clvt.setCodeListValue(gmdDateType.getCodeListValue());
+        if (gmdDateType.getCodeSpace() != null && !gmdDateType.getCodeSpace().isEmpty()) {
+            clvt.setCodeSpace(gmdDateType.getCodeSpace());
         }
+        clvt.setStringValue(gmdDateType.getValue());
+        XmlCursor newCursor = cidt.addNewDate().newCursor();
+        newCursor.toNextToken();
+        newCursor.beginElement(QN_GCO_DATE);
+        newCursor.insertChars(gmdCitationDate.getDate());
+        newCursor.dispose();
     }
 
     private XmlObject encodeMDDataIdentification(MDDataIdentification mdDataIdentification, EncodingContext context) {
-        if (mdDataIdentification.isSetSimpleAttrs()) {
-            MDDataIdentificationPropertyType mddipt = MDDataIdentificationPropertyType.Factory
-                    .newInstance(getXmlOptions());
-            mddipt.setHref(mdDataIdentification.getSimpleAttrs().getHref());
-            if (mdDataIdentification.getSimpleAttrs().isSetTitle()) {
-                mddipt.setTitle(mdDataIdentification.getSimpleAttrs().getTitle());
-            }
-            if (mdDataIdentification.getSimpleAttrs().isSetRole()) {
-                mddipt.setRole(mdDataIdentification.getSimpleAttrs().getRole());
-            }
-            return mddipt;
-        }
         MDDataIdentificationType mddit =
                 MDDataIdentificationType.Factory.newInstance(getXmlOptions());
         encodeIdentificationInfo(mddit, mdDataIdentification);
@@ -346,18 +324,6 @@ public class Iso19139GmdEncoder
 
     private XmlObject encodeResponsibleParty(CiResponsibleParty responsibleParty, EncodingContext context)
             throws EncodingException {
-        if (responsibleParty.isSetSimpleAttrs()) {
-            CIResponsiblePartyPropertyType cirppt =
-                    CIResponsiblePartyPropertyType.Factory.newInstance(getXmlOptions());
-            cirppt.setHref(responsibleParty.getSimpleAttrs().getHref());
-            if (responsibleParty.getSimpleAttrs().isSetTitle()) {
-                cirppt.setTitle(responsibleParty.getSimpleAttrs().getTitle());
-            }
-            if (responsibleParty.getSimpleAttrs().isSetRole()) {
-                cirppt.setRole(responsibleParty.getSimpleAttrs().getRole());
-            }
-            return cirppt;
-        }
         CIResponsiblePartyType cirpt =
                 CIResponsiblePartyType.Factory.newInstance(getXmlOptions());
         if (responsibleParty.isSetIndividualName()) {

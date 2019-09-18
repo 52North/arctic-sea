@@ -18,6 +18,7 @@ package org.n52.shetland.inspire.ef;
 
 import java.util.Set;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.inspire.base2.LegislationCitation;
 import org.n52.shetland.inspire.base2.RelatedParty;
@@ -25,18 +26,13 @@ import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
+import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
 
 public abstract class AbstractMonitoringObject
-        extends AbstractFeature
-        implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+        extends AbstractFeature {
 
     /**
      * 1..1 inspireId, super.identifier
@@ -58,7 +54,7 @@ public abstract class AbstractMonitoringObject
     /**
      * 0..*
      */
-    private Set<LegislationCitation> legalBackground = Sets.newHashSet();
+    private Set<Referenceable<LegislationCitation>> legalBackground = Sets.newHashSet();
 
     /**
      * 0..1
@@ -83,32 +79,27 @@ public abstract class AbstractMonitoringObject
     /**
      * 0..*
      */
-    private Set<ObservingCapability> observingCapability = Sets.newHashSet();
+    private Set<Referenceable<ObservingCapability>> observingCapability = Sets.newHashSet();
 
     /**
      * 0..1
      */
-    private Hierarchy broader;
+    private Referenceable<Hierarchy> broader;
 
     /**
      * 0..*
      */
-    private Set<Hierarchy> narrower = Sets.newHashSet();
+    private Set<Referenceable<Hierarchy>> narrower = Sets.newHashSet();
 
     /**
      * 0..*
      */
-    private Set<AbstractMonitoringObject> supersedes = Sets.newHashSet();
+    private Set<Referenceable<AbstractMonitoringObject>> supersedes = Sets.newHashSet();
 
     /**
      * 0..*
      */
-    private Set<AbstractMonitoringObject> supersededBy = Sets.newHashSet();
-
-    public AbstractMonitoringObject(SimpleAttrs simpleAttrs) {
-        super("");
-        this.simpleAttrs = simpleAttrs;
-    }
+    private Set<Referenceable<AbstractMonitoringObject>> supersededBy = Sets.newHashSet();
 
     public AbstractMonitoringObject(Identifier inspireId, ReferenceType mediaMonitored) {
         this(inspireId, Sets.newHashSet(mediaMonitored));
@@ -117,16 +108,6 @@ public abstract class AbstractMonitoringObject
     public AbstractMonitoringObject(Identifier inspireId, Set<ReferenceType> mediaMonitored) {
         super(inspireId);
         this.mediaMonitored.addAll(mediaMonitored);
-    }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
     }
 
     public Identifier getInspireId() {
@@ -178,7 +159,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the legalBackground
      */
-    public Set<LegislationCitation> getLegalBackground() {
+    public Set<Referenceable<LegislationCitation>> getLegalBackground() {
         return legalBackground;
     }
 
@@ -186,7 +167,7 @@ public abstract class AbstractMonitoringObject
      * @param legalBackground
      *            the legalBackground to set
      */
-    public void setLegalBackground(Set<LegislationCitation> legalBackground) {
+    public void setLegalBackground(Set<Referenceable<LegislationCitation>> legalBackground) {
         this.legalBackground.clear();
         this.legalBackground = legalBackground;
     }
@@ -284,7 +265,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the observingCapability
      */
-    public Set<ObservingCapability> getObservingCapability() {
+    public Set<Referenceable<ObservingCapability>> getObservingCapability() {
         return observingCapability;
     }
 
@@ -292,7 +273,7 @@ public abstract class AbstractMonitoringObject
      * @param observingCapability
      *            the observingCapability to set
      */
-    public void setObservingCapability(Set<ObservingCapability> observingCapability) {
+    public void setObservingCapability(Set<Referenceable<ObservingCapability>> observingCapability) {
         this.observingCapability.clear();
         this.observingCapability = observingCapability;
     }
@@ -301,8 +282,16 @@ public abstract class AbstractMonitoringObject
      * @param observingCapability
      *            the observingCapability to add
      */
-    public void addObservingCapability(ObservingCapability observingCapability) {
+    public void addObservingCapability(Referenceable<ObservingCapability> observingCapability) {
         this.observingCapability.add(observingCapability);
+    }
+
+    /**
+     * @param observingCapability
+     *            the observingCapability to add
+     */
+    public void addObservingCapability(ObservingCapability observingCapability) {
+        addObservingCapability(Referenceable.of(observingCapability));
     }
 
     public boolean isSetObservingCapability() {
@@ -312,7 +301,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the broader
      */
-    public Hierarchy getBroader() {
+    public Referenceable<Hierarchy> getBroader() {
         return broader;
     }
 
@@ -320,8 +309,12 @@ public abstract class AbstractMonitoringObject
      * @param broader
      *            the broader to set
      */
-    public void setBroader(Hierarchy broader) {
+    public void setBroader(Referenceable<Hierarchy> broader) {
         this.broader = broader;
+    }
+
+    public void setBroader(Hierarchy broader) {
+        this.broader = Referenceable.of(broader);
     }
 
     public boolean isSetBroader() {
@@ -331,7 +324,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the narrower
      */
-    public Set<Hierarchy> getNarrower() {
+    public Set<Referenceable<Hierarchy>> getNarrower() {
         return narrower;
     }
 
@@ -339,7 +332,7 @@ public abstract class AbstractMonitoringObject
      * @param narrower
      *            the narrower to set
      */
-    public void setNarrower(Set<Hierarchy> narrower) {
+    public void setNarrower(Set<Referenceable<Hierarchy>> narrower) {
         this.narrower.clear();
         this.narrower = narrower;
     }
@@ -351,7 +344,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the supersedes
      */
-    public Set<AbstractMonitoringObject> getSupersedes() {
+    public Set<Referenceable<AbstractMonitoringObject>> getSupersedes() {
         return supersedes;
     }
 
@@ -359,7 +352,7 @@ public abstract class AbstractMonitoringObject
      * @param supersedes
      *            the supersedes to set
      */
-    public void setSupersedes(Set<AbstractMonitoringObject> supersedes) {
+    public void setSupersedes(Set<Referenceable<AbstractMonitoringObject>> supersedes) {
         this.supersedes.clear();
         this.supersedes = supersedes;
     }
@@ -371,7 +364,7 @@ public abstract class AbstractMonitoringObject
     /**
      * @return the supersededBy
      */
-    public Set<AbstractMonitoringObject> getSupersededBy() {
+    public Set<Referenceable<AbstractMonitoringObject>> getSupersededBy() {
         return supersededBy;
     }
 
@@ -379,7 +372,7 @@ public abstract class AbstractMonitoringObject
      * @param supersededBy
      *            the supersededBy to set
      */
-    public void setSupersededBy(Set<AbstractMonitoringObject> supersededBy) {
+    public void setSupersededBy(Set<Referenceable<AbstractMonitoringObject>> supersededBy) {
         this.supersededBy.clear();
         this.supersededBy = supersededBy;
     }

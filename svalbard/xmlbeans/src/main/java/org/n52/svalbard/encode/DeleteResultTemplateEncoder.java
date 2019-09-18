@@ -49,7 +49,7 @@ public class DeleteResultTemplateEncoder extends AbstractResponseEncoder<DeleteR
     @Override
     protected XmlObject create(DeleteResultTemplateResponse drtr) throws EncodingException {
         if (drtr == null) {
-            throw new UnsupportedEncoderInputException(this, DeleteResultTemplateResponse.class);
+            throw new UnsupportedEncoderInputException(this, "");
         }
         DeleteResultTemplateResponseDocument drtrd =
                 DeleteResultTemplateResponseDocument.Factory.newInstance(getXmlOptions());

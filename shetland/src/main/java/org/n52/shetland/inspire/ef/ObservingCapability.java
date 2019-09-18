@@ -17,14 +17,14 @@
 package org.n52.shetland.inspire.ef;
 
 import java.net.URI;
+import java.util.Objects;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
+import org.n52.shetland.w3c.xlink.Reference;
 
-public class ObservingCapability
-        extends SimpleAttrs {
+public class ObservingCapability extends Reference {
 
     /**
      * 1..1
@@ -61,8 +61,12 @@ public class ObservingCapability
      */
     private ReferenceType observedProperty;
 
-    public ObservingCapability(String href) {
+    public ObservingCapability(URI href) {
         setHref(href);
+    }
+
+    public ObservingCapability(String href) {
+        this(URI.create(href));
     }
 
     public ObservingCapability(
@@ -178,5 +182,27 @@ public class ObservingCapability
      */
     public void setObservedProperty(ReferenceType observedProperty) {
         this.observedProperty = observedProperty;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ObservingCapability) {
+            ObservingCapability that = (ObservingCapability) obj;
+            return super.equals(obj)
+                    && Objects.equals(getObservingTime(), that.getObservingTime())
+                    && Objects.equals(getProcessType(), that.getProcessType())
+                    && Objects.equals(getResultNature(), that.getResultNature())
+                    && Objects.equals(getOnlineResource(), that.getOnlineResource())
+                    && Objects.equals(getProcedure(), that.getProcedure())
+                    && Objects.equals(getFeatureOfInterest(), that.getFeatureOfInterest())
+                    && Objects.equals(getObservedProperty(), that.getObservedProperty());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), getObservingTime(), getProcessType(), getResultNature(),
+                getOnlineResource(), getProcedure(), getFeatureOfInterest(), getObservedProperty());
     }
 }

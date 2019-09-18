@@ -19,6 +19,7 @@ package org.n52.svalbard.encode;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.TemporalFilter;

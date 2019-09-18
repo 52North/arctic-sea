@@ -17,14 +17,9 @@
 package org.n52.shetland.inspire.ef;
 
 import org.n52.shetland.ogc.gml.AbstractGML;
-import org.n52.shetland.w3c.xlink.AttributeSimpleAttrs;
-import org.n52.shetland.w3c.xlink.SimpleAttrs;
 
 public class AnyDomainLink
-        extends AbstractGML
-        implements AttributeSimpleAttrs {
-
-    private SimpleAttrs simpleAttrs;
+        extends AbstractGML {
 
     /**
      * 1..1
@@ -36,28 +31,9 @@ public class AnyDomainLink
      */
     private EnvironmentalMonitoringFacility relatedTo;
 
-    public AnyDomainLink(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
     public AnyDomainLink(String comment, EnvironmentalMonitoringFacility relatedTo) {
         this.comment = comment;
         this.relatedTo = relatedTo;
-    }
-
-    @Override
-    public void setSimpleAttrs(SimpleAttrs simpleAttrs) {
-        this.simpleAttrs = simpleAttrs;
-    }
-
-    @Override
-    public SimpleAttrs getSimpleAttrs() {
-        return simpleAttrs;
-    }
-
-    @Override
-    public boolean isSetSimpleAttrs() {
-        return getSimpleAttrs() != null && getSimpleAttrs().isSetHref();
     }
 
     /**
