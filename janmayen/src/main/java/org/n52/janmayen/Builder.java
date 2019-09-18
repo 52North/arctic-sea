@@ -17,11 +17,15 @@
 package org.n52.janmayen;
 
 /**
- *
- * @author Christian Autermann
  * @param <T> the object to build
  * @param <B> the concrete builder type
+ * @author Christian Autermann
  */
 public interface Builder<T, B extends Builder<T, B>> {
     T build();
+
+    @SuppressWarnings("unchecked")
+    default B self() {
+        return (B) this;
+    }
 }

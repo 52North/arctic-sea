@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 /**
@@ -30,6 +33,7 @@ public enum Actuate {
     NONE;
 
     @Override
+    @JsonValue
     public String toString() {
         switch (this) {
             case NONE:
@@ -45,6 +49,7 @@ public enum Actuate {
         }
     }
 
+    @JsonCreator
     public static Actuate fromString(String str) {
         if (str == null || str.isEmpty()) {
             return null;

@@ -16,15 +16,15 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import org.n52.shetland.ogc.wps.description.ProcessDescription;
+import org.n52.shetland.util.CollectionHelper;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-
-import org.n52.shetland.ogc.wps.description.ProcessDescription;
-import org.n52.shetland.util.CollectionHelper;
 
 /**
  * TODO JavaDoc
@@ -39,14 +39,14 @@ public class ProcessOffering implements Comparable<ProcessOffering> {
     private final String processModel;
 
     public ProcessOffering(ProcessDescription processDescription) {
-        this(processDescription, JobControlOption.defaultOptions(), EnumSet
-             .allOf(DataTransmissionMode.class), DEFAULT_PROCESS_MODEL);
+        this(processDescription,
+             JobControlOption.defaultOptions(),
+             EnumSet.allOf(DataTransmissionMode.class), DEFAULT_PROCESS_MODEL);
     }
 
     public ProcessOffering(ProcessDescription processDescription,
                            Collection<JobControlOption> jobControlOptions) {
-        this(processDescription, jobControlOptions, EnumSet
-             .allOf(DataTransmissionMode.class), DEFAULT_PROCESS_MODEL);
+        this(processDescription, jobControlOptions, EnumSet.allOf(DataTransmissionMode.class), DEFAULT_PROCESS_MODEL);
     }
 
     public ProcessOffering(ProcessDescription processDescription,
@@ -60,12 +60,9 @@ public class ProcessOffering implements Comparable<ProcessOffering> {
                            Collection<DataTransmissionMode> outputTransmissionModes,
                            String processModel) {
         this.processDescription = Objects.requireNonNull(processDescription);
-        this.jobControlOptions = CollectionHelper
-                .newSortedSet(jobControlOptions);
-        this.outputTransmissionModes = CollectionHelper
-                .newSortedSet(outputTransmissionModes);
-        this.processModel = Optional.ofNullable(processModel)
-                .orElse(DEFAULT_PROCESS_MODEL);
+        this.jobControlOptions = CollectionHelper.newSortedSet(jobControlOptions);
+        this.outputTransmissionModes = CollectionHelper.newSortedSet(outputTransmissionModes);
+        this.processModel = Optional.ofNullable(processModel).orElse(DEFAULT_PROCESS_MODEL);
     }
 
     public Optional<String> getProcessVersion() {

@@ -16,12 +16,7 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
 import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
 
 /**
@@ -29,26 +24,24 @@ import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
  *
  * @author Christian Autermann
  */
-public abstract class AbstractProcessOutputDescription
-        extends AbstractDataDescription
+public abstract class AbstractProcessOutputDescription extends AbstractDataDescription
         implements ProcessOutputDescription {
 
-    protected AbstractProcessOutputDescription(
-            AbstractBuilder<?, ?> builder) {
+    protected AbstractProcessOutputDescription(AbstractBuilder<?, ?> builder) {
         super(builder);
-    }
-
-    public AbstractProcessOutputDescription(OwsCode id,
-                                            OwsLanguageString title,
-                                            OwsLanguageString abstrakt,
-                                            Set<OwsKeyword> keywords,
-                                            Set<OwsMetadata> metadata) {
-        super(id, title, abstrakt, keywords, metadata);
     }
 
     protected abstract static class AbstractBuilder<T extends ProcessOutputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractDataDescription.AbstractBuilder<T, B>
             implements ProcessOutputDescription.Builder<T, B> {
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  ProcessOutputDescription entity) {
+            super(factory, entity);
+        }
     }
 
 }

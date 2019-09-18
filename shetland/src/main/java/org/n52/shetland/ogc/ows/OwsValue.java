@@ -16,14 +16,15 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.google.common.base.MoreObjects;
+
 import java.util.Comparator;
 import java.util.Objects;
 
-import com.google.common.base.MoreObjects;
-
 /**
- * A single value, encoded as a string. This type can be used for one value, for
- * a spacing between allowed values, or for the default value of a parameter.
+ * A single value, encoded as a string. This type can be used for one value, for a spacing between allowed values, or
+ * for the default value of a parameter.
  *
  * @author Christian Autermann
  */
@@ -35,6 +36,7 @@ public class OwsValue implements OwsValueRestriction {
         this.value = Objects.requireNonNull(value);
     }
 
+    @JsonValue
     public String getValue() {
         return this.value;
     }

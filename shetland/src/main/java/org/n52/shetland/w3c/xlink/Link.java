@@ -16,22 +16,30 @@
  */
 package org.n52.shetland.w3c.xlink;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.common.base.Strings;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+
+import javax.annotation.Nullable;
 import java.net.URI;
 import java.util.Objects;
 import java.util.Optional;
-
-import javax.annotation.Nullable;
-
-import com.google.common.base.Strings;
-
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Link {
+    protected static final String HREF = "href";
+    protected static final String ROLE = "role";
+    protected static final String ARCROLE = "arcrole";
+    protected static final String TITLE = "title";
+    protected static final String SHOW = "show";
+    protected static final String ACTUATE = "actuate";
     private final Optional<URI> href;
     private final Optional<URI> role;
     private final Optional<URI> arcrole;
@@ -43,18 +51,18 @@ public class Link {
         this(href, null, null, null, null, null);
     }
 
-    public Link(@Nullable URI href,
-                @Nullable String title) {
+    public Link(@Nullable URI href, @Nullable String title) {
         this(href, null, null, title, null, null);
     }
 
     @SuppressFBWarnings(value = "NP_PARAMETER_MUST_BE_NONNULL_BUT_MARKED_AS_NULLABLE")
-    public Link(@Nullable URI href,
-                @Nullable URI role,
-                @Nullable URI arcrole,
-                @Nullable String title,
-                @Nullable Show show,
-                @Nullable Actuate actuate) {
+    @JsonCreator
+    public Link(@JsonProperty(HREF) @Nullable URI href,
+                @JsonProperty(ROLE) @Nullable URI role,
+                @JsonProperty(ARCROLE) @Nullable URI arcrole,
+                @JsonProperty(TITLE) @Nullable String title,
+                @JsonProperty(SHOW) @Nullable Show show,
+                @JsonProperty(ACTUATE) @Nullable Actuate actuate) {
         this.href = Optional.ofNullable(href);
         this.role = Optional.ofNullable(role);
         this.arcrole = Optional.ofNullable(arcrole);
@@ -63,26 +71,32 @@ public class Link {
         this.actuate = Optional.ofNullable(actuate);
     }
 
+    @JsonProperty(HREF)
     public Optional<URI> getHref() {
         return this.href;
     }
 
+    @JsonProperty(ROLE)
     public Optional<URI> getRole() {
         return role;
     }
 
+    @JsonProperty(ARCROLE)
     public Optional<URI> getArcrole() {
         return arcrole;
     }
 
+    @JsonProperty(TITLE)
     public Optional<String> getTitle() {
         return title;
     }
 
+    @JsonProperty(SHOW)
     public Optional<Show> getShow() {
         return show;
     }
 
+    @JsonProperty(ACTUATE)
     public Optional<Actuate> getActuate() {
         return actuate;
     }
@@ -112,7 +126,5 @@ public class Link {
                Objects.equals(this.getShow(), other.getShow()) &&
                Objects.equals(this.getActuate(), other.getActuate());
     }
-
-
 
 }

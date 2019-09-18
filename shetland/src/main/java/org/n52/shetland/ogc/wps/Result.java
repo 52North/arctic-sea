@@ -16,14 +16,14 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import org.n52.shetland.ogc.wps.data.ProcessData;
+
 import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.n52.shetland.ogc.wps.data.ProcessData;
 
 /**
  * TODO JavaDoc
@@ -32,8 +32,8 @@ import org.n52.shetland.ogc.wps.data.ProcessData;
  */
 public class Result {
 
-    private Optional<OffsetDateTime> expirationDate = Optional.empty();
-    private Optional<JobId> jobId = Optional.empty();
+    private OffsetDateTime expirationDate;
+    private JobId jobId;
     private final List<ProcessData> outputs = new LinkedList<>();
     private ResponseMode responseMode = ResponseMode.DOCUMENT;
 
@@ -41,19 +41,19 @@ public class Result {
     }
 
     public Optional<OffsetDateTime> getExpirationDate() {
-        return expirationDate;
+        return Optional.ofNullable(expirationDate);
     }
 
     public void setExpirationDate(OffsetDateTime expirationDate) {
-        this.expirationDate = Optional.ofNullable(expirationDate);
+        this.expirationDate = expirationDate;
     }
 
     public Optional<JobId> getJobId() {
-        return jobId;
+        return Optional.ofNullable(jobId);
     }
 
     public void setJobId(JobId jobId) {
-        this.jobId = Optional.ofNullable(jobId);
+        this.jobId = jobId;
     }
 
     public List<ProcessData> getOutputs() {

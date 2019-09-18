@@ -16,18 +16,6 @@
  */
 package org.n52.iceland.ogc.ows;
 
-import static java.util.stream.Collectors.toSet;
-
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.stream.Stream;
-
 import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
@@ -41,6 +29,18 @@ import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
 import org.n52.shetland.ogc.ows.OwsServiceIdentification;
 import org.n52.shetland.util.StringHelper;
+
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toSet;
 
 @Configurable
 public class OwsServiceIdentificationFactory
@@ -159,7 +159,7 @@ public class OwsServiceIdentificationFactory
     }
 
     private OwsCode getServiceType() {
-        return new OwsCode("OGC:" + this.service, null);
+        return new OwsCode("OGC:" + this.service);
     }
 
     private Set<String> getSupportedVersions() {
@@ -169,9 +169,9 @@ public class OwsServiceIdentificationFactory
     @Override
     public Set<Locale> getAvailableLocales() {
         return Stream.of(this.title, this.abstrakt)
-                .filter(Objects::nonNull)
-                .map(MultilingualString::getLocales)
-                .collect(HashSet::new, Set::addAll, Set::addAll);
+                     .filter(Objects::nonNull)
+                     .map(MultilingualString::getLocales)
+                     .collect(HashSet::new, Set::addAll, Set::addAll);
     }
 
     private MultilingualString getAbstract(Locale locale) {

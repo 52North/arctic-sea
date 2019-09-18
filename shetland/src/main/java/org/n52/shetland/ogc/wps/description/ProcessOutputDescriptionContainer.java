@@ -16,15 +16,15 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.ows.OwsCode;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-
 /**
- *
  * @author Christian Autermann
  */
 public interface ProcessOutputDescriptionContainer extends Description {
@@ -47,18 +47,13 @@ public interface ProcessOutputDescriptionContainer extends Description {
             return withOutput(output.build());
         }
 
-        @SuppressWarnings("unchecked")
         default B withOutput(Stream<ProcessOutputDescription> outputs) {
             outputs.forEach(this::withOutput);
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings("unchecked")
         default B withOutput(Iterable<ProcessOutputDescription> outputs) {
-            for (ProcessOutputDescription output : outputs) {
-                withOutput(output);
-            }
-            return (B) this;
+            return withOutput(Streams.stream(outputs));
         }
 
         default B withOutput(ProcessOutputDescription... outputs) {

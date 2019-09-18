@@ -16,57 +16,30 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.collect.ImmutableSet;
+import org.n52.shetland.ogc.ows.OwsCRS;
+import org.n52.shetland.ogc.wps.description.BoundingBoxInputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCRS;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.InputOccurence;
-import org.n52.shetland.ogc.wps.description.BoundingBoxInputDescription;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class BoundingBoxInputDescriptionImpl
-        extends AbstractProcessInputDescription
+public class BoundingBoxInputDescriptionImpl extends AbstractProcessInputDescription
         implements BoundingBoxInputDescription {
 
     private final Set<OwsCRS> supportedCRS;
     private final OwsCRS defaultCRS;
 
-    protected BoundingBoxInputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             new InputOccurence(builder.getMinimalOccurence(),
-                                builder.getMaximalOccurence()),
-             builder.getDefaultCRS(),
-             builder.getSupportedCRS());
-    }
-
-    public BoundingBoxInputDescriptionImpl(OwsCode id,
-                                           OwsLanguageString title,
-                                           OwsLanguageString abstrakt,
-                                           Set<OwsKeyword> keywords,
-                                           Set<OwsMetadata> metadata,
-                                           InputOccurence occurence,
-                                           OwsCRS defaultCRS,
-                                           Set<OwsCRS> supportedCRS) {
-        super(id, title, abstrakt, keywords, metadata, occurence);
-        this.supportedCRS = supportedCRS == null ? Collections.emptySet()
-                                    : supportedCRS;
-        this.defaultCRS = Objects.requireNonNull(defaultCRS, "defaultCRS");
+    protected BoundingBoxInputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.supportedCRS = Objects.requireNonNull(builder.getSupportedCRS(), "supportedCRS");
+        this.defaultCRS = Objects.requireNonNull(builder.getDefaultCRS(), "defaultCRS");
     }
 
     @Override
@@ -79,28 +52,41 @@ public class BoundingBoxInputDescriptionImpl
         return this.defaultCRS;
     }
 
-    public abstract static class AbstractBuilder<T extends BoundingBoxInputDescription,
-                                                 B extends AbstractBuilder<T, B>>
+    @Override
+    public BoundingBoxInputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().boundingBoxInput(this);
+    }
+
+    public abstract static class AbstractBuilder<T extends BoundingBoxInputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements BoundingBoxInputDescription.Builder<T, B> {
 
         private OwsCRS defaultCRS;
         private final ImmutableSet.Builder<OwsCRS> supportedCRS = ImmutableSet.builder();
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  BoundingBoxInputDescription entity) {
+            super(factory, entity);
+            this.defaultCRS = entity.getDefaultCRS();
+            this.supportedCRS.addAll(entity.getSupportedCRS());
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public B withDefaultCRS(OwsCRS defaultCRS) {
             this.defaultCRS = defaultCRS;
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withSupportedCRS(OwsCRS uom) {
             if (uom != null) {
                 this.supportedCRS.add(uom);
             }
-            return (B) this;
+            return self();
         }
 
         public OwsCRS getDefaultCRS() {
@@ -113,6 +99,15 @@ public class BoundingBoxInputDescriptionImpl
     }
 
     public static class Builder extends AbstractBuilder<BoundingBoxInputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          BoundingBoxInputDescription entity) {
+            super(factory, entity);
+        }
+
         @Override
         public BoundingBoxInputDescription build() {
             return new BoundingBoxInputDescriptionImpl(this);

@@ -16,12 +16,13 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.wps.Format;
+
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Set;
-
-import org.n52.shetland.ogc.wps.Format;
 
 /**
  * TODO JavaDoc
@@ -36,19 +37,14 @@ public interface ComplexDescription {
 
     Optional<BigInteger> getMaximumMegabytes();
 
-    interface Builder<T extends ComplexDescription, B extends Builder<T, B>> {
+    interface Builder<T extends ComplexDescription, B extends Builder<T, B>> extends org.n52.janmayen.Builder<T, B> {
         B withDefaultFormat(Format format);
 
         B withSupportedFormat(Format format);
 
-        @SuppressWarnings("unchecked")
         default B withSupportedFormat(Iterable<Format> formats) {
-            if (formats != null) {
-                for (Format format : formats) {
-                    withSupportedFormat(format);
-                }
-            }
-            return (B) this;
+            Streams.stream(formats).forEach(this::withSupportedFormat);
+            return self();
         }
 
         default B withSupportedFormat(Format... formats) {

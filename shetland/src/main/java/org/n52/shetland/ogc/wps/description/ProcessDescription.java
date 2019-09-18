@@ -16,9 +16,9 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import java.util.Comparator;
-
 import org.n52.shetland.ogc.ows.OwsCode;
+
+import java.util.Comparator;
 
 /**
  * TODO JavaDoc
@@ -28,21 +28,22 @@ import org.n52.shetland.ogc.ows.OwsCode;
 public interface ProcessDescription
         extends ProcessInputDescriptionContainer, ProcessOutputDescriptionContainer, Comparable<ProcessDescription> {
 
-    Comparator<ProcessDescription> COMPARATOR = Comparator.nullsLast(Comparator
-            .comparing(ProcessDescription::getId,
-                    Comparator
-                            .comparing(OwsCode::getCodeSpace,
-                                    Comparator.comparing(x -> x.orElse(null),
-                                            Comparator.nullsLast(Comparator.naturalOrder())))
-                            .thenComparing(Comparator.comparing(OwsCode::getValue)))
-            .thenComparing(Comparator.comparing(ProcessDescription::getVersion,
-                    Comparator.nullsLast(Comparator.naturalOrder()))));
+    Comparator<ProcessDescription> COMPARATOR = Comparator.nullsLast(
+            Comparator.comparing(ProcessDescription::getId,
+                                 Comparator.comparing(OwsCode::getCodeSpace,
+                                                      Comparator.comparing(x -> x.orElse(null),
+                                                                           Comparator.nullsLast(
+                                                                                   Comparator.naturalOrder())))
+                                           .thenComparing(OwsCode::getValue))
+                      .thenComparing(ProcessDescription::getVersion, Comparator.nullsLast(Comparator.naturalOrder())));
 
     String getVersion();
 
     boolean isStatusSupported();
 
     boolean isStoreSupported();
+
+    Builder<?, ?> newBuilder();
 
     @Override
     default int compareTo(ProcessDescription o) {

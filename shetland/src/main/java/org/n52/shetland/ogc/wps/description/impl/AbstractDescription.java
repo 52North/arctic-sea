@@ -16,52 +16,42 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-
+import com.google.common.collect.ImmutableSet;
+import org.n52.janmayen.AbstractBuildable;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
 import org.n52.shetland.ogc.ows.OwsLanguageString;
 import org.n52.shetland.ogc.ows.OwsMetadata;
-
-import com.google.common.collect.ImmutableSet;
-
 import org.n52.shetland.ogc.wps.description.Description;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
+import java.util.Collections;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public abstract class AbstractDescription implements Description {
+public abstract class AbstractDescription
+        extends AbstractBuildable<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>>
+        implements Description {
 
     private final OwsCode id;
     private final OwsLanguageString title;
-    private final Optional<OwsLanguageString> abstrakt;
+    private final OwsLanguageString abstrakt;
     private final Set<OwsKeyword> keywords;
     private final Set<OwsMetadata> metadata;
 
-    public AbstractDescription(AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata());
-    }
-
-    public AbstractDescription(OwsCode id,
-                               OwsLanguageString title,
-                               OwsLanguageString abstrakt,
-                               Set<OwsKeyword> keywords,
-                               Set<OwsMetadata> metadata) {
-        this.id = Objects.requireNonNull(id, "id");
-        this.title = title == null ? new OwsLanguageString(id.getValue())
-                     : title;
-        this.abstrakt = Optional.ofNullable(abstrakt);
-        this.keywords = keywords == null ? Collections.emptySet() : keywords;
-        this.metadata = metadata == null ? Collections.emptySet() : metadata;
+    protected AbstractDescription(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.id = Objects.requireNonNull(builder.getId(), "id");
+        this.title = builder.getTitle() == null ? new OwsLanguageString(id.getValue()) : builder.getTitle();
+        this.abstrakt = builder.getAbstract();
+        this.keywords = Objects.requireNonNull(builder.getKeywords(), "keywords");
+        this.metadata = Objects.requireNonNull(builder.getMetadata(), "metadata");
     }
 
     @Override
@@ -76,7 +66,7 @@ public abstract class AbstractDescription implements Description {
 
     @Override
     public Optional<OwsLanguageString> getAbstract() {
-        return this.abstrakt;
+        return Optional.ofNullable(this.abstrakt);
     }
 
     @Override
@@ -89,50 +79,58 @@ public abstract class AbstractDescription implements Description {
         return Collections.unmodifiableSet(this.metadata);
     }
 
-    protected abstract static class AbstractBuilder<T extends Description, B extends Description.Builder<T, B>>
+    protected abstract static class AbstractBuilder<T extends Description, B extends AbstractBuilder<T, B>>
+            extends
+            AbstractBuildable.AbstractBuilder<ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?>, T, B>
             implements Description.Builder<T, B> {
-
         private OwsCode id;
         private OwsLanguageString title;
         private OwsLanguageString abstrakt;
-        private final ImmutableSet.Builder<OwsKeyword> keywords = ImmutableSet
-                .builder();
-        private final ImmutableSet.Builder<OwsMetadata> metadata = ImmutableSet
-                .builder();
+        private final ImmutableSet.Builder<OwsKeyword> keywords = ImmutableSet.builder();
+        private final ImmutableSet.Builder<OwsMetadata> metadata = ImmutableSet.builder();
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  Description entity) {
+            super(factory);
+            this.id = entity.getId();
+            this.title = entity.getTitle();
+            this.abstrakt = entity.getAbstract().orElse(null);
+            this.keywords.addAll(entity.getKeywords());
+            this.metadata.addAll(entity.getMetadata());
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public B withIdentifier(OwsCode id) {
             this.id = Objects.requireNonNull(id);
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withTitle(OwsLanguageString title) {
             this.title = title;
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withAbstract(OwsLanguageString abstrakt) {
             this.abstrakt = abstrakt;
-            return (B) this;
+            return self();
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public B withKeyword(OwsKeyword keyword) {
             this.keywords.add(Objects.requireNonNull(keyword));
-            return (B) this;
+            return self();
         }
 
         @Override
-        @SuppressWarnings("unchecked")
         public B withMetadata(OwsMetadata metadata) {
             this.metadata.add(Objects.requireNonNull(metadata));
-            return (B) this;
+            return self();
         }
 
         public OwsCode getId() {

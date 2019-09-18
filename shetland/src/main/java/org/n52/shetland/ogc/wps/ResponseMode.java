@@ -16,6 +16,9 @@
  */
 package org.n52.shetland.ogc.wps;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Optional;
 
 /**
@@ -27,6 +30,7 @@ public enum ResponseMode {
     RAW,
     DOCUMENT;
 
+    @JsonCreator
     public static Optional<ResponseMode> fromString(String string) {
         for (ResponseMode t : values()) {
             if (t.name().equalsIgnoreCase(string)) {
@@ -36,6 +40,7 @@ public enum ResponseMode {
         return Optional.empty();
     }
 
+    @JsonValue
     @Override
     public String toString() {
         return this.name().toLowerCase();

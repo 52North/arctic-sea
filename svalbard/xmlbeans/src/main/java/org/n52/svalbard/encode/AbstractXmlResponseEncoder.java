@@ -16,18 +16,6 @@
  */
 package org.n52.svalbard.encode;
 
-import static java.util.stream.Collectors.toMap;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Stream;
-
-import javax.inject.Inject;
-
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.n52.faroe.annotation.Configurable;
@@ -41,13 +29,21 @@ import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.n52.svalbard.util.N52XmlHelper;
 import org.n52.svalbard.util.XmlHelper;
 
+import javax.inject.Inject;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.toMap;
 
 /**
+ * @param <T> the response type
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 5.0.0
- *
- *
- * @param <T> the response type
  */
 @Configurable
 public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<XmlObject, T>
@@ -137,17 +133,18 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
 
     private void setSchemaLocations(XmlObject document) {
         Map<String, SchemaLocation> schemaLocations = getSchemaLocations(document)
-                .collect(toMap(SchemaLocation::getNamespace, Function.identity()));
-        schemaLocations.putAll(getSchemaLocations().stream()
-                .collect(toMap(SchemaLocation::getNamespace, Function.identity())));
-        schemaLocations.putAll(getConcreteSchemaLocations(XmlHelper.getNamespace(document)).stream()
-                .collect(toMap(SchemaLocation::getNamespace, Function.identity())));
+                                                              .collect(toMap(SchemaLocation::getNamespace,
+                                                                             Function.identity()));
+        schemaLocations.putAll(getSchemaLocations()
+                                       .stream().collect(toMap(SchemaLocation::getNamespace, Function.identity())));
+        schemaLocations.putAll(getConcreteSchemaLocations(XmlHelper.getNamespace(document))
+                                       .stream().collect(toMap(SchemaLocation::getNamespace, Function.identity())));
         N52XmlHelper.setSchemaLocationsToDocument(document, schemaLocations.values());
     }
 
     private Stream<SchemaLocation> getSchemaLocations(XmlObject document) {
         return N52XmlHelper.getNamespaces(document).stream().map(this.schemaRepository::getSchemaLocation)
-                .filter(Objects::nonNull).flatMap(Set::stream);
+                           .filter(Objects::nonNull).flatMap(Set::stream);
     }
 
     /**
@@ -165,9 +162,7 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
      * Create an {@link XmlObject} from the {@link OwsServiceResponse} object
      *
      * @param response {@link OwsServiceResponse} to encode
-     *
      * @return XML encoded {@link OwsServiceResponse}
-     *
      * @throws EncodingException If an error occurs during the encoding
      */
     protected abstract XmlObject create(T response) throws EncodingException;
@@ -177,8 +172,7 @@ public abstract class AbstractXmlResponseEncoder<T> extends AbstractXmlEncoder<X
      *
      * @param response       Implementation of {@link OwsServiceResponse}
      * @param outputStream   {@link OutputStream} to write
-     * @param encodingValues {@link EncodingValues} with additional indicators for encoding
-     *
+     * @param encodingValues {@link EncodingContext} with additional indicators for encoding
      * @throws EncodingException If an error occurs during encoding/writing to stream
      */
     protected void create(T response, OutputStream outputStream, EncodingContext encodingValues)

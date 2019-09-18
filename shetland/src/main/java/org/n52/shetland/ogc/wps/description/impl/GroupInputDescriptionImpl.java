@@ -16,60 +16,28 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
-
-
-import static java.util.stream.Collectors.groupingBy;
+import com.google.common.collect.ImmutableSet;
+import org.n52.janmayen.stream.MoreCollectors;
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.description.Description;
+import org.n52.shetland.ogc.wps.description.GroupInputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collector;
-
-import org.n52.shetland.ogc.wps.InputOccurence;
-import org.n52.shetland.ogc.wps.description.Description;
-import org.n52.shetland.ogc.wps.description.GroupInputDescription;
-import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
-import org.n52.janmayen.stream.MoreCollectors;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-
-import com.google.common.collect.ImmutableSet;
+import java.util.stream.Collectors;
 
 public class GroupInputDescriptionImpl extends AbstractProcessInputDescription implements GroupInputDescription {
 
     private final Map<OwsCode, ProcessInputDescription> inputs;
 
-    protected GroupInputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             new InputOccurence(builder.getMinimalOccurence(),
-                                builder.getMaximalOccurence()),
-             builder.getInputs());
-    }
-
-    public GroupInputDescriptionImpl(OwsCode id,
-                                     OwsLanguageString title,
-                                     OwsLanguageString abstrakt,
-                                     Set<OwsKeyword> keywords,
-                                     Set<OwsMetadata> metadata,
-                                     InputOccurence occurence,
-                                     Set<? extends ProcessInputDescription> inputs) {
-        super(id, title, abstrakt, keywords, metadata, occurence);
-        Function<ProcessInputDescription, OwsCode> keyFunc = Description::getId;
-        Collector<ProcessInputDescription, ?, ProcessInputDescription> outputDownstreamCollector =
-                MoreCollectors.toSingleResult();
-        Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> outputCollector =
-                groupingBy(keyFunc, outputDownstreamCollector);
-        this.inputs = Optional.ofNullable(inputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
+    protected GroupInputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.inputs = builder.getInputs().stream()
+                             .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
     }
 
     @Override
@@ -97,20 +65,33 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
         return Collections.unmodifiableSet(inputs.keySet());
     }
 
+    @Override
+    public GroupInputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().groupInput(this);
+    }
+
     public abstract static class AbstractBuilder<T extends GroupInputDescription, B extends AbstractBuilder<T, B>>
             extends AbstractProcessInputDescription.AbstractBuilder<T, B>
             implements GroupInputDescription.Builder<T, B> {
 
-        private final ImmutableSet.Builder<ProcessInputDescription> inputs
-                = ImmutableSet.builder();
+        private final ImmutableSet.Builder<ProcessInputDescription> inputs = ImmutableSet.builder();
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  GroupInputDescription entity) {
+            super(factory, entity);
+            this.inputs.addAll(entity.getInputDescriptions());
+        }
+
         @Override
         public B withInput(ProcessInputDescription input) {
             if (input != null) {
                 this.inputs.add(input);
             }
-            return (B) this;
+            return self();
         }
 
         public Set<ProcessInputDescription> getInputs() {
@@ -120,6 +101,15 @@ public class GroupInputDescriptionImpl extends AbstractProcessInputDescription i
     }
 
     public static class Builder extends AbstractBuilder<GroupInputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        public Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                       GroupInputDescription entity) {
+            super(factory, entity);
+        }
+
         @Override
         public GroupInputDescription build() {
             return new GroupInputDescriptionImpl(this);

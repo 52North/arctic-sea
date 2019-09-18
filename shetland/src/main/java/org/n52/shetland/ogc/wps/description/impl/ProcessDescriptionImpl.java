@@ -16,37 +16,29 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableSet;
+import org.n52.janmayen.stream.MoreCollectors;
+import org.n52.shetland.ogc.ows.OwsCode;
+import org.n52.shetland.ogc.wps.description.Description;
+import org.n52.shetland.ogc.wps.description.ProcessDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
-
-import org.n52.janmayen.stream.MoreCollectors;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.description.Description;
-import org.n52.shetland.ogc.wps.description.ProcessDescription;
-import org.n52.shetland.ogc.wps.description.ProcessInputDescription;
-import org.n52.shetland.ogc.wps.description.ProcessOutputDescription;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class ProcessDescriptionImpl
-        extends AbstractDescription
-        implements ProcessDescription {
+public class ProcessDescriptionImpl extends AbstractDescription implements ProcessDescription {
 
     private final Map<OwsCode, ProcessInputDescription> inputs;
     private final Map<OwsCode, ProcessOutputDescription> outputs;
@@ -54,41 +46,15 @@ public class ProcessDescriptionImpl
     private final boolean statusSupported;
     private final String version;
 
-    protected ProcessDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             builder.getInputs(),
-             builder.getOutputs(),
-             builder.getVersion(),
-             builder.isStoreSupported(),
-             builder.isStatusSupported());
-    }
-
-    public ProcessDescriptionImpl(
-            OwsCode id, OwsLanguageString title, OwsLanguageString abstrakt, Set<OwsKeyword> keywords,
-            Set<OwsMetadata> metadata, Set<? extends ProcessInputDescription> inputs,
-            Set<? extends ProcessOutputDescription> outputs, String version, boolean storeSupported,
-            boolean statusSupported) {
-        super(id, title, abstrakt, keywords, metadata);
-        Function<Description, OwsCode> keyFunc = Description::getId;
-        Collector<ProcessInputDescription, ?, ProcessInputDescription> inputDownstreamCollector =
-                MoreCollectors.toSingleResult();
-        Collector<ProcessOutputDescription, ?, ProcessOutputDescription> outputDownstreamCollector =
-                MoreCollectors.toSingleResult();
-        Collector<ProcessInputDescription, ?, Map<OwsCode, ProcessInputDescription>> inputCollector =
-                Collectors.groupingBy(keyFunc, inputDownstreamCollector);
-        Collector<ProcessOutputDescription, ?, Map<OwsCode, ProcessOutputDescription>> outputCollector =
-                Collectors.groupingBy(keyFunc, outputDownstreamCollector);
-        this.inputs = Optional.ofNullable(inputs).orElseGet(Collections::emptySet).stream().collect(inputCollector);
-        this.outputs = Optional.ofNullable(outputs).orElseGet(Collections::emptySet).stream().collect(outputCollector);
-        this.storeSupported = storeSupported;
-        this.statusSupported = statusSupported;
-        this.version = Objects.requireNonNull(version, "version");
+    protected ProcessDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.inputs = builder.getInputs().stream()
+                             .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
+        this.outputs = builder.getOutputs().stream()
+                              .collect(Collectors.groupingBy(Description::getId, MoreCollectors.toSingleResult()));
+        this.storeSupported = builder.isStoreSupported();
+        this.statusSupported = builder.isStatusSupported();
+        this.version = Objects.requireNonNull(builder.getVersion(), "version");
     }
 
     @Override
@@ -124,6 +90,11 @@ public class ProcessDescriptionImpl
     @Override
     public boolean isStoreSupported() {
         return storeSupported;
+    }
+
+    @Override
+    public ProcessDescription.Builder<?, ?> newBuilder() {
+        return getFactory().process(this);
     }
 
     @Override
@@ -167,9 +138,7 @@ public class ProcessDescriptionImpl
                Objects.equals(this.outputs, other.outputs);
     }
 
-
-    public abstract static class AbstractBuilder<T extends ProcessDescription,
-                                                 B extends ProcessDescription.Builder<T, B>>
+    public abstract static class AbstractBuilder<T extends ProcessDescription, B extends AbstractBuilder<T, B>>
             extends AbstractDescription.AbstractBuilder<T, B>
             implements ProcessDescription.Builder<T, B> {
 
@@ -179,43 +148,52 @@ public class ProcessDescriptionImpl
         private boolean statusSupported;
         private String version;
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  ProcessDescription entity) {
+            super(factory, entity);
+            this.inputs.addAll(entity.getInputDescriptions());
+            this.outputs.addAll(entity.getOutputDescriptions());
+            this.statusSupported = entity.isStatusSupported();
+            this.storeSupported = entity.isStoreSupported();
+            this.version = entity.getVersion();
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public B withVersion(String version) {
             this.version = Objects.requireNonNull(Strings.emptyToNull(version));
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B storeSupported(boolean storeSupported) {
             this.storeSupported = storeSupported;
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B statusSupported(boolean statusSupported) {
             this.statusSupported = statusSupported;
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withInput(ProcessInputDescription input) {
             if (input != null) {
                 inputs.add(input);
             }
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withOutput(ProcessOutputDescription output) {
             if (output != null) {
                 outputs.add(output);
             }
-            return (B) this;
+            return self();
         }
 
         public Set<ProcessInputDescription> getInputs() {
@@ -240,8 +218,17 @@ public class ProcessDescriptionImpl
 
     }
 
-    public static class Builder
-            extends AbstractBuilder<ProcessDescription, Builder> {
+    public static class Builder extends AbstractBuilder<ProcessDescription, Builder> {
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          ProcessDescription entity) {
+            super(factory, entity);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public ProcessDescription build() {
             return new ProcessDescriptionImpl(this);

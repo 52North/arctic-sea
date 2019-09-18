@@ -16,61 +16,35 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableSet;
+import org.n52.shetland.ogc.wps.Format;
+import org.n52.shetland.ogc.wps.description.ComplexOutputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
 import java.math.BigInteger;
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.Format;
-import org.n52.shetland.ogc.wps.description.ComplexOutputDescription;
-
-import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableSet;
-
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class ComplexOutputDescriptionImpl
-        extends AbstractProcessOutputDescription
+public class ComplexOutputDescriptionImpl extends AbstractProcessOutputDescription
         implements ComplexOutputDescription {
 
     private final Format defaultFormat;
     private final Set<Format> supportedFormats;
-    private final Optional<BigInteger> maximumMegabytes;
+    private final BigInteger maximumMegabytes;
 
-    protected ComplexOutputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             builder.getDefaultFormat(),
-             builder.getSupportedFormats(),
-             builder.getMaximumMegabytes());
-    }
-
-    public ComplexOutputDescriptionImpl(OwsCode id,
-                                        OwsLanguageString title,
-                                        OwsLanguageString abstrakt,
-                                        Set<OwsKeyword> keywords,
-                                        Set<OwsMetadata> metadata,
-                                        Format defaultFormat,
-                                        Set<Format> supportedFormats,
-                                        BigInteger maximumMegabytes) {
-        super(id, title, abstrakt, keywords, metadata);
-        this.defaultFormat = Objects
-                .requireNonNull(defaultFormat, "defaultFormat");
-        this.supportedFormats = supportedFormats == null ? Collections
-                .emptySet() : supportedFormats;
-        this.maximumMegabytes = Optional.ofNullable(maximumMegabytes);
+    protected ComplexOutputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.defaultFormat = Objects.requireNonNull(builder.getDefaultFormat(), "defaultFormat");
+        this.supportedFormats = Objects.requireNonNull(builder.getSupportedFormats(), "supportedFormats");
+        this.maximumMegabytes = builder.getMaximumMegabytes();
     }
 
     @Override
@@ -85,7 +59,12 @@ public class ComplexOutputDescriptionImpl
 
     @Override
     public Optional<BigInteger> getMaximumMegabytes() {
-        return this.maximumMegabytes;
+        return Optional.ofNullable(this.maximumMegabytes);
+    }
+
+    @Override
+    public ComplexOutputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().complexOutput(this);
     }
 
     public abstract static class AbstractBuilder<T extends ComplexOutputDescription, B extends AbstractBuilder<T, B>>
@@ -96,30 +75,39 @@ public class ComplexOutputDescriptionImpl
         private Format defaultFormat;
         private BigInteger maximumMegabytes;
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  ComplexOutputDescription entity) {
+            super(factory, entity);
+            this.defaultFormat = entity.getDefaultFormat();
+            this.supportedFormats.addAll(entity.getSupportedFormats());
+            this.maximumMegabytes = entity.getMaximumMegabytes().orElse(null);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
         @Override
         public B withMaximumMegabytes(BigInteger maximumMegabytes) {
             Preconditions.checkArgument(maximumMegabytes == null ||
                                         maximumMegabytes.compareTo(BigInteger.ZERO) > 0);
             this.maximumMegabytes = maximumMegabytes;
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withDefaultFormat(Format format) {
             this.defaultFormat = Objects.requireNonNull(format);
             this.supportedFormats.add(format);
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withSupportedFormat(Format format) {
             if (format != null) {
                 this.supportedFormats.add(format);
             }
-            return (B) this;
+            return self();
         }
 
         public Set<Format> getSupportedFormats() {
@@ -137,6 +125,15 @@ public class ComplexOutputDescriptionImpl
     }
 
     public static class Builder extends AbstractBuilder<ComplexOutputDescription, Builder> {
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          ComplexOutputDescription entity) {
+            super(factory, entity);
+        }
 
         @Override
         public ComplexOutputDescription build() {

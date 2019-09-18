@@ -16,11 +16,12 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
+import org.n52.janmayen.stream.Streams;
+import org.n52.shetland.ogc.ows.OwsCRS;
+
 import java.net.URI;
 import java.util.Arrays;
 import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCRS;
 
 /**
  * TODO JavaDoc
@@ -33,21 +34,18 @@ public interface BoundingBoxDescription {
 
     Set<OwsCRS> getSupportedCRS();
 
-    interface Builder<T extends BoundingBoxDescription, B extends Builder<T, B>> {
+    interface Builder<T extends BoundingBoxDescription, B extends Builder<T, B>>
+            extends org.n52.janmayen.Builder<T, B> {
 
         B withDefaultCRS(OwsCRS defaultCRS);
 
         default B withDefaultCRS(URI defaultCRS) {
-            return withDefaultCRS(defaultCRS == null ? (OwsCRS) null
-                                  : new OwsCRS(defaultCRS));
+            return withDefaultCRS(defaultCRS == null ? null : new OwsCRS(defaultCRS));
         }
 
-        @SuppressWarnings("unchecked")
         default B withSupportedCRS(Iterable<OwsCRS> crss) {
-            for (OwsCRS crs : crss) {
-                withSupportedCRS(crs);
-            }
-            return (B) this;
+            Streams.stream(crss).forEach(this::withSupportedCRS);
+            return self();
         }
 
         default B withSupportedCRS(OwsCRS... crss) {

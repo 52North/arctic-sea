@@ -29,10 +29,10 @@ public class StatusInfo {
 
     private JobId jobId;
     private JobStatus status;
-    private Optional<OffsetDateTime> expirationDate = Optional.empty();
-    private Optional<OffsetDateTime> estimatedCompletion = Optional.empty();
-    private Optional<OffsetDateTime> nextPoll = Optional.empty();
-    private Optional<Short> percentCompleted = Optional.empty();
+    private OffsetDateTime expirationDate;
+    private OffsetDateTime estimatedCompletion;
+    private OffsetDateTime nextPoll;
+    private Short percentCompleted;
 
     public JobId getJobId() {
         return jobId;
@@ -51,39 +51,37 @@ public class StatusInfo {
     }
 
     public Optional<OffsetDateTime> getEstimatedCompletion() {
-        return estimatedCompletion;
+        return Optional.ofNullable(estimatedCompletion);
     }
 
-    public void setEstimatedCompletion(
-            OffsetDateTime estimatedCompletion) {
-        this.estimatedCompletion = Optional.ofNullable(estimatedCompletion);
+    public void setEstimatedCompletion(OffsetDateTime estimatedCompletion) {
+        this.estimatedCompletion = estimatedCompletion;
     }
 
     public Optional<OffsetDateTime> getNextPoll() {
-        return nextPoll;
+        return Optional.ofNullable(nextPoll);
     }
 
     public void setNextPoll(OffsetDateTime nextPoll) {
-        this.nextPoll = Optional.ofNullable(nextPoll);
+        this.nextPoll = nextPoll;
     }
 
     public Optional<Short> getPercentCompleted() {
-        return percentCompleted;
+        return Optional.ofNullable(percentCompleted);
     }
 
     public void setPercentCompleted(Short percentCompleted) {
-        if (percentCompleted != null &&
-            (percentCompleted < 0 || percentCompleted > 100)) {
+        if (percentCompleted != null && (percentCompleted < 0 || percentCompleted > 100)) {
             throw new IllegalArgumentException();
         }
-        this.percentCompleted = Optional.ofNullable(percentCompleted);
+        this.percentCompleted = percentCompleted;
     }
 
     public Optional<OffsetDateTime> getExpirationDate() {
-        return expirationDate;
+        return Optional.ofNullable(expirationDate);
     }
 
     public void setExpirationDate(OffsetDateTime expirationDate) {
-        this.expirationDate = Optional.ofNullable(expirationDate);
+        this.expirationDate = expirationDate;
     }
 }

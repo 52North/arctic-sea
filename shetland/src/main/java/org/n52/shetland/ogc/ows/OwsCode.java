@@ -16,16 +16,15 @@
  */
 package org.n52.shetland.ogc.ows;
 
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Strings;
+import org.n52.janmayen.Optionals;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.util.Comparator;
 import java.util.Objects;
 import java.util.Optional;
-
-import org.n52.janmayen.Optionals;
-
-import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 
 /**
  * TODO JavaDoc
@@ -37,18 +36,23 @@ public class OwsCode implements Comparable<OwsCode>, Serializable {
 
     private static final Comparator<OwsCode> COMPARATOR
             = Comparator.nullsLast(Comparator.comparing(OwsCode::getCodeSpace, Optionals.nullsLast())
-                    .thenComparing(Comparator.comparing(OwsCode::getValue)));
+                                             .thenComparing(OwsCode::getValue));
 
     private final String value;
-    private final transient Optional<URI> codeSpace;
+    private final URI codeSpace;
 
     public OwsCode(String value, URI codeSpace) {
         this.value = Objects.requireNonNull(Strings.emptyToNull(value));
-        this.codeSpace = Optional.ofNullable(codeSpace);
+        this.codeSpace = codeSpace;
+    }
+
+    public OwsCode(String value, String codeSpace) {
+        this.value = Objects.requireNonNull(Strings.emptyToNull(value));
+        this.codeSpace = Optional.ofNullable(codeSpace).map(URI::create).orElse(null);
     }
 
     public OwsCode(String value) {
-        this(value, null);
+        this(value, (URI) null);
     }
 
     public String getValue() {
@@ -56,7 +60,7 @@ public class OwsCode implements Comparable<OwsCode>, Serializable {
     }
 
     public Optional<URI> getCodeSpace() {
-        return this.codeSpace;
+        return Optional.ofNullable(this.codeSpace);
     }
 
     @Override
@@ -83,10 +87,10 @@ public class OwsCode implements Comparable<OwsCode>, Serializable {
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
-                .omitNullValues()
-                .add("value", getValue())
-                .add("codeSpace", getCodeSpace().orElse(null))
-                .toString();
+                          .omitNullValues()
+                          .add("value", getValue())
+                          .add("codeSpace", getCodeSpace().orElse(null))
+                          .toString();
     }
 
     @Override

@@ -16,17 +16,16 @@
  */
 package org.n52.shetland.ogc.wps.description;
 
-import java.net.URI;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.Set;
-
+import com.google.common.base.Strings;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
 import org.n52.shetland.ogc.ows.OwsLanguageString;
 import org.n52.shetland.ogc.ows.OwsMetadata;
 
-import com.google.common.base.Strings;
+import java.net.URI;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.Set;
 
 /**
  * TODO JavaDoc
@@ -48,6 +47,14 @@ public interface Description {
     interface Builder<T extends Description, B extends Builder<T, B>>
             extends org.n52.janmayen.Builder<T, B> {
 
+        default B withDescription(Description description) {
+            return withIdentifier(description.getId())
+                           .withTitle(description.getTitle())
+                           .withAbstract(description.getAbstract().orElse(null))
+                           .withKeywords(description.getKeywords())
+                           .withMetadata(description.getMetadata());
+        }
+
         B withAbstract(OwsLanguageString abstrakt);
 
         default B withAbstract(String abstrakt) {
@@ -65,7 +72,7 @@ public interface Description {
         }
 
         default B withIdentifier(String codespace, String id) {
-            return withIdentifier(URI.create(codespace), id);
+            return withIdentifier(new OwsCode(id, codespace));
         }
 
         default B withIdentifier(URI codespace, String id) {
@@ -75,7 +82,7 @@ public interface Description {
         B withTitle(OwsLanguageString title);
 
         default B withTitle(String title) {
-            return withTitle(Strings.emptyToNull(title) == null ? null : new OwsLanguageString(title));
+            return withTitle(null, title);
         }
 
         default B withTitle(String lang, String title) {
@@ -88,10 +95,9 @@ public interface Description {
             return withKeyword(new OwsKeyword(keyword));
         }
 
-        @SuppressWarnings("unchecked")
         default B withKeywords(Iterable<OwsKeyword> keywords) {
             keywords.forEach(this::withKeyword);
-            return (B) this;
+            return self();
         }
 
         default B withKeywords(OwsKeyword... keywords) {
@@ -100,6 +106,14 @@ public interface Description {
 
         B withMetadata(OwsMetadata metadata);
 
+        default B withMetadata(Iterable<OwsMetadata> keywords) {
+            keywords.forEach(this::withMetadata);
+            return self();
+        }
+
+        default B withMetadata(OwsMetadata... keywords) {
+            return withMetadata(Arrays.asList(keywords));
+        }
     }
 
 }

@@ -16,52 +16,35 @@
  */
 package org.n52.shetland.ogc.wps.description.impl;
 
+import com.google.common.collect.ImmutableSet;
+import org.n52.shetland.ogc.ows.OwsCRS;
+import org.n52.shetland.ogc.wps.description.BoundingBoxOutputDescription;
+import org.n52.shetland.ogc.wps.description.ProcessDescriptionBuilderFactory;
+
 import java.util.Collections;
 import java.util.Objects;
 import java.util.Set;
-
-import org.n52.shetland.ogc.ows.OwsCRS;
-import org.n52.shetland.ogc.ows.OwsCode;
-import org.n52.shetland.ogc.ows.OwsKeyword;
-import org.n52.shetland.ogc.ows.OwsLanguageString;
-import org.n52.shetland.ogc.ows.OwsMetadata;
-import org.n52.shetland.ogc.wps.description.BoundingBoxOutputDescription;
-
-import com.google.common.collect.ImmutableSet;
 
 /**
  * TODO JavaDoc
  *
  * @author Christian Autermann
  */
-public class BoundingBoxOutputDescriptionImpl
-        extends AbstractProcessOutputDescription
+public class BoundingBoxOutputDescriptionImpl extends AbstractProcessOutputDescription
         implements BoundingBoxOutputDescription {
 
     private final OwsCRS defaultCRS;
     private final Set<OwsCRS> supportedCRS;
 
-    protected BoundingBoxOutputDescriptionImpl(
-            AbstractBuilder<?, ?> builder) {
-        this(builder.getId(),
-             builder.getTitle(),
-             builder.getAbstract(),
-             builder.getKeywords(),
-             builder.getMetadata(),
-             builder.getDefaultCRS(),
-             builder.getSupportedCRS());
+    protected BoundingBoxOutputDescriptionImpl(AbstractBuilder<?, ?> builder) {
+        super(builder);
+        this.defaultCRS = Objects.requireNonNull(builder.getDefaultCRS(), "defaultCRS");
+        this.supportedCRS = Objects.requireNonNull(builder.getSupportedCRS(), "supportedCRS");
     }
 
-    public BoundingBoxOutputDescriptionImpl(OwsCode id,
-                                            OwsLanguageString title,
-                                            OwsLanguageString abstrakt,
-                                            Set<OwsKeyword> keywords,
-                                            Set<OwsMetadata> metadata,
-                                            OwsCRS defaultCRS,
-                                            Set<OwsCRS> supportedCRS) {
-        super(id, title, abstrakt, keywords, metadata);
-        this.defaultCRS = Objects.requireNonNull(defaultCRS, "defaultCRS");
-        this.supportedCRS = supportedCRS == null ? Collections.emptySet() : supportedCRS;
+    @Override
+    public BoundingBoxOutputDescription.Builder<?, ?> newBuilder() {
+        return getFactory().boundingBoxOutput(this);
     }
 
     @Override
@@ -75,27 +58,36 @@ public class BoundingBoxOutputDescriptionImpl
     }
 
     public abstract static class AbstractBuilder<T extends BoundingBoxOutputDescription,
-                                                 B extends AbstractBuilder<T, B>>
+                                                        B extends AbstractBuilder<T, B>>
             extends AbstractProcessOutputDescription.AbstractBuilder<T, B>
             implements BoundingBoxOutputDescription.Builder<T, B> {
 
         private OwsCRS defaultCRS;
         private final ImmutableSet.Builder<OwsCRS> supportedCRS = ImmutableSet.builder();
 
-        @SuppressWarnings(value = "unchecked")
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected AbstractBuilder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                                  BoundingBoxOutputDescription entity) {
+            super(factory, entity);
+            this.defaultCRS = entity.getDefaultCRS();
+            this.supportedCRS.addAll(entity.getSupportedCRS());
+        }
+
         @Override
         public B withDefaultCRS(OwsCRS defaultCRS) {
             this.defaultCRS = defaultCRS;
-            return (B) this;
+            return self();
         }
 
-        @SuppressWarnings(value = "unchecked")
         @Override
         public B withSupportedCRS(OwsCRS uom) {
             if (uom != null) {
                 this.supportedCRS.add(uom);
             }
-            return (B) this;
+            return self();
         }
 
         public OwsCRS getDefaultCRS() {
@@ -109,6 +101,14 @@ public class BoundingBoxOutputDescriptionImpl
     }
 
     public static class Builder extends AbstractBuilder<BoundingBoxOutputDescription, Builder> {
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory) {
+            super(factory);
+        }
+
+        protected Builder(ProcessDescriptionBuilderFactory<?, ?, ?, ?, ?, ?, ?, ?, ?, ?> factory,
+                          BoundingBoxOutputDescription entity) {
+            super(factory, entity);
+        }
 
         @Override
         public BoundingBoxOutputDescription build() {
