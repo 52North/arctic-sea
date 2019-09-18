@@ -25,13 +25,17 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.locationtech.jts.geom.Envelope;
 import org.locationtech.jts.geom.GeometryFactory;
+import org.n52.janmayen.Producer;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SpatialOperator;
@@ -55,17 +59,35 @@ import net.opengis.fes.x20.BBOXType;
  *
  * @since 1.0.0
  */
-@Deprecated
 public class FesEncoderv20Test {
 
-    private final FesEncoderv20 fesEncoder = new FesEncoderv20();
+    private static FesEncoderv20 instance;
+
+    @BeforeAll
+    public static void initInstance() {
+        instance = new FesEncoderv20();
+        Producer<XmlOptions> options = () -> new XmlOptions();
+        instance.setXmlOptions(options);
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoderRepository.setEncoders(Arrays.asList(instance));
+        encoderRepository.init();
+
+        SchemaRepository schemaRepository = new SchemaRepository();
+        schemaRepository.setEncoderRepository(encoderRepository);
+        schemaRepository.init();
+
+        instance.setEncoderRepository(encoderRepository);
+        instance.setXmlOptions(options);
+
+    }
 
     @Test
     public final void should_return_correct_encoder_keys() {
         final Set<EncoderKey> expectedKeySet =
                 CodingHelper.encoderKeysForElements(FilterConstants.NS_FES_2, TemporalFilter.class,
                         org.n52.shetland.ogc.filter.FilterCapabilities.class, SpatialFilter.class);
-        final Set<EncoderKey> returnedKeySet = fesEncoder.getKeys();
+        final Set<EncoderKey> returnedKeySet = instance.getKeys();
 
         assertThat(returnedKeySet.size(), is(3));
         assertThat(returnedKeySet, is(expectedKeySet));
@@ -73,20 +95,20 @@ public class FesEncoderv20Test {
 
     @Test
     public final void should_return_emptyMap_for_supportedTypes() {
-        assertThat(fesEncoder.getSupportedTypes(), is(not(nullValue())));
-        assertThat(fesEncoder.getSupportedTypes().isEmpty(), is(TRUE));
+        assertThat(instance.getSupportedTypes(), is(not(nullValue())));
+        assertThat(instance.getSupportedTypes().isEmpty(), is(TRUE));
     }
 
     @Test
     public final void should_return_emptySet_for_conformanceClasses() {
-        assertThat(fesEncoder.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION), is(not(nullValue())));
-        assertThat(fesEncoder.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).isEmpty(), is(TRUE));
+        assertThat(instance.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION), is(not(nullValue())));
+        assertThat(instance.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION).isEmpty(), is(TRUE));
     }
 
     @Test
     public final void should_add_own_prefix_to_prefixMap() {
         final Map<String, String> prefixMap = Maps.newHashMap();
-        fesEncoder.addNamespacePrefixToMap(prefixMap);
+        instance.addNamespacePrefixToMap(prefixMap);
         assertThat(prefixMap.isEmpty(), is(FALSE));
         assertThat(prefixMap.containsKey(FilterConstants.NS_FES_2), is(TRUE));
         assertThat(prefixMap.containsValue(FilterConstants.NS_FES_2_PREFIX), is(TRUE));
@@ -94,18 +116,18 @@ public class FesEncoderv20Test {
 
     @Test
     public final void should_not_fail_if_prefixMap_is_null() {
-        fesEncoder.addNamespacePrefixToMap(null);
+        instance.addNamespacePrefixToMap(null);
     }
 
     @Test
     public final void should_return_contentType_xml() {
-        assertThat(fesEncoder.getContentType(), is(MediaTypes.TEXT_XML));
+        assertThat(instance.getContentType(), is(MediaTypes.TEXT_XML));
     }
 
     @Test
     public final void should_return_correct_schema_location() {
-        assertThat(fesEncoder.getSchemaLocations().size(), is(1));
-        final SchemaLocation schemLoc = fesEncoder.getSchemaLocations().iterator().next();
+        assertThat(instance.getSchemaLocations().size(), is(1));
+        final SchemaLocation schemLoc = instance.getSchemaLocations().iterator().next();
         assertThat(schemLoc.getNamespace(), is("http://www.opengis.net/fes/2.0"));
         assertThat(schemLoc.getSchemaFileUrl(), is("http://schemas.opengis.net/filter/2.0/filterAll.xsd"));
     }
@@ -113,9 +135,15 @@ public class FesEncoderv20Test {
     @Test
     public final void should_return_exception_if_received_null() throws OwsExceptionReport, EncodingException {
         assertThrows(UnsupportedEncoderInputException.class, () -> {
-            fesEncoder.encode(null);
-            fesEncoder.encode(null, null);
-            fesEncoder.encode(null, EncodingContext.empty());
+            instance.encode(null);
+            instance.encode(null, null);
+            instance.encode(null, EncodingContext.empty());
+        });
+        assertThrows(UnsupportedEncoderInputException.class, () -> {
+            instance.encode(null, null);
+        });
+        assertThrows(UnsupportedEncoderInputException.class, () -> {
+            instance.encode(null, EncodingContext.empty());
         });
 
     }
@@ -127,7 +155,7 @@ public class FesEncoderv20Test {
         filter.setOperator(SpatialOperator.BBOX);
         filter.setGeometry(new GeometryFactory().toGeometry(new Envelope(1, 2, 3, 4)));
         filter.setValueReference("valueReference");
-        final XmlObject encode = fesEncoder.encode(filter);
+        final XmlObject encode = instance.encode(filter);
 
         assertThat(encode, is(instanceOf(BBOXType.class)));
         final BBOXType xbBBox = (BBOXType) encode;

@@ -19,8 +19,11 @@ package org.n52.svalbard.encode;
 import static java.util.stream.Collectors.toSet;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.dom.DOMSource;
@@ -33,12 +36,15 @@ import org.apache.xmlbeans.XmlOptions;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.joda.time.DateTime;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.n52.janmayen.http.MediaTypes;
 import org.n52.shetland.inspire.InspireConformity;
 import org.n52.shetland.inspire.InspireConformity.InspireDegreeOfConformity;
 import org.n52.shetland.inspire.InspireConformityCitation;
+import org.n52.shetland.inspire.InspireConstants;
 import org.n52.shetland.inspire.InspireDateOfCreation;
 import org.n52.shetland.inspire.InspireDateOfLastRevision;
 import org.n52.shetland.inspire.InspireDateOfPublication;
@@ -61,6 +67,9 @@ import org.n52.shetland.ogc.SupportedType;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.om.ObservationType;
+import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 import org.xml.sax.SAXException;
 
 import com.google.common.collect.Lists;
@@ -70,12 +79,12 @@ public class InspireEncoderTest {
 
     private static XmlOptions xmlOptions = new XmlOptions();
 
-    EncoderRepository encoderRepository;
+    private static EncoderRepository encoderRepository;
 
-    Set<SupportedType> supportedTypes = Sets.newHashSet();
+    private static Set<SupportedType> supportedTypes = Sets.newHashSet();
 
-    @BeforeEach
-    public void setup() {
+    @BeforeAll
+    public static void setup() {
         encoderRepository = new EncoderRepository();
 
         encoderRepository.setEncoders(Lists.newArrayList(new PointObservationTypeEncoder(),
@@ -85,15 +94,15 @@ public class InspireEncoderTest {
                 new MultiPointObservationTypeEncoder()));
         encoderRepository.init();
 
-        this.encoderRepository.getEncoders().stream()
+        encoderRepository.getEncoders().stream()
         .map(Encoder::getSupportedTypes)
         .filter(Objects::nonNull)
-        .forEachOrdered(this.supportedTypes::addAll);
+        .forEachOrdered(supportedTypes::addAll);
     }
 
 
     private Set<? extends SupportedType> typesFor(Class<? extends SupportedType> key) {
-        return this.supportedTypes;
+        return supportedTypes;
     }
 
     @SuppressWarnings("unchecked")
@@ -119,72 +128,74 @@ public class InspireEncoderTest {
      * xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=
      * "http://inspire.ec.europa.eu/schemas/inspire_dls/1.0 http://inspire.ec.europa.eu/schemas/inspire_dls/1.0/inspire_dls.xsd"
      */
-//
-//    @BeforeClass
-//    public static void init() {
-//        Map<String, String> prefixes = new HashMap<String, String>();
-//        prefixes.put(InspireConstants.NS_INSPIRE_COMMON, InspireConstants.NS_INSPIRE_COMMON_PREFIX);
-//        prefixes.put(InspireConstants.NS_INSPIRE_DLS, InspireConstants.NS_INSPIRE_DLS_PREFIX);
-//        xmlOptions.setSaveSuggestedPrefixes(prefixes);
-//        xmlOptions.setSaveImplicitNamespaces(prefixes);
-//        xmlOptions.setSaveAggressiveNamespaces();
-//        xmlOptions.setSavePrettyPrint();
-//        xmlOptions.setSaveNamespacesFirst();
-//        xmlOptions.setCharacterEncoding("UTF-8");
-//    }
-//
+
+    @BeforeAll
+    public static void init() {
+        Map<String, String> prefixes = new HashMap<String, String>();
+        prefixes.put(InspireConstants.NS_INSPIRE_COMMON, InspireConstants.NS_INSPIRE_COMMON_PREFIX);
+        prefixes.put(InspireConstants.NS_INSPIRE_DLS, InspireConstants.NS_INSPIRE_DLS_PREFIX);
+        xmlOptions.setSaveSuggestedPrefixes(prefixes);
+        xmlOptions.setSaveImplicitNamespaces(prefixes);
+        xmlOptions.setSaveAggressiveNamespaces();
+        xmlOptions.setSavePrettyPrint();
+        xmlOptions.setSaveNamespacesFirst();
+        xmlOptions.setCharacterEncoding("UTF-8");
+    }
+
 //    @Test
-//    public void enocodeMinimalInspireExtendedCapabilities() throws UnsupportedEncoderInputException,
-//            OwsExceptionReport, SAXException, IOException {
+//    public void enocodeMinimalInspireExtendedCapabilities()
+//            throws OwsExceptionReport, SAXException, IOException, EncodingException {
 //        InspireXmlEncoder inspireEncoder = new InspireXmlEncoder();
-//        validate(inspireEncoder.encode(getMinimalInspireExtendedCapabilities()));
+//        validate(inspireEncoder.encode(getMinimalInspireExtendedCapabilities(),
+//                EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, encoderRepository)));
 //    }
 //
 //    @Test
-//    public void enocodeFullIsnpireExtendedCapabilities() throws UnsupportedEncoderInputException, OwsExceptionReport,
-//            SAXException, IOException {
+//    public void enocodeFullIsnpireExtendedCapabilities()
+//            throws OwsExceptionReport, SAXException, IOException, EncodingException {
 //        InspireXmlEncoder inspireEncoder = new InspireXmlEncoder();
-//        validate(inspireEncoder.encode(getFullInspireExtendedCapabilities()));
+//        validate(inspireEncoder.encode(getFullInspireExtendedCapabilities(),
+//                EncodingContext.of(EncoderFlags.ENCODER_REPOSITORY, encoderRepository)));
 //    }
-//
-//    @Test
-//    public void valid_iso8601() {
-//        // date
-//        String datePattern = "\\d{4}-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])";
-//        String date = "2013-09-26";
-//        Assert.assertThat(Pattern.matches(datePattern, date), Matchers.is(true));
-//        // time
-//        String timePattern = "(T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?)?";
-//        String time_HH_MM_SS_S = "T12:49:41.740";
-//        Assert.assertThat(Pattern.matches(timePattern, time_HH_MM_SS_S), Matchers.is(true));
-//        String time_HH_MM_SS = "T12:49:41";
-//        Assert.assertThat(Pattern.matches(timePattern, time_HH_MM_SS), Matchers.is(true));
-//        // offset
-//        String offsetPattern = "(Z|[+|-](2[0-3]|[0-1][0-9]):([0-5][0-9]))?";
-//        String offset_PLUS_HH_MM = "+02:00";
-//        Assert.assertThat(Pattern.matches(offsetPattern, offset_PLUS_HH_MM), Matchers.is(true));
-//        String offset_MINUS_HH_MM = "-02:00";
-//        Assert.assertThat(Pattern.matches(offsetPattern, offset_MINUS_HH_MM), Matchers.is(true));
-//        String offset_Z = "Z";
-//        Assert.assertThat(Pattern.matches(offsetPattern, offset_Z), Matchers.is(true));
-//        // date time
-//        String dtPattern = datePattern + timePattern;
-//        Assert.assertThat(Pattern.matches(dtPattern, date + time_HH_MM_SS_S), Matchers.is(true));
-//        Assert.assertThat(Pattern.matches(dtPattern, date + time_HH_MM_SS), Matchers.is(true));
-//        // date time offset
-//        String dtoPattern = dtPattern + offsetPattern;
-//        Assert.assertThat(Pattern.matches(dtoPattern, date + time_HH_MM_SS_S + offset_PLUS_HH_MM), Matchers.is(true));
-//        Assert.assertThat(Pattern.matches(dtoPattern, date + time_HH_MM_SS_S + offset_MINUS_HH_MM), Matchers.is(true));
-//        Assert.assertThat(Pattern.matches(dtoPattern, date + time_HH_MM_SS_S + offset_Z), Matchers.is(true));
-//        Assert.assertThat(Pattern.matches(dtoPattern, date + time_HH_MM_SS + offset_PLUS_HH_MM), Matchers.is(true));
-//        Assert.assertThat(Pattern.matches(dtoPattern, date + time_HH_MM_SS + offset_MINUS_HH_MM), Matchers.is(true));
-//        Assert.assertThat(Pattern.matches(dtoPattern, date + time_HH_MM_SS + offset_Z), Matchers.is(true));
-//        // valid patter for schema: \d{4}-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])(T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?)?(Z|[+|-](2[0-3]|[0-1][0-9]):([0-5][0-9]))?
-//
-////        String pattern =
-////                "\\d{4}-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])(T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?)?(Z|([+|-](2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9])?)?)?";
-////        Assert.assertThat(Pattern.matches(pattern, "2013-09-26T12:49:41.740+02:00"), Matchers.is(true));
-//    }
+
+    @Test
+    public void valid_iso8601() {
+        // date
+        String datePattern = "\\d{4}-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])";
+        String date = "2013-09-26";
+        Assertions.assertTrue(Pattern.matches(datePattern, date));
+        // time
+        String timePattern = "(T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?)?";
+        String time_HH_MM_SS_S = "T12:49:41.740";
+        Assertions.assertTrue(Pattern.matches(timePattern, time_HH_MM_SS_S));
+        String time_HH_MM_SS = "T12:49:41";
+        Assertions.assertTrue(Pattern.matches(timePattern, time_HH_MM_SS));
+        // offset
+        String offsetPattern = "(Z|[+|-](2[0-3]|[0-1][0-9]):([0-5][0-9]))?";
+        String offset_PLUS_HH_MM = "+02:00";
+        Assertions.assertTrue(Pattern.matches(offsetPattern, offset_PLUS_HH_MM));
+        String offset_MINUS_HH_MM = "-02:00";
+        Assertions.assertTrue(Pattern.matches(offsetPattern, offset_MINUS_HH_MM));
+        String offset_Z = "Z";
+        Assertions.assertTrue(Pattern.matches(offsetPattern, offset_Z));
+        // date time
+        String dtPattern = datePattern + timePattern;
+        Assertions.assertTrue(Pattern.matches(dtPattern, date + time_HH_MM_SS_S));
+        Assertions.assertTrue(Pattern.matches(dtPattern, date + time_HH_MM_SS));
+        // date time offset
+        String dtoPattern = dtPattern + offsetPattern;
+        Assertions.assertTrue(Pattern.matches(dtoPattern, date + time_HH_MM_SS_S + offset_PLUS_HH_MM));
+        Assertions.assertTrue(Pattern.matches(dtoPattern, date + time_HH_MM_SS_S + offset_MINUS_HH_MM));
+        Assertions.assertTrue(Pattern.matches(dtoPattern, date + time_HH_MM_SS_S + offset_Z));
+        Assertions.assertTrue(Pattern.matches(dtoPattern, date + time_HH_MM_SS + offset_PLUS_HH_MM));
+        Assertions.assertTrue(Pattern.matches(dtoPattern, date + time_HH_MM_SS + offset_MINUS_HH_MM));
+        Assertions.assertTrue(Pattern.matches(dtoPattern, date + time_HH_MM_SS + offset_Z));
+        // valid patter for schema: \d{4}-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])(T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\.[0-9]+)?)?(Z|[+|-](2[0-3]|[0-1][0-9]):([0-5][0-9]))?
+
+//        String pattern =
+//                "\\d{4}-(1[0-2]|0[1-9])-(3[0-1]|0[1-9]|[1-2][0-9])(T(2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9]+)?)?(Z|([+|-](2[0-3]|[0-1][0-9]):([0-5][0-9]):([0-5][0-9])(\\.[0-9])?)?)?";
+//        Assert.assertThat(Pattern.matches(pattern, "2013-09-26T12:49:41.740+02:00"), Matchers.is(true));
+    }
 
     private MinimalInspireExtendedCapabilities getMinimalInspireExtendedCapabilities() {
         // --------------------

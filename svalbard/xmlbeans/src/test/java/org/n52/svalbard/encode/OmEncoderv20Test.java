@@ -213,7 +213,8 @@ public class OmEncoderv20Test {
     }
 
     @Test
-    public void shouldEncodeFeatureInObservationTemplate() throws EncodingException, InvalidSridException, ParseException, XmlException, IOException {
+    public void shouldEncodeFeatureInObservationTemplate()
+            throws EncodingException, InvalidSridException, ParseException, XmlException, IOException {
         //
         SamplingFeature featureOfInterest = new SamplingFeature(new CodeWithAuthority(featureIdentifier));
         featureOfInterest.setIdentifier(featureIdentifier);
@@ -305,13 +306,6 @@ public class OmEncoderv20Test {
         observation.setValue(new SingleObservationValue<>(phenomenonTime, complexValue));
         return observation;
     }
-
-//    @Before
-//    public void init() {
-//        Configurator configurator = mock(Configurator.class);
-//        when(configurator.getProfileHandler()).thenReturn(new DefaultProfileHandler());
-//        Configurator.setInstance(configurator);
-//    }
 
     private class Checker {
         private final NamespaceContext ctx;

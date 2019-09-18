@@ -16,6 +16,36 @@
  */
 package org.n52.svalbard.encode;
 
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.n52.janmayen.Producer;
+import org.n52.janmayen.http.MediaTypes;
+import org.n52.shetland.ogc.sos.Sos2Constants;
+import org.n52.shetland.ogc.sos.SosConstants;
+import org.n52.shetland.ogc.sos.response.DeleteSensorResponse;
+import org.n52.shetland.ogc.swes.SwesConstants;
+import org.n52.shetland.w3c.SchemaLocation;
+import org.n52.svalbard.encode.exception.EncodingException;
+import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
+
+import com.google.common.collect.Maps;
+
+import net.opengis.swes.x20.DeleteSensorResponseDocument;
+
 /**
  * TODO JavaDoc
  *
@@ -23,95 +53,108 @@ package org.n52.svalbard.encode;
  *
  * @since 1.0.0
  */
-@Deprecated
+//@Deprecated
 public class DeleteSensorResponseEncoderTest {
-//    private DeleteSensorResponseEncoder deleteSensorResponseEncoder;
-//
-//    @Before
-//    public void setup() {
-//        EncoderRepository encoderRepository = new EncoderRepository();
-//        SchemaRepository schemaRepository = new SchemaRepository();
-//
-//        deleteSensorResponseEncoder = new DeleteSensorResponseEncoder();
-//        deleteSensorResponseEncoder.setXmlOptions(XmlOptions::new);
-//        deleteSensorResponseEncoder.setSchemaRepository(schemaRepository);
-//        deleteSensorResponseEncoder.setEncoderRepository(encoderRepository);
-//
-//        encoderRepository.setEncoders(Arrays.asList(deleteSensorResponseEncoder));
-//        encoderRepository.init();
-//
-//        schemaRepository.setEncoderRepository(encoderRepository);
-//        schemaRepository.init();
-//    }
-//
-//    @Test
-//    public void should_return_correct_encoder_keys() {
-//        Set<EncoderKey> returnedKeySet = deleteSensorResponseEncoder.getKeys();
-//        assertThat(returnedKeySet.size(), is(3));
-//        assertThat(returnedKeySet, hasItem(new XmlEncoderKey(SwesConstants.NS_SWES_20, DeleteSensorResponse.class)));
-//        assertThat(returnedKeySet, hasItem(new OperationResponseEncoderKey(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-//                                                                           Sos2Constants.Operations.DeleteSensor, MediaTypes.TEXT_XML)));
-//        assertThat(returnedKeySet, hasItem(new OperationResponseEncoderKey(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
-//                                                                           Sos2Constants.Operations.DeleteSensor, MediaTypes.APPLICATION_XML)));
-//    }
-//
-//    @Test
-//    public void should_return_emptyMap_for_supportedTypes() {
-//        assertThat(deleteSensorResponseEncoder.getSupportedTypes(), is(not(nullValue())));
-//        assertThat(deleteSensorResponseEncoder.getSupportedTypes().isEmpty(), is(TRUE));
-//    }
-//
-//    @Test
-//    public void should_return_emptySet_for_conformanceClasses() {
-//        assertThat(deleteSensorResponseEncoder.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION), is(not(nullValue())));
-//        assertThat(deleteSensorResponseEncoder.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION)
-//                .isEmpty(), is(TRUE));
-//    }
-//
-//    @Test
-//    public void should_add_own_prefix_to_prefixMap() {
-//        Map<String, String> prefixMap = Maps.newHashMap();
-//        deleteSensorResponseEncoder.addNamespacePrefixToMap(prefixMap);
-//        assertThat(prefixMap.isEmpty(), is(FALSE));
-//        assertThat(prefixMap.containsKey(SwesConstants.NS_SWES_20), is(TRUE));
-//        assertThat(prefixMap.containsValue(SwesConstants.NS_SWES_PREFIX), is(TRUE));
-//    }
-//
-//    @Test
-//    public void should_not_fail_if_prefixMap_is_null() {
-//        deleteSensorResponseEncoder.addNamespacePrefixToMap(null);
-//    }
-//
-//    @Test
-//    public void should_return_contentType_xml() {
-//        assertThat(deleteSensorResponseEncoder.getContentType(), is(MediaTypes.TEXT_XML));
-//    }
-//
-//    @Test
-//    public void should_return_correct_schema_location() {
-//        assertThat(deleteSensorResponseEncoder.getSchemaLocations().size(), is(1));
-//        SchemaLocation schemLoc = deleteSensorResponseEncoder.getSchemaLocations().iterator().next();
-//        assertThat(schemLoc.getNamespace(), is("http://www.opengis.net/swes/2.0"));
-//        assertThat(schemLoc.getSchemaFileUrl(), is("http://schemas.opengis.net/swes/2.0/swes.xsd"));
-//    }
-//
-//    @Test(expected = UnsupportedEncoderInputException.class)
-//    public void should_return_exception_if_received_null() throws EncodingException {
-//        deleteSensorResponseEncoder.encode(null);
-//        deleteSensorResponseEncoder.encode(null, new ByteArrayOutputStream());
-//        deleteSensorResponseEncoder.encode(null, EncodingContext.empty());
-//    }
-//
-//    @Test
-//    public void should_encode_DeleteSensor_response() throws EncodingException {
-//        final DeleteSensorResponse response = new DeleteSensorResponse();
-//        final String deletedProcedure = "deletedProcedure";
-//        response.setDeletedProcedure(deletedProcedure);
-//        final XmlObject encodedResponse = deleteSensorResponseEncoder.encode(response);
-//        assertThat(encodedResponse, is(instanceOf(DeleteSensorResponseDocument.class)));
-//        final DeleteSensorResponseDocument doc = (DeleteSensorResponseDocument) encodedResponse;
-//        assertThat(doc.isNil(), is(FALSE));
-//        assertThat(doc.getDeleteSensorResponse().getDeletedProcedure(), is(deletedProcedure));
-//        assertThat(doc.validate(), is(TRUE));
-//    }
+
+    private static DeleteSensorResponseEncoder instance;
+
+    @BeforeAll
+    public static void setup() {
+        instance = new DeleteSensorResponseEncoder();
+        Producer<XmlOptions> options = () -> new XmlOptions();
+        instance.setXmlOptions(options);
+
+        EncoderRepository encoderRepository = new EncoderRepository();
+        encoderRepository.setEncoders(Arrays.asList(instance));
+        encoderRepository.init();
+
+        SchemaRepository schemaRepository = new SchemaRepository();
+        schemaRepository.setEncoderRepository(encoderRepository);
+        schemaRepository.init();
+
+        instance.setSchemaRepository(schemaRepository);
+        instance.setEncoderRepository(encoderRepository);
+        instance.setXmlOptions(options);
+        schemaRepository.init();
+    }
+
+    @Test
+    public void should_return_correct_encoder_keys() {
+        Set<EncoderKey> returnedKeySet = instance.getKeys();
+        assertEquals(returnedKeySet.size(), 3);
+        assertTrue(returnedKeySet.contains(new XmlEncoderKey(SwesConstants.NS_SWES_20, DeleteSensorResponse.class)));
+        assertTrue(returnedKeySet.contains(new OperationResponseEncoderKey(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                                                                           Sos2Constants.Operations.DeleteSensor, MediaTypes.TEXT_XML)));
+        assertTrue(returnedKeySet.contains(new OperationResponseEncoderKey(SosConstants.SOS, Sos2Constants.SERVICEVERSION,
+                                                                           Sos2Constants.Operations.DeleteSensor, MediaTypes.APPLICATION_XML)));
+    }
+
+    @Test
+    public void should_return_emptyMap_for_supportedTypes() {
+        assertNotNull(instance.getSupportedTypes());
+        assertTrue(instance.getSupportedTypes().isEmpty());
+    }
+
+    @Test
+    public void should_return_emptySet_for_conformanceClasses() {
+        assertNotNull(instance.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION));
+        assertTrue(instance.getConformanceClasses(SosConstants.SOS, Sos2Constants.SERVICEVERSION)
+                .isEmpty());
+    }
+
+    @Test
+    public void should_add_own_prefix_to_prefixMap() {
+        Map<String, String> prefixMap = Maps.newHashMap();
+        instance.addNamespacePrefixToMap(prefixMap);
+        assertFalse(prefixMap.isEmpty());
+        assertTrue(prefixMap.containsKey(SwesConstants.NS_SWES_20));
+        assertTrue(prefixMap.containsValue(SwesConstants.NS_SWES_PREFIX));
+    }
+
+    @Test
+    public void should_not_fail_if_prefixMap_is_null() {
+        instance.addNamespacePrefixToMap(null);
+    }
+
+    @Test
+    public void should_return_contentType_xml() {
+        assertEquals(instance.getContentType(), MediaTypes.TEXT_XML);
+    }
+
+    @Test
+    public void should_return_correct_schema_location() {
+        assertEquals(instance.getSchemaLocations().size(), 1);
+        SchemaLocation schemLoc = instance.getSchemaLocations().iterator().next();
+        assertEquals(schemLoc.getNamespace(), "http://www.opengis.net/swes/2.0");
+        assertEquals(schemLoc.getSchemaFileUrl(), "http://schemas.opengis.net/swes/2.0/swes.xsd");
+    }
+
+    @Test
+    public void should_return_exception_if_received_null() throws EncodingException {
+        Assertions.assertThrows(UnsupportedEncoderInputException.class, () -> {
+            instance.encode(null);
+        });
+        Assertions.assertThrows(UnsupportedEncoderInputException.class, () -> {
+            instance.encode(null, new ByteArrayOutputStream());
+        });
+        Assertions.assertThrows(UnsupportedEncoderInputException.class, () -> {
+            instance.encode(null, EncodingContext.empty());
+        });
+
+
+
+    }
+
+    @Test
+    public void should_encode_DeleteSensor_response() throws EncodingException {
+        final DeleteSensorResponse response = new DeleteSensorResponse();
+        final String deletedProcedure = "deletedProcedure";
+        response.setDeletedProcedure(deletedProcedure);
+        final XmlObject encodedResponse = instance.encode(response);
+        assertTrue(encodedResponse instanceof DeleteSensorResponseDocument);
+        final DeleteSensorResponseDocument doc = (DeleteSensorResponseDocument) encodedResponse;
+        assertFalse(doc.isNil());
+        assertEquals(doc.getDeleteSensorResponse().getDeletedProcedure(), deletedProcedure);
+        assertTrue(doc.validate());
+    }
 }
