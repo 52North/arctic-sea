@@ -85,6 +85,9 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
         for (JsonNode output : node.path(JSONConstants.OUTPUTS)) {
             builder.withOutput(decodeOutput(output));
         }
+        if (node.path(JSONConstants.VERSION).isValueNode()) {
+            builder.withVersion(node.path(JSONConstants.VERSION).textValue());
+        }
         return builder.build();
     }
 
@@ -107,7 +110,7 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
     }
 
     private void decodeSupportedLiteralDataDomains(LiteralDescription.Builder<?, ?> builder, JsonNode node) {
-        for (JsonNode domainNode : node.path(JSONConstants.LITERAL_DATA_DOMAINS)) {
+        for (JsonNode domainNode : node.path(JSONConstants.INPUT).path(JSONConstants.LITERAL_DATA_DOMAINS)) {
             LiteralDataDomain literalDataDomain = decodeLiteralDataDomain(domainNode);
             builder.withSupportedLiteralDataDomain(literalDataDomain);
             if (domainNode.path(JSONConstants.DEFAULT).asBoolean(false)) {
@@ -171,7 +174,7 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
     private ComplexInputDescription decodeComplexInput(JsonNode node) {
         ComplexInputDescription.Builder<?, ?> builder = factory.complexInput();
         decodeInputDescription(builder, node);
-        BigInteger maximumMegabytes = decodeSupportedFormats(builder, node);
+        BigInteger maximumMegabytes = decodeSupportedFormats(builder, node.path(JSONConstants.INPUT));
         return builder.withMaximumMegabytes(maximumMegabytes).build();
     }
 
@@ -219,13 +222,13 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
     private ComplexOutputDescription decodeComplexOutput(JsonNode node) {
         ComplexOutputDescription.Builder<?, ?> builder = factory.complexOutput();
         decodeDescription(builder, node);
-        BigInteger maximumMegabytes = decodeSupportedFormats(builder, node);
+        BigInteger maximumMegabytes = decodeSupportedFormats(builder, node.path(JSONConstants.OUTPUT));
         return builder.withMaximumMegabytes(maximumMegabytes).build();
     }
 
     private BigInteger decodeSupportedFormats(ComplexDescription.Builder<?, ?> builder, JsonNode node) {
         BigInteger maximumMegabytes = null;
-        for (JsonNode formatNode : node.path(JSONConstants.INPUT).path(JSONConstants.FORMATS)) {
+        for (JsonNode formatNode : node.path(JSONConstants.FORMATS)) {
             Format format = decodeFormat(formatNode);
             builder.withSupportedFormat(format);
             if (formatNode.path(JSONConstants.DEFAULT).asBoolean(false)) {

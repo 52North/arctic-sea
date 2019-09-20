@@ -1,0 +1,211 @@
+{
+  "processDescription": {
+    "process": {
+      "id": "org.n52.project.tb15.eopad.NdviCalculation",
+      "title": "Calculation of NDVI using the SNAP toolbox for Sentinel-2",
+      "abstract": "Calculation of NDVI using the SNAP toolbox for Sentinel-2",
+      "version": "1.0.0",
+      "keywords": [
+        "Vegetation",
+        "NDVI"
+      ],
+      "inputs": [
+        {
+          "id": "source",
+          "title": "Source Input Image (sentinel-2 product in SAFE format)",
+          "abstract": "Source Input Image (sentinel-2 product in SAFE format). Either provided inline, by reference or by product ID",
+          "minOccurs": 1,
+          "maxOccurs": 1,
+          "input": {
+            "formats": [
+              {
+                "mimeType": "application/zip",
+                "default": true
+              },
+              {
+                "mimeType": "text/plain",
+                "default": false
+              }
+            ]
+          },
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/inputMetadata",
+              "parameters": [
+                {
+                  "name": "Profile",
+                  "_comment": "The Profile element allows to define a more specific format than the registered MIME Media Type (e.g. GeoTiff)",
+                  "values": [
+                    "http://www.opengis.net/eoc/formats/sensor/Sentinel-2"
+                  ]
+                }
+              ]
+            },
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/inputConstraints",
+              "parameters": [
+                {
+                  "name": "CollectionsConstraints",
+                  "values": [
+                    "Sentinel-2",
+                    "TODO: check which level works with NDVI"
+                  ]
+                },
+                {
+                  "name": "SpatialConstraints",
+                  "_comment": "which geometric operation applies? we assume 'intersects'",
+                  "values": [
+                    "6.9315",
+                    "50.9854",
+                    "7.6071",
+                    "51.3190"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "red_source_band",
+          "title": "the band to be used for the red band",
+          "minOccurs": 0,
+          "maxOccurs": 1,
+          "input": {
+            "literalDataDomains": [
+              {
+                "default": true,
+                "dataType": {
+                  "name": "integer"
+                },
+                "valueDefinition": {
+                  "allowedRange": {
+                    "minimumValue": "1",
+                    "maximumValue": "13",
+                    "rangeClosure": "closed"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "nir_source_band",
+          "title": "the band to be used for the near-infrared band",
+          "minOccurs": 0,
+          "maxOccurs": 1,
+          "input": {
+            "literalDataDomains": [
+              {
+                "default": true,
+                "dataType": {
+                  "name": "integer"
+                },
+                "valueDefinition": {
+                  "allowedRange": {
+                    "minimumValue": "1",
+                    "maximumValue": "13",
+                    "rangeClosure": "closed"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "red_factor",
+          "title": "the factor of the NRI",
+          "minOccurs": 0,
+          "maxOccurs": 1,
+          "input": {
+            "literalDataDomains": [
+              {
+                "default": true,
+                "defaultValue": "1.0",
+                "dataType": {
+                  "name": "number"
+                },
+                "valueDefinition": {
+                  "allowedRanges": [
+                    {
+                      "minimumValue": "0.0",
+                      "rangeClosure": "closed"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "nir_factor",
+          "title": "the factor of the NIR",
+          "minOccurs": 0,
+          "maxOccurs": 1,
+          "input": {
+            "literalDataDomains": [
+              {
+                "default": true,
+                "defaultValue": "1.0",
+                "dataType": {
+                  "name": "number"
+                },
+                "valueDefinition": {
+                  "allowedRanges": [
+                    {
+                      "minimumValue": "0.0",
+                      "rangeClosure": "closed"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "id": "raster",
+          "title": "The raster of the resulting NDVI calculation",
+          "output": {
+            "formats": [
+              {
+                "mimeType": "image/geotiff",
+                "default": true
+              }
+            ]
+          },
+          "additionalParameters": [
+            {
+              "role": "http://www.opengis.net/eoc/applicationContext/outputMetadata",
+              "parameters": [
+                {
+                  "_comment": "The Profile element allows to define a more specific format than the registered MIME Media Type (e.g. GeoTiff)",
+                  "name": "Profile",
+                  "values": [
+                    "http://www.opengis.net/eoc/formats/raster/GeoTiff"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "jobControlOptions": [
+      "async-execute"
+    ],
+    "outputTransmission": [
+      "reference"
+    ]
+  },
+  "immediateDeployment": true,
+  "executionUnit": [
+    {
+      "unit": {
+        "type": "docker",
+        "image": "docker.52north.org/eopad/snap-sentinel-2-ndvi:latest"
+      }
+    }
+  ],
+  "deploymentProfileName": "http://www.opengis.net/profiles/eoc/dockerizedApplication"
+}

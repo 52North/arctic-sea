@@ -94,6 +94,7 @@ public class ProcessDescriptionEncoder extends JSONEncoder<Object> {
 
     private JsonNode createProcessDescription(ProcessDescription processDescription) throws EncodingException {
         ObjectNode root = createDescription(processDescription);
+        root.put(JSONConstants.VERSION, processDescription.getVersion());
         root.set(JSONConstants.INPUTS, encodeObjectsToJson(processDescription.getInputDescriptions()));
         root.set(JSONConstants.OUTPUTS, encodeObjectsToJson(processDescription.getOutputDescriptions()));
         return root;

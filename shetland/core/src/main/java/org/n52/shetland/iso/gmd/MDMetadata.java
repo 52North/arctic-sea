@@ -25,11 +25,11 @@ import com.google.common.collect.Sets;
 
 public class MDMetadata extends AbstractObject {
 
-    private Set<Referenceable<CiResponsibleParty>> contact = Sets.newHashSet();
+    private Set<Referenceable<CiResponsibleParty>> contact;
 
     private DateTime dateStamp;
 
-    private Set<Referenceable<AbstractMDIdentification>> identificationInfo = Sets.newHashSet();
+    private Set<Referenceable<AbstractMDIdentification>> identificationInfo;
 
     public MDMetadata(Referenceable<CiResponsibleParty> contact, DateTime dateStamp,
             Referenceable<AbstractMDIdentification> identificationInfo) {
