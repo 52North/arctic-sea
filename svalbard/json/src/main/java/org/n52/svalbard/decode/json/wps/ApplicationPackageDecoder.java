@@ -25,6 +25,8 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.json.JSONDecoder;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ApplicationPackageDecoder extends JSONDecoder<ApplicationPackage> {
     public ApplicationPackageDecoder() {
@@ -34,7 +36,12 @@ public class ApplicationPackageDecoder extends JSONDecoder<ApplicationPackage> {
     @Override
     public ApplicationPackage decodeJSON(JsonNode node, boolean validate) throws DecodingException {
         ApplicationPackage ap = new ApplicationPackage();
-        ap.setExecutionUnit(decodeJsonToObject(node.path(JSONConstants.EXECUTION_UNIT), ExecutionUnit.class));
+
+        List<ExecutionUnit> executionUnits = new ArrayList<>();
+        for (JsonNode executionUnit : node.path(JSONConstants.EXECUTION_UNIT)) {
+            executionUnits.add(decodeJsonToObject(executionUnit, ExecutionUnit.class));
+        }
+        ap.setExecutionUnits(executionUnits);
 
         if (node.path(JSONConstants.DEPLOYMENT_PROFILE_NAME).isValueNode()) {
             ap.setDeploymentProfileName(URI.create(node.path(JSONConstants.DEPLOYMENT_PROFILE_NAME).asText()));

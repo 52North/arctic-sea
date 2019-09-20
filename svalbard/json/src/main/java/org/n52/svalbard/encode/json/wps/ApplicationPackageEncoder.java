@@ -17,8 +17,10 @@
 package org.n52.svalbard.encode.json.wps;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.n52.shetland.ogc.wps.ap.ApplicationPackage;
+import org.n52.shetland.ogc.wps.ap.ExecutionUnit;
 import org.n52.svalbard.coding.json.JSONConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.json.JSONEncoder;
@@ -42,7 +44,11 @@ public class ApplicationPackageEncoder extends JSONEncoder<ApplicationPackage> {
         if (applicationPackage.getImmediateDeployment() != null) {
             root.put(JSONConstants.IMMEDIATE_DEPLOYMENT, applicationPackage.getImmediateDeployment());
         }
-        root.put(JSONConstants.EXECUTION_UNIT, encodeObjectToJson(applicationPackage.getExecutionUnit()));
+
+        ArrayNode executionUnits = root.putArray(JSONConstants.EXECUTION_UNIT);
+        for (ExecutionUnit executionUnit : applicationPackage.getExecutionUnits()) {
+            executionUnits.add(encodeObjectToJson(executionUnit));
+        }
         return root;
     }
 

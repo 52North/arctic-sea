@@ -19,10 +19,13 @@ package org.n52.shetland.ogc.wps.ap;
 import org.n52.shetland.ogc.wps.ProcessOffering;
 
 import java.net.URI;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 public class ApplicationPackage {
     private ProcessOffering processDescription;
-    private ExecutionUnit executionUnit;
+    private List<ExecutionUnit> executionUnits = Collections.emptyList();
     private Boolean immediateDeployment;
     private URI deploymentProfileName;
 
@@ -34,12 +37,12 @@ public class ApplicationPackage {
         this.processDescription = processDescription;
     }
 
-    public ExecutionUnit getExecutionUnit() {
-        return executionUnit;
+    public List<ExecutionUnit> getExecutionUnits() {
+        return Collections.unmodifiableList(executionUnits);
     }
 
-    public void setExecutionUnit(ExecutionUnit executionUnit) {
-        this.executionUnit = executionUnit;
+    public void setExecutionUnits(List<ExecutionUnit> executionUnits) {
+        this.executionUnits = Optional.ofNullable(executionUnits).orElseGet(Collections::emptyList);
     }
 
     public Boolean getImmediateDeployment() {

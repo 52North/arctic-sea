@@ -16,17 +16,15 @@
  */
 package org.n52.svalbard.encode.json;
 
-import org.n52.janmayen.ClassHelper;
-import org.n52.svalbard.encode.EncoderKey;
-
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
+import org.n52.janmayen.ClassHelper;
+import org.n52.svalbard.encode.EncoderKey;
 
 /**
  * TODO JavaDoc
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
- *
  * @since 1.0.0
  */
 public class JSONEncoderKey implements EncoderKey {
@@ -41,7 +39,7 @@ public class JSONEncoderKey implements EncoderKey {
         if (key instanceof JSONEncoderKey) {
             JSONEncoderKey jsonKey = (JSONEncoderKey) key;
             return ClassHelper.getSimiliarity(getType() != null ? getType() : Object.class,
-                    jsonKey.getType() != null ? jsonKey.getType() : Object.class);
+                                              jsonKey.getType() != null ? jsonKey.getType() : Object.class);
         }
         return -1;
     }
