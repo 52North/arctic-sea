@@ -38,13 +38,14 @@ public class DockerExecutionUnitEncoder extends JSONEncoder<DockerExecutionUnit>
             return nodeFactory().nullNode();
         }
         ObjectNode root = nodeFactory().objectNode();
-        root.put(JSONConstants.TYPE, unit.getType());
-        root.set(JSONConstants.IMAGE, encodeAsString(unit.getImage()));
+        ObjectNode unitNode = root.putObject(JSONConstants.UNIT);
+        unitNode.put(JSONConstants.TYPE, unit.getType());
+        unitNode.set(JSONConstants.IMAGE, encodeAsString(unit.getImage()));
         Map<String, String> environment = unit.getEnvironment();
         if (environment != null && !environment.isEmpty()) {
-            ObjectNode environmentNode = root.putObject(JSONConstants.ENVIRONMENT);
+            ObjectNode environmentNode = unitNode.putObject(JSONConstants.ENVIRONMENT);
             for (Entry<String, String> entry : environment.entrySet()) {
-                environmentNode.put(entry.getKey(), encodeAsString(entry.getValue()));
+                environmentNode.set(entry.getKey(), encodeAsString(entry.getValue()));
             }
         }
         return root;

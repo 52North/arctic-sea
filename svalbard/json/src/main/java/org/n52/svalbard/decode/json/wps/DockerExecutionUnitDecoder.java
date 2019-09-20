@@ -42,8 +42,9 @@ public class DockerExecutionUnitDecoder extends JSONDecoder<DockerExecutionUnit>
             return null;
         }
         DockerExecutionUnit unit = new DockerExecutionUnit();
-        unit.setImage(node.path(JSONConstants.IMAGE).asText());
-        unit.setEnvironment(decodeEnvironment(node.path(JSONConstants.ENVIRONMENT)));
+        JsonNode unitNode = node.path(JSONConstants.UNIT);
+        unit.setImage(unitNode.path(JSONConstants.IMAGE).asText());
+        unit.setEnvironment(decodeEnvironment(unitNode.path(JSONConstants.ENVIRONMENT)));
         return unit;
     }
 

@@ -31,17 +31,15 @@ public class ExecutionUnitDecoder extends JSONDecoder<ExecutionUnit> {
 
     @Override
     public ExecutionUnit decodeJSON(JsonNode node, boolean validate) throws DecodingException {
-        String type = node.path(JSONConstants.TYPE).asText();
+        String type = node.path(JSONConstants.UNIT).path(JSONConstants.TYPE).asText();
         if (type == null) {
             throw new DecodingException("missing execution unit type");
         }
 
-        switch (type) {
-            case DockerExecutionUnit.TYPE:
-                return decodeJsonToObject(node, DockerExecutionUnit.class);
-            default:
-                throw new DecodingException("unsupported execution unit type: " + type);
+        if (DockerExecutionUnit.TYPE.equals(type)) {
+            return decodeJsonToObject(node, DockerExecutionUnit.class);
         }
+        throw new DecodingException("unsupported execution unit type: " + type);
     }
 
 }
