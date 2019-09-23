@@ -49,6 +49,8 @@ import org.n52.svalbard.decode.json.JSONDecoder;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -102,21 +104,34 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
         throw new DecodingException("unsupported input" + node);
     }
 
-    private LiteralInputDescription decodeLiteralInput(JsonNode node) {
+    private LiteralInputDescription decodeLiteralInput(JsonNode node) throws DecodingException {
         LiteralInputDescription.Builder<?, ?> builder = factory.literalInput();
         decodeInputDescription(builder, node);
-        decodeSupportedLiteralDataDomains(builder, node);
+        decodeSupportedLiteralDataDomains(builder, node.path(JSONConstants.INPUT));
         return builder.build();
     }
 
-    private void decodeSupportedLiteralDataDomains(LiteralDescription.Builder<?, ?> builder, JsonNode node) {
-        for (JsonNode domainNode : node.path(JSONConstants.INPUT).path(JSONConstants.LITERAL_DATA_DOMAINS)) {
+    private void decodeSupportedLiteralDataDomains(LiteralDescription.Builder<?, ?> builder, JsonNode node)
+            throws DecodingException {
+        JsonNode domains = node.path(JSONConstants.LITERAL_DATA_DOMAINS);
+        LiteralDataDomain defaultLiteralDataDomain = null;
+        List<LiteralDataDomain> literalDataDomains = new ArrayList<>(domains.size());
+        for (JsonNode domainNode : domains) {
             LiteralDataDomain literalDataDomain = decodeLiteralDataDomain(domainNode);
-            builder.withSupportedLiteralDataDomain(literalDataDomain);
+            literalDataDomains.add(literalDataDomain);
             if (domainNode.path(JSONConstants.DEFAULT).asBoolean(false)) {
-                builder.withDefaultLiteralDataDomain(literalDataDomain);
+                defaultLiteralDataDomain = literalDataDomain;
             }
         }
+        if (defaultLiteralDataDomain == null && !literalDataDomains.isEmpty()) {
+            defaultLiteralDataDomain = literalDataDomains.iterator().next();
+        }
+        if (defaultLiteralDataDomain == null) {
+            throw new DecodingException("missing literal data domain");
+        }
+        builder.withDefaultLiteralDataDomain(defaultLiteralDataDomain);
+        builder.withSupportedLiteralDataDomain(literalDataDomains);
+
     }
 
     private LiteralDataDomain decodeLiteralDataDomain(JsonNode node) {
@@ -171,7 +186,7 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
         return new OwsDomainMetadata(reference, name);
     }
 
-    private ComplexInputDescription decodeComplexInput(JsonNode node) {
+    private ComplexInputDescription decodeComplexInput(JsonNode node) throws DecodingException {
         ComplexInputDescription.Builder<?, ?> builder = factory.complexInput();
         decodeInputDescription(builder, node);
         BigInteger maximumMegabytes = decodeSupportedFormats(builder, node.path(JSONConstants.INPUT));
@@ -194,10 +209,10 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
                           node.path(JSONConstants.SCHEMA).textValue());
     }
 
-    private BoundingBoxInputDescription decodeBoundingBoxInput(JsonNode node) {
+    private BoundingBoxInputDescription decodeBoundingBoxInput(JsonNode node) throws DecodingException {
         BoundingBoxInputDescription.Builder<?, ?> builder = factory.boundingBoxInput();
         decodeInputDescription(builder, node);
-        decodeSupportedCRS(builder, node);
+        decodeSupportedCRS(builder, node.path(JSONConstants.INPUT));
         return builder.build();
     }
 
@@ -212,37 +227,50 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
         throw new DecodingException("unsupported output" + node);
     }
 
-    private BoundingBoxOutputDescription decodeBoundingBoxOutput(JsonNode node) {
+    private BoundingBoxOutputDescription decodeBoundingBoxOutput(JsonNode node) throws DecodingException {
         BoundingBoxOutputDescription.Builder<?, ?> builder = factory.boundingBoxOutput();
         decodeDescription(builder, node);
-        decodeSupportedCRS(builder, node);
+        decodeSupportedCRS(builder, node.path(JSONConstants.OUTPUT));
         return builder.build();
     }
 
-    private ComplexOutputDescription decodeComplexOutput(JsonNode node) {
+    private ComplexOutputDescription decodeComplexOutput(JsonNode node) throws DecodingException {
         ComplexOutputDescription.Builder<?, ?> builder = factory.complexOutput();
         decodeDescription(builder, node);
         BigInteger maximumMegabytes = decodeSupportedFormats(builder, node.path(JSONConstants.OUTPUT));
         return builder.withMaximumMegabytes(maximumMegabytes).build();
     }
 
-    private BigInteger decodeSupportedFormats(ComplexDescription.Builder<?, ?> builder, JsonNode node) {
+    private BigInteger decodeSupportedFormats(ComplexDescription.Builder<?, ?> builder, JsonNode node)
+            throws DecodingException {
+        JsonNode formatsNode = node.path(JSONConstants.FORMATS);
         BigInteger maximumMegabytes = null;
-        for (JsonNode formatNode : node.path(JSONConstants.FORMATS)) {
+        Format defaultFormat = null;
+        List<Format> formats = new ArrayList<>(formatsNode.size());
+        for (JsonNode formatNode : formatsNode) {
             Format format = decodeFormat(formatNode);
-            builder.withSupportedFormat(format);
+            formats.add(format);
             if (formatNode.path(JSONConstants.DEFAULT).asBoolean(false)) {
-                builder.withDefaultFormat(format);
+                defaultFormat = format;
             }
             maximumMegabytes = getMaximumMegabytes(maximumMegabytes, formatNode);
         }
+
+        if (defaultFormat == null && !formats.isEmpty()) {
+            defaultFormat = formats.iterator().next();
+        }
+        if (defaultFormat == null) {
+            throw new DecodingException("missing default format");
+        }
+        builder.withDefaultFormat(defaultFormat);
+        builder.withSupportedFormat(formats);
         return maximumMegabytes;
     }
 
-    private LiteralOutputDescription decodeLiteralOutput(JsonNode node) {
+    private LiteralOutputDescription decodeLiteralOutput(JsonNode node) throws DecodingException {
         LiteralOutputDescription.Builder<?, ?> builder = factory.literalOutput();
         decodeDescription(builder, node);
-        decodeSupportedLiteralDataDomains(builder, node);
+        decodeSupportedLiteralDataDomains(builder, node.path(JSONConstants.OUTPUT));
         return builder.build();
     }
 
@@ -256,14 +284,26 @@ public class ProcessDescriptionDecoder extends JSONDecoder<ProcessDescription> {
         }
     }
 
-    private void decodeSupportedCRS(BoundingBoxDescription.Builder<?, ?> builder, JsonNode node) {
-        for (JsonNode crsNode : node.path(JSONConstants.SUPPORTED_CRS)) {
+    private void decodeSupportedCRS(BoundingBoxDescription.Builder<?, ?> builder, JsonNode node)
+            throws DecodingException {
+        JsonNode crsNodes = node.path(JSONConstants.SUPPORTED_CRS);
+        OwsCRS defaultCRS = null;
+        List<OwsCRS> supportedCRS = new ArrayList<>(crsNodes.size());
+        for (JsonNode crsNode : crsNodes) {
             OwsCRS crs = new OwsCRS(URI.create(crsNode.path(JSONConstants.CRS).textValue()));
-            builder.withSupportedCRS(crs);
+            supportedCRS.add(crs);
             if (crsNode.path(JSONConstants.DEFAULT).asBoolean(false)) {
-                builder.withDefaultCRS(crs);
+                defaultCRS = crs;
             }
         }
+        if (defaultCRS == null && !supportedCRS.isEmpty()) {
+            defaultCRS = supportedCRS.iterator().next();
+        }
+        if (defaultCRS == null) {
+            throw new DecodingException("missing default crs");
+        }
+        builder.withDefaultCRS(defaultCRS);
+        builder.withSupportedCRS(supportedCRS);
     }
 
     private void decodeDescription(Description.Builder<?, ?> builder, JsonNode node) {
