@@ -74,6 +74,7 @@ import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swe.SweDataArray;
 import org.n52.shetland.ogc.swe.SweDataRecord;
+import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.JavaHelper;
@@ -1147,6 +1148,11 @@ public class SensorMLEncoderv20
             } else if (abstractDataComponent instanceof SweDataArray) {
                 pupt.addNewDataArray1().set(encodeObjectToXmlSwe20(abstractDataComponent));
             }
+        } else if (position.isSetPosition()) {
+            SweVector vector = new SweVector(position.getPosition());
+            vector.setReferenceFrame(position.isSetReferenceFrame() ? position.getReferenceFrame()
+                    : OGCConstants.URL_DEF_CRS_EPSG + 4326);
+            pupt.addNewVector().set(encodeObjectToXmlSwe20(vector));
         }
     }
 
