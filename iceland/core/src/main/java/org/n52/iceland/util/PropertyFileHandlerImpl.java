@@ -108,7 +108,9 @@ public class PropertyFileHandlerImpl implements PropertyFileHandler {
         try {
             Path parent = Paths.get(propertiesFile.getParent());
             if (parent != null) {
-                Files.createDirectories(parent);
+                if (!Files.isSymbolicLink(parent)) {
+                    Files.createDirectories(parent);
+                }
             } else {
                 throw new RuntimeException("Error while creating path!");
             }

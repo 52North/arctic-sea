@@ -68,7 +68,9 @@ public abstract class AbstractPersistingCachePersistenceStrategy
         try {
             Path parent = cacheFile.getParent();
             if (parent != null) {
-                Files.createDirectories(parent);
+                if (!Files.isSymbolicLink(parent)) {
+                    Files.createDirectories(parent);
+                }
             } else {
                 throw new RuntimeException("Error while creating tmp file path.");
             }

@@ -27,6 +27,8 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import javax.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,6 +66,7 @@ public class JsonConfiguration implements Destroyable,
     private final JsonNodeFactory nodeFactory = Json.nodeFactory();
     private ObjectNode configuration;
     private File file;
+    @Inject
     private ConfigLocationProvider configLocationProvider;
     private Debouncer debouncer;
 
@@ -74,10 +77,12 @@ public class JsonConfiguration implements Destroyable,
         writeLock().lock();
         try {
             this.debouncer = new Debouncer(this.writeTimeout, this::persist);
-            Path path = Paths.get(this.configLocationProvider.get(), WEB_INF_PATH, CONFIG_PATH, this.fileName);
+            Path path = buildPath();
             Path parent = path.getParent();
             if (parent != null) {
-                Files.createDirectories(parent);
+                if (!Files.isSymbolicLink(parent)) {
+                    Files.createDirectories(parent);
+                }
             } else {
                 throw new RuntimeException("Error while creating config file path.");
             }
@@ -88,6 +93,13 @@ public class JsonConfiguration implements Destroyable,
         } finally {
             writeLock().unlock();
         }
+    }
+
+    private Path buildPath() {
+        if (configLocationProvider != null && configLocationProvider.get() != null) {
+            return Paths.get(configLocationProvider.get(), WEB_INF_PATH, CONFIG_PATH, this.fileName);
+        }
+        return Paths.get(WEB_INF_PATH, CONFIG_PATH, this.fileName);
     }
 
     /**
