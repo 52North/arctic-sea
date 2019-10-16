@@ -100,13 +100,13 @@ public interface SensorMLConstants {
     String FEATURE_OF_INTEREST_FIELD_DEFINITION = "http://www.opengis.net/def/featureOfInterest/identifier";
 
     String FEATURE_OF_INTEREST_FIELD_NAME = "featureOfInterestID";
-    
+
     String ELEMENT_NAME_SHORT_NAME = "shortName";
-    
+
     String ELEMENT_NAME_SHORT_DEFINITION = "urn:ogc:def:identifier:OGC:1.0:shortName";
 
     String ELEMENT_NAME_LONG_NAME = "longName";
-    
+
     String ELEMENT_NAME_LONG_DEFINITION = "urn:ogc:def:identifier:OGC:1.0:longName";
 
     String ELEMENT_NAME_OBSERVED_BBOX = "observedBBOX";
