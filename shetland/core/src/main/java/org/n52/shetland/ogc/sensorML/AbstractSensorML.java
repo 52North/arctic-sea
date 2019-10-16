@@ -120,13 +120,14 @@ public abstract class AbstractSensorML
     }
 
     private boolean isSetShortName() {
-        return isIdentificationSet(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME));
+        return isIdentificationSet(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME,
+                SensorMLConstants.ELEMENT_NAME_SHORT_DEFINITION));
     }
 
     private String getShortName() {
         if (isSetShortName()) {
-            return findIdentification(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME)).get()
-                    .getValue();
+            return findIdentification(createSmlIdentifierPredicate(SensorMLConstants.ELEMENT_NAME_SHORT_NAME,
+                    SensorMLConstants.ELEMENT_NAME_SHORT_DEFINITION)).get().getValue();
         }
         return null;
     }
