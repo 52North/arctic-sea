@@ -38,6 +38,7 @@ import org.n52.shetland.inspire.InspireUniqueResourceIdentifier;
 import org.n52.shetland.inspire.dls.FullInspireExtendedCapabilities;
 import org.n52.shetland.inspire.dls.InspireExtendedCapabilities;
 import org.n52.shetland.inspire.dls.MinimalInspireExtendedCapabilities;
+import org.n52.shetland.ogc.ows.extension.CapabilitiesExtension;
 import org.n52.shetland.ogc.swes.SwesExtension;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.w3c.SchemaLocation;
@@ -62,6 +63,7 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
                                                 InspireExtendedCapabilities.class),
             CodingHelper.encoderKeysForElements(InspireConstants.NS_INSPIRE_COMMON,
                                                 SwesExtension.class,
+                                                CapabilitiesExtension.class,
                                                 InspireSupportedLanguages.class,
                                                 InspireSupportedCRS.class));
 
@@ -84,6 +86,11 @@ public class InspireXmlEncoder extends AbstractXmlEncoder<XmlObject, Object> {
             SwesExtension<?> swesExtension = (SwesExtension<?>) objectToEncode;
             if (swesExtension.getValue() instanceof InspireObject) {
                 return encodeObject((InspireObject) swesExtension.getValue(), ctx);
+            }
+        } else if (objectToEncode instanceof CapabilitiesExtension<?>) {
+            CapabilitiesExtension<?> extension = (CapabilitiesExtension<?>) objectToEncode;
+            if (extension.getValue() instanceof InspireObject) {
+                return encodeObject((InspireObject) extension.getValue(), ctx);
             }
         }
         throw new UnsupportedEncoderInputException(this, objectToEncode);
