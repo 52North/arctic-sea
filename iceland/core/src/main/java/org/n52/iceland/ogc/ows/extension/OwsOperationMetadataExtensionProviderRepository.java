@@ -229,7 +229,6 @@ public class OwsOperationMetadataExtensionProviderRepository
     @Override
     public void setActive(OwsOperationMetadataExtensionProviderKey oeckt, boolean active) {
         if (this.extendedCapabilitiesProvider.containsKey(oeckt)) {
-            this.activations.activate(oeckt);
             if (!active) {
                 this.activations.deactivate(oeckt);
             } else {
@@ -237,6 +236,7 @@ public class OwsOperationMetadataExtensionProviderRepository
                         .filter(key -> key.getService().equals(oeckt.getService()))
                         .filter(key -> key.getVersion().equals(oeckt.getVersion()))
                         .forEach(this.activations::deactivate);
+                this.activations.activate(oeckt);
             }
         }
     }
