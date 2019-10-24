@@ -259,15 +259,19 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
     private BinaryAttachmentResponse encodeGetObsResponse(AbstractObservationResponse aor) throws EncodingException {
         File tempDir = Files.createTempDir();
         BinaryAttachmentResponse response = null;
+        File uvfFile = null;
         try {
-            File uvfFile = encodeToUvf(aor.getObservationCollection(), tempDir, identifyContentType(aor));
+            uvfFile = encodeToUvf(aor.getObservationCollection(), tempDir, identifyContentType(aor));
             response = new BinaryAttachmentResponse(Files.toByteArray(uvfFile), getContentType(),
                     String.format(uvfFile.getName(), makeDateSafe(new DateTime(DateTimeZone.UTC))));
         } catch (IOException e) {
             throw new EncodingException("Couldn't create UVF file", e);
         } finally {
+            if (uvfFile != null && !uvfFile.delete()) {
+                LOGGER.warn("Temporal file '{}' was not deleted!", uvfFile.getName());
+            }
             if (!tempDir.delete()) {
-                LOGGER.warn("Temporal file '{}' was not deleted!", tempDir.getName());
+                LOGGER.warn("Temporal directory '{}' was not deleted!", tempDir.getName());
             }
         }
 
