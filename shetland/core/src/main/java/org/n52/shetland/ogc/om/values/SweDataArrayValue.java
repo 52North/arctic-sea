@@ -52,6 +52,7 @@ public class SweDataArrayValue
      * Measurement values
      */
     private SweDataArray value;
+    private UoM uom;
 
     public SweDataArrayValue() {
         this(null);
@@ -74,22 +75,26 @@ public class SweDataArrayValue
 
     @Override
     public void setUnit(final String unit) {
-        // do nothing
+        this.uom = new UoM(unit);
     }
 
     @Override
     public SweDataArrayValue setUnit(UoM unit) {
+        this.uom = unit;
         return this;
     }
 
     @Override
     public String getUnit() {
-        return null;
+        if (uom != null) {
+            return uom.getUom();
+        }
+        return "";
     }
 
     @Override
     public UoM getUnitObject() {
-        return null;
+        return uom;
     }
 
     /**
