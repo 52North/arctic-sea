@@ -16,28 +16,23 @@
  */
 package org.n52.janmayen.i18n;
 
-import static java.util.stream.Collectors.toMap;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
-import org.n52.janmayen.function.Functions;
 import org.n52.janmayen.function.Predicates;
+
+import com.neovisionaries.i18n.LanguageAlpha3Code;
 
 public final class LocaleHelper {
     private static final Map<String, Locale> CACHE = Collections.synchronizedMap(new HashMap<>());
-    private static final Map<String, String> ISO_COUNTRY_ALPHA_3_TO_ALPHA_2 = Arrays
-            .stream(Locale.getISOCountries()).map(Functions.curryFirst(Locale::new, "")).distinct()
-            .collect(toMap(Locale::getISO3Country, Locale::getCountry));
-    private static final Map<String, String> ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2 = Arrays
-            .stream(Locale.getISOLanguages()).map(Locale::new).distinct()
-            .collect(toMap(Locale::getISO3Language, Locale::getLanguage));
 
     private LocaleHelper() {
     }
@@ -64,13 +59,28 @@ public final class LocaleHelper {
         if (input == null) {
             return null;
         }
-        String country = input.getISO3Country();
-        String language = input.getISO3Language();
+        String country = input.getCountry();
+        String language = input.getLanguage();
         StringBuilder sb = new StringBuilder(language);
         if (!country.isEmpty()) {
             sb.append("-").append(country);
         }
         return sb.toString();
+    }
+
+    public static Set<Locale> getEquivalents(Locale locale) {
+        Set<Locale> locales = new LinkedHashSet<>();
+        LanguageAlpha3Code byCode = LanguageAlpha3Code.getByCode(locale.getLanguage());
+        if (byCode != null) {
+            locales.add(byCode.getAlpha2().toLocale());
+            locales.add(new Locale(byCode.getAlpha3B().name()));
+            locales.add(new Locale(byCode.getAlpha3T().name()));
+        }
+        return locales;
+    }
+
+    public static Set<String> getEquivalents(String locale) {
+        return getEquivalents(decode(locale)).stream().map(l -> encode(l)).collect(Collectors.toSet());
     }
 
     private static Locale decode1(String locale) {
@@ -80,11 +90,9 @@ public final class LocaleHelper {
         if (tokens.length > 3) {
             throw new IllegalArgumentException("Unparsable language parameter: " + locale);
         }
-        String language = tokens.length > 0 ? checkForIsoB(tokens[0].toLowerCase()) : "";
+        String language = tokens.length > 0 ? tokens[0].toLowerCase() : "";
         String country = tokens.length > 1 ? tokens[1].toUpperCase() : "";
         String variant = tokens.length > 2 ? tokens[2] : "";
-        country = ISO_COUNTRY_ALPHA_3_TO_ALPHA_2.getOrDefault(country.toUpperCase(), country);
-        language = ISO_LANGUAGE_ALPHA_3_TO_ALPHA_2.getOrDefault(language, language);
         return new Locale(language, country, variant);
     }
 
@@ -104,13 +112,5 @@ public final class LocaleHelper {
 
     private static String getFirstLanguageCode(String locale) {
         return locale.split(",")[0];
-    }
-
-    private static String checkForIsoB(String language) {
-        try {
-            return ISO6392B.fromValue(language).getIso();
-        } catch (IllegalArgumentException e) {
-            return language;
-        }
     }
 }

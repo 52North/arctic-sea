@@ -49,9 +49,9 @@ public class LocaleHelperTest {
         assertThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
         assertThat(LocaleHelper.decode("de-de", null), is(Locale.GERMANY));
         assertThat(LocaleHelper.decode("de-DE", null), is(Locale.GERMANY));
-        assertThat(LocaleHelper.decode("deu", null), is(Locale.GERMAN));
-        assertThat(LocaleHelper.decode("ger", null), is(Locale.GERMAN));
-        assertThat(LocaleHelper.decode("eng", null), is(Locale.ENGLISH));
+        assertThat(LocaleHelper.decode("deu", null), is(new Locale("deu")));
+        assertThat(LocaleHelper.decode("ger", null), is(new Locale("ger")));
+        assertThat(LocaleHelper.decode("eng", null), is(new Locale("eng")));
     }
 
     @Test
