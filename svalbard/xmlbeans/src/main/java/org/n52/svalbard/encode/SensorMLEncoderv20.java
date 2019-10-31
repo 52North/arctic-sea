@@ -687,6 +687,11 @@ public class SensorMLEncoderv20
         // set outputs
         if (abstractProcess.isSetOutputs() && !apt.isSetOutputs()) {
             apt.setOutputs(createOutputs(abstractProcess.getOutputs()));
+        } else if (abstractProcess.isSetOutputs() && apt.isSetOutputs()) {
+            Outputs createOutputs = createOutputs(abstractProcess.getOutputs());
+            if (!createOutputs.xmlText().equals(apt.getOutputs().xmlText())) {
+                apt.setOutputs(createOutputs);
+            }
         }
         // set parameters
         // set modes
