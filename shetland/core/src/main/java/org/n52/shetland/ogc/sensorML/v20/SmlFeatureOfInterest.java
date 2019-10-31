@@ -18,11 +18,12 @@ package org.n52.shetland.ogc.sensorML.v20;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import org.n52.shetland.ogc.gml.AbstractFeature;
+import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.swe.SweAbstractDataComponent;
 import org.n52.shetland.ogc.swe.SweConstants.SweDataComponentType;
 import org.n52.shetland.ogc.swe.SweDataComponentVisitor;
@@ -48,7 +49,7 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     public SmlFeatureOfInterest addFeaturesOfInterest(Collection<String> features) {
-        getFeaturesOfInterest().addAll(features);
+        features.forEach(this::addFeatureOfInterest);
         return this;
     }
 
@@ -58,7 +59,8 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     public SmlFeatureOfInterest addFeatureOfInterest(String featureIdentifier) {
-        getFeaturesOfInterest().add(featureIdentifier);
+        getFeaturesOfInterestMap().put(featureIdentifier,
+                new SamplingFeature(new CodeWithAuthority(featureIdentifier)));
         return this;
     }
 
@@ -72,8 +74,8 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     }
 
     public boolean isSetFeaturesOfInterest() {
-        return CollectionHelper.isNotEmpty(getFeaturesOfInterest()) || CollectionHelper
-               .isNotEmpty(getFeaturesOfInterestMap());
+        return CollectionHelper.isNotEmpty(getFeaturesOfInterest())
+                || CollectionHelper.isNotEmpty(getFeaturesOfInterestMap());
     }
 
     public Map<String, AbstractFeature> getFeaturesOfInterestMap() {
@@ -110,9 +112,6 @@ public class SmlFeatureOfInterest extends SweAbstractDataComponent {
     public SmlFeatureOfInterest copy() {
         SmlFeatureOfInterest clone = new SmlFeatureOfInterest();
         copyValueTo(clone);
-        if (isSetFeaturesOfInterest()) {
-            clone.addFeaturesOfInterest(new HashSet<>(getFeaturesOfInterest()));
-        }
         if (isSetFeaturesOfInterestMap()) {
             clone.addFeaturesOfInterest(new HashMap<>(getFeaturesOfInterestMap()));
         }
