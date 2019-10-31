@@ -256,9 +256,13 @@ public abstract class AbstractOmV20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     protected void writePhenomenonTime(Time time) throws EncodingException, XMLStreamException {
-        start(OmConstants.QN_OM_20_PHENOMENON_TIME);
-        writeTimeContent(time);
-        end(OmConstants.QN_OM_20_PHENOMENON_TIME);
+        if (time == null || time.isEmpty()) {
+            empty(OmConstants.QN_OM_20_PHENOMENON_TIME);
+        } else {
+            start(OmConstants.QN_OM_20_PHENOMENON_TIME);
+            writeTimeContent(time);
+            end(OmConstants.QN_OM_20_PHENOMENON_TIME);
+        }
     }
 
     protected void writeValidTime(TimePeriod validTime) throws EncodingException, XMLStreamException {
@@ -290,7 +294,9 @@ public abstract class AbstractOmV20XmlStreamWriter
         } else if (phenomenonTime instanceof TimeInstant) {
             // if result time is not set, get result time from phenomenon time
             empty(OmConstants.QN_OM_20_RESULT_TIME);
-            addXlinkHrefAttr("#".concat(phenomenonTime.getGmlId()));
+            if (!phenomenonTime.isEmpty()) {
+                addXlinkHrefAttr("#".concat(phenomenonTime.getGmlId()));
+            }
         } else if (phenomenonTime instanceof TimePeriod) {
             TimeInstant rsTime = new TimeInstant(((TimePeriod) observation.getPhenomenonTime()).getEnd());
             addResultTime(rsTime);
