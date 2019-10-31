@@ -992,6 +992,11 @@
                     </exclusion>
                 </exclusions>
             </dependency>
+            <dependency>
+                <groupId>com.neovisionaries</groupId>
+                <artifactId>nv-i18n</artifactId>
+                <version>1.26</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
