@@ -277,8 +277,8 @@ public interface ObservationStream
         try {
             while (hasNext()) {
                 OmObservation observation = next();
-                Optional<OmObservation> merge =
-                        mergedObservations.stream().filter(o -> o.checkForMerge(observation, indicator)).findAny();
+                Optional<OmObservation> merge = mergedObservations.stream().filter(Objects::nonNull)
+                        .filter(o -> o.checkForMerge(observation, indicator)).findAny();
                 if (merge.isPresent()) {
                     merge.get().mergeWithObservation(observation);
                 } else {
