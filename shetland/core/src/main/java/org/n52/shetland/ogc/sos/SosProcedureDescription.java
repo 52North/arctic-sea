@@ -37,7 +37,7 @@ import com.google.common.collect.Sets;
  */
 public class SosProcedureDescription<T extends AbstractFeature> extends AbstractFeature {
 
-    private final T description;
+    private final T procedureDescription;
     private Time validTime;
     private String descriptionFormat;
 
@@ -53,13 +53,13 @@ public class SosProcedureDescription<T extends AbstractFeature> extends Abstract
     private boolean aggregation;
     private boolean reference;
 
-    public SosProcedureDescription(T description) {
-        super(description.getIdentifier());
-        this.description = description;
+    public SosProcedureDescription(T procedureDescription) {
+        super(procedureDescription.getIdentifier());
+        this.procedureDescription = procedureDescription;
     }
 
     public T getProcedureDescription() {
-        return description;
+        return procedureDescription;
     }
 
     public Time getValidTime() {
