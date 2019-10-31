@@ -24,6 +24,7 @@ import org.n52.iceland.i18n.I18NSettings;
 import org.n52.iceland.service.operator.ServiceOperatorRepository;
 import org.n52.iceland.util.LocalizedLazyThreadSafeProducer;
 import org.n52.janmayen.i18n.LocaleHelper;
+import org.n52.janmayen.i18n.LocalizedString;
 import org.n52.janmayen.i18n.MultilingualString;
 import org.n52.shetland.ogc.ows.OwsCode;
 import org.n52.shetland.ogc.ows.OwsKeyword;
@@ -175,10 +176,36 @@ public class OwsServiceIdentificationFactory
     }
 
     private MultilingualString getAbstract(Locale locale) {
+        if (this.abstrakt.hasLocale(locale)) {
+            return this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
+        } else {
+            MultilingualString multilingualString = new MultilingualString();
+            for (Locale eqLocale : LocaleHelper.getEquivalents(locale)) {
+                if (this.abstrakt.hasLocale(eqLocale)) {
+                    for (LocalizedString ls : this.abstrakt.filter(eqLocale, defaultLocale, showAllLanguageValues)) {
+                        multilingualString.addLocalization(new LocalizedString(locale, ls.getText()));
+                    }
+                    return multilingualString;
+                }
+            }
+        }
         return this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
     }
 
     private MultilingualString getTitle(Locale locale) {
+        if (this.title.hasLocale(locale)) {
+            return this.title.filter(locale, defaultLocale, showAllLanguageValues);
+        } else {
+            MultilingualString multilingualString = new MultilingualString();
+            for (Locale eqLocale : LocaleHelper.getEquivalents(locale)) {
+                if (this.title.hasLocale(eqLocale)) {
+                    for (LocalizedString ls : this.title.filter(eqLocale, defaultLocale, showAllLanguageValues)) {
+                        multilingualString.addLocalization(new LocalizedString(locale, ls.getText()));
+                    }
+                    return multilingualString;
+                }
+            }
+        }
         return this.title.filter(locale, defaultLocale, showAllLanguageValues);
     }
 
