@@ -45,6 +45,7 @@ import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
@@ -371,6 +372,14 @@ public class WmlTVPEncoderv20
                         }
                     }
                 }
+            } else if (checkSweDataArray(observationValue.getValue())) {
+                SweDataArrayValue sweDataArrayValue = (SweDataArrayValue) observationValue.getValue();
+                for (List<String> list : sweDataArrayValue.getValue().getValues()) {
+                    for (int i = 0; i < list.size(); i = i + 2) {
+                        addValuesToMeasurementTVP(measurementTimeseries.addNewPoint().addNewMeasurementTVP(),
+                                list.get(i), list.get(i + 1));
+                    }
+                }
             }
             addValuesToMeasurementTVP(measurementTimeseries.addNewPoint().addNewMeasurementTVP(), time, value);
         } else if (observationValue instanceof MultiObservationValues) {
@@ -413,7 +422,7 @@ public class WmlTVPEncoderv20
 
         return unit;
     }
-
+    
     /**
      * Add a time an value to MeasureTVPType
      *

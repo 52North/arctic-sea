@@ -45,6 +45,7 @@ import org.n52.shetland.ogc.om.series.tsml.TimeseriesMLConstants.InterpolationTy
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.ows.exception.CodedException;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
@@ -80,9 +81,7 @@ import net.opengis.tsml.x10.TimeseriesTVPType;
  * Encoder class for TimeseriesML 1.0 TimeseriesValuePair (TVP)
  *
  */
-public class TsmlTVPEncoderv10
-        extends
-        AbstractTsmlEncoderv10 {
+public class TsmlTVPEncoderv10 extends AbstractTsmlEncoderv10 implements WmlTmlHelper {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TsmlTVPEncoderv10.class);
 
@@ -154,8 +153,7 @@ public class TsmlTVPEncoderv10
 
     @Override
     public XmlObject encode(Object element, EncodingContext additionalValues)
-            throws EncodingException,
-            UnsupportedEncoderInputException {
+            throws EncodingException, UnsupportedEncoderInputException {
         if (element instanceof ObservationValue) {
             return encodeResult((ObservationValue<?>) element);
         } else {
@@ -181,8 +179,7 @@ public class TsmlTVPEncoderv10
     }
 
     @Override
-    protected XmlObject createResult(OmObservation sosObservation)
-            throws EncodingException {
+    protected XmlObject createResult(OmObservation sosObservation) throws EncodingException {
         try {
             return createMeasurementTimeseries(sosObservation);
         } catch (OwsExceptionReport ce) {
@@ -192,8 +189,7 @@ public class TsmlTVPEncoderv10
     }
 
     @Override
-    protected XmlObject encodeResult(ObservationValue<?> observationValue)
-            throws EncodingException {
+    protected XmlObject encodeResult(ObservationValue<?> observationValue) throws EncodingException {
         try {
             return createMeasurementTimeseries((AbstractObservationValue<?>) observationValue);
         } catch (OwsExceptionReport ce) {
@@ -233,8 +229,7 @@ public class TsmlTVPEncoderv10
      * @throws CodedException
      *             if the encoding fails
      */
-    private XmlObject createMeasurementTimeseries(OmObservation sosObservation)
-            throws OwsExceptionReport {
+    private XmlObject createMeasurementTimeseries(OmObservation sosObservation) throws OwsExceptionReport {
         TimeseriesTVPDocument measurementTimeseriesDoc = TimeseriesTVPDocument.Factory.newInstance();
         TimeseriesTVPType measurementTimeseries = measurementTimeseriesDoc.addNewTimeseriesTVP();
         ((AbstractGMLType) measurementTimeseries).setId(TIMESERIES_ID_PREFIX + sosObservation.getObservationID());
@@ -287,8 +282,7 @@ public class TsmlTVPEncoderv10
         return measurementTimeseriesDoc;
     }
 
-    private XmlObject createMeasurementTimeseries(AbstractObservationValue<?> observationValue)
-            throws CodedException {
+    private XmlObject createMeasurementTimeseries(AbstractObservationValue<?> observationValue) throws CodedException {
         TimeseriesTVPDocument measurementTimeseriesDoc = TimeseriesTVPDocument.Factory.newInstance();
         TimeseriesTVPType measurementTimeseries = measurementTimeseriesDoc.addNewTimeseriesTVP();
         ((AbstractGMLType) measurementTimeseries).setId(TIMESERIES_ID_PREFIX + observationValue.getObservationID());
@@ -362,6 +356,14 @@ public class TsmlTVPEncoderv10
                         if (quantityValue.isSetValue()) {
                             value = quantityValue.getValue().toPlainString();
                         }
+                    }
+                }
+            } else if (checkSweDataArray(observationValue.getValue())) {
+                SweDataArrayValue sweDataArrayValue = (SweDataArrayValue) observationValue.getValue();
+                for (List<String> list : sweDataArrayValue.getValue().getValues()) {
+                    for (int i = 0; i < list.size(); i = i + 2) {
+                        measurementTimeseries.addNewPoint()
+                                .set(this.createMeasurementTVP(list.get(i), list.get(i + 1)));
                     }
                 }
             }

@@ -97,7 +97,7 @@ import net.opengis.waterml.x20.ObservationProcessType;
  */
 public abstract class AbstractWmlEncoderv20
         extends AbstractOmEncoderv20
-        implements ProcedureEncoder<XmlObject, Object> {
+        implements ProcedureEncoder<XmlObject, Object>, WmlTmlHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractWmlEncoderv20.class);
 
     private static final Map<String, ImmutableMap<String, Set<String>>> SUPPORTED_PROCEDURE_DESCRIPTION_FORMATS =

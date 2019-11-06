@@ -41,6 +41,7 @@ import org.n52.shetland.ogc.om.series.wml.WaterMLConstants.InterpolationType;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.ProfileValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
+import org.n52.shetland.ogc.om.values.SweDataArrayValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
 import org.n52.shetland.ogc.om.values.TextValue;
 import org.n52.shetland.ogc.om.values.Value;
@@ -48,6 +49,7 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.EncodingContext;
+import org.n52.svalbard.encode.WmlTmlHelper;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import com.google.common.base.Strings;
@@ -60,7 +62,7 @@ import com.google.common.base.Strings;
  *
  */
 public class WmlTVPEncoderv20XmlStreamWriter
-        extends AbstractOmV20XmlStreamWriter {
+        extends AbstractOmV20XmlStreamWriter implements WmlTmlHelper {
     public WmlTVPEncoderv20XmlStreamWriter(
             EncodingContext context,
             OutputStream outputStream,
@@ -80,9 +82,19 @@ public class WmlTVPEncoderv20XmlStreamWriter
         if (observation.getValue() instanceof SingleObservationValue) {
             SingleObservationValue<?> observationValue = (SingleObservationValue<?>) observation.getValue();
             writeDefaultPointMetadata(observationValue, observationValue.getValue().getUnit());
-            String time = getTimeString(observationValue.getPhenomenonTime());
-            writePoint(time, getValue(observation.getValue().getValue()));
-            close();
+            if (checkSweDataArray(observationValue.getValue())) {
+                SweDataArrayValue sweDataArrayValue = (SweDataArrayValue) observationValue.getValue();
+                for (List<String> list : sweDataArrayValue.getValue().getValues()) {
+                    for (int i = 0; i < list.size(); i = i + 2) {
+                        writePoint(list.get(i), list.get(i + 1));
+                        close();
+                    }
+                }
+            } else {
+                String time = getTimeString(observationValue.getPhenomenonTime());
+                writePoint(time, getValue(observation.getValue().getValue()));
+                close();
+            }
         } else if (observation.getValue() instanceof MultiObservationValues) {
             // XML streaming to client
             MultiObservationValues<?> observationValue = (MultiObservationValues<?>) observation.getValue();
@@ -356,7 +368,7 @@ public class WmlTVPEncoderv20XmlStreamWriter
         endInline(WaterMLConstants.QN_METADATA);
 
     }
-
+    
     @Override
     protected Optional<String> getDefaultFeatureEncodingNamespace() {
         return Optional.of(WaterMLConstants.NS_WML_20);
