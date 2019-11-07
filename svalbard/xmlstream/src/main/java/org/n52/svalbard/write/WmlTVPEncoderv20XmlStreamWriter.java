@@ -368,7 +368,7 @@ public class WmlTVPEncoderv20XmlStreamWriter
         endInline(WaterMLConstants.QN_METADATA);
 
     }
-    
+
     @Override
     protected Optional<String> getDefaultFeatureEncodingNamespace() {
         return Optional.of(WaterMLConstants.NS_WML_20);

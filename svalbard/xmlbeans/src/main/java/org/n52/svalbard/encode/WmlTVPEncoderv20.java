@@ -422,7 +422,7 @@ public class WmlTVPEncoderv20
 
         return unit;
     }
-    
+
     /**
      * Add a time an value to MeasureTVPType
      *
