@@ -1076,7 +1076,7 @@
                         <id>generate-notice</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>check</goal>
+                            <goal>generate</goal>
                         </goals>
                     </execution>
                 </executions>
