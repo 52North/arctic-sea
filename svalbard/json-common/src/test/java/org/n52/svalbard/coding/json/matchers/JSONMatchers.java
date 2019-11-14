@@ -17,7 +17,6 @@
 package org.n52.svalbard.coding.json.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
@@ -34,62 +33,50 @@ public class JSONMatchers {
     private JSONMatchers() {
     }
 
-    @Factory
     public static Matcher<JsonNode> isArray() {
         return new IsArrayNode();
     }
 
-    @Factory
     public static Matcher<JsonNode> arrayOfLength(final int size) {
         return new ArrayOfLength(size);
     }
 
-    @Factory
     public static Matcher<JsonNode> isObject() {
         return new IsObjectNode();
     }
 
-    @Factory
     public static Matcher<JsonNode> isString() {
         return new IsTextNode();
     }
 
-    @Factory
     public static Matcher<JsonNode> isBoolean() {
         return new IsBooleanNode();
     }
 
-    @Factory
     public static Matcher<JsonNode> isNumber() {
         return new IsNumberNode();
     }
 
-    @Factory
     public static Matcher<JsonNode> exist() {
         return new IsExistingNode();
     }
 
-    @Factory
     public static Matcher<JsonNode> isTrue() {
         return new IsBooleanEqualsNode(true);
     }
 
-    @Factory
     public static Matcher<JsonNode> isFalse() {
         return new IsBooleanEqualsNode(false);
     }
 
-    @Factory
     public static Matcher<JsonNode> equalTo(final String value) {
         return new IsStringEqualsNode(value);
     }
 
-    @Factory
     public static Matcher<JsonNode> equalTo(final Number value) {
         return new IsNumberEqualsNode(value);
     }
 
-    @Factory
     public static Matcher<JsonNode> equalTo(final boolean value) {
         return new IsBooleanEqualsNode(value);
     }

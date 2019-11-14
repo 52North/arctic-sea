@@ -17,7 +17,6 @@
 package org.n52.iceland.util;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
 
 import org.n52.janmayen.http.HTTPStatus;
@@ -48,7 +47,6 @@ public class HasStatusCode extends TypeSafeMatcher<OwsExceptionReport> {
         description.appendText("has status code ").appendValue(status.getCode());
     }
 
-    @Factory
     public static HasStatusCode hasStatusCode(HTTPStatus code) {
         return new HasStatusCode(code);
     }

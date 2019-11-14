@@ -18,7 +18,6 @@ package org.n52.svalbard.coding.json.matchers;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -50,7 +49,6 @@ public class Does<T> extends BaseMatcher<T> {
         matcher.describeMismatch(item, mismatchDescription);
     }
 
-    @Factory
     public static <T> Does<T> does(Matcher<T> matcher) {
         return new Does<T>(matcher);
     }

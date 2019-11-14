@@ -18,7 +18,6 @@ package org.n52.shetland.util;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -70,7 +69,6 @@ public class ReverseOf extends BaseMatcher<Geometry> {
         description.appendText("reverse of ").appendValue(original);
     }
 
-    @Factory
     public static Matcher<Geometry> reverseOf(Geometry geom) {
         return new ReverseOf(geom);
     }

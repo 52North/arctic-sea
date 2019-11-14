@@ -17,7 +17,6 @@
 package org.n52.svalbard.coding.json.matchers;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.n52.svalbard.coding.json.JSONConstants;
@@ -42,17 +41,14 @@ import com.github.fge.jsonschema.main.JsonSchema;
  * @since 1.0.0
  */
 public class ValidationMatchers {
-    @Factory
     public static Matcher<JsonNode> instanceOf(String schemaURI) {
         return new IsValidInstance(schemaURI);
     }
 
-    @Factory
     public static Matcher<JsonNode> validObservation() {
         return new IsValidInstance(SchemaConstants.Observation.OBSERVATION);
     }
 
-    @Factory
     public static Matcher<JsonNode> validSchema() {
         return new IsValidInstance(SchemaConstants.SCHEMA_URI);
     }

@@ -172,6 +172,11 @@ public class SweCommonDecoderV20
             SweTextEncoding sosTextEncoding = parseTextEncoding(textEncoding);
             sosTextEncoding.setXml(textEncodingDoc.xmlText(getXmlOptions()));
             return sosTextEncoding;
+        } else if (element instanceof AbstractEncodingType) {
+            SweAbstractEncoding absEncoding = parseEncoding((AbstractEncodingType) element);
+            TextEncodingDocument absEncodingDoc = TextEncodingDocument.Factory.newInstance(getXmlOptions());
+            absEncoding.setXml(absEncodingDoc.xmlText(getXmlOptions()));
+            return absEncoding;
         } else if (element instanceof TextPropertyType) {
             return parseAbstractDataComponent(((TextPropertyType) element).getText());
         } else if (element instanceof CountPropertyType) {
@@ -274,7 +279,7 @@ public class SweCommonDecoderV20
             sosSweDataArray.setElementType(parseAbstractDataComponent(xbElementType.getAbstractDataComponent()));
         }
         if (xbDataArray.isSetEncoding()) {
-            sosSweDataArray.setEncoding(parseEncoding(xbDataArray.getEncoding().getAbstractEncoding()));
+            sosSweDataArray.setEncoding((SweAbstractEncoding) decode(xbDataArray.getEncoding().getAbstractEncoding()));
         }
 
         // parse values
@@ -302,7 +307,7 @@ public class SweCommonDecoderV20
             sweDataStream.setElementType(parseAbstractDataComponent(xbElementType.getAbstractDataComponent()));
         }
         if (dataStream.getEncoding() != null && dataStream.getEncoding().getAbstractEncoding() != null) {
-            sweDataStream.setEncoding(parseEncoding(dataStream.getEncoding().getAbstractEncoding()));
+            sweDataStream.setEncoding((SweAbstractEncoding) decode(dataStream.getEncoding().getAbstractEncoding()));
         }
 
         // parse values
