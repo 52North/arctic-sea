@@ -148,6 +148,7 @@
         <version.jena>3.13.1</version.jena>
         <version.jackson>2.10.1</version.jackson>
         <version.junit>5.5.2</version.junit>
+        <version.elastic>7.3.0</version.elastic>
     </properties>
 
     <dependencyManagement>
@@ -551,12 +552,12 @@
             <dependency>
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
-                <version>7.3.0</version>
+                <version>${version.elastic}</version>
             </dependency>
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>transport</artifactId>
-                <version>7.3.0</version>
+                <version>${version.elastic}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.lucene</groupId>
