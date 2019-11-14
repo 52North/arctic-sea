@@ -149,6 +149,7 @@
         <version.jackson>2.10.1</version.jackson>
         <version.junit>5.5.2</version.junit>
         <version.mockito>3.1.0</version.mockito>
+        <version.elasticsearch>7.4.2</version.elasticsearch>
     </properties>
 
     <dependencyManagement>
@@ -552,12 +553,12 @@
             <dependency>
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
-                <version>7.3.0</version>
+                 <version>${version.elasticsearch}</version>
             </dependency>
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>transport</artifactId>
-                <version>7.3.0</version>
+                 <version>${version.elasticsearch}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.lucene</groupId>
