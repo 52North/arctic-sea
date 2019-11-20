@@ -115,24 +115,29 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
             Iterator<JsonNode> it = arrayNode.iterator();
             while (it.hasNext()) {
                 final JsonNode next = it.next();
-                if (next.has(AQDJSONConstants.TEXT)) {
-                    localisedCharacterString.setValue(next.get(AQDJSONConstants.TEXT).asText());
-                } else if (next.has(AQDJSONConstants.LANGUAGE)) {
-                    localisedCharacterString.setLocale(next.get(AQDJSONConstants.LANGUAGE).asText());
-
-                }
+                checkAndAddTextAndLanguage(next, localisedCharacterString);
             }
+        } else if (n.isTextual()) {
+            localisedCharacterString.setValue(n.asText());
+        } else if (n.isObject()) {
+            checkAndAddTextAndLanguage(n, localisedCharacterString);
         }
         return new PT_FreeText().addTextGroup(localisedCharacterString);
     }
 
-    protected <T> Nillable<T> decodeJsonToNillable(JsonNode node, final Class<T> type)
-            throws DecodingException {
+    private void checkAndAddTextAndLanguage(JsonNode n, LocalisedCharacterString localisedCharacterString) {
+        if (n.has(AQDJSONConstants.TEXT)) {
+            localisedCharacterString.setValue(n.get(AQDJSONConstants.TEXT).asText());
+        } else if (n.has(AQDJSONConstants.LANGUAGE)) {
+            localisedCharacterString.setLocale(n.get(AQDJSONConstants.LANGUAGE).asText());
+        }
+    }
+
+    protected <T> Nillable<T> decodeJsonToNillable(JsonNode node, final Class<T> type) throws DecodingException {
         ThrowableFunction<JsonNode, T> fun = new ThrowableFunction<JsonNode, T>() {
 
             @Override
-            protected T applyThrowable(JsonNode input)
-                    throws DecodingException {
+            protected T applyThrowable(JsonNode input) throws DecodingException {
                 return decodeJsonToObject(input, type);
             }
         };
@@ -150,8 +155,7 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
         ThrowableFunction<JsonNode, T> fun = new ThrowableFunction<JsonNode, T>() {
 
             @Override
-            protected T applyThrowable(JsonNode input)
-                    throws DecodingException {
+            protected T applyThrowable(JsonNode input) throws DecodingException {
                 return decodeJsonToObject(input, type);
             }
         };
