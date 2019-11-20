@@ -128,7 +128,8 @@ public abstract class AbstractJSONDecoder<T> extends JSONDecoder<T> {
     private void checkAndAddTextAndLanguage(JsonNode n, LocalisedCharacterString localisedCharacterString) {
         if (n.has(AQDJSONConstants.TEXT)) {
             localisedCharacterString.setValue(n.get(AQDJSONConstants.TEXT).asText());
-        } else if (n.has(AQDJSONConstants.LANGUAGE)) {
+        }
+        if (n.has(AQDJSONConstants.LANGUAGE) && !n.get(AQDJSONConstants.LANGUAGE).isNull()) {
             localisedCharacterString.setLocale(n.get(AQDJSONConstants.LANGUAGE).asText());
         }
     }
