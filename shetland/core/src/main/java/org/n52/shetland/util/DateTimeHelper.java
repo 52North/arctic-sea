@@ -22,6 +22,7 @@ import java.util.regex.Pattern;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
+import org.joda.time.Minutes;
 import org.joda.time.Period;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -504,6 +505,19 @@ public final class DateTimeHelper {
      */
     public static double getDaysSinceWithPrecision(DateTime start, DateTime end) {
         return Days.daysBetween(start, end).getDays() + end.getSecondOfDay() / SECONDS_OF_DAY;
+    }
+
+    /**
+     * Get minutes between the given {@link DateTime}s
+     *
+     * @param start
+     *            Start {@link DateTime}
+     * @param end
+     *            End {@link DateTime}
+     * @return Minutes between the two {@link DateTime}s
+     */
+    public static int getMinutesSince(DateTime start, DateTime end) {
+        return Minutes.minutesBetween(start, end).getMinutes();
     }
 
     /**
