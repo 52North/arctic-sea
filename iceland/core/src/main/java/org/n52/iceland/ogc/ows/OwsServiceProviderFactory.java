@@ -153,10 +153,15 @@ public class OwsServiceProviderFactory extends LocalizedLazyThreadSafeProducer<O
     @Setting(OwsServiceProviderFactorySettings.ONLINE_RESOURCE)
     public void setOnlineResource(String onlineResource) {
         if (Optional.ofNullable(onlineResource).isPresent()) {
-            Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
-            Iterator<String> iterator = split.iterator();
-            this.onlineResoureTitle = iterator.next();
-            this.onlineResoureHref = URI.create(iterator.next());
+            if (onlineResource.contains("|")) {
+                Iterable<String> split = Splitter.on("|").trimResults().split(onlineResource);
+                Iterator<String> iterator = split.iterator();
+                this.onlineResoureTitle = iterator.next();
+                this.onlineResoureHref = URI.create(iterator.next());
+            } else {
+                this.onlineResoureTitle = onlineResource;
+                this.onlineResoureHref = URI.create(onlineResource);
+            }
             setRecreate();
         }
     }
