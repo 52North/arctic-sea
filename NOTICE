@@ -57,6 +57,7 @@ This project includes:
   Apache Jena - Shadowed external libraries under The Apache Software License, Version 2.0
   Apache Log4j API under Apache License, Version 2.0
   Apache Thrift under The Apache Software License, Version 2.0
+  c3p0 under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
   Checker Qual under The MIT License
   Commons Lang under The Apache Software License, Version 2.0
   Commons Logging under The Apache Software License, Version 2.0
@@ -80,6 +81,7 @@ This project includes:
   Guava ListenableFuture only under The Apache Software License, Version 2.0
   Guava: Google Core Libraries for Java under Apache License, Version 2.0
   HdrHistogram under Public Domain, per Creative Commons CC0
+  HikariCP under The Apache Software License, Version 2.0
   HPPC Collections under The Apache Software License, Version 2.0
   INSPIRE Addresses schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE Administrative Units schema (spec. v4.0) under The Apache Software License, Version 2.0
@@ -128,6 +130,7 @@ This project includes:
   Lucene Suggest under Apache 2
   MaxMind DB Reader under Apache License 2.0
   MaxMind GeoIP2 API under Apache License, Version 2.0
+  mchange-commons-java under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
   Mozilla Rhino under Mozilla Public License, Version 2.0
   Neo Visionaries Internationalization Package under The Apache Software License, Version 2.0
   Netty/Buffer under Apache License, Version 2.0
@@ -182,6 +185,7 @@ This project includes:
   parent-join under The Apache Software License, Version 2.0
   percolator under The Apache Software License, Version 2.0
   Portele Schape Change schema (spec. v3.0) under The Apache Software License, Version 2.0
+  quartz under The Apache Software License, Version 2.0
   rank-eval under The Apache Software License, Version 2.0
   reindex under The Apache Software License, Version 2.0
   rest under The Apache Software License, Version 2.0

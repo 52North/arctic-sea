@@ -16,13 +16,12 @@
  */
 package org.n52.iceland.cache.ctrl;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.faroe.ConfigurationError;
 import org.n52.faroe.Validation;
 import org.n52.faroe.annotation.Configurable;
@@ -30,6 +29,10 @@ import org.n52.faroe.annotation.Setting;
 import org.n52.iceland.cache.ContentCacheController;
 import org.n52.janmayen.lifecycle.Destroyable;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.util.DateTimeHelper;
+import org.quartz.CronExpression;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract class for capabilities cache controller implementations that schedules a complete cache update at a
@@ -67,7 +70,27 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
         }
     }
 
-    @Setting(ScheduledContentCacheControllerSettings.CAPABILITIES_CACHE_UPDATE_INTERVAL)
+    @Setting(ScheduledContentCacheControllerSettings.CAPABILITIES_CACHE_UPDATE)
+    public void setCronExpression(String cronExpression) {
+        Validation.notNullOrEmpty("Cron expression for cache update", cronExpression);
+        try {
+            DateTime now = DateTime.now();
+            Date next = new CronExpression(cronExpression).getNextInvalidTimeAfter(DateTime.now().toDate());
+            setUpdateInterval(DateTimeHelper.getMinutesSince(now, new DateTime(next)));
+        } catch (ParseException e) {
+            throw new ConfigurationError(String.format("The defined cron expression '%s' is invalid!", cronExpression),
+                    e);
+        }
+        // for later usage!
+//        if (this.cronExpression == null) {
+//            this.cronExpression = cronExpression;
+//            reschedule();
+//        } else if (!this.cronExpression.equalsIgnoreCase(cronExpression)) {
+//            this.cronExpression = cronExpression;
+//            reschedule();
+//        }
+    }
+
     public void setUpdateInterval(int interval) throws ConfigurationError {
         Validation.greaterEqualZero("Cache update interval", interval);
         if (this.updateInterval != interval) {

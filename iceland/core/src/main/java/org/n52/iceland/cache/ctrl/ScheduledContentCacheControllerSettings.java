@@ -24,9 +24,6 @@ package org.n52.iceland.cache.ctrl;
  * @since 1.0.0
  */
 public interface ScheduledContentCacheControllerSettings {
-    @Deprecated
-    String CAPABILITIES_CACHE_UPDATE_INTERVAL
-            = "service.capabilitiesCacheUpdateInterval";
 
     String CAPABILITIES_CACHE_UPDATE
             = "service.capabilitiesCacheUpdate";
