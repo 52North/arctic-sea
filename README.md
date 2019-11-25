@@ -7,7 +7,7 @@
 
 **52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
-The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/WPS)), clients and middleware. It compromises the following modules.
+The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/javaPS)), clients and middleware. It compromises the following modules.
 <p align="center">
 <img src="https://github.com/52North/arctic-sea/raw/master/etc/overview.png" width='60%'/>
 </p>
@@ -186,7 +186,7 @@ If you encounter any issues with the software or if you would like to see certai
 
 ## Support
 
-You can get support in the [community mailing list and forums](http://52north.org/resources/mailing-lists-and-forums/).
+You can get support in the [community mailing list and forums](https://52north.org/discuss/#mailing-lists).
 
 ## Contribute
 Are you interested in contributing to the 52°North Arctic Sea and you would like to pull your changes to the 52N repository to have them available to all?
