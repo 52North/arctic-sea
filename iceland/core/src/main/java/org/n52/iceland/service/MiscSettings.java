@@ -28,7 +28,7 @@ public interface MiscSettings {
     String HTTP_STATUS_CODE_USE_IN_KVP_POX_BINDING
             = "misc.httpResponseCodeUseInKvpAndPoxBinding";
 
-    String STATISTICS_COUNTING_OUTPUTSTREAM = "statistics.counting-outputstream";
+    String COUNTING_OUTPUTSTREAM = "misc.counting-outputstream";
 
     String INCLUDE_ORIGINAL_REQUEST = "misc.includeOriginalRequest";
 }
