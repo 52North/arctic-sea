@@ -171,7 +171,7 @@ Development versions can be optained from the Sonatype OSS snapshot repository:
   </repository>
 </repositories>
 <properties>
-  <version.arctic-sea>5.1.0-SNAPSHOT</version.arctic-sea>
+  <version.arctic-sea>7.3.0-SNAPSHOT</version.arctic-sea>
 </properties>
 ```
 
