@@ -44,14 +44,9 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>5.0.1</version.arctic-sea>
+  <version.arctic-sea>7.2.0</version.arctic-sea>
 </properties>
 <dependencies>
-  <dependency>
-    <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>iceland</artifactId>
-    <version>${version.arctic-sea}</version>
-  </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
     <artifactId>faroe</artifactId>
@@ -64,12 +59,52 @@ All projects are available on Maven Central.
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>faroe-json</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
     <artifactId>faroe-utils</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>faroe-json</artifactId>
+    <artifactId>iceland</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>iceland-statistics</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>iceland-statistics-generator</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>iceland-statistics-geolocation</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>iceland-statistics-kibana</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>janmayen</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>shetland</artifactId>
+    <version>${version.arctic-sea}</version>
+  </dependency>
+  <dependency>
+    <groupId>org.n52.arctic-sea</groupId>
+    <artifactId>shetland-rdf</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
@@ -79,7 +114,7 @@ All projects are available on Maven Central.
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>svalbard-xmlstream</artifactId>
+    <artifactId>svalbard-exi</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
@@ -94,7 +129,7 @@ All projects are available on Maven Central.
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>svalbard-exi</artifactId>
+    <artifactId>svalbard-odata</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
@@ -104,17 +139,12 @@ All projects are available on Maven Central.
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>svalbard-odata</artifactId>
+    <artifactId>svalbard-xmlstream</artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
   <dependency>
     <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>shetland</artifactId>
-    <version>${version.arctic-sea}</version>
-  </dependency>
-  <dependency>
-    <groupId>org.n52.arctic-sea</groupId>
-    <artifactId>janmayen</artifactId>
+    <artifactId></artifactId>
     <version>${version.arctic-sea}</version>
   </dependency>
 </dependencies>
@@ -125,7 +155,7 @@ For convenience the [52°North Maven parent](https://github.com/52North/maven-pa
 <parent>
     <groupId>org.n52</groupId>
     <artifactId>parent</artifactId>
-    <version>12</version>
+    <version>15</version>
 </parent>
 ```
 
