@@ -48,7 +48,7 @@ import org.n52.shetland.ogc.gml.time.Time.TimeFormat;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.shetland.w3c.xlink.Reference;
@@ -93,7 +93,7 @@ public class EReportingHeaderEncoder
     }
 
     protected String getGMLId(Object h) {
-        String gmlId = JavaHelper.generateID(h.toString() + System.currentTimeMillis());
+        String gmlId = IdGenerator.generate(h.toString() + System.currentTimeMillis());
         return NcName.makeValid(gmlId);
     }
 

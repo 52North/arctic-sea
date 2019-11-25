@@ -18,14 +18,14 @@ package org.n52.shetland.inspire.ef;
 
 import java.util.Set;
 
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.inspire.base.Identifier;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.xlink.Referenceable;
 
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Point;
 
 public class EnvironmentalMonitoringFacility
         extends AbstractMonitoringFeature {
@@ -110,7 +110,7 @@ public class EnvironmentalMonitoringFacility
         if (!super.isSetGmlID()) {
             final StringBuilder builder = new StringBuilder();
             builder.append("emf");
-            builder.append(JavaHelper.generateID(getIdentifierCodeWithAuthority().getValue()));
+            builder.append(IdGenerator.generate(getIdentifierCodeWithAuthority().getValue()));
             setGmlId(builder.toString());
         }
         return super.getGmlId();

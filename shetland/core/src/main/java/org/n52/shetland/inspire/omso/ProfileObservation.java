@@ -18,6 +18,9 @@ package org.n52.shetland.inspire.omso;
 
 import java.util.List;
 
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.om.ObservationValue;
 import org.n52.shetland.ogc.om.OmObservation;
@@ -35,9 +38,6 @@ import org.n52.shetland.ogc.om.values.ReferencableGridCoverage;
 import org.n52.shetland.util.CollectionHelper;
 
 import com.google.common.collect.Lists;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.LineString;
 
 public class ProfileObservation
         extends AbstractInspireObservation {

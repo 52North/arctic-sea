@@ -18,7 +18,7 @@ package org.n52.shetland.ogc.sensorML.v20;
 
 import org.n52.shetland.ogc.sensorML.HasProcessMethod;
 import org.n52.shetland.ogc.sensorML.ProcessMethod;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 /**
  * Class that represents SensorML 2.0 PhysicalComponent
@@ -35,7 +35,7 @@ public class PhysicalComponent
     private ProcessMethod method;
 
     public PhysicalComponent() {
-        setGmlId(ID_PREFIX + JavaHelper.generateID(ID_PREFIX));
+        setGmlId(ID_PREFIX + IdGenerator.generate(ID_PREFIX));
     }
 
     @Override

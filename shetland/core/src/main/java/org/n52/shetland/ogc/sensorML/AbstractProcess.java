@@ -26,9 +26,9 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
-import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
 import org.n52.shetland.ogc.sensorML.elements.SmlIo;
 import org.n52.shetland.ogc.sensorML.elements.SmlIoPredicates;
+import org.n52.shetland.ogc.sensorML.elements.SmlParameter;
 import org.n52.shetland.ogc.swe.simpleType.SweAbstractUomType;
 
 /**

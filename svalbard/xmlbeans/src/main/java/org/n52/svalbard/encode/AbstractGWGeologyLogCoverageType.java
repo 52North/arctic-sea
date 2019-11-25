@@ -18,7 +18,7 @@ package org.n52.svalbard.encode;
 
 import org.n52.shetland.ogc.om.values.ProfileLevel;
 import org.n52.shetland.ogc.om.values.ProfileValue;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import net.opengis.gwmlWell.x22.GWGeologyLogCoverageType;
@@ -40,7 +40,7 @@ public abstract class AbstractGWGeologyLogCoverageType<T>
     private void setGmlId(GWGeologyLogCoverageType gwglct, ProfileValue gwGeologyLogCoverage) {
         if (!gwGeologyLogCoverage.isSetGmlID()) {
             gwGeologyLogCoverage
-                    .setGmlId(JavaHelper.generateID(Double.toString(System.currentTimeMillis() * Math.random())));
+                    .setGmlId(IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random())));
         }
         gwGeologyLogCoverage.setGmlId("gwglc_" + gwGeologyLogCoverage.getGmlId());
         gwglct.setId(gwGeologyLogCoverage.getGmlId());

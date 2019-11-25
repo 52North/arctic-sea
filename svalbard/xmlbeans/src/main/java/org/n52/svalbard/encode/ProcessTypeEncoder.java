@@ -38,7 +38,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -155,7 +155,7 @@ public class ProcessTypeEncoder
         } else {
             ProcessType pt = ProcessType.Factory.newInstance();
             if (!process.isSetGmlID()) {
-                process.setGmlId("p_" + JavaHelper.generateID(process.toString()));
+                process.setGmlId("p_" + IdGenerator.generate(process.toString()));
             }
             pt.setId(process.getGmlId());
 

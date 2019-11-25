@@ -68,8 +68,8 @@ import org.n52.shetland.util.CRSHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.util.EnvelopeOrGeometry;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.util.JTSHelper;
-import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.util.MinMax;
 import org.n52.shetland.util.OMHelper;
 import org.n52.shetland.util.ReferencedEnvelope;
@@ -434,7 +434,7 @@ public class GmlEncoderv321
         if (timePeriod.getGmlId() != null && !timePeriod.getGmlId().isEmpty()) {
             timePeriodType.setId(timePeriod.getGmlId());
         } else {
-            timePeriodType.setId("tp_" + JavaHelper.generateID(timePeriod.toString() + System.currentTimeMillis()));
+            timePeriodType.setId("tp_" + IdGenerator.generate(timePeriod.toString() + System.currentTimeMillis()));
         }
         timePeriodType.setBeginPosition(createTimePositionType(timePeriod.getStartTimePosition()));
         timePeriodType.setEndPosition(createTimePositionType(timePeriod.getEndTimePosition()));
@@ -476,7 +476,7 @@ public class GmlEncoderv321
             timeInstantType.setId(timeInstant.getGmlId());
         } else {
             timeInstantType
-                    .setId("ti_" + JavaHelper.generateID(timeInstantType.toString() + System.currentTimeMillis()));
+                    .setId("ti_" + IdGenerator.generate(timeInstantType.toString() + System.currentTimeMillis()));
         }
         timeInstantType.setTimePosition(createTimePositionType(timeInstant.getTimePosition()));
     }
@@ -654,7 +654,7 @@ public class GmlEncoderv321
                 && ((Map) geom.getUserData()).containsKey(XmlBeansEncodingFlags.GMLID.name())) {
             id = (String) ((Map) geom.getUserData()).get(XmlBeansEncodingFlags.GMLID.name());
         } else {
-            id = JavaHelper.generateID(geom.toText());
+            id = IdGenerator.generate(geom.toText());
         }
         return geom.getGeometryType() + "_" + id;
     }
@@ -1006,12 +1006,12 @@ public class GmlEncoderv321
 
     private void addDefinitonValues(DefinitionType dt, Definition definition) throws EncodingException {
         if (!definition.isSetGmlID()) {
-            definition.setGmlId("id_" + JavaHelper.generateID(definition.getGmlId()));
+            definition.setGmlId("id_" + IdGenerator.generate(definition.getGmlId()));
         }
         dt.setId(definition.getGmlId());
         if (!addIdentifier(dt, definition)) {
             dt.setIdentifier(
-                    createCodeWithAuthorityType(new CodeWithAuthority(JavaHelper.generateID(definition.toString()))));
+                    createCodeWithAuthorityType(new CodeWithAuthority(IdGenerator.generate(definition.toString()))));
         }
         addName(dt, definition);
         addDescription(dt, definition);

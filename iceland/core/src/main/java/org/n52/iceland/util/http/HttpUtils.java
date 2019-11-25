@@ -84,7 +84,7 @@ public class HttpUtils {
         return isCountingOutputStream;
     }
 
-    @Setting(MiscSettings.STATISTICS_COUNTING_OUTPUTSTREAM)
+    @Setting(MiscSettings.COUNTING_OUTPUTSTREAM)
     public void setIsCountingOutputStream(Boolean isCountingOutputStream) {
         this.isCountingOutputStream = isCountingOutputStream;
     }

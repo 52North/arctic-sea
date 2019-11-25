@@ -23,7 +23,7 @@ import org.n52.shetland.inspire.ef.NetworkFacility;
 import org.n52.shetland.inspire.ef.OperationalActivityPeriod;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.ReferenceType;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
 
@@ -51,7 +51,7 @@ public abstract class AbstractEnvironmentalMonitoringFaciltityEncoder extends Ab
 
     @Override
     protected String generateGmlId() {
-        return "emf_" + JavaHelper.generateID(Double.toString(System.currentTimeMillis() * Math.random()));
+        return "emf_" + IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random()));
     }
 
     @Override

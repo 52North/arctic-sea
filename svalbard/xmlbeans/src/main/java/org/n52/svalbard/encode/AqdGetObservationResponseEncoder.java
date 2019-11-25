@@ -39,7 +39,7 @@ import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -131,7 +131,7 @@ public class AqdGetObservationResponseEncoder extends AbstractAqdResponseEncoder
 
     private FeatureCollection createFeatureCollection(GetObservationResponse response) throws EncodingException {
         FeatureCollection featureCollection = new FeatureCollection();
-        featureCollection.setGmlId("fc_" + JavaHelper.generateID(new DateTime().toString()));
+        featureCollection.setGmlId("fc_" + IdGenerator.generate(new DateTime().toString()));
         return featureCollection;
     }
 

@@ -56,7 +56,7 @@ import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.Nillable;
 import org.n52.shetland.w3c.xlink.Actuate;
 import org.n52.shetland.w3c.xlink.Reference;
@@ -95,8 +95,7 @@ import net.opengis.waterml.x20.ObservationProcessType;
  *
  * @since 1.0.0
  */
-public abstract class AbstractWmlEncoderv20
-        extends AbstractOmEncoderv20
+public abstract class AbstractWmlEncoderv20 extends AbstractOmEncoderv20
         implements ProcedureEncoder<XmlObject, Object>, WmlTmlHelper {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractWmlEncoderv20.class);
 
@@ -275,7 +274,7 @@ public abstract class AbstractWmlEncoderv20
             AbstractSamplingFeature sampFeat = (AbstractSamplingFeature) absFeature;
             StringBuilder builder = new StringBuilder();
             builder.append("mp_");
-            builder.append(JavaHelper.generateID(absFeature.getIdentifierCodeWithAuthority().getValue()));
+            builder.append(IdGenerator.generate(absFeature.getIdentifierCodeWithAuthority().getValue()));
             absFeature.setGmlId(builder.toString());
 
             MonitoringPointDocument monitoringPointDoc = MonitoringPointDocument.Factory.newInstance(getXmlOptions());
@@ -396,11 +395,10 @@ public abstract class AbstractWmlEncoderv20
                 if (context.has(XmlBeansEncodingFlags.GMLID)) {
                     observationProcess.setId(PROCESS_ID_PREFIX + context.get(XmlBeansEncodingFlags.GMLID));
                 } else {
-                    observationProcess.setId(PROCESS_ID_PREFIX + JavaHelper.generateID(procedure.toString()));
+                    observationProcess.setId(PROCESS_ID_PREFIX + IdGenerator.generate(procedure.toString()));
                 }
                 if (procedure.isSetIdentifier()) {
-                    observationProcess.addNewIdentifier()
-                            .set(encodeGML(procedure.getIdentifierCodeWithAuthority()));
+                    observationProcess.addNewIdentifier().set(encodeGML(procedure.getIdentifierCodeWithAuthority()));
                 }
                 if (procedure.isSetName()) {
                     for (final CodeType sosName : procedure.getName()) {

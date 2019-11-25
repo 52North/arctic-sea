@@ -45,7 +45,7 @@ import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.sos.gda.GetDataAvailabilityConstants;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.Encoder;
 import org.n52.svalbard.encode.EncodingContext;
@@ -493,7 +493,7 @@ public abstract class AbstractOmV20XmlStreamWriter
      *             If an error occurs when writing to stream
      */
     private String addGmlId(OmObservation observation) throws XMLStreamException {
-        String observationID = JavaHelper.generateID(Double.toString(System.currentTimeMillis() * Math.random()));
+        String observationID = IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random()));
         if (observation.isSetObservationID()) {
             observationID = observation.getObservationID();
         } else {

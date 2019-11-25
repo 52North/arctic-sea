@@ -52,7 +52,7 @@ import org.n52.shetland.ogc.om.values.XmlValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.swe.SweConstants;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
 
@@ -108,7 +108,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
      */
     private CVPointValuePairType encodePointValuePair(PointValuePair value) throws EncodingException {
         CVPointValuePairType cvpvpt = CVPointValuePairType.Factory.newInstance(getXmlOptions());
-        cvpvpt.setGeometry(encodeGeometry(value.getPoint(), JavaHelper.generateID(value.toString())));
+        cvpvpt.setGeometry(encodeGeometry(value.getPoint(), IdGenerator.generate(value.toString())));
         if (value.isSetValue()) {
             cvpvpt.setValue(encodeValue(value.getValue()));
         } else {
@@ -242,7 +242,7 @@ public abstract class AbstractCVDiscretePointCoverageTypeEncoder<T>
             if (value.isSetValue()) {
                 EncodingContext ec = EncodingContext
                         .of(XmlBeansEncodingFlags.GMLID,
-                                SosConstants.OBS_ID_PREFIX + JavaHelper.generateID(value.toString()))
+                                SosConstants.OBS_ID_PREFIX + IdGenerator.generate(value.toString()))
                         .with(XmlBeansEncodingFlags.PROPERTY_TYPE, true);
                 return encodeGML(value.getValue(), ec);
             } else {

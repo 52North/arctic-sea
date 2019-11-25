@@ -16,11 +16,10 @@
  */
 package org.n52.shetland.inspire.omso;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.om.OmObservation;
 import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.values.GeometryValue;
-
-import org.locationtech.jts.geom.Geometry;
 
 /**
  * Abstract class for INSPIRE OM Specialised Observations

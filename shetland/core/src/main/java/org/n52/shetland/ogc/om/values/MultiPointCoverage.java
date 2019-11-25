@@ -22,19 +22,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.n52.shetland.ogc.UoM;
-import org.n52.shetland.ogc.om.PointValuePair;
-import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.JavaHelper;
-
-import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.Point;
 import org.locationtech.jts.geom.Polygon;
 import org.locationtech.jts.geom.PrecisionModel;
+import org.n52.shetland.ogc.UoM;
+import org.n52.shetland.ogc.om.PointValuePair;
+import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
+import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.util.IdGenerator;
+
+import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
 
 /**
  * Class that represents a multi point coverage
@@ -62,7 +62,7 @@ public class MultiPointCoverage
 
     public MultiPointCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            this.gmlId = GML_ID_PREFIX + JavaHelper.generateID(toString());
+            this.gmlId = GML_ID_PREFIX + IdGenerator.generate(toString());
         } else if (!gmlId.startsWith(GML_ID_PREFIX)) {
             this.gmlId = GML_ID_PREFIX + gmlId;
         } else {

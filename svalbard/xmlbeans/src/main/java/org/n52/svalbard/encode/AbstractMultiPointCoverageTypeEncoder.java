@@ -25,7 +25,7 @@ import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage;
 import org.n52.shetland.ogc.om.values.MultiPointCoverage.PointValueLists;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.svalbard.encode.exception.EncodingException;
 
 import net.opengis.gml.x32.DiscreteCoverageType;
@@ -70,7 +70,7 @@ public abstract class AbstractMultiPointCoverageTypeEncoder<T>
         GeometryFactory factory = pointValues.getPoints().get(0).getFactory();
         MultiPoint multiPoint = factory.createMultiPoint(pointValues.getPoints().toArray(new Point[0]));
         EncodingContext ec =
-                EncodingContext.of(XmlBeansEncodingFlags.GMLID, JavaHelper.generateID(multiPoint.toString()))
+                EncodingContext.of(XmlBeansEncodingFlags.GMLID, IdGenerator.generate(multiPoint.toString()))
                         .with(XmlBeansEncodingFlags.PROPERTY_TYPE, true);
         XmlObject encodedGeometry = encodeGML(multiPoint, ec);
         mpdst.addNewAbstractGeometry().set(encodedGeometry);

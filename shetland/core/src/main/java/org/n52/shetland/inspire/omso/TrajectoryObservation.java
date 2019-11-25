@@ -19,7 +19,11 @@ package org.n52.shetland.inspire.omso;
 import java.util.List;
 
 import org.apache.commons.lang.ArrayUtils;
-
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.LineString;
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
@@ -35,14 +39,9 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.om.values.TLVTValue;
 import org.n52.shetland.ogc.om.values.TVPValue;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.collect.Lists;
-import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.LineString;
-import org.locationtech.jts.geom.Point;
 
 public class TrajectoryObservation
         extends AbstractInspireObservation {
@@ -71,7 +70,7 @@ public class TrajectoryObservation
             removeSpatialFilteringProfileParameter();
         }
         if (!isSetObservationID()) {
-            setObservationID(JavaHelper.generateID(toString()));
+            setObservationID(IdGenerator.generate(toString()));
         }
     }
 

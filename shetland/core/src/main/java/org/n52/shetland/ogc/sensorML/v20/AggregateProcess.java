@@ -23,7 +23,7 @@ import org.n52.shetland.ogc.sensorML.HasComponents;
 import org.n52.shetland.ogc.sensorML.HasConnections;
 import org.n52.shetland.ogc.sensorML.elements.SmlComponent;
 import org.n52.shetland.ogc.sensorML.elements.SmlConnection;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 /**
  * Class that represents SensorML 2.0 AggregateProcess
@@ -41,7 +41,7 @@ public class AggregateProcess
     private SmlConnection connections;
 
     public AggregateProcess() {
-        setGmlId(ID_PREFIX + JavaHelper.generateID(ID_PREFIX));
+        setGmlId(ID_PREFIX + IdGenerator.generate(ID_PREFIX));
     }
 
     @Override

@@ -56,8 +56,8 @@ import org.n52.shetland.util.CRSHelper;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
 import org.n52.shetland.util.EnvelopeOrGeometry;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.util.JTSHelper;
-import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.util.MinMax;
 import org.n52.shetland.util.ReferencedEnvelope;
 import org.n52.shetland.w3c.SchemaLocation;
@@ -493,7 +493,7 @@ public class GmlEncoderv311
                 }
                 StringBuilder builder = new StringBuilder();
                 builder.append("sf_");
-                builder.append(JavaHelper.generateID(sosAbstractFeature.getIdentifierCodeWithAuthority().getValue()));
+                builder.append(IdGenerator.generate(sosAbstractFeature.getIdentifierCodeWithAuthority().getValue()));
                 sosAbstractFeature.setGmlId(builder.toString());
                 Encoder<XmlObject, SamplingFeature> encoder = getEncoder(SfConstants.NS_SA, sampFeat);
                 return encoder.encode(sampFeat);
@@ -524,7 +524,7 @@ public class GmlEncoderv311
                 AbstractFeatureCollectionType xbFeatCol = xbFeatureColllectionDoc.addNewFeatureCollection();
                 StringBuilder builder = new StringBuilder();
                 builder.append("sfc_");
-                builder.append(JavaHelper.generateID(Long.toString(System.currentTimeMillis())));
+                builder.append(IdGenerator.generate(Long.toString(System.currentTimeMillis())));
                 xbFeatCol.setId(builder.toString());
                 for (Entry<String, AbstractFeature> entry : members.entrySet()) {
                     String member = entry.getKey();

@@ -16,12 +16,11 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.AbstractGeometry;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.util.JavaHelper;
-
-import org.locationtech.jts.geom.Geometry;
+import org.n52.shetland.util.IdGenerator;
 
 /**
  * Geometry measurement representation for observation
@@ -43,7 +42,7 @@ public class GeometryValue
         setGeometry(abstractGeometry.getGeometry());
         setIdentifier(abstractGeometry.getIdentifierCodeWithAuthority());
         setName(abstractGeometry.getName());
-        setGmlId(GML_ID_PREFIX + JavaHelper.generateID(toString()));
+        setGmlId(GML_ID_PREFIX + IdGenerator.generate(toString()));
     }
 
     /**
@@ -54,7 +53,7 @@ public class GeometryValue
      */
     public GeometryValue(Geometry value) {
         setValue(value);
-        setGmlId(GML_ID_PREFIX + JavaHelper.generateID(toString()));
+        setGmlId(GML_ID_PREFIX + IdGenerator.generate(toString()));
     }
 
     @Override

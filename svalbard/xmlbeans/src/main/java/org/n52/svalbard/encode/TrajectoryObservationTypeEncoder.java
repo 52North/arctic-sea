@@ -34,7 +34,7 @@ import org.n52.shetland.ogc.om.values.CategoryValue;
 import org.n52.shetland.ogc.om.values.CountValue;
 import org.n52.shetland.ogc.om.values.QuantityValue;
 import org.n52.shetland.ogc.om.values.TLVTValue;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.util.CodingHelper;
 import org.slf4j.Logger;
@@ -144,7 +144,7 @@ public class TrajectoryObservationTypeEncoder
         MeasurementTimeseriesDocument measurementTimeseriesDoc = MeasurementTimeseriesDocument.Factory.newInstance();
         MeasurementTimeseriesType measurementTimeseries = measurementTimeseriesDoc.addNewMeasurementTimeseries();
         if (!observationValue.isSetObservationID()) {
-            observationValue.setObservationID(JavaHelper.generateID(observationValue.toString()));
+            observationValue.setObservationID(IdGenerator.generate(observationValue.toString()));
         }
         measurementTimeseries.setId(TIMESERIES_PREFIX + observationValue.getObservationID());
         measurementTimeseries.addNewMetadata().addNewTimeseriesMetadata().addNewTemporalExtent()

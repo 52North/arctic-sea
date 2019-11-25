@@ -25,7 +25,7 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
 import org.n52.shetland.ogc.sos.SosResultEncoding;
 import org.n52.shetland.ogc.sos.SosResultStructure;
 import org.n52.shetland.ogc.sos.SosResultTemplate;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 /**
  * @since 1.0.0
@@ -53,7 +53,7 @@ public class InsertResultTemplateRequest
             StringBuilder builder = new StringBuilder();
             builder.append(getObservationTemplate().toString());
             builder.append(new DateTime().getMillis());
-            resultTemplate.setIdentifier(new CodeWithAuthority(JavaHelper.generateID(builder.toString())));
+            resultTemplate.setIdentifier(new CodeWithAuthority(IdGenerator.generate(builder.toString())));
         }
         return resultTemplate.getIdentifier();
     }

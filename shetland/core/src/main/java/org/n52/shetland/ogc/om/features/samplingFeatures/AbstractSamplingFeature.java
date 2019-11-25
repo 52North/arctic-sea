@@ -30,7 +30,7 @@ import org.n52.shetland.ogc.gml.FeatureWith.FeatureWithGeometry;
 import org.n52.shetland.ogc.gml.FeatureWith.FeatureWithUrl;
 import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -107,7 +107,7 @@ public abstract class AbstractSamplingFeature
         if (!super.isSetGmlID()) {
             final StringBuilder builder = new StringBuilder();
             builder.append("ssf_");
-            builder.append(JavaHelper.generateID(getIdentifierCodeWithAuthority().getValue()));
+            builder.append(IdGenerator.generate(getIdentifierCodeWithAuthority().getValue()));
             setGmlId(builder.toString());
         }
         return super.getGmlId();

@@ -68,6 +68,7 @@ import org.n52.shetland.ogc.swe.simpleType.SweCount;
 import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 import org.n52.shetland.util.DateTimeFormatException;
 import org.n52.shetland.util.DateTimeHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.util.JavaHelper;
 import org.n52.shetland.uvf.UVFConstants;
 import org.n52.shetland.uvf.UVFConstants.LineEnding;
@@ -422,7 +423,7 @@ public class UVFEncoder implements ObservationEncoder<BinaryAttachmentResponse, 
             sb.append(ensureIdentifierLength(o.getIdentifier(), UVFConstants.MAX_IDENTIFIER_LENGTH));
         } else {
             if (!o.isSetObservationID()) {
-                o.setObservationID(JavaHelper.generateID(o.toString()));
+                o.setObservationID(IdGenerator.generate(o.toString()));
             }
             sb.append(ensureIdentifierLength(o.getObservationID(), UVFConstants.MAX_IDENTIFIER_LENGTH));
         }

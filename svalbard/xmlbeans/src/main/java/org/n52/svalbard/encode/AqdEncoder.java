@@ -58,7 +58,7 @@ import org.n52.shetland.ogc.sos.Sos1Constants;
 import org.n52.shetland.ogc.sos.SosConstants;
 import org.n52.shetland.ogc.sos.response.GetObservationResponse;
 import org.n52.shetland.util.EReportingSetting;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.xlink.Referenceable;
 import org.n52.svalbard.encode.exception.EncodingException;
@@ -220,7 +220,7 @@ public class AqdEncoder extends AbstractXmlEncoder<XmlObject, Object>
 
     private FeatureCollection getFeatureCollection(GetObservationResponse response) throws EncodingException {
         FeatureCollection featureCollection = new FeatureCollection();
-        featureCollection.setGmlId("fc_" + JavaHelper.generateID(new DateTime().toString()));
+        featureCollection.setGmlId("fc_" + IdGenerator.generate(new DateTime().toString()));
 
         return featureCollection;
     }

@@ -16,6 +16,8 @@
  */
 package org.n52.shetland.inspire.omso;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.Point;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.AbstractObservationValue;
 import org.n52.shetland.ogc.om.ObservationValue;
@@ -27,9 +29,6 @@ import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature
 import org.n52.shetland.ogc.om.features.samplingFeatures.InvalidSridException;
 import org.n52.shetland.ogc.om.values.CvDiscretePointCoverage;
 import org.n52.shetland.ogc.om.values.GeometryValue;
-
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.geom.Point;
 
 public class PointObservation
         extends AbstractInspireObservation {

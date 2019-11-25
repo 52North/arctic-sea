@@ -19,7 +19,7 @@ package org.n52.shetland.iso.gmd;
 import java.net.URI;
 
 import org.n52.shetland.ogc.gml.CodeType;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 /**
  * TODO JavaDoc
@@ -46,7 +46,7 @@ public class GmlBaseUnit extends AbtractGmd {
     }
 
     public GmlBaseUnit unifyId(Object object) {
-        id = id + "_" + JavaHelper.generateID(object.toString());
+        id = id + "_" + IdGenerator.generate(object.toString());
         return this;
     }
 

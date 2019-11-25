@@ -77,7 +77,7 @@ import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweVector;
 import org.n52.shetland.ogc.swe.simpleType.SweObservableProperty;
 import org.n52.shetland.util.CollectionHelper;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -522,7 +522,7 @@ public class SensorMLEncoderv20
     private void addDescribedObjectValues(DescribedObjectType dot, DescribedObject describedObject)
             throws EncodingException {
         if (!describedObject.isSetGmlID()) {
-            describedObject.setGmlId("do_" + JavaHelper.generateID(describedObject.toString()));
+            describedObject.setGmlId("do_" + IdGenerator.generate(describedObject.toString()));
         }
         if (dot.getId() == null || dot.getId().isEmpty()) {
             dot.setId(describedObject.getGmlId());

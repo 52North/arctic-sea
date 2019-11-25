@@ -71,7 +71,7 @@ import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.sos.SosProcedureDescription;
 import org.n52.shetland.ogc.sos.SosProcedureDescriptionUnknownType;
 import org.n52.shetland.ogc.swe.SweConstants;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 import org.n52.shetland.w3c.W3CConstants;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.UnsupportedEncoderInputException;
@@ -229,7 +229,7 @@ public abstract class AbstractOmEncoderv20
 
         if (!sosObservation.isSetObservationID()) {
             sosObservation.setObservationID(
-                    JavaHelper.generateID(Double.toString(System.currentTimeMillis() * Math.random())));
+                    IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random())));
         }
         String observationID = sosObservation.getObservationID();
         if (!sosObservation.isSetGmlID()) {
@@ -663,7 +663,7 @@ public abstract class AbstractOmEncoderv20
 
     private static String generateObservationGMLId() {
         return OBSERVATION_ID_PREFIX
-                + JavaHelper.generateID(Double.toString(System.currentTimeMillis() * Math.random()));
+                + IdGenerator.generate(Double.toString(System.currentTimeMillis() * Math.random()));
     }
 
     private class NamedValueValueEncoder
@@ -800,7 +800,7 @@ public abstract class AbstractOmEncoderv20
 
         private EncodingContext createHelperValues(Value<?> value) {
             return EncodingContext.of(XmlBeansEncodingFlags.PROPERTY_TYPE).with(XmlBeansEncodingFlags.GMLID,
-                    JavaHelper.generateID(value.toString()));
+                    IdGenerator.generate(value.toString()));
         }
 
         private XmlObject defaultValue(Value<?> value) {

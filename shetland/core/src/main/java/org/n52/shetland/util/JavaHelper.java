@@ -19,13 +19,7 @@ package org.n52.shetland.util;
 import static java.util.stream.Collectors.toSet;
 
 import java.math.BigDecimal;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Random;
 import java.util.Set;
-
-import org.joda.time.DateTime;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -38,56 +32,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 @SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
 public final class JavaHelper {
 
-    /**
-     * Message digest for generating single identifier
-     */
-    private static final MessageDigest MESSAGE_DIGEST;
-    private static final Random RANDOM;
-
-    /**
-     * Instantiation of the message digest
-     */
-    static {
-        try {
-            MESSAGE_DIGEST = MessageDigest.getInstance("SHA-256");
-            RANDOM = new Random();
-        } catch (final NoSuchAlgorithmException nsae) {
-            throw new Error("Error while getting SHA-256 messagedigest!", nsae);
-        }
-    }
-
     private JavaHelper() {
-    }
-
-    /**
-     * Generates a sensor id from description and current time as long.
-     *
-     * @param message
-     *                sensor description
-     *
-     * @return generated sensor id as hex SHA-256.
-     */
-    public static String generateID(String message) {
-        final long autoGeneratredID = new DateTime().getMillis();
-        final String concate = RANDOM.nextDouble() + message + Long.toString(autoGeneratredID);
-        return bytesToHex(MESSAGE_DIGEST.digest(concate.getBytes(StandardCharsets.UTF_8)));
-    }
-
-    /**
-     * Transforms byte to hex representation
-     *
-     * @param bytes
-     *          bytes
-     *
-     * @return hex
-     */
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder buffer = new StringBuilder(2 * bytes.length);
-        for (int i = 0; i < bytes.length; ++i) {
-            buffer.append(Character.forDigit((bytes[i] >> 4) & 0xF, 16));
-            buffer.append(Character.forDigit(bytes[i] & 0xF, 16));
-        }
-        return buffer.toString();
     }
 
     /**

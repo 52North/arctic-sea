@@ -20,7 +20,7 @@ import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.om.PointValuePair;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
-import org.n52.shetland.util.JavaHelper;
+import org.n52.shetland.util.IdGenerator;
 
 import com.google.common.base.Strings;
 
@@ -43,7 +43,7 @@ public class CvDiscretePointCoverage
 
     public CvDiscretePointCoverage(String gmlId) {
         if (Strings.isNullOrEmpty(gmlId)) {
-            this.gmlId = GML_ID_PREFIX + JavaHelper.generateID(toString());
+            this.gmlId = GML_ID_PREFIX + IdGenerator.generate(toString());
         } else if (!gmlId.startsWith(GML_ID_PREFIX)) {
             this.gmlId = GML_ID_PREFIX + gmlId;
         } else {
