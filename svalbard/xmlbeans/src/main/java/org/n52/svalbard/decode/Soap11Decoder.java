@@ -108,7 +108,7 @@ public class Soap11Decoder extends AbstractSoapDecoder {
         SoapFault fault = new SoapFault();
         fault.setFaultCode(QN_CLIENT);
         fault.setLocale(Locale.ENGLISH);
-        fault.setFaultReason(de.getMessage());
+        fault.setFaultReason(getFaultReasons(de));
         SoapRequest r = new SoapRequest(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, SOAPConstants.SOAP_1_1_PROTOCOL);
         r.setSoapFault(fault);
         return r;

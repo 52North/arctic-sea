@@ -25,6 +25,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 import java.util.Set;
 
 import javax.xml.soap.SOAPException;
@@ -37,7 +38,7 @@ import org.apache.xmlbeans.XmlObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
-
+import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.CollectionHelper;
@@ -48,6 +49,7 @@ import org.n52.shetland.w3c.wsa.WsaConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.W3cHelper;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
 /**
@@ -150,5 +152,13 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
             }
         }
         return null;
+    }
+
+    protected String getFaultReasons(DecodingException de) {
+        if (de.getCause() instanceof CompositeException) {
+            return Joiner.on("\n").join(((CompositeException) de.getCause()).getExceptions().stream()
+                    .map(e -> e.getMessage()).collect(Collectors.toList()));
+        }
+        return de.getMessage();
     }
 }

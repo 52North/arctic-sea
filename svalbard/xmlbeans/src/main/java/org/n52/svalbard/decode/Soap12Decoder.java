@@ -28,7 +28,6 @@ import javax.xml.soap.SOAPMessage;
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
@@ -116,7 +115,7 @@ public class Soap12Decoder extends AbstractSoapDecoder {
         SoapFault fault = new SoapFault();
         fault.setFaultCode(SOAPConstants.SOAP_SENDER_FAULT);
         fault.setLocale(Locale.ENGLISH);
-        fault.setFaultReason(de.getMessage());
+        fault.setFaultReason(getFaultReasons(de));
         SoapRequest r = new SoapRequest(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_PROTOCOL);
         r.setSoapFault(fault);
         return r;

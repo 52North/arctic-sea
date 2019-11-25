@@ -374,6 +374,9 @@ public class SweCommonDecoderV101
         if (category.isSetCodeSpace()) {
             sosCategory.setCodeSpace(category.getCodeSpace().getHref());
         }
+        if (category.isSetConstraint()) {
+            sosCategory.setConstraint(parseConstraint(category.getConstraint()));
+        }
         if (category.isSetQuality()) {
             sosCategory.setQuality(parseQuality(category.getQuality()));
         }
@@ -387,6 +390,9 @@ public class SweCommonDecoderV101
         }
         if (xbCount.isSetValue()) {
             sosCount.setValue(xbCount.getValue().intValue());
+        }
+        if (xbCount.isSetConstraint()) {
+            sosCount.setConstraint(parseConstraint(xbCount.getConstraint()));
         }
         return sosCount;
     }
@@ -433,6 +439,9 @@ public class SweCommonDecoderV101
         if (xbQuantity.isSetUom() && xbQuantity.getUom().isSetCode()) {
             sosQuantity.setUom(xbQuantity.getUom().getCode());
         }
+        if (xbQuantity.isSetConstraint()) {
+            sosQuantity.setConstraint(parseConstraint(xbQuantity.getConstraint()));
+        }
         if (xbQuantity.isSetValue()) {
             sosQuantity.setValue(xbQuantity.getValue());
         }
@@ -452,6 +461,9 @@ public class SweCommonDecoderV101
         }
         if (xbQuantityRange.isSetUom() && xbQuantityRange.getUom().isSetCode()) {
             sosQuantityRange.setUom(xbQuantityRange.getUom().getCode());
+        }
+        if (xbQuantityRange.isSetConstraint()) {
+            sosQuantityRange.setConstraint(parseConstraint(xbQuantityRange.getConstraint()));
         }
         if (xbQuantityRange.isSetValue()) {
             try {
@@ -487,6 +499,9 @@ public class SweCommonDecoderV101
 
     private SweTime parseTime(Time time) throws DecodingException {
         SweTime sosTime = new SweTime();
+        if (time.isSetConstraint()) {
+            sosTime.setConstraint(parseConstraint(time.getConstraint()));
+        }
         if (time.isSetValue()) {
             sosTime.setValue(DateTimeHelper.parseIsoString2DateTime(time.getValue().toString()));
         }
@@ -513,6 +528,9 @@ public class SweCommonDecoderV101
         }
         if (timeRange.getUom() != null) {
             sosTimeRange.setUom(timeRange.getUom().getHref());
+        }
+        if (timeRange.isSetConstraint()) {
+            sosTimeRange.setConstraint(parseConstraint(timeRange.getConstraint()));
         }
         return sosTimeRange;
     }
@@ -713,7 +731,6 @@ public class SweCommonDecoderV101
         return sosSMLPosition;
     }
 
-    @SuppressWarnings("unchecked")
     private List<SweCoordinate<?>> parseCoordinates(Coordinate[] coordinateArray) throws DecodingException {
         List<SweCoordinate<?>> sosCoordinates = new ArrayList<>(coordinateArray.length);
         for (Coordinate xbCoordinate : coordinateArray) {

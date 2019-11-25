@@ -105,11 +105,13 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
             parseSoapRequest(chain);
             checkForContext(chain, getRequestContext(httpRequest));
             createSoapResponse(chain);
-            if (!chain.getSoapRequest().hasSoapFault()) {
+            if (!chain.getSoapResponse().isSetSoapFault()) {
                 // parseBodyRequest(chain);
                 createBodyResponse(chain);
+                writeResponse(chain);
+            } else {
+                writeFault(chain);
             }
-            writeResponse(chain);
         } catch (OwsExceptionReport t) {
             writeOwsExceptionReport(chain, t);
         }
@@ -135,34 +137,14 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
         soapChain.setSoapRequest(soapRequest);
     }
 
-    // private void parseBodyRequest(SoapChain chain) throws OwsExceptionReport,
-    // OwsExceptionReport {
-    //
-    // final XmlObject xmlObject = chain.getSoapRequest().getSoapBodyContent();
-    // DecoderKey key = CodingHelper.getDecoderKey(xmlObject);
-    // final Decoder<?, XmlObject> bodyDecoder = getDecoder(key);
-    // if (bodyDecoder == null) {
-    // throw new NoDecoderForKeyException(key).setStatus(BAD_REQUEST);
-    // }
-    // final Object aBodyRequest = bodyDecoder.decode(xmlObject);
-    // if (!(aBodyRequest instanceof AbstractServiceRequest)) {
-    // throw new NoApplicableCodeException().withMessage(
-    // "The returned object is not an AbstractServiceRequest implementation").setStatus(BAD_REQUEST);
-    // }
-    // AbstractServiceRequest bodyRequest = (AbstractServiceRequest)
-    // aBodyRequest;
-    // bodyRequest.setRequestContext(getRequestContext(chain.getHttpRequest()));
-    // if (bodyRequest instanceof CommunicationObjectWithSoapHeader) {
-    // ((CommunicationObjectWithSoapHeader)
-    // bodyRequest).setSoapHeader(chain.getSoapRequest().getSoapHeader());
-    // }
-    // chain.setBodyRequest(bodyRequest);
-    // }
     private void createSoapResponse(SoapChain chain) {
         SoapResponse soapResponse = new SoapResponse();
         soapResponse.setSoapVersion(chain.getSoapRequest().getSoapVersion());
         soapResponse.setSoapNamespace(chain.getSoapRequest().getSoapNamespace());
         soapResponse.setHeader(checkSoapHeaders(chain.getSoapRequest().getSoapHeader()));
+        if (chain.getSoapRequest().hasSoapFault()) {
+            soapResponse.setSoapFault(chain.getSoapRequest().getSoapFault());
+        }
         chain.setSoapResponse(soapResponse);
     }
 
@@ -190,22 +172,26 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     }
 
     private void writeOwsExceptionReport(SoapChain chain, OwsExceptionReport owse) throws HTTPException, IOException {
+        String version = chain.hasBodyRequest() ? chain.getBodyRequest().getVersion() : null;
+        getEventBus().submit(new ExceptionEvent(owse));
+        chain.getSoapResponse().setException(owse.setVersion(version));
+        writeFault(chain);
+    }
+
+    private void writeFault(SoapChain chain) throws HTTPException, IOException {
+        if (!chain.getSoapResponse().hasSoapVersion()) {
+            chain.getSoapResponse().setSoapVersion(SOAPConstants.SOAP_1_2_PROTOCOL);
+        }
+        if (!chain.getSoapResponse().hasSoapNamespace()) {
+            chain.getSoapResponse().setSoapNamespace(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
+        }
+        if (chain.getSoapResponse().hasException() && chain.getSoapResponse().getException().hasStatus()) {
+            chain.getHttpResponse().setStatus(chain.getSoapResponse().getException().getStatus().getCode());
+        }
+        checkSoapInjection(chain);
         try {
-            String version = chain.hasBodyRequest() ? chain.getBodyRequest().getVersion() : null;
-            getEventBus().submit(new ExceptionEvent(owse));
-            chain.getSoapResponse().setException(owse.setVersion(version));
-            if (!chain.getSoapResponse().hasSoapVersion()) {
-                chain.getSoapResponse().setSoapVersion(SOAPConstants.SOAP_1_2_PROTOCOL);
-            }
-            if (!chain.getSoapResponse().hasSoapNamespace()) {
-                chain.getSoapResponse().setSoapNamespace(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
-            }
-            if (chain.getSoapResponse().hasException() && chain.getSoapResponse().getException().hasStatus()) {
-                chain.getHttpResponse().setStatus(chain.getSoapResponse().getException().getStatus().getCode());
-            }
-            checkSoapInjection(chain);
             httpUtils.writeObject(chain.getHttpRequest(), chain.getHttpResponse(), checkMediaType(chain),
-                                  encodeSoapResponse(chain), this);
+                    encodeSoapResponse(chain), this);
         } catch (OwsExceptionReport | NoEncoderForKeyException t) {
             throw new HTTPException(HTTPStatus.INTERNAL_SERVER_ERROR, t);
         }
