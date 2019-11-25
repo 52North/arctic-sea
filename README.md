@@ -193,7 +193,7 @@ Are you interested in contributing to the 52°North Arctic Sea and you would lik
 
 In that case we need your official permission and for this purpose we have a so-called contributors license agreement (CLA) in place. With this agreement you grant us the rights to use and publish your code under an open source license.
 
-A link to the contributors license agreement and further explanations are available [here](http://52north.org/about/licensing/cla-guidelines).
+A link to the contributors license agreement and further explanations are available [here](https://52north.org/software/licensing/guidelines/).
 
 
 ## Credits
