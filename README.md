@@ -227,7 +227,7 @@ The development of the 52°North Faroe implementation was supported by several o
 [colabis]: https://colabis.de/
 [connectingeo]: http://www.connectingeo.net/
 [fona]: https://www.fona.de/
-[fp7]: http://cordis.europa.eu/fp7/home_en.html
+[fp7]: https://ec.europa.eu/research/fp7/index_en.cfm
 [geoviqua]: http://www.geoviqua.org/
 [h2020]: https://ec.europa.eu/programmes/horizon2020/
 [licensing]: https://52north.org/software/licensing/guidelines/
