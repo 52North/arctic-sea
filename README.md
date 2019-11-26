@@ -1,17 +1,14 @@
 # Arctic Sea [![Build Status](https://travis-ci.org/52North/arctic-sea.svg)](https://travis-ci.org/52North/arctic-sea) [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/arctic-sea.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea) [![Join the chat at https://gitter.im/52North/arctic-sea](https://badges.gitter.im/52North/arctic-sea.svg)](https://gitter.im/52North/arctic-sea) [![Total alerts](https://img.shields.io/lgtm/alerts/g/52North/arctic-sea.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/52North/arctic-sea/alerts/) [![Language grade: Java](https://img.shields.io/lgtm/grade/java/g/52North/arctic-sea.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/52North/arctic-sea/context:java)
 
-
 ## Description
 
 ### 52°North's backbone for OGC services, clients and middleware
 
 **52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
-The Arctic Sea is stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services (such as the 52°North implementation of the OGC [SOS](https://github.com/52North/SOS) and [WPS](https://github.com/52North/javaPS)), clients and middleware. It compromises the following modules.
-<p align="center">
-<img src="https://github.com/52North/arctic-sea/raw/master/etc/overview.png" width='60%'/>
-</p>
+The Arctic Sea is a stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services such as the 52°North implementation of the OGC [SOS][52n-sos] and [WPS][52n-wps] as well as clients and middleware. It compromises the following modules.
 
+![Overview][overview]
 
 #### Iceland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/iceland.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:iceland*%20and%20p:jar)
 
@@ -19,7 +16,7 @@ Iceland is a service framework that enables the development of OGC RPC based ser
 
 #### Svalbard [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/svalbard.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:svalbard*%20and%20p:jar)
 
-Svalbard consists of various decoders and encoders for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon), service interfaces like [SOS](http://www.opengeospatial.org/standards/sos) or [WPS](http://www.opengeospatial.org/standards/wps) and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in 52°North Shetland and are shared accross 52°North components.
+Svalbard consists of various decoders and encoders for OGC models like [SensorML][sensorml], [O&M][om] and [SWE Common][swe-common], service interfaces like [SOS][sos] and [WPS][wps] and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in 52°North Shetland and are shared across 52°North components.
 
 #### Faroe [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/faroe.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:faroe*%20and%20p:jar)
 
@@ -27,19 +24,22 @@ Faroe is a configuration API currently featuring a JSON and a SQLite backend. It
 
 #### Shetland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/shetland.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:shetland*%20and%20p:jar)
 
-Shetland compromises classes for OGC models like [SensorML](http://www.opengeospatial.org/standards/sensorml), [O&M](http://www.opengeospatial.org/standards/om) or [SWE Common](http://www.opengeospatial.org/standards/swecommon) and various service requests and responses. These are shared accross different service implementations.
+Shetland compromises classes for OGC models like [SensorML][sensorml], [O&M][om] and [SWE Common][swe-common] and various service requests and responses. These are shared across different service implementations.
 
 #### Jan Mayen [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/janmayen.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:janmayen*%20and%20p:jar)
 
-Jan Mayen contains various utility classes shared accross the Arctic Sea.
+Jan Mayen contains various utility classes shared across Arctic Sea.
 
 ## License
-All components are licensed under the [Apache License 2.0](https://spdx.org/licenses/Apache-2.0.html).
+
+All components are licensed under the [Apache License 2.0][apache-2.0].
 
 ## Changelog
-... can be found on the [release page](https://github.com/52North/arctic-sea/releases).
+
+... can be found on the [release page][releases].
 
 ## Quick Start
+
 All projects are available on Maven Central.
 
 ```xml
@@ -150,7 +150,8 @@ All projects are available on Maven Central.
 </dependencies>
 ```
 
-For convenience the [52°North Maven parent](https://github.com/52North/maven-parents) can be used:
+For convenience the [52°North Maven parent][maven-parents] can be used:
+
 ```xml
 <parent>
     <groupId>org.n52</groupId>
@@ -160,6 +161,7 @@ For convenience the [52°North Maven parent](https://github.com/52North/maven-pa
 ```
 
 Development versions can be optained from the Sonatype OSS snapshot repository:
+
 ```xml
 <repositories>
   <repository>
@@ -186,27 +188,72 @@ If you encounter any issues with the software or if you would like to see certai
 
 ## Support
 
-You can get support in the [community mailing list and forums](https://52north.org/discuss/#mailing-lists).
+You can get support in the [community mailing list and forums][mailing-lists].
 
 ## Contribute
+
 Are you interested in contributing to the 52°North Arctic Sea and you would like to pull your changes to the 52N repository to have them available to all?
 
 In that case we need your official permission and for this purpose we have a so-called contributors license agreement (CLA) in place. With this agreement you grant us the rights to use and publish your code under an open source license.
 
-A link to the contributors license agreement and further explanations are available [here](https://52north.org/software/licensing/guidelines/).
+A link to the contributors license agreement and further explanations are available [here][licensing].
 
 
 ## Credits
 
 The development of the 52°North Faroe implementation was supported by several organizations and projects. Among other we would like to thank the following organizations and project
 
-| Project/Logo | Description |
+| Project/Logo    | Description    |
 | :-------------: | :------------- |
-| <a target="_blank" href="http://www.nexosproject.eu/"><img alt="NeXOS - Next generation, Cost-effective, Compact, Multifunctional Web Enabled Ocean Sensor Systems Empowering Marine, Maritime and Fisheries Management" align="middle" width="172" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/logo_nexos.png" /></a> | The development of this version of the 52&deg;North Faroe was supported by the <a target="_blank" href="http://cordis.europa.eu/fp7/home_en.html">European FP7</a> research project <a target="_blank" href="http://www.nexosproject.eu/">NeXOS</a> (co-funded by the European Commission under the grant agreement n&deg;614102) |
-| <a target="_blank" href="https://bmbf.de/"><img alt="BMBF" align="middle"  src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmbf_logo_en.png"/></a><a target="_blank" href="https://colabis.de/"><img alt="COLABIS - Collaborative Early Warning Information Systems for Urban Infrastructures" align="middle"  src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/colabis.png"/></a> | The development of this version 52&deg;North Faroe was supported by the <a target="_blank" href="https://www.bmbf.de"> German Federal Ministry of Education and Research</a> research project <a target="_blank" href="https://colabis.de/">COLABIS</a> (co-funded by the German Federal Ministry of Education and Research, programme Geotechnologien, under grant agreement no. 03G0852A) |
-| <a target="_blank" href="https://www.seadatanet.org/About-us/SeaDataCloud/"><img alt="SeaDataCloud" align="middle" width="156" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/LOGO_SDC_Layer_opengraphimage.png"/></a> | The development of this version of the 52&deg;North SOS was supported by the <a target="_blank" href="https://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> research project <a target="_blank" href="https://www.seadatanet.org/About-us/SeaDataCloud/">SeaDataCloud</a> (co-funded by the European Commission under the grant agreement n&deg;730960) |
-| <a target="_blank" href="http://www.odip.org"><img alt="ODIP II - Ocean Data Interoperability Platform" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/odip-logo.png"/></a> | The development of this version of the 52&deg;North Faroe was supported by the <a target="_blank" href="https://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> research project <a target="_blank" href="http://www.odip.org/">ODIP II</a> (co-funded by the European Commission under the grant agreement n&deg;654310) |
-| <a target="_blank" href="http://www.connectingeo.net/"><img alt="ConnectinGEO - Coordinating an Observation Network of Networks EnCompassing saTellite and IN-situ to fill the Gaps in European Observations" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/ConnectinGEO_logo.png"/></a> | The development of this version of the 52&deg;North Faroe was supported by the <a target="_blank" href="https://ec.europa.eu/programmes/horizon2020/">Horizon 2020</a> research project <a target="_blank" href="http://www.connectingeo.net/">ConnectinGEO</a> (co-funded by the European Commission under the grant agreement n&deg;641538) |
-| <a target="_blank" href="http://www.geoviqua.org/"><img alt="GeoViQua - QUAlity aware VIsualization for the Global Earth Observation System of Systems" align="middle" width="172" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/logo_geoviqua.png"/></a> | The development of this version 52&deg;North Faroe was supported by the <a target="_blank" href="http://cordis.europa.eu/fp7/home_en.html">European FP7</a> research project <a href="http://www.geoviqua.org/" title="GeoViQua">GeoViQua</a> (co-funded by the European Commission under the grant agreement n&deg;265178) |
-| <a target="_blank" href="https://www.bmvi.de/"><img alt="BMVI" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmvi-logo-en.png"/></a><a target="_blank" href="https://www.bmvi.de/DE/Themen/Digitales/mFund/Ueberblick/ueberblick.html"><img alt="mFund" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/mFund.jpg"/></a><a target="_blank" href="http://wacodis.fbg-hsbo.de/"><img alt="WaCoDis - Water management Copernicus services for the determination of substance inputs into waters and dams within the framework of environmental monitoring" align="middle" width="126" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/wacodis-logo.png"/></a> | The development of this version of the 52&deg;North SOS was supported by the <a target="_blank" href="https://www.bmvi.de/"> German Federal Ministry of of Transport and Digital Infrastructure</a> research project <a target="_blank" href="http://wacodis.fbg-hsbo.de/">WaCoDis</a> (co-funded by the German Federal Ministry of Transport and Digital Infrastructure, programme mFund) |
-| <a target="_blank" href="https://bmbf.de/"><img alt="BMBF" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmbf_logo_neu_eng.png"/></a><a target="_blank" href="https://www.fona.de/"><img alt="FONA" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/fona.png"/></a><a target="_blank" href="https://colabis.de/"><img alt="Multidisciplinary data acquisition as the key for a globally applicable water resource management (MuDak-WRM)" align="middle" width="100" src="https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/mudak_wrm_logo.png"/></a> | The development of this version of the 52&deg;North SOS was supported by the <a target="_blank" href="https://www.bmbf.de/"> German Federal Ministry of Education and Research</a> research project <a target="_blank" href="http://www.mudak-wrm.kit.edu/">MuDak-WRM</a> (co-funded by the German Federal Ministry of Education and Research, programme FONA) |
+| [![NeXOS][nexos-logo]][nexos] | The development of this version of 52°North Arctic Sea was supported by the [European FP7][fp7] research project [NeXOS][nexos] (co-funded by the European Commission under the grant agreement n°614102) |
+| [![BMBF][bmbf-geotechnologien-logo]][bmbf][![COLABIS][colabis-logo]][colabis] | The development of this version 52°North Arctic Sea was supported by the [German Federal Ministry of Education and Research][bmbf] research project [COLABIS][colabis] (co-funded by the German Federal Ministry of Education and Research, programme Geotechnologien, under grant agreement no. 03G0852A) |
+| [![SeaDataCloud][seadatacloud-logo]][seadatacloud] | The development of this version of 52°North Arctic Sea was supported by the [Horizon 2020][h2020] research project [SeaDataCloud][seadatacloud] (co-funded by the European Commission under the grant agreement n°730960) |
+| [![ODIP II][odip-ii-logo]][odip] | The development of this version of 52°North Arctic Sea was supported by the [Horizon 2020][h2020] research project [ODIP II][odip] (co-funded by the European Commission under the grant agreement n°654310) |
+| [![ConnectinGEO][connectingeo-logo]][connectingeo] | The development of this version of 52°North Arctic Sea was supported by the [Horizon 2020][h2020] research project [ConnectinGEO][connectingeo] (co-funded by the European Commission under the grant agreement n°641538) |
+| [![GeoViQua][geoviqua-logo]][geoviqua] | The development of this version of 52°North Arctic Sea was supported by the [European FP7][fp7] research project [GeoViQua][geoviqua] (co-funded by the European Commission under the grant agreement n°265178) |
+| [![BMVI][bmvi-logo]][bmvi][![mFund][mfund-logo]][mfund][![WaCoDis][wacodis-logo]][wacodis] | The development of this version of 52°North Arctic Sea was supported by the [German Federal Ministry of of Transport and Digital Infrastructure][bmvi] research project [WaCoDis][wacodis] (co-funded by the German Federal Ministry of Transport and Digital Infrastructure, programme mFund) |
+| [![BMBF][bmbf-logo]][bmbf][![FONA][fona-logo]][fona][![MuDak-WRM][mudak-wrm-logo]][colabis] | The development of this version of 52°North Arctic Sea was supported by the [German Federal Ministry of Education and Research][bmbf] research project [MuDak-WRM][mudak-wrm] (co-funded by the German Federal Ministry of Education and Research, programme [FONA][fona]) |
+| [![BRIDGES][bridges-logo]][bridges]| The development of this version of the 52°North Arctic Sea was supported by the [Horizon 2020][h2020] research project [BRIDGES][bridges] (co-funded by the European Commission under the grant agreement n°635359)
+
+[52n-sos]: https://github.com/52North/SOS
+[52n-wps]: https://github.com/52North/javaPS
+[apache-2.0]: https://spdx.org/licenses/Apache-2.0.html
+[bmbf-geotechnologien-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmbf-geotechnologien-logo.png
+[bmbf-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmbf-logo.png
+[bmbf]: https://www.bmbf.de/
+[bmvi-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bmvi-logo.png
+[bmvi]: https://www.bmvi.de/
+[bridges-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/bridges-logo.jpg
+[bridges]: http://www.bridges-h2020.eu/
+[colabis-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/colabis-logo.png
+[colabis]: https://colabis.de/
+[connectingeo-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/connectingeo-logo.png
+[connectingeo]: http://www.connectingeo.net/
+[fona-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/fona-logo.png
+[fona]: https://www.fona.de/
+[fp7]: https://ec.europa.eu/research/fp7/index_en.cfm
+[geoviqua-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/geoviqua-logo.png
+[geoviqua]: http://www.geoviqua.org/
+[h2020]: https://ec.europa.eu/programmes/horizon2020/
+[licensing]: https://52north.org/software/licensing/guidelines/
+[mailing-lists]: https://52north.org/discuss/#mailing-lists
+[maven-parents]: https://github.com/52North/maven-parents
+[mfund-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/mfund-logo.jpg
+[mfund]: https://www.bmvi.de/DE/Themen/Digitales/mFund/Ueberblick/ueberblick.html
+[mudak-wrm-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/mudak-wrm-logo.png
+[mudak-wrm]: http://www.mudak-wrm.kit.edu/
+[nexos-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/nexos-logo.png
+[nexos]: http://www.nexosproject.eu/
+[odip-ii-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/odip-ii-logo.png
+[odip]: http://www.odip.org/
+[om]: http://www.opengeospatial.org/standards/om
+[overview]: https://github.com/52North/arctic-sea/raw/master/etc/overview.png
+[releases]: https://github.com/52North/arctic-sea/releases
+[seadatacloud-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/seadatacloud-logo.png
+[seadatacloud]: https://www.seadatanet.org/About-us/SeaDataCloud/
+[sensorml]: http://www.opengeospatial.org/standards/sensorml
+[sos]: http://www.opengeospatial.org/standards/sos
+[swe-common]: http://www.opengeospatial.org/standards/swecommon
+[wacodis-logo]: https://raw.githubusercontent.com/52North/arctic-sea/master/etc/images/wacodis-logo.png
+[wacodis]: http://wacodis.fbg-hsbo.de/
+[wps]: http://www.opengeospatial.org/standards/wps
