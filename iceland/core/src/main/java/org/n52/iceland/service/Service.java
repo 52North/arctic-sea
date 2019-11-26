@@ -240,6 +240,7 @@ public class Service {
         }
     }
 
+    @SuppressWarnings("lgtm[java/stack-trace-exposure]")
     protected void onHttpException(HttpServletRequest request, HttpServletResponse response, HTTPException exception)
             throws IOException {
         this.serviceEventBus.submit(new ExceptionEvent(exception));

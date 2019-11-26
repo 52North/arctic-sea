@@ -16,6 +16,17 @@
  */
 package org.n52.iceland.cache.ctrl.persistence;
 
+import org.n52.faroe.annotation.Configurable;
+import org.n52.faroe.annotation.Setting;
+import org.n52.iceland.cache.ContentCache;
+import org.n52.iceland.cache.ContentCachePersistenceStrategy;
+import org.n52.iceland.cache.WritableContentCache;
+import org.n52.janmayen.ConfigLocationProvider;
+import org.n52.janmayen.lifecycle.Constructable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -30,25 +41,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.Optional;
 
-import javax.inject.Inject;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.n52.faroe.annotation.Configurable;
-import org.n52.faroe.annotation.Setting;
-import org.n52.iceland.cache.ContentCache;
-import org.n52.iceland.cache.ContentCachePersistenceStrategy;
-import org.n52.iceland.cache.WritableContentCache;
-import org.n52.janmayen.ConfigLocationProvider;
-import org.n52.janmayen.lifecycle.Constructable;
-
 @Configurable
 public abstract class AbstractPersistingCachePersistenceStrategy
         implements ContentCachePersistenceStrategy, Constructable {
     public static final String CACHE_FILE_FOLDER = "service.cacheFileFolder";
     private static final Logger LOGGER = LoggerFactory
-            .getLogger(AbstractPersistingCachePersistenceStrategy.class);
+                                                 .getLogger(AbstractPersistingCachePersistenceStrategy.class);
     private static final String CACHE_FILE = "cache.tmp";
     private static final String TMP_PATH = "tmp";
     private static final String WEB_INF_PATH = "WEB-INF";
@@ -118,8 +116,8 @@ public abstract class AbstractPersistingCachePersistenceStrategy
 
     protected Path getBasePath() {
         return isSetCacheFileFolder()
-                       ? getCacheFileFolder().toAbsolutePath()
-                       : Paths.get(configLocationProvider.get());
+               ? getCacheFileFolder().toAbsolutePath()
+               : Paths.get(configLocationProvider.get());
     }
 
     @Override
@@ -166,14 +164,30 @@ public abstract class AbstractPersistingCachePersistenceStrategy
     private static ObjectInputStream newObjectInputStream(Path file) throws IOException {
         InputStream is = Files.newInputStream(file);
         BufferedInputStream bis = new BufferedInputStream(is);
-        ObjectInputStream ois = new ObjectInputStream(bis);
-        return ois;
+        try {
+            return new ObjectInputStream(bis);
+        } catch (IOException ex) {
+            try {
+                is.close();
+            } catch (IOException suppressed) {
+                ex.addSuppressed(suppressed);
+            }
+            throw ex;
+        }
     }
 
     private static ObjectOutputStream newObjectOutputStream(Path file) throws IOException {
         OutputStream os = Files.newOutputStream(file, StandardOpenOption.CREATE);
         BufferedOutputStream bos = new BufferedOutputStream(os);
-        ObjectOutputStream oos = new ObjectOutputStream(bos);
-        return oos;
+        try {
+            return new ObjectOutputStream(bos);
+        } catch (IOException ex) {
+            try {
+                bos.close();
+            } catch (IOException suppressed) {
+                suppressed.addSuppressed(suppressed);
+            }
+            throw ex;
+        }
     }
 }
