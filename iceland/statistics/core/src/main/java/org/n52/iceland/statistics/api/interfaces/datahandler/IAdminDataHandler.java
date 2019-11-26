@@ -16,20 +16,21 @@
  */
 package org.n52.iceland.statistics.api.interfaces.datahandler;
 
+import java.io.IOException;
+
 import javax.security.auth.Destroyable;
 
-import org.elasticsearch.client.Client;
-
+import org.elasticsearch.client.RestHighLevelClient;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
 import org.n52.janmayen.lifecycle.Constructable;
 
 public interface IAdminDataHandler extends Constructable, Destroyable {
 
-    void deleteIndex(String index);
+    void deleteIndex(String index) throws IOException;
 
-    void createSchema();
+    void createSchema() throws IOException;
 
-    Client getElasticsearchClient();
+    RestHighLevelClient getElasticsearchClient();
 
     ElasticsearchSettings getElasticsearchSettings();
 }

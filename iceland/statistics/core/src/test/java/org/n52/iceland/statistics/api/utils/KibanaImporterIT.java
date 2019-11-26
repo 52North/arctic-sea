@@ -22,7 +22,10 @@ import java.nio.charset.StandardCharsets;
 import javax.inject.Inject;
 
 import org.apache.commons.io.IOUtils;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.indices.GetIndexRequest;
 import org.elasticsearch.search.SearchHit;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -47,16 +50,16 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
                                        StandardCharsets.UTF_8);
         new KibanaImporter(getEmbeddedClient(), ".kibana", "my-index").importJson(json);
         Thread.sleep(1500);
-        Assertions.assertTrue(getEmbeddedClient().admin().indices().prepareExists(".kibana").get() != null);
+        Assertions.assertTrue(getEmbeddedClient().indices().exists(new GetIndexRequest(".kibana"), RequestOptions.DEFAULT));
 
-        SearchResponse resp = getEmbeddedClient().prepareSearch(".kibana").setTypes("visualization").get();
+        SearchResponse resp = getEmbeddedClient().search(new SearchRequest(".kibana").types("visualization"), RequestOptions.DEFAULT);
         Assertions.assertTrue(resp.getHits().getTotalHits().value > 0);
 
         for (SearchHit hit : resp.getHits().getHits()) {
             Assertions.assertFalse(hit.getSourceAsString().contains(KibanaImporter.INDEX_NEEDLE));
         }
 
-        SearchResponse resp2 = getEmbeddedClient().prepareSearch(".kibana").setTypes("dashboard").get();
+        SearchResponse resp2 = getEmbeddedClient().search(new SearchRequest(".kibana").types("dashboard"), RequestOptions.DEFAULT);
         Assertions.assertTrue(resp2.getHits().getTotalHits().value > 0);
 
         for (SearchHit hit : resp2.getHits().getHits()) {
@@ -68,7 +71,7 @@ public class KibanaImporterIT extends ElasticsearchAwareTest {
     public void importInvalidJson() throws InterruptedException, JsonParseException, JsonMappingException, IOException {
         new KibanaImporter(getEmbeddedClient(), "local-index", "").importJson("semmi latnivali nincs itt");
         Thread.sleep(1500);
-        Assertions.assertFalse(getEmbeddedClient().admin().indices().prepareExists(".kibana").get() != null);
+        Assertions.assertFalse(getEmbeddedClient().indices().exists(new GetIndexRequest(".kibana"), RequestOptions.DEFAULT));
     }
 
     @Test

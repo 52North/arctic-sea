@@ -39,12 +39,14 @@ This project includes:
   52°North Svalbard Parent under The Apache Software License, Version 2.0
   52°North Svalbard XML Stream under The Apache Software License, Version 2.0
   52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
+  aggs-matrix-stats under The Apache Software License, Version 2.0
   Animal Sniffer Annotations under MIT license
   Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
   Apache Commons CSV under Apache License, Version 2.0
   Apache Commons IO under Apache License, Version 2.0
+  Apache Commons Lang under Apache License, Version 2.0
   Apache HttpAsyncClient under Apache License, Version 2.0
   Apache HttpClient under Apache License, Version 2.0
   Apache HttpClient Cache under Apache License, Version 2.0
@@ -68,8 +70,8 @@ This project includes:
   elasticsearch-core under The Apache Software License, Version 2.0
   elasticsearch-geo under The Apache Software License, Version 2.0
   elasticsearch-secure-sm under The Apache Software License, Version 2.0
-  elasticsearch-ssl-config under The Apache Software License, Version 2.0
   elasticsearch-x-content under The Apache Software License, Version 2.0
+  embedded-elasticsearch under The Apache Software License, Version 2.0
   error-prone annotations under Apache 2.0
   EXIficient under MIT License
   EXIficient-Core under MIT License
@@ -105,6 +107,7 @@ This project includes:
   jackson-databind under The Apache Software License, Version 2.0
   Jackson-dataformat-YAML under The Apache Software License, Version 2.0
   Java Architecture for XML Binding under CDDL 1.1 or GPL2 w/ CPE
+  Java archiving library under Apache 2
   JavaBeans(TM) Activation Framework under COMMON DEVELOPMENT AND DISTRIBUTION LICENSE (CDDL) Version 1.0
   JavaMail API jar under CDDL or GPLv2+CE
   javax.inject under The Apache Software License, Version 2.0
@@ -128,6 +131,7 @@ This project includes:
   Lucene Spatial 3D under Apache 2
   Lucene Spatial Extras under Apache 2
   Lucene Suggest under Apache 2
+  mapper-extras under The Apache Software License, Version 2.0
   MaxMind DB Reader under Apache License 2.0
   MaxMind GeoIP2 API under Apache License, Version 2.0
   mchange-commons-java under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
@@ -183,12 +187,11 @@ This project includes:
   Old JAXB Runtime under CDDL 1.1 or GPL2 w/ CPE
   org.locationtech.jts:jts-core under Eclipse Publish License, Version 1.0 or Eclipse Distribution License - v 1.0
   parent-join under The Apache Software License, Version 2.0
-  percolator under The Apache Software License, Version 2.0
   Portele Schape Change schema (spec. v3.0) under The Apache Software License, Version 2.0
   quartz under The Apache Software License, Version 2.0
   rank-eval under The Apache Software License, Version 2.0
-  reindex under The Apache Software License, Version 2.0
   rest under The Apache Software License, Version 2.0
+  rest-high-level under The Apache Software License, Version 2.0
   Saxon-HE under Mozilla Public License Version 2.0
   server under The Apache Software License, Version 2.0
   SLF4J API Module under MIT License
@@ -199,8 +202,6 @@ This project includes:
   Spring Expression Language (SpEL) under Apache License, Version 2.0
   Spring Web under Apache License, Version 2.0
   T-Digest under The Apache Software License, Version 2.0
-  transport under The Apache Software License, Version 2.0
-  transport-netty4 under The Apache Software License, Version 2.0
   W3C SOAP specification recommondation (v1.2 part 1) under The Apache Software License, Version 2.0
   W3C WS-Addressing specification schemas (v1.0) under The Apache Software License, Version 2.0
   W3C xlink schema (spec. v1.1.0) under The Apache Software License, Version 2.0

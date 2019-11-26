@@ -16,22 +16,29 @@
  */
 package org.n52.iceland.statistics.api.interfaces.datahandler;
 
+import java.io.IOException;
 import java.util.Map;
 
+import org.elasticsearch.ElasticsearchGenerationException;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RestHighLevelClient;
 
 public interface IStatisticsDataHandler {
 
     /**
      * Persist the date to the database
      *
-     * @param dataMap keys are property names and the values are the objects
+     * @param dataMap
+     *            keys are property names and the values are the objects
      *
      * @return the response
+     * @throws IOException
+     *             If an error occurs
+     * @throws ElasticsearchGenerationException
+     *             If an error occurs
      *
      */
-    IndexResponse persist(Map<String, Object> dataMap);
+    IndexResponse persist(Map<String, Object> dataMap) throws ElasticsearchGenerationException, IOException;
 
     /**
      * Returns true if the statistics module is enabled otherwise false
@@ -45,6 +52,6 @@ public interface IStatisticsDataHandler {
      *
      * @return the opened ready to used client.
      */
-    Client getClient();
+    RestHighLevelClient getClient();
 
 }

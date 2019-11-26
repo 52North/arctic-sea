@@ -33,7 +33,6 @@ public interface ElasticsearchSettingsKeys {
 
     // lanMode vs transportclient mode vs embedded elasticsearch server
     String CONNECTION_MODE = "statistics.elasticsearch.connection_mode";
-    String CONNECTION_MODE_NODE = "statistics.elasticsearch.connection_mode.node";
     String CONNECTION_MODE_TRANSPORT_CLIENT
             = "statistics.elasticsearch.connection_mode.transport_client";
     String CONNECTION_MODE_EMBEDDED_SERVER

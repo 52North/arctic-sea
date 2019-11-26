@@ -16,12 +16,16 @@
  */
 package org.n52.iceland.statistics.impl;
 
+import java.io.IOException;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.elasticsearch.ElasticsearchGenerationException;
+import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.client.Client;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
@@ -42,7 +46,7 @@ public class ElasticsearchDataHandler implements IStatisticsDataHandler {
     private IAdminDataHandler adminHandler;
 
     @Override
-    public IndexResponse persist(Map<String, Object> dataMap) {
+    public IndexResponse persist(Map<String, Object> dataMap) throws ElasticsearchGenerationException, IOException {
         if (!settings.isLoggingEnabled()) {
             return null;
         }
@@ -53,9 +57,9 @@ public class ElasticsearchDataHandler implements IStatisticsDataHandler {
         dataMap.put(ServiceEventDataMapping.TIMESTAMP_FIELD.getName(), DateTime.now(DateTimeZone.UTC));
         dataMap.put(ServiceEventDataMapping.UUID_FIELD.getName(), settings.getUuid());
         logger.debug("Persisting {}", dataMap);
-        IndexResponse response = adminHandler.getElasticsearchClient().prepareIndex(settings.getIndexId(),
-                settings.getTypeId()).setSource(dataMap)
-                .get();
+        IndexResponse response = adminHandler.getElasticsearchClient().index(
+                new IndexRequest(settings.getIndexId()).type(settings.getTypeId()).source(dataMap),
+                RequestOptions.DEFAULT);
         return response;
     }
 
@@ -65,7 +69,7 @@ public class ElasticsearchDataHandler implements IStatisticsDataHandler {
     }
 
     @Override
-    public Client getClient() {
+    public RestHighLevelClient getClient() {
         return adminHandler.getElasticsearchClient();
     }
 }

@@ -21,56 +21,61 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Objects;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-import org.elasticsearch.client.Client;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.settings.Settings.Builder;
-import org.elasticsearch.env.Environment;
-import org.elasticsearch.node.Node;
-import org.elasticsearch.node.NodeValidationException;
+import org.n52.iceland.statistics.api.utils.FileDownloader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import org.n52.iceland.statistics.api.utils.FileDownloader;
 
 import com.google.common.collect.ImmutableList;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic;
+import pl.allegro.tech.embeddedelasticsearch.PopularProperties;
 
 public class EmbeddedElasticsearch {
 
     private static final Logger LOG = LoggerFactory.getLogger(EmbeddedElasticsearch.class);
+
     private static final String RESOURCE_BASE = "/statistics/embedded";
-    private static final List<String> SCRIPT_FILE_NAMES = ImmutableList
-            .<String>of("getcapabilities_sections_concat.groovy",
-                        "most_requested_observedproperties.groovy", "most_requested_procedures.groovy");
+
+    private static final List<String> SCRIPT_FILE_NAMES =
+            ImmutableList.<String> of("getcapabilities_sections_concat.groovy",
+                    "most_requested_observedproperties.groovy", "most_requested_procedures.groovy");
+
     private static final String LOGGING_CONFIG_PATH = "/config/logging.yml";
+
     private static final String CONFIG_PATH = "/elasticsearch_embedded.yml";
 
     private String homePath;
-    private Node embeddedNode;
-    private Client client;
+
+    private EmbeddedElastic embeddedNode;
+
+    private RestHighLevelClient client;
 
     public void destroy() {
         if (client != null) {
-            client.close();
+            try {
+                client.close();
+            } catch (IOException e) {
+                LOG.error("Error while closing client", e);
+            }
         }
         LOG.info("Closing embedded elasticsearch node");
         if (embeddedNode != null) {
-            try {
-                embeddedNode.close();
-            } catch (IOException e) {
-               LOG.error("Error while closing embedded node", e);
-            }
+            embeddedNode.stop();
         }
     }
 
-    @SuppressFBWarnings({"OBL_UNSATISFIED_OBLIGATION", "DMI_HARDCODED_ABSOLUTE_FILENAME"})
+    @SuppressFBWarnings({ "OBL_UNSATISFIED_OBLIGATION", "DMI_HARDCODED_ABSOLUTE_FILENAME" })
     public void init() {
         Objects.requireNonNull(homePath);
 
@@ -98,18 +103,32 @@ public class EmbeddedElasticsearch {
             LOG.error(ex.getMessage(), ex);
             return;
         }
-        setting.put("cluster.name", "elasticsearch");
-        setting.put("node.name", "Embedded Server");
-        setting.put("path.home", homePath);
-        setting.put("path.logs", homePath + "/logs");
+        Settings settings = setting.build();
+        // setting.put("cluster.name", "elasticsearch");
+        // setting.put("node.name", "Embedded Server");
+        // setting.put("path.home", homePath);
+        // setting.put("path.logs", homePath + "/logs");
 
-        Settings esSettings = setting.build();
+        // Settings esSettings = setting.build();
         // LogConfigurator.configure(esSettings);
-        embeddedNode = new Node(new Environment(esSettings, Paths.get(resource)));
+        // embeddedNode = new Node(new Environment(esSettings,
+        // Paths.get(resource)));
+
+        pl.allegro.tech.embeddedelasticsearch.EmbeddedElastic.Builder builder =
+                EmbeddedElastic.builder().withElasticVersion("6.3.0").withPlugin("groovy");
+        builder.withSetting(PopularProperties.TRANSPORT_TCP_PORT, 9300);
+        builder.withSetting("cluster.name", "elasticsearch");
+        builder.withSetting("node.name", "Embedded Server");
+        builder.withSetting("path.home", homePath);
+        builder.withSetting("path.logs", homePath + "/logs");
+        for (String key : settings.keySet()) {
+            builder.withSetting(key, settings.get(key));
+        }
+        embeddedNode = builder.build();
         try {
             embeddedNode.start();
-        } catch (NodeValidationException e1) {
-           LOG.error("Error while starting node", e1);
+        } catch (IOException | InterruptedException e1) {
+            LOG.error("Error while starting node", e1);
         }
         try {
             LOG.info("Waiting 8 seconds to startup the Elasticsearch");
@@ -118,11 +137,13 @@ public class EmbeddedElasticsearch {
             LOG.error(e.getMessage(), e);
         }
         LOG.info("Started embedded elasticsearch node");
+
     }
 
     private void copyLoggingFile() throws FileNotFoundException, IOException {
-        try (InputStream inputLogigng = EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/logging.yml");
-             FileOutputStream out = new FileOutputStream(new File(homePath + LOGGING_CONFIG_PATH))) {
+        try (InputStream inputLogigng =
+                EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/logging.yml");
+                FileOutputStream out = new FileOutputStream(new File(homePath + LOGGING_CONFIG_PATH))) {
             IOUtils.copy(inputLogigng, out);
         }
     }
@@ -131,8 +152,8 @@ public class EmbeddedElasticsearch {
         String groovyDir = homePath + "/plugins/groovy";
         FileUtils.forceMkdir(new File(groovyDir));
         FileDownloader.downloadFile(
-                "http://central.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.4/groovy-all-2.4.4.jar",
-                groovyDir + "/groovy-all-2.4.4.jar");
+                "http://central.maven.org/maven2/org/codehaus/groovy/groovy-all/2.4.17/groovy-all-2.4.17.jar",
+                groovyDir + "/groovy-all-2.4.17.jar");
     }
 
     private void copyScriptFiles() throws IOException {
@@ -141,9 +162,9 @@ public class EmbeddedElasticsearch {
 
         // read the files list at least on windows works
         for (String line : SCRIPT_FILE_NAMES) {
-            try (InputStream scriptFile = EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/scripts/" +
-                                                                                          line);
-                 FileOutputStream scriptFileOut = new FileOutputStream(scripts.getAbsolutePath() + "/" + line)) {
+            try (InputStream scriptFile =
+                    EmbeddedElasticsearch.class.getResourceAsStream(RESOURCE_BASE + "/scripts/" + line);
+                    FileOutputStream scriptFileOut = new FileOutputStream(scripts.getAbsolutePath() + "/" + line)) {
                 IOUtils.copy(scriptFile, scriptFileOut);
             }
         }
@@ -157,7 +178,8 @@ public class EmbeddedElasticsearch {
         this.homePath = homePath;
     }
 
-    public Client getClient() {
-        return embeddedNode.client();
+    public RestHighLevelClient getClient() {
+        return new RestHighLevelClient(
+                RestClient.builder(new HttpHost("localhost", embeddedNode.getTransportTcpPort())));
     }
 }

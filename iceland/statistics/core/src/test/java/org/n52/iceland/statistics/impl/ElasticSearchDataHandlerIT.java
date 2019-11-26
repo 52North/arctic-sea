@@ -16,12 +16,16 @@
  */
 package org.n52.iceland.statistics.impl;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.elasticsearch.ElasticsearchGenerationException;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.n52.iceland.statistics.basetests.ElasticsearchAwareTest;
@@ -32,7 +36,7 @@ public class ElasticSearchDataHandlerIT extends ElasticsearchAwareTest {
     private ElasticsearchDataHandler dataHandler;
 
     @Test
-    public void persistBasicData() throws InterruptedException {
+    public void persistBasicData() throws InterruptedException, ElasticsearchGenerationException, IOException {
         Thread.sleep(2500);
         Map<String, Object> data = new HashMap<>();
         data.put("alma", "korte");
@@ -41,7 +45,9 @@ public class ElasticSearchDataHandlerIT extends ElasticsearchAwareTest {
         logger.debug("Waiting 3s");
         Thread.sleep(2500);
 
-        SearchResponse response = getEmbeddedClient().prepareSearch(clientSettings.getIndexId()).setTypes(clientSettings.getTypeId()).get();
+        SearchResponse response = getEmbeddedClient().search(
+                new SearchRequest(clientSettings.getIndexId()).types(clientSettings.getTypeId()),
+                RequestOptions.DEFAULT);
         Assertions.assertEquals("korte", response.getHits().getHits()[0].getSourceAsMap().get("alma"));
     }
 }

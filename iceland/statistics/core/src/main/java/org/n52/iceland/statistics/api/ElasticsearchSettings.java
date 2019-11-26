@@ -52,7 +52,7 @@ public class ElasticsearchSettings {
     /**
      * Is the connection type Remote or LAN or Embedded server
      */
-    private String nodeConnectionMode = ElasticsearchSettingsKeys.CONNECTION_MODE_NODE;
+    private String nodeConnectionMode = ElasticsearchSettingsKeys.CONNECTION_MODE;
 
     /**
      * The ElasticSearch indexId of the date to be persisted under

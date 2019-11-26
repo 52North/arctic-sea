@@ -24,7 +24,9 @@ import java.util.Map;
 import javax.inject.Inject;
 
 import org.apache.commons.io.FileUtils;
+import org.elasticsearch.action.get.GetRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.n52.iceland.statistics.api.ElasticsearchSettings;
@@ -53,7 +55,8 @@ public class EmbeddedServerIT extends SpringBaseTest {
 
         Thread.sleep(2000);
 
-        String ret = dataHandler.getClient().prepareGet(idx.getIndex(), idx.getType(), idx.getId()).get().getSourceAsString();
+        String ret = dataHandler.getClient().get(new GetRequest(idx.getIndex(), idx.getId()), RequestOptions.DEFAULT)
+                .getSourceAsString();
         Assertions.assertNotNull(ret);
 
         adminHandler.destroy();

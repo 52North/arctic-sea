@@ -20,12 +20,15 @@ import java.io.IOException;
 import java.util.Objects;
 
 import org.elasticsearch.ElasticsearchException;
-import org.elasticsearch.client.Client;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.elasticsearch.action.delete.DeleteRequest;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.client.indices.CreateIndexRequest;
+import org.elasticsearch.client.indices.CreateIndexResponse;
 import org.n52.iceland.statistics.api.utils.dto.KibanaConfigEntryDto;
 import org.n52.iceland.statistics.api.utils.dto.KibanaConfigHolderDto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -34,12 +37,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class KibanaImporter {
 
     public static final String INDEX_NEEDLE = "##!NO_SPOON!##";
+
     private static final Logger LOG = LoggerFactory.getLogger(KibanaImporter.class);
-    private final Client client;
+
+    private final RestHighLevelClient client;
+
     private final String kibanaIndexName;
+
     private final String statisticsIndexName;
 
-    public KibanaImporter(Client client, String kibanaIndexName, String statisticsIndexName) {
+    public KibanaImporter(RestHighLevelClient client, String kibanaIndexName, String statisticsIndexName) {
         Objects.requireNonNull(client);
         Objects.requireNonNull(kibanaIndexName);
         Objects.requireNonNull(statisticsIndexName);
@@ -54,7 +61,7 @@ public class KibanaImporter {
 
         // delete .kibana index
         try {
-            client.admin().indices().prepareDelete(kibanaIndexName).get();
+            client.delete(new DeleteRequest(kibanaIndexName), RequestOptions.DEFAULT);
         } catch (ElasticsearchException ex) {
             LOG.debug("Tried to delete kibana index " + kibanaIndexName + " but it is not exists", ex);
         }
@@ -65,8 +72,10 @@ public class KibanaImporter {
         for (KibanaConfigEntryDto dto : holder.getEntries()) {
             processDto(dto);
             LOG.debug("Importing {}", dto);
-            client.prepareIndex(kibanaIndexName, dto.getType(), dto.getId())
-                    .setSource(dto.getSource()).get();
+            CreateIndexResponse response =
+                    client.indices().create(new CreateIndexRequest(kibanaIndexName), RequestOptions.DEFAULT);
+            // client.prepareIndex(kibanaIndexName, dto.getType(), dto.getId())
+            // .setSource(dto.getSource()).get();
         }
     }
 
