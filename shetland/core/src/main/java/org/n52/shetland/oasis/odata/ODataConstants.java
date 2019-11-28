@@ -102,6 +102,18 @@ public interface ODataConstants {
         String GEO_LENGTH = "geo.length";
     }
 
+    interface SpatialFunctions {
+        String ST_EQUALS = "st_equals";
+        String ST_DISJOINT = "st_disjoint";
+        String ST_TOUCHES = "st_touches";
+        String ST_WITHIN = "st_within";
+        String ST_OVERLAPS = "st_overlaps";
+        String ST_CROSSES = "st_crosses";
+        String ST_INTERSECTS = "st_intersects";
+        String ST_CONTAINS = "st_contains";
+        String ST_RELAST = "st_relate";
+    }
+
     interface ConditionalFunctions {
         String CASE = "case";
     }
