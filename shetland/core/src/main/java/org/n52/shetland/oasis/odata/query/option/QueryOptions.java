@@ -1,3 +1,19 @@
+/*
+ * Copyright 2015-2019 52°North Initiative for Geospatial Open Source
+ * Software GmbH
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.n52.shetland.oasis.odata.query.option;
 
 import java.util.LinkedHashSet;
@@ -8,27 +24,31 @@ import java.util.function.Predicate;
 import org.n52.shetland.oasis.odata.ODataConstants;
 
 /**
- * Abstract Interface to hold Query Parameters
+ * Class to hold Query Parameters
  *
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 public class QueryOptions {
 
-    int DEFAULT_TOP = 100;
+    private static Long DEFAULT_TOP = 100L;
 
     private String baseURL;
 
-    private Set<QueryOption> queryOptions = new LinkedHashSet<>();
+    private Set<QueryOption<?>> queryOptions = new LinkedHashSet<>();
 
-    public QueryOptions(String baseURL2) {
-
+    public QueryOptions(String baseURL) {
+        this.baseURL = baseURL;
+        this.queryOptions.add(new TopOption(DEFAULT_TOP));
     }
 
-    public QueryOptions(String baseURL, Set<QueryOption> queryOptions) {
+    public QueryOptions(String baseURL, Set<QueryOption<?>> queryOptions) {
         this.baseURL = baseURL;
         if (queryOptions != null) {
             this.queryOptions.addAll(queryOptions);
+            if (!hasTopOption()) {
+                this.queryOptions.add(new TopOption(DEFAULT_TOP));
+            }
         }
     }
 
@@ -56,7 +76,6 @@ public class QueryOptions {
         return has(ODataConstants.QueryOptions.SKIP);
     }
 
-
     public SkipOption getSkipOption() {
         return hasSkipOption() ? (SkipOption) find(ODataConstants.QueryOptions.SKIP).get() : null;
     }
@@ -64,7 +83,6 @@ public class QueryOptions {
     public boolean hasOrderByOption() {
         return has(ODataConstants.QueryOptions.ORDERBY);
     }
-
 
     public OrderByOption getOrderByOption() {
         return hasOrderByOption() ? (OrderByOption) find(ODataConstants.QueryOptions.ORDERBY).get() : null;
@@ -74,7 +92,6 @@ public class QueryOptions {
         return has(ODataConstants.QueryOptions.SELECT);
     }
 
-
     public SelectOption getSelectOption() {
         return hasSelectOption() ? (SelectOption) find(ODataConstants.QueryOptions.SELECT).get() : null;
     }
@@ -82,7 +99,6 @@ public class QueryOptions {
     public boolean hasExpandOption() {
         return has(ODataConstants.QueryOptions.EXPAND);
     }
-
 
     public ExpandOption getExpandOption() {
         return hasExpandOption() ? (ExpandOption) find(ODataConstants.QueryOptions.EXPAND).get() : null;
@@ -92,16 +108,15 @@ public class QueryOptions {
         return has(ODataConstants.QueryOptions.FILTER);
     }
 
-
     public FilterOption getFilterOption() {
         return hasFilterOption() ? (FilterOption) find(ODataConstants.QueryOptions.FILTER).get() : null;
     }
 
-    private Optional<QueryOption> find(String name) {
+    private Optional<QueryOption<?>> find(String name) {
         return find(new QueryOptionPredicate(name));
     }
 
-    private Optional<QueryOption> find(Predicate<QueryOption> predicate) {
+    private Optional<QueryOption<?>> find(Predicate<QueryOption<?>> predicate) {
         if (hasQueryOptions()) {
             return queryOptions.stream().filter(predicate).findFirst();
         }
@@ -116,7 +131,7 @@ public class QueryOptions {
         return queryOptions != null && !queryOptions.isEmpty();
     }
 
-    private final class QueryOptionPredicate implements Predicate<QueryOption> {
+    private static final class QueryOptionPredicate implements Predicate<QueryOption<?>> {
 
         private final String name;
 
@@ -125,7 +140,7 @@ public class QueryOptions {
         }
 
         @Override
-        public boolean test(QueryOption input) {
+        public boolean test(QueryOption<?> input) {
             return input.getName().equalsIgnoreCase(name);
         }
     }
