@@ -19,6 +19,8 @@ package org.n52.shetland.ogc.filter;
 import java.util.Collections;
 import java.util.List;
 
+import org.n52.shetland.filter.OrderByFilter;
+
 import com.google.common.collect.Lists;
 
 /**
@@ -28,7 +30,9 @@ import com.google.common.collect.Lists;
  *
  * @since 1.0.0
  *
+ * @deprecated Use {@link OrderByFilter}
  */
+@Deprecated
 public class FesSortBy implements AbstractSortingClause {
 
     private List<FesSortProperty> sortProperties = Lists.newArrayList();

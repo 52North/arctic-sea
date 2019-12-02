@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.ogc.filter;
 
+import org.n52.shetland.filter.OrderProperty;
 import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
 
 /**
@@ -25,7 +26,9 @@ import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
  *
  * @since 1.0.0
  *
+ * @deprecated Use {@link OrderProperty}
  */
+@Deprecated
 public class FesSortProperty {
 
     private String valueReference;
