@@ -25,13 +25,13 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.oasis.odata.ODataConstants;
-import org.n52.shetland.oasis.odata.query.option.QueryOptionFactory;
+import org.n52.shetland.oasis.odata.query.option.QueryOptionParser;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 
-public class QueryOptionsFactoryTest {
+public class QueryOptionsParserTest {
 
     private static final String URL = "http://test.org/";
-    private QueryOptionFactory factory = new QueryOptionFactory();
+    private QueryOptionParser factory = new QueryOptionParser();
 
     @Test
     public void countOptionTrue() {
