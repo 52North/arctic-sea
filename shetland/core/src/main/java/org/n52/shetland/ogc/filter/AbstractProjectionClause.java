@@ -24,6 +24,6 @@ package org.n52.shetland.ogc.filter;
  * @since 1.0.0
  *
  */
-public interface AbstractProjectionClause {
+public interface AbstractProjectionClause extends FilterClause {
     //
 }

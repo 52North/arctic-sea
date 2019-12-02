@@ -24,6 +24,6 @@ package org.n52.shetland.ogc.filter;
  * @since 1.0.0
  *
  */
-public interface AbstractSortingClause {
+public interface AbstractSortingClause extends FilterClause {
     //
 }

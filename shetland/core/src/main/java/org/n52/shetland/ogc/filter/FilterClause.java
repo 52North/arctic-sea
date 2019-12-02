@@ -16,14 +16,6 @@
  */
 package org.n52.shetland.ogc.filter;
 
-/**
- * interface for FES 2.0 AbstractSelectionClause
- *
- * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
- *
- * @since 1.0.0
- *
- */
-public interface AbstractSelectionClause extends FilterClause {
-    //
+public interface FilterClause {
+
 }
