@@ -21,7 +21,13 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import org.n52.shetland.filter.CountFilter;
+import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.oasis.odata.ODataConstants;
+import org.n52.shetland.ogc.filter.Filter;
+import org.n52.shetland.ogc.filter.FilterClause;
+import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 
 /**
  * Class to hold Query Parameters
@@ -35,19 +41,19 @@ public class QueryOptions {
 
     private String baseURL;
 
-    private Set<QueryOption<?>> queryOptions = new LinkedHashSet<>();
+    private Set<FilterClause> queryOptions = new LinkedHashSet<>();
 
     public QueryOptions(String baseURL) {
         this.baseURL = baseURL;
-        this.queryOptions.add(new TopOption(DEFAULT_TOP));
+        this.queryOptions.add(new SkipTopFilter(SkipTopOperator.Top, DEFAULT_TOP));
     }
 
-    public QueryOptions(String baseURL, Set<QueryOption<?>> queryOptions) {
+    public QueryOptions(String baseURL, Set<FilterClause> queryOptions) {
         this.baseURL = baseURL;
         if (queryOptions != null) {
             this.queryOptions.addAll(queryOptions);
             if (!hasTopOption()) {
-                this.queryOptions.add(new TopOption(DEFAULT_TOP));
+                this.queryOptions.add(new SkipTopFilter(SkipTopOperator.Top, DEFAULT_TOP));
             }
         }
     }
@@ -60,24 +66,24 @@ public class QueryOptions {
         return has(ODataConstants.QueryOptions.COUNT);
     }
 
-    public CountOption getCountOption() {
-        return hasCountOption() ? (CountOption) find(ODataConstants.QueryOptions.COUNT).get() : null;
+    public CountFilter getCountOption() {
+        return hasCountOption() ? (CountFilter) find(ODataConstants.QueryOptions.COUNT).get() : null;
     }
 
     public boolean hasTopOption() {
         return has(ODataConstants.QueryOptions.TOP);
     }
 
-    public TopOption getTopOption() {
-        return hasTopOption() ? (TopOption) find(ODataConstants.QueryOptions.TOP).get() : null;
+    public SkipTopFilter getTopOption() {
+        return hasTopOption() ? (SkipTopFilter) find(ODataConstants.QueryOptions.TOP).get() : null;
     }
 
     public boolean hasSkipOption() {
         return has(ODataConstants.QueryOptions.SKIP);
     }
 
-    public SkipOption getSkipOption() {
-        return hasSkipOption() ? (SkipOption) find(ODataConstants.QueryOptions.SKIP).get() : null;
+    public SkipTopFilter getSkipOption() {
+        return hasSkipOption() ? (SkipTopFilter) find(ODataConstants.QueryOptions.SKIP).get() : null;
     }
 
     public boolean hasOrderByOption() {
@@ -108,15 +114,15 @@ public class QueryOptions {
         return has(ODataConstants.QueryOptions.FILTER);
     }
 
-    public FilterOption getFilterOption() {
-        return hasFilterOption() ? (FilterOption) find(ODataConstants.QueryOptions.FILTER).get() : null;
+    public Filter<?> getFilterOption() {
+        return hasFilterOption() ? (Filter<?>) find(ODataConstants.QueryOptions.FILTER).get() : null;
     }
 
-    private Optional<QueryOption<?>> find(String name) {
+    private Optional<FilterClause> find(String name) {
         return find(new QueryOptionPredicate(name));
     }
 
-    private Optional<QueryOption<?>> find(Predicate<QueryOption<?>> predicate) {
+    private Optional<FilterClause> find(Predicate<FilterClause> predicate) {
         if (hasQueryOptions()) {
             return queryOptions.stream().filter(predicate).findFirst();
         }
@@ -131,7 +137,7 @@ public class QueryOptions {
         return queryOptions != null && !queryOptions.isEmpty();
     }
 
-    private static final class QueryOptionPredicate implements Predicate<QueryOption<?>> {
+    private static final class QueryOptionPredicate implements Predicate<FilterClause> {
 
         private final String name;
 
@@ -140,8 +146,23 @@ public class QueryOptions {
         }
 
         @Override
-        public boolean test(QueryOption<?> input) {
-            return input.getName().equalsIgnoreCase(name);
+        public boolean test(FilterClause input) {
+            if (ODataConstants.QueryOptions.COUNT.equalsIgnoreCase(name) && input instanceof CountOption) {
+                return true;
+            } else if (ODataConstants.QueryOptions.ORDERBY.equalsIgnoreCase(name) && input instanceof OrderByOption) {
+                return true;
+            } else if (ODataConstants.QueryOptions.SELECT.equalsIgnoreCase(name) && input instanceof SelectOption) {
+                return true;
+            } else if (ODataConstants.QueryOptions.EXPAND.equalsIgnoreCase(name) && input instanceof ExpandOption) {
+                return true;
+            } else if (ODataConstants.QueryOptions.SKIP.equalsIgnoreCase(name) && input instanceof SkipTopFilter) {
+                return ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Skip);
+            } else if (ODataConstants.QueryOptions.TOP.equalsIgnoreCase(name) && input instanceof SkipTopFilter) {
+                return ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Top);
+            } else if (ODataConstants.QueryOptions.FILTER.equalsIgnoreCase(name) && input instanceof Filter) {
+                return true;
+            }
+            return false;
         }
     }
 }

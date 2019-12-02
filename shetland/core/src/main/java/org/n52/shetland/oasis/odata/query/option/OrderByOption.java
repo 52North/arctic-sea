@@ -16,28 +16,9 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
-import org.n52.shetland.oasis.odata.ODataConstants;
+public interface OrderByOption {
 
-public class OrderByOption extends QueryOption<Object> {
-
-    private Object value;
-
-    public OrderByOption(String value) {
-        this.value = parse(value);
-    }
-
-    @Override
-    public String getName() {
-        return ODataConstants.QueryOptions.ORDERBY;
-    }
-
-    @Override
-    public Object getValue() {
-        return value;
-    }
-
-    private Object parse(String value2) {
-        return null;
-    }
+//    http://example.org/v1.0/Observations?$orderby=result
+//    http://example.org/v1.0/Observations?$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime
 
 }

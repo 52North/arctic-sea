@@ -16,17 +16,10 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
-import org.n52.shetland.oasis.odata.ODataConstants;
+public interface SelectOption {
 
-public class SelectOption extends StringSetQueryOption {
-
-    public SelectOption(String value) {
-       super(value);
-    }
-
-    @Override
-    public String getName() {
-        return ODataConstants.QueryOptions.SELECT;
-    }
+//    http://example.org/v1.0/Observations?$select=result,resultTime
+//    http://example.org/v1.0/Datastreams(1)?$select=id,Observations&$expand=Observations/FeatureOfInterest
+//    http://example.org/v1.0/Datastreams(1)?$expand=Observations($select=result)
 
 }

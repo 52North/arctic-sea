@@ -356,6 +356,7 @@ public interface FilterConstants {
     enum SortOrder {
         ASC,
         DESC
+
     }
 
     enum Expression {
@@ -374,4 +375,10 @@ public interface FilterConstants {
         EID,
         FID
     }
+
+    enum SkipTopOperator {
+        Skip,
+        Top
+    }
+
 }

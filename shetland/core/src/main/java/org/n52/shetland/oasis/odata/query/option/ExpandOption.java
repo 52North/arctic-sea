@@ -16,17 +16,11 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
-import org.n52.shetland.oasis.odata.ODataConstants;
+public interface ExpandOption {
 
-public class ExpandOption extends StringSetQueryOption {
+    // http://example.org/v1.0/Things?$expand=Datastreams/ObservedProperty
+    // http://example.org/v1.0/Datastreams(1)?$expand=Observations,ObservedProperty
+    // http://example.org/v1.0/Datastreams(1)?$expand=Observations($filter=result eq 1)
 
-    public ExpandOption(String value) {
-       super(value);
-    }
-
-    @Override
-    public String getName() {
-        return ODataConstants.QueryOptions.EXPAND;
-    }
 
 }
