@@ -140,7 +140,7 @@
         <version.xmlbeans>3.1.0</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
         <version.n52CommonXML>2.6.1</version.n52CommonXML>
-        <version.olingo>4.6.0</version.olingo>
+        <version.olingo>4.7.0</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
         <version.spotbugs>3.1.12</version.spotbugs>
         <version.javax-annotation-api>1.3.2</version.javax-annotation-api>
