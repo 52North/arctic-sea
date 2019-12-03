@@ -16,24 +16,14 @@
  */
 package org.n52.svalbard.odata;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-
-import javax.annotation.CheckReturnValue;
-
+import com.google.common.escape.Escaper;
+import com.google.common.net.PercentEscaper;
 import org.apache.olingo.commons.api.edm.Edm;
 import org.apache.olingo.commons.api.edm.EdmEnumType;
 import org.apache.olingo.commons.api.edm.EdmType;
 import org.apache.olingo.commons.api.ex.ODataException;
 import org.apache.olingo.commons.core.edm.EdmProviderImpl;
+import org.apache.olingo.server.api.ODataApplicationException;
 import org.apache.olingo.server.api.uri.UriInfo;
 import org.apache.olingo.server.api.uri.UriInfoResource;
 import org.apache.olingo.server.api.uri.UriResource;
@@ -52,9 +42,6 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.n52.janmayen.Optionals;
 import org.n52.shetland.ogc.filter.BinaryLogicFilter;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
@@ -79,9 +66,20 @@ import org.n52.svalbard.odata.expr.MemberExpr;
 import org.n52.svalbard.odata.expr.MethodCallExpr;
 import org.n52.svalbard.odata.expr.UnaryExpr;
 import org.n52.svalbard.odata.expr.ValueExpr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import com.google.common.escape.Escaper;
-import com.google.common.net.PercentEscaper;
+import javax.annotation.CheckReturnValue;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * Class to parse OData-based {@code $filter} expression into FES filters. See
@@ -395,11 +393,40 @@ public class ODataFesParser
     }
 
     /**
+     * Adapter for {@link ExpressionVisitor} to compensate for olingo's terrible version incompatibilities.
+     *
+     * @param <T> The return type
+     */
+    private interface ExpressionVisitorAdapter<T> extends ExpressionVisitor<T> {
+        // >=4.7.0
+        @Override
+        default T visitBinaryOperator(BinaryOperatorKind operator, T left, List<T> right)
+                throws ExpressionVisitException, ODataApplicationException {
+            T result = left;
+            for (T expr : right) {
+                result = visitBinaryOperator(operator, result, expr);
+            }
+            return result;
+        }
+
+        // >=4.2.0
+        @Override
+        default T visitMember(Member member)
+                throws ExpressionVisitException, ODataApplicationException {
+            return visitMember(member.getResourcePath());
+        }
+
+        // >=4.0.0<=4.2.0
+        // @Override
+        T visitMember(UriInfoResource member)
+                throws ExpressionVisitException, ODataApplicationException;
+    }
+
+    /**
      * Class to generate a {@code Expr} from the Olingo structures.
      */
-    private static final class ExpressionGenerator
-            implements
-            ExpressionVisitor<Expr> {
+    private static final class ExpressionGenerator implements ExpressionVisitorAdapter<Expr> {
+
 
         @Override
         public Expr visitBinaryOperator(BinaryOperatorKind op, Expr left, Expr right)
@@ -462,15 +489,7 @@ public class ODataFesParser
             throw new ExpressionVisitException("Lambda expressions are not supported");
         }
 
-        // >=4.2.0
         @Override
-        public Expr visitMember(Member member)
-                throws ExpressionVisitException {
-            return visitMember(member.getResourcePath());
-        }
-
-        // >=4.0.0<=4.2.0
-        // @Override
         public Expr visitMember(UriInfoResource member)
                 throws ExpressionVisitException {
             return new MemberExpr(member.getUriResourceParts().stream().map(UriResource::getSegmentValue)
