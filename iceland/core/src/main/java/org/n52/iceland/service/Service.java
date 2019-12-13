@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -81,6 +82,8 @@ public class Service {
     @Inject
     private transient EventBus serviceEventBus;
 
+    @Inject
+    private transient Optional<ImplementationVersionHeaderAdder> implementationVersionHeaderAdder;
 
     private long logRequest(HttpServletRequest request) {
         long count = COUNTER.incrementAndGet();
@@ -112,6 +115,7 @@ public class Service {
     public void delete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
+        addVersionHeader(response);
         try {
             getBinding(request).doDeleteOperation(request, response);
         } catch (HTTPException exception) {
@@ -126,6 +130,7 @@ public class Service {
             throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
+        addVersionHeader(response);
         try {
             getBinding(request).doGetOperation(request, response);
         } catch (HTTPException exception) {
@@ -140,6 +145,7 @@ public class Service {
             throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
+        addVersionHeader(response);
         try {
             getBinding(request).doPostOperation(request, response);
         } catch (HTTPException exception) {
@@ -154,6 +160,7 @@ public class Service {
             throws IOException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
+        addVersionHeader(response);
         try {
             getBinding(request).doPutOperation(request, response);
         } catch (HTTPException exception) {
@@ -169,6 +176,7 @@ public class Service {
             throws IOException, ServletException {
         Stopwatch stopwatch = Stopwatch.createStarted();
         long currentCount = logRequest(request);
+        addVersionHeader(response);
         Binding binding = null;
         try {
             binding = getBinding(request);
@@ -303,4 +311,9 @@ public class Service {
         }
     }
 
+    private void addVersionHeader(HttpServletResponse response) {
+        if(implementationVersionHeaderAdder.isPresent()) {
+            implementationVersionHeaderAdder.get().addVersion(response);
+        }
+    }
 }
