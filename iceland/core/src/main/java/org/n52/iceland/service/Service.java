@@ -312,7 +312,7 @@ public class Service {
     }
 
     private void addVersionHeader(HttpServletResponse response) {
-        if(implementationVersionHeaderAdder.isPresent()) {
+        if (implementationVersionHeaderAdder.isPresent()) {
             implementationVersionHeaderAdder.get().addVersion(response);
         }
     }
