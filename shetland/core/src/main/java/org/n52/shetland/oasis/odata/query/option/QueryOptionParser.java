@@ -16,25 +16,28 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
-import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.n52.shetland.filter.AbstractPathFilter;
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.ExpandFilter;
-import org.n52.shetland.filter.ExpandItem;
 import org.n52.shetland.filter.OrderByFilter;
 import org.n52.shetland.filter.OrderProperty;
-import org.n52.shetland.filter.ProjectionFilter;
+import org.n52.shetland.filter.PathFilterItem;
+import org.n52.shetland.filter.SelectFilter;
 import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.ogc.filter.AbstractSelectionClause;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
+
+import com.google.common.base.Splitter;
+
 import org.n52.shetland.oasis.odata.ODataConstants;
 
 import java.util.Set;
@@ -51,37 +54,39 @@ public class QueryOptionParser {
     private Set<FilterClause> getOptions(Map<String, String> parameters) {
         Set<FilterClause> options = new LinkedHashSet<>();
         for (Entry<String, String> entry : parameters.entrySet()) {
-            switch (entry.getKey()) {
-            case ODataConstants.QueryOptions.COUNT:
-                options.add(new CountFilter(entry.getValue()));
-                break;
-            case ODataConstants.QueryOptions.EXPAND:
-                options.add(new ExpandFilter(parseExpand(entry.getValue())));
-                break;
-            case ODataConstants.QueryOptions.FILTER:
-                options.add(parseFilter(entry.getValue()));
-                break;
-            case ODataConstants.QueryOptions.ORDERBY:
-                options.add(parseOrderBy(entry.getValue()));
-                break;
-            case ODataConstants.QueryOptions.SELECT:
-                options.add(new ProjectionFilter(parseSelection(entry.getValue())));
-                break;
-            case ODataConstants.QueryOptions.SKIP:
-                options.add(new SkipTopFilter(SkipTopOperator.Skip, Long.parseLong(entry.getValue())));
-                break;
-            case ODataConstants.QueryOptions.TOP:
-                options.add(new SkipTopFilter(SkipTopOperator.Top, Long.parseLong(entry.getValue())));
-                break;
-            default:
-                break;
+            if (entry.getValue() != null && !entry.getValue().isEmpty()) {
+                switch (entry.getKey()) {
+                case ODataConstants.QueryOptions.COUNT:
+                    options.add(new CountFilter(entry.getValue()));
+                    break;
+                case ODataConstants.QueryOptions.EXPAND:
+                    options.add(parsePathFilterItems(new ExpandFilter(), entry.getValue()));
+                    break;
+                case ODataConstants.QueryOptions.FILTER:
+                    options.add(parseFilter(entry.getValue()));
+                    break;
+                case ODataConstants.QueryOptions.ORDERBY:
+                    options.add(parseOrderBy(entry.getValue()));
+                    break;
+                case ODataConstants.QueryOptions.SELECT:
+                    options.add(parsePathFilterItems(new SelectFilter(), entry.getValue()));
+                    break;
+                case ODataConstants.QueryOptions.SKIP:
+                    options.add(new SkipTopFilter(SkipTopOperator.Skip, Long.parseLong(entry.getValue())));
+                    break;
+                case ODataConstants.QueryOptions.TOP:
+                    options.add(new SkipTopFilter(SkipTopOperator.Top, Long.parseLong(entry.getValue())));
+                    break;
+                default:
+                    break;
+                }
             }
         }
         return options;
     }
 
     private OrderByFilter parseOrderBy(String value) {
-        List<OrderProperty> properties = new LinkedList<OrderProperty>();
+        List<OrderProperty> properties = new LinkedList<>();
         for (String split : splitComma(value)) {
             properties.add(parseOrderProperty(split));
         }
@@ -96,22 +101,44 @@ public class QueryOptionParser {
         return new OrderProperty(value);
     }
 
-    private Set<String> parseSelection(String value) {
-        // TODO Auto-generated method stub
-        return new LinkedHashSet<>(Arrays.asList(splitComma(value)));
+    private AbstractPathFilter parsePathFilterItems(AbstractPathFilter filter, String value) {
+        for (String v : splitComma(value)) {
+            filter.addItem(parsePathFilterItems(v));
+        }
+        return filter;
     }
 
-    private ExpandItem parseExpand(String value) {
-        // TODO Auto-generated method stub
-        return null;
+    private PathFilterItem parsePathFilterItems(String value) {
+        if (containsOpenBracket(value)) {
+            return new PathFilterItem(value.substring(0, value.indexOf("(")),
+                    getOptions(toMap(getContentBetweenBrackets(value))));
+        }
+        return new PathFilterItem(value);
+    }
+
+    private Map<String, String> toMap(String value) {
+        return Splitter.on(';').trimResults().withKeyValueSeparator('=').split(value);
     }
 
     private AbstractSelectionClause parseFilter(String value) {
-        // TODO Auto-generated method stub
+     // TODO Auto-generated method stub
         return new ComparisonFilter();
     }
 
-    private String[] splitComma(String value) {
-        return value.split(",");
+    private boolean contains(String value, String c) {
+        return value.contains(c);
     }
+
+    private boolean containsOpenBracket(String value) {
+        return contains(value, "(");
+    }
+
+    private String getContentBetweenBrackets(String value) {
+        return value.substring(value.indexOf('(') + 1, value.lastIndexOf(')'));
+    }
+
+    private String[] splitComma(String value) {
+        return value.split(",(?=(?:[^()]*\\([^()]*\\))*[^()]*$)");
+    }
+
 }

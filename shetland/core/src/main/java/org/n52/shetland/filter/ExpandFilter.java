@@ -16,42 +16,21 @@
  */
 package org.n52.shetland.filter;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import org.n52.shetland.oasis.odata.query.option.ExpandOption;
-import org.n52.shetland.ogc.filter.FilterClause;
 
-public class ExpandFilter implements FilterClause, ExpandOption {
+public class ExpandFilter extends AbstractPathFilter implements ExpandOption {
 
-    private List<ExpandItem> items = new LinkedList<>();
-
-
-    public ExpandFilter(ExpandItem item) {
-        if (item != null) {
-            items.add(item);
-        }
+    public ExpandFilter() {
+        super();
     }
 
-    public ExpandFilter(List<ExpandItem> items) {
-        setItems(items);
+    public ExpandFilter(PathFilterItem item) {
+        super(item);
     }
 
-    /**
-     * @return the items
-     */
-    public List<ExpandItem> getItems() {
-        return items;
+    public ExpandFilter(List<PathFilterItem> items) {
+        super(items);
     }
-
-    /**
-     * @param items the items to set
-     */
-    public void setItems(List<ExpandItem> items) {
-        this.items.clear();
-        if (items != null) {
-            this.items = items;
-        }
-    }
-
 }

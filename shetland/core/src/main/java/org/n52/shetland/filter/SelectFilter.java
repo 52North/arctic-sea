@@ -18,42 +18,20 @@ package org.n52.shetland.filter;
 
 import java.util.List;
 
-import org.n52.shetland.ogc.filter.Filter;
+import org.n52.shetland.oasis.odata.query.option.SelectOption;
 
-public class ExpandItem {
+public class SelectFilter extends AbstractPathFilter implements SelectOption {
 
-    private String path;
-
-    private List<Filter<?>> filters;
-
-    /**
-     * @return the path
-     */
-    public String getPath() {
-        return path;
+    public SelectFilter() {
+        super();
     }
 
-    /**
-     * @param path
-     *            the path to set
-     */
-    public void setPath(String path) {
-        this.path = path;
+    public SelectFilter(PathFilterItem item) {
+        super(item);
     }
 
-    /**
-     * @return the filters
-     */
-    public List<Filter<?>> getFilters() {
-        return filters;
-    }
-
-    /**
-     * @param filters
-     *            the filters to set
-     */
-    public void setFilters(List<Filter<?>> filters) {
-        this.filters = filters;
+    public SelectFilter(List<PathFilterItem> items) {
+        super(items);
     }
 
 }
