@@ -29,6 +29,8 @@ import org.n52.shetland.w3c.SchemaLocation;
 public interface TimeseriesMLConstants {
     String NS_TSML_10 = "http://www.opengis.net/tsml/1.0";
 
+    String NS_TSML_DR_10 = "http://www.opengis.net/tsml-dr/1.0";
+
     String NS_TSML_10_PREFIX = "tsml";
 
     String NS_TSML_10_PROCEDURE_ENCODING = "http://www.opengis.net/def/timeseries/observationProcess";

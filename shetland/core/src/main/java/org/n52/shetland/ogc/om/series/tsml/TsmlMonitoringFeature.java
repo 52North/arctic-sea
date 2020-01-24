@@ -41,7 +41,7 @@ public class TsmlMonitoringFeature
     @Override
     public String toString() {
         return String.format(
-                "MonitoringPoint [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
+                "MonitoringFeature [name=%s, description=%s, xmlDescription=%s, geometry=%s, "
                 + "featureType=%s, url=%s, sampledFeatures=%s, parameters=%s, encode=%b, relatedSamplingFeatures=%s]",
                 getName(), getDescription(), getXml(), getGeometry(), getFeatureType(), getUrl(), getSampledFeatures(),
                 getParameters(), isEncode(), getRelatedSamplingFeatures());

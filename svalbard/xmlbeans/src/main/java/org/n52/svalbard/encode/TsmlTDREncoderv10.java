@@ -124,7 +124,7 @@ public class TsmlTDREncoderv10
 
     @Override
     public Map<String, Set<SupportedType>> getSupportedResponseFormatObservationTypes() {
-        return Collections.singletonMap(TimeseriesMLConstants.NS_TSML_10, getSupportedTypes());
+        return Collections.singletonMap(TimeseriesMLConstants.NS_TSML_DR_10, getSupportedTypes());
     }
 
     @Override
@@ -444,7 +444,7 @@ public class TsmlTDREncoderv10
     private static Set<EncoderKey> createEncoderKeys() {
         return CollectionHelper.union(
                 getDefaultEncoderKeys(),
-                CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_10,
+                CodingHelper.encoderKeysForElements(TimeseriesMLConstants.NS_TSML_DR_10,
                                                     GetObservationResponse.class,
                                                     OmObservation.class,
                                                     AbstractFeature.class,
