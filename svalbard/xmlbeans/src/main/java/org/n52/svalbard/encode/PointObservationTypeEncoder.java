@@ -72,7 +72,7 @@ public class PointObservationTypeEncoder
     protected XmlObject encodeResult(ObservationValue<?> observationValue)
             throws EncodingException {
         if (observationValue.getValue() instanceof CvDiscretePointCoverage) {
-            return encodeObjectToXml(CvConstants.NS_CV, observationValue.getValue());
+            return encodeObjectToXmlPropertyType(CvConstants.NS_CV, observationValue.getValue());
         }
         return null;
     }
