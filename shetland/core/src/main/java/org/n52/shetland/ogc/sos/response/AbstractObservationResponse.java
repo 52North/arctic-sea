@@ -33,7 +33,7 @@ import com.google.common.base.Strings;
 public abstract class AbstractObservationResponse
         extends OwsServiceResponse
         implements ResponseFormat {
-    private ObservationStream observationCollection;
+    private ObservationStream observationCollection = ObservationStream.empty();
     private String responseFormat;
     private String resultModel;
     private boolean mergeObservation;
