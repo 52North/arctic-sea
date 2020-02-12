@@ -62,10 +62,14 @@ import org.n52.svalbard.odata.expr.BooleanUnaryExpr;
 import org.n52.svalbard.odata.expr.ComparisonExpr;
 import org.n52.svalbard.odata.expr.Expr;
 import org.n52.svalbard.odata.expr.ExprVisitor;
+import org.n52.svalbard.odata.expr.GeometryValueExpr;
 import org.n52.svalbard.odata.expr.MemberExpr;
 import org.n52.svalbard.odata.expr.MethodCallExpr;
+import org.n52.svalbard.odata.expr.NumericValueExpr;
+import org.n52.svalbard.odata.expr.SimpleArithmeticExpr;
+import org.n52.svalbard.odata.expr.TimeValueExpr;
 import org.n52.svalbard.odata.expr.UnaryExpr;
-import org.n52.svalbard.odata.expr.ValueExpr;
+import org.n52.svalbard.odata.expr.StringValueExpr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -179,7 +183,7 @@ public class ODataFesParser
      * @throws DecodingException
      *             if the geometry is invalid
      */
-    private static Geometry parseGeometry(ValueExpr val)
+    private static Geometry parseGeometry(StringValueExpr val)
             throws DecodingException {
         String value = val.getValue();
         if (value.startsWith(GEOGRAPHY_TYPE)) {
@@ -227,7 +231,7 @@ public class ODataFesParser
      */
     private static Optional<MemberValueExprPair> getMemberValuePair(Expr first, Expr second) {
         return Optionals.or(first.asMember(), second.asMember()).flatMap(member -> Optionals
-                .or(first.asValue(), second.asValue()).map(value -> new MemberValueExprPair(member, value)));
+                .or(first.asStringValue(), second.asStringValue()).map(value -> new MemberValueExprPair(member, value)));
     }
 
     /**
@@ -334,7 +338,7 @@ public class ODataFesParser
      *
      * @return the exception
      */
-    private static DecodingException invalidGeometry(ValueExpr val) {
+    private static DecodingException invalidGeometry(StringValueExpr val) {
         return invalidGeometry(val, null);
     }
 
@@ -349,7 +353,7 @@ public class ODataFesParser
      *
      * @return the exception
      */
-    private static DecodingException invalidGeometry(ValueExpr val, Throwable cause) {
+    private static DecodingException invalidGeometry(StringValueExpr val, Throwable cause) {
         return new DecodingException(cause, "invalid geometry: %s", val.getValue());
     }
 
@@ -358,7 +362,7 @@ public class ODataFesParser
      */
     private static final class MemberValueExprPair {
         private final MemberExpr member;
-        private final ValueExpr value;
+        private final StringValueExpr value;
 
         /**
          * Create a new {@code MemberValueExprPair}.
@@ -368,7 +372,7 @@ public class ODataFesParser
          * @param value
          *            the value
          */
-        MemberValueExprPair(MemberExpr member, ValueExpr value) {
+        MemberValueExprPair(MemberExpr member, StringValueExpr value) {
             this.member = Objects.requireNonNull(member);
             this.value = Objects.requireNonNull(value);
         }
@@ -387,7 +391,7 @@ public class ODataFesParser
          *
          * @return the expression
          */
-        ValueExpr getValue() {
+        StringValueExpr getValue() {
             return value;
         }
     }
@@ -458,8 +462,8 @@ public class ODataFesParser
         }
 
         @Override
-        public ValueExpr visitLiteral(Literal literal) {
-            return new ValueExpr(stripQuotes(literal.getText()));
+        public StringValueExpr visitLiteral(Literal literal) {
+            return new StringValueExpr(stripQuotes(literal.getText()));
         }
 
         @Override
@@ -589,8 +593,62 @@ public class ODataFesParser
             throw new DecodingException("unexpected member expression '%s'", expr.getValue());
         }
 
-        @Override
-        public Filter<?> visitValue(ValueExpr expr)
+        /**
+         * Visit a value expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Filter<?> visitString(StringValueExpr expr) throws DecodingException {
+            return null;
+        }
+
+        /**
+         * Visit a arithmetic expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Filter<?> visitSimpleArithmetic(SimpleArithmeticExpr expr) throws DecodingException {
+            return null;
+        }
+
+        /**
+         * Visit a time expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Filter<?> visitTime(TimeValueExpr expr) throws DecodingException {
+            return null;
+        }
+
+        /**
+         * Visit a geometry expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Filter<?> visitGeometry(GeometryValueExpr expr) throws DecodingException {
+            return null;
+        }
+
+        /**
+         * Visit a number expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Filter<?> visitNumeric(NumericValueExpr expr) throws DecodingException {
+            return null;
+        }
+
+        public Filter<?> visitValue(StringValueExpr expr)
                 throws DecodingException {
             throw new DecodingException("unexpected value expression '%s'", expr.getValue());
         }
@@ -659,10 +717,64 @@ public class ODataFesParser
             return new MemberExpr(value);
         }
 
-        @Override
-        public Expr visitValue(ValueExpr expr) {
+        /**
+         * Visit a value expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Expr visitString(StringValueExpr expr) throws T {
+            return null;
+        }
+
+        /**
+         * Visit a arithmetic expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Expr visitSimpleArithmetic(SimpleArithmeticExpr expr) throws T {
+            return null;
+        }
+
+        /**
+         * Visit a time expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Expr visitTime(TimeValueExpr expr) throws T {
+            return null;
+        }
+
+        /**
+         * Visit a geometry expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Expr visitGeometry(GeometryValueExpr expr) throws T {
+            return null;
+        }
+
+        /**
+         * Visit a number expression.
+         *
+         * @param expr the expression
+         * @return the result of the visit
+         * @throws X if the visit fails
+         */
+        @Override public Expr visitNumeric(NumericValueExpr expr) throws T {
+            return null;
+        }
+
+        public Expr visitValue(StringValueExpr expr) {
             String value = expr.getValue();
-            return new ValueExpr(value);
+            return new StringValueExpr(value);
         }
     }
 

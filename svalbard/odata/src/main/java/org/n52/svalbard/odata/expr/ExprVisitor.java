@@ -89,6 +89,50 @@ public interface ExprVisitor<T, X extends Throwable> {
      *
      * @throws X if the visit fails
      */
-    T visitValue(ValueExpr expr) throws X;
+    T visitString(StringValueExpr expr) throws X;
+
+    /**
+     * Visit a arithmetic expression.
+     *
+     * @param expr the expression
+     *
+     * @return the result of the visit
+     *
+     * @throws X if the visit fails
+     */
+    T visitSimpleArithmetic(SimpleArithmeticExpr expr) throws X;
+
+    /**
+     * Visit a time expression.
+     *
+     * @param expr the expression
+     *
+     * @return the result of the visit
+     *
+     * @throws X if the visit fails
+     */
+    T visitTime(TimeValueExpr expr) throws X;
+
+    /**
+     * Visit a geometry expression.
+     *
+     * @param expr the expression
+     *
+     * @return the result of the visit
+     *
+     * @throws X if the visit fails
+     */
+    T visitGeometry(GeometryValueExpr expr) throws X;
+
+    /**
+     * Visit a number expression.
+     *
+     * @param expr the expression
+     *
+     * @return the result of the visit
+     *
+     * @throws X if the visit fails
+     */
+    T visitNumeric(NumericValueExpr expr) throws X;
 
 }

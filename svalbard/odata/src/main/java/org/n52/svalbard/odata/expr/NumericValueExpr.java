@@ -24,16 +24,16 @@ import java.util.Optional;
  *
  * @author Christian Autermann
  */
-public final class ValueExpr implements Expr {
+public class NumericValueExpr implements ArithmeticExpr {
 
-    private final String value;
+    private final Number value;
 
     /**
      * Creates a new {@code ValueExpr}.
      *
      * @param value the value
      */
-    public ValueExpr(String value) {
+    public NumericValueExpr(Number value) {
         this.value = Objects.requireNonNull(value);
     }
 
@@ -42,28 +42,28 @@ public final class ValueExpr implements Expr {
      *
      * @return the value
      */
-    public String getValue() {
+    public Number getValue() {
         return this.value;
     }
 
     @Override
-    public boolean isValue() {
+    public boolean isNumericValue() {
         return true;
     }
 
     @Override
-    public Optional<ValueExpr> asValue() {
+    public Optional<NumericValueExpr> asNumericValue() {
         return Optional.of(this);
     }
 
     @Override
     public String toString() {
-        return String.format("'%s'", this.value);
+        return String.format("As float: '%f'", this.value.floatValue());
     }
 
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitValue(this);
+        return visitor.visitNumeric(this);
     }
 
 }

@@ -20,49 +20,50 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Class to hold a member or value reference expression.
+ * Expression representing a value.
  *
  * @author Christian Autermann
  */
-public final class MemberExpr implements ArithmeticExpr {
+public class StringValueExpr implements Expr {
 
     private final String value;
 
     /**
-     * Create a new {@code MemberExpr}.
+     * Creates a new {@code ValueExpr}.
      *
      * @param value the value
      */
-    public MemberExpr(String value) {
+    public StringValueExpr(String value) {
         this.value = Objects.requireNonNull(value);
     }
 
     /**
-     * Get the value.
+     * Gets the value.
      *
      * @return the value
      */
     public String getValue() {
-        return value;
+        return this.value;
     }
 
     @Override
-    public boolean isMember() {
+    public boolean isStringValue() {
         return true;
     }
 
     @Override
-    public Optional<MemberExpr> asMember() {
+    public Optional<StringValueExpr> asStringValue() {
         return Optional.of(this);
     }
 
     @Override
     public String toString() {
-        return this.value;
+        return String.format("'%s'", this.value);
     }
 
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitMember(this);
+        return visitor.visitString(this);
     }
+
 }

@@ -26,20 +26,20 @@ import java.util.Optional;
 public interface Expr {
 
     /**
-     * Check if this expression is a value expression.
+     * Check if this expression is a string expression.
      *
      * @return if it is a value
      */
-    default boolean isValue() {
+    default boolean isStringValue() {
         return false;
     }
 
     /**
-     * Get this expression as a value expression
+     * Get this expression as a string expression
      *
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
-    default Optional<ValueExpr> asValue() {
+    default Optional<StringValueExpr> asStringValue() {
         return Optional.empty();
     }
 
@@ -184,6 +184,78 @@ public interface Expr {
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
     default Optional<BooleanExpr> asBoolean() {
+        return Optional.empty();
+    }
+
+    /**
+     * Check if this expression is a arithmetic expresion.
+     *
+     * @return if it is a arithmetic expression
+     */
+    default boolean isArithmetic() {
+        return false;
+    }
+
+    /**
+     * Get this expression as a arithmetic expression
+     *
+     * @return the expression or {@code Optional.empty()} if the type does not match
+     */
+    default Optional<SimpleArithmeticExpr> asArithmetic() {
+        return Optional.empty();
+    }
+
+    /**
+     * Check if this expression is a time expresion.
+     *
+     * @return if it is a arithmetic expression
+     */
+    default boolean isTime() {
+        return false;
+    }
+
+    /**
+     * Get this expression as a time expression
+     *
+     * @return the expression or {@code Optional.empty()} if the type does not match
+     */
+    default Optional<TimeValueExpr> asTime() {
+        return Optional.empty();
+    }
+
+    /**
+     * Check if this expression is a geometry expresion.
+     *
+     * @return if it is a geometry expression
+     */
+    default boolean isGeometry() {
+        return false;
+    }
+
+    /**
+     * Get this expression as a geometry expression
+     *
+     * @return the expression or {@code Optional.empty()} if the type does not match
+     */
+    default Optional<GeometryValueExpr> asGeometry() {
+        return Optional.empty();
+    }
+
+    /**
+     * Check if this expression is a number expression.
+     *
+     * @return if it is a value
+     */
+    default boolean isNumericValue() {
+        return false;
+    }
+
+    /**
+     * Get this expression as a value expression
+     *
+     * @return the expression or {@code Optional.empty()} if the type does not match
+     */
+    default Optional<NumericValueExpr> asNumericValue() {
         return Optional.empty();
     }
 
