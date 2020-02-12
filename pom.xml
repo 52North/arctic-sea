@@ -150,6 +150,7 @@
         <version.mockito>3.2.4</version.mockito>
         <version.hamcrest>2.2</version.hamcrest>
         <version.elastic>7.5.2</version.elastic>
+        <version.antlr4>4.8</version.antlr4>
     </properties>
 
     <dependencyManagement>
@@ -640,6 +641,17 @@
                 <version>${version.olingo}</version>
             </dependency>
 
+            <!-- Svalbard Odata Query Expression Parsing-->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4</artifactId>
+                <version>${version.antlr4}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${version.antlr4}</version>
+            </dependency>
 
             <!-- JSON -->
             <dependency>
@@ -1074,7 +1086,7 @@
                 <configuration>
                     <noticeTemplate>etc/notice-template.txt</noticeTemplate>
                     <licenseMapping>
-                        <param>https://52north.github.io/cdn/licenses/license-mappings.xml</param>
+                        <param>https://speckij.github.io/cdn/licenses/license-mappings.xml</param>
                     </licenseMapping>
                 </configuration>
                 <executions>

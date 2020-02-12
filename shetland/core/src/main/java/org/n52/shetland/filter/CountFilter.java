@@ -23,6 +23,10 @@ public class CountFilter implements FilterClause, CountOption {
 
     private Boolean value;
 
+    public CountFilter(boolean value) {
+        this.value = value;
+    }
+
     public CountFilter(String value) {
         this.value = Boolean.valueOf(value);
     }

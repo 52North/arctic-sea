@@ -16,11 +16,6 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
-import java.util.LinkedHashSet;
-import java.util.Optional;
-import java.util.Set;
-import java.util.function.Predicate;
-
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.oasis.odata.ODataConstants;
@@ -28,6 +23,11 @@ import org.n52.shetland.ogc.filter.Filter;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
+
+import java.util.LinkedHashSet;
+import java.util.Optional;
+import java.util.Set;
+import java.util.function.Predicate;
 
 /**
  * Class to hold Query Parameters
@@ -135,6 +135,11 @@ public class QueryOptions {
 
     private boolean hasQueryOptions() {
         return queryOptions != null && !queryOptions.isEmpty();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return (o instanceof QueryOptions) && ((QueryOptions) o).getBaseURI().equals(this.getBaseURI());
     }
 
     private static final class QueryOptionPredicate implements Predicate<FilterClause> {
