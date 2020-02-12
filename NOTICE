@@ -39,7 +39,11 @@ This project includes:
   52°North Svalbard Parent under The Apache Software License, Version 2.0
   52°North Svalbard XML Stream under The Apache Software License, Version 2.0
   52°North Svalbard XmlBeans under The Apache Software License, Version 2.0
+  abego TreeLayout Core under BSD 3-Clause "New" or "Revised" License (BSD-3-Clause)
   aggs-matrix-stats under The Apache Software License, Version 2.0
+  ANTLR 3 Runtime under BSD licence
+  ANTLR 4 Runtime under The BSD License
+  ANTLR 4 Tool under The BSD License
   Apache Commons CLI under Apache License, Version 2.0
   Apache Commons Codec under Apache License, Version 2.0
   Apache Commons Compress under Apache License, Version 2.0
@@ -84,6 +88,7 @@ This project includes:
   HdrHistogram under Public Domain, per Creative Commons CC0
   HikariCP under The Apache Software License, Version 2.0
   HPPC Collections under The Apache Software License, Version 2.0
+  ICU4J under Unicode/ICU License
   INSPIRE Addresses schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE Administrative Units schema (spec. v4.0) under The Apache Software License, Version 2.0
   INSPIRE base schema (spec. v3.3) under The Apache Software License, Version 2.0
@@ -115,6 +120,7 @@ This project includes:
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
   JSONLD Java :: Core under Revised BSD License
+  JSR 353 (JSON Processing) Default Provider under Dual license consisting of the CDDL v1.1 and GPL v2
   lang-mustache under The Apache Software License, Version 2.0
   libphonenumber under The Apache Software License, Version 2.0
   Lucene Common Analyzers under Apache 2
@@ -201,6 +207,7 @@ This project includes:
   Spring Context under Apache License, Version 2.0
   Spring Expression Language (SpEL) under Apache License, Version 2.0
   Spring Web under Apache License, Version 2.0
+  StringTemplate 4 under BSD License
   T-Digest under The Apache Software License, Version 2.0
   W3C SOAP specification recommondation (v1.2 part 1) under The Apache Software License, Version 2.0
   W3C WS-Addressing specification schemas (v1.0) under The Apache Software License, Version 2.0
