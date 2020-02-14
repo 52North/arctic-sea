@@ -1086,7 +1086,7 @@
                 <configuration>
                     <noticeTemplate>etc/notice-template.txt</noticeTemplate>
                     <licenseMapping>
-                        <param>https://speckij.github.io/cdn/licenses/license-mappings.xml</param>
+                        <param>https://52north.github.io/cdn/licenses/license-mappings.xml</param>
                     </licenseMapping>
                 </configuration>
                 <executions>
