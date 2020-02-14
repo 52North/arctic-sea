@@ -14,53 +14,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.expr;
+package org.n52.svalbard.odata.expr.binary;
 
 import java.util.Optional;
 
-import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.UnaryLogicOperator;
+import org.n52.svalbard.odata.expr.ExprVisitor;
+import org.n52.svalbard.odata.expr.UnaryExpr;
 
 /**
- * Class to hold a binary boolean expression
+ * Class to hold a unary boolean expression.
  *
  * @author Christian Autermann
  */
-public class BooleanBinaryExpr extends BinaryExpr<BinaryLogicOperator> implements BooleanExpr {
+public class BooleanUnaryExpr extends UnaryExpr<UnaryLogicOperator> implements BooleanExpr {
 
     /**
-     * Create a new {@code BooleanBinaryExpr}.
+     * Create a new {@code BooleanUnaryExpr}.
      *
      * @param operator the operator
-     * @param left     the left operand
-     * @param right    the right operand
+     * @param operand  the operand
      */
-    public BooleanBinaryExpr(BinaryLogicOperator operator, BooleanExpr left, BooleanExpr right) {
-        super(operator, left, right);
+    public BooleanUnaryExpr(UnaryLogicOperator operator, BooleanExpr operand) {
+        super(operator, operand);
     }
 
     @Override
-    public boolean isBooleanBinary() {
+    public boolean isBooleanUnary() {
         return true;
     }
 
     @Override
-    public Optional<BooleanBinaryExpr> asBooleanBinary() {
+    public Optional<BooleanUnaryExpr> asBooleanUnary() {
         return Optional.of(this);
     }
 
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitBooleanBinary(this);
+        return visitor.visitBooleanUnary(this);
     }
 
     @Override
-    public BooleanExpr getLeft() {
-        return (BooleanExpr) super.getLeft();
-    }
+    public BooleanExpr getOperand() {
+        return (BooleanExpr) super.getOperand();
 
-    @Override
-    public BooleanExpr getRight() {
-        return (BooleanExpr) super.getRight();
     }
 
 }

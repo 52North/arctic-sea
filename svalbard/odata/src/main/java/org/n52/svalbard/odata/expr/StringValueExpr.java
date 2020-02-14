@@ -17,14 +17,13 @@
 package org.n52.svalbard.odata.expr;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * Expression representing a value.
  *
  * @author Christian Autermann
  */
-public class StringValueExpr implements Expr {
+public class StringValueExpr implements TextExpr {
 
     private final String value;
 
@@ -44,16 +43,6 @@ public class StringValueExpr implements Expr {
      */
     public String getValue() {
         return this.value;
-    }
-
-    @Override
-    public boolean isStringValue() {
-        return true;
-    }
-
-    @Override
-    public Optional<StringValueExpr> asStringValue() {
-        return Optional.of(this);
     }
 
     @Override

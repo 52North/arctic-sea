@@ -14,57 +14,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.expr;
+package org.n52.svalbard.odata.expr.arithmetic;
 
-import org.n52.svalbard.odata.expr.arithmetic.ArithmeticExpr;
+import org.n52.svalbard.odata.expr.ExprVisitor;
 
 import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Class to hold a member or value reference expression.
+ * Expression representing a value.
  *
  * @author Christian Autermann
  */
-public final class MemberExpr implements ArithmeticExpr, TextExpr {
+public class NumericValueExpr implements ArithmeticExpr {
 
-    private final String value;
+    private final Number value;
 
     /**
-     * Create a new {@code MemberExpr}.
+     * Creates a new {@code ValueExpr}.
      *
      * @param value the value
      */
-    public MemberExpr(String value) {
+    public NumericValueExpr(Number value) {
         this.value = Objects.requireNonNull(value);
     }
 
     /**
-     * Get the value.
+     * Creates a new {@code ValueExpr}.
+     *
+     * @param value the value
+     */
+    public NumericValueExpr(String value) {
+        this.value = Objects.requireNonNull(Double.valueOf(value));
+    }
+
+    /**
+     * Gets the value.
      *
      * @return the value
      */
-    public String getValue() {
-        return value;
+    public Number getValue() {
+        return this.value;
     }
 
     @Override
-    public boolean isMember() {
+    public boolean isNumericValue() {
         return true;
     }
 
     @Override
-    public Optional<MemberExpr> asMember() {
+    public Optional<NumericValueExpr> asNumericValue() {
         return Optional.of(this);
     }
 
     @Override
     public String toString() {
-        return this.value;
+        return String.format("As float: '%f'", this.value.floatValue());
     }
 
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitMember(this);
+        return visitor.visitNumeric(this);
     }
+
 }

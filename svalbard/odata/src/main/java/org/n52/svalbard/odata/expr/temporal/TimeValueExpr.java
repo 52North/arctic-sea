@@ -1,4 +1,7 @@
-package org.n52.svalbard.odata.expr;
+package org.n52.svalbard.odata.expr.temporal;
+
+import org.n52.svalbard.odata.expr.Expr;
+import org.n52.svalbard.odata.expr.ExprVisitor;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -30,16 +33,6 @@ public class TimeValueExpr implements Expr {
     }
 
     @Override
-    public boolean isTime() {
-        return true;
-    }
-
-    @Override
-    public Optional<TimeValueExpr> asTime() {
-        return Optional.of(this);
-    }
-
-    @Override
     public String toString() {
         //TODO: format correctly
         return value.toString();
@@ -49,6 +42,4 @@ public class TimeValueExpr implements Expr {
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitTime(this);
     }
-
-
 }

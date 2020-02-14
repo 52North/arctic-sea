@@ -14,7 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.expr;
+package org.n52.svalbard.odata.expr.binary;
+
+import org.n52.svalbard.odata.expr.Expr;
 
 import java.util.Objects;
 import java.util.Optional;

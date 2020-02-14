@@ -16,6 +16,15 @@
  */
 package org.n52.svalbard.odata.expr;
 
+import org.n52.svalbard.odata.expr.arithmetic.ArithmeticExpr;
+import org.n52.svalbard.odata.expr.arithmetic.NumericValueExpr;
+import org.n52.svalbard.odata.expr.binary.BinaryExpr;
+import org.n52.svalbard.odata.expr.binary.BooleanBinaryExpr;
+import org.n52.svalbard.odata.expr.binary.BooleanExpr;
+import org.n52.svalbard.odata.expr.binary.BooleanUnaryExpr;
+import org.n52.svalbard.odata.expr.binary.ComparisonExpr;
+import org.n52.svalbard.odata.expr.temporal.TemporalExpr;
+
 import java.util.Optional;
 
 /**
@@ -30,7 +39,7 @@ public interface Expr {
      *
      * @return if it is a value
      */
-    default boolean isStringValue() {
+    default boolean isTextValue() {
         return false;
     }
 
@@ -39,7 +48,7 @@ public interface Expr {
      *
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
-    default Optional<StringValueExpr> asStringValue() {
+    default Optional<TextExpr> asTextValue() {
         return Optional.empty();
     }
 
@@ -201,7 +210,7 @@ public interface Expr {
      *
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
-    default Optional<SimpleArithmeticExpr> asArithmetic() {
+    default Optional<ArithmeticExpr> asArithmetic() {
         return Optional.empty();
     }
 
@@ -219,7 +228,7 @@ public interface Expr {
      *
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
-    default Optional<TimeValueExpr> asTime() {
+    default Optional<TemporalExpr> asTime() {
         return Optional.empty();
     }
 
@@ -237,7 +246,7 @@ public interface Expr {
      *
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
-    default Optional<GeometryValueExpr> asGeometry() {
+    default Optional<GeoValueExpr> asGeometry() {
         return Optional.empty();
     }
 

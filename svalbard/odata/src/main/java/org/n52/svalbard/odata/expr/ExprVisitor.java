@@ -16,6 +16,13 @@
  */
 package org.n52.svalbard.odata.expr;
 
+import org.n52.svalbard.odata.expr.arithmetic.NumericValueExpr;
+import org.n52.svalbard.odata.expr.arithmetic.SimpleArithmeticExpr;
+import org.n52.svalbard.odata.expr.binary.BooleanBinaryExpr;
+import org.n52.svalbard.odata.expr.binary.BooleanUnaryExpr;
+import org.n52.svalbard.odata.expr.binary.ComparisonExpr;
+import org.n52.svalbard.odata.expr.temporal.TimeValueExpr;
+
 /**
  * Visitor for expressions.
  *
@@ -122,7 +129,7 @@ public interface ExprVisitor<T, X extends Throwable> {
      *
      * @throws X if the visit fails
      */
-    T visitGeometry(GeometryValueExpr expr) throws X;
+    T visitGeometry(GeoValueExpr expr) throws X;
 
     /**
      * Visit a number expression.

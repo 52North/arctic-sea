@@ -16,8 +16,13 @@
  */
 package org.n52.svalbard.odata.expr;
 
+import org.n52.svalbard.odata.expr.arithmetic.ArithmeticExpr;
+import org.n52.svalbard.odata.expr.binary.BooleanExpr;
+import org.n52.svalbard.odata.expr.temporal.TemporalExpr;
+
 import static java.util.stream.Collectors.joining;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -28,7 +33,7 @@ import java.util.Optional;
  *
  * @author Christian Autermann
  */
-public class MethodCallExpr implements Expr, BooleanExpr {
+public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr, TextExpr {
 
     private final String name;
     private final List<Expr> parameters;
@@ -42,6 +47,17 @@ public class MethodCallExpr implements Expr, BooleanExpr {
     public MethodCallExpr(String name, List<Expr> parameters) {
         this.name = Objects.requireNonNull(name);
         this.parameters = Objects.requireNonNull(parameters);
+    }
+
+    /**
+     * Create a new {@code MethodCallExpr}.
+     *
+     * @param name       the method name
+     * @param parameter the parameter
+     */
+    public MethodCallExpr(String name, Expr... parameter) {
+        this.name = Objects.requireNonNull(name);
+        this.parameters = Objects.requireNonNull(Arrays.asList(parameter));
     }
 
     /**

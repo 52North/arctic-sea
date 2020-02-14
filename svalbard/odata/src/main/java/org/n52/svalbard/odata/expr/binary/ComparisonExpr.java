@@ -14,56 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.expr;
+package org.n52.svalbard.odata.expr.binary;
 
-import java.util.Objects;
 import java.util.Optional;
 
+import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
+import org.n52.svalbard.odata.expr.Expr;
+import org.n52.svalbard.odata.expr.ExprVisitor;
+
 /**
- * Expression representing a value.
+ * Class to hold a comparison expression.
  *
  * @author Christian Autermann
  */
-public class NumericValueExpr implements ArithmeticExpr {
-
-    private final Number value;
+public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements BooleanExpr {
 
     /**
-     * Creates a new {@code ValueExpr}.
+     * Create a new {@code ComparisonExpr}.
      *
-     * @param value the value
+     * @param operator the operator
+     * @param left     the left operand
+     * @param right    the right operand
      */
-    public NumericValueExpr(Number value) {
-        this.value = Objects.requireNonNull(value);
-    }
-
-    /**
-     * Gets the value.
-     *
-     * @return the value
-     */
-    public Number getValue() {
-        return this.value;
+    public ComparisonExpr(ComparisonOperator operator, Expr left, Expr right) {
+        super(operator, left, right);
     }
 
     @Override
-    public boolean isNumericValue() {
+    public boolean isComparison() {
         return true;
     }
 
     @Override
-    public Optional<NumericValueExpr> asNumericValue() {
+    public Optional<ComparisonExpr> asComparison() {
         return Optional.of(this);
     }
 
     @Override
-    public String toString() {
-        return String.format("As float: '%f'", this.value.floatValue());
-    }
-
-    @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitNumeric(this);
+        return visitor.visitComparison(this);
     }
-
 }

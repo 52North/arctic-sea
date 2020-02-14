@@ -6,9 +6,9 @@ import java.util.Optional;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class GeometryValueExpr implements Expr {
+public class GeoValueExpr implements Expr {
 
-    // WKT
+    // Geometry/Geography is stored as WKT
     private final String value;
 
     /**
@@ -16,7 +16,7 @@ public class GeometryValueExpr implements Expr {
      *
      * @param value the value
      */
-    public GeometryValueExpr(String value) {
+    public GeoValueExpr(String value) {
         this.value = Objects.requireNonNull(value);
     }
 
@@ -35,7 +35,7 @@ public class GeometryValueExpr implements Expr {
     }
 
     @Override
-    public Optional<GeometryValueExpr> asGeometry() {
+    public Optional<GeoValueExpr> asGeometry() {
         return Optional.of(this);
     }
 

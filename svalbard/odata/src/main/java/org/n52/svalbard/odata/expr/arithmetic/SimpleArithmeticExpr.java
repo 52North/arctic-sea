@@ -1,13 +1,15 @@
-package org.n52.svalbard.odata.expr;
+package org.n52.svalbard.odata.expr.arithmetic;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SimpleArithmeticOperator;
+import org.n52.svalbard.odata.expr.binary.BinaryExpr;
+import org.n52.svalbard.odata.expr.ExprVisitor;
 
 import java.util.Optional;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class SimpleArithmeticExpr extends BinaryExpr<SimpleArithmeticOperator> implements ArithmeticExpr{
+public class SimpleArithmeticExpr extends BinaryExpr<SimpleArithmeticOperator> implements ArithmeticExpr {
 
     /**
      * Create a new {@code BinaryExpr}.
@@ -34,7 +36,7 @@ public class SimpleArithmeticExpr extends BinaryExpr<SimpleArithmeticOperator> i
      *
      * @return the expression or {@code Optional.empty()} if the type does not match
      */
-    @Override public Optional<SimpleArithmeticExpr> asArithmetic() {
+    @Override public Optional<ArithmeticExpr> asArithmetic() {
         return Optional.of(this);
     }
 
