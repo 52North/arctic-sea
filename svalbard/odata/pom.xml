@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>svalbard-parent</artifactId>
-        <version>7.3.0-SNAPSHOT</version>
+        <version>7.3.0</version>
     </parent>
     <artifactId>svalbard-odata</artifactId>
     <name>52°North Svalbard OData</name>

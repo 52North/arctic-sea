@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>arctic-sea</artifactId>
-        <version>7.3.0-SNAPSHOT</version>
+        <version>7.3.0</version>
     </parent>
     <artifactId>faroe-parent</artifactId>
     <packaging>pom</packaging>
