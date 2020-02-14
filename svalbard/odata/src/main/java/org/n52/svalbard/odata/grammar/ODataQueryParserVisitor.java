@@ -161,35 +161,23 @@ public interface ODataQueryParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBoolMethodCallExpr(ODataQueryParserParser.BoolMethodCallExprContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#substringOfMethodCallExpr}.
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#textOrMember}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx);
+	T visitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#startsWithMethodCallExpr}.
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrString}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx);
+	T visitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#endsWithMethodCallExpr}.
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#geoOrMember}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#lengthMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#indexOfMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx);
+	T visitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#substringMethodCallExpr}.
 	 * @param ctx the parse tree
@@ -220,6 +208,102 @@ public interface ODataQueryParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitConcatMethodCallExpr(ODataQueryParserParser.ConcatMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#substringOfMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#startsWithMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#endsWithMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#intersectsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_commonMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_equalsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_disjointMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_touchesMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_withinMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_overlapsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_crossesMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_intersectsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_containsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_relateMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#lengthMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#indexOfMethodCallExpr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#yearMethodCallExpr}.
 	 * @param ctx the parse tree
@@ -310,72 +394,6 @@ public interface ODataQueryParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitGeoLengthMethodCallExpr(ODataQueryParserParser.GeoLengthMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#intersectsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_commonMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_equalsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_disjointMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_touchesMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_withinMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_overlapsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_crossesMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_intersectsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_containsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx);
-	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#st_relateMethodCallExpr}.
-	 * @param ctx the parse tree
-	 * @return the visitor result
-	 */
-	T visitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#minDate}.
 	 * @param ctx the parse tree

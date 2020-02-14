@@ -316,61 +316,37 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx) { }
+	@Override public void enterTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx) { }
+	@Override public void exitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx) { }
+	@Override public void enterTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx) { }
+	@Override public void exitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx) { }
+	@Override public void enterGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx) { }
+	@Override public void exitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -431,6 +407,198 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitConcatMethodCallExpr(ODataQueryParserParser.ConcatMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -611,138 +779,6 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGeoLengthMethodCallExpr(ODataQueryParserParser.GeoLengthMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

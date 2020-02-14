@@ -28,7 +28,7 @@ grammar ODataQueryParser;
 
 import ODataLexer;
 queryOptions
-   : systemQueryOption (AMPERSAND systemQueryOption)*
+   : systemQueryOption (AMPERSAND systemQueryOption)* EOF
    ;
 
 systemQueryOption
@@ -100,6 +100,7 @@ anyExpr
    | geoExpr
    | timeExpr
    | textExpr
+   | parenExpr
    ;
 
 parenExpr
@@ -171,9 +172,9 @@ arithmeticMethodCallExpr
 
 temporalMethodCallExpr
    : timeMethodCallExpr
-   | nowDate (timeExpr | memberExpr | sq_enclosed_string)
-   | minDate (timeExpr | memberExpr | sq_enclosed_string)
-   | maxDate (timeExpr | memberExpr | sq_enclosed_string)
+   | nowDate
+   | minDate
+   | maxDate
    ;
 
 boolMethodCallExpr
@@ -192,113 +193,51 @@ boolMethodCallExpr
    | st_relateMethodCallExpr
    ;
 
-substringOfMethodCallExpr
-   : SubStringOf_LLC OP (SP)* (textExpr | memberExpr) (SP)* COMMA (SP)* (textExpr | memberExpr) (SP)* CP
-   ;
+textOrMember : (textExpr | memberExpr);
 
-startsWithMethodCallExpr
-   : StartsWith_LLC OP (SP)* (textExpr | memberExpr) (SP)* COMMA (SP)* (textExpr | memberExpr) (SP)* CP
-   ;
+temporalOrMemberOrString: (temporalMethodCallExpr | memberExpr | sq_enclosed_string);
 
-endsWithMethodCallExpr
-   : EndsWith_LLC OP (SP)* (textExpr | memberExpr) (SP)* COMMA (SP)* (textExpr | memberExpr) (SP)* CP
-   ;
-
-lengthMethodCallExpr
-   : Length_LLC OP (SP)* (textExpr | memberExpr) (SP)* CP
-   ;
-
-indexOfMethodCallExpr
-   : IndexOf_LLC OP (SP)* (textExpr | memberExpr) (SP)* COMMA (SP)* (textExpr | memberExpr) (SP)* CP
-   ;
+geoOrMember : (geoExpr | memberExpr);
 
 substringMethodCallExpr
-   : Substring_LLC OP (SP)* (textExpr | memberExpr) (SP)* COMMA (SP)* arithmeticExpr CP
+   : Substring_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* arithmeticExpr CP
    ;
 
 toLowerMethodCallExpr
-   : ToLower_LLC OP (SP)* (textExpr | memberExpr) (SP)* CP
+   : ToLower_LLC OP (SP)* textOrMember (SP)* CP
    ;
 
 toUpperMethodCallExpr
-   : ToUpper_LLC OP (SP)* (textExpr | memberExpr) (SP)* CP
+   : ToUpper_LLC OP (SP)* textOrMember (SP)* CP
    ;
 
 trimMethodCallExpr
-   : Trim_LLC OP (SP)* (textExpr | memberExpr) (SP)* CP
+   : Trim_LLC OP (SP)* textOrMember (SP)* CP
    ;
 
 concatMethodCallExpr
-   : Concat_LLC OP (SP)* (textExpr | memberExpr) (SP)* COMMA (SP)* (textExpr | memberExpr) (SP)* CP
+   : Concat_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* textOrMember (SP)* CP
    ;
 
-yearMethodCallExpr
-   : Year_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
+substringOfMethodCallExpr
+   : SubStringOf_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* textOrMember (SP)* CP
    ;
 
-monthMethodCallExpr
-   : Month_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
+startsWithMethodCallExpr
+   : StartsWith_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* textOrMember (SP)* CP
    ;
 
-dayMethodCallExpr
-   : Day_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-daysMethodCallExpr
-   : Days_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-hourMethodCallExpr
-   : Hour_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-minuteMethodCallExpr
-   : Minute_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-secondMethodCallExpr
-   : Second_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-timeMethodCallExpr
-   : Time_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-dateMethodCallExpr
-   : Date_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-roundMethodCallExpr
-   : Round_LLC OP (SP)* arithmeticExpr (SP)* CP
-   ;
-
-floorMethodCallExpr
-   : Floor_LLC OP (SP)* arithmeticExpr (SP)* CP
-   ;
-
-ceilingMethodCallExpr
-   : Ceiling_LLC OP (SP)* arithmeticExpr (SP)* CP
-   ;
-
-totalOffsetMinutesExpr
-   : TotalOffsetMinutes_LLC OP (SP)* (timeExpr | memberExpr | sq_enclosed_string) (SP)* CP
-   ;
-
-distanceMethodCallExpr
-   : GeoDotDistance_LLC OP (SP)* (geoExpr | memberExpr) (SP)* COMMA (SP)* (geoExpr | memberExpr) (SP)* CP
-   ;
-
-geoLengthMethodCallExpr
-   : GeoLength_LLC OP (SP)* (geoExpr | memberExpr) (SP)* CP
+endsWithMethodCallExpr
+   : EndsWith_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* textOrMember (SP)* CP
    ;
 
 intersectsMethodCallExpr
-   : GeoDotIntersects_LLC OP (SP)* (geoExpr | memberExpr) (SP)* COMMA (SP)* (geoExpr | memberExpr) (SP)* CP
+   : GeoDotIntersects_LLC OP (SP)* geoOrMember (SP)* COMMA (SP)* geoOrMember (SP)* CP
    ;
    // Spatial Relationship Functions
    
 st_commonMethodCallExpr
-   : OP (SP)* (geoExpr | memberExpr) (SP)* COMMA (SP)* (geoExpr | memberExpr) (SP)* CP
+   : OP (SP)* geoOrMember (SP)* COMMA (SP)* geoOrMember (SP)* CP
    ;
 
 st_equalsMethodCallExpr
@@ -334,7 +273,75 @@ st_containsMethodCallExpr
    ;
 
 st_relateMethodCallExpr
-   : ST_relate_LLC OP (SP)* (geoExpr | memberExpr) (SP)* COMMA (SP)* (geoExpr | memberExpr) (SP)* COMMA (SP)* sq_enclosed_string (SP)* CP
+   : ST_relate_LLC OP (SP)* geoOrMember (SP)* COMMA (SP)* geoOrMember (SP)* COMMA (SP)* sq_enclosed_string (SP)* CP
+   ;
+
+lengthMethodCallExpr
+   : Length_LLC OP (SP)* textOrMember (SP)* CP
+   ;
+
+indexOfMethodCallExpr
+   : IndexOf_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* textOrMember (SP)* CP
+   ;
+
+yearMethodCallExpr
+   : Year_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+monthMethodCallExpr
+   : Month_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+dayMethodCallExpr
+   : Day_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+daysMethodCallExpr
+   : Days_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+hourMethodCallExpr
+   : Hour_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+minuteMethodCallExpr
+   : Minute_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+secondMethodCallExpr
+   : Second_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+timeMethodCallExpr
+   : Time_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+dateMethodCallExpr
+   : Date_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+roundMethodCallExpr
+   : Round_LLC OP (SP)* arithmeticExpr (SP)* CP
+   ;
+
+floorMethodCallExpr
+   : Floor_LLC OP (SP)* arithmeticExpr (SP)* CP
+   ;
+
+ceilingMethodCallExpr
+   : Ceiling_LLC OP (SP)* arithmeticExpr (SP)* CP
+   ;
+
+totalOffsetMinutesExpr
+   : TotalOffsetMinutes_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   ;
+
+distanceMethodCallExpr
+   : GeoDotDistance_LLC OP (SP)* geoOrMember (SP)* COMMA (SP)* geoOrMember (SP)* CP
+   ;
+
+geoLengthMethodCallExpr
+   : GeoLength_LLC OP (SP)* geoOrMember (SP)* CP
    ;
 
 minDate

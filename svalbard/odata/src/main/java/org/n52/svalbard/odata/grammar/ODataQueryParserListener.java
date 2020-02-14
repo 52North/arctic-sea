@@ -258,55 +258,35 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 */
 	void exitBoolMethodCallExpr(ODataQueryParserParser.BoolMethodCallExprContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#substringOfMethodCallExpr}.
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#textOrMember}.
 	 * @param ctx the parse tree
 	 */
-	void enterSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx);
+	void enterTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#substringOfMethodCallExpr}.
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#textOrMember}.
 	 * @param ctx the parse tree
 	 */
-	void exitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx);
+	void exitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#startsWithMethodCallExpr}.
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrString}.
 	 * @param ctx the parse tree
 	 */
-	void enterStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx);
+	void enterTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#startsWithMethodCallExpr}.
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrString}.
 	 * @param ctx the parse tree
 	 */
-	void exitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx);
+	void exitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#endsWithMethodCallExpr}.
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#geoOrMember}.
 	 * @param ctx the parse tree
 	 */
-	void enterEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx);
+	void enterGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#endsWithMethodCallExpr}.
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#geoOrMember}.
 	 * @param ctx the parse tree
 	 */
-	void exitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#lengthMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#lengthMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#indexOfMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#indexOfMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx);
+	void exitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#substringMethodCallExpr}.
 	 * @param ctx the parse tree
@@ -357,6 +337,166 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitConcatMethodCallExpr(ODataQueryParserParser.ConcatMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#substringOfMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#substringOfMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#startsWithMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#startsWithMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#endsWithMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#endsWithMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#intersectsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#intersectsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_commonMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_commonMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_equalsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_equalsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_disjointMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_disjointMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_touchesMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_touchesMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_withinMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_withinMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_overlapsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_overlapsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_crossesMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_crossesMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_intersectsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_intersectsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_containsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_containsMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_relateMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_relateMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#lengthMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#lengthMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#indexOfMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void enterIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#indexOfMethodCallExpr}.
+	 * @param ctx the parse tree
+	 */
+	void exitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#yearMethodCallExpr}.
 	 * @param ctx the parse tree
@@ -507,116 +647,6 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGeoLengthMethodCallExpr(ODataQueryParserParser.GeoLengthMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#intersectsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#intersectsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_commonMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_commonMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_commonMethodCallExpr(ODataQueryParserParser.St_commonMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_equalsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_equalsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_disjointMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_disjointMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_touchesMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_touchesMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_withinMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_withinMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_overlapsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_overlapsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_crossesMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_crossesMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_intersectsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_intersectsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_containsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_containsMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx);
-	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#st_relateMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void enterSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx);
-	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#st_relateMethodCallExpr}.
-	 * @param ctx the parse tree
-	 */
-	void exitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#minDate}.
 	 * @param ctx the parse tree
