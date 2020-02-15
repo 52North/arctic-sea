@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>16</version>
+        <version>18</version>
     </parent>
 
     <groupId>org.n52.arctic-sea</groupId>
