@@ -14,11 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.filter.SkipTopFilter;
+import org.n52.shetland.oasis.odata.ODataConstants;
 import org.n52.shetland.ogc.filter.FilterConstants;
 
 /**
@@ -31,25 +33,25 @@ public class TopQueryOptionTest extends QueryOptionTests {
 
     @Test
     public void testInvalidTopOption() {
-        init(TOP_QO + "sdf");
+        init(ODataConstants.QueryOptions.TOP + EQ + "sdf");
         Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor())
         );
 
-        init(TOP_QO + "1.1");
+        init(ODataConstants.QueryOptions.TOP + EQ + "1.1");
         Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor())
         );
 
-        init(TOP_QO + "");
+        init(ODataConstants.QueryOptions.TOP + EQ + "");
         Assertions.assertThrows(
                 NullPointerException.class,
                 () -> parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor())
         );
 
-        init(TOP_QO + "123" + Long.MAX_VALUE);
+        init(ODataConstants.QueryOptions.TOP + EQ + "123" + Long.MAX_VALUE);
         Assertions.assertThrows(
                 NumberFormatException.class,
                 () -> parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor())
@@ -60,25 +62,25 @@ public class TopQueryOptionTest extends QueryOptionTests {
     public void testValidTopOption() {
         int val = 1;
         SkipTopFilter filter;
-        init(TOP_QO + val);
+        init(ODataConstants.QueryOptions.TOP + EQ + val);
         filter = (SkipTopFilter) parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor());
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), val);
 
         val = 0;
-        init(TOP_QO + val);
+        init(ODataConstants.QueryOptions.TOP + EQ + val);
         filter = (SkipTopFilter) parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor());
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), val);
 
         val = 100000;
-        init(TOP_QO + val);
+        init(ODataConstants.QueryOptions.TOP + EQ + val);
         filter = (SkipTopFilter) parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor());
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), val);
 
         long longval = Long.MAX_VALUE;
-        init(TOP_QO + longval);
+        init(ODataConstants.QueryOptions.TOP + EQ + longval);
         filter = (SkipTopFilter) parser.queryOptions().systemQueryOption(0).top().accept(new ODataQueryVisitor());
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), longval);

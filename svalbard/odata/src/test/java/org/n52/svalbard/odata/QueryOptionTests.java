@@ -21,6 +21,8 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.n52.shetland.oasis.odata.ODataConstants;
+import org.n52.shetland.oasis.odata.ODataConstants.QueryOptions;
 import org.n52.svalbard.odata.grammar.ODataQueryParserLexer;
 import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
 
@@ -31,13 +33,7 @@ import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
  */
 public abstract class QueryOptionTests {
 
-    protected final String TOP_QO = "$top=";
-    protected final String SKIP_QO = "$skip=";
-    protected final String SELECT_QO = "$select=";
-    protected final String EXPAND_QO = "$expand=";
-    protected final String FILTER_QO = "$filter=";
-    protected final String COUNT_QO = "$count=";
-    protected final String ORDER_BY_QO = "$orderBy=";
+    protected final String EQ = "=";
 
     protected ODataQueryParserLexer lexer;
     protected ODataQueryParserParser parser;

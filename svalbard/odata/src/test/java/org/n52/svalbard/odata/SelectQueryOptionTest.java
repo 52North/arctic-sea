@@ -14,13 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.filter.SelectFilter;
-import org.n52.shetland.filter.SkipTopFilter;
-import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.oasis.odata.ODataConstants;
 
 /**
  * Basic Test cases for testing $select Query Option.
@@ -33,59 +33,52 @@ public class SelectQueryOptionTest extends QueryOptionTests {
     @Test
     public void testInvalidSelectOption() {
         // May not be blank
-        init(SELECT_QO + ",");
+        init(ODataConstants.QueryOptions.SELECT + EQ + ",");
         Assertions.assertThrows(
                 NullPointerException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
 
         // May not have blank subgroups
-        init(SELECT_QO + "test,");
+        init(ODataConstants.QueryOptions.SELECT + EQ + "test,");
         Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
-        init(SELECT_QO + ",test");
+        init(ODataConstants.QueryOptions.SELECT + EQ + ",test");
         Assertions.assertThrows(
                 NullPointerException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
-        init(SELECT_QO + "test,,test");
+        init(ODataConstants.QueryOptions.SELECT + EQ + "test,,test");
         Assertions.assertThrows(
                 NullPointerException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
-        init(SELECT_QO + "test , test");
+        init(ODataConstants.QueryOptions.SELECT + EQ + "test , test");
         Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
 
         // May not be numeric
-        init(SELECT_QO + "4444");
+        init(ODataConstants.QueryOptions.SELECT + EQ + "4444");
         Assertions.assertThrows(
                 IllegalStateException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
 
         // May not include numbers
-        init(SELECT_QO + "features123");
+        init(ODataConstants.QueryOptions.SELECT + EQ + "features123");
         Assertions.assertThrows(
                 NullPointerException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
 
         // May not be empty
-        init(SELECT_QO + "");
+        init(ODataConstants.QueryOptions.SELECT + EQ + "");
         Assertions.assertThrows(
                 NullPointerException.class,
-                () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
-        );
-
-        // May not include navigationProperties empty
-        init(SELECT_QO + "test/test");
-        Assertions.assertThrows(
-                IllegalStateException.class,
                 () -> parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor())
         );
     }
@@ -98,14 +91,14 @@ public class SelectQueryOptionTest extends QueryOptionTests {
 
         // Check simple property
         val = "test";
-        init(SELECT_QO + val);
+        init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         Assertions.assertEquals(filter.getItems().get(0).getPath(), val);
 
         // check two properties no space
         val = "test,testTwo";
         split = val.split(",");
-        init(SELECT_QO + val);
+        init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
             Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
@@ -114,7 +107,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         // check two properties with space
         val = "test, testTwo";
         split = val.split(",");
-        init(SELECT_QO + val);
+        init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
             Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
@@ -123,7 +116,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         // check two properties with more space
         val = "test, testTwo";
         split = val.split(",");
-        init(SELECT_QO + val);
+        init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
             Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
@@ -132,7 +125,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         // check 2+ properties
         val = "testZero, testOne, testTwo, testThree";
         split = val.split(",");
-        init(SELECT_QO + val);
+        init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
             Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
