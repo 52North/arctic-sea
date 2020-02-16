@@ -29,6 +29,7 @@ import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.svalbard.odata.expr.DirectTextExpr;
 import org.n52.svalbard.odata.expr.Expr;
 import org.n52.svalbard.odata.expr.GeoValueExpr;
 import org.n52.svalbard.odata.expr.MemberExpr;
@@ -132,11 +133,11 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
 
     @Override public OrderProperty visitOrderbyItem(ODataQueryParserParser.OrderbyItemContext ctx) {
         if (ctx.Asc_LLC() != null) {
-            return new OrderProperty(ctx.textOrMember().getText(), FilterConstants.SortOrder.ASC);
+            return new OrderProperty(ctx.memberExpr().getText(), FilterConstants.SortOrder.ASC);
         } else if (ctx.Desc_LLC() != null) {
-            return new OrderProperty(ctx.textOrMember().getText(), FilterConstants.SortOrder.DESC);
+            return new OrderProperty(ctx.memberExpr().getText(), FilterConstants.SortOrder.DESC);
         } else {
-            return new OrderProperty(this.visitTextOrMember(ctx.textOrMember()).getValue());
+            return new OrderProperty(ctx.memberExpr().getText());
         }
     }
 
@@ -455,7 +456,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
 
     @Override public TextExpr visitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx) {
         if (ctx.textExpr() != null) {
-            return new StringValueExpr(this.visitTextExpr(ctx.textExpr()).getValue());
+            return this.visitTextExpr(ctx.textExpr());
         } else {
             return new MemberExpr(ctx.memberExpr().getText());
         }

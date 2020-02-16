@@ -62,7 +62,7 @@ orderby
    ;
 
 orderbyItem
-   : textOrMember (SP (Asc_LLC | Desc_LLC))?
+   : memberExpr (SP (Asc_LLC | Desc_LLC))?
    ;
 
 skip

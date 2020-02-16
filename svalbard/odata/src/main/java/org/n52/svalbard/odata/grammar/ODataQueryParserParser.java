@@ -729,7 +729,6 @@ public class ODataQueryParserParser extends Parser {
 		enterRule(_localctx, 12, RULE_orderby);
 		int _la;
 		try {
-			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(301);
@@ -748,19 +747,17 @@ public class ODataQueryParserParser extends Parser {
 				match(COMMA);
 				setState(308);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
-				while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
-					if ( _alt==1 ) {
-						{
-						{
-						setState(305);
-						match(SP);
-						}
-						} 
+				_la = _input.LA(1);
+				while (_la==SP) {
+					{
+					{
+					setState(305);
+					match(SP);
+					}
 					}
 					setState(310);
 					_errHandler.sync(this);
-					_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+					_la = _input.LA(1);
 				}
 				setState(311);
 				orderbyItem();
@@ -784,8 +781,8 @@ public class ODataQueryParserParser extends Parser {
 	}
 
 	public static class OrderbyItemContext extends ParserRuleContext {
-		public TextOrMemberContext textOrMember() {
-			return getRuleContext(TextOrMemberContext.class,0);
+		public MemberExprContext memberExpr() {
+			return getRuleContext(MemberExprContext.class,0);
 		}
 		public TerminalNode SP() { return getToken(ODataQueryParserParser.SP, 0); }
 		public TerminalNode Asc_LLC() { return getToken(ODataQueryParserParser.Asc_LLC, 0); }
@@ -817,7 +814,7 @@ public class ODataQueryParserParser extends Parser {
 			enterOuterAlt(_localctx, 1);
 			{
 			setState(317);
-			textOrMember();
+			memberExpr();
 			setState(320);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
@@ -2718,12 +2715,9 @@ public class ODataQueryParserParser extends Parser {
 			setState(528);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
-			case EOF:
 			case SQ:
 			case SP:
-			case SEMI:
 			case COMMA:
-			case AMPERSAND:
 			case CP:
 			case Substring_LLC:
 			case ToLower_LLC:
@@ -10031,8 +10025,8 @@ public class ODataQueryParserParser extends Parser {
 		"\3\2\2\2\u0136\u0137\3\2\2\2\u0137\u0139\3\2\2\2\u0138\u0136\3\2\2\2\u0139"+
 		"\u013b\5\20\t\2\u013a\u0132\3\2\2\2\u013b\u013e\3\2\2\2\u013c\u013a\3"+
 		"\2\2\2\u013c\u013d\3\2\2\2\u013d\17\3\2\2\2\u013e\u013c\3\2\2\2\u013f"+
-		"\u0142\5\64\33\2\u0140\u0141\7\b\2\2\u0141\u0143\t\2\2\2\u0142\u0140\3"+
-		"\2\2\2\u0142\u0143\3\2\2\2\u0143\21\3\2\2\2\u0144\u0145\7+\2\2\u0145\u0146"+
+		"\u0142\5*\26\2\u0140\u0141\7\b\2\2\u0141\u0143\t\2\2\2\u0142\u0140\3\2"+
+		"\2\2\u0142\u0143\3\2\2\2\u0143\21\3\2\2\2\u0144\u0145\7+\2\2\u0145\u0146"+
 		"\7\f\2\2\u0146\u0147\7\3\2\2\u0147\23\3\2\2\2\u0148\u0149\7,\2\2\u0149"+
 		"\u014a\7\f\2\2\u014a\u014b\7\3\2\2\u014b\25\3\2\2\2\u014c\u014d\7-\2\2"+
 		"\u014d\u014e\7\f\2\2\u014e\u0159\5\30\r\2\u014f\u0153\7\13\2\2\u0150\u0152"+

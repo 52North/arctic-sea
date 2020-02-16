@@ -97,4 +97,5 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitMethodCall(this);
     }
+
 }

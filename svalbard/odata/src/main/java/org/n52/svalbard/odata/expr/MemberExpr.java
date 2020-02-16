@@ -26,7 +26,7 @@ import java.util.Optional;
  *
  * @author Christian Autermann
  */
-public final class MemberExpr implements ArithmeticExpr, TextExpr {
+public final class MemberExpr implements ArithmeticExpr, DirectTextExpr {
 
     private final String value;
 

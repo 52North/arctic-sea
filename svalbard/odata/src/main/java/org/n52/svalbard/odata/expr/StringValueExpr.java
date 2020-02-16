@@ -23,7 +23,7 @@ import java.util.Objects;
  *
  * @author Christian Autermann
  */
-public class StringValueExpr implements TextExpr {
+public class StringValueExpr implements DirectTextExpr {
 
     private final String value;
 
