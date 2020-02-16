@@ -40,7 +40,9 @@ public class FilterFilter implements FilterOption, FilterClause {
     }
 
     @Override public int hashCode() {
-        return Objects.hash(filter);
+        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.expr
+        // For now always returns true
+        return Objects.hash("FilterFilter");
     }
 
     @Override public boolean equals(Object o) {
@@ -52,6 +54,8 @@ public class FilterFilter implements FilterOption, FilterClause {
             return false;
         }
 
-        return this.filter.equals(((FilterFilter) o).getFilter());
+        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.expr
+        // For now always returns true
+        return true;
     }
 }
