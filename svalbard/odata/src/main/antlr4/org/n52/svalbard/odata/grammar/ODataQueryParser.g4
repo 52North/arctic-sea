@@ -50,7 +50,7 @@ expand
    ;
 
 expandItem
-   : (AlphaPlus SLASH)* AlphaPlus (OP systemQueryOption (SEMI systemQueryOption)* CP)?
+   : memberExpr (OP systemQueryOption (SEMI systemQueryOption)* CP)?
    ;
 
 filter
@@ -78,7 +78,7 @@ select
    ;
 
 selectItem
-   : AlphaPlus
+   : memberExpr (OP systemQueryOption (SEMI systemQueryOption)* CP)?
    ;
 /* ----------------------------------------------------------------------------
  * 3. Expressions
@@ -193,11 +193,17 @@ boolMethodCallExpr
    | st_relateMethodCallExpr
    ;
 
-textOrMember : (textExpr | memberExpr);
+textOrMember
+   : (textExpr | memberExpr)
+   ;
 
-temporalOrMemberOrString: (temporalMethodCallExpr | memberExpr | sq_enclosed_string);
+temporalOrMemberOrString
+   : (temporalMethodCallExpr | memberExpr | sq_enclosed_string)
+   ;
 
-geoOrMember : (geoExpr | memberExpr);
+geoOrMember
+   : (geoExpr | memberExpr)
+   ;
 
 substringMethodCallExpr
    : Substring_LLC OP (SP)* textOrMember (SP)* COMMA (SP)* arithmeticExpr CP

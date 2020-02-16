@@ -435,66 +435,6 @@ Mod_LLC
    : 'mod'
    ;
 
-D_LUC
-   : 'D'
-   ;
-
-H_LUC
-   : 'H'
-   ;
-
-M_LUC
-   : 'M'
-   ;
-
-P_LUC
-   : 'P'
-   ;
-
-S_LUC
-   : 'S'
-   ;
-
-T_LUC
-   : 'T'
-   ;
-
-X_LUC
-   : 'X'
-   ;
-
-Z_LUC
-   : 'Z'
-   ;
-
-B_LLC
-   : 'b'
-   ;
-
-F_LLC
-   : 'f'
-   ;
-
-N_LLC
-   : 'n'
-   ;
-
-R_LLC
-   : 'r'
-   ;
-
-T_LLC
-   : 't'
-   ;
-
-V_LLC
-   : 'v'
-   ;
-
-U_LLC
-   : 'u'
-   ;
-
 NotANumber_LXC
    : 'NaN'
    ;

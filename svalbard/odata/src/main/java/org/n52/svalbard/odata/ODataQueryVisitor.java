@@ -105,15 +105,21 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     @Override public SelectFilter visitSelect(ODataQueryParserParser.SelectContext ctx) {
         List<PathFilterItem> pathFilterItems = new ArrayList<>();
         for (ODataQueryParserParser.SelectItemContext selectItemContext : ctx.selectItem()) {
-            pathFilterItems.add(this.visitSelectItem(selectItemContext));
+            pathFilterItems.add(visitSelectItem(selectItemContext));
         }
         return new SelectFilter(pathFilterItems);
     }
 
-    // TODO: expand grammar to allow for nested expressions on selectItem
-    // e.g.Customers?$select=Addresses($filter=startswith(City,'H');$top=5;)&$expand=Addresses/Country
     @Override public PathFilterItem visitSelectItem(ODataQueryParserParser.SelectItemContext ctx) {
-        return new PathFilterItem(ctx.AlphaPlus().getText(), null);
+        if (!ctx.systemQueryOption().isEmpty()) {
+            Set<FilterClause> options = new HashSet<>();
+            for (ODataQueryParserParser.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
+                options.add(this.visitSystemQueryOption(expandQueryOptions));
+            }
+            return new PathFilterItem(ctx.memberExpr().getText(), options);
+        } else {
+            return new PathFilterItem(ctx.getText(), null);
+        }
     }
 
     @Override public OrderByFilter visitOrderby(ODataQueryParserParser.OrderbyContext ctx) {
@@ -130,7 +136,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         } else if (ctx.Desc_LLC() != null) {
             return new OrderProperty(ctx.textOrMember().getText(), FilterConstants.SortOrder.DESC);
         } else {
-            return new OrderProperty(ctx.textOrMember().getText());
+            return new OrderProperty(this.visitTextOrMember(ctx.textOrMember()).getValue());
         }
     }
 
@@ -148,20 +154,10 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
             for (ODataQueryParserParser.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
                 options.add(this.visitSystemQueryOption(expandQueryOptions));
             }
-            return new PathFilterItem(visitAlphaPlus(ctx.AlphaPlus()), options);
+            return new PathFilterItem(ctx.memberExpr().getText(), options);
         } else {
             return new PathFilterItem(ctx.getText(), null);
         }
-    }
-
-    private String visitAlphaPlus(List<TerminalNode> alphaPlus) {
-        StringBuilder path = new StringBuilder();
-        for (int i = 0; i < alphaPlus.size() - 1; i++) {
-            path.append(alphaPlus.get(i));
-            path.append("/");
-        }
-        path.append(alphaPlus.get(alphaPlus.size() - 1));
-        return path.toString();
     }
 
     @Override public FilterFilter visitFilter(ODataQueryParserParser.FilterContext ctx) {
@@ -459,7 +455,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
 
     @Override public TextExpr visitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx) {
         if (ctx.textExpr() != null) {
-            return new StringValueExpr(ctx.textExpr().getText());
+            return new StringValueExpr(this.visitTextExpr(ctx.textExpr()).getValue());
         } else {
             return new MemberExpr(ctx.memberExpr().getText());
         }
