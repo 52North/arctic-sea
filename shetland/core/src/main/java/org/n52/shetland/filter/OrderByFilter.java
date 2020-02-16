@@ -17,13 +17,13 @@
 
 package org.n52.shetland.filter;
 
-import java.util.Collections;
-import java.util.List;
-
 import org.n52.shetland.oasis.odata.query.option.OrderByOption;
 import org.n52.shetland.ogc.filter.AbstractSortingClause;
 
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * class for OrderBy element
@@ -33,18 +33,17 @@ import com.google.common.collect.Lists;
  */
 public class OrderByFilter implements AbstractSortingClause, OrderByOption {
 
-    private List<OrderProperty> sortProperties = Lists.newArrayList();
-
-    public OrderByFilter() {
-    }
+    private final List<OrderProperty> sortProperties;
 
     public OrderByFilter(OrderProperty sortProperty) {
+        this.sortProperties = new ArrayList<>();
         if (sortProperty != null) {
             sortProperties.add(sortProperty);
         }
     }
 
     public OrderByFilter(List<OrderProperty> sortProperties) {
+        this.sortProperties = new ArrayList<>();
         if (sortProperties != null) {
             this.sortProperties.addAll(sortProperties);
         }
@@ -57,16 +56,20 @@ public class OrderByFilter implements AbstractSortingClause, OrderByOption {
         return Collections.unmodifiableList(sortProperties);
     }
 
-    public OrderByFilter addSortProperty(OrderProperty sortProperty) {
-        this.sortProperties.add(sortProperty);
-        return this;
+    @Override public int hashCode() {
+        return Objects.hash(sortProperties);
     }
 
-    public OrderByFilter addSortProperties(List<OrderProperty> sortProperties) {
-        if (sortProperties != null) {
-            this.sortProperties.addAll(sortProperties);
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
         }
-        return this;
+
+        if (!(o instanceof OrderByFilter)) {
+            return false;
+        }
+
+        return this.sortProperties.equals(((OrderByFilter) o).getSortProperties());
     }
 
 }

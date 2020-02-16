@@ -19,12 +19,14 @@ package org.n52.shetland.filter;
 import org.n52.shetland.oasis.odata.query.option.FilterOption;
 import org.n52.shetland.ogc.filter.FilterClause;
 
+import java.util.Objects;
+
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 public class FilterFilter implements FilterOption, FilterClause {
 
-    private Object filter;
+    private final Object filter;
 
     public FilterFilter(Object filter) {
         this.filter = filter;
@@ -33,7 +35,23 @@ public class FilterFilter implements FilterOption, FilterClause {
     /**
      * @return the value
      */
-    public Object getValue() {
+    public Object getFilter() {
         return filter;
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(filter);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof FilterFilter)) {
+            return false;
+        }
+
+        return this.filter.equals(((FilterFilter) o).getFilter());
     }
 }

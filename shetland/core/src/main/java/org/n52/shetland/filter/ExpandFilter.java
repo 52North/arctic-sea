@@ -14,17 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.filter;
 
-import java.util.List;
+package org.n52.shetland.filter;
 
 import org.n52.shetland.oasis.odata.query.option.ExpandOption;
 
-public class ExpandFilter extends AbstractPathFilter implements ExpandOption {
+import java.util.List;
+import java.util.Objects;
 
-    public ExpandFilter() {
-        super();
-    }
+public class ExpandFilter extends AbstractPathFilter implements ExpandOption {
 
     public ExpandFilter(PathFilterItem item) {
         super(item);
@@ -32,5 +30,21 @@ public class ExpandFilter extends AbstractPathFilter implements ExpandOption {
 
     public ExpandFilter(List<PathFilterItem> items) {
         super(items);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.getItems());
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof ExpandFilter)) {
+            return false;
+        }
+
+        return this.getItems().equals(((ExpandFilter) o).getItems());
     }
 }

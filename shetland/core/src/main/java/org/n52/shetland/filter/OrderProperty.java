@@ -14,23 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SortOrder;
 
+import java.util.Objects;
+
 public class OrderProperty {
 
-    private String valueReference;
+    private final String valueReference;
 
-    private SortOrder sortOrder;
+    private final SortOrder sortOrder;
 
     public OrderProperty(String valueReference) {
-        setValueReference(valueReference);
+        this.valueReference = valueReference;
+        this.sortOrder = null;
     }
 
     public OrderProperty(String valueReference, SortOrder order) {
-        setValueReference(valueReference);
-        setSortOrder(order);
+        this.valueReference = valueReference;
+        this.sortOrder = order;
     }
 
     /**
@@ -41,31 +45,30 @@ public class OrderProperty {
     }
 
     /**
-     * @param valueReference
-     *            the valueReference to set
-     */
-    public OrderProperty setValueReference(String valueReference) {
-        this.valueReference = valueReference;
-        return this;
-    }
-
-    /**
      * @return the sortOrder
      */
     public SortOrder getSortOrder() {
         return sortOrder;
     }
 
-    /**
-     * @param sortOrder
-     *            the sortOrder to set
-     */
-    public OrderProperty setSortOrder(SortOrder sortOrder) {
-        this.sortOrder = sortOrder;
-        return this;
-    }
-
     public boolean isSetSortOrder() {
         return getSortOrder() != null;
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(valueReference, sortOrder);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof OrderProperty)) {
+            return false;
+        }
+
+        return this.valueReference.equals(((OrderProperty) o).getValueReference()) &&
+                Objects.equals(this.sortOrder, ((OrderProperty) o).getSortOrder());
     }
 }

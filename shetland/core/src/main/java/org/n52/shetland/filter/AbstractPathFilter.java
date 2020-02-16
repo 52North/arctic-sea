@@ -18,14 +18,13 @@ package org.n52.shetland.filter;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import org.n52.shetland.ogc.filter.FilterClause;
 
 public abstract class AbstractPathFilter implements FilterClause {
-    private List<PathFilterItem> items = new LinkedList<>();
 
-    public AbstractPathFilter() {
-    }
+    private final List<PathFilterItem> items = new LinkedList<>();
 
     public AbstractPathFilter(PathFilterItem item) {
         if (item != null) {
@@ -34,7 +33,7 @@ public abstract class AbstractPathFilter implements FilterClause {
     }
 
     public AbstractPathFilter(List<PathFilterItem> items) {
-        setItems(items);
+        this.items.addAll(items);
     }
 
     /**
@@ -44,27 +43,20 @@ public abstract class AbstractPathFilter implements FilterClause {
         return items;
     }
 
-    /**
-     * @param items the items to set
-     */
-    public void setItems(List<PathFilterItem> items) {
-        this.items.clear();
-        if (items != null) {
-            this.items = items;
-        }
+
+    @Override public int hashCode() {
+        return Objects.hash(items);
     }
 
-    public AbstractPathFilter addItem(PathFilterItem item) {
-        if (item != null) {
-            this.items.add(item);
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
         }
-        return this;
-    }
 
-    public AbstractPathFilter addItems(List<PathFilterItem> items) {
-        if (items != null) {
-            this.items.addAll(items);
+        if (!(o instanceof AbstractPathFilter)) {
+            return false;
         }
-        return this;
+
+        return this.items.equals(((AbstractPathFilter) o).getItems());
     }
 }

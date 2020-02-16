@@ -14,26 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.filter;
 
-import java.util.Set;
+package org.n52.shetland.filter;
 
 import org.n52.shetland.oasis.odata.query.option.SelectOption;
 import org.n52.shetland.ogc.filter.AbstractProjectionClause;
 
+import java.util.Objects;
+import java.util.Set;
+
 public class ProjectionFilter implements AbstractProjectionClause, SelectOption {
 
-    private Set<String> value;
+    private final Set<String> value;
 
     public ProjectionFilter(Set<String> value) {
-        setValue(value);
+        this.value = value;
     }
 
     public Set<String> getValue() {
         return value;
     }
 
-    public void setValue(Set<String> value) {
-        this.value = value;
+    @Override public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof ProjectionFilter)) {
+            return false;
+        }
+
+        return this.getValue().equals(((ProjectionFilter) o).getValue());
     }
 }

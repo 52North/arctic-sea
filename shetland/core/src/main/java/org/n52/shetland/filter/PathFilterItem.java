@@ -14,24 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.filter;
 
-import java.util.Set;
+package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterClause;
 
+import java.util.Objects;
+import java.util.Set;
+
 public class PathFilterItem {
 
-    private String path;
+    private final String path;
 
-    private Set<FilterClause> filters;
+    private final Set<FilterClause> filters;
 
     public PathFilterItem(String path) {
         this.path = path;
+        this.filters = null;
     }
 
     public PathFilterItem(String path, Set<FilterClause> filters) {
-        this(path);
+        this.path = path;
         this.filters = filters;
     }
 
@@ -43,25 +46,26 @@ public class PathFilterItem {
     }
 
     /**
-     * @param path
-     *            the path to set
-     */
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    /**
      * @return the filters
      */
     public Set<FilterClause> getFilters() {
         return filters;
     }
 
-    /**
-     * @param filters
-     *            the filters to set
-     */
-    public void setFilters(Set<FilterClause> filters) {
-        this.filters = filters;
+    @Override public int hashCode() {
+        return Objects.hash(path, Objects.hashCode(filters));
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof PathFilterItem)) {
+            return false;
+        }
+
+        return this.path.equals(((PathFilterItem) o).getPath()) &&
+                Objects.equals(this.filters, ((PathFilterItem) o).getFilters());
     }
 }

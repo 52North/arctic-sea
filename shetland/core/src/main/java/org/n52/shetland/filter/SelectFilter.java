@@ -17,14 +17,11 @@
 package org.n52.shetland.filter;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.n52.shetland.oasis.odata.query.option.SelectOption;
 
 public class SelectFilter extends AbstractPathFilter implements SelectOption {
-
-    public SelectFilter() {
-        super();
-    }
 
     public SelectFilter(PathFilterItem item) {
         super(item);
@@ -32,6 +29,22 @@ public class SelectFilter extends AbstractPathFilter implements SelectOption {
 
     public SelectFilter(List<PathFilterItem> items) {
         super(items);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(getItems());
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof SelectFilter)) {
+            return false;
+        }
+
+        return this.getItems().equals(((SelectFilter) o).getItems());
     }
 
 }
