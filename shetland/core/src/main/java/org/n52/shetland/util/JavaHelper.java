@@ -34,6 +34,20 @@ public final class JavaHelper {
 
     private JavaHelper() {
     }
+    
+    /**
+     * Generates a sensor id from description and current time as long.
+     *
+     * @param message
+     *                sensor description
+     *
+     * @return generated sensor id as hex SHA-256.
+     * @deprecated See {@link IdGenerator#generateID(String)}
+     */
+    @Deprecated
+    public static String generateID(String message) {
+        return IdGenerator.generate(message);
+    }
 
     /**
      * return Object value as String
