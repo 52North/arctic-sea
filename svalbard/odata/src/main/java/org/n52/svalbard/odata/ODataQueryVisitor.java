@@ -43,6 +43,7 @@ import org.n52.svalbard.odata.expr.binary.BooleanBinaryExpr;
 import org.n52.svalbard.odata.expr.binary.BooleanExpr;
 import org.n52.svalbard.odata.expr.binary.BooleanUnaryExpr;
 import org.n52.svalbard.odata.expr.binary.ComparisonExpr;
+import org.n52.svalbard.odata.expr.temporal.TemporalExpr;
 import org.n52.svalbard.odata.expr.temporal.TimeValueExpr;
 import org.n52.svalbard.odata.grammar.ODataQueryParserBaseVisitor;
 import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
@@ -463,7 +464,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override
-    public TimeValueExpr visitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) {
+    public TemporalExpr visitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) {
         if (ctx.temporalMethodCallExpr() != null) {
             return visitTemporalMethodCallExpr(ctx.temporalMethodCallExpr());
         } else if (ctx.memberExpr() != null) {
@@ -481,7 +482,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         }
     }
 
-    @Override public TimeValueExpr visitTimeExpr(ODataQueryParserParser.TimeExprContext ctx) {
+    @Override public TemporalExpr visitTimeExpr(ODataQueryParserParser.TimeExprContext ctx) {
         return visitTemporalMethodCallExpr(ctx.temporalMethodCallExpr());
     }
 
@@ -627,7 +628,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override
-    public TimeValueExpr visitTemporalMethodCallExpr(ODataQueryParserParser.TemporalMethodCallExprContext ctx) {
+    public TemporalExpr visitTemporalMethodCallExpr(ODataQueryParserParser.TemporalMethodCallExprContext ctx) {
         //temporalMethodCallExpr
         //   : timeMethodCallExpr
         //   | nowDate
@@ -636,7 +637,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         //   ;
         for (int i = 0; i < ctx.getChildCount(); i++) {
             if (ctx.getChild(i) != null) {
-                return ctx.getChild(i).<TimeValueExpr>accept(this);
+                return ctx.getChild(i).<TemporalExpr>accept(this);
             }
         }
         // This will never happen

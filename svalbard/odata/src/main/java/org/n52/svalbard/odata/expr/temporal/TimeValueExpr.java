@@ -25,7 +25,7 @@ import java.util.Optional;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class TimeValueExpr implements Expr {
+public class TimeValueExpr implements TemporalExpr {
 
     private final Object value;
 
