@@ -20,7 +20,7 @@ public class STAInvalidQueryException extends Exception {
 
     private static final long serialVersionUID = -6949681213178513459L;
 
-    STAInvalidQueryException(String msg) {
+    public STAInvalidQueryException(String msg) {
         super(msg);
     }
 

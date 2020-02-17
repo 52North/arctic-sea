@@ -54,6 +54,7 @@ public interface ODataConstants {
         String LENGTH = "length";
         String STARTSWITH = "startswith";
         String SUBSTRING = "substring";
+        String SUBSTRINGOF = "substringof";
     }
 
     interface CollectionFunctions extends StringAndCollectionFunctions {
@@ -65,10 +66,10 @@ public interface ODataConstants {
         String MATCHES_PATTERN = "matchesPattern";
         String TOLOWER = "tolower";
         String TOUPPER = "toupper";
-        String TIRM = "trim";
+        String TRIM = "trim";
     }
 
-    interface DateAndTimeFunstions {
+    interface DateAndTimeFunctions {
         String DATE = "date";
         String DAY = "day";
         String FRACTIONALSECONDS = "fractionalseconds";
@@ -111,7 +112,7 @@ public interface ODataConstants {
         String ST_CROSSES = "st_crosses";
         String ST_INTERSECTS = "st_intersects";
         String ST_CONTAINS = "st_contains";
-        String ST_RELAST = "st_relate";
+        String ST_RELATE = "st_relate";
     }
 
     interface ConditionalFunctions {
