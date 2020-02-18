@@ -55,4 +55,8 @@ public class QueryOptionsFactory {
         });
         return parser.queryOptions().<QueryOptions>accept(visitor);
     }
+
+    public QueryOptions createDummy() {
+        return new QueryOptions("", null);
+    }
 }
