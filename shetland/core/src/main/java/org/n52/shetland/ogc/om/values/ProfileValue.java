@@ -33,7 +33,6 @@ import org.n52.shetland.ogc.gwml.GWMLConstants;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
-import org.n52.shetland.ogc.swe.simpleType.SweQuantity;
 
 import com.google.common.collect.Lists;
 
@@ -122,7 +121,7 @@ public class ProfileValue
     /**
      * @return the fromLevel
      */
-    public SweQuantity getFromLevel() {
+    public QuantityValue getFromLevel() {
         if (!isFromLevel() && !queriedFromLevel) {
             if (isSetValue()) {
                 QuantityValue from = null;
@@ -173,7 +172,7 @@ public class ProfileValue
     /**
      * @return the toLevel
      */
-    public SweQuantity getToLevel() {
+    public QuantityValue getToLevel() {
         if (!isToLevel() && !queriedToLevel) {
             if (isSetValue()) {
                 QuantityValue to = null;
