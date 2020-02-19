@@ -16,9 +16,12 @@
  */
 package org.n52.shetland.ogc.om.values;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.Geometry;
@@ -27,9 +30,11 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.n52.shetland.ogc.UoM;
 import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
+import org.n52.shetland.ogc.gml.ReferenceType;
 import org.n52.shetland.ogc.gml.time.Time;
 import org.n52.shetland.ogc.gml.time.TimePeriod;
 import org.n52.shetland.ogc.gwml.GWMLConstants;
+import org.n52.shetland.ogc.om.NamedValue;
 import org.n52.shetland.ogc.om.values.visitor.ValueVisitor;
 import org.n52.shetland.ogc.swe.SweDataRecord;
 import org.n52.shetland.ogc.swe.SweField;
@@ -289,6 +294,17 @@ public class ProfileValue
             }
         }
         return null;
+    }
+    
+    public Collection<NamedValue<?>> getLevelStartEndAsParameter() {
+        SortedSet<NamedValue<?>> parameter = new TreeSet<>();
+        if (isSetFromLevel() && getFromLevel().isSetDefinition()) {
+            parameter.add(new NamedValue<>(new ReferenceType(getFromLevel().getDefinition()), getFromLevel()));
+        }
+        if (isSetToLevel() && getToLevel().isSetDefinition()) {
+            parameter.add(new NamedValue<>(new ReferenceType(getToLevel().getDefinition()), getToLevel()));
+        }
+        return parameter;
     }
 
 }
