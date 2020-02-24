@@ -16,11 +16,11 @@
  */
 package org.n52.shetland.ogc.sta.exception;
 
-public class STAInvalidUrlThrowable extends Throwable {
+public class STAInvalidUrlException extends Exception {
 
     private static final long serialVersionUID = 1735032375472119946L;
 
-    public STAInvalidUrlThrowable(String s) {
+    public STAInvalidUrlException(String s) {
         super(s);
     }
 }
