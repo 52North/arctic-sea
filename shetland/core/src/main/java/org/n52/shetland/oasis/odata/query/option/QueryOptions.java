@@ -71,9 +71,9 @@ public class QueryOptions {
                     filterOption = (FilterFilter) input;
                 }
             });
-            if (!hasTopOption()) {
-                this.topOption = new SkipTopFilter(SkipTopOperator.Top, DEFAULT_TOP);
-            }
+        }
+        if (!hasTopOption()) {
+            this.topOption = new SkipTopFilter(SkipTopOperator.Top, DEFAULT_TOP);
         }
     }
 

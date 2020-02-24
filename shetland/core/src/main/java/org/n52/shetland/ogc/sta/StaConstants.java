@@ -54,6 +54,10 @@ public interface StaConstants {
 
     String IOT_ID = "iot.id";
 
+    String IOT_SELFLINK = "iot.selfLink";
+
     String AT_IOT_ID = AT + IOT_ID;
+
+    String AT_IOT_SELFLINK = AT + IOT_SELFLINK;
 
 }
