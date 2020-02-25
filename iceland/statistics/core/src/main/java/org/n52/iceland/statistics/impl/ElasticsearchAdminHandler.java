@@ -369,7 +369,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
         return getClient();
     }
 
-    private RestHighLevelClient getClient() {
+    private synchronized RestHighLevelClient getClient() {
         return client;
     }
 

@@ -215,7 +215,7 @@ public abstract class AbstractObservationProcess extends AbstractFeature {
     }
 
     public boolean isSetInputs() {
-        return inputs != null && !inputs.isEmpty();
+        return !inputs.isEmpty();
     }
 
     public boolean isSetComments() {
@@ -223,7 +223,7 @@ public abstract class AbstractObservationProcess extends AbstractFeature {
     }
 
     public boolean isSetParameters() {
-        return parameters != null && !parameters.isEmpty();
+        return !parameters.isEmpty();
     }
 
 }
