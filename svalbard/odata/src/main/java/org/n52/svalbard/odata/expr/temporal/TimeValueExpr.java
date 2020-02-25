@@ -14,13 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.expr.temporal;
 
-import org.n52.svalbard.odata.expr.Expr;
 import org.n52.svalbard.odata.expr.ExprVisitor;
 
 import java.util.Objects;
-import java.util.Optional;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>

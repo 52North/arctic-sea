@@ -14,10 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.expr.arithmetic;
 
 import org.n52.svalbard.odata.expr.Expr;
-import org.n52.svalbard.odata.expr.binary.BooleanExpr;
 
 import java.util.Optional;
 

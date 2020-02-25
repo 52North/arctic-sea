@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+package org.n52.svalbard.odata;
+
 ///*
 // * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
 // * Software GmbH
@@ -247,7 +250,8 @@
 //     */
 //    private static Optional<MemberValueExprPair> getMemberValuePair(Expr first, Expr second) {
 //        return Optionals.or(first.asMember(), second.asMember()).flatMap(member -> Optionals
-//                .or(first.asStringValue(), second.asStringValue()).map(value -> new MemberValueExprPair(member, value)));
+//                .or(first.asStringValue(), second.asStringValue()).map(value -> new MemberValueExprPair(member,
+//                value)));
 //    }
 //
 //    /**
@@ -491,7 +495,8 @@
 //        public UnaryExpr<?> visitUnaryOperator(UnaryOperatorKind op, Expr operand)
 //                throws ExpressionVisitException {
 //            Supplier<ExpressionVisitException> exceptionSupplier =
-//                    () -> new ExpressionVisitException(String.format("Operator is not supported: %s %s", op, operand));
+//                    () -> new ExpressionVisitException(String.format("Operator is not supported: %s %s", op,
+//                    operand));
 //            switch (op) {
 //                case NOT:
 //                    return new BooleanUnaryExpr(UnaryLogicOperator.Not,

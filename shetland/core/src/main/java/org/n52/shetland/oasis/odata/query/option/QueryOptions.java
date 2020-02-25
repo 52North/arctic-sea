@@ -52,7 +52,7 @@ public class QueryOptions {
     public QueryOptions(String baseURL, Set<FilterClause> queryOptions) {
         this.baseURL = baseURL;
         if (queryOptions != null) {
-            queryOptions.forEach((input) -> {
+            queryOptions.forEach(input -> {
                 if (input instanceof CountOption) {
                     countOption = (CountFilter) input;
                 } else if (input instanceof OrderByOption) {

@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.n52.shetland.oasis.odata.query.option;
+
 ///*
 // * Copyright 2015-2020 52°North Initiative for Geospatial Open Source
 // * Software GmbH
