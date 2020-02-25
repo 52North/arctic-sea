@@ -295,7 +295,7 @@ public class ProfileValue
         }
         return null;
     }
-    
+
     public Collection<NamedValue<?>> getLevelFromToAsParameter() {
         SortedSet<NamedValue<?>> parameter = new TreeSet<>();
         if (isSetFromLevel() && getFromLevel().isSetDefinition()) {
