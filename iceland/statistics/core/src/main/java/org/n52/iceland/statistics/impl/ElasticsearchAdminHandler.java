@@ -278,7 +278,7 @@ public class ElasticsearchAdminHandler implements IAdminDataHandler {
                 hosts.add(address);
             }
         });
-        this.client = new RestHighLevelClient(RestClient.builder(hosts.toArray(new HttpHost[0])));
+        setClient(new RestHighLevelClient(RestClient.builder(hosts.toArray(new HttpHost[0]))));
         logger.info("ElasticSearch data handler starting in Remote mode");
 
     }
