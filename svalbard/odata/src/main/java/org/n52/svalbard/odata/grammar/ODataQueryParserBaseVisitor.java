@@ -614,7 +614,14 @@ public class ODataQueryParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> 
 	 * <p>The default implementation returns the result of calling
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
-	@Override public T visitSq_enclosed_string(ODataQueryParserParser.Sq_enclosed_stringContext ctx) { return visitChildren(ctx); }
+	@Override public T visitEscapedString(ODataQueryParserParser.EscapedStringContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitEscapedStringLiteral(ODataQueryParserParser.EscapedStringLiteralContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

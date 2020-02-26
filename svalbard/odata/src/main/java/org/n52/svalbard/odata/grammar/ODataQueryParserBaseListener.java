@@ -1028,13 +1028,25 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSq_enclosed_string(ODataQueryParserParser.Sq_enclosed_stringContext ctx) { }
+	@Override public void enterEscapedString(ODataQueryParserParser.EscapedStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSq_enclosed_string(ODataQueryParserParser.Sq_enclosed_stringContext ctx) { }
+	@Override public void exitEscapedString(ODataQueryParserParser.EscapedStringContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterEscapedStringLiteral(ODataQueryParserParser.EscapedStringLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitEscapedStringLiteral(ODataQueryParserParser.EscapedStringLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

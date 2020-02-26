@@ -854,15 +854,25 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 */
 	void exitNumericLiteral(ODataQueryParserParser.NumericLiteralContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#sq_enclosed_string}.
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#escapedString}.
 	 * @param ctx the parse tree
 	 */
-	void enterSq_enclosed_string(ODataQueryParserParser.Sq_enclosed_stringContext ctx);
+	void enterEscapedString(ODataQueryParserParser.EscapedStringContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#sq_enclosed_string}.
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#escapedString}.
 	 * @param ctx the parse tree
 	 */
-	void exitSq_enclosed_string(ODataQueryParserParser.Sq_enclosed_stringContext ctx);
+	void exitEscapedString(ODataQueryParserParser.EscapedStringContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#escapedStringLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterEscapedStringLiteral(ODataQueryParserParser.EscapedStringLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#escapedStringLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitEscapedStringLiteral(ODataQueryParserParser.EscapedStringLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#geographyCollection}.
 	 * @param ctx the parse tree

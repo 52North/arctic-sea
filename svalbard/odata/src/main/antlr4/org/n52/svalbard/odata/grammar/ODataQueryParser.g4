@@ -78,7 +78,7 @@ select
    ;
 
 selectItem
-   : memberExpr (OP systemQueryOption (SEMI systemQueryOption)* CP)?
+   : AlphaPlus
    ;
 /* ----------------------------------------------------------------------------
  * 3. Expressions
@@ -117,7 +117,7 @@ timeExpr
    //TODO: expand this and do timestamp validation here
    
 textExpr
-   : sq_enclosed_string
+   : escapedString
    | textMethodCallExpr
    ;
 
@@ -198,7 +198,7 @@ textOrMember
    ;
 
 temporalOrMemberOrString
-   : (temporalMethodCallExpr | memberExpr | sq_enclosed_string)
+   : (temporalMethodCallExpr | memberExpr | escapedString)
    ;
 
 geoOrMember
@@ -279,7 +279,7 @@ st_containsMethodCallExpr
    ;
 
 st_relateMethodCallExpr
-   : ST_relate_LLC OP (SP)* geoOrMember (SP)* COMMA (SP)* geoOrMember (SP)* COMMA (SP)* sq_enclosed_string (SP)* CP
+   : ST_relate_LLC OP (SP)* geoOrMember (SP)* COMMA (SP)* geoOrMember (SP)* COMMA (SP)* escapedString (SP)* CP
    ;
 
 lengthMethodCallExpr
@@ -428,9 +428,13 @@ numericLiteral
    | FloatingPointLiteral
    ;
 
-sq_enclosed_string
-   : SQ (SP | Alpha | AlphaPlus | STAR | COMMA | SEMI | DecimalLiteral | FloatingPointLiteral)* SQ
+escapedString
+   : SQ escapedStringLiteral SQ
    ;
+   
+escapedStringLiteral
+  : (SP | Alpha | AlphaPlus | STAR | COMMA | SEMI | DecimalLiteral | FloatingPointLiteral)*
+  ;
    //TODO: possibly expand this to allow for more diverse characters (e.g. special characters).
    
 geographyCollection

@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.exception;
 
 public class STAInvalidQueryException extends Exception {
@@ -22,6 +23,10 @@ public class STAInvalidQueryException extends Exception {
 
     public STAInvalidQueryException(String msg) {
         super(msg);
+    }
+
+    public STAInvalidQueryException(String msg, Throwable nested) {
+        super(msg, nested);
     }
 
 }

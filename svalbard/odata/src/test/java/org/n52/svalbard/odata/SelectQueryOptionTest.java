@@ -84,7 +84,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
     }
 
     @Test
-    public void testValidTopOption() {
+    public void testValidSelectOption() {
         SelectFilter filter;
         String val;
         String[] split;
@@ -93,7 +93,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         val = "test";
         init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
-        Assertions.assertEquals(filter.getItems().get(0).getPath(), val);
+        Assertions.assertEquals(val, filter.getItems().toArray(new String[] {})[0]);
 
         // check two properties no space
         val = "test,testTwo";
@@ -101,7 +101,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
-            Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
+            Assertions.assertEquals(split[i].trim(), filter.getItems().toArray(new String[] {})[i]);
         }
 
         // check two properties with space
@@ -110,7 +110,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
-            Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
+            Assertions.assertEquals(split[i].trim(), filter.getItems().toArray(new String[] {})[i]);
         }
 
         // check two properties with more space
@@ -119,7 +119,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
-            Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
+            Assertions.assertEquals(split[i].trim(), filter.getItems().toArray(new String[] {})[i]);
         }
 
         // check 2+ properties
@@ -128,7 +128,7 @@ public class SelectQueryOptionTest extends QueryOptionTests {
         init(ODataConstants.QueryOptions.SELECT + EQ + val);
         filter = (SelectFilter) parser.queryOptions().systemQueryOption(0).select().accept(new ODataQueryVisitor());
         for (int i = 0; i < split.length; i++) {
-            Assertions.assertEquals(filter.getItems().get(i).getPath(), split[i].trim());
+            Assertions.assertTrue(filter.getItems().contains(split[i].trim()));
         }
     }
 }

@@ -17,25 +17,19 @@
 
 package org.n52.shetland.filter;
 
-import org.n52.shetland.ogc.filter.FilterClause;
+import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 
 import java.util.Objects;
-import java.util.Set;
 
-public class PathFilterItem {
+public class ExpandItem {
 
     private final String path;
 
-    private final Set<FilterClause> filters;
+    private final QueryOptions queryOptions;
 
-    public PathFilterItem(String path) {
+    public ExpandItem(String path, QueryOptions options) {
         this.path = path;
-        this.filters = null;
-    }
-
-    public PathFilterItem(String path, Set<FilterClause> filters) {
-        this.path = path;
-        this.filters = filters;
+        this.queryOptions = options;
     }
 
     /**
@@ -48,12 +42,12 @@ public class PathFilterItem {
     /**
      * @return the filters
      */
-    public Set<FilterClause> getFilters() {
-        return filters;
+    public QueryOptions getQueryOptions() {
+        return queryOptions;
     }
 
     @Override public int hashCode() {
-        return Objects.hash(path, Objects.hashCode(filters));
+        return Objects.hash(path, Objects.hashCode(queryOptions));
     }
 
     @Override public boolean equals(Object o) {
@@ -61,11 +55,11 @@ public class PathFilterItem {
             return true;
         }
 
-        if (!(o instanceof PathFilterItem)) {
+        if (!(o instanceof ExpandItem)) {
             return false;
         }
 
-        return this.path.equals(((PathFilterItem) o).getPath()) &&
-                Objects.equals(this.filters, ((PathFilterItem) o).getFilters());
+        return this.path.equals(((ExpandItem) o).getPath()) &&
+                Objects.equals(this.queryOptions, ((ExpandItem) o).getQueryOptions());
     }
 }

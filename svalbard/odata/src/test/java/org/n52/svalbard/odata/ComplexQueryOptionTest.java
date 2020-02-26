@@ -19,26 +19,23 @@ package org.n52.svalbard.odata;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.n52.shetland.filter.AbstractPathFilter;
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.ExpandFilter;
+import org.n52.shetland.filter.ExpandItem;
 import org.n52.shetland.filter.FilterFilter;
 import org.n52.shetland.filter.OrderByFilter;
 import org.n52.shetland.filter.OrderProperty;
-import org.n52.shetland.filter.PathFilterItem;
 import org.n52.shetland.filter.SelectFilter;
 import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.oasis.odata.ODataConstants;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
-import org.n52.shetland.ogc.filter.AbstractSelectionClause;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.svalbard.odata.expr.MemberExpr;
 import org.n52.svalbard.odata.expr.arithmetic.NumericValueExpr;
 import org.n52.svalbard.odata.expr.binary.ComparisonExpr;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -56,33 +53,108 @@ public class ComplexQueryOptionTest extends QueryOptionTests {
                 (QueryOptions) parser.queryOptions().accept(new ODataQueryVisitor());
         Assertions.assertTrue(options.hasExpandOption());
         Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
-        List<PathFilterItem> items = ((AbstractPathFilter) options.getExpandOption()).getItems();
+        Set<ExpandItem> items = (options.getExpandOption().getItems());
         Assertions.assertTrue(items != null);
         Assertions.assertEquals(2, items.size());
 
-        PathFilterItem obs = items.get(0);
-        Assertions.assertEquals("Observations", obs.getPath());
-        Assertions.assertEquals(7, obs.getFilters().size());
+        for (ExpandItem obs : items) {
+            if (obs.getPath().equals("Observations")) {
+                Assertions.assertEquals("Observations", obs.getPath());
+                Assertions.assertTrue(obs.getQueryOptions().hasExpandOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasFilterOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasSelectOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasOrderByOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasSkipOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasCountOption());
 
-        List<FilterClause> filters = Arrays.asList(
-                //TODO: Implemente equals() Method on Expr Interface to properly compare filters
-                new FilterFilter(new ComparisonExpr(FilterConstants.ComparisonOperator.PropertyIsEqualTo,
-                                                    new MemberExpr("result"),
-                                                    new NumericValueExpr("1"))),
-                new ExpandFilter(new PathFilterItem("FeatureOfInterest")),
-                new SelectFilter(new PathFilterItem("id")),
-                new OrderByFilter(new OrderProperty("id")),
-                new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, 5L),
-                new SkipTopFilter(FilterConstants.SkipTopOperator.Top, 10L),
-                new CountFilter(true)
-        );
-        Assertions.assertTrue(obs.getFilters().containsAll(filters));
+                //TODO: Implements equals() Method on Expr Interface to properly compare filters
+                Set<FilterClause> filters = new HashSet<>();
+                filters.add(new FilterFilter(new ComparisonExpr(FilterConstants.ComparisonOperator.PropertyIsEqualTo,
+                                                                new MemberExpr("result"),
+                                                                new NumericValueExpr("1"))));
 
-        PathFilterItem obsProp = items.get(1);
-        Assertions.assertEquals("ObservedProperty", obsProp.getPath());
-        Assertions.assertTrue(obsProp.getFilters() == null);
+                filters.add(new ExpandFilter(new ExpandItem("FeatureOfInterest", null)));
+                filters.add(new SelectFilter("id"));
+                filters.add(new OrderByFilter(new OrderProperty("id")));
+                filters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, 5L));
+                filters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Top, 10L));
+                filters.add(new CountFilter(true));
+
+                Assertions.assertEquals(new QueryOptions("", filters), obs.getQueryOptions());
+            } else if (obs.getPath().equals("ObservedProperty")) {
+                Assertions.assertEquals("ObservedProperty", obs.getPath());
+                Assertions.assertTrue(obs.getQueryOptions() != null);
+                Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
+
+                Assertions.assertFalse(obs.getQueryOptions().hasExpandOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasFilterOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasSelectOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasOrderByOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasSkipOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasCountOption());
+            } else {
+                Assertions.fail("Did not find expected expandItem!");
+            }
+        }
     }
 
+    /**
+     * Checks if Requests such as
+     * $expand=Datastreams/Sensors
+     * are rewritten to
+     * $expand=Datastreams($expand=Sensors)
+     */
+    @Test
+    public void complexExpandOptionRewrite() {
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Datastreams/Sensors/Datastreams");
+        QueryOptions options =
+                (QueryOptions) parser.queryOptions().accept(new ODataQueryVisitor());
+        Assertions.assertTrue(options.hasExpandOption());
+        Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
+
+        Set<ExpandItem> items = (options.getExpandOption().getItems());
+
+        Assertions.assertNotNull(items);
+        Assertions.assertEquals(1, items.size());
+
+        ExpandItem level1 = items.toArray(new ExpandItem[] {})[0];
+        Assertions.assertTrue(level1.getQueryOptions().hasExpandOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasFilterOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasSelectOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasOrderByOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasSkipOption());
+        Assertions.assertTrue(level1.getQueryOptions().hasTopOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasCountOption());
+        Assertions.assertEquals("Datastreams", level1.getPath());
+
+        ExpandItem level2 = level1.getQueryOptions().getExpandOption().getItems().toArray(new ExpandItem[] {})[0];
+        Assertions.assertTrue(level2.getQueryOptions().hasExpandOption());
+        Assertions.assertFalse(level2.getQueryOptions().hasFilterOption());
+        Assertions.assertFalse(level2.getQueryOptions().hasSelectOption());
+        Assertions.assertFalse(level2.getQueryOptions().hasOrderByOption());
+        Assertions.assertFalse(level2.getQueryOptions().hasSkipOption());
+        Assertions.assertTrue(level2.getQueryOptions().hasTopOption());
+        Assertions.assertFalse(level2.getQueryOptions().hasCountOption());
+        Assertions.assertEquals("Sensors", level2.getPath());
+        Assertions.assertEquals(1, level2.getQueryOptions().getExpandOption().getItems().size());
+
+        ExpandItem level3 = level2.getQueryOptions().getExpandOption().getItems().toArray(new ExpandItem[] {})[0];
+        Assertions.assertFalse(level3.getQueryOptions().hasExpandOption());
+        Assertions.assertFalse(level3.getQueryOptions().hasFilterOption());
+        Assertions.assertFalse(level3.getQueryOptions().hasSelectOption());
+        Assertions.assertFalse(level3.getQueryOptions().hasOrderByOption());
+        Assertions.assertFalse(level3.getQueryOptions().hasSkipOption());
+        Assertions.assertTrue(level3.getQueryOptions().hasTopOption());
+        Assertions.assertFalse(level3.getQueryOptions().hasCountOption());
+        Assertions.assertEquals("Datastreams", level3.getPath());
+    }
+
+    // This is not allowed by STA spec as of Section 9.3.2.2
+    // Only allowed in base olingo
+    /*
     @Test
     public void complexSelectListOption() {
         init(ODataConstants.QueryOptions.SELECT
@@ -102,7 +174,11 @@ public class ComplexQueryOptionTest extends QueryOptionTests {
         PathFilterItem item3 = items.get(2);
         Assertions.assertEquals("Location", item3.getPath());
     }
+    */
 
+    // This is not allowed by STA spec as of Section 9.3.2.2
+    // Only allowed in base olingo
+    /*
     @Test
     public void complexSelectOption() {
         init(ODataConstants.QueryOptions.SELECT
@@ -132,4 +208,5 @@ public class ComplexQueryOptionTest extends QueryOptionTests {
             }
         }
     }
+    */
 }

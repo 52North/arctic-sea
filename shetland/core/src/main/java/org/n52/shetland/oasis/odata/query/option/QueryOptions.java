@@ -137,11 +137,26 @@ public class QueryOptions {
         return hasFilterOption() ? filterOption : null;
     }
 
-    /*
     // BaseURI is not always set -> we need to compare each option individually
     @Override
     public boolean equals(Object o) {
-        return (o instanceof QueryOptions) && ((QueryOptions) o).getBaseURI().equals(this.getBaseURI());
+        if (!(o instanceof QueryOptions)) {
+            return false;
+        }
+        QueryOptions obj = (QueryOptions) o;
+        return obj.hasCountOption() == this.hasCountOption()
+                && obj.hasOrderByOption() == this.hasOrderByOption()
+                && obj.hasSelectOption() == this.hasSelectOption()
+                && obj.hasExpandOption() == this.hasExpandOption()
+                && obj.hasSkipOption() == this.hasSkipOption()
+                && obj.hasTopOption() == this.hasTopOption()
+                && obj.hasFilterOption() == this.hasFilterOption()
+                && (obj.hasCountOption()) ? obj.getCountOption().equals(this.getCountOption()) : true
+                && (obj.hasOrderByOption()) ? obj.getOrderByOption().equals(this.getOrderByOption()) : true
+                && (obj.hasSelectOption()) ? obj.getSelectOption().equals(this.getSelectOption()) : true
+                && (obj.hasExpandOption()) ? obj.getExpandOption().equals(this.getExpandOption()) : true
+                && (obj.hasSkipOption()) ? obj.getSkipOption().equals(this.getSkipOption()) : true
+                && (obj.hasTopOption()) ? obj.getTopOption().equals(this.getTopOption()) : true
+                && (obj.hasFilterOption()) ? obj.getFilterOption().equals(this.getFilterOption()) : true;
     }
-    */
 }

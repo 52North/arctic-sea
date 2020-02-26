@@ -14,25 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.filter;
 
-import java.util.List;
-import java.util.Objects;
-
 import org.n52.shetland.oasis.odata.query.option.SelectOption;
+import org.n52.shetland.ogc.filter.FilterClause;
 
-public class SelectFilter extends AbstractPathFilter implements SelectOption {
+import java.util.HashSet;
+import java.util.Objects;
+import java.util.Set;
 
-    public SelectFilter(PathFilterItem item) {
-        super(item);
+public class SelectFilter implements FilterClause, SelectOption {
+
+    private final Set<String> items;
+
+    public SelectFilter(String item) {
+        this.items = new HashSet<>();
+        items.add(item);
     }
 
-    public SelectFilter(List<PathFilterItem> items) {
-        super(items);
+    public SelectFilter(Set<String> items) {
+        this.items = items;
+    }
+
+    @Override public Set<String> getItems() {
+        return this.items;
     }
 
     @Override public int hashCode() {
-        return Objects.hash(getItems());
+        return Objects.hash(items);
     }
 
     @Override public boolean equals(Object o) {
@@ -46,5 +56,4 @@ public class SelectFilter extends AbstractPathFilter implements SelectOption {
 
         return this.getItems().equals(((SelectFilter) o).getItems());
     }
-
 }

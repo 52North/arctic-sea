@@ -525,11 +525,17 @@ public interface ODataQueryParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitNumericLiteral(ODataQueryParserParser.NumericLiteralContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#sq_enclosed_string}.
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#escapedString}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitSq_enclosed_string(ODataQueryParserParser.Sq_enclosed_stringContext ctx);
+	T visitEscapedString(ODataQueryParserParser.EscapedStringContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#escapedStringLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitEscapedStringLiteral(ODataQueryParserParser.EscapedStringLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#geographyCollection}.
 	 * @param ctx the parse tree

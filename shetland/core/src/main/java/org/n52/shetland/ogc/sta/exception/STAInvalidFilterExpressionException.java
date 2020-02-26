@@ -14,16 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.exception;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class STAInvalidFilterExpressionException extends Exception {
+public class STAInvalidFilterExpressionException extends STAInvalidQueryException {
 
     private static final long serialVersionUID = -4606310498863675929L;
 
     public STAInvalidFilterExpressionException(String s) {
         super(s);
+    }
+
+    public STAInvalidFilterExpressionException(String msg, Throwable nested) {
+        super(msg, nested);
     }
 }

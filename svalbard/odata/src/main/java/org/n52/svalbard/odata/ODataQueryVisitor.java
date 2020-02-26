@@ -20,16 +20,15 @@ package org.n52.svalbard.odata;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.ExpandFilter;
+import org.n52.shetland.filter.ExpandItem;
 import org.n52.shetland.filter.FilterFilter;
 import org.n52.shetland.filter.OrderByFilter;
 import org.n52.shetland.filter.OrderProperty;
-import org.n52.shetland.filter.PathFilterItem;
 import org.n52.shetland.filter.SelectFilter;
 import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
-import org.n52.svalbard.odata.expr.DirectTextExpr;
 import org.n52.svalbard.odata.expr.Expr;
 import org.n52.svalbard.odata.expr.GeoValueExpr;
 import org.n52.svalbard.odata.expr.MemberExpr;
@@ -49,6 +48,7 @@ import org.n52.svalbard.odata.grammar.ODataQueryParserBaseVisitor;
 import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -105,23 +105,15 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override public SelectFilter visitSelect(ODataQueryParserParser.SelectContext ctx) {
-        List<PathFilterItem> pathFilterItems = new ArrayList<>();
+        Set<String> pathFilterItems = new HashSet<>();
         for (ODataQueryParserParser.SelectItemContext selectItemContext : ctx.selectItem()) {
             pathFilterItems.add(visitSelectItem(selectItemContext));
         }
         return new SelectFilter(pathFilterItems);
     }
 
-    @Override public PathFilterItem visitSelectItem(ODataQueryParserParser.SelectItemContext ctx) {
-        if (!ctx.systemQueryOption().isEmpty()) {
-            Set<FilterClause> options = new HashSet<>();
-            for (ODataQueryParserParser.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
-                options.add(this.visitSystemQueryOption(expandQueryOptions));
-            }
-            return new PathFilterItem(ctx.memberExpr().getText(), options);
-        } else {
-            return new PathFilterItem(ctx.getText(), null);
-        }
+    @Override public String visitSelectItem(ODataQueryParserParser.SelectItemContext ctx) {
+        return ctx.getText();
     }
 
     @Override public OrderByFilter visitOrderby(ODataQueryParserParser.OrderbyContext ctx) {
@@ -143,22 +135,33 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override public ExpandFilter visitExpand(ODataQueryParserParser.ExpandContext ctx) {
-        List<PathFilterItem> expandItems = new ArrayList<>();
+        Set<ExpandItem> expandItems = new HashSet<>();
         for (ODataQueryParserParser.ExpandItemContext expandItemContext : ctx.expandItem()) {
             expandItems.add(this.visitExpandItem(expandItemContext));
         }
         return new ExpandFilter(expandItems);
     }
 
-    @Override public PathFilterItem visitExpandItem(ODataQueryParserParser.ExpandItemContext ctx) {
+    @Override public ExpandItem visitExpandItem(ODataQueryParserParser.ExpandItemContext ctx) {
         if (!ctx.systemQueryOption().isEmpty()) {
             Set<FilterClause> options = new HashSet<>();
             for (ODataQueryParserParser.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
                 options.add(this.visitSystemQueryOption(expandQueryOptions));
             }
-            return new PathFilterItem(ctx.memberExpr().getText(), options);
+            return new ExpandItem(ctx.memberExpr().getText(), new QueryOptions("", options));
         } else {
-            return new PathFilterItem(ctx.getText(), null);
+            // Rewrite slash to normal expand systemQueryOption
+            if (!ctx.memberExpr().SLASH().isEmpty()) {
+                QueryOptions base = new QueryOptions("", null);
+                for (int i = ctx.memberExpr().AlphaPlus().size() - 1; i >= 1; i--) {
+                    ExpandItem expandItem = new ExpandItem(ctx.memberExpr().AlphaPlus(i).getText(), base);
+                    ExpandFilter expandFilter = new ExpandFilter(expandItem);
+                    base = new QueryOptions("", Collections.singleton(expandFilter));
+                }
+                return new ExpandItem(ctx.memberExpr().AlphaPlus(0).getText(), base);
+            } else {
+                return new ExpandItem(ctx.getText(), new QueryOptions("", null));
+            }
         }
     }
 
@@ -470,7 +473,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         } else if (ctx.memberExpr() != null) {
             return new TimeValueExpr(ctx.memberExpr().getText());
         } else {
-            return new TimeValueExpr(ctx.sq_enclosed_string().getText());
+            return new TimeValueExpr(ctx.escapedString().escapedStringLiteral().getText());
         }
     }
 
@@ -491,8 +494,8 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override public TextExpr visitTextExpr(ODataQueryParserParser.TextExprContext ctx) {
-        if (ctx.sq_enclosed_string() != null) {
-            return new StringValueExpr(ctx.sq_enclosed_string().getText());
+        if (ctx.escapedString() != null) {
+            return new StringValueExpr(ctx.escapedString().escapedStringLiteral().getText());
         } else {
             return visitTextMethodCallExpr(ctx.textMethodCallExpr());
         }
@@ -606,7 +609,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         return new MethodCallExpr(ctx.ST_relate_LLC().getText(),
                                   visitGeoOrMember(ctx.geoOrMember(0)),
                                   visitGeoOrMember(ctx.geoOrMember(1)),
-                                  new StringValueExpr(ctx.sq_enclosed_string().getText()));
+                                  new StringValueExpr(ctx.escapedString().escapedStringLiteral().getText()));
     }
 
     @Override public TextExpr visitTextMethodCallExpr(ODataQueryParserParser.TextMethodCallExprContext ctx) {

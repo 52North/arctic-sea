@@ -22,12 +22,24 @@ public class STACRUDException extends Exception {
 
     private static final long serialVersionUID = -6227925530093069656L;
 
+    private final HTTPStatus responseStatus;
+
     public STACRUDException(String msg) {
         super(msg);
+        responseStatus = HTTPStatus.INTERNAL_SERVER_ERROR;
     }
 
-    //TODO: implement
     public STACRUDException(String msg, HTTPStatus status) {
         super(msg);
+        responseStatus = status;
+    }
+
+    public STACRUDException(String msg, Throwable nested) {
+        super(msg, nested);
+        responseStatus = HTTPStatus.INTERNAL_SERVER_ERROR;
+    }
+
+    public HTTPStatus getResponseStatus() {
+        return responseStatus;
     }
 }
