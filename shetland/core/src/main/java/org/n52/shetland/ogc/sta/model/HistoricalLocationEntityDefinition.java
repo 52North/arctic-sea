@@ -36,6 +36,7 @@ public class HistoricalLocationEntityDefinition extends STAEntityDefinition {
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {};
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
+            PROP_ID,
             PROP_TIME
     };
 

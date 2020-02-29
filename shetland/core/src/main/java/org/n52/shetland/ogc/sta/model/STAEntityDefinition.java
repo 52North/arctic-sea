@@ -14,11 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta.model;
 
 import org.n52.shetland.ogc.sta.StaConstants;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @SuppressWarnings("VisibilityModifier")
@@ -35,28 +38,8 @@ public abstract class STAEntityDefinition implements StaConstants {
             FEATURES_OF_INTEREST
     };
 
-    // Entity Property Names
-    public static String PROP_ID = "id";
-    public static String PROP_SELF_LINK = "selfLink";
-    public static String PROP_DEFINITION = "definition";
-    public static String PROP_DESCRIPTION = "description";
-    public static String PROP_ENCODINGTYPE = "encodingType";
-    public static String PROP_FEATURE = "feature";
-    public static String PROP_LOCATION = "location";
-    public static String PROP_NAME = "name";
-    public static String PROP_OBSERVATION_TYPE = "observationType";
-    public static String PROP_OBSERVED_AREA = "observedArea";
-    public static String PROP_PARAMETERS = "parameters";
-    public static String PROP_PHENOMENON_TIME = "phenomenonTime";
-    public static String PROP_PROPERTIES = "properties";
-    public static String PROP_RESULT = "result";
-    public static String PROP_RESULT_QUALITY = "resultQuality";
-    public static String PROP_RESULT_TIME = "resultTime";
-    public static String PROP_TIME = "time";
-    public static String PROP_UOM = "unitOfMeasurement";
-    public static String PROP_VALID_TIME = "validTime";
-    public static String PROP_METADATA = "metadata";
-    public static String PROP_SYMBOL = "symbol";
+    // Map from EntityName to Definition
+    public static Map<String, STAEntityDefinition> definitions = createMap();
 
     private final Set<String> navPropsOptional;
     private final Set<String> navPropsMandatory;
@@ -95,5 +78,34 @@ public abstract class STAEntityDefinition implements StaConstants {
             result.addAll(set);
         }
         return result;
+    }
+
+    private static Map<String, STAEntityDefinition> createMap() {
+        HashMap<String, STAEntityDefinition> map = new HashMap<>();
+        DatastreamEntityDefinition dsED = new DatastreamEntityDefinition();
+        FeatureOfInterestEntityDefinition foiED = new FeatureOfInterestEntityDefinition();
+        HistoricalLocationEntityDefinition hlED = new HistoricalLocationEntityDefinition();
+        LocationEntityDefinition lED = new LocationEntityDefinition();
+        ObservationEntityDefinition oED = new ObservationEntityDefinition();
+        ObservedPropertyEntityDefinition opED = new ObservedPropertyEntityDefinition();
+        SensorEntityDefinition sED = new SensorEntityDefinition();
+        ThingEntityDefinition tED = new ThingEntityDefinition();
+        map.put(DATASTREAM, dsED);
+        map.put(DATASTREAMS, dsED);
+        map.put(FEATURE_OF_INTEREST, foiED);
+        map.put(FEATURES_OF_INTEREST, foiED);
+        map.put(HISTORICAL_LOCATION, hlED);
+        map.put(HISTORICAL_LOCATIONS, hlED);
+        map.put(LOCATION, lED);
+        map.put(LOCATIONS, lED);
+        map.put(OBSERVATION, oED);
+        map.put(OBSERVATIONS, oED);
+        map.put(OBSERVED_PROPERTY, opED);
+        map.put(OBSERVED_PROPERTIES, opED);
+        map.put(SENSOR, sED);
+        map.put(SENSORS, sED);
+        map.put(THING, tED);
+        map.put(THINGS, tED);
+        return map;
     }
 }

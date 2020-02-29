@@ -36,6 +36,7 @@ public class ObservationEntityDefinition extends STAEntityDefinition {
     private static final String[] NAV_PROPS_OPTIONAL = new String[] {};
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
+            PROP_ID,
             PROP_PHENOMENON_TIME,
             PROP_RESULT,
             PROP_RESULT_TIME,

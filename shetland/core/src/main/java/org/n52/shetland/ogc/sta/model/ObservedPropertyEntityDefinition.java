@@ -35,6 +35,7 @@ public class ObservedPropertyEntityDefinition extends STAEntityDefinition {
     };
 
     private static final String[] ENTITY_PROPS_MANDATORY = new String[] {
+            PROP_ID,
             PROP_NAME,
             PROP_DESCRIPTION,
             PROP_DEFINITION,
