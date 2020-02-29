@@ -23,8 +23,11 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
+import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.svalbard.odata.grammar.ODataQueryParserLexer;
 import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
+
+import java.util.Set;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
@@ -54,6 +57,10 @@ public class QueryOptionsFactory {
             }
         });
         return parser.queryOptions().<QueryOptions>accept(visitor);
+    }
+
+    public QueryOptions createQueryOptions(Set<FilterClause> filters) {
+        return new QueryOptions("", filters);
     }
 
     public QueryOptions createDummy() {
