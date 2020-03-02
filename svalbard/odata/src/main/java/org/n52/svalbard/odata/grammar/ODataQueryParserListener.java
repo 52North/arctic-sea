@@ -284,15 +284,15 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 */
 	void exitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx);
 	/**
-	 * Enter a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrString}.
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrISO8601Timestamp}.
 	 * @param ctx the parse tree
 	 */
-	void enterTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx);
+	void enterTemporalOrMemberOrISO8601Timestamp(ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx);
 	/**
-	 * Exit a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrString}.
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrISO8601Timestamp}.
 	 * @param ctx the parse tree
 	 */
-	void exitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx);
+	void exitTemporalOrMemberOrISO8601Timestamp(ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#geoOrMember}.
 	 * @param ctx the parse tree
@@ -303,6 +303,26 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#iso8601Timestamp}.
+	 * @param ctx the parse tree
+	 */
+	void enterIso8601Timestamp(ODataQueryParserParser.Iso8601TimestampContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#iso8601Timestamp}.
+	 * @param ctx the parse tree
+	 */
+	void exitIso8601Timestamp(ODataQueryParserParser.Iso8601TimestampContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#iso8601Timezone}.
+	 * @param ctx the parse tree
+	 */
+	void enterIso8601Timezone(ODataQueryParserParser.Iso8601TimezoneContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#iso8601Timezone}.
+	 * @param ctx the parse tree
+	 */
+	void exitIso8601Timezone(ODataQueryParserParser.Iso8601TimezoneContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#substringMethodCallExpr}.
 	 * @param ctx the parse tree
@@ -853,6 +873,16 @@ public interface ODataQueryParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitNumericLiteral(ODataQueryParserParser.NumericLiteralContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link ODataQueryParserParser#decimalLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void enterDecimalLiteral(ODataQueryParserParser.DecimalLiteralContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link ODataQueryParserParser#decimalLiteral}.
+	 * @param ctx the parse tree
+	 */
+	void exitDecimalLiteral(ODataQueryParserParser.DecimalLiteralContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link ODataQueryParserParser#escapedString}.
 	 * @param ctx the parse tree

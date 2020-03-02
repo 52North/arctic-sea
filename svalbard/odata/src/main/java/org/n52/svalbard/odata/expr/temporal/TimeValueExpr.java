@@ -17,11 +17,14 @@
 
 package org.n52.svalbard.odata.expr.temporal;
 
+import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.svalbard.odata.expr.ExprVisitor;
 
 import java.util.Objects;
 
 /**
+ * Holds a TimeValue directly or reference to a property containing TimeValue
+ *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 public class TimeValueExpr implements TemporalExpr {
@@ -33,8 +36,11 @@ public class TimeValueExpr implements TemporalExpr {
      *
      * @param value the value
      */
-    public TimeValueExpr(Object value) {
-        //TODO: parse into valid java date class
+    public TimeValueExpr(String value) {
+        this.value = Objects.requireNonNull(value);
+    }
+
+    public TimeValueExpr(TimeInstant value) {
         this.value = Objects.requireNonNull(value);
     }
 

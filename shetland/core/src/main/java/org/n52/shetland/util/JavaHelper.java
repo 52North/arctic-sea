@@ -34,7 +34,7 @@ public final class JavaHelper {
 
     private JavaHelper() {
     }
-    
+
     /**
      * Generates a sensor id from description and current time as long.
      *

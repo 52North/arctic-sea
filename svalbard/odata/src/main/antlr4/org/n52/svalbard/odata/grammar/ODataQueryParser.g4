@@ -21,12 +21,13 @@
  * in odata svn repository <a href="https://tools.oasis-open.org/version
  * -control/browse/wsvn/odata/trunk/spec/grammar/ANTLR/#_trunk_spec_grammar_ANTLR_"/a>
  * by Stefan Drees <stefan@drees.name>.
- * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
+ * modified by Jan Speckamp <j.speckamp@52north.org>
  * ----------------------------------------------------------------------------
  */
 grammar ODataQueryParser;
 
 import ODataLexer;
+
 queryOptions
    : systemQueryOption (AMPERSAND systemQueryOption)* EOF
    ;
@@ -66,11 +67,11 @@ orderbyItem
    ;
 
 skip
-   : QO_SKIP EQ DecimalLiteral
+   : QO_SKIP EQ decimalLiteral
    ;
 
 top
-   : QO_TOP EQ DecimalLiteral
+   : QO_TOP EQ decimalLiteral
    ;
 
 select
@@ -112,9 +113,8 @@ arithmeticExpr
    ;
 
 timeExpr
-   : temporalMethodCallExpr
+   : temporalOrMemberOrISO8601Timestamp
    ;
-   //TODO: expand this and do timestamp validation here
    
 textExpr
    : escapedString
@@ -197,12 +197,19 @@ textOrMember
    : (textExpr | memberExpr)
    ;
 
-temporalOrMemberOrString
-   : (temporalMethodCallExpr | memberExpr | escapedString)
+temporalOrMemberOrISO8601Timestamp
+   : (temporalMethodCallExpr | memberExpr | iso8601Timestamp)
    ;
 
 geoOrMember
    : (geoExpr | memberExpr)
+   ;
+
+iso8601Timestamp
+   : Digit4 MINUS Digit2 MINUS Digit2 T Digit2 COLON Digit2 COLON (Digit2 | Digit2WithMillis) iso8601Timezone ;
+
+iso8601Timezone
+   : Z | (PLUS | MINUS) Digit2 (COLON Digit2)?
    ;
 
 substringMethodCallExpr
@@ -291,39 +298,39 @@ indexOfMethodCallExpr
    ;
 
 yearMethodCallExpr
-   : Year_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Year_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 monthMethodCallExpr
-   : Month_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Month_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 dayMethodCallExpr
-   : Day_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Day_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 daysMethodCallExpr
-   : Days_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Days_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 hourMethodCallExpr
-   : Hour_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Hour_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 minuteMethodCallExpr
-   : Minute_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Minute_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 secondMethodCallExpr
-   : Second_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Second_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 timeMethodCallExpr
-   : Time_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Time_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 dateMethodCallExpr
-   : Date_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : Date_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 roundMethodCallExpr
@@ -339,7 +346,7 @@ ceilingMethodCallExpr
    ;
 
 totalOffsetMinutesExpr
-   : TotalOffsetMinutes_LLC OP (SP)* temporalOrMemberOrString (SP)* CP
+   : TotalOffsetMinutes_LLC OP (SP)* temporalOrMemberOrISO8601Timestamp (SP)* CP
    ;
 
 distanceMethodCallExpr
@@ -424,16 +431,18 @@ negateExpr
    //TODO(specki): What part of this do we want to do? Do we need "single" which was previously detected here or is "number" enough
    
 numericLiteral
-   : DecimalLiteral
+   : decimalLiteral
    | FloatingPointLiteral
    ;
+   
+decimalLiteral : Digit | Digit2 | Digit3 | Digit4 | Digit5 | DigitPlus ;
 
 escapedString
    : SQ escapedStringLiteral SQ
    ;
    
 escapedStringLiteral
-  : (SP | Alpha | AlphaPlus | STAR | COMMA | SEMI | DecimalLiteral | FloatingPointLiteral)*
+  : (SP | Alpha | AlphaPlus | STAR | COMMA | SEMI | decimalLiteral | FloatingPointLiteral)*
   ;
    //TODO: possibly expand this to allow for more diverse characters (e.g. special characters).
    
@@ -537,7 +546,7 @@ positionLiteral
    //TODO: add validation that coordinates are in possible range e.g. <=180
    
 coordinate
-   : (MINUS)? (FloatingPointLiteral | DecimalLiteral)
+   : (MINUS)? (FloatingPointLiteral | decimalLiteral)
    ;
 
 geographyPolygon

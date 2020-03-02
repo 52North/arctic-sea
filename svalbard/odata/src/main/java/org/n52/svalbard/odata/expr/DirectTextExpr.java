@@ -17,7 +17,7 @@
 package org.n52.svalbard.odata.expr;
 
 /**
- * Interface for TextExpressions that can be represented directly by a String and are not evaluated during runtime.
+ * Interface for TextExpressions that can be represented directly by a String.
  *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */

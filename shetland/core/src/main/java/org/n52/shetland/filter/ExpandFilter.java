@@ -20,11 +20,7 @@ package org.n52.shetland.filter;
 import org.n52.shetland.oasis.odata.query.option.ExpandOption;
 import org.n52.shetland.ogc.filter.FilterClause;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -38,7 +34,7 @@ public class ExpandFilter implements FilterClause, ExpandOption {
     }
 
     public ExpandFilter(Set<ExpandItem> items) {
-        this.items = (items);
+        this.items = items;
     }
 
     @Override public Set<ExpandItem> getItems() {

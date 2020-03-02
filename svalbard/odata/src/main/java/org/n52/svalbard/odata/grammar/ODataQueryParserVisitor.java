@@ -183,17 +183,29 @@ public interface ODataQueryParserVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx);
 	/**
-	 * Visit a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrString}.
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#temporalOrMemberOrISO8601Timestamp}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
-	T visitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx);
+	T visitTemporalOrMemberOrISO8601Timestamp(ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#geoOrMember}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#iso8601Timestamp}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIso8601Timestamp(ODataQueryParserParser.Iso8601TimestampContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#iso8601Timezone}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIso8601Timezone(ODataQueryParserParser.Iso8601TimezoneContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#substringMethodCallExpr}.
 	 * @param ctx the parse tree
@@ -524,6 +536,12 @@ public interface ODataQueryParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitNumericLiteral(ODataQueryParserParser.NumericLiteralContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ODataQueryParserParser#decimalLiteral}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDecimalLiteral(ODataQueryParserParser.DecimalLiteralContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ODataQueryParserParser#escapedString}.
 	 * @param ctx the parse tree

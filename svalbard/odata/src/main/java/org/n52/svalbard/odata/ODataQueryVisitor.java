@@ -17,7 +17,7 @@
 
 package org.n52.svalbard.odata;
 
-import org.antlr.v4.runtime.tree.TerminalNode;
+import org.joda.time.DateTime;
 import org.n52.shetland.filter.CountFilter;
 import org.n52.shetland.filter.ExpandFilter;
 import org.n52.shetland.filter.ExpandItem;
@@ -29,6 +29,7 @@ import org.n52.shetland.filter.SkipTopFilter;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.svalbard.odata.expr.Expr;
 import org.n52.svalbard.odata.expr.GeoValueExpr;
 import org.n52.svalbard.odata.expr.MemberExpr;
@@ -92,11 +93,12 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override public SkipTopFilter visitSkip(ODataQueryParserParser.SkipContext ctx) {
-        return new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, Long.parseLong(ctx.DecimalLiteral().getText()));
+        return new SkipTopFilter(FilterConstants.SkipTopOperator.Skip,
+                                 Long.parseLong(ctx.decimalLiteral().getText()));
     }
 
     @Override public SkipTopFilter visitTop(ODataQueryParserParser.TopContext ctx) {
-        return new SkipTopFilter(FilterConstants.SkipTopOperator.Top, Long.parseLong(ctx.DecimalLiteral().getText()));
+        return new SkipTopFilter(FilterConstants.SkipTopOperator.Top, Long.parseLong(ctx.decimalLiteral().getText()));
     }
 
     //TODO: check if we would like to also allow $count=false in the url
@@ -389,42 +391,50 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
 
     @Override public ArithmeticExpr visitYearMethodCallExpr(ODataQueryParserParser.YearMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Year_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitMonthMethodCallExpr(ODataQueryParserParser.MonthMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Month_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitDayMethodCallExpr(ODataQueryParserParser.DayMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Day_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitDaysMethodCallExpr(ODataQueryParserParser.DaysMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Days_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitHourMethodCallExpr(ODataQueryParserParser.HourMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Hour_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitMinuteMethodCallExpr(ODataQueryParserParser.MinuteMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Minute_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitSecondMethodCallExpr(ODataQueryParserParser.SecondMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Second_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitDateMethodCallExpr(ODataQueryParserParser.DateMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Date_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public ArithmeticExpr visitRoundMethodCallExpr(ODataQueryParserParser.RoundMethodCallExprContext ctx) {
@@ -455,7 +465,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     @Override
     public ArithmeticExpr visitTotalOffsetMinutesExpr(ODataQueryParserParser.TotalOffsetMinutesExprContext ctx) {
         return new MethodCallExpr(ctx.TotalOffsetMinutes_LLC().getText(),
-                                  visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  visitTemporalOrMemberOrISO8601Timestamp(ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public TextExpr visitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx) {
@@ -467,13 +477,14 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override
-    public TemporalExpr visitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) {
+    public TemporalExpr visitTemporalOrMemberOrISO8601Timestamp(
+            ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx) {
         if (ctx.temporalMethodCallExpr() != null) {
             return visitTemporalMethodCallExpr(ctx.temporalMethodCallExpr());
         } else if (ctx.memberExpr() != null) {
             return new TimeValueExpr(ctx.memberExpr().getText());
         } else {
-            return new TimeValueExpr(ctx.escapedString().escapedStringLiteral().getText());
+            return new TimeValueExpr(new TimeInstant(DateTime.parse(ctx.iso8601Timestamp().getText())));
         }
     }
 
@@ -486,7 +497,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override public TemporalExpr visitTimeExpr(ODataQueryParserParser.TimeExprContext ctx) {
-        return visitTemporalMethodCallExpr(ctx.temporalMethodCallExpr());
+        return visitTemporalOrMemberOrISO8601Timestamp(ctx.temporalOrMemberOrISO8601Timestamp());
     }
 
     @Override public GeoValueExpr visitGeoExpr(ODataQueryParserParser.GeoExprContext ctx) {
@@ -661,7 +672,8 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
 
     @Override public Object visitTimeMethodCallExpr(ODataQueryParserParser.TimeMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Time_LLC().getText(),
-                                  this.visitTemporalOrMemberOrString(ctx.temporalOrMemberOrString()));
+                                  this.visitTemporalOrMemberOrISO8601Timestamp(
+                                          ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
     @Override public MemberExpr visitMemberExpr(ODataQueryParserParser.MemberExprContext ctx) {

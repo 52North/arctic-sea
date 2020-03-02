@@ -14,15 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.oasis.odata.query.option;
+
+import org.n52.shetland.ogc.filter.FilterClause;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public interface FilterOption {
+public interface FilterOption extends FilterClause {
 
     /**
      * Returns the filter. Usually a Expr Object
+     *
      * @return the filter
      */
     Object getFilter();

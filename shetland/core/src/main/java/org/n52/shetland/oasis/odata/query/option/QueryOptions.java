@@ -27,6 +27,7 @@ import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -137,6 +138,17 @@ public class QueryOptions {
         return hasFilterOption() ? filterOption : null;
     }
 
+    @Override public int hashCode() {
+        return Objects.hash(baseURL,
+                            countOption,
+                            topOption,
+                            skipOption,
+                            orderByOption,
+                            selectOption,
+                            expandOption,
+                            filterOption);
+    }
+
     // BaseURI is not always set -> we need to compare each option individually
     @Override
     public boolean equals(Object o) {
@@ -151,12 +163,13 @@ public class QueryOptions {
                 && obj.hasSkipOption() == this.hasSkipOption()
                 && obj.hasTopOption() == this.hasTopOption()
                 && obj.hasFilterOption() == this.hasFilterOption()
-                && (obj.hasCountOption()) ? obj.getCountOption().equals(this.getCountOption()) : true
-                && (obj.hasOrderByOption()) ? obj.getOrderByOption().equals(this.getOrderByOption()) : true
-                && (obj.hasSelectOption()) ? obj.getSelectOption().equals(this.getSelectOption()) : true
-                && (obj.hasExpandOption()) ? obj.getExpandOption().equals(this.getExpandOption()) : true
-                && (obj.hasSkipOption()) ? obj.getSkipOption().equals(this.getSkipOption()) : true
-                && (obj.hasTopOption()) ? obj.getTopOption().equals(this.getTopOption()) : true
-                && (obj.hasFilterOption()) ? obj.getFilterOption().equals(this.getFilterOption()) : true;
+                && (obj.hasCountOption()) ? obj.getCountOption().equals(this.getCountOption()) :
+                (obj.hasOrderByOption()) ? obj.getOrderByOption().equals(this.getOrderByOption()) :
+                        (obj.hasSelectOption()) ? obj.getSelectOption().equals(this.getSelectOption()) :
+                                (obj.hasExpandOption()) ? obj.getExpandOption().equals(this.getExpandOption()) :
+                                        (obj.hasSkipOption()) ? obj.getSkipOption().equals(this.getSkipOption()) :
+                                                (obj.hasTopOption()) ? obj.getTopOption().equals(this.getTopOption()) :
+                                                        (!obj.hasFilterOption()) ||
+                                                                obj.getFilterOption().equals(this.getFilterOption());
     }
 }

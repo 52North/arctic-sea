@@ -26,15 +26,25 @@
  */
 lexer grammar STALexer;
 
-DecimalLiteral
-   : ('0' | '1' .. '9' '0' .. '9'*)
+Digit
+   : [0-9]
    ;
+
+Digit2 : Digit Digit ;
+Digit3 : Digit Digit Digit;
+Digit4 : Digit Digit Digit Digit ;
+Digit5 : Digit Digit Digit Digit Digit ;
+
+DigitPlus : ('0' | '1' .. '9' '0' .. '9'*) ;
+Digit2WithMillis: Digit2 DOT Digit3 ;
+
 
 FloatingPointLiteral
    : ('0' .. '9')+ '.' ('0' .. '9')* Exponent? FloatTypeSuffix?
    | '.' ('0' .. '9')+ Exponent? FloatTypeSuffix?
    | ('0' .. '9')+ Exponent FloatTypeSuffix?
    | ('0' .. '9')+ FloatTypeSuffix
+   | Digit2WithMillis
    ;
 
 fragment Exponent
@@ -180,6 +190,7 @@ TWO
 THREE
    : '3'
    ;
+
    // Query Options
    
 QO_COUNT
@@ -509,19 +520,18 @@ SRID_LLC
    ;
    // Fallbacks if nothing else matches
 
+T : 'T';
+Z : 'Z';
+
 Alpha
-   : [a-zA-Z]
+   : T | Z | Character
    ;
 
-Digit
-   : [0-9]
-   ;
+fragment
+Character : [a-zA-Z] ;
 
 AlphaPlus
    : [a-zA-Z]+
    ;
 
-Digit5
-   : Digit Digit Digit Digit Digit
-   ;
 

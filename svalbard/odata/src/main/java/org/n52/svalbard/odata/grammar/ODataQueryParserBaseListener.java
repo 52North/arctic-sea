@@ -344,13 +344,13 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) { }
+	@Override public void enterTemporalOrMemberOrISO8601Timestamp(ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTemporalOrMemberOrString(ODataQueryParserParser.TemporalOrMemberOrStringContext ctx) { }
+	@Override public void exitTemporalOrMemberOrISO8601Timestamp(ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -363,6 +363,30 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIso8601Timestamp(ODataQueryParserParser.Iso8601TimestampContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIso8601Timestamp(ODataQueryParserParser.Iso8601TimestampContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIso8601Timezone(ODataQueryParserParser.Iso8601TimezoneContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIso8601Timezone(ODataQueryParserParser.Iso8601TimezoneContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1023,6 +1047,18 @@ public class ODataQueryParserBaseListener implements ODataQueryParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitNumericLiteral(ODataQueryParserParser.NumericLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDecimalLiteral(ODataQueryParserParser.DecimalLiteralContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDecimalLiteral(ODataQueryParserParser.DecimalLiteralContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
