@@ -17,7 +17,8 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -150,6 +151,7 @@
         <version.mockito>3.2.4</version.mockito>
         <version.hamcrest>2.2</version.hamcrest>
         <version.elastic>7.5.2</version.elastic>
+        <version.httpcore>4.4.13</version.httpcore>
     </properties>
 
     <dependencyManagement>
@@ -166,7 +168,7 @@
                 <artifactId>shetland</artifactId>
                 <version>${project.version}</version>
             </dependency>
-             <dependency>
+            <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>shetland-rdf</artifactId>
                 <version>${project.version}</version>
@@ -379,12 +381,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${version.spring}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -418,7 +414,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.13</version>
+                <version>${version.httpcore}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore-nio</artifactId>
+                <version>${version.httpcore}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -552,17 +553,22 @@
             <dependency>
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
-                 <version>${version.elastic}</version>
+                <version>${version.elastic}</version>
             </dependency>
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-client</artifactId>
-                 <version>${version.elastic}</version>
+                <version>${version.elastic}</version>
             </dependency>
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                 <version>${version.elastic}</version>
+                <version>${version.elastic}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.allegro.tech</groupId>
+                <artifactId>embedded-elasticsearch</artifactId>
+                <version>2.10.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.lucene</groupId>
@@ -640,7 +646,6 @@
                 <version>${version.olingo}</version>
             </dependency>
 
-
             <!-- JSON -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -655,7 +660,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-               <version>${version.jackson}</version>
+                <version>${version.jackson}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -954,7 +959,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.jena</groupId>
                 <artifactId>jena-core</artifactId>
@@ -1003,6 +1008,11 @@
                         <requireMavenVersion>
                             <version>3.5.4</version>
                         </requireMavenVersion>
+                        <bannedDependencies>
+                            <excludes>
+                                <exclude>commons-logging:commons-logging</exclude>
+                            </excludes>
+                        </bannedDependencies>
                     </rules>
                 </configuration>
             </plugin>
