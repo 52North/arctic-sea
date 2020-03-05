@@ -29,7 +29,6 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @since 1.0.0
  *
  */
-@SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
 public final class JavaHelper {
 
     private JavaHelper() {
@@ -42,7 +41,7 @@ public final class JavaHelper {
      *                sensor description
      *
      * @return generated sensor id as hex SHA-256.
-     * @deprecated See {@link IdGenerator#generateID(String)}
+     * @deprecated See {@link IdGenerator#generate(String)}
      */
     @Deprecated
     public static String generateID(String message) {
@@ -115,6 +114,7 @@ public final class JavaHelper {
      *
      * @return Boolean value
      */
+    @SuppressFBWarnings("NP_BOOLEAN_RETURN_NULL")
     public static Boolean asBoolean(Object object) {
         if (object == null) {
             return null;
