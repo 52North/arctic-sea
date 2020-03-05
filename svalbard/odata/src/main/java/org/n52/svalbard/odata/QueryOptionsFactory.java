@@ -24,8 +24,8 @@ import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
-import org.n52.svalbard.odata.grammar.ODataQueryParserLexer;
-import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
 
 import java.util.Set;
 
@@ -34,14 +34,15 @@ import java.util.Set;
  */
 public class QueryOptionsFactory {
 
-    private ODataQueryParserLexer lexer;
-    private ODataQueryParserParser parser;
-    private ODataQueryVisitor visitor = new ODataQueryVisitor();
+    private STAQueryOptionsLexer lexer;
+    private STAQueryOptionsGrammar parser;
+    private STAQueryOptionVisitor visitor = new STAQueryOptionVisitor();
 
     //TODO: make nicer
     public QueryOptions createQueryOptions(String query) {
-        lexer = new ODataQueryParserLexer(new ANTLRInputStream(query));
-        parser = new ODataQueryParserParser(new CommonTokenStream(lexer));
+        System.out.println(query.trim());
+        lexer = new STAQueryOptionsLexer(new ANTLRInputStream(query.trim()));
+        parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
         parser.addErrorListener(new BaseErrorListener() {
             @Override
             public void syntaxError(Recognizer<?, ?> recognizer,
@@ -56,7 +57,7 @@ public class QueryOptionsFactory {
                                                                                                     .getType()), e);
             }
         });
-        return parser.queryOptions().<QueryOptions>accept(visitor);
+        return parser.queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
     }
 
     public QueryOptions createQueryOptions(Set<FilterClause> filters) {

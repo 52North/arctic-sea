@@ -45,8 +45,8 @@ import org.n52.svalbard.odata.expr.binary.BooleanUnaryExpr;
 import org.n52.svalbard.odata.expr.binary.ComparisonExpr;
 import org.n52.svalbard.odata.expr.temporal.TemporalExpr;
 import org.n52.svalbard.odata.expr.temporal.TimeValueExpr;
-import org.n52.svalbard.odata.grammar.ODataQueryParserBaseVisitor;
-import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammarBaseVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -57,17 +57,17 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
+public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
 
-    @Override public QueryOptions visitQueryOptions(ODataQueryParserParser.QueryOptionsContext ctx) {
+    @Override public QueryOptions visitQueryOptions(STAQueryOptionsGrammar.QueryOptionsContext ctx) {
         Set<FilterClause> qops = new HashSet<>();
-        for (ODataQueryParserParser.SystemQueryOptionContext systemQueryOptionContext : ctx.systemQueryOption()) {
+        for (STAQueryOptionsGrammar.SystemQueryOptionContext systemQueryOptionContext : ctx.systemQueryOption()) {
             qops.add(this.visitSystemQueryOption(systemQueryOptionContext));
         }
         return new QueryOptions("", qops);
     }
 
-    @Override public FilterClause visitSystemQueryOption(ODataQueryParserParser.SystemQueryOptionContext ctx) {
+    @Override public FilterClause visitSystemQueryOption(STAQueryOptionsGrammar.SystemQueryOptionContext ctx) {
         if (ctx.count() != null) {
             return this.visitCount(ctx.count());
         }
@@ -92,62 +92,62 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         return null;
     }
 
-    @Override public SkipTopFilter visitSkip(ODataQueryParserParser.SkipContext ctx) {
+    @Override public SkipTopFilter visitSkip(STAQueryOptionsGrammar.SkipContext ctx) {
         return new SkipTopFilter(FilterConstants.SkipTopOperator.Skip,
                                  Long.parseLong(ctx.decimalLiteral().getText()));
     }
 
-    @Override public SkipTopFilter visitTop(ODataQueryParserParser.TopContext ctx) {
+    @Override public SkipTopFilter visitTop(STAQueryOptionsGrammar.TopContext ctx) {
         return new SkipTopFilter(FilterConstants.SkipTopOperator.Top, Long.parseLong(ctx.decimalLiteral().getText()));
     }
 
     //TODO: check if we would like to also allow $count=false in the url
-    @Override public CountFilter visitCount(ODataQueryParserParser.CountContext ctx) {
+    @Override public CountFilter visitCount(STAQueryOptionsGrammar.CountContext ctx) {
         return new CountFilter(true);
     }
 
-    @Override public SelectFilter visitSelect(ODataQueryParserParser.SelectContext ctx) {
+    @Override public SelectFilter visitSelect(STAQueryOptionsGrammar.SelectContext ctx) {
         Set<String> pathFilterItems = new HashSet<>();
-        for (ODataQueryParserParser.SelectItemContext selectItemContext : ctx.selectItem()) {
+        for (STAQueryOptionsGrammar.SelectItemContext selectItemContext : ctx.selectItem()) {
             pathFilterItems.add(visitSelectItem(selectItemContext));
         }
         return new SelectFilter(pathFilterItems);
     }
 
-    @Override public String visitSelectItem(ODataQueryParserParser.SelectItemContext ctx) {
+    @Override public String visitSelectItem(STAQueryOptionsGrammar.SelectItemContext ctx) {
         return ctx.getText();
     }
 
-    @Override public OrderByFilter visitOrderby(ODataQueryParserParser.OrderbyContext ctx) {
+    @Override public OrderByFilter visitOrderby(STAQueryOptionsGrammar.OrderbyContext ctx) {
         List<OrderProperty> orderProperties = new ArrayList<>();
-        for (ODataQueryParserParser.OrderbyItemContext orderbyItemContext : ctx.orderbyItem()) {
+        for (STAQueryOptionsGrammar.OrderbyItemContext orderbyItemContext : ctx.orderbyItem()) {
             orderProperties.add(this.visitOrderbyItem(orderbyItemContext));
         }
         return new OrderByFilter(orderProperties);
     }
 
-    @Override public OrderProperty visitOrderbyItem(ODataQueryParserParser.OrderbyItemContext ctx) {
-        if (ctx.Asc_LLC() != null) {
+    @Override public OrderProperty visitOrderbyItem(STAQueryOptionsGrammar.OrderbyItemContext ctx) {
+        if (ctx.ASC_LLC() != null) {
             return new OrderProperty(ctx.memberExpr().getText(), FilterConstants.SortOrder.ASC);
-        } else if (ctx.Desc_LLC() != null) {
+        } else if (ctx.DESC_LLC() != null) {
             return new OrderProperty(ctx.memberExpr().getText(), FilterConstants.SortOrder.DESC);
         } else {
             return new OrderProperty(ctx.memberExpr().getText());
         }
     }
 
-    @Override public ExpandFilter visitExpand(ODataQueryParserParser.ExpandContext ctx) {
+    @Override public ExpandFilter visitExpand(STAQueryOptionsGrammar.ExpandContext ctx) {
         Set<ExpandItem> expandItems = new HashSet<>();
-        for (ODataQueryParserParser.ExpandItemContext expandItemContext : ctx.expandItem()) {
+        for (STAQueryOptionsGrammar.ExpandItemContext expandItemContext : ctx.expandItem()) {
             expandItems.add(this.visitExpandItem(expandItemContext));
         }
         return new ExpandFilter(expandItems);
     }
 
-    @Override public ExpandItem visitExpandItem(ODataQueryParserParser.ExpandItemContext ctx) {
+    @Override public ExpandItem visitExpandItem(STAQueryOptionsGrammar.ExpandItemContext ctx) {
         if (!ctx.systemQueryOption().isEmpty()) {
             Set<FilterClause> options = new HashSet<>();
-            for (ODataQueryParserParser.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
+            for (STAQueryOptionsGrammar.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
                 options.add(this.visitSystemQueryOption(expandQueryOptions));
             }
             return new ExpandItem(ctx.memberExpr().getText(), new QueryOptions("", options));
@@ -155,23 +155,23 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
             // Rewrite slash to normal expand systemQueryOption
             if (!ctx.memberExpr().SLASH().isEmpty()) {
                 QueryOptions base = new QueryOptions("", null);
-                for (int i = ctx.memberExpr().AlphaPlus().size() - 1; i >= 1; i--) {
-                    ExpandItem expandItem = new ExpandItem(ctx.memberExpr().AlphaPlus(i).getText(), base);
+                for (int i = ctx.memberExpr().ALPHAPLUS().size() - 1; i >= 1; i--) {
+                    ExpandItem expandItem = new ExpandItem(ctx.memberExpr().ALPHAPLUS(i).getText(), base);
                     ExpandFilter expandFilter = new ExpandFilter(expandItem);
                     base = new QueryOptions("", Collections.singleton(expandFilter));
                 }
-                return new ExpandItem(ctx.memberExpr().AlphaPlus(0).getText(), base);
+                return new ExpandItem(ctx.memberExpr().ALPHAPLUS(0).getText(), base);
             } else {
                 return new ExpandItem(ctx.getText(), new QueryOptions("", null));
             }
         }
     }
 
-    @Override public FilterFilter visitFilter(ODataQueryParserParser.FilterContext ctx) {
+    @Override public FilterFilter visitFilter(STAQueryOptionsGrammar.FilterContext ctx) {
         return new FilterFilter(this.visitBoolExpr(ctx.boolExpr()));
     }
 
-    @Override public BooleanExpr visitBoolExpr(ODataQueryParserParser.BoolExprContext ctx) {
+    @Override public BooleanExpr visitBoolExpr(STAQueryOptionsGrammar.BoolExprContext ctx) {
         BooleanExpr left = null;
 
         if (ctx.boolMethodCallExpr() != null) {
@@ -236,7 +236,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         }
     }
 
-    @Override public Expr visitAnyExpr(ODataQueryParserParser.AnyExprContext ctx) {
+    @Override public Expr visitAnyExpr(STAQueryOptionsGrammar.AnyExprContext ctx) {
         //TODO!!!
         // anyExpr
         //   : memberExpr
@@ -264,7 +264,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         return null;
     }
 
-    @Override public ArithmeticExpr visitArithmeticExpr(ODataQueryParserParser.ArithmeticExprContext ctx) {
+    @Override public ArithmeticExpr visitArithmeticExpr(STAQueryOptionsGrammar.ArithmeticExprContext ctx) {
         // arithmeticExpr
         //   : (OP (SP)*)? (numericLiteral | memberExpr | negateExpr | arithmeticMethodCallExpr) (addExpr | subExpr |
         //   mulExpr | divExpr | modExpr)? (OP (SP)*)?
@@ -306,7 +306,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override
-    public ArithmeticExpr visitArithmeticMethodCallExpr(ODataQueryParserParser.ArithmeticMethodCallExprContext ctx) {
+    public ArithmeticExpr visitArithmeticMethodCallExpr(STAQueryOptionsGrammar.ArithmeticMethodCallExprContext ctx) {
         for (int i = 0; i < ctx.getChildCount(); i++) {
             if (ctx.getChild(i) != null) {
                 return ctx.getChild(i).<ArithmeticExpr>accept(this);
@@ -316,159 +316,159 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         return null;
     }
 
-    @Override public BooleanExpr visitNotExpr(ODataQueryParserParser.NotExprContext ctx) {
+    @Override public BooleanExpr visitNotExpr(STAQueryOptionsGrammar.NotExprContext ctx) {
         return this.visitBoolExpr(ctx.boolExpr());
     }
 
     //TODO: check if we need to do something here to preserve precedence or if we can just leave out parentheses and
     // precedence is given due to nested context
-    @Override public BooleanExpr visitBoolParenExpr(ODataQueryParserParser.BoolParenExprContext ctx) {
+    @Override public BooleanExpr visitBoolParenExpr(STAQueryOptionsGrammar.BoolParenExprContext ctx) {
         return this.visitBoolExpr(ctx.boolExpr());
     }
 
-    @Override public BooleanExpr visitAndExpr(ODataQueryParserParser.AndExprContext ctx) {
+    @Override public BooleanExpr visitAndExpr(STAQueryOptionsGrammar.AndExprContext ctx) {
         return this.visitBoolExpr(ctx.boolExpr());
     }
 
-    @Override public BooleanExpr visitOrExpr(ODataQueryParserParser.OrExprContext ctx) {
+    @Override public BooleanExpr visitOrExpr(STAQueryOptionsGrammar.OrExprContext ctx) {
         return this.visitBoolExpr(ctx.boolExpr());
     }
 
-    @Override public Expr visitEqExpr(ODataQueryParserParser.EqExprContext ctx) {
+    @Override public Expr visitEqExpr(STAQueryOptionsGrammar.EqExprContext ctx) {
         return this.visitAnyExpr(ctx.anyExpr());
     }
 
-    @Override public Expr visitNeExpr(ODataQueryParserParser.NeExprContext ctx) {
+    @Override public Expr visitNeExpr(STAQueryOptionsGrammar.NeExprContext ctx) {
         return this.visitAnyExpr(ctx.anyExpr());
     }
 
-    @Override public Expr visitLtExpr(ODataQueryParserParser.LtExprContext ctx) {
+    @Override public Expr visitLtExpr(STAQueryOptionsGrammar.LtExprContext ctx) {
         return this.visitAnyExpr(ctx.anyExpr());
     }
 
-    @Override public Expr visitLeExpr(ODataQueryParserParser.LeExprContext ctx) {
+    @Override public Expr visitLeExpr(STAQueryOptionsGrammar.LeExprContext ctx) {
         return this.visitAnyExpr(ctx.anyExpr());
     }
 
-    @Override public Expr visitGtExpr(ODataQueryParserParser.GtExprContext ctx) {
+    @Override public Expr visitGtExpr(STAQueryOptionsGrammar.GtExprContext ctx) {
         return this.visitAnyExpr(ctx.anyExpr());
     }
 
-    @Override public Expr visitGeExpr(ODataQueryParserParser.GeExprContext ctx) {
+    @Override public Expr visitGeExpr(STAQueryOptionsGrammar.GeExprContext ctx) {
         return this.visitAnyExpr(ctx.anyExpr());
     }
 
-    @Override public ArithmeticExpr visitAddExpr(ODataQueryParserParser.AddExprContext ctx) {
+    @Override public ArithmeticExpr visitAddExpr(STAQueryOptionsGrammar.AddExprContext ctx) {
         return this.visitArithmeticExpr(ctx.arithmeticExpr());
     }
 
-    @Override public ArithmeticExpr visitSubExpr(ODataQueryParserParser.SubExprContext ctx) {
+    @Override public ArithmeticExpr visitSubExpr(STAQueryOptionsGrammar.SubExprContext ctx) {
         return this.visitArithmeticExpr(ctx.arithmeticExpr());
     }
 
-    @Override public ArithmeticExpr visitMulExpr(ODataQueryParserParser.MulExprContext ctx) {
+    @Override public ArithmeticExpr visitMulExpr(STAQueryOptionsGrammar.MulExprContext ctx) {
         return this.visitArithmeticExpr(ctx.arithmeticExpr());
     }
 
-    @Override public ArithmeticExpr visitDivExpr(ODataQueryParserParser.DivExprContext ctx) {
+    @Override public ArithmeticExpr visitDivExpr(STAQueryOptionsGrammar.DivExprContext ctx) {
         return this.visitArithmeticExpr(ctx.arithmeticExpr());
     }
 
-    @Override public ArithmeticExpr visitModExpr(ODataQueryParserParser.ModExprContext ctx) {
+    @Override public ArithmeticExpr visitModExpr(STAQueryOptionsGrammar.ModExprContext ctx) {
         return this.visitArithmeticExpr(ctx.arithmeticExpr());
     }
 
-    @Override public ArithmeticExpr visitLengthMethodCallExpr(ODataQueryParserParser.LengthMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitLengthMethodCallExpr(STAQueryOptionsGrammar.LengthMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Length_LLC().getText(), this.visitTextOrMember(ctx.textOrMember()));
     }
 
     @Override
-    public ArithmeticExpr visitIndexOfMethodCallExpr(ODataQueryParserParser.IndexOfMethodCallExprContext ctx) {
+    public ArithmeticExpr visitIndexOfMethodCallExpr(STAQueryOptionsGrammar.IndexOfMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.IndexOf_LLC().getText(),
                                   this.visitTextOrMember(ctx.textOrMember(0)),
                                   this.visitTextOrMember(ctx.textOrMember(1)));
     }
 
-    @Override public ArithmeticExpr visitYearMethodCallExpr(ODataQueryParserParser.YearMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitYearMethodCallExpr(STAQueryOptionsGrammar.YearMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Year_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitMonthMethodCallExpr(ODataQueryParserParser.MonthMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitMonthMethodCallExpr(STAQueryOptionsGrammar.MonthMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Month_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitDayMethodCallExpr(ODataQueryParserParser.DayMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitDayMethodCallExpr(STAQueryOptionsGrammar.DayMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Day_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitDaysMethodCallExpr(ODataQueryParserParser.DaysMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitDaysMethodCallExpr(STAQueryOptionsGrammar.DaysMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Days_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitHourMethodCallExpr(ODataQueryParserParser.HourMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitHourMethodCallExpr(STAQueryOptionsGrammar.HourMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Hour_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitMinuteMethodCallExpr(ODataQueryParserParser.MinuteMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitMinuteMethodCallExpr(STAQueryOptionsGrammar.MinuteMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Minute_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitSecondMethodCallExpr(ODataQueryParserParser.SecondMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitSecondMethodCallExpr(STAQueryOptionsGrammar.SecondMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Second_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitDateMethodCallExpr(ODataQueryParserParser.DateMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitDateMethodCallExpr(STAQueryOptionsGrammar.DateMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Date_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public ArithmeticExpr visitRoundMethodCallExpr(ODataQueryParserParser.RoundMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitRoundMethodCallExpr(STAQueryOptionsGrammar.RoundMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Round_LLC().getText(), visitArithmeticExpr(ctx.arithmeticExpr()));
     }
 
-    @Override public ArithmeticExpr visitFloorMethodCallExpr(ODataQueryParserParser.FloorMethodCallExprContext ctx) {
+    @Override public ArithmeticExpr visitFloorMethodCallExpr(STAQueryOptionsGrammar.FloorMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Floor_LLC().getText(), visitArithmeticExpr(ctx.arithmeticExpr()));
     }
 
     @Override
-    public ArithmeticExpr visitCeilingMethodCallExpr(ODataQueryParserParser.CeilingMethodCallExprContext ctx) {
+    public ArithmeticExpr visitCeilingMethodCallExpr(STAQueryOptionsGrammar.CeilingMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Ceiling_LLC().getText(), visitArithmeticExpr(ctx.arithmeticExpr()));
     }
 
     @Override
-    public ArithmeticExpr visitDistanceMethodCallExpr(ODataQueryParserParser.DistanceMethodCallExprContext ctx) {
+    public ArithmeticExpr visitDistanceMethodCallExpr(STAQueryOptionsGrammar.DistanceMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.GeoDotDistance_LLC().getText(),
                                   this.visitGeoOrMember(ctx.geoOrMember(0)),
                                   this.visitGeoOrMember(ctx.geoOrMember(1)));
     }
 
     @Override
-    public ArithmeticExpr visitGeoLengthMethodCallExpr(ODataQueryParserParser.GeoLengthMethodCallExprContext ctx) {
+    public ArithmeticExpr visitGeoLengthMethodCallExpr(STAQueryOptionsGrammar.GeoLengthMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.GeoLength_LLC().getText(), visitGeoOrMember(ctx.geoOrMember()));
     }
 
     @Override
-    public ArithmeticExpr visitTotalOffsetMinutesExpr(ODataQueryParserParser.TotalOffsetMinutesExprContext ctx) {
+    public ArithmeticExpr visitTotalOffsetMinutesExpr(STAQueryOptionsGrammar.TotalOffsetMinutesExprContext ctx) {
         return new MethodCallExpr(ctx.TotalOffsetMinutes_LLC().getText(),
                                   visitTemporalOrMemberOrISO8601Timestamp(ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public TextExpr visitTextOrMember(ODataQueryParserParser.TextOrMemberContext ctx) {
+    @Override public TextExpr visitTextOrMember(STAQueryOptionsGrammar.TextOrMemberContext ctx) {
         if (ctx.textExpr() != null) {
             return this.visitTextExpr(ctx.textExpr());
         } else {
@@ -478,7 +478,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
 
     @Override
     public TemporalExpr visitTemporalOrMemberOrISO8601Timestamp(
-            ODataQueryParserParser.TemporalOrMemberOrISO8601TimestampContext ctx) {
+            STAQueryOptionsGrammar.TemporalOrMemberOrISO8601TimestampContext ctx) {
         if (ctx.temporalMethodCallExpr() != null) {
             return visitTemporalMethodCallExpr(ctx.temporalMethodCallExpr());
         } else if (ctx.memberExpr() != null) {
@@ -488,7 +488,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         }
     }
 
-    @Override public GeoValueExpr visitGeoOrMember(ODataQueryParserParser.GeoOrMemberContext ctx) {
+    @Override public GeoValueExpr visitGeoOrMember(STAQueryOptionsGrammar.GeoOrMemberContext ctx) {
         if (ctx.geoExpr() != null) {
             return new GeoValueExpr(ctx.geoExpr().getText());
         } else {
@@ -496,23 +496,23 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         }
     }
 
-    @Override public TemporalExpr visitTimeExpr(ODataQueryParserParser.TimeExprContext ctx) {
+    @Override public TemporalExpr visitTimeExpr(STAQueryOptionsGrammar.TimeExprContext ctx) {
         return visitTemporalOrMemberOrISO8601Timestamp(ctx.temporalOrMemberOrISO8601Timestamp());
     }
 
-    @Override public GeoValueExpr visitGeoExpr(ODataQueryParserParser.GeoExprContext ctx) {
+    @Override public GeoValueExpr visitGeoExpr(STAQueryOptionsGrammar.GeoExprContext ctx) {
         return new GeoValueExpr(ctx.getText());
     }
 
-    @Override public TextExpr visitTextExpr(ODataQueryParserParser.TextExprContext ctx) {
+    @Override public TextExpr visitTextExpr(STAQueryOptionsGrammar.TextExprContext ctx) {
         if (ctx.escapedString() != null) {
-            return new StringValueExpr(ctx.escapedString().escapedStringLiteral().getText());
+            return new StringValueExpr(ctx.escapedString().getText());
         } else {
             return visitTextMethodCallExpr(ctx.textMethodCallExpr());
         }
     }
 
-    @Override public BooleanExpr visitBoolMethodCallExpr(ODataQueryParserParser.BoolMethodCallExprContext ctx) {
+    @Override public BooleanExpr visitBoolMethodCallExpr(STAQueryOptionsGrammar.BoolMethodCallExprContext ctx) {
         // boolMethodCallExpr
         //   : endsWithMethodCallExpr
         //   | startsWithMethodCallExpr
@@ -537,93 +537,93 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         return null;
     }
 
-    @Override public BooleanExpr visitEndsWithMethodCallExpr(ODataQueryParserParser.EndsWithMethodCallExprContext ctx) {
+    @Override public BooleanExpr visitEndsWithMethodCallExpr(STAQueryOptionsGrammar.EndsWithMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.EndsWith_LLC().getText(),
                                   visitTextOrMember(ctx.textOrMember(0)),
                                   visitTextOrMember(ctx.textOrMember(1)));
     }
 
     @Override
-    public BooleanExpr visitStartsWithMethodCallExpr(ODataQueryParserParser.StartsWithMethodCallExprContext ctx) {
+    public BooleanExpr visitStartsWithMethodCallExpr(STAQueryOptionsGrammar.StartsWithMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.StartsWith_LLC().getText(),
                                   visitTextOrMember(ctx.textOrMember(0)),
                                   visitTextOrMember(ctx.textOrMember(1)));
     }
 
     @Override
-    public BooleanExpr visitSubstringOfMethodCallExpr(ODataQueryParserParser.SubstringOfMethodCallExprContext ctx) {
+    public BooleanExpr visitSubstringOfMethodCallExpr(STAQueryOptionsGrammar.SubstringOfMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.SubStringOf_LLC().getText(),
                                   visitTextOrMember(ctx.textOrMember(0)),
                                   visitTextOrMember(ctx.textOrMember(1)));
     }
 
     @Override
-    public BooleanExpr visitIntersectsMethodCallExpr(ODataQueryParserParser.IntersectsMethodCallExprContext ctx) {
+    public BooleanExpr visitIntersectsMethodCallExpr(STAQueryOptionsGrammar.IntersectsMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.GeoDotIntersects_LLC().getText(),
                                   visitGeoOrMember(ctx.geoOrMember(0)),
                                   visitGeoOrMember(ctx.geoOrMember(1)));
     }
 
-    @Override public Object visitSt_equalsMethodCallExpr(ODataQueryParserParser.St_equalsMethodCallExprContext ctx) {
+    @Override public Object visitSt_equalsMethodCallExpr(STAQueryOptionsGrammar.St_equalsMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_equals_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
     @Override
-    public Object visitSt_disjointMethodCallExpr(ODataQueryParserParser.St_disjointMethodCallExprContext ctx) {
+    public Object visitSt_disjointMethodCallExpr(STAQueryOptionsGrammar.St_disjointMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_disjoint_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
-    @Override public Object visitSt_touchesMethodCallExpr(ODataQueryParserParser.St_touchesMethodCallExprContext ctx) {
+    @Override public Object visitSt_touchesMethodCallExpr(STAQueryOptionsGrammar.St_touchesMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_touches_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
-    @Override public Object visitSt_withinMethodCallExpr(ODataQueryParserParser.St_withinMethodCallExprContext ctx) {
+    @Override public Object visitSt_withinMethodCallExpr(STAQueryOptionsGrammar.St_withinMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_within_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
     @Override
-    public Object visitSt_overlapsMethodCallExpr(ODataQueryParserParser.St_overlapsMethodCallExprContext ctx) {
+    public Object visitSt_overlapsMethodCallExpr(STAQueryOptionsGrammar.St_overlapsMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_overlaps_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
-    @Override public Object visitSt_crossesMethodCallExpr(ODataQueryParserParser.St_crossesMethodCallExprContext ctx) {
+    @Override public Object visitSt_crossesMethodCallExpr(STAQueryOptionsGrammar.St_crossesMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_crosses_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
     @Override
-    public Object visitSt_intersectsMethodCallExpr(ODataQueryParserParser.St_intersectsMethodCallExprContext ctx) {
+    public Object visitSt_intersectsMethodCallExpr(STAQueryOptionsGrammar.St_intersectsMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_intersects_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
     @Override
-    public Object visitSt_containsMethodCallExpr(ODataQueryParserParser.St_containsMethodCallExprContext ctx) {
+    public Object visitSt_containsMethodCallExpr(STAQueryOptionsGrammar.St_containsMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_contains_LLC().getText(),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(0)),
                                   visitGeoOrMember(ctx.st_commonMethodCallExpr().geoOrMember(1)));
     }
 
-    @Override public Object visitSt_relateMethodCallExpr(ODataQueryParserParser.St_relateMethodCallExprContext ctx) {
+    @Override public Object visitSt_relateMethodCallExpr(STAQueryOptionsGrammar.St_relateMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ST_relate_LLC().getText(),
                                   visitGeoOrMember(ctx.geoOrMember(0)),
                                   visitGeoOrMember(ctx.geoOrMember(1)),
-                                  new StringValueExpr(ctx.escapedString().escapedStringLiteral().getText()));
+                                  new StringValueExpr(ctx.escapedString().getText()));
     }
 
-    @Override public TextExpr visitTextMethodCallExpr(ODataQueryParserParser.TextMethodCallExprContext ctx) {
+    @Override public TextExpr visitTextMethodCallExpr(STAQueryOptionsGrammar.TextMethodCallExprContext ctx) {
         // textMethodCallExpr
         //   :
         //   | toLowerMethodCallExpr
@@ -642,7 +642,7 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
     }
 
     @Override
-    public TemporalExpr visitTemporalMethodCallExpr(ODataQueryParserParser.TemporalMethodCallExprContext ctx) {
+    public TemporalExpr visitTemporalMethodCallExpr(STAQueryOptionsGrammar.TemporalMethodCallExprContext ctx) {
         //temporalMethodCallExpr
         //   : timeMethodCallExpr
         //   | nowDate
@@ -658,56 +658,56 @@ public class ODataQueryVisitor extends ODataQueryParserBaseVisitor {
         return null;
     }
 
-    @Override public Object visitNowDate(ODataQueryParserParser.NowDateContext ctx) {
+    @Override public Object visitNowDate(STAQueryOptionsGrammar.NowDateContext ctx) {
         return new MethodCallExpr(ctx.Now_LLC().getText());
     }
 
-    @Override public Object visitMinDate(ODataQueryParserParser.MinDateContext ctx) {
+    @Override public Object visitMinDate(STAQueryOptionsGrammar.MinDateContext ctx) {
         return new MethodCallExpr(ctx.MinDateTime_LLC().getText());
     }
 
-    @Override public Object visitMaxDate(ODataQueryParserParser.MaxDateContext ctx) {
+    @Override public Object visitMaxDate(STAQueryOptionsGrammar.MaxDateContext ctx) {
         return new MethodCallExpr(ctx.MaxDateTime_LLC().getText());
     }
 
-    @Override public Object visitTimeMethodCallExpr(ODataQueryParserParser.TimeMethodCallExprContext ctx) {
+    @Override public Object visitTimeMethodCallExpr(STAQueryOptionsGrammar.TimeMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Time_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));
     }
 
-    @Override public MemberExpr visitMemberExpr(ODataQueryParserParser.MemberExprContext ctx) {
+    @Override public MemberExpr visitMemberExpr(STAQueryOptionsGrammar.MemberExprContext ctx) {
         return new MemberExpr(ctx.getText());
     }
 
     @Override
-    public TextExpr visitToLowerMethodCallExpr(ODataQueryParserParser.ToLowerMethodCallExprContext ctx) {
+    public TextExpr visitToLowerMethodCallExpr(STAQueryOptionsGrammar.ToLowerMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ToLower_LLC().getText(), visitTextOrMember(ctx.textOrMember()));
     }
 
     @Override
-    public TextExpr visitToUpperMethodCallExpr(ODataQueryParserParser.ToUpperMethodCallExprContext ctx) {
+    public TextExpr visitToUpperMethodCallExpr(STAQueryOptionsGrammar.ToUpperMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.ToUpper_LLC().getText(), visitTextOrMember(ctx.textOrMember()));
     }
 
-    @Override public TextExpr visitTrimMethodCallExpr(ODataQueryParserParser.TrimMethodCallExprContext ctx) {
+    @Override public TextExpr visitTrimMethodCallExpr(STAQueryOptionsGrammar.TrimMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Trim_LLC().getText(), visitTextOrMember(ctx.textOrMember()));
     }
 
     @Override
-    public TextExpr visitSubstringMethodCallExpr(ODataQueryParserParser.SubstringMethodCallExprContext ctx) {
+    public TextExpr visitSubstringMethodCallExpr(STAQueryOptionsGrammar.SubstringMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Substring_LLC().getText(),
                                   visitTextOrMember(ctx.textOrMember()),
                                   visitArithmeticExpr(ctx.arithmeticExpr()));
     }
 
-    @Override public TextExpr visitConcatMethodCallExpr(ODataQueryParserParser.ConcatMethodCallExprContext ctx) {
+    @Override public TextExpr visitConcatMethodCallExpr(STAQueryOptionsGrammar.ConcatMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Concat_LLC().getText(),
                                   visitTextOrMember(ctx.textOrMember(0)),
                                   visitTextOrMember(ctx.textOrMember(1)));
     }
 
-    @Override public Expr visitParenExpr(ODataQueryParserParser.ParenExprContext ctx) {
+    @Override public Expr visitParenExpr(STAQueryOptionsGrammar.ParenExprContext ctx) {
         return visitAnyExpr(ctx.anyExpr());
     }
 }

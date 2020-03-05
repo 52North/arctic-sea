@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
@@ -21,10 +22,8 @@ import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
-import org.n52.shetland.oasis.odata.ODataConstants;
-import org.n52.shetland.oasis.odata.ODataConstants.QueryOptions;
-import org.n52.svalbard.odata.grammar.ODataQueryParserLexer;
-import org.n52.svalbard.odata.grammar.ODataQueryParserParser;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
+import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
 
 /**
  * Test Harness with common functionality for all OData Query Option Tests
@@ -35,12 +34,13 @@ public abstract class QueryOptionTests {
 
     protected final String EQ = "=";
 
-    protected ODataQueryParserLexer lexer;
-    protected ODataQueryParserParser parser;
+    protected STAQueryOptionsLexer lexer;
+    protected STAQueryOptionsGrammar parser;
 
     protected void init(String query) {
-        lexer = new ODataQueryParserLexer(new ANTLRInputStream(query));
-        parser = new ODataQueryParserParser(new CommonTokenStream(lexer));
+        System.out.println(query.trim());
+        lexer = new STAQueryOptionsLexer(new ANTLRInputStream(query.trim()));
+        parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
         parser.addErrorListener(new BaseErrorListener() {
             @Override
             public void syntaxError(Recognizer<?, ?> recognizer,

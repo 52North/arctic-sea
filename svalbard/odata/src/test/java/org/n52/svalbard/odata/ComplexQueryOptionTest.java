@@ -50,7 +50,7 @@ public class ComplexQueryOptionTest extends QueryOptionTests {
                      + "Observations($filter=result eq 1;$expand=FeatureOfInterest;$select=id;$orderby=id;"
                      + "$skip=5;$top=10;$count=true),ObservedProperty");
         QueryOptions options =
-                (QueryOptions) parser.queryOptions().accept(new ODataQueryVisitor());
+                (QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor());
         Assertions.assertTrue(options.hasExpandOption());
         Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
         Set<ExpandItem> items = (options.getExpandOption().getItems());
@@ -111,7 +111,7 @@ public class ComplexQueryOptionTest extends QueryOptionTests {
                      + EQ
                      + "Datastreams/Sensors/Datastreams");
         QueryOptions options =
-                (QueryOptions) parser.queryOptions().accept(new ODataQueryVisitor());
+                (QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor());
         Assertions.assertTrue(options.hasExpandOption());
         Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
 

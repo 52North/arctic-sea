@@ -24,12 +24,11 @@
  * modified by Jan Speckamp <j.speckamp@52north.org>
  * ----------------------------------------------------------------------------
  */
-grammar ODataQueryParser;
+parser grammar STAQueryOptionsGrammar;
 
-import ODataLexer;
-
+options { tokenVocab = STAQueryOptionsLexer; }
 queryOptions
-   : systemQueryOption (AMPERSAND systemQueryOption)* EOF
+   : systemQueryOption? (AMPERSAND systemQueryOption)* EOF
    ;
 
 systemQueryOption
@@ -43,7 +42,7 @@ systemQueryOption
    ;
 
 count
-   : QO_COUNT EQ True_LLC
+   : QO_COUNT EQ (True_LLC | False_LLC)
    ;
 
 expand
@@ -63,7 +62,7 @@ orderby
    ;
 
 orderbyItem
-   : memberExpr (SP (Asc_LLC | Desc_LLC))?
+   : memberExpr (SP (ASC_LLC | DESC_LLC))?
    ;
 
 skip
@@ -79,7 +78,7 @@ select
    ;
 
 selectItem
-   : AlphaPlus
+   : ALPHAPLUS
    ;
 /* ----------------------------------------------------------------------------
  * 3. Expressions
@@ -115,7 +114,7 @@ arithmeticExpr
 timeExpr
    : temporalOrMemberOrISO8601Timestamp
    ;
-   
+
 textExpr
    : escapedString
    | textMethodCallExpr
@@ -139,12 +138,11 @@ geoExpr
    ;
 
 memberExpr
-   : AlphaPlus (SLASH AlphaPlus)*
+   : ALPHAPLUS (SLASH ALPHAPLUS)*
    ;
 
 textMethodCallExpr
-   :
-   | toLowerMethodCallExpr
+   : toLowerMethodCallExpr
    | toUpperMethodCallExpr
    | trimMethodCallExpr
    | substringMethodCallExpr
@@ -206,10 +204,12 @@ geoOrMember
    ;
 
 iso8601Timestamp
-   : Digit4 MINUS Digit2 MINUS Digit2 T Digit2 COLON Digit2 COLON (Digit2 | Digit2WithMillis) iso8601Timezone ;
+   : DIGIT4MINUS DIGIT2 MINUS DIGIT2 T DIGIT2 COLON DIGIT2 COLON (DIGIT2 | (DIGIT2 DOT DIGIT3)) iso8601Timezone
+   ;
 
 iso8601Timezone
-   : Z | (PLUS | MINUS) Digit2 (COLON Digit2)?
+   : Z
+   | SIGN DIGIT2 (COLON DIGIT2)?
    ;
 
 substringMethodCallExpr
@@ -432,20 +432,20 @@ negateExpr
    
 numericLiteral
    : decimalLiteral
-   | FloatingPointLiteral
+   | FILTER_FloatingPointLiteral
    ;
-   
-decimalLiteral : Digit | Digit2 | Digit3 | Digit4 | Digit5 | DigitPlus ;
+
+decimalLiteral
+   : DIGIT
+   | DIGITPLUS
+   ;
 
 escapedString
-   : SQ escapedStringLiteral SQ
+   : LITERAL
+   | DIGIT
+   | DIGITPLUS
    ;
-   
-escapedStringLiteral
-  : (SP | Alpha | AlphaPlus | STAR | COMMA | SEMI | decimalLiteral | FloatingPointLiteral)*
-  ;
-   //TODO: possibly expand this to allow for more diverse characters (e.g. special characters).
-   
+
 geographyCollection
    : geographyPrefix fullCollectionLiteral SQ
    ;
@@ -529,7 +529,7 @@ fullPointLiteral
    ;
 
 sridLiteral
-   : SRID_LLC EQ (Digit5)+ SEMI
+   : SRID_LLC EQ DIGIT5 SEMI
    ;
 
 pointLiteral
@@ -546,7 +546,7 @@ positionLiteral
    //TODO: add validation that coordinates are in possible range e.g. <=180
    
 coordinate
-   : (MINUS)? (FloatingPointLiteral | decimalLiteral)
+   : (MINUS)? (decimalLiteral DOT decimalLiteral | decimalLiteral)
    ;
 
 geographyPolygon
@@ -598,10 +598,10 @@ geometryPolygon
    ;
 
 geographyPrefix
-   : Geography_LLC SQ
+   : Geography_LLC
    ;
 
 geometryPrefix
-   : Geometry_LLC SQ
+   : Geometry_LLC
    ;
 

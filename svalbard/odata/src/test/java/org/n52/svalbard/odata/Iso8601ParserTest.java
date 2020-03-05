@@ -14,12 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.svalbard.odata.expr.binary.ComparisonExpr;
 import org.n52.svalbard.odata.expr.temporal.TimeValueExpr;
 
 /**
@@ -35,32 +38,32 @@ public class Iso8601ParserTest extends QueryOptionTests {
         init("201-06-01T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-0-01T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-0T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T0:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:0:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:00:0");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
     }
 
@@ -69,27 +72,27 @@ public class Iso8601ParserTest extends QueryOptionTests {
         init("2010-06-0100:00:00Z");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-0100:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-0100:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-0100:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
     }
 
@@ -99,42 +102,42 @@ public class Iso8601ParserTest extends QueryOptionTests {
         init("");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("201006-01T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-0601T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T0000:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:00.00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00!0000");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:0000");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:0000");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
 
     }
@@ -145,102 +148,123 @@ public class Iso8601ParserTest extends QueryOptionTests {
         init("20111-06-01T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-011-01T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-011T00:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T011:00:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:011:00");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
         init("2010-06-01T00:00:011");
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.timeExpr().accept(new STAQueryOptionVisitor())
         );
     }
 
     @Test
     public void testInvalidTimezone() {
+        String date, data;
         // May not have malformed timezone
-        // Can't be tested because timeExpr() does not match EOL and last digit is therefore not tokenized
-        //        init("2010-06-01T00:00:00Z2");
-        //        Object accept = parser.timeExpr().accept(new ODataQueryVisitor());
-        //        Assertions.assertThrows(
-        //                Exception.class,
-        //                () -> parser.timeExpr().accept(new ODataQueryVisitor())
-        //        );
-        // Can't be tested because timeExpr() does not match EOL and last digit is therefore not tokenized
-        //        init("2010-06-01T00:00:00Z+02:00");
-        //        Assertions.assertThrows(
-        //                Exception.class,
-        //                () -> parser.timeExpr().accept(new ODataQueryVisitor())
-        //        );
-        init("2010-06-01T00:00:00~02:00");
+        date = "2010-06-01T00:00:00Z2";
+        data = "$filter=phenomenonTime eq " + date;
+        init(data);
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
         );
-        init("2010-06-01T00:00:00+-02:00");
+
+        date = "2010-06-01T00:00:00Z+02:00";
+        data = "$filter=phenomenonTime eq " + date;
+        init(data);
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
         );
-        init("2010-06-01T00:00:00+222:00");
+        date = "2010-06-01T00:00:00~02:00";
+        data = "$filter=phenomenonTime eq " + date;
+        init(data);
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
         );
-        init("2010-06-01T00:00:00-02:002");
+        date = "2010-06-01T00:00:00+-02:00";
+        data = "$filter=phenomenonTime eq " + date;
+        init(data);
         Assertions.assertThrows(
                 Exception.class,
-                () -> parser.timeExpr().accept(new ODataQueryVisitor())
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
+        date = "2010-06-01T00:00:00+222:00";
+        data = "$filter=phenomenonTime eq " + date;
+        init(data);
+        Assertions.assertThrows(
+                Exception.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
+        date = "2010-06-01T00:00:00-02:002";
+        data = "$filter=phenomenonTime eq " + date;
+        init(data);
+        Assertions.assertThrows(
+                Exception.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
         );
     }
 
     @Test
     public void testValidDate() {
         TimeInstant reference, actual;
-        String data;
-        // Default Timezon
-        data = "2010-06-01T00:00:00Z";
+        String data, date;
+        // Default Timezone
+        date = "2010-06-01T00:00:00Z";
+        data = "$filter=phenomenonTime eq " + date;
         init(data);
-        actual = (TimeInstant) ((TimeValueExpr) parser.timeExpr().accept(new ODataQueryVisitor())).getTime();
-        reference = new TimeInstant(DateTime.parse(data));
+        actual = getTimeFromQueryOptions(parser.queryOptions().accept(new STAQueryOptionVisitor()));
+        reference = new TimeInstant(DateTime.parse(date));
         Assertions.assertEquals(reference,
                                 actual,
                                 ERROR_NOT_EQUAL);
 
         // Specify timezone
-        data = "2010-06-01T00:00:00+02:00";
+        date = "2010-06-01T00:00:00+02:00";
+        data = "$filter=phenomenonTime eq " + date;
         init(data);
-        actual = (TimeInstant) ((TimeValueExpr) parser.timeExpr().accept(new ODataQueryVisitor())).getTime();
-        reference = new TimeInstant(DateTime.parse(data));
+        actual = getTimeFromQueryOptions(parser.queryOptions().accept(new STAQueryOptionVisitor()));
+        reference = new TimeInstant(DateTime.parse(date));
         Assertions.assertEquals(reference,
                                 actual,
                                 ERROR_NOT_EQUAL);
 
         // Specify millis
-        data = "2010-06-01T00:00:00.123+02:00";
+        date = "2010-06-01T00:00:00.123+02:00";
+        data = "$filter=phenomenonTime eq " + date;
         init(data);
-        actual = (TimeInstant) ((TimeValueExpr) parser.timeExpr().accept(new ODataQueryVisitor())).getTime();
-        reference = new TimeInstant(DateTime.parse(data));
+        actual = getTimeFromQueryOptions(parser.queryOptions().accept(new STAQueryOptionVisitor()));
+        reference = new TimeInstant(DateTime.parse(date));
         Assertions.assertEquals(reference,
                                 actual,
                                 ERROR_NOT_EQUAL);
+    }
+
+    private TimeInstant getTimeFromQueryOptions(Object queryOptions) {
+        return (TimeInstant) (
+                (TimeValueExpr) (
+                        (ComparisonExpr) ((QueryOptions) queryOptions).getFilterOption().getFilter()).getRight())
+                .getTime();
     }
 }

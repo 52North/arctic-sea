@@ -17,77 +17,57 @@
 package org.n52.svalbard.odata;
 
 /**
+ * List of all Function call examples from the official OGC Standard spec. Amended with additional common calls.
+ *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 public interface TestConstants {
 
     String[] EXAMPLE_FUNCTIONS = {
-            "substringof('Sensor Things',description)",
-            "endswith(description,'Things')",
-            "startswith(description,'Sensor')",
-            "length(description) eq 13",
-            "indexof(description,'Sensor') eq 1",
-            "substring(description,1) eq 'ensor Things'",
-            "tolower(description) eq 'sensor things'",
-            "toupper(description) eq 'SENSOR THINGS'",
-            "trim(description) eq 'Sensor Things'",
-            "concat(concat(unitOfMeasurement/symbol,', '), unitOfMeasurement/name) eq 'degree, Celsius'",
-            "year(resultTime) eq 2015",
-            "month(resultTime) eq 12",
-            "day(resultTime) eq 8",
-            "hour(resultTime) eq 1",
-            "minute(resultTime) eq 0",
-            "second(resultTime) eq 0",
-            "second(resultTime) eq 0",
-            "date(resultTime) ne date(validTime)",
-            "time(resultTime) le validTime",
-            "totaloffsetminutes(resultTime) eq 60",
-            "resultTime ge now()",
-            "resultTime eq mindatetime()",
-            "resultTime eq maxdatetime()",
-            "round(result) eq 32",
-            "floor(result) eq 32",
-            "ceiling(result) eq 33",
-            "geo.distance(location, geography'POINT (30 10) ') eq 52",
-            "geo.length(geography'LINESTRING (30 10, 10 30, 40 40) ') eq 52",
-            "geo.intersects(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
-            "st_equals(location, geography'POINT (30 10)')",
-            "st_disjoint(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
-            "st_touches(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
-            "st_within(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
-            "st_overlaps(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
-            "st_crosses(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
-            "st_intersects(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
-            "st_contains(location, geography'POINT (30 10)')",
-            "st_relate(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))', 'T********')"
-    };
-
-    String[] EXAMPLE_QUERIES = {
-//            "$expand=Datastreams",
-//            "$expand=Datastreams/ObservedProperty ",
-//            "$expand=Observations,ObservedProperty ",
-//            "$expand=Observations($filter=result eq 1)",
-//            "$expand=Observations($select=result)",
-//            "$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime",
-//
-//            "$select=result,resultTime",
-//            "$select=id,Observations&$expand=Observations/FeatureOfInterest",
-//
-//            "$orderby=result",
-//
-//            "$top=5",
-//            "$top=5&$orderby=phenomenonTime%20desc",
-//
-//            "$skip=5",
-//
-//            "$count=true",
-//
-//            "$filter=unitOfMeasurement/name eq 'degree Celsius'",
-//            "$filter=unitOfMeasurement/name ne 'degree Celsius'",
-//            "$filter=result gt 20.0",
-//            "$filter=result ge 20.0",
-//            "$filter=result lt 100",
-//            "$filter=result le 100",
+            "$filter=substringof('Sensor Things',description)",
+            "$filter=endswith(description,'Things')",
+            "$filter=startswith(description,'Sensor')",
+            "$filter=length(description) eq 13",
+            "$filter=indexof(description,'Sensor') eq 1",
+            "$filter=substring(description,1) eq 'ensor Things'",
+            "$filter=tolower(description) eq 'sensor things'",
+            "$filter=toupper(description) eq 'SENSOR THINGS'",
+            "$filter=trim(description) eq 'Sensor Things'",
+            "$filter=concat(concat(unitOfMeasurement/symbol,', '), unitOfMeasurement/name) eq 'degree, Celsius'",
+            "$filter=year(resultTime) eq 2015",
+            "$filter=month(resultTime) eq 12",
+            "$filter=day(resultTime) eq 8",
+            "$filter=hour(resultTime) eq 1",
+            "$filter=minute(resultTime) eq 0",
+            "$filter=second(resultTime) eq 0",
+            "$filter=second(resultTime) eq 0",
+            "$filter=date(resultTime) ne date(validTime)",
+            "$filter=time(resultTime) le validTime",
+            "$filter=totaloffsetminutes(resultTime) eq 60",
+            "$filter=resultTime ge now()",
+            "$filter=resultTime eq mindatetime()",
+            "$filter=resultTime eq maxdatetime()",
+            "$filter=round(result) eq 32",
+            "$filter=floor(result) eq 32",
+            "$filter=ceiling(result) eq 33",
+            "$filter=geo.distance(location, geography'POINT (30 10) ') eq 52",
+            "$filter=geo.length(geography'LINESTRING (30 10, 10 30, 40 40) ') eq 52",
+            "$filter=geo.intersects(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
+            "$filter=st_equals(location, geography'POINT (30 10)')",
+            "$filter=st_disjoint(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
+            "$filter=st_touches(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
+            "$filter=st_within(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
+            "$filter=st_overlaps(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))')",
+            "$filter=st_crosses(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
+            "$filter=st_intersects(location, geography'LINESTRING (30 10, 10 30, 40 40)')",
+            "$filter=st_contains(location, geography'POINT (30 10)')",
+            "$filter=st_relate(location, geography'POLYGON ((30 10, 10 20, 20 40, 40 40, 30 10))', 'T********')",
+            "$filter=unitOfMeasurement/name eq 'degree Celsius'",
+            "$filter=unitOfMeasurement/name ne 'degree Celsius'",
+            "$filter=result gt 20.0",
+            "$filter=result ge 20.0",
+            "$filter=result lt 100",
+            "$filter=result le 100",
             "$filter=result le 3.5 and FeatureOfInterest/id eq '1'",
             "$filter=result gt 20 or result le 3.5",
             "$filter=not startswith(description,'test')",
@@ -97,8 +77,32 @@ public interface TestConstants {
             "$filter=result div 2 gt 4",
             "$filter=result mod 2 eq 0",
             "$filter=(result sub 5) gt 10",
-
             "$filter=geo.distance(Locations/location, geography'POINT(-122 43)') gt 1",
-            "$expand=Observations($filter=result eq 1) ",
+
+            "$select=result,resultTime",
+            "$select=id,Observations&$expand=Observations/FeatureOfInterest",
+
+            "$orderby=result",
+
+            "$top=5",
+            "$top=5&$orderby=phenomenonTime desc",
+
+            "$skip=5",
+
+            "$count=true",
+            "$count=false",
+            "$count=true&$top=1",
+
+            "$expand=Observations($filter=result eq 1)",
+            "$expand=Datastreams",
+            "$expand=Datastreams/ObservedProperty ",
+            "$expand=Observations,ObservedProperty ",
+            "$expand=Observations($filter=result eq 1)",
+            "$expand=Observations($select=result)",
+            "$expand=Observations($top=52)",
+            "$expand=Observations($skip=52)",
+            "$expand=Observations($expand=result)",
+            "$expand=Observations($orderby=result asc)",
+            "$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime",
     };
 }
