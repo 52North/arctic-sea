@@ -55,7 +55,7 @@ public class GetCapabilitiesRequest
      * @return accept Formats
      */
     public List<String> getAcceptFormats() {
-        return acceptFormats == null ? null : Collections.unmodifiableList(acceptFormats);
+        return Collections.unmodifiableList(acceptFormats);
     }
 
     /**
@@ -77,7 +77,7 @@ public class GetCapabilitiesRequest
      * @return accept versions
      */
     public List<String> getAcceptVersions() {
-        return acceptVersions == null ? null : Collections.unmodifiableList(acceptVersions);
+        return Collections.unmodifiableList(acceptVersions);
     }
 
     public void setAcceptVersions(List<String> acceptVersions) {
@@ -99,7 +99,7 @@ public class GetCapabilitiesRequest
      * @return sections
      */
     public List<String> getSections() {
-        return sections == null ? null : Collections.unmodifiableList(sections);
+        return Collections.unmodifiableList(sections);
     }
 
     /**
