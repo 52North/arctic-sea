@@ -204,15 +204,16 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
 
     @Override
     public List<CsdlSchema> getSchemas() throws ODataException {
-        return Collections.singletonList(new CsdlSchema()
-                                                 .setNamespace(NS_OM)
-                                                 .setComplexTypes(Arrays.asList(getComplexType(FQN.ABSTRACT_TIME_OBJECT),
-                                                                                getComplexType(FQN.TIME_INSTANT),
-                                                                                getComplexType(FQN.TIME_PERIOD),
-                                                                                getComplexType(FQN.RESULT),
-                                                                                getComplexType(FQN.FEATURE_OF_INTEREST)))
-                                                 .setEntityTypes(Arrays.asList(getEntityType(FQN.OBSERVATION)))
-                                                 .setEntityContainer(getEntityContainer()));
+        return Collections.singletonList(
+                new CsdlSchema()
+                        .setNamespace(NS_OM)
+                        .setComplexTypes(Arrays.asList(getComplexType(FQN.ABSTRACT_TIME_OBJECT),
+                                                       getComplexType(FQN.TIME_INSTANT),
+                                                       getComplexType(FQN.TIME_PERIOD),
+                                                       getComplexType(FQN.RESULT),
+                                                       getComplexType(FQN.FEATURE_OF_INTEREST)))
+                        .setEntityTypes(Arrays.asList(getEntityType(FQN.OBSERVATION)))
+                        .setEntityContainer(getEntityContainer()));
     }
 
     @Override
@@ -254,13 +255,17 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
     }
 
     private static CsdlComplexType newAbstractComplexType(FullQualifiedName name, CsdlProperty... properties) {
-        return new CsdlComplexType().setOpenType(true).setAbstract(true).setName(name.getName()).setProperties(Arrays
-                                                                                                                       .asList(properties));
+        return new CsdlComplexType().setOpenType(true)
+                                    .setAbstract(true)
+                                    .setName(name.getName())
+                                    .setProperties(Arrays.asList(properties));
     }
 
     private static CsdlComplexType newComplexType(FullQualifiedName name, CsdlProperty... properties) {
-        return new CsdlComplexType().setOpenType(true).setAbstract(false).setName(name.getName()).setProperties(Arrays
-                                                                                                                        .asList(properties));
+        return new CsdlComplexType().setOpenType(true)
+                                    .setAbstract(false)
+                                    .setName(name.getName())
+                                    .setProperties(Arrays.asList(properties));
     }
 
     private static CsdlComplexType newComplexType(FullQualifiedName name, FullQualifiedName base,
