@@ -647,7 +647,6 @@
                 <version>${version.olingo}</version>
             </dependency>
 
-<<<<<<< HEAD
             <!-- Svalbard Odata Query Expression Parsing-->
             <dependency>
                 <groupId>org.antlr</groupId>
@@ -660,8 +659,7 @@
                 <version>${version.antlr4}</version>
             </dependency>
 
-=======
->>>>>>> origin/master
+
             <!-- JSON -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
