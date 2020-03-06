@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
+ * Tests all examples directly referenced in the official STA Standard.
+ *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 public class ExampleQueryOptionTest extends QueryOptionTests implements TestConstants {

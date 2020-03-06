@@ -74,7 +74,8 @@ public class ComplexQueryOptionTest extends QueryOptionTests {
                                                                 new MemberExpr("result"),
                                                                 new NumericValueExpr("1"))));
 
-                filters.add(new ExpandFilter(new ExpandItem("FeatureOfInterest", null)));
+                filters.add(new ExpandFilter(
+                        new ExpandItem("FeatureOfInterest", new QueryOptions("", null))));
                 filters.add(new SelectFilter("id"));
                 filters.add(new OrderByFilter(new OrderProperty("id")));
                 filters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, 5L));

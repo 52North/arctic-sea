@@ -54,6 +54,15 @@ public class ExpandFilter implements FilterClause, ExpandOption {
             return false;
         }
 
-        return this.getItems().equals(((ExpandFilter) o).getItems());
+        if (this.getItems().size() == ((ExpandFilter) o).getItems().size()) {
+            for (ExpandItem item : this.getItems()) {
+                if (!((ExpandFilter) o).getItems().contains(item)) {
+                    return false;
+                }
+            }
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -163,12 +163,12 @@ public class QueryOptions {
                 && obj.hasSkipOption() == this.hasSkipOption()
                 && obj.hasTopOption() == this.hasTopOption()
                 && obj.hasFilterOption() == this.hasFilterOption()
-                && obj.hasCountOption() && obj.getCountOption().equals(this.getCountOption())
-                && obj.hasOrderByOption() && obj.getOrderByOption().equals(this.getOrderByOption())
-                && obj.hasSelectOption() && obj.getSelectOption().equals(this.getSelectOption())
-                && obj.hasExpandOption() && obj.getExpandOption().equals(this.getExpandOption())
-                && obj.hasSkipOption() && obj.getSkipOption().equals(this.getSkipOption())
-                && obj.hasTopOption() && obj.getTopOption().equals(this.getTopOption())
-                && obj.hasFilterOption() && obj.getFilterOption().equals(this.getFilterOption());
+                && (!obj.hasCountOption() || obj.getCountOption().equals(this.getCountOption()))
+                && (!obj.hasOrderByOption() || obj.getOrderByOption().equals(this.getOrderByOption()))
+                && (!obj.hasSelectOption() || obj.getSelectOption().equals(this.getSelectOption()))
+                && (!obj.hasExpandOption() || obj.getExpandOption().equals(this.getExpandOption()))
+                && (!obj.hasSkipOption() || obj.getSkipOption().equals(this.getSkipOption()))
+                && (!obj.hasTopOption() || obj.getTopOption().equals(this.getTopOption()))
+                && (!obj.hasFilterOption() || obj.getFilterOption().equals(this.getFilterOption()));
     }
 }
