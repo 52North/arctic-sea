@@ -137,9 +137,20 @@ This project includes:
   mchange-commons-java under GNU Lesser General Public License, Version 2.1 or Eclipse Public License, Version 1.0
   Mozilla Rhino under Mozilla Public License, Version 2.0
   Neo Visionaries Internationalization Package under The Apache Software License, Version 2.0
+  Netty/Buffer under Apache License, Version 2.0
+  Netty/Codec under Apache License, Version 2.0
+  Netty/Codec/HTTP under Apache License, Version 2.0
+  Netty/Common under Apache License, Version 2.0
+  Netty/Handler under Apache License, Version 2.0
+  Netty/Resolver under Apache License, Version 2.0
+  Netty/Transport under Apache License, Version 2.0
   null under Lesser General Public License, version 3 or greater or Apache Software License, version 2.0
   OASIS WS-N specification schemas - including WS-BrokeredNotification (v1.3) under The Apache Software License, Version 2.0
   OASIS WS-Resources specification schemas v1.2 under The Apache Software License, Version 2.0
+  odata-commons-api under The Apache Software License, Version 2.0
+  odata-commons-core under The Apache Software License, Version 2.0
+  odata-server-api under The Apache Software License, Version 2.0
+  odata-server-core under The Apache Software License, Version 2.0
   OGC Filter schema (spec. v2.0) under The Apache Software License, Version 2.0
   OGC GML Coverage schema (spec. v1.0) under The Apache Software License, Version 2.0
   OGC GML schema (spec. v3.1.1) under The Apache Software License, Version 2.0
