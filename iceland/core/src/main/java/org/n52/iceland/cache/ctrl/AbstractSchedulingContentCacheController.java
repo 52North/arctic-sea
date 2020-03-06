@@ -121,10 +121,8 @@ public abstract class AbstractSchedulingContentCacheController implements Conten
     }
 
     private void cancelTimer() {
-        if (this.timer != null) {
-            this.timer.cancel();
-            LOGGER.debug("Cache Update timer canceled.");
-        }
+        this.timer.cancel();
+        LOGGER.debug("Cache Update timer canceled.");
     }
 
     @Override

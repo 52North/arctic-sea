@@ -40,7 +40,7 @@ public class ParameterHolder {
 
     @SuppressWarnings("unchecked")
     public <T> Optional<Value<T>> getParameter(String name) {
-        if (this.parameter == null) {
+        if (name == null || !name.isEmpty()) {
             return Optional.empty();
         }
         return this.parameter.stream()

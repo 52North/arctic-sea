@@ -29,7 +29,3 @@ after_success:
 cache:
   directories:
   - "$HOME/.m2"
-notifications:
-  slack:
-    rooms:
-      secure: HdORchpRBg2B2XdamwsWh2GDtKbk0+PuGPaqfgW+mhUa0pkZmFrpUDc9NXPjwPiosBd/Xn2PhuFPBhP8UqGj5jvxOSnMed0lsJ6z1EbnbeGXQ1zRrQ5EtWwfoGao2TnteFfjc8aQHkV3q0IYWwELjUuOta2gS9CFaQiyRODVFpwOl/73ddCfgJgONDjaAjIKGeuWMcS2UUY6BjdnX+k0kBC5jzk/yYs85U+kQ4ZQ6SPLueRIDZH/zrtmaAzLzlrmzIDneypls+W2jPa79CYch9spFNEh7Rq+Y3EKN3/WmTVydQiucuPr0BDqcTx1BYrNCQOTKvBZJB9I5IOKay0/o/ZL4rYgE7yqnVsBmZc9Ir19BxZp4CrwjX/hI2hTP7BXT2jgoidepUba6wUn1TLt5cUgIx215nCsRTiIi+pkNa0hvLHufG9tZC2OvFczAngdducI/zv+oMT6acQD5V0gERxsb7lboudkcNLfMPPmlnO+T+FuO73k9Bhf7O0/kGpKmS3JBk/ZXfNaGHthvB3MAvtba+BrAgxI5pZxkritmu+iE/s10bbiOAIZXRZDHaJBvvVtMJLpHBJS82BTe3jja5Imi/E9R75DHzhl41I8hv0+nNa5xS8+y6SJnm2Y9kAO+YWVl+8zRDIHmNkMUGqbaLM34NOwFtMsHdhyH3TQQcw=

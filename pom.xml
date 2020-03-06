@@ -17,13 +17,14 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.n52</groupId>
         <artifactId>parent</artifactId>
-        <version>16</version>
+        <version>18</version>
     </parent>
 
     <groupId>org.n52.arctic-sea</groupId>
@@ -134,7 +135,7 @@
 
     <properties>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <version.spring>5.2.3.RELEASE</version.spring>
+        <version.spring>5.2.4.RELEASE</version.spring>
         <version.slf4j>1.7.30</version.slf4j>
         <version.xmlbeans>3.1.0</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
@@ -145,11 +146,12 @@
         <version.javax-annotation-api>1.3.2</version.javax-annotation-api>
         <version.javax-xml-soap>1.4.0</version.javax-xml-soap>
         <version.jena>3.14.0</version.jena>
-        <version.jackson>2.10.2</version.jackson>
+        <version.jackson>2.10.3</version.jackson>
         <version.junit>5.6.0</version.junit>
-        <version.mockito>3.2.4</version.mockito>
+        <version.mockito>3.3.0</version.mockito>
         <version.hamcrest>2.2</version.hamcrest>
-        <version.elastic>7.5.2</version.elastic>
+        <version.httpcore>4.4.13</version.httpcore>
+        <version.elastic>7.6.1</version.elastic>
         <version.antlr4>4.8</version.antlr4>
     </properties>
 
@@ -167,7 +169,7 @@
                 <artifactId>shetland</artifactId>
                 <version>${project.version}</version>
             </dependency>
-             <dependency>
+            <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>shetland-rdf</artifactId>
                 <version>${project.version}</version>
@@ -315,7 +317,7 @@
             <dependency>
                 <groupId>org.geolatte</groupId>
                 <artifactId>geolatte-geom</artifactId>
-                <version>1.4.0</version>
+                <version>1.5.0</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.locationtech.jts</groupId>
@@ -380,12 +382,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-test</artifactId>
                 <version>${version.spring}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>commons-logging</groupId>
-                        <artifactId>commons-logging</artifactId>
-                    </exclusion>
-                </exclusions>
             </dependency>
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -419,7 +415,12 @@
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpcore</artifactId>
-                <version>4.4.13</version>
+                <version>${version.httpcore}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpcore-nio</artifactId>
+                <version>${version.httpcore}</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
@@ -528,7 +529,7 @@
             <dependency>
                 <groupId>net.sf.saxon</groupId>
                 <artifactId>Saxon-HE</artifactId>
-                <version>9.9.1-6</version>
+                <version>9.9.1-7</version>
             </dependency>
 
 
@@ -553,17 +554,22 @@
             <dependency>
                 <groupId>org.elasticsearch</groupId>
                 <artifactId>elasticsearch</artifactId>
-                 <version>${version.elastic}</version>
+                <version>${version.elastic}</version>
             </dependency>
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-client</artifactId>
-                 <version>${version.elastic}</version>
+                <version>${version.elastic}</version>
             </dependency>
             <dependency>
                 <groupId>org.elasticsearch.client</groupId>
                 <artifactId>elasticsearch-rest-high-level-client</artifactId>
-                 <version>${version.elastic}</version>
+                <version>${version.elastic}</version>
+            </dependency>
+            <dependency>
+                <groupId>pl.allegro.tech</groupId>
+                <artifactId>embedded-elasticsearch</artifactId>
+                <version>2.10.0</version>
             </dependency>
             <dependency>
                 <groupId>org.apache.lucene</groupId>
@@ -573,12 +579,12 @@
             <dependency>
                 <groupId>com.maxmind.db</groupId>
                 <artifactId>maxmind-db</artifactId>
-                <version>1.3.0</version>
+                <version>1.3.1</version>
             </dependency>
             <dependency>
                 <groupId>com.maxmind.geoip2</groupId>
                 <artifactId>geoip2</artifactId>
-                <version>2.13.0</version>
+                <version>2.13.1</version>
                 <exclusions>
                     <exclusion>
                         <groupId>commons-logging</groupId>
@@ -641,6 +647,7 @@
                 <version>${version.olingo}</version>
             </dependency>
 
+<<<<<<< HEAD
             <!-- Svalbard Odata Query Expression Parsing-->
             <dependency>
                 <groupId>org.antlr</groupId>
@@ -653,6 +660,8 @@
                 <version>${version.antlr4}</version>
             </dependency>
 
+=======
+>>>>>>> origin/master
             <!-- JSON -->
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -667,7 +676,7 @@
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-               <version>${version.jackson}</version>
+                <version>${version.jackson}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.datatype</groupId>
@@ -966,7 +975,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.apache.jena</groupId>
                 <artifactId>jena-core</artifactId>
@@ -1015,6 +1024,11 @@
                         <requireMavenVersion>
                             <version>3.5.4</version>
                         </requireMavenVersion>
+                        <bannedDependencies>
+                            <excludes>
+                                <exclude>commons-logging:commons-logging</exclude>
+                            </excludes>
+                        </bannedDependencies>
                     </rules>
                 </configuration>
             </plugin>
@@ -1098,6 +1112,14 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.sun.istack</groupId>
+                        <artifactId>istack-commons-runtime</artifactId>
+                        <version>3.0.10</version>
+                        <scope>runtime</scope>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
