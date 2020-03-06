@@ -14,19 +14,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr;
 
 import org.n52.svalbard.odata.core.expr.arithmetic.ArithmeticExpr;
 import org.n52.svalbard.odata.core.expr.binary.BooleanExpr;
 import org.n52.svalbard.odata.core.expr.temporal.TemporalExpr;
 
-import static java.util.stream.Collectors.joining;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+
+import static java.util.stream.Collectors.joining;
 
 /**
  * Class to hold a method call expression.
@@ -52,7 +53,7 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
     /**
      * Create a new {@code MethodCallExpr}.
      *
-     * @param name       the method name
+     * @param name      the method name
      * @param parameter the parameter
      */
     public MethodCallExpr(String name, Expr... parameter) {
@@ -90,7 +91,8 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", this.name, this.parameters.stream().map(Expr::toString).collect(joining(", ")));
+        return String.format("%s(%s)", this.name,
+                             this.parameters.stream().map(Expr::toString).collect(joining(", ")));
     }
 
     @Override

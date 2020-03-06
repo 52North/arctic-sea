@@ -14,7 +14,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr;
+
+import java.util.Optional;
 
 /**
  * Interface for TextExpressions that can be represented directly by a String.
@@ -24,4 +27,8 @@ package org.n52.svalbard.odata.core.expr;
 public interface DirectTextExpr extends TextExpr {
 
     String getValue();
+
+    default Optional<TextExpr> asTextValue() {
+        return Optional.of(this);
+    }
 }

@@ -43,7 +43,6 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.io.ParseException;
 import org.locationtech.jts.io.WKTReader;
-import org.n52.janmayen.Optionals;
 import org.n52.shetland.ogc.filter.BinaryLogicFilter;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.filter.Filter;
@@ -224,11 +223,15 @@ public class ODataFesParser
      * @return the member-value-pair
      */
     private static Optional<MemberValueExprPair> getMemberValuePair(Expr first, Expr second) {
-        return Optionals.or(first.asMember(), second.asMember())
-                        .flatMap(member -> Optionals.or(first.asTextValue(), first.asTextValue())
-                                                    .map(value -> new MemberValueExprPair(member,
-                                                                                          value)));
-
+        if (first.asMember().isPresent()) {
+            MemberExpr member = first.asMember().get();
+            Optional<TextExpr> valueOpt = second.asTextValue();
+            return valueOpt.map(textExpr -> new MemberValueExprPair(member, textExpr));
+        } else {
+            MemberExpr member = second.asMember().get();
+            Optional<TextExpr> valueOpt = first.asTextValue();
+            return valueOpt.map(textExpr -> new MemberValueExprPair(member, textExpr));
+        }
     }
 
     /**
@@ -708,7 +711,8 @@ public class ODataFesParser
          * @throws T if the visit fails
          */
         @Override public Expr visitString(StringValueExpr expr) throws T {
-            return null;
+            String value = expr.getValue();
+            return new StringValueExpr(value);
         }
 
         /**
@@ -753,11 +757,6 @@ public class ODataFesParser
          */
         @Override public Expr visitNumeric(NumericValueExpr expr) throws T {
             return null;
-        }
-
-        public Expr visitValue(StringValueExpr expr) {
-            String value = expr.getValue();
-            return new StringValueExpr(value);
         }
     }
 
