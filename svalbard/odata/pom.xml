@@ -28,7 +28,6 @@
     <artifactId>svalbard-odata</artifactId>
     <name>52°North Svalbard OData</name>
     <dependencies>
-        <!--
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -37,8 +36,6 @@
             <groupId>org.locationtech.jts</groupId>
             <artifactId>jts-core</artifactId>
         </dependency>
-
-        -->
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>shetland</artifactId>
@@ -47,7 +44,6 @@
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
-        <!--
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>svalbard</artifactId>
@@ -78,7 +74,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
@@ -119,13 +114,11 @@
             <artifactId>hamcrest</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <scope>test</scope>
         </dependency>
-        -->
     </dependencies>
 
     <build>
@@ -158,6 +151,13 @@
                 <configuration>
                     <consoleOutput>true</consoleOutput>
                     <excludes>**/org/n52/svalbard/odata/grammar/*.java</excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <onlyAnalyze>org.n52.svalbard.odata.core.*</onlyAnalyze>
                 </configuration>
             </plugin>
         </plugins>

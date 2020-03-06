@@ -40,7 +40,7 @@ public class FilterFilter implements FilterOption, FilterClause {
     }
 
     @Override public int hashCode() {
-        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.expr
+        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.core.expr
         // For now always returns true
         return Objects.hash("FilterFilter");
     }
@@ -54,7 +54,7 @@ public class FilterFilter implements FilterOption, FilterClause {
             return false;
         }
 
-        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.expr
+        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.core.expr
         // For now always returns true
         return true;
     }
