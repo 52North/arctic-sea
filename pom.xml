@@ -152,6 +152,7 @@
         <version.hamcrest>2.2</version.hamcrest>
         <version.httpcore>4.4.13</version.httpcore>
         <version.elastic>7.6.1</version.elastic>
+        <version.maven-javadoc-plugin>3.2.0</version.maven-javadoc-plugin>
     </properties>
 
     <dependencyManagement>
@@ -1106,6 +1107,15 @@
                 </dependencies>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${version.maven-javadoc-plugin}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
     <profiles>
         <profile>
