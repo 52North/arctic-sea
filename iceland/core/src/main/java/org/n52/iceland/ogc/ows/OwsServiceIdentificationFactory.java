@@ -176,37 +176,28 @@ public class OwsServiceIdentificationFactory
     }
 
     private MultilingualString getAbstract(Locale locale) {
-        if (this.abstrakt.hasLocale(locale)) {
-            return this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
-        } else {
-            MultilingualString multilingualString = new MultilingualString();
-            for (Locale eqLocale : LocaleHelper.getEquivalents(locale)) {
-                if (this.abstrakt.hasLocale(eqLocale)) {
-                    for (LocalizedString ls : this.abstrakt.filter(eqLocale, defaultLocale, showAllLanguageValues)) {
-                        multilingualString.addLocalization(new LocalizedString(locale, ls.getText()));
-                    }
-                    return multilingualString;
-                }
-            }
-        }
-        return this.abstrakt.filter(locale, defaultLocale, showAllLanguageValues);
+        return filter(this.abstrakt, locale);
     }
 
     private MultilingualString getTitle(Locale locale) {
-        if (this.title.hasLocale(locale)) {
-            return this.title.filter(locale, defaultLocale, showAllLanguageValues);
-        } else {
+        return filter(this.title, locale);
+    }
+
+    private MultilingualString filter(MultilingualString ms, Locale locale) {
+        if (ms.hasLocale(locale)) {
+            return ms.filter(locale, defaultLocale, showAllLanguageValues);
+        } else if (locale != null) {
             MultilingualString multilingualString = new MultilingualString();
             for (Locale eqLocale : LocaleHelper.getEquivalents(locale)) {
-                if (this.title.hasLocale(eqLocale)) {
-                    for (LocalizedString ls : this.title.filter(eqLocale, defaultLocale, showAllLanguageValues)) {
+                if (ms.hasLocale(eqLocale)) {
+                    for (LocalizedString ls : ms.filter(eqLocale, defaultLocale, showAllLanguageValues)) {
                         multilingualString.addLocalization(new LocalizedString(locale, ls.getText()));
                     }
                     return multilingualString;
                 }
             }
         }
-        return this.title.filter(locale, defaultLocale, showAllLanguageValues);
+        return ms.filter(locale, defaultLocale, showAllLanguageValues);
     }
 
     private Set<String> getContraints() {
