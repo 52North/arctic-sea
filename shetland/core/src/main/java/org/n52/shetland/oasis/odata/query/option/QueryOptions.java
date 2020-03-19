@@ -87,7 +87,7 @@ public class QueryOptions {
     }
 
     public CountFilter getCountOption() {
-        return hasCountOption() ? countOption : null;
+        return countOption;
     }
 
     public boolean hasTopOption() {
@@ -95,7 +95,7 @@ public class QueryOptions {
     }
 
     public SkipTopFilter getTopOption() {
-        return hasTopOption() ? topOption : null;
+        return topOption;
     }
 
     public boolean hasSkipOption() {
@@ -103,7 +103,7 @@ public class QueryOptions {
     }
 
     public SkipTopFilter getSkipOption() {
-        return hasSkipOption() ? skipOption : null;
+        return skipOption;
     }
 
     public boolean hasOrderByOption() {
@@ -111,7 +111,7 @@ public class QueryOptions {
     }
 
     public OrderByOption getOrderByOption() {
-        return hasOrderByOption() ? orderByOption : null;
+        return orderByOption;
     }
 
     public boolean hasSelectOption() {
@@ -119,7 +119,7 @@ public class QueryOptions {
     }
 
     public SelectOption getSelectOption() {
-        return hasSelectOption() ? selectOption : null;
+        return selectOption;
     }
 
     public boolean hasExpandOption() {
@@ -127,7 +127,7 @@ public class QueryOptions {
     }
 
     public ExpandOption getExpandOption() {
-        return hasExpandOption() ? expandOption : null;
+        return expandOption;
     }
 
     public boolean hasFilterOption() {
@@ -135,7 +135,7 @@ public class QueryOptions {
     }
 
     public FilterOption getFilterOption() {
-        return hasFilterOption() ? filterOption : null;
+        return filterOption;
     }
 
     @Override public int hashCode() {
@@ -163,12 +163,12 @@ public class QueryOptions {
                 && obj.hasSkipOption() == this.hasSkipOption()
                 && obj.hasTopOption() == this.hasTopOption()
                 && obj.hasFilterOption() == this.hasFilterOption()
-                && (!obj.hasCountOption() || obj.getCountOption().equals(this.getCountOption()))
-                && (!obj.hasOrderByOption() || obj.getOrderByOption().equals(this.getOrderByOption()))
-                && (!obj.hasSelectOption() || obj.getSelectOption().equals(this.getSelectOption()))
-                && (!obj.hasExpandOption() || obj.getExpandOption().equals(this.getExpandOption()))
-                && (!obj.hasSkipOption() || obj.getSkipOption().equals(this.getSkipOption()))
-                && (!obj.hasTopOption() || obj.getTopOption().equals(this.getTopOption()))
-                && (!obj.hasFilterOption() || obj.getFilterOption().equals(this.getFilterOption()));
+                && Objects.equals(obj.getCountOption(), this.getCountOption())
+                && Objects.equals(obj.getOrderByOption(), this.getOrderByOption())
+                && Objects.equals(obj.getSelectOption(), this.getSelectOption())
+                && Objects.equals(obj.getExpandOption(), this.getExpandOption())
+                && Objects.equals(obj.getSkipOption(), this.getSkipOption())
+                && Objects.equals(obj.getTopOption(), this.getTopOption())
+                && Objects.equals(obj.getFilterOption(), this.getFilterOption());
     }
 }

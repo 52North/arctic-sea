@@ -56,7 +56,7 @@ public class SkipTopFilter implements FilterClause {
             return false;
         }
 
-        return this.operator.equals(((SkipTopFilter) o).getOperator())
-                && this.value.equals(((SkipTopFilter) o).getValue());
+        return Objects.equals(this.operator, ((SkipTopFilter) o).getOperator())
+                && Objects.equals(this.value, ((SkipTopFilter) o).getValue());
     }
 }

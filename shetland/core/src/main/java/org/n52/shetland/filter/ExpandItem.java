@@ -59,7 +59,7 @@ public class ExpandItem {
             return false;
         }
 
-        return this.path.equals(((ExpandItem) o).getPath()) &&
+        return Objects.equals(this.path, ((ExpandItem) o).getPath()) &&
                 Objects.equals(this.queryOptions, ((ExpandItem) o).getQueryOptions());
     }
 }

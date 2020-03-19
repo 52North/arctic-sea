@@ -68,7 +68,7 @@ public class OrderProperty {
             return false;
         }
 
-        return this.valueReference.equals(((OrderProperty) o).getValueReference()) &&
+        return Objects.equals(this.valueReference, ((OrderProperty) o).getValueReference()) &&
                 Objects.equals(this.sortOrder, ((OrderProperty) o).getSortOrder());
     }
 }

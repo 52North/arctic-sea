@@ -40,7 +40,7 @@ public interface Expr {
      * @return if it is a value
      */
     default boolean isTextValue() {
-        return false;
+        return asTextValue().isPresent();
     }
 
     /**
@@ -58,7 +58,7 @@ public interface Expr {
      * @return if it is a member
      */
     default boolean isMember() {
-        return false;
+        return asMember().isPresent();
     }
 
     /**
@@ -76,7 +76,7 @@ public interface Expr {
      * @return if it is a binary expression
      */
     default boolean isBinary() {
-        return false;
+        return this.asBinary().isPresent();
     }
 
     /**
@@ -94,7 +94,7 @@ public interface Expr {
      * @return if it is a boolean binary expression
      */
     default boolean isBooleanBinary() {
-        return false;
+        return asBooleanBinary().isPresent();
     }
 
     /**
@@ -112,7 +112,7 @@ public interface Expr {
      * @return if it is a comparison expression
      */
     default boolean isComparison() {
-        return false;
+        return asComparison().isPresent();
     }
 
     /**
@@ -130,7 +130,7 @@ public interface Expr {
      * @return if it is a unary expression
      */
     default boolean isUnary() {
-        return false;
+        return asUnary().isPresent();
     }
 
     /**
@@ -148,7 +148,7 @@ public interface Expr {
      * @return if it is a unary boolean expression
      */
     default boolean isBooleanUnary() {
-        return false;
+        return asUnary().isPresent();
     }
 
     /**

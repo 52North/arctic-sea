@@ -54,6 +54,6 @@ public class SelectFilter implements FilterClause, SelectOption {
             return false;
         }
 
-        return this.getItems().equals(((SelectFilter) o).getItems());
+        return Objects.equals(this.getItems(), ((SelectFilter) o).getItems());
     }
 }
