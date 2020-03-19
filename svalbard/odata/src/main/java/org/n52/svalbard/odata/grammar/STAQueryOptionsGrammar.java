@@ -33,100 +33,100 @@ public class STAQueryOptionsGrammar extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		WS=1, EQ=2, COMMA=3, SP=4, SEMI=5, MINUS=6, SQ=7, AMPERSAND=8, OP=9, CP=10,
-		SIGN=11, SLASH=12, DOT=13, COLON=14, ALPHAPLUS=15, DIGIT=16, DIGITPLUS=17,
-		QO_COUNT=18, QO_EXPAND=19, QO_FILTER=20, QO_ORDERBY=21, QO_SKIP=22, QO_TOP=23,
-		QO_SELECT=24, True_LLC=25, False_LLC=26, ASC_LLC=27, DESC_LLC=28, LITERAL=29,
-		SubStringOf_LLC=30, StartsWith_LLC=31, EndsWith_LLC=32, Length_LLC=33,
-		IndexOf_LLC=34, Substring_LLC=35, ToLower_LLC=36, ToUpper_LLC=37, Trim_LLC=38,
-		Concat_LLC=39, Year_LLC=40, Month_LLC=41, Day_LLC=42, Days_LLC=43, Hour_LLC=44,
-		Minute_LLC=45, Second_LLC=46, Date_LLC=47, Time_LLC=48, TotalOffsetMinutes_LLC=49,
-		MinDateTime_LLC=50, MaxDateTime_LLC=51, Now_LLC=52, Round_LLC=53, Floor_LLC=54,
-		Ceiling_LLC=55, GeoDotDistance_LLC=56, GeoLength_LLC=57, GeoDotIntersects_LLC=58,
-		ST_equals_LLC=59, ST_disjoint_LLC=60, ST_touches_LLC=61, ST_within_LLC=62,
-		ST_overlaps_LLC=63, ST_crosses_LLC=64, ST_intersects_LLC=65, ST_contains_LLC=66,
-		ST_relate_LLC=67, And_LLC=68, Or_LLC=69, Not_LLC=70, Eq_LLC=71, Ne_LLC=72,
-		Lt_LLC=73, Le_LLC=74, Gt_LLC=75, Ge_LLC=76, Add_LLC=77, Sub_LLC=78, Mul_LLC=79,
-		Div_LLC=80, Mod_LLC=81, NotANumber_LXC=82, Infinity_LUC=83, Null_LLC=84,
-		Geography_LLC=85, Geometry_LLC=86, DIGIT4MINUS=87, FILTER_FloatingPointLiteral=88,
-		MultiLineStringOP_LUC=89, LineString_LUC=90, MultiPointOP_LUC=91, MultiPolygonOP_LUC=92,
-		Point_LUC=93, Polygon_LUC=94, Multi_LUC=95, CollectionOP_LUC=96, SRID_LLC=97,
+		WS=1, EQ=2, COMMA=3, SP=4, SEMI=5, MINUS=6, SQ=7, AMPERSAND=8, OP=9, CP=10, 
+		SIGN=11, SLASH=12, DOT=13, COLON=14, ALPHAPLUS=15, DIGIT=16, DIGITPLUS=17, 
+		QO_COUNT=18, QO_EXPAND=19, QO_FILTER=20, QO_ORDERBY=21, QO_SKIP=22, QO_TOP=23, 
+		QO_SELECT=24, True_LLC=25, False_LLC=26, ASC_LLC=27, DESC_LLC=28, LITERAL=29, 
+		SubStringOf_LLC=30, StartsWith_LLC=31, EndsWith_LLC=32, Length_LLC=33, 
+		IndexOf_LLC=34, Substring_LLC=35, ToLower_LLC=36, ToUpper_LLC=37, Trim_LLC=38, 
+		Concat_LLC=39, Year_LLC=40, Month_LLC=41, Day_LLC=42, Days_LLC=43, Hour_LLC=44, 
+		Minute_LLC=45, Second_LLC=46, Date_LLC=47, Time_LLC=48, TotalOffsetMinutes_LLC=49, 
+		MinDateTime_LLC=50, MaxDateTime_LLC=51, Now_LLC=52, Round_LLC=53, Floor_LLC=54, 
+		Ceiling_LLC=55, GeoDotDistance_LLC=56, GeoLength_LLC=57, GeoDotIntersects_LLC=58, 
+		ST_equals_LLC=59, ST_disjoint_LLC=60, ST_touches_LLC=61, ST_within_LLC=62, 
+		ST_overlaps_LLC=63, ST_crosses_LLC=64, ST_intersects_LLC=65, ST_contains_LLC=66, 
+		ST_relate_LLC=67, And_LLC=68, Or_LLC=69, Not_LLC=70, Eq_LLC=71, Ne_LLC=72, 
+		Lt_LLC=73, Le_LLC=74, Gt_LLC=75, Ge_LLC=76, Add_LLC=77, Sub_LLC=78, Mul_LLC=79, 
+		Div_LLC=80, Mod_LLC=81, NotANumber_LXC=82, Infinity_LUC=83, Null_LLC=84, 
+		Geography_LLC=85, Geometry_LLC=86, DIGIT4MINUS=87, FILTER_FloatingPointLiteral=88, 
+		MultiLineStringOP_LUC=89, LineString_LUC=90, MultiPointOP_LUC=91, MultiPolygonOP_LUC=92, 
+		Point_LUC=93, Polygon_LUC=94, Multi_LUC=95, CollectionOP_LUC=96, SRID_LLC=97, 
 		DIGIT5=98, T=99, Z=100, DIGIT3=101, DIGIT2=102, DOLLAR=103;
 	public static final int
-		RULE_queryOptions = 0, RULE_systemQueryOption = 1, RULE_count = 2, RULE_expand = 3,
-		RULE_expandItem = 4, RULE_filter = 5, RULE_orderby = 6, RULE_orderbyItem = 7,
-		RULE_skip = 8, RULE_top = 9, RULE_select = 10, RULE_selectItem = 11, RULE_boolExpr = 12,
-		RULE_boolParenExpr = 13, RULE_anyExpr = 14, RULE_parenExpr = 15, RULE_arithmeticExpr = 16,
-		RULE_timeExpr = 17, RULE_textExpr = 18, RULE_geoExpr = 19, RULE_memberExpr = 20,
-		RULE_textMethodCallExpr = 21, RULE_arithmeticMethodCallExpr = 22, RULE_temporalMethodCallExpr = 23,
-		RULE_boolMethodCallExpr = 24, RULE_textOrMember = 25, RULE_temporalOrMemberOrISO8601Timestamp = 26,
-		RULE_geoOrMember = 27, RULE_iso8601Timestamp = 28, RULE_iso8601Timezone = 29,
-		RULE_substringMethodCallExpr = 30, RULE_toLowerMethodCallExpr = 31, RULE_toUpperMethodCallExpr = 32,
-		RULE_trimMethodCallExpr = 33, RULE_concatMethodCallExpr = 34, RULE_substringOfMethodCallExpr = 35,
-		RULE_startsWithMethodCallExpr = 36, RULE_endsWithMethodCallExpr = 37,
-		RULE_intersectsMethodCallExpr = 38, RULE_st_commonMethodCallExpr = 39,
-		RULE_st_equalsMethodCallExpr = 40, RULE_st_disjointMethodCallExpr = 41,
-		RULE_st_touchesMethodCallExpr = 42, RULE_st_withinMethodCallExpr = 43,
-		RULE_st_overlapsMethodCallExpr = 44, RULE_st_crossesMethodCallExpr = 45,
-		RULE_st_intersectsMethodCallExpr = 46, RULE_st_containsMethodCallExpr = 47,
-		RULE_st_relateMethodCallExpr = 48, RULE_lengthMethodCallExpr = 49, RULE_indexOfMethodCallExpr = 50,
-		RULE_yearMethodCallExpr = 51, RULE_monthMethodCallExpr = 52, RULE_dayMethodCallExpr = 53,
-		RULE_daysMethodCallExpr = 54, RULE_hourMethodCallExpr = 55, RULE_minuteMethodCallExpr = 56,
-		RULE_secondMethodCallExpr = 57, RULE_timeMethodCallExpr = 58, RULE_dateMethodCallExpr = 59,
-		RULE_roundMethodCallExpr = 60, RULE_floorMethodCallExpr = 61, RULE_ceilingMethodCallExpr = 62,
-		RULE_totalOffsetMinutesExpr = 63, RULE_distanceMethodCallExpr = 64, RULE_geoLengthMethodCallExpr = 65,
-		RULE_minDate = 66, RULE_maxDate = 67, RULE_nowDate = 68, RULE_andExpr = 69,
-		RULE_orExpr = 70, RULE_notExpr = 71, RULE_eqExpr = 72, RULE_neExpr = 73,
-		RULE_ltExpr = 74, RULE_leExpr = 75, RULE_gtExpr = 76, RULE_geExpr = 77,
-		RULE_addExpr = 78, RULE_subExpr = 79, RULE_mulExpr = 80, RULE_divExpr = 81,
-		RULE_modExpr = 82, RULE_negateExpr = 83, RULE_numericLiteral = 84, RULE_decimalLiteral = 85,
-		RULE_escapedString = 86, RULE_geographyCollection = 87, RULE_fullCollectionLiteral = 88,
-		RULE_collectionLiteral = 89, RULE_geoLiteral = 90, RULE_geographyLineString = 91,
-		RULE_fullLineStringLiteral = 92, RULE_lineStringLiteral = 93, RULE_lineStringData = 94,
-		RULE_geographyMultiLineString = 95, RULE_fullMultiLineStringLiteral = 96,
-		RULE_multiLineStringLiteral = 97, RULE_geographyMultiPoint = 98, RULE_fullMultiPointLiteral = 99,
-		RULE_multiPointLiteral = 100, RULE_geographyMultiPolygon = 101, RULE_fullMultiPolygonLiteral = 102,
-		RULE_multiPolygonLiteral = 103, RULE_geographyPoint = 104, RULE_fullPointLiteral = 105,
-		RULE_sridLiteral = 106, RULE_pointLiteral = 107, RULE_pointData = 108,
-		RULE_positionLiteral = 109, RULE_coordinate = 110, RULE_geographyPolygon = 111,
-		RULE_fullPolygonLiteral = 112, RULE_polygonLiteral = 113, RULE_polygonData = 114,
-		RULE_ringLiteral = 115, RULE_geometryCollection = 116, RULE_geometryLineString = 117,
-		RULE_geometryMultiLineString = 118, RULE_geometryMultiPoint = 119, RULE_geometryMultiPolygon = 120,
-		RULE_geometryPoint = 121, RULE_geometryPolygon = 122, RULE_geographyPrefix = 123,
+		RULE_queryOptions = 0, RULE_systemQueryOption = 1, RULE_count = 2, RULE_expand = 3, 
+		RULE_expandItem = 4, RULE_filter = 5, RULE_orderby = 6, RULE_orderbyItem = 7, 
+		RULE_skip = 8, RULE_top = 9, RULE_select = 10, RULE_selectItem = 11, RULE_boolExpr = 12, 
+		RULE_boolParenExpr = 13, RULE_anyExpr = 14, RULE_parenExpr = 15, RULE_arithmeticExpr = 16, 
+		RULE_timeExpr = 17, RULE_textExpr = 18, RULE_geoExpr = 19, RULE_memberExpr = 20, 
+		RULE_textMethodCallExpr = 21, RULE_arithmeticMethodCallExpr = 22, RULE_temporalMethodCallExpr = 23, 
+		RULE_boolMethodCallExpr = 24, RULE_textOrMember = 25, RULE_temporalOrMemberOrISO8601Timestamp = 26, 
+		RULE_geoOrMember = 27, RULE_iso8601Timestamp = 28, RULE_iso8601Timezone = 29, 
+		RULE_substringMethodCallExpr = 30, RULE_toLowerMethodCallExpr = 31, RULE_toUpperMethodCallExpr = 32, 
+		RULE_trimMethodCallExpr = 33, RULE_concatMethodCallExpr = 34, RULE_substringOfMethodCallExpr = 35, 
+		RULE_startsWithMethodCallExpr = 36, RULE_endsWithMethodCallExpr = 37, 
+		RULE_intersectsMethodCallExpr = 38, RULE_st_commonMethodCallExpr = 39, 
+		RULE_st_equalsMethodCallExpr = 40, RULE_st_disjointMethodCallExpr = 41, 
+		RULE_st_touchesMethodCallExpr = 42, RULE_st_withinMethodCallExpr = 43, 
+		RULE_st_overlapsMethodCallExpr = 44, RULE_st_crossesMethodCallExpr = 45, 
+		RULE_st_intersectsMethodCallExpr = 46, RULE_st_containsMethodCallExpr = 47, 
+		RULE_st_relateMethodCallExpr = 48, RULE_lengthMethodCallExpr = 49, RULE_indexOfMethodCallExpr = 50, 
+		RULE_yearMethodCallExpr = 51, RULE_monthMethodCallExpr = 52, RULE_dayMethodCallExpr = 53, 
+		RULE_daysMethodCallExpr = 54, RULE_hourMethodCallExpr = 55, RULE_minuteMethodCallExpr = 56, 
+		RULE_secondMethodCallExpr = 57, RULE_timeMethodCallExpr = 58, RULE_dateMethodCallExpr = 59, 
+		RULE_roundMethodCallExpr = 60, RULE_floorMethodCallExpr = 61, RULE_ceilingMethodCallExpr = 62, 
+		RULE_totalOffsetMinutesExpr = 63, RULE_distanceMethodCallExpr = 64, RULE_geoLengthMethodCallExpr = 65, 
+		RULE_minDate = 66, RULE_maxDate = 67, RULE_nowDate = 68, RULE_andExpr = 69, 
+		RULE_orExpr = 70, RULE_notExpr = 71, RULE_eqExpr = 72, RULE_neExpr = 73, 
+		RULE_ltExpr = 74, RULE_leExpr = 75, RULE_gtExpr = 76, RULE_geExpr = 77, 
+		RULE_addExpr = 78, RULE_subExpr = 79, RULE_mulExpr = 80, RULE_divExpr = 81, 
+		RULE_modExpr = 82, RULE_negateExpr = 83, RULE_numericLiteral = 84, RULE_decimalLiteral = 85, 
+		RULE_escapedString = 86, RULE_geographyCollection = 87, RULE_fullCollectionLiteral = 88, 
+		RULE_collectionLiteral = 89, RULE_geoLiteral = 90, RULE_geographyLineString = 91, 
+		RULE_fullLineStringLiteral = 92, RULE_lineStringLiteral = 93, RULE_lineStringData = 94, 
+		RULE_geographyMultiLineString = 95, RULE_fullMultiLineStringLiteral = 96, 
+		RULE_multiLineStringLiteral = 97, RULE_geographyMultiPoint = 98, RULE_fullMultiPointLiteral = 99, 
+		RULE_multiPointLiteral = 100, RULE_geographyMultiPolygon = 101, RULE_fullMultiPolygonLiteral = 102, 
+		RULE_multiPolygonLiteral = 103, RULE_geographyPoint = 104, RULE_fullPointLiteral = 105, 
+		RULE_sridLiteral = 106, RULE_pointLiteral = 107, RULE_pointData = 108, 
+		RULE_positionLiteral = 109, RULE_coordinate = 110, RULE_geographyPolygon = 111, 
+		RULE_fullPolygonLiteral = 112, RULE_polygonLiteral = 113, RULE_polygonData = 114, 
+		RULE_ringLiteral = 115, RULE_geometryCollection = 116, RULE_geometryLineString = 117, 
+		RULE_geometryMultiLineString = 118, RULE_geometryMultiPoint = 119, RULE_geometryMultiPolygon = 120, 
+		RULE_geometryPoint = 121, RULE_geometryPolygon = 122, RULE_geographyPrefix = 123, 
 		RULE_geometryPrefix = 124;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"queryOptions", "systemQueryOption", "count", "expand", "expandItem",
-			"filter", "orderby", "orderbyItem", "skip", "top", "select", "selectItem",
-			"boolExpr", "boolParenExpr", "anyExpr", "parenExpr", "arithmeticExpr",
-			"timeExpr", "textExpr", "geoExpr", "memberExpr", "textMethodCallExpr",
-			"arithmeticMethodCallExpr", "temporalMethodCallExpr", "boolMethodCallExpr",
-			"textOrMember", "temporalOrMemberOrISO8601Timestamp", "geoOrMember",
-			"iso8601Timestamp", "iso8601Timezone", "substringMethodCallExpr", "toLowerMethodCallExpr",
-			"toUpperMethodCallExpr", "trimMethodCallExpr", "concatMethodCallExpr",
-			"substringOfMethodCallExpr", "startsWithMethodCallExpr", "endsWithMethodCallExpr",
-			"intersectsMethodCallExpr", "st_commonMethodCallExpr", "st_equalsMethodCallExpr",
-			"st_disjointMethodCallExpr", "st_touchesMethodCallExpr", "st_withinMethodCallExpr",
-			"st_overlapsMethodCallExpr", "st_crossesMethodCallExpr", "st_intersectsMethodCallExpr",
-			"st_containsMethodCallExpr", "st_relateMethodCallExpr", "lengthMethodCallExpr",
-			"indexOfMethodCallExpr", "yearMethodCallExpr", "monthMethodCallExpr",
-			"dayMethodCallExpr", "daysMethodCallExpr", "hourMethodCallExpr", "minuteMethodCallExpr",
-			"secondMethodCallExpr", "timeMethodCallExpr", "dateMethodCallExpr", "roundMethodCallExpr",
-			"floorMethodCallExpr", "ceilingMethodCallExpr", "totalOffsetMinutesExpr",
-			"distanceMethodCallExpr", "geoLengthMethodCallExpr", "minDate", "maxDate",
-			"nowDate", "andExpr", "orExpr", "notExpr", "eqExpr", "neExpr", "ltExpr",
-			"leExpr", "gtExpr", "geExpr", "addExpr", "subExpr", "mulExpr", "divExpr",
-			"modExpr", "negateExpr", "numericLiteral", "decimalLiteral", "escapedString",
-			"geographyCollection", "fullCollectionLiteral", "collectionLiteral",
-			"geoLiteral", "geographyLineString", "fullLineStringLiteral", "lineStringLiteral",
-			"lineStringData", "geographyMultiLineString", "fullMultiLineStringLiteral",
-			"multiLineStringLiteral", "geographyMultiPoint", "fullMultiPointLiteral",
-			"multiPointLiteral", "geographyMultiPolygon", "fullMultiPolygonLiteral",
-			"multiPolygonLiteral", "geographyPoint", "fullPointLiteral", "sridLiteral",
-			"pointLiteral", "pointData", "positionLiteral", "coordinate", "geographyPolygon",
-			"fullPolygonLiteral", "polygonLiteral", "polygonData", "ringLiteral",
-			"geometryCollection", "geometryLineString", "geometryMultiLineString",
-			"geometryMultiPoint", "geometryMultiPolygon", "geometryPoint", "geometryPolygon",
+			"queryOptions", "systemQueryOption", "count", "expand", "expandItem", 
+			"filter", "orderby", "orderbyItem", "skip", "top", "select", "selectItem", 
+			"boolExpr", "boolParenExpr", "anyExpr", "parenExpr", "arithmeticExpr", 
+			"timeExpr", "textExpr", "geoExpr", "memberExpr", "textMethodCallExpr", 
+			"arithmeticMethodCallExpr", "temporalMethodCallExpr", "boolMethodCallExpr", 
+			"textOrMember", "temporalOrMemberOrISO8601Timestamp", "geoOrMember", 
+			"iso8601Timestamp", "iso8601Timezone", "substringMethodCallExpr", "toLowerMethodCallExpr", 
+			"toUpperMethodCallExpr", "trimMethodCallExpr", "concatMethodCallExpr", 
+			"substringOfMethodCallExpr", "startsWithMethodCallExpr", "endsWithMethodCallExpr", 
+			"intersectsMethodCallExpr", "st_commonMethodCallExpr", "st_equalsMethodCallExpr", 
+			"st_disjointMethodCallExpr", "st_touchesMethodCallExpr", "st_withinMethodCallExpr", 
+			"st_overlapsMethodCallExpr", "st_crossesMethodCallExpr", "st_intersectsMethodCallExpr", 
+			"st_containsMethodCallExpr", "st_relateMethodCallExpr", "lengthMethodCallExpr", 
+			"indexOfMethodCallExpr", "yearMethodCallExpr", "monthMethodCallExpr", 
+			"dayMethodCallExpr", "daysMethodCallExpr", "hourMethodCallExpr", "minuteMethodCallExpr", 
+			"secondMethodCallExpr", "timeMethodCallExpr", "dateMethodCallExpr", "roundMethodCallExpr", 
+			"floorMethodCallExpr", "ceilingMethodCallExpr", "totalOffsetMinutesExpr", 
+			"distanceMethodCallExpr", "geoLengthMethodCallExpr", "minDate", "maxDate", 
+			"nowDate", "andExpr", "orExpr", "notExpr", "eqExpr", "neExpr", "ltExpr", 
+			"leExpr", "gtExpr", "geExpr", "addExpr", "subExpr", "mulExpr", "divExpr", 
+			"modExpr", "negateExpr", "numericLiteral", "decimalLiteral", "escapedString", 
+			"geographyCollection", "fullCollectionLiteral", "collectionLiteral", 
+			"geoLiteral", "geographyLineString", "fullLineStringLiteral", "lineStringLiteral", 
+			"lineStringData", "geographyMultiLineString", "fullMultiLineStringLiteral", 
+			"multiLineStringLiteral", "geographyMultiPoint", "fullMultiPointLiteral", 
+			"multiPointLiteral", "geographyMultiPolygon", "fullMultiPolygonLiteral", 
+			"multiPolygonLiteral", "geographyPoint", "fullPointLiteral", "sridLiteral", 
+			"pointLiteral", "pointData", "positionLiteral", "coordinate", "geographyPolygon", 
+			"fullPolygonLiteral", "polygonLiteral", "polygonData", "ringLiteral", 
+			"geometryCollection", "geometryLineString", "geometryMultiLineString", 
+			"geometryMultiPoint", "geometryMultiPolygon", "geometryPoint", "geometryPolygon", 
 			"geographyPrefix", "geometryPrefix"
 		};
 	}
@@ -134,44 +134,44 @@ public class STAQueryOptionsGrammar extends Parser {
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, null, "'='", "','", "' '", "';'", "'-'", null, null, "'('", "')'",
-			null, "'/'", "'.'", "':'", null, null, null, "'count'", "'expand'", "'filter'",
-			"'orderby'", "'skip'", "'top'", "'select'", "'true'", "'false'", "'asc'",
-			"'desc'", null, "'substringof'", "'startswith'", "'endswith'", "'length'",
-			"'indexof'", "'substring'", "'tolower'", "'toupper'", "'trim'", "'concat'",
-			"'year'", "'month'", "'day'", "'days'", "'hour'", "'minute'", "'second'",
-			"'date'", "'time'", "'totaloffsetminutes'", "'mindatetime'", "'maxdatetime'",
-			"'now'", "'round'", "'floor'", "'ceiling'", "'geo.distance'", "'geo.length'",
-			"'geo.intersects'", "'st_equals'", "'st_disjoint'", "'st_touches'", "'st_within'",
-			"'st_overlaps'", "'st_crosses'", "'st_intersects'", "'st_contains'",
-			"'st_relate'", "'and'", "'or'", "'not'", "'eq'", "'ne'", "'lt'", "'le'",
-			"'gt'", "'ge'", "'add'", "'sub'", "'mul'", "'div'", "'mod'", "'NaN'",
-			"'INF'", "'null'", null, null, null, null, null, "'LINESTRING'", null,
-			null, "'POINT'", "'POLYGON'", "'MULTI'", null, "'srid'", null, "'T'",
+			null, null, "'='", "','", "' '", "';'", "'-'", null, null, "'('", "')'", 
+			null, "'/'", "'.'", "':'", null, null, null, "'count'", "'expand'", "'filter'", 
+			"'orderby'", "'skip'", "'top'", "'select'", "'true'", "'false'", "'asc'", 
+			"'desc'", null, "'substringof'", "'startswith'", "'endswith'", "'length'", 
+			"'indexof'", "'substring'", "'tolower'", "'toupper'", "'trim'", "'concat'", 
+			"'year'", "'month'", "'day'", "'days'", "'hour'", "'minute'", "'second'", 
+			"'date'", "'time'", "'totaloffsetminutes'", "'mindatetime'", "'maxdatetime'", 
+			"'now'", "'round'", "'floor'", "'ceiling'", "'geo.distance'", "'geo.length'", 
+			"'geo.intersects'", "'st_equals'", "'st_disjoint'", "'st_touches'", "'st_within'", 
+			"'st_overlaps'", "'st_crosses'", "'st_intersects'", "'st_contains'", 
+			"'st_relate'", "'and'", "'or'", "'not'", "'eq'", "'ne'", "'lt'", "'le'", 
+			"'gt'", "'ge'", "'add'", "'sub'", "'mul'", "'div'", "'mod'", "'NaN'", 
+			"'INF'", "'null'", null, null, null, null, null, "'LINESTRING'", null, 
+			null, "'POINT'", "'POLYGON'", "'MULTI'", null, "'srid'", null, "'T'", 
 			"'Z'", null, null, "'$'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, "WS", "EQ", "COMMA", "SP", "SEMI", "MINUS", "SQ", "AMPERSAND",
-			"OP", "CP", "SIGN", "SLASH", "DOT", "COLON", "ALPHAPLUS", "DIGIT", "DIGITPLUS",
-			"QO_COUNT", "QO_EXPAND", "QO_FILTER", "QO_ORDERBY", "QO_SKIP", "QO_TOP",
-			"QO_SELECT", "True_LLC", "False_LLC", "ASC_LLC", "DESC_LLC", "LITERAL",
-			"SubStringOf_LLC", "StartsWith_LLC", "EndsWith_LLC", "Length_LLC", "IndexOf_LLC",
-			"Substring_LLC", "ToLower_LLC", "ToUpper_LLC", "Trim_LLC", "Concat_LLC",
-			"Year_LLC", "Month_LLC", "Day_LLC", "Days_LLC", "Hour_LLC", "Minute_LLC",
-			"Second_LLC", "Date_LLC", "Time_LLC", "TotalOffsetMinutes_LLC", "MinDateTime_LLC",
-			"MaxDateTime_LLC", "Now_LLC", "Round_LLC", "Floor_LLC", "Ceiling_LLC",
-			"GeoDotDistance_LLC", "GeoLength_LLC", "GeoDotIntersects_LLC", "ST_equals_LLC",
-			"ST_disjoint_LLC", "ST_touches_LLC", "ST_within_LLC", "ST_overlaps_LLC",
-			"ST_crosses_LLC", "ST_intersects_LLC", "ST_contains_LLC", "ST_relate_LLC",
-			"And_LLC", "Or_LLC", "Not_LLC", "Eq_LLC", "Ne_LLC", "Lt_LLC", "Le_LLC",
-			"Gt_LLC", "Ge_LLC", "Add_LLC", "Sub_LLC", "Mul_LLC", "Div_LLC", "Mod_LLC",
-			"NotANumber_LXC", "Infinity_LUC", "Null_LLC", "Geography_LLC", "Geometry_LLC",
-			"DIGIT4MINUS", "FILTER_FloatingPointLiteral", "MultiLineStringOP_LUC",
-			"LineString_LUC", "MultiPointOP_LUC", "MultiPolygonOP_LUC", "Point_LUC",
-			"Polygon_LUC", "Multi_LUC", "CollectionOP_LUC", "SRID_LLC", "DIGIT5",
+			null, "WS", "EQ", "COMMA", "SP", "SEMI", "MINUS", "SQ", "AMPERSAND", 
+			"OP", "CP", "SIGN", "SLASH", "DOT", "COLON", "ALPHAPLUS", "DIGIT", "DIGITPLUS", 
+			"QO_COUNT", "QO_EXPAND", "QO_FILTER", "QO_ORDERBY", "QO_SKIP", "QO_TOP", 
+			"QO_SELECT", "True_LLC", "False_LLC", "ASC_LLC", "DESC_LLC", "LITERAL", 
+			"SubStringOf_LLC", "StartsWith_LLC", "EndsWith_LLC", "Length_LLC", "IndexOf_LLC", 
+			"Substring_LLC", "ToLower_LLC", "ToUpper_LLC", "Trim_LLC", "Concat_LLC", 
+			"Year_LLC", "Month_LLC", "Day_LLC", "Days_LLC", "Hour_LLC", "Minute_LLC", 
+			"Second_LLC", "Date_LLC", "Time_LLC", "TotalOffsetMinutes_LLC", "MinDateTime_LLC", 
+			"MaxDateTime_LLC", "Now_LLC", "Round_LLC", "Floor_LLC", "Ceiling_LLC", 
+			"GeoDotDistance_LLC", "GeoLength_LLC", "GeoDotIntersects_LLC", "ST_equals_LLC", 
+			"ST_disjoint_LLC", "ST_touches_LLC", "ST_within_LLC", "ST_overlaps_LLC", 
+			"ST_crosses_LLC", "ST_intersects_LLC", "ST_contains_LLC", "ST_relate_LLC", 
+			"And_LLC", "Or_LLC", "Not_LLC", "Eq_LLC", "Ne_LLC", "Lt_LLC", "Le_LLC", 
+			"Gt_LLC", "Ge_LLC", "Add_LLC", "Sub_LLC", "Mul_LLC", "Div_LLC", "Mod_LLC", 
+			"NotANumber_LXC", "Infinity_LUC", "Null_LLC", "Geography_LLC", "Geometry_LLC", 
+			"DIGIT4MINUS", "FILTER_FloatingPointLiteral", "MultiLineStringOP_LUC", 
+			"LineString_LUC", "MultiPointOP_LUC", "MultiPolygonOP_LUC", "Point_LUC", 
+			"Polygon_LUC", "Multi_LUC", "CollectionOP_LUC", "SRID_LLC", "DIGIT5", 
 			"T", "Z", "DIGIT3", "DIGIT2", "DOLLAR"
 		};
 	}
@@ -1708,7 +1708,7 @@ public class STAQueryOptionsGrammar extends Parser {
 						setState(437);
 						match(SP);
 						}
-						}
+						} 
 					}
 					setState(442);
 					_errHandler.sync(this);
@@ -7885,7 +7885,7 @@ public class STAQueryOptionsGrammar extends Parser {
 					setState(1381);
 					match(SP);
 					}
-					}
+					} 
 				}
 				setState(1386);
 				_errHandler.sync(this);
@@ -7951,7 +7951,7 @@ public class STAQueryOptionsGrammar extends Parser {
 			match(OP);
 			setState(1388);
 			positionLiteral();
-			setState(1394);
+			setState(1394); 
 			_errHandler.sync(this);
 			_la = _input.LA(1);
 			do {
@@ -7973,7 +7973,7 @@ public class STAQueryOptionsGrammar extends Parser {
 				positionLiteral();
 				}
 				}
-				setState(1396);
+				setState(1396); 
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			} while ( _la==COMMA );
@@ -8158,7 +8158,7 @@ public class STAQueryOptionsGrammar extends Parser {
 					setState(1410);
 					match(SP);
 					}
-					}
+					} 
 				}
 				setState(1415);
 				_errHandler.sync(this);
@@ -8392,7 +8392,7 @@ public class STAQueryOptionsGrammar extends Parser {
 					setState(1447);
 					match(SP);
 					}
-					}
+					} 
 				}
 				setState(1452);
 				_errHandler.sync(this);
@@ -8631,7 +8631,7 @@ public class STAQueryOptionsGrammar extends Parser {
 					setState(1484);
 					match(SP);
 					}
-					}
+					} 
 				}
 				setState(1489);
 				_errHandler.sync(this);
@@ -8927,7 +8927,7 @@ public class STAQueryOptionsGrammar extends Parser {
 					setState(1533);
 					match(SP);
 					}
-					}
+					} 
 				}
 				setState(1538);
 				_errHandler.sync(this);
@@ -9300,7 +9300,7 @@ public class STAQueryOptionsGrammar extends Parser {
 					setState(1574);
 					match(SP);
 					}
-					}
+					} 
 				}
 				setState(1579);
 				_errHandler.sync(this);

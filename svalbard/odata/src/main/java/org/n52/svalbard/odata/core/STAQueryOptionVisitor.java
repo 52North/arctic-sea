@@ -506,7 +506,7 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
 
     @Override public TextExpr visitTextExpr(STAQueryOptionsGrammar.TextExprContext ctx) {
         if (ctx.escapedString() != null) {
-            return new StringValueExpr(ctx.escapedString().getText());
+            return new StringValueExpr(ctx.escapedString().getText().replace("\'", ""));
         } else {
             return visitTextMethodCallExpr(ctx.textMethodCallExpr());
         }
