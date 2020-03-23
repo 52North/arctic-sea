@@ -39,7 +39,6 @@ public class QueryOptionsFactory {
 
     //TODO: make nicer
     public QueryOptions createQueryOptions(String query) {
-        System.out.println(query.trim());
         lexer = new STAQueryOptionsLexer(new ANTLRInputStream(query.trim()));
         parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
         parser.addErrorListener(new BaseErrorListener() {
