@@ -17,13 +17,7 @@
 
 package org.n52.svalbard.odata.core;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.BaseErrorListener;
-import org.antlr.v4.runtime.CommonTokenStream;
-import org.antlr.v4.runtime.RecognitionException;
-import org.antlr.v4.runtime.Recognizer;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
-import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
 
 /**
  * Test Harness with common functionality for all OData Query Option Tests
@@ -31,29 +25,11 @@ import org.n52.svalbard.odata.grammar.STAQueryOptionsLexer;
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
 public abstract class QueryOptionTests {
-
     protected final String EQ = "=";
-
-    protected STAQueryOptionsLexer lexer;
     protected STAQueryOptionsGrammar parser;
 
     protected void init(String query) {
         System.out.println(query.trim());
-        lexer = new STAQueryOptionsLexer(new ANTLRInputStream(query.trim()));
-        parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
-        parser.addErrorListener(new BaseErrorListener() {
-            @Override
-            public void syntaxError(Recognizer<?, ?> recognizer,
-                                    Object offendingSymbol,
-                                    int line,
-                                    int charPositionInLine,
-                                    String msg,
-                                    RecognitionException e) {
-                throw new IllegalStateException("failed to parse due to " + msg + " with " +
-                                                        "offending token: " + lexer.getVocabulary()
-                                                                                   .getDisplayName(e.getOffendingToken()
-                                                                                                    .getType()), e);
-            }
-        });
+        parser = new QueryOptionsFactory().createGrammar(query);
     }
 }

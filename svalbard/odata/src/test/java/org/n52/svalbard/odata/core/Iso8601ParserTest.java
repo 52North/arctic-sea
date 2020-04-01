@@ -28,6 +28,7 @@ import org.n52.svalbard.odata.core.expr.temporal.TimeValueExpr;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
+@SuppressWarnings("unchecked")
 public class Iso8601ParserTest extends QueryOptionTests {
 
     private final String ERROR_NOT_EQUAL = "Could not parse time!";

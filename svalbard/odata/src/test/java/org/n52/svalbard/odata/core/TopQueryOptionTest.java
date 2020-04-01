@@ -30,6 +30,7 @@ import org.n52.shetland.ogc.filter.FilterConstants;
  *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
+@SuppressWarnings("unchecked")
 public class TopQueryOptionTest extends QueryOptionTests {
 
     @Test

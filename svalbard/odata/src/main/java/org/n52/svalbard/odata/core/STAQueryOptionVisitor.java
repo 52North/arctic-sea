@@ -57,6 +57,7 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
+@SuppressWarnings({"rawtypes", "unchecked"})
 public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
 
     @Override public QueryOptions visitQueryOptions(STAQueryOptionsGrammar.QueryOptionsContext ctx) {
@@ -506,7 +507,7 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
 
     @Override public TextExpr visitTextExpr(STAQueryOptionsGrammar.TextExprContext ctx) {
         if (ctx.escapedString() != null) {
-            return new StringValueExpr(ctx.escapedString().getText().replace("\'", ""));
+            return new StringValueExpr(ctx.escapedString().getText().replace("'", ""));
         } else {
             return visitTextMethodCallExpr(ctx.textMethodCallExpr());
         }
@@ -658,11 +659,11 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
         return null;
     }
 
-    @Override public Object visitNowDate(STAQueryOptionsGrammar.NowDateContext ctx) {
+    @Override public MethodCallExpr visitNowDate(STAQueryOptionsGrammar.NowDateContext ctx) {
         return new MethodCallExpr(ctx.Now_LLC().getText());
     }
 
-    @Override public Object visitMinDate(STAQueryOptionsGrammar.MinDateContext ctx) {
+    @Override public MethodCallExpr visitMinDate(STAQueryOptionsGrammar.MinDateContext ctx) {
         return new MethodCallExpr(ctx.MinDateTime_LLC().getText());
     }
 
@@ -670,7 +671,7 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
         return new MethodCallExpr(ctx.MaxDateTime_LLC().getText());
     }
 
-    @Override public Object visitTimeMethodCallExpr(STAQueryOptionsGrammar.TimeMethodCallExprContext ctx) {
+    @Override public MethodCallExpr visitTimeMethodCallExpr(STAQueryOptionsGrammar.TimeMethodCallExprContext ctx) {
         return new MethodCallExpr(ctx.Time_LLC().getText(),
                                   this.visitTemporalOrMemberOrISO8601Timestamp(
                                           ctx.temporalOrMemberOrISO8601Timestamp()));

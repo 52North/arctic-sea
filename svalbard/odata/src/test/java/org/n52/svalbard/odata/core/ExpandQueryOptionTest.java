@@ -42,6 +42,7 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
+@SuppressWarnings("unchecked")
 public class ExpandQueryOptionTest extends QueryOptionTests {
 
     @Test
@@ -178,7 +179,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         Assertions.assertTrue(options.hasExpandOption());
         Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
         Set<ExpandItem> items = (options.getExpandOption().getItems());
-        Assertions.assertTrue(items != null);
+        Assertions.assertNotNull(items);
         Assertions.assertEquals(2, items.size());
 
         for (ExpandItem obs : items) {
@@ -209,7 +210,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                 Assertions.assertEquals(new QueryOptions("", filters), obs.getQueryOptions());
             } else if (obs.getPath().equals("ObservedProperty")) {
                 Assertions.assertEquals("ObservedProperty", obs.getPath());
-                Assertions.assertTrue(obs.getQueryOptions() != null);
+                Assertions.assertNotNull(obs.getQueryOptions());
                 Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
 
                 Assertions.assertFalse(obs.getQueryOptions().hasExpandOption());

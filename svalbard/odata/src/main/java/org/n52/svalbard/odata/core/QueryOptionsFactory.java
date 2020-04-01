@@ -17,11 +17,12 @@
 
 package org.n52.svalbard.odata.core;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
+import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Vocabulary;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammar;
@@ -32,30 +33,25 @@ import java.util.Set;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
+@SuppressWarnings("unchecked")
 public class QueryOptionsFactory {
+    public STAQueryOptionsLexer createLexer(String query) {
+        return new STAQueryOptionsLexer(CharStreams.fromString(query.trim()));
+    }
 
-    private STAQueryOptionsLexer lexer;
-    private STAQueryOptionsGrammar parser;
+    public STAQueryOptionsGrammar createGrammar(String query) {
+        return createGrammar(createLexer(query));
+    }
+
+    private STAQueryOptionsGrammar createGrammar(STAQueryOptionsLexer lexer) {
+        STAQueryOptionsGrammar parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
+        parser.addErrorListener(new CustomErrorListener(lexer.getVocabulary()));
+        return parser;
+    }
 
     //TODO: make nicer
     public QueryOptions createQueryOptions(String query) {
-        lexer = new STAQueryOptionsLexer(new ANTLRInputStream(query.trim()));
-        parser = new STAQueryOptionsGrammar(new CommonTokenStream(lexer));
-        parser.addErrorListener(new BaseErrorListener() {
-            @Override
-            public void syntaxError(Recognizer<?, ?> recognizer,
-                                    Object offendingSymbol,
-                                    int line,
-                                    int charPositionInLine,
-                                    String msg,
-                                    RecognitionException e) {
-                throw new IllegalStateException("failed to parse due to " + msg + " with " +
-                                                        "offending token: " + lexer.getVocabulary()
-                                                                                   .getDisplayName(e.getOffendingToken()
-                                                                                                    .getType()), e);
-            }
-        });
-        return parser.queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
+        return createGrammar(query).queryOptions().<QueryOptions>accept(new STAQueryOptionVisitor());
     }
 
     public QueryOptions createQueryOptions(Set<FilterClause> filters) {
@@ -64,5 +60,22 @@ public class QueryOptionsFactory {
 
     public QueryOptions createDummy() {
         return new QueryOptions("", null);
+    }
+
+    private static final class CustomErrorListener extends BaseErrorListener {
+        private final Vocabulary vocabulary;
+
+        private CustomErrorListener(Vocabulary vocabulary) {
+            this.vocabulary = vocabulary;
+        }
+
+        @Override
+        public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine,
+                                String msg, RecognitionException e) {
+
+            String message = String.format("failed to parse due to %s with offending token: %s", msg,
+                                           vocabulary.getDisplayName(e.getOffendingToken().getType()));
+            throw new IllegalStateException(message, e);
+        }
     }
 }

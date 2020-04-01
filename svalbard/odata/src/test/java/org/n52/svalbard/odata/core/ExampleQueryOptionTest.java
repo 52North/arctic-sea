@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
+@SuppressWarnings("unchecked")
 public class ExampleQueryOptionTest extends QueryOptionTests implements TestConstants {
 
     @Test
