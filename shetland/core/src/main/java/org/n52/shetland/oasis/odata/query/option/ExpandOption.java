@@ -16,11 +16,20 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
+import org.n52.shetland.filter.ExpandItem;
+
+import java.util.Set;
+
 public interface ExpandOption {
 
     // http://example.org/v1.0/Things?$expand=Datastreams/ObservedProperty
     // http://example.org/v1.0/Datastreams(1)?$expand=Observations,ObservedProperty
     // http://example.org/v1.0/Datastreams(1)?$expand=Observations($filter=result eq 1)
 
+    /**
+     * Gets all expandItems
+     * @return set of items to be expanded
+     */
+    Set<ExpandItem> getItems();
 
 }

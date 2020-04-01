@@ -17,7 +17,8 @@
     limitations under the License.
 
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
@@ -40,20 +41,33 @@
             <artifactId>shetland</artifactId>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>svalbard</artifactId>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>janmayen</artifactId>
+            <artifactId>svalbard</artifactId>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
         </dependency>
+
         <dependency>
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>odata-commons-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>odata-commons-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.olingo</groupId>
+            <artifactId>odata-server-api</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.olingo</groupId>
@@ -79,17 +93,10 @@
             <artifactId>jackson-core</artifactId>
             <scope>runtime</scope>
         </dependency>
+
         <dependency>
-            <groupId>org.apache.olingo</groupId>
-            <artifactId>odata-commons-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.olingo</groupId>
-            <artifactId>odata-server-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.olingo</groupId>
-            <artifactId>odata-commons-api</artifactId>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
         </dependency>
         <dependency>
             <groupId>commons-codec</groupId>
@@ -117,4 +124,46 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-maven-plugin</artifactId>
+                <version>${version.antlr4}</version>
+                <configuration>
+                    <arguments>
+                        <argument>-visitor</argument>
+                    </arguments>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>antlr</id>
+                        <goals>
+                            <goal>antlr4</goal>
+                        </goals>
+                        <phase>generate-sources</phase>
+                        <configuration>
+                            <outputDirectory>src/main/java</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <configuration>
+                    <consoleOutput>true</consoleOutput>
+                    <excludes>**/org/n52/svalbard/odata/grammar/*.java</excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.github.spotbugs</groupId>
+                <artifactId>spotbugs-maven-plugin</artifactId>
+                <configuration>
+                    <onlyAnalyze>org.n52.svalbard.odata.core.*</onlyAnalyze>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

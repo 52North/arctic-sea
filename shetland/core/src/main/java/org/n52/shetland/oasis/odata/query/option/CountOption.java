@@ -18,4 +18,6 @@ package org.n52.shetland.oasis.odata.query.option;
 
 public interface CountOption {
 
+    Boolean getValue();
+
 }

@@ -14,14 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.filter;
 
 import org.n52.shetland.oasis.odata.query.option.CountOption;
 import org.n52.shetland.ogc.filter.FilterClause;
 
+import java.util.Objects;
+
 public class CountFilter implements FilterClause, CountOption {
 
-    private Boolean value;
+    private final Boolean value;
+
+    public CountFilter(boolean value) {
+        this.value = value;
+    }
 
     public CountFilter(String value) {
         this.value = Boolean.valueOf(value);
@@ -29,6 +36,22 @@ public class CountFilter implements FilterClause, CountOption {
 
     public Boolean getValue() {
         return value;
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+
+        if (!(o instanceof CountFilter)) {
+            return false;
+        }
+
+        return this.value.equals(((CountFilter) o).getValue());
     }
 
 }

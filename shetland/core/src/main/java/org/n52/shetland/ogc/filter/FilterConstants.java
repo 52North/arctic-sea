@@ -368,7 +368,8 @@ public interface FilterConstants {
         Add,
         Sub,
         Mul,
-        Div
+        Div,
+        Mod
     }
 
     enum Id {

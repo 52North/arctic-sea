@@ -16,9 +16,15 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
+import org.n52.shetland.filter.OrderProperty;
+
+import java.util.List;
+
 public interface OrderByOption {
 
 //    http://example.org/v1.0/Observations?$orderby=result
 //    http://example.org/v1.0/Observations?$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime
+
+    List<OrderProperty> getSortProperties();
 
 }

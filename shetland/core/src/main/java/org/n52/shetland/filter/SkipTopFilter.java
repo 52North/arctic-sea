@@ -14,28 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.filter;
 
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 
+import java.util.Objects;
+
 public class SkipTopFilter implements FilterClause {
 
-    private SkipTopOperator operator;
-    private Long value;
+    private final SkipTopOperator operator;
+    private final Long value;
 
     public SkipTopFilter(SkipTopOperator operator, Long value) {
-        setOperator(operator);
-        setValue(value);
+        this.operator = operator;
+        this.value = value;
     }
 
     public SkipTopOperator getOperator() {
         return operator;
-    }
-
-    public SkipTopFilter setOperator(SkipTopOperator operator) {
-        this.operator = operator;
-        return this;
     }
 
     /**
@@ -45,13 +43,20 @@ public class SkipTopFilter implements FilterClause {
         return value;
     }
 
-    /**
-     * @param value the value to set
-     */
-    public void setValue(Long value) {
-        this.value = value;
+    @Override public int hashCode() {
+        return Objects.hash(operator, value);
     }
 
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
 
+        if (!(o instanceof SkipTopFilter)) {
+            return false;
+        }
 
+        return Objects.equals(this.operator, ((SkipTopFilter) o).getOperator())
+                && Objects.equals(this.value, ((SkipTopFilter) o).getValue());
+    }
 }

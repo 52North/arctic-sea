@@ -16,10 +16,14 @@
  */
 package org.n52.shetland.oasis.odata.query.option;
 
+import java.util.Set;
+
 public interface SelectOption {
 
 //    http://example.org/v1.0/Observations?$select=result,resultTime
 //    http://example.org/v1.0/Datastreams(1)?$select=id,Observations&$expand=Observations/FeatureOfInterest
 //    http://example.org/v1.0/Datastreams(1)?$expand=Observations($select=result)
+
+    Set<String> getItems();
 
 }

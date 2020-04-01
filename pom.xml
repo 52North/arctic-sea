@@ -151,6 +151,7 @@
         <version.hamcrest>2.2</version.hamcrest>
         <version.httpcore>4.4.13</version.httpcore>
         <version.elastic>7.6.2</version.elastic>
+        <version.antlr4>4.8</version.antlr4>
         <version.maven-javadoc-plugin>3.2.0</version.maven-javadoc-plugin>
     </properties>
 
@@ -645,6 +646,19 @@
                 <artifactId>odata-commons-api</artifactId>
                 <version>${version.olingo}</version>
             </dependency>
+
+            <!-- Svalbard Odata Query Expression Parsing-->
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4</artifactId>
+                <version>${version.antlr4}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>${version.antlr4}</version>
+            </dependency>
+
 
             <!-- JSON -->
             <dependency>

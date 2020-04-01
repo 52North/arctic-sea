@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.shetland.ogc.sta;
 
 public interface StaConstants {
@@ -54,6 +55,33 @@ public interface StaConstants {
 
     String IOT_ID = "iot.id";
 
+    String IOT_SELFLINK = "iot.selfLink";
+
     String AT_IOT_ID = AT + IOT_ID;
+
+    String AT_IOT_SELFLINK = AT + IOT_SELFLINK;
+
+    // Entity Property Names
+    String PROP_ID = "id";
+    String PROP_SELF_LINK = "selfLink";
+    String PROP_DEFINITION = "definition";
+    String PROP_DESCRIPTION = "description";
+    String PROP_ENCODINGTYPE = "encodingType";
+    String PROP_FEATURE = "feature";
+    String PROP_LOCATION = "location";
+    String PROP_NAME = "name";
+    String PROP_OBSERVATION_TYPE = "observationType";
+    String PROP_OBSERVED_AREA = "observedArea";
+    String PROP_PARAMETERS = "parameters";
+    String PROP_PHENOMENON_TIME = "phenomenonTime";
+    String PROP_PROPERTIES = "properties";
+    String PROP_RESULT = "result";
+    String PROP_RESULT_QUALITY = "resultQuality";
+    String PROP_RESULT_TIME = "resultTime";
+    String PROP_TIME = "time";
+    String PROP_UOM = "unitOfMeasurement";
+    String PROP_VALID_TIME = "validTime";
+    String PROP_METADATA = "metadata";
+    String PROP_SYMBOL = "symbol";
 
 }

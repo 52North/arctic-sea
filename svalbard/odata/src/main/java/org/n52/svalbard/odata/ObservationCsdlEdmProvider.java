@@ -14,11 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+package org.n52.svalbard.odata;
 
 import org.apache.olingo.commons.api.edm.EdmPrimitiveTypeKind;
 import org.apache.olingo.commons.api.edm.FullQualifiedName;
@@ -32,14 +29,16 @@ import org.apache.olingo.commons.api.edm.provider.CsdlProperty;
 import org.apache.olingo.commons.api.edm.provider.CsdlPropertyRef;
 import org.apache.olingo.commons.api.edm.provider.CsdlSchema;
 import org.apache.olingo.commons.api.ex.ODataException;
-
 import org.n52.shetland.ogc.gml.GmlConstants;
 import org.n52.shetland.ogc.om.OmConstants;
 import org.n52.shetland.ogc.sos.Sos2Constants;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * {@code CsdlEdmProvider} for O&amp;M Observations.
- *
  * This provider establishes the following properties:
  * <table>
  * <thead>
@@ -73,7 +72,6 @@ import org.n52.shetland.ogc.sos.Sos2Constants;
  * </tbody>
  * </table>
  *
- *
  * @author Christian Autermann
  */
 public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
@@ -87,7 +85,7 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
         CsdlEntityContainer entityContainer = new CsdlEntityContainer();
         entityContainer.setName(CONTAINER_NAME);
         entityContainer.setEntitySets(Collections
-                .singletonList(getEntitySet(FQN.CONTAINER, Prop.OBSERVATION_COLLECTION)));
+                                              .singletonList(getEntitySet(FQN.CONTAINER, Prop.OBSERVATION_COLLECTION)));
         return entityContainer;
     }
 
@@ -113,7 +111,6 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
      * Get the canonical value reference for the supplied property.
      *
      * @param property the property
-     *
      * @return the value reference
      */
     public String mapProperty(String property) {
@@ -121,53 +118,53 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
             return null;
         }
         switch (property) {
-            case Prop.VALUE:
-            case Prop.VALUES:
-            case Prop.COUNT_VALUE:
-            case Prop.COUNT_VALUES:
-            case Prop.NUMERIC_VALUE:
-            case Prop.NUMERIC_VALUES:
-            case Prop.TEXT_VALUE:
-            case Prop.TEXT_VALUES:
-            case Prop.QUANTITY:
-            case Prop.QUANTITIES:
-            case Prop.RESULT:
-                return ValueReference.RESULT;
+        case Prop.VALUE:
+        case Prop.VALUES:
+        case Prop.COUNT_VALUE:
+        case Prop.COUNT_VALUES:
+        case Prop.NUMERIC_VALUE:
+        case Prop.NUMERIC_VALUES:
+        case Prop.TEXT_VALUE:
+        case Prop.TEXT_VALUES:
+        case Prop.QUANTITY:
+        case Prop.QUANTITIES:
+        case Prop.RESULT:
+            return ValueReference.RESULT;
 
-            case Prop.SAMPLING_GEOMETRY:
-                return ValueReference.SAMPLING_GEOMETRY;
+        case Prop.SAMPLING_GEOMETRY:
+            return ValueReference.SAMPLING_GEOMETRY;
 
-            case Prop.PHENOMENON_TIME:
-                return ValueReference.PHENOMENON_TIME;
+        case Prop.PHENOMENON_TIME:
+            return ValueReference.PHENOMENON_TIME;
 
-            case Prop.RESULT_TIME:
-                return ValueReference.RESULT_TIME;
+        case Prop.RESULT_TIME:
+            return ValueReference.RESULT_TIME;
 
-            case Prop.VALID_TIME:
-                return ValueReference.VALID_TIME;
+        case Prop.VALID_TIME:
+            return ValueReference.VALID_TIME;
 
-            case Prop.OBSERVED_PROPERTY:
-                return ValueReference.OBSERVED_PROPERTY;
+        case Prop.OBSERVED_PROPERTY:
+            return ValueReference.OBSERVED_PROPERTY;
 
-            case Prop.PROCEDURE:
-                return ValueReference.PROCEDURE;
+        case Prop.PROCEDURE:
+            return ValueReference.PROCEDURE;
 
-            case Prop.FEATURE_OF_INTEREST_ID:
-            case Prop.FEATURE_OF_INTEREST:
-                return ValueReference.FEATURE_OF_INTEREST;
-            case Prop.FEATURE:
-            case Prop.FEATURE_OF_INTEREST_SHAPE:
-                return ValueReference.FEATURE_OF_INTEREST_SHAPE;
+        case Prop.FEATURE_OF_INTEREST_ID:
+        case Prop.FEATURE_OF_INTEREST:
+            return ValueReference.FEATURE_OF_INTEREST;
+        case Prop.FEATURE:
+        case Prop.FEATURE_OF_INTEREST_SHAPE:
+            return ValueReference.FEATURE_OF_INTEREST_SHAPE;
 
-            case Prop.OFFERING:
-                return ValueReference.OFFERING;
+        case Prop.OFFERING:
+            return ValueReference.OFFERING;
 
-            case Prop.ID:
-            case Prop.IDENTIFIER:
-                return ValueReference.IDENTIFIER;
+        case Prop.ID:
+        case Prop.IDENTIFIER:
+            return ValueReference.IDENTIFIER;
 
-            default:
-                return property;
+        default:
+            return property;
         }
     }
 
@@ -207,15 +204,16 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
 
     @Override
     public List<CsdlSchema> getSchemas() throws ODataException {
-        return Collections.singletonList(new CsdlSchema()
-                .setNamespace(NS_OM)
-                .setComplexTypes(Arrays.asList(getComplexType(FQN.ABSTRACT_TIME_OBJECT),
-                                               getComplexType(FQN.TIME_INSTANT),
-                                               getComplexType(FQN.TIME_PERIOD),
-                                               getComplexType(FQN.RESULT),
-                                               getComplexType(FQN.FEATURE_OF_INTEREST)))
-                .setEntityTypes(Arrays.asList(getEntityType(FQN.OBSERVATION)))
-                .setEntityContainer(getEntityContainer()));
+        return Collections.singletonList(
+                new CsdlSchema()
+                        .setNamespace(NS_OM)
+                        .setComplexTypes(Arrays.asList(getComplexType(FQN.ABSTRACT_TIME_OBJECT),
+                                                       getComplexType(FQN.TIME_INSTANT),
+                                                       getComplexType(FQN.TIME_PERIOD),
+                                                       getComplexType(FQN.RESULT),
+                                                       getComplexType(FQN.FEATURE_OF_INTEREST)))
+                        .setEntityTypes(Arrays.asList(getEntityType(FQN.OBSERVATION)))
+                        .setEntityContainer(getEntityContainer()));
     }
 
     @Override
@@ -257,13 +255,17 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
     }
 
     private static CsdlComplexType newAbstractComplexType(FullQualifiedName name, CsdlProperty... properties) {
-        return new CsdlComplexType().setOpenType(true).setAbstract(true).setName(name.getName()).setProperties(Arrays
-                .asList(properties));
+        return new CsdlComplexType().setOpenType(true)
+                                    .setAbstract(true)
+                                    .setName(name.getName())
+                                    .setProperties(Arrays.asList(properties));
     }
 
     private static CsdlComplexType newComplexType(FullQualifiedName name, CsdlProperty... properties) {
-        return new CsdlComplexType().setOpenType(true).setAbstract(false).setName(name.getName()).setProperties(Arrays
-                .asList(properties));
+        return new CsdlComplexType().setOpenType(true)
+                                    .setAbstract(false)
+                                    .setName(name.getName())
+                                    .setProperties(Arrays.asList(properties));
     }
 
     private static CsdlComplexType newComplexType(FullQualifiedName name, FullQualifiedName base,
@@ -288,6 +290,7 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
         FullQualifiedName COUNT = EdmPrimitiveTypeKind.Int64.getFullQualifiedName();
         FullQualifiedName GEOMETRY_POINT = EdmPrimitiveTypeKind.GeometryPoint.getFullQualifiedName();
     }
+
 
     /**
      * Property constants.
@@ -329,6 +332,7 @@ public class ObservationCsdlEdmProvider extends CsdlAbstractEdmProvider {
         String FEATURE_OF_INTEREST_SHAPE = "featureOfInterest/shape";
 
     }
+
 
     /**
      * Value reference constants.
