@@ -17,7 +17,7 @@
 package org.n52.svalbard.odata.core.expr.arithmetic;
 
 import org.n52.shetland.ogc.filter.FilterConstants.SimpleArithmeticOperator;
-import org.n52.svalbard.odata.core.expr.binary.BinaryExpr;
+import org.n52.svalbard.odata.core.expr.BinaryExpr;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
 
 import java.util.Optional;
@@ -65,5 +65,19 @@ public class SimpleArithmeticExpr extends BinaryExpr<SimpleArithmeticOperator> i
      */
     @Override public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitSimpleArithmetic(this);
+    }
+
+    @Override public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof SimpleArithmeticExpr)) {
+            return false;
+        }
+        return super.equals(o);
     }
 }

@@ -16,6 +16,8 @@
  */
 package org.n52.svalbard.odata.core.expr;
 
+import org.n52.shetland.filter.FilterFilter;
+
 import java.util.Objects;
 
 /**
@@ -55,4 +57,17 @@ public class StringValueExpr implements DirectTextExpr {
         return visitor.visitString(this);
     }
 
+    @Override public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof StringValueExpr)) {
+            return false;
+        }
+        return Objects.equals(this.value, ((StringValueExpr) o).getValue());
+    }
 }

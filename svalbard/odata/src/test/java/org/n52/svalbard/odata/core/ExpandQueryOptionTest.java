@@ -34,7 +34,7 @@ import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.svalbard.odata.core.expr.MemberExpr;
 import org.n52.svalbard.odata.core.expr.StringValueExpr;
 import org.n52.svalbard.odata.core.expr.arithmetic.NumericValueExpr;
-import org.n52.svalbard.odata.core.expr.binary.ComparisonExpr;
+import org.n52.svalbard.odata.core.expr.bool.ComparisonExpr;
 
 import java.util.HashSet;
 import java.util.Set;

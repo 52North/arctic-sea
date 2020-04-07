@@ -14,9 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.core.expr.binary;
-
-import org.n52.svalbard.odata.core.expr.Expr;
+package org.n52.svalbard.odata.core.expr;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -86,6 +84,16 @@ public abstract class BinaryExpr<T> implements Expr {
     @Override
     public String toString() {
         return String.format("(%s %s %s)", this.left, this.operator, this.right);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.operator, this.left, this.right);
+    }
+
+    @Override public boolean equals(Object o) {
+        return Objects.equals(this.operator, ((BinaryExpr) o).getOperator())
+                && Objects.equals(this.left, ((BinaryExpr) o).getLeft())
+                && Objects.equals(this.right, ((BinaryExpr) o).getRight());
     }
 
 }

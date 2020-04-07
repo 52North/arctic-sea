@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.core.expr.binary;
+package org.n52.svalbard.odata.core.expr.bool;
 
 import java.util.Optional;
 
@@ -57,7 +57,20 @@ public class BooleanUnaryExpr extends UnaryExpr<UnaryLogicOperator> implements B
     @Override
     public BooleanExpr getOperand() {
         return (BooleanExpr) super.getOperand();
+    }
 
+    @Override public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof BooleanExpr)) {
+            return false;
+        }
+        return super.equals(o);
     }
 
 }

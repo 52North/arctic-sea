@@ -14,44 +14,69 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.core.expr.binary;
+package org.n52.svalbard.odata.core.expr.bool;
 
 import java.util.Optional;
 
-import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
-import org.n52.svalbard.odata.core.expr.Expr;
+import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
+import org.n52.svalbard.odata.core.expr.BinaryExpr;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
 
 /**
- * Class to hold a comparison expression.
+ * Class to hold a binary boolean expression
  *
  * @author Christian Autermann
  */
-public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements BooleanExpr {
+public class BooleanBinaryExpr extends BinaryExpr<BinaryLogicOperator> implements BooleanExpr {
 
     /**
-     * Create a new {@code ComparisonExpr}.
+     * Create a new {@code BooleanBinaryExpr}.
      *
      * @param operator the operator
      * @param left     the left operand
      * @param right    the right operand
      */
-    public ComparisonExpr(ComparisonOperator operator, Expr left, Expr right) {
+    public BooleanBinaryExpr(BinaryLogicOperator operator, BooleanExpr left, BooleanExpr right) {
         super(operator, left, right);
     }
 
     @Override
-    public boolean isComparison() {
+    public boolean isBooleanBinary() {
         return true;
     }
 
     @Override
-    public Optional<ComparisonExpr> asComparison() {
+    public Optional<BooleanBinaryExpr> asBooleanBinary() {
         return Optional.of(this);
     }
 
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitComparison(this);
+        return visitor.visitBooleanBinary(this);
     }
+
+    @Override
+    public BooleanExpr getLeft() {
+        return (BooleanExpr) super.getLeft();
+    }
+
+    @Override
+    public BooleanExpr getRight() {
+        return (BooleanExpr) super.getRight();
+    }
+
+    @Override public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof BooleanBinaryExpr)) {
+            return false;
+        }
+        return super.equals(o);
+    }
+
 }

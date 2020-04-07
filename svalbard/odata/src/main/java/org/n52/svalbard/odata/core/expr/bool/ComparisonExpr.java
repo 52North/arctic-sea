@@ -14,54 +14,59 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.core.expr.binary;
+package org.n52.svalbard.odata.core.expr.bool;
 
 import java.util.Optional;
 
-import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
+import org.n52.shetland.ogc.filter.FilterConstants.ComparisonOperator;
+import org.n52.svalbard.odata.core.expr.BinaryExpr;
+import org.n52.svalbard.odata.core.expr.Expr;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
 
 /**
- * Class to hold a binary boolean expression
+ * Class to hold a comparison expression.
  *
  * @author Christian Autermann
  */
-public class BooleanBinaryExpr extends BinaryExpr<BinaryLogicOperator> implements BooleanExpr {
+public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements BooleanExpr {
 
     /**
-     * Create a new {@code BooleanBinaryExpr}.
+     * Create a new {@code ComparisonExpr}.
      *
      * @param operator the operator
      * @param left     the left operand
      * @param right    the right operand
      */
-    public BooleanBinaryExpr(BinaryLogicOperator operator, BooleanExpr left, BooleanExpr right) {
+    public ComparisonExpr(ComparisonOperator operator, Expr left, Expr right) {
         super(operator, left, right);
     }
 
     @Override
-    public boolean isBooleanBinary() {
+    public boolean isComparison() {
         return true;
     }
 
     @Override
-    public Optional<BooleanBinaryExpr> asBooleanBinary() {
+    public Optional<ComparisonExpr> asComparison() {
         return Optional.of(this);
     }
 
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
-        return visitor.visitBooleanBinary(this);
+        return visitor.visitComparison(this);
     }
 
-    @Override
-    public BooleanExpr getLeft() {
-        return (BooleanExpr) super.getLeft();
+    @Override public int hashCode() {
+        return super.hashCode();
     }
 
-    @Override
-    public BooleanExpr getRight() {
-        return (BooleanExpr) super.getRight();
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof ComparisonExpr)) {
+            return false;
+        }
+        return super.equals(o);
     }
-
 }

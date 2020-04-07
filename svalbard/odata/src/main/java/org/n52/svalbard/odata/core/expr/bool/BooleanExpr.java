@@ -14,17 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.oasis.odata.query.option;
+package org.n52.svalbard.odata.core.expr.bool;
 
-import org.n52.shetland.filter.OrderProperty;
+import org.n52.svalbard.odata.core.expr.Expr;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface OrderByOption {
+/**
+ * Interface to denote that this expression possibly evaluates to a boolean value.
+ *
+ * @author Christian Autermann
+ */
+public interface BooleanExpr extends Expr {
+    @Override
+    default boolean isBoolean() {
+        return true;
+    }
 
-//    http://example.org/v1.0/Observations?$orderby=result
-//    http://example.org/v1.0/Observations?$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime
-
-    List<OrderProperty> getSortProperties();
+    @Override
+    default Optional<BooleanExpr> asBoolean() {
+        return Optional.of(this);
+    }
 
 }

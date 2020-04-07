@@ -19,6 +19,7 @@ package org.n52.svalbard.odata.core.expr.temporal;
 
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
+import org.n52.svalbard.odata.core.expr.GeoValueExpr;
 
 import java.util.Objects;
 
@@ -62,5 +63,19 @@ public class TimeValueExpr implements TemporalExpr {
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitTime(this);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof TimeValueExpr)) {
+            return false;
+        }
+        return Objects.equals(this.value, ((TimeValueExpr) o).getTime());
     }
 }
