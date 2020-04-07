@@ -19,7 +19,6 @@ package org.n52.svalbard.odata.core.expr.temporal;
 
 import org.n52.shetland.ogc.gml.time.TimeInstant;
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
-import org.n52.svalbard.odata.core.expr.GeoValueExpr;
 
 import java.util.Objects;
 

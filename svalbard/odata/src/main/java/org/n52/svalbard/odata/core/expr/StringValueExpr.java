@@ -14,9 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.svalbard.odata.core.expr;
 
-import org.n52.shetland.filter.FilterFilter;
+package org.n52.svalbard.odata.core.expr;
 
 import java.util.Objects;
 

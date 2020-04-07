@@ -217,11 +217,12 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
             if (Objects.equals(q2Clause.get(), q1Clause.get())) {
                 return q1Clause.get();
             } else {
+                final String empty = "null";
                 throw new STAInvalidQueryError("Invalid Query. Tried to expand the same Entity multiple times "
                                                        + "with different QueryOptions! Could not merge: "
-                                                       + ((q1hasClause.get()) ? q1Clause.get().toString() : "null")
+                                                       + ((q1hasClause.get()) ? q1Clause.get().toString() : empty)
                                                        + " and "
-                                                       + ((q2hasClause.get()) ? q2Clause.get().toString() : "null")
+                                                       + ((q2hasClause.get()) ? q2Clause.get().toString() : empty)
                 );
             }
         } else if (q2hasClause.get()) {
