@@ -30,6 +30,7 @@ import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
+import org.n52.shetland.ogc.sta.exception.STAInvalidQueryError;
 import org.n52.svalbard.odata.core.expr.Expr;
 import org.n52.svalbard.odata.core.expr.GeoValueExpr;
 import org.n52.svalbard.odata.core.expr.MemberExpr;
@@ -50,9 +51,13 @@ import org.n52.svalbard.odata.grammar.STAQueryOptionsGrammarBaseVisitor;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
@@ -142,7 +147,88 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
         for (STAQueryOptionsGrammar.ExpandItemContext expandItemContext : ctx.expandItem()) {
             expandItems.add(this.visitExpandItem(expandItemContext));
         }
-        return new ExpandFilter(expandItems);
+        return createExpandFilter(expandItems);
+    }
+
+    private ExpandFilter createExpandFilter(Set<ExpandItem> items) {
+        Map<String, ExpandItem> map = new HashMap<>();
+        for (ExpandItem item : items) {
+            if (map.containsKey(item.getPath())) {
+                QueryOptions queryOptions = mergeQueryOptions(map.get(item.getPath()).getQueryOptions(),
+                                                              item.getQueryOptions());
+                map.put(item.getPath(), new ExpandItem(item.getPath(), queryOptions));
+
+            } else {
+                map.put(item.getPath(), item);
+            }
+        }
+        return new ExpandFilter(new HashSet<>(map.values()));
+    }
+
+    private QueryOptions mergeQueryOptions(QueryOptions qo1, QueryOptions qo2) {
+        Set<FilterClause> clauses = new HashSet<>();
+
+        // Merge ExpandItems if they are duplicate
+        if (qo1.hasExpandFilter()) {
+            if (qo2.hasExpandFilter()) {
+                HashSet<ExpandItem> combined = new HashSet<>();
+                combined.addAll(qo1.getExpandFilter().getItems());
+                combined.addAll(qo2.getExpandFilter().getItems());
+                clauses.add(createExpandFilter(combined));
+            } else {
+                clauses.add(qo1.getExpandFilter());
+            }
+        } else if (qo2.hasExpandFilter()) {
+            clauses.add(qo2.getExpandFilter());
+        }
+
+        clauses.add(mergeOption(qo1::hasCountOption,
+                                qo1::getCountOption,
+                                qo2::hasCountOption,
+                                qo2::getCountOption));
+        clauses.add(mergeOption(qo1::hasFilterFilter,
+                                qo1::getFilterFilter,
+                                qo2::hasFilterFilter,
+                                qo2::getFilterFilter));
+        clauses.add(mergeOption(qo1::hasOrderByFilter,
+                                qo1::getOrderByFilter,
+                                qo2::hasOrderByFilter,
+                                qo2::getOrderByFilter));
+        clauses.add(mergeOption(qo1::hasSelectFilter,
+                                qo1::getSelectFilter,
+                                qo2::hasSelectFilter,
+                                qo2::getSelectFilter));
+        clauses.add(mergeOption(qo1::hasSkipOption,
+                                qo1::getSkipOption,
+                                qo2::hasSkipOption,
+                                qo2::getSkipOption));
+        clauses.add(mergeOption(qo1::hasTopOption,
+                                qo1::getTopOption,
+                                qo2::hasTopOption,
+                                qo2::getTopOption));
+        return new QueryOptions(qo1.getBaseURI(), clauses);
+    }
+
+    private FilterClause mergeOption(Supplier<Boolean> q1hasClause,
+                                     Supplier<FilterClause> q1Clause,
+                                     Supplier<Boolean> q2hasClause,
+                                     Supplier<FilterClause> q2Clause) {
+        if (q1hasClause.get()) {
+            if (Objects.equals(q2Clause.get(), q1Clause.get())) {
+                return q1Clause.get();
+            } else {
+                throw new STAInvalidQueryError("Invalid Query. Tried to expand the same Entity multiple times "
+                                                       + "with different QueryOptions! Could not merge: "
+                                                       + ((q1hasClause.get()) ? q1Clause.get().toString() : "null")
+                                                       + " and "
+                                                       + ((q2hasClause.get()) ? q2Clause.get().toString() : "null")
+                );
+            }
+        } else if (q2hasClause.get()) {
+            return q2Clause.get();
+        } else {
+            return null;
+        }
     }
 
     @Override public ExpandItem visitExpandItem(STAQueryOptionsGrammar.ExpandItemContext ctx) {

@@ -252,7 +252,7 @@ EXPAND_OP
    ;
 
 EXPAND_CP
-   : CP -> popMode , type (CP)
+   : CP -> popMode , popMode , popMode ,type (CP)
    ;
 
 EXPAND_ALPHAPLUS
@@ -279,6 +279,9 @@ EXPAND_AMPERSAND
    : AMPERSAND -> popMode , popMode , type (AMPERSAND)
    ;
 
+mode Dummy;
+DUMMY : 'ä' ;
+
 mode Filter;
 FILTER_EQ
    : EQ -> type (EQ)
@@ -297,11 +300,11 @@ FILTER_COMMA
    ;
 
 FILTER_OP
-   : OP -> type (OP) , pushMode (Filter)
+   : OP -> type (OP) , pushMode (Dummy), pushMode (Dummy), pushMode (Filter)
    ;
 
 FILTER_CP
-   : CP -> type (CP) , popMode
+   : CP -> type (CP), popMode, popMode, popMode
    ;
 
 FILTER_SLASH
