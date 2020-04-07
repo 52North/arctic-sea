@@ -43,33 +43,33 @@ public class QueryOptions {
     private String baseURL;
 
     private CountFilter countOption;
-    private OrderByFilter orderByOption;
-    private SelectFilter selectOption;
-    private ExpandFilter expandOption;
+    private OrderByFilter OrderByFilter;
+    private SelectFilter SelectFilter;
+    private ExpandFilter ExpandFilter;
     private SkipTopFilter skipOption;
     private SkipTopFilter topOption;
-    private FilterFilter filterOption;
+    private FilterFilter FilterFilter;
 
     public QueryOptions(String baseURL, Set<FilterClause> queryOptions) {
         this.baseURL = baseURL;
         if (queryOptions != null) {
             queryOptions.forEach(input -> {
-                if (input instanceof CountOption) {
+                if (input instanceof CountFilter) {
                     countOption = (CountFilter) input;
-                } else if (input instanceof OrderByOption) {
-                    orderByOption = (OrderByFilter) input;
-                } else if (input instanceof SelectOption) {
-                    selectOption = (SelectFilter) input;
-                } else if (input instanceof ExpandOption) {
-                    expandOption = (ExpandFilter) input;
+                } else if (input instanceof OrderByFilter) {
+                    OrderByFilter = (OrderByFilter) input;
+                } else if (input instanceof SelectFilter) {
+                    SelectFilter = (SelectFilter) input;
+                } else if (input instanceof ExpandFilter) {
+                    ExpandFilter = (ExpandFilter) input;
                 } else if (input instanceof SkipTopFilter &&
                         ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Skip)) {
                     skipOption = (SkipTopFilter) input;
                 } else if (input instanceof SkipTopFilter &&
                         ((SkipTopFilter) input).getOperator().equals(FilterConstants.SkipTopOperator.Top)) {
                     topOption = (SkipTopFilter) input;
-                } else if (input instanceof FilterOption) {
-                    filterOption = (FilterFilter) input;
+                } else if (input instanceof FilterFilter) {
+                    FilterFilter = (FilterFilter) input;
                 }
             });
         }
@@ -106,36 +106,36 @@ public class QueryOptions {
         return skipOption;
     }
 
-    public boolean hasOrderByOption() {
-        return orderByOption != null;
+    public boolean hasOrderByFilter() {
+        return OrderByFilter != null;
     }
 
-    public OrderByOption getOrderByOption() {
-        return orderByOption;
+    public OrderByFilter getOrderByFilter() {
+        return OrderByFilter;
     }
 
-    public boolean hasSelectOption() {
-        return selectOption != null;
+    public boolean hasSelectFilter() {
+        return SelectFilter != null;
     }
 
-    public SelectOption getSelectOption() {
-        return selectOption;
+    public SelectFilter getSelectFilter() {
+        return SelectFilter;
     }
 
-    public boolean hasExpandOption() {
-        return expandOption != null;
+    public boolean hasExpandFilter() {
+        return ExpandFilter != null;
     }
 
-    public ExpandOption getExpandOption() {
-        return expandOption;
+    public ExpandFilter getExpandFilter() {
+        return ExpandFilter;
     }
 
-    public boolean hasFilterOption() {
-        return filterOption != null;
+    public boolean hasFilterFilter() {
+        return FilterFilter != null;
     }
 
-    public FilterOption getFilterOption() {
-        return filterOption;
+    public FilterFilter getFilterFilter() {
+        return FilterFilter;
     }
 
     @Override public int hashCode() {
@@ -143,10 +143,10 @@ public class QueryOptions {
                             countOption,
                             topOption,
                             skipOption,
-                            orderByOption,
-                            selectOption,
-                            expandOption,
-                            filterOption);
+                            OrderByFilter,
+                            SelectFilter,
+                            ExpandFilter,
+                            FilterFilter);
     }
 
     // BaseURI is not always set -> we need to compare each option individually
@@ -157,18 +157,18 @@ public class QueryOptions {
         }
         QueryOptions obj = (QueryOptions) o;
         return obj.hasCountOption() == this.hasCountOption()
-                && obj.hasOrderByOption() == this.hasOrderByOption()
-                && obj.hasSelectOption() == this.hasSelectOption()
-                && obj.hasExpandOption() == this.hasExpandOption()
+                && obj.hasOrderByFilter() == this.hasOrderByFilter()
+                && obj.hasSelectFilter() == this.hasSelectFilter()
+                && obj.hasExpandFilter() == this.hasExpandFilter()
                 && obj.hasSkipOption() == this.hasSkipOption()
                 && obj.hasTopOption() == this.hasTopOption()
-                && obj.hasFilterOption() == this.hasFilterOption()
+                && obj.hasFilterFilter() == this.hasFilterFilter()
                 && Objects.equals(obj.getCountOption(), this.getCountOption())
-                && Objects.equals(obj.getOrderByOption(), this.getOrderByOption())
-                && Objects.equals(obj.getSelectOption(), this.getSelectOption())
-                && Objects.equals(obj.getExpandOption(), this.getExpandOption())
+                && Objects.equals(obj.getOrderByFilter(), this.getOrderByFilter())
+                && Objects.equals(obj.getSelectFilter(), this.getSelectFilter())
+                && Objects.equals(obj.getExpandFilter(), this.getExpandFilter())
                 && Objects.equals(obj.getSkipOption(), this.getSkipOption())
                 && Objects.equals(obj.getTopOption(), this.getTopOption())
-                && Objects.equals(obj.getFilterOption(), this.getFilterOption());
+                && Objects.equals(obj.getFilterFilter(), this.getFilterFilter());
     }
 }

@@ -17,14 +17,13 @@
 
 package org.n52.shetland.filter;
 
-import org.n52.shetland.oasis.odata.query.option.SelectOption;
 import org.n52.shetland.ogc.filter.FilterClause;
 
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class SelectFilter implements FilterClause, SelectOption {
+public class SelectFilter implements FilterClause {
 
     private final Set<String> items;
 
@@ -37,7 +36,7 @@ public class SelectFilter implements FilterClause, SelectOption {
         this.items = items;
     }
 
-    @Override public Set<String> getItems() {
+    public Set<String> getItems() {
         return this.items;
     }
 

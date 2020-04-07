@@ -16,7 +16,6 @@
  */
 package org.n52.shetland.filter;
 
-import org.n52.shetland.oasis.odata.query.option.FilterOption;
 import org.n52.shetland.ogc.filter.FilterClause;
 
 import java.util.Objects;
@@ -24,7 +23,7 @@ import java.util.Objects;
 /**
  * @author <a href="mailto:j.speckamp@52north.org">Jan Speckamp</a>
  */
-public class FilterFilter implements FilterOption, FilterClause {
+public class FilterFilter implements FilterClause {
 
     private final Object filter;
 
@@ -54,8 +53,6 @@ public class FilterFilter implements FilterOption, FilterClause {
             return false;
         }
 
-        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.core.expr
-        // For now always returns true
-        return true;
+        return Objects.equals(((FilterFilter) o).getFilter(), this.getFilter());
     }
 }

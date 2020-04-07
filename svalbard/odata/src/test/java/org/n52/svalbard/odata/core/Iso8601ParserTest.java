@@ -265,7 +265,7 @@ public class Iso8601ParserTest extends QueryOptionTests {
     private TimeInstant getTimeFromQueryOptions(Object queryOptions) {
         return (TimeInstant) (
                 (TimeValueExpr) (
-                        (ComparisonExpr) ((QueryOptions) queryOptions).getFilterOption().getFilter()).getRight())
+                        (ComparisonExpr) ((QueryOptions) queryOptions).getFilterFilter().getFilter()).getRight())
                 .getTime();
     }
 }

@@ -17,7 +17,6 @@
 
 package org.n52.shetland.filter;
 
-import org.n52.shetland.oasis.odata.query.option.OrderByOption;
 import org.n52.shetland.ogc.filter.AbstractSortingClause;
 
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import java.util.Objects;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 1.0.0
  */
-public class OrderByFilter implements AbstractSortingClause, OrderByOption {
+public class OrderByFilter implements AbstractSortingClause {
 
     private final List<OrderProperty> sortProperties;
 

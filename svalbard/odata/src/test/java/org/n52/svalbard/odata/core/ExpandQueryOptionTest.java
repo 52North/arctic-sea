@@ -56,7 +56,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         val = "test";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         reference = new ExpandFilter(new ExpandItem(val, defaultQO));
         Assertions.assertEquals(reference, actual);
 
@@ -65,7 +65,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         nested = "nested";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + "/" + nested);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new ExpandFilter(new ExpandItem(nested, defaultQO)));
         reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
@@ -76,7 +76,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         String queryOption = "($filter=id eq '2')";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + queryOption);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new FilterFilter(new ComparisonExpr(FilterConstants.ComparisonOperator.PropertyIsEqualTo,
                                                               new MemberExpr("id"),
@@ -89,7 +89,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         queryOption = "($top=52)";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + queryOption);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Top, 52L));
         reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
@@ -100,7 +100,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         queryOption = "($skip=52)";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + queryOption);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new SkipTopFilter(FilterConstants.SkipTopOperator.Skip, 52L));
         reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
@@ -111,7 +111,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         queryOption = "($select=id)";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + queryOption);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new SelectFilter("id"));
         reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
@@ -122,7 +122,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         queryOption = "($expand=nested)";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + queryOption);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new ExpandFilter(new ExpandItem(nested, defaultQO)));
         reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
@@ -133,7 +133,7 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         queryOption = "($orderby=id asc)";
         init(ODataConstants.QueryOptions.EXPAND + EQ + val + queryOption);
         actual = (ExpandFilter) ((QueryOptions) parser.queryOptions()
-                                                      .accept(new STAQueryOptionVisitor())).getExpandOption();
+                                                      .accept(new STAQueryOptionVisitor())).getExpandFilter();
         nestedFilters = new HashSet<>();
         nestedFilters.add(new OrderByFilter(new OrderProperty("id", FilterConstants.SortOrder.ASC)));
         reference = new ExpandFilter(new ExpandItem(val, new QueryOptions("", nestedFilters)));
@@ -176,19 +176,19 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                      + "$skip=5;$top=10;$count=true),ObservedProperty");
         QueryOptions options =
                 (QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor());
-        Assertions.assertTrue(options.hasExpandOption());
-        Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
-        Set<ExpandItem> items = (options.getExpandOption().getItems());
+        Assertions.assertTrue(options.hasExpandFilter());
+        Assertions.assertTrue(options.getExpandFilter() instanceof ExpandFilter);
+        Set<ExpandItem> items = (options.getExpandFilter().getItems());
         Assertions.assertNotNull(items);
         Assertions.assertEquals(2, items.size());
 
         for (ExpandItem obs : items) {
             if (obs.getPath().equals("Observations")) {
                 Assertions.assertEquals("Observations", obs.getPath());
-                Assertions.assertTrue(obs.getQueryOptions().hasExpandOption());
-                Assertions.assertTrue(obs.getQueryOptions().hasFilterOption());
-                Assertions.assertTrue(obs.getQueryOptions().hasSelectOption());
-                Assertions.assertTrue(obs.getQueryOptions().hasOrderByOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasExpandFilter());
+                Assertions.assertTrue(obs.getQueryOptions().hasFilterFilter());
+                Assertions.assertTrue(obs.getQueryOptions().hasSelectFilter());
+                Assertions.assertTrue(obs.getQueryOptions().hasOrderByFilter());
                 Assertions.assertTrue(obs.getQueryOptions().hasSkipOption());
                 Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
                 Assertions.assertTrue(obs.getQueryOptions().hasCountOption());
@@ -213,10 +213,10 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                 Assertions.assertNotNull(obs.getQueryOptions());
                 Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
 
-                Assertions.assertFalse(obs.getQueryOptions().hasExpandOption());
-                Assertions.assertFalse(obs.getQueryOptions().hasFilterOption());
-                Assertions.assertFalse(obs.getQueryOptions().hasSelectOption());
-                Assertions.assertFalse(obs.getQueryOptions().hasOrderByOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasExpandFilter());
+                Assertions.assertFalse(obs.getQueryOptions().hasFilterFilter());
+                Assertions.assertFalse(obs.getQueryOptions().hasSelectFilter());
+                Assertions.assertFalse(obs.getQueryOptions().hasOrderByFilter());
                 Assertions.assertFalse(obs.getQueryOptions().hasSkipOption());
                 Assertions.assertFalse(obs.getQueryOptions().hasCountOption());
             } else {
@@ -238,43 +238,91 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                      + "Datastreams/Sensors/Datastreams");
         QueryOptions options =
                 (QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor());
-        Assertions.assertTrue(options.hasExpandOption());
-        Assertions.assertTrue(options.getExpandOption() instanceof ExpandFilter);
+        Assertions.assertTrue(options.hasExpandFilter());
+        Assertions.assertTrue(options.getExpandFilter() instanceof ExpandFilter);
 
-        Set<ExpandItem> items = (options.getExpandOption().getItems());
+        Set<ExpandItem> items = (options.getExpandFilter().getItems());
 
         Assertions.assertNotNull(items);
         Assertions.assertEquals(1, items.size());
 
         ExpandItem level1 = items.toArray(new ExpandItem[] {})[0];
-        Assertions.assertTrue(level1.getQueryOptions().hasExpandOption());
-        Assertions.assertFalse(level1.getQueryOptions().hasFilterOption());
-        Assertions.assertFalse(level1.getQueryOptions().hasSelectOption());
-        Assertions.assertFalse(level1.getQueryOptions().hasOrderByOption());
+        Assertions.assertTrue(level1.getQueryOptions().hasExpandFilter());
+        Assertions.assertFalse(level1.getQueryOptions().hasFilterFilter());
+        Assertions.assertFalse(level1.getQueryOptions().hasSelectFilter());
+        Assertions.assertFalse(level1.getQueryOptions().hasOrderByFilter());
         Assertions.assertFalse(level1.getQueryOptions().hasSkipOption());
         Assertions.assertTrue(level1.getQueryOptions().hasTopOption());
         Assertions.assertFalse(level1.getQueryOptions().hasCountOption());
         Assertions.assertEquals("Datastreams", level1.getPath());
 
-        ExpandItem level2 = level1.getQueryOptions().getExpandOption().getItems().toArray(new ExpandItem[] {})[0];
-        Assertions.assertTrue(level2.getQueryOptions().hasExpandOption());
-        Assertions.assertFalse(level2.getQueryOptions().hasFilterOption());
-        Assertions.assertFalse(level2.getQueryOptions().hasSelectOption());
-        Assertions.assertFalse(level2.getQueryOptions().hasOrderByOption());
+        ExpandItem level2 = level1.getQueryOptions().getExpandFilter().getItems().toArray(new ExpandItem[] {})[0];
+        Assertions.assertTrue(level2.getQueryOptions().hasExpandFilter());
+        Assertions.assertFalse(level2.getQueryOptions().hasFilterFilter());
+        Assertions.assertFalse(level2.getQueryOptions().hasSelectFilter());
+        Assertions.assertFalse(level2.getQueryOptions().hasOrderByFilter());
         Assertions.assertFalse(level2.getQueryOptions().hasSkipOption());
         Assertions.assertTrue(level2.getQueryOptions().hasTopOption());
         Assertions.assertFalse(level2.getQueryOptions().hasCountOption());
         Assertions.assertEquals("Sensors", level2.getPath());
-        Assertions.assertEquals(1, level2.getQueryOptions().getExpandOption().getItems().size());
+        Assertions.assertEquals(1, level2.getQueryOptions().getExpandFilter().getItems().size());
 
-        ExpandItem level3 = level2.getQueryOptions().getExpandOption().getItems().toArray(new ExpandItem[] {})[0];
-        Assertions.assertFalse(level3.getQueryOptions().hasExpandOption());
-        Assertions.assertFalse(level3.getQueryOptions().hasFilterOption());
-        Assertions.assertFalse(level3.getQueryOptions().hasSelectOption());
-        Assertions.assertFalse(level3.getQueryOptions().hasOrderByOption());
+        ExpandItem level3 = level2.getQueryOptions().getExpandFilter().getItems().toArray(new ExpandItem[] {})[0];
+        Assertions.assertFalse(level3.getQueryOptions().hasExpandFilter());
+        Assertions.assertFalse(level3.getQueryOptions().hasFilterFilter());
+        Assertions.assertFalse(level3.getQueryOptions().hasSelectFilter());
+        Assertions.assertFalse(level3.getQueryOptions().hasOrderByFilter());
         Assertions.assertFalse(level3.getQueryOptions().hasSkipOption());
         Assertions.assertTrue(level3.getQueryOptions().hasTopOption());
         Assertions.assertFalse(level3.getQueryOptions().hasCountOption());
         Assertions.assertEquals("Datastreams", level3.getPath());
+    }
+
+    /**
+     * Checks if Requests such as
+     * $expand=Datastreams($select=name),Datastreams($select=test)
+     * are flagged as incorrect as they are ambiguous
+     */
+    @Test
+    public void invalidAmbiguousQueryOptions() {
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Datastreams($select=name),Datastreams($select=test)");
+        Assertions.assertThrows(
+                RuntimeException.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
+
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Datastreams($orderby=name),Datastreams($orderby=test)");
+        Assertions.assertThrows(
+                RuntimeException.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
+
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Datastreams($filter=id eq '2'),Datastreams($filter=id eq '4')");
+        Assertions.assertThrows(
+                RuntimeException.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
+
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Datastreams($skip=15),Datastreams($skip=52)");
+        Assertions.assertThrows(
+                RuntimeException.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
+
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Datastreams($top=15),Datastreams($top=52)");
+        Assertions.assertThrows(
+                RuntimeException.class,
+                () -> parser.queryOptions().accept(new STAQueryOptionVisitor())
+        );
     }
 }
