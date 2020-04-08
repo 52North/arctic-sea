@@ -65,25 +65,25 @@ public class TopQueryOptionTest extends QueryOptionTests {
         int val = 1;
         SkipTopFilter filter;
         init(ODataConstants.QueryOptions.TOP + EQ + val);
-        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopOption();
+        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopFilter();
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), val);
 
         val = 0;
         init(ODataConstants.QueryOptions.TOP + EQ + val);
-        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopOption();
+        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopFilter();
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), val);
 
         val = 100000;
         init(ODataConstants.QueryOptions.TOP + EQ + val);
-        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopOption();
+        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopFilter();
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), val);
 
         long longval = Long.MAX_VALUE;
         init(ODataConstants.QueryOptions.TOP + EQ + longval);
-        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopOption();
+        filter = ((QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor())).getTopFilter();
         Assertions.assertEquals(filter.getOperator(), FilterConstants.SkipTopOperator.Top);
         Assertions.assertEquals(filter.getValue(), longval);
     }

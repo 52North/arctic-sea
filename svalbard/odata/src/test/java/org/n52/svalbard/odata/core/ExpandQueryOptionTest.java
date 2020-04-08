@@ -190,9 +190,9 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                 Assertions.assertTrue(obs.getQueryOptions().hasFilterFilter());
                 Assertions.assertTrue(obs.getQueryOptions().hasSelectFilter());
                 Assertions.assertTrue(obs.getQueryOptions().hasOrderByFilter());
-                Assertions.assertTrue(obs.getQueryOptions().hasSkipOption());
-                Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
-                Assertions.assertTrue(obs.getQueryOptions().hasCountOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasSkipFilter());
+                Assertions.assertTrue(obs.getQueryOptions().hasTopFilter());
+                Assertions.assertTrue(obs.getQueryOptions().hasCountFilter());
 
                 Set<FilterClause> filters = new HashSet<>();
                 filters.add(new FilterFilter(new ComparisonExpr(FilterConstants.ComparisonOperator.PropertyIsEqualTo,
@@ -211,14 +211,14 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
             } else if (obs.getPath().equals("ObservedProperty")) {
                 Assertions.assertEquals("ObservedProperty", obs.getPath());
                 Assertions.assertNotNull(obs.getQueryOptions());
-                Assertions.assertTrue(obs.getQueryOptions().hasTopOption());
+                Assertions.assertTrue(obs.getQueryOptions().hasTopFilter());
 
                 Assertions.assertFalse(obs.getQueryOptions().hasExpandFilter());
                 Assertions.assertFalse(obs.getQueryOptions().hasFilterFilter());
                 Assertions.assertFalse(obs.getQueryOptions().hasSelectFilter());
                 Assertions.assertFalse(obs.getQueryOptions().hasOrderByFilter());
-                Assertions.assertFalse(obs.getQueryOptions().hasSkipOption());
-                Assertions.assertFalse(obs.getQueryOptions().hasCountOption());
+                Assertions.assertFalse(obs.getQueryOptions().hasSkipFilter());
+                Assertions.assertFalse(obs.getQueryOptions().hasCountFilter());
             } else {
                 Assertions.fail("Did not find expected expandItem!");
             }
@@ -251,9 +251,9 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         Assertions.assertFalse(level1.getQueryOptions().hasFilterFilter());
         Assertions.assertFalse(level1.getQueryOptions().hasSelectFilter());
         Assertions.assertFalse(level1.getQueryOptions().hasOrderByFilter());
-        Assertions.assertFalse(level1.getQueryOptions().hasSkipOption());
-        Assertions.assertTrue(level1.getQueryOptions().hasTopOption());
-        Assertions.assertFalse(level1.getQueryOptions().hasCountOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasSkipFilter());
+        Assertions.assertTrue(level1.getQueryOptions().hasTopFilter());
+        Assertions.assertFalse(level1.getQueryOptions().hasCountFilter());
         Assertions.assertEquals("Datastreams", level1.getPath());
 
         ExpandItem level2 = level1.getQueryOptions().getExpandFilter().getItems().toArray(new ExpandItem[] {})[0];
@@ -261,9 +261,9 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         Assertions.assertFalse(level2.getQueryOptions().hasFilterFilter());
         Assertions.assertFalse(level2.getQueryOptions().hasSelectFilter());
         Assertions.assertFalse(level2.getQueryOptions().hasOrderByFilter());
-        Assertions.assertFalse(level2.getQueryOptions().hasSkipOption());
-        Assertions.assertTrue(level2.getQueryOptions().hasTopOption());
-        Assertions.assertFalse(level2.getQueryOptions().hasCountOption());
+        Assertions.assertFalse(level2.getQueryOptions().hasSkipFilter());
+        Assertions.assertTrue(level2.getQueryOptions().hasTopFilter());
+        Assertions.assertFalse(level2.getQueryOptions().hasCountFilter());
         Assertions.assertEquals("Sensors", level2.getPath());
         Assertions.assertEquals(1, level2.getQueryOptions().getExpandFilter().getItems().size());
 
@@ -272,9 +272,9 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         Assertions.assertFalse(level3.getQueryOptions().hasFilterFilter());
         Assertions.assertFalse(level3.getQueryOptions().hasSelectFilter());
         Assertions.assertFalse(level3.getQueryOptions().hasOrderByFilter());
-        Assertions.assertFalse(level3.getQueryOptions().hasSkipOption());
-        Assertions.assertTrue(level3.getQueryOptions().hasTopOption());
-        Assertions.assertFalse(level3.getQueryOptions().hasCountOption());
+        Assertions.assertFalse(level3.getQueryOptions().hasSkipFilter());
+        Assertions.assertTrue(level3.getQueryOptions().hasTopFilter());
+        Assertions.assertFalse(level3.getQueryOptions().hasCountFilter());
         Assertions.assertEquals("Datastreams", level3.getPath());
 
         init(ODataConstants.QueryOptions.EXPAND
@@ -295,9 +295,9 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
         Assertions.assertFalse(level1.getQueryOptions().hasFilterFilter());
         Assertions.assertFalse(level1.getQueryOptions().hasSelectFilter());
         Assertions.assertFalse(level1.getQueryOptions().hasOrderByFilter());
-        Assertions.assertFalse(level1.getQueryOptions().hasSkipOption());
-        Assertions.assertTrue(level1.getQueryOptions().hasTopOption());
-        Assertions.assertFalse(level1.getQueryOptions().hasCountOption());
+        Assertions.assertFalse(level1.getQueryOptions().hasSkipFilter());
+        Assertions.assertTrue(level1.getQueryOptions().hasTopFilter());
+        Assertions.assertFalse(level1.getQueryOptions().hasCountFilter());
         Assertions.assertEquals("Things", level1.getPath());
 
         items = level1.getQueryOptions().getExpandFilter().getItems();
@@ -308,13 +308,13 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
             if (expandItem.getPath().equals("Datastreams")) {
                 Assertions.assertEquals("Datastreams", expandItem.getPath());
                 Assertions.assertTrue(expandItem.getQueryOptions().hasExpandFilter());
-                Assertions.assertTrue(expandItem.getQueryOptions().hasTopOption());
+                Assertions.assertTrue(expandItem.getQueryOptions().hasTopFilter());
 
                 Assertions.assertFalse(expandItem.getQueryOptions().hasFilterFilter());
                 Assertions.assertFalse(expandItem.getQueryOptions().hasSelectFilter());
                 Assertions.assertFalse(expandItem.getQueryOptions().hasOrderByFilter());
-                Assertions.assertFalse(expandItem.getQueryOptions().hasSkipOption());
-                Assertions.assertFalse(expandItem.getQueryOptions().hasCountOption());
+                Assertions.assertFalse(expandItem.getQueryOptions().hasSkipFilter());
+                Assertions.assertFalse(expandItem.getQueryOptions().hasCountFilter());
 
                 Set<ExpandItem> nested = expandItem.getQueryOptions().getExpandFilter().getItems();
                 Assertions.assertNotNull(nested);
@@ -324,36 +324,36 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
                     if (Level2expandItem.getPath().equals("Thing")) {
                         Assertions.assertEquals("Thing", Level2expandItem.getPath());
                         Assertions.assertNotNull(Level2expandItem.getQueryOptions());
-                        Assertions.assertTrue(Level2expandItem.getQueryOptions().hasTopOption());
+                        Assertions.assertTrue(Level2expandItem.getQueryOptions().hasTopFilter());
 
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasExpandFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasFilterFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSelectFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasOrderByFilter());
-                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSkipOption());
-                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasCountOption());
+                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSkipFilter());
+                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasCountFilter());
                     } else if (Level2expandItem.getPath().equals("Sensor")) {
                         Assertions.assertEquals("Sensor", Level2expandItem.getPath());
                         Assertions.assertNotNull(Level2expandItem.getQueryOptions());
-                        Assertions.assertTrue(Level2expandItem.getQueryOptions().hasTopOption());
+                        Assertions.assertTrue(Level2expandItem.getQueryOptions().hasTopFilter());
 
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasExpandFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasFilterFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSelectFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasOrderByFilter());
-                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSkipOption());
-                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasCountOption());
+                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSkipFilter());
+                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasCountFilter());
                     } else if (Level2expandItem.getPath().equals("ObservedProperty")) {
                         Assertions.assertEquals("ObservedProperty", Level2expandItem.getPath());
                         Assertions.assertNotNull(Level2expandItem.getQueryOptions());
-                        Assertions.assertTrue(Level2expandItem.getQueryOptions().hasTopOption());
+                        Assertions.assertTrue(Level2expandItem.getQueryOptions().hasTopFilter());
 
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasExpandFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasFilterFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSelectFilter());
                         Assertions.assertFalse(Level2expandItem.getQueryOptions().hasOrderByFilter());
-                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSkipOption());
-                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasCountOption());
+                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasSkipFilter());
+                        Assertions.assertFalse(Level2expandItem.getQueryOptions().hasCountFilter());
                     } else {
                         Assertions.fail("Did not find expected expandItem!");
                     }
@@ -361,14 +361,14 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
             } else if (expandItem.getPath().equals("Locations")) {
                 Assertions.assertEquals("Locations", expandItem.getPath());
                 Assertions.assertNotNull(expandItem.getQueryOptions());
-                Assertions.assertTrue(expandItem.getQueryOptions().hasTopOption());
+                Assertions.assertTrue(expandItem.getQueryOptions().hasTopFilter());
 
                 Assertions.assertFalse(expandItem.getQueryOptions().hasExpandFilter());
                 Assertions.assertFalse(expandItem.getQueryOptions().hasFilterFilter());
                 Assertions.assertFalse(expandItem.getQueryOptions().hasSelectFilter());
                 Assertions.assertFalse(expandItem.getQueryOptions().hasOrderByFilter());
-                Assertions.assertFalse(expandItem.getQueryOptions().hasSkipOption());
-                Assertions.assertFalse(expandItem.getQueryOptions().hasCountOption());
+                Assertions.assertFalse(expandItem.getQueryOptions().hasSkipFilter());
+                Assertions.assertFalse(expandItem.getQueryOptions().hasCountFilter());
             } else {
                 Assertions.fail("Did not find expected expandItem!");
             }

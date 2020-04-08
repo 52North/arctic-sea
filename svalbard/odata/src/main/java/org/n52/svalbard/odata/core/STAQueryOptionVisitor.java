@@ -182,10 +182,10 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
             clauses.add(qo2.getExpandFilter());
         }
 
-        clauses.add(mergeOption(qo1::hasCountOption,
-                                qo1::getCountOption,
-                                qo2::hasCountOption,
-                                qo2::getCountOption));
+        clauses.add(mergeOption(qo1::hasCountFilter,
+                                qo1::getCountFilter,
+                                qo2::hasCountFilter,
+                                qo2::getCountFilter));
         clauses.add(mergeOption(qo1::hasFilterFilter,
                                 qo1::getFilterFilter,
                                 qo2::hasFilterFilter,
@@ -198,14 +198,14 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
                                 qo1::getSelectFilter,
                                 qo2::hasSelectFilter,
                                 qo2::getSelectFilter));
-        clauses.add(mergeOption(qo1::hasSkipOption,
-                                qo1::getSkipOption,
-                                qo2::hasSkipOption,
-                                qo2::getSkipOption));
-        clauses.add(mergeOption(qo1::hasTopOption,
-                                qo1::getTopOption,
-                                qo2::hasTopOption,
-                                qo2::getTopOption));
+        clauses.add(mergeOption(qo1::hasSkipFilter,
+                                qo1::getSkipFilter,
+                                qo2::hasSkipFilter,
+                                qo2::getSkipFilter));
+        clauses.add(mergeOption(qo1::hasTopFilter,
+                                qo1::getTopFilter,
+                                qo2::hasTopFilter,
+                                qo2::getTopFilter));
         return new QueryOptions(qo1.getBaseURI(), clauses);
     }
 
