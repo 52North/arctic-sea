@@ -75,6 +75,12 @@ public abstract class UnaryExpr<T> implements Expr {
     }
 
     @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof UnaryExpr)) {
+            return false;
+        }
         return Objects.equals(this.operator, ((UnaryExpr) o).getOperator())
                 && Objects.equals(this.operand, ((UnaryExpr) o).getOperand());
     }

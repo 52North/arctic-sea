@@ -91,6 +91,12 @@ public abstract class BinaryExpr<T> implements Expr {
     }
 
     @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof BinaryExpr)) {
+            return false;
+        }
         return Objects.equals(this.operator, ((BinaryExpr) o).getOperator())
                 && Objects.equals(this.left, ((BinaryExpr) o).getLeft())
                 && Objects.equals(this.right, ((BinaryExpr) o).getRight());
