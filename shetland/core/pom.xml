@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.n52.arctic-sea</groupId>
         <artifactId>shetland-parent</artifactId>
-        <version>7.5.0-SNAPSHOT</version>
+        <version>7.4.1</version>
     </parent>
 
     <artifactId>shetland</artifactId>
