@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr.arithmetic;
 
 import org.n52.svalbard.odata.core.expr.ExprVisitor;
@@ -75,6 +76,20 @@ public class NumericValueExpr implements ArithmeticExpr {
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitNumeric(this);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof NumericValueExpr)) {
+            return false;
+        }
+        return Objects.equals(this.value, ((NumericValueExpr) o).getValue());
     }
 
 }

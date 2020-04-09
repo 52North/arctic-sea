@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.n52.shetland.oasis.odata.query.option.QueryOptions;
 import org.n52.shetland.ogc.gml.time.TimeInstant;
-import org.n52.svalbard.odata.core.expr.binary.ComparisonExpr;
+import org.n52.svalbard.odata.core.expr.bool.ComparisonExpr;
 import org.n52.svalbard.odata.core.expr.temporal.TimeValueExpr;
 
 /**
@@ -265,7 +265,7 @@ public class Iso8601ParserTest extends QueryOptionTests {
     private TimeInstant getTimeFromQueryOptions(Object queryOptions) {
         return (TimeInstant) (
                 (TimeValueExpr) (
-                        (ComparisonExpr) ((QueryOptions) queryOptions).getFilterOption().getFilter()).getRight())
+                        (ComparisonExpr) ((QueryOptions) queryOptions).getFilterFilter().getFilter()).getRight())
                 .getTime();
     }
 }

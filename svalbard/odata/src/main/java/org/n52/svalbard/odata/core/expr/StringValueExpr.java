@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr;
 
 import java.util.Objects;
@@ -55,4 +56,17 @@ public class StringValueExpr implements DirectTextExpr {
         return visitor.visitString(this);
     }
 
+    @Override public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof StringValueExpr)) {
+            return false;
+        }
+        return Objects.equals(this.value, ((StringValueExpr) o).getValue());
+    }
 }

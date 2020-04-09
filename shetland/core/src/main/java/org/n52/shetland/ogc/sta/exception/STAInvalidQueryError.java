@@ -14,17 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.oasis.odata.query.option;
 
-import org.n52.shetland.filter.OrderProperty;
+package org.n52.shetland.ogc.sta.exception;
 
-import java.util.List;
+public class STAInvalidQueryError extends Error {
 
-public interface OrderByOption {
+    private static final long serialVersionUID = -6949681213178513459L;
 
-//    http://example.org/v1.0/Observations?$orderby=result
-//    http://example.org/v1.0/Observations?$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime
+    public STAInvalidQueryError(String msg) {
+        super(msg);
+    }
 
-    List<OrderProperty> getSortProperties();
+    public STAInvalidQueryError(String msg, Throwable nested) {
+        super(msg, nested);
+    }
 
 }

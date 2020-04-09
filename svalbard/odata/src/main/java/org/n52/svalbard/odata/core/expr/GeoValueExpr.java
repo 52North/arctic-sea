@@ -64,4 +64,18 @@ public class GeoValueExpr implements Expr {
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitGeometry(this);
     }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof GeoValueExpr)) {
+            return false;
+        }
+        return Objects.equals(this.value, ((GeoValueExpr) o).getGeometry());
+    }
 }

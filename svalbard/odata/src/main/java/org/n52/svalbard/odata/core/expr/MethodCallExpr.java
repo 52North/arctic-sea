@@ -18,7 +18,7 @@
 package org.n52.svalbard.odata.core.expr;
 
 import org.n52.svalbard.odata.core.expr.arithmetic.ArithmeticExpr;
-import org.n52.svalbard.odata.core.expr.binary.BooleanExpr;
+import org.n52.svalbard.odata.core.expr.bool.BooleanExpr;
 import org.n52.svalbard.odata.core.expr.temporal.TemporalExpr;
 
 import java.util.Arrays;
@@ -98,6 +98,21 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitMethodCall(this);
+    }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.parameters, this.name);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof MethodCallExpr)) {
+            return false;
+        }
+        return Objects.equals(this.name, ((MethodCallExpr) o).getName())
+                && Objects.equals(this.parameters, ((MethodCallExpr) o).getParameters());
     }
 
 }

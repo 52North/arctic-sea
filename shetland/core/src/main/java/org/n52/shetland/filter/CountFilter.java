@@ -17,12 +17,11 @@
 
 package org.n52.shetland.filter;
 
-import org.n52.shetland.oasis.odata.query.option.CountOption;
 import org.n52.shetland.ogc.filter.FilterClause;
 
 import java.util.Objects;
 
-public class CountFilter implements FilterClause, CountOption {
+public class CountFilter implements FilterClause {
 
     private final Boolean value;
 

@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.oasis.odata.query.option;
+package org.n52.svalbard.odata.core.expr.bool;
 
-import org.n52.shetland.filter.ExpandItem;
+import org.n52.svalbard.odata.core.expr.Expr;
 
-import java.util.Set;
+import java.util.Optional;
 
-public interface ExpandOption {
+/**
+ * Interface to denote that this expression possibly evaluates to a boolean value.
+ *
+ * @author Christian Autermann
+ */
+public interface BooleanExpr extends Expr {
+    @Override
+    default boolean isBoolean() {
+        return true;
+    }
 
-    // http://example.org/v1.0/Things?$expand=Datastreams/ObservedProperty
-    // http://example.org/v1.0/Datastreams(1)?$expand=Observations,ObservedProperty
-    // http://example.org/v1.0/Datastreams(1)?$expand=Observations($filter=result eq 1)
-
-    /**
-     * Gets all expandItems
-     * @return set of items to be expanded
-     */
-    Set<ExpandItem> getItems();
+    @Override
+    default Optional<BooleanExpr> asBoolean() {
+        return Optional.of(this);
+    }
 
 }

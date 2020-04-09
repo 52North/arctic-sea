@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr;
 
 import java.util.Objects;
@@ -23,7 +24,6 @@ import java.util.Optional;
  * Class to represent a unary expression.
  *
  * @param <T> the operator type
- *
  * @author Christian Autermann
  */
 public abstract class UnaryExpr<T> implements Expr {
@@ -70,4 +70,18 @@ public abstract class UnaryExpr<T> implements Expr {
         return String.format("(%s %s)", this.operator, this.operand);
     }
 
+    @Override public int hashCode() {
+        return Objects.hash(this.operator, this.operand);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof UnaryExpr)) {
+            return false;
+        }
+        return Objects.equals(this.operator, ((UnaryExpr) o).getOperator())
+                && Objects.equals(this.operand, ((UnaryExpr) o).getOperand());
+    }
 }

@@ -67,4 +67,18 @@ public final class MemberExpr implements ArithmeticExpr, DirectTextExpr {
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitMember(this);
     }
+
+    @Override public int hashCode() {
+        return Objects.hash(this.value);
+    }
+
+    @Override public boolean equals(Object o) {
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof MemberExpr)) {
+            return false;
+        }
+        return Objects.equals(this.value, ((MemberExpr) o).getValue());
+    }
 }
