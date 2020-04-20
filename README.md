@@ -44,7 +44,7 @@ All projects are available on Maven Central.
 
 ```xml
 <properties>
-  <version.arctic-sea>7.4.0</version.arctic-sea>
+  <version.arctic-sea>7.4.1</version.arctic-sea>
 </properties>
 <dependencies>
   <dependency>
@@ -156,7 +156,7 @@ For convenience the [52°North Maven parent][maven-parents] can be used:
 <parent>
     <groupId>org.n52</groupId>
     <artifactId>parent</artifactId>
-    <version>15</version>
+    <version>16</version>
 </parent>
 ```
 
@@ -173,7 +173,7 @@ Development versions can be optained from the Sonatype OSS snapshot repository:
   </repository>
 </repositories>
 <properties>
-  <version.arctic-sea>7.3.0-SNAPSHOT</version.arctic-sea>
+  <version.arctic-sea>7.5.0-SNAPSHOT</version.arctic-sea>
 </properties>
 ```
 
