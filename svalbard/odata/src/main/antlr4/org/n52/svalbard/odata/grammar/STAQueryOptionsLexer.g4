@@ -284,6 +284,10 @@ FILTER_EQ
    : EQ -> type (EQ)
    ;
 
+FILTER_AMPERSAND
+   : AMPERSAND -> popMode , popMode , type (AMPERSAND)
+   ;
+
 FILTER_SP
    : SP -> type (SP)
    ;
