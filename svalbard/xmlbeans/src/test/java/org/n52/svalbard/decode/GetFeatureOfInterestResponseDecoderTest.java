@@ -57,7 +57,8 @@ public class GetFeatureOfInterestResponseDecoderTest {
                                                  new GmlDecoderv321(),
                                                  new OmDecoderv20(),
                                                  new SweCommonDecoderV20(),
-                                                 new SamplingDecoderv20())
+                                                 new SamplingDecoderv20(),
+                                                 new WmlMonitoringPointDecoderv20())
                 .map(decoder -> {
                     decoder.setDecoderRepository(decoderRepository);
                     decoder.setXmlOptions(xmlOptions);
@@ -83,6 +84,27 @@ public class GetFeatureOfInterestResponseDecoderTest {
             assertThat(abstractFeature.getMembers().size(), is(266));
 
             System.out.println("feature: "+response.getAbstractFeature());
+        } catch (Throwable t) {
+            t.printStackTrace(System.out);
+            throw t;
+        }
+    }
+    
+    @Test
+    public void testWmlMonitoringPoint() throws XmlException, IOException, DecodingException {
+        try {
+            XmlObject xml = XmlObject.Factory.parse(getClass()
+                    .getResourceAsStream("/GetFoiWml.xml"));
+            DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
+            System.out.println(decoderKey);
+            Decoder<GetFeatureOfInterestResponse, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
+            GetFeatureOfInterestResponse response = decoder.decode(xml);
+//            assertThat(response, is(notNullValue()));
+//            assertThat(response.getAbstractFeature(), is(instanceOf(FeatureCollection.class)));
+//            FeatureCollection abstractFeature = (FeatureCollection) response.getAbstractFeature();
+//            assertThat(abstractFeature.getMembers().size(), is(11));
+
+            System.out.println("feature: " + response.getAbstractFeature());
         } catch (Throwable t) {
             t.printStackTrace(System.out);
             throw t;

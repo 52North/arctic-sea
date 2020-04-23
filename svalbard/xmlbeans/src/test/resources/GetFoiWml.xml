@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sos:GetFeatureOfInterestResponse xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:wml2="http://www.opengis.net/waterml/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sf="http://www.opengis.net/sampling/2.0" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sams="http://www.opengis.net/samplingSpatial/2.0" xsi:schemaLocation="http://www.opengis.net/waterml-dr/2.0 http://schemas.opengis.net/waterml/2.0/domain-range-informative/timeseries-domain-range.xsd http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetFeatureOfInterest.xsd http://www.opengis.net/sampling/2.0 http://schemas.opengis.net/sampling/2.0/samplingFeature.xsd http://www.opengis.net/gmlcov/1.0 http://schemas.opengis.net/gmlcov/1.0/gmlcovAll.xsd http://www.opengis.net/samplingSpatial/2.0 http://schemas.opengis.net/samplingSpatial/2.0/spatialSamplingFeature.xsd http://www.opengis.net/waterml/2.0 http://schemas.opengis.net/waterml/2.0/waterml2.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd">
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_2C748598DDDBF8BAC52AC2F82109D42E1FCDE922">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Bever-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Bever-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_2C748598DDDBF8BAC52AC2F82109D42E1FCDE922">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5668454.497 2595711.908</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_877184BEEA7AAAD02A09761F5A4FB6BF281A52F9">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Brucher-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Brucher-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_877184BEEA7AAAD02A09761F5A4FB6BF281A52F9">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5661809.033 2609217.395</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_26F842692B51D3B7F92137F7C6E5F53386B57CA2">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Eschbachtalsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Eschbachtalsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_26F842692B51D3B7F92137F7C6E5F53386B57CA2">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5670122.112 2586211.612</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_4FD423D366764120CAC1335DCA45CD08DE168C71">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Grosse_Dhuenn-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Große Dhünn-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_4FD423D366764120CAC1335DCA45CD08DE168C71">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5660025.148 2583323.027</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_256B9C7CA91CD3C62F26E44BE782CFB676AB84DC">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Lingese-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Lingese-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_256B9C7CA91CD3C62F26E44BE782CFB676AB84DC">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5663740.402 2607337.549</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_F71AD88EA1E6B18B8B81FF1D419CBCF98C6012C1">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Neyetalsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Neyetalsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_F71AD88EA1E6B18B8B81FF1D419CBCF98C6012C1">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5667840.432 2597555.35</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_67DC93F4F7A0D00889B289B3B1F2E771333960F2">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Panzer-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Panzer-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_67DC93F4F7A0D00889B289B3B1F2E771333960F2">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5672482.187 2589224.651</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_AABD34597E104D461F7117721E15CB75DCFD05B7">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Ronsdorfer_Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Ronsdorfer Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_AABD34597E104D461F7117721E15CB75DCFD05B7">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5676709.462 2582734.07</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_59B54CACA57BB8AF7EAAC6FDAF3F1D268ED921FB">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Schevelinger-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Schevelinger-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_59B54CACA57BB8AF7EAAC6FDAF3F1D268ED921FB">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5667783.556 2600208.71</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_9B3D5CDA4ED270CD0D48B77C93D738293375269D">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Stausee_Beyenburg_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Stausee Beyenburg, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_9B3D5CDA4ED270CD0D48B77C93D738293375269D">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5680164.901 2590758.435</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+  <sos:featureMember>
+    <wml2:MonitoringPoint gml:id="mp_17A1C8C8F11EF387F80564F02C54E61AB118E3E8">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Wupper-Talsperre_Absperrbauwerk</gml:identifier>
+      <gml:name codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">Wupper-Talsperre, Absperrbauwerk</gml:name>
+      <sf:sampledFeature xlink:href="urn:ogc:def:nil:OGC:unknown"/>
+      <sams:shape>
+        <ns:Point xmlns:ns="http://www.opengis.net/gml/3.2" ns:id="point_mp_17A1C8C8F11EF387F80564F02C54E61AB118E3E8">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/31466">5674597.432 2591141.968</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </wml2:MonitoringPoint>
+  </sos:featureMember>
+</sos:GetFeatureOfInterestResponse>

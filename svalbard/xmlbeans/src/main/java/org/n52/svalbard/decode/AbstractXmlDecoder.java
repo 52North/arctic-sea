@@ -24,7 +24,10 @@ import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlOptions;
 import org.w3c.dom.Node;
 
+import net.opengis.waterml.x20.MonitoringPointDocument;
+
 import org.n52.janmayen.Producer;
+import org.n52.shetland.ogc.om.series.wml.WaterMLConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.NoDecoderForKeyException;
 import org.n52.svalbard.decode.exception.XmlDecodingException;
@@ -80,7 +83,7 @@ public abstract class AbstractXmlDecoder<T, S> extends AbstractDelegatingDecoder
             DecoderKey schemaTypeKey = new XmlNamespaceDecoderKey(xbObject.schemaType().getName().getNamespaceURI(),
                                                                   xbObject.getClass());
             decoder = getDecoderRepository().getDecoder(schemaTypeKey);
-        }
+        } getDecoderRepository().getDecoder(new XmlNamespaceDecoderKey(WaterMLConstants.NS_WML_20, MonitoringPointDocument.class));
         if (decoder == null) {
             throw new NoDecoderForKeyException(key);
         }

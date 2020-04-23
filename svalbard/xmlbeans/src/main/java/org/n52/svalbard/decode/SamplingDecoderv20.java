@@ -38,6 +38,7 @@ import org.n52.shetland.ogc.gml.AbstractFeature;
 import org.n52.shetland.ogc.gml.CodeType;
 import org.n52.shetland.ogc.gml.CodeWithAuthority;
 import org.n52.shetland.ogc.om.features.SfConstants;
+import org.n52.shetland.ogc.om.features.samplingFeatures.AbstractSamplingFeature;
 import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.sos.FeatureType;
 import org.n52.shetland.ogc.sos.Sos2Constants;
@@ -137,6 +138,17 @@ public class SamplingDecoderv20
         return sosFeat;
     }
 
+    protected AbstractFeature parseSpatialSamplingFeature(SFSpatialSamplingFeatureType sfssft,
+            AbstractSamplingFeature abstractSamplingFeature) throws DecodingException {
+        abstractSamplingFeature.setFeatureType(getFeatureType(sfssft.getType()));
+        abstractSamplingFeature.setSampledFeatures(getSampledFeatures(sfssft.getSampledFeatureArray()));
+        abstractSamplingFeature.setXml(getXmlDescription(sfssft));
+        abstractSamplingFeature.setGeometry(getGeometry(sfssft.getShape()));
+        checkTypeAndGeometry(abstractSamplingFeature);
+        abstractSamplingFeature.setGmlId(sfssft.getId());
+        return abstractSamplingFeature;
+    }
+
     private String getXmlDescription(final SFSpatialSamplingFeatureType spatialSamplingFeature) {
         final SFSpatialSamplingFeatureDocument featureDoc =
                 SFSpatialSamplingFeatureDocument.Factory.newInstance(getXmlOptions());
@@ -230,7 +242,7 @@ public class SamplingDecoderv20
                 "The requested geometry type of featureOfInterest is not supported by this service!");
     }
 
-    private void checkTypeAndGeometry(final SamplingFeature sosFeat) throws DecodingException {
+    private void checkTypeAndGeometry(final AbstractSamplingFeature sosFeat) throws DecodingException {
         final String featTypeForGeometry = getFeatTypeForGeometry(sosFeat.getGeometry());
         if (sosFeat.getFeatureType() == null) {
             sosFeat.setFeatureType(featTypeForGeometry);
