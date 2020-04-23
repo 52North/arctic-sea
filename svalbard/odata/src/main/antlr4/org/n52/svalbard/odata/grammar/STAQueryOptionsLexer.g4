@@ -664,6 +664,10 @@ ISO8601_AMPERSAND
     : AMPERSAND -> type(AMPERSAND), popMode, popMode, popMode
     ;
 
+ISO8601_CP
+    : CP -> type (CP), popMode, popMode, popMode, popMode
+    ;
+
 ISO8601_MINUS
    : MINUS -> type (MINUS)
    ;

@@ -105,6 +105,12 @@ public interface TestConstants {
             "$expand=Observations($orderby=result asc)",
             "$expand=Datastream&$orderby=Datastreams/id desc, phenomenonTime",
             "$orderby=phenomenonTime&$filter=phenomenonTime ge 2018-05-04T00:22:54.738+02:00 and " +
-                    "2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00&$top=200"
+                    "2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00&$top=200",
+
+            "$orderby=phenomenonTime&$filter=(phenomenonTime ge 2018-05-04T00:22:54.738+02:00) and " +
+                    "(2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00)&$top=200",
+
+            "$orderby=phenomenonTime&$filter=((phenomenonTime ge 2018-05-04T00:22:54.738+02:00) and " +
+                    "(2018-05-05T09:58:53.338+02:00 le 2018-05-05T09:58:53.338+02:00))&$top=200"
     };
 }
