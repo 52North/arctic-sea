@@ -83,7 +83,7 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format("(%s %s %s)", this.left, this.operator, this.right);
+        return String.format("(%s %s %s)", this.left, this.operator.toString().toLowerCase(), this.right);
     }
 
     @Override public int hashCode() {
