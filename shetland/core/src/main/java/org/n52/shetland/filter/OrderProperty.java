@@ -71,4 +71,9 @@ public class OrderProperty {
         return Objects.equals(this.valueReference, ((OrderProperty) o).getValueReference()) &&
                 Objects.equals(this.sortOrder, ((OrderProperty) o).getSortOrder());
     }
+
+    @Override public String toString() {
+        return valueReference +
+                ((getSortOrder() != null) ? " " + getSortOrder().toString().toLowerCase() : "");
+    }
 }

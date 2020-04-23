@@ -59,4 +59,8 @@ public class SkipTopFilter implements FilterClause {
         return Objects.equals(this.operator, ((SkipTopFilter) o).getOperator())
                 && Objects.equals(this.value, ((SkipTopFilter) o).getValue());
     }
+
+    @Override public String toString() {
+        return DOLLAR + ((getOperator().equals(SkipTopOperator.Top)) ? "top" : "skip") + "=" + getValue().toString();
+    }
 }

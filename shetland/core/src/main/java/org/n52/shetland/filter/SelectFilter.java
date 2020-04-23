@@ -55,4 +55,8 @@ public class SelectFilter implements FilterClause {
 
         return Objects.equals(this.getItems(), ((SelectFilter) o).getItems());
     }
+
+    @Override public String toString() {
+        return DOLLAR + "select=" + String.join(",", this.items);
+    }
 }

@@ -27,6 +27,7 @@ import org.n52.shetland.ogc.filter.FilterClause;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -138,6 +139,32 @@ public class QueryOptions {
         return filterFilter;
     }
 
+    public Set<FilterClause> getAllFilters() {
+        Set<FilterClause> result = new HashSet<>();
+        if (this.hasCountFilter()) {
+            result.add(this.getCountFilter());
+        }
+        if (this.hasSelectFilter()) {
+            result.add(this.getSelectFilter());
+        }
+        if (this.hasExpandFilter()) {
+            result.add(this.getExpandFilter());
+        }
+        if (this.hasSkipFilter()) {
+            result.add(this.getSkipFilter());
+        }
+        if (this.hasTopFilter()) {
+            result.add(this.getTopFilter());
+        }
+        if (this.hasOrderByFilter()) {
+            result.add(this.getOrderByFilter());
+        }
+        if (this.hasFilterFilter()) {
+            result.add(this.getFilterFilter());
+        }
+        return result;
+    }
+
     @Override public int hashCode() {
         return Objects.hash(baseURL,
                             countFilter,
@@ -170,5 +197,40 @@ public class QueryOptions {
                 && Objects.equals(obj.getSkipFilter(), this.getSkipFilter())
                 && Objects.equals(obj.getTopFilter(), this.getTopFilter())
                 && Objects.equals(obj.getFilterFilter(), this.getFilterFilter());
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        final String AMPERSAND = "&";
+        if (this.hasCountFilter()) {
+            builder.append(this.getCountFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        if (this.hasSelectFilter()) {
+            builder.append(this.getSelectFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        if (this.hasExpandFilter()) {
+            builder.append(this.getExpandFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        if (this.hasSkipFilter()) {
+            builder.append(this.getSkipFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        if (this.hasTopFilter()) {
+            builder.append(this.getTopFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        if (this.hasOrderByFilter()) {
+            builder.append(this.getOrderByFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        if (this.hasFilterFilter()) {
+            builder.append(this.getFilterFilter().toString());
+            builder.append(AMPERSAND);
+        }
+        return (builder.length() > 0) ? builder.substring(0, builder.length() - 1) : "";
     }
 }

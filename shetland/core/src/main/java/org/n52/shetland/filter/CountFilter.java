@@ -53,4 +53,7 @@ public class CountFilter implements FilterClause {
         return this.value.equals(((CountFilter) o).getValue());
     }
 
+    @Override public String toString() {
+        return DOLLAR + "count=" + getValue().toString();
+    }
 }

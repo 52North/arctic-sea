@@ -39,9 +39,7 @@ public class FilterFilter implements FilterClause {
     }
 
     @Override public int hashCode() {
-        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.core.expr
-        // For now always returns true
-        return Objects.hash("FilterFilter");
+        return Objects.hash(this.filter);
     }
 
     @Override public boolean equals(Object o) {
@@ -54,5 +52,9 @@ public class FilterFilter implements FilterClause {
         }
 
         return Objects.equals(((FilterFilter) o).getFilter(), this.getFilter());
+    }
+
+    @Override public String toString() {
+        return DOLLAR + "filter=" + getFilter().toString();
     }
 }

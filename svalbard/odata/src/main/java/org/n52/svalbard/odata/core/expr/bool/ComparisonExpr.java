@@ -69,4 +69,28 @@ public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements Bo
         }
         return super.equals(o);
     }
+
+    @Override
+    public String toString() {
+        return String.format("(%s %s %s)", getLeft(), getSTAName(getOperator()), getRight());
+    }
+
+    private String getSTAName(ComparisonOperator operator) {
+        switch (operator) {
+        case PropertyIsEqualTo:
+            return "eq";
+        case PropertyIsNotEqualTo:
+            return "ne";
+        case PropertyIsLessThan:
+            return "lt";
+        case PropertyIsGreaterThan:
+            return "gt";
+        case PropertyIsLessThanOrEqualTo:
+            return "le";
+        case PropertyIsGreaterThanOrEqualTo:
+            return "ge";
+        default:
+            throw new IllegalArgumentException(String.format("Operators %s is not supported.", operator));
+        }
+    }
 }

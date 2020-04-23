@@ -62,4 +62,8 @@ public class ExpandItem {
         return Objects.equals(this.path, ((ExpandItem) o).getPath()) &&
                 Objects.equals(this.queryOptions, ((ExpandItem) o).getQueryOptions());
     }
+
+    @Override public String toString() {
+        return path + "(" + getQueryOptions().toString() + ")";
+    }
 }
