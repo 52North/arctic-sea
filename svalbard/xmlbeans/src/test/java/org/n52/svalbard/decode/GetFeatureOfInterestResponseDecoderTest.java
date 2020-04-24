@@ -33,6 +33,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.om.features.FeatureCollection;
+import org.n52.shetland.ogc.om.features.samplingFeatures.SamplingFeature;
 import org.n52.shetland.ogc.sos.response.GetFeatureOfInterestResponse;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.util.CodingHelper;
@@ -71,43 +72,37 @@ public class GetFeatureOfInterestResponseDecoderTest {
 
     @Test
     public void testMultiCurve() throws XmlException, IOException, DecodingException {
-        try {
-            XmlObject xml = XmlObject.Factory.parse(getClass()
-                    .getResourceAsStream("/GetFeatureOfInterestResponse.xml"));
-            DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
-            System.out.println(decoderKey);
-            Decoder<GetFeatureOfInterestResponse, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
-            GetFeatureOfInterestResponse response = decoder.decode(xml);
-            assertThat(response, is(notNullValue()));
-            assertThat(response.getAbstractFeature(), is(instanceOf(FeatureCollection.class)));
-            FeatureCollection abstractFeature = (FeatureCollection) response.getAbstractFeature();
-            assertThat(abstractFeature.getMembers().size(), is(266));
-
-            System.out.println("feature: "+response.getAbstractFeature());
-        } catch (Throwable t) {
-            t.printStackTrace(System.out);
-            throw t;
-        }
+        XmlObject xml = XmlObject.Factory.parse(getClass().getResourceAsStream("/GetFeatureOfInterestResponse.xml"));
+        DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
+        Decoder<GetFeatureOfInterestResponse, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
+        GetFeatureOfInterestResponse response = decoder.decode(xml);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getAbstractFeature(), is(instanceOf(FeatureCollection.class)));
+        FeatureCollection abstractFeature = (FeatureCollection) response.getAbstractFeature();
+        assertThat(abstractFeature.getMembers()
+                .size(), is(266));
     }
-    
+
     @Test
     public void testWmlMonitoringPoint() throws XmlException, IOException, DecodingException {
-        try {
-            XmlObject xml = XmlObject.Factory.parse(getClass()
-                    .getResourceAsStream("/GetFoiWml.xml"));
-            DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
-            System.out.println(decoderKey);
-            Decoder<GetFeatureOfInterestResponse, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
-            GetFeatureOfInterestResponse response = decoder.decode(xml);
-//            assertThat(response, is(notNullValue()));
-//            assertThat(response.getAbstractFeature(), is(instanceOf(FeatureCollection.class)));
-//            FeatureCollection abstractFeature = (FeatureCollection) response.getAbstractFeature();
-//            assertThat(abstractFeature.getMembers().size(), is(11));
+        XmlObject xml = XmlObject.Factory.parse(getClass().getResourceAsStream("/GetFoiWml.xml"));
+        DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
+        Decoder<GetFeatureOfInterestResponse, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
+        GetFeatureOfInterestResponse response = decoder.decode(xml);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getAbstractFeature(), is(instanceOf(FeatureCollection.class)));
+        FeatureCollection abstractFeature = (FeatureCollection) response.getAbstractFeature();
+        assertThat(abstractFeature.getMembers()
+                .size(), is(11));
+    }
 
-            System.out.println("feature: " + response.getAbstractFeature());
-        } catch (Throwable t) {
-            t.printStackTrace(System.out);
-            throw t;
-        }
+    @Test
+    public void testIceline() throws XmlException, IOException, DecodingException {
+        XmlObject xml = XmlObject.Factory.parse(getClass().getResourceAsStream("/GetFoiIrceline.xml"));
+        DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
+        Decoder<GetFeatureOfInterestResponse, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
+        GetFeatureOfInterestResponse response = decoder.decode(xml);
+        assertThat(response, is(notNullValue()));
+        assertThat(response.getAbstractFeature(), is(instanceOf(SamplingFeature.class)));
     }
 }

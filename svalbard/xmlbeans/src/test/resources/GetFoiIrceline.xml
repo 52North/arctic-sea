@@ -1,0 +1,14 @@
+<sos:GetFeatureOfInterestResponse xsi:schemaLocation="http://www.opengis.net/sos/2.0 http://schemas.opengis.net/sos/2.0/sosGetFeatureOfInterest.xsd http://www.opengis.net/sampling/2.0 http://schemas.opengis.net/sampling/2.0/samplingFeature.xsd http://www.opengis.net/samplingSpatial/2.0 http://schemas.opengis.net/samplingSpatial/2.0/spatialSamplingFeature.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd" xmlns:sos="http://www.opengis.net/sos/2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sams="http://www.opengis.net/samplingSpatial/2.0" xmlns:gml="http://www.opengis.net/gml/3.2" xmlns:sf="http://www.opengis.net/sampling/2.0" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sos:featureMember>
+    <sams:SF_SpatialSamplingFeature gml:id="ssf_029E266304F70C878A257700DD815344B3E70289">
+      <gml:identifier codeSpace="http://www.opengis.net/def/nil/OGC/0/unknown">40GK06 - Genk - Particulate Matter &lt; 2.5 µm - feature</gml:identifier>
+      <sf:type xlink:href="http://www.opengis.net/def/samplingFeatureType/OGC-OM/2.0/SF_SamplingPoint"/>
+      <sf:sampledFeature xlink:href="http://www.opengis.net/def/nil/OGC/0/unknown"/>
+      <sams:shape>
+        <ns:Point ns:id="point_ssf_029E266304F70C878A257700DD815344B3E70289" xmlns:ns="http://www.opengis.net/gml/3.2">
+          <ns:pos srsName="http://www.opengis.net/def/crs/EPSG/0/4326">50.92789184326573 5.470620037487627</ns:pos>
+        </ns:Point>
+      </sams:shape>
+    </sams:SF_SpatialSamplingFeature>
+  </sos:featureMember>
+</sos:GetFeatureOfInterestResponse>

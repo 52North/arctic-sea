@@ -127,19 +127,13 @@ public class SamplingDecoderv20
     private AbstractFeature parseSpatialSamplingFeature(final SFSpatialSamplingFeatureType spatialSamplingFeature)
             throws DecodingException {
         final SamplingFeature sosFeat = new SamplingFeature(null, spatialSamplingFeature.getId());
-        // parse identifier, names, description
-        parseAbstractFeatureType(spatialSamplingFeature, sosFeat);
-        sosFeat.setFeatureType(getFeatureType(spatialSamplingFeature.getType()));
-        sosFeat.setSampledFeatures(getSampledFeatures(spatialSamplingFeature.getSampledFeatureArray()));
-        sosFeat.setXml(getXmlDescription(spatialSamplingFeature));
-        sosFeat.setGeometry(getGeometry(spatialSamplingFeature.getShape()));
-        checkTypeAndGeometry(sosFeat);
-        sosFeat.setGmlId(spatialSamplingFeature.getId());
-        return sosFeat;
+        return parseSpatialSamplingFeature(spatialSamplingFeature, sosFeat);
     }
 
     protected AbstractFeature parseSpatialSamplingFeature(SFSpatialSamplingFeatureType sfssft,
             AbstractSamplingFeature abstractSamplingFeature) throws DecodingException {
+        // parse identifier, names, description
+        parseAbstractFeatureType(sfssft, abstractSamplingFeature);
         abstractSamplingFeature.setFeatureType(getFeatureType(sfssft.getType()));
         abstractSamplingFeature.setSampledFeatures(getSampledFeatures(sfssft.getSampledFeatureArray()));
         abstractSamplingFeature.setXml(getXmlDescription(sfssft));
