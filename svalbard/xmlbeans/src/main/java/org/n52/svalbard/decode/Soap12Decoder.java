@@ -30,12 +30,16 @@ import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.ows.exception.NoApplicableCodeException;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
+import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
+import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.shetland.w3c.soap.AbstractSoap;
 import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapHelper;
 import org.n52.shetland.w3c.soap.SoapRequest;
+import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.encode.SchemaRepository;
 import org.n52.svalbard.util.XmlHelper;
@@ -82,12 +86,16 @@ public class Soap12Decoder extends AbstractSoapDecoder {
      *             if an error occurs.
      */
     @Override
-    protected SoapRequest createEnvelope(XmlObject doc) throws DecodingException {
-        SoapRequest soapRequest =
-                new SoapRequest(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_PROTOCOL);
-
+    protected AbstractSoap<?> createEnvelope(XmlObject doc) throws DecodingException {
+        AbstractSoap<?> soap = null;
         String soapAction = "";
         try {
+            OwsServiceCommunicationObject bodyContent = getBodyContent((EnvelopeDocument) doc);
+            soap = bodyContent instanceof OwsServiceRequest
+                    ? new SoapRequest(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_PROTOCOL)
+                            .setBodyContent((OwsServiceRequest) bodyContent)
+                    : new SoapResponse(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.SOAP_1_2_PROTOCOL)
+                            .setBodyContent((OwsServiceResponse) bodyContent);
             SOAPMessage message;
             try {
                 message = SoapHelper.getSoapMessageForProtocol(SOAPConstants.SOAP_1_2_PROTOCOL, doc.newInputStream());
@@ -97,21 +105,20 @@ public class Soap12Decoder extends AbstractSoapDecoder {
             }
             try {
                 if (message.getSOAPHeader() != null) {
-                    soapRequest.setSoapHeader(getSoapHeader(message.getSOAPHeader()));
+                    soap.setSoapHeader(getSoapHeader(message.getSOAPHeader()));
                 }
-                soapRequest.setAction(checkSoapAction(soapAction, soapRequest.getSoapHeader()));
-                soapRequest.setSoapBodyContent(getBodyContent((EnvelopeDocument) doc));
+                soap.setAction(checkSoapAction(soapAction, soap.getSoapHeader()));
             } catch (SOAPException soape) {
                 throw new NoApplicableCodeException().causedBy(soape).withMessage("Error while parsing SOAPMessage!");
             }
         } catch (OwsExceptionReport owse) {
             throw new DecodingException(owse);
         }
-        return soapRequest;
+        return soap;
     }
 
     @Override
-    protected SoapRequest createFault(DecodingException de) {
+    protected AbstractSoap<?> createFault(DecodingException de) {
         SoapFault fault = new SoapFault();
         fault.setFaultCode(SOAPConstants.SOAP_SENDER_FAULT);
         fault.setLocale(Locale.ENGLISH);
@@ -121,7 +128,7 @@ public class Soap12Decoder extends AbstractSoapDecoder {
         return r;
     }
 
-    private OwsServiceRequest getBodyContent(EnvelopeDocument doc) throws DecodingException {
+    private OwsServiceCommunicationObject getBodyContent(EnvelopeDocument doc) throws DecodingException {
         Body body = doc.getEnvelope().getBody();
         try {
             Node domNode = body.getDomNode();

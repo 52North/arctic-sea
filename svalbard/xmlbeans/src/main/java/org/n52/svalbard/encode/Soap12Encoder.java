@@ -38,10 +38,12 @@ import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.shetland.w3c.soap.AbstractSoap;
 import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapHeader;
 import org.n52.shetland.w3c.soap.SoapHelper;
+import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.shetland.w3c.wsa.WsaActionHeader;
 import org.n52.shetland.w3c.wsa.WsaConstants;
@@ -79,8 +81,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Soap12Encoder.class);
 
-    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper
-            .encoderKeysForElements(SoapConstants.NS_SOAP_12, SoapFault.class, OwsExceptionReport.class);
+    private static final Set<EncoderKey> ENCODER_KEY_TYPES = CodingHelper.encoderKeysForElements(
+            SoapConstants.NS_SOAP_12, SoapResponse.class, SoapRequest.class, SoapFault.class, OwsExceptionReport.class);
 
     public Soap12Encoder() {
         super(SoapConstants.NS_SOAP_12);
@@ -97,6 +99,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
     public XmlObject encode(final Object element, EncodingContext additionalValues) throws EncodingException {
         if (element instanceof SoapResponse) {
             return createSOAP12Envelope((SoapResponse) element, additionalValues);
+        } else if (element instanceof SoapRequest) {
+            return createSOAP12Envelope((SoapRequest) element, additionalValues);
         } else if (element instanceof SoapFault) {
             return createSOAP12Fault((SoapFault) element);
         } else if (element instanceof OwsExceptionReport) {
@@ -126,16 +130,17 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
         }
     }
 
-    private XmlObject createSOAP12Envelope(SoapResponse response, EncodingContext additionalValues)
+    private XmlObject createSOAP12Envelope(AbstractSoap<?> soap, EncodingContext additionalValues)
             throws EncodingException {
         String action = null;
         final EnvelopeDocument envelopeDoc = EnvelopeDocument.Factory.newInstance();
         final Envelope envelope = envelopeDoc.addNewEnvelope();
         final Body body = envelope.addNewBody();
-        if (response.getSoapFault() != null) {
-            body.set(createSOAP12Fault(response.getSoapFault()));
+        if (soap.getSoapFault() != null) {
+            body.set(createSOAP12Fault(soap.getSoapFault()));
         } else {
-            if (response.getException() != null) {
+            if (soap instanceof SoapResponse && ((SoapResponse) soap).hasException()) {
+                SoapResponse response = (SoapResponse) soap;
                 if (!response.getException().getExceptions().isEmpty()) {
                     final CodedException firstException = response.getException().getExceptions().get(0);
                     action = getExceptionActionURI(firstException.getCode());
@@ -146,9 +151,9 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
                         Sets.newHashSet(N52XmlHelper.getSchemaLocationForSOAP12(),
                                         N52XmlHelper.getSchemaLocationForOWS110Exception()));
             } else {
-                action = response.getSoapAction();
+                action = soap.getSoapAction();
 
-                final XmlObject bodyContent = getBodyContent(response);
+                final XmlObject bodyContent = getBodyContent(soap);
                 String value = null;
                 Node nodeToRemove = null;
                 final NamedNodeMap attributeMap = bodyContent.getDomNode().getFirstChild().getAttributes();
@@ -175,8 +180,8 @@ public class Soap12Encoder extends AbstractSoapEncoder<XmlObject, Object>
             }
         }
 
-        if (response.getHeader() != null) {
-            createSOAP12Header(envelope, response.getHeader(), action);
+        if (soap.getHeader() != null) {
+            createSOAP12Header(envelope, soap.getHeader(), action);
         } else {
             envelope.addNewHeader();
         }

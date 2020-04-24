@@ -16,8 +16,6 @@
  */
 package org.n52.shetland.w3c.soap;
 
-import java.util.List;
-
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 
@@ -27,101 +25,15 @@ import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
  * @since 1.0.0
  *
  */
-public class SoapResponse {
-
-    private String soapNamespace;
-
-    private String soapVersion;
-
-    private String soapAction;
-
-    private SoapFault soapFault;
-
-    private OwsServiceResponse bodyContent;
-
-    private List<SoapHeader> header;
+public class SoapResponse extends AbstractSoap<OwsServiceResponse> {
 
     private OwsExceptionReport exception;
 
     public SoapResponse() {
     }
 
-    /**
-     * @return the soapNamespace
-     */
-    public String getSoapNamespace() {
-        return soapNamespace;
-    }
-
-    /**
-     * @param soapNamespace
-     *            the soapNamespace to set
-     */
-    public void setSoapNamespace(String soapNamespace) {
-        this.soapNamespace = soapNamespace;
-    }
-
-    public boolean hasSoapNamespace() {
-        return getSoapNamespace() != null && !getSoapNamespace().isEmpty();
-    }
-
-    /**
-     * @return the soapVersion
-     */
-    public String getSoapVersion() {
-        return soapVersion;
-    }
-
-    /**
-     * @param soapVersion
-     *            the soapVersion to set
-     */
-    public void setSoapVersion(String soapVersion) {
-        this.soapVersion = soapVersion;
-    }
-
-    public boolean hasSoapVersion() {
-        return getSoapVersion() != null && !getSoapVersion().isEmpty();
-    }
-
-    public void setSoapFault(SoapFault soapFault) {
-        this.soapFault = soapFault;
-    }
-
-    public SoapFault getSoapFault() {
-        return soapFault;
-    }
-
-    public OwsServiceResponse getSoapBodyContent() {
-        return bodyContent;
-    }
-
-    public void setSoapAction(String soapAction) {
-        this.soapAction = soapAction;
-    }
-
-    public String getSoapAction() {
-        return soapAction;
-    }
-
-    public void setSoapBodyContent(OwsServiceResponse bodyContent) {
-        this.bodyContent = bodyContent;
-    }
-
-    public void setBodyContent(OwsServiceResponse response) {
-        this.bodyContent = response;
-    }
-
-    public OwsServiceResponse getBodyContent() {
-        return bodyContent;
-    }
-
-    public void setHeader(List<SoapHeader> list) {
-        this.header = list;
-    }
-
-    public List<SoapHeader> getHeader() {
-        return header;
+    public SoapResponse(String soapNamespace, String soapVersion) {
+        super(soapNamespace, soapVersion);
     }
 
     public void setException(OwsExceptionReport owse) {
@@ -135,17 +47,4 @@ public class SoapResponse {
     public boolean hasException() {
         return exception != null;
     }
-
-    public boolean isSetXmlBodyContent() {
-        return getSoapBodyContent() != null;
-    }
-
-    public boolean isSetBodyContent() {
-        return getBodyContent() != null;
-    }
-
-    public boolean isSetSoapFault() {
-        return getSoapFault() != null;
-    }
-
 }

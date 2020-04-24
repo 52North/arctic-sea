@@ -42,8 +42,8 @@ import org.n52.janmayen.exception.CompositeException;
 import org.n52.janmayen.function.Functions;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.util.CollectionHelper;
+import org.n52.shetland.w3c.soap.AbstractSoap;
 import org.n52.shetland.w3c.soap.SoapHeader;
-import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.wsa.WsaActionHeader;
 import org.n52.shetland.w3c.wsa.WsaConstants;
 import org.n52.svalbard.decode.exception.DecodingException;
@@ -56,7 +56,7 @@ import com.google.common.collect.Lists;
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 1.0.0
  */
-public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, SoapRequest> {
+public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, AbstractSoap<?>> {
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractSoapDecoder.class);
 
     private final Set<DecoderKey> decoderKeys;
@@ -71,7 +71,7 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
     }
 
     @Override
-    public SoapRequest decode(XmlObject xmlObject) throws DecodingException {
+    public AbstractSoap<?> decode(XmlObject xmlObject) throws DecodingException {
         try {
             return createEnvelope(xmlObject);
         } catch (DecodingException de) {
@@ -79,9 +79,9 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
         }
     }
 
-    protected abstract SoapRequest createEnvelope(XmlObject xml) throws DecodingException;
+    protected abstract AbstractSoap<?> createEnvelope(XmlObject xml) throws DecodingException;
 
-    protected abstract SoapRequest createFault(DecodingException xml);
+    protected abstract AbstractSoap<?> createFault(DecodingException xml);
 
     /**
      * Parses the SOAPBody content to a text representation

@@ -38,13 +38,16 @@ import org.n52.shetland.ogc.ows.exception.ExceptionCode;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionCode;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.shetland.ogc.ows.service.OwsOperationKey;
+import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceResponse;
 import org.n52.shetland.ogc.sos.SosSoapConstants;
 import org.n52.shetland.ogc.sos.exception.SosExceptionCode;
 import org.n52.shetland.ogc.swes.exception.SwesExceptionCode;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.shetland.w3c.soap.AbstractSoap;
 import org.n52.shetland.w3c.soap.SoapFault;
 import org.n52.shetland.w3c.soap.SoapHelper;
+import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.svalbard.encode.exception.EncodingException;
 import org.n52.svalbard.encode.exception.NoEncoderForKeyException;
@@ -136,6 +139,10 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
         return createSOAPBody(soapResponseMessage, getBodyContent(soapResponse), actionURI);
     }
 
+    protected XmlObject getBodyContent(AbstractSoap<?> soap) throws EncodingException {
+        return soap instanceof SoapRequest ? getBodyContent((SoapRequest) soap) : getBodyContent((SoapResponse) soap);
+    }
+
     /**
      * Get the content for the SOAPBody as {@link XmlObject}
      *
@@ -154,6 +161,26 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
             throw new NoEncoderForKeyException(key);
         }
         return (XmlObject) encoder.encode(response.getBodyContent());
+    }
+
+    /**
+     * Get the content for the SOAPBody as {@link XmlObject}
+     *
+     * @param response SOAP response
+     *
+     * @return SOAPBody content as {@link XmlObject}
+     *
+     * @throws EncodingException If no encoder is available, the object to encode is not supported or an error occurs
+     *                           during the encoding
+     */
+    protected XmlObject getBodyContent(SoapRequest request) throws EncodingException {
+        OperationRequestEncoderKey key = new OperationRequestEncoderKey(
+                new OwsOperationKey(request.getBodyContent()), MediaTypes.APPLICATION_XML);
+        Encoder<Object, OwsServiceRequest> encoder = getEncoder(key);
+        if (encoder == null) {
+            throw new NoEncoderForKeyException(key);
+        }
+        return (XmlObject) encoder.encode(request.getBodyContent());
     }
 
     /**
