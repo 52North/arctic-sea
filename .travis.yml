@@ -24,7 +24,7 @@ install: true
 script: ./mvnw -fae -U -B clean install -P check
 after_success:
 - curl -Ls https://git.io/deploy-maven-snapshot | bash
-- curl -Ls https://git.io/trigger-build | bash -s -- 52North/SOS feature/5.x
+- curl -Ls https://git.io/trigger-build | bash -s -- 52North/SOS
 - curl -Ls https://git.io/trigger-build | bash -s -- 52North/javaPS
 cache:
   directories:
