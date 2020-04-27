@@ -55,6 +55,7 @@ public class InspireXmlDecoder extends AbstractXmlDecoder<XmlObject, Object> {
         LOGGER.debug("Decoder for the following keys initialized successfully: {}!",
                 Joiner.on(", ").join(DECODER_KEYS));
     }
+
     @Override
     public Set<DecoderKey> getKeys() {
         return Collections.unmodifiableSet(DECODER_KEYS);
