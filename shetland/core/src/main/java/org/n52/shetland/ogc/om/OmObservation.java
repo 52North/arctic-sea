@@ -609,7 +609,7 @@ public class OmObservation
      * @return <code>true</code>, if parameter is set
      */
     public boolean isSetParameter() {
-        return parameterHolder != null && CollectionHelper.isNotEmpty(getParameter());
+        return CollectionHelper.isNotEmpty(getParameter());
     }
 
     /**
