@@ -40,6 +40,7 @@ import net.opengis.gml.x32.FeatureCollectionDocument;
 import net.opengis.gml.x32.FeatureCollectionType;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.gml.x32.GeometryPropertyType;
+import net.opengis.gml.x32.LineStringDocument;
 import net.opengis.gml.x32.LineStringType;
 import net.opengis.gml.x32.LinearRingType;
 import net.opengis.gml.x32.MeasureType;
@@ -47,6 +48,7 @@ import net.opengis.gml.x32.MultiCurveDocument;
 import net.opengis.gml.x32.MultiCurveType;
 import net.opengis.gml.x32.PointDocument;
 import net.opengis.gml.x32.PointType;
+import net.opengis.gml.x32.PolygonDocument;
 import net.opengis.gml.x32.PolygonType;
 import net.opengis.gml.x32.ReferenceType;
 import net.opengis.gml.x32.SurfacePropertyType;
@@ -113,9 +115,11 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
                                     PointType.class,
                                     PointDocument.class,
                                     LineStringType.class,
+                                    LineStringDocument.class,
                                     MultiCurveDocument.class,
                                     MultiCurveType.class,
                                     PolygonType.class,
+                                    PolygonDocument.class,
                                     CompositeSurfaceType.class,
                                     CodeWithAuthorityType.class,
                                     CodeType.class,
@@ -167,8 +171,12 @@ public class GmlDecoderv321 extends AbstractGmlDecoderv321<XmlObject, Object> {
             return parsePointType(((PointDocument) xmlObject).getPoint());
         } else if (xmlObject instanceof LineStringType) {
             return parseLineStringType((LineStringType) xmlObject);
+        } else if (xmlObject instanceof LineStringDocument) {
+            return parseLineStringType(((LineStringDocument) xmlObject).getLineString());
         } else if (xmlObject instanceof PolygonType) {
             return parsePolygonType((PolygonType) xmlObject);
+        } else if (xmlObject instanceof PolygonDocument) {
+            return parsePolygonType(((PolygonDocument) xmlObject).getPolygon());
         } else if (xmlObject instanceof CompositeSurfaceType) {
             return parseCompositeSurfaceType((CompositeSurfaceType) xmlObject);
         } else if (xmlObject instanceof CodeWithAuthorityType) {
