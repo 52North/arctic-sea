@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPConstants;
 
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlCursor.TokenType;
@@ -39,6 +38,7 @@ import org.n52.shetland.ogc.swe.SweConstants;
 import org.n52.shetland.ogc.swes.SwesConstants;
 import org.n52.shetland.w3c.SchemaLocation;
 import org.n52.shetland.w3c.W3CConstants;
+import org.n52.shetland.w3c.soap.SoapConstants;
 
 import com.google.common.collect.Sets;
 
@@ -53,7 +53,7 @@ public final class N52XmlHelper {
             new SchemaLocation(OmConstants.NS_OM, OmConstants.SCHEMA_LOCATION_URL_OM_CONSTRAINT);
 
     public static final SchemaLocation SCHEMA_LOCATION_SOAP_12 =
-            new SchemaLocation(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
+            new SchemaLocation(SoapConstants.NS_SOAP_12, SoapConstants.SCHEMA_LOCATION_URL_SOPA_12);
 
     private N52XmlHelper() {
     }

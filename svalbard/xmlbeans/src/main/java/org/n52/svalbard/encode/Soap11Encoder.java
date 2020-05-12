@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import javax.xml.soap.SOAPConstants;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.xmlbeans.XmlObject;
@@ -217,7 +216,7 @@ public class Soap11Encoder extends AbstractSoapEncoder<XmlObject, Object>
             throws EncodingException {
         final FaultDocument faultDoc = FaultDocument.Factory.newInstance();
         final Fault fault = faultDoc.addNewFault();
-        fault.setFaultcode(SOAPConstants.SOAP_SENDER_FAULT);
+        fault.setFaultcode(SoapConstants.SENDER_FAULT);
 
         // we encode only the first exception because of OGC#09-001 Section
         // 19.2.3 SOAP 1.2 Fault Binding

@@ -28,7 +28,6 @@ import java.util.Set;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.soap.SOAPConstants;
 
 import org.n52.iceland.binding.AbstractXmlBinding;
 import org.n52.iceland.binding.Binding;
@@ -51,6 +50,7 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequest;
 import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.soap.SoapChain;
+import org.n52.shetland.w3c.soap.SoapConstants;
 import org.n52.shetland.w3c.soap.SoapHeader;
 import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.soap.SoapResponse;
@@ -180,10 +180,10 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
 
     private void writeFault(SoapChain chain) throws HTTPException, IOException {
         if (!chain.getSoapResponse().hasSoapVersion()) {
-            chain.getSoapResponse().setSoapVersion(SOAPConstants.SOAP_1_2_PROTOCOL);
+            chain.getSoapResponse().setSoapVersion(SoapConstants.SOAP_1_2_VERSION);
         }
         if (!chain.getSoapResponse().hasSoapNamespace()) {
-            chain.getSoapResponse().setSoapNamespace(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
+            chain.getSoapResponse().setSoapNamespace(SoapConstants.NS_SOAP_12);
         }
         if (chain.getSoapResponse().hasException() && chain.getSoapResponse().getException().hasStatus()) {
             chain.getHttpResponse().setStatus(chain.getSoapResponse().getException().getStatus().getCode());

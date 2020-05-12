@@ -43,7 +43,7 @@ public interface SoapConstants {
 
     String NS_SOAP_PREFIX = "soap";
 
-    String NS_SOAP_11 = "http://schemas.xmlsoap.org/soap/envelope";
+    String NS_SOAP_11 = "http://schemas.xmlsoap.org/soap/envelope/";
 
     String NS_SOAP_12 = "http://www.w3.org/2003/05/soap-envelope";
 
