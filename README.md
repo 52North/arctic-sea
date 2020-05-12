@@ -4,19 +4,19 @@
 
 ### 52°North's backbone for OGC services, clients and middleware
 
-**52°North's Arctic Sea is a framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
+**A framework for developing OGC services, clients and middleware sharing concepts for encoding and decoding of different formats and encodings, workflows and configuration.**
 
-The Arctic Sea is a stack of projects (all named after islands that are more or less in the arctic sea) that eases the development of OGC related services such as the 52°North implementation of the OGC [SOS][52n-sos] and [WPS][52n-wps] as well as clients and middleware. It compromises the following modules.
+Arctic Sea is a stack of projects that eases the development of OGC related services such as the 52°North implementation of the OGC [SOS][52n-sos] and [WPS][52n-wps], as well as clients and middleware. It compromises the following modules.
 
 ![Overview][overview]
 
 #### Iceland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/iceland.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:iceland*%20and%20p:jar)
 
-Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings, and facilitates the rapid development of modular services that are easily configured using Faroe. Svalbard is used for request parsing and response generation.
+Iceland is a service framework that enables the development of OGC RPC based services. It features bindings for KVP, POX, SOAP, as well as JSON-based bindings. Iceland facilitates the rapid development of modular services that use Faroe for easy configuration and Svalbard for request parsing and response generation.
 
 #### Svalbard [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/svalbard.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:svalbard*%20and%20p:jar)
 
-Svalbard consists of various decoders and encoders for OGC models like [SensorML][sensorml], [O&M][om] and [SWE Common][swe-common], service interfaces like [SOS][sos] and [WPS][wps] and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (like XML, JSON or NetCDF). The object models that are used can be found in 52°North Shetland and are shared across 52°North components.
+Svalbard consists of various decoders and encoders for OGC models (e.g. [SensorML][sensorml], [O&M][om] and [SWE Common][swe-common], service interfaces (like [SOS][sos] and [WPS][wps]) and a framework for developing these. This enables the creation of decoupled and reusable encoders and decoders for various encodings (e.g. XML, JSON or NetCDF). The object models used are found in 52°North Shetland and are shared across 52°North components.
 
 #### Faroe [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/faroe.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:faroe*%20and%20p:jar)
 
@@ -24,11 +24,28 @@ Faroe is a configuration API currently featuring a JSON and a SQLite backend. It
 
 #### Shetland [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/shetland.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:shetland*%20and%20p:jar)
 
-Shetland compromises classes for OGC models like [SensorML][sensorml], [O&M][om] and [SWE Common][swe-common] and various service requests and responses. These are shared across different service implementations.
+Shetland consists of classes for OGC models like [SensorML][sensorml], [O&M][om] and [SWE Common][swe-common] and various service requests and responses. These are shared across different service implementations.
 
 #### Jan Mayen [![Maven Central](https://img.shields.io/maven-central/v/org.n52.arctic-sea/janmayen.svg)](https://search.maven.org/search?q=g:org.n52.arctic-sea%20and%20a:janmayen*%20and%20p:jar)
 
 Jan Mayen contains various utility classes shared across Arctic Sea.
+
+### Key Technologies
+- OGC Web Services
+- Web Processing Service (WPS)
+- Sensor Observation Service (SOS)
+- SWE Common
+- SensorML
+- Observation and Measurement (O&M)
+- Spring
+- Java
+- XML
+
+### Benefits
+- The middleware component provides a robust layer to easily create web services compliant to OGC standards.
+- The configuration API enables harmonized management of service properties.
+- Centralized XML encoding and decoding reduces increases stability.
+
 
 ## License
 
@@ -199,7 +216,7 @@ In that case we need your official permission and for this purpose we have a so-
 A link to the contributors license agreement and further explanations are available [here][licensing].
 
 
-## Credits
+## References
 
 The development of the 52°North Faroe implementation was supported by several organizations and projects. Among other we would like to thank the following organizations and project
 

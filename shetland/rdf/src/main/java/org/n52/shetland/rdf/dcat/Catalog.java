@@ -91,7 +91,7 @@ public class Catalog extends AbstractTitleDescription<Catalog> implements RDFEle
         setTitles(titles);
         setDesctiptions(descriptions);
         setPublisher(publisher);
-        setDatasets(datasets);
+        addDataset(dataset);
     }
 
     public Publisher getPublisher() {
