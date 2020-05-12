@@ -203,6 +203,10 @@
         </dependency>
         <dependency>
             <groupId>org.n52.sensorweb</groupId>
+            <artifactId>52n-xml-soap-v11</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.n52.sensorweb</groupId>
             <artifactId>52n-xml-soap-v12</artifactId>
         </dependency>
         <dependency>

@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.toList;
 
 import java.io.IOException;
 import java.util.Collections;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -51,7 +52,6 @@ import org.n52.shetland.ogc.ows.service.OwsServiceRequestContext;
 import org.n52.shetland.util.CollectionHelper;
 import org.n52.shetland.w3c.soap.SoapChain;
 import org.n52.shetland.w3c.soap.SoapHeader;
-import org.n52.shetland.w3c.soap.SoapHelper;
 import org.n52.shetland.w3c.soap.SoapRequest;
 import org.n52.shetland.w3c.soap.SoapResponse;
 import org.n52.shetland.w3c.wsa.WsaMessageIDHeader;
@@ -129,7 +129,7 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
     }
 
     private void parseSoapRequest(SoapChain soapChain) throws OwsExceptionReport {
-        String soapAction = SoapHelper.checkSoapHeader(soapChain.getHttpRequest());
+        String soapAction = checkSoapHeader(soapChain.getHttpRequest());
         SoapRequest soapRequest = decode(soapChain.getHttpRequest());
         if (soapRequest.getSoapAction() == null && soapAction != null) {
             soapRequest.setAction(soapAction);
@@ -259,6 +259,28 @@ public class SoapBinding extends AbstractXmlBinding<SoapRequest> {
                     return null;
                 }
             }).filter(Objects::nonNull).collect(toList());
+        }
+        return null;
+    }
+
+    protected String checkSoapHeader(HttpServletRequest request) {
+        Enumeration<?> headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String headerNameKey = (String) headerNames.nextElement();
+            if (headerNameKey.equalsIgnoreCase("type")) {
+                String type = request.getHeader(headerNameKey);
+                String[] typeArray = type.split(";");
+                for (String string : typeArray) {
+                    if (string.startsWith("action")) {
+                        String soapAction = string.replace("action=", "");
+                        soapAction = soapAction.replace("\"", "");
+                        soapAction = soapAction.trim();
+                        return soapAction;
+                    }
+                }
+            } else if (headerNameKey.equalsIgnoreCase("SOAPAction")) {
+                return request.getHeader(headerNameKey);
+            }
         }
         return null;
     }

@@ -138,7 +138,7 @@
         <version.slf4j>1.7.30</version.slf4j>
         <version.xmlbeans>3.1.0</version.xmlbeans>
         <version.exificient>1.0.4</version.exificient>
-        <version.n52CommonXML>2.6.1</version.n52CommonXML>
+        <version.n52CommonXML>2.7.0</version.n52CommonXML>
         <version.olingo>4.7.1</version.olingo>
         <version.findbugs>3.0.2</version.findbugs>
         <version.spotbugs>4.0.2</version.spotbugs>
@@ -462,7 +462,7 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-compress</artifactId>
-                <version>1.19</version>
+                <version>1.20</version>
             </dependency>
 
 
@@ -838,6 +838,11 @@
             <dependency>
                 <groupId>org.n52.sensorweb</groupId>
                 <artifactId>52n-xml-sos-v100</artifactId>
+                <version>${version.n52CommonXML}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.n52.sensorweb</groupId>
+                <artifactId>52n-xml-soap-v11</artifactId>
                 <version>${version.n52CommonXML}</version>
             </dependency>
             <dependency>
