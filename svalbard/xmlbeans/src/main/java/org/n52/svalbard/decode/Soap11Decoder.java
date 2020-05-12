@@ -22,6 +22,7 @@ import java.util.Map;
 
 import javax.xml.namespace.QName;
 
+import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.n52.shetland.ogc.ows.service.OwsServiceCommunicationObject;
@@ -144,21 +145,31 @@ public class Soap11Decoder extends AbstractSoapDecoder {
         }
     }
 
-    protected List<SoapHeader> getSoapHeader(Header soapHeader) {
+    protected List<SoapHeader> getSoapHeader(Header header) {
         List<SoapHeader> soapHeaders = Lists.newArrayList();
+        XmlCursor cursor = null;
         try {
-            Object object = decodeXmlElement(soapHeader);
-            if (object instanceof SoapHeader) {
-                soapHeaders.add((SoapHeader) object);
-            } else if (object instanceof List<?>) {
-                for (Object o : (List<?>) object) {
-                    if (o instanceof SoapHeader) {
-                        soapHeaders.add((SoapHeader) o);
+            cursor = header.newCursor();
+            if (cursor.toFirstChild()) {
+                do {
+                    Object object = decodeXmlElement(XmlObject.Factory.parse(cursor.xmlText(getXmlOptions())));
+                    if (object instanceof SoapHeader) {
+                        soapHeaders.add((SoapHeader) object);
+                    } else if (object instanceof List<?>) {
+                        for (Object o : (List<?>) object) {
+                            if (o instanceof SoapHeader) {
+                                soapHeaders.add((SoapHeader) o);
+                            }
+                        }
                     }
-                }
+                } while (cursor.toNextSibling());
             }
-        } catch (DecodingException owse) {
-            LOGGER.debug("Requested SoapHeader element is not supported", owse);
+        } catch (DecodingException | XmlException e) {
+            LOGGER.debug("Requested SoapHeader element is not supported", e);
+        } finally {
+            if (cursor != null) {
+                cursor.dispose();
+            }
         }
         return soapHeaders;
     }
