@@ -97,7 +97,7 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <profiles>
+   <!--  <profiles>
         <profile>
             <id>since-jdk9</id>
             <activation>
@@ -127,5 +127,5 @@
                 </dependency>
             </dependencies>
         </profile>
-    </profiles>
+    </profiles> -->
 </project>

@@ -135,7 +135,7 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
-    <profiles>
+   <!--  <profiles>
         <profile>
             <id>since-jdk9</id>
             <activation>
@@ -165,7 +165,7 @@
                 </dependency>
             </dependencies>
         </profile>
-    </profiles>
+    </profiles> -->
     
     <build>
         <plugins>

@@ -325,7 +325,7 @@
             <artifactId>xmlunit</artifactId>
         </dependency>
     </dependencies>
-    <profiles>
+   <!--  <profiles>
         <profile>
             <id>since-jdk9</id>
             <activation>
@@ -355,5 +355,5 @@
                 </dependency>
             </dependencies>
         </profile>
-    </profiles>
+    </profiles> -->
 </project>
