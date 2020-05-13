@@ -14,25 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.ogc.gml;
+package org.n52.shetland.ogc.filter;
 
 import org.n52.shetland.ogc.AbstractMeasureType;
 
 /**
- * Class represents a GML conform MeasureType element
+ * Class represents a FES conform MeasureType element
  *
- * @since 1.0.0
+ * @since 7.5.0
  *
  */
-public class GmlMeasureType extends AbstractMeasureType {
-
+public class FesMeasureType extends AbstractMeasureType {
     /**
      * constructor
      *
      * @param value
      *            Measured value
      */
-    public GmlMeasureType(Double value) {
+    public FesMeasureType(Double value) {
         super(value, null);
     }
 
@@ -44,8 +43,7 @@ public class GmlMeasureType extends AbstractMeasureType {
      * @param unit
      *            Unit of measure
      */
-    public GmlMeasureType(Double value, String unit) {
+    public FesMeasureType(Double value, String unit) {
         super(value, unit);
     }
-
 }

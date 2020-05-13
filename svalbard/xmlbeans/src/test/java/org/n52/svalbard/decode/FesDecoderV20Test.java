@@ -16,15 +16,32 @@
  */
 package org.n52.svalbard.decode;
 
+import static java.util.stream.Collectors.toList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Stream;
+
+import org.apache.xmlbeans.XmlException;
+import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 import org.apache.xmlbeans.XmlString;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.n52.janmayen.Producer;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
 import org.n52.shetland.ogc.filter.FilterConstants;
+import org.n52.shetland.ogc.filter.SpatialFilter;
+import org.n52.shetland.ogc.om.features.FeatureCollection;
 import org.n52.shetland.ogc.ows.exception.OwsExceptionReport;
 import org.n52.svalbard.decode.exception.DecodingException;
+import org.n52.svalbard.util.CodingHelper;
 
 import net.opengis.fes.x20.BinaryComparisonOpType;
 import net.opengis.fes.x20.FilterDocument;
@@ -46,7 +63,33 @@ public class FesDecoderV20Test {
 
     private static final String TEST_LITERAL = "testLiteral";
 
+    private DecoderRepository decoderRepository;
+
     private static final FesDecoderv20 decoder = new FesDecoderv20();
+
+    @BeforeEach
+    public void setup() {
+
+        decoderRepository = new DecoderRepository();
+
+        Producer<XmlOptions> xmlOptions = XmlOptions::new;
+
+        List<Decoder<?, ?>> decoders = Stream.of(new GetFeatureOfInterestResponseDocumentDecoder(),
+                                                 new GmlDecoderv321(),
+                                                 new OmDecoderv20(),
+                                                 new SweCommonDecoderV20(),
+                                                 new SamplingDecoderv20(),
+                                                 new WmlMonitoringPointDecoderv20(),
+                                                 decoder)
+                .map(decoder -> {
+                    decoder.setDecoderRepository(decoderRepository);
+                    decoder.setXmlOptions(xmlOptions);
+                    return decoder;
+                }).collect(toList());
+
+        decoderRepository.setDecoders(decoders);
+        decoderRepository.init();
+    }
 
     /**
      * Test PropertyIsEqualTo filter decoding
@@ -81,4 +124,49 @@ public class FesDecoderV20Test {
         assertThat(comparisonFilter.getValue(), is(TEST_LITERAL));
     }
 
+    @Test
+    public void should_parse_DWithin_Filter() throws DecodingException, XmlException, IOException {
+        SpatialFilter spatialFilter = decodeSpatialFilter("/FesDWithin.xml");
+        checkDistanceSpatialFilter(spatialFilter, FilterConstants.SpatialOperator.DWithin);
+    }
+
+    @Test
+    public void should_parse_Beyond_Filter() throws DecodingException, XmlException, IOException {
+        SpatialFilter spatialFilter = decodeSpatialFilter("/FesBeyond.xml");
+        checkDistanceSpatialFilter(spatialFilter, FilterConstants.SpatialOperator.Beyond);
+    }
+
+    @Test
+    public void should_parse_Disjoint_Filter() throws DecodingException, XmlException, IOException {
+        SpatialFilter spatialFilter = decodeSpatialFilter("/FesDisjoint.xml");
+        assertThat(spatialFilter.getGeometry(), is(notNullValue()));
+        assertThat(spatialFilter.getOperator(), is(notNullValue()));
+        assertEquals(FilterConstants.SpatialOperator.Disjoint, spatialFilter.getOperator());
+    }
+
+    @Test
+    public void should_parse_Overlaps_Filter() throws DecodingException, XmlException, IOException {
+        SpatialFilter spatialFilter = decodeSpatialFilter("/FesOverlaps.xml");
+        assertThat(spatialFilter.getGeometry(), is(notNullValue()));
+        assertThat(spatialFilter.getOperator(), is(notNullValue()));
+        assertEquals(FilterConstants.SpatialOperator.Overlaps, spatialFilter.getOperator());
+    }
+
+    private SpatialFilter decodeSpatialFilter(String fileName) throws DecodingException, XmlException, IOException {
+        XmlObject xml = XmlObject.Factory.parse(getClass().getResourceAsStream(fileName));
+        DecoderKey decoderKey = CodingHelper.getDecoderKey(xml);
+        Decoder<SpatialFilter, XmlObject> decoder = decoderRepository.getDecoder(decoderKey);
+        SpatialFilter spatialFilter = decoder.decode(xml);
+        return spatialFilter;
+    }
+
+    private void checkDistanceSpatialFilter(SpatialFilter spatialFilter, FilterConstants.SpatialOperator operator) {
+        assertThat(spatialFilter, is(notNullValue()));
+        assertThat(spatialFilter.getGeometry(), is(notNullValue()));
+        assertThat(spatialFilter.getOperator(), is(notNullValue()));
+        assertEquals(operator, spatialFilter.getOperator());
+        assertThat(spatialFilter.getDistance(), is(notNullValue()));
+        assertEquals(10.0, spatialFilter.getDistance().getValue());
+        assertEquals("m", spatialFilter.getDistance().getUnit());
+    }
 }

@@ -37,7 +37,10 @@ import org.n52.shetland.ogc.ows.OWSConstants;
  * Utility class for SOAP requests.
  *
  * @since 1.0.0
+ *
+ * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it was removed from Java
  */
+@Deprecated
 public final class SoapHelper {
 
     private SoapHelper() {

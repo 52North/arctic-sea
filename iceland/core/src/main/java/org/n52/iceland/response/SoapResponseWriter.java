@@ -37,7 +37,10 @@ import org.n52.svalbard.encode.exception.EncodingException;
  *
  * @author <a href="mailto:c.autermann@52north.org">Christian Autermann</a>
  * @since 2.0.0
+ *
+ * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it was removed from Java
  */
+@Deprecated
 public class SoapResponseWriter extends AbstractResponseWriter<SOAPMessage> {
     public static final ResponseWriterKey KEY = new ResponseWriterKey(SOAPMessage.class);
 
