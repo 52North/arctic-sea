@@ -34,6 +34,8 @@ public class SpatialFilter extends Filter<SpatialOperator> {
 
     private EnvelopeOrGeometry geometry;
 
+    private FesMeasureType distance;
+
     public SpatialFilter() {
         this(null, (Geometry) null, null);
     }
@@ -62,6 +64,41 @@ public class SpatialFilter extends Filter<SpatialOperator> {
         super(valueReference);
         this.operator = operator;
         this.geometry = new EnvelopeOrGeometry(geometry);
+    }
+
+    /**
+     * constructor
+     *
+     * @param operator
+     *            Spatial operator
+     * @param geometry
+     *            Filter geometry
+     * @param valueReference
+     *            Filter valueReference
+     * @param distance
+     *            Filter distance (DWithin, Beyond)
+     */
+    public SpatialFilter(SpatialOperator operator, Geometry geometry, String valueReference, FesMeasureType distance) {
+        this(operator, geometry, valueReference);
+        this.setDistance(distance);
+    }
+
+    /**
+     * constructor
+     *
+     * @param operator
+     *            Spatial operator
+     * @param geometry
+     *            Filter geometry
+     * @param valueReference
+     *            Filter valueReference
+     * @param distance
+     *            Filter distance (DWithin, Beyond)
+     */
+    public SpatialFilter(SpatialOperator operator, ReferencedEnvelope geometry, String valueReference,
+            FesMeasureType distance) {
+        this(operator, geometry, valueReference);
+        this.setDistance(distance);
     }
 
     @Override
@@ -114,6 +151,25 @@ public class SpatialFilter extends Filter<SpatialOperator> {
      */
     public SpatialFilter setGeometry(ReferencedEnvelope geometry) {
         this.geometry = new EnvelopeOrGeometry(geometry);
+        return this;
+    }
+
+    /**
+     * @return the distance
+     */
+    public FesMeasureType getDistance() {
+        return distance;
+    }
+
+    /**
+     * The filter distance
+     *
+     * @param distance
+     *            the distance to set
+     * @return This filter
+     */
+    public SpatialFilter setDistance(FesMeasureType distance) {
+        this.distance = distance;
         return this;
     }
 

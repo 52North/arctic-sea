@@ -67,13 +67,13 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
 
     public static final String MISSING_RESPONSE_DETAIL_TEXT = "Missing SOS response document!";
 
-    public static final String MISSING_EXCEPTION_DETAIL_TEXT
-            = "Error while creating SOAPFault element from OWSException! OWSException is missing!";
+    public static final String MISSING_EXCEPTION_DETAIL_TEXT =
+            "Error while creating SOAPFault element from OWSException! OWSException is missing!";
 
     private final Set<EncoderKey> encoderKey;
 
     public AbstractSoapEncoder(String namespace) {
-        this.encoderKey = ImmutableSet.<EncoderKey>of(new XmlEncoderKey(namespace, SoapResponse.class));
+        this.encoderKey = ImmutableSet.<EncoderKey> of(new XmlEncoderKey(namespace, SoapResponse.class));
     }
 
     @Override
@@ -94,30 +94,39 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Creates a SOAPBody element from SOS response
      *
-     * @param soapResponseMessage SOAPBody element
-     * @param sosResponse         SOS response
-     * @param actionURI           the action URI
+     * @param soapResponseMessage
+     *            SOAPBody element
+     * @param sosResponse
+     *            SOS response
+     * @param actionURI
+     *            the action URI
      *
      * @return the action URI
      *
-     * @throws SOAPException if an error occurs.
+     * @throws SOAPException
+     *             if an error occurs.
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     protected String createSOAPBody(SOAPMessage soapResponseMessage, XmlObject sosResponse, String actionURI)
             throws SOAPException {
 
         if (sosResponse != null) {
             addAndRemoveSchemaLocationForSOAP(sosResponse, soapResponseMessage);
-            soapResponseMessage.getSOAPBody().addDocument((Document) sosResponse.getDomNode());
+            soapResponseMessage.getSOAPBody()
+                    .addDocument((Document) sosResponse.getDomNode());
             return actionURI;
         } else {
             SoapFault fault = new SoapFault();
             fault.setFaultCode(SOAPConstants.SOAP_RECEIVER_FAULT);
             fault.setFaultSubcode(new QName(OWSConstants.NS_OWS, OwsExceptionCode.NoApplicableCode.name(),
-                                            OWSConstants.NS_OWS_PREFIX));
+                    OWSConstants.NS_OWS_PREFIX));
             fault.setFaultReason(DEFAULT_FAULT_REASON);
             fault.setLocale(Locale.ENGLISH);
             fault.setDetailText(MISSING_RESPONSE_DETAIL_TEXT);
-            createSOAPFault(soapResponseMessage.getSOAPBody().addFault(), fault);
+            createSOAPFault(soapResponseMessage.getSOAPBody()
+                    .addFault(), fault);
         }
         return null;
     }
@@ -125,15 +134,24 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Create and add the SOAPBody content
      *
-     * @param soapResponseMessage SOAPMessage to add the body
-     * @param soapResponse        SOS internal SOAP response
-     * @param actionURI           The ation URI
+     * @param soapResponseMessage
+     *            SOAPMessage to add the body
+     * @param soapResponse
+     *            SOS internal SOAP response
+     * @param actionURI
+     *            The ation URI
      *
      * @return action URI
      *
-     * @throws SOAPException     If an error occurs when add content to {@link SOAPMessage}
-     * @throws EncodingException If an error occurs while encoding the body content
+     * @throws SOAPException
+     *             If an error occurs when add content to {@link SOAPMessage}
+     * @throws EncodingException
+     *             If an error occurs while encoding the body content
+     *
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     protected String createSOAPBody(SOAPMessage soapResponseMessage, SoapResponse soapResponse, String actionURI)
             throws SOAPException, EncodingException {
         return createSOAPBody(soapResponseMessage, getBodyContent(soapResponse), actionURI);
@@ -146,12 +164,14 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get the content for the SOAPBody as {@link XmlObject}
      *
-     * @param response SOAP response
+     * @param response
+     *            SOAP response
      *
      * @return SOAPBody content as {@link XmlObject}
      *
-     * @throws EncodingException If no encoder is available, the object to encode is not supported or an error occurs
-     *                           during the encoding
+     * @throws EncodingException
+     *             If no encoder is available, the object to encode is not
+     *             supported or an error occurs during the encoding
      */
     protected XmlObject getBodyContent(SoapResponse response) throws EncodingException {
         OperationResponseEncoderKey key = new OperationResponseEncoderKey(
@@ -166,16 +186,18 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get the content for the SOAPBody as {@link XmlObject}
      *
-     * @param response SOAP response
+     * @param response
+     *            SOAP response
      *
      * @return SOAPBody content as {@link XmlObject}
      *
-     * @throws EncodingException If no encoder is available, the object to encode is not supported or an error occurs
-     *                           during the encoding
+     * @throws EncodingException
+     *             If no encoder is available, the object to encode is not
+     *             supported or an error occurs during the encoding
      */
     protected XmlObject getBodyContent(SoapRequest request) throws EncodingException {
-        OperationRequestEncoderKey key = new OperationRequestEncoderKey(
-                new OwsOperationKey(request.getBodyContent()), MediaTypes.APPLICATION_XML);
+        OperationRequestEncoderKey key = new OperationRequestEncoderKey(new OwsOperationKey(request.getBodyContent()),
+                MediaTypes.APPLICATION_XML);
         Encoder<Object, OwsServiceRequest> encoder = getEncoder(key);
         if (encoder == null) {
             throw new NoEncoderForKeyException(key);
@@ -184,21 +206,32 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     }
 
     /**
-     * Check SOS response for xsi:schemaLocation, remove attribute and add attribute to SOAP message
+     * Check SOS response for xsi:schemaLocation, remove attribute and add
+     * attribute to SOAP message
      *
-     * @param xmlObject           the document
-     * @param soapResponseMessage SOAP response message
+     * @param xmlObject
+     *            the document
+     * @param soapResponseMessage
+     *            SOAP response message
      *
-     * @throws SOAPException If an error occurs
+     * @throws SOAPException
+     *             If an error occurs
+     *
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     private void addAndRemoveSchemaLocationForSOAP(XmlObject xmlObject, SOAPMessage soapResponseMessage)
             throws SOAPException {
         String value = null;
         Node nodeToRemove = null;
-        NamedNodeMap attributeMap = xmlObject.getDomNode().getFirstChild().getAttributes();
+        NamedNodeMap attributeMap = xmlObject.getDomNode()
+                .getFirstChild()
+                .getAttributes();
         for (int i = 0; i < attributeMap.getLength(); i++) {
             Node node = attributeMap.item(i);
-            if (node.getLocalName().equals(W3CConstants.AN_SCHEMA_LOCATION)) {
+            if (node.getLocalName()
+                    .equals(W3CConstants.AN_SCHEMA_LOCATION)) {
                 value = node.getNodeValue();
                 nodeToRemove = node;
             }
@@ -206,7 +239,8 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
         if (nodeToRemove != null) {
             attributeMap.removeNamedItem(nodeToRemove.getNodeName());
         }
-        SOAPEnvelope envelope = soapResponseMessage.getSOAPPart().getEnvelope();
+        SOAPEnvelope envelope = soapResponseMessage.getSOAPPart()
+                .getEnvelope();
         StringBuilder string = new StringBuilder();
         string.append(envelope.getNamespaceURI());
         string.append(' ');
@@ -221,43 +255,62 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Creates a SOAPFault element from SOS internal fault
      *
-     * @param fault     SOAPFault element
-     * @param soapFault SOS internal fault
+     * @param fault
+     *            SOAPFault element
+     * @param soapFault
+     *            SOS internal fault
      *
-     * @throws SOAPException if an error occurs.
+     * @throws SOAPException
+     *             if an error occurs.
+     *
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     protected void createSOAPFault(SOAPFault fault, SoapFault soapFault) throws SOAPException {
         fault.setFaultCode(soapFault.getFaultCode());
         fault.setFaultString(soapFault.getFaultReason(), soapFault.getLocale());
         if (soapFault.getDetailText() != null) {
-            fault.addDetail().setTextContent(soapFault.getDetailText());
+            fault.addDetail()
+                    .setTextContent(soapFault.getDetailText());
         }
     }
 
     /**
      * Creates a SOAPFault element from SOS exception
      *
-     * @param soapFault          SOAPFault element
-     * @param owsExceptionReport SOS exception
+     * @param soapFault
+     *            SOAPFault element
+     * @param owsExceptionReport
+     *            SOS exception
      *
      * @return SOAP action URI.
      *
-     * @throws SOAPException if an error occurs.
+     * @throws SOAPException
+     *             if an error occurs.
+     *
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     protected String createSOAPFaultFromExceptionResponse(SOAPFault soapFault, OwsExceptionReport owsExceptionReport)
             throws SOAPException {
         // FIXME: check and fix support for ExceptionReport with multiple
         // exceptions!
-        if (!owsExceptionReport.getExceptions().isEmpty()) {
-            CodedException firstException = owsExceptionReport.getExceptions().iterator().next();
-            if (soapFault.getNamespaceURI().equalsIgnoreCase(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE)) {
+        if (!owsExceptionReport.getExceptions()
+                .isEmpty()) {
+            CodedException firstException = owsExceptionReport.getExceptions()
+                    .iterator()
+                    .next();
+            if (soapFault.getNamespaceURI()
+                    .equalsIgnoreCase(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE)) {
                 QName qname = new QName(soapFault.getNamespaceURI(), "Client", soapFault.getPrefix());
                 soapFault.setFaultCode(qname);
             } else {
                 soapFault.setFaultCode(SOAPConstants.SOAP_SENDER_FAULT);
                 if (firstException.getCode() != null) {
-                    soapFault.appendFaultSubcode(new QName(OWSConstants.NS_OWS, firstException.getCode().toString(),
-                                                           OWSConstants.NS_OWS_PREFIX));
+                    soapFault.appendFaultSubcode(new QName(OWSConstants.NS_OWS, firstException.getCode()
+                            .toString(), OWSConstants.NS_OWS_PREFIX));
                 } else {
                     soapFault.appendFaultSubcode(OWSConstants.QN_NO_APPLICABLE_CODE);
                 }
@@ -283,7 +336,8 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get SOAP action URI depending on Exception code
      *
-     * @param exceptionCode Exception code
+     * @param exceptionCode
+     *            Exception code
      *
      * @return SOAP action URI
      */
@@ -302,28 +356,47 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Creates a SOAPDetail element from SOS exception document.
      *
-     * @param detail    SOAPDetail
-     * @param exception SOS Exception document
+     * @param detail
+     *            SOAPDetail
+     * @param exception
+     *            SOS Exception document
      *
-     * @throws SOAPException if an error occurs.
+     * @throws SOAPException
+     *             if an error occurs.
+     *
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     private void createSOAPFaultDetail(Detail detail, CodedException exception) throws SOAPException {
         SOAPElement exRep = detail.addChildElement(OWSConstants.QN_EXCEPTION);
         exRep.addNamespaceDeclaration(OWSConstants.NS_OWS_PREFIX, OWSConstants.NS_OWS);
-        String code = exception.getCode().toString();
+        String code = exception.getCode()
+                .toString();
         String locator = exception.getLocator();
         StringBuilder exceptionText = new StringBuilder();
         exceptionText.append(exception.getMessage());
         exceptionText.append('\n');
         if (exception.getCause() != null) {
-            exceptionText.append('\n').append("[EXCEPTION]: ").append('\n');
-            if (exception.getCause().getLocalizedMessage() != null &&
-                !exception.getCause().getLocalizedMessage().isEmpty()) {
-                exceptionText.append(exception.getCause().getLocalizedMessage());
+            exceptionText.append('\n')
+                    .append("[EXCEPTION]: ")
+                    .append('\n');
+            if (exception.getCause()
+                    .getLocalizedMessage() != null
+                    && !exception.getCause()
+                            .getLocalizedMessage()
+                            .isEmpty()) {
+                exceptionText.append(exception.getCause()
+                        .getLocalizedMessage());
                 exceptionText.append('\n');
             }
-            if (exception.getCause().getMessage() != null && !exception.getCause().getMessage().isEmpty()) {
-                exceptionText.append(exception.getCause().getMessage());
+            if (exception.getCause()
+                    .getMessage() != null
+                    && !exception.getCause()
+                            .getMessage()
+                            .isEmpty()) {
+                exceptionText.append(exception.getCause()
+                        .getMessage());
                 exceptionText.append('\n');
             }
         }

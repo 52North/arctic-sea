@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard.decode;
 
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
@@ -94,10 +93,14 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
      *
      * @throws DecodingException
      *             * if an error occurs.
+     * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it
+     *             was removed from Java
      */
+    @Deprecated
     protected OwsServiceRequest getSOAPBodyContent(SOAPMessage message) throws DecodingException {
         try {
-            Document bodyRequestDoc = message.getSOAPBody().extractContentAsDocument();
+            Document bodyRequestDoc = message.getSOAPBody()
+                    .extractContentAsDocument();
             String xmlString = W3cHelper.nodeToXmlString(bodyRequestDoc.getDocumentElement());
             return decodeXmlElement(XmlObject.Factory.parse(xmlString, getXmlOptions()));
         } catch (SOAPException | XmlException | IOException e) {
@@ -105,6 +108,7 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
         }
     }
 
+    @Deprecated
     protected List<SoapHeader> getSoapHeader(SOAPHeader soapHeader) {
         Map<String, List<SOAPHeaderElement>> headersByNamespace = new HashMap<>();
         Iterator<?> headerElements = soapHeader.extractAllHeaderElements();
@@ -156,8 +160,11 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
 
     protected String getFaultReasons(DecodingException de) {
         if (de.getCause() instanceof CompositeException) {
-            return Joiner.on("\n").join(((CompositeException) de.getCause()).getExceptions().stream()
-                    .map(e -> e.getMessage()).collect(Collectors.toList()));
+            return Joiner.on("\n")
+                    .join(((CompositeException) de.getCause()).getExceptions()
+                            .stream()
+                            .map(e -> e.getMessage())
+                            .collect(Collectors.toList()));
         }
         return de.getMessage();
     }

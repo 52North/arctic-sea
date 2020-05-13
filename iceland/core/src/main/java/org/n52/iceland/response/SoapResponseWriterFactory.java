@@ -32,7 +32,9 @@ import org.n52.svalbard.encode.EncoderRepository;
  * @author <a href="mailto:c.hollmann@52north.org">Carsten Hollmann</a>
  * @since 2.0.0
  *
+ * @deprecated javax.xml.soap.* is no longer supported from 8.0 because it was removed from Java
  */
+@Deprecated
 public class SoapResponseWriterFactory
         implements ResponseWriterFactory,
                    SingleTypeComponentFactory<ResponseWriterKey, ResponseWriter<?>> {
