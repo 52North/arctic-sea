@@ -20,35 +20,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Set;
 
-import net.opengis.fes.x20.BBOXType;
-import net.opengis.fes.x20.BinaryComparisonOpType;
-import net.opengis.fes.x20.BinaryLogicOpType;
-import net.opengis.fes.x20.BinaryTemporalOpType;
-import net.opengis.fes.x20.ComparisonOpsType;
-import net.opengis.fes.x20.FilterDocument;
-import net.opengis.fes.x20.FilterType;
-import net.opengis.fes.x20.LiteralType;
-import net.opengis.fes.x20.LogicOpsType;
-import net.opengis.fes.x20.PropertyIsBetweenType;
-import net.opengis.fes.x20.PropertyIsLikeType;
-import net.opengis.fes.x20.PropertyIsNilType;
-import net.opengis.fes.x20.PropertyIsNullType;
-import net.opengis.fes.x20.SpatialOpsType;
-import net.opengis.fes.x20.TemporalOpsDocument;
-import net.opengis.fes.x20.TemporalOpsType;
-import net.opengis.fes.x20.UnaryLogicOpType;
-import net.opengis.fes.x20.ValueReferenceDocument;
-
 import org.apache.xmlbeans.XmlCursor;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
 import org.apache.xmlbeans.XmlObject.Factory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.w3c.dom.NodeList;
-
+import org.locationtech.jts.geom.Geometry;
 import org.n52.shetland.ogc.filter.BinaryLogicFilter;
 import org.n52.shetland.ogc.filter.ComparisonFilter;
+import org.n52.shetland.ogc.filter.FesMeasureType;
 import org.n52.shetland.ogc.filter.Filter;
 import org.n52.shetland.ogc.filter.FilterConstants;
 import org.n52.shetland.ogc.filter.FilterConstants.BinaryLogicOperator;
@@ -67,10 +46,33 @@ import org.n52.svalbard.decode.exception.DecodingException;
 import org.n52.svalbard.decode.exception.UnsupportedDecoderXmlInputException;
 import org.n52.svalbard.util.CodingHelper;
 import org.n52.svalbard.util.XmlHelper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.w3c.dom.NodeList;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
-import org.locationtech.jts.geom.Geometry;
+
+import net.opengis.fes.x20.BBOXType;
+import net.opengis.fes.x20.BinaryComparisonOpType;
+import net.opengis.fes.x20.BinaryLogicOpType;
+import net.opengis.fes.x20.BinarySpatialOpType;
+import net.opengis.fes.x20.BinaryTemporalOpType;
+import net.opengis.fes.x20.ComparisonOpsType;
+import net.opengis.fes.x20.DistanceBufferType;
+import net.opengis.fes.x20.FilterDocument;
+import net.opengis.fes.x20.FilterType;
+import net.opengis.fes.x20.LiteralType;
+import net.opengis.fes.x20.LogicOpsType;
+import net.opengis.fes.x20.PropertyIsBetweenType;
+import net.opengis.fes.x20.PropertyIsLikeType;
+import net.opengis.fes.x20.PropertyIsNilType;
+import net.opengis.fes.x20.PropertyIsNullType;
+import net.opengis.fes.x20.SpatialOpsType;
+import net.opengis.fes.x20.TemporalOpsDocument;
+import net.opengis.fes.x20.TemporalOpsType;
+import net.opengis.fes.x20.UnaryLogicOpType;
+import net.opengis.fes.x20.ValueReferenceDocument;
 
 /**
  * @since 1.0.0
@@ -163,28 +165,32 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
     private SpatialFilter parseSpatialFilterType(SpatialOpsType xbSpatialOpsType) throws DecodingException {
         SpatialFilter spatialFilter = new SpatialFilter();
         try {
+            String localName = XmlHelper.getLocalName(xbSpatialOpsType);
+            spatialFilter.setOperator(FilterConstants.SpatialOperator.valueOf(localName));
             if (xbSpatialOpsType instanceof BBOXType) {
-                spatialFilter.setOperator(FilterConstants.SpatialOperator.BBOX);
                 BBOXType xbBBOX = (BBOXType) xbSpatialOpsType;
                 if (isValueReferenceExpression(xbBBOX.getExpression())) {
                     spatialFilter.setValueReference(parseValueReference(xbBBOX.getExpression()));
                 }
-                XmlCursor geometryCursor = xbSpatialOpsType.newCursor();
-                if (geometryCursor.toChild(GmlConstants.QN_ENVELOPE_32)) {
-                    Object sosGeometry = decodeXmlObject(Factory.parse(geometryCursor.getDomNode()));
-                    if (sosGeometry instanceof Geometry) {
-                        spatialFilter.setGeometry((Geometry) sosGeometry);
-                    } else if (sosGeometry instanceof ReferencedEnvelope) {
-                        spatialFilter.setGeometry((ReferencedEnvelope) sosGeometry);
-                    } else {
-                        throw new UnsupportedDecoderXmlInputException(this, xbSpatialOpsType);
-                    }
-
-                } else {
-                    throw new DecodingException(Sos2Constants.GetObservationParams.spatialFilter,
-                            "The requested spatial filter operand is not supported by this SOS!");
+                parseGeometry(xbSpatialOpsType, spatialFilter);
+            } else if (xbSpatialOpsType instanceof BinarySpatialOpType) {
+                BinarySpatialOpType binarySpatialOpType = (BinarySpatialOpType) xbSpatialOpsType;
+                if (isValueReferenceExpression(binarySpatialOpType.getExpression())) {
+                    spatialFilter.setValueReference(parseValueReference(binarySpatialOpType.getExpression()));
                 }
-                geometryCursor.dispose();
+                parseGeometry(xbSpatialOpsType, spatialFilter);
+            } else if (xbSpatialOpsType instanceof DistanceBufferType) {
+                DistanceBufferType distanceBufferType = (DistanceBufferType) xbSpatialOpsType;
+                if (isValueReferenceExpression(distanceBufferType.getExpression())) {
+                    spatialFilter.setValueReference(parseValueReference(distanceBufferType.getExpression()));
+                }
+                if (distanceBufferType.getDistance() != null) {
+                    spatialFilter.setDistance(new FesMeasureType(distanceBufferType.getDistance()
+                            .getDoubleValue(),
+                            distanceBufferType.getDistance()
+                                    .getUom()));
+                }
+                parseGeometry(xbSpatialOpsType, spatialFilter);
             } else {
                 throw new DecodingException(Sos2Constants.GetObservationParams.spatialFilter,
                         "The requested spatial filter is not supported by this SOS!");
@@ -193,6 +199,34 @@ public class FesDecoderv20 extends AbstractXmlDecoder<XmlObject, Object> {
             throw new DecodingException("Error while parsing spatial filter!", xmle);
         }
         return spatialFilter;
+    }
+
+    private void parseGeometry(SpatialOpsType xbSpatialOpsType, SpatialFilter spatialFilter)
+            throws DecodingException, XmlException {
+        XmlCursor geometryCursor = null;
+        try {
+            geometryCursor = xbSpatialOpsType.newCursor();
+            if (geometryCursor.toChild(GmlConstants.QN_ENVELOPE_32) || geometryCursor.toChild(GmlConstants.QN_POINT_32)
+                    || geometryCursor.toChild(GmlConstants.QN_LINESTRING_32)
+                    || geometryCursor.toChild(GmlConstants.QN_POLYGON_32)
+                    || geometryCursor.toChild(GmlConstants.QN_MULTI_CURVE_32)) {
+                Object sosGeometry = decodeXmlObject(Factory.parse(geometryCursor.getDomNode()));
+                if (sosGeometry instanceof Geometry) {
+                    spatialFilter.setGeometry((Geometry) sosGeometry);
+                } else if (sosGeometry instanceof ReferencedEnvelope) {
+                    spatialFilter.setGeometry((ReferencedEnvelope) sosGeometry);
+                } else {
+                    throw new UnsupportedDecoderXmlInputException(this, xbSpatialOpsType);
+                }
+            } else {
+                throw new DecodingException(Sos2Constants.GetObservationParams.spatialFilter,
+                        "The requested spatial filter operand is not supported by this SOS!");
+            }
+        } finally {
+            if (geometryCursor != null) {
+                geometryCursor.dispose();
+            }
+        }
     }
 
     /**

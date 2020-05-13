@@ -46,13 +46,13 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
 
     public static final String MISSING_RESPONSE_DETAIL_TEXT = "Missing SOS response document!";
 
-    public static final String MISSING_EXCEPTION_DETAIL_TEXT
-            = "Error while creating SOAPFault element from OWSException! OWSException is missing!";
+    public static final String MISSING_EXCEPTION_DETAIL_TEXT =
+            "Error while creating SOAPFault element from OWSException! OWSException is missing!";
 
     private final Set<EncoderKey> encoderKey;
 
     public AbstractSoapEncoder(String namespace) {
-        this.encoderKey = ImmutableSet.<EncoderKey>of(new XmlEncoderKey(namespace, SoapResponse.class));
+        this.encoderKey = ImmutableSet.<EncoderKey> of(new XmlEncoderKey(namespace, SoapResponse.class));
     }
 
     @Override
@@ -74,12 +74,14 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get the content for the SOAPBody as {@link XmlObject}
      *
-     * @param response SOAP response
+     * @param response
+     *            SOAP response
      *
      * @return SOAPBody content as {@link XmlObject}
      *
-     * @throws EncodingException If no encoder is available, the object to encode is not supported or an error occurs
-     *                           during the encoding
+     * @throws EncodingException
+     *             If no encoder is available, the object to encode is not
+     *             supported or an error occurs during the encoding
      */
     protected XmlObject getBodyContent(AbstractSoap<?> response) throws EncodingException {
         OperationResponseEncoderKey key = new OperationResponseEncoderKey(
@@ -94,7 +96,8 @@ public abstract class AbstractSoapEncoder<T, S> extends AbstractXmlEncoder<T, S>
     /**
      * Get SOAP action URI depending on Exception code
      *
-     * @param exceptionCode Exception code
+     * @param exceptionCode
+     *            Exception code
      *
      * @return SOAP action URI
      */

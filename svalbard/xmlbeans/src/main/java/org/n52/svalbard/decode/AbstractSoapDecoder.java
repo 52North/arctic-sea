@@ -16,7 +16,6 @@
  */
 package org.n52.svalbard.decode;
 
-
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -96,8 +95,11 @@ public abstract class AbstractSoapDecoder extends AbstractXmlDecoder<XmlObject, 
 
     protected String getFaultReasons(DecodingException de) {
         if (de.getCause() instanceof CompositeException) {
-            return Joiner.on("\n").join(((CompositeException) de.getCause()).getExceptions().stream()
-                    .map(e -> e.getMessage()).collect(Collectors.toList()));
+            return Joiner.on("\n")
+                    .join(((CompositeException) de.getCause()).getExceptions()
+                            .stream()
+                            .map(e -> e.getMessage())
+                            .collect(Collectors.toList()));
         }
         return de.getMessage();
     }

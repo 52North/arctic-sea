@@ -27,6 +27,7 @@ public abstract class AbstractResource extends AbstractValue {
 
     @Override
     public Resource addToResource(Model model, Resource parent) {
+        addNsPrefix(model);
         parent.addProperty(getProperty(), model.createResource(getValue()));
         return parent;
     }
