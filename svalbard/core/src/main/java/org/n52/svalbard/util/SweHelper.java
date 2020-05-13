@@ -436,6 +436,16 @@ public final class SweHelper {
         }
         return sosTextEncoding;
     }
+    
+    public SweAbstractEncoding createDefaultTextEncoding() {
+        SweTextEncoding sosTextEncoding = new SweTextEncoding();
+        sosTextEncoding.setBlockSeparator(tupleSeparator);
+        sosTextEncoding.setTokenSeparator(tokenSeparator);
+        if (!Strings.isNullOrEmpty(decimalSeparator)) {
+            sosTextEncoding.setDecimalSeparator(decimalSeparator);
+        }
+        return sosTextEncoding;
+    }
 
     @SuppressFBWarnings("BC_VACUOUS_INSTANCEOF")
     private List<String> createBlock(SweAbstractDataComponent elementType, Time phenomenonTime, String phenID,
