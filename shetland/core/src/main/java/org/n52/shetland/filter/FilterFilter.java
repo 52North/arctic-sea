@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.filter;
 
+import org.n52.shetland.oasis.odata.ODataExpr;
 import org.n52.shetland.ogc.filter.FilterClause;
 
 import java.util.Objects;
@@ -25,9 +26,9 @@ import java.util.Objects;
  */
 public class FilterFilter implements FilterClause {
 
-    private final Object filter;
+    private final ODataExpr filter;
 
-    public FilterFilter(Object filter) {
+    public FilterFilter(ODataExpr filter) {
         this.filter = filter;
     }
 
@@ -55,6 +56,6 @@ public class FilterFilter implements FilterClause {
     }
 
     @Override public String toString() {
-        return DOLLAR + "filter=" + getFilter().toString();
+        return DOLLAR + "filter=" + filter.toODataString();
     }
 }

@@ -78,11 +78,15 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public Optional<BinaryExpr<?>> asBinary() {
-        return Optional.of((BinaryExpr<?>) this);
+        return Optional.of(this);
     }
 
     @Override
     public String toString() {
+        return String.format("(%s %s %s)", this.left, this.operator.toString(), this.right);
+    }
+
+    @Override public String toODataString() {
         return String.format("(%s %s %s)", this.left, this.operator.toString().toLowerCase(), this.right);
     }
 

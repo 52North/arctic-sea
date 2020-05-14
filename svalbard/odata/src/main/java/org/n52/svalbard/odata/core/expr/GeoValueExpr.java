@@ -57,6 +57,10 @@ public class GeoValueExpr implements Expr {
 
     @Override
     public String toString() {
+        return String.format("'%s'", this.value);
+    }
+
+    @Override public String toODataString() {
         return String.format("%s", this.value);
     }
 

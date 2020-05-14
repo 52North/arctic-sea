@@ -71,7 +71,7 @@ public class ComparisonExpr extends BinaryExpr<ComparisonOperator> implements Bo
     }
 
     @Override
-    public String toString() {
+    public String toODataString() {
         return String.format("(%s %s %s)", getLeft(), getSTAName(getOperator()), getRight());
     }
 
