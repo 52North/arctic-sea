@@ -14,30 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.n52.shetland.rdf.locn;
+package org.n52.shetland.rdf;
 
+import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.RDFDatatype;
-import org.apache.jena.rdf.model.Property;
-import org.n52.shetland.rdf.AbstractDatatype;
 
-public class Geometry extends AbstractDatatype implements LocnRdfPrefix {
-
-    @Deprecated
-    public Geometry(DataType dataType, String value) {
-        super(dataType, value);
-    }
-
-    public Geometry(RDFDatatype dataType, String value) {
-        super(dataType, value);
-    }
-
-    public Geometry(String dataType, String value) {
-        super(dataType, value);
-    }
-
-    @Override
-    public Property getProperty() {
-        return LOCN.GEOMETRY_PROPERTY;
-    }
-
+public interface RDFDataTypes {
+    RDFDatatype WKT_LITERAL = new BaseDatatype("http://www.opengis.net/ont/geosparql#wktLiteral");
+    RDFDatatype GEO_JSON = new BaseDatatype("https://www.iana.org/assignments/media-types/application/geo+json");
 }

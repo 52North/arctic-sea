@@ -26,6 +26,10 @@ public class AccrualPeriodicity extends AbstractResource implements DctRdfPrefix
         super(value);
     }
 
+    public AccrualPeriodicity(CLDFrequency value) {
+        super(value.getURI());
+    }
+
     @Override
     public Property getProperty() {
         return DCTerms.accrualPeriodicity;
