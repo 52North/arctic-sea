@@ -96,6 +96,12 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
     }
 
     @Override
+    public String toODataString() {
+        return String.format("%s(%s)", this.name,
+                             this.parameters.stream().map(Expr::toODataString).collect(joining(", ")));
+    }
+
+    @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitMethodCall(this);
     }
