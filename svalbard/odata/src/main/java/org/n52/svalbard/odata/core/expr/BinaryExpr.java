@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core.expr;
 
 import java.util.Objects;
@@ -23,13 +24,14 @@ import java.util.Optional;
  * Class to hold a binary expression.
  *
  * @param <T> the operator type
- *
  * @author Christian Autermann
  */
 public abstract class BinaryExpr<T> implements Expr {
     private final T operator;
     private final Expr left;
     private final Expr right;
+
+    private final String format = "(%s %s %s)";
 
     /**
      * Create a new {@code BinaryExpr}.
@@ -83,11 +85,11 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format("(%s %s %s)", this.left, this.operator.toString(), this.right);
+        return String.format(format, this.left, this.operator.toString(), this.right);
     }
 
     @Override public String toODataString() {
-        return String.format("(%s %s %s)", this.left, this.operator.toString().toLowerCase(), this.right);
+        return String.format(format, this.left, this.operator.toString().toLowerCase(), this.right);
     }
 
     @Override public int hashCode() {
