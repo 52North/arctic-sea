@@ -31,8 +31,6 @@ public abstract class UnaryExpr<T> implements Expr {
     private final T operator;
     private final Expr operand;
 
-    private final String format = "(%s %s)";
-
     /**
      * Create a new {@code UnaryExpr}.
      *
@@ -69,11 +67,15 @@ public abstract class UnaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format(format, this.operator.toString(), this.operand);
+        return format(this.operator.toString());
     }
 
     @Override public String toODataString() {
-        return String.format(format, this.operator.toString().toLowerCase(), this.operand);
+        return format(this.operator.toString().toLowerCase());
+    }
+
+    private String format(String operator) {
+        return String.format("(%s %s)", operator, this.operand);
     }
 
     @Override public int hashCode() {

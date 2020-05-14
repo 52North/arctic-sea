@@ -27,11 +27,10 @@ import java.util.Optional;
  * @author Christian Autermann
  */
 public abstract class BinaryExpr<T> implements Expr {
+    
     private final T operator;
     private final Expr left;
     private final Expr right;
-
-    private final String format = "(%s %s %s)";
 
     /**
      * Create a new {@code BinaryExpr}.
@@ -85,11 +84,15 @@ public abstract class BinaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format(format, this.left, this.operator.toString(), this.right);
+        return format(this.operator.toString());
     }
 
     @Override public String toODataString() {
-        return String.format(format, this.left, this.operator.toString().toLowerCase(), this.right);
+        return format(this.operator.toString().toLowerCase());
+    }
+
+    private String format(String operator) {
+        return String.format("(%s %s %s)", this.left, operator, this.right);
     }
 
     @Override public int hashCode() {
