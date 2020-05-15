@@ -112,7 +112,6 @@ This project includes:
   javax.annotation API under CDDL + GPLv2 with classpath exception
   javax.inject under The Apache Software License, Version 2.0
   JCL 1.2 implemented over SLF4J under Apache License, Version 2.0
-  JLine under The BSD License
   Joda-Time under Apache License, Version 2.0
   JOpt Simple under The MIT License
   JSONLD Java :: Core under Revised BSD License
