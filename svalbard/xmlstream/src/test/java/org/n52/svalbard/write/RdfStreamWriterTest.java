@@ -21,12 +21,15 @@ import java.io.IOException;
 
 import javax.xml.stream.XMLStreamException;
 
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.RDFWriter;
 import org.junit.jupiter.api.Test;
+import org.n52.shetland.rdf.AbstractDatatype;
 import org.n52.shetland.rdf.AbstractDatatype.DataType;
 import org.n52.shetland.rdf.RDF;
+import org.n52.shetland.rdf.RDFDataTypes;
 import org.n52.shetland.rdf.dcat.AccessURL;
 import org.n52.shetland.rdf.dcat.Catalog;
 import org.n52.shetland.rdf.dcat.ContactPoint;
@@ -78,8 +81,8 @@ public class RdfStreamWriterTest {
         Catalog catalog = createCatalog(CATALOG, dataset);
         catalog.addLanguage(new Language("en"));
         catalog.setHomepage(new Homepage(createValue(CATALOG, "homepage")));
-        catalog.setModified(new Modified(DataType.DateTime, "2019-04-17T00:00:00Z"));
-        catalog.setIssued(new Issued(DataType.DateTime, "2019-04-17T00:00:00Z"));
+        catalog.setModified(new Modified(XSDDatatype.XSDdateTime, "2019-04-17T00:00:00Z"));
+        catalog.setIssued(new Issued(XSDDatatype.XSDdateTime, "2019-04-17T00:00:00Z"));
         catalog.addLanguage(new Language("en"));
         catalog.addThemeTaxonomy(new ThemeTaxonomy("http://publications.europa.eu/resource/authority/data-theme"));
         rdf.addElements(catalog);
@@ -141,8 +144,8 @@ public class RdfStreamWriterTest {
         dataset.setAccrualPeriodicity(createAccrualPeriodicity());
         dataset.addTheme(createTheme());
         dataset.setPublisher(createPubisher(DATASET));
-        dataset.setModified(new Modified(DataType.DateTime, "2019-04-17T00:00:00Z"));
-        dataset.setIssued(new Issued(DataType.DateTime, "2019-04-17T00:00:00Z"));
+        dataset.setModified(new Modified(XSDDatatype.XSDdateTime, "2019-04-17T00:00:00Z"));
+        dataset.setIssued(new Issued(XSDDatatype.XSDdateTime, "2019-04-17T00:00:00Z"));
         dataset.addContactPoint(createContactPoint(DATASET));
         dataset.setAccessRights(createAccessRights());
         dataset.addLandingPage(createLandingPage(DATASET));
@@ -191,9 +194,9 @@ public class RdfStreamWriterTest {
     }
 
     private Location createLocation() {
-        Location location = new Location(new Geometry(DataType.WKT_LITERAL,
+        Location location = new Location(new Geometry(RDFDataTypes.WKT_LITERAL,
                 "POLYGON ((-0.0711 51.5077, -0.1125 51.5077, -0.1125 51.5231, -0.0711 51.5231, -0.0711 51.5077))"));
-        location.addGeometry(new Geometry(DataType.GEO_JSON,
+        location.addGeometry(new Geometry(RDFDataTypes.GEO_JSON,
                 "{\"type\": \"Polygon\", \"coordinates\": [[[-0.071127, 51.507675], [-0.112547, 51.507675], "
                 + "[-0.112547, 51.523074], [-0.071127, 51.523074], [-0.071127, 51.507675]]]}"));
         return location;

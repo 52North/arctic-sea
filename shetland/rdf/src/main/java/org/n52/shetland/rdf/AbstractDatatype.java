@@ -18,17 +18,26 @@ package org.n52.shetland.rdf;
 
 import org.apache.jena.datatypes.BaseDatatype;
 import org.apache.jena.datatypes.RDFDatatype;
-import org.apache.jena.datatypes.xsd.impl.XSDDateType;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.Resource;
 
 public abstract class AbstractDatatype extends AbstractValue {
 
-    private final DataType dataType;
+    private final RDFDatatype dataType;
 
+    @Deprecated
     public AbstractDatatype(DataType dataType, String value) {
+        this(getDataType(dataType), value);
+    }
+
+    public AbstractDatatype(RDFDatatype dataType, String value) {
         super(value);
         this.dataType = dataType;
+    }
+
+    public AbstractDatatype(String dataType, String value) {
+        this(new BaseDatatype(dataType), value);
     }
 
     @Override
@@ -38,20 +47,32 @@ public abstract class AbstractDatatype extends AbstractValue {
         return parent;
     }
 
-    private RDFDatatype getDataType() {
-        if (dataType.equals(DataType.Date)) {
-            return XSDDateType.XSDdate;
-        } else if (dataType.equals(DataType.DateTime)) {
-            return XSDDateType.XSDdateTime;
-        }
-        return new DynamicDatatype(dataType.getType());
+    public RDFDatatype getDataType() {
+        return dataType;
     }
 
+    @Deprecated
+    private static RDFDatatype getDataType(DataType dataType) {
+        switch (dataType) {
+            case Date:
+                return XSDDatatype.XSDdate;
+            case DateTime:
+                return XSDDatatype.XSDdateTime;
+            case GEO_JSON:
+                return RDFDataTypes.GEO_JSON;
+            case WKT_LITERAL:
+                return RDFDataTypes.WKT_LITERAL;
+            default:
+                return new BaseDatatype(dataType.getType());
+        }
+    }
+
+    @Deprecated
     public enum DataType {
-        Date("http://www.w3.org/2001/XMLSchema#date"), DateTime(
-                "http://www.w3.org/2001/XMLSchema#dateTime"), WKT_LITERAL(
-                        "http://www.opengis.net/ont/geosparql#wktLiteral"), GEO_JSON(
-                                "https://www.iana.org/assignments/media-types/application/vnd.geo+json");
+        Date("http://www.w3.org/2001/XMLSchema#date"),
+        DateTime("http://www.w3.org/2001/XMLSchema#dateTime"),
+        WKT_LITERAL("http://www.opengis.net/ont/geosparql#wktLiteral"),
+        GEO_JSON("https://www.iana.org/assignments/media-types/application/geo+json");
 
         private final String type;
 
@@ -61,14 +82,6 @@ public abstract class AbstractDatatype extends AbstractValue {
 
         public String getType() {
             return type;
-        }
-
-    }
-
-    public static final class DynamicDatatype extends BaseDatatype implements RDFDatatype {
-
-        private DynamicDatatype(String uri) {
-            super(uri);
         }
 
     }

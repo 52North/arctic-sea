@@ -16,13 +16,23 @@
  */
 package org.n52.shetland.rdf.dct;
 
+import org.apache.jena.datatypes.RDFDatatype;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.vocabulary.DCTerms;
 import org.n52.shetland.rdf.AbstractDatatype;
 
 public class Modified extends AbstractDatatype implements DctRdfPrefix {
 
+    @Deprecated
     public Modified(DataType dataType, String value) {
+        super(dataType, value);
+    }
+
+    public Modified(RDFDatatype dataType, String value) {
+        super(dataType, value);
+    }
+
+    public Modified(String dataType, String value) {
         super(dataType, value);
     }
 
