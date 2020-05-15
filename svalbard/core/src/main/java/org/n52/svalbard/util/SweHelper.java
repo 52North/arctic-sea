@@ -436,7 +436,7 @@ public final class SweHelper {
         }
         return sosTextEncoding;
     }
-    
+
     public SweAbstractEncoding createDefaultTextEncoding() {
         SweTextEncoding sosTextEncoding = new SweTextEncoding();
         sosTextEncoding.setBlockSeparator(tupleSeparator);
