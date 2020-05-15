@@ -29,7 +29,6 @@ public abstract class QueryOptionTests {
     protected STAQueryOptionsGrammar parser;
 
     protected void init(String query) {
-        System.out.println(query.trim());
         parser = new QueryOptionsFactory().createGrammar(query);
     }
 }

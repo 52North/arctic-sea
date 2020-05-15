@@ -16,6 +16,7 @@
  */
 package org.n52.shetland.filter;
 
+import org.n52.shetland.oasis.odata.ODataExpr;
 import org.n52.shetland.ogc.filter.FilterClause;
 
 import java.util.Objects;
@@ -25,9 +26,9 @@ import java.util.Objects;
  */
 public class FilterFilter implements FilterClause {
 
-    private final Object filter;
+    private final ODataExpr filter;
 
-    public FilterFilter(Object filter) {
+    public FilterFilter(ODataExpr filter) {
         this.filter = filter;
     }
 
@@ -39,9 +40,7 @@ public class FilterFilter implements FilterClause {
     }
 
     @Override public int hashCode() {
-        // TODO: Implement equals in all subclasses of org.n52.svalbard.odata.core.expr
-        // For now always returns true
-        return Objects.hash("FilterFilter");
+        return Objects.hash(this.filter);
     }
 
     @Override public boolean equals(Object o) {
@@ -54,5 +53,9 @@ public class FilterFilter implements FilterClause {
         }
 
         return Objects.equals(((FilterFilter) o).getFilter(), this.getFilter());
+    }
+
+    @Override public String toString() {
+        return "$filter=" + filter.toODataString();
     }
 }

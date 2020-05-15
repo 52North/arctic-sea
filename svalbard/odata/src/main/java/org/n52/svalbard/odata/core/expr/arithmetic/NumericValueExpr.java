@@ -73,6 +73,10 @@ public class NumericValueExpr implements ArithmeticExpr {
         return String.format("As float: '%f'", this.value.floatValue());
     }
 
+    @Override public String toODataString() {
+        return Float.toString(this.value.floatValue());
+    }
+
     @Override
     public <T, X extends Throwable> T accept(ExprVisitor<T, X> visitor) throws X {
         return visitor.visitNumeric(this);

@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * class for OrderBy element
@@ -71,4 +72,8 @@ public class OrderByFilter implements AbstractSortingClause {
         return this.sortProperties.equals(((OrderByFilter) o).getSortProperties());
     }
 
+    @Override public String toString() {
+        return "$orderby=" +
+                this.sortProperties.stream().map(OrderProperty::toString).collect(Collectors.joining(", "));
+    }
 }

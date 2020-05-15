@@ -55,8 +55,7 @@ public class TimeValueExpr implements TemporalExpr {
 
     @Override
     public String toString() {
-        //TODO: format correctly
-        return value.toString();
+        return (value instanceof TimeInstant) ? ((TimeInstant) value).getValue().toString() : value.toString();
     }
 
     @Override

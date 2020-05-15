@@ -67,7 +67,15 @@ public abstract class UnaryExpr<T> implements Expr {
 
     @Override
     public String toString() {
-        return String.format("(%s %s)", this.operator, this.operand);
+        return format(this.operator.toString());
+    }
+
+    @Override public String toODataString() {
+        return format(this.operator.toString().toLowerCase());
+    }
+
+    private String format(String operator) {
+        return String.format("(%s %s)", operator, this.operand);
     }
 
     @Override public int hashCode() {

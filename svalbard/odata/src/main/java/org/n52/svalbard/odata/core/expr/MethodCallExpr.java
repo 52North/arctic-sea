@@ -91,8 +91,16 @@ public class MethodCallExpr implements BooleanExpr, ArithmeticExpr, TemporalExpr
 
     @Override
     public String toString() {
-        return String.format("%s(%s)", this.name,
-                             this.parameters.stream().map(Expr::toString).collect(joining(", ")));
+        return format(this.parameters.stream().map(Expr::toString).collect(joining(", ")));
+    }
+
+    @Override
+    public String toODataString() {
+        return format(this.parameters.stream().map(Expr::toODataString).collect(joining(", ")));
+    }
+
+    private String format(String parameters) {
+        return String.format("%s(%s)", this.name, parameters);
     }
 
     @Override
