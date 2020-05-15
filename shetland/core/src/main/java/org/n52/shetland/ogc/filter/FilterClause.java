@@ -17,7 +17,4 @@
 package org.n52.shetland.ogc.filter;
 
 public interface FilterClause {
-
-    String DOLLAR = "$";
-
 }

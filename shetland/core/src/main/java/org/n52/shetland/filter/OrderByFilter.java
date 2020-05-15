@@ -73,7 +73,7 @@ public class OrderByFilter implements AbstractSortingClause {
     }
 
     @Override public String toString() {
-        return DOLLAR + "orderby=" +
+        return "$orderby=" +
                 this.sortProperties.stream().map(OrderProperty::toString).collect(Collectors.joining(", "));
     }
 }

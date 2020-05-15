@@ -56,6 +56,6 @@ public class FilterFilter implements FilterClause {
     }
 
     @Override public String toString() {
-        return DOLLAR + "filter=" + filter.toODataString();
+        return "$filter=" + filter.toODataString();
     }
 }

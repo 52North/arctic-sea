@@ -57,6 +57,6 @@ public class SelectFilter implements FilterClause {
     }
 
     @Override public String toString() {
-        return DOLLAR + "select=" + String.join(",", this.items);
+        return "$select=" + String.join(",", this.items);
     }
 }

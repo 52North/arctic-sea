@@ -54,6 +54,6 @@ public class CountFilter implements FilterClause {
     }
 
     @Override public String toString() {
-        return DOLLAR + "count=" + getValue().toString();
+        return "$count=" + getValue().toString();
     }
 }

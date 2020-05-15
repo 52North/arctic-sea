@@ -74,7 +74,7 @@ public class NumericValueExpr implements ArithmeticExpr {
     }
 
     @Override public String toODataString() {
-        return String.format("%f", this.value.floatValue());
+        return Float.toString(this.value.floatValue());
     }
 
     @Override

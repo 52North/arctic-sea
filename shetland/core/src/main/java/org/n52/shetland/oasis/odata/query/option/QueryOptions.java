@@ -30,6 +30,7 @@ import org.n52.shetland.ogc.filter.FilterConstants.SkipTopOperator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Class to hold Query Parameters
@@ -201,36 +202,8 @@ public class QueryOptions {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
-        final String AMPERSAND = "&";
-        if (this.hasCountFilter()) {
-            builder.append(this.getCountFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        if (this.hasSelectFilter()) {
-            builder.append(this.getSelectFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        if (this.hasExpandFilter()) {
-            builder.append(this.getExpandFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        if (this.hasSkipFilter()) {
-            builder.append(this.getSkipFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        if (this.hasTopFilter()) {
-            builder.append(this.getTopFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        if (this.hasOrderByFilter()) {
-            builder.append(this.getOrderByFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        if (this.hasFilterFilter()) {
-            builder.append(this.getFilterFilter().toString());
-            builder.append(AMPERSAND);
-        }
-        return (builder.length() > 0) ? builder.substring(0, builder.length() - 1) : "";
+        return getAllFilters().stream()
+                              .map(FilterClause::toString)
+                              .collect(Collectors.joining("&"));
     }
 }
