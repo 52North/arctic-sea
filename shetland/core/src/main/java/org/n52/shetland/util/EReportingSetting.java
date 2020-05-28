@@ -25,6 +25,8 @@ package org.n52.shetland.util;
  */
 public interface EReportingSetting {
 
+    String EREPORTING_GROUP_TITLE = "eReporting";
+    
     String EREPORTING_NAMESPACE = "eReporting.namespace";
 
     String EREPORTING_OBSERVATION_PREFIX = "eReporting.observation.prefix";
