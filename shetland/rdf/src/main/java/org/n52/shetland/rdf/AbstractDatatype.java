@@ -43,8 +43,7 @@ public abstract class AbstractDatatype extends AbstractValue {
     @Override
     public Resource addToResource(Model model, Resource parent) {
         addNsPrefix(model);
-        parent.addProperty(getProperty(), getValue(), getDataType());
-        return parent;
+        return parent.addProperty(getProperty(), getValue(), getDataType());
     }
 
     public RDFDatatype getDataType() {

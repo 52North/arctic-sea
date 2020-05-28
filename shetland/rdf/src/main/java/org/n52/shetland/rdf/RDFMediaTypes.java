@@ -16,27 +16,13 @@
  */
 package org.n52.shetland.rdf;
 
-import org.apache.jena.rdf.model.Model;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.Resource;
-
-public abstract class AbstractValue implements RdfPrefix, ResourceAdder {
-
-    private final String value;
-
-    public AbstractValue(String value) {
-        this.value = value;
-    }
-
-    public abstract Property getProperty();
-
-    public String getValue() {
-        return value;
-    }
-
-    public Resource addToResource(Model model, Resource parent) {
-        addNsPrefix(model);
-        return parent.addProperty(getProperty(), getValue());
-    }
-
+public interface RDFMediaTypes {
+    String APPLICATION_RDF_XML = "application/rdf+xml";
+    String APPLICATION_N_TRIPLES = "application/n-triples";
+    String APPLICATION_LD_JSON = "application/ld+json";
+    String APPLICATION_RDF_JSON = "application/rdf+json";
+    String APPLICATION_N_QUADS = "application/n-quads";
+    String APPLICATION_TRIG = "application/trig";
+    String TEXT_TURTLE = "text/turtle";
+    String TEXT_N3 = "text/n3";
 }

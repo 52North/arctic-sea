@@ -21,5 +21,6 @@ import org.apache.jena.datatypes.RDFDatatype;
 
 public interface RDFDataTypes {
     RDFDatatype WKT_LITERAL = new BaseDatatype("http://www.opengis.net/ont/geosparql#wktLiteral");
+    RDFDatatype GML_LITERAL = new BaseDatatype("http://www.opengis.net/ont/geosparql#gmlLiteral");
     RDFDatatype GEO_JSON = new BaseDatatype("https://www.iana.org/assignments/media-types/application/geo+json");
 }

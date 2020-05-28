@@ -18,12 +18,16 @@ package org.n52.shetland.rdf.dcat;
 
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.vocabulary.DCAT;
-import org.n52.shetland.rdf.AbstractValue;
+import org.n52.shetland.rdf.AbstractLang;
 
-public class Keyword extends AbstractValue implements DcatRdfPrefix {
+public class Keyword extends AbstractLang implements DcatRdfPrefix {
 
     public Keyword(String value) {
         super(value);
+    }
+
+    public Keyword(String value, String language) {
+        super(value, language);
     }
 
     @Override
