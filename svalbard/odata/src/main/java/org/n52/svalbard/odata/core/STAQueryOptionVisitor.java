@@ -247,7 +247,8 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
     }
 
     // Rewrite slash to normal expand systemQueryOption
-    private ExpandItem handleSlashRewrite(STAQueryOptionsGrammar.ExpandItemContext ctx, QueryOptions base) {
+    private ExpandItem handleSlashRewrite(STAQueryOptionsGrammar.ExpandItemContext ctx, QueryOptions baseref) {
+        QueryOptions base = baseref;
         if (!ctx.memberExpr().SLASH().isEmpty()) {
             for (int i = ctx.memberExpr().ALPHAPLUS().size() - 1; i >= 1; i--) {
                 ExpandItem expandItem = new ExpandItem(ctx.memberExpr().ALPHAPLUS(i).getText(), base);
