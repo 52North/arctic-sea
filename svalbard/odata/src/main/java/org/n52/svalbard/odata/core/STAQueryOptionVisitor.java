@@ -254,10 +254,8 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
                 ExpandFilter expandFilter = new ExpandFilter(expandItem);
                 base = new QueryOptions("", Collections.singleton(expandFilter));
             }
-            return new ExpandItem(ctx.memberExpr().ALPHAPLUS(0).getText(), base);
-        } else {
-            return new ExpandItem(ctx.getText(), base);
         }
+        return new ExpandItem(ctx.memberExpr().ALPHAPLUS(0).getText(), base);
     }
 
     @Override public FilterFilter visitFilter(STAQueryOptionsGrammar.FilterContext ctx) {
