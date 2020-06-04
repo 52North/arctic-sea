@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.n52.svalbard.odata.core;
 
 import org.joda.time.DateTime;
@@ -232,25 +233,30 @@ public class STAQueryOptionVisitor extends STAQueryOptionsGrammarBaseVisitor {
     }
 
     @Override public ExpandItem visitExpandItem(STAQueryOptionsGrammar.ExpandItemContext ctx) {
+        // Handle nested Query Options
         if (!ctx.systemQueryOption().isEmpty()) {
             Set<FilterClause> options = new HashSet<>();
             for (STAQueryOptionsGrammar.SystemQueryOptionContext expandQueryOptions : ctx.systemQueryOption()) {
                 options.add(this.visitSystemQueryOption(expandQueryOptions));
             }
-            return new ExpandItem(ctx.memberExpr().getText(), new QueryOptions("", options));
+            return handleSlashRewrite(ctx, new QueryOptions("", options));
         } else {
-            // Rewrite slash to normal expand systemQueryOption
-            if (!ctx.memberExpr().SLASH().isEmpty()) {
-                QueryOptions base = new QueryOptions("", null);
-                for (int i = ctx.memberExpr().ALPHAPLUS().size() - 1; i >= 1; i--) {
-                    ExpandItem expandItem = new ExpandItem(ctx.memberExpr().ALPHAPLUS(i).getText(), base);
-                    ExpandFilter expandFilter = new ExpandFilter(expandItem);
-                    base = new QueryOptions("", Collections.singleton(expandFilter));
-                }
-                return new ExpandItem(ctx.memberExpr().ALPHAPLUS(0).getText(), base);
-            } else {
-                return new ExpandItem(ctx.getText(), new QueryOptions("", null));
+            QueryOptions base = new QueryOptions("", null);
+            return handleSlashRewrite(ctx, base);
+        }
+    }
+
+    // Rewrite slash to normal expand systemQueryOption
+    private ExpandItem handleSlashRewrite(STAQueryOptionsGrammar.ExpandItemContext ctx, QueryOptions base) {
+        if (!ctx.memberExpr().SLASH().isEmpty()) {
+            for (int i = ctx.memberExpr().ALPHAPLUS().size() - 1; i >= 1; i--) {
+                ExpandItem expandItem = new ExpandItem(ctx.memberExpr().ALPHAPLUS(i).getText(), base);
+                ExpandFilter expandFilter = new ExpandFilter(expandItem);
+                base = new QueryOptions("", Collections.singleton(expandFilter));
             }
+            return new ExpandItem(ctx.memberExpr().ALPHAPLUS(0).getText(), base);
+        } else {
+            return new ExpandItem(ctx.getText(), base);
         }
     }
 

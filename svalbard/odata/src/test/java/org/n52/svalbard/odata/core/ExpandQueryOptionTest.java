@@ -232,15 +232,18 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
      */
     @Test
     public void complexExpandOptionRewrite() {
+        QueryOptions options;
+        Set<ExpandItem> items;
+
         init(ODataConstants.QueryOptions.EXPAND
                      + EQ
                      + "Datastreams/Sensors/Datastreams");
-        QueryOptions options =
+        options =
                 (QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor());
         Assertions.assertTrue(options.hasExpandFilter());
         Assertions.assertTrue(options.getExpandFilter() instanceof ExpandFilter);
 
-        Set<ExpandItem> items = (options.getExpandFilter().getItems());
+        items = (options.getExpandFilter().getItems());
 
         Assertions.assertNotNull(items);
         Assertions.assertEquals(1, items.size());
@@ -371,6 +374,20 @@ public class ExpandQueryOptionTest extends QueryOptionTests {
             } else {
                 Assertions.fail("Did not find expected expandItem!");
             }
+        }
+
+        init(ODataConstants.QueryOptions.EXPAND
+                     + EQ
+                     + "Observations/FeatureOfInterest($select=id),Thing/Locations");
+        options = (QueryOptions) parser.queryOptions().accept(new STAQueryOptionVisitor());
+        Assertions.assertTrue(options.hasExpandFilter());
+        Assertions.assertTrue(options.getExpandFilter() instanceof ExpandFilter);
+
+        items = (options.getExpandFilter().getItems());
+
+        for (ExpandItem expandItem : items) {
+            // Assert that rewrite worked
+            Assertions.assertFalse(expandItem.getPath().contains("/"));
         }
     }
 
